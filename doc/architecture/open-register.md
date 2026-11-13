@@ -871,3 +871,22 @@ exclusive asserts are repaired (loading-boundaries.md §6).
 | AX-07 | Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global commitments from addresses, not from what has been realized (order-independent-generation.md) | open | P1 | M22, lead |
 | AX-08 | The kernel is not bounded: the compiler imports the catalog, the parser imports Deem, grounding imports the creature pipeline; `engine-owned.ts` names 30 setting relations; an undeclared relation read returns nothing silently | open | P2 | M22, lead |
 | AX-09 | The docs disagree with the code (parse-store's browser claim; "6.5 s warm" holds only for a replayed seed; `Costs` misattributes kit composition, and its session stage equals campaign) | open | P2 | M21, lead |
+
+## 36. Empty words (the owner and the prose-density audit, 14 November)
+
+The audit is `history/reviews/prose-density-audit-2026-11-13.md`. The owner adds that empty words are an obstacle:
+they make the game feel slower and more pointless. The long, detailed compound sentence is the engine's worst tic, and
+a three-sentence budget does not catch it. Less text also helps performance at the limit.
+- The measure is `src/presentation/clause-load.ts`. A heavy sentence passes 22 words or 3 joints.
+- The terminal walks report the clause load of everything said unasked.
+- `bun scripts/clause-census.ts [--first-hour]` is the editors' worklist.
+- `test/small/clause-load` is the ratchet. It holds the first hour's heavy sentences at 1,256 of 7,275 (17.3 %). The
+  whole authored corpus stands at 20.1 %.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| DN-01 | One turn, one beat in a fight, and three beats at its resolution: the decisive turn, the cost, the consequential discovery. The ledger only on asking (the audit's §1; BP-02/03's engine sides are landed) | partly | P1 | M21, lead (engine), aesthetic (page) |
+| DN-02 | A transition composer above the scene budget: harm or interruption first, then the actionable change or clue, then who caused it, then one orienting sentence. The rest is held under its subject (the audit's §2) | open | P1 | M21, lead |
+| DN-03 | The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy), then the road prologues and origins, the roadstation and the town's neighbours. The ratchet is lowered as each lands | open | P1 | M21, playability (the laboratory) |
+| DN-04 | Remote clock prose is told only if witnessed: chapter curtains and attended spectacles stay, while a remote event is told by its consequence (the audit's §4) | open | P2 | M21, playability |
+| DN-05 | Greetings in a sentence or two, with their prices, history and rumours moved into named questions (the audit's §5) | open | P2 | M22 |
