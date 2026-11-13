@@ -66,3 +66,9 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   grammar; a remedy given later was never `consumable`; an interrupted search says so; given things named as a kit's,
   so the lantern is filled once), T24-12 and T24-13 held by new specs; `register-held` read a backquoted `test/` path as
   "test" (fixed): 26 of 47 fixed rows now held. A full run dispatched on 14594d9d for rules batch 3's dens.
+- **13 Nov, late.** Rules batch 4 merged (420746da): attack riders are data on a natural weapon (the barrow ghoul's
+  paralysis, `attack-riders`); ambush bands in deep sites are now perceived by anyone at the door, so a lone thief can
+  see every lethal group coming (`deep-sounds-ambush`); the undertown is written for a company of one in every real
+  start (an origin keeps the first member), so the earlier rows were fought at a fixture's numbers and are re-fought.
+  Lead rulings: the vault keeps the barrow ghoul (deep, optional, told, escapable); no generation change for the brood
+  in M21 (the company's size read on the way down is M22's). Rows held: 29 of 47.
