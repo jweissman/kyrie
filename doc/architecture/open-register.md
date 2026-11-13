@@ -644,7 +644,7 @@ the test loop is `mission-20/test-loop.md`.
 | T24-05 | The telling overflows the resting panel (badly on a phone: 666 px in 269) | screens S2 | open: narration volume (E219, E220 began it) | P1 | M21 |
 | T24-06 | The fight on a phone: foes' names cut, the third foe below the fold | screens S3 | open | P2 | M21 |
 | T24-07 | The fight's actions scrolled at every size; a beast's portrait did not fill its panel; the acting fighter wore a double ring | the owner, 12 November | **fixed** (screens §"Fixed") | — | — |
-| T24-08 | The standing modules' people written human in a dwarf or elf country; the reader a mage among dwarves; the curate a cleric among elves | CI on the integration branch | **fixed**: ancestry left to the templates; a generated people gives way to an authored calling (`Cast.person`) | — | — |
+| T24-08 | The standing modules' people written human in a dwarf or elf country; the reader a mage among dwarves; the curate a cleric among elves | CI on the integration branch | **fixed**: ancestry left to the templates; a generated people gives way to an authored calling (`Cast.person`), held by `test/overlays` ("gives way to an authored calling", mutation-checked 13 Nov) | — | — |
 | T24-09 | Talk persists between places (a dead foe's likeness shown in the next room) | screens S7 | open: design | P3 | M21 |
 | T24-10 | The CI never keeps the parse store; every job parses every text | test-loop.md §3 | open: item 8 | P2 | M21 |
 | T24-11 | `Campaign.install` of a province costs more the more are installed (quadratic over a world's provinces) | test-loop.md §3a | open: a hypothesis to profile | P2 | M21 |
