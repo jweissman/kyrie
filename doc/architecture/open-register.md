@@ -851,6 +851,7 @@ summary: it "writes like a novelist and remembers like a slot machine." Already 
 | CO-08 | The reason's own topic is the last of an innkeeper's nineteen ("Ask about your sister"): the player's reason first in every talk list | open | P1 | M21, aesthetic (talk offer) |
 | CO-09 | Travel: "No way known" offers only the town's places; on leaving a town the map's primary button is "Enter" that town; on a tablet the place card covers the target. Offer the adjacent country when no way is known | open | P1 | M21, aesthetic (map), lead (the act offered) |
 | CO-10 | Mechanics in the prose: "gains inspired for 3h", "2 true damage", "under migraine", "You collect a garnet for Hild", raw `*habit*` asterisks in the Story | open | P1 | M21, aesthetic (telling), lead (engine words) |
+| CO-13 | The paintings' seen words are too thin for the fit rules to read: 37 of 245 scene paintings say anything of light, season or weather (scene-temple said nothing of its sun, flowering urns and cypresses, and so stood for the shrine of Danu under snow). Each scene painting looked at and given its light, season and weather | open | P1 | M21, an agent with eyes on the images |
 | CO-11 | Generated names that break the register: "Hollywood", "Peahgiba", "Lent" | open | P2 | M21, lead (names) |
 | CO-12 | A torch or candle burnt out in one search | open | P2 | M21, rules |
 
