@@ -59,10 +59,13 @@ export class ItemCatalog {
   static weapon(id: string, name?: string): WeaponProfile {
     const w = this.get(id).weapon;
     if (!w) { throw new Error(`${id} is not a weapon`); }
+    // A wonder's blade is magic (what the wonders' file holds: a bolt-blade, the sword of ages), and passes a guard
+    // that only magic passes (the unicorn's 10/magic: the SRD adaptation briefing, §3); its own tags beside.
+    const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : []];
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
       ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
-      ...w.natural ? { natural: true } : {}, ...w.tags?.length ? { tags: [...w.tags] } : {} };
+      ...w.natural ? { natural: true } : {}, ...tags.length ? { tags } : {} };
   }
   // What a creature's equipment contributes: the wielded weapon (else its natural weapon, else a fist, as in Orsino's
   // effectiveWeapon), the body armour's ac (else its natural armour), and the modifiers and hooks of equipped items.
