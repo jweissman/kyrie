@@ -62,3 +62,7 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   typed reduction. Lead rulings: no change to the thief (avoid and recruit); every lethal group told at the door, the
   barrow's savage embalmers too; silver weapons deferred. The lead: T24-17's other half: a remedy the world
   gives later was never `consumable` (ItemTraits read the starting kinds only: `small/given-remedy`).
+- **13 Nov, night.** The full run on d0ec9afa green (suite, descents, browser). T24-17 fixed in all four parts (band
+  grammar; a remedy given later was never `consumable`; an interrupted search says so; given things named as a kit's,
+  so the lantern is filled once), T24-12 and T24-13 held by new specs; `register-held` read a backquoted `test/` path as
+  "test" (fixed): 26 of 47 fixed rows now held. A full run dispatched on 14594d9d for rules batch 3's dens.
