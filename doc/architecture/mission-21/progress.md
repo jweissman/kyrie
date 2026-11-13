@@ -25,3 +25,10 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   they are; checked sound by `KYRIE_CHECK_GATES=1`). WSL crashed with four agents: since then two at a time.
   T24-19 (round 12, B) burned down with small regressions: piped terminal input, typed labels, doubled way labels,
   `*stress*`, the hare and the boy, no weather underground, stated time. Playability batches 1–2 integrated.
+- **13 Nov, night.** Obligations made into fast regressions, measured: `bun scripts/register-held.ts` counts the
+  register's rows that say fixed and name a spec that holds them: 5 of 46 at first, 17 after naming the specs that
+  already held them (each mutation-checked tonight) and those older specs that cite their row. Found on the way: the
+  ids PR-01, PR-02 and PR-04 are each two rows (§13's persistence rows and §19's gold rows): for the reconciliation.
+  Fixed with small regressions: R10-07 (flight odds and roll from one table, `small/flight`), NP-01's lint advice
+  (`small/sky-lint`), WM-01's dead Gaffer (`small/near-dead`). A P0 of our own: the browser bundle read `process.env`
+  at load (the game did not start for ~35 min); fixed, and every push now boots the page in Chromium as a gate.
