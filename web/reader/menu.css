@@ -86,3 +86,8 @@
     font-size: 14px; line-height: 1.2; }
   :root .fight .moves .bar .choice-row.choice-row > .row-mark { left: 5px; top: 9px; bottom: 9px; }
 }
+
+/* ---- The telling's budget (SceneBudget, Narrator's glanced): what more the place has to tell, unfolded in place by a
+   quiet word. ---- */
+:root .setting > p.held { color: var(--dim); }
+:root .setting .more-told { display: inline-block; padding: 4px 0 8px; font: var(--t-label); letter-spacing: var(--track-label); }

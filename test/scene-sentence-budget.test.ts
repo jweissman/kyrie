@@ -11,14 +11,18 @@ import type { Campaign } from '../src/campaign/campaign';
 // the opening place and every place of the first town, in two countries, as the page tells them (the place's
 // situation and who is here: Narrator.leaf). At M20's close the sample averaged 3.6 sentences, and 20 scenes told five
 // or more (a town's heart 23 and 26; the roads out 20–27; the first place 9–10: retrospective/aesthetic-and-play.md),
-// so both checks are marked failing: they pass while the telling is over budget, and fail the day it is not, so
-// that `.failing` is taken off and the budget held.
+// so both checks were marked failing. Mission 21 (13 November) tells a place at a glance within three sentences,
+// typed by what each observation is (SceneBudget.typed, Narrator's glanced): 2.4 on average, none of five, no clue
+// held back; the place whole stays in situation and presence for a deliberate look.
 interface Told { place: string; sentences: number }
 class Scenes {
   static sentences(lines: string[]): number { return (lines.join(' ').match(/[.!?]['’"”)]*(\s|$)/g) ?? []).length; }
   static told(c: Campaign): Told {
-    const screen = ScreenModel.build(c), leaf = Narrator.leaf(c, screen);
-    return { place: `${screen.place.id} (${screen.place.name})`, sentences: Scenes.sentences([...leaf.situation, ...leaf.presence]) };
+    // What is told at a glance (Narrator's glanced: three sentences, typed by what each observation is; Mission 21),
+    // the page's and the terminal's both; the place whole stays in situation and presence for a deliberate look.
+    const screen = ScreenModel.build(c), leaf = Narrator.leaf(c, screen), told = leaf.glanced!;
+    return { place: `${screen.place.id} (${screen.place.name})`,
+      sentences: Scenes.sentences([...told.situation, ...told.presence]) };
   }
   static async sample(seed: string, origin: string): Promise<Told[]> {
     const s = await DrawnWorld.start(seed, { origin, party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] },
@@ -42,11 +46,11 @@ describe('a scene told on arrival', () => {
   beforeAll(async () => {
     told = [...await Scenes.sample('a1', 'kin'), ...await Scenes.sample('kahitude', 'debt')];
   }, 240000);
-  it.failing('averages three sentences or fewer', () => {
+  it('averages three sentences or fewer', () => {
     const average = told.reduce((n, t) => n + t.sentences, 0) / told.length;
     expect(Math.round(average * 10) / 10).toBeLessThanOrEqual(3);
   });
-  it.failing('has no scene of five sentences or more', () => {
+  it('has no scene of five sentences or more', () => {
     expect(told.filter(t => t.sentences >= 5).map(t => `${t.place}: ${t.sentences}`)).toEqual([]);
   });
 });

@@ -3,11 +3,6 @@
    game's own (the choice row, the tokens) is in menu.css. ---- */
 /* -- Type roles. -- */
 :root[data-look] .world-page.scale-scene :is(.panel-head, .world-bar) h1.place { font: var(--t-title); letter-spacing: 0; }
-:root[data-look] .setting.budgeted > p { margin: 0 0 .55em; font: var(--t-tell); color: var(--ivory); text-wrap: pretty; }
-:root[data-look] .setting.budgeted > p.lead { font: var(--t-tell-lead); }
-:root[data-look] .setting.budgeted > p.said-life { color: var(--ivory); opacity: .86; }
-:root[data-look] .setting.budgeted > p.held { color: var(--dim); }
-:root[data-look] .setting.budgeted .more-told { padding: 4px 0 8px; font: var(--t-label); letter-spacing: var(--track-label); }
 
 /* -- The fight on a phone: the foes a strip across the top, each its face and full name; the company a line under. -- */
 @media (max-width: 600px) {

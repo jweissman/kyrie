@@ -70,7 +70,7 @@ Module hob_folk "Hobs" {
   Initially Assert established(bell_taken).
   // Told, not only seen: under the frame people say where the bell went, by the name of the place it went to, which
   // the fact it teaches holds (see KitWord): the line had said only "Hobs", and the company knew where without being told.
-  Observe empty_frame at chapel when not hung(handbell) and not regained(handbell) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit. 'Hobs out of {outside}, where they've made their hold.' Nobody has gone after it." teaches bell_taken.
+  Observe empty_frame at chapel when not hung(handbell) and not regained(handbell) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit, 'out of {outside}, where they've made their hold.'" teaches bell_taken.
   Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out." teaches bell_taken.
   // Heard of, the hold is somewhere to go; come to, its bells say the stolen one is inside; the bell in hand, neither
   // is asked of the company any longer.

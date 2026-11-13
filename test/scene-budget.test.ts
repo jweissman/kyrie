@@ -49,4 +49,20 @@ describe('a scene told within its budget', () => {
     const b = SceneBudget.compose([{ kind: 'lead', text: 'Mr. Pumphrey keeps the toll. He is asleep. The bar is down. A dog watches.' }], 2);
     expect(b.told[0]!.text).toBe('Mr. Pumphrey keeps the toll. He is asleep.');
   });
+  it('tells a clue whole by what it is, never by its words, and counts it against the three', () => {
+    const b = SceneBudget.typed([{ parts: [{ text: 'A quay of grey stone runs out into the water. Gulls sit along it in a row.', aspect: 'fixture', teaches: 'why' },
+      { text: 'The bell is gone from its frame over the well. Hobs, people say.', teaches: 'bell_taken' }] }],
+    ['Gamel is soldering a kettle.'], []);
+    expect(b.told.map(t => t.text)).toEqual(['A quay of grey stone runs out into the water. The bell is gone from its frame over the well. Hobs, people say.']);
+    expect(b.held).toEqual(['Gulls sit along it in a row.', 'Gamel is soldering a kettle.']);
+  });
+  it('keeps a fixture that teaches (a place’s history) to the budget, as standing', () => {
+    expect(SceneBudget.bears({ aspect: 'fixture', teaches: 'why' })).toBe(false);
+    expect(SceneBudget.bears({ aspect: 'sign' })).toBe(true);
+    expect(SceneBudget.bears({ teaches: 'found' })).toBe(true);
+  });
+  it('gives way to what came of coming here, never below the place’s first sentence', () => {
+    const b = SceneBudget.typed([{ parts: [{ text: 'A low cellar. Damp. Grain on the floor.' }] }], ['A rat watches.'], [], 3);
+    expect(b.told.map(t => t.text)).toEqual(['A low cellar.']);
+  });
 });

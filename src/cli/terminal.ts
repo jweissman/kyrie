@@ -75,10 +75,13 @@ export class Terminal {
     console.log(`Encounter: ${battle.state.outcome ?? 'active'}`);
     return commands;
   }
-  private static scene(session: PlaySession, told?: Told) {
+  // whole: looked at deliberately, with what the glance leaves out (Narrator's held: three sentences at a glance).
+  private static scene(session: PlaySession, told?: Told, whole = false) {
     const screen = ScreenModel.build(session.campaign), leaf = Narrator.leaf(session.campaign, screen, told);
     console.log(`\n${screen.place.name} · ${screen.clock}${screen.weather ? ` · ${screen.weather}` : ''}`);
-    const prose = [...leaf.situation, ...leaf.presence, ...leaf.changed];
+    // At a glance, as the page tells it (Narrator's glanced); looked at, the place whole.
+    const seen = whole || !leaf.glanced ? leaf : leaf.glanced;
+    const prose = [...seen.situation, ...seen.presence, ...leaf.changed];
     if (leaf.exchange) { prose.push(...leaf.exchange.lines.map(l => l.text)); }
     for (const line of prose) { console.log(line); }
     if (screen.objectives.length) { console.log(`Aim: ${screen.objectives[0]}`); }
@@ -145,7 +148,7 @@ export class Terminal {
         console.log('Commands: 1-4 · all · map · character · look · save <path> · q');
         const answer = (await input.question('> ')).trim();
         if (answer === 'q' || answer === 'quit') { return; }
-        if (answer === 'look') { told = undefined; current = undefined; continue; }
+        if (answer === 'look') { told = undefined; current = this.scene(session, undefined, true); continue; }
         if (answer === 'map') { this.map(session); continue; }
         if (answer === 'character' || answer === 'dossier') { this.dossier(session); continue; }
         if (answer === 'all') {
