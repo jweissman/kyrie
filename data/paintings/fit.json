@@ -6,6 +6,8 @@
       "unless": "ruin|broken|roofless|overgrown|crumbl|fallen" },
     { "id": "foul weather", "weather": "storm|rain|snow|sleet|fog|mist|overcast|gale|drizzle|squall",
       "forbids": "sunny|sunlit|golden|bright|haze|blue sky|sunshine" },
+    { "id": "winter", "weather": "snow|sleet|frost|ice|freezing",
+      "forbids": "flowering|blossom|roses|summer|lush|harvest|wheat|in leaf|green leaves" },
     { "id": "evening or night", "daylight": "evening|night",
       "forbids": "sunny|sunlit|noon|midday|sunshine|bright day" },
     { "id": "under the ground", "underground": true,

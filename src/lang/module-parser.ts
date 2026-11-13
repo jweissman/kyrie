@@ -130,10 +130,12 @@ export class ModuleParser {
     const information: DiscoveryDefinition[] = [];
     const singleton = new Set<string>();
     // A module's own kinds come first, wherever they are written, so that its items and people may be of them.
-    const fields = declarations.children.map(child => ModuleParser.located(child,
-      () => ModuleParser.ast(child) as Field));
-    CatalogParser.declare(module, fields, (i, run) => ModuleParser.located(declarations.children[i]!, run));
-    fields.forEach((f, i) => ModuleParser.located(declarations.children[i]!,
+    // Ohm builds a node's children afresh each time they are asked for: asked once per declaration, a module of N
+    // declarations took N² to read (scripts/scale-costs).
+    const children = declarations.children;
+    const fields = children.map(child => ModuleParser.located(child, () => ModuleParser.ast(child) as Field));
+    CatalogParser.declare(module, fields, (i, run) => ModuleParser.located(children[i]!, run));
+    fields.forEach((f, i) => ModuleParser.located(children[i]!,
       () => ModuleDeclarations.declare(module, f, { information, singleton })));
     const expanded = Discovery.describe(information);
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
