@@ -142,6 +142,10 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   Tend and care offers.
 - **Status:** fixed in this branch: needing care is hurt, or under a condition that does not help
   (`ConditionSense.helps`, the catalog's own reading of a condition). Regression: `test/small/care.test.ts`.
+  **Saves:** the change at first refused every save in which someone held a helping condition ("Inconsistent saved
+  creature facts", found by resuming the rat-runs save): a save's creature facts are checked against a fresh
+  projection. Now a save that differs only in a relation whose projection was corrected (`CreatureFacts.revised`:
+  `needsCare`) is brought up to date on resume; any other difference is refused as before (the same spec).
 
 ### PL-10: a way in the dark
 

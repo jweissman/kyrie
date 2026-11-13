@@ -57,9 +57,7 @@ export class Campaign implements WatchHost {
         this.compiled.actions = this.definition.schemas;
       }
       if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures, true).validate(this.module); }
-      if (this.definition && !CreatureFacts.project(this.world, this.live, this.creatures).sameAs(this.world)) {
-        throw new Error('Inconsistent saved creature facts');
-      }
+      if (this.definition && CreatureFacts.saved(this.world, this.live, this.creatures) === 'stale') { this.refresh(); }
       // A game kept by an earlier build may carry its fights' weariness on whoever fought them (HeldConditions).
       if (!restored.trusted && HeldConditions.release(this.creatures)) { this.refresh(); }
       return;
