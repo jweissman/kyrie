@@ -44,7 +44,7 @@ describe('a price on a power', () => {
     expect(Obituary.of(c).lines).toContain('It began when you chose to call Sir Hamo out to fight.');
   }, 120000);
   // The pedlar at Naedltun knows the place too, by its name: what she says is what the note of it says (the note had
-  // named the prince port, which nobody had: NAR-12).
+  // named Princeport, which nobody had: NAR-12).
   it('is told of by a traveller by its name, as the note of it names it', async () => {
     const w = await WorldAssembler.assemble('ember', NodeBundleSource.shared, { origin: 'herbs',
       party: [{ name: 'Aud', raceId: 'elf', classId: 'ranger' }] });
@@ -54,6 +54,6 @@ describe('a price on a power', () => {
     const asks = PlayerView.choices(c).filter(x => /^Ask \S+ about the country off the road/.test(x.choice.name));
     const told: string[] = [];
     for (const ask of asks) { told.push((await s.leg(ask.choice.id)).response ?? ''); }
-    expect(told.join(' ')).toContain('the prince port, a toll-house by the water in Thornholt');
+    expect(told.join(' ')).toContain('Princeport, a toll-house by the water in Thornholt');
   }, 120000);
 });

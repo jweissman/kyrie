@@ -42,10 +42,10 @@ describe('your aims', () => {
   // most particular first, never by its words against place names (the owner, 4 November: the notes had matched an
   // aim to a place by its name, and a name inside another word, or a place named in passing, could be taken).
   it('finds the place your aim is about by the engine\'s ids, not its words', () => {
-    const aim = 'Bring the Wardens\' reading-glass up out of the moon pool, from the still water at the bottom.';
+    const aim = 'Bring the Wardens\' reading-glass up out of Moonpool, from the still water at the bottom.';
     const screen = { aims: [{ id: 'w', text: aim, places: ['x__still_water', 'x__lunastagn', 'x__region9'] }] } as unknown as Screen;
     const places = [{ id: 'x__riwustagn' }, { id: 'x__region9' }, { id: 'x__lunastagn' }];
     expect(Aims.named(screen, places, aim)?.id).toBe('x__lunastagn');
-    expect(Aims.named(screen, places, 'The brothers want the old writing at the stream pool copied.')).toBeUndefined();
+    expect(Aims.named(screen, places, 'The brothers want the old writing at Streampool copied.')).toBeUndefined();
   });
 });

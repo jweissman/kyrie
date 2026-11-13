@@ -31,6 +31,6 @@ describe('an entity card', () => {
     const w = c as unknown as { world: { apply(x: unknown[]): unknown }; commit(x: unknown): void };
     w.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w1_named') }]));
     const named = EntityCard.of(c, 'region__w1')!;
-    expect([named.name, named.known.map(k => k.id)]).toEqual(['the sorrow rest', ['region__w1_named']]);
+    expect([named.name, named.known.map(k => k.id)]).toEqual(['Sorrowrest', ['region__w1_named']]);
   }, 120000);
 });

@@ -7,7 +7,7 @@ import { Itineraries } from '../src/ui/itinerary';
 
 // The start town's own hook leads somewhere (the expedition diagnosis of 30 October, change 1). In kite a company
 // coming home to Brightbridge finds the bell gone from its frame at the bridge-foot, and is told there, without a word
-// asked, that hobs took it to their hold at the joy gate: an aim, and somewhere to set out for. At the hold the bells
+// asked, that hobs took it to their hold at Joygate: an aim, and somewhere to set out for. At the hold the bells
 // on its walls make the aim more particular; the boy in the hobs' pens says whose bell it was and what hobs cannot
 // abide, and that is an aim too. Played by the page's own choices, from the default company's start.
 class Bell {
@@ -20,24 +20,24 @@ class Bell {
 }
 
 describe('the bell the hobs took', () => {
-  it('is an aim, and the joy gate somewhere to set out for, from the bridge-foot of Brightbridge', async () => {
+  it('is an aim, and Joygate somewhere to set out for, from the bridge-foot of Brightbridge', async () => {
     const j = await Bell.start();
     expect(Bell.aims(j).join(' ')).not.toMatch(/[Hh]obs/);
     await j.step('^To the bridge-foot');
-    expect(j.taken.at(-1)!.told).toContain('carried it off to their hold at the joy gate');
-    expect(Bell.aims(j)).toContain('Hobs took a bell from its frame, and hold out at the joy gate.');
-    expect(Itineraries.destinations(j.campaign).map(d => d.name)).toContain('the joy gate');
+    expect(j.taken.at(-1)!.told).toContain('carried it off to their hold at Joygate');
+    expect(Bell.aims(j)).toContain('Hobs took a bell from its frame, and hold out at Joygate.');
+    expect(Itineraries.destinations(j.campaign).map(d => d.name)).toContain('Joygate');
   }, 120000);
   it('is more particular at the hold, and the boy\'s word on bells is an aim', async () => {
     const j = await Bell.start();
     await j.play('^To the bridge-foot', '>w1');
-    expect(Bell.aims(j)).toContain('The stolen bell is somewhere in the hobs\' hold at the joy gate, where bells hang on '
+    expect(Bell.aims(j)).toContain('The stolen bell is somewhere in the hobs\' hold at Joygate, where bells hang on '
       + 'the walls with their clappers torn out.');
     expect(Bell.aims(j).join(' ')).not.toContain('Hobs took a bell');
     await j.play('^Call to the hobs for a parley', '>raidersHold__pit', '^Wenna: light a torch', '^Untie the shepherd',
       '^Ask the shepherd\'s boy about the hobs');
     expect(j.taken.at(-1)!.told).toContain('They took the bell out of the frame at Brightbridge');
-    expect(Bell.aims(j)).toContain('Hobs cannot abide a bell: rung in their hold at the joy gate, one would send them '
+    expect(Bell.aims(j)).toContain('Hobs cannot abide a bell: rung in their hold at Joygate, one would send them '
       + 'running.');
   }, 240000);
 });
