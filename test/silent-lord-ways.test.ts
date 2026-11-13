@@ -77,8 +77,12 @@ describe('the silent lord: ways in, and what they cost', () => {
   }, 300000);
 
   it('has a drain under the wall whose bad air a bar to the old grating clears, rats in it, a vault older than the keep, and by the oubliette a rider to be freed', async () => {
+    // A warrior of the second level, as the keep's own are (its watch, its mutineers, the man at the solar stair): the
+    // case is the drain's contents, past its rats, a warned fight a lone first-level warrior wins 95 times in 100
+    // (94 before only a wound bled). At the first level it had rested on one of those rolls: when a blow for nothing
+    // stopped making a rat save against shred, the next roll was a bleed of two at her two hit points.
     const site = await Keep.site();
-    const j = await Keep.start();
+    const j = await Keep.start('warrior', Keep.seed, 2);
     await j.play('=day 4 10:00');
     Placed.at(j, `region__${site}`);
     await j.play('Search here');

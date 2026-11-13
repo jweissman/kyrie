@@ -9,9 +9,11 @@ import { Placed } from './placed';
 export class Keep {
   static readonly seed = 'kahitude';
   static id(name: string) { return `keep__${name}`; }
-  static async start(calling = 'warrior', seed = Keep.seed) {
+  // At a level, for a case whose point is past a fight the keep's under-ways hold (see silent-lord-ways' drain).
+  static async start(calling = 'warrior', seed = Keep.seed, level = 1) {
     return Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: calling }] }, NodeBundleSource.shared));
+      party: [{ name: 'Mira', raceId: 'human', classId: calling, ...level > 1 ? { level } : {} }] },
+    NodeBundleSource.shared));
   }
   // The generated site the keep stands on, in a seed.
   static async site(seed = Keep.seed): Promise<string> {
