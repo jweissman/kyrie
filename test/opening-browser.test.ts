@@ -9,6 +9,7 @@ import { Origins } from '../src/world/origins';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Typography } from '../src/presentation/typography';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 import { Identity } from '../src/presentation/identity';
 
 // The opening and the choice of a life (Mission 18's A3 and A6), and the stage held inside the screen (A1). The studio
@@ -143,9 +144,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.click('[data-action="next"]');
     expect(await page.getAttribute('.creation-body', 'data-page')).toBe('you');
     // A country is drawn anew from its own seed, and its first protagonist may be of a people no thief comes of.
-    await page.click('[data-choice="raceId:human"]');
+    // Who you are is held, not touched (see Hold): the one driver helper holds it.
+    expect(await MonoDriver.held(page, '[data-choice="raceId:human"]')).toBe(true);
     await page.click('[data-action="next"]');
-    await page.click('[data-choice="classId:thief"]');
+    expect(await MonoDriver.held(page, '[data-choice="classId:thief"]')).toBe(true);
     expect(await page.getAttribute('[data-choice="classId:thief"]', 'aria-pressed')).toBe('true');
     // The chosen card's sentence is beneath the cards, and its rules behind Details, over the page.
     expect(await page.textContent('.chosen-lead')).toContain('quick blade');
@@ -172,7 +174,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
         query: '?world=kite&opening' });
       if (touch) { await page.emulateMedia({ reducedMotion: 'reduce' }); }
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-      await page.click(`[data-action="origin"][data-id="${origin}"]`);
+      await driver.click(`[data-action="origin"][data-id="${origin}"]`);
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
       expect(await page.locator('[data-action="book"], .place-foot, .on-pane, [data-action="choice"]').count()).toBe(0);

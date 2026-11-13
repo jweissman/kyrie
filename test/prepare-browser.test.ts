@@ -32,8 +32,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('preparing spells', () => {
     expect(await prepared.locator('h3').innerText()).toMatch(/prepared today/i);
     const swap = prepared.locator('.instead .act').first();
     const name = (await swap.evaluate(b => b.firstChild?.textContent ?? '')).trim();
-    await swap.click();
-    await driver.settle();
+    // An hour's work, held (see Hold).
+    await driver.click('.character .prepared .instead .act >> nth=0');
     expect(await page.evaluate(() => document.body.innerText)).toContain(`Dori spends an hour over ${name}`);
     expect(errors).toEqual([]);
   }, 120000);

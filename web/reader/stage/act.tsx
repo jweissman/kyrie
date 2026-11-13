@@ -27,8 +27,8 @@ export class Act {
     draw: Draw; className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number;
     variant?: 'row' | 'glyph'; holdTone?: string }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
-    // An act of time and commitment (Choice.hold, the engine's) is held rather than touched, where the page holds.
-    const hold = Hold.use(c.hold && !c.disabled && Hold.on() ? Hold.ms.sustained : undefined, () => {
+    // An act of time and commitment (Choice.hold, the engine's) is held rather than touched.
+    const hold = Hold.use(c.hold && !c.disabled ? Hold.ms.sustained : undefined, () => {
       draw.app.setState({ cursor: i, keyed: false }); draw.app.choose(c);
     });
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
@@ -41,8 +41,6 @@ export class Act {
         data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)} {...hold.props}>
-        <Hold.Edge held={hold.held} {...holdTone ? { tone: holdTone } : {}} />
-        {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
@@ -51,6 +49,9 @@ export class Act {
         {c.about && (c.risk || c.grave) && !children && !quiet && <span className="about">{Typography.curl(c.about)}</span>}
         {asks && s.confirming === c.id && <span className="grave-said" role="alert">
           {Typography.curl(Act.asked(asks, !!c.grave))}</span>}
+        {/* After its words, so that it is read as said of them (see Hold). */}
+        <Hold.Edge held={hold.held} {...holdTone ? { tone: holdTone } : {}} />
+        {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
       </button>
     );
   }

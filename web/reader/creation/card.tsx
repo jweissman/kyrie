@@ -16,8 +16,8 @@ export interface CardShape {
 export class Card {
   static View({ name, line, text, chosen, shut, onChoose, data, glyph }: CardShape) {
     const ref = useRef<HTMLButtonElement>(null);
-    // Choosing who the character is, held rather than touched where the page holds (see Hold).
-    const hold = Hold.use(Hold.on() && !shut ? Hold.ms.commitment : undefined, onChoose);
+    // Choosing who the character is, held rather than touched (see Hold).
+    const hold = Hold.use(!shut ? Hold.ms.commitment : undefined, onChoose);
     useEffect(() => { if (chosen) { ref.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }, [chosen]);
     return (
       <button type="button" ref={ref} className={`card${chosen ? ' chosen' : ''}`} aria-pressed={chosen} disabled={!!shut}

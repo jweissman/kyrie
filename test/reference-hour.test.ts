@@ -26,7 +26,7 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
       await page.screenshot({ path: join(out, `${String(n).padStart(2, '0')}-${what.replace(/\W+/g, '-').slice(0, 40)}.png`) });
     };
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    await page.click('[data-action="origin"][data-id="debt"]');
+    await d.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     // The reason the company came, followed as the page offers it: nothing is followed for the player, and gold comes
