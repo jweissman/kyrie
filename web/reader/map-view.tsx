@@ -223,11 +223,12 @@ export class MapView {
     // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with),
     // unless its hex is country the company can see: then across it, to the place's hex (a barrow heard of, beside
     // the wood the company stands in, had been "no way there yet": Mission 19's play).
-    // Never across the country to a place in the company's own hex: that went out of the town into the country about
-    // it, to a circus ground or an orchard behind the houses (the owner's player report, 12 November).
-    const local = !!mark && mark.cell === land.here;
+    // Across the country to a place shown, only as the engine allows (see LandCrossing): never to one in the company's
+    // own hex, which went out of the town into the country about it, to a circus ground or an orchard behind the
+    // houses (the owner's player report, 12 November).
+    const across = mark && land.across?.[mark.id];
     const go: Choice | undefined = inside ? undefined : d ? MapView.leaving(screen, MenuModel.journey(d), here) : here ? undefined : MapView.step(screen, id, cell)
-      ?? (local ? undefined : mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
+      ?? (mark ? across ? { id: across, label: `Go across country to ${name}`, tone: 'way', command: across } : undefined
         : MapView.across(land, cell, name));
     return { cell, name, d, here, go };
   }

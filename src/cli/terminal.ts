@@ -18,6 +18,7 @@ import type { Screen } from '../ui/screen-types';
 import { Undertakings } from '../presentation/undertakings';
 import { SceneModel } from '../ui/scene';
 import { Attending } from '../ui/attention';
+import { LandCrossing } from '../ui/land-crossing';
 import type { Choice } from '../ui/choice-list';
 import type { Aspect, Promoted } from '../presentation/glance-types';
 
@@ -116,6 +117,11 @@ export class Terminal {
           category: 'travel', targets: [d.id] });
       }
     }
+    // And across the country to a place the map shows, as the engine allows it (LandCrossing), as the page's map does.
+    for (const x of LandCrossing.offers(screen).filter(o => !all.some(c => c.id === o.command))) {
+      all.push({ id: x.command, name: `Go across country to ${x.name}`, time: 0, encounter: false, category: 'travel',
+        targets: [x.id] });
+    }
     // A way into the next stretch of country led with is set out on as a journey there (travel:, see HexBoundary),
     // as the page's map does: the gold "To the road between Mistshaw and Millholm" had been dropped from the
     // terminal's foreground, which knew no such id (M21's playability investigation).
@@ -203,6 +209,8 @@ export class Terminal {
     for (const p of screen.map) { console.log(`${p.here ? '*' : p.visited ? '·' : '?'} ${p.name}${p.zone ? ` — ${p.zone}` : ''}`); }
     const destinations = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []];
     if (destinations.length) { console.log(`Journeys: ${destinations.map(d => d.name).join(' · ')}`); }
+    const across = LandCrossing.offers(screen);
+    if (across.length) { console.log(`Across country: ${across.map(x => x.name).join(' · ')}`); }
   }
   private static dossier(session: PlaySession) {
     const screen = ScreenModel.build(session.campaign);

@@ -37,6 +37,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-15 | P1 | The talk ranked and gilded replies by their words: "Tell …"/"Pay …"/"would come along" led, and a reply whose words echoed the aim's was drawn gold beside the glance's own next step | fixed in this branch |
 | PL-16 | P1 | An authored adventure's hook not led: Tessary's eel-wife's notice on the Landgate board was only under `all`; reading a witness had stopped counting as learning (a regression of PL-03's rule), and a thing's teaching acts were never reckoned | fixed in this branch |
 | PL-17 | P2 | What Tessary Owes gives the company Davy's coat on its first step ("You take Davy Teazle's red coat" at the Landgate), though Nan is to hand it over later | fixed in this branch (data) |
+| PL-18 | P1 | The own-hex guard (E155: never across the country to a place in the company's own hex) lived only in the browser's map; the terminal and `serve` could not see the map's moves at all | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -221,7 +222,9 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   from a place an aim is gone to by (`toward … by …`: the churchyard's stair to the crypt), and a site's front door (an
   aim at a hold is gone into by it). The first cut, applied to every way everywhere, broke four of
   `gold-walk`/`gold-thread`'s walks into Seolforfyrd and the keeps, and the corn-store cellar's hole, which is why it
-  is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it. On the bailey there is now no
+  is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it:
+  `AimLeads.there` already answers it for one place (grounding the company's acts there), but asked of every door
+  off a town's green it would ground once per door per glance; worth measuring before it is made the rule. On the bailey there is now no
   gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
   (the bailey case fails on main and on either half alone; the churchyard case holds on both).
 
@@ -325,6 +328,17 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Status:** fixed in this branch (the stray `Initially Give` removed; the bundle written again; the three Tessary
   specs pass).
 
+### PL-18: the map's decision, in the engine
+
+- **What (the lead's finding, root cause 1):** E155's guard was `MapView.way`'s `local` test in
+  `web/reader/map-view.tsx`; the engine would have walked a `travel:` across the fen to the circus ground behind Hythe
+  had any other client asked, and neither the terminal nor `serve` offered the map's across-country moves.
+- **Status:** fixed in this branch: `src/ui/land-crossing.ts` decides, from the land the screen already carries (known
+  cells, walkable cover, each cell's stretch), what the map may set out for across the country, never a place in the
+  company's own hex, as `land.across`; `MapView` draws that decision; the terminal lists it ("Go across country to
+  …", and under `map`), and `serve`'s view carries it as `across`. Regressions: `test/small/own-hex` (the page's
+  side, unchanged) and `test/small/own-hex-engine` (the engine's offer is the map's, and `serve`'s view the same).
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -374,8 +388,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
    PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
    same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. PL-15 took
-   the talk's wording rules out (`TalkFocus.weighty`, `AimAsks`). Still standing on the same boundary:
-   `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
+   the talk's wording rules out (`TalkFocus.weighty`, `AimAsks`); PL-18 moved E155's guard into the engine. Looked
+   at and left: the ways' notes ("further in", "back out") are words for reasons that are themselves typed
+   (`Glance.inward`, `onward`: a site's rooms, visited or not, underground), not read from words. Still standing: E155's own-hex navigation guard lives in the
    browser (`web/reader/map-view.tsx`), so the engine would still walk a `travel:` to a place in the company's own hex
    out across the country if any client asked (the lead's finding).
 2. **Two clients over one runtime, not one contract.** PL-01 and PL-02: the terminal and the page each re-derive the
