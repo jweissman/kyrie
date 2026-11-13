@@ -194,9 +194,9 @@ export class TalkStage {
           ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
             className={`line learned ${l.kind}${more ? ' more' : ''}`}>
             {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l) : 'You know now')}</b>}
-            {Typography.curl(l.text)}
+            <Told.Said text={l.text} />
             {app && l.aim && <Told.Follow app={app} id={l.aim} />}</p>
-          : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
+          : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}><Told.Said text={l.text} /></p>;
     };
     return (
       <div className="lines" aria-live="polite">

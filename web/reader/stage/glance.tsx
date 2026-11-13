@@ -66,7 +66,7 @@ export class GlanceStage {
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
           {g.came && <GlanceStage.Came app={app} came={g.came} />}
           {screen.dark && !g.sight && <p className="dark-note">{Told.unlit}</p>}
-          {g.sight && <p className="sight" data-id={g.sight.id}>{Typography.curl(g.sight.text)}</p>}
+          {g.sight && <p className="sight" data-id={g.sight.id}><Told.Said text={g.sight.text} /></p>}
           <GlanceStage.Life app={app} glance={g} />
           {g.changed.length > 0 && <div className="changed">
             <p className="label">Since you were last here</p>
@@ -148,7 +148,7 @@ export class GlanceStage {
         {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
-        {g.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
+        {g.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}
       </div>}
       {!s.pending && told && !struck && <Told.Happened exchange={told} said={!leaf.moved} ready={Moments.ready(screen)}
         app={app} />}
@@ -379,7 +379,7 @@ export class GlanceStage {
     if (life.danger && subject) { return <GlanceStage.Danger subject={subject} text={life.text} reckoned={reckoned} />; }
     return (
       <p className="life" data-subject={life.subject} data-id={life.id}>
-        <span className="said">{Typography.curl(life.text)}</span>
+        <span className="said"><Told.Said text={life.text} /></span>
       </p>
     );
   }
@@ -388,7 +388,7 @@ export class GlanceStage {
       <section className="threat" data-subject={c.id} aria-label={`Danger: ${c.name}`}>
         <p className="label">Danger</p>
         <p className="n">{Typography.curl(Words.upper(c.name))}{c.note && <span className="r"> · {Typography.curl(c.note)}</span>}</p>
-        <p className="d">{Typography.curl(text)}</p>
+        <p className="d"><Told.Said text={text} /></p>
         {c.danger && !reckoned && <p className="reckoning">{Typography.curl(GlanceStage.fight(c.danger))}</p>}
       </section>
     );

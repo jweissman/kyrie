@@ -57,18 +57,23 @@ export class Told {
       {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}
         app={app} />}
       {situation.length > 0 ? stayed
-        ? <><p className="recall">{Typography.curl(Told.first(situation[0]!))}</p>{here}</>
-        : <div className="establish"><p>{Typography.curl(situation[0]!)}</p>{here}
-          {situation.slice(1).map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div> : here}
+        ? <><p className="recall"><Told.Said text={Told.first(situation[0]!)} /></p>{here}</>
+        : <div className="establish"><p><Told.Said text={situation[0]!} /></p>{here}
+          {situation.slice(1).map((p, i) => <p key={i}><Told.Said text={p} /></p>)}</div> : here}
       <Told.Presence app={app} lines={leaf.presence} subjects={subjects} quiet={stayed} />
       {leaf.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
-        {leaf.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
+        {leaf.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}
       </div>}
       {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
     </>;
   }
   static readonly harm = Narration.harm;
+  // Words as the author set them: curled, and a run marked *so* in italics (Typography.spans), its stars gone; a plain
+  // client gives the words alone (Typography.plain).
+  static Said({ text }: { text: string }) {
+    return <>{Typography.spans(Typography.curl(text)).map((r, i) => r.stressed ? <em key={i}>{r.text}</em> : r.text)}</>;
+  }
   // The chapter a place opens (a country come into, a story's chapter), the place's name, and where and when.
   static Heading({ frame, app }: { frame: Frame; app?: ReaderApp }) {
     const heading = frame.leaf.heading;
@@ -85,7 +90,7 @@ export class Told {
     if (s.pending) { return null; }
     if (frame.travel) { return <Journey.View travel={frame.travel} />; }
     return leaf.moved && leaf.journey && leaf.journey.length > 0 ? <div className="journey" aria-label="On the way">
-      {leaf.journey.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}</div> : null;
+      {leaf.journey.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}</div> : null;
   }
   // Where the company left off, taken up again: what it is about, and the last thing it did.
   static Recap({ recap }: { recap: NonNullable<Frame['leaf']['recap']> }) {
@@ -125,7 +130,7 @@ export class Told {
     const glanced = leaf.glanced ?? { situation: leaf.situation, presence: leaf.presence, held: [] };
     const situation = glanced.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p));
     return <div className="setting" data-region="setting" data-held={glanced.held.length || undefined}>
-      {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
+      {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}><Told.Said text={p} /></p>)}
       <Told.Presence app={app} lines={glanced.presence} subjects={subjects} quiet={false} />
       <Told.More held={glanced.held} key={app.state.frame!.screen.place.id} />
     </div>;
@@ -135,7 +140,7 @@ export class Told {
     const [more, open] = useState(false);
     if (!held.length) { return null; }
     return <>
-      {more && held.map((h, i) => <p key={i} className="held">{Typography.curl(h)}</p>)}
+      {more && held.map((h, i) => <p key={i} className="held"><Told.Said text={h} /></p>)}
       <button type="button" className="quiet-word more-told" data-action="more-told" aria-expanded={more}
         onClick={() => open(!more)}>{more ? 'Less' : 'More of the place'}</button>
     </>;
@@ -158,7 +163,7 @@ export class Told {
       Typography.curl(l)).replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
     if (!told.length) { return null; }
     return <div className={`presence${quiet ? ' quiet' : ''}`}>
-      <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}{Typography.curl(l)}</span>)}</p>
+      <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}<Told.Said text={l} /></span>)}</p>
     </div>;
   }
   static roll(line: string): boolean {
@@ -197,11 +202,11 @@ export class Told {
       <section ref={at} className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
         {plain!.map((l, i) => Check.of(l, i)
-          ?? <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
+          ?? <p key={i} className={l.kind}><Told.Said text={l.text} /></p>)}
         {sights.length > 0 && <Panorama.View sights={sights} going={Told.going(app)} choose={app && (c => app.choose(c))}
           onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
         {rest!.map((l, i) => Check.of(l, `r${i}`)
-          ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
+          ?? <p key={`r${i}`} className={l.kind}><Told.Said text={l.text} /></p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {(notes.length > 0 || taken.length > 0) && <ul className="notes">
