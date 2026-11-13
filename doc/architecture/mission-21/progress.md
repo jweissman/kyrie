@@ -108,3 +108,17 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   terminal as the page's glance and emphasis, in colour, without repeated context, with lenses, timed start-up and
   `--profile`, a measured walker and four kept walks, and creation from one engine flow (CreationFlow). An honest
   account of where M21 stands against its four outcomes: `state.md` (none yet met; outcome 1 partly).
+- **14 Nov, evening.** Validation first, at the owner's word:
+  - Every push runs the whole suite in 16 shards (~19 min wall, ~216 job-minutes) and Pages deploys only on a green
+    CI. It found five regressions the push lane had hidden: two specs moved to the owner's rulings; three of the wound
+    rule (the dice stream moved, not the odds), fixed with companies their places are for, Low Water's doubles by one
+    for each of the company.
+  - Kept times are taken from a full run's JUnit.
+  - The silent lord's specs begin once a file (`Kept.drawn`, `Keep.at`).
+  - Idle world time 68 → 42 ms a watch (one route search per world state; band names indexed; the known ways read
+    once).
+  - The terminal: one two-tone pip, four acts at most, lenses from the contract.
+  - Creation asks the calling and the kind of life only (CreationFlow and the page).
+  - The hold is the default. Lens gaps (things on ways, openers in time) are with the playability line.
+  - SRD: a fidelity census (0 of 88 placed encounters faithful; spells 9 of 119) and spell conversions by school, on
+    m21-rules. Resume point: memory `m21-state-nov14-evening`.
