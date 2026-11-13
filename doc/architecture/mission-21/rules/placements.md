@@ -187,3 +187,77 @@ weak case, loses more of them (decision 6).
 
 A fair fight for the company the room is for, and a hard one for a first-level warrior who finds the flag early; told
 before it is joined (its warning) and escapable.
+
+## Batch 4: the rulings on the open questions (13 November)
+
+### The undertown's numbers, as real play places them
+
+`RegionUndertown.lines(region, home, company)` is given `company.size` from `WorldAssembler.assemble`, which is
+`party.length` **after the origin is applied**: an origin takes only the first of the company it is given
+(`Origins.member`), so every start the game makes (creation's one protagonist and an origin) writes the undertown for a
+company of **one**: a brood of one, a pack of three, a pair of two, the rats runts. A companion met on the way (the
+first inn's recruit) joins after the country is written; the undertown is not written again. Only a world assembled
+with no origin (the tests' and tools' fixture of three) gets the brood of two and the pack of five, and **that is
+what the undertown rows above were fought at**. Re-fought as real play places them (`a1`, origin `debt`, the same
+three first-level companies, 20 seeds; each cell win · median rounds · median harm · a death):
+
+| Placement | Fought in placements.md (the fixture's company of three) | Warrior / pair / thief | As real play places it (a company of one) | Warrior / pair / thief |
+|---|---|---|---|---|
+| s1_u_rats | 5 × rat L1 (2/2/2/2/2) | 85% · 6 · 25% · 15% / 100% · 4 · 8% · 0% / 10% · 9 · 100% · 90% | 3 × rat L1 (1/1/1) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 0% / 75% · 5 · 29% · 25% |
+| s1_u_buck | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 5% / 85% · 4 · 18% · 15% | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 5% / 85% · 4 · 18% · 15% |
+| s1_u_dead | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% |
+| s1_u_spiders | 2 × spider/great/cave L1 (6/7) | 35% · 4 · 100% · 65% / 80% · 3 · 46% · 45% / 0% · – · 100% · 100% | 1 × spider/great/cave L1 (6) | 80% · 2 · 17% · 20% / 100% · 2 · 12% · 5% / 40% · 2 · 100% · 60% |
+| s1_u_mother | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% / 95% · 3 · 21% · 25% / 10% · 6 · 100% · 90% | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% / 95% · 3 · 21% · 25% / 10% · 6 · 100% · 90% |
+| s1_u_shamblers | 3 × zombie L1 (8/6/7) | 85% · 8 · 33% · 15% / 100% · 5 · 16% · 10% / 0% · – · 100% · 100% | 2 × zombie L1 (8/6) | 95% · 6 · 17% · 5% / 100% · 3 · 9% · 0% / 35% · 5 · 100% · 65% |
+| s1_u_beetles | 5 × beetle L1 (2/2/2/2/2) | 75% · 5 · 29% · 25% / 100% · 4 · 18% · 10% / 10% · 6 · 100% · 90% | 3 × beetle L1 (2/2/2) | 95% · 3 · 0% · 5% / 100% · 2 · 0% · 0% / 40% · 5 · 100% · 60% |
+| s1_u_crawler | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% / 100% · 2 · 11% · 10% / 55% · 3 · 80% · 45% | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% / 100% · 2 · 11% · 10% / 55% · 3 · 80% · 45% |
+| s1_u_keeper | 1 × ghoul/barrow L2 (13) | 60% · 5 · 75% · 40% / 90% · 3 · 17% · 30% / 0% · – · 100% · 100% | 1 × ghoul/barrow L2 (13) | 15% · 4 · 100% · 85% / 80% · 3 · 40% · 40% / 5% · 3 · 100% · 95% |
+
+Read candidly: as real play places it, the first town's undertown is gentler than the tables above said. The rats,
+the ghoul, the beetles and the shamblers are trivial for a lone warrior; the spider room is 80 % for him (it had read
+35 %), and the spiders' mother and the vault are its hard rooms. The husks at the adit stay right (the lone thief still
+dies there more often than not). **What it should be (not changed, for the lead):** the undertown is written for the
+company as it arrives, and a company of one is the only one that arrives. Either count the companion the first inn
+offers (`RegionRecruits.arrival`) as the company the town's troubles are written for, so a company of two meets the
+brood of two; or let the template's numbers be read when the company goes down (a rule over the company's size,
+`Numbers` from a measure) so a company that has grown meets more. The second is the honest one; the first is a line.
+
+### Attack riders: the barrow ghoul's paralysis lands on a hit
+
+Its bite and claws carry the SRD's paralysis (`riders` on the breed: a Fortitude save against 12, or paralysed three
+turns) in place of Orsino's Paralyzing Touch. Re-measured: its challenge is 2 at its first level and 5 at its fifth
+(it had been 2 and 4). In the vault, as placed (a company of one's world; the keeper is one barrow ghoul either way):
+
+| Company | Level 1 | Level 2 (the room's company) |
+|---|---|---|
+| Warrior alone | 15 % · 4 · 100 % · 85 % | 30 % · 6 · 100 % · 70 % |
+| Warrior + cleric | 80 % · 3 · 40 % · 40 % | 95 % · 3 · 9 % · 10 % |
+| Thief alone | 5 % · 3 · 100 % · 95 % | 5 % · 3 · 100 % · 95 % |
+
+(Before the riders: a lone warrior 60 % at the first level, 75 % at the second.) Three blows a round, each asking a
+save, is what makes the SRD ghoul the SRD ghoul: a lone warrior is paralysed and eaten. **Flag: lethal for one alone,
+fair for two of the second level.** It is told before it is joined (its warning in the vault, territorial: it waits out
+the watch) and escapable, so it is within decision 4; whether the vault is right for it, or a lone company should
+meet it only with a companion, is the lead's.
+
+### The lone thief: closed
+
+No change to the calling (the lead: a thief's answer is to avoid fights and to have companions early). The check was
+whether a lone thief can always see a lethal group coming and leave before it closes. Over every hostile group of a1's
+first town and sites, by temper:
+
+- **Territorial** (most of them, every keeper): warns on meeting, then waits out the watch before it closes
+  (`inhabitants.kyr`, `temper_closes`): always time to leave.
+- **Savage** (only in the deep barrow: the gallery's dead, the embalmers): heard from every room a way leads from
+  (`DeepSounds`, "a cold you can feel on your face, and a sound like a breath let out, and out"), to anyone. Told at
+  the door already; decision 4's warning for the embalmers was there, and is kept.
+- **Ambush** (the cistern's frogs, the barrow's ossuary spiders, lethal): told **only to one who reads sign**
+  (woodcraft), so a lone thief walked into the ossuary's spiders unwarned. **Fixed in the telling:** at every way to a
+  deep band that lies in wait, anyone now sees that something is there ("the quiet of something holding its breath, and
+  the dust at its mouth scuffed and swept as if something had lain there"); the reader of sign still reads what it is,
+  and it still springs (`DeepSounds`, `test/deep-sounds-ambush.test.ts`). The cistern's frogs (not lethal) keep their
+  woodcraft sign alone.
+- **Defensive, obedient, wary**: fight only in their lair or when set on; never close on a company passing.
+
+So a lone thief can see every lethal group of a1's first fights coming and leave before it closes. That it dies in
+most fights it chooses is the calling's, and the roadmap's (companions early). Closed.

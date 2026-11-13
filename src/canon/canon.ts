@@ -242,13 +242,14 @@ export class Canon {
   private static stated(b: Species, over: Overlay[]): Partial<Species> {
     const hitDice = over.map(v => v.hitDice).find(Boolean), attacks = over.map(v => v.attacks).find(Boolean);
     const armor = over.map(v => v.armor).find(Boolean), defenses = over.flatMap(v => v.defenses ?? []);
+    const riders = over.map(v => v.riders).find(Boolean);
     const forgone = new Set(over.flatMap(v => [...v.forgoes?.abilities ?? [], ...v.forgoes?.traits ?? []]));
-    if (!hitDice && !attacks && !armor && !defenses.length && !forgone.size) { return {}; }
+    if (!hitDice && !attacks && !armor && !defenses.length && !forgone.size && !riders) { return {}; }
     const st = { ...b.statistics! };
     // Hit Dice are the whole of its hit points: no growth, no fixed number beside them.
     if (hitDice) { delete st.growth; delete st.hitPoints; }
     return { statistics: { ...st, ...hitDice ? { hitDice } : {}, ...attacks ? { attacks, weapon: attacks[0]! } : {},
-      ...armor ? { armor } : {} },
+      ...armor ? { armor } : {}, ...riders ? { riders } : {} },
     ...defenses.length ? { defenses: [...b.defenses ?? [], ...defenses] } : {},
     ...b.abilities ? { abilities: b.abilities.filter(a => !forgone.has(a)) } : {},
     ...b.traits ? { traits: b.traits.filter(t => !forgone.has(t)) } : {} };

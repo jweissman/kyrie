@@ -19,10 +19,10 @@ const told = (b: Battle) => CombatTelling.exchanges(b.events, b.state).map(t => 
 // with the SRD's breed laid over it (ghoul/barrow, variations.json), placed nowhere until placements.md says where.
 const blows = (events: CombatEvent[], by: string) => events.filter(e => e.type === 'attack' && e.actor === by);
 describe('the barrow ghoul (SRD: 2d12, bite 1d6+1 and two claws 1d3, paralysis)', () => {
-  it('is thirteen hit points of bite, claw and claw, with its paralysing touch and none of the undead package', () => {
+  it('is thirteen hit points of bite, claw and claw, each paralysing as it lands, and none of the undead package', () => {
     const g = Canon.creature('ghoul/barrow');
     expect([g.statistics?.hitDice, g.statistics?.attacks, g.abilities, g.traits]).toEqual(['2d12',
-      ['bite', 'claws', 'claws'], ['paralyzing_touch'], ['undead']]);
+      ['bite', 'claws', 'claws'], [], ['undead']]);
     expect([1, 5].map(level => new Content('barrow').createCreature(`g${level}`, { raceId: 'ghoul/barrow', level })
       .base.maxHp)).toEqual([13, 13]);
     expect(Canon.creature('ghoul').statistics?.hitDice).toBeUndefined();

@@ -214,10 +214,20 @@ export class AbilityUse {
     Effects.damage(target, { amount: damage.amount, type: attacker.weapon.type, critical: damage.critical, tags },
       { ...context, actor });
     AbilityUse.hooks(actor, 'onAttackHit', target, context);
+    AbilityUse.ride(actor, target, attacker.weapon.onHit, context);
     if (spillover && target.hp === 0 && damage.amount > before) {
       AbilityUse.spill(actor, damage.amount - before, attacker.weapon.type, context);
     }
     return true;
+  }
+  // What the blow that landed carries (its kind's riders: the SRD adaptation briefing, §4): each on what it struck, as
+  // the attack's own consequence, after its harm and only on a hit; saved against as the rider says.
+  private static ride(actor: Fighter, target: Fighter, riders: Effect[] | undefined, context: EffectContext) {
+    const inner: EffectContext = { ...context, actor, hooking: true };
+    for (const rider of riders ?? []) {
+      if (target.hp === 0 || actor.hp === 0) { return; }
+      AbilityUse.effectOn(rider, target, { expressions: context.expressions!, context: inner });
+    }
   }
   private static spill(actor: Fighter, excess: number, type: string, context: EffectContext) {
     let remaining = excess;

@@ -164,3 +164,18 @@ placed nowhere. Orsino's ghoul is unchanged. The challenge table is measured aga
 measured as the rolled beast, 0.5), `ghoul/barrow` (2, 4) and `golem/flesh` (24). Where each could be placed is
 [placements.md](placements.md). Specs: `test/srd-variations.test.ts` (a fixture variation, 0.25 s),
 `test/srd-slices.test.ts`, `test/srd-challenge.test.ts` (3.8 s: it fights).
+
+## Attack riders, and silver deferred (13 November, batch 4)
+
+**Attack riders** (§4): a body's natural weapons may carry effects that land with a hit (`Statistics.riders`, or a
+variation's, by the weapon's id), resolved after that blow's harm, against the rider's own save, and never on a miss
+(`AbilityUse.ride`; a weapon in hand carries none). Validation refuses a rider on a weapon that is no natural weapon,
+or one that lands on anyone but what was struck. The barrow ghoul's bite and claws paralyse (Fortitude 12, three
+turns) in place of Orsino's touch. Spec: `test/attack-riders.test.ts` (0.3 s, mutation-checked: the ride taken out
+fails it). Not yet: riders that depend on several hits (rend), held/grab (§4's `held`), and riders on manufactured
+weapons (poisoned blades).
+
+**Silver weapons: deferred out of M21** (the lead). The bypass works (a weapon's `tags`, a reduction's `unless`), and
+wonders' blades are magic; but a silvered blade is a new kind of arms, and a new arms item is made a fine make for the
+capability market and drawn into loot by its worth, which changes what generated countries sell and hide. Adding one
+needs the loot and market owners' review of where silver is had, not a catalog line.

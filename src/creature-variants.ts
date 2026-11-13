@@ -6,6 +6,7 @@ import type { Creature } from './model';
 import type { Variant, Variants } from './registry/orsino-variants';
 import { Creation } from './rules/creation';
 import type { Defense } from './rules/defenses';
+import type { Effect } from './lang/parse';
 
 // One way a creature differs from its kind, on one axis (data/catalog/variations.json): the word it is called by, what
 // is seen of it, what it adds, the kinds of creature it can be, and where a generated country lays it on.
@@ -25,7 +26,7 @@ export interface Variation {
   // A stat block of its own (see the canon's Overlay): Hit Dice, defenses, a routine and hide, what it goes without,
   // and whether it is met only where an author names it.
   hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
-  forgoes?: { abilities?: string[]; traits?: string[] }; unplaced?: true;
+  forgoes?: { abilities?: string[]; traits?: string[] }; unplaced?: true; riders?: Record<string, Effect[]>;
 }
 
 // What makes one creature of a kind other than the rest (Orsino's aspects: an agile wolf, a venomous spider), and
@@ -103,7 +104,7 @@ export class CreatureVariants {
   }
   static stated(id: string): boolean {
     const v = this.variations[id];
-    return !!v && !!(v.hitDice || v.defenses || v.attacks || v.armor || v.forgoes);
+    return !!v && !!(v.hitDice || v.defenses || v.attacks || v.armor || v.forgoes || v.riders);
   }
   // What a creature is called with its variations: "a wolf", old and frost, is "an old frost wolf".
   static called(role: string, ids: string[]): string {

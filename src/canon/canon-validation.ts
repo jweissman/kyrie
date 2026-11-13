@@ -125,6 +125,7 @@ export class CanonValidation {
       if (!Canon.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
       if (s.statistics.armor && !Canon.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
       this.hitDice(where, s.statistics);
+      this.riders(where, s.statistics.riders);
       (s.abilities ?? []).forEach(a => this.ability(where, a, ['natural', 'technique', 'spell']));
       for (const t of s.traits ?? []) {
         if (!['nature', 'affinity', 'character'].includes(Canon.traits[t]?.category ?? '')) {
@@ -161,6 +162,14 @@ export class CanonValidation {
     if (v.armor && !Canon.items[v.armor]?.armor) { this.fail(where, `hide ${v.armor} is not armour`); }
     for (const a of (v.forgoes?.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `forgoes unknown ability ${a}`); }
     for (const t of (v.forgoes?.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `forgoes unknown trait ${t}`); }
+    this.riders(where, v.riders);
+  }
+  // What a blow carries (see Statistics.riders) is carried by a natural weapon, and lands on what it struck.
+  private riders(where: string, riders: Record<string, { target: string }[]> | undefined) {
+    for (const [weapon, effects] of Object.entries(riders ?? {})) {
+      if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `rides on ${weapon}, which is no natural weapon`); }
+      for (const e of effects.filter(e => e.target !== 'enemy')) { this.fail(where, `a rider on ${weapon} lands on ${e.target}`); }
+    }
   }
   // A calling's features come at distinct levels from 2 to 20, in order, with executable techniques and calling traits.
   private features(where: string, features: { level: number; abilities?: string[]; traits?: string[] }[]) {
