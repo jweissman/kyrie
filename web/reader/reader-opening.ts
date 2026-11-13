@@ -4,6 +4,7 @@ import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
 import { CreationDefaults } from '../engine/creation-defaults';
+import { CreationFlow, type CreationStepId } from '../engine/creation-flow';
 import { WorldStage } from './stage/world-stage';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
@@ -58,6 +59,29 @@ export class ReaderOpening {
     const party = structuredClone(members);
     this.app.setState({ party, editing: -1 });
     void this.preview(party);
+  }
+  // Making the protagonist as the engine's one flow says it (CreationFlow): its steps, their questions and cards, and
+  // which is chosen; the page shows them and says which was chosen.
+  flow(): CreationFlow | undefined {
+    const s = this.app.state;
+    if (!s.setting || !s.catalog || !s.party[0]) { return undefined; }
+    const flow = new CreationFlow(s.setting, s.catalog, s.party[0]);
+    if (s.origin) { flow.origin = s.origin; }
+    return flow;
+  }
+  // A card chosen at a step of the flow. Its rules are the page's as they stand (edit, origin), which the flow's own
+  // choose follows; a kind of life is the trade of it the flow finds best suited to the calling.
+  choose(step: CreationStepId, id: string) {
+    if (step === 'why') { this.origin(id); return; }
+    if (step === 'before') {
+      const flow = this.flow();
+      flow?.choose('before', id);
+      if (flow?.member.backgroundId) { this.edit(0, 'backgroundId', flow.member.backgroundId); }
+      return;
+    }
+    const field = ({ you: 'raceId', calling: 'classId', presenting: 'pronouns', specialty: 'specialization',
+      name: 'name' } as const)[step];
+    this.edit(0, field, id);
   }
   // A change to one companion. Changing calling or specialization discards choices that no longer fit; in a drawn
   // country, what is discarded is taken again as it stands until changed (see CreationDefaults), and a name the

@@ -1,6 +1,7 @@
 import { BackgroundCatalog } from '../../../src/canon/background-catalog';
 import { useState, type ChangeEvent, type CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
+import type { CreationStep } from '../../engine/creation-flow';
 import { Typography } from '../../../src/presentation/typography';
 import { CreationRules } from '../creation-rules';
 import { CreationDefaults } from '../../engine/creation-defaults';
@@ -17,8 +18,9 @@ import { KitSheet } from './kit-sheet';
 // stayed on a woman). Beneath, the life chosen in a line. Behind Details, everything else you set out with, as it
 // stands until changed (the weapon, the qualities, a trade of your own); then setting out.
 export class NameStep {
-  static readonly presenting = [['she', 'Woman'], ['he', 'Man'], ['they', 'Neither']] as const;
-  static View({ app }: { app: ReaderApp }) {
+  static View({ app }: { app: ReaderApp; step: CreationStep }) {
+    // How you present: the flow's own step, asked here above the name (its words without their article).
+    const presenting = app.opening.flow()?.steps().find(x => x.id === 'presenting');
     const [open, show] = useState(false), m = app.state.party[0]!, setting = app.state.setting;
     // The table is rolled again for how you present and your people as they are: changed, it starts again at the top.
     const key = `${m.raceId ?? ''}:${m.pronouns ?? ''}`, [rolled, roll] = useState({ key, n: 0 });
@@ -29,9 +31,9 @@ export class NameStep {
     return (
       <div className="naming">
         <p className="presenting" role="group" aria-label="How you present">
-          {NameStep.presenting.map(([id, word]) => <button key={id} type="button" aria-pressed={m.pronouns === id}
-            data-nav data-action="presenting" data-id={id} onClick={() => app.opening.edit(0, 'pronouns', id)}>
-            {word}</button>)}</p>
+          {presenting?.cards.map(c => <button key={c.id} type="button" aria-pressed={presenting.chosen === c.id}
+            data-nav data-action="presenting" data-id={c.id} onClick={() => app.opening.choose('presenting', c.id)}>
+            {Words.upper(c.name.replace(/^an? /i, ''))}</button>)}</p>
         <label className="name-field"><span className="sr">Your name</span>
           <input value={m.name ?? ''} placeholder={names[0]} data-field="name" data-nav maxLength={40} autoComplete="off"
             spellCheck={false}
