@@ -82,7 +82,8 @@ export class SpellFidelity {
     const amount = (e as { amount: { kind: string; expression?: string; value?: number } }).amount;
     const text = amount.kind === 'literal' ? String(amount.value) : amount.expression!;
     try {
-      return String(Amounts.mean(text, { level, bonusSpellDC: 0, hitDice: level, strength: 10, dexterity: 10,
+      return String(Amounts.mean(text, { level, castingLevel: level, bonusSpellDC: 0, hitDice: level, strength: 10,
+        dexterity: 10,
         constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 }));
     } catch { return text; }
   }

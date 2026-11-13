@@ -12,7 +12,8 @@ export class SpellResolution {
   // wizard alike), its key score 16; the SRD's difficulty is 10 + the spell's level + that score's modifier, 3.
   static readonly key = 16;
   static caster(level: number): Record<string, number> {
-    return { level: Math.max(1, 2 * level - 1), bonusSpellDC: 0, hitDice: Math.max(1, 2 * level - 1), strength: 10,
+    const at = Math.max(1, 2 * level - 1);
+    return { level: at, castingLevel: at, bonusSpellDC: 0, hitDice: at, strength: 10,
       dexterity: 10, constitution: 10, intelligence: this.key, wisdom: this.key, charisma: this.key };
   }
   // The difficulty of its save, at the census's caster: Orsino's expression (15 + #bonusSpellDC, 14 + #level...)

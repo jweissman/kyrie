@@ -9,6 +9,7 @@ import armourPaintings from '../../data/paintings/armour.json';
 import consumablePaintings from '../../data/paintings/consumables.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
+import { CastingLevel } from '../rules/casting-level';
 import type { Modifiers, Species } from './schema';
 import { Amounts } from '../rules/amounts';
 import { StatExpressions } from '../rules/stat-expressions';
@@ -270,6 +271,7 @@ export class CanonValidation {
       if (!['technique', 'spell', 'natural'].includes(a.kind)) { this.fail(where, `unknown kind ${a.kind}`); }
       if ((a.effect === undefined) === (a.effects === undefined)) { this.fail(where, 'needs exactly one of effect and effects'); }
       if (a.recharges && !['rest', 'night', 'day'].includes(a.recharges)) { this.fail(where, `recharges by ${a.recharges}`); }
+      for (const p of CastingLevel.problems(JSON.stringify(a.effects ?? a.effect ?? ''))) { this.fail(where, p); }
       if (a.kind === 'spell') {
         const s = a.spell;
         if (!s || !['arcane', 'divine'].includes(s.tradition) || !Number.isInteger(s.level) || s.level < 0 || s.level > 9) {

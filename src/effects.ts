@@ -1,5 +1,6 @@
 import { Flight } from './rules/flight';
 import { FixedStatBlock } from './rules/fixed-stat-block';
+import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses, type Recovery } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain';
@@ -101,12 +102,9 @@ export class Effects {
   static immune(fighter: Fighter, kind: string): boolean {
     return Effects.modifiers(fighter).immune?.includes(kind) ?? false;
   }
-  // Deem values for an actor's expressions: Orsino's #str, #wis are the record's scores; #level and #bonusSpellDC too.
+  // Deem values for an actor's expressions (ActorValues): its scores, #level, #castingLevel and #bonusSpellDC.
   static context(actor: Fighter): Record<string, number> {
-    return { strength: actor.strength, dexterity: actor.dexterity, intelligence: actor.intelligence,
-      wisdom: actor.wisdom, constitution: actor.constitution, charisma: actor.charisma, hp: actor.hp,
-      maxHp: actor.maxHp, mana: actor.mana, level: actor.level, hitDice: CanonRuntime.hitDice(actor),
-      bonusSpellDC: Effects.modifiers(actor).bonusSpellDC ?? 0 };
+    return ActorValues.of(actor, Effects.modifiers(actor).bonusSpellDC ?? 0);
   }
   static dice(value: Dice | undefined, context: EffectContext, actor?: Fighter): number {
     if (value === undefined) { return 0; }
