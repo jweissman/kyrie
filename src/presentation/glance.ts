@@ -276,7 +276,7 @@ export class Glance {
     let kept = this.namings.get(campaign.module);
     if (!kept) { kept = new Map(); this.namings.set(campaign.module, kept); }
     if (!kept.has(def.id)) { kept.set(def.id, Stakes.named(campaign, def)); }
-    return kept.get(def.id)!;
+    return new Set([...kept.get(def.id)!, ...AimLeads.sellers(campaign, def)]);
   }
   // The way from here toward a place an aim names (the first leg of the known way there), for the first two places the
   // aims name: when it lies in the same settlement or site, or two legs away at most. Found over the known ways (see

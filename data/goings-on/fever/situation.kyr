@@ -57,7 +57,8 @@ Module fever "A fever on the green" {
     On discuss { Assert helping(sister). }
   }
   Rule kept_by_sister at green when dosed(mother) and helping(sister) and not mended(mother) and not lost(mother) and watch(clock) >= dosedAt(mother) + 48 says "The sister comes out onto the step with a cup in her hand to say it: the fever has broken, and her mother is asleep." { Assert mended(mother). Set mendedOn(mother) to day(clock). Assert stale(sick). Assert stale(bark_lore). Assert grateful(mother, party). Assert grateful(sister, party). }
-  Observe kept_scene at green when mended(mother) and helping(sister) and not nursed(mother) "On the step of the sick child's house the sister sits with a cup in her lap, asleep, very proud of herself.".
+  // Not once she has gone with the company: it had told her asleep on the step beside it (M21's PL-29).
+  Observe kept_scene at green when mended(mother) and helping(sister) and not nursed(mother) and not travelsWith(sister, party) "On the step of the sick child's house the sister sits with a cup in her lap, asleep, very proud of herself.".
   Rule fever_turns at green when dosed(mother) and keeps(mother, ?i) and not helping(sister) and not mended(mother) and not lost(mother) and watch(clock) >= dosedAt(mother) + 48 says "{mother} fell asleep in her chair at last, and nobody gave the cups. The fever has come back hotter than before, and the herbs are spent." { Retract dosed(mother). Retract keeps(mother, ?i). }
   // Too late, it happens at first light, and is heard by whoever is on the green; whoever comes back later sees it.
   Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). Assert stale(sick). Assert stale(bark_lore). }
