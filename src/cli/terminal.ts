@@ -220,7 +220,9 @@ export class Terminal {
   private static dossier(session: PlaySession) {
     const screen = ScreenModel.build(session.campaign);
     for (const m of screen.party) {
-      console.log(`\n${m.name} — level ${m.level}${m.background ? `, ${m.background}` : ''}`);
+      // Who they are first, as the page draws it (people and calling), then the level and what they were before: an
+      // elf thief had been "level 1, Drifter", a mage "Trader" (round 12, B; M21's cold mage).
+      console.log(`\n${m.name} — ${m.line}, level ${m.level}${m.background ? ` · ${m.background}` : ''}`);
       console.log(`HP ${m.hp}/${m.maxHp} · mana ${m.mana}/${m.maxMana} · XP ${m.experience}`);
       console.log(Object.entries(m.attributes).map(([k, v]) => `${k} ${v}`).join(' · '));
       if (m.conditions.length || m.boons?.length) { console.log(`Conditions: ${[...m.conditions, ...m.boons ?? []].join(', ')}`); }

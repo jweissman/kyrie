@@ -24,4 +24,12 @@ describe('the terminal, its commands piped in at once', () => {
     await run.exited;
     expect(out).toContain('the kitchen · Day 1, 8:02 a.m.');
   }, 30000);
+  // Who each of the company is, as the page draws them: an elf thief had been "level 1, Drifter" (round 12, B).
+  it('says who each of the company is, people and calling, on character', async () => {
+    const run = Bun.spawn(['bin/kyrie', 'campaign', 'test/fixtures/household/household.campaign.json'],
+      { stdin: new TextEncoder().encode('character\n'), stdout: 'pipe', stderr: 'pipe' });
+    const out = await new Response(run.stdout).text();
+    await run.exited;
+    expect(out).toContain('Ama — human warrior, level 1');
+  }, 30000);
 });
