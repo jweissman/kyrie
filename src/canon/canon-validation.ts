@@ -9,6 +9,7 @@ import armourPaintings from '../../data/paintings/armour.json';
 import consumablePaintings from '../../data/paintings/consumables.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
+import { SrdSpells } from './srd-spells';
 import type { Modifiers, Species } from './schema';
 import { Amounts } from '../rules/amounts';
 import { StatExpressions } from '../rules/stat-expressions';
@@ -47,7 +48,8 @@ export class CanonValidation {
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
     v.conditions(); v.items();
     v.backgrounds(); v.religion(); v.plants(); v.sources(); v.materials();
-    return [...Canon.conflicts, ...CatalogFields.problems(), ...v.problems];
+    return [...Canon.conflicts, ...CatalogFields.problems(), ...SrdSpells.problems(Canon.srdSpells, Canon.abilities),
+      ...v.problems];
   }
   // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
   // is cut). Said by lint, never refused at load (the owner writes plants before their sheet is drawn).

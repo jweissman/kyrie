@@ -1,0 +1,5 @@
+{
+ "about": "The catalog's spells that have a Revised 3.5 SRD counterpart (data/sources/srd35/concordance.json), as the SRD gives them: level on the list of their tradition, school, harm (a die a caster level is roll(min(#level, 10), 6)), damage type, and the save a target makes against them (its kind, and whether a success halves or negates; none, none at all). Laid over the generated records (SrdSpells); a save named for what it guards against (paralysis, sleep, charm) keeps its name, for the immunities that read it.",
+ "conversion": "srd35-westernesse-v1",
+ "spells": {}
+}

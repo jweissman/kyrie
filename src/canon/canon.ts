@@ -24,6 +24,7 @@ import variations from '../../data/catalog/variations.json';
 import devices from '../../data/catalog/devices.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
+import srdSpells from '../../data/catalog/srd-spells.json';
 import orsinoConditions from '../../data/catalog/orsino/conditions.json';
 import orsinoTraits from '../../data/catalog/orsino/traits.json';
 import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
@@ -31,6 +32,7 @@ import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
 import professions from '../../data/catalog/professions.json';
 import forms from '../../data/catalog/forms.json';
 import { Defenses } from '../rules/defenses';
+import { SrdSpells, type SrdSpell } from './srd-spells';
 import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type Forms, type KyrProfession } from './background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, Habitat, ItemKind, Plant, Procedure, Skill,
@@ -92,7 +94,10 @@ export class Canon {
     attributes: string[]; damageTypes: string[]; physicalDamage: string[]; resources: string[];
     saveKinds: Record<string, string>; saveLimit: number; procedures: Record<string, Procedure>; combat: Combat;
   };
-  static readonly abilities = Canon.merge<Ability>('ability', orsinoAbilities.abilities, abilities.abilities);
+  // Orsino's generated spells and Kyr's own, those with an SRD counterpart brought to it (SrdSpells).
+  static readonly srdSpells = srdSpells.spells as Record<string, SrdSpell>;
+  static readonly abilities = SrdSpells.convert(Canon.merge<Ability>('ability', orsinoAbilities.abilities,
+    abilities.abilities), Canon.srdSpells);
   static readonly conditions = Canon.merge<Condition>('condition', orsinoConditions.conditions,
     { ...conditions.conditions, ...Canon.favours() });
   static readonly traits = Canon.merge<Trait>('trait', orsinoTraits.traits, traits.traits);
