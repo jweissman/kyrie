@@ -63,8 +63,8 @@ export class Runner {
   private offer(screen: Screen, offer: Offer | undefined): Said['offer'] {
     // Only what can be done by its id: a choice the page draws by a key of its own that names no command is left out.
     const names = this.names();
-    const [primary, rest] = [offer?.primary ?? [], offer?.rest ?? []]
-      .map(list => list.map(o => Runner.choice(screen, names, o)).filter(o => Runner.doable(names, o)));
+    const primary = Runner.doable(screen, names, offer?.primary ?? []);
+    const rest = Runner.doable(screen, names, offer?.rest ?? []);
     const had = new Set([...primary, ...rest].map(o => o.id));
     // A journey the map offers and the scene does not (the terminal sets out by them too).
     const journeys = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
@@ -82,8 +82,8 @@ export class Runner {
     return { id, label: Typography.plain(named || own || o.label), aspects: o.aspects, type: o.type,
       ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind) };
   }
-  private static doable(names: Map<string, string>, o: Offered): boolean {
-    return names.has(o.id) || o.id.startsWith('travel:');
+  private static doable(screen: Screen, names: Map<string, string>, list: Glanced[]): Offered[] {
+    return list.map(o => Runner.choice(screen, names, o)).filter(o => names.has(o.id) || o.id.startsWith('travel:'));
   }
   private static next(n: Successor): Next {
     return { text: Typography.plain(n.text), ...n.command ? { act: n.command } : {},
