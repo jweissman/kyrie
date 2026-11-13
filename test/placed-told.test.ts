@@ -33,15 +33,21 @@ class Placed {
     return Object.keys(read.inhabitants).filter(g => /__(s1_u_|w\d+_|e1_)/.test(g) && world.one('temperament', g)
       && !/elsewhere|_beyond$/.test(world.one('at', g) ?? 'elsewhere'))
       .map(id => ({ id, temper: world.one('temperament', id)!, at: world.one('at', id)!,
-        ...this.fought(c, Beside.foes(world, read, id)) }));
+        ...this.fought(c, Beside.foes(world, read, id)),
+        ...world.holds(JSON.stringify(['drawable', id])) ? { flight: this.fought(c, Beside.foes(world, read, id), true)
+          .flight } : {} }));
   }
   // How often a lone first-level warrior beats them, and whether he was offered Flight on his first turn each time.
-  static fought(c: Campaign, members: string[]): { won: number; flight: boolean } {
+  // A band that can be drawn out (heard from the next room: inhabitants.kyr) is met ready by a company that drew it
+  // out and waited for it: its Flight is reckoned so, as that is the way out the telling gives.
+  static fought(c: Campaign, members: string[], ready = false): { won: number; flight: boolean } {
     let won = 0, flight = true;
     for (let n = 0; n < fights; n++) {
       const content = new Content(`told-${n}`);
-      const hero = CombatProjection.fighter(content.createCreature('hero', { raceId: 'human', classId: 'warrior' },
+      const made = CombatProjection.fighter(content.createCreature('hero', { raceId: 'human', classId: 'warrior' },
         `hero:${n}`), 'fighters');
+      const hero = ready ? { ...made, statuses: [...made.statuses, { id: 'ready', remaining: 1,
+        clock: 'until-removed' as const }] } : made;
       const foes = members.map((id, k) => ({ ...CombatProjection.fighter(structuredClone(
         c.readout.creatures.find(x => x.id === id)!), 'goblins'), id: `foe${k}` }));
       // At play's limit of turns (Battle's 500): at 60 a long fight had ended a draw, and was counted lost.
