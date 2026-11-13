@@ -8,7 +8,7 @@ import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { Glyphs } from '../creation/glyphs';
-import { Emphasis, type Tone } from '../emphasis';
+import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether

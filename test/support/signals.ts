@@ -5,7 +5,7 @@ import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
 import type { Choice } from '../../src/ui/choice-list';
 import { TalkFocus } from '../../web/reader/talk-focus';
-import { Emphasis } from '../../web/reader/emphasis';
+import { Emphasis } from '../../src/presentation/emphasis';
 
 // What someone's likeness is drawn for is found again inside: a person drawn blue has a question to ask drawn blue and
 // in view, one drawn rose the asking to come along (the owner, 12 November: blue pips with no blue question, a rose

@@ -6,7 +6,11 @@ import { createInterface, type Interface } from 'node:readline';
 // 12, B: T24-19; the reproducibles' "piping every command at once runs only the first"). The end of the input is
 // asked as nothing more to say (null): the game leaves as on q. Lines not typed at a terminal are echoed after their
 // prompt, so that a transcript of piped play reads as the game was played.
-export class TerminalInput {
+// What the terminal asks its player through: the keyboard or a pipe (TerminalInput), or a walk that answers as a
+// style of player would (TerminalWalk).
+export interface Asking { ask(prompt: string): Promise<string | null>; close(): void }
+
+export class TerminalInput implements Asking {
   private readonly lines: string[] = [];
   private waiting?: (line: string | null) => void;
   private ended = false;

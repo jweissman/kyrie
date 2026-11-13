@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
-import { Emphasis, type Tone } from '../emphasis';
+import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { Frame } from '../../engine/protocol';

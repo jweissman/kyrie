@@ -7,7 +7,7 @@ import { AtHand } from './at-hand';
 import { Pastime } from './pastime';
 import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
-import { Emphasis, type Tone } from '../emphasis';
+import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { WorldStage } from './world-stage';
 

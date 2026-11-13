@@ -9,7 +9,7 @@ import { SceneSurface } from './scene-surface';
 import { Wayfinder, type Way } from './wayfinder';
 import { WorldStage } from './world-stage';
 import { PlaceStage } from './place-stage';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 import { ChoiceRow } from './choice-row';
 
 // Mission 21's attention composition (?look=attend; proposal.md, composition B). The owner, 12 November: "There

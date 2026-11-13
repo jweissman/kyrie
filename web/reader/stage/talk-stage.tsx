@@ -14,7 +14,7 @@ import { Told } from './told';
 import { Wares, type Ware } from '../wares';
 import { TalkFocus } from '../talk-focus';
 import { AimNear } from '../aim-near';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
 import { ChoiceRow } from './choice-row';

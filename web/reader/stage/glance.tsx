@@ -11,7 +11,7 @@ import { MenuModel } from '../menu-model';
 import { Followed } from '../followed';
 import { Aims } from '../aims';
 import { Words } from '../words';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';

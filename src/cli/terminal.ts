@@ -1,4 +1,7 @@
-import { TerminalInput } from './terminal-input';
+import { TerminalInput, type Asking } from './terminal-input';
+import { TerminalScene } from './terminal-scene';
+import { TerminalColour } from './terminal-colour';
+import { Emphasis } from '../presentation/emphasis';
 import { Typography } from '../presentation/typography';
 import { writeFile } from 'node:fs/promises';
 import { Content } from '../content';
@@ -24,19 +27,19 @@ import type { Aspect, Glance, Promoted, Successor } from '../presentation/glance
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
-interface Listed { id: string; name: string; time: number; targets?: string[]; said?: string }
+interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[] }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
-interface Turn { told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking }
-// The page's signals in words (its colours are web/reader/emphasis.ts): a headless player had seen no gold and no pip,
-// and could neither follow an aim nor tell what a mark promised (M21's playability investigation).
-const signal: Record<Aspect, string> = { undertaking: 'gold: your aim', exploration: 'silver', payoff: 'green: to gain',
-  knowledge: 'blue: to learn', danger: 'red: danger', wonder: 'violet', companionship: 'rose: a companion' };
+interface Turn {
+  told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
+  scene?: TerminalScene; helped?: boolean; attended?: boolean;
+}
 
 // A text client over the same public projection and command path as the browser. It decides layout and input only:
 // PlayerView decides what is legal, ScreenModel/Narrator what the player knows, and PlaySession performs every act.
 export class Terminal {
-  static async command(state: BattleState, legal: Command[], input: TerminalInput): Promise<Command | null> {
+  static readonly commands = 'Commands: a number · all · look · map · character · aims · follow <n> · save <path> · q';
+  static async command(state: BattleState, legal: Command[], input: Asking): Promise<Command | null> {
     // By name, never by id ("region__s2_u_rats_person_2" had stood in the table: the headless review, 12 November).
     console.table(state.combatants.map(f => ({ name: f.name, hp: `${f.hp}/${f.maxHp}`,
       mana: f.mana, statuses: f.statuses.map(s => s.id).join(', ') })));
@@ -61,7 +64,7 @@ export class Terminal {
   }
   // A strike is the weapon's own blow, melee or ranged, by its id: by its name, "Melee Attack" had come fifth.
   private static blow(c: ActionChoice): number { return Number(!['melee', 'ranged'].includes(c.ability.id)); }
-  static async target(choice: ActionChoice, state: BattleState, input: TerminalInput): Promise<Command | 'back' | null> {
+  static async target(choice: ActionChoice, state: BattleState, input: Asking): Promise<Command | 'back' | null> {
     console.log(`${choice.ability.name} — choose a target:`);
     choice.commands.forEach((command, index) => {
       const target = state.combatants.find(f => f.id === command.target)!;
@@ -76,7 +79,7 @@ export class Terminal {
       console.log('Choose an eligible target.');
     }
   }
-  static async battle(battle: Battle, input: TerminalInput): Promise<Command[] | null> {
+  static async battle(battle: Battle, input: Asking): Promise<Command[] | null> {
     const commands: Command[] = [];
     while (!battle.state.outcome) {
       const state = battle.state;
@@ -93,18 +96,14 @@ export class Terminal {
     return commands;
   }
   // whole: looked at deliberately, with what the glance leaves out (Narrator's held: three sentences at a glance).
-  private static scene(session: PlaySession, told?: Told, whole = false) {
-    const screen = ScreenModel.build(session.campaign), leaf = Narrator.leaf(session.campaign, screen, told);
-    console.log(`\n${screen.place.name} · ${screen.clock}${screen.weather ? ` · ${screen.weather}` : ''}`);
-    // At a glance, as the page tells it (Narrator's glanced); looked at, the place whole.
-    const seen = whole || !leaf.glanced ? leaf : leaf.glanced;
-    const prose = [...seen.situation, ...seen.presence, ...leaf.changed];
-    // What came of coming here, as the glance tells it: the lines it leaves are the place's more, told on a look.
-    const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
-    if (leaf.exchange) { prose.push(...leaf.exchange.lines.map(l => l.text).filter(t => !unsaid.has(t))); }
-    for (const line of prose) { console.log(Typography.plain(line)); }
-    if (screen.objectives.length) { console.log(`Aim: ${screen.objectives[0]}`); }
-    if (leaf.glance?.need?.length) { console.log(`Need: ${leaf.glance.need.join(' · ')}`); }
+  // Coming somewhere (or first), the place briefly; after an act, what came of it; looked at, the place whole (see
+  // TerminalScene: what has not changed is not said again).
+  private static scene(session: PlaySession, turn: Turn, whole = false) {
+    const screen = ScreenModel.build(session.campaign), leaf = Narrator.leaf(session.campaign, screen, turn.told);
+    // Following an aim or letting it go changes what is led with, not where the company is (attended).
+    const turned = whole ? 'look' : turn.attended ? 'act' : !turn.told || turn.told.moved ? 'arrive' : 'act';
+    turn.attended = false;
+    for (const line of (turn.scene ??= new TerminalScene()).lines(screen, leaf, turned)) { console.log(line); }
     return { screen, leaf };
   }
   private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
@@ -174,22 +173,17 @@ export class Terminal {
   private static way(screen: Screen, id: string): string {
     return screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command ?? id;
   }
-  private static drawn<T extends { id: string }>(acts: Promoted[], c: T): T & { said?: string } {
-    const said = this.said(acts, c.id);
-    return said ? { ...c, said } : c;
+  // What the page draws on a choice, by the page's own reading (Emphasis): what it is within what the glance leads
+  // with, and gold only on the followed aim's next step (Promoted.continues). A headless player had seen no gold and no
+  // pip, and could neither follow an aim nor tell what a mark promised (M21's playability investigation).
+  private static drawn<T extends { id: string }>(acts: Promoted[], c: T): T & { aspects?: Aspect[] } {
+    const act = acts.find(a => (a.command ?? a.choice) === c.id);
+    const next = !!act?.continues || acts.some(a => a.continues && a.for === c.id);
+    const aspects = Emphasis.drawn(Emphasis.within(acts, { command: c.id } as Choice, act?.aspects ?? []), next);
+    return aspects.length ? { ...c, aspects } : c;
   }
   private static leaves(c: Choice): Choice[] {
     return c.children?.length ? c.children.flatMap(k => this.leaves(k)) : c.command ? [c] : [];
-  }
-  // What the page draws on a choice: gold only on the followed aim's next step (Promoted.continues), else its aspects.
-  private static said(acts: Promoted[] | undefined, id: string): string | undefined {
-    const inner = acts?.flatMap(a => a.inside ?? []).find(x => x.command === id)?.aspects ?? [];
-    const act = acts?.find(a => (a.command ?? a.choice) === id);
-    // Within a talk, the aim's own question is gold as its likeness was (Emphasis.within).
-    const next = act?.continues || !!acts?.some(a => a.continues && a.for === id);
-    const tones = [...next ? ['undertaking' as const] : [], ...act?.aspects ?? [], ...inner]
-      .filter((a, i, xs) => (a !== 'undertaking' || next) && xs.indexOf(a) === i);
-    return tones.length ? tones.map(a => signal[a]).join(', ') : undefined;
   }
   // A choice typed as it is printed, or without its notes: what comes before the first " · " (its minutes, its odds),
   // without its signal in brackets, stress or curled quotes, in any case. "Read the notice on the well-post · 1 min",
@@ -201,9 +195,11 @@ export class Terminal {
   }
   // Each by its number alone: the numpad's 7/9/1/3 beside them had made "1" the third choice, not the first (the
   // headless review, 12 November).
+  // Each choice, numbered, its tones at its left edge (or said, without colour: TerminalColour).
   private static choices(rows: Listed[]) {
-    rows.forEach((c, i) => console.log(`${i + 1}. ${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`
-      + `${c.said ? `  [${c.said}]` : ''}`));
+    const depth = TerminalColour.depth();
+    rows.forEach((c, i) => console.log(TerminalColour.choice(i + 1,
+      `${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`, c.aspects ?? [], depth)));
   }
   // A journey's legs, one line each, and why it stopped short, as the page's map tells them.
   private static journey(session: PlaySession) {
@@ -249,42 +245,46 @@ export class Terminal {
     }
     console.log(`Coin ${screen.purse.coin} · rations ${screen.purse.rations}`);
   }
-  static async play(session: PlaySession) {
-    const input = TerminalInput.open();
-    const turn: Turn = {};
+  // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk).
+  static async play(session: PlaySession, input: Asking = TerminalInput.open(), scene = new TerminalScene()) {
+    const turn: Turn = { scene };
     try {
       while (session.campaign.running) {
-        turn.current ??= this.scene(session, turn.told);
+        turn.current ??= this.scene(session, turn);
         const { screen, leaf } = turn.current;
         const offered = this.foreground(session, leaf.glance, screen, turn.talking);
         if (turn.talking && !offered.talk) { turn.talking = undefined; }
         this.next(leaf.glance?.next, screen, offered.all);
-        console.log(offered.talk ? '\nSaid to them' : '\nForeground'); this.choices(offered.first);
-        console.log('Commands: 1-4 · all · map · character · aims · follow <n> · look · save <path> · q');
-        const answer = await input.ask('> ');
+        console.log(''); this.choices(offered.first);
+        // The commands when asked, and a word of where they are once: a line said the same after every act, and a
+        // heading over the choices, are static context (the owner, 14 November: TM-02).
+        if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }
+        let answer = await input.ask('> ');
+        while (answer === '') { answer = await input.ask('> '); }
         if (answer === null || answer === 'q' || answer === 'quit') { return; }
         if (await this.aside(session, answer, offered.all, turn)) { continue; }
         const numbered = Number(answer) - 1;
         const choice = numbered >= 0 && numbered < offered.first.length ? offered.first[numbered]
           : offered.all.find(c => c.id === answer || Terminal.same(c.name, answer));
         if (!choice) {
-          console.log('Choose a foreground number/shortcut, or type an exact label or command id from all.');
+          console.log('Choose a number, or type a choice as it is written (all lists every one; ? the commands).');
           continue;
         }
         if (!await this.act(session, choice, turn, input)) { return; }
       }
-      this.scene(session, turn.told);
+      this.scene(session, turn);
       console.log('The story has ended.');
     } finally { input.close(); }
   }
   // What is not an act in the story: looking again, the map, the sheet, the aims, the whole list, a save.
   private static async aside(session: PlaySession, answer: string, all: Listed[], turn: Turn): Promise<boolean> {
-    if (answer === 'look') { turn.told = undefined; turn.current = this.scene(session, undefined, true); return true; }
+    if (answer === 'look') { turn.told = undefined; turn.current = this.scene(session, turn, true); return true; }
+    if (answer === 'help' || answer === '?') { console.log(Terminal.commands); return true; }
     if (answer === 'map') { this.map(session); return true; }
     if (answer === 'character' || answer === 'dossier') { this.dossier(session); return true; }
     if (answer === 'aims') { this.aims(session, answer); return true; }
     if (/^(follow \d+|unfollow)$/.test(answer)) {
-      this.aims(session, answer); turn.current = undefined; turn.told = undefined; return true;
+      this.aims(session, answer); turn.current = undefined; turn.told = undefined; turn.attended = true; return true;
     }
     if (answer === 'all') { console.log('\nAll legal interactions'); this.choices(all); return true; }
     if (!answer.startsWith('save ')) { return false; }
@@ -295,7 +295,7 @@ export class Terminal {
     return true;
   }
   // One act, its fight the player's; false if the player left the game in a fight.
-  private static async act(session: PlaySession, choice: Listed, turn: Turn, input: TerminalInput): Promise<boolean> {
+  private static async act(session: PlaySession, choice: Listed, turn: Turn, input: Asking): Promise<boolean> {
     const before = PlayerView.observe(session.campaign);
     const does = PlayerView.choices(session.campaign).find(r => r.choice.id === choice.id)?.action.schema;
     try {

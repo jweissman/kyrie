@@ -6,7 +6,7 @@ import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { Wayfinder, type Way } from './wayfinder';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 
 // The scene's lenses (the owner, 12 November: the cinematic study, made the one resting scene). Go and Look turned on
 // show what they hold across the foot of the painting, as the talk lens shows who is here: a small tile for each way

@@ -3,7 +3,7 @@ import type { ReaderApp } from '../reader-app';
 import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emblems } from '../../../src/presentation/emblems';
 import { SceneKinds } from '../../../src/ui/scene-kinds';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { PlaceStage } from './place-stage';
 
