@@ -1,3 +1,6 @@
+import { Amounts } from '../rules/amounts';
+import { Defenses } from '../rules/defenses';
+import type { Species } from '../canon/schema';
 import { Canon } from '../canon/canon';
 import { CanonValidation } from '../canon/canon-validation';
 import { Advancement } from '../rules/advancement';
@@ -50,6 +53,7 @@ export class MonsterManual {
     entries: Object.keys(Canon.devices).sort().map(id => this.creature(id)) };
   }
   static hitPoints(st: NonNullable<ReturnType<typeof Canon.creature>['statistics']>): string {
+    if (st.hitDice) { return `${Amounts.listed(st.hitDice)} (${st.hitDice}), whatever level it is met at`; }
     if (st.hitPoints) { return `${st.hitPoints}`; }
     const g = st.growth?.hitPoints;
     return g ? `${g.base} + Constitution modifier + ${g.perLevel} a level` : `d${st.hitDie ?? 0} a level`;
@@ -65,7 +69,9 @@ export class MonsterManual {
         ['Qualities', st.attributes === 'rolled' ? 'rolled (3d6 each)' : MonsterManual.scores(st.attributes)] as [string, string],
         ['Attack', MonsterManual.attacks(st.attacks?.length ? st.attacks : [st.weapon])] as [string, string]] : [],
       ...armor?.armor ? [['Hide', `${armor.name}, armour ${armor.armor.ac}`] as [string, string]] : [],
-      ...s.resistances && Object.keys(s.resistances).length ? [['Resists', MonsterManual.resistances(s.resistances)] as
+      ...Object.keys(Defenses.fractions(s.defenses)).length ? [['Resists',
+        MonsterManual.resistances(Defenses.fractions(s.defenses))] as [string, string]] : [],
+      ...MonsterManual.defenses(s.defenses).length ? [['Defenses', MonsterManual.defenses(s.defenses)] as
         [string, string]] : [],
       ...(s.abilities ?? []).some(a => Canon.abilities[a]?.spell) ? [['Spells a day', MonsterManual.castings()] as
         [string, string]] : [],
@@ -127,6 +133,14 @@ export class MonsterManual {
     return ids.map(g => named[g]?.name.toLowerCase() ?? g.replace(/_/g, ' ')).join(', ');
   }
   static signed(n: number): string { return `${n > 0 ? '+' : ''}${n}`; }
+  // Its typed defenses beside its fractions: what it is immune to, turns, reduces unless passed, and mends.
+  static defenses(defenses: Species['defenses']): string {
+    return (defenses ?? []).flatMap(d => d.kind === 'immunity' ? [`immune to ${d.to.join(', ')}`]
+      : d.kind === 'resistance' ? d.mode === 'flat' ? [`${d.to.join(', ')} ${d.amount} off each blow`] : []
+        : d.kind === 'reduction' ? [`turns ${d.amount} of a blow${d.unless?.length ? ` unless ${d.unless.join(' or ')}` : ''}`]
+          : [`mends ${d.amount} a turn${d.stoppedBy?.length ? ` unless struck by ${d.stoppedBy.join(' or ')}` : ''}`])
+      .join('; ');
+  }
   static resistances(r: Record<string, number>): string {
     return Object.entries(r).map(([k, v]) => v >= 1 ? `immune to ${k}` : v > 0 ? `${k} ${Math.round(v * 100)}%`
       : `${k} takes ${Math.round(-v * 100)}% more`).join(', ');

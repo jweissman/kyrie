@@ -3,7 +3,7 @@ import { Narration } from '../presentation/narration';
 import { Effects } from '../effects';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
-import { ConditionSense } from '../presentation/condition-sense';
+import { ConditionSense } from '../canon/condition-sense';
 import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
 import type { BattleState, CombatEvent, Fighter } from '../model';

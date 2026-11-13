@@ -43,6 +43,9 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   // The words they are spoken of in, chosen at creation as how they present (a woman, a man, neither): the world's
   // pronouns for them (see CompanyChoices).
   pronouns?: 'she' | 'he' | 'they';
+  // A kind with Hit Dice has their listed average, unless its dice are rolled from its own seed (the SRD adaptation
+  // briefing, §1: an optional rolled-monster mode, the same expression thrown).
+  hitPoints?: 'listed' | 'rolled';
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
@@ -94,6 +97,12 @@ export class Content {
     const roll = this.runtime.evaluate(`1d${options.length}`) as number;
     return options[roll - 1]!;
   }
+  // A throw of dice from this generator's seeded stream (a kind's Hit Dice, rolled).
+  roll(expression: string): number {
+    const value = this.runtime.evaluate(expression);
+    if (typeof value !== 'number' || !Number.isSafeInteger(value)) { throw new Error(`Not a throw: ${expression}`); }
+    return value;
+  }
   // A summoned or ad hoc creature of a species.
   creature(species: string, id: string, team: Fighter['team'], level?: number): Fighter {
     if (!Canon.isSpecies(species)) { throw new Error(`Unknown species ${species}`); }
@@ -117,7 +126,8 @@ export class Content {
       || CreatureSchema.attributes.some(key => context[key] !== undefined
         && (!Number.isSafeInteger(context[key]) || context[key]! < 1))
       || Object.values(context.rolled ?? {}).some(v => !Number.isSafeInteger(v) || v < 3 || v > 18)
-      || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1));
+      || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1))
+      || (context.hitPoints !== undefined && !['listed', 'rolled'].includes(context.hitPoints));
   }
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
@@ -171,7 +181,8 @@ export class Content {
     const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, stream('spells'));
     creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
       ...context.abilities ?? []])].filter(a => Creation.executable(a));
-    creature.base.maxHp = creature.state.hp = Creation.health(chassis, level, creature.base.constitution);
+    const thrown = chassis.hitDice && context.hitPoints === 'rolled' ? stream('hitPoints').roll(chassis.hitDice) : undefined;
+    creature.base.maxHp = creature.state.hp = Creation.health(chassis, level, creature.base.constitution, thrown);
     // Spells spend slots by level; the general pool is only for techniques that cost something, and none does yet.
     creature.base.maxMana = creature.state.mana = 0;
     Spellcasting.equip(creature);

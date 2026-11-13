@@ -1,3 +1,4 @@
+import type { Guarded } from './rules/defenses';
 import type { ConditionInstance } from './creature';
 export type { Creature } from './creature';
 
@@ -50,6 +51,8 @@ export interface Fighter {
   // Who last hurt it in this fight, and the harm it has done the other side: what a foe reads in choosing whom to go
   // for (see Quarry).
   struck?: string; harm?: number;
+  // Harm of a kind its regeneration cannot mend, taken since its last turn ended (see Defenses).
+  unmended?: string;
 }
 // A fight that came at the company gives it a moment before it closes, in which it can get back the way it came for
 // certain (PT-10): seen as it began, the company acts first; sprung on it from hiding, the other side does, and the
@@ -68,7 +71,11 @@ export type CombatEvent = (
   | { type: 'damage' | 'heal'; turn: number; actor: string; target: string;
     rolled: number; amount: number; hp: number; damageType?: string;
     modifiers?: { bonus: number; resistance: number; reduction: number; absorbed?: number;
-      critical?: number; halfSave?: boolean } }
+      critical?: number; halfSave?: boolean;
+      // What its defenses kept off the blow, and a defense a tag of the blow passed (see Defenses).
+      guarded?: Guarded[]; bypassed?: Guarded[] };
+    // A regeneration that harm of this kind stopped at its turn's end (a heal of nothing).
+    stoppedBy?: string }
   // Orsino's attack roll: die at or above need hits (need = THAC0 − armourClass − toHit); evasion may cancel a hit.
   | { type: 'attack'; turn: number; actor: string; target: string; die: number; need: number; toHit: number;
     armorClass: number; weapon: string; success: boolean; critical: boolean; evaded?: boolean }

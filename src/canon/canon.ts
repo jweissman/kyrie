@@ -30,6 +30,7 @@ import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
 import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
 import professions from '../../data/catalog/professions.json';
 import forms from '../../data/catalog/forms.json';
+import { Defenses } from '../rules/defenses';
 import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type Forms, type KyrProfession } from './background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, Habitat, ItemKind, Plant, Procedure, Skill,
@@ -98,14 +99,23 @@ export class Canon {
   static readonly ancestries = ancestries.ancestries as unknown as Record<string, Ancestry>;
   // The base creatures, every one in one of two authored files (animals.json, monsters.json): Orsino's kinds among
   // them by provenance (source.orsino), none generated beside them (the owner, 5 November: one authoritative record).
-  static readonly species = Canon.lived({ ...animals.species, ...monsters.species } as unknown as
-    Record<string, Species>);
+  static readonly species = Canon.defended(Canon.lived({ ...animals.species, ...monsters.species } as unknown as
+    Record<string, Species>));
   // The kinds a module installed as it loaded (see LocalCatalog), belonging to the world that wrote them.
   static readonly installed = new Set<string>();
   // The catalog's own kinds: what generation draws from, never a module's own.
   static get catalogued(): string[] { return Object.keys(this.species).filter(id => !this.installed.has(id)); }
   // The devices that fight without being creatures (data/catalog/devices.json): a turret, a ward, a bomb.
-  static readonly devices = devices.devices as unknown as Record<string, Species>;
+  static readonly devices = Canon.defended(devices.devices as unknown as Record<string, Species>);
+  // A body's old resistance map (Orsino's fractions) as its typed defenses, before any it states (the SRD adaptation
+  // briefing, §3: introduce defenses, translate the old map at canon load), so that every reader reads defenses.
+  private static defended(records: Record<string, Species>): Record<string, Species> {
+    return Object.fromEntries(Object.entries(records).map(([id, r]) => {
+      if (!r.resistances) { return [id, r]; }
+      const { resistances, ...rest } = r;
+      return [id, { ...rest, defenses: [...Defenses.translated(resistances), ...r.defenses ?? []] }];
+    }));
+  }
   // The stuff things are made of (data/catalog/materials.json): named once, and by its id wherever something is of it.
   static readonly materials = materials.materials as unknown as Record<string, Material>;
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;

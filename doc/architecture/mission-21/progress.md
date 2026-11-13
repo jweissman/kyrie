@@ -6,9 +6,11 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
 
 | Line | Who | Where | State |
 |---|---|---|---|
-| Phase 0: the fast loop | lead | branch `m21` (`/var/tmp/kyrie/wt-m21`) | small lane and the brief's five regressions in; next: ports of the dearest Westernesse specs' rules, the suites named, CI's cost |
-| Playability investigator | independent agent | branch `m21-play` | started 12 Nov night: reproducing human-reported failures; P0/P1 list in `playability.md` |
-| Aesthetic investigator | independent agent | branch `m21-look` | started 12 Nov night: critique, compositions, design system in `aesthetic/` |
+| Phase 0: the fast loop | lead | branch `m21` (`/var/tmp/kyrie/wt-m21`) | small lane (20+ files, ≈ 5 s), ten mechanics on the real kernel (Experiment A), the push lane (CI per push 35 → 5–6 min), PresenceGate (grounding −20 % of a wait) |
+| Playability investigator | independent agent | branch `m21-play` | two batches on main: PL-01..03, 05, 08..11 fixed (P0s 05, 08, 11); list in `playability.md` |
+| Aesthetic investigator | independent agent | branch `m21-look` | investigation merged (3b9d0a36); integration (Menu, typed narration budget, layouts) paused at the 13 Nov crash, uncommitted work in its tree |
+| World construction (Experiment B) | independent agent | branch `m21-world` | paused at the crash (one new spec in its tree) |
+| SRD rules as invariants | independent agent | branch `m21-rules` | hit dice as Deem amounts, typed defenses, the honest catalog: resumed |
 
 ## Log
 
@@ -17,3 +19,9 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   (the five regressions, 0.1–0.4 s each, each checked against its fault). Fixed on the way: a band's line said of one
   (T24-19, "one of him says"); "Invalid initial knowledge" now names the fact and the remedy. `signal-inside` shares
   its check with the small spec (`test/support/signals.ts`).
+- **13 Nov, early.** CI split: every push runs the push lane (`test/lanes.json`, 524 files) in eight shards, 5–6 min;
+  the whole suite nightly and on demand. `--no-isolate` on CI gains nothing (not adopted); kept prefixes −17 % on
+  `ombra-local`; `LandModel.goes` memo; `PresenceGate` (an action needing someone beside the actor grounded only where
+  they are; checked sound by `KYRIE_CHECK_GATES=1`). WSL crashed with four agents: since then two at a time.
+  T24-19 (round 12, B) burned down with small regressions: piped terminal input, typed labels, doubled way labels,
+  `*stress*`, the hare and the boy, no weather underground, stated time. Playability batches 1–2 integrated.

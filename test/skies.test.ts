@@ -8,7 +8,7 @@ class Fake {
   static world(at: string): World {
     const states = [{ name: 'state', args: ['region__sky', 'region__weather_sunny'] },
       { name: 'state', args: ['gaunt__sky', 'gaunt__weather_freezing'] }];
-    return { related: (name: string) => name === 'state' ? states : [], one: () => at } as unknown as World;
+    return { related: (name: string) => name === 'state' ? states : [], one: () => at, module: { entities: [] } } as unknown as World;
   }
 }
 

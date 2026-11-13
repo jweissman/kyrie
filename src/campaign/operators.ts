@@ -4,6 +4,7 @@ import type { CampaignActor } from './definition';
 import type { Call, Module, Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { Candidates } from '../lang/candidates';
+import { PresenceGate } from './presence-gate';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -62,11 +63,26 @@ export class Operators {
         if (world.test(schema.requires) && world.admits(schema.success)) { out.push(schema); }
         continue;
       }
-      out.push(...this.bindings(world, schema, actor !== undefined ? { actor } : {})
-        .filter(b => world.test(schema.requires, b)).map(b => this.make(schema, b))
-        .filter(op => world.admits(op.success)));
+      // Not where whoever it needs beside the actor is not (see PresenceGate): a word with someone elsewhere.
+      if (actor !== undefined && !PresenceGate.open(world, schema, actor)) {
+        if (Operators.checking) { this.unneeded(world, schema, actor); }
+        continue;
+      }
+      out.push(...this.grounded(world, schema, actor));
     }
     return out;
+  }
+  private grounded(world: World, schema: Operator, actor?: string): Operator[] {
+    return this.bindings(world, schema, actor !== undefined ? { actor } : {})
+      .filter(b => world.test(schema.requires, b)).map(b => this.make(schema, b))
+      .filter(op => world.admits(op.success));
+  }
+  // KYRIE_CHECK_GATES=1: every action the gate passes over is grounded anyway, and its being possible is an error. Read
+  // only where there is a process: in the browser a bare process.env had stopped the game loading (13 November).
+  static checking = typeof process !== 'undefined' && process.env?.KYRIE_CHECK_GATES === '1';
+  private unneeded(world: World, schema: Operator, actor: string) {
+    const found = this.grounded(world, schema, actor);
+    if (found.length) { throw new Error(`PresenceGate closed ${schema.id} for ${actor}, but ${found[0]!.id} holds`); }
   }
   private make(schema: Operator, binding: Binding): Operator {
     const id = `${schema.id}(${schema.parameters!.map(p => binding[p.name]).join(',')})`;
