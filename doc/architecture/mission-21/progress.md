@@ -75,6 +75,6 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
 - **14 Nov, small hours.** Register reconciled: §19's ids are OPR-01..07 (no id now names two rows); the PL list carried
   in as §25; `scripts/register-state.ts` counts the register by its own columns at any revision (since M20 landed:
   fixed 42 → 62, open 146 → 141, P1 open 19 → 15); `mission-21/debt.md` is M21's row of M20's inflow table and what
-  M21's own work shows. Held rows 53 of the game's 67 fixed. AR-05 in part: the roll of who is here said apart
+  M21's own work shows. Held rows 42 of the game's 62 fixed (by the status column alone). AR-05 in part: the roll of who is here said apart
   (`Leaf.roll`), the page's word-match gone (`small/roll-apart`). The full run on 14594d9d failed only
   `wren-tower-climbed` (re-digested: it comes where it came); a full run dispatched on c610ca2d.
