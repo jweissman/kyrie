@@ -17,7 +17,8 @@ class Field {
     const f = CombatProjection.fighter(new Content(`field-${spell}`).createCreature('caster', { raceId, classId, level }), 'fighters');
     const tier = Canon.abilities[spell]!.spell?.level ?? 0;
     if (!f.abilities.includes(spell)) { f.abilities.push(spell); }
-    if (tier) { f.prepared![tier - 1]![0] = spell; f.ready![tier - 1]![0] = spell; }
+    // Prepared if it has a slot of that level (Summon Swarm is of the second, past a first-level mage's).
+    if (tier && f.prepared?.[tier - 1]) { f.prepared[tier - 1]![0] = spell; f.ready![tier - 1]![0] = spell; }
     return f;
   }
   static foes(n: number): Fighter[] {

@@ -84,7 +84,9 @@ export interface Ability {
   cost?: number; recharge?: number;
   // A big blow a creature must wind up for a turn first ("rears up on its hind legs"); stun it and it is lost.
   windup?: string;
-  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string };
+  // power: the level a kind casts it at as its own power (a vampire's drain), where that is not its level as a spell:
+  // Orsino's, kept for the kinds that have it as theirs while the spell is the SRD's (SrdSpells).
+  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string; power?: number };
   // Orsino's ability level gate for a technique (a level-2 skill such as Meditate).
   level?: number;
   // Orsino's spell save: offensive spells whose damage halves or negates give each target a save first.

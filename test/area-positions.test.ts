@@ -13,8 +13,9 @@ import type { CombatEvent, Command, Fighter } from '../src/model';
 const c = new Content('areas');
 const hardy = (f: Fighter, level = 5): Fighter => ({ ...f, level, hp: 500, maxHp: 500 });
 const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.weapon('shortbow') } });
+// Fireball of the third level, as the SRD has it; saved against by Reflex.
 const mage = (): Fighter => ({ ...hardy(c.character('mage', 'mage', 'fighters'), 7), abilities: ['fireball'],
-  maxSlots: [0, 0, 0, 1], slots: [0, 0, 0, 1], prepared: [[], [], [], ['fireball']], ready: [[], [], [], ['fireball']] });
+  maxSlots: [0, 0, 1], slots: [0, 0, 1], prepared: [[], [], ['fireball']], ready: [[], [], ['fireball']] });
 const battle = (combatants: Fighter[], seed: string) =>
   new Battle({ id: 'areas', combatants, abilities: Content.abilities }, seed, 200);
 // Steps the fight until `who` is to act, everyone else of the company waiting and the other side doing as it would.
@@ -53,7 +54,7 @@ describe('a fireball', () => {
     const events = b.step(into);
     expect(hurt(events, 'fire')).toEqual(['g1', 'g2', 'warrior']);
     // Each caught saves against it, the friend too; the mage and the archer behind are not touched.
-    expect(events.filter(e => e.type === 'save' && e.kind === 'magic').map(e => e.type === 'save' ? e.target : '').sort())
+    expect(events.filter(e => e.type === 'save' && e.kind === 'reflex').map(e => e.type === 'save' ? e.target : '').sort())
       .toEqual(['g1', 'g2', 'warrior']);
   });
   it('aimed over the press into the foe\'s rear catches only the archer there', () => {

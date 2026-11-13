@@ -101,7 +101,8 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const picks = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'];
     const novice = Probe.creature('novice', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'], spells: picks });
     expect(novice.base.abilities).toEqual(['defend', 'cure_minor', 'sanctify', ...picks]);
-    expect(Canon.abilities.resist_fire!.spell).toEqual({ tradition: 'divine', level: 2, domain: 'life' });
+    expect(Canon.abilities.resist_fire!.spell).toEqual({ tradition: 'divine', level: 2, domain: 'life',
+      school: 'abjuration' });
     expect(source('divineSpell:resist_fire').domain).toBe('life');
     const plan = SpellSelection.plan(Canon.traits.vitalist!);
     expect(plan.levels.map(l => l.count)).toEqual([3, 2, 1]);
@@ -136,9 +137,9 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
 
   it('treats a spell and a passive trait as different things with the same modifier vocabulary', () => {
     const elder = Probe.creature('elder', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'], level: 3,
-      spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'] });
+      spells: ['cure', 'bless', 'anoint', 'cure_moderate', 'resist_fire', 'prayer'] });
     const ally = Probe.creature('ally', { classId: 'warrior', raceId: 'human', traits: ['brave'] });
-    Spellcasting.prepare(elder.state, 1, 'prayer', 'resist_fire');
+    Spellcasting.prepare(elder.state, 1, 'cure_moderate', 'resist_fire');
     const { recipient } = Probe.cast(elder, 'resist_fire', ally);
     expect(recipient.statuses.map(s => s.id)).toEqual(['fireproof']);
     expect(Effects.modifiers(recipient).resistances?.fire).toBe(0.5);

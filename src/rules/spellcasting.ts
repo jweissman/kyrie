@@ -22,6 +22,10 @@ export class Spellcasting {
     const bonus = Fighting.statMod(scores[casting.attribute] ?? 10) >= 2 ? 1 : 0;
     return row.map((n, i) => (i === 0 ? n + bonus : n));
   }
+  // The level an ability is gated at: a spell's, or for a kind casting it as its own power, the power's (SrdSpells).
+  static gate(a: { spell?: { level: number; power?: number }; level?: number }, innate = false): number {
+    return (innate ? a.spell?.power : undefined) ?? a.spell?.level ?? a.level ?? 0;
+  }
   static levelOf(id: string): number { return Content.abilities.find(a => a.id === id)?.spell?.level ?? 0; }
   // The levelled spells a creature knows, in the order it learned them.
   static known(creature: { base: { abilities: string[] }; state: { learnedAbilities?: string[] } }): string[] {

@@ -32,7 +32,9 @@ export class SrdSpells {
     const saved = effects && c.save ? this.saved(a, effects, c.save) : { effects, resist: a.resist };
     const rest = { ...a };
     delete rest.resist;
-    return { ...rest, spell: { ...a.spell!, level: c.level, school: c.school },
+    // A kind casting it as its own power casts it as it did (at Orsino's level), until the kind is the SRD's.
+    const power = a.spell!.level !== c.level ? { power: a.spell!.power ?? a.spell!.level } : {};
+    return { ...rest, spell: { ...a.spell!, level: c.level, school: c.school, ...power },
       ...saved.effects ? { effects: saved.effects } : {}, ...saved.resist ? { resist: saved.resist } : {},
       source: { ...a.source, srd35: c.srd35, conversion: 'srd35-westernesse-v1', fidelity: 'adapted',
         ...c.notes ? { notes: c.notes } : {} } };

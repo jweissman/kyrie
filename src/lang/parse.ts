@@ -47,7 +47,7 @@ export interface ArenaAbility {
   id: string; name: string; effects: Effect[]; cost?: number; cooldown?: number;
   description?: string;
   // A spell spends a slot and is gated by its level; a technique with a level is gated the same way.
-  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string };
+  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string; power?: number };
   level?: number;
   resist?: { kind: string; difficulty: Amount };
   requires?: { status?: string; notStatus?: string; interceptWeapon?: true };

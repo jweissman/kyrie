@@ -167,7 +167,7 @@ export class Battle {
     const m = Effects.modifiers(actor);
     const usable = this.abilities.filter(a => known.includes(a.id) && Spellcasting.affordable(actor, a)
       && !(actor.cooldowns[a.id] ?? 0)
-      && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(actor.level)
+      && Spellcasting.gate(a, actor.innate?.includes(a.id)) <= Fighting.maxSpellLevel(actor.level)
       && !(a.spell && m.noSpellcasting)
       && (!a.requires?.status || actor.statuses.some(s => s.id === a.requires!.status))
       && (!a.requires?.notStatus || !actor.statuses.some(s => s.id === a.requires!.notStatus))
