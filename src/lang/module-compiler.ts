@@ -21,11 +21,17 @@ export class ModuleCompiler {
   // ambiguity there: in the action, its parameter is meant. The Strewnfield's fuel_lamp could not be installed into a
   // world that held a lamp (the library tour, wren).
   constructor(private readonly capabilities: Signature[] = [], private readonly joined = false) {}
-  validate(module: Module) {
+  // goals: predicates over the module (a pressure's measure, outcomes, people's goals), each checked in the one pass
+  // with it, rather than the whole module checked again as each one's goal: a scenario of a hundred people had been
+  // checked whole hundreds of times, a second of a generated start (Mission 21, world/construction.md §6).
+  validate(module: Module, goals: readonly Predicate[] = []) {
     this.lookup = { types: new Map(module.entities.map(e => [e.id, e.type])), relations: module.relations,
       predicates: [...module.relations, ...module.queries.map(q => ({ name: q.name,
         types: q.parameters.map(p => p.type), exclusive: false }))] };
-    try { this.check(module); } finally { this.lookup = undefined; this.signatures = new WeakMap(); }
+    try {
+      this.check(module);
+      for (const goal of goals) { this.predicate(module, goal); }
+    } finally { this.lookup = undefined; this.signatures = new WeakMap(); }
   }
   private check(module: Module) {
     Spatial.validate(module);

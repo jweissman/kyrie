@@ -158,16 +158,16 @@ export class ModuleAssembly {
     if (capable.length || instance.module.initial.some(c => c.call.name === 'capable')) {
       throw new Error(`Creature capabilities are read-only projections: ${capable.join(', ') || 'Initially'} sets capable`);
     }
+    // Each pressure's measure, outcome and goal a well-formed predicate over the module, checked with it once.
+    const predicates: Predicate[] = [...definition.pressures.map(pressure => ({ kind: 'compare' as const,
+      operator: '>=' as const, left: pressure.measure, right: ModuleWriter.number(0) })),
+    ...definition.outcomes.map(o => o.predicate), ...definition.actors.flatMap(a =>
+      a.goals.flatMap(g => [g.when, g.target, ...(g.urgent ? [g.urgent.when] : [])]))];
+    if (predicates.length) { compiler.validate(instance.module, predicates); }
     for (const pressure of definition.pressures) {
-      compiler.validate({ ...instance.module, goal: { kind: 'compare', operator: '>=',
-        left: pressure.measure, right: ModuleWriter.number(0) } });
       if (!instance.module.entities.some(e => e.id === pressure.id && e.type === 'pressure')) {
         throw new Error('Unknown pressure');
       }
-    }
-    for (const p of [...definition.outcomes.map(o => o.predicate), ...definition.actors.flatMap(a =>
-      a.goals.flatMap(g => [g.when, g.target, ...(g.urgent ? [g.urgent.when] : [])]))]) {
-      compiler.validate({ ...instance.module, goal: p });
     }
   }
   // Controllers for the manifest's actors, the company and declared people, with their goals and pursuits.

@@ -24,7 +24,8 @@ a script in `tools/` (see the last section); nothing is estimated unless it says
   for the first, 5–6 s by the tenth, 10–18 s past the twentieth; 181 s for 25.
 - **Fixed here, its quadratic part:** `Discovery.validate` read every installation's initial facts once per source
   (207–522 ms of each of the first twelve installs, 7–12 ms now; the world identical at every step). The rest is
-  structural and is ranked below, not changed in this pass.
+  structural and is ranked below, not changed in this pass. Also fixed, for every start: `ModuleAssembly.readOnly`
+  validated a module whole once per goal predicate (905 → 97 ms of a1's start).
 - **The demonstration's verdict:** a game kept and opened between two crossings is exactly the game played on, and
   ids are canonical; but **a country beyond a march is not the same country in every order of crossing**: its draw
   reads what was drawn before it (scenarios placed anywhere, paintings people hold, works' names), so the country
@@ -148,6 +149,12 @@ step before and after. At a start it was 128 ms of the final check. Spec: `test/
 rather than a budget (eight times the sources among 50,000 facts may not take three times as long): 0.18 s; with the
 fault put back the ratio is 10.4 and it fails. Commit b6563c24.
 
+`ModuleAssembly.readOnly` checks a composed module once, with every pressure's measure, outcome and goal predicate
+in the same pass (`ModuleCompiler.validate(module, goals)`), where it had checked the whole module again as each
+one's goal: **905 → 97 ms of a1's start, 1,431 → 101 ms of kahitude's**, the worlds' keys identical. Not T24-11's
+growth (a province's compose is its own size), but about a ninth of every generated start. Spec:
+`test/compiler-goals.test.ts`.
+
 ## 4. The demonstration
 
 Two halves, because the existing machinery supports two different honest beds.
@@ -228,10 +235,11 @@ the world (§2). Steps 1–3 below come first; without them progressive commitme
 
 ## 6. Next steps, ranked by gain against risk
 
-1. **`ModuleAssembly.readOnly`: check the module once and each predicate alone** (low risk, contained). Validate the
-   module whole once, then each pressure's measure, outcome and goal predicate against the same lookups, instead of
-   validating the whole module once per predicate. Gain: **1.0 s of a1's start, 1.7 s of kahitude's** (13–14 %), every
-   generated start and every install. The errors it raises are the same.
+1. **Done in this pass: `ModuleAssembly.readOnly` checks the module once, with each predicate** (low risk,
+   contained; `ModuleCompiler.validate(module, goals)`). It had validated the whole module once per pressure, outcome
+   and goal predicate. Measured: **905 → 97 ms of a1's start, 1,431 → 101 ms of kahitude's** (about 11 % of a start;
+   every generated start and every install), both worlds' keys identical. Spec: `test/compiler-goals.test.ts` (an
+   ill-formed goal still refused); six specs around assembly, provinces and the small lane pass.
 2. **Calling and ancestry kinds canonical** (`ModuleNamespace.canonical` gains `callingkind`, `ancestrykind`; medium
    risk: ids in saves). Removes the per-installation copies, so a new module stops changing every creature's facts;
    `hasCalling`/`hasAncestry` fall from ~40 per creature to one, and the road's projection from ~1 write per creature
@@ -273,4 +281,4 @@ there).
 | `prof-sum.ts`, `prof-callers.ts` | a `.cpuprofile`'s self and inclusive time; the callers of a frame |
 | `provinces-deep.ts` | each province's install by part (`N`), and the facts each relation holds after it |
 | `t24-11.ts` | each province's install and the next refresh (`N`); `PROBE=1`: what the road's projection writes |
-| `orders.ts` | a1's countries beyond west and north in three orders, the differences listed |
+| `orders.ts` | a1's countries beyond west and north in three orders, the differences listed (it tries a recruit at home first; a1's start has no one willing, so the spec buys something instead) |
