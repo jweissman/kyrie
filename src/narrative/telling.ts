@@ -14,7 +14,7 @@ export type Voiced = NonNullable<CampaignEvent['voiced']>[number];
 // the same line twice while there are others that fit, and never more than a few at once. A person's own words for
 // the moment (Joins, Leaves, Greets, in Kyr) are said instead, the first time.
 export class Telling {
-  static readonly priority: Record<string, number> = { turn: 0, join: 1, part: 1, object: 2, pet: 2, greet: 3,
+  static readonly priority: Record<string, number> = { turn: 0, feat: 1, join: 1, part: 1, object: 2, pet: 2, greet: 3,
     address: 3, thank: 4, farewell: 4 };
   static readonly most = 3;
   static readonly authored: Record<string, string> = { join: 'joining', part: 'parting', greet: 'greeting',
@@ -28,7 +28,8 @@ export class Telling {
     // someone brought home is not told to have left.
     const said = (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text).join(' ');
     const home = new Set(event.changes.map(c => /^\+ cameHome\(([^)]*)\)$/.exec(c)?.[1]).filter(Boolean));
-    const happenings = Happenings.read(event, company, petted).filter(h => this.priority[h.kind] !== undefined)
+    const happenings = [...this.feat(campaign, event), ...Happenings.read(event, company, petted)]
+      .filter(h => this.priority[h.kind] !== undefined)
       .filter(h => !(h.kind === 'part' && home.has(h.actor)))
       // Taking leave is a farewell; walking off from someone mid-word is not.
       .filter(h => h.kind !== 'farewell' || event.action.startsWith('take_leave('))
@@ -49,6 +50,15 @@ export class Telling {
       if (said) { told.push(said); Editor.said(used, said.id); }
     }
     return told;
+  }
+  // A thing changed by a skill (Change … needing lockwork): the act told as it is, before what it came to (the blind
+  // playtest, 13 November: BP-06). Which skill, of those it needs, is the first that is one.
+  private static feat(campaign: Campaign, event: CampaignEvent): Happening[] {
+    const how = /^change_thing(?:_spending|_paying)?\(([^)]*)\)/.exec(event.action)?.[1]?.split(',')[1]?.trim();
+    if (!how || event.result !== 'success' || !campaign.world.relates('needs')) { return []; }
+    const byId = EntityIndex.of(campaign.world.module.entities).byId;
+    const skill = campaign.world.related('needs').find(r => r.args[0] === how && byId.get(r.args[1]!)?.type === 'capability');
+    return skill ? [{ kind: 'feat', object: skill.args[1]!, cause: event.action }] : [];
   }
   // Whoever the company has had to do with before: followed by, travelled with, spoken to or greeted. Someone met
   // again is greeted as one met again (Hern, who had walked a day with the company, greeted it as a stranger: A Winter
