@@ -815,3 +815,21 @@ which the M20 handoff told M21 to read alongside and which no row carried.
 | OA-11 | Review P1, provenance carried through presentation: a promoted or marked act names its source, target and expected resolution, in a development view ("why is this gold?") | partly: what an act advances is typed (`AimAdvances`, `AimLeads`), and likenesses' aspects come from the engine; no diagnostic view, and no census over reference worlds | P2 | M21, lead |
 | OA-12 | The compact, tense expedition (the M21 brief's Phase 2, "restore the dramatic core"; the retrospective's acceptance scenario; the review's one exemplary expedition): one light, one ration, one companion, a warned danger, a retreat and a return the town remembers; two builds play it differently; recovery costs something | open: not started; no document | P1 | M21, playability |
 | OA-13 | Paintings against state: a painting chosen by a place's kind and the hour, not its condition, contradicts the text, and players "stopped trusting what I saw" (handoff Part 2 §1; review V1: compatible, else a plate, else none). Cites R9-12, R10-08, R11-09 and CP-01 | partly (9ed967f5: a painting is not chosen for a place it contradicts: data/paintings/fit.json read against seen.json by Fits, none painted where none fits; held by test/small/paintings-fit. Open: wrong subjects for a kind (the big top as a kitchen, a lizardfolk as a woman) and a census over the first country) | P1 | M21, aesthetic |
+
+## 33. The first blind playtest (14 November, night)
+
+The first genuinely blind playtest of the deployed build, `history/playtests/blind-2026-11-13/`; the decisions and
+lines are in `mission-21/after-the-blind-playtest.md`.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | open | P0 | M21, lead (engine), aesthetic (page) |
+| BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | open | P1 | M21, lead |
+| BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | open | P1 | M21, lead (engine), aesthetic (page) |
+| BP-04 | Warnings the world does not keep (a band that "will not wait" lets the company walk past) | open | P1 | M21, rules |
+| BP-05 | The starting premise is not pursuable (Greyhold on the map, unroutable; "Enter Shaynof" returns to the road outside) | open | P0 | M21, playability |
+| BP-06 | A distinctive act is acknowledged, not dramatized (the thief's lock "hangs open on its hasp"): a sentence of texture and a due consequence, from authorable templates | open | P1 | M21, playability |
+| BP-07 | The first undertown is stocked, not inhabited (rats, beetles, a centipede, a spider, most trivial or passed): fewer, more credible dangers | open | P1 | M21, rules |
+| BP-08 | Classificatory labels on the visible page ("to learn", "to gain", "worth a look", "for you", "by the rules", "In play, by the rules"): off the page, kept for screen readers and the colourless terminal | open | P1 | M21, aesthetic |
+| BP-09 | Press-and-hold to choose a creation card read as the game ignoring the player: a tap chooses; hold only for sustained acts, with a visible cue (the lead's decision, reversing the owner's earlier long-press direction on this evidence) | open | P0 | M21, aesthetic |
+
