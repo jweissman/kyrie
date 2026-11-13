@@ -37,7 +37,6 @@ says where to play, what M21 changed that you should notice, what is known to be
 
 - **Names.** The first places you set out for still have old-tongue names (Neblalac, Ísencepan). Decided: in the
   starting country they will be called first by their Common meaning (T24-20). Being built.
-
 - **A larger adventure after the town's jobs.** The offer after an aim covers the deed and your leads. The pull
   toward a larger place (the mound, the green-lit tower) is not built (T24-18).
 - **The map.** It has no road junctions (NM-01), and the route preview before setting out is unconfirmed in the
