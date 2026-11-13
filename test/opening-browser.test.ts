@@ -204,12 +204,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.waitForSelector('[data-action="answer"]', { state: 'visible' });
       if (touch) { await driver.click('li:first-child > [data-action="answer"]'); } else { await page.keyboard.press('1'); }
       await page.waitForSelector('[data-id="aim"]', { timeout: 30000 });
+      // Nothing to decide after it, and so no Go on (CN-09): the page goes on by itself once read, a line filling
+      // under it (still where motion is unwanted), or at a touch before then.
+      expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
+      const reading = page.locator('[data-id="onward"] .reading');
+      expect(Number(await reading.getAttribute('data-ms'))).toBeGreaterThanOrEqual(3500);
       if (touch) {
-        const go = page.locator('[data-action="go-on"]');
-        expect(await go.evaluate(e => getComputedStyle(e).animationName)).toBe('none');
+        expect(await reading.evaluate(e => getComputedStyle(e, '::after').animationName)).toBe('none');
         await page.waitForTimeout(400);
+        await driver.click('[data-id="aim"]');
       }
-      await driver.click('[data-action="go-on"]');
       await page.waitForSelector('[data-mode="explore"]', { timeout: 30000 });
       // The place opens without the chapter, either beat (not even the way in's first sentence) or the aim.
       expect(await page.locator('.world-bar .chapter, [data-id="aim"]').count()).toBe(0);

@@ -144,7 +144,13 @@
 .prologue-page .first-aim { margin: 0; max-width: 32rem; font: var(--type-lead); color: var(--ivory); text-wrap: balance;
   text-shadow: 0 1px 16px rgba(0, 0, 0, .7); }
 .prologue-page .first-aim .kicker { display: block; margin: 0 0 6px; }
-.prologue-page .go-on { min-width: 11rem; }
+/* A page with nothing to decide goes on by itself once read (CN-09): a hairline under it fills over the reading time,
+   in the page's ink, still where motion is unwanted. */
+.prologue-page .reading { display: block; width: min(320px, 60%); height: 1px; margin: 18px 0 0; background: rgba(236, 230, 217, .14);
+  position: relative; overflow: hidden; }
+.prologue-page .reading::after { content: ''; position: absolute; inset: 0; background: rgba(236, 230, 217, .55);
+  transform-origin: left center; animation: hold-fill var(--read-ms, 6s) linear forwards; }
+@media (prefers-reduced-motion: reduce) { .prologue-page .reading::after { animation: none; transform: scaleX(.5); opacity: .5; } }
 /* Whoever is met on the road: their likeness in its ring over what is going on, and the answers beneath, play's own
    choices (reader.css .act), numbered as play numbers them. */
 .prologue-page .met { margin: 0 0 14px; display: flex; flex-direction: column; align-items: center; gap: 10px;
