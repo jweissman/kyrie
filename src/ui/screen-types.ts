@@ -280,7 +280,10 @@ export interface RegionChart {
     // The id of a generated country's stretches of open country, but for each one's cell (region__t), to go to one.
     tracts?: string;
     // Where a journey to each cell goes (a stretch of open country; an authored place), by cell: the engine's own.
-    goes?: Record<number, string> };
+    goes?: Record<number, string>;
+    // How the map may set out across the country for a place it shows (see LandCrossing), by its id: never one in
+    // the company's own hex.
+    across?: Record<string, string> };
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;

@@ -4,6 +4,7 @@ import { PlaySession as Session } from '../session/play-session';
 import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { ScreenModel } from '../ui/screen-model';
+import { LandCrossing } from '../ui/land-crossing';
 import { Narrator } from '../presentation/narrator';
 import { PlayerView } from '../presentation/player-view';
 import { EntityCard } from '../presentation/entity-card';
@@ -29,7 +30,9 @@ export class Serve {
       led: (glance?.acts ?? []).map(a => ({ choice: a.choice, ...a.command ? { command: a.command } : {},
         ...a.for ? { for: a.for } : {}, label: a.label, why: a.why, aspects: a.aspects,
         ...a.continues ? { continues: true } : {} })),
-      choices: PlayerView.choices(c).map(r => ({ id: r.choice.id, label: r.choice.name })) };
+      choices: PlayerView.choices(c).map(r => ({ id: r.choice.id, label: r.choice.name })),
+      // What the map may set out for across the country, as the page and the terminal offer it (LandCrossing).
+      across: LandCrossing.offers(screen) };
   }
   static told(e: CampaignEvent): string[] {
     return [...(e.perceptions ?? []).map(p => p.text), ...e.response ? [e.response] : []];

@@ -37,6 +37,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-15 | P1 | The talk ranked and gilded replies by their words: "Tell …"/"Pay …"/"would come along" led, and a reply whose words echoed the aim's was drawn gold beside the glance's own next step | fixed in this branch |
 | PL-16 | P1 | An authored adventure's hook not led: Tessary's eel-wife's notice on the Landgate board was only under `all`; reading a witness had stopped counting as learning (a regression of PL-03's rule), and a thing's teaching acts were never reckoned | fixed in this branch |
 | PL-17 | P2 | What Tessary Owes gives the company Davy's coat on its first step ("You take Davy Teazle's red coat" at the Landgate), though Nan is to hand it over later | fixed in this branch (data) |
+| PL-18 | P1 | The own-hex guard (E155: never across the country to a place in the company's own hex) lived only in the browser's map; the terminal and `serve` could not see the map's moves at all | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -324,6 +325,17 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   a5bb8e0d, replacing a `lends`) beside the later `take_coat` action, which has Nan hand it over once told.
 - **Status:** fixed in this branch (the stray `Initially Give` removed; the bundle written again; the three Tessary
   specs pass).
+
+### PL-18: the map's decision, in the engine
+
+- **What (the lead's finding, root cause 1):** E155's guard was `MapView.way`'s `local` test in
+  `web/reader/map-view.tsx`; the engine would have walked a `travel:` across the fen to the circus ground behind Hythe
+  had any other client asked, and neither the terminal nor `serve` offered the map's across-country moves.
+- **Status:** fixed in this branch: `src/ui/land-crossing.ts` decides, from the land the screen already carries (known
+  cells, walkable cover, each cell's stretch), what the map may set out for across the country, never a place in the
+  company's own hex, as `land.across`; `MapView` draws that decision; the terminal lists it ("Go across country to
+  …", and under `map`), and `serve`'s view carries it as `across`. Regressions: `test/small/own-hex` (the page's
+  side, unchanged) and `test/small/own-hex-engine` (the engine's offer is the map's, and `serve`'s view the same).
 
 ### PL-06: after the aim, nothing pulls
 

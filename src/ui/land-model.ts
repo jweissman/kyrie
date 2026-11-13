@@ -1,3 +1,4 @@
+import { LandCrossing } from './land-crossing';
 import { Spatial } from '../spatial';
 import type { Entity, LandChart } from '../lang/module';
 import type { WayInfo } from './passage-model';
@@ -99,11 +100,13 @@ export class LandModel {
     const marks = [...placed, ...this.unmade(new Set([...placed.map(m => m.cell),
       ...Object.keys(towns).map(t => this.chart.places[t])]), known)];
     const named = new Set([...areas.map(a => a.id), ...placed.map(m => m.id)]);
-    return { width: chart.width, height: chart.height, cover: chart.cover,
+    const land = { width: chart.width, height: chart.height, cover: chart.cover,
       rivers: chart.rivers.map((r, i) => LandModel.drawn(chart, r, i)), roads,
       known: [...known].sort((a, b) => a - b), ...this.at(here), marks, towns, zones: this.zones(areas, known),
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
       ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts(), goes: this.goes() };
+    const across = LandCrossing.of(land);
+    return Object.keys(across).length ? { ...land, across } : land;
   }
   // The land about a place been to: the six stretches about a settlement, a road's or a wild country's either side
   // of it, an authored area's own stretch. One ring, not three: the rest is found by going there or looking out from
