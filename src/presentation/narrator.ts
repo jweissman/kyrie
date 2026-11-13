@@ -23,8 +23,9 @@ export interface ExchangeLine {
   text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation';
 }
 // aims: the aims it took up, by id with their words (the notes say them too, in the narration's words).
+// learned: those of the notes that are what the company learned or saw borne out.
 export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail';
-  aims?: { id: string; text: string; now?: true }[] }
+  aims?: { id: string; text: string; now?: true }[]; learned?: string[] }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
 export interface Leaf {
@@ -417,11 +418,12 @@ export class Narrator {
     const said = new Set(unique.map(l => l.text));
     // Nor what a new aim says again ("You know now: Clear the rats out of the cellar" over the aim to).
     const aimed = [...feedback.aims ?? [], ...feedback.amended ?? []];
-    const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
-      : feedback.discoveries.filter(d => !said.has(d) && !this.restated(d, aimed)).map(d => `Noted: ${this.gist(d)}`)),
-    ...(feedback.leads ?? []).map(l => `Noted: ${l}`), ...(feedback.aims ?? []).map(a => `Aim: ${a}`),
-    ...(feedback.amended ?? []).map(a => `Aim now: ${a}`),
-    ...(feedback.borne ?? []).map(b => `Borne out: ${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`)];
+    // What was learned is said apart as well (learned), for the page that sets it apart: it had known it by its words.
+    const learned = [...spoken.length ? [] : feedback.discoveries.filter(d => !said.has(d) && !this.restated(d, aimed))
+      .map(d => `Noted: ${this.gist(d)}`), ...(feedback.leads ?? []).map(l => `Noted: ${l}`)];
+    const borne = (feedback.borne ?? []).map(b => `Borne out: ${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`);
+    const notes = [...feedback.resources.map(r => this.resource(r)), ...learned,
+      ...(feedback.aims ?? []).map(a => `Aim: ${a}`), ...(feedback.amended ?? []).map(a => `Aim now: ${a}`), ...borne];
     // A fight that fell on the company is not an activity it began (its action is the attack it was drawn into: "You
     // begin to attack the wheel-keeper" was told of a company that walked into the wheel-room and fled).
     const begun = event.cut && !event.prelude && campaign.operator(event.action)?.name, me = this.alone(campaign);
@@ -431,7 +433,8 @@ export class Narrator {
       .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
       lines: turned, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
-      ...feedback.taken?.length ? { aims: feedback.taken } : {} };
+      ...feedback.taken?.length ? { aims: feedback.taken } : {}, ...learned.length + borne.length
+        ? { learned: [...learned, ...borne] } : {} };
   }
   // What the act brought to light that its author marked as a revelation (a body found, who drowned the miller): told
   // as one, set apart from what else happened, not in the run of it (NAR-14).
