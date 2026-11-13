@@ -84,6 +84,10 @@ export class Content {
         Effects.validate(effect, ids);
       }
     }
+    // And what a body's blows carry (its kind's or a variation's riders), as any effect.
+    const ridden = [...Object.values(Canon.species).map(s => s.statistics?.riders),
+      ...Object.values(Canon.variations).map(v => v.riders)];
+    for (const effect of ridden.flatMap(r => Object.values(r ?? {}).flat())) { Effects.validate(effect, ids); }
     Content.checked = true;
   }
   generate(type: string, context: Record<string, DeemValue> = {}) {

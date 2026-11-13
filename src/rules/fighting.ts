@@ -1,4 +1,5 @@
 import type { Modifiers } from './modifiers';
+import type { Effect } from '../lang/parse';
 import { FantasyRules } from '../fantasy-rules';
 import { Defenses, type Defense, type Mitigated } from './defenses';
 
@@ -11,6 +12,8 @@ export interface WeaponProfile {
   lesser?: boolean;
   // What its blow carries beside its damage type (silver, magic), for a defense it passes.
   tags?: string[];
+  // What a blow of it carries when it lands (its kind's riders: a ghoul's bite paralyses).
+  onHit?: Effect[];
 }
 // What the attack roll reads about one combatant: level, effective scores, equipment and gathered modifiers.
 export interface Combatant {

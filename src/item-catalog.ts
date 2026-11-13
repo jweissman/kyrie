@@ -80,11 +80,15 @@ export class ItemCatalog {
         if (key !== 'reactions') { (hooks[key as HookKey] ??= []).push(...effects as Effect[]); }
       }
     }
+    // A body's own blows carry its kind's riders (see Statistics.riders); a weapon in hand carries none of them.
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
-      weapon: wielded ? this.weapon(wielded.definition)
-        : this.weapon(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist'),
+      weapon: wielded ? this.weapon(wielded.definition) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural?.riders),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0,
       ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
-        ? this.weapon(id) : { ...this.weapon(id), lesser: true }) } : {} };
+        ? this.body(id, natural.riders) : { ...this.body(id, natural.riders), lesser: true }) } : {} };
+  }
+  static body(id: string, riders?: Record<string, Effect[]>): WeaponProfile {
+    const weapon = this.weapon(id), own = riders?.[id];
+    return own?.length ? { ...weapon, onHit: structuredClone(own) } : weapon;
   }
 }
