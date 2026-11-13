@@ -20,6 +20,9 @@ export class TerminalColour {
     if (depth === '256') { return `\x1b[38;5;${this.cube(r, g, b)}m${text}\x1b[0m`; }
     return text;
   }
+  // Weight and slant, where there is colour (what is said to the company is set in italics: the owner, 14 November).
+  static bold(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[1m${text}\x1b[22m`; }
+  static italic(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[3m${text}\x1b[23m`; }
   // The nearest of the 256-colour cube's 6 × 6 × 6.
   private static cube(r: number, g: number, b: number): number {
     return 16 + 36 * this.level(r) + 6 * this.level(g) + this.level(b);

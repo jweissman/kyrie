@@ -1,4 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
+import { AimSaid } from '../../../src/presentation/aim-said';
 import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
@@ -250,9 +251,7 @@ export class Told {
   // Several aims come at once are each said by their first words, to the first pause ("Clear the rats' nest"; "The
   // old ways under Millholm go on past the corn-store's cellar"); each is whole in the Book (the owner, 11 November
   // late: two aims had come as a block of their whole paragraphs over the place).
-  static title(aim: string): string {
-    return /^[^,;:.!?]+/.exec(aim)?.[0]?.trim() ?? aim;
-  }
+  static title(aim: string): string { return AimSaid.title(aim); }
   // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
   // RPG's journal offers to track a quest just taken up (see Undertakings).
   static Follow({ app, id }: { app: ReaderApp; id: string }) {

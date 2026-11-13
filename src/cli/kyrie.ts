@@ -1,5 +1,6 @@
 // The Kyrie command line (bin/kyrie): play a campaign in the terminal, and the authoring and checking tools.
 import { readFile } from 'node:fs/promises';
+import { Stopwatch } from '../stopwatch';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
@@ -91,8 +92,10 @@ export class KyrieCli {
   private static async adventure(args: string[]): Promise<number> {
     const options = PlayTool.parse(args);
     if (!options.world && !options.campaign) { console.error(PlayTool.usage); return 1; }
-    const started = await PlayTool.start(options);
-    await Terminal.play(started.journey.session);
+    // Said as it is made, phase by phase, and how long it took (with --profile, each phase, and each command after).
+    const watch = Stopwatch.forTerminal(options.profile), started = await PlayTool.start(options, watch);
+    watch.done();
+    await Terminal.play(started.journey.session, { profile: options.profile });
     return 0;
   }
   private static async resume(path: string): Promise<number> {

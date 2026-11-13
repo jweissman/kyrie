@@ -1,6 +1,7 @@
 import { TerminalInput, type Asking } from './terminal-input';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
+import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
 import { Typography } from '../presentation/typography';
 import { writeFile } from 'node:fs/promises';
@@ -32,7 +33,7 @@ interface Listed { id: string; name: string; time: number; targets?: string[]; a
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
   told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
-  scene?: TerminalScene; helped?: boolean; attended?: boolean;
+  scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number };
 }
 
 // A text client over the same public projection and command path as the browser. It decides layout and input only:
@@ -99,11 +100,17 @@ export class Terminal {
   // Coming somewhere (or first), the place briefly; after an act, what came of it; looked at, the place whole (see
   // TerminalScene: what has not changed is not said again).
   private static scene(session: PlaySession, turn: Turn, whole = false) {
+    const began = performance.now();
     const screen = ScreenModel.build(session.campaign), leaf = Narrator.leaf(session.campaign, screen, turn.told);
     // Following an aim or letting it go changes what is led with, not where the company is (attended).
     const turned = whole ? 'look' : turn.attended ? 'act' : !turn.told || turn.told.moved ? 'arrive' : 'act';
     turn.attended = false;
     for (const line of (turn.scene ??= new TerminalScene()).lines(screen, leaf, turned)) { console.log(line); }
+    if (turn.profile) {
+      const world = turn.profile.world === undefined ? '' : `the world ${Stopwatch.seconds(turn.profile.world)} · `;
+      console.log(`  (${world}the telling ${Stopwatch.seconds(performance.now() - began)})`);
+      turn.profile.world = undefined;
+    }
     return { screen, leaf };
   }
   private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
@@ -245,9 +252,12 @@ export class Terminal {
     }
     console.log(`Coin ${screen.purse.coin} · rations ${screen.purse.rations}`);
   }
-  // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk).
-  static async play(session: PlaySession, input: Asking = TerminalInput.open(), scene = new TerminalScene()) {
-    const turn: Turn = { scene };
+  // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk); with
+  // profile, each act says what it took: the world's turn and the telling of it.
+  static async play(session: PlaySession, o: { input?: Asking; scene?: TerminalScene; profile?: boolean } = {}) {
+    const input = o.input ?? TerminalInput.open();
+    const turn: Turn = { scene: o.scene ?? new TerminalScene(TerminalColour.depth()),
+      ...o.profile ? { profile: {} } : {} };
     try {
       while (session.campaign.running) {
         turn.current ??= this.scene(session, turn);
@@ -299,11 +309,13 @@ export class Terminal {
     const before = PlayerView.observe(session.campaign);
     const does = PlayerView.choices(session.campaign).find(r => r.choice.id === choice.id)?.action.schema;
     try {
+      const began = performance.now();
       const event = await session.leg(choice.id, async battle => {
         const command = await Terminal.command(battle.state, battle.legalCommands(), input);
         if (!command) { throw new Error(quitPlay); }
         return command;
       });
+      if (turn.profile) { turn.profile.world = performance.now() - began; }
       if (choice.id.startsWith('travel:')) { this.journey(session); }
       const after = PlayerView.observe(session.campaign);
       const feedback = ActionFeedbackView.read(session.campaign, event, before);

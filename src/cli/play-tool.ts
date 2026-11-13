@@ -11,6 +11,7 @@
 // --keep <name> keeps the play as a regression test (see Traces): the command it was, and where it came to.
 // --roll pass|fail has every check come out so, as a journey's roll() does (Quittance's friction 7, QTC-07).
 import { readFile } from 'node:fs/promises';
+import type { Stopwatch } from '../stopwatch';
 import { Journey } from '../session/journey';
 import { SingleModule } from '../campaign/single-module';
 import { DrawnWorld } from '../world/drawn-world';
@@ -28,7 +29,7 @@ export class PlayTool {
     for (let i = 0; i < args.length; i++) {
       const a = args[i]!, flag = /^--(seed|steps|probe|world|origin|as|in|context|keep|roll)$/.exec(a);
       if (flag) { flags.set(flag[1]!, [...flags.get(flag[1]!) ?? [], args[++i] ?? '']); }
-      else if (a === '--choices') { flags.set('choices', ['yes']); }
+      else if (a === '--choices' || a === '--profile') { flags.set(a.slice(2), ['yes']); }
       else { rest.push(a); }
     }
     const world = flags.get('world')?.[0], into = flags.get('in')?.[0];
@@ -37,12 +38,13 @@ export class PlayTool {
     return { campaign: world || part ? undefined : rest[0], steps: world ? rest : rest.slice(part ? 2 : 1), world, part,
       origin: flags.get('origin')?.[0] ?? 'wanderer', as: flags.get('as')?.[0],
       seed: flags.get('seed')?.[0] ?? 'journey', file: flags.get('steps')?.[0], probes: flags.get('probe') ?? [],
-      choices: flags.has('choices'), keep: flags.get('keep')?.[0],
+      choices: flags.has('choices'), keep: flags.get('keep')?.[0], profile: flags.has('profile'),
       roll: (['pass', 'fail'] as const).find(r => r === flags.get('roll')?.[0]) };
   }
   // The game the options name (a campaign, or a generated world drawn for one protagonist), and the steps that lead
   // into what is to be played (to a scene, or into talk with someone).
-  static async start(o: ReturnType<typeof PlayTool.parse>): Promise<{ journey: Journey; lead: string[] }> {
+  static async start(o: ReturnType<typeof PlayTool.parse>, watch?: Stopwatch)
+    : Promise<{ journey: Journey; lead: string[] }> {
     if (o.part) { return PlayParts.start(o.part.kind, o.part.id, o.part.into, o.part.context); }
     const [raceId = 'human', classId = 'ranger', name = 'Aud', backgroundId] =
       (o.as ?? '').split('/').map(x => x.trim() || undefined);
@@ -57,7 +59,7 @@ export class PlayTool {
       return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
     }
     const drawn = { party: [{ name, raceId, classId }], origin: o.origin };
-    return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared)), lead: [] };
+    return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch)), lead: [] };
   }
   // A kept play's command played again, to where it comes (see Traces).
   // seen: what happened in it is added to (see Happened).

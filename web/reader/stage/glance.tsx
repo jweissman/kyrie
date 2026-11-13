@@ -1,4 +1,5 @@
 import { SceneRail } from './scene-rail';
+import { AimSaid } from '../../../src/presentation/aim-said';
 import { useRef } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Promoted } from '../../../src/presentation/glance-types';
@@ -8,7 +9,6 @@ import type { ReaderApp } from '../reader-app';
 import { Attending } from '../../../src/ui/attention';
 import { Typography } from '../../../src/presentation/typography';
 import { MenuModel } from '../menu-model';
-import { Followed } from '../followed';
 import { Aims } from '../aims';
 import { Words } from '../words';
 import { Emphasis } from '../../../src/presentation/emphasis';
@@ -339,10 +339,10 @@ export class GlanceStage {
   // quest followed); with none followed, the aim this place is about, when it wants saying.
   static Aim({ app, said }: { app: ReaderApp; said?: string }) {
     // Not on the first page, before anything is done: the opening has just told it.
-    const screen = app.state.frame!.screen, followed = screen.elapsed ? Followed.of(screen) : undefined;
-    // With none followed, the company's own errand (or the first aim held) is offered to follow: nothing is followed
-    // for the player, and gold comes only with Follow this (the owner, 12 November).
-    const offered = Followed.of(screen) ? undefined : screen.aims?.find(a => a.own) ?? screen.aims?.[0];
+    // Which aim, and how, by the rule the terminal says it by too (AimSaid).
+    const screen = app.state.frame!.screen, chosen = AimSaid.of(screen, said);
+    const followed = chosen?.followed ? chosen.text : undefined;
+    const offered = chosen?.offered ? screen.aims?.find(a => a.id === chosen.offered) : undefined;
     const aim = followed ?? offered?.text ?? said, recap = app.state.frame!.leaf.recap?.aim;
     // Nor again under "Where you left off", which has just said it.
     if (aim && recap === aim && !offered) { return null; }

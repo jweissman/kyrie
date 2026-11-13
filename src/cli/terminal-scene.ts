@@ -1,40 +1,63 @@
 import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from '../presentation/typography';
+import { AimSaid } from '../presentation/aim-said';
+import { TerminalColour, type Depth } from './terminal-colour';
 import type { Leaf } from '../presentation/narrator';
 import type { Screen } from '../ui/screen-types';
 
 // How a turn is come to: arriving somewhere, doing something where the company stands, or looking deliberately.
 export type Turned = 'arrive' | 'act' | 'look';
 
-// What the terminal says of a turn, keeping what it has already said, so the unchanged is not said again. Nearly every
-// command had told the place's name, the day, the hour and the familiar surroundings again (the owner, 14 November:
-// TM-02). On arrival, the place is told briefly, as the glance tells it. After an act, the terminal tells what happened
-// and what changed. A look tells the place whole. The day and the part of it, the weather, the aim and what is
-// needed are said when they change, and on a look.
+// What the terminal says of a turn, as the page's glance says it, keeping what it has already said so that the
+// unchanged is not said again. Nearly every command had told the place's name, the day, the hour and the familiar
+// surroundings again (the owner, 14 November: TM-02), and an arrival had told the narrator's paragraphs where the page
+// shows its glance (TM-03: one presentation).
+// - On arrival: how the company came, the place's own line, one sign of life, what has changed since.
+// - After an act: what happened and what changed.
+// - On a look: the place whole.
+// The day and the part of it, the weather, the aim and what is needed are said when they change, and on a look. The
+// aim is said by the page's rule (AimSaid): followed, in gold; offered, by its title with how to follow it.
 export class TerminalScene {
   private said: Partial<Record<'place' | 'time' | 'weather' | 'aim' | 'need', string>> = {};
-  // Each presentation as it was printed, by how its turn was come to: what a walk measures (TerminalWalk).
-  readonly told: { turned: Turned; lines: string[] }[] = [];
+  // Each presentation as it was printed, by how its turn was come to: its prose (the scene's narration, what came of
+  // an act), and apart from it what it says for reference (the aim, what is needed), so that a walk measures each
+  // (TerminalWalk).
+  readonly told: { turned: Turned; lines: string[]; reference: string[] }[] = [];
+  constructor(private readonly depth: Depth = 'none') {}
   lines(screen: Screen, leaf: Leaf, turned: Turned): string[] {
     const whole = turned === 'look', day = screen.date?.short ?? `Day ${FictionalTime.day(screen.elapsed)}`;
     const time = this.fresh('time', `${day}, ${FictionalTime.part(screen.elapsed)}`, whole);
     const place = this.fresh('place', screen.place.name, whole), weather = this.fresh('weather', screen.weather, whole);
     // The hour itself only on a look: the part of the day is what changes how a place is.
     const when = whole ? screen.clock : time;
-    const head = turned === 'act' ? [when, weather] : [place ?? screen.place.name, when, weather];
-    const header = head.filter(Boolean).join(' · ');
-    const seen = whole || !leaf.glanced ? leaf : leaf.glanced;
+    const name = turned === 'act' ? undefined : TerminalColour.bold(place ?? screen.place.name, this.depth);
+    const header = [name, when, weather].filter(Boolean).join(' · ');
     const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
-    const happened = (leaf.exchange?.lines ?? []).map(l => l.text).filter(t => !unsaid.has(t));
-    // After an act, what happened and what changed; the place's own telling is not said again.
-    const prose = turned === 'act' ? [...happened, ...leaf.changed]
-      : [...seen.situation, ...seen.presence, ...leaf.changed, ...happened];
-    const aim = this.fresh('aim', screen.objectives[0], whole);
+    const happened = (leaf.exchange?.lines ?? []).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
+      ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
+    const g = leaf.glance, seen = [g?.came, g?.sight?.text, g?.life?.text, ...g?.changed ?? []]
+      .filter((l): l is string => !!l).map(l => Typography.plain(l));
+    // After an act, what happened and what changed; arriving, the glance; looked at, the place whole.
+    const placed = [...leaf.situation, ...leaf.presence, ...leaf.changed].map(l => Typography.plain(l));
+    const prose = turned === 'act' ? [...happened, ...leaf.changed.map(l => Typography.plain(l))]
+      : whole || !g ? [...placed, ...happened] : [...seen, ...happened];
+    const reference = [...this.aim(screen, g?.aim, whole), ...this.need(leaf, whole)];
+    this.told.push({ turned, lines: prose, reference });
+    return [...header ? ['', header] : [], ...prose, ...reference];
+  }
+  // The aim, by the page's rule, when it has changed (or on a look).
+  private aim(screen: Screen, glanced: string | undefined, whole: boolean): string[] {
+    const aim = AimSaid.of(screen, glanced), text = aim && Typography.plain(aim.text);
+    // Said again when it is followed or let go, as well as when its words change.
+    if (!aim || !this.fresh('aim', `${aim.followed ? 'followed' : 'held'}:${text}`, whole)) { return []; }
+    const d = this.depth;
+    if (aim.followed) { return [TerminalColour.paint('gold', TerminalColour.bold(`Following: ${text}`, d), d)]; }
+    const n = (screen.aims ?? []).findIndex(a => a.id === aim.offered) + 1;
+    return [`${TerminalColour.bold(`An aim: ${text}`, d)}${n ? ` · follow ${n}` : ''}`];
+  }
+  private need(leaf: Leaf, whole: boolean): string[] {
     const need = this.fresh('need', leaf.glance?.need?.join(' · '), whole);
-    const lines = [...header ? ['', header] : [], ...prose.map(l => Typography.plain(l)),
-      ...aim ? [`Aim: ${Typography.plain(aim)}`] : [], ...need ? [`Need: ${need}`] : []];
-    this.told.push({ turned, lines: lines.filter(l => l && l !== header) });
-    return lines;
+    return need ? [`Need: ${need}`] : [];
   }
   // A thing said again only when it has changed since it was last said, or on a look.
   private fresh(key: keyof TerminalScene['said'], value: string | undefined, whole: boolean): string | undefined {
