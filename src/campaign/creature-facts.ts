@@ -47,7 +47,8 @@ export class CreatureFacts {
   }
   // What a save from an earlier build may hold otherwise, its projection since corrected: needing care had held of a
   // lit torch (PL-09). A save that differs only in these is brought up to date, not refused.
-  static readonly revised: ReadonlySet<string> = new Set(['needsCare']);
+  // So too what everyone outside the company could wield, which is no longer said (Mission 21).
+  static readonly revised: ReadonlySet<string> = new Set(['needsCare', 'proficient']);
   // A saved world's creature facts as the creatures project them: the same, or stale; anything else is refused.
   static saved(world: World, actors: CampaignActor[], store: CreatureStore): 'same' | 'stale' {
     const different = this.changes(world, actors, store);
@@ -60,7 +61,9 @@ export class CreatureFacts {
     for (const actor of actors) {
       const members = actor.members.map(id => store.peek(id)), environment = Environment.of(world, actor.id);
       changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
-      if (scope.has.has('memberOf')) { for (const c of members) { changes.push(...this.member(c, actor.id, scope)); } }
+      if (scope.has.has('memberOf')) {
+        for (const c of members) { changes.push(...this.member(c, actor.id, scope, !!actor.player)); }
+      }
       // The player's company, the one who plays first: everyone else in it a companion.
       if (actor.player && scope.has.has('companion')) { changes.push(...this.companions(world, members, scope)); }
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
@@ -200,7 +203,7 @@ export class CreatureFacts {
   }
   // One companion: whose they are, whether awake or hurt, what they own and wear and can wield, and what they could
   // be taught, could treat, and could cast now.
-  private static member(c: Creature, actor: string, scope: Scope): Change[] {
+  private static member(c: Creature, actor: string, scope: Scope, company: boolean): Change[] {
     const { has, kinds, references } = scope, changes: Change[] = [];
     const reference = references.get(c.id);
     if (!reference) { throw new Error(`Missing canonical member binding for ${c.id}`); }
@@ -230,9 +233,11 @@ export class CreatureFacts {
       changes.push(...this.set(scope, 'ownedItem', reference, mine.map(i => i.id)),
         ...this.set(scope, 'wearing', reference, mine.filter(i => i.equipped).map(i => i.id)));
     }
+    // What a member could wield, for the company alone, which equips what it carries (belongings.kyr's equip_item, the
+    // only reader): said of everyone, it had been three facts in four of a world (construction.md §6).
     if (has.has('proficient')) {
-      changes.push(...this.set(scope, 'proficient', reference, kinds.filter(k => Creation.canEquip(c.classId, k.id))
-        .map(k => k.id)));
+      changes.push(...this.set(scope, 'proficient', reference, company
+        ? kinds.filter(k => Creation.canEquip(c.classId, k.id)).map(k => k.id) : []));
     }
     const learned = [...c.base.abilities, ...c.state.learnedAbilities];
     if (has.has('canTrain')) {

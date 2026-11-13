@@ -118,4 +118,19 @@ describe('two neighbours realised as the company first comes to them', () => {
     expect(east!.deeds).toEqual({ gold: [15, 2, 3], owned: expect.arrayContaining([expect.stringMatching(/torch/),
       expect.stringMatching(/rope/)]) });
   });
+  // Each installation had brought its own copies of the shared rules' callings and peoples, and everyone in the world
+  // was then said to have their calling and people once more at every install (T24-11's growth, construction.md §2).
+  it('bring no calling or people of their own: no one is said to have theirs again', async () => {
+    const { s } = await Crossing.start();
+    // What is said of those at home (the east's own people are said to have theirs as they come).
+    const said = () => ['hasCalling', 'hasAncestry'].map(r => s.campaign.world.related(r)
+      .filter(f => !f.args[0]!.startsWith('east__')).map(f => f.args.join(' ')).sort());
+    const before = said();
+    await Crossing.visit(s, 'east');
+    expect(s.campaign.installed).toContain('east');
+    expect(said()).toEqual(before);
+    expect(before[0]!.some(f => / calling_warrior$/.test(f))).toBe(true);
+    expect(before[0]!.filter(f => !/ calling_[a-z]+$/.test(f))).toEqual([]);
+    expect(s.campaign.module.entities.filter(e => /^east__(calling|ancestry)_/.test(e.id))).toEqual([]);
+  });
 });
