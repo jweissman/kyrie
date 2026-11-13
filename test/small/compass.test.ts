@@ -38,6 +38,8 @@ describe('the compass inside', () => {
     expect((t.screen.destinations ?? []).map(d => d.id)).toContain('t__lane');
     await t.play('Into the keep');
     expect(t.glance.enclosed).toBe(true);
+    // Back is the way the company came, wherever it is enclosed (one rule with the compass): the gate.
+    expect(t.screen.exits.find(e => e.id === t.glance.back)?.destination.id).toBe('t__door');
     expect([t.screen.destinations ?? [], t.screen.roads ?? [], t.screen.mapped ?? []].flat()).toEqual([]);
     expect(t.glance.acts.filter(a => a.command?.startsWith('travel:'))).toEqual([]);
   });
@@ -61,5 +63,17 @@ describe('the compass inside', () => {
     await t.play('the cellar');
     expect(t.glance.compass!.exhausted).toBe(true);
     expect(t.glance.compass!.out!.to).toBe('t__door');
+  });
+  // Inside a building in a town, not a site, Back is kept too: there had been none, the site's rule apart.
+  it('keeps the way back in sight inside a building', async () => {
+    const t = await Tiny.start(`
+      Place town "Hythe" is settlement.
+      Place lane "the lane" is room within town at 0, 0 outdoors.
+      Place taproom "the taproom" is room within town at 1, 0 indoors.
+      Passage inn_door "the inn door" is door between lane and taproom.
+      Company party "You" of 1 at lane.
+      Goal false.`);
+    await t.play('the taproom');
+    expect([t.glance.enclosed, t.screen.exits.find(e => e.id === t.glance.back)?.destination.id]).toEqual([true, 't__lane']);
   });
 });

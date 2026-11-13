@@ -29,9 +29,16 @@ what, read [verification.md](verification.md); for what is open, read [the regis
 4. **What is told and led with.** `Narrator.leaf` (`src/presentation/narrator.ts`) tells what came of the command.
    The glance (`src/presentation/glance.ts`, types in `glance-types.ts`) gives the place in at most three sentences:
    - the few acts led with, ranked by `Promotion` (`src/ui/promotion.ts`);
-   - the lenses (things, people, places, time);
+   - the lenses (things, people, places, time): each one's promoted acts and the rest, the acts inside an opener
+     (`leaves`), and the names of subjects the scene draws no one for (`LensSubjects`); the waits and the company's
+     own acts are time's, and acts at a thing on a way are things';
    - the followed aim's next step, which is the only gold;
-   - likenesses, what is sensed along each way, the compass inside an enclosed place, and what pulls next.
+   - likenesses (`Likenesses`: one indicator per person), what is sensed along each way, and what pulls next;
+   - the spatial contract: an enclosed place (`Itineraries.enclosed`: indoors, under the ground, in a building or a
+     site) offers nothing overland, and has the compass (`Compass`: the way out, the next place, exhausted) and Back
+     (`CompanyRecall.back`), all on that one rule.
+   The opening's pages say what each is (`Prologue.pages`: no act, one, or several), and a fight's screen what cannot
+   be used now and why (`Unusable`).
 5. **Drawn by a client**, from the same projection:
    - **The page** (`web/reader`) draws it on the stage (`web/reader/stage`). `MenuModel` (`web/reader/menu-model.ts`)
      builds its choices from `ChoiceList` (`src/ui/choice-list.ts`).
