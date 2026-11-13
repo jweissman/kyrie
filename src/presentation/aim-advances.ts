@@ -25,11 +25,14 @@ export class AimAdvances {
     const coin = this.short(def);
     if (!calls.length && !coin) { return new Set(); }
     // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
-    // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
-    // Nor ever by spending (what the debt carries would sell; a ten-foot pole bought is not that).
+    // things, had been led to ask him every question he knew: Mission 20), or by an act that itself puts coin in the
+    // purse (Marsh Howe's den cleared, "Search Marsh Howe for what was dragged in" had been only under `all`, and the
+    // foreground only the way out: PL-25); never by what a rule pays for (PL-21). Nor ever by spending (what the debt
+    // carries would sell; a ten-foot pole bought is not that).
+    const actor = campaign.playerActor ?? 'party';
     return new Set(rows.filter(r => !r.action.movement && !/^buy_/.test(r.action.schema ?? '')
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
-        || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
+        || (coin && (/^sell_/.test(r.action.schema ?? '') || this.pays(r.action, actor))))).map(r => r.choice.id));
   }
   // Where what the aim followed waits on lies hidden, to be searched for: the places, while it is still to be found.
   // From anywhere else the way there is the aim's (see Glance.ways): inside Murkweard, the cross at its door still to
@@ -105,6 +108,13 @@ export class AimAdvances {
       call: ModuleWriter.call('carries', action.actor ?? action.bindings?.actor ?? '?a', find) }] : [],
     ...foe ? [{ kind: 'retract', call: ModuleWriter.call('able', foe) }, { kind: 'assert', call: ModuleWriter.call('dead', foe) }]
       : []];
+  }
+  // Whether an act's own changes put coin in the company's purse, and take none out of it: not a service had of
+  // someone (a bed, a song for supper), nor a reckoning paid to them, which the a1 debt's gold at the inn had been.
+  private static pays(action: Operator, actor: string): boolean {
+    const purse = (action.success ?? []).filter(c => c.call?.name === 'quantity' && c.call.args[0] === actor
+      && c.call.args[1] === 'gold').map(c => c.kind);
+    return !action.bindings?.service && purse.includes('increase') && !purse.includes('decrease');
   }
   // Whether the aim followed is short of coin: a find that is spoils (valuable, and nobody's) then pays toward it (see
   // Affordances, opened).

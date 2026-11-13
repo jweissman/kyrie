@@ -93,7 +93,8 @@ export class Affordances {
       .map(c => this.candidate(c, { kind: 'act', r, whys: ['danger'] }));
   }
   private static subject(s: SceneSubject, screen: Screen, r: Reading): Candidate[] {
-    if (s.kind === 'companion' || s.state) { return []; }
+    if (s.kind === 'companion') { return []; }
+    if (s.state) { return this.remains(s, r); }
     if (SceneModel.threat(s)) { return this.threat(s, r); }
     // Talking to them, or looking at it, is one choice; what is done about them stands beside it (see Attending).
     const opener = s.choices.find(c => [`${s.id}#talk`, `${s.id}#look`].includes(c.id));
@@ -104,6 +105,13 @@ export class Affordances {
     const whys: Why[] = [...r.signs.has(s.id) ? ['sign' as const] : [], ...r.life === s.id ? ['life' as const] : [],
       ...this.about([gentle], r) ? ['about' as const] : [], ...this.ownWhy([gentle], r)];
     return [this.candidate(gentle, { subject: s.id, kind: 'act', whys, r })];
+  }
+  // Who lies dead or down: only what the aim followed waits on done about them (Marsh Howe's den cleared, the search
+  // among the zombies' bones for the coin they dragged in, had been only under `all`: PL-25).
+  private static remains(s: SceneSubject, r: Reading): Candidate[] {
+    const step = Attending.all(s.choices).find(c => c.command && !c.disabled && r.advances?.has(c.command)
+      && !r.done.has(c.command));
+    return step ? [this.candidate(step, { subject: s.id, kind: 'act', whys: ['advance'], r })] : [];
   }
   // A danger: its gentlest act (one of its own first, then any that is neither a risk nor a blow), and the attack.
   private static threat(s: SceneSubject, r: Reading): Candidate[] {

@@ -44,6 +44,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | fixed in this branch (the telling, and the take's label) |
 | PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed in this branch (the lead's ruling) |
 | PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed in this branch (generation) |
+| PL-25 | **P0** | a1 debt: Marsh Howe's den cleared, the foreground is only the way out; the search for the coin dragged in is under `all` (and one steel coin sent the company 71 minutes home, and called Ísencepan "spent" unexplored) | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | ranks 1 and 2 built in this branch (the lead's ruling); ranks 3–4 later |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -446,6 +447,29 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   The kahitude order walk in `test/gold-thread` no longer allows `lost` as an end.
 - **Regression:** `test/small/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
   history or fate the errand waits on (mutation-checked: without the marks it fails for the five countries above).
+
+### PL-25: a cleared den's coin hidden from a debt (round 13, a1 debt, Brann the warrior)
+
+- **Repro:** a1 debt, human warrior, going straight at the aim. Mik → Eamon ("Ísencepan, Marsh Howe, Palusporta") →
+  Ísencepan's gate-passage: "Collect a steel coin" (gold) → the gold goes 71 minutes home ("What you have found would
+  fetch coin") to sell it to Mik for **one coin** → "Ísencepan is spent" (only its gate-passage seen, the portcullis not
+  raised) → Marsh Howe, 146 minutes: a badger on the way, "the leader", two zombies, "Marsh Howe is quiet now". The
+  foreground: **"Take the way across country to open fields north-east of Mistshaw", and nothing else.** Under `all`:
+  "Search Marsh Howe for what was dragged in" (five coin) and "Collect a lantern with the glass gone". Day 1, 1:46
+  p.m., 27 coin of 50. Saves `play21/ga-spent.json`, `play21/ga-howe.json`.
+- **Cause:** two, both typed. (1) `AimAdvances` counted only selling toward a coin aim, never an act whose own
+  changes put coin in the purse (`Increase quantity(actor, gold) by hoard(beasts)`). (2) `Affordances.subject` gave a
+  dead or downed subject no candidates at all, and the den's search is grouped under the dead zombies.
+- **Fix:** an aim short of coin is advanced by an act that itself puts coin in the company's purse and takes none out
+  (not a service had of someone, a bed or a song for supper, nor a reckoning paid: the first cut had made "Take a bed
+  and supper from Eamon" the debt's gold); and the dead or down are offered only what the aim followed waits on done
+  about them (`Affordances.remains`). At the cleared howe the gold is now "Search Marsh Howe for what was dragged in".
+  Regression: `test/small/debt-purse.test.ts` (a cleared den's search is the debt's gold; mutation-checked both ways:
+  without `pays`, and without `remains`).
+- **With it (P1, data):** the debt's `laden` no longer holds for a trifle (`worth >= 5`: a steel coin is 3), so one
+  coin does not send the company home; and the further aim says "{near} has not paid it", where it said "is spent" of
+  a keep whose gatehouse was all that was seen (`src/world/origins.ts`). No spec: the debt's walk in `test/gold-thread`
+  still ends at the next old place.
 
 ### PL-06: after the aim, nothing pulls
 

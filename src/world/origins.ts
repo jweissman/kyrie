@@ -172,7 +172,7 @@ export class Origins {
         + '  Rule near_spent when been(party, near) and at(party, shop) and owed(loan) > 0 and not nearSpent(party) '
         + '{ Assert nearSpent(party). }\n'
         + `  Objective owing_further when ${owing} and nearSpent(party) toward further "You owe {creditor} `
-        + '{owed(loan)} coin by market day, and {near} is spent. {keeper} told of {further} as well: what is in such '
+        + '{owed(loan)} coin by market day, and {near} has not paid it. {keeper} told of {further} as well: what is in such '
         + 'places could pay it.".\n' : '') : '';
     return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
