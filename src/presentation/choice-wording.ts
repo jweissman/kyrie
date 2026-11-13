@@ -24,6 +24,9 @@ export class ChoiceWording {
     // Nor is a way told as going to itself: "Take the sealed stair", not "… to the sealed stair".
     let name = at.name.replace(/ to (.+) to \1$/, ' to $1').replace(/^(\S+ )(.+) to \2$/, '$1$2');
     if (at.here) { name = name.replace(` to ${at.here} to `, ' to '); }
+    // Nor where where it comes to is called by the place its name goes to: "Take the road to the Lull", not "… to the
+    // way into the Lull" (round 12, B: T24-19).
+    if (action.movement || action.schema === 'go') { name = this.once(name); }
     const resolve = action.resolve, world = campaign.world;
     // A hazard is risked on the way to somewhere, and says where (the command stays the trap and who goes first).
     const to = action.schema === 'risk' && world.module.entities.find(e => e.id === action.bindings?.destination);
@@ -41,6 +44,14 @@ export class ChoiceWording {
     if (hurt) { name += ` · ${hurt}`; }
     return name;
   }
+  // "A to B to C", where C ends with B or B with C, is "A to B".
+  private static once(name: string): string {
+    const m = /^(.* to (.+?)) to (.+)$/.exec(name);
+    if (!m) { return name; }
+    const [, way, goes, comes] = m, b = this.plain(goes!), c = this.plain(comes!);
+    return c.endsWith(b) || b.endsWith(c) ? way! : name;
+  }
+  private static plain(words: string): string { return words.replace(/^the /i, '').toLowerCase(); }
   // A trap that has a workings to learn (looked at closely) says how bad it is once the company knows it; anything
   // else (a ford in spate) at once. Its harm on an average roll, against the one who goes first as they are now.
   private static hurt(campaign: Campaign, action: Operator, expose: Call): string | undefined {

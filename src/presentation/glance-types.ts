@@ -68,6 +68,9 @@ export interface Promoted {
   // The one led act that is the followed aim's known next step, where one is known (see Promotion.continued): the
   // foreground's recommended continuation, whether or not the page shows it as such.
   continues?: true;
+  // Led for something more pressing (a danger), but what the aim followed waits on all the same: the rats the
+  // corn-store job is to clear, fought (see Promotion.continued). The aim's next step before any way to its place.
+  advances?: true;
   // A way into a town from its own country (see Affordances, entry): the map's card for the hex offers it.
   enters?: true;
   // What it is lies where it goes, perceived from here, not present: drawn faint (the owner, 11 November night: a road

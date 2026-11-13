@@ -1,4 +1,4 @@
-import { Canon } from '../canon/canon';
+import { Canon } from './canon';
 
 type Modifiers = NonNullable<(typeof Canon.conditions)[string]>['modifiers'];
 // Whether a condition helps its holder, hurts them, or is neither, as the catalog shows it. One resisted with a

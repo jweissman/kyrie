@@ -79,8 +79,14 @@ export class AimAdvances {
     const made = (action.success ?? []).flatMap(c => c.call ? [{ kind: c.kind, call: c.call }] : []);
     // Grounded, the resolution names the thing itself.
     const find = action.resolve?.name === 'acquire' ? action.resolve.args[0] : undefined;
-    return find ? [...made, { kind: 'assert', thing: find,
-      call: ModuleWriter.call('carries', action.actor ?? action.bindings?.actor ?? '?a', find) }] : made;
+    // A fight won leaves the foe unable, and dead: the rats the corn-store job waits on (`Rule … when not
+    // able(rats)`), fought in front of the company, had not been the aim's, and the gold went back out to the empty
+    // cellar the aim's words name (M21's playability list, PL-11).
+    const foe = action.resolve?.name === 'combat' ? action.resolve.args[0] : undefined;
+    return [...made, ...find ? [{ kind: 'assert', thing: find,
+      call: ModuleWriter.call('carries', action.actor ?? action.bindings?.actor ?? '?a', find) }] : [],
+    ...foe ? [{ kind: 'retract', call: ModuleWriter.call('able', foe) }, { kind: 'assert', call: ModuleWriter.call('dead', foe) }]
+      : []];
   }
   // Whether the aim followed is short of coin: a find that is spoils (valuable, and nobody's) then pays toward it (see
   // Affordances, opened).
@@ -102,8 +108,12 @@ export class AimAdvances {
     if (kept.has(def.id)) { return kept.get(def.id)!; }
     const wanted: Call[] = [], made: Call[] = [];
     this.reads(def.when, wanted);
+    // A rule makes so what it asserts, and what it teaches: the ruts followed, a rule tells the cart found (what the
+    // father's aim waits on), and following them had been the aim's only by being a thing at the road it names.
     for (const rule of module.rules ?? []) {
-      if (rule.effects.some(c => !!c.call && wanted.some(w => this.meets(c.call!, w)))) { this.reads(rule.when, made); }
+      const taught = rule.teaches ? [ModuleWriter.call('knows', '?k', rule.teaches)] : [];
+      const brought = [...rule.effects.flatMap(c => c.call ? [c.call] : []), ...taught];
+      if (brought.some(c => wanted.some(w => this.meets(c, w)))) { this.reads(rule.when, made); }
     }
     const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
     kept.set(def.id, calls);

@@ -114,7 +114,9 @@ export class Affordances {
     // A danger the aim followed is about (the old buck rat its nest is kept by) is gone at for the aim, red and gold:
     // the page had led past it, to the drain beyond, as "toward your aim" (round 7, both players).
     ...attack ? [this.candidate(attack, { subject: s.id, kind: 'attack', r,
-      whys: ['danger', ...r.named.has(s.id) ? ['named' as const] : []], notes: { danger: s.danger ?? '' } })] : []];
+      whys: ['danger', ...r.named.has(s.id) ? ['named' as const] : [],
+        ...r.advances?.has(this.command(attack) ?? '') ? ['advance' as const] : []], notes: { danger: s.danger ?? '' } })]
+      : []];
   }
   private static gentle(choices: Choice[], r: Reading): Choice | undefined {
     // Never leaving a talk: led with, a danger talked to had been "Take your leave" and then talked to again, round and
@@ -179,7 +181,7 @@ export class Affordances {
       // hobs' bell and rings in their cache, which taken had the company caught leaving).
       ...!person && (moving.length || (spoils && r.coin)) ? ['advance' as const] : [],
       ...spoils ? ['spoils' as const] : [],
-      ...this.about(fresh, r) || this.there(s, leaves, r) ? ['about' as const] : [],
+      ...this.about(fresh, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       ...person && s.asked && !talked && learned ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : [],
@@ -239,12 +241,6 @@ export class Affordances {
   // between Fearnmaere and Brockminster, region__s2_s5_way, had been "in" Fearnmaere, region__s2).
   private static within(id: string, named: Set<string>, r?: Reading): boolean {
     return named.has(id) || !!r?.holding?.has(id);
-  }
-  // Whether a way on from here is still not taken (not the road out): searching where the aim is comes after going
-  // on (at the churchyard the aim names, the stair down to the crypt first), and never where someone the aim names
-  // stands (the priest who owes for the catacombs, at her shrine): the cold review's search as an interface tax.
-  private static onward(screen: Screen): boolean {
-    return screen.exits.some(e => !e.visited && e.local && !e.blocked);
   }
   // An aim held and not followed: "another aim" beside one followed, else only an aim (with nothing followed yet, the
   // priest the brothers' letter is for had been "another aim": round 11, T).
@@ -381,9 +377,9 @@ export class Affordances {
       ...kind === 'camp' && ((n.night && !n.settled) || n.weary) ? ['exposed' as const] : [],
       ...kind === 'rest' && n.hurt.size > 0 && !at.threat ? ['hurt' as const] : [],
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
-      ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
-        && !screen.people.some(p => r.named.has(p.id)) ? ['named' as const] : [],
-      // What the aim waits on, done by the company here (sitting up with the fevered child): its next step.
+      // What the aim waits on, done by the company here (sitting up with the fevered child, a search where what it
+      // waits on is hidden): its next step. A search is not the aim's for being made where the aim is: at Seolforfyrd
+      // the debt's gold went to "Search", and "nothing is hidden here" (M21's playability list, PL-08).
       ...c.command && r.advances?.has(c.command) && !r.done.has(c.command) ? ['advance' as const] : [],
       ...this.ownWhy([c], r), ...this.answers(c, at) ? ['danger' as const] : [],
       ...r.schema.get(c.command ?? '') === 'lie_still' ? ['helpless' as const] : []];
@@ -404,12 +400,10 @@ export class Affordances {
     return choices.some(c => c.command && (c.own || r.authored.has(c.command)) && !r.speakers.has(c.command)
       && !r.done.has(c.command)) ? ['own'] : [];
   }
-  // A thing at a place the aim names with something of its author's own to do, not yet done: what the aim is about
-  // there (the fresh ruts on the road the father went out by, which had been one of four things by the road, under a
-  // Search here led with as "where your aim is": Mission 19).
-  private static there(s: SceneSubject, leaves: Choice[], r: Reading): boolean {
-    return s.kind !== 'person' && !s.danger && r.named.has(r.here) && this.ownWhy(leaves, r).length > 0;
-  }
+  // A thing at a place the aim names is not the aim's for being there: what its act brings about must be what the aim
+  // waits on (see AimAdvances), as the ruts the father's cart went off by are. A town's own trouble at the old place a
+  // debt is to be paid from (the cairn of offerings at Seolforfyrd, and at Tenebraetumulo for the oxen) had taken the
+  // gold for standing there (M21's playability list, PL-05).
   // Whether what it does is done to something the aim names (not the company, nor the place it is done at).
   private static about(choices: Choice[], r: Reading): boolean {
     return choices.some(c => (r.args.get(this.command(c) ?? '') ?? []).some(a => r.named.has(a)));

@@ -1,4 +1,4 @@
-import type { Operator, Predicate } from '../lang/module';
+import type { Change, Operator, Predicate } from '../lang/module';
 import { PurchaseCompare } from './purchase-compare';
 import { PronounWords } from './pronoun-words';
 import type { World } from '../lang/world';
@@ -267,7 +267,18 @@ export class ChoiceGrouping {
     return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
       ...targets.length ? { targets } : {},
       ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {},
-      ...(row.action.success ?? []).some(c => c.kind === 'assert' && c.call?.name === 'knows') ? { teaches: true } : {} };
+      ...ChoiceGrouping.teaches(row.action.success ?? []) ? { teaches: true } : {} };
+  }
+  // Whether an act's success teaches the company something: it comes to know a fact the act does not itself make so.
+  // Knowing what it has just done is its record, not learning: the road's meetings (`Assert wayIn(cart_bargained).
+  // Assert knows(actor, cart_bargained)`) had drawn the wagoner's "Offer him a hand" and every answer to him blue, and
+  // nothing was learned (M21's playability investigation, PL-03).
+  // Who it was learned from, or heard of: the learning's own record (see WorldConstructs.learnt).
+  private static readonly learnt = new Set(['knows', 'toldBy', 'heard']);
+  static teaches(success: readonly Change[]): boolean {
+    const made = new Set(success.filter(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name))
+      .flatMap(c => c.call.args));
+    return success.some(c => c.kind === 'assert' && c.call.name === 'knows' && !made.has(c.call.args[1] ?? ''));
   }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;

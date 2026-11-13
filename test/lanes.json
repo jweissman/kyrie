@@ -1,0 +1,20 @@
+{
+  "about": "The suite's lanes (Mission 21, Phase 0; scripts/test-lane.ts). On every push: each spec file under push.under ms by test/timings.json, every file in test/small/, any spec not yet timed, and the sentinels below. Nightly and on demand: everything, with the long descents and the browser specs. A sentinel is a whole-world or whole-adventure spec kept on every push for what only it proves, each with why; keep the list short (its time is the push lane's).",
+  "push": {
+    "under": 30000,
+    "sentinels": {
+      "test/gold-follow.test.ts": "gold only after Follow, in a generated country's own errand and notices",
+      "test/signal-inside.test.ts": "every signal in a generated first town resolves to its act",
+      "test/map-in-site.test.ts": "the map from inside a site in wild country",
+      "test/world-starts.test.ts": "generated worlds start, across seeds and origins",
+      "test/low-water-company.test.ts": "an authored campaign's company and its first scenes (Low Water)",
+      "test/quittance-spine.test.ts": "an authored adventure's spine (Quittance)",
+      "test/hessel-wander.test.ts": "an authored adventure wandered (Hessel)",
+      "test/the-grand-tour-second.test.ts": "an integrated adventure's second leg (the Grand Tour)",
+      "test/deep-history.test.ts": "a generated deep site's history",
+      "test/undertown-orders.test.ts": "the undertown's orders (the first town's chain)",
+      "test/muster-round3.test.ts": "the Muster's round",
+      "test/winter-in-carth-wander.test.ts": "an authored adventure wandered (A Winter in Carth)"
+    }
+  }
+}
