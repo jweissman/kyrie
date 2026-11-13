@@ -42,7 +42,10 @@ export type Why =
   // A way or an act the company's last act opened (a padlock picked: the corn-store it held shut).
   | 'opened'
   // Nothing else to do here: a way on, so that a place is never left with nothing in front of the company.
-  | 'way';
+  | 'way'
+  // In a lens, one of its own acts with no reason beyond being there (talking to whoever is here): promoted after
+  // those with a reason, so that a lens with acts of its kind is never empty (see Promotion.lenses).
+  | 'present';
 // What a choice risks, or needs said before it is chosen.
 export type MarkKind = 'one-way' | 'grave' | 'fight' | 'trap' | 'unlooked' | 'heard' | 'exposed' | 'warned' | 'night';
 // ask: the page asks again before it is done.
@@ -94,6 +97,9 @@ export interface Lensed { promoted: Promoted[]; rest: LensAct[] }
 export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }
 // Inside an enclosed place, the way out, the next known place worth going, and whether nothing known is left inside.
 export interface Compass { out?: Route; next?: Route; exhausted: boolean }
+// What a likeness here is to the company (see Likenesses): its aspects, or the undertaking alone where it is the
+// followed aim's next step.
+export interface Likeness { aspects: Aspect[]; continues?: true }
 export interface Glance {
   arrival: Arrival;
   // Coming here after a journey: one line of it (the legs stay in Look about).
@@ -123,6 +129,8 @@ export interface Glance {
   aim?: string;
   // Each lens's acts (see Lens).
   lenses: Record<Lens, Lensed>;
+  // Each subject led with, by its id: the one indicator its likeness is drawn with (see Likenesses).
+  likenesses?: Record<string, Likeness>;
   // Inside a building, a site, under the ground or aboard (see Compass): no overland act is offered from here.
   enclosed?: true;
   compass?: Compass;

@@ -1,4 +1,5 @@
 import { DrawnWorld } from '../../src/world/drawn-world';
+import { Kept } from './kept';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { Journey } from '../../src/session/journey';
@@ -31,5 +32,14 @@ export class Keep {
   static async arrive(j: Journey, place: string, wait = '=day 10 09:00') {
     await j.play(wait);
     Placed.at(j, Keep.id(place));
+  }
+  // Begun and come to a place of the keep: drawn and waited for once in a spec file, each case resumed from there
+  // (see Kept.drawn: 90 s a case had gone on drawing a1 and waiting nine days).
+  static async at(place: string, o: { calling?: string; wait?: string; seed?: string } = {}): Promise<Journey> {
+    const kept = await Kept.drawn(o.seed ?? Keep.seed, { origin: 'debt',
+      party: [{ name: 'Mira', raceId: 'human', classId: o.calling ?? 'warrior' }] });
+    const j = await kept.play(o.wait ?? '=day 10 09:00');
+    Placed.at(j, Keep.id(place));
+    return j;
   }
 }

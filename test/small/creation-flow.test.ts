@@ -19,19 +19,23 @@ const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { headin
 describe('making the protagonist', () => {
   it('is one flow: its steps, its cards, and what a choice settles', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
-    // The protagonist drawn is a warrior, whose ways are a step of their own.
-    expect(ids()).toEqual(['why', 'you', 'calling', 'specialty', 'before', 'presenting', 'name']);
+    // The calling only: its way (a mage's school) is not asked, but the calling's own until chosen in play.
+    expect(ids()).toEqual(['why', 'you', 'calling', 'before', 'presenting', 'name']);
     flow.choose('you', 'elf');
     expect(flow.steps().find(s => s.id === 'calling')!.cards.map(c => c.id)).not.toContain('cleric');
     flow.choose('calling', 'mage');
-    const way = flow.steps().find(s => s.id === 'specialty')!;
-    expect([way.ask, ids().indexOf('specialty')]).toEqual(['Choose your school', 3]);
-    const school = way.cards.find(c => !c.shut)!.id;
-    flow.choose('specialty', school);
-    // A new calling's way is its own (the first it offers, until another is chosen), never the last calling's.
+    const schools = Creation.catalog().callings.find(c => c.id === 'mage')!.specializations.map(t => t.id);
+    expect([ids().includes('specialty'), schools.includes(flow.member.traits?.[0] ?? '')]).toEqual([false, true]);
+    const school = flow.member.traits![0];
+    // A new calling's way is its own (the first it offers), never the last calling's.
     flow.choose('calling', 'warrior');
     const warrior = Creation.catalog().callings.find(c => c.id === 'warrior')!.specializations.map(t => t.id);
     expect([warrior.includes(flow.member.traits?.[0] ?? ''), flow.member.traits?.[0] === school]).toEqual([true, false]);
+    // What you did before is asked by its kind only; the trade within it is the one that suits the calling best.
+    const catalog = Creation.catalog(), before = flow.steps().find(s => s.id === 'before')!;
+    expect(before.cards.every(c => catalog.kinds.some(k => k.id === c.id))).toBe(true);
+    flow.choose('before', before.cards[0]!.id);
+    expect(catalog.backgrounds.find(b => b.id === flow.member.backgroundId)?.kind).toBe(before.cards[0]!.id);
     flow.choose('presenting', 'he');
     expect(flow.member.name).toBe('Lorin');
     flow.choose('name', 'Tam');

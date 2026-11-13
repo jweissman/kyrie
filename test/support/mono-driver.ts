@@ -120,6 +120,13 @@ export class MonoDriver {
       const opener = `.opens-${part}:not([disabled]) >> nth=-1`;
       if (!await has(opener)) { continue; }
       await this.click(opener);
+      // A lens in the scene (CN-01): the act among its four, or among the rest unfolded beneath; a place in another
+      // quarter of the town by its walk there or its way in. Not in this lens, it is put away.
+      if (await has('.glance .lens')) {
+        if (await this.lensed(id, part)) { return true; }
+        await this.click(opener);
+        continue;
+      }
       // Waiting, opened, is Wait… itself: its lengths are what it shows.
       if (part === 'wait' && (await this.inspect()).choices.find(c => c.id === id)?.children
         && await has('.pastime .pt-length')) { return true; }
@@ -153,6 +160,33 @@ export class MonoDriver {
       await this.click(shut);
     }
     return false;
+  }
+  // An act in a lens in the scene (CN-01), as a player finds it: the lens turned on at the rail, its rest unfolded, the
+  // act by its words, under a thing's or someone's name where one is given (or naming it, among the four).
+  async inLens(part: 'go' | 'look' | 'wait', act: RegExp | string, under?: RegExp) {
+    const lens = { go: 'places', look: 'things', wait: 'time' }[part];
+    const has = async (q: string) => (await this.page.locator(q).count()) > 0;
+    if (!await has(`.glance .lens[data-lens="${lens}"]`)) { await this.click(`.opens-${part}:not([disabled]) >> nth=-1`); }
+    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
+    if (await has(all)) { await this.click(all); }
+    const rows = this.page.locator('.glance .lens [data-act]');
+    const grouped = under ? this.page.locator('.glance .lens .lens-group', { hasText: under }).locator('[data-act]', { hasText: act })
+      : rows.filter({ hasText: act });
+    const named = rows.filter({ hasText: under ?? act }).filter({ hasText: act });
+    return (under && !await grouped.count() ? named : grouped).first();
+  }
+  // Found in the lens turned on (see GlanceStage.Lens) and done: true when done. Waiting is the time lens itself.
+  private async lensed(id: string, part: string): Promise<boolean> {
+    const has = async (q: string) => (await this.page.locator(q).count()) > 0;
+    if (part === 'wait' && (await this.inspect()).choices.find(c => c.id === id)?.children) { return true; }
+    const dest = id.replace(/^(travel|exit):/, '').split(/[/#]/)[0] ?? '';
+    const ways = /^(travel|exit):/.test(id) ? `, [data-act="travel:${dest}"], [data-act^="exit:${dest}"]` : '';
+    const row = `.glance .lens :is([data-choice="${id}"], [data-act="${id}"]${ways}) >> nth=0`;
+    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
+    if (!await has(row) && await has(all)) { await this.click(all); }
+    if (!await has(row)) { return false; }
+    await this.click(row);
+    return true;
   }
   // A way in Go… is gone by at a click (the owner's play of 7 November); one that asks first who of the company goes
   // first is gone by the first of them, beside it.
@@ -193,7 +227,11 @@ export class MonoDriver {
     if (rest && !await has(`.intentions [data-choice="${id}"]`)) {
       if (!await has('.opens-go')) { return false; }
       await this.key('g');
-      if (!await has(`[data-pick="${id}"]`)) { await this.key('Escape'); return false; }
+      // The places lens: its rest unfolded where the way is not among its four.
+      if (!await has(`:is([data-pick="${id}"], .lens [data-act="${id}"])`) && await has('.lens [data-action="lens-all"][aria-expanded="false"]')) {
+        await this.click('.lens [data-action="lens-all"]');
+      }
+      if (!await has(`:is([data-pick="${id}"], .lens [data-act="${id}"])`)) { await this.key('Escape'); return false; }
     }
     for (let i = 0; i <= state.choices.length && (await this.inspect()).selected !== id; i++) { await this.key('ArrowDown'); }
     if ((await this.inspect()).selected !== id) { return false; }

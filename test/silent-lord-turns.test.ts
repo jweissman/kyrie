@@ -13,8 +13,7 @@ const r = (id: string) => `region__${id}`;
 
 describe('the silent lord: consequences that leave the keep', () => {
   it('can be ended by a cup: the herald dies at the feast, the garrison paid, the lie holds, the town’s levy is remitted, and a save keeps it', async () => {
-    const j = await Keep.start();
-    await Keep.arrive(j, 'kitchen');
+    const j = await Keep.at('kitchen');
     await j.play('=day 12 11:00', '>keep__ward');
     j.coin(100);
     await j.play('Ask .* how the garrison stands', 'Put eighty crowns');
@@ -38,8 +37,7 @@ describe('the silent lord: consequences that leave the keep', () => {
   }, 600000);
 
   it('turns the household on a company that names the seal a forgery with nothing to lay beside it: the herald’s men fall on them', async () => {
-    const j = await Keep.start();
-    await Keep.arrive(j, 'kitchen');
+    const j = await Keep.at('kitchen');
     await j.play('=day 12 20:00', '>keep__hall');
     Placed.knows(j, k('lord_dead'));
     Placed.knows(j, k('herald_false'));
@@ -69,8 +67,7 @@ describe('the silent lord: consequences that leave the keep', () => {
   }, 300000);
 
   it('lets a garrison that is not paid take the keep when the death is told: the castellan goes to her own oubliette, and unpaid spearmen ask a toll on the first town’s green', async () => {
-    const j = await Keep.start();
-    await Keep.arrive(j, 'kitchen');
+    const j = await Keep.at('kitchen');
     // Ansel has been won (given as a fact: the duel and the misunderstanding have their own specs), or he would
     // call the company out across the hall at the second cup and halt it where it stands.
     j.assert('befriended', k('ansel'), 'party');
@@ -99,8 +96,7 @@ describe('the silent lord: consequences that leave the keep', () => {
   it.skip('has a clerk who forges the lord’s remission for a friend, and sends a rider to the bailiff’s green', async () => {
     const far = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
       .find(x => x.scenario === 'silent-lord')!.bindings.far!;
-    const j = await Keep.start();
-    await Keep.arrive(j, 'chancery', '=day 5 09:00');
+    const j = await Keep.at('chancery', { wait: '=day 5 09:00' });
     await j.play('Pick through the spoiled sheets', 'Put the spoiled sheets', 'Ask .* to write a remission of the levy');
     expect(Keep.carries(j, 'a remission in the lord.s hand')).toBe(true);
     await j.play('Ask .* about the hay');

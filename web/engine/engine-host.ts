@@ -32,6 +32,7 @@ import { ObservationText } from '../../src/lang/observation-text';
 import { Spatial } from '../../src/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
+import { Likenesses } from '../../src/presentation/likenesses';
 import { Glance } from '../../src/presentation/glance';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left.
@@ -419,8 +420,10 @@ export class EngineHost {
     // Told before the story is sent: the opening is the story's first entry (see leaf). The journey held is read after
     // the page is told (coming to it lets it go), and goes on first of what the glance leads with.
     const leaf = this.leaf(), going = this.journeying();
-    if (leaf.glance) { leaf.glance = Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
-      ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }); }
+    if (leaf.glance) {
+      leaf.glance = Likenesses.with(Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
+        ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }));
+    }
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the

@@ -1,15 +1,15 @@
-# Kyrie's checks: on every push and pull request, lint and types, the player contracts and small worlds, and the push
-# lane in eight balanced shards; nightly and on demand, the whole suite in ten, the long descents, and the browser
-# specs, each against the page it builds. Every skipped spec is listed in the run's summary. A failing spec turns its job red. Deem and the languages package are pinned in package.json (github:owner/name#commit) and installed by
-# bun from the lockfile, so a clean clone needs no sibling checkouts. Orsino, whose registry one spec regenerates byte
-# for byte, is checked out beside Kyrie at the revision the registry names. See doc/architecture/verification.md.
+# Kyrie's checks. On every push and pull request: lint and types, the player contracts and small worlds, the page
+# booted in Chromium, and the whole suite in sixteen balanced shards, the gate a deploy waits on (pages.yml). Nightly
+# and on demand besides: the long descents, the browser specs and the reference hour. Every skipped spec is listed in
+# the run's summary, and a failing spec turns its job red. Deem and the languages package are pinned in package.json
+# (github:owner/name#commit) and installed by bun from the lockfile, so a clean clone needs no sibling checkouts.
+# Orsino, whose registry one spec regenerates byte for byte, is checked out beside Kyrie at the revision the registry
+# names. See doc/architecture/verification.md and mission-21/validation-plan.md.
 name: CI
 # The owner's paintings arrive in assets/bg as they are made, which nothing builds from until they are placed (as
 # assets/portraits/scene-*): a push of those alone starts no run, and so cancels none in flight.
-# Every push runs the push lane (test/lanes.json: the specs under thirty seconds, the small worlds, the sentinels) in
-# minutes; the whole suite, the long descents and the browser specs run nightly on main and whenever asked (Actions,
-# Run workflow; or gh workflow run CI). Mission 21: 525 of 846 spec files had cost 5 % of the suite between them, and
-# every push waited thirty-five minutes for the other 321.
+# Mission 21 had run only a push lane of the faster files on each push, the rest nightly: it stopped the bleeding,
+# and hid regressions until a full run was asked for (the owner, 14 November: every test every time, and fast).
 on:
   push:
     paths-ignore: ['assets/bg/**']
@@ -68,34 +68,6 @@ jobs:
       - run: bun run test:honest
       # The rules on small worlds (test/small, Mission 21's fast loop): seconds, and the first to say a rule broke.
       - run: bun run test:small
-  # What every push runs: the push lane in eight shards, balanced by the files' kept times.
-  push:
-    name: push lane ${{ matrix.shard }}/8
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8] } }
-    steps:
-      - uses: actions/checkout@v4
-        with: { path: kyrie }
-      - id: orsino
-        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v4
-        with: { repository: jweissman/orsino, ref: "${{ steps.orsino.outputs.revision }}", path: orsino }
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
-      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
-      # by the language's own sources and the data; an older store of the same language is restored and grows.
-      - uses: actions/cache@v4
-        with:
-          path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
-      - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/8 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $(bun scripts/test-lane.ts push)
-      - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Push lane, shard ${{ matrix.shard }} of 8"
   # On every push, the page itself: loaded in Chromium, a character made, and a conversation sat at the foot of the
   # page (frame-browser's 820 × 1180). The push lane has no browser in it, and on 13 November a bare process.env had
   # stopped the game loading at all, which only the reference hour (evidence, not a gate) saw.
@@ -126,10 +98,12 @@ jobs:
   # The whole suite, nightly and on demand: in ten shards, balanced by the time each spec file took when the timings
   # were last kept (test/timings.json). Five shards had come to their thirty minutes by 3 November, six to their
   # forty-five by 10 November (a shard cancelled in every run seen, its specs never seen to pass).
+  # The whole suite, on every push as on demand and nightly: the gate a deploy waits on (the owner, 14 November: every
+  # test every time as the baseline, and fast; a push lane of the faster files had only moved the rest out of sight).
+  # Sixteen shards, balanced by the files' kept times.
   suite:
-    name: suite ${{ matrix.shard }}/10
+    name: suite ${{ matrix.shard }}/16
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
     # Ten shards since the adventure branch's standing scenarios joined every country: its worlds are larger; four of
     # six shards, then two of eight, ran past their forty-five minutes (CI on integrate/first-steps, 12 November), with
@@ -137,7 +111,7 @@ jobs:
     # never kept (their shards never finished): a run to the end keeps them, and the shards balance again (M21's
     # test-loop diagnosis, doc/architecture/mission-20/test-loop.md, is the remedy, not the limit).
     timeout-minutes: 60
-    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] } }
+    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] } }
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
@@ -156,9 +130,9 @@ jobs:
           path: kyrie/node_modules/.cache/kyrie-parse
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
-      - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/16 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 10"
+        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 16"
       # Kept, so that the files' times can be read back into test/timings.json (scripts/timings-from-ci.ts).
       - if: always()
         uses: actions/upload-artifact@v4

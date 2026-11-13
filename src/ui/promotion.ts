@@ -51,7 +51,7 @@ export class Promotion {
     companion: [3, -3], spoils: [3, -2], means: [3, -1], life: [3, 0], own: [3, 1], sign: [3, 2], asked: [3, 3],
     unlooked: [3, 4],
     onward: [3, 5], entry: [3, -4],
-    unvisited: [4, 0], way: [4, 1],
+    unvisited: [4, 0], way: [4, 1], present: [4, 2],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
     const eligible = cands.filter(c => !c.barred).map(c => ({ c, whys: this.allowed(c, s) }))
@@ -103,26 +103,55 @@ export class Promotion {
     const ranked = mine.map(c => ({ c, whys: this.allowed(c, at.s) })).filter(x => x.whys.length)
       .map(x => ({ ...x, best: this.best(x.whys) }))
       .sort((a, b) => this.ranked(a) - this.ranked(b) || a.c.order - b.c.order).slice(0, this.all);
-    const promoted = ranked.map(x => this.gilded(this.promoted(x.c, x.best, x.whys), at.next));
+    // The time lens's acts are the company's own.
+    const promoted = ranked.map(x => this.gilded(this.promoted(x.c, x.best, x.whys), at.next))
+      .map(p => lens === 'time' && !p.subject ? { ...p, subject: 'yourself' } : p);
     const led = new Set(promoted.map(p => p.choice));
-    return { promoted, rest: this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene) };
+    const all = this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene);
+    // Then the lens's own acts in its own order, up to four in all, never one that cannot be done now: a kitchen's
+    // Wat, with a topic and no aim, had left the people lens empty, his talk only in the rest (14 November).
+    const fill = all.filter(a => !a.disabled).slice(0, Math.max(0, this.all - promoted.length))
+      .map(a => this.gilded(this.present(a), at.next));
+    const shown = new Set([...led, ...fill.map(a => a.choice)]);
+    return { promoted: [...promoted, ...fill], rest: all.filter(a => !shown.has(a.choice)) };
+  }
+  private static present(a: LensAct): Promoted {
+    return { choice: a.choice, ...a.command ? { command: a.command } : {}, ...a.subject ? { subject: a.subject } : {},
+      label: a.label, why: 'present', facets: ['here'], tier: 4, aspects: [], marks: [] };
   }
   // Which lens an act is in: the ways, the waiting acts, and what is done about a thing or about someone.
   private static lens(c: Candidate, kinds: Map<string, string>): Lens | undefined {
     if (['way', 'step', 'travel'].includes(c.kind)) { return 'places'; }
     if (['wait', 'rest', 'camp'].includes(c.kind)) { return 'time'; }
-    const kind = c.subject && kinds.get(c.subject);
+    // The company's own acts, of no one and nothing here: a search is among things; the rest (a light lit or put out,
+    // a spell prepared, a hurt tended) take time, and are the time lens's after the waits (the coordinator's ruling,
+    // 14 November: they had been in no lens, only on the old Wait page).
+    if (!c.subject) { return c.kind === 'search' ? 'things' : c.kind === 'attack' ? undefined : 'time'; }
+    const kind = kinds.get(c.subject);
     return !kind || kind === 'companion' ? undefined : kind === 'thing' ? 'things' : 'people';
   }
   // The rest, in the scene's order; for time, each waiting act itself (a while, an hour, until dark, and watch).
   private static rest(lens: Lens, cands: Candidate[], scene: Scene): LensAct[] {
-    const sorted = cands.toSorted((a, b) => a.order - b.order);
-    const leaves = lens === 'time' ? Attending.all(scene.you.filter(c => sorted.some(x => x.choice === c.id)))
-      .filter(c => c.command) : [];
-    return leaves.length ? leaves.map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
-      ...c.disabled ? { disabled: c.disabled } : {} }))
-      : sorted.map(c => ({ choice: c.choice, label: c.label, ...c.command ? { command: c.command } : {},
-        ...c.subject ? { subject: c.subject } : {} }));
+    const sorted = cands.toSorted((a, b) => this.first(lens, a) - this.first(lens, b) || a.order - b.order);
+    if (lens === 'time') { return this.timed(sorted, scene); }
+    return sorted.map(c => ({ choice: c.choice, label: c.label, ...c.command ? { command: c.command } : {},
+      ...c.subject ? { subject: c.subject } : {} }));
+  }
+  // Each waiting act itself, the shorter first; then the company's own acts, as the scene has them.
+  private static timed(cands: Candidate[], scene: Scene): LensAct[] {
+    const mine = scene.you.filter(c => cands.some(x => x.choice === c.id));
+    const waiting = new Set(cands.filter(x => ['wait', 'rest', 'camp'].includes(x.kind)).map(x => x.choice));
+    const waits = Attending.all(mine.filter(c => waiting.has(c.id))).filter(c => c.command)
+      .toSorted((a, b) => (a.minutes ?? 0) - (b.minutes ?? 0));
+    const own = Attending.all(mine.filter(c => !waiting.has(c.id))).filter(c => c.command);
+    return [...waits, ...own].map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
+      subject: 'yourself', ...c.disabled ? { disabled: c.disabled } : {} }));
+  }
+  // Each lens's own order: talk first among people; looking and searching first among things; a fight last.
+  private static readonly firsts: Record<Lens, Kind[]> = { people: ['talk'], things: ['study', 'search'],
+    places: ['way', 'step', 'travel'], time: [] };
+  private static first(lens: Lens, c: Candidate): number {
+    return this.firsts[lens].includes(c.kind) ? 0 : c.kind === 'attack' ? 2 : 1;
   }
   // Gold only on the glance's own next step.
   private static gilded(p: Promoted, next: string | undefined): Promoted {

@@ -32,8 +32,7 @@ describe('the silent lord: ways in, and what they cost', () => {
   }, 300000);
 
   it('looses its hounds in the ward at the bell: a marrow-bone from the cook, who is told of it by the houndsman, quiets them', async () => {
-    const j = await Keep.start();
-    await Keep.arrive(j, 'kennels');
+    const j = await Keep.at('kennels');
     await j.play('Ask .* about the dogs');
     expect(Keep.knows(j, 'hounds_bone')).toBe(true);
     await j.play('>keep__kitchen', 'Ask .* for a marrow-bone');
@@ -50,8 +49,7 @@ describe('the silent lord: ways in, and what they cost', () => {
   }, 300000);
 
   it('has a houndsman who trusts whoever sits with the old dog, and tells that one the way under the wall', async () => {
-    const j = await Keep.start();
-    await Keep.arrive(j, 'kennels');
+    const j = await Keep.at('kennels');
     expect(j.offers('Ask .* how a person might come and go')).toBe(false);
     await j.play('Sit with the lord.s old dog');
     await j.play('Ask .* how a person might come and go');
@@ -60,8 +58,7 @@ describe('the silent lord: ways in, and what they cost', () => {
   }, 240000);
 
   it('leaves the wall empty between two and three in the morning: the sentries are at the brazier, and say so to whoever asks', async () => {
-    const j = await Keep.start();
-    await Keep.arrive(j, 'gatehouse');
+    const j = await Keep.at('gatehouse');
     await j.play('Ask the sentries when the watch changes');
     expect(Keep.knows(j, 'dead_watch')).toBe(true);
     await j.play('=day 11 01:30');

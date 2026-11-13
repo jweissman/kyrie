@@ -63,19 +63,22 @@ class Glancing {
   // A place at rest (the owner, 4 November, late, and 5 November, late): the picture, with whoever is here a touch away
   // under Talk (12 November), the place told whole and never folded away, and a few quiet touches; no ways, no list of
   // what can be done.
-  // Go… opens the ways and nothing else (no one to talk to, no acts on things, no waiting); Wait… opens waiting.
+  // Go… turns on the places lens in the scene and Wait… the time lens (CN-01, CN-05, the owner, 14 November): no page
+  // over it, the telling kept; the places lens holds the ways and nothing else (no one to talk to, no acts on things);
+  // the same mark puts it away.
   static async atRest(page: Page) {
     const at = (s: string) => page.locator(`.world-page ${s}`).count();
     const rest = { talk: await at('.opens-talk'), go: await at('.opens-go'),
       told: await at('.focus .setting p') > 0, folds: await at('details'), listed: await at('.focus .ways-here'),
       keys: await page.locator('.glance-keys').count() };
     await page.click('.opens-go');
-    const go = { ways: await at('.wayfinder .wf-row') > 0,
-      others: await at('.explorer :is(.portrait, .chip, .plate, .yours-here, .led:not(.wf-row), .at-ways, .about-here)') };
-    await page.click('[data-action="explore-shut"]');
+    const go = { ways: await at('.glance .lens-places [data-act]') > 0, page: await at('.explorer'),
+      kept: await at('.focus .setting p') > 0,
+      others: await at('.glance .lens :is(.portrait, .chip, .plate, .yours-here, .at-ways, .about-here)') };
+    await page.click('.opens-go');
     await page.click('.opens-wait');
-    const wait = { waits: await at('.pastime .pt-length') > 0 };
-    await page.click('[data-action="explore-shut"]');
+    const wait = { waits: await at('.glance .lens-time [data-act]') > 0 };
+    await page.click('.opens-wait');
     return { ...rest, ...go, ...wait };
   }
 }
@@ -103,7 +106,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       await Glancing.shot(page, 'first-arrival');
       // Go… is for going, and only for going (the owner, 5 November, late).
       expect(await Glancing.atRest(page)).toEqual({ talk: 1, go: 1, told: true, folds: 0, listed: 0, keys: 0,
-        ways: true, others: 0, waits: true });
+        ways: true, page: 0, kept: true, others: 0, waits: true });
       // A digit beyond what it leads with does nothing out of sight.
       if (!pointer) {
         const at = (await d.inspect()).place?.id;
@@ -134,11 +137,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // The drop is the ledge's one way on, so the scene offers it as itself, "To the still water…" (M19-109: two
-    // clicks for no choice); Go…, opened by its key, still holds it, and chosen there it says what it risks.
+    // clicks for no choice); the places lens, turned on by its key, still holds it, and says on it what it risks.
     expect(await page.locator('.act.opens-go').innerText()).toMatch(/^to the still water/i);
     await d.key('g');
-    await page.click('.wf-row[data-pick^="exit:"][data-pick*="pool"] >> nth=0');
-    expect(await page.locator('.wf-preview').innerText()).toMatch(/no coming back/i);
+    const drop = page.locator('.glance .lens-places [data-act^="exit:"][data-act*="pool"] >> nth=0');
+    if (!await drop.count()) { await page.click('.glance .lens [data-action="lens-all"]'); }
+    expect(await drop.innerText()).toMatch(/no coming back|no way back/i);
     await d.key('Escape');
     // Taken from the scene, it asks before it is taken, and says why.
     await Glancing.shot(page, 'one-way-offered');

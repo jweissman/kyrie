@@ -30,7 +30,7 @@ const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
 interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[] }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
-interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; lens?: { name: Lens; more: number } }
+interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; lens?: { name: Lens; more: number } }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
@@ -53,10 +53,15 @@ export class Terminal {
     // drawn, the list had changed its order each turn, and the key that was Cleave became Flee (the same review).
     const choices = CombatChoices.actions(legal, Content.abilities).sort((x, y) => Terminal.blow(x) - Terminal.blow(y)
       || x.ability.name.localeCompare(y.ability.name));
+    // Four in the hand, the weapon's blow first, as the page's fight leads with; all says every move, numbered alike.
+    let every = false;
     for (;;) {
-      choices.forEach((choice, i) => console.log(`${i + 1}. ${choice.ability.name} — ${choice.scope} (mana ${choice.ability.cost ?? 0})`));
+      const shown = every ? choices : choices.slice(0, 4);
+      shown.forEach((choice, i) => console.log(`${i + 1}. ${choice.ability.name} — ${choice.scope} (mana ${choice.ability.cost ?? 0})`));
+      if (shown.length < choices.length) { console.log(`(${choices.length - shown.length} more: all)`); }
       const answer = await input.ask('Action number or name, auto, or q: ');
       if (answer === null || answer === 'q') { return null; }
+      if (answer === 'all') { every = true; continue; }
       if (answer === 'auto') { return Tactics.choose(state, legal); }
       const choice = choices[Number(answer) - 1]
         ?? choices.find(c => c.ability.name.toLowerCase() === answer.toLowerCase());
@@ -159,16 +164,18 @@ export class Terminal {
     // While someone is spoken with, what can be put to them, as the page's conversation lists it (Attending.talk):
     // "Talk to the wagoner" had been drawn blue, and opened onto nothing to ask him (M21's playability investigation).
     const talk = talking && Attending.talk(SceneModel.build(screen), talking.id);
+    // Four at most, as everywhere: the replies the talk leads with, and leaving it always among them.
     if (talk) {
-      const replies = [...talk.replies, talk.leave].flatMap(c => this.leaves(c))
-        .flatMap(c => byId.get(c.command!) ?? []);
-      if (replies.length) { return { all, first: replies.map(c => this.drawn(acts, c)), talk: true }; }
+      const asked = talk.replies.flatMap(c => this.leaves(c)).flatMap(c => byId.get(c.command!) ?? []);
+      const leave = this.leaves(talk.leave).flatMap(c => byId.get(c.command!) ?? []);
+      const shown = asked.slice(0, 4 - leave.length), more = asked.length - shown.length;
+      if (shown.length || leave.length) {
+        return { all, first: [...shown, ...leave].map(c => this.drawn(acts, c)), talk: true, ...more ? { more } : {} };
+      }
     }
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
-    // Where it promotes fewer than four, the next of its own acts as it orders them fill the rest: nothing re-ranked.
     const lensed = lens && glance?.lenses[lens];
-    const chosen = lensed ? [...lensed.promoted, ...lensed.rest.filter(a => !a.disabled)]
-      .map(a => a.command ?? a.choice) : [...new Set(ids)];
+    const chosen = lensed ? lensed.promoted.map(a => a.command ?? a.choice) : [...new Set(ids)];
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
     return { all, first: (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c)),
@@ -280,6 +287,7 @@ export class Terminal {
         console.log('');
         if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
         this.choices(offered.first);
+        if (offered.more) { console.log(`(${offered.more} more: all)`); }
         // The commands when asked, and a word of where they are once: a line said the same after every act, and a
         // heading over the choices, are static context (the owner, 14 November: TM-02).
         if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }
