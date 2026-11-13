@@ -153,21 +153,20 @@ export class Told {
       return beats.some(b => b.includes(first));
     };
   }
-  static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
+  static Presence({ app, lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
     // A danger's first line is told in its own block, with how a fight would go ("A boar has rooted up the low path"
     // had been told there and again under it).
     const beside = subjects.flatMap(s => PlaceStage.danger(s) ? s.says?.slice(0, 1) ?? []
       : s.kind === 'person' ? s.says ?? [] : []).map(Typography.curl);
-    const told = lines.filter(l => !Told.roll(l)).map(l => beside.reduce((rest, said) => rest.replace(said, ''),
+    // Who is here is shown by their likenesses: the roll the narrator says apart is not told again (AR-05).
+    const roll = app.state.frame?.leaf.roll && Typography.curl(app.state.frame.leaf.roll);
+    const told = lines.filter(l => Typography.curl(l) !== roll).map(l => beside.reduce((rest, said) => rest.replace(said, ''),
       Typography.curl(l)).replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
     if (!told.length) { return null; }
     return <div className={`presence${quiet ? ' quiet' : ''}`}>
       <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}<Told.Said text={l} /></span>)}</p>
     </div>;
-  }
-  static roll(line: string): boolean {
-    return /^Here (are|is) /.test(line) || /, (is|are) here\.$/.test(line) || /^[^,]+ (is|are) here\.$/.test(line);
   }
   // What came of something done: what the company did, when it did it where it stands, in its own words; then what
   // happened, and what it came to know or spent.

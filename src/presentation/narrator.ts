@@ -28,7 +28,7 @@ export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[
 // is here), what has changed since the company was last here, and what came of the last thing it did.
 export interface Leaf {
   heading?: { kind: 'opening' | 'country' | 'chapter'; title: string };
-  situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter;
+  situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter; roll?: string;
   // The place at a glance (SceneBudget: three sentences, typed by what each observation is; Mission 21): what the
   // page and the terminal tell of situation and presence, and what they hold for a deliberate look, whole sentences in
   // the place's order. situation and presence above stay whole, for what reads the place entire.
@@ -111,7 +111,7 @@ export class Narrator {
     const gone = told?.moved ? told.feedback.observations.filter(t => !placed.includes(t)
       && !screen.observed.some(o => FictionalTime.prose(o.text) === t) && !renamed.has(t)) : [];
     const familiar = this.familiar(campaign, screen);
-    const presence = this.presence(screen, this.fought(campaign, told))
+    const seen = this.presence(screen, this.fought(campaign, told)), presence = seen.lines
       .filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
       && !familiar.has(p));
     // How long a warning will wait follows what was told, the warning first (play 9 read the wait before the warning).
@@ -131,7 +131,7 @@ export class Narrator {
         presence: budget.told.filter(t => t.kind === 'life').map(t => t.text), held: budget.held,
         ...budget.unsaid ? { unsaid: budget.unsaid } : {} },
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
-      ...journey.length ? { journey } : {},
+      ...journey.length ? { journey } : {}, ...seen.roll && presence.includes(seen.roll) ? { roll: seen.roll } : {},
     });
     return { ...leaf, glance: Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening }) };
   }
@@ -277,7 +277,9 @@ export class Narrator {
     if (!fell.size) { return new Set(); }
     return new Set(campaign.tickState.definition.actors.filter(a => a.members.some(m => fell.has(m))).map(a => a.id));
   }
-  private static presence(screen: Screen, fought = new Set<string>()): string[] {
+  // The roll of who is here is said apart (roll), for a page that shows them by their likenesses instead: the page
+  // had known it by its words ("… is here.", "Here are …": AR-05).
+  private static presence(screen: Screen, fought = new Set<string>()): { lines: string[]; roll?: string } {
     const lines: string[] = [], named: string[] = [];
     let many = false;
     for (const t of [...screen.people.filter(p => !p.companion && !(p.state && fought.has(p.id))), ...screen.things]) {
@@ -308,16 +310,15 @@ export class Narrator {
     // In the dark they are heard, not seen: by what they are, close by.
     const heard = screen.people.filter(p => !p.companion && !p.state).map(p => this.short(p.name));
     const all = heard.length > 1 ? `${heard.slice(0, -1).join(', ')} and ${heard.at(-1)}` : heard[0];
-    if (screen.dark) { return all ? [`In the dark you can hear ${all} close by.`] : []; }
-    if (named.length === 1) {
-      lines.push(`${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`);
-    }
-    else if (named.length) { lines.push(`Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.`); }
+    if (screen.dark) { return { lines: all ? [`In the dark you can hear ${all} close by.`] : [] }; }
+    const roll = named.length === 1 ? `${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`
+      : named.length ? `Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.` : undefined;
+    if (roll) { lines.push(roll); }
     // How long whoever warns the company off will wait (the Banns at Hessel's friction 23: the rest of a watch, and
     // nothing on the page said so).
     if (screen.warned) { lines.push(this.waits(screen.warned, screen)); }
     // Two of a kind doing the same (two goats at one hedge) are told once.
-    return lines.filter((l, i) => lines.indexOf(l) === i);
+    return { lines: lines.filter((l, i) => lines.indexOf(l) === i), ...roll ? { roll } : {} };
   }
   // A beast does not bargain: it watches, and comes on when the time is up (round 10, S: "will give you N minutes, no
   // more" of every monster). Whoever can speak gives the company its minutes.
