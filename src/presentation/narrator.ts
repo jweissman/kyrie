@@ -295,6 +295,16 @@ export class Narrator {
       // Whoever and whatever is here is said to be (the goblins, the bats), unless it has its own telling.
       if (t.kind === 'person' || t.kind === 'creature') { named.push(this.who(t)); many ||= !!t.many; }
     }
+    // What lies in something open here is told with it ("In the chest on the ledge: a stolen chalice."): a chest
+    // picked had said only that it stood open, and what was in it was under Every way (M21's PL-22).
+    const held = new Map<string, string[]>();
+    for (const t of screen.things.filter(x => x.within && !x.says?.length)) {
+      held.set(t.within!, [...held.get(t.within!) ?? [], t.name]);
+    }
+    for (const [box, names] of held) {
+      const what = names.length < 2 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+      lines.push(`In ${box.replace(/^an? /, 'the ')}: ${what}.`);
+    }
     // In the dark they are heard, not seen: by what they are, close by.
     const heard = screen.people.filter(p => !p.companion && !p.state).map(p => this.short(p.name));
     const all = heard.length > 1 ? `${heard.slice(0, -1).join(', ')} and ${heard.at(-1)}` : heard[0];

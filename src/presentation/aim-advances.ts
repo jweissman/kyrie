@@ -60,6 +60,22 @@ export class AimAdvances {
     return (campaign.module.observations ?? []).filter(o => o.teaches && facts.includes(o.teaches) && o.when)
       .flatMap(o => this.atoms(o.when!)).filter(c => c.name !== 'knows' && !w.test(c));
   }
+  // Where what the aim followed waits on to be known is seen, not yet known (the pillar whose marks tell the
+  // Water-Wardens' history): somewhere in a site, it is known to lie within it (see AimLeads.within).
+  static taughtAt(campaign: Campaign): string[] {
+    const def = Undertakings.followed(campaign), w = campaign.world;
+    if (!def) { return []; }
+    const facts = this.waits(campaign.module, def).filter(c => c.name === 'knows' && !c.args.at(-1)!.startsWith('?'))
+      .map(c => c.args.at(-1)!).filter(f => !w.test(ModuleWriter.call('knows', campaign.playerActor ?? 'party', f)));
+    // Seen by an observation, told by a rule where it is heard, or read in a writing that reveals it.
+    const seen = (campaign.module.observations ?? []).filter(o => o.teaches && facts.includes(o.teaches) && o.place)
+      .map(o => o.place!);
+    const heard = (campaign.module.rules ?? []).filter(r => r.teaches && facts.includes(r.teaches) && r.place)
+      .map(r => r.place!);
+    const read = w.relates('reveals') ? w.related('reveals').filter(r => facts.includes(r.args[1]!))
+      .flatMap(r => w.one('at', r.args[0]!) ?? []) : [];
+    return [...seen, ...heard, ...read];
+  }
   // The calls a condition needs to hold, not under a "not".
   private static atoms(e: Predicate): Call[] {
     if (e.kind === 'call') { return [e]; }

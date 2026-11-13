@@ -328,9 +328,9 @@ export class ScreenModel {
     const note = p.condition && p.type !== 'scenery' ? p.condition : owner ? `${owner}'s` : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
-    const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined;
+    const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined, within = p.within ? { within: p.within } : {};
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
-    return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
+    return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name, ...within,
       ...(note ? { note } : {}), ...(look ? { look } : {}), ...plate ? { portrait: plate } : {},
       ...(p.type === 'item' && !forSale && !owner && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
   }
