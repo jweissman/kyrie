@@ -32,7 +32,9 @@ export class RunnerWalk {
     let error: string | undefined;
     for (let n = 0; n < turns && !said.at(-1)!.end; n++) {
       // A walk that would follow an aim follows the first it holds, as a player told "follow 1" would.
-      const unfollowed = policy !== 'seeded' && said.at(-1)!.aims?.every(a => !a.followed) && said.at(-1)!.aims?.[0];
+      // The aim what pulls next names first (Succession), else the first held.
+      const last = said.at(-1)!, held = last.aims?.every(a => !a.followed) ? last.aims : undefined;
+      const unfollowed = policy !== 'seeded' && held && (held.find(a => a.id === last.next?.follow) ?? held[0]);
       if (unfollowed) {
         const out = await runner.ask(JSON.stringify({ follow: unfollowed.id }));
         // What it offers now; what was said on the turn stays as it was said.
@@ -51,7 +53,10 @@ export class RunnerWalk {
   }
   static choose(policy: Policy, s: Said, chosen: Offered[], seed: number): Offered | undefined {
     const led = s.offer.primary, all = [...led, ...s.offer.rest];
-    if (policy === 'straight') { return led.find(o => o.aspects.includes('undertaking')) ?? led[0] ?? all[0]; }
+    // Straight at the aim; else at what pulls next, where it is an act.
+    const next: Offered | undefined = s.next?.act ? { id: s.next.act, label: s.next.label ?? s.next.text, aspects: [],
+      type: 'other', marks: [] } : undefined;
+    if (policy === 'straight') { return led.find(o => o.aspects.includes('undertaking')) ?? next ?? led[0] ?? all[0]; }
     if (policy === 'curious') {
       const fresh = all.filter(o => !chosen.some(c => c.id === o.id));
       return fresh.find(o => led.includes(o) && o.aspects.some(a => ['knowledge', 'exploration'].includes(a)))

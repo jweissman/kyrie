@@ -4,10 +4,10 @@ import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { Narrator, type Told } from '../presentation/narrator';
-import type { Lens } from '../presentation/glance-types';
+import type { Lens, Successor } from '../presentation/glance-types';
 import { Offers, type ActType, type Offer, type Offered as Glanced } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
-import type { Screen } from '../ui/screen-types';
+import type { Act, Screen } from '../ui/screen-types';
 import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
 import { Undertakings } from '../presentation/undertakings';
@@ -25,7 +25,9 @@ export interface Offered { id: string; label: string; aspects: string[]; type: A
 // budget counts it (TerminalWalk).
 export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect';
   scene: { lines: string[]; prose: string[] };
-  offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; end?: true }
+  offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next; end?: true }
+// What pulls once an aim is seen through (Succession): its words, and the act that takes it up, or the aim to follow.
+export interface Next { text: string; act?: string; label?: string; follow?: string }
 // An aim held, as the Notes list it: following one (as Follow this does) takes no time.
 export interface Aim { id: string; text: string; followed?: true }
 // What an agent may send: an act by its id, a lens to look through, the place looked at whole, every choice, or an aim
@@ -54,14 +56,15 @@ export class Runner {
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer: this.offer(screen, g?.offer),
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
-      ...g?.need?.length ? { need: g.need } : {},
+      ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
       ...c.running ? {} : { end: true } };
   }
   // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.
   private offer(screen: Screen, offer: Offer | undefined): Said['offer'] {
+    // Only what can be done by its id: a choice the page draws by a key of its own that names no command is left out.
     const names = this.names();
-    const primary = (offer?.primary ?? []).map(o => Runner.choice(screen, names, o));
-    const rest = (offer?.rest ?? []).map(o => Runner.choice(screen, names, o));
+    const [primary, rest] = [offer?.primary ?? [], offer?.rest ?? []]
+      .map(list => list.map(o => Runner.choice(screen, names, o)).filter(o => Runner.doable(names, o)));
     const had = new Set([...primary, ...rest].map(o => o.id));
     // A journey the map offers and the scene does not (the terminal sets out by them too).
     const journeys = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
@@ -79,13 +82,41 @@ export class Runner {
     return { id, label: Typography.plain(named || own || o.label), aspects: o.aspects, type: o.type,
       ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind) };
   }
+  private static doable(names: Map<string, string>, o: Offered): boolean {
+    return names.has(o.id) || o.id.startsWith('travel:');
+  }
+  private static next(n: Successor): Next {
+    return { text: Typography.plain(n.text), ...n.command ? { act: n.command } : {},
+      ...n.label ? { label: Typography.plain(n.label) } : {}, ...n.aim ? { follow: n.aim } : {} };
+  }
   // Every choice's words, by its id.
   private names(): Map<string, string> {
     return new Map(PlayerView.choices(this.campaign).map(r => [r.choice.id, r.choice.name]));
   }
   // A way led with is done by its exit's own command.
+  // So with an act the page draws by its own key (a word at a way: "Look at the speaking door"), by the command it
+  // does, or the look within it, else the first: offered by its key, it had been taken as a command and failed (the
+  // matrix, a1's order).
   private static way(screen: Screen, id: string): string {
-    return screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command ?? id;
+    const exit = screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command;
+    if (exit) { return exit; }
+    const keyed = Runner.keyed([...screen.exits, ...screen.people, ...screen.things].flatMap(r => r.acts), id);
+    const look = keyed?.children?.find(a => a.does === 'look_closely' && a.command)?.command;
+    return keyed ? keyed.command ?? look ?? Runner.first(keyed.children ?? []) ?? id : id;
+  }
+  private static keyed(acts: Act[], key: string): Act | undefined {
+    for (const a of acts) {
+      const found = a.key === key ? a : Runner.keyed(a.children ?? [], key);
+      if (found) { return found; }
+    }
+    return undefined;
+  }
+  private static first(acts: Act[]): string | undefined {
+    for (const a of acts) {
+      const command = a.command ?? Runner.first(a.children ?? []);
+      if (command) { return command; }
+    }
+    return undefined;
   }
   // A line from an agent, answered by what the turn then says, or an error.
   async ask(line: string): Promise<Said | { error: string }> {
@@ -97,10 +128,14 @@ export class Runner {
     if ('follow' in asked) { return this.follow(asked.follow); }
     if (!('act' in asked) || typeof asked.act !== 'string') { return { error: `nothing asked: ${line}` }; }
     const screen = ScreenModel.build(this.campaign);
-    const o = this.offer(screen, Narrator.leaf(this.campaign, screen, this.told).glance?.offer);
-    const offered = [...o.primary, ...o.rest];
-    if (!offered.some(o => o.id === asked.act)) { return { error: `not offered: ${asked.act}` }; }
-    const before = PlayerView.observe(this.campaign), event = await this.session.leg(asked.act);
+    const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer);
+    // What pulls next is offered too, by its own act.
+    const offered = [...o.primary, ...o.rest].map(x => x.id).concat(g?.next?.command ?? []);
+    if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}` }; }
+    const before = PlayerView.observe(this.campaign);
+    let event: Awaited<ReturnType<PlaySession['leg']>>;
+    try { event = await this.session.leg(asked.act); }
+    catch (e) { return { error: `could not be done: ${asked.act}: ${e instanceof Error ? e.message : String(e)}` }; }
     const moved = before.location?.id !== this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
     this.told = { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: asked.act, moved };
     this.n++;
