@@ -57,7 +57,7 @@ what, read [verification.md](verification.md); for what is open, read [the regis
 
 | Where | What lives there |
 |---|---|
-| `src/lang` | Kyr itself: the grammar (`Kyr.ohm`), parser, module compiler, the `World` and its solver, the parse cache |
+| `src/lang` | Kyr itself: the grammar (`Kyr.ohm`, loaded from its recipe: run `bun scripts/grammar-recipes.ts` after editing it), parser, module compiler, the `World` and its solver, the parse cache |
 | `src/campaign` | a running campaign: installing modules (the canon first, see `canon-install.ts`), grounding actions, watches, encounters, time, environment and planes' laws |
 | `src/rules`, `src/battle.ts`, `src/tactics.ts`, `src/*.ts` | the fight and its rules: amounts and dice, defences, conditions, morale, positions, reactions, summoning |
 | `src/canon` | the catalogs' schema and runtime (one catalog per family in `data/catalog`) |

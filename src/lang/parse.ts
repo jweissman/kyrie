@@ -1,7 +1,6 @@
 import { Deem } from 'deem';
 import * as ohm from 'ohm-js';
-import core from './Kyr.ohm' with { type: 'text' };
-import source from './Abilities.ohm' with { type: 'text' };
+import { Grammars } from './grammars';
 
 export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'allies' | 'party' | 'all' | 'random enemy'
   | 'random enemies';
@@ -65,7 +64,7 @@ type AstNode = ohm.Node & { ast(): Ast };
 
 export class AbilityParser {
   private static readonly attributes = ['strength', 'dexterity', 'constitution', 'wisdom', 'intelligence', 'charisma'];
-  private static readonly grammar = ohm.grammars(`${core}\n${source}`).KyrAbilities!;
+  private static readonly grammar = Grammars.abilities;
   private static readonly semantics = AbilityParser.grammar.createSemantics().addOperation<Ast>('ast', {
     Program: AbilityParser.Program,
     Statement: AbilityParser.Statement,
