@@ -10,7 +10,7 @@ import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
-import { LocalKinds } from '../canon/local-catalog';
+import { Vocabularies } from './vocabulary';
 import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
 import { Superseded } from './superseded'; import { Bringing } from './bringing'; import { ObjectiveParser } from './objective-parser';
 
@@ -92,8 +92,8 @@ export class ModuleParser {
   // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
   // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
   static parse(text: string): Module {
-    const key = `${LocalKinds.seen(text)}\u0000${text}`, known = ParseCache.get(key), began = performance.now();
-    if (known) { LocalKinds.install(known.catalog); return structuredClone(known); }
+    const key = `${Vocabularies.seen(text)}\u0000${text}`, known = ParseCache.get(key), began = performance.now();
+    if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }
     const module = ModuleParser.semantics(match).ast() as Module;
