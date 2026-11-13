@@ -243,12 +243,13 @@ the world (§2). Steps 1–3 below come first; without them progressive commitme
 2. **Calling and ancestry kinds canonical** (`ModuleNamespace.canonical` gains `callingkind`, `ancestrykind`; medium
    risk: ids in saves). Removes the per-installation copies, so a new module stops changing every creature's facts;
    `hasCalling`/`hasAncestry` fall from ~40 per creature to one, and the road's projection from ~1 write per creature
-   to none. A save from before holds the namespaced ids: restore must map them (and `Campaign.restore` compares the
-   projection with the saved facts: "Inconsistent saved creature facts").
+   to none. A save from before holds the namespaced copies in its own module, which it keeps; its `hasCalling` and
+   `hasAncestry` facts would be stale, and main's `CreatureFacts.revised` (PL-09: a save differing only in a revised
+   projection is brought up to date, not refused) is the path for them.
 3. **`proficient` for the company only** (medium risk: saves again). 76 % of a world's facts, read by one action of
    the company's. Gain: facts 230,474 → ~55,000 at start, most of the projection's per-member work, a kept start well
-   under half its 29–39 MB; and the per-install growth by item kinds goes. Restore must drop the saved others'
-   facts before comparing.
+   under half its 29–39 MB; and the per-install growth by item kinds goes. Old saves: `proficient` joins
+   `CreatureFacts.revised`, so their others' facts are retracted on opening rather than refused.
 4. **Allocate limited things at world level from the seed** (medium risk: changes what every country beyond holds, so
    every replay past a march differs). Makes a country a function of seed and cell: §4's inverted test passes, and
    countries become cacheable by cell (drawn once per seed, kept, installed anywhere).
