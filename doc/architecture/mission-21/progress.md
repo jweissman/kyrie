@@ -50,3 +50,9 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   singles get company by number, the undertown's hardest group comes last, every lethal keeper is told at the door and
   escapable, `ghoul/barrow` is placed alone in one room deep enough for a level-2 company and never in the first town's
   barrows; the thief's frailty is a calling question, kept open for the lead.
+- **13 Nov, later still.** Playability batch 8 merged (ac3d9cd5): the gold goes into a site only as far as what the aim
+  waits on is known to lie (PL-23, the lead's ruling); an opened box tells what is in it (PL-22). PL-24 found: kahitude's
+  errand points at a work that does not teach what it waits on (gold-thread admits `lost` there until it is fixed).
+  PL-06 approved, ranks 1–2 first. The lead: a way off a road names its town once (`small/way-labels`); a band down to
+  its last is "the last of the cave spiders" (`small/last-of-band`, T24-17's grammar). The full run on 4415559c failed
+  only `quiet-in-the-sky-browser` (its prose now under More of the place): fixed, and a full run dispatched on d0ec9afa.
