@@ -33,7 +33,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
 | PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
 | PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | fixed in this branch (the lead's ruling, U1) |
-| PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company; 134 of 139 authored objectives have no `toward` | the Lull's fixed in this branch; the rest open (authoring) |
+| PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company | the Lull's fixed (765a3b29); the lint in this branch: 57 aims flagged, 2 more fixed; the rest open (authoring) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -265,10 +265,18 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   12 November); the brief's "credible next-step guidance".
 - **Census (grep, not a played census):** 134 of the 139 `Objective`s under `data/adventures/` have no `toward` and
   no `{place}` in their words; some may still resolve a target from their condition, as the generated worlds' do.
-- **Status:** The Lull's first aim fixed in this branch (`toward sx_taproom, fold_stone`; gold is now "Into the
-  Waiting Woman" from the street; the Lull's three specs pass; the page's bundle written again). The rest is
-  authoring: proposed, an authoring lint that an objective's target resolves to something a player can be led to
-  (run per campaign, as `campaign-lint` does), then the adventures' aims given their places. Not done here.
+- **Status:** The Lull's first aim fixed (765a3b29: `toward sx_taproom, fold_stone`; gold is now "Into the Waiting
+  Woman" from the street). **The lint (this branch):** `CampaignLint.targets` (run by `kyrie lint` for every
+  recommended campaign) now advises where an objective with no `toward` is about only a fact, or someone or
+  something that is nowhere, and names (in its words or its condition) no one and nowhere that is: Follow this can
+  lead only to a place, or to whoever or whatever stands in one. Over the recommended campaigns
+  (`play-tools/lint-targets.ts`, one campaign at a time): **57 target findings**, 45 of them this new kind (an aim
+  about a fact the company knows: Quittance 16, What Tessary Owes 5, The Third Night 3, Tallow 3, A Winter in Carth
+  3, …), 7 that name no one and nowhere, 5 that name places none of which holds the others. All advice: they fail
+  nothing. Regression: `test/small/aim-target-lint.test.ts` (fails on main). Two plain ones given their places in data: The Lull's Working Day (`toward
+  mill_bridge`, the bridge it mends) and The Long Man's bounty (`toward mower`). The rest want their authors: an aim
+  about a fact ("who paid for Carth's vigil") has a person or a place in mind that only the adventure knows, and a
+  wrong `toward` would be a false promise worse than none.
 
 ### PL-06: after the aim, nothing pulls
 

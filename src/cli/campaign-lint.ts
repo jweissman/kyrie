@@ -46,7 +46,23 @@ export class CampaignLint {
       const t = Stakes.target(this.session.campaign, o);
       if (t.ambiguous) { this.add('advice', 'target', `${o.id} names more than one place and none holds the others: say which it is toward`); }
       else if (!t.subject && !t.actionAt) { this.add('advice', 'target', `${o.id} names no one and nowhere: say what it is toward`); }
+      // Nor only a fact, or someone or something that is nowhere: Follow this leads only to a place, or to whoever and
+      // whatever stands in one (The Lull's first aim had named the inn and the stone in words alone, and Sixways had
+      // nothing gold: M21's playability list, PL-14).
+      else if (![t.actionAt, t.subject, ...Stakes.named(this.session.campaign, o)]
+        .some(id => id !== this.session.campaign.playerActor && id !== 'party' && this.leadable(id))) {
+        this.add('advice', 'target', `${o.id} is about ${t.subject ?? t.actionAt}, which is neither somewhere nor`
+          + ' someone the page can lead to: say what it is toward');
+      }
     }
+  }
+  // Somewhere, or whoever or whatever is somewhere (in something that is).
+  private leadable(id?: string): boolean {
+    for (let at = id, n = 0; at && n < 6; n++) {
+      if (this.entities.get(at)?.space) { return true; }
+      at = this.world.one('at', at) ?? this.world.one('inside', at);
+    }
+    return false;
   }
   // A rule anchored at a place is heard there, but happens wherever the company is, whenever its condition holds: two
   // authors met it apart (a purse lifted at Pellam's fair from a company a mile off on the road; a chair at Hessel run
