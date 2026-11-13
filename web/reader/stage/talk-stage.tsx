@@ -244,7 +244,7 @@ export class TalkStage {
       const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(w.buy.label)?.[1];
       // Beyond the purse, it is quieter and says nothing more: what the company has is said once, by the label.
       const dear = /^It costs \d+ coin, and you have \d+\.$/.test(w.buy.disabled ?? '');
-      return <Act.View choice={w.buy} draw={draw} className="ware" quiet={dear} number={TalkStage.n(draw.app, TalkStage.key(w.buy))}>
+      return <Act.View choice={w.buy} draw={draw} className="ware" variant="glyph" quiet={dear} number={TalkStage.n(draw.app, TalkStage.key(w.buy))}>
         <span className="n"><i>{TalkStage.n(draw.app, TalkStage.key(w.buy))}</i>
         {Typography.curl(Words.upper(w.name))}</span>{price}{versus && <span className="t">{versus}</span>}</Act.View>;
     }

@@ -3,6 +3,7 @@ import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import { RegionLand, type Landmark } from './region-land';
 import { CommonNames } from './common-names';
+import { OldPlaces } from './old-places';
 import { Foundings } from './founding';
 import { WorldShape } from './world-shape';
 import type { Naming } from './land/land-names';
@@ -33,6 +34,8 @@ export class PlaceNames {
   static landTongue(region: Region): string {
     return CommonNames.heartland(region) ? 'common' : this.tongues[region.ancestry] ?? 'westron';
   }
+  // The starting country's sites, its old places called first by their Common meaning (see OldPlaces).
+  static called(region: Region): Site[] { return OldPlaces.called(region); }
   // What was built before the folk came (a ruin, a barrow, a tower) keeps its name in the old tongue.
   static readonly old = ['ruin', 'barrow', 'tower'];
   static render(region: Region, seed = region.name): Region {

@@ -1,4 +1,5 @@
 import type { ReaderApp } from '../reader-app';
+import { ChoiceRow } from './choice-row';
 import type { Meeting } from '../../../src/presentation/prologue';
 import { Scenery } from '../../../src/ui/scenery';
 import { Typography } from '../../../src/presentation/typography';
@@ -73,9 +74,8 @@ export class PrologueStage {
       <p className="beat meeting" data-id="meeting" aria-live="polite">{meeting.text}</p>
       <ol className="answers acts column" aria-label="What you do">
         {meeting.choices.map((c, i) => <li key={c.command}>
-          <button type="button" className="act" data-choice={c.command} data-action="answer"
-            onClick={() => PrologueStage.answer(app, c)}><span className="n">{Typography.curl(c.label)}</span>
-            <kbd>{i + 1}</kbd></button>
+          <ChoiceRow.Button className="act" data={{ choice: c.command, action: 'answer' }} act={c.command}
+            onClick={() => PrologueStage.answer(app, c)} label={Typography.curl(c.label)} number={i + 1} />
         </li>)}
       </ol>
     </>);

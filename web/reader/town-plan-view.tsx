@@ -64,7 +64,7 @@ export class TownPlanView {
     return (
       <g key={c.id} className={kind} transform={`translate(${p.x},${p.y})`} data-place={c.id}
         {...c.here ? { 'aria-current': 'location' as const } : {}}
-        {...go ? { role: 'button', tabIndex: 0, onClick: take, onKeyDown: key,
+        {...go ? { role: 'button', tabIndex: 0, onClick: take, onKeyDown: key, 'data-act': choice.id,
           'aria-label': Typography.curl(choice.label) } : {}}>
         <title>{Typography.curl(choice?.disabled ? `${said}: ${choice.disabled}` : said)}</title>
         {c.indoors || c.building

@@ -690,7 +690,7 @@ fixes were merged to main in batches 1–8; each row names the fast spec that ho
 | PL-21 | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed; held by `small/debt-purse` | P0 | M21 |
 | PL-22 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | fixed: the telling, and the take names what is taken ("Take a stolen chalice from a chest on the ledge"); held by `small/opened-box` | P2 | M21 |
 | PL-23 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed; held by `small/gold-site` | P1 | M21 |
-| PL-24 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed (playability batch 9): the works teach their makers' story at the way in (`DeepSites.marks`); five of ten seeds had an errand that could not be done; held by `small/errand-teaches` | P1 | M21 |
+| PL-24 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed (playability batch 9): the works teach their makers' story at the way in (`DeepSites.marks`); five of ten seeds had an errand that could not be done; held by `test/errand-teaches` | P1 | M21 |
 | PL-25 | a1 debt: at Marsh Howe's cleared den the foreground was only the way out, its search for the coin dragged in under `all`; one steel coin sent the company 71 minutes home and called Ísencepan "spent" | fixed: a coin aim is advanced by an act that puts coin in the purse (not a service), and the dead are offered what the aim waits on; held by `small/debt-purse`; the trifle and the "spent" wording in data | P0 | M21 |
 | PL-26 | The terminal's foreground dropped the glance's quiet row of ways (by exit id): back at Ísencepan only the cairn, the gate only under `all` | fixed; held by `small/terminal-ways` | P1 | M21 |
 | PL-27 | The debt's chain stops at the second old place: Marsh Howe searched, the aim still names it, Palusporta not led | open: proposal in `mission-21/playability.md` (a chain over every place told of) | P1 | M21 |
@@ -716,3 +716,17 @@ features. None is closed as a component migration until the whole ordinary actio
 | CN-06 | Combat: legacy controls beside the new; the highlighted menu becomes a horizontal row; a target's card grows taller and bars cross the painting; details injected into buttons; layout jumps between target and action states | open | P0 | M21 |
 | CN-07 | Personhood drawn with a pink pip close to coral: people need no opportunity colour; atlas colours only for grounded opportunities (knowledge, recruitment…); gold only for the followed undertaking; no new colours for routing or categories | open | P1 | M21 |
 | CN-08 | One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after | open | P0 | M21 |
+
+## 27. The owner's terminal ideas (14 November)
+
+The owner's words are in `mission-21/owner-terminal.md`: the terminal as the cheapest place to catch an oververbose,
+misleading, repetitive or semantically inconsistent presentation. Taken by the lead.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| TM-01 | A deterministic walker over seeds, backgrounds and play styles that measures the real automatically shown scene prose per run (average, median, worst), failing a run that averages over three sentences; scene narration kept apart from looking, outcomes, talk and reference screens | open | P1 | M21 |
+| TM-02 | Every command reprints the place, the day, the hour and the familiar surroundings: arrival briefly, an act by what happened and changed, a look whole; the clock, weather, aim and status only when they change or are asked for; checks for redundant narration and repeated static context | open | P1 | M21 |
+| TM-03 | ANSI colour semantically the browser's: one opportunity projection, the canonical palette (true colour, reduced and plain fallbacks); no label heuristics; no colour for being a person, for navigation or UI categories; no gold without a followed undertaking | open | P1 | M21 |
+| TM-04 | The walker exercises every surface the fixture supports: lenses, expanded acts, looking, searching, talk, companions, following, local travel and routing, waiting, the pack, fights; the promoted few and the full set without a catalogue every turn | open | P2 | M21 |
+| TM-05 | Cheap and meaningful: budget, parity and projection checks on tiny Kyr worlds in the fast lane; a few whole terminal playthroughs on real composition in the push or full tier; readable transcripts kept as review artifacts | open | P2 | M21 |
+| TM-06 | `bin/kyrie adventure` runs the whole character creation (people, calling, sex, name, origin) instead of a random character | open | P2 | M21 |

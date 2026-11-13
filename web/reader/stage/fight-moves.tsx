@@ -34,7 +34,7 @@ export class FightMoves {
       {/* Each move a row, as every choice is (see ChoiceRow): Attack with the line of what it is (harm), the kinds
           that open marked so, and what a kind holds, opened, rows of their own. */}
       <div className="bar" role="toolbar" aria-label="What you can do">
-        {attack && <ChoiceRow.Button className="move main" data={{ action: 'attack', choice: attack.id }}
+        {attack && <ChoiceRow.Button className="move main" data={{ action: 'attack', choice: attack.id }} act={attack.id}
           onClick={() => take(attack)} mark="var(--ember)" label={FightMoves.attack(attack)} />}
         {FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length).map(([id, label]) =>
           <ChoiceRow.Button key={id} className={`move kind${panel === id ? ' opened' : ''}`} data={{ action: 'panel', panel: id }}
@@ -42,7 +42,7 @@ export class FightMoves {
             extra={<span className="row-opens" aria-hidden="true">{panel === id ? '‹' : '›'}</span>} />)}
       </div>
       {shown && <ul className="panel" aria-label={FightMoves.kinds.find(k => k[0] === panel)?.[1]}>
-        {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button className="move" data={{ choice: c.id }}
+        {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button className="move" data={{ choice: c.id }} act={c.id}
           onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))}
           aside={c.note && Typography.curl(c.note)} /></li>)}
       </ul>}

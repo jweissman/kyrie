@@ -31,7 +31,7 @@
 /* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a
    conversation's questions, its leave and Trade, a fight's moves. Its one indicator at the left, its words in sentence
    case, a quiet line under them, its key at the right; the same height and ground everywhere. ---- */
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row {
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row {
   all: unset; box-sizing: border-box; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto;
   align-items: center; align-content: center; column-gap: var(--s3); width: 100%; min-height: var(--choice-h); margin: 0;
   padding: 9px 14px 9px 22px;
@@ -39,33 +39,37 @@
   background: var(--choice-ground); border: 1px solid var(--choice-edge); border-radius: var(--choice-radius);
   text-wrap: balance; -webkit-tap-highlight-color: transparent;
   transition: background var(--quick), border-color var(--quick), transform var(--quick); }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
   background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); outline: none; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row:active { transform: none; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:active { transform: none; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
   cursor: default; transform: none; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row::before { display: none; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row::before { display: none; }
 /* Its one indicator: a short rounded line, the tone of what it is; faint and neutral where it is nothing in particular. */
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
   bottom: 11px; width: var(--indicator-w); border-radius: 3px; background: var(--prism); }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-mark[style*="gold"] { box-shadow: var(--glow-step); }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark[style*="gold"] { box-shadow: var(--glow-step); }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
 /* What is truly several things at once: its line a slow gradient through its tones (OKLab), still for less motion. */
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
   animation: prism-drift 9s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) {
-  :root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
+  :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
 /* Asked already: its words lowered, still to be chosen. */
 :root .talk .replies .asked .choice-row.choice-row { color: var(--dim); }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark) { grid-column: 1; min-width: 0; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-label { font: inherit; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); margin-top: 1px; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { grid-column: 2; grid-row: 1 / span 3;
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark) { grid-column: 1; min-width: 0; }
+/* What an act says of itself beside its words (why it is shut, what it risks, the question asked again before it is
+   done): under them, across the row. */
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
+  grid-column: 1 / -1; font: var(--t-aside); color: var(--dim); }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label { font: inherit; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); margin-top: 1px; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { grid-column: 2; grid-row: 1 / span 3;
   position: static; min-width: 0; padding: 0; border: 0; background: none; font: var(--t-key); color: var(--dim); opacity: .7; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(.risk, .grave)::after { grid-column: 1 / -1; }
-:root :is(.world-page, .talk, .fight) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
-@media (hover: none) { :root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-key { display: none; } }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.risk, .grave)::after { grid-column: 1 / -1; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
+@media (hover: none) { :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-key { display: none; } }
 /* Taking one's leave, quieter than what can be said. */
 :root .talk .dialogue .leave .choice-row.choice-row { color: var(--dim); }
 :root .talk .dialogue .choosing:not(:has(button)) + .leave .choice-row.choice-row { color: var(--ivory); }
@@ -99,3 +103,9 @@
 :root :is(.sheet-key, .more-talk > summary, .said-before > summary, .fight-log-toggle .option, .book-head .back-to) {
   font: var(--t-aside); }
 :root .openers .opener:not(.choice-row) { font: var(--t-choice); }
+
+/* ---- A list of acts (Act.List: the place's own, the Wait page's, a thing's, the book's) is a column of rows, never a
+   flow of link-like words (CN-04). ---- */
+:root ul.acts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+:root ul.acts > li { margin: 0; min-width: 0; }
+:root ul.acts.small .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }

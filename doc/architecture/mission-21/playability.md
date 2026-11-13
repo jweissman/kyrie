@@ -452,7 +452,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Fix:** each deep purpose carries its makers' marks in data (`data/generation/deep/*.json`, `marks`: the marks on
   the kerb-stones, and so on), and `DeepSites.marks` sets them at the way in, read with lore, teaching `makersfact`.
   The kahitude order walk in `test/gold-thread` no longer allows `lost` as an end.
-- **Regression:** `test/small/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
+- **Regression:** `test/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
   history or fate the errand waits on (mutation-checked: without the marks it fails for the five countries above).
 
 ### PL-25: a cleared den's coin hidden from a debt (round 13, a1 debt, Brann the warrior)

@@ -18,19 +18,25 @@ export class Act {
   // a journey that ends after dark. What cannot be undone and a risk say so already.
   // quiet: its label alone, what more there is to say of it said elsewhere (a way's detail line, see GlanceStage.Row).
   // number: the number it is pressed by, where that is held apart from its place among the choices (see TalkStage.n).
-  static View({ choice: c, draw, className, children, marked, quiet, number }: { choice: Choice; draw: Draw;
-    className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number }) {
+  // variant: how the one action system draws it (Mission 21's CN-04: every act in the world one system, never a link):
+  // a row (ChoiceRow's look: the default), or a glyph (a likeness, a rail mark, a thing in the pack), which keeps its
+  // own picture but carries the same marks (data-act, its id).
+  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row' }: { choice: Choice;
+    draw: Draw; className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number;
+    variant?: 'row' | 'glyph' }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
-    const classes = ['act', className ?? '', selected ? 'sel' : '', c.risk ? 'risk' : '', c.grave ? 'grave' : '',
-      c.disabled ? 'shut' : '', opens ? draw.open.has(c.id) ? 'opened' : 'opens' : ''].filter(Boolean).join(' ');
+    const classes = ['act', variant === 'row' ? 'choice-row' : 'act-glyph', className ?? '', selected ? 'sel' : '',
+      c.risk ? 'risk' : '', c.grave ? 'grave' : '', c.disabled ? 'shut' : '',
+      opens ? draw.open.has(c.id) ? 'opened' : 'opens' : ''].filter(Boolean).join(' ');
     const tags = marked && !quiet ? Act.tags(c) : [];
     return (
-      <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i} data-number={number}
+      <button type="button" className={classes} data-action="choice" data-choice={c.id} data-act={c.id} data-index={i}
+        data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
-        {children ?? <>{Typography.curl(c.alone ?? Words.shown(c.label))}{c.note
-          && <span className="note">{Typography.curl(c.note)}</span>}</>}
+        {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
+          && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
           {Act.marks[m.kind]}</span>)}
         {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}
@@ -55,12 +61,6 @@ export class Act {
   static tags(c: Choice): Mark[] {
     return (c.marks ?? []).filter(m => !(c.grave && ['grave', 'exposed'].includes(m.kind))
       && !(c.risk && m.kind === 'trap'));
-  }
-  // A name in the telling, which is also a way into what it names: chosen as the choice it stands for, outside the
-  // order the keys move through (the same choice is in the lines below the telling, where the keys find it).
-  static Inline({ app, choice, children }: { app: ReaderApp; choice: Choice; children: ReactNode }) {
-    return <button type="button" className="inline" data-action="name" data-choice={choice.id} tabIndex={-1}
-      onClick={() => app.choose(choice)}>{children}</button>;
   }
   // Choices in a row; what one of them opens, beneath, as a column.
   static List({ choices, draw, className, marked }: { choices: Choice[]; draw: Draw; className?: string;
