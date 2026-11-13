@@ -90,7 +90,10 @@ export class TalkStage {
                 </ol>
                 {focus.more.length > 0 && <details className="more-talk">
                   {/* Only what was asked before is not "something else" (round 6, the register's FH-16). */}
-                  <summary>{focus.more.every(spent) ? 'Ask again…' : 'Something else…'}</summary>
+                  {/* With the numbers it holds, so that the numbers shown run without a gap (1, 2, then 5 had read as
+                      something missing) and each keeps what it meant (R11-01): 3 still asks again what 3 asked. */}
+                  <summary>{focus.more.every(spent) ? 'Ask again…' : 'Something else…'}<kbd className="fold-keys">
+                    {TalkStage.span(focus.more.map(c => TalkStage.n(app, TalkStage.key(c))))}</kbd></summary>
                   <ol className="replies">{focus.more.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
                     asked={spent(c)} aspects={drawn(c)} gilded={gilded} />)}</ol>
                 </details>}
@@ -113,6 +116,12 @@ export class TalkStage {
   }
   // What a reply is known by from one answer to the next: what it does, its id being its place in the list.
   static key(c: Choice): string { return c.command ?? c.id; }
+  // The numbers a fold holds, said as runs: 3–4, 7.
+  static span(numbers: number[]): string {
+    const sorted = [...new Set(numbers)].sort((a, b) => a - b), runs: [number, number][] = [];
+    for (const n of sorted) { const last = runs.at(-1); if (last && n === last[1] + 1) { last[1] = n; } else { runs.push([n, n]); } }
+    return runs.map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`)).join(', ');
+  }
   // A reply's number in this conversation: the one it was first shown with, or the next not yet given (see
   // ReaderApp.numbered).
   static n(app: ReaderApp, id: string): number {
