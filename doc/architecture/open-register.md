@@ -862,7 +862,7 @@ exclusive asserts are repaired (loading-boundaries.md §6).
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
 | AX-01 | `Geography.distances` is all pairs by a linear scan, about 1.2 s of every a1 start: a binary heap. `reach` runs on `MinHeap` with the old order of rooms kept exactly (identical on 400 random graphs with ties), about 0.29 s a start; what remains is all-pairs itself, and hours asked lazily is AX-07's design | fixed | P1 | M21, lead |
-| AX-02 | Every generated country's module is seeded alike (`["a1","module","region",""]`), so the same person rolls the same body in every country: seed by installation id, with a transcript version bump | open | P1 | M21, lead |
+| AX-02 | Every generated country's module is seeded alike (`["a1","module","region",""]`), so the same person rolls the same body in every country: seed by installation id, with a transcript version bump. A drawn country's request carries its cell as its random identity (`WorldAssembler.beyond`), and the first country keeps its seed; the review's probe now finds 2 alike of 17, both fixed-stat ghouls (`test/countries-seeded-apart`, mutation-checked) | fixed | P1 | M21, lead |
 | AX-03 | The shared rules are recomposed and revalidated by each of 39 installs, 15–20 ms each: compile once per edition, compose by reference | open | P1 | M21, lead |
 | AX-04 | A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST, or keep the parse | open | P1 | M22, lead |
 | AX-05 | The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey | open | P1 | M21, lead |
