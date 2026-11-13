@@ -1,0 +1,341 @@
+┌───┬─────────────────────────┬───────┬──────┬───────────┐
+│   │ name                    │ hp    │ mana │ statuses  │
+├───┼─────────────────────────┼───────┼──────┼───────────┤
+│ 0 │ Brann                   │ 14/17 │ 0    │ candlelit │
+│ 1 │ the keeper of the vault │ 13/13 │ 0    │           │
+└───┴─────────────────────────┴───────┴──────┴───────────┘
+┌───┬─────────────────────────┬───────┬──────┬──────────────────┐
+│   │ name                    │ hp    │ mana │ statuses         │
+├───┼─────────────────────────┼───────┼──────┼──────────────────┤
+│ 0 │ Brann                   │ 13/17 │ 0    │ candlelit, shred │
+│ 1 │ the keeper of the vault │ 7/13  │ 0    │ shred            │
+└───┴─────────────────────────┴───────┴──────┴──────────────────┘
+
+the landing at Lowmouth · Day 1, morning
+Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+No food.
+
+1. Read the notice on the well-post · 10 min  [to learn]
+2. Wrench the padlock's hasp out of the old door · 3 min  [to learn, worth a look]
+3. Take the salt-house door to Mik's salt-house · 1 min
+4. Wait a while · 10 min ⧗
+(more: things 5 · places 5 · time 4 · all 16)
+(? for commands)
+> 2
+You set your shoulder to it and heave. Wood groans and iron shrieks, and the noise of it goes further than you would like.
+The hasp hangs out of the corn-store door by one bolt, the oak split round it.
+
+1. Take the corn-store door to the old corn-store · 1 min  [worth a look]
+2. Read the notice on the well-post · 10 min  [to learn]
+3. Wait a while · 10 min ⧗
+4. Light a torch · 1 min
+(more: things 1 · places 6 · time 4 · all 14)
+> 1
+
+the old corn-store
+Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.
+
+1. Take the trapdoor to the corn-store cellar · 2 min  [worth a look]
+2. Set out for Mik's salt-house · 2 min  [worth a look]
+3. Wait a while · 10 min ⧗
+4. Search the old corn-store · 20 min ⧗
+(more: things 1 · places 7 · time 5 · map 5 · all 16)
+> 2
+  … Take the corn-store door to the landing at Lowmouth
+  … Take the salt-house door to Mik's salt-house (Mik's salt-house)
+
+Mik's salt-house
+Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
+Mik does not look up. ‘Somebody tore the hasp out of my corn-store door. I had a key for whoever asked.’ A look at your hands, then. ‘I’ll know them by the splinters.’
+
+1. Set out for the taproom of the Lucky Phoenix · 2 min  [worth a look]
+2. Set out for the chapel of Saint Ide · 2 min  [worth a look]
+3. Take the salt-house door to the landing at Lowmouth · 1 min
+4. Talk to Mik
+(more: things 1 · people 1 · places 6 · time 4 · map 5 · all 19)
+> 1
+  … Take the salt-house door to the landing at Lowmouth
+  … Take the door of the Lucky Phoenix to the taproom of the Lucky Phoenix (the taproom of the Lucky Phoenix)
+
+the taproom of the Lucky Phoenix
+A busy room in two parts with a counter between them, and a stair going up to the bedrooms.
+
+1. Set out for the chapel of Saint Ide · 2 min  [worth a look]
+2. Set out for the churchyard · 2 min  [worth a look]
+3. Take the door of the Lucky Phoenix to the landing at Lowmouth · 1 min · nothing new
+4. Talk to Eamon
+(more: things 1 · people 1 · places 6 · time 4 · map 5 · all 17)
+> 2
+  … Take the door of the Lucky Phoenix to the landing at Lowmouth
+  … Take the lych-gate to the churchyard (the churchyard)
+
+the churchyard
+Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.
+
+1. Set your shoulder to the stone door until the old lock gives · 3 min  [to learn, worth a look]
+2. Set out for the chapel of Saint Ide · 2 min  [worth a look]
+3. Take the lych-gate to the landing at Lowmouth · 1 min · nothing new
+4. Wait a while · 10 min ⧗
+(more: things 4 · places 6 · time 4 · map 5 · all 16)
+> look
+
+the churchyard · Day 1, 8:10 a.m.
+Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.
+No food.
+
+1. Set your shoulder to the stone door until the old lock gives · 3 min  [to learn, worth a look]
+2. Set out for the chapel of Saint Ide · 2 min  [worth a look]
+3. Take the lych-gate to the landing at Lowmouth · 1 min · nothing new
+4. Wait a while · 10 min ⧗
+(more: things 4 · places 6 · time 4 · map 5 · all 16)
+> 2
+  … Take the lych-gate to the landing at Lowmouth
+  … Take the chapel door to the chapel of Saint Ide (the chapel of Saint Ide)
+
+the chapel of Saint Ide
+A low stone chapel, whitewashed, with a saint painted over the altar whose face has been touched so often it is gone.
+
+1. Set out for the old quarry pit · 6 min  [worth a look]
+2. Take the chapel door to the landing at Lowmouth · 1 min · nothing new
+3. Talk to Mother Agnes
+4. Wait a while · 10 min ⧗
+(more: things 1 · people 1 · places 6 · time 4 · map 5 · all 16)
+> 1
+  … Take the chapel door to the landing at Lowmouth
+  … Take the path down into the old quarry to the old quarry pit (the old quarry pit)
+
+the old quarry pit
+A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.
+
+1. Wrench the adit gate's padlock off its staple · 3 min  [to learn, worth a look]
+2. Take the path down into the old quarry to the landing at Lowmouth · 5 min · nothing new
+3. Set out for Mik's salt-house · 6 min
+4. Wait a while · 10 min ⧗
+(more: things 4 · places 6 · time 4 · map 5 · all 16)
+> 1
+It holds, and holds, and then it does not, all at once, with a crack that anyone near will have heard.
+The adit gate’s padlock hangs open on its chain.
+
+1. Take the gated adit to the quarry adit · 10 min  [worth a look]
+2. Set out for Mik's salt-house · 6 min
+3. Wait a while · 10 min ⧗
+4. Light a torch · 1 min
+(more: places 7 · time 4 · map 5 · all 14)
+> 1
+
+the quarry adit
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+Need: Dark
+No food · Nothing lit · 1 torch, 1 candle to spare.
+
+1. Light a torch · 1 min
+2. Light a candle · 1 min
+3. Take the old cutting to the cut gallery · 10 min
+4. Wait a while · 10 min ⧗
+(more: places 2 · time 6 · all 9)
+> 1
+You light a torch.
+The old quarry’s adit runs straight into the hill, its walls marked with the bite of picks, and grey threads of web across it at the height of a face.
+Things hang in the web across the cutting ahead, wrapped grey and sucked dry: a fox, a dog, something the size of a calf. Whatever strung it takes prey that big.
+The adit gate’s padlock hangs open on its chain.
+No food · Brann's torch, an hour left · 1 candle to spare.
+
+1. Take the old cutting to the cut gallery · 10 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the quarry adit · 20 min ⧗
+4. Put out Brann's light for good · 1 min
+(more: things 1 · places 2 · time 5 · all 9)
+> look
+
+the quarry adit · Day 1, 8:32 a.m.
+The old quarry’s adit runs straight into the hill, its walls marked with the bite of picks, and grey threads of web across it at the height of a face. Things hang in the web across the cutting ahead, wrapped grey and sucked dry: a fox, a dog, something the size of a calf. Whatever strung it takes prey that big. The adit gate’s padlock hangs open on its chain.
+No food · Brann's torch, an hour left · 1 candle to spare.
+
+1. Take the old cutting to the cut gallery · 10 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the quarry adit · 20 min ⧗
+4. Put out Brann's light for good · 1 min
+(more: things 1 · places 2 · time 5 · all 9)
+> 1
+
+the cut gallery
+A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks; the roof here is thick with web, and the web is thick with husks.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+No food · Brann's torch, 50 minutes left · 1 candle to spare.
+
+1. Attack the spider in the old workings · 10 min · a fight  [danger]
+2. Take the old cutting to the quarry adit · 10 min · they will not wait
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the cut gallery · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 3 · time 5 · all 11)
+> 1
+You hit the spider in the old workings.
+The spider in the old workings takes 7 slashing damage.
+The spider in the old workings falls.
+The fight is won.
+Brann gains 60 experience.
+An aim: The old ways under Lowmouth go on past the corn-store's cellar · follow 1
+No food · Brann's torch, 40 minutes left · 1 candle to spare.
+
+1. Take a crack at the back of the gallery, hung with web to the brood-chamber · 10 min  [worth a look]
+2. Take a cut going on past the web to the old working face · 10 min  [worth a look]
+3. Wait a while · 10 min ⧗
+4. Search the cut gallery · 20 min ⧗
+(more: things 1 · places 3 · time 5 · all 10)
+> 2
+
+the old working face
+Where the quarrymen stopped: a face of stone with the pick-marks still on it, a rotten ladder, and the floor broken through in one corner into somewhere older underneath. Things click and scuttle in the spoil.
+The beetles in the spoil are here.
+The beetles in the spoil will not let you come any nearer.
+No food · Brann's torch, 30 minutes left · 1 candle to spare.
+
+1. Attack the beetles in the spoil · 10 min · a fight  [danger]
+2. Take a cut going on past the web to the cut gallery · 10 min · they will not wait
+3. Take a breach in the gallery floor to the undercroft · 10 min · they will not wait  [worth a look]
+4. Wait a while · 10 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 2 · time 5 · all 10)
+> 3
+
+the undercroft
+A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
+An aim: Something is under the floor of the undercroft · follow 1
+No food · Brann's torch, 20 minutes left · 1 candle to spare.
+
+1. Take steps down behind the bone-heaps to the charnel passage · 2 min  [worth a look]
+2. Take the mouth of the drain to the old drain · 10 min  [worth a look]
+3. Lever the lettered flag up by main force · an even chance · 60 min ⧗  [to learn]
+4. Wait a while · 10 min ⧗
+(more: things 2 · places 3 · time 6 · all 12)
+> 2
+
+the old drain
+An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.
+A great centipede is here.
+A great centipede stands its ground and watches you. It will not have you here for long.
+No food · Brann's torch, 10 minutes left · 1 candle to spare.
+
+1. Attack a great centipede · 10 min · a fight  [danger]
+2. Take the mouth of the drain to the undercroft · 10 min · they will not wait  [worth a look]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the old drain · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 3 · time 5 · all 11)
+> look
+
+the old drain · Day 1, 9:22 a.m.
+An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.
+A great centipede, a centipede as long as a man, living in the old drain, is here.
+A great centipede is watching you. In 8 minutes it will be on you.
+An aim: Something is under the floor of the undercroft · follow 1
+No food · Brann's torch, 10 minutes left · 1 candle to spare.
+
+1. Attack a great centipede · 10 min · a fight  [danger]
+2. Take the mouth of the drain to the undercroft · 10 min · they will not wait  [worth a look]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the old drain · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 3 · time 5 · all 11)
+> 2
+
+the undercroft
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+Brann’s torch gutters out.
+No food · Nothing lit · 1 candle to spare.
+
+1. Light a candle · 1 min
+2. Lever the lettered flag up by main force · an even chance · 60 min ⧗  [to learn]
+3. Take steps down behind the bone-heaps to the charnel passage · 2 min
+4. Wait a while · 10 min ⧗
+(more: things 1 · places 3 · time 6 · all 10)
+> 1
+You light a candle.
+A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
+One flag in the middle of the floor is cut with a ring of letters nobody here can read, and it does not sit quite level with the rest.
+No food · Brann's candle, 2 hours left · nothing to spare.
+
+1. Take steps down behind the bone-heaps to the charnel passage · 2 min  [worth a look]
+2. Lever the lettered flag up by main force · an even chance · 60 min ⧗  [to learn]
+3. Wait a while · 10 min ⧗
+4. Search the undercroft · 20 min ⧗
+(more: things 2 · places 3 · time 6 · all 10)
+> 1
+
+the charnel passage
+A long low passage lined with shelves of the older dead, wrapped in cloth gone brown. Some of the shelves are empty, and the cloth on the floor under them is torn.
+The dead in the charnel passage are here.
+The dead in the charnel passage stand their ground and watch you. They will not have you here for long.
+
+1. Attack the dead in the charnel passage · 10 min · a fight  [danger]
+2. Take steps down behind the bone-heaps to the undercroft · 2 min  [worth a look]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the charnel passage · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 2 · time 5 · all 8)
+> 2
+
+the undercroft
+A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
+
+1. Lever the lettered flag up by main force · an even chance · 60 min ⧗  [to learn]
+2. Take steps down behind the bone-heaps to the charnel passage · 2 min
+3. Wait a while · 10 min ⧗
+4. Search the undercroft · 20 min ⧗
+(more: things 2 · places 3 · time 6 · all 10)
+> 1
+It takes most of an hour, and the edge of everything you have that will take a strain. The flag comes up grinding, and something in the floor below breaks with a sound like a bell. Under it, a stair goes down into the dark, and below, something has heard you.
+An aim: Something keeps the sealed vault under the undercroft · follow 1
+No food · Brann's candle, an hour left · nothing to spare.
+
+1. Take the stair under the lettered flag to the sealed vault · 2 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the undercroft · 20 min ⧗
+4. Put out Brann's light for good · 1 min
+(more: things 1 · places 4 · time 6 · all 10)
+> look
+
+the undercroft · Day 1, 10:37 a.m.
+A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
+An aim: Something keeps the sealed vault under the undercroft · follow 1
+No food · Brann's candle, an hour left · nothing to spare.
+
+1. Take the stair under the lettered flag to the sealed vault · 2 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the undercroft · 20 min ⧗
+4. Put out Brann's light for good · 1 min
+(more: things 1 · places 4 · time 6 · all 10)
+> 1
+
+the sealed vault
+A small square vault, dry as an oven, with a stone chair at the far end and niches in the walls where something was kept, and a smell of old spice.
+The keeper of the vault is here.
+Something stands up from a stone chair at the far end of the vault, slowly, as if it had been waiting a long time.
+Brann gains 25 experience: found the sealed vault under the undercroft.
+
+1. Attack the keeper of the vault · 10 min · a fight  [danger]
+2. Take the stair under the lettered flag to the undercroft · 2 min · they will not wait
+3. Collect a cord of old rings for Brann · 1 min · they will not wait  [to gain]
+4. Wait a while · 10 min ⧗ · they will not wait
+(more: things 3 · people 1 · places 1 · time 5 · all 9)
+> 1
+Turn 1: Brann
+1. Melee Attack — choose target (mana 0)
+2. Cleave — choose target (mana 0)
+3. Defend — self (mana 0)
+4. Flee — self (mana 0)
+(7 more: all)
+Action number or name, auto, or q: auto
+Turn 3: Brann
+1. Melee Attack — choose target (mana 0)
+2. Cleave — choose target (mana 0)
+3. Defend — self (mana 0)
+4. Flee — self (mana 0)
+(6 more: all)
+Action number or name, auto, or q: auto
+The keeper of the vault hits Brann.
+Brann takes 1 piercing damage (0 HP left).
+Brann falls.
+The fight is lost.
+Need: Brann: down
+No food · Brann's candle, 50 minutes left · nothing to spare.
+The story has ended.
+
+[budget: 16 arrivals, mean 2.5, median 1.5, worst 6 5 4]
