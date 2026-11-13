@@ -78,10 +78,7 @@ describe('the silent lord: ways in, and what they cost', () => {
     // case is the drain's contents, past its rats, a warned fight a lone first-level warrior wins 95 times in 100
     // (94 before only a wound bled). At the first level it had rested on one of those rolls: when a blow for nothing
     // stopped making a rat save against shred, the next roll was a bleed of two at her two hit points.
-    const site = await Keep.site();
-    const j = await Keep.start('warrior', Keep.seed, 2);
-    await j.play('=day 4 10:00');
-    Placed.at(j, `region__${site}`);
+    const j = await Keep.at(`region__${await Keep.site()}`, { wait: '=day 4 10:00', level: 2 });
     await j.play('Search here');
     expect(Keep.knows(j, 'drain_known')).toBe(true);
     j.give('crowbar');

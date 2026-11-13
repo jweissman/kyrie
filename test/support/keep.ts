@@ -10,11 +10,9 @@ import { Placed } from './placed';
 export class Keep {
   static readonly seed = 'kahitude';
   static id(name: string) { return `keep__${name}`; }
-  // At a level, for a case whose point is past a fight the keep's under-ways hold (see silent-lord-ways' drain).
-  static async start(calling = 'warrior', seed = Keep.seed, level = 1) {
+  static async start(calling = 'warrior', seed = Keep.seed) {
     return Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: calling, ...level > 1 ? { level } : {} }] },
-    NodeBundleSource.shared));
+      party: [{ name: 'Mira', raceId: 'human', classId: calling }] }, NodeBundleSource.shared));
   }
   // The generated site the keep stands on, in a seed.
   static async site(seed = Keep.seed): Promise<string> {
@@ -35,11 +33,14 @@ export class Keep {
   }
   // Begun and come to a place of the keep: drawn and waited for once in a spec file, each case resumed from there
   // (see Kept.drawn: 90 s a case had gone on drawing a1 and waiting nine days).
-  static async at(place: string, o: { calling?: string; wait?: string; seed?: string } = {}): Promise<Journey> {
-    const kept = await Kept.drawn(o.seed ?? Keep.seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: o.calling ?? 'warrior' }] });
+  // A place outside the keep is named whole (region__…); a level is for a case whose point is past a fight the keep's
+  // under-ways hold (see silent-lord-ways' drain).
+  static async at(place: string, o: { calling?: string; wait?: string; seed?: string; level?: number } = {}):
+  Promise<Journey> {
+    const kept = await Kept.drawn(o.seed ?? Keep.seed, { origin: 'debt', party: [{ name: 'Mira', raceId: 'human',
+      classId: o.calling ?? 'warrior', ...o.level ? { level: o.level } : {} }] });
     const j = await kept.play(o.wait ?? '=day 10 09:00');
-    Placed.at(j, Keep.id(place));
+    Placed.at(j, place.startsWith('region__') ? place : Keep.id(place));
     return j;
   }
 }
