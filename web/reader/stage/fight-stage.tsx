@@ -8,6 +8,8 @@ import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
 import { Scrolled } from './scrolled';
 import { FightMoves, type Aiming } from './fight-moves';
+import { Act } from './act';
+import { ChoiceRow } from './choice-row';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
 // and (for a foe) what it means to do; between them what has just happened, large, the latest last, the blows just
@@ -40,6 +42,9 @@ export class FightStage {
     // Ended, the fight says how, once, above (the owner, 11 November late: "The fight is won" over "The fight is over").
     const turn = combat.outcome ? '' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
     Scrolled.useCue(moves, combat); Scrolled.useCue(sides, combat); Scrolled.useHeld(sides, '.ours', combat);
+    // A fight the page never had to ask about (one foregone, fought through by the company's own tactics: BP-01) is
+    // told by its end, in a sentence or two, not shown as a fight page.
+    if (combat.outcome && (mark?.first ?? true)) { return <FightStage.Told app={app} log={log} show={show} />; }
     return (
       <div className={`fight${aiming ? ' aiming' : ''}`} id="page">
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
@@ -83,6 +88,32 @@ export class FightStage {
               {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
         <div className="moves" ref={moves}>
           <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} />
+        </div>
+      </div>
+    );
+  }
+  // A foregone fight's end, as one act's telling (the blind playtest of 13 November, BP-01: six rounds of a fight the
+  // game had called easily won, "clerical work"): who fell, in a sentence; what it gained (the engine's words); what
+  // it cost; and the way on. Over the place's painting, where the column stands, its geometry the column's. The blows
+  // and their dice are behind a deliberate look, never told with it (BP-03).
+  static Told({ app, log, show }: { app: ReaderApp; log: boolean; show: (on: boolean) => void }) {
+    const combat = app.state.frame!.combat!;
+    const onward = app.menu.sections?.find(x => x.id === 'onward')?.choices[0] ?? app.menu.choices.find(c => c.id === 'onward');
+    const fell = combat.foes.filter(f => f.hp <= 0 || f.down).map(f => f.name.replace(/^The /, 'the '));
+    const draw = Act.draw(app);
+    return (
+      <div className="fight-told" id="page" data-region="fight-told">
+        <div className="fight-told-col">
+          {fell.length > 0 && <p className="told-end">{Typography.curl(Words.upper(
+            `${Words.listed(fell)} ${fell.length > 1 ? 'are' : 'is'} down.`))}</p>}
+          {(combat.after ?? []).map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
+          <FightStage.Aftermath app={app} />
+          {log && <FightLog.Memo exchanges={combat.exchanges} />}
+          <p className="fight-told-foot">
+            {onward && <ChoiceRow.Act choice={onward} draw={draw} label={Typography.curl(onward.label)} />}
+            <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
+              onClick={() => show(!log)}>{log ? 'Put it away' : 'The fight, blow by blow'}</button>
+          </p>
         </div>
       </div>
     );
