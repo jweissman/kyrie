@@ -82,7 +82,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 
 - **Repro:** a1 kin, the opening: "Offer him a hand, for a share of the load · 30 min [blue: to learn]"; "Talk to the
   wagoner" is drawn blue for it. Taken: a sack, a coin and the wagoner's opinion; nothing learned.
-- **Corroborates:** the owner's report of 12 November (PR-04: "a blue pip with no blue reply"); R9-03. The comment in
+- **Corroborates:** the owner's report of 12 November (OPR-04: "a blue pip with no blue reply"); R9-03. The comment in
   `src/ui/affordances.ts` (`learned`) cites exactly this case as fixed.
 - **Cause (verified):** `ChoiceGrouping.withheld` marks `teaches` for any action whose success asserts `knows(…)`;
   the prologue's `carter_bargain` asserts `knows(actor, cart_bargained)`, a record of the company's own deed for the
@@ -120,7 +120,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   `/var/tmp/kyrie/play21/a1-mound.json`): the cairn gold, mended, then no gold at all. The cairn is a town's trouble
   (`data/generation/town/ties.kyrt`, "custom 2": a drover's boy blamed for kicking it over) placed at the town's
   nearest old place; mending it does nothing for a debt or for the oxen.
-- **Corroborates:** the owner's player report of 12 November (PR-01: "gold … on aims not chosen", "nothing advances");
+- **Corroborates:** the owner's player report of 12 November (OPR-01: "gold … on aims not chosen", "nothing advances");
   the owner's 10 November notes ("can't trust that indicators will lead me to interesting places");
   review-mitigations U1 ("no deeper way becomes gold merely because it … lies inside the destination").
 - **Cause (verified, `tools/glance.ts` on `kh-seol.json`):** `Affordances.there` gave any non-person thing with an
@@ -192,7 +192,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   `/var/tmp/kyrie/play21/a1-runs.json`.
 - **Corroborates:** the owner's play of 6 November (the corn-store: "the ways pointed the company back out rather
   than deeper in"); the owner's 11 November crawlway report (followed aim lost around the rats); round 12, A, T46;
-  PR-01 ("out of a place and back").
+  OPR-01 ("out of a place and back").
 - **Cause (verified, `tools/glance.ts` on `a1-runs.json`):** the acts were "Attack" (`danger`) and "To the corn-store
   cellar" (`retreat`, aspects `undertaking`, CONTINUES). The aim is `given(rats_job) and not done(rats_job) toward
   cellar`; `Rule rats_cleared when not able(rats)` makes it done, so what it waits on is the rats' `able`, and
@@ -214,7 +214,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   Gothgiba": gold on "Take Baern Gorunn's door to Baern Gorunn's general store"; in the store (no herbs among its
   wares) the gold is the door back to the bailey; on the bailey it is then "Take Eberk Holderhek's door to Eberk
   Holderhek's chandlery". Saves `wr-bailey.json`, `wr-store.json`.
-- **Corroborates:** the owner's 7 November notes ("gold on the place you already are, random gold places"); PR-01
+- **Corroborates:** the owner's 7 November notes ("gold on the place you already are, random gold places"); OPR-01
   ("out of a place and back to it, nothing advances"); the golden-thread rules ("never guide round a loop").
 - **Cause (verified, `tools/glance.ts`, `tools/why.ts`):** two location heuristics, both reading only that the aim
   names the place the company stands in. `Affordances` made every local way not yet taken from a named place
@@ -241,7 +241,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   willows out on the road, by the water"), "Take the way to the waterside at Gothgiba": the foreground is "Take the
   way to the bailey of Gothgiba [gold: your aim]" beside "Ask Harbek where willow grows [blue: to learn]". Going back
   to the bailey with no herbs does nothing for the aim. Save `wr-water.json`.
-- **Corroborates:** the owner's report of 12 November (PR-01: "travel out of a place then back to it; on return
+- **Corroborates:** the owner's report of 12 November (OPR-01: "travel out of a place then back to it; on return
   nothing advances"); review-mitigations U1 (destination, lead and route: "gold should belong to the lead").
 - **Cause (verified):** the way to the bailey is `named` (`Affordances`: a way to a place the aim names, visited or
   not, unless idle); the aim's own place is a *destination*, and nothing typed says whether anything there can now be
@@ -526,9 +526,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
 
 | Report (source) | Reproduced? | Item |
 |---|---|---|
-| Gold on aims not chosen, out of a place and back, nothing advancing (owner, 12 Nov, PR-01; golden-thread note) | **yes**, two worlds: gold for being at the aim's place (the cairn), and on a search that finds nothing | PL-05, PL-08 |
-| Choosing a place in the company's own hex walked it out of the town (owner, 12 Nov, PR-02) | not yet tried in the page; the engine has no guard (the fix is the browser's `MapView`) | see root cause 1 |
-| A blue pip with no blue reply; a green Look with no clear collectible (owner, 12 Nov, PR-04) | **yes**, the blue half: the opening's wagoner | PL-03 |
+| Gold on aims not chosen, out of a place and back, nothing advancing (owner, 12 Nov, OPR-01; golden-thread note) | **yes**, two worlds: gold for being at the aim's place (the cairn), and on a search that finds nothing | PL-05, PL-08 |
+| Choosing a place in the company's own hex walked it out of the town (owner, 12 Nov, OPR-02) | not yet tried in the page; the engine has no guard (the fix is the browser's `MapView`) | see root cause 1 |
+| A blue pip with no blue reply; a green Look with no clear collectible (owner, 12 Nov, OPR-04) | **yes**, the blue half: the opening's wagoner | PL-03 |
 | Green circle and dot on someone with no green option and nothing to say (owner, 10 Nov notes) | not yet reproduced (no green on a person met so far) | — |
 | Two quests for one place, Albustagn (owner, 10 Nov notes) | not tried (`Undertakings.folded` claims it) | — |
 | Rat crawlway: followed aim lost, narration three ways, nested aims block (owner, 11 Nov) | **followed aim: not reproduced** on main 73cac481, headless: following the rats job from Bask, cellar → runs → nest → back to Bask, the followed aim went on into the nest aim and then "Tell Bask …" each time, gold one act throughout, paid (about fifteen commands, save `a1-ratsdead.json`). Not tried in the page. **The telling:** reproduced in part ("lie dead" before the fight's blows) | PL-04, PL-11 |
