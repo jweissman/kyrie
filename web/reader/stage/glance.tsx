@@ -151,7 +151,7 @@ export class GlanceStage {
         {g.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}
       </div>}
       {!s.pending && told && !struck && <Told.Happened exchange={told} said={!leaf.moved} ready={Moments.ready(screen)}
-        app={app} />}
+        app={app} {...leaf.moved && leaf.glanced ? { unsaid: leaf.glanced.unsaid ?? [] } : {}} />}
     </div>;
   }
   // And what can be done from it: only what will not wait (a danger, an answer owed, a warning, the dark), each one

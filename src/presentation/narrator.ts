@@ -32,7 +32,7 @@ export interface Leaf {
   // The place at a glance (SceneBudget: three sentences, typed by what each observation is; Mission 21): what the
   // page and the terminal tell of situation and presence, and what they hold for a deliberate look, whole sentences in
   // the place's order. situation and presence above stay whole, for what reads the place entire.
-  glanced?: { situation: string[]; presence: string[]; held: string[] };
+  glanced?: { situation: string[]; presence: string[]; held: string[]; unsaid?: string[] };
   // Whether the last command brought the company here from somewhere else, and the way, told as it went.
   moved?: boolean; journey?: string[];
   // Taken up again from a save: what the company is about, and the last thing it did, and when (see EngineHost).
@@ -123,12 +123,13 @@ export class Narrator {
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     const chapter = told && Chapters.opened(campaign.module, told.event.perceptions);
     // At a glance, three sentences (Mission 21): typed by what each observation is; what came of coming here counts.
-    const arrival = told?.moved ? Narrator.arrival(exchange) : 0;
+    const arrival = told?.moved ? (exchange?.lines ?? []).filter(l => l.kind !== 'roll' && l.kind !== 'fight') : [];
     const budget = SceneBudget.typed(paragraphs, presence, gone, arrival);
     const leaf = this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
       situation: [...situation, ...gone], presence, changed: fresh,
       glanced: { situation: budget.told.filter(t => t.kind !== 'life').map(t => t.text),
-        presence: budget.told.filter(t => t.kind === 'life').map(t => t.text), held: budget.held },
+        presence: budget.told.filter(t => t.kind === 'life').map(t => t.text), held: budget.held,
+        ...budget.unsaid ? { unsaid: budget.unsaid } : {} },
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
     });
@@ -171,7 +172,8 @@ export class Narrator {
     return { ...leaf, situation: leaf.situation.map(t => Typography.curl(t)),
       ...leaf.glanced ? { glanced: { situation: leaf.glanced.situation.map(t => Typography.curl(t)),
         presence: leaf.glanced.presence.map(t => Typography.curl(t)),
-        held: leaf.glanced.held.map(t => Typography.curl(t)) } } : {},
+        held: leaf.glanced.held.map(t => Typography.curl(t)),
+        ...leaf.glanced.unsaid ? { unsaid: leaf.glanced.unsaid.map(t => Typography.curl(t)) } : {} } } : {},
       presence: leaf.presence.map(t => Typography.curl(t)), changed: leaf.changed.map(t => Typography.curl(t)),
       ...e ? { exchange: { ...e, lines: e.lines.map(l => ({ ...l, text: Typography.curl(l.text) })),
         ...e.said ? { said: Typography.curl(e.said) } : {} } } : {} };
@@ -217,11 +219,6 @@ export class Narrator {
       else { out.push({ text, from, parts: [part] }); }
     }
     return out.map(({ text, parts }) => ({ text, parts }));
-  }
-  // The sentences what came of coming here tells (what was said and done, not the dice nor a fight's blows).
-  private static arrival(exchange: Exchange | undefined): number {
-    return (exchange?.lines ?? []).filter(l => l.kind !== 'roll' && l.kind !== 'fight')
-      .reduce((n, l) => n + SceneBudget.count(l.text), 0);
   }
   // What only someone who brings a capability would notice (tracks, a word in the old script) is credited to the
   // companion who noticed it (a fellow traveller, a recruit of an adventure's, a hireling: see companion in

@@ -62,7 +62,16 @@ describe('a scene told within its budget', () => {
     expect(SceneBudget.bears({ teaches: 'found' })).toBe(true);
   });
   it('gives way to what came of coming here, never below the place’s first sentence', () => {
-    const b = SceneBudget.typed([{ parts: [{ text: 'A low cellar. Damp. Grain on the floor.' }] }], ['A rat watches.'], [], 3);
+    const b = SceneBudget.typed([{ parts: [{ text: 'A low cellar. Damp. Grain on the floor.' }] }], ['A rat watches.'], [],
+      [{ text: 'You light a torch. It catches. The dark draws back.', kind: 'telling' }]);
     expect(b.told.map(t => t.text)).toEqual(['A low cellar.']);
+  });
+  it('tells what came of coming here before the place\u2019s further words, holding what the three leave', () => {
+    const b = SceneBudget.typed([{ parts: [{ text: 'Millholm is half houses and half wagons. Cook-smoke drifts between them.' }] }],
+      ['Wellby is mending a pot.'], [], [{ text: 'Your brother is on a rail. He is taller by a head.', kind: 'telling' },
+        { text: 'The grey dog barks twice, then comes to see who you are.', kind: 'event' }]);
+    expect(b.told.map(t => t.text)).toEqual(['Millholm is half houses and half wagons.']);
+    expect(b.unsaid).toEqual(['The grey dog barks twice, then comes to see who you are.']);
+    expect(b.held).toContain('The grey dog barks twice, then comes to see who you are.');
   });
 });
