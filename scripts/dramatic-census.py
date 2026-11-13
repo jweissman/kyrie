@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Structural census of the adventure corpus, for doc/architecture/activation/dramatic-assessment.md.
+"""Structural census of the adventure corpus, for doc/history/activation/dramatic-assessment.md.
 
 Read-only. Counts, by text, what each module's Kyr declares: rules keyed on the clock (and how many of those name no
 party, so run whether or not the company is there), objectives, endings, topics (and how many are `once`, or change

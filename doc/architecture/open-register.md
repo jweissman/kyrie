@@ -5,22 +5,22 @@ Compiled 11 November 2026, read-only, from the repository at `/var/tmp/kyrie/wt-
 claims nothing beyond what the sources say.
 
 **Sources read**
-- `doc/architecture/mission-20/`:
+- `doc/history/missions/20/`:
   - log.md: amendments 1–8, the open queue, rows E1–E133;
   - handoff.md (draft), text-inference.md, user-notes.md, opening-brief.md;
   - opportunities.md, design-opportunities.md, amendment-6.md, opening-design.md;
   - cold/round-1..6: every report's "Top five problems", and round 6's §4–§17 in full.
-- `doc/architecture/mission-19/`: closure.md, register.md (all 297 rows), inherited.md (145 rows; it reconciles
+- `doc/history/missions/19/`: closure.md, register.md (all 297 rows), inherited.md (145 rows; it reconciles
   M18's wishlist, which itself carried M17 and M16).
-- `doc/architecture/mission-17/ahead.md`; M18 register (OWN-07 only).
-- `doc/architecture/findings/`:
+- `doc/history/missions/17/ahead.md`; M18 register (OWN-07 only).
+- `doc/history/findings/`:
   - index.md: confirms M16 → M17 → M18 → M18 wishlist → M19 inherited was carried id by id;
   - gaps.md / gaps.tsv: 74 UNT rows never registered;
   - briefs.md: 109 BRF requirements.
 - The 9 November reviews (stabilization, quest-intent, throughput). Their recommendations were carried as
   M19-239..283, and are cited through those rows.
 - 2026-11-11-adventure-to-career.md, headless-rpg-investigation.md, capability-audit.md.
-- `/home/jweissman/work/kyrie/doc/architecture/mission-20/architecture-risk-mediation-2026-11-11.md` (R1–R10).
+- `/home/jweissman/work/kyrie/doc/history/missions/20/architecture-risk-mediation-2026-11-11.md` (R1–R10).
 - Memory notes: all m20-*, owner-adventure-to-career, mission-20, and the m19-owner-*, m18-owner-* and mission-*
   descriptions. The open, next and remaining lines were found by grep.
 

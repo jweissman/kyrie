@@ -1,7 +1,7 @@
 # Half the Hive — Stage 2b: the revised design
 
 *What survived the editorial ([02-editorial.md](02-editorial.md)), and what replaced what did not. This is the design
-that was implemented; where implementation changed it, [10-changes.md](10-changes.md) says how.*
+that was implemented; where implementation changed it, [12-changes.md](12-changes.md) says how.*
 
 ## The premise, revised
 

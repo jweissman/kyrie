@@ -5,7 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
-// A whole first expedition, as it was played by the words on the page (doc/architecture/mission-14/expedition.md):
+// A whole first expedition, as it was played by the words on the page (doc/history/missions/14/expedition.md):
 // from the road into Gothgiba, the inn and the smith, out over the fell to the mine; the adit level's riddles, its
 // goblins, the glyph made safe, the air shaft found by its draft and climbed out of; home to sell what was carried
 // up, a night at the inn. Its record replays it to the same world, and a game saved halfway and taken up again ends

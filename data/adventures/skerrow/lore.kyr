@@ -28,7 +28,7 @@ Module skerrow "The Light on Scarth Holm" {
   // The Scarth light and the Pharos on Skerrow (data/adventures/the-dorothea) are one works from its two ends: the same
   // oil, a cistern that keeps the tide, a keeper who counts. A company that has been to the Reach can tell the keeper
   // what became of the other lamp; a company that has not hears of it as oil and rope. See
-  // doc/architecture/activation/corpus/dorothea-skerrow.md.
+  // doc/history/activation/corpus/dorothea-skerrow.md.
   Topic orrin_oil with orrin "Ask Seddon where the oil in the store comes from" when true once {
     Says "'Cutter,' says Seddon. 'Kestrel. Out of Tolleth.' He turns the cup. 'Leaves it on the slip in flasks. Clean. No smoke.' He considers whether to say the next thing, and does. 'Burns longer than the Board's. I do not ask that, either.'".
   }

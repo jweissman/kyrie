@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 // Plays A Parliament of Books' long journeys by the labels a player sees and writes each out as the page told it, step
-// by step, to doc/playtests/parliament-of-books-2026-10-26 (the evidence its final report quotes). The journeys are
+// by step, to doc/history/playtests/parliament-of-books-2026-10-26 (the evidence its final report quotes). The
+// journeys are
 // the ones test/parliament-of-books*.test.ts asserts; waits that tell nothing are counted, not repeated.
 import { writeFile, mkdir } from 'node:fs/promises';
 import type { Journey } from '../src/session/journey';
@@ -8,7 +9,7 @@ import type { CreatureGenerationContext } from '../src/content';
 import { Arcs, Calamy, C, Steps } from '../test/support/calamy';
 import { ScreenModel } from '../src/ui/screen-model';
 
-const out = 'doc/playtests/parliament-of-books-2026-10-26';
+const out = 'doc/history/playtests/parliament-of-books-2026-10-26';
 // How a journey is told: who plays it, the way each routed step went, and whether an ending has closed the book.
 class Telling {
   static one(classId: string, backgroundId: string, level = 1): CreatureGenerationContext[] {

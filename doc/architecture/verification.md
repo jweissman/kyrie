@@ -1,67 +1,80 @@
-# Verification: what to run, how long it takes, and what CI runs
+# Verification: what to run, what it costs, and what CI runs
 
-Written for: anyone changing Kyrie who wants to know which check answers their question fastest, and what a push
-will be held to. Times are measured on one desktop machine (WSL2, bun 1.4.3, sixteen threads) on 2026-10-25, and
-the suite's again on 2026-10-27, nothing else running.
+Written for anyone changing Kyrie who wants the check that answers their question fastest, and to know what a push
+is held to. Times are on one desktop machine (WSL2, bun 1.4.3, sixteen threads) and on CI's runners; the measures
+behind them are kept by the scripts named here, not written into this page to go stale.
 
 ## From cheapest to dearest
 
-| tier | what | command | time |
-|---|---|---|---|
-| 1. one spec | the spec next to what you changed | `bun test test/world-reads.test.ts` | under a second to a few seconds |
-| 1. changed | specs whose imports reach code changed since the last commit, and specs that name a changed data file's adventure, module or fixture (`bun run test:changed [since]`); a change to `data/rules` moves every adventure, and is CI's to judge | `bun run test:changed` | as much as changed |
-| 2. types, style | the whole tree | `bun run typecheck`; `bun run lint` | 18 s; 14 s |
-| 3. same game | a 335-choice journey through the browser's engine, whose hashes must not move for a change meant to change nothing (see [mission-15/performance.md](mission-15/performance.md)) | `bun scripts/journey-profile.ts wren --every 400` | about 40 s |
-| 3. by layer | the simulation alone and the headless session, by kind of command | `bun scripts/sim-bench.ts wren` | about 30 s |
-| 3. from the middle | a slow stretch replayed from a profile's own checkpoint (`--checkpoint-every`, `--out`) | `bun scripts/journey-profile.ts <seed> --resume ck.json --replay steps.jsonl` | seconds |
-| 2. quick | the spec files that took under two seconds each when the timings were kept (about 330): the ordinary units, the same set every time, on six workers; a spec not yet timed is left out, and said to be | `bun run test:quick` | about 30 s |
-| 4. the suite | every spec but the long and the browser ones, the slowest files started first | `bun run test` | 12 minutes (130 test-minutes) |
-| 4. long | four deep sites played to their hearts | `KYRIE_LONG=1 bun test test/descent.test.ts` | 40 s to 2 minutes |
-| 5. browser | the built page, played by keys in Chromium | `KYRIE_BROWSER=1 bun test $(ls test/*-browser.test.ts)` | 1 minute |
-| 6. exploratory | a wander across marches, bounded, streamed and checkpointed | `bun scripts/journey-profile.ts a1 --wander 400 --out steps.jsonl --deadline 600` | as long as allowed |
+| tier | what | command |
+|---|---|---|
+| a rule | the rules on a tiny Kyr world written in the spec (`test/support/tiny.ts`): a tenth of a second a spec, no generated country | `bun test test/small/<spec>` |
+| one spec | the spec beside what you changed | `bun test test/<spec>.test.ts` |
+| routine | incremental types, cached lint, and the quick lane: every spec file kept under two seconds by `test/timings.json`, `test/small` among them (seconds, warm) | `bun run check:fast` |
+| changed | the specs whose imports reach the code changed since the last commit, and those that name a changed data file's adventure, module or fixture | `bun run test:changed [since]` |
+| named sets | the player contracts, the intent specs, the honest start | `bun run test:contracts`, `test:intent`, `test:honest` |
+| same game | a journey through the browser's engine whose hashes must not move for a change meant to change nothing | `bun scripts/journey-profile.ts wren --every 400` |
+| by layer | the simulation alone and the headless session, by kind of command | `bun scripts/sim-bench.ts wren` |
+| the suite | every spec but the long and the browser ones | CI (below); `bun run test` locally takes long and loads the machine |
+| long | four deep sites played to their hearts from kept records (`test/fixtures/descent`) | `KYRIE_LONG=1 bun test test/descent.test.ts -t <name>` |
+| browser | the built page, played by keys in Chromium | `KYRIE_BROWSER=1 bun test test/<spec>-browser.test.ts` |
+| terminal | deterministic walks through the terminal client, with the arrival-prose budget measured | `bun scripts/terminal-walks.ts` |
 
 A browser spec needs Chromium (`bunx playwright-core install chromium`) and its NSS libraries. Where they cannot be
 installed (`sudo apt-get install libnss3`), `apt-get download libnss3 libnspr4`, unpack each with
 `dpkg-deb -x <deb> <dir>`, and run the specs with `LD_LIBRARY_PATH=<dir>/usr/lib/x86_64-linux-gnu`. CI installs
 them with Chromium.
 
-`test/timings.json` keeps how long each spec file took, and the suite reads it: `--parallel` starts the slowest files
-first, `--shard` balances shards by it, and the quick suite is chosen by it. `bun run test:timings` runs the suite and
-keeps the times again; do so when files are added, split or much changed in length (on 3 November 268 specs had gone
-untimed, and the old quick suite, which ran every untimed spec, had come to twenty minutes).
+Locally, run one heavy thing at a time: the whole suite, a browser spec or a full `kyrie lint` beside another (or
+beside tests in another worktree) runs WSL out of memory. Never run `bun test` with an empty path, which is the whole
+suite: guard a computed one with `test -f "$f" && bun test "$f"`. The local habit is `check:fast`, then
+`test:changed`, then the one spec; the whole suite is CI's.
 
-Run one heavy thing at a time on a machine like this one: the whole suite, a browser spec or a full `kyrie lint` beside
-another (or beside tests in another worktree) runs WSL out of memory. The local habit is types, lint on what changed,
-`bun run test:quick` and `bun run test:changed`; the rest is CI's.
+## Making a slow spec cheap
+
+The cost of the suite is in drawing whole countries: a generated-world spec spends seconds composing a world before
+it tests anything. In order of preference:
+- **A tiny world.** A spec that proves one rule (an effect, what is known, what is offered, gold, navigation, an atlas
+  facet, a fight's rule, what is told) writes the few places and people it needs in Kyr and starts in a tenth of a
+  second (`Tiny.start`). Mutation-check it: break the rule, see the spec fail, restore.
+- **A shared start.** A spec that needs the generated country reads one start per seed shared across its cases
+  (`test/support/kept.ts`, `test/support/keep.ts`), not its own `DrawnWorld.start` per case.
+- **The whole world, kept for what only it proves:** that the generators write what a rule reads, that a journey
+  composes across places and days, and that saves resume.
+
+`bun scripts/spec-audit.ts` classifies every spec file over fifteen seconds by what it starts and what its cases
+assert, and writes the counts the migration is measured by to `doc/architecture/mission-21/spec-audit.md`.
 
 ## What CI runs
 
-`.github/workflows/ci.yml`. **On every push to any branch and every pull request** (minutes):
+`.github/workflows/ci.yml`. **On every push to any branch and every pull request:**
+- **lint and types**: a frozen install, lint, typecheck.
+- **player contracts**: `test:intent`, `test:honest`, `test:small`.
+- **the page boots**: Chromium, the page loaded, a character made, a conversation drawn at 820 × 1180. A gate: a bare
+  `process.env` read at a module's load once stopped the game loading in the page, and nothing else on a push had a
+  browser in it.
+- **suite 1/16 to 16/16**: the whole suite, balanced by `test/timings.json`, with a thirty-second default timeout and
+  the library parse store cached between runs (a cold parse is about thirty seconds a worker). Each shard writes bun's
+  JUnit report, and `scripts/test-summary.ts` puts the counts and every skipped or failed spec in the run's summary.
+  Orsino is checked out beside Kyrie at the revision `data/sources/orsino/registry.json` names, so the registry spec
+  runs rather than skips.
+- **reference hour, through the page**: evidence, not a gate (it may fail without failing the run).
 
-- **lint and types**: `bun install --frozen-lockfile`, lint, typecheck.
-- **player contracts**: `test:intent`, `test:honest`, `test:small` (the rules on small worlds, Mission 21).
-- **push lane 1/8 to 8/8**: `bun scripts/test-lane.ts push` (`test/lanes.json`): every spec file under thirty seconds
-  by `test/timings.json`, everything in `test/small/`, any spec not yet timed, and a short list of sentinels (whole-world
-  and whole-adventure specs kept on every push, each with why). 524 files, ≈ 65 CI-minutes of the suite's ≈ 1 087.
-- **the page boots**: Chromium, the page loaded, a character made, a conversation sat at the foot of the page
-  (`frame-browser`'s 820 × 1180), a gate: on 13 November a bare `process.env` had stopped the game loading, and no
-  per-push job but the reference hour (evidence, not a gate) had a browser in it.
-- **reference hour, through the page**: evidence, not a gate.
+**Nightly on main (08:00 UTC), and on any branch on demand** (`gh workflow run CI --ref <branch>`):
+- **long descents**: `KYRIE_LONG=1`; any skip fails the job.
+- **browser specs 1/2 and 2/2**: every `*-browser` spec; any skip fails the job.
 
-**Nightly on main (08:00 UTC) and on demand** (Actions → CI → Run workflow, or `gh workflow run CI --ref <branch>`):
+`.github/workflows/pages.yml` publishes the page only after CI has passed on a push to `main`: the whole suite is the
+gate a deploy waits on. Work in flight is proven on its own `ci/<line>-<n>` branch before it reaches `main`. A change
+to many worlds or to the page (the shared rules, the generators, the reader) also gets a dispatched run, for the long
+descents and the browser specs.
 
-- **suite 1/10 to 10/10**: the whole suite, balanced by `test/timings.json`, each with bun's JUnit report.
-  `scripts/test-summary.ts` writes the counts and every skipped or failed spec, by file and line, to the run's
-  summary. Orsino is checked out beside Kyrie at the revision `data/sources/orsino/registry.json` names, so the
-  registry spec runs rather than skips.
-- **long descents**: `KYRIE_LONG=1`; any skip fails the job (`--none-skipped`).
-- **browser specs**: Chromium installed with its libraries, `KYRIE_BROWSER=1`; any skip fails the job.
+Watch a run with `gh run watch <id> --interval 60 --exit-status`, one watch at a time: the default three-second poll
+once spent the shared hourly API limit.
 
-Before merging something that changes many worlds or the page (the shared rules, generators, the reader), ask for
-the whole suite on its branch rather than waiting for the night.
-
-A failing spec fails its job, and so the run. `.github/workflows/pages.yml` still publishes the page from `main`
-with three quick specs of its own.
+**The kept times.** `test/timings.json` balances the shards and chooses the quick lane. When files are added, split
+or much changed, keep them again from a whole run's reports: `gh run download <run> -D <dir>`, then
+`bun scripts/timings-from-junit.ts <dir>`.
 
 ## Dependencies
 

@@ -74,7 +74,7 @@ A conflict module gives powers their own aims and the means to pursue them, in t
   reactions are events on `keeps`.
 - **Activities can be interrupted**: `Interrupted when threatened(actor).` on a wait, a rest or a rite.
 
-See [the living world](../doc/architecture/living-world.md) for how the March's conflict is built and tested.
+See [the living world](../doc/history/architecture-2026-10/living-world.md) for how the March's conflict is built and tested.
 
 ## Current composition
 
@@ -104,8 +104,8 @@ See [the living world](../doc/architecture/living-world.md) for how the March's 
 - `campaigns/companies.json`: the ready companies on the creation screen.
 - `scenarios/`: the library a generated region draws its adventures from (`library.json`, one
   `*.scenario.json` per situation: the contexts it fits, the places it needs, how word of it spreads). See
-  [generated regions](../doc/architecture/generated-worlds.md).
+  [generated regions](../doc/history/architecture-2026-10/generated-worlds.md).
 
 Skellfold and Thrale still combine their region and site in one module.
 
-Removed material is listed in [doc/archive/legacy-material.md](../doc/archive/legacy-material.md).
+Removed material is listed in [doc/history/archive/legacy-material.md](../doc/history/archive/legacy-material.md).
