@@ -30,19 +30,19 @@ enemy", in the treasure table and the den's finds), and Thole's lessons in The F
 | Missiles by casting level | `floor((cappedLevel(9) + 1) / 2)`: 1 at 1st, 2 at 3rd, 3 at 5th, 4 at 7th, 5 at 9th and beyond, by #castingLevel (a wand's: the wand's own, see below) | exact |
 | Damage per missile | 1d4+1 force, each missile thrown and dealt on its own, so each is resisted, warded and told on its own | exact |
 | Automatic hit | no attack roll and no save: a missile lands on any target the caster may choose; nothing about concealment yet (Westernesse has none for a spell) | exact |
-| Allocation | the caster chooses one foe, and every missile goes to it; a missile still to come when it falls passes to the next foe standing, nearest the chosen one in the press, then the rest in the order the fight lists them. Deterministic: no draw, so a replay allocates alike. The SRD's free split among several is not offered (one chosen target is all a command names); a caster wanting two foes struck casts twice | converted |
+| Allocation | the caster chooses one foe, and every missile goes to it; a missile still to come when it falls passes to the next foe standing, in the order the fight lists them. Deterministic: no draw, so a replay allocates alike. The SRD's free split among several is not offered (one chosen target is all a command names); a caster wanting two foes struck casts twice | converted |
 | One or several legal targets | one foe: all its missiles; several: still all on the chosen one until it falls | converted |
 | Events | one damage event a missile, each naming its target; the cast spends one slot, once | exact |
 | Spell resistance | none rolled: Westernesse has no spell resistance yet (engine-pressure.md §4); recorded, not inert | omitted |
 | Shield | no interaction: the catalog's `shield` is the SRD's Shield of Faith, and no Westernesse spell is the SRD's Shield yet; a ward absorbs each missile as it absorbs any harm | omitted |
-| A wand's missiles | cast at the wand's caster level: the SRD's minimum for the spell, 1st (one missile), until wands carry a level of their own | converted |
+| A wand's missiles | cast at the casting level of whoever uses it, as any item's spell is cast today; the SRD's wand casts at its own caster level, which wands do not yet carry | converted |
 
 ## What it changes, where it is reached
 
 The evoker's and generalist's mage at the first level fires one missile of 1d4+1 where Orsino's fired two of 1d4 at
 two foes (a weaker first level, the SRD's); at the fifth, three of 1d4+1 into one foe where Orsino's fired four of
 1d4+1 at four (a stronger single-target spell, weaker against a crowd). The sprite casts at its Hit Dice (its level,
-an Orsino creature). The wand fires one missile, not two. Each reach is reviewed in the slice's reachability record
+an Orsino creature). The wand fires as many as its user's casting level gives. Each reach is reviewed in the slice's reachability record
 before the spell lands.
 
 ## Tests (the brief's)

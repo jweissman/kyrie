@@ -6,8 +6,8 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 57 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 17 pass in structure
-(level, school), 0 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-0 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+(level, school), 1 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+1 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 39 | school 62 | dice 0 | type 12 | save 19 | dc 0 | attack 104 | target 67 | duration 29 | of 119 |
+| spells, field exact or converted | level 39 | school 62 | dice 1 | type 12 | save 19 | dc 0 | attack 104 | target 67 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -168,7 +168,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | knock | knock | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✗ · → several | ✓ |
 | life_drain | vampiric-touch | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → necromancy | ✗ 3.5/3.5/3.5/3.5 → 0/7/17.5/35 | – | ✗ wisdom negates → · | ✗ 15 → · | ✗ none → melee touch | ✓ | ✓ |
 | lightning_bolt | lightning-bolt | S✗ R✗ I– | ✗ 4 → 3 | ✓ | ✗ 13.5/13.5/13.5/13.5 → 3.5/17.5/35/35 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 16 | ✓ | ✗ several → line | ✗ 3 rounds → instant |
-| magic_missile | magic-missile | S✓ R✗ I– | ✓ | ✓ | ✗ 2.5/3.5/5.5/8.5 → 3.5/3.5/3.5/3.5 | ✓ | – | – | ✓ | ✓ | ✓ |
+| magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
 | major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | ✓ | ✗ instant → long |
 | mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✗ wisdom negates → · | ✗ 34 → · | ✓ | ✗ all → several | ✗ 3 rounds → long |
 | mass_curse | bane | S✗ R✗ I– | ✗ 3 → 1 | ✗ · → enchantment | – | – | ✓ | ✗ 16 → 14 | ✓ | ✗ all → one | ✗ 3 rounds → long |

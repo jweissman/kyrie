@@ -1,5 +1,5 @@
 {
- "about": "Which Revised 3.5 SRD entry each catalog creature and spell answers to (data/sources/srd35), for the fidelity census (scripts/srd-fidelity.ts). A creature entry may say which SRD special attacks its conversion carries, and as what. Identities name the focused test that proves an entry's play identity (proof-slices.md).",
+ "about": "Which Revised 3.5 SRD entry each catalog creature and spell answers to (data/sources/srd35), for the fidelity census (scripts/srd-fidelity.ts). A creature entry may say which SRD special attacks its conversion carries, and as what. Identities name the focused test that proves an entry's play identity (proof-slices.md). Conversions name the rule a field departs from the SRD by, which the census then reads as converted.",
  "creatures": {
   "badger": {
    "srd": "badger"
@@ -342,6 +342,12 @@
   "weird": "weird"
  },
  "identities": {
-  "rat/cellar": "test/fixed-stat-block.test.ts"
+  "rat/cellar": "test/fixed-stat-block.test.ts",
+  "magic_missile": "test/magic-missile.test.ts"
+ },
+ "conversions": {
+  "magic_missile": {
+   "target": "every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md)"
+  }
  }
 }

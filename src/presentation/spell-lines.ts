@@ -1,5 +1,7 @@
 import type { Amount, ArenaAbility, Effect } from '../lang/parse';
 import { MechanicsText } from './mechanics-text';
+import { Volley } from '../rules/volley';
+import { Expressions } from '../expressions';
 
 type Laid = Extract<Effect, { kind: 'apply' }>;
 
@@ -68,7 +70,23 @@ export class SpellLines {
     const what = same ? `${amounts[0]} ${this.list(types.filter(Boolean) as string[])}`
       : this.list(plain.map((_, i) => `${amounts[i]} ${types[i]}`));
     const more = harms.filter(e => e.targetTrait && e !== first).map(e => `${this.amount(e)} more if ${e.targetTrait}`);
-    return [`${what} to ${to}`, ...more].join(', ');
+    return [`${what} to ${to}${this.volley(first)}`, ...more].join(', ');
+  }
+  // A volley's blows (Volley), as its count comes to by casting level: "once at the first level, five times by the
+  // ninth", read from the count it rolls.
+  private static volley(e: Effect): string {
+    if (!Volley.of(e)) { return ''; }
+    const most = this.blows(e, 20), first = this.blows(e, 1);
+    const by = [...Array(20).keys()].map(n => n + 1).find(level => this.blows(e, level) === most)!;
+    return most === first ? `, ${this.times(most)}`
+      : `, ${this.times(first)} at the first level, ${this.times(most)} by the ${this.nth(by)}`;
+  }
+  private static blows(e: Effect, level: number): number {
+    return new Expressions('lines').amount(e.count!, { ...this.actor, castingLevel: level });
+  }
+  private static times(n: number): string { return n === 1 ? 'once' : `${this.numbers[n] ?? n} times`; }
+  private static nth(n: number): string {
+    return ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'][n - 1] ?? `${n}th`;
   }
   // What is laid on one target: "hexes one foe for 3 turns", "protects and emboldens an ally", "hides you and
   // sharpens your wits"; on one already named, by its pronoun ("and scalds it").

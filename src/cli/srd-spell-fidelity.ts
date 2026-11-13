@@ -30,6 +30,9 @@ export class SpellFidelity {
   static readonly spells = srd.spells as unknown as Record<string, SrdSpell>;
   static readonly map = concordance.spells as unknown as Record<string, string>;
   static readonly identities = (concordance as { identities?: Record<string, string> }).identities ?? {};
+  // A field's departure from the SRD by a rule the concordance names: read as converted, the rule said, not differs.
+  static readonly conversions = (concordance as { conversions?: Record<string, Record<string, string>> })
+    .conversions ?? {};
   static readonly structural = ['level', 'school'] as const;
   static readonly resolution = ['dice', 'type', 'save', 'dc', 'attack', 'target', 'duration'] as const;
   static readonly levels = [1, 5, 10, 20];
@@ -42,6 +45,10 @@ export class SpellFidelity {
       dice: this.dice(ability, s), type: this.type(ability, s), save: this.save(ability, s),
       dc: this.measured(r.dc(ability, s, level)), attack: this.measured(r.attack(ability, s)),
       target: this.measured(r.target(id, ability, s)), duration: this.same(this.lasts(ability), this.theirs(s)) };
+    for (const [field, rule] of Object.entries(this.conversions[id] ?? {})) {
+      const f = fields[field as keyof typeof fields];
+      if (f?.verdict === 'differs') { fields[field as keyof typeof fields] = { verdict: 'converted', ours: rule, theirs: f.theirs }; }
+    }
     return { id, srd: key, ...fields, grades: this.graded(id, ability, fields) };
   }
   private static measured(m: { ours: string; theirs: string }): Field { return this.same(m.ours, m.theirs); }
