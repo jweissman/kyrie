@@ -101,3 +101,30 @@ describe('the time lens', () => {
     expect(all.map(a => a.command)).toEqual(expect.arrayContaining(['wait', 'light_item(t__party_1__candle)']));
   });
 });
+// What is done at a thing on a way (a portcullis, a tripwire, a riddle door's words), not going by it, is the things
+// lens's, the thing its subject (round 13's lens gap: in no lens, the aesthetic line's AtHand.onWays a stopgap); and an
+// opener's acts are reachable from the lens (Lensed.leaves). A gate-passage with a portcullis across the inner arch,
+// and a chest whose lid can be lifted.
+const passage = `
+  Place gate "the gate-passage" is room at 0, 0 indoors.
+  Place court "the court" is room at 1, 0 outdoors.
+  Passage arch "the inner arch" is door between gate and court.
+  Company party "You" of 1 at gate.
+  Thing portcullis "the portcullis" on arch { State down blocking "A portcullis is down across the inner arch.".
+    State up "The portcullis is wedged up.". Change heave "Heave the portcullis up and wedge it" from down to up. }
+  Thing chest "a chest" at gate { State shut "A chest stands against the wall.". State open "The chest is open.".
+    Change open "Lift the chest's lid" from shut to open. Change kick "Kick the chest" from shut to shut. }
+  Goal false.`;
+describe('the things lens', () => {
+  it('holds what is done at a thing on a way, the thing its subject', async () => {
+    const t = await Tiny.start(passage), things = t.glance.lenses.things;
+    const heave = [...things.promoted, ...things.rest].find(a => /heave/.test(a.command ?? ''));
+    expect(heave?.subject).toBe('t__portcullis');
+  });
+  it('reaches every act within an opener by the lens', async () => {
+    const t = await Tiny.start(passage), things = t.glance.lenses.things;
+    const chest = [...things.promoted, ...things.rest].find(a => a.subject === 't__chest')!;
+    expect(things.leaves?.[chest.choice]?.map(a => a.command)).toEqual(expect.arrayContaining(['change_thing(t__chest_open)',
+      'change_thing(t__chest_kick)']));
+  });
+});

@@ -69,3 +69,26 @@ The targets:
 - **now:** the whole suite on every push under 15 minutes wall;
 - **next:** under 10;
 - **the owner's ideal:** nearly every file under 15 s.
+
+## Progress (14 November, evening)
+
+- **The pipeline.**
+  - Every push runs the whole suite in 16 shards as its gate (the push lane is gone).
+  - Pages deploys only once CI has passed on main (`workflow_run`).
+  - The first such run took 20 min wall, 229 job-minutes, and found five regressions the push lane had hidden: two
+    specs moved to the owner's rulings; three cases of the wound rule, with the rules line.
+- **Kept times** from the last full run's JUnit (`scripts/timings-from-junit.ts`): the shards balanced again, and the
+  quick lane grew to 390 files in 16.5 s.
+- **Shared prefixes:** the silent lord's specs begin once a file (`Kept.drawn`, `Keep.at`).
+- **Idle world time, measured on a1, two days waited:**
+
+  | Change | ms a watch |
+  |---|---|
+  | start of the day | 68 |
+  | one route search per world state, not per place on the map | 51 |
+  | band names by an index | 43 |
+  | known ways read once per state | 42 |
+
+  Next, the screen is still half of a waited step. What it reads (the known ways, perception, grounding) changes only
+  when its own facts do, not with the clock. Caching it across watches needs the world to stamp each relation's version
+  (Experiment B's step 5), or a wait that builds the page only where the spec reads it.
