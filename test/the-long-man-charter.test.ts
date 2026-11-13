@@ -62,7 +62,7 @@ describe('The Long Man, the charter', () => {
     expect(Dale.holds(s, 'longman__exposed', 'longman__venn')).toBe(true);
     // The wall is then mended as ever: the bronze from the cellar chest back to its keeper.
     await Dale.until(s, 100);
-    await Dale.act(s, '^Out to the Hall yard', '^Into the Hall cellar', '^Take from', '^Out to the Hall yard');
+    await Dale.act(s, '^Out to the Hall yard', '^Into the Hall cellar', '^Take a sack of bell-teeth from', '^Out to the Hall yard');
     expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('every dog in Merrow lifts its head');
     await Dale.until(s, 440);
     expect(Dale.said(await Dale.act(s, '^To Merrow green'))).toContain('THE KEEPING');
@@ -113,7 +113,7 @@ describe('The Long Man, the company', () => {
     await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox');
     expect(Dale.said(await Dale.act(s, '^Buy › A torch'))).toBeDefined();
     await Dale.act(s, '^Out to Merrow green', '^To the Hall yard', '^Into the steward', 'Ask Aldous Venn about the Mower',
-      '^Take from the hook', '^Out to the Hall yard', '^To the crest', '^To the gauge stone', '^Into the galleries', 'light',
+      "^Take the steward's iron key from the hook", '^Out to the Hall yard', '^To the crest', '^To the gauge stone', '^Into the galleries', 'light',
       '^Read the notches', '^Out|^To the foot', );
   };
   it('lets each member speak by what they are, once, in the places that suit it', async () => {

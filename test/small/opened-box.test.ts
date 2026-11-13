@@ -23,5 +23,8 @@ describe('a box opened', () => {
     await t.play("Lift the chest's lid");
     expect(told(t.look())).toMatch(/In the chest on the ledge: a stolen chalice\./);
     expect(t.journey.choices().some(c => /^take_out\(t__chalice,/.test(c.command))).toBe(true);
+    // And the take names what is taken: it had been "Take from a chest on the ledge".
+    expect(t.journey.choices().find(c => /^take_out\(t__chalice,/.test(c.command))?.label)
+      .toBe('Take a stolen chalice from a chest on the ledge');
   });
 });

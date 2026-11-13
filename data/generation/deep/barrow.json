@@ -237,5 +237,6 @@
     ]
   },
   "rest": ["mourners"],
-  "devices": [{"id": "bomb", "label": "a ticking charge", "role": "a charge"}, {"id": "phylactery", "label": "a dark vessel", "role": "a phylactery"}]
+  "devices": [{"id": "bomb", "label": "a ticking charge", "role": "a charge"}, {"id": "phylactery", "label": "a dark vessel", "role": "a phylactery"}],
+  "marks": {"name": "the marks on the kerb-stones", "unread": "Marks run along the kerb-stones of the forecourt in the old script.", "read": "The marks are the makers' own, cut when the mound was raised: who lies within, and what they were.", "label": "Read the marks on the kerb-stones"}
 }

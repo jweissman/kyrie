@@ -11,7 +11,7 @@ describe('Merrowdale and Ammerlin', () => {
     const ids = j.campaign.module.entities.map(e => e.id);
     expect(ids).toContain('longman__undercroft');
     expect(ids).toContain('lowwater__undercroft');
-    await j.play('^To the end of the south road', '^To Merrow green', '^To the Hall yard', '=118', '^Into the Hall cellar', '^Take from',
+    await j.play('^To the end of the south road', '^To Merrow green', '^To the Hall yard', '=118', '^Into the Hall cellar', '^Take a sack of bell-teeth from',
       '^Out to the Hall yard', '^To Merrow green', 'end of the south road', 'the crossroads',
       'north road, at the Rim', '^To the head of the Stair', '^To Measures Square', '^Into the Full Measure', '=218');
     expect(j.holds('carries', 'party', 'longman__teeth')).toBe(true);

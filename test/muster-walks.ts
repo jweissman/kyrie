@@ -29,7 +29,7 @@ export const toOctavius = async (j: Journey, who: Who = 'marra') => {
   // at dawn.
   await j.play('To the head of the Old Causeway', 'To the long middle of the causeway', 'a torch: Light', 'Stand together with lit torches, and let the pack look at the flame',
     'To the end of the causeway', 'To the Mansio Septimus', '=day 2 05:00', 'To the foot of the High Road', 'To the open stretch of the High Road', 'To the Mansio Octavius',
-    'Unbuckle the scribe\'s satchel', 'a scribe\'s glossary of the old script: Take from the scribe\'s satchel');
+    'Unbuckle the scribe\'s satchel', 'Take a scribe\'s glossary of the old script from the scribe\'s satchel');
 };
 /** … then the Viaduct (rigged), and the Eagle. */
 export const toEagle = async (j: Journey, who: Who = 'marra') => {

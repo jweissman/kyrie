@@ -207,8 +207,10 @@ export class PlayerView {
   static observe(campaign: Campaign): PlayerSnapshot {
     const world = campaign.world, kept = this.observed.get(world), store = campaign.tickState.creatures;
     const read = campaign.readout, last = campaign.history.at(-1);
+    // And the aim followed, which the player changes without changing the world: kept from before Follow this, the
+    // snapshot had said nothing was followed, and an aim seen through was not known to have been (PL-06).
     const key = `${read.elapsed}:${read.minutes ?? 0}:${campaign.history.length}:${campaign.installations.length}`
-      + `:${campaign.running}`;
+      + `:${campaign.running}:${campaign.tickState.current.following?.id ?? ''}`;
     if (kept?.campaign === campaign && kept.key === key && kept.store === store && kept.version === store.version
       && kept.last === last) { return kept.snapshot; }
     const snapshot = Frozen.deep(this.perceive(campaign));

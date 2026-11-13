@@ -34,7 +34,7 @@ describe('The Long Man, the ranger\'s drain', () => {
   }, 120000);
   it('leaves the ordinary way as it was: the steward lends his key to a company that asks', async () => {
     const j = await Journey.start(home, 'key');
-    await j.play('>study', 'Ask Aldous Venn about the Mower', 'Take from the hook', '>springs', '>hollow_door');
+    await j.play('>study', 'Ask Aldous Venn about the Mower', "Take the steward's iron key from the hook", '>springs', '>hollow_door');
     expect(j.holds('holding', 'party', 'cell_key')).toBe(true);
     await j.play('Unlock the grate');
     expect(j.holds('state', 'grate', 'open')).toBe(true);

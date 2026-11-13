@@ -147,7 +147,7 @@ describe('The endings the valley leads to', () => {
       'To the end of the causeway', 'To the Mansio Septimus', 'To the mouth of the Gallery', 'Ask Sister Ione what she believes', 'Say that you believe in the road, whoever made it');
     expect(j.holds('travelsWith', 'ione', 'party')).toBe(true);
     await j.play('To the Mansio Septimus', '=day 2 05:00', 'To the foot of the High Road', 'To the open stretch of the High Road', 'To the Mansio Octavius',
-      'Unbuckle the scribe\'s satchel', 'a scribe\'s glossary of the old script: Take from the scribe\'s satchel');
+      'Unbuckle the scribe\'s satchel', 'Take a scribe\'s glossary of the old script from the scribe\'s satchel');
     await j.play(steps.viaduct[0]!, 'Ask Sister Ione whether she will take the line over the parapet', 'Argue that a god who made stone also made the hands that drive pitons');
     expect(j.holds('ioneSafe', 'party')).toBe(true);
     await j.play(...steps.viaduct.slice(1));
@@ -244,7 +244,7 @@ describe('Six things on the road that lead nowhere', () => {
     j.roll('pass');
     await j.play('Follow the survey studs and set your feet by the numbers');
     expect(j.holds('stonesFound', 'party')).toBe(true);
-    await j.play('To the end of the Ledge', 'To the Mansio Octavius', 'Unbuckle the scribe\'s satchel', 'a scribe\'s glossary of the old script: Take from the scribe\'s satchel');
+    await j.play('To the end of the Ledge', 'To the Mansio Octavius', 'Unbuckle the scribe\'s satchel', 'Take a scribe\'s glossary of the old script from the scribe\'s satchel');
     await j.play('Ask Marra what she is looking for on the far side', 'Say that you would want to know, whatever it was');
     await j.play(...steps.viaduct);
     await j.play('To the sheltered hollow');

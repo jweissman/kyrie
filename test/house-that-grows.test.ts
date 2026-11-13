@@ -85,7 +85,7 @@ describe('The House That Grows: its law', () => {
     const s = await Ring.start();
     await Ring.up(s);
     await Ring.act(s, 'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Ask Ottie about the lamps',
-      'Take from the lamp shelves', 'into the chimney of', 'Ask Ottie to look at you', Ring.look, 'back through a door that glints',
+      'Take a burnt-out Ithren lamp from the lamp shelves', 'into the chimney of', 'Ask Ottie to look at you', Ring.look, 'back through a door that glints',
       Ring.look, 'back through the far door');
     expect(Ring.holds(s, 'hhg__lit', 'hhg__lamp_a')).toBe(true);
     const seen = Ring.said(await Ring.act(s, 'Pack › .*lamp.*Set down'));
@@ -186,7 +186,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     await Ring.up(s);
     await Ring.act(s, Ring.look, 'back through a door with cold air', 'Search here', Ring.look, 'back through a door with cold air',
       'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Tell Ottie about the red door',
-      'Ask \\w+ to come with you', 'Take from the lamp shelves', 'into the chimney of', Ring.look, 'back through a door that glints',
+      'Ask \\w+ to come with you', 'Take a burnt-out Ithren lamp from the lamp shelves', 'into the chimney of', Ring.look, 'back through a door that glints',
       Ring.look, 'back through the far door', 'Pack › .*lamp.*Set down', Ring.look, 'back through the far door', Ring.look,
       'back through the far door');
     expect(Ring.holds(s, 'at', 'party', 'hhg__coats_low')).toBe(true);

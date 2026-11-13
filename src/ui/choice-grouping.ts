@@ -122,7 +122,7 @@ export class ChoiceGrouping {
     give: { slot: 'target', param: 'recipient', path: ['Give {gift}'] },
     give_valuable: { slot: 'target', param: 'recipient', path: ['Give {gift}'] },
     give_back: { slot: 'target', param: 'owner', path: ['Give {gift} back'] },
-    take_out: { slot: 'target', param: 'find', path: ['Take from {box}', 'for {recipient}'] },
+    take_out: { slot: 'target', param: 'find', path: ['Take {find} from {box}', 'for {recipient}'] },
     put_in: { slot: 'target', param: 'box', path: ['Put in', '{cargo}'] },
     search: { slot: 'camp', path: ['Search here'] },
     look_closely: { slot: 'target', param: 'target', path: ['Examine', 'Look closely'], onWay: ['Look at {target}', 'Look closely'],

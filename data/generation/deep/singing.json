@@ -240,5 +240,6 @@
     ]
   },
   "rest": ["cantors"],
-  "devices": [{"id": "antimagic_ward", "label": "a warding stone", "role": "a warding stone"}, {"id": "barrier", "label": "a barricade", "role": "a barricade"}]
+  "devices": [{"id": "antimagic_ward", "label": "a warding stone", "role": "a warding stone"}, {"id": "barrier", "label": "a barricade", "role": "a barricade"}],
+  "marks": {"name": "the marks round the cave's mouth", "unread": "Marks run round the smooth rim of the cave's mouth in the old script.", "read": "The marks are the makers' own, cut when the hall was first sung: who made it, and what they held.", "label": "Read the marks round the mouth"}
 }

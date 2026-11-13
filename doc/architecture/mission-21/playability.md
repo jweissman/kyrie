@@ -41,10 +41,10 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-19 | **P0** | At the dead man's map's keep the search the map marks is not led, and the gold goes to parleying with the hobs: dangers and the way back fill the three places | fixed in this branch |
 | PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
 | PL-21 | **P0** | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed in this branch |
-| PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | fixed in this branch (the telling); the take's label open |
+| PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | fixed in this branch (the telling, and the take's label) |
 | PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed in this branch (the lead's ruling) |
-| PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | open (content/generation; suspected) |
-| PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
+| PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed in this branch (generation) |
+| PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | ranks 1 and 2 built in this branch (the lead's ruling); ranks 3–4 later |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
 
@@ -397,10 +397,14 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   stolen chalice out of a chest on the ledge". Corroborates AP-08 ("An opened chest looks empty from the scene").
 - **Status:** fixed in this branch for the telling: a thing lying in something open is told with it ("In the chest on
   the ledge: a stolen chalice."), from the row's typed containment (`TargetRow.within`, PlayerView's `inside`), and
-  shut, nothing of it is told. Regression: `test/small/opened-box.test.ts`. **Left:** the take's label is "Take from a
-  chest on the ledge", without the chalice's name (`ChoiceGrouping`'s `take_out` path); naming it would break a dozen
-  authored journeys that step by that label, so it waits on the lead (the page's Look already says "Take a stolen
-  chalice"). A stolen thing is still not led as spoils, by design (it is someone's).
+  shut, nothing of it is told. Regression: `test/small/opened-box.test.ts`. The take's label names what is taken (the
+  lead's ruling, 13 November): "Take a stolen chalice from a chest on the ledge", where it had been "Take from a chest
+  on the ledge" (`ChoiceGrouping`'s `take_out` path, `Take {find} from {box}`); held by the same spec
+  (mutation-checked). The authored journeys that stepped by the old label step by the new one (the Long Man's three,
+  Merrow to Ammerlin, the Muster's, the Ring's three, the House that Grows, the arcology house, Thrume, What Tessary
+  Owes, and the journey fixtures of the Muster, Tallow, Tessary, Half the Hive and Sennet). No kept trace's digest
+  changed with it. "Take from Maud" (what one senseless carries, `take_from`) is a different act and stays. A
+  stolen thing is still not led as spoils, by design (it is someone's).
 
 ### PL-23: the gold walks a site room by room
 
@@ -423,18 +427,25 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   (`AimRoute.onward`). On the mage's saves: no gold inside the hold; at its door the parley stays the aim's. Regression:
   `test/small/gold-site.test.ts` (the debt's hold: no gold through its rooms, which are exploration; an aim naming the
   writing in its last room led on to it; a jewelled box seen there is the debt's step). `test/gold-thread`: the
-  Neblalac cases pass; two of its walks are brought to the ruling (kahitude's order errand may end at Lapisrecs's door,
-  see PL-24; a1's debt now ends at Ísencepan's door rather than walking its rooms).
+  Neblalac cases pass; two of its walks are brought to the ruling (kahitude's order errand had been let end at
+  Lapisrecs's door until PL-24's fix; a1's debt now ends at Ísencepan's door rather than walking its rooms).
 
-### PL-24: an errand sent where it cannot be done (suspected)
+### PL-24: an errand sent where it cannot be done
 
 - **Found by:** PL-23's walk of kahitude's order origin (`tools/herbs.ts kahitude order`): the errand ("the brothers
   want the old writing at Lapisrecs read") waits on `knows(party, region__history_bone)` or `…_bone_fate`, taught at
   w1, w2, w3, the manor's library and the stones' hall; Lapisrecs (w9) teaches `region__history_successors`
-  (`region__w9_barrow_passage_after1_doc_says`). `region-works.ts` says a later kingdom's work keeps the first makers'
-  story; either the errand's delving or the work's teaching is wrong.
-- **Status:** open: a generation question (src/world/region-works.ts, the order origin's choice of delving), not
-  fixed here.
+  (`region__w9_barrow_passage_after1_doc_says`).
+- **Cause:** the work's teaching, not the errand's choice. The order binder picks a work of the first makers' art
+  (`makers[0].art`), and `region-works.ts` holds that every work keeps its makers' story (`makersfact`). The works
+  built by `DeepSites` (barrow, waterworks, deep, singing) taught only the after-kingdom's history through their
+  writings and never `makersfact`, so any errand sent to one could not be done there. Across ten seeds, five
+  countries' errands were broken this way (kahitude w9, b2 w8, mere w9, c3 w8, d4 w8).
+- **Fix:** each deep purpose carries its makers' marks in data (`data/generation/deep/*.json`, `marks`: the marks on
+  the kerb-stones, and so on), and `DeepSites.marks` sets them at the way in, read with lore, teaching `makersfact`.
+  The kahitude order walk in `test/gold-thread` no longer allows `lost` as an end.
+- **Regression:** `test/small/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
+  history or fate the errand waits on (mutation-checked: without the marks it fails for the five countries above).
 
 ### PL-06: after the aim, nothing pulls
 
@@ -442,8 +453,26 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   taken: `aims` says "No aim is held"; the foreground is two ways out into the country; Odo had said "I want the yoke
   back. It was Grandfather's", and nothing leads home with it. Day 1, 5:40 p.m., 837 XP.
 - **Corroborates:** T24-18 (round 12, A: "after each job it moves on to the next notice"); aesthetic-and-play §5.
-- **Status:** open: a design matter (the aim's succession), recorded here because it decides whether the first hour
-  is worthwhile. A proposal follows (the lead asked for one, 13 November; nothing built).
+- **Status:** ranks 1 and 2 of the proposal below are built (the lead approved it on 13 November, ranks 1 and 2
+  only). As the aim followed is seen through with nothing to follow on into (`ActionFeedback.closed`), the glance
+  carries one successor (`Glance.next`, `Succession`), said once under what came of it and offered, never followed:
+  - **rank 1, the deed's consequence:** an act written for a thing (its Requires names the item), the thing carried or
+    lying here, and whoever the act asks for standing where it would be done (`at(wife, site)`), grounded there with
+    the company moved and the thing as if taken. a1 kin, the den cleared: "Hang the yoke over the hearth, where it
+    always hung · Millholm", offered as "Collect the drover's ox-yoke for Odo"; the yoke taken, offered again, once,
+    as "To Millholm".
+  - **rank 2, the strongest lead not followed:** an aim held and not followed, in the notes' order (kahitude map and
+    lost: the bell's aim, "Follow this"); else the nearest place a known fact leads to, not yet been to.
+  - Drawn on the page under the told (`NextPull`), in the terminal as `Next: …` with the choice to type or `follow
+    <n>`. Its words are the act's, the aim's or the fact's: no new prose.
+  - A cause found on the way: `PlayerView.observe` kept its snapshot across Follow this (the world unchanged), so the
+    act after a Follow was told as though nothing had been followed; the aim followed is now part of its key.
+  - Regressions: `test/small/aim-successor.test.ts` (the yoke, both moments; an aim held offered; a lead's place
+    offered; nothing while the aim is held; mutation-checked); `test/gold-thread` (kahitude map and lost: the bell's
+    aim offered as each is seen through).
+  - **Left (later, as ruled):** rank 3 (a person's trouble glimpsed), rank 4 (the notice), and the region-history bias
+    after two or three aims in one town. kahitude herbs: the fever nursed, nothing is held or known to lead anywhere,
+    so nothing is offered; that is rank 3–4's case.
 
 #### Proposal: what pulls after an aim is seen through
 
@@ -455,7 +484,7 @@ the hold; the rats' nest "or they will be back"); (2) **leads heard on the way**
 tower, thirty rumours at an inn), each a fact that `leadsTo` somewhere; (3) **people met** whose own trouble was
 glimpsed (Hesper's bell, Osmund's walk, the drover's boy); (4) the **town's standing jobs** (the notice).
 
-*What should pull, in order.* At the moment an aim is seen through, the page says once, in the scene (not in the
+*What should pull, in order* (ranks 1 and 2 built; see Status). At the moment an aim is seen through, the page says once, in the scene (not in the
 Book), what the deed changes and what it opens, and offers to follow **one** successor, chosen by type, never
 followed for the player:
 1. **The deed's own consequence**, where the aim's content gives one: an aim whose ending leaves the company carrying

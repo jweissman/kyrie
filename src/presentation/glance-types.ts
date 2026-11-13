@@ -109,10 +109,17 @@ export interface Glance {
   aim?: string;
   // On the game's first page, the first goal the company's own errand gives it, said once in so many words.
   goal?: string;
+  // As the aim followed is seen through, the one thing that pulls next (see Succession): offered, never followed.
+  next?: Successor;
   // The company's state, said only when something is wrong (hungry, hurt, weary, in the dark).
   need?: string[];
   // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).
   after?: AfterAct;
 }
+// What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
+// hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words
+// are the act's, the aim's or the fact's, one sentence at most; the choice is the command or the aim's following.
+export interface Successor { kind: 'consequence' | 'lead'; text: string; at?: string; command?: string; label?: string;
+  aim?: string }
 // A kind of opportunity perceived along a way from here, the nearest so many places off (1: where the way comes to).
 export interface Sensed { to: string; aspect: Aspect; far: number }

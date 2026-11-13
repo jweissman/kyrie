@@ -11,6 +11,7 @@ import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
 import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
+import { Succession } from './succession';
 import { Glance } from './glance';
 import { SceneBudget } from './scene-budget';
 import type { Glance as GlanceView } from './glance-types';
@@ -133,7 +134,9 @@ export class Narrator {
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {}, ...seen.roll && presence.includes(seen.roll) ? { roll: seen.roll } : {},
     });
-    return { ...leaf, glance: Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening }) };
+    // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
+    const glance = Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening });
+    return { ...leaf, glance: { ...glance, ...Succession.next(campaign, screen, told) } };
   }
   // Whether what is seen is a thing's state that the command itself set.
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {

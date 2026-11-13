@@ -38,6 +38,8 @@ export interface ActionFeedback {
   borne?: { text: string; from?: string }[];
   // The ids of the choices it opened, where the company stayed: what it has made possible (see DecisionFrame).
   opened?: string[];
+  // The aim followed, by its id, seen through by it with nothing to follow on into (see Succession, PL-06).
+  closed?: string;
 }
 export class ActionFeedbackView {
   // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
@@ -291,7 +293,11 @@ export class ActionFeedbackView {
         after.choices.filter(c => !old.has(c.id)).map(c => c.name) : [],
       unavailable: before.location?.id === after.location?.id ?
         before.choices.filter(c => !now.has(c.id)).map(c => c.name) : [],
-      ...this.opened(before, after, old) };
+      ...this.opened(before, after, old), ...this.closed(before, after) };
+  }
+  private static closed(before: PlayerSnapshot, after: PlayerSnapshot): { closed?: string } {
+    const was = before.followed;
+    return was && !after.followed && !(after.objectives ?? []).some(o => o.id === was) ? { closed: was } : {};
   }
   private static opened(before: PlayerSnapshot, after: PlayerSnapshot, old: Set<string>): { opened?: string[] } {
     const opened = before.location?.id === after.location?.id ? after.choices.filter(c => !old.has(c.id)) : [];

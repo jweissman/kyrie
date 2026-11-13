@@ -107,6 +107,10 @@ export interface DeepPurpose {
   rest?: string[];
   // How it looks from outside, with its old name cut over the way in ({oldup}).
   outside: string;
+  // The makers' own marks at the way in, which read tell their story (the country's history_<art>): a deep work, like
+  // every other of their works, teaches who made it (RegionWorks), and the brothers' errand to one had waited on a
+  // history no room of it told (M21's playability list, PL-24).
+  marks?: { name: string; unread: string; read: string; label: string };
   // An earlier party's camp, left where they turned back (or did not): how it looks, and what their notebook says
   // at each depth.
   // The earlier party's camp, the first found, and the same party's further down (later), with each level's notebook.

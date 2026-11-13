@@ -22,7 +22,7 @@ class Town {
     await this.cellar(w);
     await w.j.play('^To the taproom');
     w.j.roll('pass');
-    await w.j.play('Put the cellar waybill to', '^To the counting-room', 'Open the strongbox', "Take from the factor's strongbox",
+    await w.j.play('Put the cellar waybill to', '^To the counting-room', 'Open the strongbox', "Take a leaf of the Exchange's day-book from the factor's strongbox",
       "Pack › A leaf of the Exchange's day-book › Read");
     w.j.roll(undefined);
   }
