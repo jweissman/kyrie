@@ -297,6 +297,18 @@ and a1's seven dens, a company of two of the first level, no rest between. With 
 whole in 11 → 10 runs of 20, the dens 18 → 17, with half the heals (5 → 3, 6 → 3); with two warriors, unchanged (13
 and 19). Table in recovery.md.
 
+### The challenge table under the wound rule (measured, not written)
+
+Only a wound triggering a damage kind's condition (R9-06) changes how every kind fights, so the whole challenge table
+was measured again in scratch (`bin/kyrie bestiary challenge`, all 185 kinds, 11 minutes): **92 of 185 measures
+move**, 24 up and 39 down at the first level (the rest at the fifth only). The largest: the clockwork soldier 8 → 4, the
+gold, green and red dragons 24 → 20, the mouther 14 → 10, the fire and lava elementals 4 → 2 and 3 → 1, the bone golem
+6 → 4; the angel 12 → 14, the solar and titan up two. Twelve fights a level make some of it noise (the barrow ghoul's
+second and third levels came out 5 and 2 of twelve). **Not written:** the table decides what a generated country's
+dens and encounters hold, so writing it changes every world; only the three SRD kinds' rows were written (they are
+placed by hand or nowhere). Whether to write the rest under the wound rule, and with more fights a level, is the
+lead's (the measured file is kept in scratch, `/var/tmp/kyrie/steps/challenge.wound.json`).
+
 ## M22 notes
 
 - **The undertown for a company that grows.** It is written once, for the company as it arrives (one). Two ways it
