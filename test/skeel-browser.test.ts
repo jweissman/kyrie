@@ -21,9 +21,11 @@ const act = async (d: MonoDriver, ...labels: string[]) => {
   }
 };
 const text = (page: Page) => page.evaluate(() => document.body.innerText);
-// What a place shows and what is a touch away: the glance, then Look about (L) and Every way (W), each put away again.
+// What a place shows and what is a touch away: the glance, the rest of the place's telling (More of the place, past
+// the scene's three sentences: Mission 21), then Look about (L) and Every way (W), each put away again.
 const whole = async (page: Page) => {
-  const seen = [await text(page)];
+  const seen = [await text(page)], more = page.locator('[data-action="more-told"]');
+  if (await more.count()) { await more.first().click(); await page.waitForTimeout(150); seen.push(await text(page)); }
   for (const key of ['l', 'w']) {
     await page.keyboard.press(key); await page.waitForTimeout(150);
     seen.push(await text(page)); await page.keyboard.press('Escape'); await page.waitForTimeout(150);
