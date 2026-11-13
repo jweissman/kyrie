@@ -139,7 +139,7 @@ claims nothing beyond what the sources say.
 
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
-| AP-01 | R9's gate not built: a false-promise corpus from the cold rounds, and tests that styled opportunities map only to legal visible actions or explained states | E133, R9, H §2.10 | To build; R9 homed in M20 (11 Nov) | P1 | — | **Built: test/gold-walk (E146).**
+| AP-01 | R9's gate not built: a false-promise corpus from the cold rounds, and tests that styled opportunities map only to legal visible actions or explained states | E133, R9, H §2.10 | partly built: the gold walked by `test/gold-walk` (E146); a signal resolves to an act on the page, held by `small/signals` and `signal-inside` (M21); the false-promise corpus from the cold rounds not built | P1 | — |
 | AP-02 | Atlas states (full, faint, dim, silver) as projected engine data, not CSS; exhaustion as one projected state so repeatable useful acts never go dim | H §2.5, H §2.9, mem:m20-owner-atlas-synthesis | Open (11 Nov) | P1 | M21 |
 | AP-03 | Facets from Kyr: no way to mark an act, thing or person uncanny, knowledge or payoff; violet never drawn; a sign has no aspect of its own; rare facets | H §2.2, opportunities gaps 1–2, design-opp 13 | Open (11 Nov) | P1 | M21 |
 | AP-04 | Distance-sensitive perception: reach only for companionship, and the reach table is code; per-facet reach, provenance, confidence, specificity by distance; perception by calling, not only capability | H §2.3, opportunities gaps 3–4 and M21 1–3, mem:m20-owner-companions-perception §3, mem:m20-owner-atlas-synthesis | Open (11 Nov) | P2 | M21 |
@@ -343,7 +343,7 @@ claims nothing beyond what the sources say.
 | TC-09 | Adversarial-order quest tests across adventures; acceptance tests for urgency, journey density and restraint | REV-21, IND-07 | Partial, unverified since 8 Nov | P3 | M21 |
 | TC-10 | Tests teleport rather than journey | COR-18 | Open risk, unverified since 8 Nov | P3 | M21 |
 | TC-11 | Long-horizon verification with trace minimisation; boredom and pull measured | BRF-63, BRF-64 | Disappeared / superficial, unverified since 6 Nov | P3 | later |
-| TC-12 | CI on 7f392f0b (and 13441a49) failed only the handbook browser spec, which passes locally | **fixed**: its cases had bun's five-second default; a loaded runner timed the first out and the browser closed under the rest; each now has a minute (a process fix: no behaviour of the game to hold) | P3 | — |
+| TC-12 | CI on 7f392f0b (and 13441a49) failed only the handbook browser spec, which passes locally | CI | **fixed**: its cases had bun's five-second default; a loaded runner timed the first out and the browser closed under the rest; each now has a minute (a process fix: no behaviour of the game to hold) | P3 | — |
 
 ## 15. Docs
 

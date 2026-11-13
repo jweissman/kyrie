@@ -7,9 +7,9 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
-type Row = { id: string; status: string; weight: string };
+export type Row = { id: string; line: string; status: string; weight: string };
 
-class RegisterState {
+export class RegisterState {
   static readonly kinds: [string, RegExp][] = [
     ['partly', /\b(partly|partial|half|in part|part\b|improved|addressed)/i],
     ['deferred', /\b(deferred|moved to m2\d|for m2\d|left (by|for) m\d+|later)\b/i],
@@ -33,11 +33,11 @@ class RegisterState {
     console.log(`ids used twice (${twice.length}): ${twice.join(', ')}`);
     return 0;
   }
-  private static kind(status: string): string {
+  static kind(status: string): string {
     return this.kinds.find(([, re]) => re.test(status))?.[0] ?? 'unstated';
   }
   // Each table's rows, by its header's own columns: the status, and the severity or pri.
-  private static rows(text: string): Row[] {
+  static rows(text: string): Row[] {
     const out: Row[] = [];
     let status = -1, weight = -1;
     for (const line of text.split('\n')) {
@@ -48,9 +48,9 @@ class RegisterState {
         continue;
       }
       if (!/^\| [A-Z][A-Z0-9]*-[0-9A-Z]+ \|/.test(line) || status < 0) { continue; }
-      out.push({ id: cells[0]!, status: cells[status] ?? '', weight: weight >= 0 ? cells[weight] ?? '' : '' });
+      out.push({ id: cells[0]!, line, status: cells[status] ?? '', weight: weight >= 0 ? cells[weight] ?? '' : '' });
     }
     return out;
   }
 }
-process.exit(RegisterState.run(process.argv.slice(2)));
+if (import.meta.main) { process.exit(RegisterState.run(process.argv.slice(2))); }

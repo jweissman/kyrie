@@ -18,22 +18,24 @@ Same script, both revisions:
 | | M20 landed (74de47a2) | M21, 13 Nov night |
 |---|---|---|
 | Rows | 324 | 349 (the 24 PL rows carried in, §25) |
-| Open | 146 | 141 |
-| Partly | 67 | 75 |
-| Fixed | 42 | 62 |
-| Deferred | 42 | 45 |
+| Open | 146 | 140 |
+| Partly | 67 | 77 |
+| Fixed | 42 | 64 |
+| Deferred | 42 | 44 |
 | P0 open | 1 (FH-01) | 1 (FH-01) |
-| P1 open | 19 | 15 |
+| P1 open | 19 | 14 |
 | P1 fixed | 13 | 25 |
 | Ids used by two rows | 7 (PR-01..07) | 0 (§19's are OPR-01..07) |
-| Fixed rows held by a spec | 5 of 46 at M21's start | 53 of the game's 67 |
+| Fixed rows held by a spec | 5 of 46 at M21's start (a looser reading) | 42 of the game's 62 |
 
 M21 found 24 playability rows (PL-01..24, nine of them P0) and fixed 19 of them in full or in part. It closed or
-advanced about 20 inherited rows. It carries out more open rows than it inherited only because the PL list was carried
-in. The open count fell by five. M21 is the first mission whose new rows were mostly fixed inside it.
+advanced about 20 inherited rows. It carries out more rows than it inherited only because the PL list was carried
+in. The open count fell by six. M21 is the first mission whose new rows were mostly fixed inside it.
 
-Most of the change is in the last line of the table. Of the rows claiming fixed, a spec now holds 53 of 67, and each
-spec added in M21 was checked against its fault: the fault put back, and the spec seen to fail.
+Most of the change is in the last line of the table. Of the rows whose status column says fixed, a spec now holds 42
+of 62. (An earlier count of 53 of 67 read "fixed" anywhere in a row, so it took in rows fixed only in part and notes
+that say "held by". `register-held` now reads the status column as `register-state` does.) Each spec added in M21 was
+checked against its fault: the fault put back, and the spec seen to fail.
 
 ## 2. What M21's own work shows
 
@@ -48,7 +50,7 @@ reconciliation. M19's 74 UNT rows were the same failure (M20's `debt.md` §1). T
 investigation's findings into the register, verified and deduped) was not applied while the work was hot.
 
 **A fix without a spec is a promise kept once.** Before M21, 5 of 46 fixed rows named a spec. Naming the specs that
-already held them, mutation-checking each, raised that to 23. The rest needed new fast regressions (T24-12, 13, 14,
+already held them, mutation-checking each, raised that to 23 on the looser reading. The rest needed new fast regressions (T24-12, 13, 14,
 17, R9-02, R11-01). Three rows that said fixed did not hold:
 - R10-13's padlock was fixed elsewhere;
 - T24-14's "strike first" sorted by a name that had changed ("Melee Attack" came fifth);

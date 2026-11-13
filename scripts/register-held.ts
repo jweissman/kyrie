@@ -1,16 +1,17 @@
 #!/usr/bin/env bun
-// Which rows of the register are held by a spec: of the rows whose status says fixed (or held, or mended), those that
+// Which rows of the register are held by a spec: of the rows whose status register-state reads as fixed, those that
 // name a spec that exists (test/…, or a test/small spec by its bare name in a cell), and those that name none. A fix
 // with no spec is a promise kept once (Mission 21: obligations made into fast regressions).
 //   bun scripts/register-held.ts [--list]
 import { existsSync, readFileSync } from 'node:fs';
+import { RegisterState } from './register-state';
 
 class RegisterHeld {
   static run(args: string[]): number {
-    const rows = readFileSync('doc/architecture/open-register.md', 'utf8').split('\n')
-      .filter(l => /^\| [A-Z][A-Z0-9]*-[0-9A-Z]+ \|/.test(l));
-    const fixed = rows.filter(r => /\b(fixed|held|mended)\b/i.test(r.split(' | ').slice(2).join(' | ')));
-  // A fix to how the work is done (a CI timeout, evidence copied out of scratch) holds no behaviour of the game.
+    // Fixed as register-state reads a row's own status column (a note's "held by" elsewhere in it is not a status).
+    const rows = RegisterState.rows(readFileSync('doc/architecture/open-register.md', 'utf8'));
+    const fixed = rows.filter(r => RegisterState.kind(r.status) === 'fixed').map(r => r.line);
+    // A fix to how the work is done (a CI timeout, evidence copied out of scratch) holds no behaviour of the game.
     const process = fixed.filter(r => /a process fix/.test(r)), game = fixed.filter(r => !process.includes(r));
     const held = game.filter(r => this.specs(r).length), bare = game.filter(r => !this.specs(r).length);
     console.log(`${rows.length} rows; ${fixed.length} say fixed (${process.length} of the process); of the game's `
