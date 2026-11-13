@@ -94,3 +94,10 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   42 %, a twentieth-level one against the unicorn 67 %); returned to the investigator with the recovery ruling (a
   healing cantrip mends each member once between rests). Lesson: a combat rule runs the srd, bestiary, play-structure
   and placements specs before it is merged.
+- **14 Nov, later.** The full run on a4edc643 green. Rules batch 7 merged (bb6cd8da): batch 6 back with the SRD
+  challenge re-measured under the wound rule (the unicorn 24 → 20: harmless hooves had stunned a twentieth-level
+  warrior 674 times in twelve fights; the barrow ghoul 2 → 4); recovery rule 1 (a healing cantrip mends each member
+  once between rests: `small/tended`; the heal loop gone at about one expedition in twenty). The whole challenge table
+  re-measured moves 92 of 185 kinds: not written in M21 (noise, and every world's dens), decided for M22 at 48 fights
+  a level. The owner's guide to the first hour: `acceptance-guide.md`. Rules investigator on T24-20 (Common names
+  first).
