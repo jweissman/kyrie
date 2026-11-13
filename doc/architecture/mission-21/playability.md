@@ -32,6 +32,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed (73cac481); the rule kept, decided by the lead |
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
 | PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
+| PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | open (design: destination against lead) |
+| PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company; 134 of 139 authored objectives have no `toward` | the Lull's fixed in this branch; the rest open (authoring) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -219,6 +221,38 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it. On the bailey there is now no
   gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
   (the bailey case fails on main and on either half alone; the churchyard case holds on both).
+
+### PL-13: back to the aim's place with nothing new
+
+- **Repro:** wren wanderer as PL-12, "Talk to Hulda Torunn" (the child's mother: "Willow bark would do it. There were
+  willows out on the road, by the water"), "Take the way to the waterside at Gothgiba": the foreground is "Take the
+  way to the bailey of Gothgiba [gold: your aim]" beside "Ask Harbek where willow grows [blue: to learn]". Going back
+  to the bailey with no herbs does nothing for the aim. Save `wr-water.json`.
+- **Corroborates:** the owner's report of 12 November (PR-01: "travel out of a place then back to it; on return
+  nothing advances"); review-mitigations U1 (destination, lead and route: "gold should belong to the lead").
+- **Cause (verified):** the way to the bailey is `named` (`Affordances`: a way to a place the aim names, visited or
+  not, unless idle); the aim's own place is a *destination*, and nothing typed says whether anything there can now be
+  done (what the aim waits on is the mother keeping herbs the company does not carry). The lead (asking where willow
+  grows) teaches a fact the aim does not wait on, so it is blue and never gold.
+- **Status:** open. Not patched: telling a destination from a lead needs the aim to say what evidence or thing it
+  waits on and where it may be had (U1/U2), or a rule that a visited destination is gold only while something there
+  can advance the aim with what the company now has. A decision for the lead.
+
+### PL-14: authored aims with nowhere to lead
+
+- **Repro:** `bin/kyrie adventure data/campaigns/the-lull.campaign.json`, `follow 1` ("Ask at the Waiting Woman what it
+  is like inside, then sit by the stone until the road changes"), "Take Sixways street": no gold anywhere, though
+  "Take the Waiting Woman's door" is among the ways. `tools/glance.ts` on `ad-street.json`: the aim's `named` is
+  only `party`, read from its condition (`not cameIn(party) and not lullday()`); its words name the inn and the stone
+  in plain text, which `Stakes` does not read.
+- **Corroborates:** the owner's "followed + known next step → gold recognisable; unknown → say so honestly" (11 and
+  12 November); the brief's "credible next-step guidance".
+- **Census (grep, not a played census):** 134 of the 139 `Objective`s under `data/adventures/` have no `toward` and
+  no `{place}` in their words; some may still resolve a target from their condition, as the generated worlds' do.
+- **Status:** The Lull's first aim fixed in this branch (`toward sx_taproom, fold_stone`; gold is now "Into the
+  Waiting Woman" from the street; the Lull's three specs pass; the page's bundle written again). The rest is
+  authoring: proposed, an authoring lint that an objective's target resolves to something a player can be led to
+  (run per campaign, as `campaign-lint` does), then the adventures' aims given their places. Not done here.
 
 ### PL-06: after the aim, nothing pulls
 
