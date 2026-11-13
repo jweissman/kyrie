@@ -10,8 +10,7 @@ import { VisitedPlaces } from '../presentation/visited-places';
 import { Spatial } from '../spatial';
 import type { RegionChart, Screen } from './screen-types';
 import { SiteScale } from './site-scale';
-import { RegionWriter } from '../world/region-writer';
-import { Provinces } from '../world/provinces';
+import { RegionIds } from '../world/region-ids';
 import { EntityIndex } from '../lang/entity-index';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
@@ -190,7 +189,7 @@ export class Itineraries {
   // are the only handle on them today, as Frontier reads them.
   static outward(id: string): boolean { return this.ends.some(r => r.test(id)); }
   private static readonly ends = [/__edge_(north|east|south|west)$/,
-    new RegExp(`^${RegionWriter.id}__${Provinces.room('')}\\w+$`)];
+    new RegExp(`^${RegionIds.region}__${RegionIds.room('')}\\w+$`)];
   // Where the company could set out for, and the towns its roads go to besides, each leg named as the page names its
   // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
   // other places of the town it is in, further than a step.

@@ -18,7 +18,7 @@ import { ActionFeedbackView } from '../presentation/action-feedback';
 import { EndingOrder } from '../lang/ending-order';
 import { Consequences } from '../campaign/consequences';
 import type { TickHost } from '../campaign/campaign-tick';
-import { Provinces } from '../world/provinces';
+import { RegionIds } from '../world/region-ids';
 import { Itineraries } from '../ui/itinerary';
 
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
@@ -311,7 +311,7 @@ export class Journey {
   // the first morning after it was reached, a later day of the world's (the Grand Tour's friction 20, GTR-20). It is
   // named by its installation (psennet) or, a province, by its country (sennet).
   private moduleDay(name: string, [day, hours, minutes]: string[]): (string | undefined)[] {
-    const m = this.campaign.installations.find(i => [name, Provinces.install(name)].includes(i.id));
+    const m = this.campaign.installations.find(i => [name, RegionIds.install(name)].includes(i.id));
     if (!m) { throw new Error(`=${name} day ${day}: nothing installed is called ${name}`); }
     return [String(Number(day) + Math.ceil(m.installedAt / Journey.day)), hours, minutes];
   }

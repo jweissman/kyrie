@@ -1,4 +1,5 @@
 import type { CreatureGenerationContext } from '../content';
+import { Costs } from '../costs';
 import { Campaign, type CampaignEvent, type CampaignSave } from '../campaign/campaign';
 import type { Assembly } from '../campaign/load-cache';
 import type { BundleSource } from '../campaign/bundle-source';
@@ -52,7 +53,10 @@ export class PlaySession {
     this.scenario = history.scenario; this.seed = history.seed;
     this.steps = structuredClone(history.steps); this.complete = history.complete;
   }
-  static async start(scenario: string, seed: string, source: BundleSource,
+  static start(...a: Parameters<typeof PlaySession.starting>): Promise<PlaySession> {
+    return Costs.timed('session', () => PlaySession.starting(...a), { id: a[0] });
+  }
+  private static async starting(scenario: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[] | Assembly): Promise<PlaySession> {
     const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
     return new PlaySession(await Campaign.load(scenario, seed, source, at),
