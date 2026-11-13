@@ -102,8 +102,12 @@ export class AimAdvances {
     if (kept.has(def.id)) { return kept.get(def.id)!; }
     const wanted: Call[] = [], made: Call[] = [];
     this.reads(def.when, wanted);
+    // A rule makes so what it asserts, and what it teaches: the ruts followed, a rule tells the cart found (what the
+    // father's aim waits on), and following them had been the aim's only by being a thing at the road it names.
     for (const rule of module.rules ?? []) {
-      if (rule.effects.some(c => !!c.call && wanted.some(w => this.meets(c.call!, w)))) { this.reads(rule.when, made); }
+      const taught = rule.teaches ? [ModuleWriter.call('knows', '?k', rule.teaches)] : [];
+      const brought = [...rule.effects.flatMap(c => c.call ? [c.call] : []), ...taught];
+      if (brought.some(c => wanted.some(w => this.meets(c, w)))) { this.reads(rule.when, made); }
     }
     const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
     kept.set(def.id, calls);
