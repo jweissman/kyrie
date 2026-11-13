@@ -18,7 +18,7 @@ class RegisterHeld {
   // The specs a row names: test/x(.test.ts), small/x, or a spec's name in backquotes (`gold-thread`), in test/ or
   // test/small/: a word that only happens to be a spec's name (voice, follow) is not a spec named.
   private static specs(row: string): string[] {
-    const words = [...row.matchAll(/(?:\btest\/|\bsmall\/|`)((?:small\/)?[a-z][a-z0-9-]+)(?:\.test\.ts)?/g)]
+    const words = [...row.matchAll(/(?:\btest\/|\bsmall\/|`(?:test\/)?)((?:small\/)?[a-z][a-z0-9-]+)(?:\.test\.ts)?/g)]
       .map(m => m[0].startsWith('small/') ? `small/${m[1]}` : m[1]!);
     return [...new Set(words.flatMap(w => [`test/${w}.test.ts`, `test/small/${w}.test.ts`]))].filter(f => existsSync(f));
   }
