@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it } from 'bun:test';
 import { ModuleParser } from '../src/lang/module-parser';
 import { LocalKinds } from '../src/canon/local-catalog';
+// The setting a module's own kinds are made from: the parser imports none of its own (see Vocabulary).
+import '../src/canon/canon-vocabulary';
 
 // A thing of a module's own that is worn (the item audit, 6 November: a module's kind could be like the catalog's
 // things but could not say it was worn, so a bell rung over the dead could not be hung on a belt): `worn as <slot>`,

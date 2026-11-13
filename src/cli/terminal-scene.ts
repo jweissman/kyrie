@@ -1,6 +1,8 @@
 import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
+import { Signs } from '../presentation/signs';
+import { ToldLines } from '../presentation/told-lines';
 import { TerminalColour, type Depth } from './terminal-colour';
 import type { Leaf } from '../presentation/narrator';
 import type { Screen } from '../ui/screen-types';
@@ -18,7 +20,7 @@ export type Turned = 'arrive' | 'act' | 'look';
 // The day and the part of it, the weather, the aim and what is needed are said when they change, and on a look. The
 // aim is said by the page's rule (AimSaid): followed, in gold; offered, by its title with how to follow it.
 export class TerminalScene {
-  private said: Partial<Record<'place' | 'time' | 'weather' | 'aim' | 'need', string>> = {};
+  private said: Partial<Record<'place' | 'time' | 'weather' | 'aim' | 'need' | 'instruments', string>> = {};
   // Each presentation as it was printed, by how its turn was come to: its prose (the scene's narration, what came of
   // an act), and apart from it what it says for reference (the aim, what is needed), so that a walk measures each
   // (TerminalWalk).
@@ -33,7 +35,7 @@ export class TerminalScene {
     const name = turned === 'act' ? undefined : TerminalColour.bold(place ?? screen.place.name, this.depth);
     const header = [name, when, weather].filter(Boolean).join(' · ');
     const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
-    const happened = (leaf.exchange?.lines ?? []).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
+    const happened = ToldLines.said(leaf.exchange?.lines ?? [], whole).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
     const g = leaf.glance, seen = [g?.came, g?.sight?.text, g?.life?.text, ...g?.changed ?? []]
       .filter((l): l is string => !!l).map(l => Typography.plain(l));
@@ -41,7 +43,7 @@ export class TerminalScene {
     const placed = [...leaf.situation, ...leaf.presence, ...leaf.changed].map(l => Typography.plain(l));
     const prose = turned === 'act' ? [...happened, ...leaf.changed.map(l => Typography.plain(l))]
       : whole || !g ? [...placed, ...happened] : [...seen, ...happened];
-    const reference = [...this.aim(screen, g?.aim, whole), ...this.need(leaf, whole)];
+    const reference = [...this.aim(screen, g?.aim, whole), ...this.need(leaf, whole), ...this.instruments(leaf, whole)];
     this.told.push({ turned, lines: prose, reference });
     return [...header ? ['', header] : [], ...prose, ...reference];
   }
@@ -58,6 +60,14 @@ export class TerminalScene {
   private need(leaf: Leaf, whole: boolean): string[] {
     const need = this.fresh('need', leaf.glance?.need?.join(' · '), whole);
     return need ? [`Need: ${need}`] : [];
+  }
+  // The company's instruments (see Instruments): every one it can read on a look; otherwise one that bears on the
+  // moment, and only when what it reads has changed. Quiet, each by its emblem's character where it has one.
+  private instruments(leaf: Leaf, whole: boolean): string[] {
+    const shown = (leaf.instruments ?? []).filter(i => whole || i.relevant)
+      .map(i => `${i.emblem ? `${Signs.emblem(i.emblem) ?? ''} ` : ''}${i.said}`);
+    const said = this.fresh('instruments', shown.join(' | ') || undefined, whole);
+    return said ? shown.map(l => TerminalColour.dim(l, this.depth)) : [];
   }
   // A thing said again only when it has changed since it was last said, or on a look.
   private fresh(key: keyof TerminalScene['said'], value: string | undefined, whole: boolean): string | undefined {

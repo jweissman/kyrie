@@ -1,6 +1,7 @@
 import table from '../../data/paintings/scenery.json';
 import type { Screen } from './screen-types';
 import { SceneKinds, type Named } from './scene-kinds';
+import { Fits } from './fits';
 
 // A painting of country of the kind the company has come into, for the page to open a chapter with: a settlement by
 // its river or its frost, or a village's lane and fields; wild country by the land it is (a river's vale, a lake, a
@@ -45,25 +46,25 @@ export class Scenery {
     if (roofed && !this.places[screen.place.id]) { return undefined; }
     // A town by night is a town's night, its windows lit, not the wild's moon over dark country.
     const night = this.views[`night:${this.where(screen)}`] ?? this.views.night ?? [];
-    if (screen.dark) { return this.pick(this.seasonal(night, season), screen.place.id); }
+    if (screen.dark) { return this.pick(this.seasonal(night, season), screen.place.id, screen); }
     if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
     const where = this.where(screen), named = SceneKinds.of(screen);
     const known = named && SceneKinds.views(named, { roofed: false, underground: false });
     // A kind seen from within (a taproom, a cellar) is not painted as the country, nor is one with nothing to show.
     if (known && (!named!.kind.ground || !known.length)) { return undefined; }
-    if (known) { return this.pick(this.seasonal(known, season), screen.place.id); }
+    if (known) { return this.pick(this.seasonal(known, season), screen.place.id, screen); }
     // A site's ground, named by a name and no kind (Seolforfyrd), by the kind the map knows it for (a ruin): the
     // toll-house of dressed stone on the water had been a sunny glade with stags in it (Mission 20's first cold round).
     const mark = screen.region?.land?.marks.find(m => m.id === screen.place.id);
     const sited = mark && SceneKinds.kinds.find(k => k.kind === mark.kind)?.ground;
-    if (sited?.length) { return this.pick(this.seasonal(sited, season), screen.place.id); }
+    if (sited?.length) { return this.pick(this.seasonal(sited, season), screen.place.id, screen); }
     const area = screen.region?.areas.find(a => a.here);
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');
     const keys = where === 'site' ? ['site']
       : [form && `${where}:${form}`, terrain && where === 'settlement' && `settlement:${terrain}`,
         where === 'wild' ? terrain : undefined, where].filter((k): k is string => !!k);
     const views = keys.map(k => this.seasonal(this.views[k] ?? [], season)).find(v => v.length);
-    return views && this.pick(views, screen.place.id);
+    return views && this.pick(views, screen.place.id, screen);
   }
   // Under a roof or under the ground, a painting of a room of the kind, not of the country (the owner, 4 November:
   // the cellar's page had only words where a picture should be): a taproom by a tankard on its shelf, a crypt by a
@@ -78,7 +79,7 @@ export class Scenery {
     if (known) { return this.varied(known, screen, named!); }
     const site = screen.path.some(p => p.kind === 'site');
     const views = at.underground ? this.within[site ? 'underground:site' : 'underground'] : this.within.indoors;
-    return this.pick(views ?? [], screen.place.id);
+    return this.pick(views ?? [], screen.place.id, screen);
   }
   // What the scene shows: the country, or a room of its kind; in the dark the same room, which the page draws barely
   // seen (SceneSurface); or nothing, where nothing fits, and the page shows a dim ground in its place.
@@ -98,14 +99,17 @@ export class Scenery {
   // A room's painting, unlike its neighbours' (the owner and two playtests, 7 November: every barrow room had one
   // painting): within one site or settlement, the rooms its words name differently (the crypt, the ossuary, the vault)
   // are given the kind's paintings in turn from one the site is given; any other, by its own id.
-  private static varied(views: string[], screen: Screen, named: Named): string | undefined {
+  private static varied(all: string[], screen: Screen, named: Named): string | undefined {
+    const views = all.filter(v => Fits.fits(screen, v));
     const within = [...screen.path].reverse().find(p => p.kind === 'site' || p.kind === 'settlement');
     const turn = named.word ? named.kind.words.indexOf(named.word) : -1;
     if (!views.length || !within || turn < 0) { return this.pick(views, screen.place.id); }
     return views[(this.hash(within.id) + turn) % views.length];
   }
   // One of a kind's paintings, the same for a place each time; none from an empty list.
-  private static pick(views: string[], id: string): string | undefined {
+  // Where the place is given, only those that do not show what it denies (see Fits): none, if none fits.
+  private static pick(all: string[], id: string, screen?: Screen): string | undefined {
+    const views = screen ? all.filter(v => Fits.fits(screen, v)) : all;
     return views.length ? views[this.spread(id) % views.length] : undefined;
   }
   private static seasonal(views: string[], season?: string): string[] {

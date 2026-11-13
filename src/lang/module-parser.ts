@@ -2,7 +2,7 @@ import { parseAbility } from './parse';
 import { Spatial } from '../spatial';
 import { Discovery, type DiscoveryDefinition } from '../information/discovery';
 import * as ohm from 'ohm-js';
-import source from './Kyr.ohm' with { type: 'text' };
+import { Grammars } from './grammars';
 import type { Change, Module, Operator, Predicate } from './module';
 import type { PassageSpec } from './world-constructs';
 import { PersonParser } from './person-parser';
@@ -18,7 +18,7 @@ type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
 type Field = { field: string; value: unknown };
 export class ModuleParser {
-  private static readonly grammar = ohm.grammar(source);
+  private static readonly grammar = Grammars.kyr;
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
     PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, PlaceDepth: ModuleParser.PlaceDepth,

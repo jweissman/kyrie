@@ -77,6 +77,8 @@ export interface Catalog {
     gear: string[]; calling?: string; forms?: { man?: string; woman?: string; neither?: string } }[];
   kinds: { id: string; name: string; does: string }[];
   presets: { id: string; label: string; note: string; members: Member[] }[];
+  // Imbar's sky (data/imbar/sky.json): each sign, its month, what is said of those born under it, and its stars.
+  signs: { id: string; name: string; month: string; line: string; stars: number[][]; lines: number[][] }[];
   campaigns: CampaignChoice[];
 }
 // What a company would bring, before it sets out.
@@ -118,6 +120,10 @@ export type Request =
   | { kind: 'catalog' }
   | { kind: 'setting'; campaign: string }
   | { kind: 'world'; seed: string; terrain?: string }
+  // Making a life, as the engine holds it: where it stands, or a choice at a step and where it then stands (see
+  // EngineCreation); and setting out as it stands, the start the page's Begin asks.
+  | { kind: 'creation'; step?: import('./creation-flow').CreationStepId; value?: string }
+  | { kind: 'set-out'; apart?: boolean }
   | { kind: 'preview'; party: Member[]; generated: boolean }
   // apart: the page tells the opening apart, before the first place (see Prologue), and its frame says so.
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;

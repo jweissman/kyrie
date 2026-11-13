@@ -165,9 +165,13 @@ export class ModuleCompiler {
     if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
     if (action.duration) { this.value(module, action.duration, bindings); }
   }
+  // The definition is taken, not copied: it is lowered in place. Its one caller (ModuleAssembly.compose) hands it a
+  // module it has just joined from its own copies of what was parsed, and reads only the instance after; a copy here
+  // had been 353 ms of a 6.5 s start of a1 (the boundaries' profile, 14 November). A caller that keeps the definition
+  // passes its own copy.
   instantiate(definition: Module, seed: string): Instance {
     this.validate(definition);
-    const module = structuredClone(definition);
+    const module = definition;
     const expressions = new Expressions(`${seed}:module`);
     const resolve = ModuleCompiler.resolve.bind(null, expressions);
     module.budget = resolve(module.budget);
