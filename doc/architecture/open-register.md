@@ -713,3 +713,17 @@ features. None is closed as a component migration until the whole ordinary actio
 | CN-06 | Combat: legacy controls beside the new; the highlighted menu becomes a horizontal row; a target's card grows taller and bars cross the painting; details injected into buttons; layout jumps between target and action states | open | P0 | M21 |
 | CN-07 | Personhood drawn with a pink pip close to coral: people need no opportunity colour; atlas colours only for grounded opportunities (knowledge, recruitment…); gold only for the followed undertaking; no new colours for routing or categories | open | P1 | M21 |
 | CN-08 | One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after | open | P0 | M21 |
+
+## 27. The owner's terminal ideas (14 November)
+
+The owner's words are in `mission-21/owner-terminal.md`: the terminal as the cheapest place to catch an oververbose,
+misleading, repetitive or semantically inconsistent presentation. Taken by the lead.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| TM-01 | A deterministic walker over seeds, backgrounds and play styles that measures the real automatically shown scene prose per run (average, median, worst), failing a run that averages over three sentences; scene narration kept apart from looking, outcomes, talk and reference screens | open | P1 | M21 |
+| TM-02 | Every command reprints the place, the day, the hour and the familiar surroundings: arrival briefly, an act by what happened and changed, a look whole; the clock, weather, aim and status only when they change or are asked for; checks for redundant narration and repeated static context | open | P1 | M21 |
+| TM-03 | ANSI colour semantically the browser's: one opportunity projection, the canonical palette (true colour, reduced and plain fallbacks); no label heuristics; no colour for being a person, for navigation or UI categories; no gold without a followed undertaking | open | P1 | M21 |
+| TM-04 | The walker exercises every surface the fixture supports: lenses, expanded acts, looking, searching, talk, companions, following, local travel and routing, waiting, the pack, fights; the promoted few and the full set without a catalogue every turn | open | P2 | M21 |
+| TM-05 | Cheap and meaningful: budget, parity and projection checks on tiny Kyr worlds in the fast lane; a few whole terminal playthroughs on real composition in the push or full tier; readable transcripts kept as review artifacts | open | P2 | M21 |
+| TM-06 | `bin/kyrie adventure` runs the whole character creation (people, calling, sex, name, origin) instead of a random character | open | P2 | M21 |
