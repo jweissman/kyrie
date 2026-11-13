@@ -7,8 +7,8 @@ import { Challenge } from '../src/world/challenge';
 // lone warrior's fights say now, checked here at the levels that decide it (12 fights a side, as the tool's).
 // Measured again once only a wound triggers a damage kind's condition (R9-06): the unicorn's hooves, 1d4 without its
 // Strength, had done nothing to a warrior of the twentieth level and stunned him all the same (674 failed stun saves
-// after blows for nothing in the tool's twelve fights), which is what had made it 24, beyond any warrior; and the barrow
-// ghoul, on the edge at 2 (a second-level warrior had won six of twelve), measures 4.
+// after blows for nothing in the tool's twelve fights), which is what had made it 24, beyond any warrior; and the
+// barrow ghoul, on the edge at 2 (a second-level warrior had won six of twelve), measures 4.
 describe('the challenge of the SRD kinds', () => {
   it('measures each of them, and none by its base', () => {
     for (const kind of ['unicorn', 'ghoul/barrow', 'golem/flesh']) {
