@@ -38,6 +38,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-16 | P1 | An authored adventure's hook not led: Tessary's eel-wife's notice on the Landgate board was only under `all`; reading a witness had stopped counting as learning (a regression of PL-03's rule), and a thing's teaching acts were never reckoned | fixed in this branch |
 | PL-17 | P2 | What Tessary Owes gives the company Davy's coat on its first step ("You take Davy Teazle's red coat" at the Landgate), though Nan is to hand it over later | fixed in this branch (data) |
 | PL-18 | P1 | The own-hex guard (E155: never across the country to a place in the company's own hex) lived only in the browser's map; the terminal and `serve` could not see the map's moves at all | fixed in this branch |
+| PL-19 | **P0** | At the dead man's map's keep the search the map marks is not led, and the gold goes to parleying with the hobs: dangers and the way back fill the three places | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -224,7 +225,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   `gold-walk`/`gold-thread`'s walks into Seolforfyrd and the keeps, and the corn-store cellar's hole, which is why it
   is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it:
   `AimLeads.there` already answers it for one place (grounding the company's acts there), but asked of every door
-  off a town's green it would ground once per door per glance; worth measuring before it is made the rule. On the bailey there is now no
+  off a town's green it would ground once per door per glance; worth measuring before it is made the rule.
+  **Deferred by the lead (13 November):** the location rule stands; the typed form is a cost question for later. On the bailey there is now no
   gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
   (the bailey case fails on main and on either half alone; the churchyard case holds on both).
 
@@ -338,6 +340,21 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   company's own hex, as `land.across`; `MapView` draws that decision; the terminal lists it ("Go across country to
   …", and under `map`), and `serve`'s view carries it as `across`. Regressions: `test/small/own-hex` (the page's
   side, unchanged) and `test/small/own-hex-engine` (the engine's offer is the map's, and `serve`'s view the same).
+
+### PL-19: the aim's step crowded out at the door
+
+- **Repro:** `bin/kyrie adventure --world pine --origin map --as elf/thief/Sefa`, `follow 1`, "Set out for
+  Gefeohtgaet" (gold; stopped by the deserters' toll, paid four coin), set out again: at the keep the foreground is
+  "Call to the hobs for a parley [gold: your aim, red: danger]", "Slip past the hobs … [red, blue]", the heath. "Search
+  Gefeohtgaet" (what the map's cross asks) is only under `all`. Save `pn-gate.json`.
+- **Cause (verified, `tools/glance.ts`):** `AimAdvances` has `search(region__w5)` as the aim's step, but
+  `Promotion.pick` fills three places by rank (the two danger acts and the way back, all tier 0) and the search,
+  tier 1, is cut; `continued` then gilds the parley, which is the aim's only by `about` (a danger's gentle act at a
+  place the aim names).
+- **Status:** fixed in this branch: the aim's own next step by type (`advance`) always has a place, a fourth if the
+  three are taken; it is then the one gold act. At Gefeohtgaet: "Search here [gold]" beside the two dangers and the
+  way back. Regression: `test/small/gold-step-room.test.ts` (three dangers at a door, the box under its stone; fails
+  on main).
 
 ### PL-06: after the aim, nothing pulls
 
