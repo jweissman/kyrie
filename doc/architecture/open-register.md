@@ -823,9 +823,9 @@ lines are in `mission-21/after-the-blind-playtest.md`.
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | open | P0 | M21, lead (engine), aesthetic (page) |
-| BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | open | P1 | M21, lead |
-| BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | open | P1 | M21, lead (engine), aesthetic (page) |
+| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | partly | P0 | M21, lead (engine), aesthetic (page) |
+| BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | partly | P1 | M21, lead |
+| BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | partly | P1 | M21, lead (engine), aesthetic (page) |
 | BP-04 | Warnings the world does not keep (a band that "will not wait" lets the company walk past) | open | P1 | M21, rules |
 | BP-05 | The starting premise is not pursuable (Greyhold on the map, unroutable; "Enter Shaynof" returns to the road outside) | open | P0 | M21, playability |
 | BP-06 | A distinctive act is acknowledged, not dramatized (the thief's lock "hangs open on its hasp"): a sentence of texture and a due consequence, from authorable templates | open | P1 | M21, playability |
@@ -833,3 +833,40 @@ lines are in `mission-21/after-the-blind-playtest.md`.
 | BP-08 | Classificatory labels on the visible page ("to learn", "to gain", "worth a look", "for you", "by the rules", "In play, by the rules"): off the page, kept for screen readers and the colourless terminal | open | P1 | M21, aesthetic |
 | BP-09 | Press-and-hold to choose a creation card read as the game ignoring the player: a tap chooses; hold only for sustained acts, with a visible cue (the lead's decision, reversing the owner's earlier long-press direction on this evidence) | open | P0 | M21, aesthetic |
 
+## 34. The cold playtest of the deployed game (14 November, night)
+
+Two cold runs of about 25 minutes each, on desktop and tablet: `history/playtests/cold-2026-11-14/`. The player's
+summary: it "writes like a novelist and remembers like a slot machine." Already in the register: the hold to choose
+(BP-09), aims buried and leading nowhere (PL-14), and a warned danger walked past (BP-04).
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| CO-01 | The chosen reason completed off-stage: a hired scholar's one answer set the Marblehollow inscription "read and set down", and the priestess paid it as seen through, with the place never visited. The reason completes only by the player's own act at the place it names; elsewhere it gathers clues | open | P0 | M21, playability (the laboratory) |
+| CO-02 | The sister's trail ("look there, just inside" Darkgate) ends with nothing there: a reason's lead pays off where it points | open | P0 | M21, playability |
+| CO-03 | Towns read as one kit in a second country: the same innkeeper portrait and first line, the corn-store, the Merrowdale notice, a woodland paragraph word for word. Partly the seed collision (AX-02): every country's module is drawn on one seed | open | P1 | M21, lead (seed), playability (kit variety) |
+| CO-04 | The world contradicts itself: a summer temple painted under "snowy"; one inscription spelled two ways (MARMORISCAVUS / MARMORISCAW); a flute pale wood, then a split reed, then playing; "I did not know he was still living" of a namesake standing in the room; an ice elemental with a fire portrait | open | P1 | M21, lead (painting season, inscriptions, names), rules (portrait) |
+| CO-05 | A monster told dead ("5 was all it had left") returns with 1 HP and fights on: a death the log tells holds, or the log does not tell it | open | P1 | M21, rules |
+| CO-06 | The death screen says the country goes on, then "Begin again in this country" rewinds it to day 1 with the padlock rehung: tell the truth about persistence, or make it true | open | P1 | M21, playability |
+| CO-07 | Things that look answerable are not: the road pedlar ("someone is here") cannot be spoken to; the Gaffer names a price and no give is offered | open | P1 | M21, playability |
+| CO-08 | The reason's own topic is the last of an innkeeper's nineteen ("Ask about your sister"): the player's reason first in every talk list | open | P1 | M21, aesthetic (talk offer) |
+| CO-09 | Travel: "No way known" offers only the town's places; on leaving a town the map's primary button is "Enter" that town; on a tablet the place card covers the target. Offer the adjacent country when no way is known | open | P1 | M21, aesthetic (map), lead (the act offered) |
+| CO-10 | Mechanics in the prose: "gains inspired for 3h", "2 true damage", "under migraine", "You collect a garnet for Hild", raw `*habit*` asterisks in the Story | open | P1 | M21, aesthetic (telling), lead (engine words) |
+| CO-11 | Generated names that break the register: "Hollywood", "Peahgiba", "Lent" | open | P2 | M21, lead (names) |
+| CO-12 | A torch or candle burnt out in one search | open | P2 | M21, rules |
+
+## 35. The independent architecture review (14 November, night)
+
+`history/reviews/architecture-review-2026-11.md`, with its probes in `scripts/review-2026-11/`. Its quadratic
+exclusive asserts are repaired (loading-boundaries.md §6).
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| AX-01 | `Geography.distances` is all pairs by a linear scan, about 1.2 s of every a1 start: a binary heap | open | P1 | M21, lead |
+| AX-02 | Every generated country's module is seeded alike (`["a1","module","region",""]`), so the same person rolls the same body in every country: seed by installation id, with a transcript version bump | open | P1 | M21, lead |
+| AX-03 | The shared rules are recomposed and revalidated by each of 39 installs, 15–20 ms each: compile once per edition, compose by reference | open | P1 | M21, lead |
+| AX-04 | A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST, or keep the parse | open | P1 | M22, lead |
+| AX-05 | The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey | open | P1 | M21, lead |
+| AX-06 | A save is 19 MB, 11 MB of it the compiled module | open | P2 | M22, lead |
+| AX-07 | Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global commitments from addresses, not from what has been realized (order-independent-generation.md) | open | P1 | M22, lead |
+| AX-08 | The kernel is not bounded: the compiler imports the catalog, the parser imports Deem, grounding imports the creature pipeline; `engine-owned.ts` names 30 setting relations; an undeclared relation read returns nothing silently | open | P2 | M22, lead |
+| AX-09 | The docs disagree with the code (parse-store's browser claim; "6.5 s warm" holds only for a replayed seed; `Costs` misattributes kit composition, and its session stage equals campaign) | open | P2 | M21, lead |
