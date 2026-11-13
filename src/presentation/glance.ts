@@ -64,8 +64,9 @@ export class Glance {
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
     const need = this.need(screen), after = told && this.after(campaign, told, { screen, acts, scene });
-    // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November).
-    const goal = arrival === 'opening' ? screen.aims?.find(a => a.followed && a.own)?.text : undefined;
+    // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
+    // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
+    const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
       changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(campaign, screen, reading),
       ...recall.back(screen),
