@@ -1,4 +1,5 @@
 import { Flight } from './rules/flight';
+import { FixedStatBlock } from './rules/fixed-stat-block';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses, type Recovery } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain';
@@ -88,14 +89,14 @@ export class Effects {
       Record<Attribute, number>;
   }
   static combatant(fighter: Fighter): Combatant {
-    const scores = Effects.scores(fighter);
+    const scores = Effects.scores(fighter), fixedToHit = FixedStatBlock.toHit(fighter);
     return { level: fighter.level, strength: scores.strength, dexterity: scores.dexterity,
       armorAc: fighter.equipment?.armorAc ?? 0, weapon: fighter.equipment?.weapon ?? { ...Canon.rules.combat.fist },
-      modifiers: Effects.modifiers(fighter) };
+      modifiers: Effects.modifiers(fighter), ...fixedToHit !== undefined ? { fixedToHit } : {} };
   }
   static saveModifier(fighter: Fighter, kind?: string): number {
-    const m = Effects.modifiers(fighter);
-    return (m.saveVersusAll ?? 0) + (kind ? m.saves?.[kind] ?? 0 : 0);
+    const m = Effects.modifiers(fighter), block = kind ? FixedStatBlock.save(fighter, kind, this.scores(fighter)) : 0;
+    return (m.saveVersusAll ?? 0) + (kind ? m.saves?.[kind] ?? 0 : 0) + block;
   }
   static immune(fighter: Fighter, kind: string): boolean {
     return Effects.modifiers(fighter).immune?.includes(kind) ?? false;

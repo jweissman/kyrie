@@ -18,6 +18,8 @@ export interface WeaponProfile {
 // What the attack roll reads about one combatant: level, effective scores, equipment and gathered modifiers.
 export interface Combatant {
   level: number; strength: number; dexterity: number; armorAc: number; weapon: WeaponProfile; modifiers: Modifiers;
+  // A fixed stat block's to-hit, in place of its score's modifier (FixedStatBlock).
+  fixedToHit?: number;
 }
 export interface AttackRoll {
   die: number; need: number; toHit: number; armorClass: number; success: boolean; critical: boolean;
@@ -39,9 +41,15 @@ export class Fighting {
   }
   // Fighting.attack: a d20 at or above THAC0 − AC − to-hit hits; a natural 1 always misses; 20 less the critical range
   // increase is a critical; a defender with evasion then rolls d20 at or above 20 − evasion to cancel the hit.
-  static attack(attacker: Combatant, defender: Combatant, roll: () => number): AttackRoll {
+  // What a blow is struck at, one number for the roll, its forecast and the page: a fixed stat block's to-hit, or the
+  // modifier of the score it is struck with (Dexterity for a missile, else Strength), and what modifies it.
+  static toHit(attacker: Combatant): number {
     const missile = attacker.weapon.missile === true;
-    const toHit = this.statMod(missile ? attacker.dexterity : attacker.strength) + (attacker.modifiers.toHit ?? 0);
+    return (attacker.fixedToHit ?? this.statMod(missile ? attacker.dexterity : attacker.strength))
+      + (attacker.modifiers.toHit ?? 0);
+  }
+  static attack(attacker: Combatant, defender: Combatant, roll: () => number): AttackRoll {
+    const toHit = this.toHit(attacker);
     const armorClass = this.armorClass(defender);
     const need = this.thac0(attacker.level) - armorClass - toHit;
     const die = this.d20(roll, attacker.modifiers);
@@ -60,8 +68,7 @@ export class Fighting {
   // The chance an attack lands, before the die is thrown: the d20 (with allRolls) at or above the need and not a 1,
   // and then not evaded. What the company sees on a blow it could strike.
   static chance(attacker: Combatant, defender: Combatant): number {
-    const missile = attacker.weapon.missile === true;
-    const toHit = this.statMod(missile ? attacker.dexterity : attacker.strength) + (attacker.modifiers.toHit ?? 0);
+    const toHit = this.toHit(attacker);
     const need = this.thac0(attacker.level) - this.armorClass(defender) - toHit;
     const evasion = defender.modifiers.evasion ?? 0;
     let hits = 0, evades = 0;

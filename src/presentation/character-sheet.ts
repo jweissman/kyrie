@@ -103,7 +103,7 @@ export class CharacterSheets {
   static fighting(c: Creature): Bearing[] {
     const f = CombatProjection.fighter(c, 'fighters'), combatant = Effects.combatant(f), weapon = combatant.weapon;
     const missile = weapon.missile === true, stat = missile ? combatant.dexterity : combatant.strength;
-    const toHit = Fighting.statMod(stat) + (combatant.modifiers.toHit ?? 0);
+    const toHit = Fighting.toHit(combatant);
     const bonus = Math.max(0, Fighting.statMod(stat));
     const unarmoured = Fighting.thac0(f.level) - 10 - toHit, ac = Fighting.armorClass(combatant);
     const worn = (c.state.inventory ?? []).find(i => i.equipped && Canon.items[i.definition]?.armor);

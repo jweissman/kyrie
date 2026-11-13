@@ -45,7 +45,7 @@ export class CreatureFidelity {
     const dice = kind.statistics?.hitDice, level = dice ? Number(dice.split('d')[0]) || 1 : 1;
     const f = new Content(`srd:${id}`).creature(id, 'srd', 'goblins', level);
     const cells = {
-      hitDice: dice ? this.cell(dice.replace(/\s+/g, ''), m.hitDice) : { verdict: 'orsino' as const, ours: 'grows',
+      hitDice: dice ? this.cell(dice.replace(/\s+/g, ''), this.fraction(m.hitDice)) : { verdict: 'orsino' as const, ours: 'grows',
         theirs: m.hitDice },
       armour: this.cell(String(Fighting.armorClass(Effects.combatant(f))), String(21 - m.ac)),
       attacks: this.cell(this.blows(f), m.attacks.flatMap(a => Array(a.count).fill(a.dice)).sort().join(' ')),
@@ -67,6 +67,10 @@ export class CreatureFidelity {
     return { verdict: Math.abs(ours - theirs) <= 0.05 ? 'exact' : 'differs', ours: `${Math.round(ours * 100)}%`,
       theirs: `${Math.round(theirs * 100)}%` };
   }
+  // The SRD's fraction of a die (a rat's 1/4 d8, one hit point) as Westernesse writes it: 1d8/4.
+  private static fraction(hd: string): string { return hd.replace(/^(\d+)\/(\d+)d(\d+)$/, '$1d$3/$2'); }
+  // What every fighter can do, which is no special attack of a kind's: standing on guard, running away.
+  static readonly common = ['defend', 'flee', 'wait'];
   private static cell(ours: string, theirs: string): Cell {
     return { verdict: !ours && !theirs ? 'n/a' : ours === theirs ? 'exact' : 'differs', ours, theirs };
   }
@@ -93,7 +97,8 @@ export class CreatureFidelity {
   // Orsino's beside them.
   private static specials(id: string, entry: Entry, m: SrdMonster): Cell {
     const carried = Object.keys(entry.carries ?? {}), theirs = m.specialAttacks.map(s => s.toLowerCase());
-    const own = (Canon.creature(id).abilities ?? []).filter(a => !Object.values(entry.carries ?? {}).includes(a));
+    const own = (Canon.creature(id).abilities ?? []).filter(a => !Object.values(entry.carries ?? {}).includes(a)
+      && !this.common.includes(a));
     const ours = [...carried.map(s => s.toLowerCase()), ...own.map(a => `orsino:${a}`)].sort().join(', ');
     if (!carried.length && own.length) { return { verdict: 'orsino', ours, theirs: theirs.join(', ') }; }
     return this.cell(ours, [...theirs].sort().join(', '));
