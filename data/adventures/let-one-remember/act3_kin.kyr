@@ -93,7 +93,7 @@ Module corrow "The Road the Star Came Down" {
     Says "'Of course I will lead it,' says Iniry Calde. 'Who else is there? A prioress and a boy with a book.' She is already putting on her coat. 'I will be on the Drag. And when it asks for its price, I will tell you what to give it, and you will not like what I say.'".
     On discuss { Assert joinedRite(iniry). Assert at(iniry, askew_gate). }
   }
-  Objective rite_ready when starFell(corrow) and knows(party, way_home_rite) and not riteHeld(corrow) and not kinLost(corrow) and not bandRead(corrow) "The Forgetting of the Way Home needs three hundred who can forget, sitting across the Drag before the Unfolded cross it.".
+  Objective rite_ready when starFell(corrow) and knows(party, way_home_rite) and not riteHeld(corrow) and not kinLost(corrow) and not bandRead(corrow) toward saska "The Forgetting of the Way Home needs three hundred who can forget, sitting across the Drag before the Unfolded cross it.".
 
   // The rite itself: one of four prices. Each needs three hundred minds, the rite known, and the kin not yet past.
   Relation socketLet(place). Relation namesLet(place). Relation companyLet(place). Relation inirySpent(place).

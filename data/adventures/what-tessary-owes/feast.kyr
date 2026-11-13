@@ -214,14 +214,14 @@ Module tessary "What Tessary Owes" {
   // nowhere the company knows, and Follow this led nowhere from the Landgate (M21's playability list, PL-14).
   Objective find_davy when knows(party, notice_read) and not knows(party, davy_went) and heldNow(davy) toward nan by withies "Nan Teazle of the Withies wants to know where her son Davy went when he walked into the sea.".
   Objective follow_davy when knows(party, davy_went) and not knows(party, held_alive) and heldNow(davy) "Davy Teazle walked into the sea at the spring ebb. Where did he go, and why do the soldiers keep step as they go?".
-  Objective why_held when knows(party, held_alive) and not knows(party, collateral) and not matured(ossel) "The soldiers who walk into the sea are held, not dead. Who is holding them, and for what?".
-  Objective what_owed when knows(party, collateral) and not knows(party, promise_weight) and not matured(ossel) "The city pledged its soldiers' oaths against a debt. What does it owe, and how can it be paid?".
-  Objective pay_it when knows(party, promise_weight) and not voted(ossel) and not matured(ossel) "The War Note is paid if the city keeps its promise of land and a pension to every soldier who came home. The Board votes on the thirteenth day, and has no money.".
+  Objective why_held when knows(party, held_alive) and not knows(party, collateral) and not matured(ossel) toward quire "The soldiers who walk into the sea are held, not dead. Who is holding them, and for what?".
+  Objective what_owed when knows(party, collateral) and not knows(party, promise_weight) and not matured(ossel) toward tally "The city pledged its soldiers' oaths against a debt. What does it owe, and how can it be paid?".
+  Objective pay_it when knows(party, promise_weight) and not voted(ossel) and not matured(ossel) toward council_chamber "The War Note is paid if the city keeps its promise of land and a pension to every soldier who came home. The Board votes on the thirteenth day, and has no money.".
   Objective save_durrance when knows(party, durrance_next) and night(ossel) < 8 and not durranceSafe() and not heldNow(durrance) "Sergeant Durrance is on the next page of the roll, and will walk into the sea at the eighth night's spring ebb.".
-  Objective carry_deeds when knows(party, deeds_for_held) and not deedsDelivered(ossel) and not matured(ossel) "The deeds of the called must be put into their hands in the Holding before the note falls due at two in the morning after the Feast.".
+  Objective carry_deeds when knows(party, deeds_for_held) and not deedsDelivered(ossel) and not matured(ossel) toward holding "The deeds of the called must be put into their hands in the Holding before the note falls due at two in the morning after the Feast.".
   Objective feast_release when releaseCalled(ossel) and not released(ossel) and not releaseBroken(ossel) and not matured(ossel) "Durrance will call the Muster to the Oath Stone on the night of the Feast, to release the city. The Factor's lightermen will come.".
   Objective feast_assembly when indictmentFiled(ossel) and not noteVoid(ossel) and not matured(ossel) "The Assembly of the Scruples sits in the Weighing Chamber from midnight on the night of the Feast. The Valuer asked you to be there.".
-  Objective sault_bid_known when knows(party, sault_bid) and not matured(ossel) and not saultWarden(ossel) and not saultStopped(ossel) "Factor Sault means to take up the War Note when it falls in, and govern Tessary with the Muster.".
+  Objective sault_bid_known when knows(party, sault_bid) and not matured(ossel) and not saultWarden(ossel) and not saultStopped(ossel) toward sault_office "Factor Sault means to take up the War Note when it falls in, and govern Tessary with the Muster.".
 
   // The module is seen through when the note is discharged, or held by a Warden sworn to send the Muster home.
   Goal discharged(ossel) or saultWarden(ossel) and saultHoldsNote(ossel).

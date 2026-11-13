@@ -174,6 +174,6 @@ Module quittance "Quittance" {
   Rule fg_raid_full when watch(clock) >= 336 and not fg_protected(fg_shop) and not fg_raid_done(fg_shop) says "At four on the second afternoon Mr Dabney goes down Dyers' Alley with two men in blue and a warrant. By five the shop is shut, the fire-pot has a seal on it, and an old woman in a leather apron is being walked up Brick Lane to the fire-house, still holding her file." {
     Assert fg_raid_done(fg_shop). Assert fg_raided(fg_shop). Assert at(fg_gedge, engine_room). Assert at(fg_dabney, phoenix_floor).
   }
-  Objective fg_obj when (knows(party, fg_claim) or knows(party, fg_plates)) and not fg_raid_done(fg_shop) "Someone is casting false Phoenix plates for the doors of the Bare Wards, and a mark-hunter will have the founder by the evening of the second day.".
+  Objective fg_obj when (knows(party, fg_claim) or knows(party, fg_plates)) and not fg_raid_done(fg_shop) toward dyers_alley "Someone is casting false Phoenix plates for the doors of the Bare Wards, and a mark-hunter will have the founder by the evening of the second day.".
   Objective fg_obj_after when fg_raided(fg_shop) and not fg_bailed(party) and at(fg_gedge, engine_room) "Ma Gedge is in the fire-house cell for a nuisance, with her dies in a drawer. The fine is ten coin.".
 }

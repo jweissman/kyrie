@@ -87,7 +87,7 @@ Module quittance "Quittance" {
   // ── The Slate: the claim, and other doors in ────────────────────────────────────────────────────────────
   Observe bg_slate at slip_room when day(clock) <= 3 and not bg_settled() "CLAIMS OPEN: THE PRUDENT MARGARET, barge, sunk at the Mere Wharf with a cargo of cold-lamps. Total Loss or Salvage; two crews, one owner. The Lamprey & River will pay a fee of twelve coin to whoever settles it before the cargo is sold. TAKEN: no one."
     teaches bg_claim.
-  Objective obj_bg when knows(party, bg_claim) and not bg_settled() and watch(clock) < 600 "The Prudent Margaret lies at the Mere Wharf, and Mr Orpwood of the Lamprey will call her a Total Loss at noon on the second day; the cargo is sold at noon on the fourth.".
+  Objective obj_bg when knows(party, bg_claim) and not bg_settled() and watch(clock) < 600 toward mere_wharf "The Prudent Margaret lies at the Mere Wharf, and Mr Orpwood of the Lamprey will call her a Total Loss at noon on the second day; the cargo is sold at noon on the fourth.".
 
   // ── The Water-Stair and the Wharf: what the lightermen think, before and after ─────────────────────────────
   Observe bg_wharf_crowd at mere_wharf when day(clock) <= 1 and bg_ruling(lamprey) == 0 "A crowd stands along the edge, divided by a rope into the Salvors' Yard on the left and Skell & Sons on the right, each telling the other which of them is going to be paid.".

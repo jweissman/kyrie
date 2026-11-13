@@ -345,5 +345,5 @@ Module quittance "Quittance" {
     On discuss { Assert witness(ms_mrs). }
   }
   Objective ms_obj_fire when (knows(party, ms_claim) or knows(party, ms_alarm)) and state(ms_house, ms_alight) "A house burns on Mark Street under the wrong Office's plate, and the two brigades will not work a mark that is not theirs. It will be gone by noon.".
-  Objective ms_obj_claim when knows(party, ms_claim) and ms_over() and ms_unpaid(party) and not ms_paid(ms_nine) "The Peascods' house is lost or saved by the wrong Office, and nobody is paying them: the policy-book is in the front room, and the Captains of both brigades are in their yards.".
+  Objective ms_obj_claim when knows(party, ms_claim) and ms_over() and ms_unpaid(party) and not ms_paid(ms_nine) toward ms_front "The Peascods' house is lost or saved by the wrong Office, and nobody is paying them: the policy-book is in the front room, and the Captains of both brigades are in their yards.".
 }

@@ -40,27 +40,31 @@ export class CampaignLint {
   // An aim its author gave no target is read from its words (see ObjectiveTarget); where they name places neither of
   // which holds the other, the page cannot tell which is meant, and where they name nothing to go to or speak with it
   // can lead nowhere: say it with `toward … by …` (the quest-intent and travel-contract review, 9 November).
+  // A warning, so that no recommended campaign ships with one (the obligations audit, 15 November: about 56 aims in
+  // the authored provinces had Follow this lead nowhere, a gamebreaker).
   targets() {
     for (const o of this.module.objectives ?? []) {
       if (o.toward?.length) { continue; }
       const t = Stakes.target(this.session.campaign, o);
-      if (t.ambiguous) { this.add('advice', 'target', `${o.id} names more than one place and none holds the others: say which it is toward`); }
-      else if (!t.subject && !t.actionAt) { this.add('advice', 'target', `${o.id} names no one and nowhere: say what it is toward`); }
+      if (t.ambiguous) { this.add('warning', 'target', `${o.id} names more than one place and none holds the others: say which it is toward`); }
+      else if (!t.subject && !t.actionAt) { this.add('warning', 'target', `${o.id} names no one and nowhere: say what it is toward`); }
       // Nor only a fact, or someone or something that is nowhere: Follow this leads only to a place, or to whoever and
       // whatever stands in one (The Lull's first aim had named the inn and the stone in words alone, and Sixways had
       // nothing gold: M21's playability list, PL-14).
       else if (![t.actionAt, t.subject, ...Stakes.named(this.session.campaign, o)]
         .some(id => id !== this.session.campaign.playerActor && id !== 'party' && this.leadable(id))) {
-        this.add('advice', 'target', `${o.id} is about ${t.subject ?? t.actionAt}, which is neither somewhere nor`
+        this.add('warning', 'target', `${o.id} is about ${t.subject ?? t.actionAt}, which is neither somewhere nor`
           + ' someone the page can lead to: say what it is toward');
       }
     }
   }
-  // Somewhere, or whoever or whatever is somewhere (in something that is).
+  // Somewhere, or whoever or whatever is somewhere (in something that is, or carried by someone who is, or a thing of
+  // a kind that is: the music box in the company's own hamper is where the company is).
   private leadable(id?: string): boolean {
     for (let at = id, n = 0; at && n < 6; n++) {
       if (this.entities.get(at)?.space) { return true; }
-      at = this.world.one('at', at) ?? this.world.one('inside', at);
+      at = this.world.one('at', at) ?? this.world.one('inside', at) ?? this.world.one('ownedItem', at)
+        ?? this.world.related('itemKind').find(r => r.args[1] === at)?.args[0];
     }
     return false;
   }

@@ -95,7 +95,7 @@ Module dorothea "The Dorothea" {
 
   // ── Aims the page can lead with ───────────────────────────────────────────────────────────────────────────────────
   Objective dark_light_plan when knows(party, house_plan) and not keptLamp(party) and not marlSold(party) and not lampOut(party)
-    "The House of Marchbank leases the kept lights of the Reach and does not light them. The Pharos is the last big one lit, and is pending.".
+    toward pharos_foot "The House of Marchbank leases the kept lights of the Reach and does not light them. The Pharos is the last big one lit, and is pending.".
   Objective rune_oil when knows(party, rune_sells) and not keptLamp(party) and not marlSold(party) and not lampOut(party)
-    "The mate of the Dorothea has been selling the Pharos's lamp-oil out of the hold, two casks at a time, to make up the Captain's debt.".
+    toward rune "The mate of the Dorothea has been selling the Pharos's lamp-oil out of the hold, two casks at a time, to make up the Captain's debt.".
 }
