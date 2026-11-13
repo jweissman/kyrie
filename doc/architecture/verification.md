@@ -37,10 +37,18 @@ it tests anything. In order of preference:
 - **A tiny world.** A spec that proves one rule (an effect, what is known, what is offered, gold, navigation, an atlas
   facet, a fight's rule, what is told) writes the few places and people it needs in Kyr and starts in a tenth of a
   second (`Tiny.start`). Mutation-check it: break the rule, see the spec fail, restore.
+- **A situation alone.** A spec of one situation's or adventure's own rules installs that module as the world does,
+  its imports bound to a host of a few lines (`test/support/alone.ts`), in under half a second
+  (`test/silent-lord-alone`).
 - **A shared start.** A spec that needs the generated country reads one start per seed shared across its cases
   (`test/support/kept.ts`, `test/support/keep.ts`), not its own `DrawnWorld.start` per case.
 - **The whole world, kept for what only it proves:** that the generators write what a rule reads, that a journey
   composes across places and days, and that saves resume.
+
+What a start costs is counted at each boundary it crosses (`src/costs.ts`: parses, installs, Deem's creatures and
+countries, world composition, sessions, screens). `Tiny` and `Alone` keep the tally of their start, and a spec can
+hold it (`test/small/tiny-costs`). `bun scripts/load-costs.ts` measures every scale cold, warm and in process, and
+`doc/architecture/mission-21/loading-boundaries.md` is the map it made.
 
 `bun scripts/spec-audit.ts` classifies every spec file over fifteen seconds by what it starts and what its cases
 assert, and writes the counts the migration is measured by to `doc/architecture/mission-21/spec-audit.md`.

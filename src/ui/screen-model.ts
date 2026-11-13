@@ -1,9 +1,8 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
-import { Band } from './band';
+import { Band } from './band'; import { Costs } from '../costs';
 import { CreaturePortraits } from '../paintings/creature-portraits'; import { ItemPlates } from '../paintings/item-plates';
 import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } from './encyclopedia-entry';
-import { CharacterSheets } from '../presentation/character-sheet';
-import { Itineraries } from './itinerary';
+import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
@@ -43,7 +42,8 @@ export class ScreenModel {
     return { ...start ? { date: { short: Calendar.short(start, elapsed), long: Calendar.long(start, elapsed) } } : {},
       ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
   }
-  static build(campaign: Campaign): Screen {
+  static build(campaign: Campaign): Screen { return Costs.time('screen', () => ScreenModel.built(campaign)); }
+  private static built(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
     const names = this.names(campaign), prices = this.prices(world);
     const present = new Set(view.present.map(p => p.id));

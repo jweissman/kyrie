@@ -1,4 +1,5 @@
 import { Sentences } from './sentences';
+import { Costs } from '../costs';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { SecondPerson } from './second-person';
 import type { Entity, Observation, Shelter } from '../lang/module';
@@ -64,7 +65,8 @@ export class Narrator {
   // The composer's naming of a place for a kit's word (see KitWord.requests): it teaches, and says nothing.
   static readonly naming = /Name__named(@|$)/;
   // opening: what an opening told before the first place (see Prologue), which the place leaves out.
-  static leaf(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
+  static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf { return Costs.time('leaf', () => Narrator.leafed(...a)); }
+  private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
     const seenBefore = this.seenBefore(campaign);
     const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);

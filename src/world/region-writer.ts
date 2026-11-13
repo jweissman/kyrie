@@ -1,4 +1,5 @@
 import { RegionNews } from './region-news';
+import { RegionIds } from './region-ids';
 import type { Landmark } from './region-land';
 import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';
@@ -113,7 +114,7 @@ export interface Contact {
 }
 
 export class RegionWriter {
-  static readonly id = 'region';
+  static readonly id = RegionIds.region;
   static carriers(region: Region): Carrier[] {
     return region.settlements.flatMap(s => [
       { id: `${s.id}_innkeeper`, settlement: s.id, channel: 'tavern' as const },

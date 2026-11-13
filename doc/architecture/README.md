@@ -67,7 +67,8 @@ what, read [verification.md](verification.md); for what is open, read [the regis
 | `data/rules` | the rule modules every world loads (passages, needs, people, elements…) |
 | `data/imbar` | the canon: Imbar, its planes and their thresholds, the House of Doors, installed first in every world with the same ids |
 | `data/catalog`, `data/generation`, `data/adventures`, `data/campaigns` | catalogs, Deem tables, authored adventures, campaigns; [data/README.md](../../data/README.md) has the rest |
-| `test/small`, `test/support/tiny.ts` | rules proved on tiny Kyr worlds; `test/` holds the rest (see [verification.md](verification.md)) |
+| `test/small`, `test/support/tiny.ts`, `alone.ts` | rules proved on tiny Kyr worlds, and one situation on its own; `test/` holds the rest (see [verification.md](verification.md)) |
+| `src/costs.ts` | what a start crossed and cost, stage by stage: parses, installs, Deem, composition, sessions, screens ([loading-boundaries.md](mission-21/loading-boundaries.md)) |
 | `scripts/` | benchmarks, censuses and reports (`register-state`, `spec-audit`, `doc-links`, `terminal-walks`…) |
 
 ## Invariants worth defending
