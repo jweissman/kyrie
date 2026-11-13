@@ -97,9 +97,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    await page.click('.opens-go');
-    const names = await page.$$eval('.wayfinder .wf-row', tiles => tiles.map(t => {
-      const n = t.querySelector('.n')!, box = t.getBoundingClientRect();
+    await page.click('.rail-mark.opens-go');
+    const all = page.locator('.glance .lens [data-action="lens-all"][aria-expanded="false"]');
+    if (await all.count()) { await all.click(); }
+    const names = await page.$$eval('.glance .lens-places [data-act]', tiles => tiles.map(t => {
+      const n = t.querySelector('.row-label')!, box = t.getBoundingClientRect();
       return n.scrollWidth <= n.clientWidth + 1 && box.right <= innerWidth && box.left >= 0;
     }));
     expect(names.length).toBeGreaterThan(0);

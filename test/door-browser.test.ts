@@ -26,10 +26,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // Look…: what is on a way off this place is a thing at hand, looked at in its own pane (never a way's in Go…).
-    await page.click('.opens-look');
-    await page.locator('.ah-row', { hasText: /tripwire/i }).click();
-    await page.locator('.ah-pane .act', { hasText: 'Look closely' }).click();
+    // Look…: what is on a way off this place is a thing at hand, its acts under its name in the things lens (never a
+    // way's in Go…).
+    await (await driver.inLens('look', 'Look closely', /tripwire/i)).click();
     await driver.settle();
     expect(await page.evaluate(() => document.body.innerText)).toContain('A wire is strung across the gateway');
     expect(errors).toEqual([]);
@@ -42,8 +41,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await page.click('.opens-look');
-    await page.locator('.ah-pane .act', { hasText: /^Push and pull at the / }).click();
+    await (await driver.inLens('look', /^Push and pull/)).click();
     await driver.settle();
     expect(await page.evaluate(() => document.body.innerText)).toContain('shifts an inch in its grooves');
     expect(errors).toEqual([]);

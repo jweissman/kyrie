@@ -25,11 +25,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The door is on a way off this place: a thing at hand (Look…), and in its pane its words.
-    await page.click('.opens-look');
-    await page.locator('.ah-row', { hasText: /door/i }).first().click();
-    const opener = page.locator('.ah-pane [aria-expanded]', { hasText: /speak|say|word/i });
-    if (await opener.count()) { await opener.first().click(); await driver.settle(); }
+    // The door is on a way off this place: a thing at hand (the things lens), and under it its words.
+    const opener = await driver.inLens('look', /speak|say|word/i, /door/i);
+    if (await opener.getAttribute('aria-expanded') === 'false') { await opener.click(); await driver.settle(); }
     for (const word of ['Lute', 'Piano', 'Trumpet']) {
       expect(await page.locator('[data-action="choice"]', { hasText: word }).first().isVisible()).toBe(true);
     }
@@ -38,7 +36,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     await piano.click();
     await driver.settle();
     // Asked, and nothing done yet.
-    expect(await page.locator('.ah-pane .grave-said').innerText()).toContain('a wrong word, and the stone breathes out cold');
+    expect(await page.locator('.glance .lens .grave-said').innerText()).toContain('a wrong word, and the stone breathes out cold');
     expect(await page.evaluate(() => document.body.innerText)).not.toContain('The door swings open.');
     await piano.click();
     await driver.settle();

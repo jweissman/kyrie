@@ -61,16 +61,22 @@ export class Explorer {
     // Put away, what was told in it stays told (not said again on the place at rest); opened, it begins afresh. A way
     // touched once in Go… that asked first is asked again (it goes at a click now: see Wayfinder.go), not taken by the
     // next touch of it elsewhere.
+    // The things lens holds what is on a way too (AtHand.onWays), its acts open, so the menu has them (see Lens).
+    const ways = part === 'look' ? AtHand.onWays(app).flatMap(h => h.opens) : [];
     app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
       confirming: undefined,
-      open: wait ? [wait] : held ? held.opens : app.state.open });
+      open: wait ? [wait] : held ? [...held.opens, ...ways] : ways.length ? ways : app.state.open });
   }
   // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way
   // chosen), Esc to put it away. Nothing under it is done unseen.
   static key(app: ReaderApp, key: string): boolean {
     const part = app.state.exploring, menu = app.menu;
     if (!part) { return false; }
-    const ids = part === 'go' ? Wayfinder.ways(app).map(w => w.c.id)
+    // A lens in the scene (GlanceStage.Lens): its own rows, drawn; its digits the page's (the keys its four show).
+    const lens = document.querySelector('.glance .lens');
+    if (lens && /^[1-9]$/.test(key)) { return false; }
+    const ids = lens ? [...lens.querySelectorAll<HTMLElement>('[data-act]')].map(e => e.dataset.act!)
+      : part === 'go' ? Wayfinder.ways(app).map(w => w.c.id)
       : [...document.querySelectorAll<HTMLElement>('.explorer [data-action="choice"]')].map(e => e.dataset.choice!);
     // In the order they are drawn.
     const at = ids.flatMap(id => { const i = menu.choices.findIndex(c => c.id === id); return i < 0 ? [] : [{ c: menu.choices[i]!, i }]; });
@@ -82,7 +88,7 @@ export class Explorer {
       return true;
     }
     if (key === 'Enter' || key === ' ') {
-      const chosen = part === 'go' ? Wayfinder.chosen(app, Wayfinder.ways(app))?.c
+      const chosen = part === 'go' && !lens ? Wayfinder.chosen(app, Wayfinder.ways(app))?.c
         : app.state.keyed ? at.find(x => x.i === app.state.cursor)?.c : undefined;
       if (chosen) { app.choose(chosen); }
       return true;

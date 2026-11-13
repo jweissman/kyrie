@@ -42,13 +42,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     await d.talk();
     const carter = '.surface .portraits li[data-subject="origin__carter"]';
     expect([await Rest.count(page, carter), await Rest.count(page, `${carter}.owed`)]).toEqual([1, 0]);
+    // Look… turns on the things lens in the scene (CN-01): no page over the place, nothing modal, no "look closely".
     await d.click('.opens-look');
-    expect(await page.locator('.explorer.part-look').getAttribute('aria-modal')).toBe('false');
-    expect(await page.locator('.explorer').innerText()).not.toMatch(/look closely/i);
+    expect([await Rest.count(page, '.glance .lens-things'), await Rest.count(page, '.explorer'),
+      await Rest.count(page, '[aria-modal="true"]')]).toEqual([1, 0, 0]);
+    expect(await page.locator('.glance .lens').innerText()).not.toMatch(/look closely/i);
     expect(await Rest.touchable(page)).toBe(true);
-    await d.click('.ah-pane .act >> text=/^Put your shoulder/');
-    // Nothing left at hand: what came of it is told on the place, and the wagoner is owed.
-    expect(await Rest.count(page, '.explorer')).toBe(0);
+    const shoulder = page.locator('.glance .lens [data-act] >> text=/^Put your shoulder/');
+    if (!await shoulder.count()) { await d.click('.glance .lens [data-action="lens-all"]'); }
+    await shoulder.first().click(); await d.settle();
+    // Done, it is not offered again, what came of it is told on the place, and the wagoner is owed.
+    expect(await Rest.count(page, '.glance [data-act] >> text=/^Put your shoulder/')).toBe(0);
     expect(await page.locator('.focus').innerText()).toMatch(/stands square on the road again/);
     // Owed, by the likeness's one pip, which says so (see Pip).
     expect(await Rest.count(page, `${carter}.owed .pip[aria-label*="to gain"]`)).toBe(1);
