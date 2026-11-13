@@ -38,4 +38,15 @@ describe('creation', () => {
     const imports = source.split('\n').filter(l => /^import .* from '.*web\/engine\//.test(l));
     expect(imports.filter(l => !l.startsWith('import type '))).toEqual([]);
   });
+  // Born under one of Imbar's twelve signs, one a month (data/imbar/sky.json): the step leads with the one the life
+  // was drawn under and the months that follow it, as the sky turns; a sign chosen is the life's.
+  it('asks under which of the sky\'s twelve signs the life was born, the sky turning from the one drawn', () => {
+    const flow = new CreationFlow(setting, Creation.catalog()), sign = () => flow.steps().find(s => s.id === 'sign')!;
+    const months = Creation.catalog().signs.map(x => x.id), drawn = flow.member.sign!;
+    expect(sign().cards).toHaveLength(12);
+    const from = months.indexOf(drawn);
+    expect(sign().cards.slice(0, 4).map(c => c.id)).toEqual([0, 1, 2, 3].map(i => months[(from + i) % 12]!));
+    flow.choose('sign', 'sign_wolf');
+    expect([flow.member.sign, sign().cards[0]!.id]).toEqual(['sign_wolf', 'sign_wolf']);
+  });
 });

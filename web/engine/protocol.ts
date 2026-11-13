@@ -77,6 +77,8 @@ export interface Catalog {
     gear: string[]; calling?: string; forms?: { man?: string; woman?: string; neither?: string } }[];
   kinds: { id: string; name: string; does: string }[];
   presets: { id: string; label: string; note: string; members: Member[] }[];
+  // Imbar's sky (data/imbar/sky.json): each sign, its month, what is said of those born under it, and its stars.
+  signs: { id: string; name: string; month: string; line: string; stars: number[][]; lines: number[][] }[];
   campaigns: CampaignChoice[];
 }
 // What a company would bring, before it sets out.
