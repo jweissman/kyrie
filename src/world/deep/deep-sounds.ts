@@ -45,7 +45,9 @@ export class DeepSounds {
     // What falls on whoever comes in, or is one of the worst, can be drawn out to be met (inhabitants.kyr).
     const drawn = said && (elite || temperament === 'savage') ? [`  Initially Assert drawable(${id}).`] : [];
     const seen = by ? this.sounds['ambush:seen']! : undefined;
-    return [...drawn, ...said ? next.map(n => `  Observe ${id}_heard_${room}_${n} at ${n}${by} when able(${id})`
+    // What is heard is a sound, told in the dark as well as the light (LocalObservations); a sign is seen, and only by
+    // a light (a lethal band had been heard only by a company carrying a torch: the register's GT-05).
+    return [...drawn, ...said ? next.map(n => `  Observe ${id}_heard_${room}_${n} at ${n}${by || ' as sound'} when able(${id})`
       + ` and at(${id}, ${room}) ${this.q(said.replace('{room}', `{${room}}`))}.`) : [],
     ...seen ? next.map(n => `  Observe ${id}_seen_${room}_${n} at ${n} when able(${id}) and at(${id}, ${room})`
       + ` ${this.q(seen.replace('{room}', `{${room}}`))}.`) : [],
