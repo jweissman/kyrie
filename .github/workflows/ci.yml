@@ -70,7 +70,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
-      - run: bun test --parallel --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
+      # --no-isolate: each worker keeps one module registry across its files, as the quick suite has since E223 (34 → 10 s
+      # there). The experiment of M21's Phase 0: compared spec by spec with main's run before it is kept.
+      - run: bun test --parallel --no-isolate --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 10"
       # Kept, so that the files' times can be read back into test/timings.json (scripts/timings-from-ci.ts).
