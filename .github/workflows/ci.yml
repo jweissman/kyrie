@@ -70,6 +70,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (src/lang/parse-store.ts) kept between runs, a shard's own, by the version of the language it
+      # was parsed with: every CI job had parsed every text afresh (T24-10). The experiment of M21's Phase 0.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: "kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ matrix.shard }}"
       - run: bun test --parallel --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 10"
