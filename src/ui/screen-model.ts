@@ -30,7 +30,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { ItemStow } from './item-stow'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
-import { Seats } from '../world/seats';
+import { Seats } from '../world/seats'; import { TalkWeight } from '../presentation/talk-weight';
 import { Stakes } from './stakes'; import { Quarters } from './quarters'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
@@ -88,7 +88,7 @@ export class ScreenModel {
       formations: this.formations(campaign),
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
       ...Undertakings.shown(campaign, view.objectives ?? [], here), ...Owed.shown(campaign),
-      ...stakes.size ? { aimed: [...stakes] } : {},
+      ...TalkWeight.shown(campaign), ...stakes.size ? { aimed: [...stakes] } : {},
       ...charted,
       expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,

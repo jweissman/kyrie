@@ -1,4 +1,3 @@
-import { AimAsks } from '../../src/ui/aim-asks';
 import type { Choice } from '../../src/ui/choice-list';
 
 // What is said in a conversation, as attention holds it (the owner, 5 November: an innkeeper had stood with
@@ -13,7 +12,7 @@ export class TalkFocus {
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
   static of(replies: Choice[],
-    at: { led?: string; marked?: string[]; heard?: string[]; asked: string[]; aims?: string[]; paying?: string[] }) {
+    at: { led?: string; marked?: string[]; heard?: string[]; asked: string[]; weighty?: string[]; paying?: string[] }) {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
     const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
@@ -22,10 +21,9 @@ export class TalkFocus {
     // What pays the company first: someone marked as having something for it says what (see Owed).
     const led = [...fresh.filter(c => TalkFocus.pays(c, at.paying)), ...at.led ? fresh.filter(c => c.command === at.led
       || c.id === at.led || !!c.children?.some(k => k.command === at.led)) : [],
-    ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? [])),
     // What the glance found in them, that their likeness is drawn for (see Promoted.inside): never under the fold.
     ...fresh.filter(c => !!at.marked?.some(m => c.command === m || !!c.children?.some(k => k.command === m))),
-    ...fresh.filter(c => TalkFocus.weighty(c))].filter((c, i, all) => all.indexOf(c) === i);
+    ...fresh.filter(c => TalkFocus.weighty(c, at.weighty))].filter((c, i, all) => all.indexOf(c) === i);
     // New since the last thing said: not offered then (a group, if none of what it holds was).
     const opened = at.heard ? fresh.filter(c => !heard.has(c.id) && !c.children?.some(k => heard.has(k.id))
       && !led.includes(c)) : [];
@@ -50,18 +48,12 @@ export class TalkFocus {
   static pays(c: Choice, paying?: string[]): boolean {
     return !!c.command && !!paying?.includes(c.command.replace(/\(.*$/, ''));
   }
-  // What the aim followed asks to be asked of them (see AimAsks).
-  static aimed(c: Choice, aims: readonly string[]): boolean { return AimAsks.asks(c.label, aims); }
-  // What the company has come to say or to settle with them, before what they might tell it: news it brings ("Tell
-  // Beak the rats under the corn-store are dead": a job done, reported fifth, under Something else, in the second
-  // fresh playtest of 7 November), and taking them on, when they are looking for work (Traubon's "Would you come
-  // along?" had stood seventh, though the innkeeper had just pointed him out), and what is out in the country round,
-  // the way to the old places near a town for a company that wants something to go to (RegionRumours). And settling
-  // up, and asking someone to come along: "Pay Tuck what you owe", the debt's end, and "Ask whether he would come
-  // along" had both stood under Something else (both cold players of Mission 20's first round).
-  private static weighty(c: Choice): boolean {
-    return /^(Tell|Pay) /.test(c.label) || c.does === 'recruit' || / what is out in the country round$/.test(c.label)
-      || / would come along\??$/.test(c.label);
+  // What the company has come to say or to settle with them, before what they might tell it (see TalkWeight): news it
+  // brings (the rats' report to Beak, fifth under Something else in the second fresh playtest of 7 November), the debt
+  // paid, asking someone to come along, being told where something is; and taking on one looking for work. By what
+  // saying it does, never by its words: "Tell …" and "Pay …" had been read off the labels (M21's PL-15).
+  static weighty(c: Choice, weighty: readonly string[] = []): boolean {
+    return c.does === 'recruit' || weighty.includes(c.command ?? '') || !!c.children?.some(k => weighty.includes(k.command ?? ''));
   }
   // What is told of the countries beyond this one (twenty and more at an inn), one thing to ask about, opened to them.
   private static beyond(said: Choice[]): Choice[] {

@@ -33,7 +33,10 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
 | PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
 | PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | fixed in this branch (the lead's ruling, U1) |
-| PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company | the Lull's fixed (765a3b29); the lint in this branch: 57 aims flagged, 2 more fixed; the rest open (authoring) |
+| PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company | the Lull's fixed (765a3b29); the lint: 57 aims flagged, 3 more fixed (Lull, Long Man, Tessary); the rest open (authoring) |
+| PL-15 | P1 | The talk ranked and gilded replies by their words: "Tell …"/"Pay …"/"would come along" led, and a reply whose words echoed the aim's was drawn gold beside the glance's own next step | fixed in this branch |
+| PL-16 | P1 | An authored adventure's hook not led: Tessary's eel-wife's notice on the Landgate board was only under `all`; reading a witness had stopped counting as learning (a regression of PL-03's rule), and a thing's teaching acts were never reckoned | fixed in this branch |
+| PL-17 | P2 | What Tessary Owes gives the company Davy's coat on its first step ("You take Davy Teazle's red coat" at the Landgate), though Nan is to hand it over later | fixed in this branch (data) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -273,10 +276,54 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   (`play-tools/lint-targets.ts`, one campaign at a time): **57 target findings**, 45 of them this new kind (an aim
   about a fact the company knows: Quittance 16, What Tessary Owes 5, The Third Night 3, Tallow 3, A Winter in Carth
   3, …), 7 that name no one and nowhere, 5 that name places none of which holds the others. All advice: they fail
-  nothing. Regression: `test/small/aim-target-lint.test.ts` (fails on main). Two plain ones given their places in data: The Lull's Working Day (`toward
+  nothing. Regression: `test/small/aim-target-lint.test.ts` (fails on main). **And What Tessary Owes' hook**, found
+  playing it cold (PL-16): Nan's aim named only Davy, who is nowhere the company knows; now `toward nan by withies`,
+  and from the notice the gold goes to the Withies, into Nan's house and to Nan, then stops (what Wick saw is not yet
+  a typed lead). Two plain ones given their places in data: The Lull's Working Day (`toward
   mill_bridge`, the bridge it mends) and The Long Man's bounty (`toward mower`). The rest want their authors: an aim
   about a fact ("who paid for Carth's vigil") has a person or a place in mind that only the adventure knows, and a
   wrong `toward` would be a false promise worse than none.
+
+### PL-15: the talk read its replies' words
+
+- **Found by reading, after root cause 1 named it** (the lead's next item): `web/reader/talk-focus.ts` led with any
+  reply whose label began `Tell ` or `Pay `, or ended "would come along?" or "what is out in the country round";
+  `AimAsks` matched a reply's label against the followed aim's words, and that match was used three ways: to lead the
+  reply in the talk, to make it the aim's in `Affordances` (`serving`), and, in `TalkStage`, to draw it in the aim's
+  **gold** beside whatever the glance's one next step was. A label that happened to echo the aim's sentence was gold.
+- **Corroborates:** the owner's golden-thread rules ("gold = next actionable step … one primary recommendation";
+  "no presentation role derived from its label", review-mitigations P1); R9-09 ("two gold at once").
+- **Status:** fixed in this branch. The engine says what is weighty (`src/presentation/talk-weight.ts`, as
+  `Screen.weighty`): a reply that brings about what an aim the company holds waits on (`AimAdvances` over each held
+  aim), asks the speaker along (`willing`), or tells a fact that leads somewhere not yet known (`leadsTo`); a recruit
+  by its kind. `TalkFocus` reads that, `AimAsks` is deleted, `Affordances` serves the aim by `advances` alone, and the
+  talk's gold is only the glance's next step (`Emphasis.within`). The id convention for "the lands beyond"
+  (`_beyond_told_`) stays: it reads an engine id, not words. Regressions: `test/small/talk-weight.test.ts` (a "Tell"
+  joke is not weighty; the job's report, the asking along and the cache's whereabouts are), and `test/talk-focus` now
+  states the rule by `weighty`, with a "Pay" label that settles nothing left in its place.
+
+### PL-16: the hook on the board, not led
+
+- **Repro:** `bin/kyrie adventure data/campaigns/what-tessary-owes.campaign.json` (cold, ~6 commands): the pitch says
+  the eel-wife's notice is pinned at the Landgate; at the Landgate the foreground is two streets; "Read a notice on the
+  Landgate board · 5 min" only under `all`. No aim is held until it is read, so nothing else points at it.
+- **Cause (verified, `tools/glance.ts` and `tools/subj.ts` on `wt-gate.json`):** two faults. (1) My PL-03 rule
+  (`ChoiceGrouping.teaches`) counts a fact as the act's own doing when another assertion names it, keeping only
+  `knows`, `toldBy` and `heard` as learning's record; `examine` (reading a witness) also asserts
+  `learnedFrom(actor, witness, statement)`, so since 62c5921b no document read was blue anywhere. (2)
+  `Affordances.opened` reckoned only someone's questions as things to learn (`fresh` is speakers' acts), never a
+  thing's own teaching act.
+- **Status:** fixed in this branch: `learnedFrom` and `readIn` are learning's record; a thing with an act that
+  teaches is led for it (`asked`, blue). The notice now leads at the Landgate. Regression:
+  `test/small/read-notice.test.ts` (fails on main).
+
+### PL-17: a coat given before it is given
+
+- **Repro:** as PL-16, the first step: "You take Davy Teazle's red coat." at the Landgate, before Nan is met.
+- **Cause (verified):** `data/adventures/what-tessary-owes/people.kyr` kept `Initially Give davy_coat to party` (from
+  a5bb8e0d, replacing a `lends`) beside the later `take_coat` action, which has Nan hand it over once told.
+- **Status:** fixed in this branch (the stray `Initially Give` removed; the bundle written again; the three Tessary
+  specs pass).
 
 ### PL-06: after the aim, nothing pulls
 
@@ -326,9 +373,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
    answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
    PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
    same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
-   make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
-   standing on the same boundary: `TalkFocus.weighty` ranks replies by their words (`/^(Tell|Pay) /`, "would come
-   along"); `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
+   make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. PL-15 took
+   the talk's wording rules out (`TalkFocus.weighty`, `AimAsks`). Still standing on the same boundary:
+   `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
    browser (`web/reader/map-view.tsx`), so the engine would still walk a `travel:` to a place in the company's own hex
    out across the country if any client asked (the lead's finding).
 2. **Two clients over one runtime, not one contract.** PL-01 and PL-02: the terminal and the page each re-derive the

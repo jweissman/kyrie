@@ -28,30 +28,26 @@ describe('what is said, as attention holds it', () => {
     expect(f.opened.has('tower')).toBe(true);
     expect(f.more.at(-1)!.id).toBe('well');
   });
-  it('puts first what an aim of the company\'s asks of them', () => {
-    // The fresh playtest of 7 November: the notice on the well-post sent the company to Brom, and its question stood
-    // sixth, under Something else, behind three rumours.
+  // By what saying it does, never by its words (M21's playability list, PL-15): what bears on an aim the company holds,
+  // a debt paid, asking someone along, being told where something is (the engine's TalkWeight, as weighty), and taking
+  // on one looking for work (recruit). The fresh playtest of 7 November: the notice on the well-post sent the company
+  // to Brom, and its question stood sixth, under Something else, behind three rumours; the rats' report came fifth at
+  // Beak's, and Traubon's offer to come along seventh.
+  it('puts first what the company has come to ask, say or settle, by what saying it does', () => {
     const brom = [said('Ask about the old toll-house', 'r1'), said('Ask about the factor who buys old bronze', 'r2'),
       said('Ask about the players stuck at Aldermead', 'r3'), said('Ask about the rats in the corn-store', 'rats')];
-    const f = TalkFocus.of(brom, { asked: [],
-      aims: ['Ask Brom about the rats in the corn-store at Elmford: the corn-store is locked.'] });
-    expect(f.salient[0]!.id).toBe('Ask about the rats in the corn-store');
+    expect(TalkFocus.of(brom, { asked: [], weighty: ['rats'] }).salient[0]!.command).toBe('rats');
     expect(TalkFocus.of(brom, { asked: [] }).salient.map(c => c.id)).not.toContain('Ask about the rats in the corn-store');
-  });
-  it('puts first what the company has come to say or settle: news it brings, and taking on one looking for work', () => {
-    // The second fresh playtest of 7 November: the rats' report came fifth at Beak's, under Something else, and
-    // Traubon's offer to come along seventh, though the innkeeper had just pointed him out.
     const beak = [said('Ask what is down in the cisterns', 'r1'), said('Ask about the factor', 'r2'),
-      said('Ask about the silk from the sink', 'r3'), said('Ask about the old well', 'r4'),
-      said('Tell Beak the rats under the corn-store are dead, nest and all', 'u_rats_told')];
-    expect(TalkFocus.of(beak, { asked: [] }).salient[0]!.id).toMatch(/^Tell Beak the rats/);
-    const traubon = [...beak.slice(0, 4), said('Would you come along?', 'recruit(traubon)')];
+      said('Ask about the silk from the sink', 'r3'), said('Ask about the old well', 'r4')];
+    const told = said('Tell Beak the rats under the corn-store are dead, nest and all', 'u_rats_told');
+    expect(TalkFocus.of([...beak, told], { asked: [], weighty: ['u_rats_told'] }).salient[0]).toBe(told);
+    const traubon = [...beak, said('Would you come along?', 'recruit(traubon)')];
     expect(TalkFocus.of(traubon, { asked: [] }).salient[0]!.id).toBe('Would you come along?');
-    // Mission 20's first cold round: the debt paid, a sellsword hired and the players' reckoning paid were all under
-    // Something else, each an authored topic with no kind of its own.
-    for (const weighty of ['Pay Tuck what you owe', 'Ask whether he would come along', "Pay the players' reckoning"]) {
-      expect(TalkFocus.of([...beak.slice(0, 4), said(weighty, 'topic_x')], { asked: [] }).salient[0]!.id).toBe(weighty);
-    }
+    // A label is not weight: "Pay Tuck what you owe", where it settles nothing the company holds, stays in its place.
+    const pay = said('Pay Tuck what you owe', 'topic_x');
+    expect(TalkFocus.of([...beak, pay], { asked: [] }).salient).not.toContain(pay);
+    expect(TalkFocus.of([...beak, pay], { asked: [], weighty: ['topic_x'] }).salient[0]).toBe(pay);
   });
   it('makes room for an answer owed', () => {
     const f = TalkFocus.of([said('yes', 'yes', { answer: true }), ...replies], { asked: [] });
