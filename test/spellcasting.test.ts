@@ -4,7 +4,9 @@ import { CreatureStore } from '../src/creature-store';
 import { FieldUse } from '../src/campaign/field-use';
 import { Spellcasting } from '../src/rules/spellcasting';
 
-const spells = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'];
+// A third-level cleric's picks: three of the first level, two of the second, one of the third (Cure Serious Wounds:
+// Cure Moderate Wounds is of the second since the SRD's levels).
+const spells = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'];
 class Casters {
   static cleric(level: number) {
     return new Content('slots').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,

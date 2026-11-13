@@ -2,6 +2,182 @@
  "about": "The catalog's spells that have a Revised 3.5 SRD counterpart (data/sources/srd35/concordance.json), as the SRD gives them: level on the list of their tradition, school, harm (a die a caster level is roll(min(#level, 10), 6)), damage type, and the save a target makes against them (its kind, and whether a success halves or negates; none, none at all). Laid over the generated records (SrdSpells); a save named for what it guards against (paralysis, sleep, charm) keeps its name, for the immunities that read it.",
  "conversion": "srd35-westernesse-v1",
  "spells": {
+  "acid_arrow": {
+   "srd35": "spell:acid-arrow",
+   "level": 2,
+   "school": "conjuration",
+   "notes": "The SRD's Acid Arrow: level 2 (Sor/Wiz), conjuration; 2d4; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "2d4",
+   "damageType": "acid",
+   "save": "none"
+  },
+  "armor": {
+   "srd35": "spell:mage-armor",
+   "level": 1,
+   "school": "conjuration",
+   "notes": "The SRD's Mage Armor: level 1 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "cloudkill": {
+   "srd35": "spell:cloudkill",
+   "level": 5,
+   "school": "conjuration",
+   "notes": "The SRD's Cloudkill: level 5 (Sor/Wiz), conjuration; Fortitude partial. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "cure": {
+   "srd35": "spell:cure-light-wounds",
+   "level": 1,
+   "school": "conjuration",
+   "notes": "The SRD's Cure Light Wounds: level 1 (Clr), conjuration; 1d8 and one a level (maximum 5). Its reach and how long it lasts are Orsino's.",
+   "harm": "1d8 + min(#level, 5)"
+  },
+  "cure_critical": {
+   "srd35": "spell:cure-critical-wounds",
+   "level": 4,
+   "school": "conjuration",
+   "notes": "The SRD's Cure Critical Wounds: level 4 (Clr), conjuration; 4d8 and one a level (maximum 20). Its reach and how long it lasts are Orsino's.",
+   "harm": "4d8 + min(#level, 20)"
+  },
+  "cure_disease": {
+   "srd35": "spell:remove-disease",
+   "level": 3,
+   "school": "conjuration",
+   "notes": "The SRD's Remove Disease: level 3 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "cure_minor": {
+   "srd35": "spell:cure-minor-wounds",
+   "level": 0,
+   "school": "conjuration",
+   "notes": "The SRD's Cure Minor Wounds: level 0 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "cure_moderate": {
+   "srd35": "spell:cure-moderate-wounds",
+   "level": 2,
+   "school": "conjuration",
+   "notes": "The SRD's Cure Moderate Wounds: level 2 (Clr), conjuration; 2d8 and one a level (maximum 10). Its reach and how long it lasts are Orsino's.",
+   "harm": "2d8 + min(#level, 10)"
+  },
+  "cure_serious": {
+   "srd35": "spell:cure-serious-wounds",
+   "level": 3,
+   "school": "conjuration",
+   "notes": "The SRD's Cure Serious Wounds: level 3 (Clr), conjuration; 3d8 and one a level (maximum 15). Its reach and how long it lasts are Orsino's.",
+   "harm": "3d8 + min(#level, 15)"
+  },
+  "heal": {
+   "srd35": "spell:heal",
+   "level": 6,
+   "school": "conjuration",
+   "notes": "The SRD's Heal: level 6 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "major_restoration": {
+   "srd35": "spell:restoration-greater",
+   "level": 7,
+   "school": "conjuration",
+   "notes": "The SRD's Restoration, Greater: level 7 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "mass_heal": {
+   "srd35": "spell:heal-mass",
+   "level": 9,
+   "school": "conjuration",
+   "notes": "The SRD's Heal, Mass: level 9 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "maze": {
+   "srd35": "spell:maze",
+   "level": 8,
+   "school": "conjuration",
+   "notes": "The SRD's Maze: level 8 (Sor/Wiz), conjuration; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "minor_restoration": {
+   "srd35": "spell:restoration-lesser",
+   "level": 2,
+   "school": "conjuration",
+   "notes": "The SRD's Restoration, Lesser: level 2 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "obscuring_mist": {
+   "srd35": "spell:obscuring-mist",
+   "level": 1,
+   "school": "conjuration",
+   "notes": "The SRD's Obscuring Mist: level 1 (Sor/Wiz), conjuration; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "plane_shift": {
+   "srd35": "spell:plane-shift",
+   "level": 7,
+   "school": "conjuration",
+   "notes": "The SRD's Plane Shift: level 7 (Sor/Wiz), conjuration; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "raise_dead": {
+   "srd35": "spell:raise-dead",
+   "level": 5,
+   "school": "conjuration",
+   "notes": "The SRD's Raise Dead: level 5 (Clr), conjuration; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "restoration": {
+   "srd35": "spell:restoration",
+   "level": 4,
+   "school": "conjuration",
+   "notes": "The SRD's Restoration: level 4 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "resurrect": {
+   "srd35": "spell:resurrection",
+   "level": 7,
+   "school": "conjuration",
+   "notes": "The SRD's Resurrection: level 7 (Clr), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_monster": {
+   "srd35": "spell:summon-monster-i",
+   "level": 1,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster I: level 1 (Sor/Wiz), conjuration; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "summon_monster_ii": {
+   "srd35": "spell:summon-monster-ii",
+   "level": 2,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster II: level 2 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_monster_iii": {
+   "srd35": "spell:summon-monster-iii",
+   "level": 3,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster III: level 3 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_monster_iv": {
+   "srd35": "spell:summon-monster-iv",
+   "level": 4,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster IV: level 4 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_monster_v": {
+   "srd35": "spell:summon-monster-v",
+   "level": 5,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster V: level 5 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_monster_vi": {
+   "srd35": "spell:summon-monster-vi",
+   "level": 6,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster VI: level 6 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_monster_vii": {
+   "srd35": "spell:summon-monster-vii",
+   "level": 7,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Monster VII: level 7 (Sor/Wiz), conjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "summon_vermin": {
+   "srd35": "spell:summon-swarm",
+   "level": 2,
+   "school": "conjuration",
+   "notes": "The SRD's Summon Swarm: level 2 (Sor/Wiz), conjuration; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
   "blade_barrier": {
    "srd35": "spell:blade-barrier",
    "level": 6,
