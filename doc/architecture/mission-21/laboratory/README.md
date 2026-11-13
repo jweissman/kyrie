@@ -106,6 +106,20 @@ the observation or offer projection, or rendering.
   - Not after a death. It ends the walk with "The fight is lost" and no word of what a careful player could have
     done.
 
+## Since: fights turn by turn, and one thing a sentence (DN-03)
+
+- **The fights.** With fights given turn by turn, the walks show two more faults.
+  - The fight's turns call the rats "Rat 1, Rat 2" while the outcome says "the first rat" (*rendering*: the
+    combatants' names against the telling's).
+  - When a fight ends, its outcome tells the whole fight again, blow by blow, after the turns told it
+    (*the runner*: its turns tell the exchanges as they come, and the narrator's outcome, written for a client
+    that shows the fight whole at its end, tells them again).
+- **The prose.** The undertown and the origins' words now say one image or one fact a sentence: 73 and 56 heavy
+  sentences to none, and the first hour's ratchet went from 1,256 to 1,144. In the walks, an arrival such as the
+  cellar now reads as two short sentences where it was one sentence of four clauses. The one-act rewrites keep every
+  clue: the chalk ring, the wingless wheel, the eggs to burn.
+- **The bark.** "'Oh, well struck,' say Haze" now agrees with the one fighter.
+
 ## What was fixed through it
 
 - **The feat came after its result.** The skilled act was told after what it came to (the lock open, then how it was
