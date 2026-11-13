@@ -1,4 +1,5 @@
 import { TerminalInput } from './terminal-input';
+import { Typography } from '../presentation/typography';
 import { writeFile } from 'node:fs/promises';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
@@ -94,7 +95,7 @@ export class Terminal {
     console.log(`\n${screen.place.name} · ${screen.clock}${screen.weather ? ` · ${screen.weather}` : ''}`);
     const prose = [...leaf.situation, ...leaf.presence, ...leaf.changed];
     if (leaf.exchange) { prose.push(...leaf.exchange.lines.map(l => l.text)); }
-    for (const line of prose) { console.log(line); }
+    for (const line of prose) { console.log(Typography.plain(line)); }
     if (screen.objectives.length) { console.log(`Aim: ${screen.objectives[0]}`); }
     if (leaf.glance?.need?.length) { console.log(`Need: ${leaf.glance.need.join(' · ')}`); }
     return { screen, leaf };
@@ -163,7 +164,7 @@ export class Terminal {
   // Each by its number alone: the numpad's 7/9/1/3 beside them had made "1" the third choice, not the first (the
   // headless review, 12 November).
   private static choices(rows: Listed[]) {
-    rows.forEach((c, i) => console.log(`${i + 1}. ${c.name}${c.time ? ` · ${c.time} min` : ''}`
+    rows.forEach((c, i) => console.log(`${i + 1}. ${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`
       + `${c.said ? `  [${c.said}]` : ''}`));
   }
   // A journey's legs, one line each, and why it stopped short, as the page's map tells them.
@@ -185,7 +186,7 @@ export class Terminal {
       return;
     }
     if (answer === 'unfollow') { Undertakings.follow(session.campaign); return; }
-    aims.forEach((a, i) => console.log(`${i + 1}. ${a.followed ? '(followed) ' : ''}${a.text}`));
+    aims.forEach((a, i) => console.log(`${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`));
     if (!aims.length) { console.log('No aim is held.'); }
   }
   private static map(session: PlaySession) {
