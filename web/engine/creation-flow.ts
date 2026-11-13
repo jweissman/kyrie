@@ -4,7 +4,10 @@ import type { Catalog, Member, Setting } from './protocol';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
-export interface CreationCard { id: string; name: string; line?: string; text?: string; group?: string; shut?: string }
+// emblem: the id of its emblem (see Emblems), drawn as a line glyph on the page and as its character in text (Signs).
+export interface CreationCard {
+  id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
+}
 export type CreationStepId = 'why' | 'you' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
 // One step of making the protagonist: its question, its cards, which is chosen, and for the name the names drawn.
 export interface CreationStep {
@@ -31,19 +34,19 @@ export class CreationFlow {
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     return [
       { id: 'why', ask: `Why have you come to ${country}?`, chosen: this.origin, cards: (this.setting.origins ?? [])
-        .map(o => ({ id: o.id, name: o.title, line: o.choice })) },
+        .map(o => ({ id: o.id, name: o.title, line: o.choice, emblem: o.id })) },
       { id: 'you', ask: 'Choose your ancestry', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id, name: a.name,
-        line: a.line, text: a.text })) },
+        line: a.line, text: a.text, emblem: a.id })) },
       { id: 'calling', ask: 'Choose your calling', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
-          text: x.text })) },
+          text: x.text, emblem: x.id })) },
       // The calling only: its way (a cleric's domain, a mage's school, a warrior's way) is the calling's first until
       // another is chosen later in play (the owner, 14 November: "just select the high-level profession").
       // The kind of life only: the trade within it is the one that best suits the calling, chosen later in play if at
       // all (the owner, 14 November: "just select the high-level category at first, and then later we can backfill").
       { id: 'before', ask: 'What did you do before this?', chosen: open.find(b => b.id === m.backgroundId)?.kind,
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
-          .map(k => ({ id: k.id, name: k.name, line: k.does })) },
+          .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}` })) },
       { id: 'presenting', ask: 'How do you present?', chosen: m.pronouns, cards: CreationFlow.presenting
         .map(([id, name]) => ({ id, name })) },
       { id: 'name', ask: 'Choose your name', chosen: m.name, cards: [],

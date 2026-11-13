@@ -35,9 +35,9 @@ describe('the terminal\'s colour', () => {
     expect(TerminalColour.depth({ COLORTERM: 'truecolor' }, true)).toBe('true');
     expect([TerminalColour.depth({ NO_COLOR: '', COLORTERM: 'truecolor' }, true), TerminalColour.depth({}, false)])
       .toEqual(['none', 'none']);
-    expect(TerminalColour.choice(1, 'Ask', ['knowledge'], 'true')).toContain('\x1b[38;2;121;174;247m▌');
-    expect(TerminalColour.choice(1, 'Ask', [], 'true')).not.toContain('\x1b[');
-    expect(TerminalColour.choice(1, 'Ask', ['knowledge'], 'none')).toBe('1. Ask  [to learn]');
+    expect(TerminalColour.choice(1, 'Ask', { aspects: ['knowledge'] }, 'true')).toContain('\x1b[38;2;121;174;247m▌');
+    expect(TerminalColour.choice(1, 'Ask', {}, 'true')).not.toContain('\x1b[');
+    expect(TerminalColour.choice(1, 'Ask', { aspects: ['knowledge'] }, 'none')).toBe('1. Ask  [to learn]');
   });
   it('has no gold while nothing is followed, and gold on the one next step once the aim is', async () => {
     const t = await Tiny.start(yard);

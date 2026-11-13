@@ -26,10 +26,6 @@ export class SceneSurface {
       </div>
     );
   }
-  // A way's direction as a mark: up, down, in, out, away, on.
-  static glyph(whither: string): string {
-    return { Up: '↑', Down: '↓', Into: '→', Out: '←', Away: '⇢', On: '→' }[whither] ?? '·';
-  }
   // The choices that take the company somewhere from here: its ways, and the walks about its town.
   static choices(app: ReaderApp): Choice[] {
     const scene = app.menu.scene!;

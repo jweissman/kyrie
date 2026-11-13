@@ -1,6 +1,7 @@
 import { TerminalInput, type Asking } from './terminal-input';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
+import { TerminalSigns, type Signed } from './terminal-signs';
 import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
 import { Typography } from '../presentation/typography';
@@ -28,7 +29,7 @@ import type { Aspect, Glance, Lens, Promoted, Successor } from '../presentation/
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
-interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[] }
+interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; lens?: { name: Lens; more: number } }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
@@ -154,6 +155,8 @@ export class Terminal {
           targets: [a.command.slice('travel:'.length)] });
       }
     }
+    const signs = new TerminalSigns(screen, glance);
+    for (const c of all) { Object.assign(c, { signed: signs.on(c.id) }); }
     const byId = new Map(all.map(c => [c.id, c]));
     // What the page leads with inside a talk (the question the aim waits on, Promoted.inside) is offered as itself:
     // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
@@ -225,7 +228,7 @@ export class Terminal {
   private static choices(rows: Listed[]) {
     const depth = TerminalColour.depth();
     rows.forEach((c, i) => console.log(TerminalColour.choice(i + 1,
-      `${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`, c.aspects ?? [], depth)));
+      `${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`, { ...c.signed, aspects: c.aspects ?? [] }, depth)));
   }
   // A journey's legs, one line each, and why it stopped short, as the page's map tells them.
   private static journey(session: PlaySession) {
