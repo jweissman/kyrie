@@ -11,6 +11,7 @@ import type { Asking } from './terminal-input';
 // asking (the owner, 14 November: TM-06). An empty answer takes the card chosen already (or the first), and for the
 // name the one drawn.
 export class TerminalCreation {
+  private all = false;
   constructor(private readonly input: Asking, private readonly say: (line: string) => void = console.log) {}
   async choose(seed: string): Promise<{ member: Member; origin?: string; setting: Setting }> {
     const setting = await new Creation().generate(seed), flow = new CreationFlow(setting, Creation.catalog());
@@ -25,15 +26,22 @@ export class TerminalCreation {
   private async card(step: CreationStep): Promise<CreationCard> {
     this.say(`\n${Typography.plain(step.ask)}`);
     let group: string | undefined;
-    step.cards.forEach((c, i) => {
+    // The four the step leads with, and the rest under `more`, numbered as they stand (the owner, 14 November).
+    const shown = step.cards.length > 4 && !this.all ? step.cards.slice(0, 4) : step.cards;
+    shown.forEach((c, i) => {
       if (c.group && c.group !== group) { group = c.group; this.say(`  ${Typography.plain(group)}`); }
       const sign = c.emblem && Signs.emblem(c.emblem);
       this.say(`  ${i + 1}. ${sign ? `${sign} ` : ''}${Typography.plain(c.name)}${c.line ? ` — ${Typography.plain(c.line)}` : ''}`
         + `${c.shut ? ` (${c.shut})` : ''}${c.id === step.chosen ? ' *' : ''}`);
     });
+    if (shown.length < step.cards.length) { this.say(`  (${step.cards.length - shown.length} more: more)`); }
     const fallback = step.cards.find(c => c.id === step.chosen && !c.shut) ?? step.cards.find(c => !c.shut)!;
     for (;;) {
       const answer = (await this.input.ask('> '))?.trim() ?? '';
+      if (answer === 'more' && shown.length < step.cards.length) {
+        this.all = true;
+        try { return await this.card(step); } finally { this.all = false; }
+      }
       const card = answer ? step.cards[Number(answer) - 1] : fallback;
       if (card && !card.shut) { return card; }
       this.say(card?.shut ? `${card.shut}.` : `Choose a number from 1 to ${step.cards.length}.`);

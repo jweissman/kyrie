@@ -62,7 +62,7 @@ export class Terminal {
       if (shown.length < choices.length) { console.log(`(${choices.length - shown.length} more: all)`); }
       const answer = await input.ask('Action number or name, auto, or q: ');
       if (answer === null || answer === 'q') { return null; }
-      if (answer === 'all') { every = true; continue; }
+      if (answer === 'all' || answer === 'more') { every = true; continue; }
       if (answer === 'auto') { return Tactics.choose(state, legal); }
       const choice = choices[Number(answer) - 1]
         ?? choices.find(c => c.ability.name.toLowerCase() === answer.toLowerCase());
@@ -335,7 +335,7 @@ export class Terminal {
     if (/^(follow \d+|unfollow)$/.test(answer)) {
       this.aims(session, answer); turn.current = undefined; turn.told = undefined; turn.attended = true; return true;
     }
-    if (answer === 'all') { console.log('\nAll legal interactions'); this.choices(all); return true; }
+    if (answer === 'all' || answer === 'more') { console.log('\nAll legal interactions'); this.choices(all); return true; }
     if (!answer.startsWith('save ')) { return false; }
     const path = answer.slice(5).trim();
     if (!path) { console.log('Name a save path.'); return true; }

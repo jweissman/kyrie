@@ -10,6 +10,8 @@ export interface CreationCard {
 }
 export type CreationStepId = 'why' | 'you' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
 // One step of making the protagonist: its question, its cards, which is chosen, and for the name the names drawn.
+// cards: every card, the four the step leads with first (the owner, 14 November: four promoted on every surface, the
+// rest reachable); a client shows the first four and offers the rest, numbered as they stand.
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[];
 }
@@ -28,7 +30,24 @@ export class CreationFlow {
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
     this.member = structuredClone(member);
   }
-  steps(): CreationStep[] {
+  steps(): CreationStep[] { return this.unranked().map(step => ({ ...step, cards: this.ranked(step) })); }
+  // A step's cards in the order it leads with them, where it has more than four: the one chosen first; then, of
+  // peoples, those of this country (its names are theirs); of kinds of life, those best suited to the calling (as a
+  // trade of the kind is chosen); and the rest as the catalog gives them.
+  private ranked(step: CreationStep): CreationCard[] {
+    // Four or fewer are all shown, in their own order (she, he, neither).
+    if (step.cards.length <= 4) { return step.cards; }
+    return step.cards.map((card, i) => ({ card, i, score: this.score(step, card) }))
+      .sort((x, y) => y.score - x.score || x.i - y.i).map(x => x.card);
+  }
+  private score(step: CreationStep, card: CreationCard): number {
+    const c = this.catalog, wants = c.callings.find(x => x.id === this.member.classId)?.qualities ?? {};
+    const suits = step.id === 'before' ? Math.max(0, ...c.backgrounds.filter(b => b.kind === card.id)
+      .map(b => CreationFlow.fit(b.qualities, wants))) : 0;
+    const here = step.id === 'you' && Object.hasOwn(this.setting.names ?? {}, card.id);
+    return (card.id === step.chosen ? 1e9 : 0) + (here ? 1e6 : 0) + suits;
+  }
+  private unranked(): CreationStep[] {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
     const country = this.setting.title || 'this country';
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
