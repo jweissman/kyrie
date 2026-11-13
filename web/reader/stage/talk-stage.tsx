@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -17,6 +17,7 @@ import { AimNear } from '../aim-near';
 import { Emphasis } from '../emphasis';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
+import { ChoiceRow } from './choice-row';
 import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
@@ -103,8 +104,8 @@ export class TalkStage {
             {/* Back from trading stands by the leave, always in view: at the foot of a long counter it had been
                 under the fade, half there (round 5). */}
             <p className="leave">{s.trading && <button type="button" className="option quiet" data-action="trade-back"
-              onClick={() => app.trade(false)}>Back</button>}<Act.View choice={talk.leave} draw={draw} number={TalkStage.n(app, TalkStage.key(talk.leave))}>
-              <i>{TalkStage.n(app, TalkStage.key(talk.leave))}</i>{talk.leave.label}</Act.View></p>
+              onClick={() => app.trade(false)}>Back</button>}<ChoiceRow.Act choice={talk.leave} draw={draw}
+              number={TalkStage.n(app, TalkStage.key(talk.leave))} label={talk.leave.label} /></p>
           </div>
         </div>
         <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
@@ -132,10 +133,10 @@ export class TalkStage {
   // on to be sold: Mission 20).
   static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
     const bar = Emphasis.bar(aspects, gilded);
-    return <p className="to-trade"><button type="button" className={`option${gilded && aspects.includes('undertaking')
-      ? ' aimed' : ''}`} data-action="trade" data-aspects={aspects.join(' ') || undefined} onClick={() => app.trade(true)}>
-      {bar && <span className="prism-bar" role="img" aria-label={Pip.words(aspects, gilded)}
-        style={{ '--prism': bar } as CSSProperties} />}Trade</button></p>;
+    // A row like the questions, not a boxed capital word (Mission 21's one choice row).
+    return <p className="to-trade"><ChoiceRow.Button className={`option${gilded && aspects.includes('undertaking') ? ' aimed' : ''}`}
+      data={{ action: 'trade', aspects: aspects.join(' ') || undefined }} onClick={() => app.trade(true)} label="Trade"
+      {...bar ? { mark: bar, markLabel: Pip.words(aspects, gilded) } : {}} /></p>;
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
@@ -292,10 +293,10 @@ export class TalkStage {
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
         bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
-        <Act.View choice={c} draw={draw} number={TalkStage.n(draw.app, TalkStage.key(c))}>{bar && <span className="prism-bar" role="img" aria-label={Pip.words(aspects!, gilded)}
-          style={{ '--prism': bar } as CSSProperties} />}<i>{TalkStage.n(draw.app, TalkStage.key(c))}</i><span className="said">
-          {Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
-          {pays && <small className="for-you"> · for you</small>}</span></Act.View>
+        <ChoiceRow.Act choice={c} draw={draw} number={TalkStage.n(draw.app, TalkStage.key(c))}
+          {...bar ? { mark: bar, markLabel: Pip.words(aspects!, gilded) } : {}}
+          label={<span className="said">{Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}
+            {asked && <small> · asked</small>}{pays && <small className="for-you"> · for you</small>}</span>} />
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}
           choice={k} draw={draw} />)}</ol>}
       </li>

@@ -124,21 +124,9 @@
     gap: 0 12px; }
   .fight .moves section:has(> .label) > .label { margin: 0; }
 }
-.fight .moves .act { max-width: 26rem; }
 /* More below than is in view: the foot of it fades, so that it is seen to go on (see Scrolled). */
 .fight > :is(.sides, .moves)[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 36px), transparent); }
 .fight .moves .cards { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
-.fight .moves .act { flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; min-width: 9.5rem;
-  min-height: 60px; padding: 10px 16px 10px 34px; font: 500 15px/1.25 var(--do);
-  background: linear-gradient(180deg, var(--lift), var(--raised)); }
-.fight .moves .act .note, .fight .moves .act small { font: 400 12.5px/1.25 var(--do); color: var(--dim); }
-/* What a card opens is said by its chevron at the card's edge, not on a line of its own under it (the hand had run
-   past the foot of a laptop's stage by a line a card: the owner, 4 November). */
-.fight .moves .act.opens { position: relative; padding-right: 30px; }
-.fight .moves .act.opens::after { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
-.fight .moves .act:hover, .fight .moves .act.sel, .fight .moves .act:focus-visible { transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, .4), inset 0 -2px 0 var(--accent); }
-.fight .moves .act:active { transform: translateY(0); }
 .fight .auto { margin: 8px 0 0; font: 400 12.5px var(--do); color: var(--faint); }
 /* Clear of the screen's edge, and of a tablet's home bar: inside the safe zone, as every margin of the fight is (the
    scene's safe-zone walk, 11 November late; and 12 November, the zone the outer tenth). */
@@ -159,16 +147,10 @@
 @media (max-height: 920px) {
   .fight > .sides { padding-top: 14px;
     min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .48))); }
-  .fight .moves .act { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
 }
 @media (max-width: 560px) {
   .fight .beat { grid-row: 1; padding: 0 0 12px; }
   .fight .beat .what.earlier { display: none; }
-  .fight .moves .act { min-width: 7.5rem; min-height: 50px; padding: 8px 12px 8px 30px; font-size: 14px; }
-  /* Attack and the kinds beside it in one row, so that the company above is seen whole and every move too (the
-     contact sheet, 12 November: two rows had pushed the company's third card under the fold). */
-  .fight .moves .bar { display: flex; flex-wrap: nowrap; gap: 6px; }
-  .fight .moves .bar .move { flex: 1 1 0; min-width: 0; padding-inline: 10px; }
   .fight .fighter { padding: 10px 11px; }
   .fight > .sides { min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .36))); }
   /* 48px at least: inside the safe zone a card is narrower, and 56 had been more than a third of it (12 November). */
@@ -193,26 +175,15 @@
 
 /* The foot of a fight: a few things to do, all one size (the owner, 9 November: uneven buttons, eighteen of them), and
    under it, opened, the one kind chosen. Aiming, the bar gives way to a line saying whom to choose, on the field. */
-.fight .moves .bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
-.fight .moves .move { display: inline-flex; flex-direction: column; align-items: flex-start; justify-content: center;
-  gap: 2px; min-width: 9rem; min-height: 52px; padding: 10px 18px; background: var(--raised); color: var(--ink);
-  border: 1px solid var(--edge); font: 500 15px/1.2 var(--do); cursor: pointer; text-align: left;
-  transition: border-color var(--quick), transform var(--quick); }
-/* A move is a card, not a line with a choice's diamond: the diamond had stood over "Go on" as a stray "<" (round 5). */
-.fight .moves .move.act::before { display: none; }
-.fight .moves .move:hover, .fight .moves .move:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
-.fight .moves .move.main { border-color: rgba(255, 107, 69, .55);
-  background: linear-gradient(180deg, rgba(255, 107, 69, .12), transparent), var(--raised); }
-.fight .moves .move.opened { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.fight .moves .move small { font: 400 12.5px/1.25 var(--do); color: var(--dim); }
-.fight .moves .move.quiet { min-width: 0; min-height: 40px; padding: 8px 14px; background: transparent; font-size: 13px; }
+.fight .moves .move.quiet { cursor: pointer; min-height: 40px; padding: 8px 14px; background: transparent; color: var(--ivory);
+  border: 1px solid var(--edge); font: var(--t-aside); }
+.fight .moves .move.quiet:hover, .fight .moves .move.quiet:focus-visible { border-color: var(--accent-line); outline: none; }
 .fight .moves .panel { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 10px 0 0;
   border-top: 1px solid var(--edge); }
-.fight .moves .panel .move { min-width: 11rem; max-width: 22rem; }
 .fight .moves .aiming { display: flex; align-items: center; gap: 14px; margin: 0; font: 500 15px var(--do); color: var(--gold); }
 /* One who can be chosen: lit, and the whole card the button; the rest dimmed while aiming. */
 .fight .fighter.target { cursor: pointer; border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 0 22px rgba(242, 189, 76, .18); }
 .fight .fighter .pick { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
 .fight .fighter .chance { display: block; margin-top: 6px; font: 600 12.5px var(--do); color: var(--accent); }
 .fight.aiming .fighter:not(.target) { opacity: .55; }
-@media (max-width: 600px) { .fight .moves .move { min-width: 7.5rem; min-height: 48px; padding: 8px 12px; font-size: 14px; } }
+

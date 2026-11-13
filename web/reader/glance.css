@@ -37,11 +37,6 @@
 
 /* What is worth doing now: at most three, best first, each with why and what it risks. */
 .glance .led { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 8px; }
-.act.led-act { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 3px 14px; width: 100%;
-  min-height: 56px; padding: 12px 16px 12px 38px; }
-.act.led-act::before { left: 16px; }
-.act.led-act .n { grid-column: 1; font: 500 16.5px/1.3 var(--do); }
-.act.led-act .why-said { grid-column: 1; font: 400 13px/1.35 var(--do); color: var(--dim); letter-spacing: .02em; }
 /* What it is, in its tone (amendment 6, C; see Emphasis): gold only for the aim followed. The tone is the diamond and
    the words of why; the first led stands out in its own tone, not always in gold. */
 .tone-gold { --tone: var(--gold); --tone-glow: var(--gold-glow); }
@@ -53,13 +48,8 @@
 .tone-rose { --tone: var(--coral); --tone-glow: rgba(255, 128, 140, .12); }
 /* Colour in one place: the indicator at the left (.prism-bar), and a modest tint of the title; the rest neutral. */
 .act.led-act[class*="tone-"] .n { color: color-mix(in oklab, var(--tone) 28%, var(--ivory)); }
-.act.led-act .key { grid-column: 2; grid-row: 1; }
-.act.led-act .led-mark { grid-column: 1 / -1; font: 400 13.5px/1.4 var(--do); letter-spacing: 0; color: var(--ivory); }
-.act.led-act:is(.risk, .grave)::after { grid-column: 1 / -1; }
 /* What a mark says in words is not said again as a tag ("a risk" under a fight and how it would go). */
 .act.led-act:has(> .led-mark)::after { content: none; }
-.act.led-act.first { border-color: var(--edge-strong); background: var(--raised); }
-.act.led-act.first .n { font-size: 17.5px; }
 
 /* The quiet row: the nearest ways; then the keys to every way, everyone and everything here, and yourself. */
 .glance-row { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid var(--edge); }
@@ -229,14 +219,7 @@
   --tone-red: var(--ember); --tone-violet: var(--violet); --tone-rose: var(--coral); }
 /* What is truly several things at once: its edge a slow gradient through its tones, mixed in OKLab; still where the
    reader asks for less motion. */
-.act.led-act:has(> .prism-bar) { position: relative; }
-.act.led-act .prism-bar { position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--prism);
-  background-size: 100% 300%; animation: prism-drift 9s ease-in-out infinite alternate; }
-.act.led-act:not(.prism) .prism-bar { animation: none; }
-/* Faint: what it is lies where it goes, known from here (a town's way in); not dim, which is nothing new. */
-.act.led-act.afar .prism-bar { opacity: .45; }
 @keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
-@media (prefers-reduced-motion: reduce) { .act.led-act .prism-bar { animation: none; background-size: 100% 100%; } }
 /* A led choice's own glyphs (see GlanceStage.Icons): who could join you, and going over into the next stretch of
    country, quiet and neutral (its colour is the indicator's). Beside the words, never instead of them. */
 .led-act .led-icon { width: 15px; height: 15px; margin-left: 8px; vertical-align: -2px; fill: none; stroke: var(--dim);
