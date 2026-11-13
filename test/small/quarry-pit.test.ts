@@ -44,7 +44,7 @@ describe('the quarry pit', () => {
     expect(await mage.do(/old quarry pit/)).toMatch(/the word ROAD/);
     // By night, the vixen, for the one who knows her runs.
     await ranger.do(/landing/); await ranger.do(/Wait until dark/);
-    expect(await ranger.do(/old quarry pit/)).toMatch(/a vixen comes/);
+    expect(await ranger.do(/old quarry pit/)).toMatch(/vixen comes/i);
   });
   it('finds what an hour on the faces and a search find once, and then not again', async () => {
     const p = await Pit.as('human/warrior/Brann');

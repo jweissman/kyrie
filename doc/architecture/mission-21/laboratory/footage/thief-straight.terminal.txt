@@ -126,7 +126,7 @@ The corn-store padlock hangs open on its hasp.
 > 1
 
 the old corn-store
-Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.
+Sacks are stacked to the rafters, and the place smells of mice. A sack of grain weighs down a trapdoor in the floor, and every wall is gnawed through at its foot.
 
 1. Take the trapdoor to the corn-store cellar · 2 min  [worth a look]
 2. Set out for Mik's salt-house · 2 min  [worth a look]
@@ -147,7 +147,7 @@ No food · Nothing lit · 1 candle to spare.
 (more: places 2 · time 5 · all 7)
 > 1
 You light a candle.
-A low brick cellar under the corn-store, damp to the touch, with spilled grain trodden black on the floor and the droppings of something bigger than mice.
+A low brick cellar under the corn-store, damp to the touch. Spilled grain is trodden black on the floor, among the droppings of something bigger than mice.
 No food · Haze's candle, 2 hours left · nothing to spare.
 
 1. Take a hole gnawed through the cellar wall to the rat-runs · 10 min  [worth a look]
@@ -158,7 +158,7 @@ No food · Haze's candle, 2 hours left · nothing to spare.
 > 1
 
 the rat-runs
-A crawlway of earth and old brick behind the cellar wall, gnawed wider than any rat should need, littered with husks, bones and the stink of a nest.
+A crawlway of earth and old brick runs behind the cellar wall, gnawed wider than any rat should need. It is littered with husks and bones, and stinks of a nest.
 The rats under the corn-store are here.
 The rats under the corn-store stand their ground and watch you. They will not have you here for long.
 No food · Haze's candle, an hour and 50 minutes left · nothing to spare.
@@ -222,7 +222,7 @@ The third rat takes 1 slashing damage.
 The third rat falls.
 The fight is won.
 Haze gains 60 experience.
-An aim: Clear the rats' nest · follow 1
+An aim: Clear the nest down the rats' run from the rat-runs under the old corn-store · follow 1
 No food · Haze's candle, an hour and 40 minutes left · nothing to spare.
 
 1. Take the rats' run down to the nest · 10 min  [worth a look]
@@ -233,7 +233,7 @@ No food · Haze's candle, an hour and 40 minutes left · nothing to spare.
 > 1
 
 the nest
-A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks, and bones under it all; the stink is enough to make the eyes run.
+A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks over bones. The stink is enough to make the eyes run.
 The old buck rat is here.
 The old buck rat stands its ground and watches you. It will not have you here for long.
 No food · Haze's candle, an hour and 30 minutes left · nothing to spare.
@@ -275,7 +275,7 @@ No food · Haze's candle, an hour and 20 minutes left · nothing to spare.
 > 1
 
 the old drain
-An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.
+An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle. The walls are furred with something pale that moves when the light touches it.
 A great centipede is here.
 A great centipede stands its ground and watches you. It will not have you here for long.
 No food · Haze's candle, an hour and 10 minutes left · nothing to spare.
@@ -316,7 +316,7 @@ No food · Haze's candle, an hour left · nothing to spare.
 > 1
 
 the undercroft
-A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
+A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides.
 An aim: Something is under the floor of the undercroft · follow 1
 No food · Haze's candle, 50 minutes left · nothing to spare.
 
@@ -341,7 +341,7 @@ An aim: Ask Mother Agnes · follow 1
 > 1
 
 the undercroft
-A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
+A long room of round pillars, older than anything above it.
 An aim: Something is under the floor of the undercroft · follow 1
 No food · Haze's candle, 40 minutes left · nothing to spare.
 
@@ -353,7 +353,7 @@ No food · Haze's candle, 40 minutes left · nothing to spare.
 > 1
 
 the old working face
-Where the quarrymen stopped: a face of stone with the pick-marks still on it, a rotten ladder, and the floor broken through in one corner into somewhere older underneath. Things click and scuttle in the spoil.
+Where the quarrymen stopped: a face of stone with the pick-marks still on it, and a rotten ladder. In one corner the floor is broken through into somewhere older underneath.
 The beetles in the spoil are here.
 The beetles in the spoil will not let you come any nearer.
 An aim: Ask Mother Agnes · follow 1
@@ -407,7 +407,7 @@ No food · Haze's candle, 20 minutes left · nothing to spare.
 > 1
 
 the cut gallery
-A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks; the roof here is thick with web, and the web is thick with husks.
+A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.
 The spider in the old workings is here.
 The spider in the old workings stands its ground and watches you. It will not have you here for long.
 No food · Haze's candle, 10 minutes left · nothing to spare.
@@ -586,4 +586,4 @@ It is pitch dark. Without a light you can see nothing here, and do nothing that 
 (more: places 2 · time 4 · all 5)
 > 
 
-[budget: 26 arrivals, mean 3.2, median 3.5, worst 5 5 5]
+[budget: 26 arrivals, mean 3.4, median 3.5, worst 5 5 5]
