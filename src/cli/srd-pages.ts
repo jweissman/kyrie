@@ -4,7 +4,7 @@
 // github.com/olimot/srd-v3.5, downloaded into a directory of its own: bun scripts/srd-extract.ts <that directory>.
 // scripts/srd-extract.ts writes data/sources/srd35/monsters.json and spells.json from it. Only what the fidelity
 // census compares is kept.
-export interface Attack { name: string; count: number; dice: string; plus: number; touch?: boolean }
+export interface Attack { name: string; count: number; dice: string; plus: number; bonus: number; touch?: boolean }
 export interface Monster {
   name: string; page: string; type: string; hitDice: string; hp: number; ac: number; natural: number;
   attacks: Attack[]; specialAttacks: string[]; specialQualities: string[]; saves: Record<string, number>;
@@ -14,6 +14,8 @@ export interface Monster {
 export interface Spell {
   name: string; school: string; descriptors: string[]; levels: Record<string, number>; range: string;
   targets: string; duration: string; save: string; sr: string;
+  // How it is aimed, as its text says: an ordinary attack, a touch in melee, a ranged touch (a ray), or none.
+  attack: 'none' | 'melee touch' | 'ranged touch' | 'attack';
   damage?: { dice: string; per?: 'level' | 'two levels'; max?: string; type: string; plus?: string };
   heal?: { dice: string; plus?: string; max?: string };
 }
@@ -62,16 +64,16 @@ export class SrdPages {
   static list(s: string): string[] { return s && s !== '-' ? s.split(/,\s*(?![^()]*\))/).map(x => x.trim()) : []; }
   // "Bite +2 melee (1d6+1 plus paralysis) and 2 claws +0 melee (1d3 plus paralysis)": the first routine only.
   // A blow of a routine: "2 claws +0 melee (1d3 plus paralysis)", its count, its name, and what it deals.
-  static readonly blow = new RegExp("^(\\d+)?\\s*([A-Za-z' -]+?)\\s*[+-]\\d+(?:\\/[+-]\\d+)*\\s+(melee|ranged)"
+  static readonly blow = new RegExp("^(\\d+)?\\s*([A-Za-z' -]+?)\\s*([+-]\\d+)(?:\\/[+-]\\d+)*\\s+(melee|ranged)"
     + '(?: touch)?,?\\s*\\(([^)]*)\\)');
   static attacks(s: string): Attack[] {
     const first = s.split(/;\s*or\s+|\bor\b/)[0]!;
     return first.split(/\s+and\s+|,\s+(?!\()/).flatMap(part => {
       const m = part.match(SrdPages.blow);
       if (!m) { return []; }
-      const dice = m[4]!.match(/(\d+d\d+)([+-]\d+)?/);
+      const dice = m[5]!.match(/(\d+d\d+)([+-]\d+)?/);
       return dice ? [{ name: m[2]!.trim().toLowerCase(), count: Number(m[1] ?? 1), dice: dice[1]!,
-        plus: Number(dice[2] ?? 0), ...part.includes('touch') ? { touch: true } : {} }] : [];
+        plus: Number(dice[2] ?? 0), bonus: Number(m[3]), ...part.includes('touch') ? { touch: true } : {} }] : [];
     });
   }
   static saves(s: string): Record<string, number> {
@@ -112,10 +114,21 @@ export class SrdPages {
         .split(/,\s*/).map(x => x.toLowerCase())), levels: Object.fromEntries([...level.matchAll(/([A-Za-z/]+) (\d)/g)]
         .map(m => [m[1]!, Number(m[2])])), range: SrdPages.said(ps, 'Range'),
         targets: SrdPages.said(ps, 'Target') || SrdPages.said(ps, 'Targets') || SrdPages.said(ps, 'Area') || SrdPages.said(ps, 'Effect') || SrdPages.said(ps, 'Target or Targets'),
-        duration: SrdPages.said(ps, 'Duration'), save: SrdPages.said(ps, 'Saving Throw'), sr: SrdPages.said(ps, 'Spell Resistance') };
-      Object.assign(spell, this.harm(body, spell.descriptors));
+        duration: SrdPages.said(ps, 'Duration'), save: SrdPages.said(ps, 'Saving Throw'),
+        sr: SrdPages.said(ps, 'Spell Resistance'), attack: 'none' };
+      Object.assign(spell, this.harm(body, spell.descriptors), { attack: SrdPages.aimed(body, spell) });
       return [[id, spell] as [string, Spell]];
     });
+  }
+  // How it is aimed: by the sentences that say a touch attack is made (not one that hits an opening a burst is sent
+  // through, as Fireball's bead may), by being a ray, or by being a touch that harms (the SRD's touch spells in
+  // combat). Touch range alone is no attack: a cure, harmless, is touched, not struck.
+  static aimed(body: string, spell: Pick<Spell, 'targets' | 'range' | 'save'>): Spell['attack'] {
+    const said = body.split(/(?<=\.)\s+/)
+      .filter(t => /touch attack/i.test(t) && !/opening|passage|arrow slit/i.test(t));
+    if (/\bray/i.test(spell.targets) || said.some(t => /ranged touch attack/i.test(t))) { return 'ranged touch'; }
+    const harms = /^touch/i.test(spell.range) && !/harmless/i.test(spell.save) && /damage|negative energy/i.test(body);
+    return harms || said.some(t => /melee touch attack/i.test(t)) ? 'melee touch' : 'none';
   }
   static said(ps: string[], label: string): string {
     return ps.find(p => p.startsWith(`${label}:`))?.slice(label.length + 1).trim() ?? '';

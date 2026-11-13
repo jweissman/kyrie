@@ -39,4 +39,25 @@ describe('the SRD fidelity census', () => {
     const off = { ...listed, spell: { ...listed.spell, level: listed.spell.level + 1 } };
     expect(SpellFidelity.row('fireball', 'fireball', off).level.verdict).toBe('differs');
   });
+  // What the census had not measured (proof-slices.md, step 1): a save's difficulty, how a spell is aimed, what it
+  // falls on, a blow's chance to hit, and three grades a row passes or fails.
+  it('measures a save\'s difficulty, how a spell is aimed and what it falls on, at the census\'s caster', () => {
+    const fireball = SpellFidelity.row('fireball', 'fireball');
+    expect(fireball.dc).toEqual({ verdict: 'differs', ours: '15', theirs: '16' });
+    expect(fireball.target).toEqual({ verdict: 'exact', ours: 'burst', theirs: 'burst' });
+    expect(SpellFidelity.row('shocking_grasp', 'shocking-grasp').attack)
+      .toEqual({ verdict: 'differs', ours: 'none', theirs: 'melee touch' });
+    expect(SpellFidelity.row('magic_missile', 'magic-missile').dc.verdict).toBe('n/a');
+    // A burst made a cone is seen.
+    const coned = { ...Canon.abilities.fireball!, area: 'cone' as const };
+    expect(SpellFidelity.row('fireball', 'fireball', coned).target.verdict).toBe('differs');
+  });
+  it('measures a blow\'s chance to hit SRD AC 15, and grades a row in structure, resolution and play identity', () => {
+    expect(CreatureFidelity.row('rat').hit).toEqual({ verdict: 'differs', ours: '20%', theirs: '50%' });
+    const rows = [...SpellFidelity.rows(), ...CreatureFidelity.rows()];
+    expect(rows.every(r => r.grades.identity === 'unassessed')).toBe(true);
+    expect(SpellFidelity.row('fireball', 'fireball').grades).toEqual({ structural: 'fail', resolution: 'fail',
+      identity: 'unassessed' });
+    expect(SpellFidelity.row('magic_missile', 'magic-missile').grades.structural).toBe('pass');
+  });
 });
