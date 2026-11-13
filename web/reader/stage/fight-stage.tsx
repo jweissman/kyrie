@@ -8,7 +8,6 @@ import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
 import { Scrolled } from './scrolled';
 import { FightMoves, type Aiming } from './fight-moves';
-import { ChoiceRow } from './choice-row';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
 // and (for a foe) what it means to do; between them what has just happened, large, the latest last, the blows just
@@ -81,15 +80,7 @@ export class FightStage {
             {combat.order.map((n, i) => <li key={`${i}:${n}`} className={i ? undefined : 'next'}>
               {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
         <div className="moves" ref={moves}>
-          {/* Letting the fight go on and pressing on to its end are rows of the one menu, quieter, at its foot: they had
-              been option buttons beside it (the owner, 14 November: "legacy combat controls remain alongside"). */}
-          <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} also={<>
-            {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <ChoiceRow.Button className="move quiet-row auto"
-              data={{ action: 'auto' }} onClick={app.auto} label={`Let ${combat.actorName} fight this turn`}
-              extra={<kbd className="row-key">T</kbd>} />}
-            {combat.ours && !combat.outcome && FightStage.decided(combat) && <ChoiceRow.Button className="move quiet-row through"
-              data={{ action: 'press-on' }} onClick={app.through} label="Press on to the end" aside="As good as won." />}
-          </>} />
+          <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} />
         </div>
       </div>
     );

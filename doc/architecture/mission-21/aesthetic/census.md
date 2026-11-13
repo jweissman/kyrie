@@ -61,7 +61,7 @@ Columns:
 | A place in the split scene (`?scene=split`, `here-pane`, `more-pane`) | `PlaceStage` | old buttons | rows | engine | legacy composition, kept behind its flag |
 | The fight: Attack, kinds, a kind's moves | `FightMoves` (`ChoiceRow.Button`) | rows that flowed into a horizontal row; a kind's moves appended under the hand | the hand's menu, a column of rows; a kind opens into the details region beside it (CN-06) | engine (sections) | — |
 | The fight: a target on the field | `FightStage.Card` `pick` | gold ring, a chance line added to the card (it grew) | a reticle (an outline, no room taken), the chance pinned over the card's corner; marked | engine (the move's targets) | — |
-| The fight: Let … fight this turn, Press on | `ChoiceRow.Button` (quiet rows at the menu's foot) | **old option buttons beside the rows** | rows of the one menu, quieter | view (`app.auto`, `app.through`): no act id | the act ids, from the contract (asked of the playability line), then `data-act` |
+| The fight: Let … fight this turn, Press on | `ChoiceRow.Act` from the `pace` section (quiet rows at the menu's foot) | **old option buttons beside the rows** | rows of the one menu, quieter, with their act's mark | engine (`ChoiceList.pace`: `fight:auto`, and `fight:through` when as good as won) | — |
 | The fight: the fight so far | quiet word in the fight's head | an option bar across the foot | a quiet word (a view of the fight, not an act) | view | — |
 | The map: Set out, Enter, Travel, the way in, Go on to | `RouteCard`, `WorldStage.Hex` | option/enter buttons | marked | engine (`MapView.way`) | enclosed: no map inside (CN-02) |
 | A town's plan | `TownPlanView` (SVG) | clickable shapes | marked | engine | — |
@@ -71,9 +71,8 @@ Columns:
 
 These go to the playability line rather than being inferred in the page.
 
-1. **The fight's "Let … fight this turn" and "Press on to the end"** call `app.auto` and `app.through`. These are acts
-   in the world (the fighter acts), but they have no act id in the menu, so the page cannot draw them as the action
-   system's rows with a mark. A choice for each in the fight's sections would let CN-06 draw them in the hand.
+1. **The fight's "Let … fight this turn" and "Press on to the end"** had been `app.auto` and `app.through`, with no
+   act id. Answered by the contract (`ChoiceList.pace`); drawn as the hand's quiet rows since.
 2. **The lens's ordering of ways and things** (`Lenses.Strip`, `Attention`, `Wayfinder` groups) is the page's own
    sorting, by tone and by what is idle. `Lens` replaces it (CN-01).
 3. **The way back and the one way on** are the glance's (`back`, the one way). Inside an enclosure they should become

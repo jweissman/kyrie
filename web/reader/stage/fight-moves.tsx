@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import type { Choice, Section } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -19,9 +19,8 @@ export class FightMoves {
   // beside it a details region of the same height that holds what the moment needs: the kind opened, whom to choose,
   // or what the move under the hand does. Nothing is put into a row once drawn, and nothing changes the hand's size:
   // opening a kind, aiming and changing target change what the details region holds, never its box.
-  // also: what the hand can do besides its moves, as quiet rows at the menu's foot (letting the fight go on, pressing on).
-  static View({ app, aiming, aim, panel, open, also }: { app: ReaderApp; aiming?: Aiming; aim: (a?: Aiming) => void;
-    panel?: string; open: (p?: string) => void; also?: ReactNode }) {
+  static View({ app, aiming, aim, panel, open }: { app: ReaderApp; aiming?: Aiming; aim: (a?: Aiming) => void;
+    panel?: string; open: (p?: string) => void }) {
     const sections = app.menu.sections, strike = sections.find(s => s.id === 'strike')?.choices ?? [];
     const onward = sections.find(s => s.id === 'onward')?.choices[0], [under, hover] = useState<Choice>();
     if (onward) {
@@ -30,6 +29,7 @@ export class FightMoves {
           label={Typography.curl(onward.alone ?? Words.shown(onward.label))} /></div></div>;
     }
     const attack = strike[0], shown = FightMoves.section(sections, strike, panel);
+    const pace = sections.find(s => s.id === 'pace')?.choices ?? [];
     const take = (c: Choice) => FightMoves.take(app, c, aim, open);
     const note = (c: Choice) => ({ onMouseEnter: () => hover(c), onFocus: () => hover(c), onMouseLeave: () => hover(undefined) });
     return <div className={`hand${aiming ? ' aiming' : shown ? ' opened' : ''}`}>
@@ -41,7 +41,10 @@ export class FightMoves {
           <ChoiceRow.Button key={id} className={`move kind${panel === id ? ' opened' : ''}`} data={{ action: 'panel', panel: id }}
             expanded={panel === id} onClick={() => { aim(); open(panel === id ? undefined : id); }} label={label}
             extra={<span className="row-opens" aria-hidden="true">›</span>} />)}
-        {also}
+        {/* The fight's pace, the contract's own acts (ChoiceList.pace: fight:auto, and fight:through when as good as
+            won): rows of the one menu, quieter, at its foot. */}
+        {pace.map(c => <ChoiceRow.Act key={c.id} choice={c} draw={Act.draw(app)} className="move quiet-row"
+          label={Typography.curl(Words.shown(c.label))} {...c.id === 'fight:auto' ? { extra: <kbd className="row-key">T</kbd> } : {}} />)}
       </div>
       <div className="hand-detail" aria-live="polite">
         {aiming ? <div className="aiming" role="status">
