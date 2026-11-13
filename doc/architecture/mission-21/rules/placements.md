@@ -8,6 +8,10 @@ flag a recommendation for whoever owns the placement.
 
 - **The country:** `a1`, assembled whole (`WorldAssembler`, 13 s), with its creatures exactly as the world made them:
   their kind, level, hit points, variations and conditions (the creature records, cloned), in the numbers placed.
+- **Which numbers (the undertown):** every undertown row above batch 4 marked **[three]** was fought at the numbers a
+  company of **three** is written (a brood of two, a pack of five, a pair of three, no runts: the tools' fixture,
+  assembled with no origin). Real play is written for a company of **one** (every start is an origin's, which keeps one;
+  see batch 4); its rows are in batch 4's table, marked **[one]**. The wild sites' groups do not depend on the company.
 - **What is fought:** every hostile group of the first town's undertown (`s1_u_*`, from
   `data/generation/town/undertown.kyrt`) and of the first wild sites round it (`w1`–`w8`, `e1`); tame and domestic
   animals left out. Each placement of Orsino's ghoul is fought a second time with the barrow ghoul (`ghoul/barrow`,
@@ -66,17 +70,17 @@ Each cell is **win · median rounds · median harm · a death**.
 | e1_newcomers | 1 × ghoul/barrow (in place of the ghouls) (19) | 35% · 4 · 100% · 65% | 80% · 4 · 22% · 35% | 0% · – · 100% · 100% | hypothetical |
 | e1_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% | 100% · 2 · 0% · 0% | 45% · 4 · 100% · 55% | trivial |
 | e1_denned | 1 × ghoul/barrow (in place of the ghouls) (13) | 60% · 5 · 67% · 40% | 85% · 3 · 16% · 30% | 5% · 3 · 100% · 95% | hypothetical |
-| s1_u_rats | 5 × rat L1 (2/2/2/2/2) | 85% · 6 · 25% · 15% | 100% · 4 · 8% · 0% | 10% · 9 · 100% · 90% | fair |
-| s1_u_buck | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% | 100% · 2 · 0% · 5% | 85% · 4 · 18% · 15% | trivial |
-| s1_u_dead | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 95% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
-| s1_u_dead | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 15% · 4 · 100% · 85% | 30% · 7 · 100% · 80% | 0% · – · 100% · 100% | hypothetical |
-| s1_u_spiders | 2 × spider/great/cave L1 (6/7) | 35% · 4 · 100% · 65% | 80% · 3 · 46% · 45% | 0% · – · 100% · 100% | lethal |
-| s1_u_mother | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% | 95% · 3 · 21% · 25% | 10% · 6 · 100% · 90% | fair |
-| s1_u_shamblers | 3 × zombie L1 (8/6/7) | 85% · 8 · 33% · 15% | 100% · 5 · 16% · 10% | 0% · – · 100% · 100% | fair |
-| s1_u_beetles | 5 × beetle L1 (2/2/2/2/2) | 75% · 5 · 29% · 25% | 100% · 4 · 18% · 10% | 10% · 6 · 100% · 90% | fair |
-| s1_u_crawler | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% | 100% · 2 · 11% · 10% | 55% · 3 · 80% · 45% | trivial |
-| s1_u_keeper | 1 × ghoul L2 (16) | 95% · 4 · 12% · 0% | 100% · 3 · 0% · 0% | 20% · 7 · 100% · 80% | trivial |
-| s1_u_keeper | 1 × ghoul/barrow (in place of the ghouls) (16) | 60% · 5 · 75% · 40% | 90% · 3 · 17% · 30% | 0% · – · 100% · 100% | hypothetical |
+| s1_u_rats [three] | 5 × rat L1 (2/2/2/2/2) | 85% · 6 · 25% · 15% | 100% · 4 · 8% · 0% | 10% · 9 · 100% · 90% | fair |
+| s1_u_buck [three] | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% | 100% · 2 · 0% · 5% | 85% · 4 · 18% · 15% | trivial |
+| s1_u_dead [three] | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 95% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
+| s1_u_dead [three] | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 15% · 4 · 100% · 85% | 30% · 7 · 100% · 80% | 0% · – · 100% · 100% | hypothetical |
+| s1_u_spiders [three] | 2 × spider/great/cave L1 (6/7) | 35% · 4 · 100% · 65% | 80% · 3 · 46% · 45% | 0% · – · 100% · 100% | lethal |
+| s1_u_mother [three] | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% | 95% · 3 · 21% · 25% | 10% · 6 · 100% · 90% | fair |
+| s1_u_shamblers [three] | 3 × zombie L1 (8/6/7) | 85% · 8 · 33% · 15% | 100% · 5 · 16% · 10% | 0% · – · 100% · 100% | fair |
+| s1_u_beetles [three] | 5 × beetle L1 (2/2/2/2/2) | 75% · 5 · 29% · 25% | 100% · 4 · 18% · 10% | 10% · 6 · 100% · 90% | fair |
+| s1_u_crawler [three] | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% | 100% · 2 · 11% · 10% | 55% · 3 · 80% · 45% | trivial |
+| s1_u_keeper [three] | 1 × ghoul L2 (16) | 95% · 4 · 12% · 0% | 100% · 3 · 0% · 0% | 20% · 7 · 100% · 80% | trivial |
+| s1_u_keeper [three] | 1 × ghoul/barrow (in place of the ghouls) (16) | 60% · 5 · 75% · 40% | 90% · 3 · 17% · 30% | 0% · – · 100% · 100% | hypothetical |
 
 Counts: 18 trivial, 13 fair, 8 lethal; 11 hypothetical rows (the barrow ghoul in a ghoul's place).
 
@@ -171,7 +175,7 @@ Each cell is **win · median rounds · median harm · a death**, first-level com
 | w5_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | trivial → fair |
 | w6_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | trivial → fair |
 | e1_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | trivial → fair |
-| s1_u_keeper | 1 × ghoul L2 (16) | 95% · 4 · 12% · 0% / 100% · 3 · 0% · 0% / 20% · 7 · 100% · 80% | 1 × ghoul/barrow L2 (13) | 60% · 5 · 75% · 40% / 90% · 3 · 17% · 30% / 0% · – · 100% · 100% | trivial → fair |
+| s1_u_keeper [three] | 1 × ghoul L2 (16) | 95% · 4 · 12% · 0% / 100% · 3 · 0% · 0% / 20% · 7 · 100% · 80% | 1 × ghoul/barrow L2 (13) | 60% · 5 · 75% · 40% / 90% · 3 · 17% · 30% / 0% · – · 100% · 100% | trivial → fair |
 
 Verdicts over the 39 groups: before 18 trivial, 13 fair, 8 lethal; after **11 trivial, 20 fair, 8 lethal**. The pairs
 turn six of the seven trivial dens fair for a lone warrior (two zombies stay trivial); the lone thief, already the
@@ -203,24 +207,21 @@ three first-level companies, 20 seeds; each cell win · median rounds · median 
 
 | Placement | Fought in placements.md (the fixture's company of three) | Warrior / pair / thief | As real play places it (a company of one) | Warrior / pair / thief |
 |---|---|---|---|---|
-| s1_u_rats | 5 × rat L1 (2/2/2/2/2) | 85% · 6 · 25% · 15% / 100% · 4 · 8% · 0% / 10% · 9 · 100% · 90% | 3 × rat L1 (1/1/1) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 0% / 75% · 5 · 29% · 25% |
-| s1_u_buck | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 5% / 85% · 4 · 18% · 15% | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 5% / 85% · 4 · 18% · 15% |
-| s1_u_dead | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% |
-| s1_u_spiders | 2 × spider/great/cave L1 (6/7) | 35% · 4 · 100% · 65% / 80% · 3 · 46% · 45% / 0% · – · 100% · 100% | 1 × spider/great/cave L1 (6) | 80% · 2 · 17% · 20% / 100% · 2 · 12% · 5% / 40% · 2 · 100% · 60% |
-| s1_u_mother | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% / 95% · 3 · 21% · 25% / 10% · 6 · 100% · 90% | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% / 95% · 3 · 21% · 25% / 10% · 6 · 100% · 90% |
-| s1_u_shamblers | 3 × zombie L1 (8/6/7) | 85% · 8 · 33% · 15% / 100% · 5 · 16% · 10% / 0% · – · 100% · 100% | 2 × zombie L1 (8/6) | 95% · 6 · 17% · 5% / 100% · 3 · 9% · 0% / 35% · 5 · 100% · 65% |
-| s1_u_beetles | 5 × beetle L1 (2/2/2/2/2) | 75% · 5 · 29% · 25% / 100% · 4 · 18% · 10% / 10% · 6 · 100% · 90% | 3 × beetle L1 (2/2/2) | 95% · 3 · 0% · 5% / 100% · 2 · 0% · 0% / 40% · 5 · 100% · 60% |
-| s1_u_crawler | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% / 100% · 2 · 11% · 10% / 55% · 3 · 80% · 45% | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% / 100% · 2 · 11% · 10% / 55% · 3 · 80% · 45% |
-| s1_u_keeper | 1 × ghoul/barrow L2 (13) | 60% · 5 · 75% · 40% / 90% · 3 · 17% · 30% / 0% · – · 100% · 100% | 1 × ghoul/barrow L2 (13) | 15% · 4 · 100% · 85% / 80% · 3 · 40% · 40% / 5% · 3 · 100% · 95% |
+| s1_u_rats [one] | 5 × rat L1 (2/2/2/2/2) | 85% · 6 · 25% · 15% / 100% · 4 · 8% · 0% / 10% · 9 · 100% · 90% | 3 × rat L1 (1/1/1) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 0% / 75% · 5 · 29% · 25% |
+| s1_u_buck [one] | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 5% / 85% · 4 · 18% · 15% | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 5% / 85% · 4 · 18% · 15% |
+| s1_u_dead [one] | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% |
+| s1_u_spiders [one] | 2 × spider/great/cave L1 (6/7) | 35% · 4 · 100% · 65% / 80% · 3 · 46% · 45% / 0% · – · 100% · 100% | 1 × spider/great/cave L1 (6) | 80% · 2 · 17% · 20% / 100% · 2 · 12% · 5% / 40% · 2 · 100% · 60% |
+| s1_u_mother [one] | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% / 95% · 3 · 21% · 25% / 10% · 6 · 100% · 90% | 1 × spider/great/cave L2 (15) | 70% · 4 · 42% · 30% / 95% · 3 · 21% · 25% / 10% · 6 · 100% · 90% |
+| s1_u_shamblers [one] | 3 × zombie L1 (8/6/7) | 85% · 8 · 33% · 15% / 100% · 5 · 16% · 10% / 0% · – · 100% · 100% | 2 × zombie L1 (8/6) | 95% · 6 · 17% · 5% / 100% · 3 · 9% · 0% / 35% · 5 · 100% · 65% |
+| s1_u_beetles [one] | 5 × beetle L1 (2/2/2/2/2) | 75% · 5 · 29% · 25% / 100% · 4 · 18% · 10% / 10% · 6 · 100% · 90% | 3 × beetle L1 (2/2/2) | 95% · 3 · 0% · 5% / 100% · 2 · 0% · 0% / 40% · 5 · 100% · 60% |
+| s1_u_crawler [one] | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% / 100% · 2 · 11% · 10% / 55% · 3 · 80% · 45% | 1 × centipede/great L2 (7) | 100% · 2 · 7% · 0% / 100% · 2 · 11% · 10% / 55% · 3 · 80% · 45% |
+| s1_u_keeper [one] | 1 × ghoul/barrow L2 (13) | 60% · 5 · 75% · 40% / 90% · 3 · 17% · 30% / 0% · – · 100% · 100% | 1 × ghoul/barrow L2 (13) | 15% · 4 · 100% · 85% / 80% · 3 · 40% · 40% / 5% · 3 · 100% · 95% |
 
 Read candidly: as real play places it, the first town's undertown is gentler than the tables above said. The rats,
 the ghoul, the beetles and the shamblers are trivial for a lone warrior; the spider room is 80 % for him (it had read
 35 %), and the spiders' mother and the vault are its hard rooms. The husks at the adit stay right (the lone thief still
-dies there more often than not). **What it should be (not changed, for the lead):** the undertown is written for the
-company as it arrives, and a company of one is the only one that arrives. Either count the companion the first inn
-offers (`RegionRecruits.arrival`) as the company the town's troubles are written for, so a company of two meets the
-brood of two; or let the template's numbers be read when the company goes down (a rule over the company's size,
-`Numbers` from a measure) so a company that has grown meets more. The second is the honest one; the first is a line.
+dies there more often than not). **The lead's ruling (13 November): no generation change in M21.** The undertown is written for the company that sets
+out, which is one; that is real play. The two ways it could follow a company that grows are M22 notes (below).
 
 ### Attack riders: the barrow ghoul's paralysis lands on a hit
 
@@ -261,3 +262,17 @@ first town and sites, by temper:
 
 So a lone thief can see every lethal group of a1's first fights coming and leave before it closes. That it dies in
 most fights it chooses is the calling's, and the roadmap's (companions early). Closed.
+
+## M22 notes
+
+- **The undertown for a company that grows.** It is written once, for the company as it arrives (one). Two ways it
+  could follow a company that has grown by the time it goes down:
+  1. *Count the first inn's companion.* Write the town's troubles for the company that `RegionRecruits.arrival` offers
+     to make (one, and whoever would come along): a company of two meets the brood of two. A line in the writer, but it
+     guesses at a recruitment the player may not make.
+  2. *Read the company's size on the way down* (the lead: the right one, but a new mechanism). Let a band's `Numbers`
+     be a measure over the company when the company enters its rooms, not a number fixed when the country is written,
+     so a company that has grown meets more and one that has lost a member meets fewer.
+- **The vault for a lone company.** The barrow ghoul there is lethal for one alone at the first or second level and
+  fair for two of the second (above). Ruled right for M21: it is told (its warning, the attack's mark), it waits out the
+  watch, and Flight is open (`test/small/vault-told.test.ts`).
