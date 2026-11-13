@@ -1,5 +1,194 @@
 {
  "about": "The catalog's spells that have a Revised 3.5 SRD counterpart (data/sources/srd35/concordance.json), as the SRD gives them: level on the list of their tradition, school, harm (a die a caster level is roll(min(#level, 10), 6)), damage type, and the save a target makes against them (its kind, and whether a success halves or negates; none, none at all). Laid over the generated records (SrdSpells); a save named for what it guards against (paralysis, sleep, charm) keeps its name, for the immunities that read it.",
  "conversion": "srd35-westernesse-v1",
- "spells": {}
+ "spells": {
+  "blade_barrier": {
+   "srd35": "spell:blade-barrier",
+   "level": 6,
+   "school": "evocation",
+   "notes": "The SRD's Blade Barrier: level 6 (Clr), evocation; Reflex half or Reflex negates. Its reach and how long it lasts are Orsino's.",
+   "save": "reflex half"
+  },
+  "burning_hands": {
+   "srd35": "spell:burning-hands",
+   "level": 1,
+   "school": "evocation",
+   "notes": "The SRD's Burning Hands: level 1 (Sor/Wiz), evocation; 1d4 a caster level to 5d4; Reflex half. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 5), 4)",
+   "damageType": "fire",
+   "save": "reflex half"
+  },
+  "chain_lightning": {
+   "srd35": "spell:chain-lightning",
+   "level": 6,
+   "school": "evocation",
+   "notes": "The SRD's Chain Lightning: level 6 (Sor/Wiz), evocation; Reflex half. Its reach and how long it lasts are Orsino's.",
+   "save": "reflex half"
+  },
+  "cone_of_cold": {
+   "srd35": "spell:cone-of-cold",
+   "level": 5,
+   "school": "evocation",
+   "notes": "The SRD's Cone of Cold: level 5 (Sor/Wiz), evocation; 1d6 a caster level to 15d6; Reflex half. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 15), 6)",
+   "damageType": "cold",
+   "save": "reflex half"
+  },
+  "conjure_light": {
+   "srd35": "spell:light",
+   "level": 0,
+   "school": "evocation",
+   "notes": "The SRD's Light: level 0 (Sor/Wiz), evocation; None. Its reach and how long it lasts are Orsino's."
+  },
+  "create_darkness": {
+   "srd35": "spell:darkness",
+   "level": 2,
+   "school": "evocation",
+   "notes": "The SRD's Darkness: level 2 (Clr), evocation; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "dancing_lights": {
+   "srd35": "spell:dancing-lights",
+   "level": 0,
+   "school": "evocation",
+   "notes": "The SRD's Dancing Lights: level 0 (Sor/Wiz), evocation; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "daylight": {
+   "srd35": "spell:daylight",
+   "level": 3,
+   "school": "evocation",
+   "notes": "The SRD's Daylight: level 3 (Clr), evocation; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "divine_favor": {
+   "srd35": "spell:divine-favor",
+   "level": 1,
+   "school": "evocation",
+   "notes": "The SRD's Divine Favor: level 1 (Clr), evocation. Its reach and how long it lasts are Orsino's."
+  },
+  "divine_power": {
+   "srd35": "spell:divine-power",
+   "level": 4,
+   "school": "evocation",
+   "notes": "The SRD's Divine Power: level 4 (Clr), evocation. Its reach and how long it lasts are Orsino's."
+  },
+  "earthquake": {
+   "srd35": "spell:earthquake",
+   "level": 7,
+   "school": "evocation",
+   "notes": "The SRD's Earthquake: level 7 (Earth), evocation; 8d6; See text. Its reach and how long it lasts are Orsino's.",
+   "harm": "8d6"
+  },
+  "fire_storm": {
+   "srd35": "spell:fire-storm",
+   "level": 7,
+   "school": "evocation",
+   "notes": "The SRD's Fire Storm: level 7 (Drd), evocation; 1d6 a caster level to 20d6; Reflex half. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 20), 6)",
+   "damageType": "fire",
+   "save": "reflex half"
+  },
+  "fireball": {
+   "srd35": "spell:fireball",
+   "level": 3,
+   "school": "evocation",
+   "notes": "The SRD's Fireball: level 3 (Sor/Wiz), evocation; 1d6 a caster level to 10d6; Reflex half. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 10), 6)",
+   "damageType": "fire",
+   "save": "reflex half"
+  },
+  "holy_wrath": {
+   "srd35": "spell:holy-smite",
+   "level": 4,
+   "school": "evocation",
+   "notes": "The SRD's Holy Smite: level 4 (Good), evocation; 1d8 a two caster levels to 5d8; Will partial. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(floor(#level / 2), 5), 8)",
+   "save": "will negates"
+  },
+  "ice_storm": {
+   "srd35": "spell:ice-storm",
+   "level": 4,
+   "school": "evocation",
+   "notes": "The SRD's Ice Storm: level 4 (Sor/Wiz), evocation; 3d6; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "3d6",
+   "damageType": "cold",
+   "save": "none"
+  },
+  "implosion": {
+   "srd35": "spell:implosion",
+   "level": 9,
+   "school": "evocation",
+   "notes": "The SRD's Implosion: level 9 (Clr), evocation; Fortitude negates. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "lightning_bolt": {
+   "srd35": "spell:lightning-bolt",
+   "level": 3,
+   "school": "evocation",
+   "notes": "The SRD's Lightning Bolt: level 3 (Sor/Wiz), evocation; 1d6 a caster level to 10d6; Reflex half. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 10), 6)",
+   "damageType": "electric",
+   "save": "reflex half"
+  },
+  "magic_missile": {
+   "srd35": "spell:magic-missile",
+   "level": 1,
+   "school": "evocation",
+   "notes": "The SRD's Magic Missile: level 1 (Sor/Wiz), evocation; 1d4+1; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "1d4 + 1",
+   "damageType": "force",
+   "save": "none"
+  },
+  "meteor_swarm": {
+   "srd35": "spell:meteor-swarm",
+   "level": 9,
+   "school": "evocation",
+   "notes": "The SRD's Meteor Swarm: level 9 (Sor/Wiz), evocation; 2d6; None or Reflex half. Its reach and how long it lasts are Orsino's.",
+   "harm": "2d6",
+   "damageType": "fire",
+   "save": "none"
+  },
+  "polar_ray": {
+   "srd35": "spell:polar-ray",
+   "level": 8,
+   "school": "evocation",
+   "notes": "The SRD's Polar Ray: level 8 (Sor/Wiz), evocation; 1d6 a caster level to 25d6; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 25), 6)",
+   "damageType": "cold",
+   "save": "none"
+  },
+  "prismatic_spray": {
+   "srd35": "spell:prismatic-spray",
+   "level": 7,
+   "school": "evocation",
+   "notes": "The SRD's Prismatic Spray: level 7 (Sor/Wiz), evocation; See text. Its reach and how long it lasts are Orsino's."
+  },
+  "ray_of_frost": {
+   "srd35": "spell:ray-of-frost",
+   "level": 0,
+   "school": "evocation",
+   "notes": "The SRD's Ray of Frost: level 0 (Sor/Wiz), evocation; 1d3; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "1d3",
+   "damageType": "cold",
+   "save": "none"
+  },
+  "shocking_grasp": {
+   "srd35": "spell:shocking-grasp",
+   "level": 1,
+   "school": "evocation",
+   "notes": "The SRD's Shocking Grasp: level 1 (Sor/Wiz), evocation; 1d6 a caster level to 5d6; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(#level, 5), 6)",
+   "damageType": "lightning",
+   "save": "none"
+  },
+  "sunburst": {
+   "srd35": "spell:sunburst",
+   "level": 8,
+   "school": "evocation",
+   "notes": "The SRD's Sunburst: level 8 (Drd), evocation; 6d6; Reflex partial. Its reach and how long it lasts are Orsino's.",
+   "harm": "6d6",
+   "save": "reflex negates"
+  }
+ }
 }

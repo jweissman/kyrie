@@ -47,7 +47,8 @@ export class FirstSpells {
   // The spells shown for a specialization, in the order known: cantrips, the calling's own, then the picks by level.
   static shown(id: string, own: string[], picks: string[]): FirstSpell[] {
     const cantrips = SpellSelection.plan(this.trait(id)).cantrips;
-    return [...cantrips, ...own, ...picks].map(s => this.spell(s, own.includes(s)));
+    // Each once: a spell the calling teaches may be a cantrip of its school too (the SRD's Light, of evocation).
+    return [...new Set([...cantrips, ...own, ...picks])].map(s => this.spell(s, own.includes(s)));
   }
   private static trait(id: string): Trait {
     const t = Canon.traits[id];

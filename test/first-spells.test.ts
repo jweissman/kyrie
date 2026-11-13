@@ -51,7 +51,7 @@ describe('the spells shown at creation', () => {
     expect(cleric.map(t => t.name)).toEqual(domains.map(d => d.charAt(0).toUpperCase() + d.slice(1)));
     expect(cleric.find(t => t.id === 'vitalist')).toMatchObject({ name: 'Life', title: 'Vitalist', who: 'cleric of Life' });
     const missile = SpellLines.of(Content.abilities.find(a => a.id === 'magic_missile')!);
-    expect(missile).toBe('1d4 force to three foes at random');
+    expect(missile).toBe('1d4+1 force to three foes at random');
   });
   it('gives a mage the Light its calling teaches, and never as one of its picks', () => {
     for (const t of catalog.callings.find(c => c.id === 'mage')!.specializations) {
