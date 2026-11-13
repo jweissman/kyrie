@@ -147,9 +147,11 @@ export class GlanceStage {
       {screen.dark && <p className="dark-note">{Told.unlit}</p>}
       {/* A danger before the place's telling: under it, its words had been below the fold (round 4, E 61). */}
       {g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
-      <Told.Setting app={app} />
-      {!g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
-      {g.goal && !s.opened && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
+      {/* A lens on (Go, Look, Wait) has the room: the place by its first paragraph, nothing more of it until the lens
+          is put away (Mission 21's scenes: the time lens had sat under five paragraphs at an iPad's height). */}
+      <Told.Setting app={app} brief={!!s.exploring} />
+      {!g.life?.danger && !s.exploring && <GlanceStage.Life app={app} glance={g} />}
+      {g.goal && !s.opened && !s.exploring && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
         {Typography.curl(Words.upper(g.goal))}
         {/* Offered to follow where it is said: Follow this had been only in the Notes (round 13, PL-30). */}
         {own && <Told.Follow app={app} id={own.id} />}</p>}
@@ -209,7 +211,8 @@ export class GlanceStage {
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}
-        {found && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])}
+        {/* With the rail, the thing at hand is the Look mark's (its pip), not a bare word in the column. */}
+        {found && !railed && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])}
           act />}
         {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
         {!railed && hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
@@ -233,12 +236,24 @@ export class GlanceStage {
     const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return null; }
     // With nothing promoted (the time lens's waits, which no reason ranks), its acts are shown as they stand, in order.
-    const none = !lensed.promoted.length, all = none || app.state.open.includes(`lens:${lens}`), rest = lensed.rest;
+    // An opener among them (a thing's look, with no act of its own) is drawn as what it opens, its leaves (Lensed.leaves),
+    // under the thing's name: chosen, it had turned the page to the thing, and done there, the thing's page stayed with
+    // only Back on it (Low Water's channel head, in the browser).
+    const leaves = lensed.leaves ?? {}, opens = (a: { choice: string }) => !!leaves[a.choice]?.length;
+    const inside = (a: LensAct): LensAct[] => (leaves[a.choice] ?? []).map(l => ({ ...l, subject: l.subject ?? a.subject ?? a.choice }));
+    const promoted = lensed.promoted.filter(p => !opens(p)), opened = lensed.promoted.filter(opens);
+    const rest = lensed.rest.flatMap(a => opens(a) ? inside(a) : [a]);
+    const none = !promoted.length && !opened.length, all = none || app.state.open.includes(`lens:${lens}`);
+    const given = new Set([...lensed.promoted, ...lensed.rest, ...Object.values(leaves).flat()].map(a => a.choice));
     return <div className={`lens lens-${lens}`} data-lens={lens}>
-      <GlanceStage.Acts app={app} draw={draw} acts={lensed.promoted} />
+      <GlanceStage.Acts app={app} draw={draw} acts={promoted} />
+      {opened.map(o => <div key={o.choice} className="lens-group lens-opened" data-subject={o.subject ?? o.choice}>
+        <p className="label">{Typography.curl(Words.upper(GlanceStage.named(app, o.subject ?? '') || o.label))}</p>
+        <ul className="acts">{inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} /></li>)}</ul>
+      </div>)}
       {rest.length > 0 && !none && <button type="button" className="quiet-word lens-all" data-action="lens-all" aria-expanded={all}
         onClick={() => app.setState({ open: all ? app.state.open.filter(o => o !== `lens:${lens}`) : [...app.state.open, `lens:${lens}`] })}>
-        {all ? 'Fewer' : `All ${rest.length + lensed.promoted.length}`}</button>}
+        {all ? 'Fewer' : `All ${rest.length + promoted.length + opened.flatMap(inside).length}`}</button>}
       {all && <ul className="acts lens-rest">{GlanceStage.grouped(rest).map(g => g.subject
         ? <li key={g.subject} className="lens-group" data-subject={g.subject}>
           <p className="label">{Typography.curl(Words.upper(GlanceStage.named(app, g.subject)))}</p>
@@ -246,10 +261,12 @@ export class GlanceStage {
         : g.acts.map(a => <li key={a.choice}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>))}</ul>}
       {/* What is on a way off this place (a tripwire, a door's words), which the things lens does not hold yet: under
           the thing's name, its acts the menu's own (AtHand.onWays, as Look… had them). */}
+      {/* Its acts the lens gives already (Promotion's things on ways) are not drawn again: only the thing's words, and
+          what the lens does not give yet. */}
       {lens === 'things' && AtHand.onWays(app).map(h => <div key={h.id} className="lens-group lens-on-way" data-subject={h.id}>
         <p className="label">{Typography.curl(Words.upper(h.name))}</p>
         {h.seen.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}
-        <ul className="acts">{h.choices.filter(c => draw.index.has(c.id)).map(c => <li key={c.id}><ChoiceRow.Act choice={c}
+        <ul className="acts">{h.choices.filter(c => draw.index.has(c.id) && !given.has(c.id)).map(c => <li key={c.id}><ChoiceRow.Act choice={c}
           draw={draw} label={Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))} />
           <PlaceStage.Opened choice={c} draw={draw} /></li>)}</ul></div>)}
       {/* What the company can do of itself (prepare a spell, light a candle), which no lens holds yet: with time, as

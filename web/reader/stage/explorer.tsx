@@ -62,10 +62,13 @@ export class Explorer {
     // touched once in Go… that asked first is asked again (it goes at a click now: see Wayfinder.go), not taken by the
     // next touch of it elsewhere.
     // The things lens holds what is on a way too (AtHand.onWays), its acts open, so the menu has them (see Lens).
-    const ways = part === 'look' ? AtHand.onWays(app).flatMap(h => h.opens) : [];
+    // And every opener the lens draws by what it opens (Lensed.leaves), so that the menu has each act within it.
+    const lens = part === 'look' ? 'things' : part === 'go' ? 'places' : part === 'wait' ? 'time' : undefined;
+    const inner = Object.keys((lens && app.state.frame?.leaf.glance?.lenses?.[lens]?.leaves) ?? {});
+    const ways = [...part === 'look' ? AtHand.onWays(app).flatMap(h => h.opens) : [], ...inner];
     app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
       confirming: undefined,
-      open: wait ? [wait] : held ? [...held.opens, ...ways] : ways.length ? ways : app.state.open });
+      open: wait ? [wait, ...inner] : held ? [...new Set([...held.opens, ...ways])] : ways.length ? ways : app.state.open });
   }
   // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way
   // chosen), Esc to put it away. Nothing under it is done unseen.
