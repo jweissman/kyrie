@@ -106,7 +106,7 @@ Results on the branch head:
 * **Full suite.** `bun test --parallel`, without the long Deem proof: 811 pass, 33 skip, 0 fail. That is 844 tests
   across 173 files, in 403 s. The browser tests are gated, and were run on their own.
 * **Transcripts.** `bun scripts/low-water-transcripts.ts` rewrites six transcripts in
-  [doc/playtests/low-water-2026-10-25](../../playtests/low-water-2026-10-25): the Accord, the Open Bowl, the End of
+  [doc/history/playtests/low-water-2026-10-25](../../history/playtests/low-water-2026-10-25): the Accord, the Open Bowl, the End of
   the Song, the Census Heard, the Account Delivered and the False Measure.
 
 **Not journeyed.** Paying the Assayers with the cup of still water; the Auditor's reply when the Council's verdict is

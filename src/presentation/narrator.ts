@@ -1,4 +1,5 @@
 import { Sentences } from './sentences';
+import { Costs } from '../costs';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { SecondPerson } from './second-person';
 import type { Entity, Observation, Shelter } from '../lang/module';
@@ -14,6 +15,7 @@ import type { Opening, Told as Opened } from './prologue';
 import { Succession } from './succession';
 import { Compass } from './compass';
 import { Likenesses } from './likenesses';
+import { LensSubjects } from './lens-subjects';
 import { Glance } from './glance';
 import { SceneBudget } from './scene-budget';
 import type { Glance as GlanceView } from './glance-types';
@@ -63,7 +65,8 @@ export class Narrator {
   // The composer's naming of a place for a kit's word (see KitWord.requests): it teaches, and says nothing.
   static readonly naming = /Name__named(@|$)/;
   // opening: what an opening told before the first place (see Prologue), which the place leaves out.
-  static leaf(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
+  static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf { return Costs.time('leaf', () => Narrator.leafed(...a)); }
+  private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
     const seenBefore = this.seenBefore(campaign);
     const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);
@@ -139,8 +142,8 @@ export class Narrator {
     });
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
     const glance = Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening });
-    return { ...leaf, glance: Likenesses.with({ ...glance, ...Succession.next(campaign, screen, told),
-      ...Compass.of(campaign, screen, glance) }) };
+    return { ...leaf, glance: Likenesses.with(LensSubjects.with(campaign, screen, { ...glance,
+      ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) })) };
   }
   // Whether what is seen is a thing's state that the command itself set.
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {

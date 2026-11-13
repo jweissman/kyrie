@@ -2,7 +2,7 @@ import { Spatial } from '../spatial';
 import type { DiscoveryDefinition } from '../information/discovery';
 import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature, WorldRule } from './module';
 import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } from './world-constructs';
-import { ItemCatalog } from '../item-catalog';
+import { Vocabularies } from './vocabulary';
 import { PersonParser } from './person-parser';
 import { Endings, type EndingSpec } from './endings';
 import { Chapters, type ChapterSpec } from './chapters';
@@ -58,7 +58,7 @@ export class ModuleDeclarations {
       case 'passage': WorldConstructs.passage(module, value as PassageSpec); break;
       case 'company': PersonParser.company(module, value as NonNullable<Module['company']>); break;
       case 'item': WorldConstructs.item(module, value as { id: string; name?: string; kind: string; place?: string },
-        ItemCatalog.definitions[(value as { kind: string }).kind]?.name); break;
+        Vocabularies.kind((value as { kind: string }).kind)?.name); break;
       case 'thing': WorldConstructs.thing(module, value as ThingSpec); break;
       case 'event': WorldConstructs.event(module, value as EventSpec); break;
       case 'ending': Endings.lower(module, value as EndingSpec); break;

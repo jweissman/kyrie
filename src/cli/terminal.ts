@@ -1,6 +1,7 @@
 import { TerminalInput, type Asking } from './terminal-input';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
+import { TerminalSigns, type Signed } from './terminal-signs';
 import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
 import { Typography } from '../presentation/typography';
@@ -28,7 +29,7 @@ import type { Aspect, Glance, Lens, Promoted, Successor } from '../presentation/
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
-interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[] }
+interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; lens?: { name: Lens; more: number } }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
@@ -61,7 +62,7 @@ export class Terminal {
       if (shown.length < choices.length) { console.log(`(${choices.length - shown.length} more: all)`); }
       const answer = await input.ask('Action number or name, auto, or q: ');
       if (answer === null || answer === 'q') { return null; }
-      if (answer === 'all') { every = true; continue; }
+      if (answer === 'all' || answer === 'more') { every = true; continue; }
       if (answer === 'auto') { return Tactics.choose(state, legal); }
       const choice = choices[Number(answer) - 1]
         ?? choices.find(c => c.ability.name.toLowerCase() === answer.toLowerCase());
@@ -154,6 +155,8 @@ export class Terminal {
           targets: [a.command.slice('travel:'.length)] });
       }
     }
+    const signs = new TerminalSigns(screen, glance);
+    for (const c of all) { Object.assign(c, { signed: signs.on(c.id) }); }
     const byId = new Map(all.map(c => [c.id, c]));
     // What the page leads with inside a talk (the question the aim waits on, Promoted.inside) is offered as itself:
     // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
@@ -178,8 +181,8 @@ export class Terminal {
     const chosen = lensed ? lensed.promoted.map(a => a.command ?? a.choice) : [...new Set(ids)];
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
-    return { all, first: (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c)),
-      ...lensed ? { lens: { name: lens, more } } : {} };
+    const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
+    return { all, first: shown, ...lensed ? { lens: { name: lens, more } } : { more: all.length - shown.length } };
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
@@ -190,11 +193,23 @@ export class Terminal {
     console.log(`\nNext: ${Typography.plain(next.text)}${next.at ? ` (${next.at})` : ''}`
       + `${next.aim ? ` · follow ${n}` : typed ? ` · ${Typography.plain(typed)}` : ''}`);
   }
-  // What the page leads with, by the command each is done by: the glance's quiet row of ways is by exit, and a way
-  // in once gone through (Ísencepan's gate, after its gate-passage) had dropped from the foreground (round 13, PL-26).
+  // Where the rest lies: each lens by how many it holds, as the page's rail opens them; the journeys the page puts on
+  // its map (49 in a1's first scene, 42 of them set-outs to places known, had been one list under `all`); and `all`.
+  private static more(glance: Glance | undefined, all: Listed[], n: number): string {
+    const lenses = Object.entries(glance?.lenses ?? {}).map(([name, l]) => `${name} ${l.promoted.length + l.rest.length}`)
+      .filter(said => !said.endsWith(' 0'));
+    const journeys = all.filter(c => c.id.startsWith('travel:')).length;
+    return `(more: ${[...lenses, ...journeys ? [`map ${journeys}`] : [], `all ${n}`].join(' · ')})`;
+  }
+  // What the page leads with, by the command each is done by: the scene's four (Glance.offer, the same four the page
+  // draws: TB-01, TB-02), an opener by the act within it that it is led for (the question the aim waits on), a way by
+  // its exit's command. A way in once gone through (Ísencepan's gate) had dropped from the foreground (PL-26).
   static led(glance: Glance | undefined, screen: Screen): string[] {
-    return [...glance?.acts.flatMap(a => [...a.inside?.map(x => x.command) ?? [], a.command ?? a.choice]) ?? [],
-      ...(glance?.ways ?? []).map(id => this.way(screen, id))];
+    const acts = new Map((glance?.acts ?? []).map(a => [a.choice, a]));
+    return (glance?.offer?.primary ?? []).map(o => {
+      const a = acts.get(o.choice);
+      return a?.inside?.[0]?.command ?? a?.command ?? o.command ?? this.way(screen, o.choice);
+    });
   }
   private static way(screen: Screen, id: string): string {
     return screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command ?? id;
@@ -225,7 +240,7 @@ export class Terminal {
   private static choices(rows: Listed[]) {
     const depth = TerminalColour.depth();
     rows.forEach((c, i) => console.log(TerminalColour.choice(i + 1,
-      `${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`, c.aspects ?? [], depth)));
+      `${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`, { ...c.signed, aspects: c.aspects ?? [] }, depth)));
   }
   // A journey's legs, one line each, and why it stopped short, as the page's map tells them.
   private static journey(session: PlaySession) {
@@ -287,7 +302,7 @@ export class Terminal {
         console.log('');
         if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
         this.choices(offered.first);
-        if (offered.more) { console.log(`(${offered.more} more: all)`); }
+        if (offered.more) { console.log(this.more(leaf.glance, offered.all, offered.more)); }
         // The commands when asked, and a word of where they are once: a line said the same after every act, and a
         // heading over the choices, are static context (the owner, 14 November: TM-02).
         if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }
@@ -320,7 +335,7 @@ export class Terminal {
     if (/^(follow \d+|unfollow)$/.test(answer)) {
       this.aims(session, answer); turn.current = undefined; turn.told = undefined; turn.attended = true; return true;
     }
-    if (answer === 'all') { console.log('\nAll legal interactions'); this.choices(all); return true; }
+    if (answer === 'all' || answer === 'more') { console.log('\nAll legal interactions'); this.choices(all); return true; }
     if (!answer.startsWith('save ')) { return false; }
     const path = answer.slice(5).trim();
     if (!path) { console.log('Name a save path.'); return true; }

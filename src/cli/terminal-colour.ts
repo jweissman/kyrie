@@ -1,5 +1,7 @@
 import { Emphasis, type Tone } from '../presentation/emphasis';
+import { Signs } from '../presentation/signs';
 import type { Aspect } from '../presentation/glance-types';
+import type { Signed } from './terminal-signs';
 
 export type Depth = 'true' | '256' | 'none';
 
@@ -33,18 +35,27 @@ export class TerminalColour {
     return 16 + 36 * this.level(r) + 6 * this.level(g) + this.level(b);
   }
   private static level(v: number): number { return v < 48 ? 0 : v < 115 ? 1 : Math.min(5, Math.floor((v - 35) / 40)); }
-  // A choice drawn: its bar (or its words, without colour) around its words.
-  static choice(n: number, label: string, aspects: readonly Aspect[], depth: Depth): string {
-    const tones = aspects.map(a => Emphasis.tones[a]).slice(0, 3);
+  // A choice drawn: its pip (or its words, without colour) before its words, and after them what the page draws beside
+  // them (Signs): the hold's sign, its minutes, what it risks, what is perceived that way. Perceived and not here, its
+  // tone is faint; a way with nothing new is dim, or said so.
+  static choice(n: number, label: string, signed: Signed & { aspects?: readonly Aspect[] }, depth: Depth): string {
+    const aspects = signed.aspects ?? [], tones = aspects.map(a => Emphasis.tones[a]).slice(0, 3);
+    const after = [...signed.tags ?? [], ...signed.sensed && !aspects.length ? [Signs.sensed(signed.sensed)] : [],
+      ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
+    const words = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;
     if (depth === 'none') {
-      return `${n}. ${label}${aspects.length ? `  [${aspects.map(a => Emphasis.words[a]).join(', ')}]` : ''}`;
+      return `${n}. ${words}${after}${aspects.length ? `  [${aspects.map(a => Emphasis.words[a]).join(', ')}]` : ''}`;
     }
     // One pip. Where an act is several things at once, the pip is its first two tones in one cell, the half block in
     // the first over a ground of the second: the page's prism, a gradient through its tones, kept in one place. The
     // tones' mean in OKLab would be grey for gold and blue, which says nothing. It had been a bar for each (the
     // owner, 14 November: "not a blended pip but just doubled").
+    const faint = !tones.length && signed.sensed ? this.dim(this.paint(Emphasis.tones[signed.sensed], '▌', depth), depth)
+      : undefined;
     const bar = tones.length > 1 ? this.halves(tones[0]!, tones[1]!, depth) : tones.length ? this.paint(tones[0]!, '▌', depth)
-      : ' ';
-    return `${bar}   ${n}. ${label}`;
+      : faint ?? ' ';
+    const line = `${n}. ${words}${after}`;
+    return `${bar}   ${signed.idle ? this.dim(line, depth) : line}`;
   }
+  static dim(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[2m${text}\x1b[22m`; }
 }

@@ -1,11 +1,9 @@
 import { Memorials, type Memorial } from './memorial';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
-import { RandomStreams } from '../random-streams';
-import type { BundleSource } from '../campaign/bundle-source';
-import type { BundleRequest } from '../campaign/module-bundle';
-import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
-import { Expressions } from '../expressions';
+import { RandomStreams } from '../random-streams'; import { Costs } from '../costs';
+import type { BundleSource } from '../campaign/bundle-source'; import type { BundleRequest } from '../campaign/module-bundle';
+import { OverlayBundleSource } from '../campaign/overlay-bundle-source'; import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import { Overlays } from '../overlays';
 import { PlaceNames } from './place-names';
@@ -84,7 +82,8 @@ export class WorldAssembler {
     { name: 'Bran', raceId: 'human', classId: 'warrior', backgroundId: 'locksmith', traits: ['toughness'] },
     { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
-  static async assemble(seed: string, base: BundleSource, options: {
+  static assemble(...a: Parameters<typeof WorldAssembler.built>) { return Costs.timed('world', () => this.built(...a)); }
+  private static async built(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;
     party?: CreatureGenerationContext[]; origin?: string; framework?: string | null;
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
@@ -102,6 +101,8 @@ export class WorldAssembler {
     // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a
     // harbour's at the head of a firth from the sea, let in then).
     region.provinces = await Provinces.regions(Provinces.flood(region, Provinces.situate(region)), base);
+    // Its old places called by their Common meaning, their old names to be learned (see OldPlaces).
+    region.sites = PlaceNames.called(region);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
     const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.fixture)[0]!, !!options.party)]
@@ -134,9 +135,8 @@ export class WorldAssembler {
         + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
         + 'Choose three companions.' } });
-    return { path, source: new OverlayBundleSource(base, files),
-      report: { seed, region, context, placements, contacts,
-        eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
+    return { path, source: new OverlayBundleSource(base, files), report: { seed, region, context, placements, contacts,
+      eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
   }
   // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where
   // it lies in the world, with its own scenarios (none placed anywhere already), and no company of its own. The
@@ -163,7 +163,8 @@ export class WorldAssembler {
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
-  static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
+  static region(...a: Parameters<typeof WorldAssembler.drew>): Region { return Costs.time('region', () => this.drew(...a)); }
+  private static drew(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
     { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.land(seed, at, drawn);

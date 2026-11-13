@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Journey } from '../src/session/journey';
 
-// Let One Remember, second pass (doc/architecture/activation/corpus/second-pass.md): the endings, and the
+// Let One Remember, second pass (doc/history/activation/corpus/second-pass.md): the endings, and the
 // opposition that
 // acts. Played by the labels a player sees. The Act V endings are played from the Act V fixture (its first step, "Begin
 // Act V", is that fixture's: the company is placed on the ledge by the fixture and carries the needle and the

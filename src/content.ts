@@ -1,4 +1,6 @@
 import { Spellcasting } from './rules/spellcasting';
+import './canon/canon-vocabulary';
+import { Costs } from './costs';
 import { buildSetting, Generator, Template } from 'deem';
 import type { DeemValue } from 'deem';
 import { Expressions } from './expressions';
@@ -140,6 +142,9 @@ export class Content {
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
   // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
   createCreature(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
+    return Costs.time('creature', () => this.created(id, asked, randomIdentity), { id: asked.raceId ?? asked.classId ?? id });
+  }
+  private created(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
     // A kind by a name it was once known by (organisms.json's grey wolf is the wolf: data/catalog/aliases.json).
     const context = asked.raceId ? { ...asked, raceId: Canon.resolve('species', asked.raceId) as RaceId } : asked;
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }

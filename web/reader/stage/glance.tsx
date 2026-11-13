@@ -29,6 +29,7 @@ import { Scrolled } from './scrolled';
 import { Attention } from './attention';
 import { ChoiceRow } from './choice-row';
 import { Look } from '../look';
+import { Signs } from '../../../src/presentation/signs';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
 // one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
@@ -563,7 +564,7 @@ export class GlanceStage {
         onClickCapture={() => { if (w.c.disabled) { app.hover(w.c.id); } }}>
         <Act.View choice={w.c} draw={draw} quiet variant="glyph" className={`way-tile${w.aim ? ' aimed' : ''}`}>
           <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
-            {w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither)}</span>
+            {Signs.way(w.whither, !!w.c.disabled)}</span>
           <span className="n">{GlanceStage.short(w.exit?.destination.name ?? w.c.label.replace(/^To /, ''))}</span>
         </Act.View></li>)}</ul></div>;
     return (

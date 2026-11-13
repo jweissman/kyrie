@@ -1,7 +1,7 @@
 import { Journey } from '../../src/session/journey';
 
 // The steps of Low Water's journeys, as a player takes them, by the labels the page offers (test/low-water.test.ts;
-// scripts/low-water-transcripts.ts writes the long ones out as the page told them, for doc/playtests).
+// scripts/low-water-transcripts.ts writes the long ones out as the page told them, for doc/history/playtests).
 export const campaign = 'data/campaigns/low-water.campaign.json';
 export const L = (id: string) => `lowwater__${id}`;
 export class Bowl {

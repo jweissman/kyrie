@@ -1,7 +1,7 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { WorldConstructs, type ThingSpec } from './world-constructs';
-import { ItemCatalog } from '../item-catalog';
+import { Vocabularies } from './vocabulary';
 import { ModuleWriter } from './module-writer';
 import type { Change, Module, Person, Predicate } from './module';
 import { ObjectParser } from './object-parser';
@@ -289,7 +289,7 @@ export class PersonParser {
     PersonParser.manner(module, p.id, temperament, manner);
     // One nowhere who comes somewhere sets out their stock where they come.
     WorldConstructs.offers(module, { ...p, place: p.place ?? p.arrives?.place },
-      kind => ItemCatalog.definitions[kind]?.name);
+      kind => Vocabularies.kind(kind)?.name);
     // A person's role follows their name ("Garth, shepherd"), unless it only repeats it, or it is what each
     // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
     const each = (p.count ?? 1) > 1 && !/ and |,/.test(p.role ?? '');

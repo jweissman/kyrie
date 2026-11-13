@@ -3,7 +3,7 @@
 > **Standing, 6 November 2026** (the documentation reconciliation; the text below is unchanged). §1 and the
 > interaction doctrine from §3 on remain the direction. **§2's white ground is superseded** by Mission 18's A2, the
 > owner's commission of 28 October: "near-black or charcoal ground, luminous purposeful colour"
-> ([../architecture/mission-18/brief.md](../architecture/mission-18/brief.md)), which the game now has; the Mission 18
+> ([../architecture/mission-18/brief.md](../history/missions/18/brief.md)), which the game now has; the Mission 18
 > audit asked for this note (SLIP-06). The independent product-design review of 4 November argues again for "bright
 > literary modernism" as the visual direction; the owner has not reconciled the two, so the palette is an open
 > decision, not a settled one.

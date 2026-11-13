@@ -8,7 +8,7 @@ import { Expressions } from '../src/expressions';
 import { Burden } from '../src/rules/burden';
 import { Checks } from '../src/rules/checks';
 
-// The item audit's gaps in what the runtime does (doc/architecture/mission-19/items.md): a ring of regeneration's
+// The item audit's gaps in what the runtime does (doc/history/missions/19/items.md): a ring of regeneration's
 // mending had been summed with what its wearer wears and never run (G5); a wand used out of a fight had been used up
 // whole, its fifteen charges with it, where in a fight it kept what it had left (G8); what a thing worn adds to a
 // quality had counted only in a fight, so a belt of giant strength let no one carry more nor force a door (G9); and one

@@ -152,6 +152,11 @@ export class PlaceNames {
     return WorldShape.named(region.great, this.named(region, this.tongues[region.ancestry] ?? 'westron').name
       ?? region.name);
   }
+  // A place's name in Common, its words apart, from what it means (the Cold Barrow): the starting country's first
+  // name for an old place (see OldPlaces).
+  static inCommon(place: { feature?: string; affix?: string }): string | undefined {
+    return this.named(place, 'common', true).name;
+  }
   // In Common a site's words stand apart (the Cold Barrow), and the name needs no meaning told.
   private static named(place: { feature?: string; affix?: string }, tongue: string, apart = false): Partial<Named> {
     // A part drawn twice ("fen" and "fen") is said once.

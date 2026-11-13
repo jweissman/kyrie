@@ -2,7 +2,7 @@
 
 This guide takes you from an empty folder to a playable region: a village with an inn and a shop, the people who
 keep them, a ruin across the water, and a situation installed in it. Everything below uses only the recommended
-vocabulary ([ontology.md](../architecture/ontology.md)). The example is checked by `test/authoring-guide.test.ts`,
+vocabulary ([ontology.md](../history/architecture-2026-10/ontology.md)). The example is checked by `test/authoring-guide.test.ts`,
 which pulls the code blocks out of this file, installs them and plays them, so the example always works.
 
 You need three files:
@@ -952,7 +952,7 @@ The example above is a village; an adventure of your own will want more. Each co
 smallest module that uses it, under `test/fixtures/probes`, and `test/authorability-probes.test.ts` plays each one.
 They answer the findings of an author who wrote a whole adventure in Kyr (the ledger of The House That Grows, on the
 branch `house-that-grows-authoring`); the response to each finding is
-[doc/authoring/findings-response.md](findings-response.md).
+[doc/authoring/findings-response.md](../history/reviews/findings-response.md).
 
 ### Making one thing of two
 

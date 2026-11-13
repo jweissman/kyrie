@@ -2,7 +2,7 @@ Module dorothea "The Dorothea" {
   // ── The other end of the same works ─────────────────────────────────────────────────────────────────────────────
   // The Pharos is the chimney of an engine that counts. On the mainland coast, down the road from Tolleth, a lamp on a
   // causeway rock burns oil of the same make over a cistern that rises and falls with the tide (data/adventures/skerrow,
-  // the Light on Scarth Holm). They are one works from its two ends and not one rock; doc/architecture/activation/
+  // the Light on Scarth Holm). They are one works from its two ends and not one rock; doc/history/activation/
   // corpus/dorothea-skerrow.md says why. Each tells the other as news, by `befell`. What the Pharos came to is told once,
   // as the ketch leaves the island.
   Rule pharos_word_dark when homeward(hull) and bound(hull) == 1 and not pilotLit(party) and (lampOut(party) or brakeThrown(party)) and not befell(pharos_dark) { Assert befell(pharos_dark). }

@@ -1,5 +1,5 @@
 {
-  "about": "The emblems: one line glyph for each thing a player chooses or meets by kind (a reason for coming, a life, a people, a calling, a school, a god, a way, what a spell is for), drawn in light, single strokes on a 48 by 48 ground, no letters. Each is keyed by the id of what it stands for, the same in creation, in play and in the Encyclopedia of Imbar; a thing with no emblem here shows its name alone.",
+  "about": "The emblems: one line glyph for each thing a player chooses or meets by kind (a reason for coming, a life, a people, a calling, a school, a god, a way, what a spell is for), drawn in light, single strokes on a 48 by 48 ground, no letters. Each is keyed by the id of what it stands for, the same in creation, in play and in the Encyclopedia of Imbar; a thing with no emblem here shows its name alone. Each set's `text` gives each emblem as one character (unicode, or an emoji where unicode has no fitting sign), for a client drawn in text (the terminal) or a page with no room for a line glyph: the same thing, said the same everywhere.",
   "sets": {
     "reasons": {
       "about": "Reasons for coming.",
@@ -12,6 +12,16 @@
         "map": "M8 12l10-4 12 4 10-4v28l-10 4-12-4-10 4zM18 8v28M30 12v28M33 20l4 4M37 20l-4 4",
         "lost": "M20 9a4 4 0 0 1 8 0M17 13h14v3H17zM18 16h12v17H18zM24 21v7M16 33h16v4H16z",
         "courier": "M8 14h32v22H8zM8 14l16 13 16-13M24 31a3.5 3.5 0 1 0 .01 0"
+      },
+      "text": {
+        "debt": "◎",
+        "herbs": "⚘",
+        "kin": "⌂",
+        "order": "▤",
+        "wanderer": "⇝",
+        "map": "▦",
+        "lost": "☼",
+        "courier": "✉"
       }
     },
     "lives": {
@@ -31,6 +41,22 @@
         "life_trade": "M24 6v34M16 40h16M10 12h28M10 12l-5 12h10zM38 12l-5 12h10z",
         "life_court": "M8 36L6 14l10 9 8-13 8 13 10-9-2 22zM8 41h32",
         "life_margins": "M10 26h28c0 8-6 14-14 14S10 34 10 26zM31 22l7-15M17 8c2 4 2 8 0 12"
+      },
+      "text": {
+        "life_wild": "♣",
+        "life_roads": "∴",
+        "life_mechanisms": "⚙",
+        "life_shadows": "◐",
+        "life_healing": "⚕",
+        "life_faith": "☩",
+        "life_learning": "✎",
+        "life_earth": "⚒",
+        "life_arms": "⚔",
+        "life_water": "≈",
+        "life_stage": "♪",
+        "life_trade": "⚖",
+        "life_court": "♛",
+        "life_margins": "◡"
       }
     },
     "peoples": {
@@ -51,6 +77,23 @@
         "undine": "M24 6c-6 10-12 16-12 24a12 12 0 0 0 24 0c0-8-6-14-12-24zM18 30c0 4 3 6 6 6",
         "birdfolk": "M14 42L34 8M34 8c4 10 2 20-8 26M34 8c-10 4-16 12-16 22M22 26l-4-3M26 20l-4-3M29 27l-3-1",
         "fae": "M24 14v24M24 18c-4-10-16-12-16-2 0 6 8 8 16 4M24 18c4-10 16-12 16-2 0 6-8 8-16 4M24 24c-3 6-12 10-12 4 0-3 6-5 12-4M24 24c3 6 12 10 12 4 0-3-6-5-12-4"
+      },
+      "text": {
+        "human": "☉",
+        "elf": "❦",
+        "dwarf": "⛏",
+        "catfolk": "🐈",
+        "halfling": "☘",
+        "gnome": "⚗",
+        "goblin": "☋",
+        "glimmerkin": "✧",
+        "half_elf": "❧",
+        "half_orc": "♞",
+        "lizardfolk": "🦎",
+        "sylph": "☁",
+        "undine": "♒",
+        "birdfolk": "🪶",
+        "fae": "✿"
       }
     },
     "callings": {
@@ -63,6 +106,15 @@
         "bard": "M15 9c-6 9-5 19 3 26 3 3 9 3 12 0 8-7 9-17 3-26M15 9c-1-3-4-3-5-1M33 9c1-3 4-3 5-1M12 14h24M20 14v20M24 14v22M28 14v20M18 40h12M24 36v4",
         "ranger": "M14 8c14 6 14 26 0 32M14 8v32M8 24h32M34 20l6 4-6 4",
         "monk": "M24 6a18 18 0 1 0 .01 0zM24 6a9 9 0 0 1 0 18 9 9 0 0 0 0 18M24 13v.5M24 34v.5"
+      },
+      "text": {
+        "warrior": "⚔",
+        "mage": "✶",
+        "thief": "†",
+        "cleric": "✚",
+        "bard": "♫",
+        "ranger": "➶",
+        "monk": "☯"
       }
     },
     "schools": {
@@ -76,6 +128,16 @@
         "illusionist": "M8 14c10-4 22-4 32 0 0 14-6 22-16 22S8 28 8 14zM14 21c2-2 6-2 8 0M26 21c2-2 6-2 8 0M19 30c3 2 7 2 10 0",
         "necromancer": "M24 8c-9 0-14 6-14 13 0 5 3 8 6 9v6h16v-6c3-1 6-4 6-9 0-7-5-13-14-13zM18 18a3 3 0 1 0 .01 0zM30 18a3 3 0 1 0 .01 0zM20 36v-5M24 36v-5M28 36v-5",
         "transmuter": "M17 21a11 11 0 1 0 .01 0zM6.5 35h21M24.5 24.5C29 19 34 13 43 15M26.5 28.5C31 23 36 18 43 19M10 42h14M17 42v-1"
+      },
+      "text": {
+        "abjurer": "◈",
+        "conjurer": "✺",
+        "diviner": "◉",
+        "enchanter": "♡",
+        "evoker": "☄",
+        "illusionist": "◌",
+        "necromancer": "☠",
+        "transmuter": "⚗"
       }
     },
     "domains": {
@@ -93,6 +155,20 @@
         "cherubist": "M24 36c-7-5-9-9-9-12a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1c0 3-2 7-9 12zM15 22c-4-1-8-4-9-9 4 1 6 1 9 3M33 22c4-1 8-4 9-9-4 1-6 1-9 3",
         "stormcaller": "M14 28a7 7 0 0 1 1-14 9 9 0 0 1 17-1 7 7 0 0 1 2 15zM25 28l-4 8h6l-3 8",
         "veneficium": "M20 6h8M21 6v10l-9 16a6 6 0 0 0 5 9h14a6 6 0 0 0 5-9l-9-16V6M16 30h16"
+      },
+      "text": {
+        "vitalist": "❀",
+        "deathspeaker": "⚰",
+        "lightbringer": "☀",
+        "shadowmancer": "☾",
+        "oathkeeper": "⚜",
+        "wildcaller": "♧",
+        "chaotician": "⁂",
+        "warbringer": "⚔",
+        "oceanist": "⚓",
+        "cherubist": "☥",
+        "stormcaller": "⚡",
+        "veneficium": "⚱"
       }
     },
     "ways": {
@@ -104,6 +180,14 @@
         "wise": "M24 12c-5-3-11-3-16-1v26c5-2 11-2 16 1 5-3 11-3 16-1V11c-5-2-11-2-16 1zM24 12v26",
         "compassion": "M24 24c-5-3-7-6-7-8a3.5 3.5 0 0 1 7-1 3.5 3.5 0 0 1 7 1c0 2-2 5-7 8zM8 27c0 8 7 13 16 13s16-5 16-13M8 27h6M34 27h6",
         "discipline": "M14 38a10 4 0 1 0 20 0a10 4 0 1 0-20 0zM17 29a7 3 0 1 0 14 0a7 3 0 1 0-14 0zM20 21.5a4 2.5 0 1 0 8 0a4 2.5 0 1 0-8 0z"
+      },
+      "text": {
+        "toughness": "▣",
+        "brave": "♥",
+        "strong_willed": "◆",
+        "wise": "☽",
+        "compassion": "♡",
+        "discipline": "☰"
       }
     },
     "spells": {
@@ -127,6 +211,26 @@
         "summon": "M8 38a16 6 0 1 0 32 0a16 6 0 1 0-32 0zM24 36V12M17 19l7-7 7 7",
         "curse": "M13 43Q16 20 36 6M13.8 38l7.1-3.3-5.9-1M16.4 29.6l-3.3-7.1 5.2 3.1M20.4 21.9l7.8-.7-5.3-2.9M25.8 14.8l-.7-7.8 3.8 4.7",
         "craft": "M12 9h18v9H12zM30 13.5h6M21 18v24"
+      },
+      "text": {
+        "harm": "✕",
+        "fire": "♨",
+        "frost": "❄",
+        "spark": "✦",
+        "thunder": "☈",
+        "venom": "☣",
+        "drain": "◒",
+        "ward": "◈",
+        "heal": "✚",
+        "light": "☀",
+        "sight": "◉",
+        "charm": "♡",
+        "fear": "⚠",
+        "sleep": "☾",
+        "move": "⇄",
+        "summon": "✺",
+        "curse": "⚸",
+        "craft": "⚒"
       }
     },
     "figures": {
@@ -134,16 +238,76 @@
       "paths": {
         "animal": "M24 26c-6 0-10 5-10 9 0 3 3 5 6 4 2-.6 3-1 4-1s2 .4 4 1c3 1 6-1 6-4 0-4-4-9-10-9zM10 22a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0zM31 22a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0zM15.5 12.5a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0zM25.5 12.5a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0z",
         "someone": "M24 8c-6 0-10 5-10 11 0 5 3 9 6 10h8c3-1 6-5 6-10 0-6-4-11-10-11zM20 22c1 2 2.5 3 4 3s3-1 4-3M10 42c1-7 6-11 14-11s13 4 14 11"
+      },
+      "text": {
+        "animal": "🐾",
+        "someone": "☺"
       }
     },
     "places": {
       "about": "What kind of place the company stands in, at the head of its scene beside where and when (the owner, 11 November): a town, a ruin, a shrine, a cave or a delving, a road, open country. Its accent below is the tone of what the company knows it can do there (see PlaceMark). Each family names the scene kinds (data/paintings/scenery.json) it takes in; a kind in none goes by what the place is: a settlement a town, a site a ruin, the wild open country, under the ground a cave.",
       "kinds": {
-        "shrine": ["churchyard", "shrine", "abbey", "stones", "dome", "nymphaeum"],
-        "cave": ["vault", "grave", "undercroft", "cellar", "brood", "drain", "vermin", "cell", "mine", "face", "ore", "winze", "sump", "pump", "furnace", "cave", "cistern", "stair", "recess", "passage"],
-        "ruin": ["barrow", "ruin", "tower", "fort", "stockade", "bailey", "guard", "forecourt", "hall"],
-        "road": ["crossing", "road", "path", "toll-house"],
-        "wild": ["fields", "peat", "reeds", "timber", "charcoal", "tree", "oasis", "bees", "sea", "huts", "salt", "furs"]
+        "shrine": [
+          "churchyard",
+          "shrine",
+          "abbey",
+          "stones",
+          "dome",
+          "nymphaeum"
+        ],
+        "cave": [
+          "vault",
+          "grave",
+          "undercroft",
+          "cellar",
+          "brood",
+          "drain",
+          "vermin",
+          "cell",
+          "mine",
+          "face",
+          "ore",
+          "winze",
+          "sump",
+          "pump",
+          "furnace",
+          "cave",
+          "cistern",
+          "stair",
+          "recess",
+          "passage"
+        ],
+        "ruin": [
+          "barrow",
+          "ruin",
+          "tower",
+          "fort",
+          "stockade",
+          "bailey",
+          "guard",
+          "forecourt",
+          "hall"
+        ],
+        "road": [
+          "crossing",
+          "road",
+          "path",
+          "toll-house"
+        ],
+        "wild": [
+          "fields",
+          "peat",
+          "reeds",
+          "timber",
+          "charcoal",
+          "tree",
+          "oasis",
+          "bees",
+          "sea",
+          "huts",
+          "salt",
+          "furs"
+        ]
       },
       "paths": {
         "place_town": "M6 40V24l9-8 9 8v16M24 40V20l9-8 9 8v20M6 40h36M13 40v-7h4v7",
@@ -152,6 +316,14 @@
         "place_cave": "M6 42c0-20 8-32 18-32s18 12 18 32M14 42c0-10 4-18 10-18s10 8 10 18",
         "place_road": "M18 42l4-34M30 42l-4-34M24 40v-6M24 28v-5M24 18v-4",
         "place_wild": "M4 40l12-18 8 10 7-9 13 17M4 40h40"
+      },
+      "text": {
+        "place_town": "⌂",
+        "place_ruin": "♜",
+        "place_shrine": "☩",
+        "place_cave": "◠",
+        "place_road": "∴",
+        "place_wild": "♣"
       }
     },
     "acts": {
@@ -165,6 +337,16 @@
         "look_about": "M5 24c5-8 12-12 19-12s14 4 19 12c-5 8-12 12-19 12S10 32 5 24zM24 18a6 6 0 1 0 .01 0z",
         "the_map": "M7 12l11-4 12 4 11-4v28l-11 4-12-4-11 4zM18 8v28M30 12v28",
         "the_book": "M24 13c-5-3-11-4-17-2v27c6-2 12-1 17 2 5-3 11-4 17-2V11c-6-2-12-1-17 2zM24 13v27"
+      },
+      "text": {
+        "wait": "⧗",
+        "search": "⌕",
+        "go_on": "→",
+        "companion": "⚭",
+        "journey": "⇢",
+        "look_about": "◉",
+        "the_map": "▦",
+        "the_book": "❡"
       }
     }
   }

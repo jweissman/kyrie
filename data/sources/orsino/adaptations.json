@@ -555,7 +555,7 @@
       "fidelity": "adapted",
       "note": "The red colour's fire_breath replaces the bite, as the template's overlay does. Its description is the kind's description.",
       "evidence": [
-        "doc/playtests/red-crag/fire.trace.json#breathe_fire"
+        "doc/history/playtests/red-crag/fire.trace.json#breathe_fire"
       ]
     },
     {
@@ -567,8 +567,8 @@
       "fidelity": "adapted",
       "note": "Exact 4d6 fire. Orsino fires it at one target through melee with an attack roll and no save. Kyr breathes it over every opponent with one shared roll, a breath-category save (Orsino's Constitution-based category, its modifiers and immunity) against 15 + the dragon's level (Orsino's default debuff difficulty) for half, and a three-turn recharge. Fire released this way exposes the place to fire.",
       "evidence": [
-        "doc/playtests/red-crag/fire.trace.json#\"kind\": \"breath\"",
-        "doc/playtests/red-crag/fire.md#bridge"
+        "doc/history/playtests/red-crag/fire.trace.json#\"kind\": \"breath\"",
+        "doc/history/playtests/red-crag/fire.md#bridge"
       ]
     },
     {
@@ -612,7 +612,7 @@
       "evidence": [
         "data/kits/raider-hold/hobs/folk.kyr#is bell in heap",
         "test/composition.test.ts#stolen bell drive them off",
-        "doc/playtests/red-crag/tribute.md#chapel bell"
+        "doc/history/playtests/red-crag/tribute.md#chapel bell"
       ]
     },
     {
@@ -705,7 +705,7 @@
       "fidelity": "adapted",
       "note": "Same attribute, level, category modifier, saveVersusAll, immunity and three-success cap as Orsino's handleSave; Kyr's statMod.",
       "evidence": [
-        "doc/playtests/red-crag/fire.trace.json#\"kind\": \"breath\""
+        "doc/history/playtests/red-crag/fire.trace.json#\"kind\": \"breath\""
       ]
     },
     {
@@ -789,7 +789,7 @@
       "fidelity": "adapted",
       "note": "Typed Kyr damage; the strongest applicable resistance applies rather than Orsino's sum with resistAll.",
       "evidence": [
-        "doc/playtests/red-crag/fire.trace.json#\"damageType\": \"fire\""
+        "doc/history/playtests/red-crag/fire.trace.json#\"damageType\": \"fire\""
       ]
     },
     {

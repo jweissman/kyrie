@@ -5,7 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 
-// A whole first expedition, as it was played by the words on the page (doc/architecture/mission-14/expedition.md):
+// A whole first expedition, as it was played by the words on the page (doc/history/missions/14/expedition.md):
 // from the road into Gothgiba, the inn and the smith, out over the fell to the mine; the adit level's riddles, its
 // goblins, the glyph made safe, the air shaft found by its draft and climbed out of; home to sell what was carried
 // up, a night at the inn. Its record replays it to the same world, and a game saved halfway and taken up again ends
@@ -16,7 +16,7 @@ class Expedition {
     'bailey', 'Wooden.Wolf', 'old.workings', 'Ask.Thoradin.whether', 'Ask.Thoradin.to.join', 'Buy.one.ration',
     'door.of.the.Wooden', "Ulfgar's.door", 'what.the.old.workings', 'Buy.a.torch.for.Wenna',
     'Buy.a.crowbar.for.Wenna', "Ulfgar's.door", 'path.up.onto.Barzelrehes.to.the.foot',
-    'to.the.foot.of.Barzelrehes.by.Muzgkom$', 'track.to.Aurumtener$', 'way.in', 'passage.to.the.adit$',
+    'to.the.foot.of.Barzelrehes.by.Muzgkom$', 'track.to.Goldhold$', 'way.in', 'passage.to.the.adit$',
     'Light.a.torch', 'Darkness', 'Take .* out of the stone casket for Wenna', 'gallery to the smithy', 'Collect',
     'gallery to the adit$', 'gallery to the crossing', 'Attack the goblins', 'Gather up the coins',
     'Collect a Delver', 'Look closely at the arcane glyph', "Hold the pole's end", 'to the old stope',

@@ -43,9 +43,10 @@ describe('the terminal, its commands piped in at once', () => {
       await run.exited;
       return out.split(/^> /m)[3] ?? '';
     };
+    // The kitchen's four: Wat's question the aim waits on first, the back door third (Glance.offer).
     const [one, three] = await Promise.all([after('1'), after('3')]);
     expect(one).toContain('He took the cart to the fair at Brough');
     expect(three).not.toContain('He took the cart to the fair at Brough');
-    expect(three).toContain('Take your leave of Wat');
+    expect(three).toMatch(/^the yard$/m);
   }, 30000);
 });

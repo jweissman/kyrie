@@ -1,0 +1,243 @@
+
+the causeway into Misthythe · 18 Deepwinter, morning · cold
+The causeway runs on its piles across the last of the fen, and at the end of it is Misthythe: low roofs against the sky, masts at the landing, eel-traps stacked against the walls, smoke going straight up from the chimneys.
+The scroll-case has not been off your shoulder in eleven days: a letter under the seal of a magistrate who did not give his name, for Lindal at Merscstede and to be put into no other hands.
+A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse blowing in the shafts, a sack of meal burst on the bed.
+Aim: Carry the sealed letter to Lindal at Merscstede, into no other hands.
+
+1. Talk to the wagoner
+2. Take the horse's head and lead it on while the wagoner heaves · 30 min  [worth a look]
+3. Take the causeway to the landing at Misthythe · 10 min  [worth a look]
+4. Set out for the old quarry pit · 15 min
+(? for commands)
+> 1
+
+1. Offer him a hand, for a share of the load · 30 min
+2. Tell the wagoner you cannot stop
+3. Ask the wagoner what he is carrying, and where
+4. Take your leave of the wagoner
+> 1
+‘A share,’ says the wagoner, and looks at you a long moment. ‘A sack, then, and a coin, and be quick about it.’ Between you and the horse the cart comes up out of the ditch. He counts the coin into your hand as though each one hurt him. ‘You’ll go far,’ he says. He does not say it kindly.
+The cart stands square on the road again, its load roped down, the horse quiet.
+
+1. Take your leave of the wagoner
+> 1
+The wagoner has gone back to work before you have turned round.
+
+1. Take the causeway to the landing at Misthythe · 10 min  [worth a look]
+2. Set out for the old quarry pit · 15 min  [worth a look]
+3. Set out for the eel-weirs · 20 min
+4. Set out for the home fields · 20 min
+> 1
+
+the landing at Misthythe
+Boats lie drawn up keel to keel on the shingle at Misthythe, and the houses come right down to them, nets hung on every fence.
+Magot is crying wares to nobody in particular: pots mended, knives ground, news for nothing.
+Patience ambles to the end of her rope to see who you are, and goes through your hands for honey.
+
+1. Talk to Magot
+2. Read the notice on the well-post · 10 min  [to learn]
+3. Ask Gosse what has happened  [to learn]
+4. Talk to Absalom Gosse  [to learn]
+> 1
+Magot looks up, and puts her hands still, and waits for you to say what you want.
+
+1. Buy a ten-foot pole for Odo · 1 coin · 3 min
+2. Buy a crowbar for Odo · 2 coin · 3 min
+3. Buy a candle for Odo · 1 coin · 3 min
+4. Buy a whetstone for Odo · 1 coin · 3 min
+5. Ask Magot about her work
+6. Ask Magot for news of Merscstede
+7. Ask Magot what the matter is
+8. Take your leave of Magot
+> 1
+Magot is paid, and you take a ten-foot pole.
+
+1. Buy a ten-foot pole for Odo · 1 coin · 3 min
+2. Buy a crowbar for Odo · 2 coin · 3 min
+3. Buy a candle for Odo · 1 coin · 3 min
+4. Buy a whetstone for Odo · 1 coin · 3 min
+5. Ask Magot about her work
+6. Ask Magot for news of Merscstede
+7. Ask Magot what the matter is
+8. Take your leave of Magot
+> 1
+Magot is paid, and you take a ten-foot pole.
+
+1. Buy a crowbar for Odo · 2 coin · 3 min
+2. Buy a candle for Odo · 1 coin · 3 min
+3. Buy a whetstone for Odo · 1 coin · 3 min
+4. Ask Magot about her work
+5. Ask Magot for news of Merscstede
+6. Ask Magot what the matter is
+7. Take your leave of Magot
+> 1
+Magot is paid, and you take a crowbar.
+
+1. Buy a candle for Odo · 1 coin · 3 min
+2. Buy a whetstone for Odo · 1 coin · 3 min
+3. Ask Magot about her work
+4. Ask Magot for news of Merscstede
+5. Ask Magot what the matter is
+6. Take your leave of Magot
+> 1
+Magot is paid, and you take a candle.
+
+1. Buy a candle for Odo · 1 coin · 3 min
+2. Buy a whetstone for Odo · 1 coin · 3 min
+3. Ask Magot about her work
+4. Ask Magot for news of Merscstede
+5. Ask Magot what the matter is
+6. Take your leave of Magot
+> 1
+Magot is paid, and you take a candle.
+
+1. Buy a candle for Odo · 1 coin · 3 min
+2. Buy a whetstone for Odo · 1 coin · 3 min
+3. Ask Magot about her work
+4. Ask Magot for news of Merscstede
+5. Ask Magot what the matter is
+6. Take your leave of Magot
+> 1
+Magot is paid, and you take a candle.
+
+1. Buy a candle for Odo · 1 coin · 3 min
+2. Buy a whetstone for Odo · 1 coin · 3 min
+3. Ask Magot about her work
+4. Ask Magot for news of Merscstede
+5. Ask Magot what the matter is
+6. Take your leave of Magot
+> 1
+Magot is paid, and you take a candle.
+
+1. Ask Magot about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 1
+‘I go round,’ says Magot. ‘Here a week, gone a month. You’d be surprised what people tell a tinker. You’d be surprised what a tinker tells.’
+
+1. Ask Magot again about her work
+2. Ask Magot for news of Merscstede
+3. Ask Magot what the matter is
+4. Take your leave of Magot
+> 

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 
-// Skerrow's second night (doc/imbar/14-second-pass.md): the men who come for the bronze, the paper nobody has read, the
+// Skerrow's second night (the Imbar commission, doc/imbar): the men who come for the bronze, the paper nobody has
+// read, the
 // lens, and the boy who is out when the lamp is dark. Every way through is a way a company may take; none is required.
 const campaign = 'data/campaigns/the-dorothea.campaign.json';
 const k = (id: string) => `dorothea__${id}`;

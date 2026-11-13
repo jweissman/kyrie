@@ -8,7 +8,7 @@
 //   instantiated   a representative generated world actually holds it
 // Paintings, creatures, works, items, scenarios and adventures differ at the last stages, so each section says which
 // it measures.
-//   bun scripts/activation-census.ts [--seeds a,b,c] [--dormant doc/architecture/activation/dormant.json] > census.md
+//   bun scripts/activation-census.ts [--seeds a,b,c] [--dormant doc/history/activation/dormant.json] > census.md
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Canon } from '../src/canon/canon';
@@ -251,7 +251,7 @@ class Census {
   }
   static async main() {
     const args = process.argv.slice(2), seeds = (this.flag(args, '--seeds') ?? 'kahitude,a1,b2,thorn,c3,d4').split(',');
-    const file = this.flag(args, '--dormant') ?? 'doc/architecture/activation/dormant.json';
+    const file = this.flag(args, '--dormant') ?? 'doc/history/activation/dormant.json';
     const dormant: Ledger = existsSync(join(this.root, file)) ? JSON.parse(this.read(file)) : {};
     const worlds = await this.worlds(seeds);
     const out = ['# Content-activation census', '',

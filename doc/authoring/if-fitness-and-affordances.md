@@ -34,18 +34,18 @@ The standard for the next language work should be:
 The main evidence is:
 
 - the current grammar, `src/lang/Kyr.ohm`, and the tested [authoring guide](guide.md);
-- [How Kyr works](../architecture/overview.md), especially the webs example from authored change through planning,
+- [How Kyr works](../history/architecture-2026-10/overview.md), especially the webs example from authored change through planning,
   execution, perception and memory;
-- [the response to the first authorability study](findings-response.md) and the later
-  [response to four independent adventures](adventures-response.md);
+- [the response to the first authorability study](../history/reviews/findings-response.md) and the later
+  [response to four independent adventures](../history/reviews/adventures-response.md);
 - the friction reports for [Thrume](../adventures/thrume/friction.md),
   [Low Water](../adventures/low-water/friction.md),
   [The Third Night](../adventures/the-third-night/09-friction.md),
   [Gosse's Company](../adventures/gosses-company/friction.md),
   [Wapshott's Peregrine Circus](../adventures/wapshotts-circus/friction.md), and
   [the Parliament of Books](../adventures/parliament-of-books/friction.md);
-- the current [independent review](../playtests/independent-review-2026-10-30/report.md) and
-  [systemic-enjoyment review](../playtests/systemic-enjoyment-2026-10-30/review.md).
+- the current [independent review](../history/playtests/independent-review-2026-10-30/report.md) and
+  [systemic-enjoyment review](../history/playtests/systemic-enjoyment-2026-10-30/review.md).
 
 The individual friction reports are records of the version on which each work was written. They are not all current
 defect lists. In particular, current Kyr already has or repairs:
@@ -58,7 +58,7 @@ defect lists. In particular, current Kyr already has or repairs:
 - aggregated reports of all identifier collisions in a failed load;
 - shared journey and terminal-play support;
 - several narration, visibility, choice-identity and companion-lifecycle repairs recorded in
-  [adventures-response.md](adventures-response.md).
+  [adventures-response.md](../history/reviews/adventures-response.md).
 
 Recommendations below concern the remaining mechanism or the natural completion of those repairs, not a request to
 reimplement what now exists.

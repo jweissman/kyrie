@@ -165,15 +165,7 @@ export class Origins {
     // again and again (the gold walk, 12 November).
     const owing = 'owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, '
       + 'gold) < owed(loan) and not laden(party) and knows(party, told)';
-    const out = near.near ? `  Place near "the old place" is site.\n  Objective owing_out when ${owing}${near.further
-      ? ' and not nearSpent(party)' : ''} toward near "You owe {creditor} {owed(loan)} coin by market day. {keeper} `
-      + 'told of {near}, nearest of the old places round about: what is in such places could pay it.".\n'
-      + (near.further ? '  Place further "the next old place" is site.\n  Relation nearSpent(group).\n'
-        + '  Rule near_spent when been(party, near) and at(party, shop) and owed(loan) > 0 and not nearSpent(party) '
-        + '{ Assert nearSpent(party). }\n'
-        + `  Objective owing_further when ${owing} and nearSpent(party) toward further "You owe {creditor} `
-        + '{owed(loan)} coin by market day, and {near} has not paid it. {keeper} told of {further} as well: what is in such '
-        + 'places could pay it.".\n' : '') : '';
+    const out = this.chain(owing, near);
     return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
     start: { place: `${s.id}_shop` }, imports: { shop: [`region.${s.id}_shop`, 'place'],
@@ -184,11 +176,38 @@ export class Origins {
         : { inn: [`region.${s.id}_shop`, 'place'] as [string, string], keeper: [`region.${s.id}_merchant`, 'group'] as [string, string] },
       creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports } };
   }
-  // The nearest of the old places the innkeeper tells of, for the debt's aim once told (see RegionRumours).
-  private static near(region: Region, s: Settlement): { near?: [string, string]; further?: [string, string] } {
-    const [site, next] = RegionRumours.nearest(region, s, RegionRumours.told(region)).map(x => x.site);
-    return site ? { near: [`region.${site.id}`, 'place'], ...next ? { further: [`region.${next.id}`, 'place'] } : {} }
-      : {};
+  // The nearest of the old places the innkeeper tells of, for the debt's aim once told (see RegionRumours), and the
+  // next two after it.
+  private static near(region: Region, s: Settlement): Partial<Record<'near' | 'further' | 'furthest', [string, string]>> {
+    const [site, next, last] = RegionRumours.nearest(region, s, RegionRumours.told(region)).map(x => x.site);
+    return site ? { near: [`region.${site.id}`, 'place'], ...next ? { further: [`region.${next.id}`, 'place'] } : {},
+      ...next && last ? { furthest: [`region.${last.id}`, 'place'] } : {} } : {};
+  }
+  // The debt's aims over the old places the innkeeper told of, each in turn: the nearest; been to and come back to the
+  // shop still short, the next; been to and left still short, the last (M21's PL-27: at Marsh Howe, searched, the aim
+  // still named it, nothing was gold, and Palusporta, told of with the others, was never led).
+  private static chain(owing: string, near: Partial<Record<'near' | 'further' | 'furthest', unknown>>): string {
+    if (!near.near) { return ''; }
+    const owe = 'You owe {creditor} {owed(loan)} coin by market day';
+    const lines = ['  Place near "the old place" is site.',
+      `  Objective owing_out when ${owing}${near.further ? ' and not nearSpent(party)' : ''} toward near "${owe}. `
+      + '{keeper} told of {near}, nearest of the old places round about: what is in such places could pay it.".'];
+    if (near.further) {
+      lines.push('  Place further "the next old place" is site.', '  Relation nearSpent(group).',
+        '  Rule near_spent when been(party, near) and at(party, shop) and owed(loan) > 0 and not nearSpent(party) '
+        + '{ Assert nearSpent(party). }',
+        `  Objective owing_further when ${owing} and nearSpent(party)${near.furthest ? ' and not furtherSpent(party)' : ''}`
+        + ` toward further "${owe}, and {near} has not paid it. {keeper} told of {further} as well: what is in such `
+        + 'places could pay it.".');
+    }
+    if (near.furthest) {
+      lines.push('  Place furthest "the last old place" is site.', '  Relation furtherSpent(group).',
+        '  Rule further_spent when nearSpent(party) and been(party, further) and not within(party, further) '
+        + 'and owed(loan) > 0 and not furtherSpent(party) { Assert furtherSpent(party). }',
+        `  Objective owing_furthest when ${owing} and furtherSpent(party) toward furthest "${owe}, and neither {near} `
+        + 'nor {further} has paid it. {keeper} told of {furthest} too: what is in such places could pay it.".');
+    }
+    return `${lines.join('\n')}\n`;
   }
   // What a debt paid leaves (the play-structure investigation's PT-01: a resolution had ended in "Nothing more is
   // asked of you"): the merchant, square, says where there is work for someone with nothing to lose, the makers' work

@@ -25,7 +25,7 @@ and three years ago a good Cantor cut the verse that told it to drink only a cup
 | [10 — the final revision](10-final-revision.md) | Double entry, the Auditor rewritten, foreshadowing, the doubles and the Assayers as fights with ways around them |
 | [11 — Act IV](11-act-four.md) | The Hearing as a council of war: the account laid, the creditor named, Quill's arithmetic, three answers |
 | [friction.md](friction.md) | Every place Kyr resisted, by severity and kind, with remedies |
-| [Play transcripts](../../playtests/low-water-2026-10-25) | Six journeys as the page told them |
+| [Play transcripts](../../history/playtests/low-water-2026-10-25) | Six journeys as the page told them |
 
 **Status: complete.** Six acts, twenty endings, 36 journeys passing, lint clean; ready to integrate as described in
 [05 §5](05-implementation-report.md). Low Water is self-contained: it reads nothing from another adventure.

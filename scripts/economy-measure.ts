@@ -3,7 +3,7 @@
 // pays for them), the coin its own jobs, finds and rewards pay outright, against what its towns ask (every ware for
 // sale, by its price) and what they teach (every lesson, by its fee, once each). The ratio that matters is what a
 // company can bring home in coin against what there is to spend it on.
-//   bun scripts/economy-measure.ts [--seeds a1,b2,…] [--out doc/architecture/mission-18/economy]
+//   bun scripts/economy-measure.ts [--seeds a1,b2,…] [--out doc/history/missions/18/economy]
 import { writeFileSync } from 'node:fs';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';

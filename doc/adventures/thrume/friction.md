@@ -20,7 +20,7 @@ All play here was done by the author, headlessly. None of it is independent huma
 | B6 | **A rule's `says` text was told twice in one response** (the young bloods' massacre). | Shoulder Hall: wait from day 1 until 9 p.m. on day 2 without freeing the miners. | low |
 | B7 | **Order of telling.** After an action, the description of the new state comes before the action's `Result`: "The slope into the Mouth is still… The Mouth is shut. You sing…". The consequence is told before the act. | Sing the song at the Mouth. | low, but it hurts climaxes |
 | B8 | **After the company falls**, the page offered a single choice with an empty label. I didn't look into it further; it may be the fight screen, which my driver doesn't read. | Shoulder Hall: ignore the challenge and wait. | unverified |
-| — | `tsc --noEmit` fails on `main` before this branch: `doc/playtests/rededge-2026-10-20/control-server.ts` imports `/home/jweissman/work/kyrie/node_modules/playwright-core`. | `bunx tsc --noEmit` | pre-existing, not touched |
+| — | `tsc --noEmit` fails on `main` before this branch: `doc/history/playtests/rededge-2026-10-20/control-server.ts` imports `/home/jweissman/work/kyrie/node_modules/playwright-core`. | `bunx tsc --noEmit` | pre-existing, not touched |
 
 ## Friction: what the design said, and what Kyr made me write
 

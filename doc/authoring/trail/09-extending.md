@@ -11,14 +11,14 @@ where a change would belong.
   October and November (errands of their own, promises, chapters, occasions, who hears what a rule says, beliefs and
   lies, what cannot be undone, a law of a module's own, the order things happen in…): each with the friction item that
   asked for it.
-- The [findings index](../../architecture/findings/index.md), §3 "authorability blocker", lists what authors could
-  not do and is not yet answered; [gaps.md](../../architecture/findings/gaps.md) the ones never registered before
+- The [findings index](../../history/findings/index.md), §3 "authorability blocker", lists what authors could
+  not do and is not yet answered; [gaps.md](../../history/findings/gaps.md) the ones never registered before
   (UNT-2xx are the authors'). Known open language-scale wishes are the IF review's IFR-01 to IFR-10 (a why-not
   trace, making things in play, phases of a command, talk as an activity, a knowledge model…), deferred.
 
 ## Where a change belongs
 
-The rule from [How Kyr works](../../architecture/overview.md) "Where a change belongs": prefer the higher row.
+The rule from [How Kyr works](../../history/architecture-2026-10/overview.md) "Where a change belongs": prefer the higher row.
 
 | You want | Put it in |
 |---|---|

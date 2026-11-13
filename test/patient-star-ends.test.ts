@@ -5,7 +5,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Journey } from '../src/session/journey';
 import phases from './fixtures/patient/journeys.json';
 
-// The Patient Star, second pass (doc/architecture/activation/corpus/second-pass.md): the Crown acts when the
+// The Patient Star, second pass (doc/history/activation/corpus/second-pass.md): the Crown acts when the
 // Concord does
 // not, the umber train can be met five ways, and the endings are exclusive. Played by the labels a player sees. The
 // "late" fixtures start the Corbel at 1810 m (and give the Concord as called, the held-fed evidence known and 90

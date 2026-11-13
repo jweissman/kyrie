@@ -11,7 +11,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { C, Calamy } from './support/calamy';
 import { GeneratedWorld } from './support/generated';
 
-// Imbar is one plane, the canon's (doc/architecture/mission-18/one-universe.md): every generated country is a region
+// Imbar is one plane, the canon's (doc/history/missions/18/one-universe.md): every generated country is a region
 // of it, and so is every authored country that names it in its "canon". The road over a march into one of those is a
 // road across country, as the road between two towns of one country is, and not a planar threshold. The realms beyond
 // Parliament's Hexagon of Doors are its own regions of the outer planes they name, under those planes' laws.

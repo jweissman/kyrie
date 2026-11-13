@@ -3,7 +3,7 @@
 **You will be able to** write a place so that the page shows it as a painted scene, so that what is worth doing
 there reaches the player's small foreground, and so that what a character can notice depends on who they are.
 Everything here is implemented on `main` (11 November, Mission 20, amendment 6). Where a convention is wished for but
-not built, the page says so and points to [opportunities.md](../../architecture/mission-20/opportunities.md).
+not built, the page says so and points to [opportunities.md](../../history/missions/20/opportunities.md).
 
 ## How the page reads a place
 
@@ -79,7 +79,7 @@ Not built yet:
 - noticing at a distance;
 - an authored opportunity that names several approaches.
 
-These are listed for a later mission in [opportunities.md](../../architecture/mission-20/opportunities.md).
+These are listed for a later mission in [opportunities.md](../../history/missions/20/opportunities.md).
 
 ## Keep the promises the page makes
 

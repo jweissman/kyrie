@@ -1,7 +1,7 @@
 # Mission 21, Phase 0: the fast loop
 
 Working record of the enabling sprint (brief: [brief.md](brief.md), Phase 0). M20's measured diagnosis is
-[../mission-20/test-loop.md](../mission-20/test-loop.md); this file does not repeat it, it says what changed and what it
+[../mission-20/test-loop.md](../../history/missions/20/test-loop.md); this file does not repeat it, it says what changed and what it
 cost.
 
 ## The baseline (12 November, night, at d3607041; this machine: WSL2, 16 CPUs, 15 GB)

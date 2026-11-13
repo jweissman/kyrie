@@ -83,7 +83,7 @@ describe('the way into Merrowdale', () => {
     const s = await PlaySession.start(w.path, 'wren', w.source);
     await GeneratedWorld.travel(s, 'w1');
     const legs = (ScreenModel.build(s.campaign).destinations ?? []).flatMap(d => d.legs.map(l => l.way));
-    expect([legs.includes('the track to Lapiscustod'), legs.some(l => l.includes('{'))]).toEqual([true, false]);
+    expect([legs.includes('the track to Stonekeep'), legs.some(l => l.includes('{'))]).toEqual([true, false]);
   }, 120000);
   // As the world keeps them: dark from nine (a journey's night had fallen at eight: the navigation review).
   it('reckons night as the dark hours, which stop a journey that runs into them', () => {

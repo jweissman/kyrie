@@ -3,6 +3,7 @@ import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../web/engine/creation-flow';
 import type { Setting } from '../../web/engine/protocol';
 import { TerminalCreation } from '../../src/cli/terminal-creation';
+import { EngineHost } from '../../web/engine/engine-host';
 import type { Asking } from '../../src/cli/terminal-input';
 
 // Making the protagonist is one flow in the engine (CreationFlow): its steps, their cards and what a choice settles,
@@ -48,9 +49,9 @@ describe('making the protagonist', () => {
     const answer = () => /^\nWhy/.test(asked()) ? '2' : /^\nHow do you present/.test(asked()) ? '1'
       : /^\nChoose your name/.test(asked()) ? 'Aud' : '';
     const input = { ask: async () => answer(), close: () => undefined } as Asking;
-    const made = await new TerminalCreation(input, l => said.push(l)).choose('flow');
+    const made = await new TerminalCreation(input, l => said.push(l)).choose(new EngineHost(() => undefined), 'flow');
     expect(said).toContain(`\nWhy have you come to ${made.setting.title}?`);
-    expect(made.origin).toBe(made.setting.origins![1]!.id);
-    expect([made.member.name, made.member.pronouns]).toEqual(['Aud', 'she']);
+    expect(made.state.origin).toBe(made.setting.origins![1]!.id);
+    expect([made.state.member.name, made.state.member.pronouns]).toEqual(['Aud', 'she']);
   }, 60000);
 });

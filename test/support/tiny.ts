@@ -9,6 +9,7 @@ import { Narrator, type Leaf } from '../../src/presentation/narrator';
 import type { Glance } from '../../src/presentation/glance-types';
 import { Undertakings } from '../../src/presentation/undertakings';
 import { ScreenModel } from '../../src/ui/screen-model';
+import { Costs, type Tally } from '../../src/costs';
 import type { Screen } from '../../src/ui/screen-types';
 
 // The smallest world a rule can be proved in (Mission 21, Phase 0): one Kyr module written in the spec (see
@@ -21,14 +22,18 @@ import type { Screen } from '../../src/ui/screen-types';
 export class Tiny {
   leaf!: Leaf;
   screen!: Screen;
+  // What its start crossed (see Costs): a tiny world draws no country and composes no world.
+  costs: Tally = {};
   private constructor(readonly journey: Journey) { this.look(); }
   // The module's body (or a whole `Module t "…" { … }`), the company's members, and any other rules it reads; and the
   // land of its place `region` where it has one drawn by hand, its open country as places t0, t1… (see LandModel).
   static async start(kyr: string, options: { party?: CreatureGenerationContext[]; rules?: string[];
     seed?: string; chart?: LandChart } = {}): Promise<Tiny> {
-    const { source, campaign } = SingleModule.source(kyr, options);
+    const mark = Costs.mark(), { source, campaign } = SingleModule.source(kyr, options);
     const session = await PlaySession.start(campaign, options.seed ?? 'tiny', source);
-    return new Tiny(Journey.of(session, true));
+    const tiny = new Tiny(Journey.of(session, true));
+    tiny.costs = Costs.since(mark);
+    return tiny;
   }
   get session(): PlaySession { return this.journey.session; }
   get campaign() { return this.journey.campaign; }

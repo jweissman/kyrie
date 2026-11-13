@@ -4,9 +4,9 @@ import { Words } from '../words';
 import { Pip } from './pip';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
-import { SceneSurface } from './scene-surface';
 import { Wayfinder, type Way } from './wayfinder';
 import { Emphasis } from '../../../src/presentation/emphasis';
+import { Signs } from '../../../src/presentation/signs';
 
 // The scene's lenses (the owner, 12 November: the cinematic study, made the one resting scene). Go and Look turned on
 // show what they hold across the foot of the painting, as the talk lens shows who is here: a small tile for each way
@@ -47,7 +47,7 @@ export class Lenses {
     const glance = app.state.frame?.leaf.glance, idle = new Set(glance?.idle ?? []);
     const sensed = (w: Way) => glance?.sensed?.find(x => x.to === Wayfinder.to(w) || w.holds?.includes(x.to));
     return Wayfinder.ways(app).map((w): Tile => ({ id: w.c.id, name: GlanceStage.short(w.name),
-      glyph: w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither),
+      glyph: Signs.way(w.whither, !!w.c.disabled),
       ...(w.aim === 'followed' ? { tone: 'gold' } : Wayfinder.tone(app, w) ? { tone: Wayfinder.tone(app, w)! }
         : sensed(w) ? { tone: Emphasis.tones[sensed(w)!.aspect], faint: true } : {}),
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,

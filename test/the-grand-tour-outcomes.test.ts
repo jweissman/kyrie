@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Sennet, steps } from './support/sennet';
 
-// The Grand Tour's other ends (doc/adventures/the-grand-tour/08-playtests.md): each played by the labels a player sees,
+// The Grand Tour's other ends (doc/adventures/the-grand-tour/09-playtest.md): each played by the labels a player sees,
 // from test/fixtures/sennet/outcomes.json, by a company the route suits. The end each reaches is the one its choices
 // earn, and the city after it is the one those choices left.
 describe('The Grand Tour, other ends', () => {

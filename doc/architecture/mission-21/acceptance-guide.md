@@ -29,14 +29,16 @@ says where to play, what M21 changed that you should notice, what is known to be
   town has a real keeper, and every deadly group is told at its door, with time to leave.
 - **Healing between fights costs a rest.** A healing cantrip mends each of the company once until it rests; it had
   been cast again and again while you waited (R10-12).
+- **The first old places have names in Common.** Moonwatch, Ironkeep, Rivergate, made as the towns' names are. The
+  old name (Lunwigil, Ísencepan) is learned by reading it where it is cut, at the place.
+- **The terminal draws what the page draws.** Its marks ("no way back"), ⧗ for an act that is held, a faint pip and
+  "to gain, that way" for what is perceived along a way, and emblems on the creation cards, all from one shared table.
 - **Small things that used to be wrong.** An antidote given for the spiders' bite can be used on the companion it
   was for. A lantern given you is filled once. An opened chest says what is in it. A band down to its last is "the
   last of the cave spiders". A way off a road names its town once.
 
 ## Known to be unfinished: don't spend your time finding these
 
-- **Names.** The first places you set out for still have old-tongue names (Neblalac, Ísencepan). Decided: in the
-  starting country they will be called first by their Common meaning (T24-20). Being built.
 - **A larger adventure after the town's jobs.** The offer after an aim covers the deed and your leads. The pull
   toward a larger place (the mound, the green-lit tower) is not built (T24-18).
 - **The map.** It has no road junctions (NM-01), and the route preview before setting out is unconfirmed in the

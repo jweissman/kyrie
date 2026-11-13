@@ -6,7 +6,8 @@ import { Journey } from '../src/session/journey';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 
-// The black square in the Nexus floor, the Slack beneath it, and the ship that lies there (doc/imbar/09-slack.md). The
+// The black square in the Nexus floor, the Slack beneath it, and the ship that lies there
+// (doc/imbar/09-the-slack-as-adventure.md). The
 // locks open to things that can be had in several adventures and in several forms; the ship is entered, sailed in and
 // left by the ordinary travel of the world.
 class Slack {

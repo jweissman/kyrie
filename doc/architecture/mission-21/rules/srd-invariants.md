@@ -1,6 +1,6 @@
 # SRD adaptation as engine invariants (Mission 21, rules)
 
-Working record of the rules line: what the [SRD adaptation briefing](../../mission-20/srd-adaptation-briefing-2026-11-12.md)
+Working record of the rules line: what the [SRD adaptation briefing](../../../history/missions/20/srd-adaptation-briefing-2026-11-12.md)
 asks for that the engine can now say directly, the specs that hold it, and what is left. The briefing's increments A–C
 are this line's remit; this pass delivers A whole, B's Hit Dice, and C's typed defenses. Branch `m21-rules`.
 

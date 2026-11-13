@@ -4,7 +4,7 @@ import { Aftermath } from './aftermath'; import { FieldUse } from './field-use';
 import { FieldResolver } from './field-resolver';
 import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
-import { Perceptions } from './perceptions';
+import { Perceptions } from './perceptions'; import { Costs } from '../costs';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
@@ -83,7 +83,8 @@ export class Campaign implements WatchHost {
   private static loads = new LoadCache<Campaign>();
   // Who for, as a list, or with what is told as each module is taken in (step: the page's progress while it waits; it
   // may throw to give the load up, a start made ready for choices since changed: EngineStarts).
-  static load(path: string, seed: string, source: BundleSource, party?: CreatureGenerationContext[] | Assembly) {
+  static load(...a: Parameters<typeof Campaign.loaded>) { return Costs.timed('campaign', () => this.loaded(...a)); }
+  static loaded(path: string, seed: string, source: BundleSource, party?: CreatureGenerationContext[] | Assembly) {
     const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
     return this.loads.take(source, JSON.stringify([path, seed, at.party ?? null]),
       () => this.assemble(path, seed, source, { ...at, party: at.party && structuredClone(at.party) }), l => l.fork());

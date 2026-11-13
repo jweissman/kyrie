@@ -92,7 +92,10 @@ export interface LensAct { choice: string; label: string; command?: string; subj
 // A lens's promoted acts (at most four, ranked as the resting scene's are; gold only on the glance's own next step) and
 // the rest of its acts, in the scene's order.
 // leaves: of each opener among them (a talk, a look, with no command of its own), the acts within it.
-export interface Lensed { promoted: Promoted[]; rest: LensAct[]; leaves?: Record<string, LensAct[]> }
+// subjects: of the subjects among them that the scene draws no one for (a thing on a way, the way itself), the name
+// and what is seen of it (its state's words: the riddle cut across the speaking door).
+export interface Lensed { promoted: Promoted[]; rest: LensAct[]; leaves?: Record<string, LensAct[]>;
+  subjects?: Record<string, { name: string; seen?: string[] }> }
 // A route the compass gives (see Compass): where it comes to, the ways in order, the time, the command that walks it
 // (travel:<place>, leg by leg; or the one way's own), and what bars it, if anything.
 export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }
@@ -143,6 +146,8 @@ export interface Glance {
   need?: string[];
   // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).
   after?: AfterAct;
+  // The scene's four, and every other choice of it, for every client (see Offers).
+  offer?: import('./offer').Offer;
 }
 // What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
 // hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words

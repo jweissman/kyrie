@@ -1,4 +1,5 @@
 import type { Cover } from './land/land-cover';
+import { RegionIds } from './region-ids';
 import { Gates, type Gate } from './land/gates';
 import { Firth } from './land/firth';
 import { RegionZones } from './region-zones';
@@ -56,6 +57,6 @@ export class Provinces {
     }));
   }
   // The room a province is entered by, in its country; the module installed for it; and the place it lies within.
-  static room(id: string): string { return `gate_${id}`; }
-  static install(id: string): string { return `p${id}`; }
+  static room(id: string): string { return RegionIds.room(id); }
+  static install(id: string): string { return RegionIds.install(id); }
 }

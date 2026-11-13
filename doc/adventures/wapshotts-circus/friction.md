@@ -125,7 +125,7 @@ was done about it, and what the language or tools could do. Written 30 October 2
 ### The browser playtest, split as asked
 
 An independent agent played the built browser client for four in-game days without reading the circus's sources
-(see [verification.md](verification.md)). What it found in **the circus's own authoring** was fixed in Phase II's
+(see its verification). What it found in **the circus's own authoring** was fixed in Phase II's
 first commit: nothing said the circus was arriving today, and a player starting where it arrived could walk the whole
 circuit behind it (it is now pitched in the fair town on the first morning, and bills say *TOMORROW* and *BACK ROUND
 IN SIX DAYS*); the packed camp described itself as pitched on the road; no innkeeper said where it was *now* (each

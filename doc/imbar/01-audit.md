@@ -2,7 +2,7 @@
 
 *Branch `adventure/imbar-deep-time`, from `main` at `fb24f94`. Method: four parallel read-only readers (each took a
 group of the adventures' Kyr, design documents, campaign files, tests and transcripts), then my own reading of the
-adventures I revised, of `data/imbar`, `doc/design/{ATLAS,VISION}.md`, `doc/architecture/mission-18/one-universe.md`,
+adventures I revised, of `data/imbar`, `doc/design/{ATLAS,VISION}.md`, `doc/history/missions/18/one-universe.md`,
 the 3 November repertoire survey (`doc/adventures/repertoire-2026-11-03.md`), and the generator code
 (`src/world/history/*`, `src/campaign/*`). Line references are to `fb24f94` unless marked.*
 

@@ -1,6 +1,7 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
-import { LocalKinds, type LocalCatalog, type LocalKindSpec, type LocalSpeciesSpec } from '../canon/local-catalog';
+import type { LocalCatalog, LocalKindSpec, LocalSpeciesSpec } from '../canon/local-catalog';
+import { Vocabularies } from './vocabulary';
 import type { ItemKind } from '../canon/schema';
 import type { Entity, Module } from './module';
 
@@ -64,15 +65,15 @@ export class CatalogParser {
     fields.forEach(({ field, value }, i) => located(i, () => {
       if (field === 'localkind') {
         const spec = value as LocalKindSpec;
-        (catalog.items ??= {})[spec.id] = LocalKinds.item(module.id, spec, capabilities);
+        (catalog.items ??= {})[spec.id] = Vocabularies.item(module.id, spec, capabilities);
         if (spec.teaches) { taught.push([spec.id, spec.teaches]); }
       } else if (field === 'localspecies') {
         const spec = value as LocalSpeciesSpec;
-        (catalog.species ??= {})[spec.id] = LocalKinds.species(module.id, spec);
+        (catalog.species ??= {})[spec.id] = Vocabularies.species(module.id, spec);
       }
     }));
     if (!catalog.items && !catalog.species) { return; }
-    LocalKinds.install(catalog);
+    Vocabularies.install(catalog);
     module.catalog = catalog;
     // A kind declared here is a kind of thing in this world whether or not any of it is placed yet; what it weighs
     // is a fact of the world, for rules to read (see belongings.kyr).

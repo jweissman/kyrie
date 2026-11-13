@@ -27,7 +27,7 @@ describe('your aims', () => {
     expect(leaf.exchange?.notes).toContainEqual(expect.stringMatching(/^Aim: Something is wrong at /));
     // And where the tower is, now somewhere to set out for, is said, not left for the journeys to show (M17-42).
     expect(leaf.exchange?.notes)
-      .toContainEqual(expect.stringMatching(/^Noted: \S+: somewhere to set out for now, /));
+      .toContainEqual(expect.stringMatching(/^Noted: [^:]+: somewhere to set out for now, /));
     expect(ScreenModel.build(c).objectives[0]).toMatch(/^The brothers want the old writing at /);
     // The same aim with its count gone up (another grave open) is not a new one (the cold evaluation).
     const held = c as unknown as { world: { apply(x: unknown[]): unknown; number(x: unknown): number };
@@ -42,10 +42,10 @@ describe('your aims', () => {
   // most particular first, never by its words against place names (the owner, 4 November: the notes had matched an
   // aim to a place by its name, and a name inside another word, or a place named in passing, could be taken).
   it('finds the place your aim is about by the engine\'s ids, not its words', () => {
-    const aim = 'Bring the Wardens\' reading-glass up out of Lunastagn, from the still water at the bottom.';
+    const aim = 'Bring the Wardens\' reading-glass up out of Moonpool, from the still water at the bottom.';
     const screen = { aims: [{ id: 'w', text: aim, places: ['x__still_water', 'x__lunastagn', 'x__region9'] }] } as unknown as Screen;
     const places = [{ id: 'x__riwustagn' }, { id: 'x__region9' }, { id: 'x__lunastagn' }];
     expect(Aims.named(screen, places, aim)?.id).toBe('x__lunastagn');
-    expect(Aims.named(screen, places, 'The brothers want the old writing at Riwustagn copied.')).toBeUndefined();
+    expect(Aims.named(screen, places, 'The brothers want the old writing at Streampool copied.')).toBeUndefined();
   });
 });

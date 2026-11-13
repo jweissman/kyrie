@@ -64,7 +64,7 @@ observations, and an action's result is neutral about the hour.
 ## What was extended
 
 *No engine change.* The adventure asked for none that could not be said in the module. Where it would have been
-cleaner, the extension is recorded in [friction.md](friction.md) as a proposal: *an item that grants a module's
+cleaner, the extension is recorded in its friction notes as a proposal: *an item that grants a module's
 capability* (Grand Tour friction 1 and 9 again: it would have let the white domino be both a face and a skill), *a way
 that is open to those who wear a face* (the Doorward's judgement of the Fit is four actions where one condition would do), and
 *a person's two registers declared once* (every one of some thirty people has a day-and-night pair of topics that a

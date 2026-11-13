@@ -6,6 +6,7 @@ import type { ReaderApp } from '../reader-app';
 import type { View } from '../menu-model';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { Signs } from '../../../src/presentation/signs';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
 // menu (data-index), marked when the keys are on it, saying what it opens when it opens something. Its look is the
@@ -44,7 +45,7 @@ export class Act {
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
-          {Act.marks[m.kind]}</span>)}
+          {Signs.marks[m.kind]}</span>)}
         {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}
         {c.about && (c.risk || c.grave) && !children && !quiet && <span className="about">{Typography.curl(c.about)}</span>}
         {asks && s.confirming === c.id && <span className="grave-said" role="alert">
@@ -61,10 +62,6 @@ export class Act {
     const whole = `${Words.upper(said)}${/[.!?]$/.test(said) ? '' : '.'}`;
     return `${whole}${grave ? ' It cannot be undone.' : ''} Choose it again to do it.`;
   }
-  // Each kind of mark as its tag says it.
-  static readonly marks: Record<Mark['kind'], string> = { 'one-way': 'no way back', grave: 'cannot be undone',
-    fight: 'a fight', trap: 'a risk', unlooked: 'not looked at', heard: 'something heard', exposed: 'a cold night',
-    warned: 'they will not wait', night: 'after dark' };
   // The tags a choice carries where it is drawn: not what its look says already (cannot be undone, a risk); a way
   // with no coming back says that, in place of cannot be undone.
   static tags(c: Choice): Mark[] {

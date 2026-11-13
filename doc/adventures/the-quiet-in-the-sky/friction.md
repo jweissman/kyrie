@@ -17,7 +17,7 @@ the work. Items are ordered by how much they cost the adventure.
    - A training bout with the dead cannot be a fight. Sparring is an action with a roll (see 9).
    - *Wanted*: `Resolve restore(group)` and `Resolve restore(member)`, the effect of a raising without the spell.
 2. **The canonical planes are not on main.** Mission 18's `data/imbar/` canon, with Ysgard as one world-owned plane that
-   modules extend, is a design (`doc/architecture/mission-18/one-universe.md`) and not code. *Worked around*: I declared
+   modules extend, is a design (`doc/history/missions/18/one-universe.md`) and not code. *Worked around*: I declared
    `Place ysgard "Ysgard" is plane` in the module, and `Entity plane_ysgard: law` so that Orsino's law (−1 to spell DCs)
    holds on the Field. *Cost*: this is the first private outer plane, and a second author's Ysgard will be a different
    one. When the canon lands, `ysgard` should be dropped and the canonical id named in the manifest. The region,

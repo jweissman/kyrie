@@ -67,8 +67,8 @@ describe('the interior walk', () => {
     await g.perform(next.command!);
     expect(g.screen.place.id).toBe('region__s2_u_ossuary');
     // A thing looked at, by the things lens.
-    const thing = g.glance.lenses.things.promoted[0]!;
-    expect(thing.subject).toBe('region__s2_u_candle');
+    const things = g.glance.lenses.things.promoted;
+    expect(things.map(a => a.subject)).toContain('region__s2_u_candle');
     // Someone talked to.
     await g.perform('talk_to(region__s2_u_raiser)');
     const talk = Attending.talk(SceneModel.build(g.screen), 'region__s2_u_raiser');

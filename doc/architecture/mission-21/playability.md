@@ -46,7 +46,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed in this branch (generation) |
 | PL-25 | **P0** | a1 debt: Marsh Howe's den cleared, the foreground is only the way out; the search for the coin dragged in is under `all` (and one steel coin sent the company 71 minutes home, and called Ísencepan "spent" unexplored) | fixed in this branch |
 | PL-26 | P1 | The terminal's foreground dropped the glance's quiet row of ways (by exit id, which no command is): back at Ísencepan, only the cairn; the gate in only under `all` | fixed in this branch |
-| PL-27 | P1 | The debt's chain stops at the second old place: Marsh Howe searched (27 of 50), the aim still names it, nothing is gold, and Palusporta, told of with the others, is not led | open (proposal) |
+| PL-27 | P1 | The debt's chain stops at the second old place: Marsh Howe searched (27 of 50), the aim still names it, nothing is gold, and Palusporta, told of with the others, is not led | fixed in this branch |
 | PL-28 | **P0** | kite wanderer: the fevered child's aim followed in Newmeet's crowded market-place, nothing gold and the mother not on the page; asked, still nothing, with herbs on sale a door away | fixed in this branch |
 | PL-29 | P2 | Edda, gone with the company, is still told asleep on the sick child's step | fixed in this branch (data) |
 | PL-30 | P1 | In the page, the first page says no goal and offers no Follow: "Your first goal" was said only of an aim followed, and nothing is followed until chosen in the Notes | fixed in this branch |
@@ -496,7 +496,11 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   innkeeper named, is not led. Ísencepan's keep, unexplored past its portcullis, is not the aim's (PL-23's ruling).
 - **Cause:** `Origins.debt` writes two levels only (`owing_out` toward the nearest, `owing_further` toward the next
   once the nearest is been to); there is no third, and nothing marks the second spent.
-- **Proposal:** write the chain over every old place the innkeeper tells of, nearest first, each aim holding until its
+- **Fixed (15 November):** `Origins.chain` writes the debt's aims over the three places the innkeeper tells of: the
+  nearest; been to and come back to the shop, the next; been to and left (`not within(party, further)`), the last
+  ("neither {near} nor {further} has paid it"). Verified in a1 debt: with Marsh Howe been to and left, the aim held is
+  `owing_furthest`, toward Palusporta. Held by `test/small/debt-chain` (mutation-checked).
+- **Proposal (as was):** write the chain over every old place the innkeeper tells of, nearest first, each aim holding until its
   place is been to *and* what it offered is done (its own coin act taken, or nothing there left to do), the words of
   each saying the one before "has not paid it". A fast spec over the debt origin in two worlds: past each place, the
   next is the aim's. Not done here: it is a generation change across every debt world.

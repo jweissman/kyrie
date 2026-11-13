@@ -294,6 +294,8 @@ export interface CombatScreen {
   // The round the fight is in: each begins with everyone's order drawn again.
   round: number;
   foes: CombatantRow[]; allies: CombatantRow[];
+  // What the one acting knows and cannot use now, and why (see Unusable): drawn in its place, not done.
+  unavailable?: { id: string; name: string; why: string; spell?: true; carried?: true }[];
   abilities: { id: string; name: string; text: string; cost: number; price: string; cooldown: number; scope: string;
     // What it does besides a blow, for its card (see MechanicsText.gist): nothing for a plain blow or a spell.
     gist?: string;

@@ -11,7 +11,13 @@ export interface Meeting { who: string; name: string; portrait?: TargetRow['port
   choices: { label: string; command: string }[] }
 // The opening as the page tells it: the chapter, and its beats in order; whoever is met on the road, if anyone; and
 // what the company means to do first, said once, plainly.
-export interface Told { title: string; beats: string[]; meeting?: Meeting; aim?: string }
+// pages: what each page of it is (CN-09): a beat, and the first aim said after, are no act (the browser moves on by
+// itself after a reading time, the terminal continues); the meeting is one act that matters, or several.
+export interface Told { title: string; beats: string[]; meeting?: Meeting; aim?: string; pages?: Pages }
+// What a page is to the player (the owner, 14 November: a page with one choice and no stakes had been drawn as a
+// webapp button, "Go on" after the road meeting): no act at all, one act that matters, or several.
+export type Page = 'none' | 'one' | 'several';
+export interface Pages { beats: 'none'; meeting?: Exclude<Page, 'none'>; after: 'none' }
 
 // A new game's opening, as a page tells it apart before the first place (the owner's OWN-17): the chapter the
 // company's origin names, and a beat or two in the origin's own words for the first moment. First why the company
@@ -38,9 +44,17 @@ export class Prologue {
     const way = seen.get(this.arrival), beats = [seen.get(why.id)!, ...way ? [way] : []]
       .map(t => this.said(t));
     const meeting = this.meeting(campaign, screen, seen), aim = screen.objectives[0];
-    return { told: { title, beats, ...meeting ? { meeting } : {}, ...aim ? { aim: this.said(aim) } : {} },
+    return { told: { title, beats, ...meeting ? { meeting } : {}, ...aim ? { aim: this.said(aim) } : {},
+      pages: this.pages(meeting) },
       opening: { apart: new Set([why.id, ...way ? [this.arrival] : [], ...meeting ? [this.meetingId] : []]) } };
   }
+  // What each page is: the beats and the aim after are read, not chosen; the meeting is chosen.
+  static pages(meeting?: Meeting): Pages {
+    return { beats: 'none', ...meeting ? { meeting: this.page(meeting.choices.length) as 'one' | 'several' } : {},
+      after: 'none' };
+  }
+  // A page by how many acts it offers: none is no act, one is one act that matters, more is a choice among several.
+  static page(acts: number): Page { return acts <= 0 ? 'none' : acts === 1 ? 'one' : 'several'; }
   // Whoever the meeting is said near, and what can be done about them now.
   private static meeting(campaign: Campaign, screen: Screen, seen: Map<string, string>): Meeting | undefined {
     const said = (campaign.module.observations ?? []).find(o => o.id === this.meetingId && seen.has(o.id));

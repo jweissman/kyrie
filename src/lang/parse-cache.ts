@@ -1,4 +1,5 @@
 import type { Module } from './module';
+import { Costs } from '../costs';
 
 // What has been parsed, kept: in the process, the last few dozen texts (the same shared rules come again and again),
 // and, where the process has a file system, on disk between processes (see ParseStore). Parsing is the costliest part
@@ -10,13 +11,14 @@ export class ParseCache {
   static store?: { get(key: string): Module | undefined; set(key: string, module: Module): void };
   // The module remembered for a key, as it was parsed: each caller takes its own copy of it.
   static get(key: string): Module | undefined {
-    const known = this.parsed.get(key);
-    if (known) { return known; }
-    const kept = this.store?.get(key);
-    if (kept) { this.remember(key, kept); }
+    const known = this.parsed.get(key), kept = known ?? this.store?.get(key);
+    if (kept) { Costs.note('parse kept', 0, { bytes: key.length }); }
+    if (kept && !known) { this.remember(key, kept); }
     return kept;
   }
-  static set(key: string, module: Module) {
+  // What a parse cost (see Costs): the text's length, and the time taken.
+  static set(key: string, module: Module, ms = 0) {
+    Costs.note('parse', ms, { bytes: key.length });
     this.remember(key, structuredClone(module));
     this.store?.set(key, module);
   }

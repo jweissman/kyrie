@@ -282,7 +282,7 @@ Kind: **missing** capability, or **exists but hidden** (it works, and an author 
 ### 21. The calendar is fixed
 
 - **Observed.** The months (Thaw, Sowing … Haysel, Harvest … Frost) and "the Years of the Sun and Moon" are
-  TypeScript ([calendar.ts](../../../src/presentation/calendar.ts)). They are Imbar's own and nearly match the
+  TypeScript ([calendar.ts](../../../src/campaign/calendar.ts)). They are Imbar's own and nearly match the
   sourcebook, which says Haying and counts from the Unlidding (year 380).
 - **Remedy.** Month names and era in the campaign manifest.
 

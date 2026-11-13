@@ -4,7 +4,7 @@ import { Endings } from '../src/lang/endings';
 import { KyrLint } from '../src/cli/kyr-lint';
 import steps from './fixtures/skerrow/journey.json';
 
-// The Dorothea and the Light on Scarth Holm are one works from two ends (doc/architecture/activation/corpus/
+// The Dorothea and the Light on Scarth Holm are one works from two ends (doc/history/activation/corpus/
 // dorothea-skerrow.md). The Dorothea ends at Tolleth quay, by what the voyage left on Skerrow: played here by the
 // labels a player sees, three ways. What became of the Pharos is told, once, as the ketch leaves the island, and the
 // Scarth light reads it; the Scarth light's keeper is read on the island in turn.

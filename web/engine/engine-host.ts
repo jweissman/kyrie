@@ -12,6 +12,7 @@ import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
+import { EngineCreation } from './engine-creation';
 import { EngineStarts, type Starting } from './engine-starts';
 import { Frontier } from '../../src/world/frontier';
 import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
@@ -64,7 +65,7 @@ export class EngineHost {
   private turn?: { battle: Battle; resolve: (c: Command) => void };
   // The last fight the company chose in, held on its page once it has ended, until the player goes on.
   private fought?: Battle;
-  private readonly creation = new Creation();
+  private readonly creation = new Creation(); private readonly made = new EngineCreation();
   private readonly starts = new EngineStarts(this.creation, m => this.post(m));
   // The command under way, if any, which a checkpoint waits for.
   private working: Promise<unknown> = Promise.resolve();
@@ -74,12 +75,17 @@ export class EngineHost {
   private game = 0;
   private busy?: number;
   constructor(private readonly post: (message: Message) => void) {}
+  // The game begun, for a client in the same process (the terminal) that plays it on the same session.
+  get played(): PlaySession | undefined { return this.session; }
   warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
   async handle(request: Request): Promise<unknown> {
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
       case 'setting': return this.creation.setting(request.campaign);
-      case 'world': return this.creation.generate(request.seed, request.terrain);
+      case 'world': return this.made.begun(await this.creation.generate(request.seed, request.terrain),
+        { campaign: Creation.generated, seed: request.seed, ...request.terrain ? { terrain: request.terrain } : {} });
+      case 'creation': return request.step ? this.made.choose(request.step, request.value ?? '') : this.made.state();
+      case 'set-out': return this.begin({ ...this.made.starting(), ...request.apart ? { apart: true } : {} });
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
       case 'ready': this.starts.prepare(request); return null;
