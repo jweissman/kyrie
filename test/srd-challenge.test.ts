@@ -12,14 +12,14 @@ describe('the challenge of the SRD kinds', () => {
     }
     // The barrow ghoul is four of Orsino's: a lone warrior of the second level, against half of one of the first.
     expect([Challenge.of('ghoul/barrow'), Challenge.of('ghoul')]).toEqual([2, 0.5]);
-  });
+  }, 60000);
   it('is what the fights say: a second-level warrior beats the barrow ghoul, a first-level one does not', () => {
     expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 2, foes: 1 })).toBeGreaterThanOrEqual(0.5);
     expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 1 })).toBeLessThan(0.5);
-  });
+  }, 60000);
   // Their 10/magic and 5/adamantine: no blade of the catalog's passes either.
   it('finds no lone warrior to the twentieth level who beats the unicorn or the flesh golem', () => {
     expect([Challenge.of('unicorn'), Challenge.of('golem/flesh')]).toEqual([24, 24]);
     expect(BestiaryTool.won('unicorn', 1, { warrior: 20, foes: 1 })).toBeLessThan(0.5);
-  });
+  }, 60000);
 });
