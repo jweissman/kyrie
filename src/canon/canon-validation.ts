@@ -256,6 +256,7 @@ export class CanonValidation {
       const where = `ability ${id}`;
       if (!['technique', 'spell', 'natural'].includes(a.kind)) { this.fail(where, `unknown kind ${a.kind}`); }
       if ((a.effect === undefined) === (a.effects === undefined)) { this.fail(where, 'needs exactly one of effect and effects'); }
+      if (a.recharges && !['rest', 'night', 'day'].includes(a.recharges)) { this.fail(where, `recharges by ${a.recharges}`); }
       if (a.kind === 'spell') {
         const s = a.spell;
         if (!s || !['arcane', 'divine'].includes(s.tradition) || !Number.isInteger(s.level) || s.level < 0 || s.level > 9) {

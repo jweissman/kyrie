@@ -12,7 +12,7 @@ const fields = {
   statistics: ['attributes', 'hitPoints', 'hitDie', 'hitDice', 'level', 'weapon', 'armor', 'primary', 'actions',
     'attacks', 'growth', 'riders', 'damage', 'armorBonus'],
   ability: ['name', 'kind', 'description', 'effect', 'effects', 'cost', 'recharge', 'windup', 'spell', 'level',
-    'resist', 'requires', 'uses', 'area', 'unsupported', 'source'],
+    'resist', 'requires', 'uses', 'area', 'unsupported', 'source', 'recharges'],
   condition: ['name', 'description', 'lifetime', 'modifiers', 'hooks', 'trigger', 'duration', 'saveKind', 'law',
     'compel', 'forceTarget', 'guard', 'drains', 'stacking', 'omits', 'unsupported', 'source', 'grants', 'begins',
     'ends', 'unheld'],

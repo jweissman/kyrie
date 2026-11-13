@@ -94,6 +94,9 @@ export interface Ability {
   // How often a day it can be used, until a night's rest; and the shape of what it lets loose, which catches whoever
   // stands where it is aimed (see Positions). Orsino's areas name no shape: the rules' combat.areas give them one.
   uses?: number; area?: 'burst' | 'cone';
+  // What gives its uses a day back (engine-pressure.md, section 5): any rest (as saying nothing does), only a night
+  // (an inn's bed, a camp, not a six-hour rest or a healer's hour), or only the first night of a new day.
+  recharges?: 'rest' | 'night' | 'day';
   unsupported?: Omissions; source?: Source;
 }
 export interface Ancestry {
@@ -286,7 +289,10 @@ export interface Procedure { name: string; effect: string; description: string }
 // The numbers and ids the rules of a fight turn on (data/catalog/vocabulary.json's combat): see its about.
 export interface Combat {
   deathSave: number; triggerSave: number; triggerTurns: number; summons: { base: number; perLevels: number };
-  flee: { die: string; atMost: number }[]; systemShock: number; recharge: { technique: number; free: string[] };
+  flee: { die: string; atMost: number }[]; systemShock: number;
+  // The turns a technique rests, the moves that rest not at all, and the recoveries that are a night's (an inn's bed,
+  // a camp), for an ability that recharges only by night or by day (Ability.recharges).
+  recharge: { technique: number; free: string[]; nights: string[] };
   fist: { id: string; name: string; damage: string; type: string; natural: boolean };
   ids: { slain: string; raising: string; roughRest: string; shelteredRest: string; drained: string };
   // Orsino's spells a day for a creature with no calling (Combat.maxSpellSlotsForLevel: 2 + level), which its own
