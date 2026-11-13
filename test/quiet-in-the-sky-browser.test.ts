@@ -45,6 +45,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Quiet in the Sky in the browser
     await act(d, 'Talk to Bet Garside', 'Ask why she cannot sleep');
     if (shots) { await page.screenshot({ path: `${shots}/browser-3-bet.png` }); }
     await act(d, 'Take your leave', 'Out to Larum street', "Into the guide's house", 'Talk to Jory', 'Pay Jory Whitlock six coin|six coin');
+    // The Coming-in's telling past its three sentences is a touch away, under More of the place (Mission 21).
+    await page.locator('[data-action="more-told"]').first().click(); await page.waitForTimeout(150);
     expect(await text(page)).toMatch(/no column for breathing/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-4-coming-in.png` }); }
     await act(d, 'To the southern Field', 'To Trophy Row');
