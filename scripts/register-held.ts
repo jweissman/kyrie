@@ -10,8 +10,11 @@ class RegisterHeld {
     const rows = readFileSync('doc/architecture/open-register.md', 'utf8').split('\n')
       .filter(l => /^\| [A-Z][A-Z0-9]*-[0-9A-Z]+ \|/.test(l));
     const fixed = rows.filter(r => /\b(fixed|held|mended)\b/i.test(r.split(' | ').slice(2).join(' | ')));
-    const held = fixed.filter(r => this.specs(r).length), bare = fixed.filter(r => !this.specs(r).length);
-    console.log(`${rows.length} rows; ${fixed.length} say fixed; ${held.length} name a spec that exists, ${bare.length} name none`);
+    // A fix to how the work is done (a CI timeout, evidence copied out of scratch) has no behaviour of the game to keep.
+    const process = fixed.filter(r => /a process fix/.test(r)), game = fixed.filter(r => !process.includes(r));
+    const held = game.filter(r => this.specs(r).length), bare = game.filter(r => !this.specs(r).length);
+    console.log(`${rows.length} rows; ${fixed.length} say fixed (${process.length} of the process); of the game's `
+      + `${game.length}, ${held.length} name a spec that exists, ${bare.length} name none`);
     if (args.includes('--list')) { for (const r of bare) { console.log(`  ${r.split(' | ')[0]!.replace('| ', '')}`); } }
     return 0;
   }

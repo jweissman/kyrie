@@ -343,7 +343,7 @@ claims nothing beyond what the sources say.
 | TC-09 | Adversarial-order quest tests across adventures; acceptance tests for urgency, journey density and restraint | REV-21, IND-07 | Partial, unverified since 8 Nov | P3 | M21 |
 | TC-10 | Tests teleport rather than journey | COR-18 | Open risk, unverified since 8 Nov | P3 | M21 |
 | TC-11 | Long-horizon verification with trace minimisation; boredom and pull measured | BRF-63, BRF-64 | Disappeared / superficial, unverified since 6 Nov | P3 | later |
-| TC-12 | CI on 7f392f0b (and 13441a49) failed only the handbook browser spec, which passes locally | **fixed**: its cases had bun's five-second default; a loaded runner timed the first out and the browser closed under the rest; each now has a minute | P3 | — |
+| TC-12 | CI on 7f392f0b (and 13441a49) failed only the handbook browser spec, which passes locally | **fixed**: its cases had bun's five-second default; a loaded runner timed the first out and the browser closed under the rest; each now has a minute (a process fix: no behaviour of the game to hold) | P3 | — |
 
 ## 15. Docs
 
@@ -568,7 +568,7 @@ These were neither done nor recorded anywhere. Note also that the ids PR-01 to P
 | R10-01 | Combat as a mode of the scene (amendment 6 E, amendment 7 (1)): the fight is still its own page; no tactical foreground (attack, the abilities and spells that apply, a manoeuvre, a retreat), no passage from exploration to threat, parley, fight and aftermath within the scene | open | P1 | M21 |
 | R10-02 | Silver leads on the map (amendment 6 F, the atlas synthesis): the map does not offer exploration's silver leads | open | P2 | M21 |
 | R10-03 | The atlas's restraint has no test: silver, neutral and dim are told apart only by the builder's renders (E187, E188); silver (#D7DBE4) is close to the neutral greys; no screenshot set or spec | open: a rendered check of the tones' contrast, and a spec that every coloured mark names its act (test/signal-inside is the start) | P2 | M21 |
-| R10-04 | Evidence lived in scratch (/var/tmp/kyrie/m20): the gold survey, the signal census, the browser render of the signals, the safe-zone probe, the parley and camp probes | **mended**: copied into `mission-20/evidence-tools/` (they read the worktree path at their head; change `W` to run them) | P3 | — |
+| R10-04 | Evidence lived in scratch (/var/tmp/kyrie/m20): the gold survey, the signal census, the browser render of the signals, the safe-zone probe, the parley and camp probes | **mended**: copied into `mission-20/evidence-tools/` (they read the worktree path at their head; change `W` to run them; a process fix: no behaviour of the game to hold) | P3 | — |
 | R10-05 | Acceptance defect B6 (11 November): one combined replay through the headless projection and the rendered screen, at narrow sizes | open: no home before this row | P2 | M21 |
 | R10-06 | The deployed build (Pages) was never played by an agent: every cold round was served locally (FH-02 corrected) | open | P2 | M21 |
 
