@@ -33,7 +33,7 @@ export class ChoiceRow {
   static Act({ choice, draw, className, number, shown, quiet, ...parts }: Omit<RowParts, 'number'> & { choice: Choice;
     draw: Draw; className?: string; quiet?: boolean; number?: number; shown?: number }) {
     const drawn = number ?? shown;
-    return <Act.View choice={choice} draw={draw} quiet={quiet} number={number}
+    return <Act.View choice={choice} draw={draw} quiet={quiet} number={number} {...parts.mark ? { holdTone: parts.mark } : {}}
       className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}`}>
       <ChoiceRow.Parts {...parts} {...drawn !== undefined ? { number: drawn } : {}} /></Act.View>;
   }
