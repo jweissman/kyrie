@@ -8,7 +8,7 @@ import type { Promoted } from '../../src/presentation/glance-types';
 export class Guidance {
   static shown(app: ReaderApp): boolean {
     if (app.props?.query?.get('guide') !== 'quiet') { return true; }
-    return (app.state.frame?.screen.party ?? []).some(m => /\bcleric\b/i.test(m.line));
+    return (app.state.frame?.screen.party ?? []).some(m => m.calling === 'cleric');
   }
   // The continuation among the rest, where its place is fixed by where the company is and what it follows, not always
   // first: the first button is not always the right one.

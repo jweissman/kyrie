@@ -49,7 +49,7 @@ export class Conversation {
     const aims = exchange?.aims ?? [];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
       ...(exchange?.notes ?? []).filter(text => !aims.length || !Words.aimed.test(text))
-        .map(text => ({ kind: /^(Noted|Borne out): /.test(text) ? 'learned' as const
+        .map(text => ({ kind: exchange?.learned?.includes(text) ? 'learned' as const
         : Words.aimed.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
         ...Words.label(text) ? { label: Words.label(text) } : {} })),
       ...aims.map(a => ({ kind: 'aim' as const, text: a.text, aim: a.id }))];

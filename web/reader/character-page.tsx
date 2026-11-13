@@ -18,6 +18,10 @@ import { CreationRules } from './creation-rules';
 // change, chosen here. With more than one in the company, each is a page of their own. A portrait of someone of their
 // calling and people stands small beside their name, as on their card in a fight, where one fits.
 export class CharacterPage {
+  // What is done from the sheet, told on it when done: by the act's name, which the page had read off its words
+  // ("Have …", "Raise …", "Take up …": AR-05).
+  static readonly grows: ReadonlySet<string> = new Set(['raise_quality', 'learn_skill', 'learn_spell', 'take_feat',
+    'prepare_spell', 'field_spell']);
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
     const m = screen.party.find(x => x.id === app.state.member) ?? screen.party[0]!;
@@ -41,7 +45,7 @@ export class CharacterPage {
           {m.sheet?.specialty && <CharacterPage.Specialty who={m.name} specialty={m.sheet.specialty} />}
           <CharacterPage.Standing member={m} />
         </header>
-        {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
+        {exchange?.act && CharacterPage.grows.has(exchange.act) && <Told.Happened exchange={exchange} />}
         {/* A character sheet, compact and in one view (the owner, 5 November): the qualities across the top under who
             and how they are; then how they fight and save, what they can do and know, what they carry and how they
             grow, side by side; a development to spend before them all. */}

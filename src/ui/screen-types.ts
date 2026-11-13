@@ -133,6 +133,8 @@ export interface ItemRow {
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;
+  // Their calling's id, for what a client decides by it (the line is words: AR-05).
+  calling?: string;
   // The emblems of their people and calling, where each has one, drawn beside the line (see Emblems).
   emblems?: string[];
   hp: number; maxHp: number; mana: number; maxMana: number; slots?: number[]; maxSlots?: number[];

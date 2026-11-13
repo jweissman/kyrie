@@ -378,7 +378,7 @@ export class ScreenModel {
       const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(), emblems,
         ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},
-        ...face ? { face } : {},
+        ...face ? { face } : {}, ...m.classId ? { calling: m.classId } : {},
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),

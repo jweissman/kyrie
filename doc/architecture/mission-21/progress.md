@@ -78,3 +78,26 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   M21's own work shows. Held rows 42 of the game's 62 fixed (by the status column alone). AR-05 in part: the roll of who is here said apart
   (`Leaf.roll`), the page's word-match gone (`small/roll-apart`). The full run on 14594d9d failed only
   `wren-tower-climbed` (re-digested: it comes where it came); a full run dispatched on c610ca2d.
+- **14 Nov, early.** Rules batch 5 merged (51c1cc4d): the vault's keeper told and escapable (`small/vault-told`), R9-06's
+  telling (`fight-status-told`). Lead rulings: a blow for nothing triggers no wound's condition (Orsino's rule; the
+  barrow-king harder, to be told and escapable); a venom gets one chance, not two; damage that grows with level is
+  M22's (a new mechanism; the mummy first). Playability batch 9 merged (bc5ab64c): PL-24 fixed in generation (works
+  teach their makers' story; five of ten seeds had an errand that could not be done: `small/errand-teaches`), PL-06
+  ranks 1–2 (one successor when an aim is seen through: `small/aim-successor`), PL-22's take names what is taken.
+  `register-state` classes a row by the state its status leads with; P1 open 22 → 21 since M20: the inherited P1s are
+  not yet paid down (debt.md). T24-20 decided (Common names first in the starting country; to build). AR-05: guidance
+  by calling id. Agents: playability on a cold round (outcome 2's evidence), rules diagnosing healing between fights.
+- **14 Nov, morning.** The full run on c610ca2d failed only `srd-challenge`'s five-second default (a minute now). AR-05
+  further: a talk's learnings typed (`Exchange.learned`, `small/talk-learned`), the act an exchange tells named
+  (`Exchange.act`; the sheet's development by it, `small/exchange-act`). Rules batch 6 merged (3d5438b3) and reverted
+  (a4edc643): it passed the quick lane but moved the SRD challenge (a second-level warrior against the barrow ghoul
+  42 %, a twentieth-level one against the unicorn 67 %); returned to the investigator with the recovery ruling (a
+  healing cantrip mends each member once between rests). Lesson: a combat rule runs the srd, bestiary, play-structure
+  and placements specs before it is merged.
+- **14 Nov, later.** The full run on a4edc643 green. Rules batch 7 merged (bb6cd8da): batch 6 back with the SRD
+  challenge re-measured under the wound rule (the unicorn 24 → 20: harmless hooves had stunned a twentieth-level
+  warrior 674 times in twelve fights; the barrow ghoul 2 → 4); recovery rule 1 (a healing cantrip mends each member
+  once between rests: `small/tended`; the heal loop gone at about one expedition in twenty). The whole challenge table
+  re-measured moves 92 of 185 kinds: not written in M21 (noise, and every world's dens), decided for M22 at 48 fights
+  a level. The owner's guide to the first hour: `acceptance-guide.md`. Rules investigator on T24-20 (Common names
+  first).

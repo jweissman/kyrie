@@ -62,12 +62,12 @@
   "procedures": {
     "camp_recovery": {
       "name": "Sheltered recovery",
-      "effect": "Heal 9999 health to party. Grant 9999 slots to party. Grant 9999 uses to party. Remove bleeding from party.",
+      "effect": "Heal 9999 health to party. Grant 9999 slots to party. Grant 9999 uses to party. Remove bleeding from party. Remove tended from party.",
       "description": "A night under a roof or a well-kept camp: wounds close, spells are relearned, what can be done only so often a day can be done again, bleeding stops."
     },
     "rough_rest": {
       "name": "A night in the open",
-      "effect": "Heal (1d6 + 2) health to party. Grant (1) slots to party. Grant (1) uses to party. Remove bleeding from party.",
+      "effect": "Heal (1d6 + 2) health to party. Grant (1) slots to party. Grant (1) uses to party. Remove bleeding from party. Remove tended from party.",
       "description": "A cold night on hard ground: some rest, no more."
     }
   },
