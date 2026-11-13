@@ -29,6 +29,11 @@
     On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
   }
 >> lead
+  // And once that is known, the time of day: someone met on the road can always be spoken to (the cold playtest, 14
+  // November: a pedlar who lifted his staff from a long way off could not be talked to at all; CO-07).
+  Topic {r}_road with {r} "Pass the time of day with the pedlar" when knows(actor, {site}_found) once {
+    Says "'Mind how you go,' says the pedlar, shifting the frame on {his} shoulders. 'The farms are close this year, and the dogs are closer. I'm for {town}, if the weather holds.' And {he} goes on along the track, slow, the staff going before.".
+  }
 --- any shepherd 3
   // A shepherd after a ewe gone astray: found by searching where {he} says, she is worth a cheese and a coin or two.
   Person {r} "a shepherd" at {home} {
