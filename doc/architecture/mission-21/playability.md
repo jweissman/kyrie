@@ -28,6 +28,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-03 | P1 | Blue ("to learn") on an act that teaches nothing: the wagoner's "Offer him a hand" | fixed in this branch |
 | PL-05 | **P0** | Gold on whatever has its own act at the place the aim names, though it does nothing for the aim (the cairn at Seolforfyrd took the debt's gold; at Tenebraetumulo the oxen's) | fixed in this branch |
 | PL-08 | **P0** | Gold on "Search" wherever the aim names the place, though nothing is hidden there (Seolforfyrd: "nothing is hidden here") | fixed in this branch |
+| PL-09 | P2 | A companion "binds the hurt" of a company with nothing wrong but a lit torch: needing care held of any condition | fixed in this branch |
+| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | open |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | open |
@@ -128,6 +130,29 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Status:** fixed in this branch (the heuristic removed; a search may be led for `advance`). Regressions:
   `test/small/gold-at-the-place.test.ts`: the debt's case, indoors so that a search is offered, and the hidden
   thing's case (each fails on the code before its half of the change).
+
+### PL-09: care for a lit torch
+
+- **Repro:** a1 kin, the father's aim seen through, the notice read, "Ask Bask about the rats", `follow 2` (the rats),
+  the corn-store, the trapdoor, "Light a torch": "Odo binds the hurt fast and badly … 'Hold still'". Wynn 15/15, Odo
+  14/14; `character` shows "Conditions: Torchlit · 1h left".
+- **Corroborates:** round 12, A, T40 ("'Odo binds the hurt' when no one is hurt"); T24-16.
+- **Cause (verified):** `CreatureFacts.member` asserted `needsCare` for a member below full health *or with any
+  condition*; Torchlit is a condition that grants light. The drover's `son_binds` event reads `needsCare`; so do the
+  Tend and care offers.
+- **Status:** fixed in this branch: needing care is hurt, or under a condition that does not help
+  (`ConditionSense.helps`, the catalog's own reading of a condition). Regression: `test/small/care.test.ts`.
+
+### PL-10: a way in the dark
+
+- **Repro:** as PL-09, before the torch: "It is pitch dark. Without a light you can see nothing here" and the
+  foreground offers "Take a hole gnawed through the cellar wall to the rat-runs · 10 min [gold: your aim]" beside
+  Light a torch. The company cannot see the hole.
+- **Corroborates:** round 12, A, T39; R10-11 (text of what could not be seen); the owner's rule "respect character
+  knowledge".
+- **Cause (hypothesis):** the way is offered by the engine as an exit known from the room's plan, not from what the
+  company perceives; the gold rides on it as the aim's way deeper.
+- **Status:** open.
 
 ### PL-06: after the aim, nothing pulls
 

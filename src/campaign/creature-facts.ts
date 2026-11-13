@@ -19,6 +19,7 @@ import { Advancement } from '../rules/advancement';
 import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 import { LevelDrain } from '../rules/level-drain';
+import { ConditionSense } from '../presentation/condition-sense';
 
 type Entity = Module['entities'][number];
 interface Declared {
@@ -196,8 +197,10 @@ export class CreatureFacts {
     if (scope.measures.has('levelOf')) {
       changes.push({ kind: 'set', call: ModuleWriter.call('levelOf', reference), value: ModuleWriter.number(c.base.level) });
     }
-    changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
-      call: ModuleWriter.call('needsCare', reference) });
+    // Hurt, or under something that does not help them: a torch's light is no wound (Odo had bound "the hurt" of a
+    // company with nothing wrong but a lit torch: M21's playability list, PL-09).
+    const ailing = c.state.hp < c.base.maxHp || c.state.conditions.some(k => !ConditionSense.helps(k.id));
+    changes.push({ kind: ailing ? 'assert' : 'retract', call: ModuleWriter.call('needsCare', reference) });
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
     if (has.has('levelDrained')) {
       changes.push({ kind: LevelDrain.levels(c.state.conditions) ? 'assert' : 'retract',
