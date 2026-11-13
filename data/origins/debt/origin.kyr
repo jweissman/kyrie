@@ -69,8 +69,9 @@ Module origin "What is owed" {
 {out}
   // Carrying what would sell, short of the sum: the creditor buys such things (a merchant deals in valuables), so the
   // aim goes home to them. The hold's music box and chalice had paid nothing, and nothing led home to sell them
-  // (Mission 20's honest play; a cold player sold star-iron to Tuck unled).
-  Query laden(a: group) means carries(a, ?x) and itemKind(?x, ?k) and valuable(?k).
+  // (Mission 20's honest play; a cold player sold star-iron to Tuck unled). Not for a trifle: one steel coin (worth 3)
+  // found in Ísencepan's gate-passage had sent the company seventy minutes home to sell it for a coin (M21's PL-25).
+  Query laden(a: group) means carries(a, ?x) and itemKind(?x, ?k) and valuable(?k) and worth(?k) >= 5.
   Objective owing_laden when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and laden(party) toward creditor "What you have found would fetch coin, and {creditor}, who buys such things, is owed {owed(loan)} by market day.".
   Objective owing_paid when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) >= owed(loan) toward creditor "You have the {owed(loan)} coin you owe {creditor}: pay it at {shop}, before market day.".
   Objective owing_late when owed(loan) > 0 and called(party) toward creditor "{creditor} has called in what you owe: {owed(loan)} coin.".

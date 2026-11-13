@@ -44,6 +44,11 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | fixed in this branch (the telling, and the take's label) |
 | PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed in this branch (the lead's ruling) |
 | PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed in this branch (generation) |
+| PL-25 | **P0** | a1 debt: Marsh Howe's den cleared, the foreground is only the way out; the search for the coin dragged in is under `all` (and one steel coin sent the company 71 minutes home, and called Ísencepan "spent" unexplored) | fixed in this branch |
+| PL-26 | P1 | The terminal's foreground dropped the glance's quiet row of ways (by exit id, which no command is): back at Ísencepan, only the cairn; the gate in only under `all` | fixed in this branch |
+| PL-27 | P1 | The debt's chain stops at the second old place: Marsh Howe searched (27 of 50), the aim still names it, nothing is gold, and Palusporta, told of with the others, is not led | open (proposal) |
+| PL-28 | **P0** | kite wanderer: the fevered child's aim followed in Newmeet's crowded market-place, nothing gold and the mother not on the page; asked, still nothing, with herbs on sale a door away | fixed in this branch |
+| PL-29 | P2 | Edda, gone with the company, is still told asleep on the sick child's step | fixed in this branch (data) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | ranks 1 and 2 built in this branch (the lead's ruling); ranks 3–4 later |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -446,6 +451,84 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   The kahitude order walk in `test/gold-thread` no longer allows `lost` as an end.
 - **Regression:** `test/small/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
   history or fate the errand waits on (mutation-checked: without the marks it fails for the five countries above).
+
+### PL-25: a cleared den's coin hidden from a debt (round 13, a1 debt, Brann the warrior)
+
+- **Repro:** a1 debt, human warrior, going straight at the aim. Mik → Eamon ("Ísencepan, Marsh Howe, Palusporta") →
+  Ísencepan's gate-passage: "Collect a steel coin" (gold) → the gold goes 71 minutes home ("What you have found would
+  fetch coin") to sell it to Mik for **one coin** → "Ísencepan is spent" (only its gate-passage seen, the portcullis not
+  raised) → Marsh Howe, 146 minutes: a badger on the way, "the leader", two zombies, "Marsh Howe is quiet now". The
+  foreground: **"Take the way across country to open fields north-east of Mistshaw", and nothing else.** Under `all`:
+  "Search Marsh Howe for what was dragged in" (five coin) and "Collect a lantern with the glass gone". Day 1, 1:46
+  p.m., 27 coin of 50. Saves `play21/ga-spent.json`, `play21/ga-howe.json`.
+- **Cause:** two, both typed. (1) `AimAdvances` counted only selling toward a coin aim, never an act whose own
+  changes put coin in the purse (`Increase quantity(actor, gold) by hoard(beasts)`). (2) `Affordances.subject` gave a
+  dead or downed subject no candidates at all, and the den's search is grouped under the dead zombies.
+- **Fix:** an aim short of coin is advanced by an act that itself puts coin in the company's purse and takes none out
+  (not a service had of someone, a bed or a song for supper, nor a reckoning paid: the first cut had made "Take a bed
+  and supper from Eamon" the debt's gold); and the dead or down are offered only what the aim followed waits on done
+  about them (`Affordances.remains`). At the cleared howe the gold is now "Search Marsh Howe for what was dragged in".
+  Regression: `test/small/debt-purse.test.ts` (a cleared den's search is the debt's gold; mutation-checked both ways:
+  without `pays`, and without `remains`).
+- **With it (P1, data):** the debt's `laden` no longer holds for a trifle (`worth >= 5`: a steel coin is 3), so one
+  coin does not send the company home; and the further aim says "{near} has not paid it", where it said "is spent" of
+  a keep whose gatehouse was all that was seen (`src/world/origins.ts`). No spec: the debt's walk in `test/gold-thread`
+  still ends at the next old place.
+
+### PL-26: the terminal's foreground without the ways (round 13, a1 debt)
+
+- **Repro:** a1 debt, back at Ísencepan from Marsh Howe: the foreground is "1. Build the cairn up again" and nothing
+  else; "Take the gate to the gate-passage" is only under `all`. The glance had it, in its ways (`exit:region__w6_gate`).
+  Save `play21/ga-isen2.json`.
+- **Cause:** `Terminal.foreground` matched the glance's ways, which are by exit id, against choices by command id, so
+  no way in the quiet row was ever in the terminal's foreground once it was not an act (the first visit's gate was an
+  act; gone through, it is a way). The page resolves them through `MenuModel.lead`.
+- **Fix:** `Terminal.led`: the ways by the command their exit is done by. Regression: `test/small/terminal-ways.test.ts`
+  (a keep's door gone through and come back to: the gate is in the foreground; mutation-checked).
+
+### PL-27: the debt's chain stops at the second old place (round 13, a1 debt)
+
+- **Repro:** as PL-25, the howe searched: 27 coin of 50, Day 1, 1:46 p.m. The aim still says "Eamon told of Marsh Howe
+  as well: what is in such places could pay it", of the place just emptied; nothing is gold; Palusporta, the third the
+  innkeeper named, is not led. Ísencepan's keep, unexplored past its portcullis, is not the aim's (PL-23's ruling).
+- **Cause:** `Origins.debt` writes two levels only (`owing_out` toward the nearest, `owing_further` toward the next
+  once the nearest is been to); there is no third, and nothing marks the second spent.
+- **Proposal:** write the chain over every old place the innkeeper tells of, nearest first, each aim holding until its
+  place is been to *and* what it offered is done (its own coin act taken, or nothing there left to do), the words of
+  each saying the one before "has not paid it". A fast spec over the debt origin in two worlds: past each place, the
+  next is the aim's. Not done here: it is a generation change across every debt world.
+
+### PL-28: the fever followed, and nothing gold (round 13, kite wanderer, Sefa the thief)
+
+- **Repro:** kite, wanderer, elf thief; follow the aim on the road, help the wagoner, into Newmeet's market-place. Its
+  scene has fourteen subjects (the circus, the clerk, the reeve, Hesper, the factor…); the foreground is "Talk to
+  Hild", "Read the notice", "Ask the factor about the old cisterns", "Talk to the factor": **no gold, and Ebba, the
+  child's mother, is not on the page.** "Ask Ebba about the child" (her willows) and Falkor's herb-shop, a door off the
+  square selling healing herbs, are only under `all`. Save `play21/kt-market.json`.
+- **Cause:** what the aim waits on someone keeping (`keeps(mother, ?i)`; she `Wants herbs`) had its leads only where
+  it *grows* (`AimLeads.supplies`), never where it is sold, and buying was never an aim's step (`AimAdvances`: "nor ever
+  by spending", meant for the debt). And the first aim (`herbs`) names only the green, not the mother, so in a crowded
+  square she lost the three places.
+- **Fix (typed):** `AimLeads.sellers`: whoever sells a kind the keeper wants, and the shop it lies in for sale, are the
+  aim's (those in the company's own town first; Windscar's had been led too), while none of the company carries any;
+  and buying such a thing (`buy_item` of a wanted kind) advances the aim then. Played: on the first sight of the
+  market-place, "To Falkor's herb-shop" gold → "Buy healing herbs for Sefa · 1 coin" gold → back, "Give healing herbs
+  to Ebba" gold → "Sit with the child…" gold; Edda offers to keep the cups; the fever breaks at 4:51 p.m., 300 XP, and
+  PL-06's successor is offered ("Next: A salvage crew, the Spade-Company, … · Set out for a grassed mound").
+  Regression: `test/small/fever-shop.test.ts` (to the shop, the buy, then not again; mutation-checked both ways).
+- **Tried and withdrawn:** the aim `toward mother` (data) put Ebba first, but an aim toward someone makes the town
+  they are in its place (`Stakes.addresses`), and Go…'s ways in kite (`test/go-sheet-aims`) lost both aims' marks.
+  **Left (P2):** Ebba is still not on the page in the crowded square until the herbs are carried; her "Ask about the
+  child" (the willows) is only under Talk.
+
+### PL-29: a companion told where she was left (round 13, kite)
+
+- **Repro:** after PL-28, Edda asked to join ("Then I'm coming"); the market-place then tells "On the step of the sick
+  child's house the sister sits with a cup in her lap, asleep, very proud of herself."
+- **Fix (data):** the observation holds only while she does not travel with the company. No spec (data).
+- **Also seen, not fixed (P2):** Edda is "about nine" and joins as a warrior with a longsword, a battleaxe and
+  chainmail (the generated sister's gear); "Speak with Edda" names nothing (it is her offer to keep the cups); after
+  she keeps them, the aim still says "someone must keep the cups" while only waiting is left.
 
 ### PL-06: after the aim, nothing pulls
 

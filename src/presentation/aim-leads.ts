@@ -81,13 +81,40 @@ export class AimLeads {
   // Where what the aim waits on someone keeping grows: each place a stand of a kind they want stands in, and the
   // places round it.
   private static supplies(campaign: Campaign, def: NonNullable<ReturnType<typeof Undertakings.followed>>): string[] {
-    const w = campaign.world, keepers = AimAdvances.waits(campaign.module, def)
-      .filter(c => c.name === 'keeps' && !c.args[0]!.startsWith('?')).map(c => c.args[0]!);
-    if (!keepers.length || !w.relates('wants') || !w.relates('crop')) { return []; }
-    const wanted = new Set(w.related('wants').filter(r => keepers.includes(r.args[0]!)).map(r => r.args[1]!));
+    const w = campaign.world, wanted = this.wanted(campaign, def);
+    if (!wanted.size || !w.relates('crop')) { return []; }
     const byId = EntityIndex.of(campaign.module.entities).byId;
     return w.related('crop').filter(r => wanted.has(w.one('itemKind', r.args[0]!) ?? ''))
       .flatMap(r => Spatial.ancestry(byId, w.one('at', r.args[1]!) ?? '').map(e => e.id));
+  }
+  // Where what the aim waits on someone keeping is sold, while the company has none of it: whoever sells it there
+  // (the herbs on Falkor's shelves at Newmeet, a door off the market-place where the fevered child's mother stood:
+  // after she was asked, nothing was gold, M21's PL-28). Only a kind they want.
+  private static keepers(campaign: Campaign, def: NonNullable<ReturnType<typeof Undertakings.followed>>): string[] {
+    return [...new Set(AimAdvances.waits(campaign.module, def).filter(c => c.name === 'keeps' && !c.args[0]!.startsWith('?'))
+      .map(c => c.args[0]!))];
+  }
+  static sellers(campaign: Campaign, def: NonNullable<ReturnType<typeof Undertakings.followed>>): string[] {
+    const w = campaign.world, wanted = this.wanted(campaign, def), actor = campaign.playerActor ?? 'party';
+    if (!wanted.size || !w.relates('forSale')) { return []; }
+    const carried = w.related('ownedItem').some(r => wanted.has(w.one('itemKind', r.args[0]!) ?? '')
+      && w.test(ModuleWriter.call('memberOf', r.args[1]!, actor)));
+    if (carried) { return []; }
+    const sold = w.related('forSale').map(r => r.args[0]!).filter(i => wanted.has(w.one('itemKind', i) ?? ''));
+    // Those in the town the company is in, where there are any: Windscar's had been led as well as Newmeet's own.
+    const byId = EntityIndex.of(campaign.module.entities).byId, town = this.town(byId, w.one('at', actor) ?? '');
+    const near = sold.filter(i => town && this.town(byId, w.one('at', i) ?? '') === town);
+    // The sellers, and the shop each thing lies in for sale.
+    return [...new Set((near.length ? near : sold).flatMap(i => [w.one('soldBy', i), w.one('at', i)].flatMap(x => x ?? [])))];
+  }
+  private static town(byId: Map<string, Entity>, place: string): string | undefined {
+    return Spatial.ancestry(byId, place).find(e => e.space?.kind === 'settlement')?.id;
+  }
+  // The kinds of thing whoever the aim waits on keeping something wants (Wants herbs, willow bark, feverwort).
+  static wanted(campaign: Campaign, def: NonNullable<ReturnType<typeof Undertakings.followed>>): Set<string> {
+    const w = campaign.world, keepers = this.keepers(campaign, def);
+    return new Set(keepers.length && w.relates('wants')
+      ? w.related('wants').filter(r => keepers.includes(r.args[0]!)).map(r => r.args[1]!) : []);
   }
   // Whether anything the company could do at a place, were it standing there as it is now, would bring about what
   // the aim followed waits on (see AimAdvances): its acts there grounded on the world with the company moved.
