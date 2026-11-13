@@ -177,7 +177,10 @@ export class CanonValidation {
   }
   // A stat block's expressions (see StatExpressions): its damage by a natural weapon, reading only what a blow binds;
   // its natural armour's bonus, reading only what its making binds, and no dice.
-  private expressions(where: string, st: { damage?: Record<string, string>; armorBonus?: string }) {
+  private expressions(where: string, st: { damage?: Record<string, string>; armorBonus?: string; saves?: object }) {
+    const saves = Object.entries(st.saves ?? {});
+    if (st.saves && (saves.length !== 3 || saves.some(([k, n]) => !['fortitude', 'reflex', 'will'].includes(k)
+      || !Number.isInteger(n)))) { this.fail(where, 'saves are Fortitude, Reflex and Will, each a whole number'); }
     for (const [weapon, text] of Object.entries(st.damage ?? {})) {
       if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `damage for ${weapon}, which is no natural weapon`); }
       const refused = StatExpressions.refused(text, StatExpressions.blow);

@@ -242,26 +242,27 @@ export class Canon {
       looks: `${b.looks ?? b.description} ${said.charAt(0).toUpperCase()}${said.slice(1)}.` };
   }
   // What a variation that is a stat block makes of its base (see Overlay.hitDice): its Hit Dice in place of the base's
-  // growth or fixed hit points, its routine and hide, its defenses beside the base's, and the base's powers and nature
-  // less what it goes without. A variation that says none of these leaves the base's as they are.
+  // growth or fixed hit points, its routine and hide, its saves, its defenses beside the base's (or in their place,
+  // where it forgoes the base's: an SRD mummy is 5/— where Orsino's took half of every blow), and the base's powers and
+  // nature less what it goes without. A variation that says none of these leaves the base's as they are.
+  private static first<K extends keyof Overlay>(over: Overlay[], k: K): Overlay[K] | undefined {
+    return over.map(v => v[k]).find(Boolean);
+  }
   private static stated(b: Species, over: Overlay[]): Partial<Species> {
-    const hitDice = over.map(v => v.hitDice).find(Boolean), attacks = over.map(v => v.attacks).find(Boolean);
-    const armor = over.map(v => v.armor).find(Boolean), defenses = over.flatMap(v => v.defenses ?? []);
-    const riders = over.map(v => v.riders).find(Boolean), damage = over.map(v => v.damage).find(Boolean);
-    const armorBonus = over.map(v => v.armorBonus).find(Boolean);
+    const said = { hitDice: this.first(over, 'hitDice'), attacks: this.first(over, 'attacks'),
+      armor: this.first(over, 'armor'), riders: this.first(over, 'riders'), damage: this.first(over, 'damage'),
+      armorBonus: this.first(over, 'armorBonus'), saves: this.first(over, 'saves') };
+    const defenses = over.flatMap(v => v.defenses ?? []), bare = over.some(v => v.forgoes?.defenses);
     const forgone = new Set(over.flatMap(v => [...v.forgoes?.abilities ?? [], ...v.forgoes?.traits ?? []]));
-    if (!hitDice && !attacks && !armor && !defenses.length && !forgone.size && !riders && !damage && !armorBonus) {
-      return {};
-    }
+    if (Object.values(said).every(x => !x) && !defenses.length && !forgone.size && !bare) { return {}; }
     const st = { ...b.statistics! };
     // Hit Dice are the whole of its hit points: no growth, no fixed number beside them.
-    if (hitDice) { delete st.growth; delete st.hitPoints; }
-    return { statistics: { ...st, ...hitDice ? { hitDice } : {}, ...attacks ? { attacks, weapon: attacks[0]! } : {},
-      ...armor ? { armor } : {}, ...riders ? { riders } : {}, ...damage ? { damage } : {},
-      ...armorBonus ? { armorBonus } : {} },
-    ...defenses.length ? { defenses: [...b.defenses ?? [], ...defenses] } : {},
-    ...b.abilities ? { abilities: b.abilities.filter(a => !forgone.has(a)) } : {},
-    ...b.traits ? { traits: b.traits.filter(t => !forgone.has(t)) } : {} };
+    if (said.hitDice) { delete st.growth; delete st.hitPoints; }
+    const stated = Object.fromEntries(Object.entries(said).filter(([, v]) => v));
+    return { statistics: { ...st, ...stated, ...said.attacks ? { weapon: said.attacks[0]! } : {} },
+      ...defenses.length || bare ? { defenses: [...bare ? [] : b.defenses ?? [], ...defenses] } : {},
+      ...b.abilities ? { abilities: b.abilities.filter(a => !forgone.has(a)) } : {},
+      ...b.traits ? { traits: b.traits.filter(t => !forgone.has(t)) } : {} };
   }
   // A body made from its own record, not a person of a people: a creature or a device.
   static isBody(id: string): boolean { return this.isSpecies(id) || this.isDevice(id); }
