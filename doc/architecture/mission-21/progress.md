@@ -87,3 +87,10 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   `register-state` classes a row by the state its status leads with; P1 open 22 → 21 since M20: the inherited P1s are
   not yet paid down (debt.md). T24-20 decided (Common names first in the starting country; to build). AR-05: guidance
   by calling id. Agents: playability on a cold round (outcome 2's evidence), rules diagnosing healing between fights.
+- **14 Nov, morning.** The full run on c610ca2d failed only `srd-challenge`'s five-second default (a minute now). AR-05
+  further: a talk's learnings typed (`Exchange.learned`, `small/talk-learned`), the act an exchange tells named
+  (`Exchange.act`; the sheet's development by it, `small/exchange-act`). Rules batch 6 merged (3d5438b3) and reverted
+  (a4edc643): it passed the quick lane but moved the SRD challenge (a second-level warrior against the barrow ghoul
+  42 %, a twentieth-level one against the unicorn 67 %); returned to the investigator with the recovery ruling (a
+  healing cantrip mends each member once between rests). Lesson: a combat rule runs the srd, bestiary, play-structure
+  and placements specs before it is merged.
