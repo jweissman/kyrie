@@ -125,8 +125,8 @@ Alone and denned it is a fair fight for a warrior (60 %, two-thirds harm) and a 
 | Kind | Challenge (level 1, 5) | Placed |
 |---|---|---|
 | `ghoul` (Orsino's) | 0.5, 1 | barrows, ruins, fens, the ossuary |
-| `ghoul/barrow` | 2, 4 | nowhere (`unplaced`) |
-| `unicorn` | 24, 24 | nowhere (no habitat) |
+| `ghoul/barrow` | 4, 5 (2, 4 before its riders and the wound rule) | the vault, alone, by hand |
+| `unicorn` | 20, 20 (24 before the wound rule: its harmless hooves had stunned) | nowhere (no habitat) |
 | `golem/flesh` | 24, 24 | nowhere (`unplaced`) |
 
 The unicorn and the flesh golem are at the table's ceiling because no blade the catalog has passes 10/magic or
@@ -226,7 +226,7 @@ out, which is one; that is real play. The two ways it could follow a company tha
 ### Attack riders: the barrow ghoul's paralysis lands on a hit
 
 Its bite and claws carry the SRD's paralysis (`riders` on the breed: a Fortitude save against 12, or paralysed three
-turns) in place of Orsino's Paralyzing Touch. Re-measured: its challenge is 2 at its first level and 5 at its fifth
+turns) in place of Orsino's Paralyzing Touch. Re-measured: its challenge is 2 at its first level and 5 at its fifth (and, once only a wound triggers, 4 and 5: batch 6)
 (it had been 2 and 4). In the vault, as placed (a company of one's world; the keeper is one barrow ghoul either way):
 
 | Company | Level 1 | Level 2 (the room's company) |

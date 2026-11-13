@@ -199,3 +199,12 @@ hit points (a level-12 mummy bites for 1d4); a stat block (the SRD's) does not g
 
 Either way the challenge table is measured again for what changes (CB-21: it is measured against a lone warrior with
 the dice as they fell).
+
+## The challenge table under the wound rule (13 November, batch 6 re-delivered)
+
+Once only a wound triggers a damage kind's condition (R9-06), the SRD kinds were measured again: the **unicorn 20, 20**
+(it had been 24: its hooves, 1d4 without its Strength, did nothing to a twentieth-level warrior and still stunned him,
+674 failed stun saves after blows for nothing in the tool's twelve fights); the **barrow ghoul 4, 5** (it had been 2, on
+the edge: a second-level warrior won six of twelve, now five; the twelve fights a level make the table coarse, a
+third-level warrior winning two); the **flesh golem 24**. `test/srd-challenge` holds the deciding fights. The rest of
+the table was measured under the old rule; how far it moves is set out in placements.md (batch 7).
