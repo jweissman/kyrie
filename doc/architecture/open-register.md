@@ -891,3 +891,11 @@ a three-sentence budget does not catch it. Less text also helps performance at t
 | DN-03 | The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy), then the road prologues and origins, the roadstation and the town's neighbours. The ratchet is lowered as each lands | open | P1 | M21, playability (the laboratory) |
 | DN-04 | Remote clock prose is told only if witnessed: chapter curtains and attended spectacles stay, while a remote event is told by its consequence (the audit's §4) | open | P2 | M21, playability |
 | DN-05 | Greetings in a sentence or two, with their prices, history and rumours moved into named questions (the audit's §5) | open | P2 | M22 |
+
+## 37. The first minute as a microscope (the owner, 14 November)
+
+`mission-21/owner-first-minute.md`.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| IG-01 | The opening (stab, title, creation, first scene, first acts) as one interaction instrument: focus, selection, preview, commitment, response, continuation. Read as controller inputs; one design language across title, creation and scene; hold-to-commit as the sustained-act ring. Deliverables: an unedited recording from the deployed page, a candid critique, and the smallest intervention prototyped | open | P1 | M21, aesthetic |
