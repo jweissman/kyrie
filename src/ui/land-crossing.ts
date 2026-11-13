@@ -20,12 +20,18 @@ export class LandCrossing {
         ? [[m.id, `travel:${go}`]] : [];
     }));
   }
-  // The same, as every client offers it: the place shown, and the command that sets out for it.
-  static offers(screen: Pick<Screen, 'region'>): { id: string; name: string; command: string }[] {
-    const land = screen.region?.land;
+  // The same, as every client offers it: the place shown, and the command that sets out for it; only where no
+  // journey there is planned, which the map sets out on first (MapView.way): in the hobs' hold the terminal had listed
+  // "Go across country to the taproom of the Lucky Mask" beside the journey to it.
+  static offers(screen: Pick<Screen, 'region' | 'destinations' | 'around' | 'roads' | 'mapped'>):
+    { id: string; name: string; command: string }[] {
+    const land = screen.region?.land, region = screen.region;
+    const planned = new Set([...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? [],
+      ...screen.mapped ?? []].map(d => d.id));
     return (land?.marks ?? []).flatMap(m => {
       const command = land?.across?.[m.id];
-      return command ? [{ id: m.id, name: m.name, command }] : [];
+      return command && !planned.has(m.id) && !planned.has(region?.within[m.id] ?? m.id)
+        ? [{ id: m.id, name: m.name, command }] : [];
     });
   }
   static walkable(land: Pick<Land, 'cover'>, cell: number): boolean {

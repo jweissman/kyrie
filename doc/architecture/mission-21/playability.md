@@ -39,6 +39,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-17 | P2 | What Tessary Owes gives the company Davy's coat on its first step ("You take Davy Teazle's red coat" at the Landgate), though Nan is to hand it over later | fixed in this branch (data) |
 | PL-18 | P1 | The own-hex guard (E155: never across the country to a place in the company's own hex) lived only in the browser's map; the terminal and `serve` could not see the map's moves at all | fixed in this branch |
 | PL-19 | **P0** | At the dead man's map's keep the search the map marks is not led, and the gold goes to parleying with the hobs: dangers and the way back fill the three places | fixed in this branch |
+| PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -355,6 +356,22 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   three are taken; it is then the one gold act. At Gefeohtgaet: "Search here [gold]" beside the two dangers and the
   way back. Regression: `test/small/gold-step-room.test.ts` (three dangers at a door, the box under its stone; fails
   on main).
+
+### PL-20: talk to someone with nothing to say now
+
+- **Repro:** pine as PL-19, the box taken, `follow 1` (the stolen bell), "Slip past the hobs on the gate", the
+  smoky cavern, "Take a notched log to the high ledge": "Talk to the Gaffer [red: danger]" leads; taken, "‘Say it,
+  then.’" and the talk holds only "Attack the Gaffer" and "Take your leave".
+- **Corroborates:** the owner, 9 November ("a person with only 'Take your leave' must not be advertised as
+  conversable"); R11-02, T24-19 (empty talk, recurring).
+- **Cause (verified):** `ScreenModel.marks` set `asked` (someone with something to be asked) from any action written
+  with them as speaker, `campaign.module.actions`, so a danger whose topics all wait on something
+  (`gaffer_terms … when tolerates(gaffer, party)`) kept its talk opener (`Attending.opener`).
+- **Status:** fixed in this branch: `asked` from what can be asked of them now (`campaign.offered()`). On the ledge
+  the chest now leads, and the Gaffer is the danger he is. Regression: `test/small/talk-when-asked.test.ts`.
+- **Found with it (the PL-18 follow-up):** in the hold the terminal listed "Go across country to the taproom of the
+  Lucky Mask" and eight more beside the journeys to them; `LandCrossing.offers` now offers only where no journey is
+  planned, as the map sets out on a planned one first.
 
 ### PL-06: after the aim, nothing pulls
 

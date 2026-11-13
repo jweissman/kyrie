@@ -117,12 +117,13 @@ export class ScreenModel {
       ...world.measured(world.module.measures.some(m => m.name === 'dealerPays') ? 'dealerPays' : 'worth')
         .map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
   }
-  // How someone here stands to the company: with it, one it has a stake in, one with something written to be asked,
-  // one with something for it now (see Owed).
+  // How someone here stands to the company: with it, one it has a stake in, one with something to be asked now (not
+  // only written: the hobs' Gaffer, whose terms wait on a parley, had been led "Talk to the Gaffer" onto nothing to
+  // say, M21's PL-20), one with something for it now (see Owed).
   private static marks(campaign: Campaign, id: string,
     sets: { along: Set<string>; stakes: Set<string>; owed: Set<string> }) {
     return { ...sets.along.has(id) ? { companion: true } : {}, ...sets.stakes.has(id) ? { stake: true } : {},
-      ...campaign.module.actions.some(a => a.speaker === id) ? { asked: true } : {},
+      ...campaign.offered().some(a => a.speaker === id) ? { asked: true } : {},
       ...sets.owed.has(id) ? { owed: true } : {} };
   }
   // Whoever travels with the company is with it, not met where it is.
