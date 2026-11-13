@@ -31,6 +31,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-09 | P2 | A companion "binds the hurt" of a company with nothing wrong but a lit torch: needing care held of any condition | fixed in this branch |
 | PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed (73cac481); the rule kept, decided by the lead |
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
+| PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -194,6 +195,31 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   undertaking] CONTINUES`, `To the corn-store cellar | retreat []`). Regression: `test/small/gold-fight.test.ts`
   (fails on main with "To the corn-store cellar" gold, the exact a1 state).
 
+### PL-12: the gold through every door of the aim's place
+
+- **Repro:** `bin/kyrie adventure --world wren --origin wanderer --as human/warrior/Hild`, `follow 1` (the fevered
+  child: "it needs herbs, or willow bark from where willows grow by water"), the gold "Take the road to the bailey of
+  Gothgiba": gold on "Take Baern Gorunn's door to Baern Gorunn's general store"; in the store (no herbs among its
+  wares) the gold is the door back to the bailey; on the bailey it is then "Take Eberk Holderhek's door to Eberk
+  Holderhek's chandlery". Saves `wr-bailey.json`, `wr-store.json`.
+- **Corroborates:** the owner's 7 November notes ("gold on the place you already are, random gold places"); PR-01
+  ("out of a place and back to it, nothing advances"); the golden-thread rules ("never guide round a loop").
+- **Cause (verified, `tools/glance.ts`, `tools/why.ts`):** two location heuristics, both reading only that the aim
+  names the place the company stands in. `Affordances` made every local way not yet taken from a named place
+  `toward`; and `AimRoute.onward` made every unvisited way down *or in* `toward` where the aim's route place is here,
+  though for an aim whose target was read from its words the route place is the aim's own place (`routeTo ===
+  actionAt`), so every building's door qualified. What the aim waits on (the mother keeping herbs, `keeps(mother,
+  ?i)`) is nothing any door brings about.
+- **Status:** fixed in this branch, for the doors of a town's houses: in a settlement (not a site), from a place the
+  aim is about itself, a way into the next building is no longer the aim's (`AimRoute.onward`, `Affordances`); a way
+  down or underground still is (the gnawed hole down from the corn-store cellar to the rats), and so is the way on
+  from a place an aim is gone to by (`toward … by …`: the churchyard's stair to the crypt), and a site's front door (an
+  aim at a hold is gone into by it). The first cut, applied to every way everywhere, broke four of
+  `gold-walk`/`gold-thread`'s walks into Seolforfyrd and the keeps, and the corn-store cellar's hole, which is why it
+  is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it. On the bailey there is now no
+  gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
+  (the bailey case fails on main and on either half alone; the churchyard case holds on both).
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -237,8 +263,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
 ## Common root causes
 
 1. **The promise/projection boundary: presentation infers what an act will do** (the retrospective's first
-   candidate). Verified three times so far: PL-05 and PL-08 (gold for an act's *location*: `Affordances.there`, and a search
-   "where your aim is", where the typed `AimAdvances` had a gap or already had the answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
+   candidate). Verified four times so far: PL-05, PL-08 and PL-12 (gold for an act's *location*: `Affordances.there`, a search
+   "where your aim is", every door off the aim's place, where the typed `AimAdvances` had a gap or already had the
+   answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
    PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
    same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
