@@ -15,4 +15,13 @@ describe('the terminal, its commands piped in at once', () => {
     expect(err).not.toMatch(/ERR_USE_AFTER_CLOSE|Error/);
     expect(code).toBe(0);
   }, 30000);
+  // A choice typed as it is printed, minutes and all, or without them, in any case (round 12, B: T10).
+  it('takes a choice typed as printed, or without its notes', async () => {
+    const run = Bun.spawn(['bin/kyrie', 'campaign', 'test/fixtures/household/household.campaign.json'],
+      { stdin: new TextEncoder().encode('Take the yard gate to the yard · 1 min\ntake the back door to the kitchen\n'),
+        stdout: 'pipe', stderr: 'pipe' });
+    const out = await new Response(run.stdout).text();
+    await run.exited;
+    expect(out).toContain('the kitchen · Day 1, 8:02 a.m.');
+  }, 30000);
 });

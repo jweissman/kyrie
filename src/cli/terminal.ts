@@ -161,6 +161,14 @@ export class Terminal {
       .filter((a, i, xs) => (a !== 'undertaking' || next) && xs.indexOf(a) === i);
     return tones.length ? tones.map(a => signal[a]).join(', ') : undefined;
   }
+  // A choice typed as it is printed, or without its notes: what comes before the first " · " (its minutes, its odds),
+  // without its signal in brackets, stress or curled quotes, in any case. "Read the notice on the well-post · 1 min",
+  // typed as shown, had been refused (round 12, B: T10, T24-19).
+  static same(name: string, typed: string): boolean { return this.bare(name) === this.bare(typed); }
+  private static bare(text: string): string {
+    return Typography.plain(text).replace(/\s+\[[^\]]*\]\s*$/, '').split(' · ')[0]!.replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"').trim().toLowerCase();
+  }
   // Each by its number alone: the numpad's 7/9/1/3 beside them had made "1" the third choice, not the first (the
   // headless review, 12 November).
   private static choices(rows: Listed[]) {
@@ -223,7 +231,7 @@ export class Terminal {
         if (await this.aside(session, answer, offered.all, turn)) { continue; }
         const numbered = Number(answer) - 1;
         const choice = numbered >= 0 && numbered < offered.first.length ? offered.first[numbered]
-          : offered.all.find(c => c.id === answer || c.name.toLowerCase() === answer.toLowerCase());
+          : offered.all.find(c => c.id === answer || Terminal.same(c.name, answer));
         if (!choice) {
           console.log('Choose a foreground number/shortcut, or type an exact label or command id from all.');
           continue;
