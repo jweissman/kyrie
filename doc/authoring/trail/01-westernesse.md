@@ -34,7 +34,7 @@ result → changed place*.
 
 ## What it is today
 
-Honestly, from the findings index and the Mission 19 [progress report](../../architecture/mission-19/progress.md):
+Honestly, from the findings index and the Mission 19 [progress report](../../history/missions/19/progress.md):
 
 - A new life begins as one person in a town of a generated country (`a1` is the reference seed). The first town's
   jobs, a 3D hex map for travel, generated wild country, ruins and deep sites, recruits, a resting scene, a wayfinder,

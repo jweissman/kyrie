@@ -10,7 +10,7 @@ import { Placed } from './support/placed';
 
 // The fellowship (data/scenarios/fellowship.scenario.json, data/situations/fellowship): an institution whose head sits
 // in one town and whose halls are in three others, drawn for each country by Deem alone. See
-// doc/architecture/activation/deem-variation.md.
+// doc/history/activation/deem-variation.md.
 const dir = 'data/situations/fellowship/';
 const setting = Content.settingWith(JSON.parse(readFileSync(`${dir}tables.json`, 'utf8')),
   JSON.parse(readFileSync(`${dir}templates.json`, 'utf8')));

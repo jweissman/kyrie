@@ -38,7 +38,7 @@ it in a generated site. For a plant, an item and a spell, see below.
 
 Specs that hold the pipeline: `test/creature-pipeline.test.ts`, `test/creature-variation.test.ts`,
 `test/natural-history.test.ts`, `test/devices.test.ts`. The design is
-[mission-19/creatures.md](../../architecture/mission-19/creatures.md).
+[mission-19/creatures.md](../../history/missions/19/creatures.md).
 
 ## A new plant, item or spell, end to end (journey 5, 7 November)
 

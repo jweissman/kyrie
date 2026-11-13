@@ -1,7 +1,7 @@
 # Low Water — editorial assessment
 
 *Written after the Kyr was finished and four long journeys were written out as the page told them
-([doc/playtests/low-water-2026-10-25](../../playtests/low-water-2026-10-25)). All play described here was played by
+([doc/history/playtests/low-water-2026-10-25](../../history/playtests/low-water-2026-10-25)). All play described here was played by
 the developer through the journey driver and the browser driver. It is not independent human testing.*
 
 ## The plain answer first

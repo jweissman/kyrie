@@ -3,7 +3,7 @@
 This is the order and the limits that every generated description of a place follows: a town's green or
 market-place, a taproom, a shop, a shrine, a street or yard, a room of a site. The tables and templates the
 generators read (`data/generation/scenes/*.json`, `data/generation/town/*.kyrt`, `data/generation/tables/*.json`)
-are written to it, and so is anything new added to them. [editorial.md](../architecture/editorial.md) holds the
+are written to it, and so is anything new added to them. [editorial.md](../history/architecture-2026-10/editorial.md) holds the
 rules for all of Kyrie's text; this page is the narrower rule for describing a place. It was written on 7 November
 2026, after the owner read a generated market-place aloud and found it bland, cluttered and wry where it should have
 been vivid.

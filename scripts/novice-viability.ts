@@ -6,7 +6,7 @@
 // Mission 18's audit, W2 ("A lone novice who can live"): C6, PT-11, PT-23, PT-38, SLIP-07, SLIP-08, SLIP-09. The
 // world, its bands and every fight are drawn from the seed, so a run is the same run again.
 //   bun scripts/novice-viability.ts [--seeds 8 | --seeds s1,s2] [--prefix s] [--origin debt] [--trials 10]
-//     [--callings warrior,mage] [--out doc/architecture/mission-18/novice-viability] [--rows rows.json]
+//     [--callings warrior,mage] [--out doc/history/missions/18/novice-viability] [--rows rows.json]
 //     [--title "after the repairs"]
 // It writes <out>.json (the summary and the countries) and <out>.md (the tables); with --rows, every band's row.
 import { writeFileSync } from 'node:fs';
@@ -39,7 +39,7 @@ export class NoviceViability {
     return { seeds: /^\d+$/.test(seeds) ? Array.from({ length: Number(seeds) }, (_, i) => `${prefix}${i + 1}`)
       : seeds.split(',').filter(Boolean), origin: this.option(args, 'origin', 'debt'), callings,
     trials: Number(this.option(args, 'trials', '10')), maxTurns: NoviceFights.maxTurns,
-    out: this.option(args, 'out', 'doc/architecture/mission-18/novice-viability'), rows: this.option(args, 'rows', ''),
+    out: this.option(args, 'out', 'doc/history/missions/18/novice-viability'), rows: this.option(args, 'rows', ''),
     title: this.option(args, 'title', 'the baseline') };
   }
   static async main(args: string[]): Promise<number> {

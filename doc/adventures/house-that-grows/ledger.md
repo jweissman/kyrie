@@ -61,7 +61,7 @@ Each entry is tagged with what kind of gap it is:
   item kind or a species ([Kyr.ohm](../../../src/lang/Kyr.ohm) lines 3, 10, 63). `Hazard` is the only module-local
   catalog-like declaration.
 - **Workaround.** I added `dreg`, `ithren_lamp` and `wax_plugs` to the shared
-  [data/catalog/items.json](../../../data/catalog/items.json), as *The Long Man* did before me. Its `bell_teeth`,
+  [data/catalog/items](../../../data/catalog/items), as *The Long Man* did before me. Its `bell_teeth`,
   `keeper_mask`, `sluice_rod`, `tin_lantern`, `great_pike` and `slump` sit in the shared item and species catalogs
   and in `data/generation/tables/ecology.json`. At `70a81b9`, 27 of the item catalog's 42 kinds are Kyr's own
   additions, and most of them belong to one adventure or situation: `noonlight`, `gilt_crown`, `hollow_regalia`,
@@ -457,7 +457,7 @@ days with no consequence, and the sleeping-hall is optional. The pressure the wh
   *The Long Man*.
 - **Publishing needs TypeScript.** For an authored campaign to appear on the published title page, an author must edit
   `web/scenarios.ts`. `kyrie preview` reaches it by `?campaign=` without that.
-- **One unrelated failure.** `bun run typecheck` fails on an untouched `doc/playtests/rededge-2026-10-20/control-server.ts`
+- **One unrelated failure.** `bun run typecheck` fails on an untouched `doc/history/playtests/rededge-2026-10-20/control-server.ts`
   that imports an absolute `/home/jweissman/…` path.
 
 ## 21. Minor friction

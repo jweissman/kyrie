@@ -43,7 +43,7 @@ lockwork.` A warrior is offered the hasp wrenched instead.
 
 ## Change something and meet it
 
-Mission 19's [authoring workflows](../../architecture/mission-19/authoring.md) are three changes made this way end to
+Mission 19's [authoring workflows](../../history/missions/19/authoring.md) are three changes made this way end to
 end, with their commits: a calling's own way into the first town's jobs (the template, d7ceb585), what each trade
 sells (the table, 1eb58ad4), and whether a townsperson is a woman or a man (a new Deem table, 8a5dd206). The loop
 each followed:
@@ -87,7 +87,7 @@ build Kyr declarations in strings, beside 21 `.kyrt` templates (count of 6 Novem
 scenario word and the plots of works are among them. An author cannot change those without changing the engine
 (ARV-H4, Open; ARV-M6, central edit points; AUT-25, Deem's module-local tables and generated families; M17's
 `kyrie new table` and `kyrie new generator` were never built, UNT-120). Deem's own creature grammar was retired on 5
-November (see [doc/generation](../../generation/capabilities.md), marked superseded): creatures come from canonical
+November (see [doc/generation](../../history/generation/capabilities.md), marked superseded): creatures come from canonical
 records (page 6).
 
 *Next: [Canonical plants, animals, monsters, items](06-canon.md).*

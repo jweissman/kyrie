@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // The Bound Howe's week, played by the page's own labels (the record is
-// doc/architecture/activation/transcripts/bound-howe-race.txt).
+// doc/history/activation/transcripts/bound-howe-race.txt).
 //   bun scripts/play-howe-week.ts walk [seed]    a lone level-one warrior from the starting town: the cart on the first
 //                                                green on day 2, the hiring-man's answer, the map to the ridge, the
 //                                                lookout, the camp

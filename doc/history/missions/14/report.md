@@ -1,0 +1,893 @@
+# Mission 14 report: the deep expedition
+
+Written for: the person who set Mission 14, deciding what it achieved and what to set next. It is candid: where a
+thing works, it says what was seen; where it does not, or was not done, it says so.
+
+Mission 14 asked for a game worth playing for hours: above all a generated, persistent, multilevel adventure complex
+that ordinary play finds and that sustains several expeditions (Proof A), and three proofs beside it: an argument
+with consequences (B), a historical landscape with material consequences (C), and an independently authored
+scenario (D). 144 commits from `637642e`, 330 files, about 13,800 lines added. The suite is 688 tests: 660
+pass and 28 are opt-in, the browser tests (`KYRIE_BROWSER=1`: 12 of 12 pass) and the four kept descents
+(`KYRIE_LONG=1`: 4 of 4), both run on the last commit.
+
+No one but me has played this. Every play described here was mine, through the same choices a player has: the text
+harness that plays by the words on the page, and the browser.
+
+## What is now playable
+
+Begin a generated world as a wanderer (seed `wren` is the one recorded). At the home inn the innkeeper tells of the
+Delvers' mine and how to get there; the smith tells what the Delvers died for and buys the ore; the priest forbids
+opening the walled stair at the bottom. Out over the fell is a four-level mine of about thirty rooms built from what
+it was dug for: the adit level, the haulage, a drowned level, the breach. A cage that runs once its seized wheel is
+worked free, ladders, a one-way ore pass, a walled stair, a hidden air shaft found by its draft that is a second way
+out, a level that drains only while a spring is turned onto a pump wheel a level up and its chain engaged. Dwellers
+that rise with depth (a goblin chief, a shift-boss wraith, crystal elementals) and can be talked round or warned off
+at odds the page states. Riddle caskets from Orsino. Traps that looking closely explains and tools then make safe.
+The Delvers' valuables and ore, which sold are the company's experience, about a level for a level of the mine.
+Light that burns down (a torch an hour, a lantern six on a flask of oil). What the kingdom after the Delvers did with
+the mine, by the world's own history. A keeper at the bottom too strong to fight, that shrinks from the light of noon
+into a rift, and a jar of noonlight two levels up that the makers' own words point to. Bringing the heart of the
+vein up into daylight is the objective. While the company is away the mine fills again.
+
+The record of a first expedition, played through, is [`expedition.md`](expedition.md): from the road into Gothgiba
+to a night at the inn, eighty-odd choices, one companion lost and raised for 300 coin, 393 coin and experience
+brought home. `test/long-expedition.test.ts` replays it and resumes it from a save made halfway down. Browser
+screenshots are in [`doc/history/missions/14/design/shots`](design/shots).
+
+## Proof A: the deep expedition
+
+**Done and seen to work.** Generation from purpose (`src/world/deep/*`, `data/generation/deep/deep.json`): layout,
+Orsino's pacing (sequences, overlays, the step every third room, elites), mechanisms, rooms, the keeper and its bane,
+newcomers, the successors' alterations, the argument at the shrine. Placement near the home town, told of there, the
+way told by where the fell is entered. Sub-watch time: actions take minutes (`Time 2 minutes.`), doors a minute,
+stairs two, minutes add up to watches; the clock tells the minute. Checks (`Resolve check(actor, skill,
+difficulty)`), rolled only when the result is in doubt, keyed on the world, the command and its occurrence so that
+replays roll the same. Lanterns, oil and candles that burn down, while they are wanted. Tries offered only where a thing's look suits them.
+A level plan on the map. In play I took the first expedition end to end in ordinary play, and a second as far as
+the haulage level: the goblin chief talked round, the spring turned onto the race, a level gained resting at the
+earlier party's camp, the wheel freed and the cage ridden down.
+
+**The heart brought up in ordinary play.** I went on from the second expedition, playing only the choices on the
+page, the record replayed each time by its labels (`scratchpad m14/x3.tokens`, 335 choices in all). As I fixed
+what play found, the rules changed under the record, and it was replayed from the last point it still held: once a
+fall stopped being a death, Thoradin came round at the second expedition's camp instead of being carried home dead,
+and play went on from there. On that line, over six expeditions and eight days of the world's time:
+- the bone hounds of the ore bin killed, the pump set, home with 751 coin of finds, a level for Thoradin at the inn,
+  the priest won over by his grief;
+- the mud of the long haulage killed, Thoradin felled by it, failing his save at the hall's rest and dying; Wenna's
+  third level taken there, Thoradin carried home and raised;
+- nobody in Gothgiba would join, so over the Karavor to Muzgkom, where Veit the mason joined for 7 coin;
+- with three, the ghouls at the walled stair killed; the makers' words read with the glossary and the wall broken
+  (the priest consenting); the drowned level dry; a glyph unsaid by reading it; the ooze killed (Thoradin falling
+  again, and dying again at the next rest: the dice were against him); the jar of noonlight taken from the
+  strongroom; home for food, and Thoradin raised a second time;
+- the sixth expedition: past the newcomer that had moved into the furnace hall while the company was away, and past
+  the overseer in the deep cut, both standing their ground and letting the company by while their patience lasted;
+  the climb on the rope to the breach; a crown of star-iron, gloves of dexterity, galvorn mail; the thing in the vein
+  drawing back from the jar's noon into the rift; the heart of the vein taken, the company laden with it at half its
+  pace, and carried up and out by the air shaft. It came out at midnight, and the objective is to bring it into
+  daylight: it was raised at first light.
+
+None of it was done by putting the company in a room. It took a level-3 warrior, a level-2 companion raised twice
+and a level-1 hireling, three dead companions, two raisings at 300 coin, a recruit from another town, and a
+newcomer and an elite passed rather than fought. The keeper was never fought. What the expeditions found on the way
+was worth as much as the descent, and each was fixed and pinned by a test:
+- buying a second flask of oil with a lantern in the pack stopped play outright (two choices of one name); `kyrie
+  lint` now reports any action that hides which of its items it means, and found the Long Man's bounty doing the same;
+- a fallen companion could still be asked about the fells, and answered;
+- the innkeeper went on telling of a fevered child's fever after the child had died;
+- a night at the inn counted the day's waking from bedtime, so a company was weary ten hours after sleeping;
+- a fight's experience went whole to every member (Orsino shares it), and a fall was a death (see below);
+- the smith's two torches and three flasks were all the light the village would ever sell; what is used up now comes
+  back to the shelf at dawn;
+- the drowned level drained in twenty minutes of small actions instead of two hours, and its draining was heard an
+  hour's walk away;
+- a lantern burned through every night's sleep, every vigil and every walk in daylight; a flame now burns only where
+  the company is in the dark and awake (which in turn showed that a level's unspent points were lost whenever a
+  member had anything on the clock, a torch or a poison, over a watch: the fight projection dropped them);
+- a raising did not say its price, and said "at first light" at one in the afternoon;
+- a rest on the last ration, with a meal falling due in its six hours, ate the ration twice and stopped play; and
+  with no ration at all, the rest simply was not there. It is offered now, and says what it wants.
+
+- ways named for one direction read wrongly taken the other ("Take the road down from the Karavor to Muzgkom to the
+  top of the Karavor", "Take the rough cut down to the deep cut" climbing up); a road's halves are now named for
+  what they cross (the Karavor road), or plainly the road, and the mine's climbs for what they are.
+
+- the way into Barzelrehes nearest the mine was called "the foot of Barzelrehes by Muzgkom", though no way from
+  Muzgkom reached it: every way in went to the place nearest where it started, and Muzgkom is two hours off. An
+  edge no way comes to now has a path up from the settlement it is known by (`test/wild-country.test.ts`).
+
+- a trap that had gone off still offered to be prodded. Something that can do harm, in a state where it does none,
+  is not prodded (`harmless` in `data/rules/passages.kyr`; `test/marvels.test.ts`).
+
+- the trails of wild country joined its parts in order, each part's landmark set as far as could be from the
+  others, so on fells running nearly the width of the country a single trail took eleven hours and the next
+  seventeen. Each landmark is now joined to the nearest of those already joined, beginning at the edge; the longest
+  trail on Barzelrehes is five hours and twenty minutes. A way to a site is told along the trails from whichever
+  edge is nearest it by them (`test/wild-country.test.ts`).
+
+**Done since: the homecoming.** Once the heart is up, the innkeeper who first told of the site hears what the
+company brought, in the site's own words ("'Out from under Nocstumul?' Eamon puts down the jug and looks a long
+while at the crown, and does not touch it"), and keeps it as a guest: the next bed and supper there are on the
+house (`guest` and `take_lodging_guest` in `data/rules/services.kyr`, `test/homecoming.test.ts`). Before this, the
+crown came into daylight and nobody in Murkstede said a word. On the roads, where all a traveller had to say of the
+company was that "some stranger's been making themselves useful", it is now what everyone is saying ("Word is,
+somebody went down into Nocstumul and brought the crown of the first king up into the daylight"). It is one deed
+remembered, by name; people do not yet remember what else a company did.
+
+**Weak or missing.**
+- Four purposes. Besides the Delvers' mine there is the Barrow-Kin's king-barrow (`data/generation/deep/barrow.json`,
+  `test/deep-barrow.test.ts`), with its own gear and words: a portal stone on a counterweight, a seal-stone across the
+  king's door, a robbers' tunnel round it, a light-box that is a second way out, a king who cannot abide the day.
+  And there are the Water-Wardens' cisterns (`waterworks.json`, `test/deep-waterworks.test.ts`): a bronze gate on a
+  seized wheel across the stair, a great pipe to go down feet first, a deep cistern that drains only while the master
+  sluice turns the springs onto the great wheel and its pump-rods are coupled, an overflow culvert found by the sound
+  of running water, and a keeper that shrinks not from the day but from the Wardens' oath. The oath is on a tablet in
+  the cisterns' own archive, a kind of thing that exists only in that site, carried as a book is; no scholar's
+  learning stands in for it. And there is the Stone-Singers' hall
+  (`singing.json`, `test/deep-singing.test.ts`), cut whole out of a hill by song: a pivot-door settled on its stone
+  across the stair, a round door that opens to the note cut over it for whoever reads the old script (and not to
+  force), a crack round it for a climber or a rope, a sounding-shaft where the wind sings, a chorus of the singers turned
+  to stone, and a keeper that is their own last song, which only their own knell stills, rung on the dirge bell
+  the last cantor took down to the unfinished hall. A country
+  gets the first of these its makers had (mine, barrow, cisterns, hall). Only the sky art has no deep purpose yet:
+  the Star-Readers built towers, which rise, and the generator, its danger by depth and the map's level stack all
+  go down.
+- A level no longer lays the same kind of trap twice while another kind would do: the cisterns' drowned hall had a
+  pressure plate on each of its two ways, each described from both ends.
+- Companions died too easily, and I had the reason wrong: this report said Orsino's death save was against 25. Orsino
+  has no such save. One who falls in Orsino lies senseless, and at a rest makes a system-shock save (a d20 against
+  10), coming round with 1 HP or dying where they fell. Kyrie had made every fall a death, to be raised for 300
+  coin; Thoradin fell in all three fights he was in. Now a fall is Orsino's: senseless, then at the next rest in the
+  deep, at a camp or in a bed, the save (`FieldUse.shock`), so long as someone is still on their feet to tend them.
+  Only the dead can be laid to rest. Orsino's code adds the Constitution to the difficulty, where its own message
+  adds it to the roll; Kyrie follows the message.
+- Carrying now weighs (`src/rules/burden.ts`, `test/burden.test.ts`). Each kind weighs what it says, or what its
+  class or category weighs; a member carries ten and twice their strength. A laden company is told so and goes at
+  half its pace; the heart of the vein weighs a warrior down. Nothing is refused for weight.
+- A second world, played from its first page: a1, with a cleric, a lone wanderer at Murkstede. The record so far is
+  `scratchpad m14/a1.tokens`. Asked at the inn, the innkeeper told of the king-barrow at Nocstumul; the merchant
+  told of what the old folk buried and bought it; Cyril the pedlar joined for 3 coin. On the first afternoon the
+  barrow's upper chambers gave up 300 coin of grave-goods, sold for 255 experience each, and the boundary stones
+  were settled for 100 more. Then the barrow's way down stopped this company, as it should have: a portal stone
+  that needs brawn or a crowbar to raise, a climb over it that needs a rope, and below that a switch that would cut
+  either of them in half, which wants a pole or someone who knows traps. Play found these faults:
+  - the page did not say what the company lacked. A thing that wants brawn said only "Needs brawn", though a crowbar
+    would do. A thing that wants a pole said nothing at all, because only missing skills were offered as disabled
+    choices. A way to a place barred twice (the portal stone, and a climb wanting a rope) told only the first. A
+    way that needed climbing or a rope was called closed to a company with the rope, because only its first need was
+    asked about. Now every need is named, a missing kind of thing is a disabled choice like a missing skill ("Needs a
+    ten-foot pole, and the company has none"), and both bars are told (`test/what-it-takes.test.ts`);
+  - a trap risked did not say where its way went, nor how bad it was. It says both now, once the trap is understood:
+    "Risk the hidden switch on the way to the hall of the bones; Wenna goes first · it could kill". The trap's harm is
+    read from its effect on an average roll against the one who would go first (`src/rules/harm.ts`);
+  - the bats in a chamber were offered to be attacked but never said to be there: only people were;
+  - every alike thing on a shelf was its own choice ("Buy a candle" twice; "Light a torch" three times in the
+    descent). Choices alike in action and words are one;
+  - a sale said "Wenna: set down a silver arm-ring" after the merchant had paid for it, and readying the glossary
+    said so twice. What an action says is what it did;
+  - "'Murkstede?' Says Hob": a quotation ending in a question went on into a capital;
+  - the merchant's bribe could be taken before the merchant had offered it; the innkeeper promised suppers on the
+    house that were then paid for; the arrival text had the quarrelling pair shouting in the street, where the
+    quarrel is that they will not speak. The arrivals no longer give anyone a sex the scenario does not;
+  - the town's news was told twice on coming in (as what happened, and as what had changed), and so was everyone in
+    the taproom;
+  - bandages and herbs were offered on everyone, hurt or not. A remedy is offered to whoever it would help, as a
+    spell of healing already was (`relieves`, projected like `treatable`);
+  - two people in a country often shared a name: an Avice kept geese at Murkstede and cut wood at Wǽttún, a
+    pedlar and a carpenter were both Garret, and Gothgiba in wren had two Rangrims. Townsfolk, residents,
+    shopkeepers and road travellers are now named clear of one another, and when a people's few names have all
+    been given, a name given again comes with a family's ("Adrik Strakeln");
+  - Cora wanted a lantern brought "and would pay you back and a bit over", and paid three coin for a seven-coin
+    lantern; she pays its price and a coin now;
+  - the journal's way to a site in open country said only "The way to a long mound north of Faennslím". It says
+    where the track to it goes from.
+
+  The country was busy round them: a lord's toll on the Deopex road that makes food dearer, a drover gone missing,
+  graves opened under a lone tower with a green light, and the brothers of Aergodríce, gone up to Nocstumul the
+  second morning after the same crown. The pole, a lantern and oil were a day's walk off at Wǽttún. Aghavan, a
+  scholar, joined there, and Ambrose, a soldier paid off at midsummer, at Faennslím. Back at the barrow on the
+  fifth day, the brothers' cross was on the forecourt wall. Ambrose levered the counterweight free, the pole sprang
+  the switch from a pace off, and the glyph on the next way was unsaid with the glossary. Then the company went
+  into the ossuary, where an elite of the halls, an alpha mourner, fell on it as it came in. Wenna, Cyril and
+  Aghavan went down; Ambrose killed it alone, and carried them into the mourners' hall to rest. The bone hounds
+  that keep that hall were letting him be, for a while. He stayed to pick up a cloak-pin, and they killed him.
+  No one was left standing on the fifth afternoon. That is a fair end for a level-1 company, but the ossuary gave
+  no sign of what was in it before the company was inside. Now a band that falls on whoever comes in, keeps its
+  ground, or is one of the deep's worst is heard from every room a way leads from ("From the ossuary comes a sound
+  you do not like at all: something large, that is not in any hurry"). The ending named the killer "Knitted bone
+  hound 1" and quoted the command it interrupted. It says "One of the agile bone hounds" now, and "as you went to
+  collect a gold cloak-pin" (`test/obituary.test.ts`).
+- A third world: thorn, with a ranger, whose record is `scratchpad m14/t1.tokens`. Arlen, a pilgrim, joined at
+  Merscheald for 3 coin. The innkeeper told of the cisterns at Paliduslac, and the salter of the Wardens' black
+  glass. The ranger read the land at the door (the herons fish every pool but these). A dead delver's camp in the
+  colonnade held a notebook that told the puzzle: the master sluice turns the springs, and the great wheel's rods go
+  down into the deep cistern. Over two days and a walk home for food, the company did these things:
+  - fought an ooze that waited at the great wheel, and coupled the rods;
+  - turned the springs down the race, and came back to find the cistern pumped dry and the room taken by the
+    drowned, who had moved in meanwhile;
+  - went past a rune that hurt Arlen badly, as the choice said it would, and fought two more bands of the drowned;
+  - reached the sealed gate of the deep cistern. It wants brawn or a crowbar, and lore for the words cut round it,
+    and the company had neither;
+  - walked a day for a soldier's strength, by road to Meósdael and back. Corrin, a scholar who fights, tore the
+    bronze plate from the gate;
+  - fought the cistern-water on the landing and the drowned wardens in the hall, and sprang the pressure plate and
+    the glyph with the pole;
+  - took the Wardens' oath-tablet from the archive, which reads the old script. Read aloud at the still water, it
+    drove the keeper back into the source;
+  - took the reading-glass from its pillar, opened a riddle-casket ("tough as nails yet cannot endure the sun":
+    ice) for a jeweled torc, and brought the glass up into the daylight at the doorway, on the fourth evening.
+
+  The cisterns are the second deep site played to its heart, in a second world, by a different company: a ranger
+  and a pilgrim at level 2 and a soldier-scholar at level 1, who never fought the keeper. The record is kept as
+  `test/fixtures/descent/thorn.choices` (163 choices), replayed with wren's by `test/descent.test.ts`. The brothers of Reodweard
+  were two levels behind. Faults found and fixed:
+  - the widow on her step was "the woman in black" on the page and in one choice, and "Talk to Mark" in another. She
+    is the woman in black in all of them now;
+  - a drover resting at the inn gave news of the town he sat in, and had his cattle "penned for the night" at eight
+    in the morning. Resting, a traveller tells of where they came from, and of a morning makes ready for the road;
+  - what lies in wait (the ooze, cave spiders) gave no sign before it struck. Now someone who reads sign sees its
+    slime at the mouth of the way. Bands that move into a cleared room are heard as the first ones were;
+  - a fight told after it said "Spirit 1 falls"; it says "The first of the drowned falls";
+  - once the springs were turned down the race, the stream still ran out under the door, and the race was still
+    called "dry now". The doorway and the hillside now show the springs gone another way, and a drained cistern
+    goes on saying so at the wheel;
+  - news of a boy gone out after his father, in another town, reached the company in the cisterns and woke it from
+    its rest; it is told only on that town's green;
+  - "a heather" and "a comfrey" at the apothecary are heather and comfrey;
+  - one choice that wanted brawn or a crowbar was listed twice, once for each;
+  - the torn-off seal was still offered to be pushed, pried at and listened at, and gathered coins to be looked at.
+    Something undone (a trap gone off, a seal broken, a lid off) is not tried, and a purse gathered is done with;
+  - a goat that had got loose could be told "not to wait for you".
+- A fourth: d4, with a bard, whose record is `test/fixtures/descent/d4.choices` (the third kept descent;
+  90 choices at first). Gareth, a pilgrim, joined at Muntheald for 3 coin, and brought the rites of the dead; Liora the smith
+  sold a crowbar and a pole. Akarn, a mason who fights, joined at Stānhricg, past the philosophers on the green.
+  The play went like this:
+  - the bar lifted the pivot-door across the stair, and a voice at its foot was fought;
+  - the bard unsaid the glyph before the cantors' rooms, and the company took the dirge bell from its niche;
+  - a crack in the unsung stone led round the singing door to the chorus, and the riddle-caskets there gave up a
+    rose-quartz note and two rings of protection;
+  - rung over the stone singers, the bell sent the keeper back into the root of the hill;
+  - the tuning-stone came up at first light on the second day, though the company had run out of food.
+
+  That was too easy, and I say so. The hall has three short levels; the crack makes the singing door's puzzle a
+  choice rather than a need; and someone in the company had the one thing the keeper cannot bear from the first
+  hour. Three level-1 characters fought one band. The hall should be deeper, or its crack narrower, or its bell
+  harder to come by, before it is worth an evening. Faults found and fixed:
+  - "the wildtype voice": Orsino's wildtype is the kind as it is, and is no longer said;
+  - "disputing on the camp at Stānhricg", "a child on the bailey": the fever and the disputation now say "at" before
+    whatever a town's heart is called, and the dispute is "here" when you are at it;
+  - "the settled pivot-door" stayed settled once it swung; it is the pivot-door;
+  - a notebook read was still offered to be looked at closely.
+
+  Then I went back to make the hall worth the evening, and found it was easier than it looked. Gareth had not needed
+  the bell at all: the Unsung feared the rites of the dead, which any pilgrim or cleric has. The Wardens' still water
+  in thorn feared lore, which any bard or scholar has, or a 60-coin glossary from a shrine. Only the mine's and the
+  barrow's keepers feared something nobody brings, the daylight in a jar. And the Unsung, a keeper of level 8, had
+  13 hit points: the golem's level-1 line was fixed in two places, the catalog and Deem's body table, so its level
+  counted for nothing. With the bell left in its niche, three level-1 characters killed it in one round. Changed:
+  - each keeper fears only what its makers left against it. The dirge bell brings the singers' knell, and the
+    oath-tablet the Wardens' oath, and nothing else answers either. A keeper's bane must be found in the deep. To
+    make the tablet, Kyr's `Kind` gained `granting`: a kind of the module's own, carried as a catalog kind is, that
+    brings its own capability (`Kind wardens_oath "…" like old_glossary granting oath`). It is in the authoring
+    guide and in the local-kind probe;
+  - a golem's line grows three hit points a level above the first, as Orsino's monster template grows a line: 13 at
+    level 1 as before, 34 at level 8 (Deem's `hpPerLevel`, beside `fixedHp`). A great snake and a
+    great centipede, the cisterns' and the hall's elites at the top, were Orsino's animals, whose lines do not grow:
+    a "great snake" heard from every room had 3 hit points. They are Kyr's own kinds now, and grow by hit die;
+  - the still halls are a long hall and an unfinished hall longer, with the hall of echoes always there, and they have
+    dwellers: a hard note in the long hall and the unsung stone in the unfinished one. The bell is no longer in the
+    cantors' rooms beside the crack. It is in the unfinished hall, in the hand of the last cantor, who went down with
+    it ("THE LAST OF THE CANTORS HAS THE BELL", the door says). The crack now lands in the hall of echoes, and needs
+    a climber or a rope.
+
+  Played again from the cantors' rooms with the same company: down the crack on the rope, a pressure plate sprung
+  with the pole, the riddle in the chorus, past the hard note while its patience lasted and the glyph on the way
+  unsaid, then into the unfinished hall, where taking the bell brought the unsung stone on. It was killed, with Wenna
+  at half her hit points. Rung in the last hall, the bell sent the Unsung back. The way out was the crack again, and
+  the tuning-stone came into daylight at first light on the second day. The record is now 101 choices. It is better,
+  not yet good: one fight more than before and a real one, but the hall is still the shortest of the four, and a
+  company that brings a rope and a pole has its two hard ways in solved before it arrives.
+- a1 again, with a warrior, to the barrow's heart: the fourth kept descent, `test/fixtures/descent/a1.choices`
+  (132 choices). Cyril the pedlar joined at Murkstede again. There were two expeditions:
+  - the first afternoon: the outer barrow's grave-goods, and Wenna's brawn on the jammed counterweight, which frees
+    the portal stone. Home to Murkstede, the goods sold at Mik's, a glossary of the old script bought at the shrine,
+    and a bed at the Lucky Phoenix;
+  - the second day: by road to Faennslím, the lord's toll paid at the bridge, and at Wǽttún a pole, a lantern and
+    oil, bandages, and Aghavan, a scholar. A bench by Tazala's fire for the night;
+  - the third day: back through Eikwudu and in. The switch on the stair was looked at closely, then pushed in with
+    the pole's end. Ghouls were killed in the long gallery and the restless dead in the embalmers' room, and the jar
+    of noonlight taken. At the king's door the words were read with the glossary ("HE CANNOT ABIDE THE DAY. THE
+    EMBALMERS KEPT THE DAY IN A JAR"), the casket's riddle answered (the stamp) for a jade idol, and the seal-stone
+    broken. Carried in before them, the jar drove the king back into the deep grave. The company came out with the
+    crown at ten at night, waited on the forecourt, and the crown was brought into daylight at six on the fourth
+    morning.
+
+  The cleric's company died in the ossuary and the mourners' hall. This one was warned off both by what was heard
+  from them, went round, and was never felled. Two fights took 2 of Aghavan's 5 hit points. Wenna and Cyril ended at
+  954 experience, 46 short of a second level, which is taken under a roof. The treasury and the deep grave were left
+  unvisited. This is the right shape: the first company to go in blind died; the second was ready, and what it
+  readied with came from the world (the counterweight wants a strong arm, the stair a pole, the words a glossary
+  sold one town off, the king the embalmers' own jar). It is the easiest of the four after d4's. Faults found and
+  fixed:
+  - turning off the road into the wood just past the reeve's bar, by a path that starts at the bridge, outlawed the
+    company for running the toll, and the reeve sent riders after it. Passages now say which ways are road (a
+    road, a bridge, a ford) and which way a company last went by. The toll is run only by going on along the road
+    from the bar by a way the company did not come by, and only once it gets there (`test/toll.test.ts`);
+  - "The toll-reeve are against you now": voice lines are written for they ("{Actor} [are|is]"). A verb after a
+    name now agrees with one person or a band of many, and one after "they" agrees with the pronoun;
+  - the light-box over the barrow's door laid "a thread of grey daylight" along the passage at ten at night. By
+    night it is the night air.
+
+  - the forecourt counted as indoors, being part of the barrow's first level, so the company could not make camp
+    there and was weary at first light. A deep room can now be under the open sky (`open` in a purpose's role,
+    written as the Kyr place's `outdoors`), and a place's declared shelter is what `indoors` follows.
+
+  Still open from this play: "Take the king's door" names no destination when the way and the room beyond it share
+  a name.
+- A fifth world, cov2 (Ironfells), with a thief, from the first page: the first time a calling with trapwork and
+  lockwork but no fighting to speak of has gone in. The world would not start at first (see Invariants). Then:
+  - at Brantfeallan, Rharash, a half-orc minstrel who fights, joined for 3 coin, and the factor of the Alberíce
+    company named the mine, Argentumons, and stood 30 coin against the heart of the vein, for 2,500;
+  - the first morning in the adit: the switch at the mouth wedged by the thief, star-iron in the stopes, a dead
+    camp's notebook, goblin thieves of level 3 talked into letting the company be, and cave spiders out of the
+    props at the winze head with no warning (nobody in the company reads sign), which left Wenna at 1 HP;
+  - out to Khesefrehes, the town nearest the mine, which keeps its god at a cross by the way: the smith bought
+    star-iron (his purse ran dry at 60 coin; the rest was shown him, and bought next morning), Mabon, a drover who
+    fights, joined for 7, and the keeper of the cross, Rangrim, was read wrong and then promised that the stair
+    would be walled again, which got the company what the walled-in thing cannot bear;
+  - the second day, as the factor's diggers set out: the goblin chief at the shaft head refused to let the company
+    by and was killed when its patience ran out; the wheel freed with a crowbar and the cage ridden down; on the
+    haulage level the mud came at the company, and the Delvers' bone hounds after it, and Wenna fell; the ghouls
+    broke the first rest in the Delvers' hall; at the second she came round and both companions took a second
+    level; a casket's riddle (a word), the stores' ledger, a tripwire pinned, and the pump's chain set;
+  - the third day: the alpha pale pack, two cave hounds of level 5, killed, and Wenna felled again; a cursed
+    shift-boss at the walled stair; back to rest, where she failed her save and died. The two carried her out and
+    over to Brantfeallan, where the priest raised her for 300 of the company's 351 coin, on the fourth morning.
+
+  On the fifth day, back in with 150 coin: the cave hounds that had moved into the haulage way felled Wenna again,
+  the cursed shift-boss was killed, and at the rest she failed her save a second time. The mine is not played to its
+  heart in cov2, and I stopped there: the harness fights every fight by the game's own tactics, the protagonist's
+  turns included, so a thief of 9 HP stands in the line and is struck down by whatever reaches her, where a player
+  in the browser would have her keep back, hide and dodge. It is still the hardest of the five starts. Below the
+  walled stair are the drowned level and the keeper. Faults found and fixed:
+  - two fights in one action were told as one: attacking the mud, the hounds came on after it, and the page told
+    only the hounds, not the mud, nor Wenna falling (`test/two-fights.test.ts`); then, telling the blow that felled
+    each who fell, the miss before Wenna's wound was told as the blow;
+  - a rest ate two rations when the day's meal fell due as it began (`test/lantern.test.ts`);
+  - the store-room's camp on the haulage level was the old stope's above, word for word; the same party's camps
+    further down are told as theirs (`test/deep-camps.test.ts`).
+
+  Noted, not fixed: the wright's yard, all timber, sells no ten-foot pole; and the ledger, like the galleries' tally,
+  teaches the country's history as a finished account before its own words.
+- A sixth world, cov7 (Lonelyfells), with a mage, from the first page: the first calling of seven hit points. At
+  Brantheald, Tharash, a half-orc scholar who fights, joined for 3 coin, and the innkeeper named the king-barrow,
+  Silentumrecs, off the top of the Wulfpath: three hours and twenty minutes up the road, past the lord's toll-bar.
+  The first afternoon in the barrow: a conjured light, 24 coin in the dust of two chambers, a bone flute and an
+  arm-ring, the portal stone's counterweight levered free over the stair down; and three beetles that were "no
+  match for you" bit Wenna down while Tharash killed them. Carried out to the forecourt to rest, she failed her save
+  and died. Played again from before the beetles, back down the road to the town: the lord's riders were waiting at
+  the inn for "a company that turned on his toll", which it had not. Faults found and fixed (`test/mage-play.test.ts`,
+  `test/toll.test.ts`):
+  - the reckoning said "no match for you" of a fight in which the mage fell: one fall in the six fights played out
+    was not enough to say so. Any fall now makes a fight a hard one, said by someone else, who names who: "Tharash
+    reckons you would likely beat them, but Wenna could fall";
+  - her conjured light went out as she fell, and left Tharash in the dark: it hangs on over one who has fallen,
+    where a torch falls with them;
+  - a way off the road and back to the toll-bar, then home the way the company came, was running the toll: a track
+    off the road now leaves the company on the side of the bar it came from;
+  - the robbers' captain was heard from the next room as "something large, that is not in any hurry": a leader who
+    is someone is heard by the scrape of a whetstone on steel;
+  - a document read said "The words cut on the passage stone, read.": it is "You have read the words cut on the
+    passage stone.";
+  - setting out at noon was "early, with your shadow long in front of you": the dew and the long shadow are only
+    before nine;
+  - the dead company's account said Wenna fell at the forecourt, where she had been carried, struck "with a
+    mandibles": it is where she fell, struck with its mandibles;
+  - three travellers' morning lines put them in the yard or at the pens while they stood in the taproom to be
+    spoken with; a cat greeting the company "went off about her business" and sat on the wall; and the ewes'
+    rumour said "out of the ground by a pit in the ground".
+  - the town's elders, a band of three, were greeted as one: "The elders looks up, and puts their hands still". Of
+    many, only a line that can be said of many is chosen now, and the voice tables have lines for them: "The elders
+    break off talking among themselves to hear what you want."
+
+  Noted, not fixed: a question put as a topic takes no time where one put as a rumour takes five minutes; making
+  them alike would shift the timing of every recorded descent.
+- A seventh world, cov11, as the drover's own child (the kin origin), found that the mine of one world was named
+  like another's: cov11's cisterns were Paliduslac, as thorn's were. Over forty worlds the deep sites had 18 names,
+  one of them (Argentumons) in six: each art named its works from six words of the old tongue, and a name too like
+  another in the same country is passed over, so the deep site, named after the makers' others, had few left. Each
+  art now has ten to twelve, from words the old tongue has (copper, rock, sorrow, mist, harp, cloud), and the forty
+  worlds have 35 names, none more than twice. The names in the accounts above are as they were when played: wren's
+  mine is now Aurumtener, thorn's cisterns Albuslac, a1's barrow Lapistumul. The same play found the mother told by
+  a name her child was never given ("Ian does not sit down"), what it was worth named twice over ("the drover who
+  did not come home: The drover who did not come home, seen through"), and the dog's coat told twice; each is fixed
+  (`test/origins.test.ts`, `test/goings-on.test.ts`).
+- An eighth world, cov13, as a bard in debt, with a minstrel hired at the inn, played into the Barrow-Kin's king-barrow
+  and home. Its switch wanted a ten-foot pole, sold only in two towns the company had never heard of: the willows by
+  every road now give one to whoever cuts it. An enchanted object said a stick would set it off, and a prod found
+  nothing: it waits to be knocked over, as the pole's own way does. The kingdom's words in the barrow said it came
+  after the Water-Wardens alone, in a country the Barrow-Kin made things in too: they name both. A recess had "a bead
+  or two" among burned bones that a search did not find; what a room's look promises a search there now finds, and
+  once it is taken the room no longer says it is there. The debt of thirty coin was paid before noon of the first
+  day out of the bard's own purse and the barrow's first chamber, so it is fifty, which asks for the second room as
+  well; the creditor's greeting is said until it is answered. One level of the barrow, three rooms past two traps,
+  paid about 240 coin in coin and goods. With an eel-catcher hired at Meóstun the company went back: the robbers'
+  captain, a third-level warrior at the back-stone, "stood its ground", and the page reckoned "it" more than the
+  company could take; one of a people is now spoken of without "it" in the plain words and the reckoning. He was
+  talked round, and the company went over the portal stone by its gap with a rope into the halls, where the dead
+  were heard beyond the king's door, and turned back. The salter had sold a lantern and nothing to fill it; every
+  shop that sells a lantern now sells oil. The switch's "Vines erupt to entangle", Orsino's own words, was told
+  under a chalk mound where nothing grows: under rock they are roots. Not fixed: a torch going out at the moment a
+  glyph is unsaid hides that it was (the darkness swallows the glyph's new look).
+- The keeper was never fought; whether a party of level 8 or so could fight it is untested.
+- Monster experience varies a great deal by kind, as Orsino's does: three goblins 190, two bone hounds 1,265, the
+  second more than a level for a company of one. That is Orsino's table, and a fight is now shared among the members
+  still standing as Orsino shares it; until now every member got the whole, four times Orsino's for a company of
+  four. Whether undead should be worth twelve times a goblin a level in Kyrie is not settled.
+
+## Proof B: an argument with consequences
+
+**Done.** The priest of the mine's home town forbids opening the makers' wall, and will not heal, raise or pray for
+whoever does (`src/world/deep/deep-argument.ts`). The company argues it out, each way once, at stated odds:
+- the makers' own words as evidence (easy, and offered only to a company that has read them);
+- plain argument (hard);
+- reading what the priest leaves unsaid (insight), which finds a brother lost in the mine and opens an appeal to
+  that grief;
+- a lie, which shuts the shrine if found out;
+- a threat, which works but shuts the shrine anyway;
+- a promise to wall the stair again, which needs no roll.
+
+Won over, the priest tells what the keeper cannot bear: knowledge a company without the old script would otherwise
+lack. The promise is held to: the heart brought up with the wall still open shuts the shrine. So does the stair
+opened against the priest's word. `test/deep-argument.test.ts` pins all of it. Bands in the deep can be talked
+round or warned off the same way.
+
+**The philosopher's capstone.** On some town's green two philosophers dispute on market days, and the town takes
+sides: one of the One (henology: all things are one, and change is only seeming), one of the Flow (fluxism: nothing
+stays, and nothing made outlasts its making), and a sophist who argues either side for two coin
+(`data/goings-on/disputation`, placed by the world assembler like any trouble; seeds b2 and d4 have it). Belief is
+now the world's own, in a rules module any author can use (`data/rules/belief.kyr`): who believes what and how
+firmly, what fact refutes a claim, whether it was let go for a reason or only to argument, and who argued it away.
+- Truth: the country's own history refutes each doctrine, for whoever has found it. The first makers' marks, which
+  still read though no one alive has seen a maker, answer the Flow; how the makers ended, and the kingdom after
+  them, answer the One. A scenario names that history (`@history.makers`, `.fate`, `.successors`), whatever the
+  country's makers were. A reason shakes the philosopher and does not turn them: each has an answer to it (the
+  stones stay, but what was meant by them went with the hands that cut them; the makers ended, but a wave going back
+  into the sea is not lost), and holds the doctrine still, less firmly, until that answer is met in turn, by lore,
+  insight or persuasion as the answer asks, or another reason is put. Then the claim is let go for good: the
+  philosopher says so on the green and would come with the company. A shaken philosopher is no longer argued down or
+  bought off.
+- Rhetoric and sophistry: arguing the philosopher down (persuasion, hard) or paying the sophist wins the day, and
+  the crowd laughs at the philosopher. By morning the doctrine is believed again (a rule of the belief module), and
+  the one who argued it away is scorned and not listened to again, so the reason they might have given is lost.
+- A passive check: someone in the company who reads people (insight) sees, without a roll, where the philosopher
+  of the Flow keeps looking while saying that nothing stays (at the oldest stones in the town), and that is a reason
+  of its own to put, at even odds, for a company without the history, with its own answer (to watch them go).
+`test/disputation.test.ts` plays each way. What it does not do: the crowd's sides are told, not counted; nothing
+in the town changes with the philosophers' views beyond the green; and there is still no deception detected by
+evidence beyond the priest's one lie.
+
+## Proof C: a living historical landscape
+
+**Done.** History now has material consequences inside the deep site (`src/world/deep/deep-history.ts`). By the kind
+of kingdom that followed the makers:
+- warlords held the adit with a gate and barricaded the way from below;
+- abbots made a chapel of the Delvers' hall and blessed the wall on the stair again;
+- merchant-princes kept a tally-house in the stores and gave the working up.
+
+By how that kingdom fell:
+- plague dead in the old stope;
+- families wintering in the hall;
+- an heir's strongbox buried in the ore bin;
+- a raiders' post at the mouth.
+
+The successors' documents teach their history when read, and the abbots' tablet explains the wall the company finds
+below. `test/deep-history.test.ts`.
+
+**Done since.** Border marks were the brief's example of repetition: every road out of every country passed "a
+march-stone as tall as a man". Now a country's bounds are marked by whoever ruled it after the makers (a ruined
+watch-post, a wayside cross, a toll-house) and by the lie of the land (a causeway post in the fen, blazed oaks, a
+cairn on a pass), drawn per border so that no two read alike (`data/generation/scenes/borders.json`).
+
+**Done since: a power after the same prize.** The heirs of whatever kingdom came after a deep site's makers want
+what the makers died for (`data/generation/deep/powers.json`, `src/world/deep/deep-rivals.ts`). Warlords' heirs
+have a castellan at the fort nearest the site; an order's survivors have a prior; merchant-princes' heirs have the
+factor of their company, with a parchment that says the site is theirs. In wren the kingdom after the Delvers was
+an order of monks. Their brothers' tablet is still in the Delvers' hall, and their prior is at Gothgiba.
+
+The head says what they want and why, and pays a price for the prize (the warlords its worth, the poor brothers
+half, the company a quarter over, to sell it on). The head also stands the company an advance, which comes off
+that price. Their delving is an ambition (`data/rules/ambitions.kyr`: an ambition moves a stage at a pace while
+its power is able and it is neither won nor foiled).
+- On the second morning their people set out, and the talk at the inn is of nothing else.
+- Every two days they are a level deeper, and their mark is on each level they pass.
+- At the bottom, while the company is not on that level, a keeper still there breaks them. What they carried
+  (lanterns, oil, rope) lies where they fell, and the head pays half as much again.
+- If the keeper is gone and the prize still there, they bring it up. It stands in their settlement, and the
+  company's errand is over.
+
+The company can take the money, sell them the prize, or ignore them; they go on either way. In the recorded descent
+the brothers were two days behind: their cross was on the shaft bottom when the company came back down on the
+sixth day, and the heart came up on the eighth, two days before they would have reached it
+(`test/deep-rivals.test.ts`).
+
+**Done since: the land shows what is under it.** The ground round a deep site's door tells of what keeps its
+bottom (`land` in each purpose's data, `test/deep-land.test.ts`), so that the ecology is a clue and not scenery.
+Anyone sees the blight: at the mine the heather stops short of the adit mouth and nothing nests in the spoil; on
+the barrow nothing grazes and no bird sits; in the cisterns' ditch there is no weed and no frog. Someone with a
+skill reads more in it, and what they read is a hint at what the keeper cannot bear:
+- a ranger sees that the ravens come down onto the mine's spoil only at noon, with the sun full on the hill;
+- a priest of the dead sees the barrow's grass pressed flat by morning, as by something that got up again before
+  the sun;
+- a scholar reads the cisterns' door as a promise kept;
+- the Stone-Singers' hill gives out a dirge that nobody finished.
+
+Once the keeper is gone, the land comes back.
+
+**Not done.** Ecology beyond this, and settlements' fortunes, were not worked on this mission. Only the one kind of ambition is
+written, and its power does nothing else: it does not hire guards, buy up the oil or close the road. A deep era
+sequence (a primordial age, the Mathematical Age, planar contact) was not attempted. Truth and belief are not yet
+separated in what people say of history.
+
+## Proof D: an independently authored scenario
+
+**Done.** An adventure's own kinds of thing and of creature are its own (`src/canon/local-catalog.ts`). They are in
+the catalogs while its campaign is played, out of them when another is, and back with a saved game.
+`test/fixtures/locals` holds two adventures that give the same names to different things:
+- at the mere, moonglass is treasure and a mere hound a territorial wolf;
+- at the works, moonglass is a lantern's lens and a mere hound a tame dog.
+
+`test/local-isolation.test.ts` plays them in turn and restores one after the other. A kind declared in Kyr is an
+entity of its world whether or not any of it is placed.
+
+**Not done.** Local abilities, laws and generation tables, dynamic entity creation, conditional passage destinations,
+counted offers and rule tracing. (Weight and carrying are done: see Proof A.) The fixtures are small; there is no full independently written
+scenario of the size the brief imagines.
+
+## The interface
+
+Done:
+- Tries suit what a thing looks like, with authored additions (`Tries pushing.`): no "Listen at scattered coins".
+- Probing a trap teaches what it is, which opens its remedies.
+- A casket's own page offers what is in it.
+- A riddle's four words are offered together, not the answer apart from the rest, which had given it away.
+- A way named for where it goes is not named twice.
+- In the dark, who is there is heard, not seen.
+- A long answer in conversation shows from its start.
+- Someone with no likeness that fits is a named card, not a painting-sized frame (the goblins had been painted as
+  a monk, and then shown as a giant lowercase "t").
+- The map draws a site's level, and above it the site's levels the company has stood on, top to bottom, the one it
+  is on in ink ("The bell foundry ↓ The flood refuge"); a way off the level to another is marked up or down ("↑ Dry
+  stores"). `test/level-chart.test.ts`.
+- The dead click on a way with a fallen guard, and the angry owner with nothing to click, were fixed at the start
+  (`baseline.md`).
+- The title has Options (`web/reader/options-page.tsx`): the light the page is read by (as the device has it, paper,
+  or lamplight, which darkens the day's page too; the night and the deep are dark whatever is chosen, that being
+  the world's), the size of the letters, and whether the dice are told. A check's roll is now its own kind of line,
+  told quietly under what came of it, or not at all. Kept in the browser; `test/reader-browser.test.ts`.
+- Creation says what the reason for coming makes you ("The brothers' errand makes you a scribe, who knows lore"),
+  and one who comes over the hills "with your trade and not much else" chooses the trade from the calling's own
+  backgrounds, as Orsino's creation offers them (a warrior's twelve: champion, guard, mercenary, sellsword...).
+  An origin's background now always holds: the letter that calls you one who reads the old script is not given to
+  a mercenary. The peoples offered are Orsino's own player races, human, elf and dwarf.
+
+- An opening incident: one who comes over the hills arrives as the town's own trouble is happening, seen on the way
+  in (a mother in her doorway calling for herbs, a shepherd dragging a half-eaten ewe off the road, two men
+  shouting over some stones), and so knows of it from the first page (`data/origins/wanderer/arrivals.json`). The
+  other origins open on something pressing already: a debt due by market day, feverwort to be taken without
+  dawdling, a mother at the hearth.
+
+Not done:
+- An incident for every town: where the town holds none of the troubles that have an arrival, one who comes over
+  the hills still arrives to a quiet road.
+- Conversation memory of fresh and exhausted topics beyond "asked".
+- Pronouns in Kyr text (the priest's lines are written to need none).
+
+## An independent review, and what came of it
+
+On 24 October another agent played the deployed game (at `be30f26`) cold through the browser, as a new player, and
+wrote it up: [`independent-review-2026-10-24/report.md`](independent-review-2026-10-24/report.md), with an action
+log and screenshots. It is an agent's review, not a human's. Its verdict: a credible opening and real curiosity, but
+"a brittle relationship to its own fiction", and it would probably not have gone on after fifteen minutes. It played
+a brothers' errand to a small tin-miners' galleries (not the deep site) and fought a toll-keeper.
+
+What it found, checked against the source, and repaired:
+- **The dead spoke.** It was talking to Sergeant Mawr when it attacked him; dead, he could still be talked to, and
+  answered a farewell. A conversation now ends when whoever it was with falls or turns on the company, and nobody
+  down says anything (`test/the-dead.test.ts`).
+- **Looking at what is on a way did nothing.** The lift-cage, the pressure plate and the speaking door opened
+  nothing visible: a door drew what might be tried at it, but not what one of those opened. It now opens under it
+  (`test/door-browser.test.ts`, on a new probe with a tripwire across a gate).
+- **Guard closed the menu it was in**, so whom to guard was never shown. Opening one thing now closes only what is
+  beside it in its own list (`src/ui/choice-tree.ts`, `test/menu-siblings.test.ts`).
+- **Prose that was not so.** A crowbar taken still lay where a miner left it; winding the lift-cage up told of it
+  going down; the deserters said to go off up the road stayed by their fire. Each now says what is so
+  (`test/said-as-it-is.test.ts`). Finding the lift's words showed that a fight which follows something done (the
+  cage wound up, and then what drops out of the frame) lost what was done; it is told now, before the fight.
+- **Prepare Charge hid its commitment.** A condition now says what it binds its holder to: "Preparing to Charge:
+  +2 to hit, +2 damage; and the next turn can only be Charge, nothing else."
+- **The light gave no warning.** Somewhere unlit, or while a light burns, the company's light is told under the
+  company: "Wenna's torch, 40 minutes left · 2 torches to spare" (`test/light-left.test.ts`).
+- **A companion's wounds were missing** from the status at the foot of the page; a hurt companion now says so there.
+- **Looking at an altar in the open turned the page black**, as if somewhere dark. Looking closely keeps the place's
+  light; a fight, and lying fallen, are still dark.
+- **The same question answered again.** Asking someone about their work is asked once.
+- **News for nothing, and none to give.** A tinker crying "news for nothing" had only her work to talk of. Whoever
+  goes round the roads now has news of a neighbour along one, in the travellers' own words (`src/world/region-news.ts`).
+- **What was read was noted as seen.** Reading the galleries' tally noted the makers' history and how they ended as
+  "seen for yourself", and the page declared their story whole. What a writing says is now known as its account,
+  "as a tally cut in the wall has it", reported rather than seen, for every work's inscriptions and every deep site's
+  documents (an observation `of` the thing `as reading`, in Kyr). The great work it leads to is told as the company's
+  inference: "Put together, what you have of the Delvers, who they were and how they ended, points somewhere no
+  single stone names... If it is right, it was..." (`test/said-as-it-is.test.ts`).
+- **The last blow was lost**, and two awards of experience came with no reason. The fight's page closed as the
+  last blow landed, and the account told afterwards kept only who fell; it now keeps the blow that felled each, as
+  "Rharash critically hits the mud. The mud takes 11 slashing damage (0 HP left). The mud falls." Experience for
+  something seen through says so: "each gain 300 experience: deserters on the road, seen through."
+- **One reading taught it all.** The galleries' tally, and an abbey's copies, each taught both who the makers were
+  and how they ended, so one inscription was enough to reach the great work, which says it is found by putting
+  things together. Every writing now teaches one thing: the tally tells who the Delvers were, and the words they
+  cut last, on the iron door at the end of the last gallery, how they ended; the abbey's copies tell who the old
+  people were, and their notes cannot agree how they ended, but one leaf names the oldest stone, which the brothers
+  made their high altar, and its back says. The reveal needs two things read (`test/said-as-it-is.test.ts`,
+  `test/later-works.test.ts`). Both are still in the same work; a reveal that needs two works to agree is not done.
+- **Combat left the scene.** The fight's page closed as the last blow landed, and the place came back at once with
+  the whole fight told over in it, so the outcome, the wounds and what was gained were never seen together. A fight
+  that has ended is now held on its page: the last blows, "Your company wins the encounter.", "Elen, Bran and Dori
+  each gain 10 experience.", each side's cards as they stand (Elen hurt and bleeding, the boar down), and "Go on"
+  (Enter or Esc) back to the place, which says only "Your company prevails." and keeps what was witnessed meanwhile;
+  the journal keeps the fight blow by blow (`test/fight-held.test.ts`; the browser tests go on through it). Not held:
+  a fight the company never had a turn in, and one it lost, which goes to its ending. Two things that came of one
+  blow and come to the same ("cannot act") are said once. And the fight's page called a band's members by their
+  number in it, "Knitted bone hound 2", where the place and the account afterwards said "the second of the agile
+  bone hounds"; it calls them as those do now (BandNames), on the cards, in the blows and on the targets.
+
+Not yet repaired, and why:
+- **Portraits that contradict the prose** (the sergeant in a red coat painted as a courtier). The likeness scores
+  station, era and sex, not dress or equipment, and when nothing fits it still takes whoever of the right sex scores
+  best. I tried painting nobody that no picture fits by work or station: in a1 that left 42 of 64 people bare,
+  priests, salters and innkeepers among them, so the corpus and its stations want widening before that rule can be
+  used. The cure is more fitting pictures first, then fewer and smaller ones.
+
+## An architecture review, and what came of it
+
+Later the same day another agent reviewed the code read-only at `422a4c8`:
+[`arch-review/kyrie-architecture-review-422a4c8.md`](arch-review/kyrie-architecture-review-422a4c8.md). It found
+the kernel sound (an immutable fact store, checkpoint and rollback round every command, identity-keyed randomness,
+replay by transcript; a fresh replay reproduced a 40-command game byte for byte) and two independent adventures
+built in Kyr with no engine changes. Its fifteen risks are for the next mission; of the structural ones I have
+taken on only the first two (F-01 and F-02). I repaired these:
+- **My `guest` broke Thrume.** The homecoming's `Relation guest(group, group)` in the shared rules made the
+  independent Thrume adventure's own `guest` a load error. It is `onTheHouse` now, and the cure is below (F-02).
+- **Modules were not protected from the shared rules growing** (F-02): a name the shared rules came to have that a
+  module already had (`guest`, `confided`, `light_lamp`) made the module a load error, so every addition to the
+  shared rules could break every adventure written against them. A module's own relation, measure, query or action
+  of a shared name is now its own within it (`src/campaign/module-shadow.ts`): wherever its author wrote the name it
+  becomes the module's (`own_confided`, then scoped like any of its names), while what the language's own
+  constructs say (a company at a place, a thing in a state) keeps the shared meaning; lint warns of each. A probe
+  with its own `confided`, `fellow` and `light_lamp` plays by its own; a module declaring every one of the shared
+  rules' relations and measures for itself still loads and plays (`test/module-shadow.test.ts`). Both independent
+  adventures, read from their branches against main's rules (in scratch, not merged): Thrume lints clean, and 5 of
+  its own 6 tests pass; House That Grows, with its three catalogue items declared as its own kinds (the catalogue is
+  still global, F-08), lints clean with two warnings, its `confided` and its `light_lamp`, and 15 of its own 17
+  tests pass. What fails in both is the game moving under them, not their names: a torch is lit as "Light a torch"
+  among the company's own choices, not from the torch in the pack, and an Annex map test. A rules version for
+  modules, which the review also proposes, is not done.
+- **The shrine's argument was the mine's everywhere** (F-07): "he went down for the ore", "take the noon with you,
+  and the brothers' lamp", at a barrow, the cisterns and the singing hall alike. It speaks of each site's own bane
+  and name now (`test/deep-argument.test.ts`). It is still authored in TypeScript, not Kyr.
+- **A search kept its finds when it failed** (F-04): its resolver ran before the search was known to have run its
+  course. An interruptible activity's resolver now runs when it was not interrupted (`test/interrupted-search.test.ts`).
+- **A deep document said nothing once its history was known** (F-05, the smallest part): read after a song had told
+  the same history, it showed only "the ledger, read". Its words are said whenever it is read.
+- **A game that crossed a border could not be replayed** (F-01, the review's first risk): the browser drew the
+  country beyond a march-stone after each command, outside the record of it. It is drawn as part of the command now:
+  a session is extended with the frontier (`PlaySession.extend`), and replaying the same commands draws the same
+  countries (`test/frontier-replay.test.ts`, walking thorn to its march-stone and replaying in a fresh session). The
+  terminal's replay could not start a generated world from a transcript at all: the world is drawn, not read, and
+  the transcript did not keep what it was drawn for. It keeps it now (`drawn`: the company, terrain, origin and
+  memorial), and `bin/kyrie replay` draws the world again from it (`src/world/drawn-world.ts`, by the same options
+  the browser draws it by) and extends it with the frontier. A game played through the browser's engine in a1
+  replays in the terminal to the same game, its world drawn from the files where the browser drew it from its
+  bundles; only the world's path is the terminal's own (`test/drawn-replay.test.ts`). A transcript from before
+  this cannot be replayed, and says so.
+- **Lint could not stand as an author's check** (§E-bis): an error in any campaign but the game's own left it
+  saying 0, and run from anywhere but the game's directory it could not find the shared rules. An error now fails
+  it in any campaign, and the shared rules are the game's, wherever it is run from; and a hazard whose effect names
+  no condition or no damage type ("fyre") is an error at lint, not when it strikes (`test/lint-outside.test.ts`). A
+  name in braces that names nothing ("Let {winchh} run out") is an error too. Generated worlds are now linted as an
+  author's are (`test/world-lint.test.ts`, five seeds), and that found a real fault at once: a1's and wren's arcane
+  symbols, an Orsino wonder, applied a focus the game does not yet run (it also gives spell slots), and touching
+  them failed. A wonder whose power cannot be run is met and gives nothing: two of Orsino's 43 (arcane symbols and
+  unearthly silence, both a focus).
+- **Prose named what had moved** (F-03): the review's property, over five worlds, is a test now
+  (`test/prose-moves.test.ts`): no observation said whatever the world holds names a thing that can be taken, by the
+  word it goes by, where it lies. It found one at once: the great barrow's king sat on his seat with the crown on
+  his skull, in the words said of the high chamber always, after the crown was taken and the king killed. The
+  chamber, the king seated, the crown on him and the crown fallen are each said while they are so. The review's
+  lint warning, the same rule for every module, I tried over five worlds and did not keep: its fourteen hits were
+  thirteen harmless ("Corrin's front room", "where the dead were made ready", a smith's spikes by the yard), and a
+  warning that is mostly wrong is soon not read.
+
+Not done, and the review is right that they matter: prose can still name what moves where no test looks (F-03: the
+test above covers what can be taken, not people, nor the state a mechanism is in); the company's knowledge is still
+one fact for a whole history, which no two sources can tell differently (F-05: what is heard or read is the
+journal's report of it, "Cassius told you", "as a tally cut in the wall has it", until it is seen, but the claims
+it proposes, kept apart from what is known, and the company's own beliefs, are not done); local kinds are installed in a
+global catalogue (F-08); Deem and the language tables are unpinned (F-11).
+
+## A follow-up review, and what came of it
+
+The same afternoon another agent played the deployed game again, in the browser, from fresh starts:
+[`independent-review-follow-up-2026-10-24/report.md`](independent-review-follow-up-2026-10-24/report.md). Its
+verdict: more playable and sometimes affecting, not yet reliably compelling for hours; it would go on for another
+excursion. It ranks twelve findings. I repaired these:
+- **A saved game would not load in a fresh browser** (its first): "Unknown item definition cantor_token". The company
+  carrying the singing hall's own token was rebuilt before the save's own kinds were put back; they are put back
+  first (`test/cold-resume.test.ts`, and `test/kept-kinds-browser.test.ts`, which reloads the page). Measuring the
+  browser found a fault of the same kind at Begin (see Performance).
+- **A caster's row opened their spells and left another's sheet** in the company view: a member's row is the member,
+  and their sheet shows as their actions open (the reader's browser test).
+- **Companions went from the page once nothing was left to ask them**: whoever travels with the company is listed
+  with it whatever they have to say (`test/mage-play.test.ts`).
+- **A torch in the pack, "nothing to spare" beside it**: an item's kind was its name, and the light counted ids
+  (`test/light-left.test.ts`).
+- **The father's knife stayed in his belt after it was taken**, and **the brother was to be told what he had knelt
+  beside**: the knife is said while it is there, and one who knelt by the cart is not told of it
+  (`test/goings-on.test.ts`, `test/origins.test.ts`). And, after the review's first prototype (the father's return),
+  what becomes of him is the company's to choose: covered with the cart's sheet and his whip stood up to mark the
+  place, for the village to fetch home in the morning to a grave by the green; or buried by the road with the words
+  said, his knife on the cairn unless someone takes it. The wife says what will be done, and later there is a grave
+  to stand at, where a brother who came along says someone should sing him something terrible
+  (`test/goings-on.test.ts`).
+- **Terms were learned after the choice** (its sixth): a sale says beside it what it fetches ("Sell a jade idol",
+  30 coin), and asking a creditor for more time is told its terms, five coin more, before they are taken or left
+  (`test/what-it-takes.test.ts`, `test/origins.test.ts`).
+- **A fight's telling contradicted itself** (its eighth, in part): a save against the harm itself was "shakes it off"
+  before "takes 0 fire damage" and "is burning", and a bite caught someone "for 0" and they bled. A save against harm
+  turns the worst of it aside, and harm that came to nothing is not told as harm (`test/fighting-odds.test.ts`). The
+  hound that was "not burning" beside Burning had two burns, one from each fire, and one had run out: a condition is
+  said to end only when none of it is left (`test/command-contract.test.ts`).
+- **A dweller met as a fight with breathing for its warning** (its seventh, in part): what falls on whoever comes in
+  is heard from the next room as what kind of thing it is, the dead as a cold and a breath let out and never drawn
+  in, a thing of earth or water as weather, beasts still as breathing (`test/what-it-takes.test.ts`). And the
+  company has a say in how it meets it: beside the way in, what falls on whoever comes in (or is one of the worst)
+  can be drawn out, and met where the company waits for it, ready, so that the first blow is theirs (a condition
+  of Kyr's own, held only against what it drew out). In a1's bone hall the ghouls of the long gallery come out to a
+  lone cleric, who strikes first and still falls.
+- **A notebook read was taken from view** (its tenth, in part): what is looked at stays in view when nothing more
+  can be done with it, until it is turned away from (`test/thing-kept.test.ts`). And what is done from the pack or
+  the company page in the middle of a conversation is not said in it: the bandaging was told in the creditor's
+  dialogue, and the company was put back there; it goes back to the place, where it is told, and whoever was being
+  spoken with is still there to be turned to (the reader's browser test).
+- **An artifact offered nothing but Take, though its kind is described** (its twelfth, in part): a thing to be had is
+  seen, looked at, in its kind's own words (`test/thing-described.test.ts`). A family's story finished left the notes
+  saying only "Nothing is asked of you yet": they keep what the company has seen through, and when, and say that
+  nothing more is asked, with what has been heard of yours to follow (`test/origins.test.ts`). A town with a ford of
+  one river on each of two roads said the river twice over; what two things say alike is said once
+  (`test/said-once.test.ts`). The same willows were told at fourteen places in thorn: what grows along the way is
+  told where it is first met and is still there to be gathered after (`test/narrator.test.ts`); and a way taken
+  before is told by its setting out, not the land it runs through nor the town coming in sight
+  (`test/voice.test.ts`).
+- **Inquiries that led nowhere playable** (its fourth): a scenario's hidden way in opened only to those who had heard
+  the rumour, so a company that came on cov7's pit by itself searched it and found nothing. A scenario may say what
+  looking about where its way in starts finds (the brood's trodden path down to the sink, the tower's well), and
+  searching there finds it (`test/way-in.test.ts`). The listening-room's prose invited listening and offered none:
+  the bowl in its floor can be listened at, and then what is about its business in the upper hall is heard in it,
+  the wary too, and not what lies in wait (`test/deep-singing.test.ts`). Speaking into it does nothing.
+- **An argument won by one example** (its ninth): one reason from the country's history turned a philosopher and
+  finished the dispute. A reason now shakes a philosopher, who has an answer to it, standing on the green until it
+  is met (Proof B above), and turns them only with that answer met or a second reason put; a bard who told Orion of
+  the fallen kingdom heard "once, seen twice", asked for its names to be said to the crowd, and Orion stopped at
+  the second (`test/disputation.test.ts`). The philosopher's views still change nothing beyond the green.
+- **A brother's portrait became an initial as he joined** (its eleventh, in part): whoever travels with the company
+  was listed without the painting they were met with; they keep it (`test/origins.test.ts`). The herb-wife the debt
+  was owed to, painted as a woman, smiled as "he": the creditor is whoever keeps the shop, and is said without a
+  pronoun; the tower's necromancer, written as a man throughout, is declared one, so is painted as one. And the
+  country's working people are not painted as the gentry: five works (the herb-wife, beekeeper, candle-maker,
+  peat-cutter and schoolmaster) had a painting of their name whose sitter is a lady or a gentleman, and are painted
+  now from middling and working sitters (`test/paintings.test.ts`). The mother who looked younger than her son is
+  painted by what she is to others and what she does: a wife or a mother is of her years, and "who cooks at the
+  inn" is a cook's work, so a working woman of age, not a girl in silk.
+- **"Immeral sees it first"** in a company with no Immeral (the rest of its eleventh): a traveller of the country is
+  a fellow from the start, before anyone joins, and a sign was credited to any fellow awake who brings what it asks.
+  I could not find it in a1, which has no such traveller; scanning fourteen worlds for one found cov3, where a lone
+  ranger at the old site w8 was told "Hector sees it first". It is credited only to one of the company
+  (`test/narrator.test.ts`).
+
+Not done of what it found: speaking into the listening-room's bowl, and the rest of its tenth (the map and the edge
+controls drawing the eye from what is being done; family intentions kept only in the notes).
+
+## Invariants
+
+`bin/` holds only `bin/kyrie`; the tools are subcommands (lint, compile, test, preview, world, voice, handbook,
+orsino, playtext and more); utilities live in `scripts/`. `test/repository.test.ts` checks this, and the project
+contract is [`doc/CONTRACT.md`](../../../CONTRACT.md).
+
+Every generated world must start. I started a hundred and ten (`cov0` to `cov109`, the first thirty by each of the
+five origins), and two of the first thirty would not: in `cov2` the town nearest the mine keeps its god at a cross
+by the way and has no shrine, but the priest's word on the walled stair was kept at a shrine all the same; in `cov24`
+the brothers' prior was of the town's elves, and an elf is no cleric. The shrine's rules now stand where the priest
+does, the order's novice begins there too, and a power's head takes their people's calling when the power's is not
+one of them (`test/world-starts.test.ts`). All hundred and ten start. All of them have a deep site: of the first
+forty, sixteen a mine, thirteen a barrow, six a singing hall and five cisterns.
+
+## Performance and persistence
+
+Measured in Chromium on this machine, nothing else running (`scratchpad m12/latency2.ts`), measured again at
+the end of the session (the figures from earlier in the mission are in brackets):
+
+| | |
+|---|---|
+| Cold load to the first page | thorn 1.17 s, wren 1.66 s (1.15 s) |
+| Begin, after reading the creation page for five seconds | 0.22–0.27 s (0.22–0.28 s; 2.32 s before the start was made ready) |
+| Begin, after reading it for three seconds | 0.8–1.35 s: the start made ready is not yet done |
+| Begin, an origin changed three seconds before | (3.35 s) |
+| Begin, clicked at once | (3.85 s) |
+| An action, click to second frame | 240–490 ms, engine 116–335 (180–445 ms, engine 80–340) |
+| Reload to play (Continue) | 1.48 s, and 1.48 s on the session's first commit too (0.95 s) |
+
+The region is 16% larger with the mine (428 KB of Kyr, 67 KB of it the mine). While the player reads the creation
+page, the start itself is made ready: 1.2 s after the last change (a name, a calling, an origin) the engine composes
+and compiles the world for the choices as they then stand, and a Begin asking the same takes it up at once
+(`EngineHost.prepare`). A Begin asking something else starts afresh. The worst case is a change just before Begin,
+when the start made ready for the old choices is still running on the engine's one thread and the new one waits
+behind it (3.35 s). Clicked at once, before anything is ready, Begin takes as long as it did (3.85 s against 3.84 s
+at the commit before). Parses are cached by content in memory, and a campaign load by its source, so a second start
+of the same world takes 21 ms. Continue restores the compiled game. Persistence: the
+whole first expedition replays from its record and resumes from a halfway save to the identical world
+(`test/long-expedition.test.ts`). Local kinds come back with a saved game.
+
+Measuring these again at the end found that wren could not be begun in the browser at all: Begin answered "Item
+w9_haulage_hall_after0_find names a kind missing from the item catalog: abbey_chalice", and the page stayed on the
+creation page. It was so at the start of this session too, and in node it never was. A country's own kinds (the
+Delvers' tokens, the brothers' chalice) are declared by its files as they are read, and its files are cut by size,
+not by site, so a thing of one kind can be placed in a file before the one that declares the kind. Two caches of
+parses (the parser's, and the bundle's) gave a file back without declaring its kinds again, and while the player
+reads the creation page the country's files are read and kept, and a start made ready meanwhile puts its own kinds
+in place of the country's. A parse given back from either cache now declares its kinds again, and a country's own
+kinds are written in its first file (`test/kept-parse-kinds.test.ts`, `test/region-files.test.ts`). No test began
+a generated world in the browser; one does now, wren and thorn after the page has been read
+(`test/world-browser.test.ts`).
+
+## Orsino
+
+The behavioural audit of Orsino's dungeons against the deep sites is [`orsino-dungeon.md`](orsino-dungeon.md).
+Most of Orsino's pacing and escalation is now Faithful or Adapted, read from its own tables. Missing: its shrines in
+the deep, its auras, building types other than the mine, and its trap DCs (the table is copied but unused).
+
+## What I would do next
+
+1. Play more of it. The barrow and the cisterns have each been played from the first page, and each found a dozen
+   faults that no test had. a1's first company died in the barrow's halls on the fifth day; its second, a warrior's,
+   brought the crown out on the fourth morning. Thorn's brought the Wardens' reading-glass up on the fourth, and
+   d4's the Stone-Singers' tuning-stone on the second, too easily, and again, deepened, less so. cov13's two bards
+   and an eel-catcher paid a debt out of the barrow's first level and talked its robbers round, and turned back in
+   its halls. The mine with another company is still to play, and the barrow's treasury and deep grave are still
+   unvisited.
+   Things to look at from this play:
+   - a level-1 company has little room for a bad fight; three of four were felled by one elite;
+   - the game's own tactics, the foes' included, strike at whoever has fewest hit points, as Orsino's do
+     (`Combat.weakest`), so a mage of seven is the first struck in every fight (cov7: by three beetles, and by two
+     ghouls the next day). A member who has fallen gains no experience from the fight, as in Orsino, and may die of
+     the fall at rest, so a caster of level 1 scarcely grows. That beasts choose whom to bite as a tactician would
+     is Orsino's, and is the first thing I would change for a beast. A warrior can stand in front of a companion
+     (Guard), and the fight's page offers it on the warrior's turn, but the game's own tactics, which fight a turn
+     left to them (T) and every fight the harness plays, seldom choose it; teaching them to would change every fight
+     the kept descents were recorded in;
+   - a recruit or a tool (a crowbar) is often a day's walk away; a pole is now cut from the willows by the road;
+   - nearly every room of a deep site has a purse in its dust (19, 18, 31 and 22 coin in cov13's first four), so
+     coin is never short once a company is inside;
+   - the wild trails, now between neighbours, are still two to five hours a leg;
+   - what lies on the way is fine, but the deep's rooms are dense with things to fight, and every one of them is a
+     full fight.
+2. A deep purpose for the sky art: the Star-Readers' tower, which wants the generator to build upward.
+3. Let a start made ready for choices since changed give way, rather than run to its end before the new one (3.34
+   s, where Begin alone takes 2.35). I made it give way at its next read, of the bundled files and of the world
+   drawn from them, and measured no gain: when Begin is asked the start made ready is in the middle of drawing the
+   world, which is one long stretch of work on the engine's one thread, and Begin cannot be taken until it ends.
+   What would help is drawing the world in parts, with the engine free between them.
+4. Let what people believe change what they do: the philosophers' views reaching the town's council and its
+   prices, the priest's doctrine modelled in the belief module rather than as its own facts.
+5. Dynamic entities, and pronouns in Kyr text.

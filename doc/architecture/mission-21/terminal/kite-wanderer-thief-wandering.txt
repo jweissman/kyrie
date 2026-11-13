@@ -1,0 +1,341 @@
+
+the road into Newmeet · 25 Sowing, morning · foggy
+The road comes out from under the trees, and there is Newmeet in its clearing: the market cross and the roofs of the stalls, reed drying in ricks, smoke from a dozen chimneys.
+You have come over the hills into Acornweald with your trade and not much else.
+A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse blowing in the shafts, a sack of meal burst on the bed.
+Aim: A child at the market-place of Newmeet has a fever; it needs herbs, or willow bark from where willows grow by water.
+
+1. Take the road to the market-place of Newmeet · 10 min  [worth a look]
+2. Talk to the wagoner
+3. Take the horse's head and lead it on while the wagoner heaves · 30 min  [worth a look]
+(? for commands)
+> 3
+The horse throws its head twice and then leans into the collar, and with the wagoner roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.
+The cart stands square on the road again, its load roped down, the horse quiet.
+The wheel is out of the ditch, and the wagoner’s meal is on the road again because of you.
+
+1. Take the road to the market-place of Newmeet · 10 min  [worth a look]
+> 1
+
+the market-place of Newmeet
+A stone market cross stands in the middle of the square at Newmeet, its steps worn into dips, and the houses round it have opened their ground floors as shops.
+Above the roofs, to the east, two columns of smoke stand on the ridge: one thick and black from the digging, one thin and white from the old woman’s fire.
+Bess gets up, stretches, and comes over to push her nose into your hand.
+
+1. Take Bet Bywater's door to Bet Bywater's, the clothier's · 1 min  [worth a look]
+2. Take Falkor's door to Falkor's herb-shop · 1 min  [worth a look]
+3. Talk to Hild
+4. Read the notice on the well-post · 10 min  [to learn]
+> 2
+
+Falkor's herb-shop
+Bunches of herbs hang drying from every beam, and the jars along the wall are labelled in a cramped brown hand. Something bitter is simmering at the back.
+Falkor, a herb-wife, is here.
+
+1. Take Falkor's door to the market-place of Newmeet · 1 min  [worth a look]
+2. Ask Falkor about the old toll-house  [to learn]
+3. Talk to Falkor  [to learn]
+4. Set out for the taproom of the Ancient Lantern · 2 min  [worth a look]
+> 1
+
+the market-place of Newmeet
+A stone market cross stands in the middle of the square at Newmeet, its steps worn into dips, and the houses round it have opened their ground floors as shops.
+Hild is backing a cart into a yard, one hand on the horse’s bridle, talking it round the gatepost.
+
+1. Take Bet Bywater's door to Bet Bywater's, the clothier's · 1 min  [worth a look]
+2. Take Isot's door to Isot's cloth-hall · 1 min  [worth a look]
+3. Read the notice on the well-post · 10 min  [to learn]
+4. Ask the factor about the old cisterns  [to learn]
+> 2
+
+Isot's cloth-hall
+Bolts of cloth stand on end like a crowd waiting for something, and hides hang from the beams, cured and smelling of it.
+Isot, a clothier, is here.
+
+1. Set out for the taproom of the Ancient Lantern · 2 min  [worth a look]
+2. Set out for the shrine of Lugh · 2 min  [worth a look]
+3. Set out for Thurstan's chandlery · 2 min
+4. Set out for Letice's jewel-shop · 2 min
+> look
+
+Isot's cloth-hall · Day 1, 8:43 a.m. · foggy
+Bolts of cloth stand on end like a crowd waiting for something, and hides hang from the beams, cured and smelling of it.
+Isot, a clothier, is here.
+Aim: A child at the market-place of Newmeet has a fever; it needs herbs, or willow bark from where willows grow by water.
+
+1. Set out for the taproom of the Ancient Lantern · 2 min  [worth a look]
+2. Set out for the shrine of Lugh · 2 min  [worth a look]
+3. Set out for Thurstan's chandlery · 2 min
+4. Set out for Letice's jewel-shop · 2 min
+> 2
+  … Take Isot's door to the market-place of Newmeet
+  … Take the shrine porch in Newmeet to the shrine of Lugh (the shrine of Lugh)
+
+the shrine of Lugh
+A long stone under a roof of shingles: the well-kept altar of Lugh, God of Storms. Drovers leave a stone before it when they go up into the hills, and take one away when they come down. Offerings of reed lie before it.
+
+1. Ask Carmine about the noises under the churchyard  [worth a look]
+2. Ask Carmine about the howe on the ridge  [to learn]
+3. Talk to Carmine  [worth a look, to learn]
+4. Ask Brother Anselm what he is counting  [to learn]
+> 1
+Carmine looks at the floor. ‘The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.’ The crypt key is unhooked from a belt. ‘I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.’
+You take the crypt key.
+Aim: Lay the dead in the crypt under the churchyard at Newmeet, and find out who raised them.
+
+1. Ask Carmine about the acolyte  [worth a look]
+2. Talk to Carmine  [worth a look]
+3. Take the shrine porch in Newmeet to the market-place of Newmeet · 1 min  [worth a look]
+4. Climb the tower and look out over Newmeet · 3 min  [worth a look]
+> 2
+Carmine grins before you have said anything at all. ‘You look like a person with a question.’
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min  [worth a look]
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine about the acolyte  [worth a look]
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 1
+Carmine cleans and dresses every wound in the company.
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine about the acolyte  [worth a look]
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 4
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine again about the acolyte
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> look
+
+the shrine of Lugh · Day 1, 9:45 a.m. · foggy
+A long stone under a roof of shingles: the well-kept altar of Lugh, God of Storms. Drovers leave a stone before it when they go up into the hills, and take one away when they come down. Offerings of reed lie before it. At the back of the shrine, under the lamp, a young man in the grey of the house is copying a column of figures out of the offering-book with a ruler, tutting.
+A stair goes up inside the tower wall, worn hollow in the middle of every step, to where the bell hangs.
+A man lies on the shrine’s bier under a grey cloth, his boots still on. A wood-warden’s mark is tied at his belt.
+The offering-box by the lamp is shut, its lock whole, and light in the hand: the little bronze things that were left in it have gone, and the coppers have not.
+Here are Carmine, the priestess of Lugh; and Brother Anselm Tarr, the priest’s acolyte, who has read everything the shrine owns and wants to know what it leaves out.
+Aim: Lay the dead in the crypt under the churchyard at Newmeet, and find out who raised them.
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine again about the acolyte
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 1
+Carmine cleans and dresses every wound in the company.
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine again about the acolyte
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 1
+Carmine cleans and dresses every wound in the company.
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine again about the acolyte
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 1
+
+25 Sowing, afternoon
+Carmine cleans and dresses every wound in the company.
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine again about the acolyte
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 1
+Carmine cleans and dresses every wound in the company.
+
+1. Ask Carmine for the shrine's care for the wounded · 60 min
+2. Ask Carmine about the opened graves · 5 min
+3. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+4. Ask Carmine again about the acolyte
+5. Ask Carmine about the coins on the old road
+6. Ask Carmine about the circus
+7. Ask Carmine about the howe on the ridge
+8. Take your leave of Carmine
+> 1
+Carmine cleans and dresses every wound in the company.
+
+1. Ask Carmine about the opened graves · 5 min  [worth a look]
+2. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+3. Ask Carmine again about the acolyte
+4. Ask Carmine about the coins on the old road  [worth a look]
+5. Ask Carmine about the circus
+6. Ask Carmine about the howe on the ridge
+7. Take your leave of Carmine
+> look
+
+the shrine of Lugh · Day 1, 2:45 p.m. · foggy
+A long stone under a roof of shingles: the well-kept altar of Lugh, God of Storms. Drovers leave a stone before it when they go up into the hills, and take one away when they come down. Offerings of reed lie before it. At the back of the shrine, under the lamp, a young man in the grey of the house is copying a column of figures out of the offering-book with a ruler, tutting.
+A stair goes up inside the tower wall, worn hollow in the middle of every step, to where the bell hangs.
+A man lies on the shrine’s bier under a grey cloth, his boots still on. A wood-warden’s mark is tied at his belt.
+The offering-box by the lamp is shut, its lock whole, and light in the hand: the little bronze things that were left in it have gone, and the coppers have not.
+Here are Carmine, the priestess of Lugh; and Brother Anselm Tarr, the priest’s acolyte, who has read everything the shrine owns and wants to know what it leaves out.
+Aim: Lay the dead in the crypt under the churchyard at Newmeet, and find out who raised them.
+
+1. Ask Carmine about the opened graves · 5 min  [worth a look]
+2. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+3. Ask Carmine again about the acolyte
+4. Ask Carmine about the coins on the old road  [worth a look]
+5. Ask Carmine about the circus
+6. Ask Carmine about the howe on the ridge
+7. Take your leave of Carmine
+> 4
+‘The faith says nothing of it,’ says Carmine, ‘and the folk have done it since before the faith. A coin at the numbered stone, a coin at the Lady’s bowl wherever one is found, and nobody can say whose lady. I have forbidden nothing. I have not looked closely. Anselm has looked closely, which is why I have not.’
+
+1. Ask Carmine about the opened graves · 5 min  [worth a look]
+2. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min
+3. Ask Carmine again about the acolyte
+4. Ask Carmine again about the coins on the old road
+5. Ask Carmine about the circus  [worth a look]
+6. Ask Carmine about the howe on the ridge
+7. Take your leave of Carmine
+> 1
+‘Ulmusspira: a lone tower in the woods north-west of Brockfield,’ says Carmine. ‘The name is Aenean, the old tongue, for “elm spire”.’
+‘Graves have been opened in the churchyard and the dead taken,’ says Carmine. ‘An acolyte who left the shrine of Lugh years ago lives in Ulmusspira now.’
+The lone tower they speak of is called Ulmusspira.
+
+1. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min  [worth a look]
+2. Ask Carmine again about the acolyte
+3. Ask Carmine again about the coins on the old road
+4. Ask Carmine about the circus  [worth a look]
+5. Ask Carmine about the howe on the ridge
+6. Take your leave of Carmine
+> 4
+Carmine sighs. ‘The Colonel came to the shrine last year and asked if the god would care to be patron of a Hippodrama. I said the god does not take patronage. He said in that case he would put the god’s name on the bills for nothing, as a courtesy.’ A pause. ‘He did, too. In quite small letters. I found I did not mind as much as I expected.’
+
+1. Ask Carmine about the lord of a walled keep on its rise, who has not been seen · 5 min  [worth a look]
+2. Ask Carmine again about the acolyte
+3. Ask Carmine again about the coins on the old road
+4. Ask Carmine again about the circus
+5. Ask Carmine about the howe on the ridge  [worth a look]
+6. Take your leave of Carmine
+> 1
+‘Tree Keep: a walled keep on its rise in the woods north of Newmeet,’ says Carmine.
+‘The lord of Tree Keep has not been seen in eleven days,’ says Carmine. ‘His castellan signs for him.’
+The walled keep on its rise they speak of is called Tree Keep.
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 1
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> look
+
+the shrine of Lugh · Day 1, 2:55 p.m. · foggy
+A long stone under a roof of shingles: the well-kept altar of Lugh, God of Storms. Drovers leave a stone before it when they go up into the hills, and take one away when they come down. Offerings of reed lie before it. At the back of the shrine, under the lamp, a young man in the grey of the house is copying a column of figures out of the offering-book with a ruler, tutting.
+A stair goes up inside the tower wall, worn hollow in the middle of every step, to where the bell hangs.
+A man lies on the shrine’s bier under a grey cloth, his boots still on. A wood-warden’s mark is tied at his belt.
+The offering-box by the lamp is shut, its lock whole, and light in the hand: the little bronze things that were left in it have gone, and the coppers have not.
+Here are Carmine, the priestess of Lugh; and Brother Anselm Tarr, the priest’s acolyte, who has read everything the shrine owns and wants to know what it leaves out.
+Aim: Lay the dead in the crypt under the churchyard at Newmeet, and find out who raised them.
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 1
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 1
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 1
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 1
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 1
+Carmine lets a breath out through the nose. ‘Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told “because they are”. I am proud of the question and I should like him to go on asking it somewhere else for a while.’
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> look
+
+the shrine of Lugh · Day 1, 2:55 p.m. · foggy
+A long stone under a roof of shingles: the well-kept altar of Lugh, God of Storms. Drovers leave a stone before it when they go up into the hills, and take one away when they come down. Offerings of reed lie before it. At the back of the shrine, under the lamp, a young man in the grey of the house is copying a column of figures out of the offering-book with a ruler, tutting.
+A stair goes up inside the tower wall, worn hollow in the middle of every step, to where the bell hangs.
+A man lies on the shrine’s bier under a grey cloth, his boots still on. A wood-warden’s mark is tied at his belt.
+The offering-box by the lamp is shut, its lock whole, and light in the hand: the little bronze things that were left in it have gone, and the coppers have not.
+Here are Carmine, the priestess of Lugh; and Brother Anselm Tarr, the priest’s acolyte, who has read everything the shrine owns and wants to know what it leaves out.
+Aim: Lay the dead in the crypt under the churchyard at Newmeet, and find out who raised them.
+
+1. Ask Carmine again about the acolyte
+2. Ask Carmine again about the coins on the old road
+3. Ask Carmine again about the circus
+4. Ask Carmine about the howe on the ridge
+5. Ask Carmine whether the lord has been to the shrine
+6. Take your leave of Carmine
+> 

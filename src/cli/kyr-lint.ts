@@ -1,4 +1,5 @@
-// `kyrie lint`: checks worlds against the canonical vocabulary (doc/architecture/ontology.md). Recommended content
+// `kyrie lint`: checks worlds against the canonical vocabulary (doc/history/architecture-2026-10/ontology.md).
+// Recommended content
 // must be clean; legacy campaigns are reported so the migration can be measured, not hidden.
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';

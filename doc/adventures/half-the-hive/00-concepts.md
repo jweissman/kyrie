@@ -97,7 +97,7 @@ people walking somewhere, which survives in Concept A as the Leaving.
 the merrow sell lost things back to the people who lost them: rings, letters, sailors.
 
 **Why I rejected it.** The commission says to extend a canonical plane, not make a private one. The canonical planes
-are designed (`doc/architecture/mission-18/one-universe.md`) but **not on main**: no `data/imbar`, no `canon` binding.
+are designed (`doc/history/missions/18/one-universe.md`) but **not on main**: no `data/imbar`, no `canon` binding.
 Writing it now would make a seventh private plane, which is precisely the defect OWN-31 exists to remove. And it is
 drowned things, again. I record the question in `friction.md` rather than decide it by convenience.
 

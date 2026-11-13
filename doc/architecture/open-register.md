@@ -5,22 +5,22 @@ Compiled 11 November 2026, read-only, from the repository at `/var/tmp/kyrie/wt-
 claims nothing beyond what the sources say.
 
 **Sources read**
-- `doc/architecture/mission-20/`:
+- `doc/history/missions/20/`:
   - log.md: amendments 1–8, the open queue, rows E1–E133;
   - handoff.md (draft), text-inference.md, user-notes.md, opening-brief.md;
   - opportunities.md, design-opportunities.md, amendment-6.md, opening-design.md;
   - cold/round-1..6: every report's "Top five problems", and round 6's §4–§17 in full.
-- `doc/architecture/mission-19/`: closure.md, register.md (all 297 rows), inherited.md (145 rows; it reconciles
+- `doc/history/missions/19/`: closure.md, register.md (all 297 rows), inherited.md (145 rows; it reconciles
   M18's wishlist, which itself carried M17 and M16).
-- `doc/architecture/mission-17/ahead.md`; M18 register (OWN-07 only).
-- `doc/architecture/findings/`:
+- `doc/history/missions/17/ahead.md`; M18 register (OWN-07 only).
+- `doc/history/findings/`:
   - index.md: confirms M16 → M17 → M18 → M18 wishlist → M19 inherited was carried id by id;
   - gaps.md / gaps.tsv: 74 UNT rows never registered;
   - briefs.md: 109 BRF requirements.
 - The 9 November reviews (stabilization, quest-intent, throughput). Their recommendations were carried as
   M19-239..283, and are cited through those rows.
 - 2026-11-11-adventure-to-career.md, headless-rpg-investigation.md, capability-audit.md.
-- `/home/jweissman/work/kyrie/doc/architecture/mission-20/architecture-risk-mediation-2026-11-11.md` (R1–R10).
+- `/home/jweissman/work/kyrie/doc/history/missions/20/architecture-risk-mediation-2026-11-11.md` (R1–R10).
 - Memory notes: all m20-*, owner-adventure-to-career, mission-20, and the m19-owner-*, m18-owner-* and mission-*
   descriptions. The open, next and remaining lines were found by grep.
 
@@ -734,3 +734,15 @@ misleading, repetitive or semantically inconsistent presentation. Taken by the l
 | TM-05 | Cheap and meaningful: budget, parity and projection checks on tiny Kyr worlds in the fast lane; a few whole terminal playthroughs on real composition in the push or full tier; readable transcripts kept as review artifacts | open | P2 | M21 |
 | TM-06 | `bin/kyrie adventure` runs the whole character creation (people, calling, sex, name, origin) instead of a random character | open | P2 | M21 |
 | TM-07 | The terminal and the page draw from one shared game definition, especially in what they render: every glyph representable as unicode or emoji, a terminal fallback for every text-adjacent treatment, colour from the design atlas (the owner, 14 November) | fixed (37b0a6d9): one table of signs (`src/presentation/signs.ts`) for a way's direction, a way shut, each mark's words, the hold, what is perceived that way and a way with nothing new; each emblem and kind of place as one character (`emblems.json`'s `text`); the terminal draws marks, ⧗, a faint pip with "to gain, that way", and dim for nothing new; creation cards carry their emblems; colour stays Emphasis's (held to the page's tokens by test/small/terminal-colour). Held by test/small/signs-shared, which also fails if any client keeps its own copy. The rail's faint mark had said "someone who might join you" of every aspect. Not yet shared: the board's line glyphs (only their characters), the page's fight cards | P1 | M21 |
+
+## 28. The owner's planar grand tour (14 November, night)
+
+The owner: a mage with Plane Shift goes to each inner and outer plane, and the specs assert each plane's laws read and act differently, as low-order as the architecture allows, with lazy generation and determinism in mind (travel to the Plane of Fire and take fire damage each turn; every elemental interaction present and resistible, blockable or wardable). Given to the rules line after the descent repair (completion plan §4).
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| GT-01 | Every plane differs in play: an inner plane's law has an ambient effect by its element, per round in a fight and per watch out of one, through the ordinary damage pipeline (Fire burns; Water drowns without water-breathing; the Negative drains, stopped by death ward; the Positive heals, with an overload; Earth to be judged); the outer planes keep their spell DC and gain whatever SRD trait is cheap to make real. Today a law is read only in combat and is ±1 spell DC; Earth, Water, Positive and Negative have none | open | P1 | M21 |
+| GT-02 | Plane Shift as an executable effect to a named plane's canonical threshold (today `unsupported`: effect:planeshift) | open | P1 | M21 |
+| GT-03 | The tour as specs: a catalog census (every plane has a law, every inner law an element, every element resistible by something in the catalog); a tiny world with the canon installed, one case per plane, asserting the law, the harm landing and a matching ward stopping it, on seeded dice; one integration case through a generated world and the House of Doors | open | P1 | M21 |
+| GT-04 | Thorn's long descent dies to the drowned at the great wheel since batch 6 (3aac89a5, bisected): the record is to be played on from step 77, and wren, d4 and a1 checked, with the old places' Common names (faf6c6d9) | open | P1 | M21 |
+

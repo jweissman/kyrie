@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // A journey in a generated country played by the page's own labels and written as the page told it, one line to a step,
-// as doc/architecture/activation/transcripts are. A step that is a label (or a ">place" walk, "=day N HH:MM" wait or
+// as doc/history/activation/transcripts are. A step that is a label (or a ">place" walk, "=day N HH:MM" wait or
 // "map:Name" set-out) is played; a line "# note" is written as a note; "PLACE id" puts the company down (and says so).
 //   bun scripts/play-transcript.ts <seed> <calling> <steps-file> [out-file]
 import { readFile, writeFile } from 'node:fs/promises';
