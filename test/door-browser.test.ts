@@ -56,7 +56,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // The gate is the yard's one way on, offered on the scene as itself, "To the shed…" (M19-109). A way with a risk
     // on it asks first (the owner's play, 31 October: nothing that may hurt is done unasked).
-    const way = page.locator('.act.opens-go');
+    // The one way on, among the engine's four (Glance.offer) or as itself.
+    const way = page.locator('.act.opens-go, ol.led [data-act^="exit:"]').first();
     expect(await way.innerText()).toMatch(/^to the shed/i);
     await way.click();
     await driver.settle();
@@ -77,7 +78,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    const way = page.locator('.act.opens-go');
+    // The one way on, among the engine's four (Glance.offer) or as itself.
+    const way = page.locator('.act.opens-go, ol.led [data-act^="exit:"]').first();
     await way.click();
     await driver.settle();
     await way.click();

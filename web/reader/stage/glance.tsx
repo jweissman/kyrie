@@ -566,7 +566,16 @@ export class GlanceStage {
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           {/* One row, as every choice is (see ChoiceRow): its one indicator, neutral where it is nothing in
               particular. */}
-          {!draw.index.has(c.id) ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
+          {/* A thing's look among the four opens what can be done with it in place, under it, as the things lens does:
+              chosen, it had turned the page to the thing, and done there the thing's page had stayed with only Back
+              on it (Low Water's channel head, What Tessary Owes's notice). */}
+          {/#look$/.test(c.id) && c.children?.length ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
+            data={{ action: 'choice', choice: c.id }} act={c.id} expanded={draw.open.has(c.id)} number={i + 1}
+            onClick={() => app.setState({ open: draw.open.has(c.id) ? app.state.open.filter(o => o !== c.id)
+              : [...app.state.open, c.id] })}
+            mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
+            label={Typography.curl(label)} {...note ? { aside: Typography.curl(note) } : {}} />
+          : !draw.index.has(c.id) ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
             data={{ action: 'choice', choice: c.id }} act={c.id} onClick={() => app.choose(c)} number={i + 1}
             mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
             label={Typography.curl(label)} {...note ? { aside: Typography.curl(note) } : {}}
