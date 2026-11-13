@@ -169,7 +169,7 @@ export class Affordances {
     // blue question, a rose pip and the recruiting unmarked).
     // Blue is for a question whose answer teaches the company something, not for any word to be had of them (the
     // wagoner's "Offer him a hand" had drawn him blue).
-    const learned = fresh.find(c => c.teaches && !r.done.has(c.command!));
+    const learned = (person ? fresh : leaves).find(c => c.teaches && !r.done.has(c.command!));
     const joining = leaves.find(c => r.schema.get(c.command!) === 'recruit')
       ?? leaves.find(c => r.willing?.has(c.command!) && !r.done.has(c.command!));
     const whys: Why[] = [...answer ? ['answer' as const] : [], ...named ? ['named' as const] : [], ...kin ? ['kin' as const] : [],
@@ -187,7 +187,10 @@ export class Affordances {
       ...this.about(fresh, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
-      ...person && s.asked && !talked && learned ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : [],
+      // So with a thing to read that would tell the company something (the eel-wife's notice on Tessary's Landgate
+      // board, the adventure's hook, had been only under `all`: M21's playability list, PL-16).
+      ...(person ? s.asked && !talked : true) && learned ? ['asked' as const] : [],
+      ...feature && looked ? ['unlooked' as const] : [],
       ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))

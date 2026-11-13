@@ -1,0 +1,11 @@
+import { readFileSync } from 'node:fs';
+const W = '/var/tmp/kyrie/wt-m21-play/src';
+const { PlaySession } = await import(`${W}/session/play-session.ts`);
+const { ScreenModel } = await import(`${W}/ui/screen-model.ts`);
+const { SceneModel } = await import(`${W}/ui/scene.ts`);
+const { Attending } = await import(`${W}/ui/attention.ts`);
+const s = PlaySession.resume(JSON.parse(readFileSync(process.argv[2]!, 'utf8')));
+const screen = ScreenModel.build(s.campaign);
+const scene = Attending.place(SceneModel.build(screen));
+for (const sub of scene.subjects) if (new RegExp(process.argv[3]!).test(sub.id + sub.name)) console.log(sub.id, sub.kind, JSON.stringify(sub.choices, null, 0).slice(0, 600));
+console.log('things', screen.things.map((t: any) => t.id + ':' + t.kind));
