@@ -50,7 +50,7 @@ describe('the attention lenses', () => {
   });
   it('holds the waiting acts in the time lens, each by its own command', async () => {
     const t = await Tiny.start(inn);
-    const time = [...t.glance.lenses.time.promoted.map(a => a.command), ...t.glance.lenses.time.rest.map(a => a.command)];
+    const lens = t.glance.lenses.time, time = [...lens.promoted, ...lens.rest].map(a => a.command);
     expect(time).toEqual(expect.arrayContaining(['wait', 'wait_hour']));
   });
   it('is chosen without a world act: no time passes and nothing is done', async () => {
