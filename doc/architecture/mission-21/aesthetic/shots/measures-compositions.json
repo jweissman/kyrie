@@ -1,0 +1,7421 @@
+[
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "02-opening",
+  "words": 283,
+  "sentences": 14,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 416/343"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 400/199"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 424/251"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 369/169"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "03-town",
+  "words": 357,
+  "sentences": 18,
+  "choices": 10,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 639/383"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 529/259"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 483/292"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 451/192"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "04-crowd",
+  "words": 357,
+  "sentences": 18,
+  "choices": 25,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 639/383"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 529/259"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 483/110"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 451/192"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 33,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 719/490"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 30,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 719/418"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "05-go-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [
+   "→Corrin’s alehouse"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 483/171"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 20,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 879/136"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 21,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1217/490"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 21,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1481/418"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "06-look-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 483/171"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 21,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1085/136"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/585"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 539/282"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 539/282"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 539/282"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 539/282"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "11-town-followed",
+  "words": 269,
+  "sentences": 16,
+  "choices": 25,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 435/369"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 282/244"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 280/110"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 248/192"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/406"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 1,
+  "breachWhat": [
+   "button.option.quiet \"The fight so far\" past bottom 25"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 1,
+  "breachWhat": [
+   "button.option.quiet \"The fight so far\" past bottom 25"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 1,
+  "breachWhat": [
+   "button.option.quiet \"The fight so far\" past bottom 25"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 5,
+  "breachWhat": [
+   "button.move \"Sweeping Strike it is prone fo\" past bottom 36",
+   "button.move \"Second Wind heal yourself for \" past bottom 21",
+   "button.move \"Taunt one enemy is taunted for\" past bottom 80",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 80"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 9,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 4,
+  "breachWhat": [
+   "button.move \"Taunt one enemy is taunted for\" past bottom 5",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 13",
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 65",
+   "button.option.quiet \"Let Hamo fight this turn T\" past bottom 80"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 9,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 4,
+  "breachWhat": [
+   "button.move \"Taunt one enemy is taunted for\" past bottom 5",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 13",
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 65",
+   "button.option.quiet \"Let Hamo fight this turn T\" past bottom 80"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 9,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/384"
+  ],
+  "breaches": 4,
+  "breachWhat": [
+   "button.move \"Taunt one enemy is taunted for\" past bottom 5",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 13",
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 65",
+   "button.option.quiet \"Let Hamo fight this turn T\" past bottom 80"
+  ]
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/485"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/489"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/489"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/489"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "base",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "veil",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "attend",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1280x800",
+  "look": "plate",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "02-opening",
+  "words": 283,
+  "sentences": 14,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 441/359"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 427/218"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 425/267"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 369/179"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "03-town",
+  "words": 357,
+  "sentences": 18,
+  "choices": 10,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 710/398"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 529/278"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [
+   "Talk to your brother"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 554/308"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 451/202"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "04-crowd",
+  "words": 357,
+  "sentences": 18,
+  "choices": 25,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 710/398"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 529/278"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 554/126"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 451/202"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 33,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 719/506"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 31,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 719/437"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "05-go-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 554/186"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 20,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 877/146"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 21,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1294/506"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 21,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1478/437"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "06-look-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 554/186"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 21,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1082/146"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 732/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 710/601"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 571/289"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 571/289"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 571/289"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 571/289"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "11-town-followed",
+  "words": 269,
+  "sentences": 16,
+  "choices": 25,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 462/384"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 282/263"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 307/126"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 248/202"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "LET HAMO FIGHT THIS TURN\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/422"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 1,
+  "breachWhat": [
+   "button.option.quiet \"The fight so far\" past bottom 18"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 1,
+  "breachWhat": [
+   "button.option.quiet \"The fight so far\" past bottom 18"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Let Hamo fight this turn\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 1,
+  "breachWhat": [
+   "button.option.quiet \"The fight so far\" past bottom 18"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 5,
+  "breachWhat": [
+   "button.move \"Sweeping Strike it is prone fo\" past bottom 30",
+   "button.move \"Second Wind heal yourself for \" past bottom 14",
+   "button.move \"Taunt one enemy is taunted for\" past bottom 82",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 82"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 3,
+  "breachWhat": [
+   "button.move \"Taunt one enemy is taunted for\" past bottom 14",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 6",
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 79"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 3,
+  "breachWhat": [
+   "button.move \"Taunt one enemy is taunted for\" past bottom 14",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 6",
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 79"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 426/394"
+  ],
+  "breaches": 3,
+  "breachWhat": [
+   "button.move \"Taunt one enemy is taunted for\" past bottom 14",
+   "button.move \"Steel Yourself you are vigorou\" past bottom 6",
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 79"
+  ]
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/501"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/505"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/505"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 535/505"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "base",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "veil",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "attend",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "1180x820",
+  "look": "plate",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "02-opening",
+  "words": 283,
+  "sentences": 14,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 273/181"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "03-town",
+  "words": 357,
+  "sentences": 18,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 425/245"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "04-crowd",
+  "words": 74,
+  "sentences": 2,
+  "choices": 25,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 461/247"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 425/245"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 27,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "aside.focus 798/782",
+   "div.explorer-body 742/728"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 27,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 742/619"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "05-go-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [
+   "→Corrin’s alehouse"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 461/362"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 742/376"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 14,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "aside.focus 798/782",
+   "div.explorer-body 1104/728"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 14,
+  "wrapped": [
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1104/619"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "06-look-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 461/362"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 14,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1553/376"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   "",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   "",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "3\nAsk about the rats in the corn-store",
+   "",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.choosing 231/182"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 444/399"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 444/399"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 444/399"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "11-town-followed",
+  "words": 15,
+  "sentences": 2,
+  "choices": 25,
+  "wrapped": [
+   "Talk to your brother"
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 287/247"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 251/230"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "LET HAMO FIGHT THIS TURN\nT"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 9,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 450/433"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.move \"Guard → Hamo one ally is guard\" past bottom 60",
+   "button.option.quiet \"LET HAMO FIGHT THIS TURN T\" past bottom 114"
+  ]
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 10,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 450/433"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.option.quiet \"Let Hamo fight this turn T\" past bottom 27",
+   "button.option.quiet \"The fight so far\" past bottom 77"
+  ]
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 10,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 450/433"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.option.quiet \"Let Hamo fight this turn T\" past bottom 27",
+   "button.option.quiet \"The fight so far\" past bottom 77"
+  ]
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 10,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 (",
+   "Taunt\none enemy is taunted for 3 turns (",
+   "Steel Yourself\nyou are vigorous for 5 tu",
+   "Guard → Hamo\none ally is guarded for 2 t"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 450/433"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.option.quiet \"Let Hamo fight this turn T\" past bottom 27",
+   "button.option.quiet \"The fight so far\" past bottom 77"
+  ]
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 14,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "base",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "veil",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "attend",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "820x1180",
+  "look": "plate",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [
+   "Explore nearby\n24 places"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "01-creation",
+  "words": 0,
+  "sentences": 0,
+  "choices": 1,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Newsreader",
+   "Source Sans 3"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "02-opening",
+  "words": 283,
+  "sentences": 14,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 666/230"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 601/47"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "02-opening",
+  "words": 233,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 627/138"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "02-opening",
+  "words": 83,
+  "sentences": 3,
+  "choices": 10,
+  "wrapped": [
+   "",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "03-town",
+  "words": 357,
+  "sentences": 18,
+  "choices": 10,
+  "wrapped": [
+   "Read the notice on the well-post"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 983/292"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "Talk to your brother",
+   "Read the notice on the well-post"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 675/156"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 7,
+  "wrapped": [
+   "Read the notice on the well-post"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 700/198"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "03-town",
+  "words": 209,
+  "sentences": 10,
+  "choices": 10,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 618/57"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "04-crowd",
+  "words": 74,
+  "sentences": 2,
+  "choices": 25,
+  "wrapped": [
+   "Read the notice on the well-post"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 310/292"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "Read the notice on the well-post"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 675/156"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 700/63"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "04-crowd",
+  "words": 209,
+  "sentences": 10,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 618/57"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 23,
+  "wrapped": [
+   "Causeway into Millholm",
+   "Drill-yard behind the Ancient Boar",
+   "Forecourt of Millholm Hall",
+   "Hill-path to the old stones"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "aside.focus 529/513",
+   "div.explorer-body 843/459"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 18,
+  "wrapped": [
+   "Causeway into Millholm",
+   "Drill-yard behind the Ancient Boar",
+   "Forecourt of Millholm Hall",
+   "Hill-path to the old stones",
+   "Lanes behind Millholm",
+   "Lyle Brushgather’s chandlery"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 883/331"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "05-go-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 700/94"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "05-go-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 11,
+  "wrapped": [
+   "Carrier’s yard",
+   "Causeway into Millholm",
+   "Chapter-house",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1566/65"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 14,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "aside.focus 529/513",
+   "div.explorer-body 1653/459"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 14,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 6,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 1732/331"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "06-look-lens",
+  "words": 209,
+  "sentences": 10,
+  "choices": 9,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 700/77"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "06-look-lens",
+  "words": 0,
+  "sentences": 0,
+  "choices": 11,
+  "wrapped": [
+   "About the place",
+   "The dandelion",
+   "The aster",
+   "Wapshott’s bill",
+   "",
+   ""
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 4,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.explorer-body 5031/65"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 752/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 752/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 752/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "07-pack",
+  "words": 0,
+  "sentences": 0,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 5,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.book 752/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 1102/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 1102/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 1102/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "08-notes",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.book 1102/526"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.choosing 292/244"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.choosing 283/162"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.choosing 283/162"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "09-talk",
+  "words": 0,
+  "sentences": 0,
+  "choices": 8,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.choosing 283/162"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "6\nTake your leave"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 720/338",
+   "div.choosing 250/32"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 720/209",
+   "div.choosing 241/162"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 720/209",
+   "div.choosing 241/162"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "10-talk-answered",
+  "words": 0,
+  "sentences": 0,
+  "choices": 7,
+  "wrapped": [
+   "1\nAsk about the old well behind a lone t",
+   "2\nAsk about the castellan’s levy",
+   "5\nAsk what the old workings are worth"
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.lines 720/209",
+   "div.choosing 241/162"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "11-town-followed",
+  "words": 15,
+  "sentences": 2,
+  "choices": 25,
+  "wrapped": [
+   "Talk to your brother",
+   "Read the notice on the well-post"
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "Read the notice on the well-post"
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 393/140"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 419/63"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "11-town-followed",
+  "words": 121,
+  "sentences": 8,
+  "choices": 24,
+  "wrapped": [
+   "Talk to your brother",
+   "",
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 359/42"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 198/93"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "12-cellar-dark",
+  "words": 62,
+  "sentences": 7,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 223/155"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "12-cellar-dark",
+  "words": 18,
+  "sentences": 2,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 6,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "13-cellar",
+  "words": 31,
+  "sentences": 2,
+  "choices": 8,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 175/116"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 481/390"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 350/304"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.move \"Other\" past right 2",
+   "button.option.quiet \"The fight so far\" past bottom 10"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 350/304"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.move \"Other\" past right 2",
+   "button.option.quiet \"The fight so far\" past bottom 10"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "14-fight",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 11,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 350/304"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.move \"Other\" past right 2",
+   "button.option.quiet \"The fight so far\" past bottom 10"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 5,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns ",
+   "Second Wind\nheal yourself for 1d10 + 1 ("
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 481/304"
+  ],
+  "breaches": 2,
+  "breachWhat": [
+   "button.move \"Sweeping Strike it is prone fo\" past bottom 37",
+   "button.move \"Second Wind heal yourself for \" past bottom 84"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns "
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 350/304"
+  ],
+  "breaches": 4,
+  "breachWhat": [
+   "button.move.opened \"Abilities\" past right 2",
+   "button.move \"Other\" past right 2",
+   "button.move \"Prepare Charge you are prepari\" past bottom 51",
+   "button.move \"Sweeping Strike it is prone fo\" past bottom 84"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns "
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 350/304"
+  ],
+  "breaches": 4,
+  "breachWhat": [
+   "button.move.opened \"Abilities\" past right 2",
+   "button.move \"Other\" past right 2",
+   "button.move \"Prepare Charge you are prepari\" past bottom 51",
+   "button.move \"Sweeping Strike it is prone fo\" past bottom 84"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "15-fight-opened",
+  "words": 0,
+  "sentences": 0,
+  "choices": 4,
+  "wrapped": [
+   "Cleave\na killing blow carries on to anot",
+   "Prepare Charge\nyou are preparing to char",
+   "Sweeping Strike\nit is prone for 3 turns "
+  ],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3"
+  ],
+  "scrolls": [
+   "div.sides 350/304"
+  ],
+  "breaches": 4,
+  "breachWhat": [
+   "button.move.opened \"Abilities\" past right 2",
+   "button.move \"Other\" past right 2",
+   "button.move \"Prepare Charge you are prepari\" past bottom 51",
+   "button.move \"Sweeping Strike it is prone fo\" past bottom 84"
+  ]
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 702/524"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 688/524"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 688/524"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "16-fight-end",
+  "words": 0,
+  "sentences": 0,
+  "choices": 2,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 10,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.sides 688/524"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 182/178"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 7,
+  "wrapped": [],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 8,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "17-after-fight",
+  "words": 70,
+  "sentences": 4,
+  "choices": 10,
+  "wrapped": [
+   ""
+  ],
+  "gold": 2,
+  "goldWhat": [
+   "div.frame",
+   "i.prism-bar"
+  ],
+  "type": 7,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [
+   "div.told-col 148/64"
+  ],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "18-map",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 12,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "base",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "veil",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "attend",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ },
+ {
+  "size": "390x844",
+  "look": "plate",
+  "state": "19-map-chosen",
+  "words": 0,
+  "sentences": 0,
+  "choices": 3,
+  "wrapped": [],
+  "gold": 1,
+  "goldWhat": [
+   "div.frame"
+  ],
+  "type": 9,
+  "faces": [
+   "Source Sans 3",
+   "Newsreader"
+  ],
+  "scrolls": [],
+  "breaches": 0,
+  "breachWhat": []
+ }
+]

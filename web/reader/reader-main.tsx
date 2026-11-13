@@ -2,6 +2,7 @@ import { createRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ReaderApp } from './reader-app';
 import { Identity } from '../../src/presentation/identity';
+import { Look } from './look';
 
 // Starts the page and exposes the same semantic state it draws to tests and automation.
 class ReaderMain {
@@ -16,6 +17,8 @@ class ReaderMain {
     // A design experiment, by the address: another face for the controls.
     const face = query.get('face');
     if (face && ReaderMain.faces.includes(face)) { document.documentElement.classList.add(`face-${face}`); }
+    // Mission 21's compositions (see Look), never the default.
+    Look.set(query.get('look'));
     createRoot(root).render(<ReaderApp ref={ReaderMain.app} query={query} />);
     // What automation may do besides look (scripts/journey-browser.ts): set out with a given company, do a command by
     // its id, let a fight go on, and go back from a fight that has ended.
@@ -24,7 +27,9 @@ class ReaderMain {
       exportTranscript: ReaderMain.transcript,
       begin: (r: Parameters<ReaderApp['opening']['setOutWith']>[0]) => app()?.opening.setOutWith(r),
       act: (command: string, said: string) => app()?.act(command, said), auto: () => app()?.auto(),
-      back: () => app()?.back() };
+      back: () => app()?.back(),
+      // A composition drawn over the same state, for captures (see Look).
+      relook: (name: string) => { Look.set(name); app()?.forceUpdate(); } };
   }
   static inspect(this: void) {
     return ReaderMain.app.current?.inspect() ?? { mode: 'title', sections: [], choices: [], trail: [], log: [],

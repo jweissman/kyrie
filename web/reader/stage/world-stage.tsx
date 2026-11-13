@@ -29,6 +29,7 @@ import { SceneSurface } from './scene-surface';
 import { Raised } from './raised';
 import { Told } from './told';
 import { WaysPane } from './ways-pane';
+import { Look } from '../look';
 
 // Where the company is, as a world it moves through (the owner, 4 November, evening; spatial-play.md). Across the
 // stage the place bar (where, how deep, the hour); under it the surface and, beside it, the focus.
@@ -51,12 +52,16 @@ export class WorldStage {
     // A journey stopped here (a toll, a band on the road, a cart gone off it), and whether what stopped it means harm:
     // the map marks where, and says so (the owner, 4 November, night).
     const stopped = frame.travel && !frame.travel.arrived, threat = (app.menu.scene?.subjects ?? []).some(x => x.danger);
+    // Mission 21's compositions (see Look): one panel holding the place's name, its telling, its menu and its tools
+    // (veil, plate); lenses that never open a page (attend).
+    const resting = !overworld && !!frame.leaf.glance && SceneRail.on(app), panel = resting && Look.is('veil', 'plate');
+    const explorer = app.state.exploring && !Look.is('attend');
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
         + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`}
         id="page">
-        <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>
+        {!panel && <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
         <div className="world-body">
           <section className="surface" aria-label="Where you are">
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
@@ -64,7 +69,8 @@ export class WorldStage {
                 {frame.leaf.glance && SceneRail.talking(app) && <WorldStage.Portraits app={app} draw={draw} />}
                 <Lenses.Strip app={app} /></>}
           </section>
-          <aside className="focus" aria-label={overworld ? 'On the map' : 'What you are attending to'}>
+          <aside className={`focus${panel ? ' scene-panel' : ''}`} aria-label={overworld ? 'On the map' : 'What you are attending to'}>
+            {panel && <header className="panel-head"><Told.Heading frame={frame} app={app} /></header>}
             {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
               : overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()}
               enter={() => app.outdoor(false)} />
@@ -72,13 +78,14 @@ export class WorldStage {
                 data-action="back-to-map" onClick={() => app.outdoor(true)}>Back out to the map</button>}
                 {/* Go, Look and Wait open here, in the scene's own panel, the painting kept (the owner, 11 November:
                     Look a conversation with the place, not a panel of its own). */}
-                {frame.leaf.glance && app.state.exploring && SceneRail.on(app) ? <Explorer.View app={app} draw={draw} />
+                {frame.leaf.glance && explorer && SceneRail.on(app) ? <Explorer.View app={app} draw={draw} />
                   : frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} apart />
                   : <div className="telling"><Told.Place app={app} headed={false}
                     here={<PlaceStage.Here app={app} draw={draw} />} /></div>}</>}
+            {panel && <SceneRail.View app={app} draw={draw} />}
           </aside>
           {!overworld && !SceneRail.on(app) && <Explorer.View app={app} draw={draw} />}
-          {!overworld && frame.leaf.glance && SceneRail.on(app) && <SceneRail.View app={app} draw={draw} />}
+          {resting && !panel && <SceneRail.View app={app} draw={draw} />}
           {(overworld || !frame.leaf.glance) && SceneRail.on(app) && <SceneRail.Books app={app} alone onMap={overworld} />}
         </div>
         {up === 'look' && <LookAbout.Sheet app={app} draw={draw} />}

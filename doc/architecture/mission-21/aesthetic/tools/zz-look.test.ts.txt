@@ -1,0 +1,189 @@
+/// <reference lib="dom" />
+import { afterAll, beforeAll, describe, it } from 'bun:test';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import type { Page } from 'playwright-core';
+import { SiteBuild } from '../src/cli/site-build';
+import { MonoBrowser } from './support/mono-browser';
+import type { MonoDriver } from './support/mono-driver';
+import { SafeZone } from './support/safe-zone';
+
+// Mission 21's aesthetic captures (doc/architecture/mission-21/aesthetic/): one real game in a1 walked through its
+// difficult states (M20's contact sheet walk, zz-sheet), and each state drawn under every composition named in LOOKS
+// (kyrieMono.relook, see web/reader/look.ts) without walking again: the walk itself is made in the game as it is.
+// Each shot is measured: the scene's telling (words, sentences), the choices in view, labels that wrap, gold drawn,
+// type sizes in use, what scrolls and what leaves the safe zone. Copy to test/zz-look.test.ts, run with KYRIE_BROWSER=1
+// (one browser at a time), delete the copy. LOOK_OUT (default /var/tmp/kyrie/m21-look/shots), LOOK_SIZES, LOOKS
+// (comma list; '' is the game as it is), LOOK_STATES (comma list of names to keep; empty keeps all).
+const sizes = (process.env.LOOK_SIZES ?? '1280x800,1180x820,820x1180,390x844').split(',').map(s => s.split('x').map(Number) as [number, number]);
+const looks = (process.env.LOOKS ?? ',veil,attend,plate').split(',');
+const keep = (process.env.LOOK_STATES ?? '').split(',').filter(Boolean);
+const out = process.env.LOOK_OUT ?? '/var/tmp/kyrie/m21-look/shots';
+
+// What a shot measures, in the page (as plain functions, evaluated there).
+function measure() {
+  const visible = (e: Element) => {
+    const b = e.getBoundingClientRect(), st = getComputedStyle(e);
+    return b.width > 0 && b.height > 0 && st.visibility !== 'hidden' && st.display !== 'none' && +st.opacity > 0.05
+      && b.bottom > 0 && b.right > 0 && b.top < innerHeight && b.left < innerWidth && !e.closest('[aria-hidden="true"]');
+  };
+  const telling = [...document.querySelectorAll('.setting, .told-col, .look-told')].filter(visible)
+    .map(e => (e as HTMLElement).innerText).join(' ');
+  const words = telling.split(/\s+/).filter(Boolean).length;
+  const sentences = (telling.match(/[.!?]['’"”)]*(\s|$)/g) ?? []).length;
+  const choices = [...document.querySelectorAll('[data-choice], [data-pick], [data-tile], .rail-mark, .option, .portrait')]
+    .filter(visible);
+  // A label wraps when its text runs to more than one line box (the owner: "text is jagged and splits onto multiple
+  // lines"): the label's own span where it has one, else the button's text.
+  const wrapped: string[] = [];
+  for (const c of choices) {
+    const label = c.querySelector('.n, .lens-name, .pn') ?? c;
+    const range = document.createRange(); range.selectNodeContents(label);
+    const tops = new Set([...range.getClientRects()].filter(r => r.width > 2).map(r => Math.round(r.top / 4)));
+    if (tops.size > 1) { wrapped.push((label as HTMLElement).innerText.trim().slice(0, 40)); }
+  }
+  // Gold drawn: anything whose colour, border, background or shadow is the gold (242, 189, 76) or its bright/deep.
+  const golds = /(242, 189, 76|255, 210, 122|217, 165, 58)/;
+  let gold = 0; const goldWhat: string[] = [];
+  for (const e of document.querySelectorAll('body *')) {
+    if (!visible(e)) { continue; }
+    const st = getComputedStyle(e), pseudo = [getComputedStyle(e, '::before'), getComputedStyle(e, '::after')];
+    const own = [st.color, st.borderLeftColor, st.borderTopColor, st.backgroundColor, st.backgroundImage, st.boxShadow, st.fill, st.stroke];
+    const lit = (e as HTMLElement).innerText !== undefined && own.some((v, i) => golds.test(v) && (i > 0 || ((e as HTMLElement).innerText.trim().length > 0)))
+      || pseudo.some(p => p.content !== 'none' && [p.backgroundColor, p.backgroundImage, p.borderLeftColor, p.color].some(v => golds.test(v)));
+    if (lit) { gold++; goldWhat.push(`${e.tagName.toLowerCase()}.${[...e.classList].slice(0, 2).join('.')}`); }
+  }
+  const type = new Set<string>(), faces = new Set<string>();
+  for (const e of document.querySelectorAll('body *')) {
+    if (!visible(e) || ![...e.childNodes].some(n => n.nodeType === 3 && n.textContent!.trim())) { continue; }
+    const st = getComputedStyle(e);
+    type.add(`${st.fontSize}/${st.fontWeight}/${st.fontStyle === 'italic' ? 'i' : ''}/${st.textTransform === 'uppercase' ? 'U' : ''}`);
+    faces.add(st.fontFamily.split(',')[0]!.replace(/['"]/g, ''));
+  }
+  const scrolls = [...document.querySelectorAll<HTMLElement>('*')]
+    .filter(e => e.scrollHeight > e.clientHeight + 2 && /(auto|scroll)/.test(getComputedStyle(e).overflowY) && visible(e))
+    .map(e => `${e.tagName.toLowerCase()}.${[...e.classList].slice(0, 2).join('.')} ${e.scrollHeight}/${e.clientHeight}`);
+  return { words, sentences, choices: choices.length, wrapped, gold, goldWhat: [...new Set(goldWhat)].slice(0, 8),
+    type: type.size, faces: [...faces], scrolls };
+}
+
+class Shots {
+  readonly rows: Record<string, unknown>[] = [];
+  n = 0;
+  constructor(readonly page: Page, readonly d: MonoDriver, readonly size: string) {}
+  async check(name: string) {
+    await this.d.settle(); await this.page.waitForTimeout(350);
+    const n = String(++this.n).padStart(2, '0');
+    if (keep.length && !keep.includes(name)) { return; }
+    for (const look of looks) {
+      await this.page.evaluate(l => (window as unknown as { kyrieMono: { relook(l: string): void } }).kyrieMono.relook(l), look);
+      await this.page.waitForTimeout(look ? 450 : 120);
+      const dir = join(out, look || 'base', this.size);
+      await mkdir(dir, { recursive: true });
+      const m = await this.page.evaluate(measure);
+      const breaches = await SafeZone.breaches(this.page);
+      this.rows.push({ size: this.size, look: look || 'base', state: `${n}-${name}`, ...m, breaches: breaches.length,
+        breachWhat: breaches.slice(0, 4) });
+      console.log(`LOOK ${this.size} ${look || 'base'} ${n}-${name} w${m.words} s${m.sentences} c${m.choices} wrap${m.wrapped.length} gold${m.gold} type${m.type} breach${breaches.length} scroll ${m.scrolls.join(' | ') || '-'}`);
+      await this.page.screenshot({ path: join(dir, `${n}-${name}.png`) });
+    }
+    await this.page.evaluate(() => (window as unknown as { kyrieMono: { relook(l: string): void } }).kyrieMono.relook(''));
+    await this.page.waitForTimeout(150);
+  }
+  async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
+  async to(place: string) {
+    if (await this.page.locator('.act.opens-go').count()) { await this.page.click('.opens-go'); await this.d.settle(); return; }
+    await this.page.click('.opens-go');
+    const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
+    if (await quarter.count()) {
+      await quarter.click(); await this.d.settle();
+      if (await this.here() === place) { return; }
+      await this.page.click('.opens-go');
+    }
+    await this.d.goBy(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"])`);
+  }
+}
+
+describe.skipIf(!process.env.KYRIE_BROWSER)('Mission 21 aesthetic captures', () => {
+  let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
+  const rows: Record<string, unknown>[] = [];
+  beforeAll(async () => {
+    site = await mkdtemp(join(tmpdir(), 'kyrie-look-'));
+    await SiteBuild.site(site, {});
+    browser = await MonoBrowser.launch();
+  }, 300000);
+  afterAll(async () => {
+    await browser?.close(); await rm(site, { recursive: true, force: true });
+    await mkdir(out, { recursive: true });
+    await writeFile(join(out, `measures-${Date.now()}.json`), JSON.stringify(rows, null, 1));
+  });
+
+  for (const [width, height] of sizes) {
+    it(`draws the difficult states at ${width}×${height}`, async () => {
+      const { page, driver, errors } = await MonoBrowser.page(browser, { width, height },
+        { site, pointer: false, query: '?world=a1&safe' });
+      const p = new Shots(page, driver, `${width}x${height}`);
+      try {
+        await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+        await p.check('creation');
+        await page.click('[data-action="start"]');
+        await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+        await p.check('opening');
+        await p.to('region__s2_green');
+        await p.check('town');
+        await driver.talk(); await p.check('crowd');
+        await page.click('.opens-go'); await p.check('go-lens'); await driver.key('Escape');
+        await page.click('.opens-look'); await p.check('look-lens'); await driver.key('Escape');
+        await driver.mode('i'); await p.check('pack'); await page.keyboard.press('e'); await driver.settle();
+        await driver.mode('j'); await p.check('notes'); await page.keyboard.press('e'); await driver.settle();
+        await driver.talk();
+        await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
+        await p.check('talk');
+        await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
+        await p.check('talk-answered');
+        if (await page.locator('.lines .line.aim .follow-aim').count()) {
+          await page.click('.lines .line.aim .follow-aim'); await driver.settle();
+        }
+        await driver.away();
+        await p.check('town-followed');
+        await p.to('region__s2_u_store');
+        await p.to('region__s2_u_cellar');
+        await p.check('cellar-dark');
+        await driver.pick(c => /light|Light/.test(c.label), 'a light');
+        await p.check('cellar');
+        await p.to('region__s2_u_warren');
+        await driver.pick(c => c.id === 'region__s2_u_rats/0:Attack', 'the rats');
+        let fought = false;
+        for (let guard = 0; guard < 200; guard++) {
+          const state = await driver.inspect();
+          if (state.mode !== 'combat') { break; }
+          if (state.combat?.ours && !state.combat.outcome) {
+            if (!fought) {
+              await p.check('fight');
+              if (await page.locator('.moves [data-action="panel"]').count()) {
+                await page.locator('.moves [data-action="panel"]').first().click(); await p.check('fight-opened'); await driver.key('Escape');
+              }
+              fought = true;
+            }
+            await driver.key('t');
+          } else if (state.combat?.outcome) { await p.check('fight-end'); await driver.pick(c => c.id === 'onward', 'go on'); }
+          else { await page.waitForTimeout(20); }
+        }
+        await p.check('after-fight');
+        await p.to('region__s2_u_cellar'); await p.to('region__s2_u_store'); await p.to('region__s2_green');
+        await driver.mode('m');
+        await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
+        await p.check('map');
+        const you = (await page.locator('.board-you').boundingBox())!;
+        await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+        await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
+        await p.check('map-chosen');
+      } finally {
+        rows.push(...p.rows);
+        if (errors.length) { console.log('PAGE ERRORS', errors.slice(0, 5)); }
+        await page.close();
+      }
+    }, 900000);
+  }
+});
