@@ -97,7 +97,7 @@ export class Promotion {
   // (the owner, 12 November: the dead man's box found, the gold had gone on into the cave).
   static readonly continuing: Why[] = ['advance', 'named', 'toward', 'bound', 'kin', 'about'];
   private static continuance(a: Promoted): number {
-    const i = this.continuing.indexOf(a.why);
+    const i = this.continuing.indexOf(a.advances ? 'advance' : a.why);
     return i < 0 ? this.continuing.length : i;
   }
   // The followed aim's next step is the one act in its gold: any other it bears on is led for what else it is, or as
@@ -184,7 +184,8 @@ export class Promotion {
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
       aspects: this.aspects(c, why, whys), ...note ? { note } : {}, marks: c.marks,
-      ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {} };
+      ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {},
+      ...whys.includes('advance') && why !== 'advance' ? { advances: true as const } : {} };
   }
   // What it is to the company. The place's own act that teaches it something (the notice on the well-post, read) is
   // something to learn, blue, not only something worth a look (the owner, 12 November: a bare link that "clearly gives
