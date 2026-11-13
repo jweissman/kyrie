@@ -24,9 +24,9 @@ lazily, as summons are). (b) `region.key = region.name` at drawing; every `${reg
 that scales with the party.
 
 **First authored use.** Low Water's doubles (data/adventures/low-water/interval.kyr): one for each of the company, as
-the prose says ("each one is looking at the one it was made from"). They had been written four for a company of
-three; the lead's ruling (14 November) makes them three, the company the adventure is written for, until a band can
-read the company's size when it rises (`Numbers (#company)`).
+the prose says ("each one is looking at the one it was made from"), written `Numbers 4` for the company of four the
+adventure is played with (Edda, Thale, Isaura Vant, Corin). A company that came with more or fewer would meet four
+until a band can read the company's size when it rises (`Numbers (#company)`).
 
 **Ripple.** (a) None until a template writes an expression: then the worlds that use it, their placements and the
 traces that cross them. (b) Renaming `region.name → region.key` changes nothing (the key is the same string); calling a

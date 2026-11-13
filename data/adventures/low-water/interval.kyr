@@ -99,12 +99,10 @@ Module lowwater "Low Water" {
   Rule doubles_walk when doubled(party) and mirrorWatches(party) >= 12 and not doublesLoose(party)
     says "Behind you in the Ward in the water, the figures with your faces get up off the steps all together and walk away up the stair toward the coin of light that is the Mere from below." {
     Assert doublesLoose(party). }
-  // They fight as the company fights, being copies of it: people, not monsters, with a weapon in the other hand. One
-  // for each of the company, which is three (each is looking at the one it was made from): a band that read the
-  // company's size when it rose would need late binding (engine-pressure.md, section 1).
+  // They fight as the company fights, being copies of it: people, not monsters, with a weapon in the other hand.
   Person doubles "your doubles" at mirror_ward {
-    Role "yourselves in water, left for right, your weapons in the other hand". Ancestry human. Calling warrior. Level 1. Numbers 3.
-    Called "the double with your face", "the double with the left-handed blade", "the double that is late".
+    Role "yourselves in water, left for right, your weapons in the other hand". Ancestry human. Calling warrior. Level 1. Numbers 4.
+    Called "the double with your face", "the double with the left-handed blade", "the double that is late", "the double in the long coat".
     Seen when doublesLoose(party) and not doublesLaid(party).
     Comes "They come up the steps at you, each to its own, the way a reflection comes up to meet you when you lean over a well.".
   }
