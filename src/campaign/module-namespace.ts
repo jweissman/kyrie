@@ -15,10 +15,13 @@ export interface ModuleBindings {
   id: string; seed: string; imports: Record<string, string>; globals: string[]; exports: Record<string, string>;
 }
 export class ModuleNamespace {
-  // Catalog-backed entity types: the same id means the same thing in every installation.
+  // Catalog-backed entity types: the same id means the same thing in every installation. The callings and peoples
+  // the shared rules name (calling_warrior, ancestry_elf) are among them: each installation had brought its own copy
+  // of each, and everyone in the world was then said to have their calling and people once for every installation,
+  // new facts about every creature at every install (Mission 21, world/construction.md §2: T24-11's growth).
   static readonly canonical = ['ability', 'feat', 'capability', 'itemkind', 'good', 'clock', 'waykind', 'servicekind', 'element',
     'terrainkind', 'temperament', 'law', 'manner', 'pronoun', 'sizekind', 'craft',
-    'verb', 'circle', 'quality', 'difficulty', 'recipe'];
+    'verb', 'circle', 'quality', 'difficulty', 'recipe', 'callingkind', 'ancestrykind'];
   private entities: Record<string, string>;
   private functions: Record<string, string>;
   private kinds: Record<string, string>;
