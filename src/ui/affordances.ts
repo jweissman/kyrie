@@ -442,9 +442,13 @@ export class Affordances {
   }
   // A way's acts gone by in turn, never one that is grave or a risk: the speaking door's first word had been pressed
   // at random, as the way's next act (the owner, 12 November).
+  // An opener's own command is its talk where it has one, and never a trade: done by a headless player, "Talk to
+  // Mik", once he had been spoken to, had bought a coil of rope, a torch, rashers of bacon, ten times over (the
+  // runner's blind walk, 15 November: TB-04).
   private static command(c: Choice): string | undefined {
-    return c.command ?? Attending.all(c.children ?? []).find(k => k.command && !k.disabled && !k.grave && !k.risk)
-      ?.command;
+    if (c.command) { return c.command; }
+    const open = Attending.all(c.children ?? []).filter(k => k.command && !k.disabled && !k.grave && !k.risk);
+    return (open.find(k => k.does === 'talk_to') ?? open.find(k => !/^(buy|sell)_/.test(k.does ?? '')))?.command;
   }
   private static risky(c: Choice): boolean {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));
