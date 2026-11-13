@@ -110,7 +110,7 @@
     Resolve check(actor, deception, dc_fair).
     On success { Assert answered(actor). Assert wayIn(hare_hidden). Assert knows(actor, hare_hidden). Give rations to actor. }
     On failure { Assert answered(actor). Assert wayIn(hare_hidden). Assert knows(actor, hare_hidden). }
-    Result "'Keeper,' you say, and he stops to hear what you want, and by the time you have asked him the way to {home} twice over the bracken is empty. Further on, on a stone where you cannot miss it, someone has left the hare.".
+    Result "'Keeper,' you say, and he stops to hear what you want, and by the time you have asked him the way to {home} twice over the bracken is empty. Further on, on a stone where you cannot miss it, someone has left the hare: a day's eating, into the pack with the rest of the food.".
     Otherwise "The keeper hears you out, and looks past you at the bracken, and back at you. The boy is gone. The keeper will know your face again.".
   }
   Topic poacher_hold with poacher "Hold the boy by the collar until the keeper comes" when not answered(actor) once {
@@ -118,7 +118,9 @@
     On discuss { Assert answered(actor). Assert wayIn(hare_given). Assert knows(actor, hare_given). Increase quantity(actor, gold) by 2. }
   }
   Topic poacher_buy with poacher "Offer the boy a coin for the hare" when not answered(actor) and quantity(actor, gold) >= 1 once {
-    Says "He looks at the coin, and at the road, and puts the hare in your hands and the coin in his mouth, and is gone into the bracken before the whistle comes again.".
+    // The hare is a day's eating, given as rations: said so, where it had been put in the player's hands and was then
+    // nowhere in the pack (round 12, B: T24-19).
+    Says "He looks at the coin, and at the road, and puts the hare in your hands and the coin in his mouth, and is gone into the bracken before the whistle comes again. It is a fat hare, and a day's eating: it goes into the pack with the rest of the food.".
     On discuss { Assert answered(actor). Assert wayIn(hare_bought). Assert knows(actor, hare_bought). Decrease quantity(actor, gold) by 1. Give rations to actor. }
   }
   Topic poacher_leave with poacher "Walk on, and leave him to it" when not answered(actor) once {
@@ -126,10 +128,12 @@
     On discuss { Assert answered(actor). Assert wayIn(hare_left). Assert knows(actor, hare_left). }
   }
   // Whatever came of it, the boy turns up in {home}, unless the keeper has him; one who stood in the road for him is
-  // owed, and paid.
-  Rule poacher_goes_on when answered(party) and at(poacher, {approach}) and not at(party, {approach}) and not wayIn(hare_given) {
+  // owed, and paid. He is off the road at once, as what is said of him says: he had been told as here, under the
+  // words that had him gone into the bracken (round 12, B: T24-19); and one the keeper took is gone with the keeper.
+  Rule poacher_goes_on when answered(party) and at(poacher, {approach}) and not wayIn(hare_given) {
     Retract at(poacher, {approach}). Assert at(poacher, {inn}).
   }
+  Rule poacher_taken when wayIn(hare_given) and at(poacher, {approach}) { Retract at(poacher, {approach}). }
   Topic poacher_inn with poacher "Sit with the boy" when at(poacher, {inn}) and wayIn(hare_hidden) once {
     Says "He slides in beside you on the bench as if he had always been there. 'That was my brother's,' he says, and puts a sling on the board in front of you, the stones in a twist of cloth. 'He's no use for it now. You keep it.' Then he is gone again, with half your bread.".
     On discuss { Give sling to actor. }
