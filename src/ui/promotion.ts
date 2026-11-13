@@ -43,9 +43,10 @@ export class Promotion {
   static readonly cap = 3;
   // With whoever there is to talk to.
   static readonly all = 4;
-  // Each reason's tier and its place in it.
+  // Each reason's tier and its place in it. In the dark the light comes before any danger: a light to hand had been
+  // led after "Attack" beside the beetles, and a walker fought blind and died (the laboratory, 15 November).
   static readonly tiers: Record<Why, [Tier, number]> = {
-    helpless: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4], opened: [0, 5],
+    helpless: [0, -2], dark: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], retreat: [0, 4], opened: [0, 5],
     advance: [1, -1], bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5],
     deeper: [1, 6],
     hungry: [2, 0], hurt: [2, 1], night: [2, 2], exposed: [2, 3],
