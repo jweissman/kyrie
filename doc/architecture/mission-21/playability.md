@@ -40,6 +40,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-18 | P1 | The own-hex guard (E155: never across the country to a place in the company's own hex) lived only in the browser's map; the terminal and `serve` could not see the map's moves at all | fixed in this branch |
 | PL-19 | **P0** | At the dead man's map's keep the search the map marks is not led, and the gold goes to parleying with the hobs: dangers and the way back fill the three places | fixed in this branch |
 | PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
+| PL-21 | **P0** | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed in this branch |
+| PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | open |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -373,6 +375,26 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   Lucky Mask" and eight more beside the journeys to them; `LandCrossing.offers` now offers only where no journey is
   planned, as the map sets out on a planned one first.
 
+### PL-21: every reward the debt's
+
+- **Repro:** `bin/kyrie adventure --world kahitude --origin debt --as human/mage/Isolde` (a talker who will not
+  fight: Charisma 17, 4 HP), `follow 1`, the gold to Aiden, "Ask Aiden what is out in the country round": the gold is
+  then "Ask Osmund Pyle to come with you" (the old man with a bad hip) and "Talk to Osmund Pyle", not the journey to
+  Seolforfyrd Aiden has just told of. Save `kt-inn.json`.
+- **Cause (verified, `tools/leads.ts`):** `AimAdvances.waits` adds the condition of any rule whose effects meet what
+  the aim reads; the debt reads the purse, so every rule that pays a coin (the generic `brought_home`, a coin for
+  seeing someone home) made its condition (`following(?person, ?company)`) the debt's, 133 calls in all; asking Osmund
+  along asserts `following`. Since batch 4 a person with such an act is led for it (PL-13), so it became gold.
+- **Status:** fixed in this branch: a rule is read for what the aim waits on except the purse and where anyone is,
+  which every reward and every way changes (the purse is waited on by selling, as before). Regression:
+  `test/small/debt-purse.test.ts` (fails before). Seen in the mage's play: the gold goes to Seolforfyrd again.
+
+### PL-22: an opened chest says nothing of what is in it
+
+- **Repro:** pine as PL-20, "Pick the chest's lock": "The chest on the ledge stands open." Only `all` has "Take a
+  stolen chalice out of a chest on the ledge". Corroborates AP-08 ("An opened chest looks empty from the scene").
+- **Status:** open (a stolen thing is not the company's spoils, so not led; but it is not even told).
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -393,6 +415,27 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 **Not taken here (the lead's):** T24-19's round-12 player B items (pine): `q` with piped stdin, the hare not in the
 pack, "is here" above "is gone into the bracken", doubled way labels, raw markdown, the empty foreground after
 Anselm's speech; and the lone person spoken of in a band's words (fixed on main).
+
+## Cold plays: verdicts
+
+- **a1 kin (Wynn, warrior), ~35 commands:** the opening is the best of the game (the ruts, the body, "I knew. The dog
+  knew."); followed, the gold held through the father, the oxen's den and the rats job to Bask's pay. It broke on the
+  cairn's gold (PL-05), the lit torch "binding the hurt" (PL-09), the gold back out of the rat-runs (PL-11), the fights
+  (PL-07: nothing touched Wynn). Coherent for fifteen minutes now; after the oxen, nothing pulls (PL-06).
+- **kahitude debt (Ralf, warrior), ~10:** the debt's chain to Seolforfyrd is clear; broke on the cairn and the empty
+  search (PL-05, PL-08).
+- **wren wanderer (Hild), ~12:** the fever is a good small story, but the gold walked shop doors (PL-12) and then back
+  to the bailey with nothing to give (PL-13); fixed, the waterman's willow lead is gold. Without the fixes, not
+  coherent.
+- **The Lull and What Tessary Owes (authored), ~4 and ~10:** both opened with nothing a player could follow (PL-14,
+  PL-16); the prose is the richest in the game. Fixed for their first aims; the lint lists the rest.
+- **pine map (Sefa, elf thief), ~18 commands (13 November):** the strongest fifteen minutes so far. The deserters'
+  toll on the road (a real choice, paid), the map's cross found under the door-stone in six commands once the search
+  was led (PL-19, the one gamebreaker: before the fix the gold was on parleying with the hobs and the search was
+  under `all`), then the stolen bell followed into the hold: slipping past the hobs as a thief, the ledge, the chest
+  picked. Broke on the empty talk with the Gaffer (PL-20) and the chest that says nothing of the chalice (PL-22).
+  Recurrences of the lead's T24-19 items: the sheet says "Drifter" for an elf thief; way labels such as "Take the
+  road, half an hour out of Rainhaven to open fields south of Rainhaven". Worth going on: yes, the hold has shape.
 
 ## The human reports, and where each stands
 
