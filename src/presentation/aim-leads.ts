@@ -4,6 +4,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { Stakes } from '../ui/stakes';
+import { Itineraries } from '../ui/itinerary';
 import { AimAdvances } from './aim-advances';
 import type { PlayerView } from './player-view';
 import { Undertakings } from './undertakings';
@@ -33,9 +34,12 @@ export class AimLeads {
   }
   // The places the aim followed names, been to, where nothing would now bring it about: nothing new there for now
   // (drawn as idle places are, and never the aim's way).
+  // Nor, from inside an enclosed place, one outside it: that is the way out toward the aim (see AimRoute.outward).
   static spent(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
     const been = new Set(screen.map.filter(p => p.visited).map(p => p.id)), here = screen.place.id;
-    return new Set([...named].filter(id => id !== here && been.has(id) && !this.there(campaign, id)));
+    const inside = Itineraries.enclosed(campaign, here);
+    return new Set([...named].filter(id => id !== here && been.has(id)
+      && !(inside && !Itineraries.enclosed(campaign, id)) && !this.there(campaign, id)));
   }
   private static readonly kinds = new WeakMap<object, Map<string, Set<string>>>();
   private static could(campaign: Campaign, def: NonNullable<ReturnType<typeof Undertakings.followed>>): Set<string> {

@@ -342,13 +342,28 @@ export class ChoiceList {
     if (!c.ours) { return []; }
     const titles: Record<string, string> = { strike: 'Strike', abilities: 'Abilities', spells: 'Spells',
       carried: 'What you carry', other: 'Defend, wait or withdraw' };
-    return Object.entries(titles).map(([id, title]) => {
+    return Object.entries(titles).map(([id, title]): Section => {
       const list = c.abilities.filter(a => this.kind(a) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
           || this.last.indexOf(a.id) - this.last.indexOf(b.id));
       return { id, title, tone: id === 'spells' ? 'spell' as const : 'ability' as const, glyph: id === 'spells' ? '✦' : '⚔',
         choices: ['abilities', 'spells'].includes(id) ? this.fold(list, id, c) : list.map(a => this.ability(a, c)) };
-    }).filter(s => s.choices.length);
+    }).filter(s => s.choices.length).concat(this.pace(c));
+  }
+  // The fight's pace, as acts like any other (CN-04, CN-06: they had been the page's own buttons): the one whose turn
+  // it is left to fight it by the company's own tactics, and a fight as good as won pressed on to its end, each turn
+  // so, unless it turns (REV-16). Their commands are the fight's own (fight:auto, fight:through).
+  private static pace(c: CombatScreen): Section[] {
+    const choices: Choice[] = [{ id: 'fight:auto', label: `Let ${c.actorName} fight this turn`, tone: 'ability',
+      command: 'fight:auto', note: 'by your own tactics' },
+    ...this.decided(c) ? [{ id: 'fight:through', label: 'Press on to the end', tone: 'ability' as const,
+      command: 'fight:through', note: 'as good as won: every turn by your own tactics, unless it turns' }] : []];
+    return [{ id: 'pace', title: 'The fight\'s pace', tone: 'ability', glyph: '⚔', choices }];
+  }
+  // As good as won: every foe standing at half or less, every one of the company at more than half.
+  static decided(c: Pick<CombatScreen, 'foes' | 'allies'>): boolean {
+    const standing = c.foes.filter(f => f.hp > 0);
+    return standing.length > 0 && standing.every(f => f.hp <= f.maxHp / 2) && c.allies.every(f => f.hp > f.maxHp / 2);
   }
   // A long list of abilities or spells shows the three that would do most good now, in their usual order, and folds
   // the rest under one choice, a tap away.

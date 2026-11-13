@@ -218,6 +218,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
+    // The fight's pace (ChoiceList.pace): its own requests.
+    if (choice.command === 'fight:auto') { this.auto(); return; }
+    if (choice.command === 'fight:through') { this.through(); return; }
     if (frame.combat) {
       this.setState({ pending: { said }, fight: ReaderApp.mark(frame, this.state.fight) });
       this.engine.request({ kind: 'fight', choice: choice.command }).catch(this.failed);

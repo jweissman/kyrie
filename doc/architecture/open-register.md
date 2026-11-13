@@ -696,6 +696,9 @@ fixes were merged to main in batches 1–8; each row names the fast spec that ho
 | PL-27 | The debt's chain stops at the second old place: Marsh Howe searched, the aim still names it, Palusporta not led | open: proposal in `mission-21/playability.md` (a chain over every place told of) | P1 | M21 |
 | PL-28 | kite wanderer: the fever followed in Newmeet's crowded market, nothing gold, the mother not on the page; asked, still nothing, herbs on sale a door away | fixed: sellers of a kind the keeper wants lead, buying it advances; held by `small/fever-shop`; the mother still off the crowded page (P2) | P0 | M21 |
 | PL-29 | A companion (Edda) still told asleep on the step she left | fixed (data, no spec); her warrior's gear at nine and the opaque "Speak with Edda" left (P2) | P2 | M21 |
+| PL-30 | In the page the first page said no goal and offered no Follow (the goal was said only of an aim followed; nothing is followed until chosen in the Notes) | fixed; held by `small/first-goal-unfollowed` | P1 | M21 |
+| PL-31 | Gold on the unlikely confrontation in thorn's ossuary while the sure act the mage's lore opened is only red | open: proposal (`Act.odds`; prefer the likelier advance) | P2 | M21 |
+| PL-32 | In the page at Merscstede the aim's person (Lindal) has a blue pip and is not in the foreground; only the rail's people icon is gold (the engine's glance has her gold) | open: page (`WorldStage.seen`), not reproduced headless | P1 | M21 |
 
 ## 26. The owner's continuity report (14 November)
 
@@ -705,13 +708,13 @@ features. None is closed as a component migration until the whole ordinary actio
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| CN-01 | Look/Things, People and Places/Explore open as pages: a lens should rerank up to four promoted actions within the one resting scene, take no world time, and keep the rest a predictable expansion beneath | open | P0 | M21 |
-| CN-02 | Inside a building the world map opens, with a confusing Back and no way to other local places; overland travel offered that bypasses the site's graph | open | P0 | M21 |
-| CN-03 | In an enclosed site the Map control should be a local compass: the next known place worth going, or the way out, along known traversable ways (barriers, unknown passages, time, interruptions respected); outside when the known opportunities are spent; neutral arrows, chevrons, route lines | open | P1 | M21 |
-| CN-04 | World actions drawn in unrelated treatments: raw text links and old buttons on the resting scene and the Wait page; a census of every surface (scene, lenses, talk, look, search, wait, local ways, Pack, things, fight) onto the one action system and its availability/targeting contract | open | P0 | M21 |
-| CN-05 | Wait is its own page: a compact time lens (wait a little, watch, listen, rest, wait for something) whose opening takes no time | open | P1 | M21 |
+| CN-01 | Look/Things, People and Places/Explore open as pages: a lens should rerank up to four promoted actions within the one resting scene, take no world time, and keep the rest a predictable expansion beneath | open (page); the engine's Lens contract landed (`Glance.lenses`: promoted ≤ 4 and the rest, from the scene's own acts, no time), held by `small/lenses` | P0 | M21 |
+| CN-02 | Inside a building the world map opens, with a confusing Back and no way to other local places; overland travel offered that bypasses the site's graph | open (page); engine: `enclosed`, nothing overland offered from inside (`Itineraries.shown`), the way out the aim's (`AimRoute.outward`), held by `small/compass` | P0 | M21 |
+| CN-03 | In an enclosed site the Map control should be a local compass: the next known place worth going, or the way out, along known traversable ways (barriers, unknown passages, time, interruptions respected); outside when the known opportunities are spent; neutral arrows, chevrons, route lines | open (page); the engine's Compass contract landed (`out`, `next`, `exhausted`; routes walked by travel:), held by `small/compass` | P1 | M21 |
+| CN-04 | World actions drawn in unrelated treatments: raw text links and old buttons on the resting scene and the Wait page; a census of every surface (scene, lenses, talk, look, search, wait, local ways, Pack, things, fight) onto the one action system and its availability/targeting contract | open (census on main); the fight's pace acts are in the contract (`fight:auto`, `fight:through`), held by `small/fight-pace` | P0 | M21 |
+| CN-05 | Wait is its own page: a compact time lens (wait a little, watch, listen, rest, wait for something) whose opening takes no time | open (page); the time lens's set is the waiting acts (`Glance.lenses.time`), held by `small/lenses` | P1 | M21 |
 | CN-06 | Combat: legacy controls beside the new; the highlighted menu becomes a horizontal row; a target's card grows taller and bars cross the painting; details injected into buttons; layout jumps between target and action states | open | P0 | M21 |
-| CN-07 | Personhood drawn with a pink pip close to coral: people need no opportunity colour; atlas colours only for grounded opportunities (knowledge, recruitment…); gold only for the followed undertaking; no new colours for routing or categories | open | P1 | M21 |
+| CN-07 | Personhood drawn with a pink pip close to coral: people need no opportunity colour; atlas colours only for grounded opportunities (knowledge, recruitment…); gold only for the followed undertaking; no new colours for routing or categories | engine half fixed: no aspect for being the life of the place, held by `small/person-aspects`; the page's pip open | P1 | M21 |
 | CN-08 | One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after | open | P0 | M21 |
 
 ## 27. The owner's terminal ideas (14 November)
