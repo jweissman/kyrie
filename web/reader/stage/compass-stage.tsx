@@ -1,6 +1,7 @@
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Compass, Route } from '../../../src/presentation/glance-types';
 import { Typography } from '../../../src/presentation/typography';
+import { Signs } from '../../../src/presentation/signs';
 import type { ReaderApp } from '../reader-app';
 import type { Draw } from './act';
 import { ChoiceRow } from './choice-row';
@@ -9,7 +10,7 @@ import { GlanceStage } from './glance';
 // The compass inside an enclosed place (CN-02, CN-03; the owner, 14 November: inside a building the world map had
 // opened, with a confusing Back and no way to the other places about). The engine's (Glance.compass): the way out,
 // the next known place worth going inside, and whether nothing known is left. Drawn as two rows in the scene's own
-// column, where the way back had been: Out (an arrow, back the way out), and On (a chevron, further in); under each the
+// column, where the way back had been: Out (its arrow, back the way out), and On (its arrow, further in); under each the
 // route as its ways in order and its time, a route line in the rows' own quiet ink, no colour of its own. What bars the
 // way out says so, and nothing is done by it. The rail's map gives way to it (see SceneRail.Books).
 export class CompassStage {
@@ -33,7 +34,9 @@ export class CompassStage {
   }
   static Row({ app, draw, route, kind }: { app: ReaderApp; draw: Draw; route: Route; kind: 'out' | 'on' }) {
     const words = `${kind === 'out' ? 'Out to' : 'On to'} ${route.name}`;
-    const label = <><span className="compass-arrow" aria-hidden="true">{kind === 'out' ? '←' : '›'}</span>
+    // Its sign the shared table's (Signs): out, or further in; shut where something bars it.
+    const sign = Signs.way(kind === 'out' ? 'Out' : 'Into', !!route.barred);
+    const label = <><span className="compass-arrow" aria-hidden="true">{sign}</span>
       {Typography.curl(words)}</>;
     const c = CompassStage.choice(app, route, words), line = <span className="route-line">{CompassStage.line(route)}</span>;
     const className = `quiet-row compass-${kind}`;

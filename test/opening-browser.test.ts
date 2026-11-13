@@ -177,11 +177,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await driver.click(`[data-action="origin"][data-id="${origin}"]`);
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
+      // Read at once: a beat goes on by itself once read (CN-09: the engine's pages say a beat is no act).
+      const first = (await page.textContent('[data-id="beat"]'))!;
       expect(await page.locator('[data-action="book"], .place-foot, .on-pane, [data-action="choice"]').count()).toBe(0);
       expect((await Stage.bounds(page)).margin).toBe(0);
-      const title = (await Origins.load(NodeBundleSource.shared)).find(o => o.manifest.id === origin)!.manifest.title;
-      expect(await page.textContent('[data-id="chapter"]')).toBe(Typography.curl(title));
-      const first = (await page.textContent('[data-id="beat"]'))!;
       expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
       // Pressed at once, before its way on has appeared, it stays (two Enters had gone past a beat unread).
       if (!touch) {
@@ -195,6 +194,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       const second = (await page.textContent('[data-id="beat"]'))!, town = (await driver.inspect()).path!
         .find(p => p.kind === 'settlement')!.name;
       expect([second !== first, second.includes(Typography.curl(town))]).toEqual([true, true]);
+      const title = (await Origins.load(NodeBundleSource.shared)).find(o => o.manifest.id === origin)!.manifest.title;
+      expect(await page.textContent('[data-id="chapter"]')).toBe(Typography.curl(title));
+      // Left to be read, a beat goes on by itself (a line fills under it as it goes): see the after page below.
       // Then whoever is met on the road (the owner, 7 November), with no way on until they are answered, by one of
       // play's own choices or its digit; then what came of it, the first aim said once, and Go on.
       if (touch) { await page.waitForTimeout(400); await driver.click('[data-action="beat"]'); } else {

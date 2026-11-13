@@ -240,13 +240,29 @@ export class GlanceStage {
     // An opener among them (a thing's look, with no act of its own) is drawn as what it opens, its leaves (Lensed.leaves),
     // under the thing's name: chosen, it had turned the page to the thing, and done there, the thing's page stayed with
     // only Back on it (Low Water's channel head, in the browser).
-    const leaves = lensed.leaves ?? {}, opens = (a: { choice: string }) => !!leaves[a.choice]?.length;
-    const inside = (a: LensAct): LensAct[] => (leaves[a.choice] ?? []).map(l => ({ ...l, subject: l.subject ?? a.subject ?? a.choice }));
-    const promoted = lensed.promoted.filter(p => !opens(p)), opened = lensed.promoted.filter(opens);
-    const rest = lensed.rest.flatMap(a => opens(a) ? inside(a) : [a]);
+    // Only a thing's look: the company's own openers stay one act (preparing spells opens the caster's page), as the
+    // engine rules them. What it opens that the lens gives already is not drawn twice (a door's words).
+    const leaves = lens === 'things' ? lensed.leaves ?? {} : {}, opens = (a: { choice: string }) => !!leaves[a.choice]?.length;
+    const given = new Set([...lensed.promoted, ...lensed.rest].filter(a => !opens(a)).flatMap(a => [a.choice, a.command ?? '']));
+    const inside = (a: LensAct): LensAct[] => (leaves[a.choice] ?? []).filter(l => !given.has(l.choice) && !given.has(l.command ?? ''))
+      .map(l => ({ ...l, subject: l.subject ?? a.subject ?? a.choice }));
+    // An opener on a way whose every act the lens gives itself (the speaking door's look, its words in the lens) is not
+    // drawn as well: it would draw them a second time under it.
+    const covered = (a: { choice: string }) => {
+      const kids = GlanceStage.choice(app, a.choice)?.children ?? [];
+      return kids.length > 0 && kids.every(k => given.has(k.id));
+    };
+    const promoted = lensed.promoted.filter(p => !opens(p) && !covered(p));
+    const opened = lensed.promoted.filter(p => opens(p) && inside(p).length);
+    const rest = lensed.rest.flatMap(a => opens(a) ? inside(a) : covered(a) ? [] : [a]);
     const none = !promoted.length && !opened.length, all = none || app.state.open.includes(`lens:${lens}`);
-    const given = new Set([...lensed.promoted, ...lensed.rest, ...Object.values(leaves).flat()].map(a => a.choice));
+    // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
+    // door: Lensed.subjects), said once above them, under its name.
+    const seen = [...new Set(promoted.flatMap(p => p.subject && lensed.subjects?.[p.subject]?.seen ? [p.subject] : []))];
     return <div className={`lens lens-${lens}`} data-lens={lens}>
+      {seen.map(id => <div key={id} className="lens-group lens-seen" data-subject={id}>
+        <p className="label">{Typography.curl(Words.upper(lensed.subjects![id]!.name))}</p>
+        {lensed.subjects![id]!.seen!.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
       <GlanceStage.Acts app={app} draw={draw} acts={promoted} />
       {opened.map(o => <div key={o.choice} className="lens-group lens-opened" data-subject={o.subject ?? o.choice}>
         <p className="label">{Typography.curl(Words.upper(GlanceStage.named(app, o.subject ?? '') || o.label))}</p>
@@ -258,25 +274,9 @@ export class GlanceStage {
       {all && <ul className="acts lens-rest">{GlanceStage.grouped(rest).map(g => g.subject
         ? <li key={g.subject} className="lens-group" data-subject={g.subject}>
           <p className="label">{Typography.curl(Words.upper(GlanceStage.named(app, g.subject)))}</p>
+          {lensed.subjects?.[g.subject]?.seen?.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}
           <ul className="acts">{g.acts.map(a => <li key={a.choice}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul></li>
         : g.acts.map(a => <li key={a.choice}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>))}</ul>}
-      {/* What is on a way off this place (a tripwire, a door's words), which the things lens does not hold yet: under
-          the thing's name, its acts the menu's own (AtHand.onWays, as Look… had them). */}
-      {/* Its acts the lens gives already (Promotion's things on ways) are not drawn again: only the thing's words, and
-          what the lens does not give yet. */}
-      {lens === 'things' && AtHand.onWays(app).map(h => <div key={h.id} className="lens-group lens-on-way" data-subject={h.id}>
-        <p className="label">{Typography.curl(Words.upper(h.name))}</p>
-        {h.seen.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}
-        <ul className="acts">{h.choices.filter(c => draw.index.has(c.id) && !given.has(c.id)).map(c => <li key={c.id}><ChoiceRow.Act choice={c}
-          draw={draw} label={Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))} />
-          <PlaceStage.Opened choice={c} draw={draw} /></li>)}</ul></div>)}
-      {/* What the company can do of itself (prepare a spell, light a candle), which no lens holds yet: with time, as
-          the Wait page had it, the menu's own choices as they are (Pastime.also). */}
-      {lens === 'time' && Pastime.also(app).length > 0 && <div className="lens-group lens-yours" data-line="Yourself">
-        <p className="label">Yourself</p>
-        <ul className="acts">{Pastime.also(app).map(c => <li key={c.id}><ChoiceRow.Act choice={c} draw={draw}
-          label={Typography.curl(c.alone ?? Words.shown(c.label))} /><PlaceStage.Opened choice={c} draw={draw} /></li>)}</ul>
-      </div>}
     </div>;
   }
   // A lens's rest by what it is done to (LensAct.subject): a thing's or someone's acts together under their name, so
@@ -289,9 +289,30 @@ export class GlanceStage {
     }
     return out;
   }
+  // A lens group's name: someone or something here; the company itself (the time lens's own acts); or what the
+  // engine names where the scene draws no one for it (a thing on a way, the way: Lensed.subjects).
   static named(app: ReaderApp, subject: string): string {
-    const scene = app.menu.scene;
-    return [...scene?.subjects ?? [], ...scene?.still ?? []].find(x => x.id === subject)?.name ?? '';
+    if (subject === 'yourself') { return 'Yourself'; }
+    const scene = app.menu.scene, lens = GlanceStage.lens(app);
+    return [...scene?.subjects ?? [], ...scene?.still ?? []].find(x => x.id === subject)?.name
+      ?? (lens && app.state.frame?.leaf.glance?.lenses?.[lens]?.subjects?.[subject]?.name) ?? '';
+  }
+  // Every act a lens gives, by its choice: its four, its rest and what is within its openers.
+  static lensed(app: ReaderApp, lens: Lens): Set<string> {
+    const l = app.state.frame?.leaf.glance?.lenses?.[lens];
+    return new Set([...l?.promoted ?? [], ...l?.rest ?? [], ...Object.values(l?.leaves ?? {}).flat()].map(a => a.choice));
+  }
+  // The openers on the ways off this place that hold what a lens gives (a door's words under "Speak to the door"), to
+  // be opened with it so that the menu has each of them to be done by (see Explorer.open).
+  static holders(app: ReaderApp, lens: Lens): string[] {
+    const ids = GlanceStage.lensed(app, lens), scene = app.menu.scene, out: string[] = [];
+    const holds = (c: Choice): boolean => {
+      const inner = (c.children ?? []).map(holds).some(Boolean) || (c.children ?? []).some(k => ids.has(k.id));
+      if (inner) { out.push(c.id); }
+      return inner;
+    };
+    [...scene?.near ?? [], ...scene?.far ?? []].forEach(holds);
+    return out;
   }
   // One of a lens's rest: the menu's own choice where it is one (its keys, its mark); else the act as the lens names it.
   static LensRow({ app, draw, act: a }: { app: ReaderApp; draw: Draw; act: LensAct }) {

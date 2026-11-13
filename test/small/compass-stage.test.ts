@@ -7,7 +7,7 @@ import { CompassStage } from '../../web/reader/stage/compass-stage';
 import type { Compass } from '../../src/presentation/glance-types';
 
 // The compass inside an enclosed place, as the page draws it (CN-02, CN-03): the engine's routes (Glance.compass) as
-// the column's own rows, Out with an arrow and On with a chevron, each with its route under it and the act it is
+// the column's own rows, Out and On each with its arrow from the shared signs, its route under it and the act it is
 // done by marked (data-act); a barred way out says what bars it and does nothing; nothing outside an enclosure; the
 // way on left out where the scene leads with it already.
 const app = (glance: object) => ({ state: { keyed: false, cursor: 0, open: [], frame: { leaf: { glance } } },
@@ -26,7 +26,7 @@ describe('the compass in the page', () => {
     const html = render({ enclosed: true, compass });
     expect(html).toContain('data-act="exit:ossuary"');
     expect(html).toContain('data-act="travel:yard"');
-    expect(html).toMatch(/compass-on[\s\S]*›[\s\S]*On to the ossuary/);
+    expect(html).toMatch(/compass-on[\s\S]*→[\s\S]*On to the ossuary/);
     expect(html).toMatch(/compass-out[\s\S]*←[\s\S]*Out to the churchyard/);
     expect(html).toContain('the stair › the crypt door · 4 minutes');
   });
