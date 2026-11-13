@@ -99,7 +99,7 @@
 :root ul.acts > li { margin: 0; min-width: 0; }
 :root ul.acts.small .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
 
-/* ---- Held acts (see Hold, ?hold): an edge along the act's foot fills over the hold's time, over the act's own box
+/* ---- Held acts (see Hold): an edge along the act's foot fills over the hold's time, over the act's own box
    (absolute: nothing moves), in the act's own tone or neutral, never a colour of its own. Under reduced motion it is a
    still edge, and the act is done on time all the same. ---- */
 .hold-edge { position: absolute; left: 6px; right: 6px; bottom: 3px; height: 2px; border-radius: 1px; pointer-events: none;

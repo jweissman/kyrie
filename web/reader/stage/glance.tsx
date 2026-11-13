@@ -2,7 +2,7 @@ import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
 import { useRef } from 'react';
 import { Glyphs } from '../creation/glyphs';
-import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
+import type { Glance, Lens, LensAct, Mark, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp } from '../reader-app';
@@ -510,12 +510,15 @@ export class GlanceStage {
             {...mark ? { markLabel: Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x]).join(', ') } : {}}
             label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></>}
             aside={note && Typography.curl(note)}
-            extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
+            extra={GlanceStage.marks(a, c).map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>;
       })}</ol>
     );
   }
+  // What a promoted act risks: the glance's own marks, or, where the lens filled its four with an act as it stands
+  // (Promotion.present, which carries none), the choice's own (a way with no coming back said before it is taken).
+  static marks(a: Promoted, c: Choice): Mark[] { return a.marks.length ? a.marks : c.marks ?? []; }
   // The words that say a choice is the aim's: said only of the one that carries it on, where the way is shown.
   static readonly aimWords = /^(your aim|toward your aim|where your aim is)$/;
   // As the player would say it: "Make much of the grey dog", "Look at the fresh ruts".

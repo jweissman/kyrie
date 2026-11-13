@@ -7,14 +7,14 @@ import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, ty
 // fills over the act's own box; let go early, nothing is done; held to the end, the act is done. No box moves while it
 // fills (CN-06's stable geometry), and the edge is the act's own tone or neutral: a hold is no colour of its own.
 // Presentation only: how long the hand is held is not how long the act takes in the world.
-// One experiment, on the address (?hold) until the owner has seen it.
+// The default (the owner, 14 November), no longer an experiment on the address.
 export class Hold {
   // A sustained act (a search, a wait) a little longer than a commitment (who the character is).
   static readonly ms = { sustained: 850, commitment: 650 };
-  static on(): boolean { return typeof document !== 'undefined' && document.documentElement.dataset.hold !== undefined; }
-  static set(on: boolean) {
-    if (on) { document.documentElement.dataset.hold = ''; } else { delete document.documentElement.dataset.hold; }
-  }
+  // The page's keys holding an act drawn elsewhere than where the focus is (ReaderKeys: Enter on the highlight, a
+  // digit): as a hand would, pressed on the act's own button, so the same edge fills and the same let-go undoes it.
+  static press(button: Element) { button.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 })); }
+  static release(button: Element) { button.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, button: 0 })); }
   // What a held act spreads on its button, and whether it is being held now. ms: how long; done: the act itself.
   static use(ms: number | undefined, done: () => void) {
     const [held, hold] = useState(false), timer = useRef<number | undefined>(undefined);
