@@ -8,10 +8,12 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 class Grave {
-  // A thing turned to as a player turns to it: Look…, then the thing by its name, in its own pane.
+  // A thing turned to as a player turns to it: the things lens (Look…), its acts unfolded, the thing among them.
   static async touch(page: Page, name: RegExp) {
     await page.click('.opens-look');
-    await page.locator('.ah-row', { hasText: name }).first().click();
+    const all = page.locator('.glance .lens [data-action="lens-all"][aria-expanded="false"]');
+    if (await all.count()) { await all.click(); }
+    await page.locator('.glance .lens', { hasText: name }).waitFor();
   }
 }
 

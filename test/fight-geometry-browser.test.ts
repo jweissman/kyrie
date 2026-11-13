@@ -50,17 +50,17 @@ class Walk {
   }
 
   constructor(readonly page: Page, readonly d: MonoDriver) {}
+  // Gone to by the places lens (CN-01): the way there or the walk there, among its four or the rest unfolded.
   async to(place: string) {
-    if (await this.page.locator('.act.opens-go').count()) { await this.page.click('.opens-go'); await this.d.settle(); return; }
-    await this.page.click('.opens-go');
-    const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
-    if (await quarter.count()) {
-      await quarter.click(); await this.d.settle();
-      if ((await this.d.inspect()).place?.id === place) { return; }
-      await this.page.click('.opens-go');
-    }
-    await this.d.goBy(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"])`);
+    const { page } = this;
+    if (await page.locator('.act.opens-go').count()) { await page.click('.opens-go'); await this.d.settle(); return; }
+    await page.click('.opens-go');
+    const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
+    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
+    if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+    await page.click(row); await this.d.settle();
   }
+
   // Into the rats' fight: the salter's job, the corn-store, its cellar lit, the rat-runs.
   async rats() {
     const { page, d } = this;

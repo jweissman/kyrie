@@ -20,7 +20,6 @@ import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
-import { Lenses } from './lenses';
 import { Standing } from '../../../src/ui/standing';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
@@ -55,7 +54,8 @@ export class WorldStage {
     // Mission 21's compositions (see Look): one panel holding the place's name, its telling, its menu and its tools
     // (veil, plate); lenses that never open a page (attend).
     const resting = !overworld && !!frame.leaf.glance && SceneRail.on(app), panel = resting && Look.is('veil', 'plate');
-    const explorer = app.state.exploring && !Look.is('attend');
+    // The lenses are the scene's own (GlanceStage.Lens: CN-01): no page of Go, Look or Wait over it.
+    const explorer = false;
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
@@ -67,7 +67,7 @@ export class WorldStage {
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
               : <><SceneSurface.View screen={screen} />
                 {frame.leaf.glance && SceneRail.talking(app) && <WorldStage.Portraits app={app} draw={draw} />}
-                <Lenses.Strip app={app} /></>}
+                </>}
           </section>
           <aside className={`focus${panel ? ' scene-panel' : ''}`} aria-label={overworld ? 'On the map' : 'What you are attending to'}>
             {panel && <header className="panel-head"><Told.Heading frame={frame} app={app} /></header>}

@@ -114,17 +114,17 @@ class Shots {
     await this.page.waitForTimeout(150);
   }
   async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
+  // Gone to by the places lens (CN-01): the way there or the walk there, among its four or the rest unfolded.
   async to(place: string) {
-    if (await this.page.locator('.act.opens-go').count()) { await this.page.click('.opens-go'); await this.d.settle(); return; }
-    await this.page.click('.opens-go');
-    const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
-    if (await quarter.count()) {
-      await quarter.click(); await this.d.settle();
-      if (await this.here() === place) { return; }
-      await this.page.click('.opens-go');
-    }
-    await this.d.goBy(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"])`);
+    const { page } = this;
+    if (await page.locator('.act.opens-go').count()) { await page.click('.opens-go'); await this.d.settle(); return; }
+    await page.click('.opens-go');
+    const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
+    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
+    if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+    await page.click(row); await this.d.settle();
   }
+
 }
 
 describe.skipIf(!process.env.KYRIE_BROWSER)('Mission 21 aesthetic captures', () => {

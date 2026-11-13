@@ -19,24 +19,17 @@ class Walk {
   async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
   // A way from here, taken as a player takes it: Go…, and its name in the wayfinder, which goes at a click; a place in
   // another quarter of the town by that quarter first (its row says what it holds), then from there.
+  // Gone to by the places lens (CN-01): the way there or the walk there, among its four or the rest unfolded.
   async to(place: string) {
-    // With one way on, it is offered as itself ("To the yard…"), and taken at once (M19-109).
-    if (await this.page.locator('.act.opens-go').count()) {
-      await this.page.click('.opens-go'); await this.d.settle();
-      expect(await this.here()).toBe(place); return;
-    }
-    await this.page.click('.opens-go');
-    const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
-    if (await quarter.count()) {
-      await quarter.click(); await this.d.settle();
-      // The place may be the quarter's heart, where its row goes.
-      if (await this.here() === place) { return; }
-      await this.page.click('.opens-go');
-    }
-    await this.d.goBy(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"], `
-      + `[data-pick="travel:${place}"])`);
-    expect(await this.here()).toBe(place);
+    const { page } = this;
+    if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
+    await page.click('.rail-mark.opens-go');
+    const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
+    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
+    if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+    await page.click(row); await this.d.settle();
   }
+
   async page_(): Promise<string> {
     return this.page.evaluate(() => document.querySelector('.world-page')?.className ?? '');
   }
@@ -75,9 +68,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('[data-id="depth"]').textContent()).toBe('One storey down');
     await driver.pick(c => /light|Light/.test(c.label), 'a light');
     expect(await page.locator('.scene-surface .scenery img').count()).toBe(1);
-    await page.click('.opens-go');
-    expect(await page.locator('.wayfinder .wf-row .glyph.whither-up').count()).toBe(1);
-    await page.click('[data-action="explore-shut"]');
+    // The way up among the places lens's acts, and the lens put away by its own mark.
+    await page.click('.rail-mark.opens-go');
+    const all = page.locator('.glance .lens [data-action="lens-all"][aria-expanded="false"]');
+    if (await all.count()) { await all.click(); }
+    expect(await page.locator('.glance .lens-places [data-act^="exit:region__s2_u_store"]').count()).toBeGreaterThan(0);
+    await page.click('.rail-mark.opens-go');
     await w.to('region__s2_u_warren');
     await driver.pick(c => c.id === 'region__s2_u_rats/0:Attack', 'the rats');
     await driver.fight();
