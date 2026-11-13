@@ -698,7 +698,7 @@ fixes were merged to main in batches 1–8; each row names the fast spec that ho
 | PL-29 | A companion (Edda) still told asleep on the step she left | fixed (data, no spec); her warrior's gear at nine and the opaque "Speak with Edda" left (P2) | P2 | M21 |
 | PL-30 | In the page the first page said no goal and offered no Follow (the goal was said only of an aim followed; nothing is followed until chosen in the Notes) | fixed; held by `small/first-goal-unfollowed` | P1 | M21 |
 | PL-31 | Gold on the unlikely confrontation in thorn's ossuary while the sure act the mage's lore opened is only red | open: proposal (`Act.odds`; prefer the likelier advance) | P2 | M21 |
-| PL-32 | In the page at Merscstede the aim's person (Lindal) has a blue pip and is not in the foreground; only the rail's people icon is gold (the engine's glance has her gold) | open: page (`WorldStage.seen`), not reproduced headless | P1 | M21 |
+| PL-32 | In the page at Merscstede the aim's person (Lindal) has a blue pip and is not in the foreground; only the rail's people icon is gold (the engine's glance has her gold) | contract fixed: `Glance.likenesses` (the aim's next step gold alone), held by `small/likenesses`; the page to draw from it (`WorldStage.seen` blended gold and blue into a pip that read blue) | P1 | M21 |
 
 ## 26. The owner's continuity report (14 November)
 
