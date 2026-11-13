@@ -12,9 +12,9 @@ Module origin "What is owed" {
   // Once answered, the creditor's greeting is not said again.
   Relation spoke(group).
   Initially Set owed(loan) to 50. Initially Assert inDebtTo(party, creditor).
-  Observe owed at shop as feature when owed(loan) > 0 and watch(clock) < 2 "You owe {creditor} fifty coin, for {lost} that went into the river at the ford last spring, oxen and all. {creditor} has been patient, and wrote to say so: patient until market day, ten days from now, and not after.".
+  Observe owed at shop as feature when owed(loan) > 0 and watch(clock) < 2 "You owe {creditor} fifty coin, for {lost} that went into the river at the ford last spring. The oxen went too. {creditor} has been patient, and wrote to say so. Patient until market day, ten days from now: not a day longer.".
   // Come in off the road, the town named: the opening had told what was owed and never where (its critique).
-  Observe arrival at shop as feature when watch(clock) < 1 "{homename} has not changed. You come in off the road with your head down, past faces that knew you once, and go straight to {creditor}'s door: better it is done at once.".
+  Observe arrival at shop as feature when watch(clock) < 1 "{homename} has not changed. You come in off the road with your head down, past faces that knew you once. You go straight to {creditor}'s door: better it is done at once.".
   Observe sees near creditor when owed(loan) > 0 and watch(clock) < 2 and not spoke(party) "'{protagonist},' says {creditor}, and does not get up. 'Fifty coin, by market day. You'll have heard I said so.'".
   Topic promise with creditor "Tell {creditor} you will have it by market day" when owed(loan) > 0 and not called(actor) once {
     Says "'See that I do,' says {creditor}, going back to the tally. 'There's no shortage of work for someone with nothing to lose. Ask at the inn.'".
@@ -27,12 +27,12 @@ Module origin "What is owed" {
   Relation sized(group).
   Topic where_coin with creditor "Ask {creditor} where a person finds fifty coin" when owed(loan) > 0 and not called(actor)
     and not sized(actor) and not capable(actor, lockwork) once {
-    Says "{creditor} snorts. 'Not by honest work, in ten days. If there's a notice up by the well, it'll have a job or two that pay by the coin, and they'll keep you fed. For fifty, you go out where nobody else will go. {keeper} at {inn} hears where that is.'".
+    Says "{creditor} snorts. 'Not by honest work, in ten days. If there's a notice up by the well, it'll have a job or two that pay by the coin. They'll keep you fed. For fifty, you go out where nobody else will go. {keeper} at {inn} hears where that is.'".
     On discuss { Assert sized(actor). Assert spoke(actor). }
   }
   Topic where_coin_thief with creditor "Ask {creditor} where a person finds fifty coin" when owed(loan) > 0 and not called(actor)
     and not sized(actor) and capable(actor, lockwork) once {
-    Says "{creditor} looks at your hands, and then at the drawer the coin is in, and moves the tally over it. 'Not in this town,' says {creditor}. 'Not in my shop. Look at the notice by the well, if you like your work honest, and {keeper} at {inn} knows of places where nobody minds what you take. Go and find one.'".
+    Says "{creditor} looks at your hands, then at the drawer the coin is in. The tally moves over it. 'Not in this town,' says {creditor}. 'Not in my shop. Look at the notice by the well, if you like your work honest. At {inn}, {keeper} knows of places where nobody minds what you take. Go and find one.'".
     On discuss { Assert sized(actor). Assert spoke(actor). }
   }
   // Gone out of the shop, the creditor has been heard: the aim does not go back to the shop on coming in again (the owner,
@@ -46,7 +46,7 @@ Module origin "What is owed" {
   }
   Topic take_time with creditor "Take the five days, for five coin more" when owed(loan) > 0 and termed(actor)
     and not extended(actor) and not called(actor) once {
-    Says "'Done,' says {creditor}, and writes it in the tally, five days on and five coin more.".
+    Says "'Done,' says {creditor}. The tally says five days on, and five coin more.".
     On discuss { Assert extended(actor). Increase owed(loan) by 5. }
   }
   Topic pay with creditor "Pay {creditor} what you owe" when owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
@@ -54,7 +54,7 @@ Module origin "What is owed" {
     On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor).
       Assert knows(actor, named). Assert knows(actor, found). }
   }
-  Rule called_in when owed(loan) > 0 and not called(party) and ((watch(clock) >= 1440 and not extended(party)) or watch(clock) >= 2160) says "Word has gone round {homename}: {creditor} has called in what you owe, and will not deal with you, nor will anyone who wants {creditor}'s custom." {
+  Rule called_in when owed(loan) > 0 and not called(party) and ((watch(clock) >= 1440 and not extended(party)) or watch(clock) >= 2160) says "Word has gone round {homename}: {creditor} has called in what you owe. Now {creditor} will not deal with you, nor will anyone who wants the custom." {
     Assert called(party). Assert refusesService(creditor, party).
   }
   Topic pay_late with creditor "Pay {creditor} what you owe, late" when called(actor) and owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
@@ -72,7 +72,7 @@ Module origin "What is owed" {
   // (Mission 20's honest play; a cold player sold star-iron to Tuck unled). Not for a trifle: one steel coin (worth 3)
   // found in Ísencepan's gate-passage had sent the company seventy minutes home to sell it for a coin (M21's PL-25).
   Query laden(a: group) means carries(a, ?x) and itemKind(?x, ?k) and valuable(?k) and worth(?k) >= 5.
-  Objective owing_laden when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and laden(party) toward creditor "What you have found would fetch coin, and {creditor}, who buys such things, is owed {owed(loan)} by market day.".
+  Objective owing_laden when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and laden(party) toward creditor "What you have found would fetch coin. {creditor} buys such things, and is owed {owed(loan)} by market day.".
   Objective owing_paid when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) >= owed(loan) toward creditor "You have the {owed(loan)} coin you owe {creditor}: pay it at {shop}, before market day.".
   Objective owing_late when owed(loan) > 0 and called(party) toward creditor "{creditor} has called in what you owe: {owed(loan)} coin.".
   Goal squared(party).

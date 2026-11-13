@@ -6,12 +6,12 @@ Module origin "Gone under" {
   Entity named: fact "Where it is". Entity found: fact "The way there".
   Initially Assert knows(party, named). Initially Assert knows(party, found).
   Observe arrival at approach as fixture when true "{scene}".
-  Observe letter at approach as feature when watch(clock) < 1 "Her last letter is in your coat, read so often it has come apart at the folds: she was going out to {work}, in {where}, with two men from {home} who swore there was silver in it, and she would write when she was rich. The two men came back at the end of the summer. She did not, and they will not say why.".
+  Observe letter at approach as feature when watch(clock) < 1 "Her last letter is in your coat, read so often it has come apart at the folds. She was going out to {work}, in {where}, with two men from {home} who swore there was silver in it. She would write when she was rich. The two men came back at the end of the summer. She did not, and they will not say why.".
   // Someone at home to ask of her, and where to look (Origins.lost): followed, the hook had gone quiet with no one to
   // ask (round 6, the register's US-01).
   Entity keeper: group "Whoever keeps the inn".
   Topic sister with keeper "Ask {keeper} about your sister" when not carries(actor, pin) once {
-    Says "{keeper} is quiet a moment. 'I remember her. Midsummer, at the table by the door, with the two of them, laughing about silver.' Lower: 'They came back through at the summer's end and drank like men with something to forget. One of them said, in his cups, that she would not turn back at the door of {work}, where the light gives out, and so they left her there. If you go, look there, at the door.'".
+    Says "{keeper} is quiet a moment. 'I remember her. Midsummer, at the table by the door, with the two of them, laughing about silver.' Lower: 'They came back through at the summer's end and drank like men with something to forget. One of them said in his cups that she would not turn back. That was at the door of {work}, where the light gives out, and so they left her there. If you go, look there, at the door.'".
   }
   // What is left of her there: found by one who looks, at the door she went in by, where the innkeeper says to look
   // (a lead pays off where it points: "look there, just inside" had sent the cold playtest's searcher in past the
@@ -22,7 +22,7 @@ Module origin "Gone under" {
   // Found, it is said and seen through, as the dead man's map's cross is: the pin taken up had ended the origin with
   // nothing said.
   Relation pinTaken(entity).
-  Rule pin_taken when carries(party, pin) and not pinTaken(pin) says "On the back of the pin, scratched in with a knife's point, are her mark and the day, midsummer. She came this far, and wanted someone to know it. It is something to take home to your mother." { Assert pinTaken(pin). }
+  Rule pin_taken when carries(party, pin) and not pinTaken(pin) says "On the back of the pin, scratched in with a knife's point, are her mark and the day. It was midsummer. She came this far, and wanted someone to know it. It is something to take home to your mother." { Assert pinTaken(pin). }
   Milestone m_pin "found your sister's cloak-pin" worth 100 when carries(party, pin).
   Goal carries(party, pin).
 }
