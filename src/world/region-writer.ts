@@ -58,6 +58,8 @@ export interface Settlement extends Naming {
 // A site: what it is and what it is called, and where: its cell, and the wild country (and part of it) it is in.
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
   cell?: number; zone?: string; part?: number;
+  // Its old name, where the starting country calls it by its Common meaning (see OldPlaces): learned by reading it.
+  old?: string;
   // The makers' work it is, if it is one (see Histories): by which plan and art.
   work?: { plan: string; art: string; great?: boolean; deep?: boolean; imperial?: boolean } }
 export interface Region extends Naming {

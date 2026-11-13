@@ -4,6 +4,7 @@ import { Undertakings } from './undertakings';
 import { Stakes } from '../ui/stakes';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
+import { Itineraries } from '../ui/itinerary';
 
 // The way an aim is gone to by, where its author says (Objective … toward … by …): part of what it names until the
 // company is past it (see Glance's reading).
@@ -11,7 +12,8 @@ export class AimRoute {
   // Where its author says the aim is gone to by (toward the dead by the churchyard), that place too, until the company
   // is in it, at what the aim is toward, or on the way from the one to the other: the churchyard lit from the shrine,
   // and nothing lit back out of the crypt between it and the ossuary the dead are in.
-  static routed(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
+  static routed(campaign: Campaign, screen: Screen, aimed: Set<string>): Set<string> {
+    const out = this.outward(campaign, screen, aimed), named = out ? new Set([...aimed, out]) : aimed;
     const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
     if (!t?.routeTo || t.routeTo === t.actionAt) { return named; }
     const byId = EntityIndex.of(campaign.module.entities).byId, line = Spatial.ancestry(byId, screen.place.id);
@@ -19,6 +21,19 @@ export class AimRoute {
     const there = line.some(e => e.id === t.routeTo || e.id === at) || (!!at && this.between(campaign, t.routeTo, at)
       .has(screen.place.id));
     return there ? named : new Set([...named, t.routeTo]);
+  }
+  // From an enclosed place, where what the aim names lies outside it, the first place outside on the way there: no
+  // journey is set out on from inside (CN-02), so the way out is the aim's (from the Lucky Phoenix's taproom, the
+  // door to the landing, on the way to Ísencepan).
+  private static outward(campaign: Campaign, screen: Screen, named: Set<string>): string | undefined {
+    const here = screen.place.id;
+    if (!named.size || !Itineraries.enclosed(campaign, here)) { return undefined; }
+    for (const id of named) {
+      const legs = id === campaign.playerActor ? [] : Itineraries.plan(campaign, id)?.legs ?? [];
+      const out = legs.find(l => !Itineraries.enclosed(campaign, l.to));
+      if (out) { return out.to; }
+    }
+    return undefined;
   }
   // At the place the aim is gone to by, the ways on from it not yet taken that go down or in: what its author meant by
   // it ("toward the dead by the churchyard": the churchyard gone to, and the crypt under it found from there). The

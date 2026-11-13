@@ -49,6 +49,9 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-27 | P1 | The debt's chain stops at the second old place: Marsh Howe searched (27 of 50), the aim still names it, nothing is gold, and Palusporta, told of with the others, is not led | open (proposal) |
 | PL-28 | **P0** | kite wanderer: the fevered child's aim followed in Newmeet's crowded market-place, nothing gold and the mother not on the page; asked, still nothing, with herbs on sale a door away | fixed in this branch |
 | PL-29 | P2 | Edda, gone with the company, is still told asleep on the sick child's step | fixed in this branch (data) |
+| PL-30 | P1 | In the page, the first page says no goal and offers no Follow: "Your first goal" was said only of an aim followed, and nothing is followed until chosen in the Notes | fixed in this branch |
+| PL-31 | P2 | thorn, the ossuary: gold on the *unlikely* "Tell him the town knows…", while the sure act the mage's own lore opened ("what his book left out of the ring", which ends it) is only red | open (proposal) |
+| PL-32 | P1 | In the page at Merscstede, the aim's next step (Lindal, the letter) is gold only on the rail's people icon: Lindal's own pip is blue and the foreground is Cora and the lockup; the engine's glance has Lindal gold | open (page) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | ranks 1 and 2 built in this branch (the lead's ruling); ranks 3–4 later |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -449,7 +452,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Fix:** each deep purpose carries its makers' marks in data (`data/generation/deep/*.json`, `marks`: the marks on
   the kerb-stones, and so on), and `DeepSites.marks` sets them at the way in, read with lore, teaching `makersfact`.
   The kahitude order walk in `test/gold-thread` no longer allows `lost` as an end.
-- **Regression:** `test/small/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
+- **Regression:** `test/errand-teaches.test.ts`, over ten seeds: every order errand's named place teaches the
   history or fate the errand waits on (mutation-checked: without the marks it fails for the five countries above).
 
 ### PL-25: a cleared den's coin hidden from a debt (round 13, a1 debt, Brann the warrior)
@@ -529,6 +532,41 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Also seen, not fixed (P2):** Edda is "about nine" and joins as a warrior with a longsword, a battleaxe and
   chainmail (the generated sister's gear); "Speak with Edda" names nothing (it is her offer to keep the cups); after
   she keeps them, the aim still says "someone must keep the cups" while only waiting is left.
+
+### PL-30: the page's first page says no goal (round 13, thorn courier, in the page at 820 × 1180)
+
+- **Repro:** thorn, The sealed letter, human mage (Sibyl), Set out. The first page tells the causeway and the scroll-case
+  in the prose, then "Talk to the wagoner", "Look at the cart", "To the landing": no "Your first goal", no Follow, no
+  gold anywhere (screenshot `play21/shots/q01-start.jpg`). Follow this is only in the Book's Notes (`q02-book.jpg`);
+  once followed there, the first page does say "Your first goal" (`q03-followed.jpg`).
+- **Cause:** `Glance.of` said the goal only of an aim `followed && own`; since 12 November nothing is followed until
+  the player chooses it, so a real player never saw it. Every spec of it (`nav-gold`, `first-goal`) follows the errand
+  first (`Glanced.following`), as a player who had found the Notes would.
+- **Fix:** the goal is the company's own errand held, followed or not, and the page offers Follow this beside it
+  (`Told.Follow`). Regression: `test/small/first-goal-unfollowed.test.ts`.
+
+### PL-31: gold on the unlikely way when a sure one is open (round 13, thorn)
+
+- **Repro:** thorn courier, the catacombs job; in the crypt Light is cast and the chalk ring read by the mage's lore
+  ("the warding line … is not there"); in the ossuary the raiser stands. Gold: "Tell the man with the black candle the
+  town knows what he has done, and that it ends now · unlikely"; red only: "Tell the man with the black candle what his
+  book left out of the ring", which, chosen, ends it (save `play21/th-ossuary.json`). Both advance the aim
+  (`AimAdvances`); the danger's one gentle act is the first of its own (`Affordances.threat`), and odds are not typed on
+  a choice (only in its words, `ChoiceWording`).
+- **Proposal:** carry a check's odds on the act (`Act.odds`, from `Checks`, where `ChoiceWording` words it) and, among
+  acts that advance the aim followed, prefer the likelier; a danger's gentle act is first the one that advances with no
+  check. Small, but it touches the screen model's act shape, so it is left for the lead.
+
+### PL-32: the aim's person not marked on the picture (round 13, the page at 820 × 1180)
+
+- **Repro:** the page, thorn courier, letter followed, map → toll → Enter Merscstede: the old stones. Likenesses: Lindal
+  with a **blue** pip, Cora, Eldon (green)…; the foreground "Talk to Cora", "Push and pull at the lockup door", "Listen
+  at the lord's lockup"; the rail's people icon has the only gold (`shots/q10-town.jpg`, `q11-people.jpg`). Opened,
+  Lindal's talk does mark "Give the sealed letter" (`q12-lindal.jpg`). Headless, the same state's glance has "Talk to
+  Lindal" gold, subject `region__s2_merchant`, for `origin__deliver` (`tools/walkacts.ts thorn courier 3`).
+- **Status:** open: the engine is right and the page's likeness pip (`WorldStage.seen`) is not; not reproduced
+  headless, so not fixed blind. Suspect the frame the page draws after the map's Enter (a held journey's act, or the
+  menu's leads) rather than the glance.
 
 ### PL-06: after the aim, nothing pulls
 
@@ -631,6 +669,43 @@ Anselm's speech; and the lone person spoken of in a band's words (fixed on main)
   room into an empty spy-crack (PL-23), and nothing pays the debt that a talker can reach: the plunder is the hobs',
   the sheet says "Trader" for a mage (the T24-19 "Drifter" kind recurs). Worth going on: as far as the hold; the
   debt's pull fades inside it.
+
+### Round 13 (13 November, cold, on main bc5ab64c): acceptance outcome 2
+
+- **a1 debt, Brann (human warrior, straight at the aim), ~30 commands, Day 1 8:00 a.m. → 3:06 p.m.: no, not before
+  this round's fixes.** Mik → Eamon → Ísencepan is clear and quick. Then it broke three ways: one steel coin sent the
+  company 71 minutes home to sell it for a coin and called the keep "spent" from its gatehouse (PL-25, data); at
+  Marsh Howe, the den cleared, the foreground was only the way out and the coin was under `all` (**PL-25, P0**); back at
+  Ísencepan the terminal dropped the gate in (PL-26). With the fixes it holds to 27 coin of 50, and then the debt's
+  chain stops (PL-27, P1, proposal). The fights were trivial (a badger, "the leader", two zombies: PL-07 still).
+- **kite wanderer, Sefa (elf thief, avoids fights, recruits), ~28 commands, Day 1 8:00 a.m. → 4:51 p.m.: no before,
+  yes after.** The road's wagoner, then Newmeet's market-place with fourteen people in it and **nothing gold, the
+  mother not on the page** (**PL-28, P0**). Fixed, the fever is the round's best thread: herb-shop, herbs bought,
+  given, Edda offering to keep the cups, the fever broken, 300 XP, Edda joining ("Someone has to keep you out of
+  trouble"), and PL-06's successor offered. Rough edges: Edda told left on the step (PL-29), a nine-year-old in
+  chainmail with a battleaxe, "Speak with Edda" naming nothing, the market's look listing thirteen people in one
+  sentence. No fight was needed.
+- **thorn courier, Isolde (human mage, explores), ~25 commands, Day 1 8:00 a.m. → 2:55 p.m.: yes.** The notice, the
+  catacombs job taken by following it in the Notes, Light cast in the crypt, the chalk ring read by her lore, and the
+  raiser talked out of it with what his book left out; Gizon's charm and potions; the letter carried, the toll paid,
+  Lindal's fifteen coin and Witrumarc offered as the next thing. Broke nowhere; frictions (P2): the gold went to the
+  *unlikely* confrontation while the sure act her lore had opened was only red (PL-31, proposal); the raiser's book,
+  told lying on the bones, only under `all`; the three-hour journey told by nothing (PL-04); the same landing, goat and
+  notice jobs as a1's Lowmouth.
+- **The page, thorn courier, ten minutes at 820 × 1180 and 390 × 844:** creation is clean and quick (eight reasons,
+  people, calling, school, past, a name, Set out). Then the first page said **no goal and no Follow** (**PL-30, P1**);
+  Follow this was in the Book. Followed, the map took the journey well (the card: "About 6½ hours, arrive 2:20 p.m.,
+  Travel to Merscstede"), stopped at the toll (the card's "The bar stays down" with no context, "Something here is
+  dangerous" and fight odds for a toll-reeve; his likeness a woman's for "a man in a good grey coat"), and at
+  Merscstede the aim's next step, giving Lindal the letter, was gold only on the rail's people icon: Lindal's own pip
+  was blue, and the foreground was Cora and the lockup (PL-32, P1). Inside the talk, "Give the sealed letter" was
+  marked, and "Seen through · The sealed letter" landed well. At phone width the place's head runs under the row of
+  likenesses (the clock line hidden), and the second row of likenesses touches the panel. No horizontal scroll.
+
+**Verdict for outcome 2 (an unfamiliar player sustains fifteen minutes of coherent play):** on main as it stood, two
+of three starts did not (a1 debt: PL-25; kite: PL-28), and the page did not say the goal (PL-30). With this round's
+fixes all three starts held for fifteen minutes headless; in the page the remaining serious friction is PL-32 (the
+aim's person not marked on the picture). Not yet evidence of acceptance: the fixes need a second cold player.
 
 ## The human reports, and where each stands
 

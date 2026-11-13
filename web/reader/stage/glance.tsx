@@ -11,7 +11,7 @@ import { MenuModel } from '../menu-model';
 import { Followed } from '../followed';
 import { Aims } from '../aims';
 import { Words } from '../words';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
@@ -133,6 +133,7 @@ export class GlanceStage {
   // (see Told.Happened).
   static Rest({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
     const s = app.state, leaf = s.frame!.leaf, exchange = leaf.exchange, screen = s.frame!.screen;
+    const own = screen.aims?.find(x => x.own);
     const told = exchange && (exchange.lines.length || exchange.notes.length) && !s.kept ? exchange : undefined;
     const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text)), col = useRef(null);
     Scrolled.useCue(col, s.frame);
@@ -146,7 +147,9 @@ export class GlanceStage {
       <Told.Setting app={app} />
       {!g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
       {g.goal && !s.opened && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
-        {Typography.curl(Words.upper(g.goal))}</p>}
+        {Typography.curl(Words.upper(g.goal))}
+        {/* Offered to follow where it is said: Follow this had been only in the Notes (round 13, PL-30). */}
+        {own && <Told.Follow app={app} id={own.id} />}</p>}
       {g.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
         {g.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}

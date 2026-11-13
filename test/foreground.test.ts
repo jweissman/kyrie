@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Emphasis } from '../web/reader/emphasis';
+import { Emphasis } from '../src/presentation/emphasis';
 import { Aspects } from '../src/presentation/aspects';
 
 // What an opportunity is (its aspects, the engine's) apart from how it is drawn (its tone, the page's): gold is the aim

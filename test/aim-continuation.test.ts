@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Promotion } from '../src/ui/promotion';
 import { Guidance } from '../web/reader/guidance';
-import { Emphasis } from '../web/reader/emphasis';
+import { Emphasis } from '../src/presentation/emphasis';
 import type { Promoted } from '../src/presentation/glance-types';
 
 // The owner's play of 11 November: where the aim followed has a known next step, exactly one of the few things the

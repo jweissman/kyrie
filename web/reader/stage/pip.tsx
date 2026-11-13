@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { Aspect } from '../../../src/presentation/glance-types';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 
 // The one semantic indicator beside a likeness, a mark of the rail or a way (the owner, 11 November: one canonical
 // indicator, everything round it neutral): a small pip of the tone of what can be done, or running through several

@@ -1,0 +1,37 @@
+import { Emphasis, type Tone } from '../presentation/emphasis';
+import type { Aspect } from '../presentation/glance-types';
+
+export type Depth = 'true' | '256' | 'none';
+
+// The atlas in a terminal, as the page draws it, from the page's one table of tones (Emphasis). An act's tones make a
+// bar at its left edge, one block for each tone it carries (several are its prism). They are drawn in true colour where
+// the terminal shows it, and in the 256-colour cube where it shows that. Where it shows none (a pipe, NO_COLOR), each
+// tone is said by its word instead, so colour is never the only cue. Nothing else is coloured: a person, a way or a
+// heading has no tone of its own (the owner, 14 November: TM-03).
+export class TerminalColour {
+  static depth(env: Record<string, string | undefined> = process.env, tty = !!process.stdout.isTTY): Depth {
+    if (env.NO_COLOR !== undefined || (!tty && !env.FORCE_COLOR)) { return 'none'; }
+    return /truecolor|24bit/i.test(env.COLORTERM ?? '') ? 'true' : /256/.test(env.TERM ?? '') || env.FORCE_COLOR ? '256'
+      : 'none';
+  }
+  static paint(tone: Tone, text: string, depth: Depth): string {
+    const [r, g, b] = Emphasis.rgb[tone];
+    if (depth === 'true') { return `\x1b[38;2;${r};${g};${b}m${text}\x1b[0m`; }
+    if (depth === '256') { return `\x1b[38;5;${this.cube(r, g, b)}m${text}\x1b[0m`; }
+    return text;
+  }
+  // The nearest of the 256-colour cube's 6 × 6 × 6.
+  private static cube(r: number, g: number, b: number): number {
+    return 16 + 36 * this.level(r) + 6 * this.level(g) + this.level(b);
+  }
+  private static level(v: number): number { return v < 48 ? 0 : v < 115 ? 1 : Math.min(5, Math.floor((v - 35) / 40)); }
+  // A choice drawn: its bar (or its words, without colour) around its words.
+  static choice(n: number, label: string, aspects: readonly Aspect[], depth: Depth): string {
+    const tones = aspects.map(a => Emphasis.tones[a]).slice(0, 3);
+    if (depth === 'none') {
+      return `${n}. ${label}${aspects.length ? `  [${aspects.map(a => Emphasis.words[a]).join(', ')}]` : ''}`;
+    }
+    const bar = tones.length ? tones.map(t => this.paint(t, '▌', depth)).join('') : ' ';
+    return `${bar}${' '.repeat(Math.max(1, 4 - Math.max(1, tones.length)))}${n}. ${label}`;
+  }
+}

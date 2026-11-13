@@ -9,8 +9,9 @@ describe('the terminal, its commands piped in at once', () => {
       { stdin: new TextEncoder().encode('1\n1\n'), stdout: 'pipe', stderr: 'pipe' });
     const [out, err, code] = await Promise.all([new Response(run.stdout).text(), new Response(run.stderr).text(),
       run.exited]);
-    expect(out.match(/^\S.* · Day 1, [^\n]*$/gm)).toEqual(['the lane · Day 1, 8:00 a.m.', 'the yard · Day 1, 8:01 a.m.',
-      'the kitchen · Day 1, 8:02 a.m.']);
+    // Each place by its name as it is come to; the day and the part of it once, as they have not changed since (TM-02).
+    expect(out.match(/^the (lane|yard|kitchen)\b.*$/gm)).toEqual(['the lane · Day 1, morning', 'the yard', 'the kitchen']);
+    expect(out.match(/Day 1/g)).toHaveLength(1);
     expect(out).toContain('> 1\n');
     expect(err).not.toMatch(/ERR_USE_AFTER_CLOSE|Error/);
     expect(code).toBe(0);
@@ -22,7 +23,7 @@ describe('the terminal, its commands piped in at once', () => {
         stdout: 'pipe', stderr: 'pipe' });
     const out = await new Response(run.stdout).text();
     await run.exited;
-    expect(out).toContain('the kitchen · Day 1, 8:02 a.m.');
+    expect(out).toMatch(/^the kitchen$/m);
   }, 30000);
   // Who each of the company is, as the page draws them: an elf thief had been "level 1, Drifter" (round 12, B).
   it('says who each of the company is, people and calling, on character', async () => {
@@ -45,6 +46,6 @@ describe('the terminal, its commands piped in at once', () => {
     const [one, three] = await Promise.all([after('1'), after('3')]);
     expect(one).toContain('He took the cart to the fair at Brough');
     expect(three).not.toContain('He took the cart to the fair at Brough');
-    expect(three).toContain('Said to them');
+    expect(three).toContain('Take your leave of Wat');
   }, 30000);
 });

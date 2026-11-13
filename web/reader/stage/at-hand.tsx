@@ -6,7 +6,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Pip } from './pip';
-import { Emphasis } from '../emphasis';
+import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { GlanceStage } from './glance';
 import { PlaceStage } from './place-stage';

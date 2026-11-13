@@ -1,5 +1,5 @@
-import type { Aspect, Promoted } from '../../src/presentation/glance-types';
-import type { Choice } from '../../src/ui/choice-list';
+import type { Aspect, Promoted } from './glance-types';
+import type { Choice } from '../ui/choice-list';
 
 // How an opportunity's aspects are drawn (amendment 6, C): the page's one table of them. Meaning is the engine's
 // (see Aspects); this is presentation only, and the only place a colour stands for an aspect. Gold is the aim the
@@ -11,6 +11,11 @@ export type Tone = 'gold' | 'silver' | 'green' | 'blue' | 'red' | 'violet' | 'ro
 export class Emphasis {
   static readonly tones: Record<Aspect, Tone> = { undertaking: 'gold', exploration: 'silver', payoff: 'green',
     knowledge: 'blue', danger: 'red', wonder: 'violet', companionship: 'rose' };
+  // Each tone as the page's own tokens give it (web/reader/foundations.css, glance.css: --tone-*), for a client with
+  // no stylesheet (the terminal's true colour); coral, given in OKLCH, is its sRGB. Held to the tokens by a spec.
+  static readonly rgb: Record<Tone, readonly [number, number, number]> = { gold: [242, 189, 76],
+    silver: [215, 219, 228], green: [95, 211, 182], blue: [121, 174, 247], red: [255, 107, 69],
+    violet: [180, 156, 255], rose: [247, 124, 137] };
   static readonly words: Record<Aspect, string> = { undertaking: 'your aim', exploration: 'worth a look',
     payoff: 'to gain', knowledge: 'to learn', danger: 'danger', wonder: 'uncanny', companionship: 'a companion' };
   // The aspects as drawn: the aim's only on the one choice that carries it on, and only where the page shows the way
