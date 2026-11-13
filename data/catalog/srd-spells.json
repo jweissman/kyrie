@@ -245,6 +245,31 @@
    "notes": "The SRD's Summon Swarm: level 2 (Sor/Wiz), conjuration; None. Its reach and how long it lasts are Orsino's.",
    "save": "none"
   },
+  "augury": {
+   "srd35": "spell:augury",
+   "level": 2,
+   "school": "divination",
+   "notes": "The SRD's Augury: level 2 (Clr), divination. Its reach and how long it lasts are Orsino's."
+  },
+  "foresight": {
+   "srd35": "spell:foresight",
+   "level": 9,
+   "school": "divination",
+   "notes": "The SRD's Foresight: level 9 (Sor/Wiz), divination. Its reach and how long it lasts are Orsino's."
+  },
+  "mind_reading": {
+   "srd35": "spell:detect-thoughts",
+   "level": 2,
+   "school": "divination",
+   "notes": "The SRD's Detect Thoughts: level 2 (Sor/Wiz), divination; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "true_sight": {
+   "srd35": "spell:true-seeing",
+   "level": 6,
+   "school": "divination",
+   "notes": "The SRD's True Seeing: level 6 (Sor/Wiz), divination. Its reach and how long it lasts are Orsino's."
+  },
   "bless": {
    "srd35": "spell:bless",
    "level": 1,

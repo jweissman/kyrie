@@ -13,7 +13,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 3 | armour 3 | attacks 17 | defences 1 | specials 0 | saves 0 | of 70 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 111 | school 118 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
+| spells, field exact or converted | level 113 | school 118 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -171,7 +171,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | maze | maze | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✓ |
 | meteor_swarm | meteor-swarm | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | mind_blank | mind-blank | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
-| mind_reading | detect-thoughts | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ self → many | ✗ 3 rounds → long |
+| mind_reading | detect-thoughts | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ self → many | ✗ 3 rounds → long |
 | minor_image | minor-image | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | minor_restoration | restoration-lesser | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✓ |
 | mirror_image | mirror-image | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
@@ -213,6 +213,6 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | symbol_of_insanity | symbol-of-insanity | ✓ | ✓ | – | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
 | terror | cause-fear | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | time_stop | time-stop | ✓ | ✓ | – | – | – | ✓ | ✗ 1 rounds → long |
-| true_sight | true-seeing | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
+| true_sight | true-seeing | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | weakness | ray-of-enfeeblement | ✓ | ✓ | – | – | ✗ constitution negates → · | ✓ | ✗ 3 rounds → long |
 | weird | weird | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → many | ✗ instant → long |
