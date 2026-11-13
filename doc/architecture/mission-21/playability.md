@@ -32,7 +32,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed (73cac481); the rule kept, decided by the lead |
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
 | PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
-| PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | open (design: destination against lead) |
+| PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | fixed in this branch (the lead's ruling, U1) |
 | PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company; 134 of 139 authored objectives have no `toward` | the Lull's fixed in this branch; the rest open (authoring) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
@@ -234,9 +234,25 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   not, unless idle); the aim's own place is a *destination*, and nothing typed says whether anything there can now be
   done (what the aim waits on is the mother keeping herbs the company does not carry). The lead (asking where willow
   grows) teaches a fact the aim does not wait on, so it is blue and never gold.
-- **Status:** open. Not patched: telling a destination from a lead needs the aim to say what evidence or thing it
-  waits on and where it may be had (U1/U2), or a rule that a visited destination is gold only while something there
-  can advance the aim with what the company now has. A decision for the lead.
+- **Decided by the lead (13 November):** adopt U1: a destination already visited is gold only while something there
+  can advance the aim with what the company now has; otherwise the gold goes to the next real lead, typed from what
+  the aim reads.
+- **Status:** fixed in this branch (`src/presentation/aim-leads.ts`):
+  - `AimLeads.there`: the company's acts at a place, grounded on the world with the company moved there, read by
+    `AimAdvances`; a named place been to with none is *spent*, drawn idle and never the aim's way.
+  - `AimLeads.of`: a lead is an act that teaches a fact that `leadsTo` a place the aim names, or a place where what
+    the aim waits on someone keeping grows (the mother `Wants willow_bark`; the willows' crop of that kind). Typed
+    from the aim's waits (`keeps(mother, ?i)` through `dosed_by`), with no reading of words; the fever's data needed
+    nothing new.
+  - `Affordances`: someone with an act that advances the aim is led for it (`advance`, the act as `for`), named by
+    the aim or not; it had been so only for things.
+  Someone the aim does not name is led for it only where no one it names is here: the mother before her daughter
+  (`gold-thread`'s fever walk had otherwise gone to the sister, who keeps the cups, and then waited with nothing
+  gold). On the wren saves: at the waterside "Talk to Harbek" is gold, for "Ask Harbek where willow grows"; on the
+  bailey and in the store nothing is gold. Regression: `test/small/gold-lead.test.ts` (fails on main).
+  **Cost:** a place been to is grounded once per world for the aim's kinds of act only (`AimLeads.could`), memoised
+  by world; `glance-kite`'s best-of-nine budget (8 ms) holds, but a first glance beside a spent place pays one
+  grounding more (12–28 ms measured before the memo and the narrowing).
 
 ### PL-14: authored aims with nowhere to lead
 

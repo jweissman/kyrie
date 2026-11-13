@@ -103,7 +103,7 @@ export class AimAdvances {
   // kept, and a rule doses the child); never where the company is, nor what is in the purse, which every way and
   // every torch changes. Read once for each aim of a module.
   private static readonly waiting = new WeakMap<Module, Map<string, Call[]>>();
-  private static waits(module: Module, def: Objective): Call[] {
+  static waits(module: Module, def: Objective): Call[] {
     const kept = this.waiting.get(module) ?? this.waiting.set(module, new Map()).get(module)!;
     if (kept.has(def.id)) { return kept.get(def.id)!; }
     const wanted: Call[] = [], made: Call[] = [];
