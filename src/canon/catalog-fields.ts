@@ -36,7 +36,8 @@ const fields = {
   material: ['name', 'kind', 'hardness', 'looks', 'source'],
   habitat: ['name', 'orsino', 'covers', 'terrains', 'sites', 'forms', 'water', 'shore'],
   variation: ['axis', 'word', 'says', 'kinds', 'attributes', 'health', 'abilities', 'traits', 'hint', 'habitats',
-    'abundance', 'resistances', 'types', 'weapon', 'material', 'temperament', 'type', 'source'],
+    'abundance', 'resistances', 'types', 'weapon', 'material', 'temperament', 'type', 'source', 'hitDice', 'defenses',
+    'attacks', 'armor', 'forgoes', 'unplaced'],
 } as const;
 type Record_ = Record<string, unknown>;
 

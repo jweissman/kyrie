@@ -228,13 +228,30 @@ export class Canon {
     // it makes the kind another (the skeletal are undead).
     const temper = over.map(v => v!.temperament).find(Boolean), type = over.map(v => v!.type).find(Boolean);
     const said = over.map(v => v!.says).join(', and ');
-    return { ...b, name: words ? `${words.charAt(0).toUpperCase()}${words.slice(1)} ${name}` : b.name, variantOf: base!,
+    return { ...b, ...Canon.stated(b, over as Overlay[]), name: words ? `${words.charAt(0).toUpperCase()}${words.slice(1)} ${name}` : b.name, variantOf: base!,
       variations: [...b.variations ?? [], ...ids], ...habitats.length ? { habitats } : {},
       ...abundance !== undefined ? { abundance } : {},
       ...temper && (!b.temperament || b.temperament === 'wary') ? { temperament: temper } : {},
       ...type ? { type } : {},
       description: `${b.description} This one is ${said}.`,
       looks: `${b.looks ?? b.description} ${said.charAt(0).toUpperCase()}${said.slice(1)}.` };
+  }
+  // What a variation that is a stat block makes of its base (see Overlay.hitDice): its Hit Dice in place of the base's
+  // growth or fixed hit points, its routine and hide, its defenses beside the base's, and the base's powers and nature
+  // less what it goes without. A variation that says none of these leaves the base's as they are.
+  private static stated(b: Species, over: Overlay[]): Partial<Species> {
+    const hitDice = over.map(v => v.hitDice).find(Boolean), attacks = over.map(v => v.attacks).find(Boolean);
+    const armor = over.map(v => v.armor).find(Boolean), defenses = over.flatMap(v => v.defenses ?? []);
+    const forgone = new Set(over.flatMap(v => [...v.forgoes?.abilities ?? [], ...v.forgoes?.traits ?? []]));
+    if (!hitDice && !attacks && !armor && !defenses.length && !forgone.size) { return {}; }
+    const st = { ...b.statistics! };
+    // Hit Dice are the whole of its hit points: no growth, no fixed number beside them.
+    if (hitDice) { delete st.growth; delete st.hitPoints; }
+    return { statistics: { ...st, ...hitDice ? { hitDice } : {}, ...attacks ? { attacks, weapon: attacks[0]! } : {},
+      ...armor ? { armor } : {} },
+    ...defenses.length ? { defenses: [...b.defenses ?? [], ...defenses] } : {},
+    ...b.abilities ? { abilities: b.abilities.filter(a => !forgone.has(a)) } : {},
+    ...b.traits ? { traits: b.traits.filter(t => !forgone.has(t)) } : {} };
   }
   // A body made from its own record, not a person of a people: a creature or a device.
   static isBody(id: string): boolean { return this.isSpecies(id) || this.isDevice(id); }

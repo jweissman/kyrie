@@ -124,6 +124,15 @@ export interface Overlay {
   axis: string; word: string; says: string; kinds: string[]; types?: string[]; habitats?: string[]; abundance?: number;
   // The temper and the type a kind made with it has (a great kind stands its ground; the skeletal are undead).
   temperament?: string; type?: string;
+  // A variation that is a stat block of its own (the SRD adaptation briefing's golem decision, the lead, 13 November:
+  // a material or a kind variation may carry Hit Dice and defenses): its Hit Dice, which make the kind made with it a
+  // fixed stat block; the defenses it adds; its natural routine (the first its full blow) and its hide; and what of
+  // its base's powers and nature it goes without (the generic undead package an SRD ghoul has not got).
+  hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
+  forgoes?: { abilities?: string[]; traits?: string[] };
+  // Met only where an author names it (golem/flesh), never drawn into a generated country's dens and encounters: a
+  // stat block placed nowhere until each placement has been fought (the ghoul's lesson, srd-invariants.md).
+  unplaced?: true;
 }
 export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit' | 'device';
