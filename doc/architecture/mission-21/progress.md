@@ -8,7 +8,7 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
 |---|---|---|---|
 | Phase 0: the fast loop | lead | branch `m21` (`/var/tmp/kyrie/wt-m21`) | small lane (20+ files, ≈ 5 s), ten mechanics on the real kernel (Experiment A), the push lane (CI per push 35 → 5–6 min), PresenceGate (grounding −20 % of a wait) |
 | Playability investigator | independent agent | branch `m21-play` | two batches on main: PL-01..03, 05, 08..11 fixed (P0s 05, 08, 11); list in `playability.md` |
-| Aesthetic investigator | independent agent | branch `m21-look` | investigation merged (3b9d0a36); integration (Menu, typed narration budget, layouts) paused at the 13 Nov crash, uncommitted work in its tree |
+| Aesthetic investigator | independent agent | branch `m21-look` | investigation merged (3b9d0a36); integration merged (e248e719): one choice row, the narrator's typed budget (2.4 sentences a glance, none ≥ 5, no clue held), stress in italics, fight and talk layouts; leftovers in hand |
 | World construction (Experiment B) | independent agent | branch `m21-world` | paused at the crash (one new spec in its tree) |
 | SRD rules as invariants | independent agent | branch `m21-rules` | hit dice as Deem amounts, typed defenses, the honest catalog: resumed |
 
@@ -39,3 +39,8 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   has no members of their own and reads as dead: fixed), and the SRD ghoul's stat block made the first town's ossuary,
   the king-barrow and the Howe lethal (withdrawn; srd-invariants.md, "Withdrawn"). Lesson: a slice that changes a
   placed creature is fought where it is placed.
+- **13 Nov.** Playability batches 5–6 (talk weighed by the engine, a notice read led blue again, the map's across-
+  country offers decided by the engine for every client: E155 out of the browser). The aesthetic integration merged:
+  the default page now tells a place in three sentences, the rest a touch away ("More of the place"), clues always
+  whole; `skeel-browser` reads that touch too. The full suite on 74daeb0b failed only `wren-tower-climbed` (re-digested:
+  the ghoul's record changed what the world holds; it comes where it came).
