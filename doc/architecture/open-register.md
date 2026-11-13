@@ -718,6 +718,7 @@ features. None is closed as a component migration until the whole ordinary actio
 | CN-08 | One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after | open | P0 | M21 |
 | CN-09 | A page with one choice and no stakes drawn as a webapp button ("Go on" after the road meeting): the engine says what a page is: no act at all (the browser moves on by itself after a reading time, the terminal continues), or one act that matters, drawn by the action menu in its atlas tones (held where it is a challenge); and less narration on such pages (the owner, 14 November) | open | P0 | M21 |
 | CN-10 | Creation asked for the specific trade within its kind: ask the kind of life only, the trade the one that suits the calling, backfilled later in play; one creation flow in the engine for every client (the owner, 14 November) | partly fixed (14 Nov): `web/engine/creation-flow.ts` asks the kind only and settles the best-suited trade; the page's step shows kind cards only; held by `small/creation-flow`. The page's other steps still its own script | P1 | M21 |
+| CN-11 | The Encyclopedia as one surface of parchment and ink: its type, rules and margins on a parchment ground, its illustrations harmonized with that surface (ink and wash, not photographs pasted on it), readable on a tablet (the owner, 14 November) | open | P2 | M21 |
 
 ## 27. The owner's terminal ideas (14 November)
 
