@@ -4,6 +4,74 @@ Evidence for PL-07 (the first fights are trivial) and for whether the SRD kinds 
 [srd-invariants.md](srd-invariants.md), "Withdrawn"). **Nothing here is retuned**; each row is a measurement and each
 flag a recommendation for whoever owns the placement.
 
+## Re-measured at play's limit of turns (14 November)
+
+**Every table below this section was fought at 60 turns a fight; this one replaces them.** The tools had capped a
+fight at 60 turns where play's (Battle's) limit is 500, and a long fight ended a draw, counted lost: the halls'
+embalmers and the doubles and Scholiasts of the wound-rule failures had read as lethal or near it for that. Here a1 is
+assembled as real play writes it (an origin, a company of one: the undertown at its numbers for one), every placement
+as it stands after batches 3–7 (denned pairs, the vault's barrow ghoul, riders, the wound rule), fought 20 times by
+each company at 500 turns, by the method below. Counts: 15 trivial, 16 fair, 8 lethal; 10 hypothetical rows.
+
+| Placement | Foes as placed (HP) | Warrior | Warrior + cleric | Thief | Verdict |
+|---|---|---|---|---|---|
+| w1_frogs | 3 × frog L1 (2/2/2) | 90% · 3 · 0% · 10% | 100% · 2 · 0% · 0% | 70% · 5 · 50% · 30% | trivial |
+| w1_newcomers | 2 × hound/cave L2 (10/10) | 75% · 7 · 17% · 25% | 100% · 5 · 17% · 5% | 15% · 5 · 100% · 85% | fair |
+| w1_denned | 2 × hound/cave L1 (6/9) | 90% · 5 · 0% · 10% | 100% · 3 · 8% · 0% | 25% · 4 · 100% · 75% | trivial |
+| w2_newcomers | 2 × hound/cave L2 (8/10) | 75% · 7 · 29% · 25% | 100% · 4 · 12% · 5% | 10% · 6 · 100% · 90% | fair |
+| w2_denned | 2 × hound/cave L1 (7/6) | 75% · 5 · 29% · 25% | 100% · 3 · 0% · 10% | 20% · 5 · 100% · 80% | fair |
+| w3_dead | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 100% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
+| w3_dead | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 5% · 4 · 100% · 95% | 10% · 9 · 100% · 95% | 0% · – · 100% · 100% | hypothetical |
+| w3_newcomers | 2 × zombie L2 (10/9) | 85% · 7 · 27% · 15% | 95% · 4 · 12% · 5% | 5% · 4 · 100% · 95% | fair |
+| w3_denned | 2 × zombie L1 (6/9) | 100% · 5 · 0% · 0% | 100% · 3 · 0% · 5% | 55% · 7 · 90% · 45% | trivial |
+| w4_dead | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 100% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
+| w4_dead | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 5% · 4 · 100% · 95% | 10% · 9 · 100% · 95% | 0% · – · 100% · 100% | hypothetical |
+| w4_newcomers | 2 × zombie L2 (7/9) | 95% · 5 · 20% · 5% | 100% · 3 · 8% · 5% | 15% · 4 · 100% · 85% | fair |
+| w4_denned | 2 × zombie L1 (7/6) | 95% · 5 · 17% · 5% | 100% · 3 · 9% · 5% | 20% · 4 · 100% · 80% | fair |
+| w5_newcomers | 1 × ghoul L2 (16) | 100% · 5 · 12% · 0% | 100% · 3 · 0% · 0% | 20% · 7 · 100% · 80% | trivial |
+| w5_newcomers | 1 × ghoul/barrow (in place of the ghouls) (16) | 15% · 5 · 100% · 85% | 70% · 3 · 56% · 40% | 5% · 3 · 100% · 95% | hypothetical |
+| w5_denned | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 100% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
+| w5_denned | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 5% · 4 · 100% · 95% | 10% · 9 · 100% · 95% | 0% · – · 100% · 100% | hypothetical |
+| w6_wolves | 3 × wolf L1 (6/8/6) | 55% · 5 · 60% · 45% | 85% · 6 · 36% · 30% | 5% · 5 · 100% · 95% | fair |
+| w6_newcomers | 1 × ghoul L3 (19) | 90% · 9 · 17% · 10% | 100% · 5 · 0% · 5% | 0% · – · 100% · 100% | fair |
+| w6_newcomers | 1 × ghoul/barrow (in place of the ghouls) (19) | 15% · 5 · 100% · 85% | 70% · 4 · 56% · 50% | 5% · 3 · 100% · 95% | hypothetical |
+| w6_denned | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 100% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
+| w6_denned | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 5% · 4 · 100% · 95% | 10% · 9 · 100% · 95% | 0% · – · 100% · 100% | hypothetical |
+| w7_keeper | 1 × elemental/water_element L5 (35) | 0% · – · 100% · 100% | 15% · 6 · 100% · 85% | 0% · – · 100% · 100% | lethal |
+| w8_barrow_chamber_dwellers | 4 × bat L1 (1/1/1/1) | 90% · 2 · 0% · 10% | 100% · 3 · 0% · 0% | 45% · 5 · 100% · 55% | trivial |
+| w8_barrow_chamber_device | 1 × phylactery L1 (8) | 90% · 2 · 0% · 10% | 100% · 2 · 0% · 0% | 60% · 3 · 43% · 40% | trivial |
+| w8_barrow_recess_dwellers | 5 × rat L2 (2/2/2/2/2) | 90% · 6 · 25% · 10% | 100% · 4 · 17% · 10% | 5% · 7 · 100% · 95% | fair |
+| w8_halls_gallery_dwellers | 2 × zombie L1 (9/8) | 100% · 6 · 0% · 0% | 100% · 3 · 8% · 0% | 25% · 5 · 100% · 75% | trivial |
+| w8_halls_gallery_dwellers_beside | 1 × centipede L1 (2) | 100% · 2 · 7% · 0% | 100% · 1 · 4% · 0% | 85% · 1 · 20% · 15% | trivial |
+| w8_halls_mourners_dwellers | 3 × hound/skeletal L2 (11/11/11) | 30% · 10 · 100% · 70% | 90% · 6 · 17% · 25% | 0% · – · 100% · 100% | lethal |
+| w8_halls_ossuary_dwellers | 3 × spider L1 (4/4/4) | 0% · – · 100% · 100% | 40% · 3 · 100% · 80% | 0% · – · 100% · 100% | lethal |
+| w8_halls_embalmers_dwellers | 2 × spirit L3 (17/17) | 35% · 39 · 100% · 65% | 75% · 20 · 43% · 55% | 0% · – · 100% · 100% | lethal |
+| w8_halls_newcomers | 3 × ghoul L2 (16/16/16) | 30% · 10 · 100% · 70% | 65% · 11 · 67% · 55% | 0% · – · 100% · 100% | lethal |
+| w8_halls_newcomers | 3 × ghoul/barrow (in place of the ghouls) (16/16/16) | 0% · – · 100% · 100% | 0% · – · 100% · 100% | 0% · – · 100% · 100% | hypothetical |
+| w8_keeper | 1 × mummy L12 (48) | 0% · – · 100% · 100% | 10% · 16 · 100% · 95% | 0% · – · 100% · 100% | lethal |
+| e1_wolves | 3 × wolf L2 (7/12/9) | 35% · 12 · 100% · 65% | 70% · 6 · 43% · 45% | 0% · – · 100% · 100% | lethal |
+| e1_newcomers | 1 × ghoul L3 (19) | 90% · 9 · 17% · 10% | 100% · 5 · 0% · 5% | 0% · – · 100% · 100% | fair |
+| e1_newcomers | 1 × ghoul/barrow (in place of the ghouls) (19) | 15% · 5 · 100% · 85% | 70% · 4 · 56% · 50% | 5% · 3 · 100% · 95% | hypothetical |
+| e1_denned | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% | 100% · 5 · 13% · 5% | 5% · 7 · 100% · 95% | fair |
+| e1_denned | 2 × ghoul/barrow (in place of the ghouls) (13/13) | 5% · 4 · 100% · 95% | 10% · 9 · 100% · 95% | 0% · – · 100% · 100% | hypothetical |
+| s1_u_rats | 3 × rat L1 (1/1/1) | 100% · 2 · 0% · 0% | 100% · 2 · 0% · 0% | 75% · 5 · 29% · 25% | trivial |
+| s1_u_buck | 1 × rat/great L2 (8) | 100% · 2 · 0% · 0% | 100% · 2 · 0% · 0% | 85% · 4 · 18% · 15% | trivial |
+| s1_u_dead | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% | 100% · 2 · 0% · 0% | 45% · 4 · 100% · 55% | trivial |
+| s1_u_dead | 1 × ghoul/barrow (in place of the ghouls) (13) | 20% · 4 · 100% · 80% | 80% · 4 · 39% · 35% | 5% · 3 · 100% · 95% | hypothetical |
+| s1_u_spiders | 1 × spider/great/cave L1 (6) | 90% · 2 · 8% · 10% | 100% · 2 · 7% · 10% | 55% · 2 · 88% · 45% | trivial |
+| s1_u_mother | 1 × spider/great/cave L2 (15) | 80% · 4 · 43% · 20% | 95% · 3 · 8% · 25% | 10% · 6 · 100% · 90% | fair |
+| s1_u_shamblers | 2 × zombie L1 (8/6) | 95% · 6 · 13% · 5% | 100% · 3 · 9% · 0% | 35% · 5 · 100% · 65% | trivial |
+| s1_u_beetles | 3 × beetle L1 (2/2/2) | 95% · 3 · 0% · 5% | 100% · 2 · 0% · 0% | 40% · 5 · 100% · 60% | trivial |
+| s1_u_crawler | 1 × centipede/great L2 (7) | 95% · 2 · 7% · 5% | 100% · 2 · 4% · 15% | 70% · 3 · 67% · 30% | trivial |
+| s1_u_keeper | 1 × ghoul/barrow L2 (13) | 15% · 5 · 100% · 85% | 70% · 3 · 56% · 40% | 5% · 3 · 100% · 95% | lethal |
+
+What moved from the 60-turn tables: the long fights. The embalmers (two spirits of the third level) go from 5 % to
+35 % for a lone warrior, still lethal; the halls' newcomers and mourners and the wolves of `e1` stay lethal; no group
+changed verdict except by the placements batches 3–5 made (the dens in pairs, the undertown at its numbers for one,
+the vault's barrow ghoul) and the lone third-level ghouls of `w6` and `e1`'s newcomers, trivial to fair (the warrior's
+harm 0 % to 17 %).
+The lethal ones are each told and escapable (test/placed-told).
+
 ## Method
 
 - **The country:** `a1`, assembled whole (`WorldAssembler`, 13 s), with its creatures exactly as the world made them:
