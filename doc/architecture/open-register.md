@@ -843,7 +843,7 @@ summary: it "writes like a novelist and remembers like a slot machine." Already 
 |---|---|---|---|---|
 | CO-01 | The chosen reason completed off-stage: a hired scholar's one answer set the Marblehollow inscription "read and set down", and the priestess paid it as seen through, with the place never visited. The reason completes only by the player's own act at the place it names; elsewhere it gathers clues | open | P0 | M21, playability (the laboratory) |
 | CO-02 | The sister's trail ("look there, just inside" Darkgate) ends with nothing there: a reason's lead pays off where it points | open | P0 | M21, playability |
-| CO-03 | Towns read as one kit in a second country: the same innkeeper portrait and first line, the corn-store, the Merrowdale notice, a woodland paragraph word for word. Partly the seed collision (AX-02): every country's module is drawn on one seed | open | P1 | M21, lead (seed), playability (kit variety) |
+| CO-03 | Towns read as one kit in a second country: the same innkeeper portrait and first line, the corn-store, the Merrowdale notice, a woodland paragraph word for word. Each was a New Game on its own world seed, so this is the kits' variety, not the seed collision (AX-02), which is between countries of one world | open | P1 | M21, playability (kit variety) |
 | CO-04 | The world contradicts itself: a summer temple painted under "snowy"; one inscription spelled two ways (MARMORISCAVUS / MARMORISCAW); a flute pale wood, then a split reed, then playing; "I did not know he was still living" of a namesake standing in the room; an ice elemental with a fire portrait | open | P1 | M21, lead (painting season, inscriptions, names), rules (portrait) |
 | CO-05 | A monster told dead ("5 was all it had left") returns with 1 HP and fights on: a death the log tells holds, or the log does not tell it | open | P1 | M21, rules |
 | CO-06 | The death screen says the country goes on, then "Begin again in this country" rewinds it to day 1 with the padlock rehung: tell the truth about persistence, or make it true | open | P1 | M21, playability |
@@ -861,7 +861,7 @@ exclusive asserts are repaired (loading-boundaries.md §6).
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| AX-01 | `Geography.distances` is all pairs by a linear scan, about 1.2 s of every a1 start: a binary heap | open | P1 | M21, lead |
+| AX-01 | `Geography.distances` is all pairs by a linear scan, about 1.2 s of every a1 start: a binary heap. `reach` runs on `MinHeap` with the old order of rooms kept exactly (identical on 400 random graphs with ties), about 0.29 s a start; what remains is all-pairs itself, and hours asked lazily is AX-07's design | fixed | P1 | M21, lead |
 | AX-02 | Every generated country's module is seeded alike (`["a1","module","region",""]`), so the same person rolls the same body in every country: seed by installation id, with a transcript version bump | open | P1 | M21, lead |
 | AX-03 | The shared rules are recomposed and revalidated by each of 39 installs, 15–20 ms each: compile once per edition, compose by reference | open | P1 | M21, lead |
 | AX-04 | A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST, or keep the parse | open | P1 | M22, lead |

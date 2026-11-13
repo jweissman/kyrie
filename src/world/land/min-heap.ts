@@ -1,11 +1,13 @@
-// A binary heap of cells by priority, least first; ties go to the cell pushed first, so the order is fixed.
+// A binary heap of cells by priority, least first; ties go to the lower order given, else to the cell pushed first, so
+// the order is fixed.
 export class MinHeap {
   private items: { priority: number; cell: number; order: number }[] = [];
   private pushed = 0;
   get size(): number { return this.items.length; }
-  push(cell: number, priority: number) {
+  push(cell: number, priority: number, order = this.pushed) {
     const items = this.items;
-    items.push({ priority, cell, order: this.pushed++ });
+    this.pushed++;
+    items.push({ priority, cell, order });
     for (let i = items.length - 1; i > 0;) {
       const parent = (i - 1) >> 1;
       if (!this.less(i, parent)) { break; }
