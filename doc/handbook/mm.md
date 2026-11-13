@@ -1898,10 +1898,11 @@ Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damag
 <img src="../../web/reader/paintings/monsters/unicorn.webp" alt="" width="128">
 
 - Type: beast (monster)
-- Hit points: d10 a level
-- Qualities: rolled (3d6 each)
-- Attack: horns, 1d4 bludgeoning
-- Hide: Hide Armor, armour 1
+- Hit points: 42 (4d10+20), whatever level it is met at
+- Qualities: strength 20, dexterity 17, constitution 21, intelligence 10, wisdom 21, charisma 24
+- Attack: horn, 1d8 piercing; hooves, 1d4 bludgeoning; hooves, 1d4 bludgeoning, in one round
+- Hide: Shell Armor, armour 4
+- Defenses: immune to poison; acid, cold, lightning, electric 10 off each blow; turns 10 of a blow unless magic
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 150 + 50 experience a level
 
@@ -1910,6 +1911,8 @@ Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > These fierce, noble beasts shun contact with all but sylvan creatures (dryads, pixies, and the like), showing themselves only to defend their woodland homes. Unicorns are elusive but occasionally allow themselves to be tamed and ridden by good human or elven maidens of pure heart.
+
+*Adapted: The SRD unicorn (srd35-westernesse-v1): its 4d10+20 Hit Dice (42), its scores, its horn (1d8) and two hooves (1d4), and its immunity to poison. Its AC 18 is Westernesse 3 (its hide borrowed from the catalog's shell, ac 4, until bodies have natural armour: the briefing's section 2). The record's own 10 against acid, cold and lightning and 10 off a blow unless magic are kept as the author wrote them; they are the SRD celestial template's at twelve Hit Dice, not the SRD unicorn's. Adapted: its hooves take no Strength (a lesser blow). Omitted: magic circle against evil, teleport, its cure and neutralize powers beyond Heal, immunity to charm and compulsion, wild empathy. An author's own creation (the owner, 6 November) before.*
 
 #### Wendigo
 
@@ -2951,31 +2954,23 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 <img src="../../web/reader/paintings/monsters/ghoul.webp" alt="" width="128">
 
 - Type: undead (monster)
-- Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: strength 11, dexterity 11, constitution 10, intelligence 10, wisdom 9, charisma 5
-- Attack: claws, 1d4 slashing
-- Hide: Clothing, armour 0
+- Hit points: 13 (2d12), whatever level it is met at
+- Qualities: strength 13, dexterity 15, constitution 10, intelligence 13, wisdom 14, charisma 12
+- Attack: bite, 1d6 piercing; claws, 1d4 slashing; claws, 1d4 slashing, in one round
+- Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow, ruin, fen
 - Worth: 300 + 50 experience a level
-
-Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
-
-Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
-
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
-Regeneration: Heal 1d2 - 1 (0–1) each turn.
-
-> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.
+> A gaunt eater of the dead, of the barrows and the old fens: it bites and claws, and what it touches stiffens and cannot move.
 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
-*Adapted: Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+*Adapted: The SRD ghoul (srd35-westernesse-v1): its 2d12 Hit Dice (13), its scores (Con, which it has none of, as 10), and its bite, claw and claw. Its AC 14 is Westernesse 7 for a first-level warrior's d20 (hide and its Dexterity). Adapted: its claws are the catalog's 1d4 (the SRD's 1d3), and its paralysis is its Paralyzing Touch, an act of its own between its blows, because an attack cannot yet carry a rider (the briefing's section 4). Omitted: ghoul fever, +2 turn resistance, elves' immunity. Orsino's Curse, Scream, Life Drain and regeneration, the generic undead package, are gone; it was Orsino's Ghoul type before.*
 
 #### Lich
 
@@ -3024,8 +3019,9 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
+- Actions a turn: 2
 - Qualities: strength 12, dexterity 8, constitution 12, intelligence 10, wisdom 12, charisma 5
-- Attack: claws, 1d4 slashing
+- Attack: slam, 1d6 piercing
 - Hide: Clothing, armour 0
 - Resists: physical 50%, fire takes 50% more
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest

@@ -5,7 +5,12 @@ export type { Modifiers } from '../rules/modifiers';
 
 // The canonical fantasy domain. Each family has one catalog in data/catalog; see doc/architecture/domain-model.md.
 export type Attribute = 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma';
-export interface Source { orsino?: string; kyr?: true; fidelity?: 'faithful' | 'adapted'; notes?: string }
+// Where an entry comes from: Orsino's record, Kyr's own, or an SRD entry it adapts (srd35: "monster:ghoul"), which
+// names the conversion it was made by and says in its notes what it keeps, adapts and omits (the SRD adaptation
+// briefing, §1).
+export interface Source {
+  orsino?: string; kyr?: true; fidelity?: 'faithful' | 'adapted'; notes?: string; srd35?: string; conversion?: string;
+}
 // Orsino mechanics an entry does not execute, keyed by the Orsino field, each with the reason.
 export type Omissions = Record<string, string>;
 // Status hooks: Orsino effect lists that run when the holder attacks, hits, is attacked or is missed.

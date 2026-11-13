@@ -291,6 +291,9 @@ export class CanonValidation {
     for (const [family, entries] of Object.entries(families)) {
       for (const [id, e] of Object.entries(entries)) {
         if (!e.source || (!e.source.orsino && !e.source.kyr)) { this.fail(`${family} ${id}`, 'has no source'); }
+        // An SRD adaptation says how it was converted and what it keeps and leaves out, never only that it is one.
+        const srd = e.source as { srd35?: string; conversion?: string; notes?: string } | undefined;
+        if (srd?.srd35 && (!srd.conversion || !srd.notes)) { this.fail(`${family} ${id}`, 'adapts the SRD without a conversion and notes'); }
       }
     }
   }

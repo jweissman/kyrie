@@ -845,33 +845,34 @@
       "name": "Ghoul",
       "type": "undead",
       "kind": "monster",
-      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.",
+      "description": "A gaunt eater of the dead, of the barrows and the old fens: it bites and claws, and what it touches stiffens and cannot move.",
       "looks": "A gaunt grey thing that was a man, long-nailed and hollow-cheeked, crouched over bones.",
       "portrait": "monsters/ghoul",
       "statistics": {
         "attributes": {
-          "strength": 11,
-          "dexterity": 11,
+          "strength": 13,
+          "dexterity": 15,
           "constitution": 10,
-          "intelligence": 10,
-          "wisdom": 9,
-          "charisma": 5
+          "intelligence": 13,
+          "wisdom": 14,
+          "charisma": 12
         },
-        "weapon": "claws",
-        "armor": "cloth",
+        "weapon": "bite",
+        "armor": "hide_armor",
         "primary": "strength",
         "actions": 1,
-        "hitDice": "2d12"
+        "hitDice": "2d12",
+        "attacks": [
+          "bite",
+          "claws",
+          "claws"
+        ]
       },
       "abilities": [
-        "curse",
-        "fear",
-        "life_drain",
         "paralyzing_touch"
       ],
       "traits": [
-        "undead",
-        "regeneration"
+        "undead"
       ],
       "habitats": [
         "barrow",
@@ -888,7 +889,9 @@
       "source": {
         "orsino": "monsterType:Ghoul",
         "fidelity": "adapted",
-        "notes": "Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+        "srd35": "monster:ghoul",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD ghoul (srd35-westernesse-v1): its 2d12 Hit Dice (13), its scores (Con, which it has none of, as 10), and its bite, claw and claw. Its AC 14 is Westernesse 7 for a first-level warrior's d20 (hide and its Dexterity). Adapted: its claws are the catalog's 1d4 (the SRD's 1d3), and its paralysis is its Paralyzing Touch, an act of its own between its blows, because an attack cannot yet carry a rider (the briefing's section 4). Omitted: ghoul fever, +2 turn resistance, elves' immunity. Orsino's Curse, Scream, Life Drain and regeneration, the generic undead package, are gone; it was Orsino's Ghoul type before."
       }
     },
     "golem": {
@@ -2421,11 +2424,23 @@
       "looks": "This powerful, equine creature has a gleaming white coat and big, lively eyes. Long, silky white hair hangs down in a flowing mane and forelock. A single ivory-colored horn, about 2 feet long, grows from the center of the forehead. The hooves are cloven.",
       "portrait": "monsters/unicorn",
       "statistics": {
-        "attributes": "rolled",
-        "hitDie": 10,
-        "primary": "dexterity",
-        "weapon": "horns",
-        "armor": "hide_armor"
+        "attributes": {
+          "strength": 20,
+          "dexterity": 17,
+          "constitution": 21,
+          "intelligence": 10,
+          "wisdom": 21,
+          "charisma": 24
+        },
+        "hitDice": "4d10+20",
+        "primary": "strength",
+        "weapon": "horn",
+        "armor": "shell",
+        "attacks": [
+          "horn",
+          "hooves",
+          "hooves"
+        ]
       },
       "abilities": [
         "charge",
@@ -2433,8 +2448,30 @@
       ],
       "traits": [],
       "defenses": [
-        { "kind": "resistance", "to": ["acid", "cold", "lightning", "electric"], "amount": 10, "mode": "flat" },
-        { "kind": "reduction", "amount": 10, "unless": ["magic"] }
+        {
+          "kind": "immunity",
+          "to": [
+            "poison"
+          ]
+        },
+        {
+          "kind": "resistance",
+          "to": [
+            "acid",
+            "cold",
+            "lightning",
+            "electric"
+          ],
+          "amount": 10,
+          "mode": "flat"
+        },
+        {
+          "kind": "reduction",
+          "amount": 10,
+          "unless": [
+            "magic"
+          ]
+        }
       ],
       "worth": {
         "base": 150,
@@ -2442,7 +2479,10 @@
       },
       "source": {
         "kyr": true,
-        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+        "fidelity": "adapted",
+        "srd35": "monster:unicorn",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD unicorn (srd35-westernesse-v1): its 4d10+20 Hit Dice (42), its scores, its horn (1d8) and two hooves (1d4), and its immunity to poison. Its AC 18 is Westernesse 3 (its hide borrowed from the catalog's shell, ac 4, until bodies have natural armour: the briefing's section 2). The record's own 10 against acid, cold and lightning and 10 off a blow unless magic are kept as the author wrote them; they are the SRD celestial template's at twelve Hit Dice, not the SRD unicorn's. Adapted: its hooves take no Strength (a lesser blow). Omitted: magic circle against evil, teleport, its cure and neutralize powers beyond Heal, immunity to charm and compulsion, wild empathy. An author's own creation (the owner, 6 November) before."
       }
     },
     "xill": {

@@ -22,7 +22,9 @@ export class AmountActions {
   static divide(this: MeanNode, a: ohm.Node, _: ohm.Node, b: ohm.Node): number {
     return AmountActions.of(a, this.args.context) / AmountActions.of(b, this.args.context);
   }
-  static paren(this: MeanNode, _o: ohm.Node, e: ohm.Node, _c: ohm.Node): number { return AmountActions.of(e, this.args.context); }
+  static paren(this: MeanNode, _o: ohm.Node, e: ohm.Node, _c: ohm.Node): number {
+    return AmountActions.of(e, this.args.context);
+  }
   static pos(this: MeanNode, _p: ohm.Node, e: ohm.Node): number { return AmountActions.of(e, this.args.context); }
   static neg(this: MeanNode, _m: ohm.Node, e: ohm.Node): number { return -AmountActions.of(e, this.args.context); }
   static multi(this: MeanNode, count: ohm.Node, _d: ohm.Node, sides: ohm.Node): number {
