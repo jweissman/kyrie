@@ -18,6 +18,11 @@ export class DeepSounds {
     territorial: 'Something is moving about in {room}, and goes still when you do.',
     ambush: 'The stone at the mouth of the way to {room} is slick, and there is a sweetish smell from it, like '
       + 'something left too long. Something lies in wait in there.',
+    // What anyone sees at the mouth of a way to where something lies in wait, read for what it is or not: a lone
+    // first-level thief had walked into the barrow's ossuary spiders unwarned (PL-07, decision 4: every lethal band is
+    // told before it is engaged; placements.md). The surprise is kept: it still springs.
+    'ambush:seen': 'The way to {room} is quieter than the rest, the quiet of something holding its breath, and the '
+      + 'dust at its mouth is scuffed and swept as if something had lain there.',
     elite: 'From {room} comes a sound you do not like at all: something large, that is not in any hurry.',
     // One of the worst who is someone, not something (a robbers' captain): heard as a man or a woman is.
     leader: 'From {room} comes the scrape of a whetstone on steel, slow and even: whoever is in there is in no hurry.' };
@@ -39,8 +44,11 @@ export class DeepSounds {
     const by = !elite && temperament === 'ambush' ? ' as sign noticed by woodcraft' : '';
     // What falls on whoever comes in, or is one of the worst, can be drawn out to be met (inhabitants.kyr).
     const drawn = said && (elite || temperament === 'savage') ? [`  Initially Assert drawable(${id}).`] : [];
+    const seen = by ? this.sounds['ambush:seen']! : undefined;
     return [...drawn, ...said ? next.map(n => `  Observe ${id}_heard_${room}_${n} at ${n}${by} when able(${id})`
       + ` and at(${id}, ${room}) ${this.q(said.replace('{room}', `{${room}}`))}.`) : [],
+    ...seen ? next.map(n => `  Observe ${id}_seen_${room}_${n} at ${n} when able(${id}) and at(${id}, ${room})`
+      + ` ${this.q(seen.replace('{room}', `{${room}}`))}.`) : [],
     ...this.carried(layout, band, this.far[worst ?? (person ? 'person' : this.far[kindly] ? kindly : temperament)])];
   }
   // A thing that carries the sound of its level (a listening-room's bowl) can be listened at; once it has been, what
