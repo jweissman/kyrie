@@ -5,7 +5,7 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind is exact in all six fields); 57 of them have an SRD counterpart for every kind. **Spells
-66 of 119** with an SRD counterpart faithful in level, school, harm and save (of
+69 of 119** with an SRD counterpart faithful in level, school, harm and save (of
 286 catalog spells); 14 in all seven fields, their reach and duration too.
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 55 % of meetings are with a
@@ -13,7 +13,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 3 | armour 3 | attacks 17 | defences 1 | specials 0 | saves 0 | of 70 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 104 | school 110 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
+| spells, field exact or converted | level 111 | school 118 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -131,7 +131,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | death | power-word-kill | ✓ | ✓ | – | – | ✗ constitution negates → · | ✓ | ✓ |
 | death_ward | death-ward | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | disintegrate | disintegrate | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✓ |
-| dispel_magic | dispel-magic | ✗ 2 → 3 | ✓ | – | – | – | ✗ · → one | ✓ |
+| dispel_magic | dispel-magic | ✓ | ✓ | – | – | – | ✗ · → one | ✓ |
 | divine_favor | divine-favor | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | divine_power | divine-power | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
 | dominate_person | dominate-person | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
@@ -146,7 +146,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | flesh_to_stone | flesh-to-stone | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 10 rounds → instant |
 | flight | fly | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | foresight | foresight | ✓ | ✓ | – | – | – | ✗ one → self | ✗ 3 rounds → long |
-| glyph_of_warding | glyph-of-warding | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | ✗ self → one | ✗ 3 rounds → long |
+| glyph_of_warding | glyph-of-warding | ✓ | ✓ | – | – | – | ✗ self → one | ✗ 3 rounds → long |
 | goodberry | goodberry | ✓ | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | harm | harm | ✓ | ✓ | ✗ 23/31/41/61 → · | – | ✓ | ✓ | ✓ |
 | haste | haste | ✓ | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → 5 rounds |
@@ -159,7 +159,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | implosion | implosion | ✓ | ✓ | ✗ 35/35/35/35 → · | – | ✓ | ✓ | ✗ instant → long |
 | insanity | insanity | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | invisibility | invisibility | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ one → self | ✗ 3 rounds → long |
-| invulnerability | globe-of-invulnerability | ✗ 8 → 6 | ✓ | – | – | – | ✗ self → one | ✗ 5 rounds → long |
+| invulnerability | globe-of-invulnerability | ✓ | ✓ | – | – | – | ✗ self → one | ✗ 5 rounds → long |
 | knock | knock | ✓ | ✓ | – | – | – | ✗ · → many | ✓ |
 | life_drain | vampiric-touch | ✓ | ✓ | ✓ | – | – | ✓ | ✓ |
 | lightning_bolt | lightning-bolt | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ 3 rounds → instant |
@@ -170,7 +170,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | mass_heal | heal-mass | ✓ | ✓ | ✗ 14.5/18.5/23.5/33.5 → · | – | – | ✓ | ✗ instant → long |
 | maze | maze | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✓ |
 | meteor_swarm | meteor-swarm | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
-| mind_blank | mind-blank | ✗ 2 → 8 | ✗ divination → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
+| mind_blank | mind-blank | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
 | mind_reading | detect-thoughts | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ self → many | ✗ 3 rounds → long |
 | minor_image | minor-image | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | minor_restoration | restoration-lesser | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✓ |
@@ -183,16 +183,16 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | polymorph | polymorph | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 5 rounds → long |
 | prayer | prayer | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
 | prismatic_spray | prismatic-spray | ✓ | ✓ | – | – | – | ✓ | ✓ |
-| protection_from_evil | protection-from-evil | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
-| protection_from_fire | protection-from-energy | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
+| protection_from_evil | protection-from-evil | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
+| protection_from_fire | protection-from-energy | ✓ | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
 | raise_dead | raise-dead | ✓ | ✓ | – | – | – | ✓ | ✓ |
 | ray_of_frost | ray-of-frost | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
-| remove_fear | remove-fear | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ instant → long |
-| resist_fire | resist-energy | ✓ | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
+| remove_fear | remove-fear | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ instant → long |
+| resist_fire | resist-energy | ✓ | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
 | restoration | restoration | ✓ | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | resurrect | resurrection | ✓ | ✓ | – | – | – | ✓ | ✗ instant → long |
 | shapechange | shapechange | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
-| shield | shield-of-faith | ✗ 2 → 1 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
+| shield | shield-of-faith | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
 | shocking_grasp | shocking-grasp | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | silence | silence | ✗ 3 → 2 | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | sleep | sleep | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
@@ -200,7 +200,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | spellturning | spell-turning | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | spike_growth | spike-growth | ✓ | ✓ | ✓ | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
 | stone_to_flesh | stone-to-flesh | ✓ | ✓ | – | – | ✗ · → constitution negates | ✗ one → many | ✓ |
-| stoneskin | stoneskin | ✗ 3 → 5 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
+| stoneskin | stoneskin | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
 | summon_monster | summon-monster-i | ✓ | ✓ | – | – | – | ✗ self → one | ✗ instant → 5 rounds |
 | summon_monster_ii | summon-monster-ii | ✓ | ✓ | – | – | – | ✗ self → many | ✗ instant → long |
 | summon_monster_iii | summon-monster-iii | ✓ | ✓ | – | – | – | ✗ self → many | ✗ instant → long |

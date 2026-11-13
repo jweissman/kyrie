@@ -2,6 +2,73 @@
  "about": "The catalog's spells that have a Revised 3.5 SRD counterpart (data/sources/srd35/concordance.json), as the SRD gives them: level on the list of their tradition, school, harm (a die a caster level is roll(min(#level, 10), 6)), damage type, and the save a target makes against them (its kind, and whether a success halves or negates; none, none at all). Laid over the generated records (SrdSpells); a save named for what it guards against (paralysis, sleep, charm) keeps its name, for the immunities that read it.",
  "conversion": "srd35-westernesse-v1",
  "spells": {
+  "dispel_magic": {
+   "srd35": "spell:dispel-magic",
+   "level": 3,
+   "school": "abjuration",
+   "notes": "The SRD's Dispel Magic: level 3 (Sor/Wiz), abjuration; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "glyph_of_warding": {
+   "srd35": "spell:glyph-of-warding",
+   "level": 3,
+   "school": "abjuration",
+   "notes": "The SRD's Glyph of Warding: level 3 (Clr), abjuration; See text. Its reach and how long it lasts are Orsino's."
+  },
+  "invulnerability": {
+   "srd35": "spell:globe-of-invulnerability",
+   "level": 6,
+   "school": "abjuration",
+   "notes": "The SRD's Globe of Invulnerability: level 6 (Sor/Wiz), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "mind_blank": {
+   "srd35": "spell:mind-blank",
+   "level": 8,
+   "school": "abjuration",
+   "notes": "The SRD's Mind Blank: level 8 (Sor/Wiz), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "protection_from_evil": {
+   "srd35": "spell:protection-from-evil",
+   "level": 1,
+   "school": "abjuration",
+   "notes": "The SRD's Protection From Evil: level 1 (Clr), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "protection_from_fire": {
+   "srd35": "spell:protection-from-energy",
+   "level": 3,
+   "school": "abjuration",
+   "notes": "The SRD's Protection From Energy: level 3 (Clr), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "remove_fear": {
+   "srd35": "spell:remove-fear",
+   "level": 1,
+   "school": "abjuration",
+   "notes": "The SRD's Remove Fear: level 1 (Clr), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "resist_fire": {
+   "srd35": "spell:resist-energy",
+   "level": 2,
+   "school": "abjuration",
+   "notes": "The SRD's Resist Energy: level 2 (Clr), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "shield": {
+   "srd35": "spell:shield-of-faith",
+   "level": 1,
+   "school": "abjuration",
+   "notes": "The SRD's Shield of Faith: level 1 (Clr), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "spellturning": {
+   "srd35": "spell:spell-turning",
+   "level": 7,
+   "school": "abjuration",
+   "notes": "The SRD's Spell Turning: level 7 (Sor/Wiz), abjuration. Its reach and how long it lasts are Orsino's."
+  },
+  "stoneskin": {
+   "srd35": "spell:stoneskin",
+   "level": 5,
+   "school": "abjuration",
+   "notes": "The SRD's Stoneskin: level 5 (Drd), abjuration. Its reach and how long it lasts are Orsino's."
+  },
   "acid_arrow": {
    "srd35": "spell:acid-arrow",
    "level": 2,
