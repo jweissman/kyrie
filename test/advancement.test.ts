@@ -38,7 +38,7 @@ describe('advancement', () => {
   });
   it('a level rolls the hit die, adds Constitution, and moves a caster\'s slot table on, the same way every time', () => {
     const make = () => new Content('train').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],
-      spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'], wisdom: 14 });
+      spells: ['cure', 'bless', 'anoint', 'cure_moderate', 'minor_restoration', 'prayer'], wisdom: 14 });
     const dori = make(), hp = dori.base.maxHp;
     dori.state.experience = 3000;
     const events = Advancement.train(dori, 'seed');
@@ -47,7 +47,7 @@ describe('advancement', () => {
     expect(dori.base.maxHp).toBeGreaterThan(hp + 1);
     // A level is taken at rest: every slot is ready, and the new second-level slot holds a second-level prayer.
     expect([dori.base.maxSlots, dori.state.slots]).toEqual([[3, 1], [3, 1]]);
-    expect(dori.state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
+    expect(dori.state.prepared).toEqual([['cure', 'bless', 'anoint'], ['cure_moderate']]);
     const again = make(); again.state.experience = 3000;
     Advancement.train(again, 'seed');
     expect(again.base.maxHp).toBe(dori.base.maxHp);
