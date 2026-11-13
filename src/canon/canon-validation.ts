@@ -11,6 +11,7 @@ import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
 import type { Modifiers, Species } from './schema';
 import { Amounts } from '../rules/amounts';
+import { StatExpressions } from '../rules/stat-expressions';
 import { CatalogFields } from './catalog-fields';
 import { CanonRuntime } from './canon-runtime';
 import { ModifierSet } from '../rules/modifiers';
@@ -45,7 +46,7 @@ export class CanonValidation {
     const v = new CanonValidation();
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
     v.conditions(); v.items();
-    v.backgrounds(); v.religion(); v.plants(); v.sources();
+    v.backgrounds(); v.religion(); v.plants(); v.sources(); v.materials();
     return [...Canon.conflicts, ...CatalogFields.problems(), ...v.problems];
   }
   // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
@@ -125,6 +126,7 @@ export class CanonValidation {
       if (!Canon.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
       if (s.statistics.armor && !Canon.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
       this.hitDice(where, s.statistics);
+      this.expressions(where, s.statistics);
       this.riders(where, s.statistics.riders);
       (s.abilities ?? []).forEach(a => this.ability(where, a, ['natural', 'technique', 'spell']));
       for (const t of s.traits ?? []) {
@@ -151,18 +153,39 @@ export class CanonValidation {
       this.stated(where, v);
     }
   }
+  // What a material passes is an attack tag a guard can name (see Defenses).
+  private materials() {
+    for (const [id, m] of Object.entries(Canon.materials)) {
+      if (m.passes && !Canon.rules.combat.defenses.attackTags.includes(m.passes)) {
+        this.fail(`material ${id}`, `passes unknown attack tag ${m.passes}`);
+      }
+    }
+  }
   // A variation that is a stat block (see Overlay.hitDice): its Hit Dice dice, its defenses well formed, its routine
   // natural weapons, its hide armour, and what it goes without its base's to go without.
   private stated(where: string, v: (typeof CreatureVariants.variations)[string]) {
-    if (v.hitDice !== undefined && (!Amounts.valid(v.hitDice) || !Amounts.dice(v.hitDice).length)) {
-      this.fail(where, `hit dice ${v.hitDice} are not dice`);
-    }
+    if (v.hitDice !== undefined) { this.hitDice(where, { hitDice: v.hitDice } as NonNullable<Species['statistics']>); }
     this.defenses(where, v.defenses);
     for (const a of (v.attacks ?? []).filter(a => !Canon.items[a]?.weapon?.natural)) { this.fail(where, `${a} is no natural weapon`); }
     if (v.armor && !Canon.items[v.armor]?.armor) { this.fail(where, `hide ${v.armor} is not armour`); }
     for (const a of (v.forgoes?.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `forgoes unknown ability ${a}`); }
     for (const t of (v.forgoes?.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `forgoes unknown trait ${t}`); }
     this.riders(where, v.riders);
+    this.expressions(where, v);
+  }
+  // A stat block's expressions (see StatExpressions): its damage by a natural weapon, reading only what a blow binds;
+  // its natural armour's bonus, reading only what its making binds, and no dice.
+  private expressions(where: string, st: { damage?: Record<string, string>; armorBonus?: string }) {
+    for (const [weapon, text] of Object.entries(st.damage ?? {})) {
+      if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `damage for ${weapon}, which is no natural weapon`); }
+      const refused = StatExpressions.refused(text, StatExpressions.blow);
+      if (refused) { this.fail(where, `damage ${refused}`); }
+    }
+    if (st.armorBonus === undefined) { return; }
+    const refused = StatExpressions.refused(st.armorBonus, StatExpressions.making, true);
+    if (refused || Amounts.dice(st.armorBonus).length) {
+      this.fail(where, `armour bonus ${refused ?? `${st.armorBonus} throws dice`}`);
+    }
   }
   // What a blow carries (see Statistics.riders) is carried by a natural weapon, and lands on what it struck.
   private riders(where: string, riders: Record<string, { target: string }[]> | undefined) {
@@ -233,6 +256,7 @@ export class CanonValidation {
       const where = `ability ${id}`;
       if (!['technique', 'spell', 'natural'].includes(a.kind)) { this.fail(where, `unknown kind ${a.kind}`); }
       if ((a.effect === undefined) === (a.effects === undefined)) { this.fail(where, 'needs exactly one of effect and effects'); }
+      if (a.recharges && !['rest', 'night', 'day'].includes(a.recharges)) { this.fail(where, `recharges by ${a.recharges}`); }
       if (a.kind === 'spell') {
         const s = a.spell;
         if (!s || !['arcane', 'divine'].includes(s.tradition) || !Number.isInteger(s.level) || s.level < 0 || s.level > 9) {
@@ -326,7 +350,9 @@ export class CanonValidation {
     if (!Amounts.valid(st.hitDice) || !Amounts.dice(st.hitDice).length) {
       this.fail(where, `hit dice ${st.hitDice} are not dice`); return;
     }
-    try { Amounts.mean(st.hitDice); } catch (error) { this.fail(where, `hit dice ${st.hitDice}: ${(error as Error).message}`); }
+    try { Amounts.mean(st.hitDice, { level: 1, company: 1 }); } catch (error) {
+      this.fail(where, `hit dice ${st.hitDice}: ${(error as Error).message}`);
+    }
     if (st.growth?.hitPoints || st.hitPoints !== undefined) { this.fail(where, 'has hit dice and hit points grown or fixed besides'); }
   }
   // A body's typed defenses (the SRD adaptation briefing, §3): each of a known kind, with only that kind's fields, its

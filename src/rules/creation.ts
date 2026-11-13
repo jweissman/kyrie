@@ -52,8 +52,12 @@ export class Creation {
   // uses Orsino's NPC formula: max(2, round(hitDie + (level − 1) × hitDie / 2 + statMod(con))).
   // A creature's hit points: its Hit Dice's listed average (or the throw given for them), fixed, grown by Orsino's
   // monster template, or rolled from its hit die. Hit Dice come first, so no growth can reach a fixed stat block.
-  static health(chassis: Chassis, level: number, constitution: number, thrown?: number): number {
-    if (chassis.hitDice) { return Math.max(1, thrown ?? Amounts.listed(chassis.hitDice)); }
+  static health(chassis: Chassis, level: number, constitution: number,
+    at: { thrown?: number; company?: number } = {}): number {
+    // Its Hit Dice may read its level and the company it meets (#level, #company: see StatExpressions).
+    if (chassis.hitDice) {
+      return Math.max(1, at.thrown ?? Amounts.listed(chassis.hitDice, { level, company: at.company ?? 1 }));
+    }
     return chassis.hitPoints ?? (chassis.growth?.hitPoints ? this.grown(chassis.growth.hitPoints, level, constitution)
       : this.hitPoints(chassis.hitDie, level, constitution));
   }

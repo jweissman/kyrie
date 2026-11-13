@@ -94,6 +94,9 @@ export interface Ability {
   // How often a day it can be used, until a night's rest; and the shape of what it lets loose, which catches whoever
   // stands where it is aimed (see Positions). Orsino's areas name no shape: the rules' combat.areas give them one.
   uses?: number; area?: 'burst' | 'cone';
+  // What gives its uses a day back (engine-pressure.md, section 5): any rest (as saying nothing does), only a night
+  // (an inn's bed, a camp, not a six-hour rest or a healer's hour), or only the first night of a new day.
+  recharges?: 'rest' | 'night' | 'day';
   unsupported?: Omissions; source?: Source;
 }
 export interface Ancestry {
@@ -120,6 +123,9 @@ export interface Statistics {
   // effects on what it struck, by the weapon's id, each resolved after that blow's harm and only if it hit (a ghoul's
   // bite and claws paralyse, against a save). A miss carries nothing.
   riders?: Record<string, Effect[]>;
+  // Its natural weapons' damage in its own words, by weapon, where it is not the weapon's own (a slam of 1d6 + its
+  // level), thrown per blow with its own context; and a bonus to its natural armour by its level (see StatExpressions).
+  damage?: Record<string, string>; armorBonus?: string;
 }
 // What a variation says of itself in the canon (data/catalog/variations.json; CreatureVariants reads the rest): its
 // axis, its word, what is seen of it, the kinds and types it is for, and where a kind made with it lives and how
@@ -134,6 +140,7 @@ export interface Overlay {
   // its base's powers and nature it goes without (the generic undead package an SRD ghoul has not got).
   hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
   forgoes?: { abilities?: string[]; traits?: string[] }; riders?: Record<string, Effect[]>;
+  damage?: Record<string, string>; armorBonus?: string;
   // Met only where an author names it (golem/flesh), never drawn into a generated country's dens and encounters: a
   // stat block placed nowhere until each placement has been fought (the ghoul's lesson, srd-invariants.md).
   unplaced?: true;
@@ -249,7 +256,11 @@ export interface Deity {
 }
 // A material (data/catalog/materials.json): what it is called, what kind of stuff, how hard (1 soft to 10), and how it
 // looks, for whoever paints or says it.
-export interface Material { name: string; kind: string; hardness: number; looks: string; source: Source }
+export interface Material {
+  name: string; kind: string; hardness: number; looks: string; source: Source;
+  // The attack tag a weapon of it carries, for a guard it passes (silver, cold iron, adamantine: see Defenses).
+  passes?: string;
+}
 export interface Plant {
   name: string; looks: string; habitats: string[]; source: Source;
   // Its plate (data/paintings/plants.json: plants/<id>), where one is drawn.
@@ -278,7 +289,10 @@ export interface Procedure { name: string; effect: string; description: string }
 // The numbers and ids the rules of a fight turn on (data/catalog/vocabulary.json's combat): see its about.
 export interface Combat {
   deathSave: number; triggerSave: number; triggerTurns: number; summons: { base: number; perLevels: number };
-  flee: { die: string; atMost: number }[]; systemShock: number; recharge: { technique: number; free: string[] };
+  flee: { die: string; atMost: number }[]; systemShock: number;
+  // The turns a technique rests, the moves that rest not at all, and the recoveries that are a night's (an inn's bed,
+  // a camp), for an ability that recharges only by night or by day (Ability.recharges).
+  recharge: { technique: number; free: string[]; nights: string[] };
   fist: { id: string; name: string; damage: string; type: string; natural: boolean };
   ids: { slain: string; raising: string; roughRest: string; shelteredRest: string; drained: string };
   // Orsino's spells a day for a creature with no calling (Combat.maxSpellSlotsForLevel: 2 + level), which its own

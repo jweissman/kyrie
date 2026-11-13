@@ -1,6 +1,7 @@
 import { CanonRuntime, type RuntimeItem } from './canon/canon-runtime';
 import { Canon } from './canon/canon';
-import type { HookKey, Hooks } from './canon/schema';
+import type { HookKey, Hooks, Statistics } from './canon/schema';
+import { StatExpressions } from './rules/stat-expressions';
 import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
@@ -56,12 +57,15 @@ export class ItemCatalog {
       .reduce((n, i) => n + (this.get(i.definition).modifiers?.attributes?.[stat] ?? 0), 0);
     return creature.base[stat] + worn;
   }
-  static weapon(id: string, name?: string): WeaponProfile {
+  static weapon(id: string, name?: string, material?: string): WeaponProfile {
     const w = this.get(id).weapon;
     if (!w) { throw new Error(`${id} is not a weapon`); }
+    // Made of a material that passes a guard (a longsword of silver), it carries what the material passes.
+    const passes = material ? Canon.materials[material]?.passes : undefined;
     // A wonder's blade is magic (what the wonders' file holds: a bolt-blade, the sword of ages), and passes a guard
     // that only magic passes (the unicorn's 10/magic: the SRD adaptation briefing, §3); its own tags beside.
-    const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : []];
+    const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : [],
+      ...passes && !w.tags?.includes(passes) ? [passes] : []];
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
       ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
@@ -82,13 +86,16 @@ export class ItemCatalog {
     }
     // A body's own blows carry its kind's riders (see Statistics.riders); a weapon in hand carries none of them.
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
-      weapon: wielded ? this.weapon(wielded.definition) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural?.riders),
-      armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0,
+      weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
+      armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac
+        + StatExpressions.armor(natural.armorBonus, { level: creature.base.level }) : 0,
       ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
-        ? this.body(id, natural.riders) : { ...this.body(id, natural.riders), lesser: true }) } : {} };
+        ? this.body(id, natural) : { ...this.body(id, natural), lesser: true }) } : {} };
   }
-  static body(id: string, riders?: Record<string, Effect[]>): WeaponProfile {
-    const weapon = this.weapon(id), own = riders?.[id];
-    return own?.length ? { ...weapon, onHit: structuredClone(own) } : weapon;
+  // A body's own blow: the weapon, in its stat block's own damage where it says one (see StatExpressions), with what
+  // it carries when it lands (its riders).
+  static body(id: string, natural?: Pick<Statistics, 'riders' | 'damage'>): WeaponProfile {
+    const weapon = this.weapon(id), own = natural?.riders?.[id], damage = natural?.damage?.[id];
+    return { ...weapon, ...damage ? { damage } : {}, ...own?.length ? { onHit: structuredClone(own) } : {} };
   }
 }

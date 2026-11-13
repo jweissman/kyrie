@@ -10,9 +10,9 @@ const fields = {
     'statistics', 'abilities', 'traits', 'defenses', 'resistances', 'temperament', 'habitats', 'variations',
     'portrait', 'worth', 'omits', 'source'],
   statistics: ['attributes', 'hitPoints', 'hitDie', 'hitDice', 'level', 'weapon', 'armor', 'primary', 'actions',
-    'attacks', 'growth', 'riders'],
+    'attacks', 'growth', 'riders', 'damage', 'armorBonus'],
   ability: ['name', 'kind', 'description', 'effect', 'effects', 'cost', 'recharge', 'windup', 'spell', 'level',
-    'resist', 'requires', 'uses', 'area', 'unsupported', 'source'],
+    'resist', 'requires', 'uses', 'area', 'unsupported', 'source', 'recharges'],
   condition: ['name', 'description', 'lifetime', 'modifiers', 'hooks', 'trigger', 'duration', 'saveKind', 'law',
     'compel', 'forceTarget', 'guard', 'drains', 'stacking', 'omits', 'unsupported', 'source', 'grants', 'begins',
     'ends', 'unheld'],
@@ -33,11 +33,11 @@ const fields = {
     'count', 'cut', 'grounds'],
   deity: ['name', 'domains', 'gender', 'observance', 'blessing', 'source'],
   domain: ['name', 'alignment', 'description', 'spellDomain', 'blessing', 'source'],
-  material: ['name', 'kind', 'hardness', 'looks', 'source'],
+  material: ['name', 'kind', 'hardness', 'looks', 'source', 'passes'],
   habitat: ['name', 'orsino', 'covers', 'terrains', 'sites', 'forms', 'water', 'shore'],
   variation: ['axis', 'word', 'says', 'kinds', 'attributes', 'health', 'abilities', 'traits', 'hint', 'habitats',
     'abundance', 'resistances', 'types', 'weapon', 'material', 'temperament', 'type', 'source', 'hitDice', 'defenses',
-    'attacks', 'armor', 'forgoes', 'unplaced', 'riders'],
+    'attacks', 'armor', 'forgoes', 'unplaced', 'riders', 'damage', 'armorBonus'],
 } as const;
 type Record_ = Record<string, unknown>;
 

@@ -1,3 +1,5 @@
+import { FictionalTime } from './fictional-time';
+import type { Recovery } from '../rules/daily-uses';
 import type { Operator } from './planner';
 import { Canon } from '../canon/canon';
 import type { CampaignActor } from './definition';
@@ -20,6 +22,13 @@ interface FieldHost {
 // What a resolved command does to the company itself, outside a fight: rest and recovery, rewards and study, a
 // spell cast in the field, and what is bought, taken, blessed, used, risked, given or set down.
 export class FieldResolver {
+  // What recovery an act is (Ability.recharges): a night's, where the rules name it one (an inn's bed, a camp), else a
+  // rest's (six hours, a healer's hour); on the day the clock says.
+  static recovery(action: Operator, host: FieldHost): Recovery {
+    const nights = Canon.rules.combat.recharge.nights, id = action.id.split('__').at(-1)!;
+    return { kind: nights.includes(id) ? 'night' : 'rest',
+      day: FictionalTime.day(host.world.number(ModuleWriter.call('watch', 'clock'))) };
+  }
   static resolve(action: Operator, host: FieldHost): CombatEvent[] {
     const call = structuredClone(action.resolve!), { creatures, seed } = host;
     call.args = call.args.map(id => host.module.entities.find(e => e.id === id)?.creatureId ?? id);
@@ -30,7 +39,7 @@ export class FieldResolver {
         && !creatures.get(id).state.conditions.some(s => s.id === Canon.rules.combat.ids.slain))!;
       const { roughRest, shelteredRest } = Canon.rules.combat.ids;
       const rested = FieldUse.perform(creatures, actor.members, { ability: call.name === 'rough' ? roughRest
-        : shelteredRest, caster, target: caster, seed, service: 'recover' });
+        : shelteredRest, caster, target: caster, seed, service: 'recover', recovery: FieldResolver.recovery(action, host) });
       // Whoever has fallen comes round, or does not; a night under a roof is also when a companion takes in what
       // they have learned.
       const shocked = [...rested, ...FieldUse.shock(creatures, actor.members, seed)];

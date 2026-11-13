@@ -131,6 +131,11 @@
     ],
     "systemShock": 10,
     "recharge": {
+      "nights": [
+        "take_lodging",
+        "take_lodging_guest",
+        "camp"
+      ],
       "technique": 3,
       "free": [
         "melee",

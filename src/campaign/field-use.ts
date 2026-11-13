@@ -1,3 +1,4 @@
+import type { Recovery } from '../rules/daily-uses';
 import { Tended } from '../rules/tended';
 import { Advancement } from '../rules/advancement';
 import { LevelDrain } from '../rules/level-drain';
@@ -197,6 +198,7 @@ export class FieldUse {
   }
   static perform(store: CreatureStore, ids: string[], options: {
     ability: string; caster: string; target: string; seed: string; service?: 'recover' | 'reward';
+    recovery?: Recovery;
   }): CombatEvent[] {
     const ability = Content.abilities.find(a => a.id === options.ability);
     if (!ability || (!options.service && !this.safe(ability.id))
@@ -215,7 +217,7 @@ export class FieldUse {
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[],
         ...(actor.abilitySources?.[ability.id] ? { source: actor.abilitySources[ability.id] } : {}),
         content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
-        retreat: false, location: null };
+        retreat: false, location: null, ...options.recovery ? { recovery: options.recovery } : {} };
       AbilityUse.perform(ability, options.target, new Expressions(options.seed), context);
       const committed = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
       // Mended in the field by a healing cantrip, they are tended until the company rests (see Tended).

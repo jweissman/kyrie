@@ -27,6 +27,7 @@ export interface Variation {
   // and whether it is met only where an author names it.
   hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
   forgoes?: { abilities?: string[]; traits?: string[] }; unplaced?: true; riders?: Record<string, Effect[]>;
+  damage?: Record<string, string>; armorBonus?: string;
 }
 
 // What makes one creature of a kind other than the rest (Orsino's aspects: an agile wolf, a venomous spider), and
@@ -104,7 +105,8 @@ export class CreatureVariants {
   }
   static stated(id: string): boolean {
     const v = this.variations[id];
-    return !!v && !!(v.hitDice || v.defenses || v.attacks || v.armor || v.forgoes || v.riders);
+    return !!v && !!(v.hitDice || v.defenses || v.attacks || v.armor || v.forgoes || v.riders || v.damage
+      || v.armorBonus);
   }
   // What a creature is called with its variations: "a wolf", old and frost, is "an old frost wolf".
   static called(role: string, ids: string[]): string {

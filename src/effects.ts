@@ -1,6 +1,6 @@
 import { Flight } from './rules/flight';
 import { Spellcasting } from './rules/spellcasting';
-import { DailyUses } from './rules/daily-uses';
+import { DailyUses, type Recovery } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain';
 import { Summoning } from './summoning';
 import { Content } from './content';
@@ -33,6 +33,8 @@ export interface EffectContext {
   // The conditions what is being done lays on by itself (a venomous bite's poison): its harm's kind does not also
   // trigger them, so it has one chance to, not two (CB-14, the lead's ruling).
   applies?: ReadonlySet<string>;
+  // What recovery this is, for what recharges only by night or by day (see DailyUses.restore).
+  recovery?: Recovery;
   // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
   drawn?: Fighter[];
   // Where an area is let loose, and its shape: whoever stands there is caught (see Positions).
@@ -403,7 +405,7 @@ export class Effects {
   private static gain(effect: Extract<Effect, { kind: 'gain' }>, target: Fighter, rolled: number,
     context: EffectContext) {
     if (effect.resource === 'uses') {
-      const back = DailyUses.restore(target, rolled);
+      const back = DailyUses.restore(target, rolled, context.recovery);
       if (back) { Effects.detail(context, target, { type: 'gain', detail: back === 1 ? 'use' : 'uses', amount: back }); }
       return;
     }
