@@ -265,16 +265,17 @@ describe('Low Water, the Auditor: the Hearing, the heart and the stair', () => {
     await sung.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6));
     await Bowl.tryUntil(sung, 'Sing the Seventh at your doubles', () => sung.holds(L('doublesLaid'), 'party'));
     expect(sung.holds(L('doublesLaid'), 'party')).toBe(true);
-    // d7: a company that wins it (in d3 it was won by a warrior in plate, which no warrior now starts in; in d4,
-    // until a creature taunted or left without its target chose again as the page shows it, not at its turn; in d5,
-    // until techniques rested, as Orsino's do, and the doubles' Sweep and Second Wind were no longer free each turn).
+    // Fought, they fight as the company fights, each the double of one of it, and the fight comes to an end, won or
+    // lost: whether this company wins is the dice's (one in nine since only a wound triggers a condition, 14 November).
+    // It had been held to a seed that won (d3, d4, d5, d7 as the rules changed): a lucky draw is no property of the
+    // place, which is told and can be passed four other ways.
     const fought = await Bowl.start('d7');
     await fought.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
     await Bowl.untilNight(fought);
     await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait › A while');
     for (let i = 0; i < 12 && fought.find('^Attack'); i++) { await fought.play('^Attack'); }
     expect(Bowl.pages(fought)).toContain('The double that is late');
-    expect(fought.holds('dead', L('doubles'))).toBe(true);
+    expect(fought.holds('dead', L('doubles')) || /The fight is lost/.test(Bowl.pages(fought))).toBe(true);
   }, 300000);
   it('pays the Assayers for Annet Kettle\'s jar with a weight-stone from the dig', async () => {
     const j = await Bowl.start('halm');

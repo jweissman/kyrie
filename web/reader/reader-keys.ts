@@ -5,18 +5,22 @@ import { PrologueStage } from './stage/prologue-stage';
 import { Raised, type Sheet } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
+import { Hold } from './stage/hold';
+import type { Choice } from '../../src/ui/choice-list';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
 // goes back; letters open the company, the pack, the journal and the map, and at a place what is all about (L) and
 // every way from it (W). Over the map, the arrows, Enter,
 // Space and the digits are the map's own. Before play, arrows move between the page's choices and Enter takes the
-// one in focus.
+// one in focus. An act that is held (Choice.hold, a creation card) is held by its key too: pressed, its edge fills on
+// its own button, and let go before the end, nothing is done (see Hold).
 export class ReaderKeys {
   static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
   static readonly sheets: Record<string, Sheet> = { l: 'look', w: 'ways' };
   // At a place at rest: Go… (G, or W for the ways), Look… (L), Wait… (Z, a while).
   static readonly parts: Record<string, Part> = { g: 'go', w: 'go', l: 'look', z: 'wait' };
+  private holding: { key: string; button: Element } | undefined;
   constructor(private readonly app: ReaderApp) {}
   readonly press = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement | null;
@@ -25,11 +29,26 @@ export class ReaderKeys {
       if (e.key === 'Escape') { target.blur(); }
       return;
     }
-    const handled = this.app.state.phase !== 'play' ? this.page(e.key)
-      : Stage.prologue(this.app) ? this.prologue(e.key, e.repeat) : this.play(e.key);
+    const handled = this.app.state.phase !== 'play' ? this.page(e.key, e.repeat)
+      : Stage.prologue(this.app) ? this.prologue(e.key, e.repeat) : this.play(e.key, e.repeat);
     if (handled) { e.preventDefault(); }
   };
-  private play(key: string): boolean {
+  // A held key let go: the act it was holding is let go too (done if it was held long enough, else nothing).
+  readonly release = (e: KeyboardEvent) => {
+    if (this.holding?.key !== e.key) { return; }
+    Hold.release(this.holding.button);
+    this.holding = undefined;
+  };
+  // Held by this key where it is held at all, drawn where its edge can fill; true where the key has it.
+  private hold(button: Element | null | undefined, key: string, repeat: boolean): boolean {
+    if (!button?.hasAttribute('data-hold')) { return false; }
+    if (!repeat && !this.holding) { this.holding = { key, button }; Hold.press(button); }
+    return true;
+  }
+  private drawn(c: Choice): Element | null {
+    return c.hold && !c.disabled ? document.querySelector(`[data-act="${CSS.escape(c.id)}"][data-hold]`) : null;
+  }
+  private play(key: string, repeat = false): boolean {
     const app = this.app, menu = app.menu, s = app.state;
     // The map open over the page: its buttons pressed and its land moved over by these keys, not the place's choices
     // hidden under it done unseen. Esc still closes it, and the letters open the books.
@@ -58,6 +77,7 @@ export class ReaderKeys {
         return true;
       }
       const chosen = menu.choices[s.cursor];
+      if (chosen && this.hold(this.drawn(chosen), key, repeat)) { return true; }
       if (chosen) { app.choose(chosen); }
       return !!chosen;
     }
@@ -74,11 +94,13 @@ export class ReaderKeys {
       // themselves, and at a place at rest only what will not wait is led with (the second fresh playtest of 7
       // November: "2" by "light a torch" in a dark cellar did nothing, the keys reading the menu's order).
       const drawn = ReaderKeys.keyed(Number(key)), shown = drawn ? menu.choices.findIndex(c => c.id === drawn) : -1;
+      if (shown >= 0 && this.hold(this.drawn(menu.choices[shown]!), key, repeat)) { return true; }
       if (shown >= 0) { app.setState({ cursor: shown }); app.choose(menu.choices[shown]!); return true; }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
       const led = Stage.mode(app) === 'explore' ? Raised.led(app) : undefined;
       if (led !== undefined && Number(key) > led) { return false; }
       const chosen = menu.choices[Number(key) - 1];
+      if (chosen && this.hold(this.drawn(chosen), key, repeat)) { return true; }
       if (chosen) { app.setState({ cursor: Number(key) - 1 }); app.choose(chosen); }
       return !!chosen;
     }
@@ -113,7 +135,7 @@ export class ReaderKeys {
   }
   // Before play: the page's own buttons, in order; or, while a sheet is open over the page, the sheet's, and Escape
   // puts it away. Creation's cards stand in rows, so there the arrows across go along them too.
-  private page(key: string): boolean {
+  private page(key: string, repeat: boolean): boolean {
     const sheet = document.querySelector<HTMLElement>('[aria-modal="true"]');
     const items = [...(sheet ?? document).querySelectorAll<HTMLElement>('[data-nav]')];
     const at = items.indexOf(document.activeElement as HTMLElement);
@@ -123,7 +145,12 @@ export class ReaderKeys {
       next?.focus();
       return !!next;
     }
-    if (/^[1-9]$/.test(key)) { items[Number(key) - 1]?.click(); return !!items[Number(key) - 1]; }
+    if (/^[1-9]$/.test(key)) {
+      const item = items[Number(key) - 1];
+      if (this.hold(item, key, repeat)) { return true; }
+      item?.click();
+      return !!item;
+    }
     if (key === 'Escape') {
       if (sheet) { sheet.querySelector<HTMLElement>('[data-action="close"]')?.click(); return true; }
       if (this.app.state.phase === 'campaigns') { this.app.opening.title(); return true; }
