@@ -21,6 +21,7 @@ class EngineNames {
     companyCameHere: 'that the company has stood in one of a module\'s places, which its endings wait on: written by '
       + 'the assembler into each module with endings, its own (GOS-06)',
   };
+  // The whole library parsed: ~3 s from a warm parse store, ~30 s cold (a runner without CI's cache): hence the minutes.
   private static kept?: ReturnType<typeof KyrLint.parsed>;
   static get parsed() { return this.kept ??= KyrLint.parsed(); }
   static declared(): Set<string> {
@@ -47,11 +48,11 @@ describe('the names the engine reads, and the shared rules that declare them', (
     expect(read.size).toBeGreaterThan(100);
     const unruled = [...read].filter(([name]) => !declared.has(name)).map(([name, files]) => `${name} ← ${files.join(', ')}`);
     expect(unruled.map(u => u.split(' ← ')[0]).sort()).toEqual(Object.keys(EngineNames.unruled).sort());
-  }, 60000);
+  }, 180000);
   it('finds no module of the library naming its own as the shared rules name theirs', () => {
     expect(KyrLint.vocabulary(EngineNames.parsed).filter(f => f.level === 'error').map(f => `${f.where}: ${f.message}`))
       .toEqual([]);
-  }, 60000);
+  }, 180000);
   it('says so of a query, a relation or an action named as a shared one is', () => {
     const rules = ModuleParser.parse('Module r "Rules" { Relation settled(place). Query mild(p: place) means settled(p). }');
     const own = ModuleParser.parse('Module m "Mine" { Query settled() means true. Relation mild(place). }');

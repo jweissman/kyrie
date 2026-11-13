@@ -32,6 +32,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bun run lint
       - run: bun run typecheck
   # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
@@ -48,6 +56,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bun run test:intent
       - run: bun run test:honest
       # The rules on small worlds (test/small, Mission 21's fast loop): seconds, and the first to say a rule broke.
@@ -69,6 +85,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/8 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $(bun scripts/test-lane.ts push)
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Push lane, shard ${{ matrix.shard }} of 8"
@@ -86,6 +110,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
       - run: bun test test/frame-browser.test.ts -t "820 by 1180" --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
@@ -116,6 +148,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 10"
@@ -134,6 +174,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bun test test/descent.test.ts test/all-in-one-world.test.ts --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_LONG: "1" }
       - if: always()
@@ -151,6 +199,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
       - run: bun test --shard=${{ matrix.shard }}/2 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
@@ -169,6 +225,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
+      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
+      # by the language's own sources and the data; an older store of the same language is restored and grows.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
       - run: bun test test/reference-hour.test.ts
         env: { KYRIE_TOUR: "1", KYRIE_SHOTS: "${{ runner.temp }}/tour" }
