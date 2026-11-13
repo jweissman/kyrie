@@ -79,6 +79,7 @@ export class ReaderKeys {
       }
       const chosen = menu.choices[s.cursor];
       if (chosen && this.hold(this.drawn(chosen), key, repeat)) { return true; }
+      if (chosen && ReaderKeys.opener(chosen.id)) { ReaderKeys.opener(chosen.id)!.click(); return true; }
       if (chosen) { app.choose(chosen); }
       return !!chosen;
     }
@@ -101,6 +102,7 @@ export class ReaderKeys {
         if (row) { row.click(); return true; }
       }
       if (shown >= 0 && this.hold(this.drawn(menu.choices[shown]!), key, repeat)) { return true; }
+      if (drawn && ReaderKeys.opener(drawn)) { ReaderKeys.opener(drawn)!.click(); return true; }
       if (shown >= 0) { app.setState({ cursor: shown }); app.choose(menu.choices[shown]!); return true; }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
       const led = Stage.mode(app) === 'explore' ? Raised.led(app) : undefined;
@@ -112,6 +114,11 @@ export class ReaderKeys {
     }
     if (key === 'Escape' || key === 'Backspace') { app.back(); return true; }
     return this.letter(key.toLowerCase());
+  }
+  // An act the four draw as an opener in place (a thing's look: see GlanceStage.Acts), which the keys open there as a
+  // touch does, never turning the page to the thing.
+  private static opener(id: string): HTMLElement | null {
+    return document.querySelector<HTMLElement>(`ol.led [data-act="${CSS.escape(id)}"][aria-expanded]`);
   }
   // The choice drawn with this number on its key, where the glance leads with it (none under a raised sheet).
   private static keyed(n: number): string | undefined {
