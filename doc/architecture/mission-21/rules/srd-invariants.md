@@ -208,3 +208,13 @@ Once only a wound triggers a damage kind's condition (R9-06), the SRD kinds were
 the edge: a second-level warrior won six of twelve, now five; the twelve fights a level make the table coarse, a
 third-level warrior winning two); the **flesh golem 24**. `test/srd-challenge` holds the deciding fights. The rest of
 the table was measured under the old rule; how far it moves is set out in placements.md (batch 7).
+
+## Decided for M22: the whole challenge table (the lead, 14 November)
+
+Not written in M21. Under the wound rule (R9-06) the whole table was measured in scratch: 92 of 185 kinds' measures
+move, 24 up and 39 down at the first level; the largest, the clockwork soldier 8 → 4, the gold, green and red dragons
+24 → 20, the mouther 14 → 10, the fire and lava elementals 4 → 2 and 3 → 1, the bone golem 6 → 4, the angel 12 → 14,
+the solar and the titan up two (`/var/tmp/kyrie/steps/challenge.wound.json`). At twelve fights a level the table is
+noisy (the barrow ghoul's second and third levels came out five and two of twelve), and it decides what every
+generated country's dens and encounters hold. For M22: measure it again at **48 or more fights a level**, and write it as
+one deliberate change, re-fought where its kinds are placed. Only the three SRD kinds' rows are written now.

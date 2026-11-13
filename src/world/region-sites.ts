@@ -91,9 +91,24 @@ export class RegionSites {
       ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)} ${q(here)}. }`
       : `  Discovery ${id}_found ${q(told)}.`, ...hidden && !great ? this.hint(region, seat) : []);
     if (this.cut[site.kind] && !site.work) {
-      lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
+      const cut = (site.old ?? site.name).toUpperCase();
+      lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${cut}.`)} teaches ${id}_named.`);
     }
-    return lines;
+    return [...lines, ...this.old(site)];
+  }
+  // An old place called by its Common meaning (see OldPlaces) has its old name cut on it, in its makers' letters: read
+  // there, on arriving, it is learned, and said with the place from then on (T24-20).
+  private static old(site: Region['sites'][number]): string[] {
+    if (!site.old) { return []; }
+    const q = JSON.stringify, id = site.id, letters = !!this.cut[site.kind] && !site.work;
+    const cut = site.work ? 'Cut deep over the way in, in the makers\' letters'
+      : 'Cut in the old stone, in the old letters';
+    // Where its letters are what names it (a barrow's), they are read as its old name once they have named it.
+    return [`  Discovery ${id}_old ${q(`${site.name}: its makers called it ${site.old}.`)}.`,
+      `  Observe ${id}_old_cut at ${id} when ${letters ? `knows(party, ${id}_named) and ` : ''}not knows(party, ${id}_old) `
+        + `${q(letters ? `The letters are its makers' name for it: ${site.old}.` : `${cut}: ${site.old.toUpperCase()}.`)}`
+        + ` teaches ${id}_old.`,
+      `  Observe ${id}_old_known at ${id} as feature when knows(party, ${id}_old) ${q(`Its makers called it ${site.old}.`)}.`];
   }
   // Where a track goes off unseen, something noticed there before anyone searches, once for the place, until the
   // way is found: searching had been a lottery played everywhere in case (REV-02).
