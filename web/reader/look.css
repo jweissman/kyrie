@@ -1,121 +1,9 @@
-/* ---- Mission 21's design system and composition experiments (doc/architecture/mission-21/aesthetic/). Read last.
-   The tokens below are new names and change nothing by themselves; every rule that draws differently is scoped to
-   :root[data-look], set by ?look=veil|attend|plate (see look.ts), so the game as it is stays the default. ---- */
-:root {
-  /* Space: one 4px grid, eight steps. Nothing between them. */
-  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
-  /* Type: seven roles, two faces. The telling's voice (Newsreader) tells and speaks; the doing voice (Source Sans 3)
-     names what can be done and where one is. Capitals only for the one small label role, never for a choice. */
-  --t-title: 300 clamp(26px, 2.5vw, 34px)/1.12 var(--do);
-  --t-tell-lead: 400 clamp(17.5px, 1.35vw, 19.5px)/1.5 var(--told);
-  --t-tell: 400 clamp(16px, 1.2vw, 17.5px)/1.55 var(--told);
-  --t-choice: 500 15.5px/1.25 var(--do);
-  --t-aside: 400 13px/1.35 var(--do);
-  --t-label: 600 10.5px/1.2 var(--do); --track-label: .16em;
-  --t-key: 600 10.5px/1 var(--do);
-  /* Surfaces: one panel over a painting, one choice, one sheet. */
-  --panel-ground: rgba(12, 13, 17, .76); --panel-blur: blur(18px) saturate(1.12);
-  --panel-edge: rgba(236, 230, 217, .09); --panel-radius: 14px; --panel-shadow: 0 24px 60px rgba(0, 0, 0, .5);
-  --choice-ground: rgba(236, 230, 217, .045); --choice-edge: rgba(236, 230, 217, .08);
-  --choice-ground-hot: rgba(236, 230, 217, .1); --choice-edge-hot: rgba(236, 230, 217, .22);
-  --choice-radius: 10px; --choice-h: 46px; --indicator-w: 3px;
-  /* At most this many choices a menu shows before "All …"; the scene's own few are four. */
-  --menu-max: 4;
-  /* Radiance, restrained: the followed step's gold breathes a little light; focus is light, never gold. */
-  --glow-step: 0 0 14px rgba(242, 189, 76, .38); --ring-focus: 0 0 0 1px rgba(236, 230, 217, .34);
-  /* Paper: the one light composition (the book), its ink and its rules. */
-  --paper-ground: #EDE6D6; --paper-raised: #E3DAC6; --paper-ink: #29241D; --paper-dim: #6A6153; --paper-faint: #998E7C;
-  --paper-edge: rgba(41, 36, 29, .14);
-}
-
-/* ======================================================================================================================
-   Shared by every composition: the one choice row (Menu), the type roles, the telling's budget, the fight on a phone,
-   the book as paper. These are the design system's components, tried on the real pages.
-   ==================================================================================================================== */
-/* -- The one choice row: led acts, things of the place, a lens's rows, a conversation's questions, a fight's moves. -- */
-:root[data-look] .world-page.scale-scene :is(.act.led-act, .glance .openers .opener.as-act),
-:root[data-look] .talk :is(.replies .act, .dialogue .leave .act, .to-trade .option),
-:root[data-look] .fight .moves :is(.bar .move, .panel .move):not(.quiet) {
-  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--s3);
-  width: 100%; box-sizing: border-box; min-height: var(--choice-h); margin: 0; padding: 9px 14px 9px 22px;
-  font: var(--t-choice); letter-spacing: 0; text-transform: none; text-align: left; color: var(--ivory);
-  background: var(--choice-ground); border: 1px solid var(--choice-edge); border-radius: var(--choice-radius);
-  box-shadow: none; text-wrap: balance; transform: none;
-  transition: background var(--quick), border-color var(--quick), transform var(--quick); }
-:root[data-look] .world-page.scale-scene :is(.act.led-act, .glance .openers .opener.as-act):is(:hover, :focus-visible, .sel),
-:root[data-look] .talk :is(.replies .act, .dialogue .leave .act, .to-trade .option):is(:hover, :focus-visible, .sel),
-:root[data-look] .fight .moves :is(.bar .move, .panel .move):not(.quiet):is(:hover, :focus-visible, .opened) {
-  background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); transform: translateX(2px); outline: none;
-  box-shadow: none; }
-/* Its one indicator: a short rounded line at the left, the tone of what it is, or neutral. */
-:root[data-look] .world-page.scale-scene .act.led-act .prism-bar,
-:root[data-look] .world-page.scale-scene .act.led-act:not(:has(> .prism-bar))::after,
-:root[data-look] .world-page.scale-scene .glance .openers .opener.as-act::after {
-  left: 9px; top: 11px; bottom: 11px; width: var(--indicator-w); border-radius: 3px; }
-:root[data-look] .world-page.scale-scene .act.led-act .prism-bar[style*="gold"],
-:root[data-look] .world-page.scale-scene .glance .openers .opener.as-act.led::after { box-shadow: var(--glow-step); }
-:root[data-look] .world-page.scale-scene .act.led-act > .n { grid-column: 1; }
-:root[data-look] .world-page.scale-scene .act.led-act > .why-said { grid-column: 1; font: var(--t-aside); color: var(--dim);
-  margin-top: 1px; }
-:root[data-look] .world-page.scale-scene .act.led-act > .key { grid-column: 2; grid-row: 1 / span 2; position: static;
-  font: var(--t-key); opacity: .5; }
-:root[data-look] .world-page.scale-scene .act.led-act > .led-mark { grid-column: 1; font: var(--t-aside); }
-:root[data-look] .glance .led, :root[data-look] .glance .openers, :root[data-look] .talk .replies { gap: 6px; }
-/* Trade is a thing to do with them, a row like the rest, not a boxed capital word. */
-:root[data-look] .talk .to-trade .option { display: flex; justify-content: flex-start; }
-:root[data-look] .talk .to-trade .option .prism-bar { position: absolute; left: 9px; top: 11px; bottom: 11px; width: var(--indicator-w);
-  border-radius: 3px; }
-:root[data-look] .talk :is(.replies .act, .dialogue .leave .act) { display: flex; gap: var(--s3); }
-:root[data-look] .talk :is(.replies .act, .dialogue .leave .act) i { order: 2; margin-left: auto; font: var(--t-key);
-  border: 0; opacity: .5; }
-/* A fight's moves, as one column of the same rows (proposal A): Attack first, the kinds that open beneath. */
-:root[data-look] .fight .moves .bar { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; max-width: 24rem; }
-:root[data-look] .fight .moves .bar .move.main { border-color: var(--choice-edge); }
-:root[data-look] .fight .moves .bar .move.main::after { content: ''; position: absolute; left: 9px; top: 11px; bottom: 11px;
-  width: var(--indicator-w); border-radius: 3px; background: var(--ember); }
-:root[data-look] .fight .moves .bar .move[data-action="panel"]::after { content: '›'; justify-self: end; color: var(--dim); }
-:root[data-look] .fight .moves .panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 6px; }
-:root[data-look] .fight .moves .panel .move { max-width: none; min-width: 0; }
-:root[data-look] .fight :is(.moves .auto, .moves .through, .fight-log-toggle) .option { min-height: 38px; padding: 8px 14px;
-  font: var(--t-aside); letter-spacing: 0; text-transform: none; color: var(--dim); background: none; border-color: transparent; }
-@media (orientation: landscape) and (min-width: 900px) {
-  /* Moves at the left foot and the auto/so-far words beside them, not stacked under: the hand is a column of rows. */
-  :root[data-look] .fight > .moves { display: grid; grid-template-columns: 24rem minmax(0, 1fr); align-items: start;
-    column-gap: var(--s5); row-gap: var(--s2); }
-  :root[data-look] .fight > .moves > .bar { grid-column: 1; grid-row: 1 / span 3; }
-  /* What a kind holds opens beside the column, not under it: under it, Cleave and Prepare had fallen past the foot. */
-  :root[data-look] .fight > .moves > .panel { grid-column: 2; grid-row: 1; margin: 0; padding: 0; border: 0;
-    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
-  :root[data-look] .fight > .moves > :is(.auto, .through) { grid-column: 2; margin: 0; align-self: start; }
-  :root[data-look] .fight > .moves:has(> .panel) > :is(.auto, .through) { grid-row: 2; }
-}
-
+/* ---- Mission 21's composition experiments (doc/architecture/mission-21/aesthetic/), read last. Every rule here is
+   scoped to :root[data-look], set by ?look=veil|attend|plate (see look.ts): the owner decides these. What became the
+   game's own (the choice row, the tokens) is in menu.css. ---- */
 /* -- Type roles. -- */
 :root[data-look] .world-page.scale-scene :is(.panel-head, .world-bar) h1.place { font: var(--t-title); letter-spacing: 0; }
-:root[data-look] .setting.budgeted > p { margin: 0 0 .55em; font: var(--t-tell); color: var(--ivory); text-wrap: pretty; }
-:root[data-look] .setting.budgeted > p.lead { font: var(--t-tell-lead); }
-:root[data-look] .setting.budgeted > p.said-life { color: var(--ivory); opacity: .86; }
-:root[data-look] .setting.budgeted > p.held { color: var(--dim); }
-:root[data-look] .setting.budgeted .more-told { padding: 4px 0 8px; font: var(--t-label); letter-spacing: var(--track-label); }
 
-/* -- The fight on a phone: the foes a strip across the top, each its face and full name; the company a line under. -- */
-@media (max-width: 600px) {
-  :root[data-look] .fight > .sides { grid-template-columns: minmax(0, 1fr); grid-template-areas: "foes" "ours" "beat";
-    gap: var(--s3); }
-  :root[data-look] .fight .side.foes { grid-area: foes; display: flex; flex-wrap: wrap; gap: 6px; }
-  :root[data-look] .fight .side.foes::before { flex: 0 0 100%; }
-  :root[data-look] .fight .side.foes > .fighter { flex: 1 1 0; min-width: 0; }
-  :root[data-look] .fight .side.ours { grid-area: ours; }
-  :root[data-look] .fight .sides > .beat { grid-area: beat; }
-  :root[data-look] .fight .foes .fighter.faced { --panel: 0px; padding: 64px 8px 8px; }
-  :root[data-look] .fight .foes .fighter .face { right: 0; bottom: auto; width: auto; height: 56px; border-right: 0;
-    border-bottom: 1px solid var(--edge); }
-  :root[data-look] .fight .foes .fighter .n { font-size: 13.5px; margin-bottom: 6px; }
-  :root[data-look] .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; }
-  :root[data-look] .fight .foes .fighter :is(.tags, .defenses) { display: none; }
-  :root[data-look] .fight .foes .fighter .intent { font-size: 11.5px; padding-top: 5px; margin-top: 5px; }
-  :root[data-look] .fight .moves .bar { max-width: none; }
-}
 
 /* -- A crowd on a phone: two rows of faces at most, their names said to a reader and in the People lens, not under each
    face (thirteen names cut to "Thessal…" and "The gre…" had been three rows over the words). Their pips stay. -- */
@@ -127,12 +15,6 @@
   :root[data-look] .world-page .surface .portraits { gap: 6px; }
 }
 
-/* -- The conversation on a narrow screen: the choices hold their room and the record above gives way (it scrolls,
-   newest last). After an answer the questions had 32 px of 250, one in view. -- */
-@media (max-width: 1023px), (orientation: portrait) {
-  :root[data-look] .talk .dialogue .lines { flex: 0 1 auto; max-height: none; min-height: 5.5em; }
-  :root[data-look] .talk .dialogue .answer { flex: 0 0 auto; max-height: 60%; }
-}
 
 /* -- The book as paper: the one light composition (character, notes, pack, story are read, not lived). -- */
 :root[data-look] .shell.scene-full .book-frame {
@@ -246,21 +128,11 @@
    become words over the one menu (Here · People · Things · Ways), and a lens promotes its kind of act into that menu
    in place of a page (see Attention).
    ==================================================================================================================== */
-:root[data-look="attend"] .scene-rail :is(.opens-talk, .opens-go, .opens-look) { display: none; }
+/* The rail keeps its icons (the owner, 13 November: "please don't go for words in the rail instead of icons"); its
+   Talk, Go and Look turn a lens on, and the lens fills the menu. */
 /* The lens's rows are its surface: Go's and Look's tiles over the painting had said the same again (the contact
    sheet's S1); who is here keeps their likenesses, which are the picture's. */
 :root[data-look="attend"] .world-page .surface .lens-strip { display: none; }
-:root[data-look="attend"] .attention-tabs { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); margin: 0 0 var(--s3);
-  padding: 0 0 var(--s2); border-bottom: 1px solid var(--panel-edge); }
-:root[data-look="attend"] .attention-tab { all: unset; box-sizing: border-box; position: relative; cursor: pointer;
-  display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 0; font: var(--t-label); letter-spacing: var(--track-label);
-  text-transform: uppercase; color: var(--dim); transition: color var(--quick); }
-:root[data-look="attend"] .attention-tab .count { font: var(--t-key); letter-spacing: 0; opacity: .7; }
-:root[data-look="attend"] .attention-tab > .pip { width: 6px; height: 6px; align-self: center; }
-:root[data-look="attend"] .attention-tab:hover, :root[data-look="attend"] .attention-tab:focus-visible { color: var(--ivory); outline: none; }
-:root[data-look="attend"] .attention-tab.on { color: var(--ivory); }
-:root[data-look="attend"] .attention-tab.on::after { content: ''; position: absolute; left: 0; right: 0; bottom: -9px; height: 1.5px;
-  background: var(--accent-line); border-radius: 1px; }
 :root[data-look="attend"] .attention-menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 :root[data-look="attend"] .attention-row .row-glyph { display: inline-block; width: 1.3em; color: var(--dim); font-size: 13px; }
 :root[data-look="attend"] .attention-row.chosen { background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); }
@@ -281,4 +153,22 @@
     flex-direction: column; min-height: 0; max-height: inherit; }
   :root[data-look="attend"] .shell.scene-full .world-page.scale-scene .world-body > .focus > .glance > .told-col {
     flex: 0 1 auto; min-height: 3.5em; overflow-y: auto; }
+}
+
+/* -- The fight on a phone, an experiment: the foes a strip across the top, each its face over its whole name (a
+   departure from the owner's left-panel portraits, so never the default). -- */
+@media (max-width: 600px) {
+  :root[data-look] .fight > .sides { grid-template-columns: minmax(0, 1fr); grid-template-areas: "foes" "ours" "beat"; gap: 12px; }
+  :root[data-look] .fight .side.foes { grid-area: foes; display: flex; flex-wrap: wrap; gap: 6px; }
+  :root[data-look] .fight .side.foes::before { flex: 0 0 100%; }
+  :root[data-look] .fight .side.foes > .fighter { flex: 1 1 0; min-width: 0; }
+  :root[data-look] .fight .side.ours { grid-area: ours; }
+  :root[data-look] .fight .sides > .beat { grid-area: beat; }
+  :root[data-look] .fight .foes .fighter.faced { --panel: 0px; padding: 64px 8px 8px; }
+  :root[data-look] .fight .foes .fighter .face { right: 0; bottom: auto; width: auto; height: 56px; border-right: 0;
+    border-bottom: 1px solid var(--edge); }
+  :root[data-look] .fight .foes .fighter .n { font-size: 13.5px; margin-bottom: 6px; }
+  :root[data-look] .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; }
+  :root[data-look] .fight .foes .fighter :is(.tags, .defenses) { display: none; }
+  :root[data-look] .fight .foes .fighter .intent { font-size: 11.5px; padding-top: 5px; margin-top: 5px; }
 }

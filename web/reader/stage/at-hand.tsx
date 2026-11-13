@@ -104,10 +104,9 @@ export class AtHand {
     const leads = new Set((app.menu.leads ?? leaf.glance?.acts ?? []).flatMap(a => [a.choice, a.subject ?? '']));
     const first = (t: Held) => leads.has(t.id) || t.opens.some(id => leads.has(id))
       || t.choices.some(c => leads.has(c.id)) || !!kept.find(x => x.id === t.id)?.stake;
-    // What the place at rest leaves untold (Told.surplus), first, to be read as the rest of the place.
-    const more = Told.surplus(app), about = more.length
-      ? [{ id: 'about', name: 'About the place', seen: more, choices: [], opens: [] }] : [];
-    return [...about, ...own, ...AtHand.grown(things.filter(first)), ...AtHand.grown(things.filter(t => !first(t))),
+    // What the place at rest leaves untold is unfolded where it is told ("More of the place": see Told.More), not
+    // again here (Mission 21's budget: it had kept Look open with nothing at hand but the place's own words).
+    return [...own, ...AtHand.grown(things.filter(first)), ...AtHand.grown(things.filter(t => !first(t))),
       ...ways];
   }
   // What only grows here, and can only be gathered, is one thing to look at, not a list of every flower: the edge of a

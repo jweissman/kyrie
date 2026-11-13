@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import { afterAll, beforeAll, describe, it } from 'bun:test';
+import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -43,6 +43,19 @@ function measure() {
     const tops = new Set([...range.getClientRects()].filter(r => r.width > 2).map(r => Math.round(r.top / 4)));
     if (tops.size > 1) { wrapped.push((label as HTMLElement).innerText.trim().slice(0, 40)); }
   }
+  // C5 (design-system.md): a choice row's words on one line. The rows alone (ChoiceRow), by their label's line boxes.
+  // Text alone (an icon beside the words is not a second line): each text node's line boxes, by their tops.
+  const lines = (el: Element) => {
+    const tops = new Set<number>(), walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      if (!n.textContent!.trim()) { continue; }
+      const range = document.createRange(); range.selectNodeContents(n);
+      for (const r of range.getClientRects()) { if (r.width > 2) { tops.add(Math.round(r.top / 6)); } }
+    }
+    return tops.size;
+  };
+  const rowWraps = [...document.querySelectorAll('.choice-row > .row-label')].filter(visible).filter(l => lines(l) > 1)
+    .map(l => (l as HTMLElement).innerText.trim().slice(0, 48));
   // Gold drawn: anything whose colour, border, background or shadow is the gold (242, 189, 76) or its bright/deep.
   const golds = /(242, 189, 76|255, 210, 122|217, 165, 58)/;
   let gold = 0; const goldWhat: string[] = [];
@@ -64,7 +77,7 @@ function measure() {
   const scrolls = [...document.querySelectorAll<HTMLElement>('*')]
     .filter(e => e.scrollHeight > e.clientHeight + 2 && /(auto|scroll)/.test(getComputedStyle(e).overflowY) && visible(e))
     .map(e => `${e.tagName.toLowerCase()}.${[...e.classList].slice(0, 2).join('.')} ${e.scrollHeight}/${e.clientHeight}`);
-  return { words, sentences, choices: choices.length, wrapped, gold, goldWhat: [...new Set(goldWhat)].slice(0, 8),
+  return { words, sentences, choices: choices.length, wrapped, rowWraps, gold, goldWhat: [...new Set(goldWhat)].slice(0, 8),
     type: type.size, faces: [...faces], scrolls };
 }
 
@@ -85,7 +98,9 @@ class Shots {
       const breaches = await SafeZone.breaches(this.page);
       this.rows.push({ size: this.size, look: look || 'base', state: `${n}-${name}`, ...m, breaches: breaches.length,
         breachWhat: breaches.slice(0, 4) });
-      console.log(`LOOK ${this.size} ${look || 'base'} ${n}-${name} w${m.words} s${m.sentences} c${m.choices} wrap${m.wrapped.length} gold${m.gold} type${m.type} breach${breaches.length} scroll ${m.scrolls.join(' | ') || '-'}`);
+      // LOOK_STRICT: a wrapped choice row or a breach of the safe zone fails the walk (C5, C4).
+      if (process.env.LOOK_STRICT) { expect([...m.rowWraps, ...breaches]).toEqual([]); }
+      console.log(`LOOK ${this.size} ${look || 'base'} ${n}-${name} w${m.words} s${m.sentences} c${m.choices} rowwrap${m.rowWraps.length} wrap${m.wrapped.length} gold${m.gold} type${m.type} breach${breaches.length} scroll ${m.scrolls.join(' | ') || '-'}`);
       await this.page.screenshot({ path: join(dir, `${n}-${name}.png`) });
     }
     await this.page.evaluate(() => (window as unknown as { kyrieMono: { relook(l: string): void } }).kyrieMono.relook(''));

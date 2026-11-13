@@ -14,8 +14,6 @@ import { Stage } from './stage';
 import { Journey } from './journey';
 import { Check } from './check';
 import { Scrolled } from './scrolled';
-import { SceneBudget, type BudgetLine } from '../../../src/presentation/scene-budget';
-import { Look } from '../look';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -59,18 +57,23 @@ export class Told {
       {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}
         app={app} />}
       {situation.length > 0 ? stayed
-        ? <><p className="recall">{Typography.curl(Told.first(situation[0]!))}</p>{here}</>
-        : <div className="establish"><p>{Typography.curl(situation[0]!)}</p>{here}
-          {situation.slice(1).map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div> : here}
+        ? <><p className="recall"><Told.Said text={Told.first(situation[0]!)} /></p>{here}</>
+        : <div className="establish"><p><Told.Said text={situation[0]!} /></p>{here}
+          {situation.slice(1).map((p, i) => <p key={i}><Told.Said text={p} /></p>)}</div> : here}
       <Told.Presence app={app} lines={leaf.presence} subjects={subjects} quiet={stayed} />
       {leaf.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
-        {leaf.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
+        {leaf.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}
       </div>}
       {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
     </>;
   }
   static readonly harm = Narration.harm;
+  // Words as the author set them: curled, and a run marked *so* in italics (Typography.spans), its stars gone; a plain
+  // client gives the words alone (Typography.plain).
+  static Said({ text }: { text: string }) {
+    return <>{Typography.spans(Typography.curl(text)).map((r, i) => r.stressed ? <em key={i}>{r.text}</em> : r.text)}</>;
+  }
   // The chapter a place opens (a country come into, a story's chapter), the place's name, and where and when.
   static Heading({ frame, app }: { frame: Frame; app?: ReaderApp }) {
     const heading = frame.leaf.heading;
@@ -87,7 +90,7 @@ export class Told {
     if (s.pending) { return null; }
     if (frame.travel) { return <Journey.View travel={frame.travel} />; }
     return leaf.moved && leaf.journey && leaf.journey.length > 0 ? <div className="journey" aria-label="On the way">
-      {leaf.journey.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}</div> : null;
+      {leaf.journey.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}</div> : null;
   }
   // Where the company left off, taken up again: what it is about, and the last thing it did.
   static Recap({ recap }: { recap: NonNullable<Frame['leaf']['recap']> }) {
@@ -122,46 +125,25 @@ export class Told {
     // Nor what the opening's pages have just told (the road into the town, coming into sight), now that play begins on
     // the place it left the company in (Mission 20's amendment 1).
     const opened = Told.opened(app);
-    // Mission 21's compositions tell the place within the scene's budget (see Told.Budgeted).
-    if (Look.current()) { return <Told.Budgeted app={app} beside={beside} opened={opened} />; }
-    const situation = Told.ranked(app, leaf.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p)))
-      .slice(0, Told.situationAtRest);
-    return <div className="setting" data-region="setting">
-      {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
-      <Told.Presence app={app} lines={leaf.presence.slice(0, Told.presenceAtRest)} subjects={subjects} quiet={false} />
+    // Within the scene's budget, as the narrator tells it (Mission 21: three sentences at a glance, typed by what each
+    // observation is; see SceneBudget): what more the place has to tell unfolds here, at a touch, not in a panel.
+    const glanced = leaf.glanced ?? { situation: leaf.situation, presence: leaf.presence, held: [] };
+    const situation = glanced.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p));
+    return <div className="setting" data-region="setting" data-held={glanced.held.length || undefined}>
+      {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}><Told.Said text={p} /></p>)}
+      <Told.Presence app={app} lines={glanced.presence} subjects={subjects} quiet={false} />
+      <Told.More held={glanced.held} key={app.state.frame!.screen.place.id} />
     </div>;
   }
-  // The place within the scene's budget (Mission 21: three sentences at a glance; see SceneBudget): its own first
-  // words, one of its life now, what an aim bears on always; the rest a deliberate touch away, told in place, not in a
-  // panel. Bearing is still inferred from names here (Told.ranked); the typed source is the observation's facets.
-  static Budgeted({ app, beside, opened }: { app: ReaderApp; beside: Set<string>; opened: (line: string) => boolean }) {
-    const leaf = app.state.frame!.leaf, [more, open] = useState(false);
-    const said = (app.state.frame!.screen.aims ?? []).map(a => a.text).join(' ');
-    const bears = (l: string) => [...l.matchAll(/(?<=[a-z,;] )[A-Z][a-zà-ÿ]{4,}/g)].some(m => said.includes(m[0]));
-    const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p));
-    const life = leaf.presence.filter(l => !Told.roll(l)).map(l => [...beside].reduce((rest, x) => rest.replace(x, ''),
-      Typography.curl(l)).replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
-    const lines: BudgetLine[] = [...situation.map((text, i): BudgetLine => ({ text,
-      kind: i === 0 ? 'lead' : bears(text) ? 'bearing' : 'standing' })), ...life.map((text): BudgetLine => ({ text, kind: 'life' }))];
-    const b = SceneBudget.compose(lines);
-    return <div className="setting budgeted" data-region="setting" data-told={b.counted} data-held={b.held.length}>
-      {b.told.map((t, i) => <p key={i} className={`said-${t.kind}${i ? '' : ' lead'}`}>{Typography.curl(t.text)}</p>)}
-      {more && b.held.map((h, i) => <p key={`h${i}`} className="held">{Typography.curl(h)}</p>)}
-      {b.held.length > 0 && <button type="button" className="quiet-word more-told" data-action="more-told"
-        aria-expanded={more} onClick={() => open(!more)}>{more ? 'Less' : 'More of the place'}</button>}
-    </div>;
-  }
-  // How many of what is about the place the scene tells (the owner, 6 November: the scene still too busy); the rest is
-  // what Look… shows.
-  static readonly presenceAtRest = 1;
-  // The place's own words first, then what bears on what the company holds an aim about (a name its aims say: the
-  // bell gone to Seolforfyrd, for one told of Seolforfyrd), then the rest as told.
-  static ranked(app: ReaderApp, lines: string[]): string[] {
-    const said = (app.state.frame!.screen.aims ?? []).map(a => a.text).join(' ');
-    const names = (l: string) => [...l.matchAll(/(?<=[a-z,;] )[A-Z][a-zà-ÿ]{4,}/g)].map(m => m[0]);
-    const bears = (l: string) => names(l).some(n => said.includes(n));
-    const [first, ...rest] = lines;
-    return first === undefined ? [] : [first, ...rest.filter(bears), ...rest.filter(l => !bears(l))];
+  // What more the place has to tell than its glance does: a quiet word that unfolds it, in the place's order.
+  static More({ held }: { held: string[] }) {
+    const [more, open] = useState(false);
+    if (!held.length) { return null; }
+    return <>
+      {more && held.map((h, i) => <p key={i} className="held"><Told.Said text={h} /></p>)}
+      <button type="button" className="quiet-word more-told" data-action="more-told" aria-expanded={more}
+        onClick={() => open(!more)}>{more ? 'Less' : 'More of the place'}</button>
+    </>;
   }
   // Whether a line is one the opening's pages told, by its first sentence.
   static opened(app: ReaderApp): (line: string) => boolean {
@@ -170,16 +152,6 @@ export class Told {
       const first = /^.*?[.!?’](?=\s|$)/.exec(Typography.curl(line))?.[0] ?? Typography.curl(line);
       return beats.some(b => b.includes(first));
     };
-  }
-  // And of what is going on there, the place's own words and the two after them that matter most: the landing at
-  // Thornhaven had told seven at one weight, a bear, a rumour, a stolen bell, a gangway, a hull being tarred (Mission
-  // 20's design A: one trouble in front, others mentioned, the rest found by looking).
-  static readonly situationAtRest = 3;
-  // What the place at rest leaves out of its telling, for Look… to tell (see AtHand.of).
-  static surplus(app: ReaderApp): string[] {
-    const leaf = app.state.frame!.leaf;
-    return [...Told.ranked(app, leaf.situation).slice(Told.situationAtRest),
-      ...leaf.presence.slice(Told.presenceAtRest).filter(l => !Told.roll(l))].map(l => Typography.curl(l));
   }
   static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
@@ -191,7 +163,7 @@ export class Told {
       Typography.curl(l)).replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
     if (!told.length) { return null; }
     return <div className={`presence${quiet ? ' quiet' : ''}`}>
-      <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}{Typography.curl(l)}</span>)}</p>
+      <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}<Told.Said text={l} /></span>)}</p>
     </div>;
   }
   static roll(line: string): boolean {
@@ -230,11 +202,11 @@ export class Told {
       <section ref={at} className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
         {plain!.map((l, i) => Check.of(l, i)
-          ?? <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
+          ?? <p key={i} className={l.kind}><Told.Said text={l.text} /></p>)}
         {sights.length > 0 && <Panorama.View sights={sights} going={Told.going(app)} choose={app && (c => app.choose(c))}
           onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
         {rest!.map((l, i) => Check.of(l, `r${i}`)
-          ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
+          ?? <p key={`r${i}`} className={l.kind}><Told.Said text={l.text} /></p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {(notes.length > 0 || taken.length > 0) && <ul className="notes">

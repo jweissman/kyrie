@@ -1,5 +1,5 @@
 import { SceneRail } from './scene-rail';
-import { useRef, type CSSProperties } from 'react';
+import { useRef } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -26,6 +26,7 @@ import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
 import { Scrolled } from './scrolled';
 import { Attention } from './attention';
+import { ChoiceRow } from './choice-row';
 import { Look } from '../look';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
@@ -65,7 +66,7 @@ export class GlanceStage {
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
           {g.came && <GlanceStage.Came app={app} came={g.came} />}
           {screen.dark && !g.sight && <p className="dark-note">{Told.unlit}</p>}
-          {g.sight && <p className="sight" data-id={g.sight.id}>{Typography.curl(g.sight.text)}</p>}
+          {g.sight && <p className="sight" data-id={g.sight.id}><Told.Said text={g.sight.text} /></p>}
           <GlanceStage.Life app={app} glance={g} />
           {g.changed.length > 0 && <div className="changed">
             <p className="label">Since you were last here</p>
@@ -84,9 +85,8 @@ export class GlanceStage {
           <div className="do-list">
             {!apart && <GlanceStage.Aim app={app} said={g.aim} />}
             {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
-            {/* Mission 21's attention composition: the lens chosen over the one menu promotes its kind of act into
-                it, in place of the place's own few (see Attention). */}
-            {apart && Look.is('attend') && <Attention.Tabs app={app} />}
+            {/* Mission 21's attention composition: the lens chosen on the rail (its icons, never words: the owner, 13
+                November) promotes its kind of act into the one menu, in place of the place's own few (see Attention). */}
             {apart && Look.is('attend') && Attention.lens(app) !== 'here' ? <Attention.Menu app={app} draw={draw} />
               : apart ? <GlanceStage.Resting app={app} draw={draw} top={top}
               acts={(app.menu.leads ?? g.acts).filter(a => GlanceStage.choice(app, a.choice)?.id !== MenuModel.country.id)} />
@@ -148,7 +148,7 @@ export class GlanceStage {
         {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
-        {g.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
+        {g.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}
       </div>}
       {!s.pending && told && !struck && <Told.Happened exchange={told} said={!leaf.moved} ready={Moments.ready(screen)}
         app={app} />}
@@ -184,10 +184,10 @@ export class GlanceStage {
           {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
         {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the
             owner, 12 November: "The dues-receipt nailed to the post…" as a link); only the ways on stay quiet words. */}
-        {posted && !drawn.some(d => d?.id === posted.id) && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted as-act">
-          {Typography.curl(posted.label)}</Act.View>}
-        {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led as-act">
-          {Typography.curl(yours.label)}</Act.View>}
+        {posted && !drawn.some(d => d?.id === posted.id) && <ChoiceRow.Act choice={posted} draw={draw} quiet
+          className="opener opens-posted as-act" mark={ChoiceRow.neutral} markClass="neutral" label={Typography.curl(posted.label)} />}
+        {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
+          mark="var(--tone-gold)" markLabel="your aim" label={Typography.curl(yours.label)} />}
         {only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
@@ -379,7 +379,7 @@ export class GlanceStage {
     if (life.danger && subject) { return <GlanceStage.Danger subject={subject} text={life.text} reckoned={reckoned} />; }
     return (
       <p className="life" data-subject={life.subject} data-id={life.id}>
-        <span className="said">{Typography.curl(life.text)}</span>
+        <span className="said"><Told.Said text={life.text} /></span>
       </p>
     );
   }
@@ -388,7 +388,7 @@ export class GlanceStage {
       <section className="threat" data-subject={c.id} aria-label={`Danger: ${c.name}`}>
         <p className="label">Danger</p>
         <p className="n">{Typography.curl(Words.upper(c.name))}{c.note && <span className="r"> · {Typography.curl(c.note)}</span>}</p>
-        <p className="d">{Typography.curl(text)}</p>
+        <p className="d"><Told.Said text={text} /></p>
         {c.danger && !reckoned && <p className="reckoning">{Typography.curl(GlanceStage.fight(c.danger))}</p>}
       </section>
     );
@@ -418,16 +418,16 @@ export class GlanceStage {
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
           data-continues={a.continues || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
-          <Act.View choice={c} draw={draw}
+          {/* One row, as every choice is (see ChoiceRow): its one indicator, neutral where it is nothing in
+              particular. */}
+          <ChoiceRow.Act choice={c} draw={draw} shown={i + 1}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`
-              + `${a.afar ? ' afar' : ''}`}>
-            {mark && <i className="prism-bar" role="img" aria-label={Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x])
-              .join(', ')} style={{ '--prism': mark } as CSSProperties} />}
-            <span className="n">{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></span>
-            {note && <span className="why-said">{Typography.curl(note)}</span>}
-            <kbd className="key" aria-hidden="true">{i + 1}</kbd>
-            {a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)}
-          </Act.View>
+              + `${a.afar ? ' afar' : ''}`}
+            mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
+            {...mark ? { markLabel: Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x]).join(', ') } : {}}
+            label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></>}
+            aside={note && Typography.curl(note)}
+            extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>;
       })}</ol>

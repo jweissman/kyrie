@@ -12,6 +12,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
 import { Glance } from './glance';
+import { SceneBudget } from './scene-budget';
 import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
@@ -28,6 +29,10 @@ export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[
 export interface Leaf {
   heading?: { kind: 'opening' | 'country' | 'chapter'; title: string };
   situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter;
+  // The place at a glance (SceneBudget: three sentences, typed by what each observation is; Mission 21): what the
+  // page and the terminal tell of situation and presence, and what they hold for a deliberate look, whole sentences in
+  // the place's order. situation and presence above stay whole, for what reads the place entire.
+  glanced?: { situation: string[]; presence: string[]; held: string[] };
   // Whether the last command brought the company here from somewhere else, and the way, told as it went.
   moved?: boolean; journey?: string[];
   // Taken up again from a save: what the company is about, and the last thing it did, and when (see EngineHost).
@@ -92,7 +97,7 @@ export class Narrator {
       && !echoed.has(Narration.sentence(l.text)) && !toldAs.has(l.id)), defs);
     const lines = known && told?.moved ? this.recalled(campaign, all, defs) ?? all : all;
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
-    const situation = this.paragraphs(credited, defs);
+    const paragraphs = this.paragraphs(credited, defs), situation = paragraphs.map(p => p.text);
     // What a thing looks like is not told again with it when the place has just said it (a wonder, told as the place).
     const placed = situation.join(' ');
     // What was seen on coming here and is gone by the time the page is drawn (a word chalked on a gate, whose seeing
@@ -117,8 +122,13 @@ export class Narrator {
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     const chapter = told && Chapters.opened(campaign.module, told.event.perceptions);
+    // At a glance, three sentences (Mission 21): typed by what each observation is; what came of coming here counts.
+    const arrival = told?.moved ? Narrator.arrival(exchange) : 0;
+    const budget = SceneBudget.typed(paragraphs, presence, gone, arrival);
     const leaf = this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
       situation: [...situation, ...gone], presence, changed: fresh,
+      glanced: { situation: budget.told.filter(t => t.kind !== 'life').map(t => t.text),
+        presence: budget.told.filter(t => t.kind === 'life').map(t => t.text), held: budget.held },
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
     });
@@ -159,6 +169,9 @@ export class Narrator {
   private static set(leaf: Leaf): Leaf {
     const e = leaf.exchange;
     return { ...leaf, situation: leaf.situation.map(t => Typography.curl(t)),
+      ...leaf.glanced ? { glanced: { situation: leaf.glanced.situation.map(t => Typography.curl(t)),
+        presence: leaf.glanced.presence.map(t => Typography.curl(t)),
+        held: leaf.glanced.held.map(t => Typography.curl(t)) } } : {},
       presence: leaf.presence.map(t => Typography.curl(t)), changed: leaf.changed.map(t => Typography.curl(t)),
       ...e ? { exchange: { ...e, lines: e.lines.map(l => ({ ...l, text: Typography.curl(l.text) })),
         ...e.said ? { said: Typography.curl(e.said) } : {} } } : {} };
@@ -188,16 +201,27 @@ export class Narrator {
     return true;
   }
   // The lines one installation tells of its own place run on as one paragraph; a feature or a sign stands alone.
-  private static paragraphs(lines: { id: string; text: string }[], defs: Map<string, Observation>): string[] {
-    const out: { text: string; from: string }[] = [];
+  // Paragraphs, each with its observations as parts and what each is (its facets), for the scene's budget (see
+  // SceneBudget.typed).
+  private static paragraphs(lines: { id: string; text: string }[], defs: Map<string, Observation>):
+  { text: string; parts: { text: string; teaches?: string; aspect?: string }[] }[] {
+    const out: { text: string; from: string; parts: { text: string; teaches?: string; aspect?: string }[] }[] = [];
     for (const line of lines) {
       const def = Narrator.def(defs, line.id), text = FictionalTime.prose(line.text);
       const runs = !def?.aspect || def.aspect === 'fixture' || def.aspect === 'weather' || def.aspect === 'ambience';
       const from = runs && line.id.includes('__') ? line.id.split('__')[0]! : '';
       const prior = out.at(-1);
-      if (prior && from && prior.from === from) { prior.text = `${prior.text} ${text}`; } else { out.push({ text, from }); }
+      const part = { text, ...def?.teaches ? { teaches: def.teaches } : {},
+        ...def?.aspect ? { aspect: def.aspect } : {} };
+      if (prior && from && prior.from === from) { prior.text = `${prior.text} ${text}`; prior.parts.push(part); }
+      else { out.push({ text, from, parts: [part] }); }
     }
-    return out.map(p => p.text);
+    return out.map(({ text, parts }) => ({ text, parts }));
+  }
+  // The sentences what came of coming here tells (what was said and done, not the dice nor a fight's blows).
+  private static arrival(exchange: Exchange | undefined): number {
+    return (exchange?.lines ?? []).filter(l => l.kind !== 'roll' && l.kind !== 'fight')
+      .reduce((n, l) => n + SceneBudget.count(l.text), 0);
   }
   // What only someone who brings a capability would notice (tracks, a word in the old script) is credited to the
   // companion who noticed it (a fellow traveller, a recruit of an adventure's, a hireling: see companion in

@@ -57,27 +57,13 @@
 .dialogue .answer > .leave { flex: none; margin: 8px 0 0; display: flex; gap: 10px; }
 .dialogue .leave > .option { flex: none; }
 .replies { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
-.replies .act, .dialogue .leave .act { display: flex; align-items: baseline; gap: 12px; width: 100%; min-height: 46px;
-  padding: 11px 16px 11px 14px; font: 500 15.5px/1.35 var(--do); }
-.replies .act::before, .dialogue .leave .act::before { display: none; }
-.replies .act > .said { flex: 1 1 0; min-width: 0; }
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
 /* Green, as the likeness marked as having something for you: what pays you to say (see Owed). */
-.replies .act i, .dialogue .leave .act i { font: 500 12px/1 var(--do); font-style: normal; color: var(--dim); flex: none;
-  width: 22px; height: 22px; display: inline-grid; place-items: center; border: 1px solid var(--edge-strong);
-  transform: translateY(-1px); transition: color var(--quick), border-color var(--quick), background var(--quick); }
-.replies .act:hover i, .replies .act.sel i, .replies .act:focus-visible i, .dialogue .leave .act:hover i,
-.dialogue .leave .act.sel i, .dialogue .leave .act:focus-visible i { color: var(--deep); background: var(--accent);
-  border-color: var(--accent); }
-.replies .act small { font: 400 13px var(--do); color: var(--dim); }
-.replies .asked .act { color: var(--dim); }
 .replies.answers { border-left: 2px solid var(--accent); padding-left: 12px; margin: 0 0 14px; }
 .answering { font: 500 11px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
 /* Taking your leave is always there to be done, so it is drawn whole and quieter, never dashed: a dashed edge is what
    cannot be done (reader.css), and a jeweller's "Take your leave", the only thing to do there, had read as shut (the
    owner, 7 November). Where it is all there is to say, it is said as plainly as any answer. */
-.dialogue .leave .act { color: var(--dim); border-color: var(--edge); }
-.dialogue .choosing:not(:has(button)) + .leave .act { color: var(--ivory); border-color: var(--edge-strong); }
 /* A trader's counter: each ware a key that buys it, its price and how many are left. */
 .counter { margin: 0 0 16px; padding: 0 0 14px; border-bottom: 1px solid var(--edge); font: 400 14.5px/1.5 var(--do); }
 .counter .label { margin: 0 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
@@ -143,8 +129,8 @@
 /* What a reply is to the company: the one indicator at its left, as on a led act (see Emphasis.within), of the tone
    its speaker's likeness was drawn in for it (the owner, 12 November: a blue pip, and no blue reply to ask; a rose
    pip, and the asking to join unmarked). Everything else about it neutral. */
-.replies .act:has(> .prism-bar), .to-trade .option:has(> .prism-bar), .ah-pane .act:has(> .prism-bar) { position: relative; }
-.replies .act > .prism-bar, .to-trade .option > .prism-bar, .ah-pane .act > .prism-bar { position: absolute; left: -1px;
+.ah-pane .act:has(> .prism-bar) { position: relative; }
+.ah-pane .act > .prism-bar { position: absolute; left: -1px;
   top: -1px; bottom: -1px; width: 3px; background: var(--prism); border-radius: 2px 0 0 2px; }
 .to-trade { margin: 14px 0 0; display: flex; gap: 10px; }
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
@@ -155,3 +141,17 @@
 @media (max-width: 899px), (orientation: portrait) {
   .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 64px; }
 }
+
+/* ---- Mission 21, step 5: the conversation at its edges. ---- */
+/* On a narrow screen the questions hold their room and the record above gives way (it scrolls, newest last): after an
+   answer they had had 32 px of 250, one in view (the capture walk, 12 November). */
+@media (max-width: 1023px), (orientation: portrait) {
+  .talk .dialogue .lines { flex: 0 1 auto; max-height: none; min-height: 5.5em; }
+  .talk .dialogue .answer { flex: 0 0 auto; max-height: 60%; }
+}
+/* Unpainted, a page in type: the name large, the people's emblem large and faint behind it (the owner, 5 and 7
+   November), not an outline floating in an empty column. */
+.sitter.unpainted { justify-content: flex-start; }
+.sitter.unpainted .sitter-emblem { top: auto; bottom: clamp(30px, 8vh, 80px); left: clamp(8px, 2vw, 28px); width: min(78%, 300px);
+  transform: none; opacity: .16; }
+.shell.scene-full .sitter.unpainted { background: linear-gradient(180deg, rgba(10, 11, 14, .55), rgba(10, 11, 14, .92)); }

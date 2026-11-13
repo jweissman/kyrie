@@ -1,0 +1,93 @@
+/* ---- The design system's tokens and its one choice row (Mission 21: doc/architecture/mission-21/aesthetic/
+   design-system.md). Read after the pages' sheets: the pages lay rows out, this sheet alone says how a row looks. ---- */
+:root {
+  /* Space: one 4px grid, eight steps. Nothing between them. */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+  /* Type: seven roles, two faces. The telling's voice (Newsreader) tells and speaks; the doing voice (Source Sans 3)
+     names what can be done and where one is. Capitals only for the one small label role, never for a choice. */
+  --t-title: 300 clamp(26px, 2.5vw, 34px)/1.12 var(--do);
+  --t-tell-lead: 400 clamp(17.5px, 1.35vw, 19.5px)/1.5 var(--told);
+  --t-tell: 400 clamp(16px, 1.2vw, 17.5px)/1.55 var(--told);
+  --t-choice: 500 15.5px/1.25 var(--do);
+  --t-aside: 400 13px/1.35 var(--do);
+  --t-label: 600 10.5px/1.2 var(--do); --track-label: .16em;
+  --t-key: 600 10.5px/1 var(--do);
+  /* Surfaces: one panel over a painting, one choice, one sheet. */
+  --panel-ground: rgba(12, 13, 17, .76); --panel-blur: blur(18px) saturate(1.12);
+  --panel-edge: rgba(236, 230, 217, .09); --panel-radius: 14px; --panel-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  --choice-ground: rgba(236, 230, 217, .045); --choice-edge: rgba(236, 230, 217, .08);
+  --choice-ground-hot: rgba(236, 230, 217, .1); --choice-edge-hot: rgba(236, 230, 217, .22);
+  --choice-radius: 10px; --choice-h: 46px; --indicator-w: 3px;
+  /* At most this many choices a menu shows before "All …"; the scene's own few are four. */
+  --menu-max: 4;
+  /* Radiance, restrained: the followed step's gold breathes a little light; focus is light, never gold. */
+  --glow-step: 0 0 14px rgba(242, 189, 76, .38); --ring-focus: 0 0 0 1px rgba(236, 230, 217, .34);
+  /* Paper: the one light composition (the book), its ink and its rules. */
+  --paper-ground: #EDE6D6; --paper-raised: #E3DAC6; --paper-ink: #29241D; --paper-dim: #6A6153; --paper-faint: #998E7C;
+  --paper-edge: rgba(41, 36, 29, .14);
+}
+:root { --row-neutral: rgba(236, 230, 217, .28); }
+
+/* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a
+   conversation's questions, its leave and Trade, a fight's moves. Its one indicator at the left, its words in sentence
+   case, a quiet line under them, its key at the right; the same height and ground everywhere. ---- */
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row {
+  all: unset; box-sizing: border-box; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center; align-content: center; column-gap: var(--s3); width: 100%; min-height: var(--choice-h); margin: 0;
+  padding: 9px 14px 9px 22px;
+  font: var(--t-choice); letter-spacing: 0; text-transform: none; text-align: left; color: var(--ivory); cursor: pointer;
+  background: var(--choice-ground); border: 1px solid var(--choice-edge); border-radius: var(--choice-radius);
+  text-wrap: balance; -webkit-tap-highlight-color: transparent;
+  transition: background var(--quick), border-color var(--quick), transform var(--quick); }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
+  background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); outline: none; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row:active { transform: none; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
+  cursor: default; transform: none; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row::before { display: none; }
+/* Its one indicator: a short rounded line, the tone of what it is; faint and neutral where it is nothing in particular. */
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
+  bottom: 11px; width: var(--indicator-w); border-radius: 3px; background: var(--prism); }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-mark[style*="gold"] { box-shadow: var(--glow-step); }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
+/* What is truly several things at once: its line a slow gradient through its tones (OKLab), still for less motion. */
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
+  animation: prism-drift 9s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  :root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
+/* Asked already: its words lowered, still to be chosen. */
+:root .talk .replies .asked .choice-row.choice-row { color: var(--dim); }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark) { grid-column: 1; min-width: 0; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-label { font: inherit; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); margin-top: 1px; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { grid-column: 2; grid-row: 1 / span 3;
+  position: static; min-width: 0; padding: 0; border: 0; background: none; font: var(--t-key); color: var(--dim); opacity: .7; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(.risk, .grave)::after { grid-column: 1 / -1; }
+:root :is(.world-page, .talk, .fight) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
+@media (hover: none) { :root :is(.world-page, .talk, .fight) .choice-row.choice-row > .row-key { display: none; } }
+/* Taking one's leave, quieter than what can be said. */
+:root .talk .dialogue .leave .choice-row.choice-row { color: var(--dim); }
+:root .talk .dialogue .choosing:not(:has(button)) + .leave .choice-row.choice-row { color: var(--ivory); }
+:root .talk .to-trade .choice-row.choice-row { width: auto; min-width: 12rem; }
+
+/* ---- How pages lay rows out: in a column, a few pixels apart. ---- */
+:root .glance .led, :root .glance .openers, :root .talk .replies { gap: 6px; }
+:root .world-page.scale-scene .glance .openers > .choice-row { align-self: stretch; }
+/* A fight's moves: Attack and the kinds that open, side by side where there is room; what a kind holds, beneath. */
+:root .fight .moves .bar { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 6px; max-width: 40rem; }
+:root .fight .moves .panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 6px; }
+:root .fight .moves .panel > li { margin: 0; }
+
+/* On a phone the hand is one row of three, so the company above it is seen whole (the reader spec at 390 by 844). */
+@media (max-width: 600px) {
+  :root .fight .moves .bar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  :root .fight .moves .bar .choice-row.choice-row { min-height: 44px; padding: 6px 5px 6px 13px; column-gap: 2px;
+    font-size: 14px; line-height: 1.2; }
+  :root .fight .moves .bar .choice-row.choice-row > .row-mark { left: 5px; top: 9px; bottom: 9px; }
+}
+
+/* ---- The telling's budget (SceneBudget, Narrator's glanced): what more the place has to tell, unfolded in place by a
+   quiet word. ---- */
+:root .setting > p.held { color: var(--dim); }
+:root .setting .more-told { display: inline-block; padding: 4px 0 8px; font: var(--t-label); letter-spacing: var(--track-label); }

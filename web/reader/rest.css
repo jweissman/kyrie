@@ -390,17 +390,6 @@
   .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
 }
 .world-page.scale-scene .glance .led { gap: 4px; }
-.world-page.scale-scene .act.led-act { position: relative; background: none; border: 0;
-  box-shadow: none; padding-left: 20px; }
-.world-page.scale-scene .act.led-act::before { display: none; }
-.world-page.scale-scene .act.led-act .prism-bar { left: 2px; top: 9px; bottom: 9px; width: 4px;
-  border-radius: 4px; }
-.world-page.scale-scene .act.led-act:not(:has(> .prism-bar))::after { content: '';
-  position: absolute; left: 2px; top: 9px; bottom: 9px; width: 4px; border-radius: 4px;
-  background: rgba(236, 230, 217, .28); }
-.world-page.scale-scene .act.led-act:hover,
-.world-page.scale-scene .act.led-act.sel { background: rgba(236, 230, 217, .06); }
-.world-page.scale-scene .act.led-act .key { opacity: .45; border-color: transparent; }
 .world-page.scale-scene .glance .openers { border-top: 0; }
 /* The lens strip (see Lenses): Go's ways or Look's things across the foot of the painting, where the likenesses stand
    when the talk lens is on; each a small tile, its one pip of what it is, inside the safe zone. */
@@ -436,12 +425,4 @@
    if it can change the world"). The ways on stay quiet words. */
 .world-page.scale-scene .glance .openers { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
 .world-page.scale-scene .glance .openers > :not(.as-act) { align-self: flex-start; }
-.world-page.scale-scene .glance .openers .opener.as-act { position: relative; display: block; text-align: left;
-  padding: 9px 12px 9px 20px; font: 500 15px/1.3 var(--do); letter-spacing: 0; text-transform: none;
-  color: var(--ivory); background: none; border: 0; }
-.world-page.scale-scene .glance .openers .opener.as-act::before { display: none; }
-.world-page.scale-scene .glance .openers .opener.as-act::after { content: ''; position: absolute; left: 2px; top: 9px;
-  bottom: 9px; width: 4px; border-radius: 4px; background: rgba(236, 230, 217, .28); }
-.world-page.scale-scene .glance .openers .opener.as-act.led::after { background: var(--gold); }
-.world-page.scale-scene .glance .openers .opener.as-act:hover,
-.world-page.scale-scene .glance .openers .opener.as-act:focus-visible { background: rgba(236, 230, 217, .06); outline: none; }
+
