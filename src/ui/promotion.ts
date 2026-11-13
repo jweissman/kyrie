@@ -134,9 +134,9 @@ export class Promotion {
   }
   // The reasons it may be led with for, as what it is allows: never a wait (but for first light, in the dark with
   // nothing to give light), or studying; a step across the country only toward the aim shown (REV-08: from the edge of
-  // the known into the wild country it lies in); a search only for a sign of the place's or the aim naming it; a camp
-  // or a rest only for what the company needs; a way not yet taken only in a settlement or site, and not with a danger
-  // or a warning.
+  // the known into the wild country it lies in); a search only for a sign of the place's or what the aim waits on; a
+  // camp or a rest only for what the company needs; a way not yet taken only in a settlement or site, and not with a
+  // danger or a warning.
   private static allowed(c: Candidate, s: Situation): Why[] {
     if (c.kind === 'study') { return []; }
     // A question asked once more ("Ask Bask again about …") tells only what was told: never led with, whatever aim it
@@ -155,7 +155,8 @@ export class Promotion {
       && !(c.known && w === 'held'));
     if (c.kind === 'wait') { return whys.filter(w => w === 'dark'); }
     // Or for what the aim followed waits on, hidden here (the dead man's box under the door-stone): that had been
-    // reckoned the aim's step and then dropped here, and the gold led on into the keep (test/small/gold-thread).
+    // reckoned the aim's step and then dropped here, and the gold led on into the keep (test/small/gold-thread). Not
+    // for being made where the aim is: that is gone from Affordances (M21's PL-08).
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named' || w === 'advance'); }
     if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }
     return whys;

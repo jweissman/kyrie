@@ -240,12 +240,6 @@ export class Affordances {
   private static within(id: string, named: Set<string>, r?: Reading): boolean {
     return named.has(id) || !!r?.holding?.has(id);
   }
-  // Whether a way on from here is still not taken (not the road out): searching where the aim is comes after going
-  // on (at the churchyard the aim names, the stair down to the crypt first), and never where someone the aim names
-  // stands (the priest who owes for the catacombs, at her shrine): the cold review's search as an interface tax.
-  private static onward(screen: Screen): boolean {
-    return screen.exits.some(e => !e.visited && e.local && !e.blocked);
-  }
   // An aim held and not followed: "another aim" beside one followed, else only an aim (with nothing followed yet, the
   // priest the brothers' letter is for had been "another aim": round 11, T).
   private static held(r: Reading): string { return r.aim ? 'another aim' : 'an aim'; }
@@ -381,9 +375,9 @@ export class Affordances {
       ...kind === 'camp' && ((n.night && !n.settled) || n.weary) ? ['exposed' as const] : [],
       ...kind === 'rest' && n.hurt.size > 0 && !at.threat ? ['hurt' as const] : [],
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
-      ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
-        && !screen.people.some(p => r.named.has(p.id)) ? ['named' as const] : [],
-      // What the aim waits on, done by the company here (sitting up with the fevered child): its next step.
+      // What the aim waits on, done by the company here (sitting up with the fevered child, a search where what it
+      // waits on is hidden): its next step. A search is not the aim's for being made where the aim is: at Seolforfyrd
+      // the debt's gold went to "Search", and "nothing is hidden here" (M21's playability list, PL-08).
       ...c.command && r.advances?.has(c.command) && !r.done.has(c.command) ? ['advance' as const] : [],
       ...this.ownWhy([c], r), ...this.answers(c, at) ? ['danger' as const] : [],
       ...r.schema.get(c.command ?? '') === 'lie_still' ? ['helpless' as const] : []];

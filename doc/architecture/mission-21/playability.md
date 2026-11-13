@@ -27,6 +27,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-02 | P1 | A journey's fights were fought for the player (headless `travel:` legs used the automatic controller) | fixed in this branch |
 | PL-03 | P1 | Blue ("to learn") on an act that teaches nothing: the wagoner's "Offer him a hand" | fixed in this branch |
 | PL-05 | **P0** | Gold on whatever has its own act at the place the aim names, though it does nothing for the aim (the cairn at Seolforfyrd took the debt's gold; at Tenebraetumulo the oxen's) | fixed in this branch |
+| PL-08 | **P0** | Gold on "Search" wherever the aim names the place, though nothing is hidden there (Seolforfyrd: "nothing is hidden here") | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | open |
@@ -109,6 +110,25 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   advance the aim by type), and `there` is gone. Regression: `test/small/gold-at-the-place.test.ts` (each half of the
   change fails one of its two cases without the other).
 
+### PL-08: gold on a search that finds nothing
+
+- **Repro:** kahitude debt as PL-05, at Seolforfyrd with PL-05 fixed (save `kh-seol.json`): "Search Seolforfyrd · 20
+  min [gold: your aim]"; taken: "You have been over the whole of it, and nothing is hidden here." Twenty minutes and
+  the gold's word spent on nothing; the gold then moved to the toll-house door.
+- **Corroborates:** round 12, B (T33, T49: searches "nothing is hidden", nothing found); the owner's 7 November notes
+  ("gold on the place you already are, random gold places"); the false-promise corpus of review-mitigations P3.
+- **Cause (verified):** `Affordances.yours` gave a search the why `named` ("where your aim is") whenever the aim named
+  the place and no unvisited way led on: the same inference from location as PL-05. What is typed (`AimAdvances`:
+  something the aim waits on hidden here, a fact the aim waits on found by searching here) already makes a search the
+  aim's next step where it is one (the father's road: `Discovery found_cart … Found by searching road`).
+  And the typed answer was being thrown away: `Promotion.allowed` let a search be led only for `sign` or `named`, so
+  a search's `advance` (the dead man's box under Seolforfyrd's door-stone, `AimAdvances.sought`) counted only because
+  the heuristic happened to fire too. With the heuristic gone the map origin's gold walked every room of the
+  toll-house and was lost (`test/gold-thread.test.ts`, kahitude/map), which is how this was found.
+- **Status:** fixed in this branch (the heuristic removed; a search may be led for `advance`). Regressions:
+  `test/small/gold-at-the-place.test.ts`: the debt's case, indoors so that a search is offered, and the hidden
+  thing's case (each fails on the code before its half of the change).
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -126,11 +146,30 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   ("Challenge 1").
 - **Status:** open: balance (an instrument first, as the owner proposed), not a defect to patch per creature.
 
+## The human reports, and where each stands
+
+The owner's own play first; then the agents' rounds where they corroborate it.
+
+| Report (source) | Reproduced? | Item |
+|---|---|---|
+| Gold on aims not chosen, out of a place and back, nothing advancing (owner, 12 Nov, PR-01; golden-thread note) | **yes**, two worlds: gold for being at the aim's place (the cairn), and on a search that finds nothing | PL-05, PL-08 |
+| Choosing a place in the company's own hex walked it out of the town (owner, 12 Nov, PR-02) | not yet tried in the page; the engine has no guard (the fix is the browser's `MapView`) | see root cause 1 |
+| A blue pip with no blue reply; a green Look with no clear collectible (owner, 12 Nov, PR-04) | **yes**, the blue half: the opening's wagoner | PL-03 |
+| Green circle and dot on someone with no green option and nothing to say (owner, 10 Nov notes) | not yet reproduced (no green on a person met so far) | — |
+| Two quests for one place, Albustagn (owner, 10 Nov notes) | not tried (`Undertakings.folded` claims it) | — |
+| Rat crawlway: followed aim lost, narration three ways, nested aims block (owner, 11 Nov) | not tried yet | — |
+| "Listen at it" on a padlock; targets unnamed (owner, 11 Nov, action projection) | **yes**: "Listen at the corn-store padlock" in a1's `all` | P2, open |
+| Travelling must reveal the landscape; encounter chance per hex (owner, 10 Nov) | **yes**: five hours through Mistshaw green told by nothing | PL-04 |
+| A battle in the caves absurdly easy (owner, 10 Nov) | **yes**: the den's zombies never touch the company | PL-07 |
+| Corn-store key-holder hard to find; ways lead out not in (owner, 6 Nov) | not tried yet | — |
+| Looking empty; gold on the place you are; one click to go (owner, 7 Nov) | the gold half: PL-08 | PL-08 |
+| A person with only "Take your leave" advertised as conversable (owner, 9 Nov) | not met so far in the terminal | — |
+
 ## Common root causes
 
 1. **The promise/projection boundary: presentation infers what an act will do** (the retrospective's first
-   candidate). Verified twice so far: PL-05 (gold for an act's *location*, `Affordances.there`, where the typed
-   `AimAdvances` had a gap) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
+   candidate). Verified three times so far: PL-05 and PL-08 (gold for an act's *location*: `Affordances.there`, and a search
+   "where your aim is", where the typed `AimAdvances` had a gap or already had the answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
    In both the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
    standing on the same boundary: `TalkFocus.weighty` ranks replies by their words (`/^(Tell|Pay) /`, "would come
