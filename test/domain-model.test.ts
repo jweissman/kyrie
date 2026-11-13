@@ -53,7 +53,7 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect([human.classId, wolf.classId]).toEqual(['warrior', undefined]);
     expect(human.base.abilities).toEqual(['defend', 'guard', 'taunt', 'vigor_up', 'cleave', 'prepare_charge', 'charge',
       'set_spear', 'second_wind', 'sweep']);
-    expect(wolf.base.abilities).toEqual(['flee']);
+    expect(wolf.base.abilities).toEqual(['howl', 'flee']);
     expect(CombatProjection.fighter(wolf, 'goblins').equipment.weapon).toMatchObject({ id: 'bite', damage: '1d6' });
     expect(() => Probe.creature('pup', { raceId: 'wolf', classId: 'warrior' })).toThrow('species and takes no class');
     expect(() => Probe.creature('sage', { raceId: 'elf', classId: 'cleric' })).toThrow('an elf cannot be a cleric');

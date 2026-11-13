@@ -60,7 +60,7 @@ describe('a creature of its kind, varied', () => {
     const buck = m.people![0]!;
     expect(buck.variations).toEqual(['elder', 'great']);
     expect(ModuleWriter.person(buck)).toContain('Variant elder. Variant great.');
-    // A hound, which grows as Orsino's do (the rat and the wolf are the SRD's fixed blocks, which age does not grow).
+    // A hound, which grows as Orsino's do (a fixed stat block, as the SRD's are, is not grown by its age).
     const plain = new Content('x').createCreature('r', { raceId: 'hound', level: 2 }, 'r');
     const old = new Content('x').createCreature('r', { raceId: 'hound', level: 2, variations: ['elder', 'great'] }, 'r');
     expect(old.base.strength).toBe(plain.base.strength + 4);

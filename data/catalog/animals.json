@@ -1607,22 +1607,17 @@
       "portrait": "animals/rat",
       "statistics": {
         "attributes": {
-          "strength": 2,
-          "dexterity": 15,
-          "constitution": 10,
-          "intelligence": 2,
-          "wisdom": 12,
-          "charisma": 2
+          "strength": 4,
+          "dexterity": 10,
+          "constitution": 6,
+          "intelligence": 3,
+          "wisdom": 10,
+          "charisma": 3
         },
-        "hitDice": "1d8 / 4",
-        "primary": "dexterity",
+        "hitDie": 2,
+        "primary": "strength",
         "weapon": "gnaw",
-        "armor": "fur",
-        "saves": {
-          "fortitude": 2,
-          "reflex": 4,
-          "will": 1
-        }
+        "armor": "fur"
       },
       "abilities": [
         "defend",
@@ -1636,10 +1631,8 @@
       ],
       "source": {
         "orsino": "animal:rat",
-        "srd35": "monster:rat",
-        "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's rat: its 1/4 d8 Hit Dice (one hit point, at any level), its scores (2, 15, 10, 2, 12, 2), its bite of 1d3 (the catalog's gnawing bite) led by its Dexterity, AC 14 as Westernesse 7 (its fur and its quickness), and its saves (+2, +4, +1). Adapted: a Tiny creature's reach and space, low-light vision and scent are not modelled. Before, Orsino's rat with two hit points and a hit die to grow by (M19-60): a swarm of rats is a nuisance, as every adventure that has them was written for, the more so now."
+        "notes": "Orsino's rat (bite and fur), with its two hit points at the first level, and a hit die, so that it grows with its level: Orsino's fixed two had made a rat of any level one blow (M19-60). A swarm of rats at the first level is a nuisance, as every adventure that has them was written for."
       }
     },
     "raven": {
@@ -1975,42 +1968,14 @@
       "looks": "A grey wolf of the uplands, rangy and long-legged, with a pale muzzle and amber eyes.",
       "portrait": "animals/wolf",
       "statistics": {
-        "attributes": {
-          "strength": 13,
-          "dexterity": 15,
-          "constitution": 15,
-          "intelligence": 2,
-          "wisdom": 12,
-          "charisma": 6
-        },
-        "hitDice": "2d8+4",
-        "primary": "strength",
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "constitution",
         "weapon": "bite",
-        "armor": "fur",
-        "riders": {
-          "bite": [
-            {
-              "kind": "apply",
-              "status": "prone",
-              "duration": 1,
-              "target": "enemy",
-              "save": {
-                "kind": "reflex",
-                "difficulty": {
-                  "kind": "literal",
-                  "value": 11
-                }
-              }
-            }
-          ]
-        },
-        "saves": {
-          "fortitude": 5,
-          "reflex": 5,
-          "will": 1
-        }
+        "armor": "fur"
       },
       "abilities": [
+        "howl",
         "flee"
       ],
       "temperament": "wary",
@@ -2020,10 +1985,8 @@
       ],
       "source": {
         "orsino": "animal:wolf",
-        "srd35": "monster:wolf",
-        "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's wolf: its 2d8+4 Hit Dice (13, at any level), its scores (13, 15, 15, 2, 12, 6), its bite of 1d6 and its Strength, AC 14 as Westernesse 7, its saves (+5, +5, +1), and its trip: a bite that lands lays its foe on the ground for a turn unless a Reflex save against 11 (the SRD's opposed Strength check against a wolf's +1, as a save) keeps them up. Adapted: Westernesse's prone loses the turn where the SRD's costs a move to stand. Omitted: low-light vision and scent. Orsino's Howl it goes without. Before, Orsino's wolf with rolled scores and a hit die to grow by."
+        "notes": "Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes."
       }
     },
     "dog": {

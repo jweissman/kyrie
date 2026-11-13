@@ -33,10 +33,8 @@ describe('one creature pipeline', () => {
       expect(wolf.traits ?? []).not.toContain('frost_adapted');
     }
   });
-  it('grows a hound with its level, not the SRD\'s rat, and makes a great rat and a cave spider of their bases and variations', () => {
+  it('grows a hound with its level, and makes a great rat and a cave spider of their bases and variations', () => {
     expect(make('hound', { level: 4 }).base.maxHp).toBeGreaterThan(make('hound', { level: 1 }).base.maxHp);
-    // The rat is the SRD's stat block: its one hit point at any level.
-    expect(make('rat', { level: 4 }).base.maxHp).toBe(make('rat', { level: 1 }).base.maxHp);
     const great = variations.variations.great.attributes;
     expect(make('great_rat').base.strength).toBe(make('rat').base.strength + great.strength);
     const cave = make('cave_spider');

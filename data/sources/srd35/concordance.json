@@ -199,10 +199,7 @@
    "srd": "whale"
   },
   "wolf": {
-   "srd": "wolf",
-   "carries": {
-    "Trip": "rider:prone"
-   }
+   "srd": "wolf"
   },
   "wraith": {
    "srd": "wraith"
