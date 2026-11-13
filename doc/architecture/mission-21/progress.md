@@ -32,3 +32,10 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   Fixed with small regressions: R10-07 (flight odds and roll from one table, `small/flight`), NP-01's lint advice
   (`small/sky-lint`), WM-01's dead Gaffer (`small/near-dead`). A P0 of our own: the browser bundle read `process.env`
   at load (the game did not start for ~35 min); fixed, and every push now boots the page in Chromium as a gate.
+- **13 Nov, late night.** Experiment B steps 2–3 merged (callings and peoples canonical; `proficient` for the company
+  only): a first country 230k facts → 33k, a1's start 6.1 → 4.7 s warm, a kept start 28.5 → 14.2 MB, ten installs
+  31.6 → 14.2 s. Playability batch 4 (PL-13 gold to the next lead, PL-14 aim-target lint: 57 aims to author). The full
+  suite on 76fa804f failed three ways, all ours: the near-dead guard silenced a joined companion's words (a companion
+  has no members of their own and reads as dead: fixed), and the SRD ghoul's stat block made the first town's ossuary,
+  the king-barrow and the Howe lethal (withdrawn; srd-invariants.md, "Withdrawn"). Lesson: a slice that changes a
+  placed creature is fought where it is placed.

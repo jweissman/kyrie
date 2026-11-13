@@ -845,34 +845,38 @@
       "name": "Ghoul",
       "type": "undead",
       "kind": "monster",
-      "description": "A gaunt eater of the dead, of the barrows and the old fens: it bites and claws, and what it touches stiffens and cannot move.",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.",
       "looks": "A gaunt grey thing that was a man, long-nailed and hollow-cheeked, crouched over bones.",
       "portrait": "monsters/ghoul",
       "statistics": {
         "attributes": {
-          "strength": 13,
-          "dexterity": 15,
+          "strength": 11,
+          "dexterity": 11,
           "constitution": 10,
-          "intelligence": 13,
-          "wisdom": 14,
-          "charisma": 12
+          "intelligence": 10,
+          "wisdom": 9,
+          "charisma": 5
         },
-        "weapon": "bite",
-        "armor": "hide_armor",
+        "weapon": "claws",
+        "armor": "cloth",
         "primary": "strength",
         "actions": 1,
-        "hitDice": "2d12",
-        "attacks": [
-          "bite",
-          "claws",
-          "claws"
-        ]
+        "growth": {
+          "hitPoints": {
+            "base": 10,
+            "perLevel": 3
+          }
+        }
       },
       "abilities": [
+        "curse",
+        "fear",
+        "life_drain",
         "paralyzing_touch"
       ],
       "traits": [
-        "undead"
+        "undead",
+        "regeneration"
       ],
       "habitats": [
         "barrow",
@@ -889,9 +893,7 @@
       "source": {
         "orsino": "monsterType:Ghoul",
         "fidelity": "adapted",
-        "srd35": "monster:ghoul",
-        "conversion": "srd35-westernesse-v1",
-        "notes": "The SRD ghoul (srd35-westernesse-v1): its 2d12 Hit Dice (13), its scores (Con, which it has none of, as 10), and its bite, claw and claw. Its AC 14 is Westernesse 7 for a first-level warrior's d20 (hide and its Dexterity). Adapted: its claws are the catalog's 1d4 (the SRD's 1d3), and its paralysis is its Paralyzing Touch, an act of its own between its blows, because an attack cannot yet carry a rider (the briefing's section 4). Omitted: ghoul fever, +2 turn resistance, elves' immunity. Orsino's Curse, Scream, Life Drain and regeneration, the generic undead package, are gone; it was Orsino's Ghoul type before."
+        "notes": "Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
       }
     },
     "golem": {

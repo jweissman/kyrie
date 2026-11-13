@@ -142,3 +142,14 @@ or an exception for named SRD stat blocks. That is a design decision, not a slic
   reference-only rule leaves open; none exists yet.
 - Unknown-field checks stop at a record's own fields and the nested stats named above; an effect's or a hook's own
   fields are checked by `Effects.validate` only for their kinds and amounts.
+
+## Withdrawn: the ghoul's SRD stat block (the lead, 13 November)
+
+The full suite on 76fa804f failed where Orsino's ghoul had been placed: a brood of SRD ghouls (2d12, bite, claw and
+claw each turn) in the first town's ossuary killed a first-level warrior who had won that fight before (turn 14, six
+of twelve hit points left; now turn 5, none), and the king-barrow's mage and the Howe's household went the same way.
+Content was balanced against the old chassis, and the slice changed it under them. The ghoul's record is Orsino's
+again; the mechanisms (Hit Dice, typed defenses, the honest catalog) and the unicorn stay, and the Hit Dice specs read
+the unicorn. The SRD ghoul comes back as a variant (the golem decision: a material or kind variation may carry Hit
+Dice and defenses) once the challenge table is measured again and each placement reviewed: a slice that changes a
+placed creature's numbers must be fought where it is placed, not only in an arena.

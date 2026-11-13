@@ -3,26 +3,27 @@ import { Tiny } from '../support/tiny';
 
 // A kind with Hit Dice is met with their listed average however a world asks for it (the SRD adaptation briefing,
 // §1: a fixture makes the monster through every path and its hit points do not change with encounter rank). The
-// ghoul is 2d12, thirteen: written into a module at the fifth level, and fought, it is thirteen in the world and in
-// the fight; a ghoul grown by Orsino's template at that level had been twenty-five.
-const barrow = `
-  Place mound "the mound" is room at 0, 0 outdoors.
-  Place barrow "the barrow" is room at 1, 0 underground.
-  Passage door "the stone door" is path between mound and barrow.
-  Company party "You" of 1 at mound.
-  Person g "a ghoul" at barrow { Role "a ghoul crouched over bones". Species ghoul. Level 5. }
+// unicorn is 4d10+20, forty-two: written into a module at the fifth level, and fought, it is forty-two in the world and
+// in the fight. (The ghoul was the example until its SRD stat block was withdrawn, 13 November: see srd-invariants.md.)
+const glade = `
+  Place glade "the glade" is room at 0, 0 outdoors.
+  Company party "You" of 1 at glade.
+  Person u "a unicorn" at glade { Role "a white beast with a single horn". Species unicorn. Level 5. }
   Goal false.`;
 
-describe('a ghoul met in a barrow', () => {
-  it('has its thirteen hit points in the world and in the fight', async () => {
-    const t = await Tiny.start(barrow, { party: [{ name: 'Hild', raceId: 'human', classId: 'warrior', level: 3 }] });
-    // A ghoul falls on whoever comes in (its kind's temper): the fight is the going in.
-    const leg = await t.session.leg('go(t__door,t__barrow)');
-    expect(t.campaign.readout.creatures.find(c => c.raceId === 'ghoul')!.base.maxHp).toBe(13);
-    const fought = leg.combat.filter(e => e.type === 'damage' && e.target === 't__g_person');
-    expect(fought.length).toBeGreaterThan(0);
-    // The first blow it took fell on the thirteen it had.
-    const first = fought[0]!;
-    if (first.type === 'damage') { expect(first.hp + first.amount).toBe(13); }
+describe('a unicorn met in a glade', () => {
+  it('has its forty-two hit points in the world and in the fight', async () => {
+    // A third-level warrior seldom gets past a unicorn's guard: over a few fights, the first blow that lands.
+    let first: { hp: number; amount: number } | undefined;
+    for (let n = 0; n < 12 && !first; n++) {
+      const t = await Tiny.start(glade, { seed: `g${n}`,
+        party: [{ name: 'Hild', raceId: 'human', classId: 'warrior', level: 3 }] });
+      expect(t.campaign.readout.creatures.find(c => c.raceId === 'unicorn')!.base.maxHp).toBe(42);
+      const leg = await t.session.leg(t.journey.choices().find(c => /^attack\(/.test(c.command))!.command);
+      const blow = leg.combat.find(e => e.type === 'damage' && e.target === 't__u_person');
+      if (blow?.type === 'damage') { first = blow; }
+    }
+    // The first blow it took fell on the forty-two it had.
+    expect(first && first.hp + first.amount).toBe(42);
   });
 });

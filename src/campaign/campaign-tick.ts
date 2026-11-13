@@ -226,9 +226,11 @@ export class CampaignTick {
     const player = host.playerActor, place = rule.place?.startsWith('?') ? binding[rule.place] : rule.place;
     if (!player || !worlds.at(-1)!.test(ModuleWriter.call('able', player))) { return false; }
     // Nor what is done near someone dead, unless it is told of their death: the Gaffer had come off his fleeces and
-    // stretched after he died (WM-01).
+    // stretched after he died (WM-01). One who has joined the company has no members of their own, and is read as
+    // dead (CreatureFacts): not them (Wat's words on the road had gone unsaid).
     const last = worlds.at(-1)!;
     if (rule.anchor === 'near' && place && last.relates('dead') && last.test(ModuleWriter.call('dead', place))
+      && !(last.relates('travelsWith') && last.test(ModuleWriter.call('travelsWith', place, player)))
       && !Reads.names(host.module, [rule.when]).includes('dead')) { return false; }
     return !place || worlds.some(world => LocalObservations.perceives(world, player, place, rule.anchor));
   }

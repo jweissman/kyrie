@@ -77,29 +77,31 @@ describe('every amount field takes dice', () => {
   });
 });
 
-// The ghoul is a fixed stat block of 2d12 (the SRD's 13 hit points). Made at any level, its hit points and qualities
-// are its own; rolled, the same dice are thrown from its own seed, the same each time for one seed.
+// The unicorn is a fixed stat block of 4d10+20 (the SRD's 42 hit points). Made at any level, its hit points and
+// qualities are its own; rolled, the same dice are thrown from its own seed, the same each time for one seed. (The
+// ghoul was the example until its SRD stat block was withdrawn on 13 November: placed where Orsino's ghoul had been,
+// in the first town's ossuary, a brood of them killed a first-level warrior; see srd-invariants.md.)
 describe('a kind with Hit Dice', () => {
   const content = new Content('hit-dice');
   it('has their listed average whatever level it is made at, and no growth of its qualities', () => {
-    const made = [1, 3, 7, 12].map(level => content.createCreature(`g${level}`, { raceId: 'ghoul', level }));
-    expect(made.map(c => c.base.maxHp)).toEqual([13, 13, 13, 13]);
+    const made = [1, 3, 7, 12].map(level => content.createCreature(`u${level}`, { raceId: 'unicorn', level }));
+    expect(made.map(c => c.base.maxHp)).toEqual([42, 42, 42, 42]);
     expect(new Set(made.map(c => c.base.strength)).size).toBe(1);
-    expect(Canon.creature('ghoul').statistics?.growth).toBeUndefined();
+    expect(Canon.creature('unicorn').statistics?.growth).toBeUndefined();
   });
   it('rolls the same expression from its seed when its dice are rolled', () => {
-    const rolled = [1, 2, 3, 4, 5, 6].map(n => content.createCreature(`r${n}`, { raceId: 'ghoul', hitPoints: 'rolled' }));
+    const rolled = [1, 2, 3, 4, 5, 6].map(n => content.createCreature(`r${n}`, { raceId: 'unicorn', hitPoints: 'rolled' }));
     for (const r of rolled) {
-      expect(r.base.maxHp).toBeGreaterThanOrEqual(2);
-      expect(r.base.maxHp).toBeLessThanOrEqual(24);
+      expect(r.base.maxHp).toBeGreaterThanOrEqual(24);
+      expect(r.base.maxHp).toBeLessThanOrEqual(60);
     }
     expect(new Set(rolled.map(r => r.base.maxHp)).size).toBeGreaterThan(1);
-    expect(content.createCreature('r1', { raceId: 'ghoul', hitPoints: 'rolled' }).base.maxHp).toBe(rolled[0]!.base.maxHp);
+    expect(content.createCreature('r1', { raceId: 'unicorn', hitPoints: 'rolled' }).base.maxHp).toBe(rolled[0]!.base.maxHp);
   });
   it('keeps its count of Hit Dice for effects that read it, apart from its level', () => {
-    const ghoul = content.creature('ghoul', 'g', 'goblins', 5);
-    expect(Effects.context(ghoul).hitDice).toBe(2);
-    expect(Effects.context(ghoul).level).toBe(5);
+    const unicorn = content.creature('unicorn', 'u', 'goblins', 5);
+    expect(Effects.context(unicorn).hitDice).toBe(4);
+    expect(Effects.context(unicorn).level).toBe(5);
     expect(Effects.context(content.creature('wolf', 'w', 'goblins', 3)).hitDice).toBe(3);
   });
 });
