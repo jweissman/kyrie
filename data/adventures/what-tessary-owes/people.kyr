@@ -129,7 +129,6 @@ Module tessary "What Tessary Owes" {
     On success { Assert knows(actor, coat_given). Retract at(davy_coat, teazle_room). }
     Result "Nan lays the coat over your arm, and smooths the darn at the elbow once with her thumb, and lets go.".
   }
-  Initially Give davy_coat to party.
 
   Topic wick_night with wick "Ask Wick about the night Davy went" when not cameHome(davy) once {
     Says "'I followed him,' says Wick, fast, as if he has been waiting to be asked. 'All the way down the Steps and out on the sand, it was a spring ebb, you can walk right out. There were twelve of them and they kept step and nobody was calling it. Out past the colonnade, across the Forum. Into the Hall of Oaths.' He lowers his voice. 'There's no door in the Hall of Oaths. It's a wall at the back. I've felt it. They walked into the wall and it let them, and then it was a wall again.' He considers. 'I'll show you, if you like. A coin. Two if you want the tide-table too, which you do.'".
