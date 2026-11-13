@@ -2,18 +2,20 @@
 # package.json (github:jweissman/deem#commit, github:jweissman/languages#commit) and installed by bun from the
 # lockfile. Publishing needs Pages enabled for this repository with GitHub Actions as its source (Settings > Pages),
 # which a private repository can only have on a paid plan. See doc/architecture/pages.md.
+# Deployed only once CI has passed on the push to main (the whole suite is its gate), never ahead of it.
 name: Pages
 on:
-  push: { branches: [main] }
+  workflow_run: { workflows: [CI], types: [completed], branches: [main] }
   workflow_dispatch:
 permissions: { contents: read, pages: write, id-token: write }
 concurrency: { group: pages, cancel-in-progress: true }
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with: { path: kyrie, ref: "${{ github.event.workflow_run.head_sha || github.sha }}" }
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile && bun test test/play-session.test.ts test/save-codec.test.ts test/frontier.test.ts && bun run web:build
