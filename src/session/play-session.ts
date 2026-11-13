@@ -9,7 +9,7 @@ import { PlayerView } from '../presentation/player-view';
 import { Telling } from '../narrative/telling';
 import type { Memorial } from '../world/memorial';
 import { Crossing } from '../campaign/crossing';
-import { Travel } from './travel';
+import { Travel, type Journeyed } from './travel';
 import { HexBoundary } from '../hex-boundary';
 import { Undertakings } from '../presentation/undertakings';
 import { Digest } from './digest';
@@ -37,6 +37,8 @@ export interface Expander { expand(campaign: Campaign): Promise<unknown> }
 export class PlaySession {
   private steps: TranscriptStep[];
   private busy = false;
+  // The last journey set out on (travel:), leg by leg, for a client that tells its legs as the page does.
+  journeyed?: Journeyed;
   readonly scenario: string;
   readonly seed: string;
   private complete: boolean;
@@ -93,8 +95,11 @@ export class PlaySession {
   // A journey (travel:place), as the page sets out on one from the map: leg by leg (Travel.go), its last told.
   async leg(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (command.startsWith('travel:')) {
-      const done = await Travel.go({ campaign: this.campaign, perform: this.travelled.bind(this) },
+      // Each leg's fight is the player's, as on the page: the terminal's journeys had fought it for them (Wynn struck
+      // at Tenebraetumulo's door with no choice put: M21's playability investigation).
+      const done = await Travel.go({ campaign: this.campaign, perform: this.travelled.bind(this, controller) },
         command.slice('travel:'.length));
+      this.journeyed = done;
       // None taken: a wait, where the company can wait; else what was last told (one held where it lies cannot).
       const held = !PlayerView.choices(this.campaign).some(c => c.choice.id === 'wait');
       const last = done.legs.at(-1)?.event ?? (held ? this.campaign.history.at(-1) : undefined);
@@ -104,8 +109,10 @@ export class PlaySession {
     return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))
       : this.perform(command, controller);
   }
-  // A leg of a journey, as Travel.go takes it (its words aside).
-  private travelled(command: string): Promise<CampaignEvent> { return this.perform(command); }
+  // A leg of a journey, as Travel.go takes it (its words aside), its fight the controller's.
+  private travelled(controller: CombatController, command: string): Promise<CampaignEvent> {
+    return this.perform(command, controller);
+  }
   // Where an offered command goes, if it goes anywhere; and, for a driver of the page's engine, where it goes if that
   // is into another hex, which the page sets out on as a journey (a travel request), never as the command itself.
   whither(command: string): string | undefined {
