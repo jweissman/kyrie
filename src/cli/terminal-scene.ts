@@ -2,6 +2,7 @@ import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
 import { Signs } from '../presentation/signs';
+import { ToldLines } from '../presentation/told-lines';
 import { TerminalColour, type Depth } from './terminal-colour';
 import type { Leaf } from '../presentation/narrator';
 import type { Screen } from '../ui/screen-types';
@@ -34,7 +35,7 @@ export class TerminalScene {
     const name = turned === 'act' ? undefined : TerminalColour.bold(place ?? screen.place.name, this.depth);
     const header = [name, when, weather].filter(Boolean).join(' · ');
     const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
-    const happened = (leaf.exchange?.lines ?? []).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
+    const happened = ToldLines.said(leaf.exchange?.lines ?? [], whole).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
     const g = leaf.glance, seen = [g?.came, g?.sight?.text, g?.life?.text, ...g?.changed ?? []]
       .filter((l): l is string => !!l).map(l => Typography.plain(l));
