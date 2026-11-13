@@ -222,7 +222,9 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   from a place an aim is gone to by (`toward … by …`: the churchyard's stair to the crypt), and a site's front door (an
   aim at a hold is gone into by it). The first cut, applied to every way everywhere, broke four of
   `gold-walk`/`gold-thread`'s walks into Seolforfyrd and the keeps, and the corn-store cellar's hole, which is why it
-  is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it. On the bailey there is now no
+  is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it:
+  `AimLeads.there` already answers it for one place (grounding the company's acts there), but asked of every door
+  off a town's green it would ground once per door per glance; worth measuring before it is made the rule. On the bailey there is now no
   gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
   (the bailey case fails on main and on either half alone; the churchyard case holds on both).
 
@@ -386,8 +388,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
    PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
    same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. PL-15 took
-   the talk's wording rules out (`TalkFocus.weighty`, `AimAsks`). Still standing on the same boundary:
-   `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
+   the talk's wording rules out (`TalkFocus.weighty`, `AimAsks`); PL-18 moved E155's guard into the engine. Looked
+   at and left: the ways' notes ("further in", "back out") are words for reasons that are themselves typed
+   (`Glance.inward`, `onward`: a site's rooms, visited or not, underground), not read from words. Still standing: E155's own-hex navigation guard lives in the
    browser (`web/reader/map-view.tsx`), so the engine would still walk a `travel:` to a place in the company's own hex
    out across the country if any client asked (the lead's finding).
 2. **Two clients over one runtime, not one contract.** PL-01 and PL-02: the terminal and the page each re-derive the
