@@ -9,6 +9,8 @@ import { Pastime } from './pastime';
 import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
+import { Signs } from '../../../src/presentation/signs';
+import type { Aspect } from '../../../src/presentation/glance-types';
 import { Pip } from './pip';
 import { WorldStage } from './world-stage';
 
@@ -97,8 +99,11 @@ export class SceneRail {
   static Mark({ app, part, glyph, words, standing, faint }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
     glyph: string; words: string; standing: Standing; faint?: Tone }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
-    const said = shut ? `${words}: ${shut}` : 'dim' in standing ? `${words}: nothing new for now`
-      : faint ? `${words}: someone who might join you, that way` : words;
+    // What is perceived that way, said as every client says it (Signs): it had said "someone who might join you" of
+    // whatever was perceived.
+    const sensed = faint && (Object.keys(Emphasis.tones) as Aspect[]).find(a => Emphasis.tones[a] === faint);
+    const said = shut ? `${words}: ${shut}` : 'dim' in standing ? `${words}: ${Signs.idle} for now`
+      : sensed ? `${words}: ${Signs.sensed(sensed)}` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
       + `${'dim' in standing ? ' dim' : ''}${faint && !shut && !lit ? ' faint' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
       aria-expanded={app.state.exploring === part} aria-label={said} title={said} disabled={!!shut}

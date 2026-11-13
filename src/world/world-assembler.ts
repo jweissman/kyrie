@@ -102,6 +102,8 @@ export class WorldAssembler {
     // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a
     // harbour's at the head of a firth from the sea, let in then).
     region.provinces = await Provinces.regions(Provinces.flood(region, Provinces.situate(region)), base);
+    // Its old places called by their Common meaning, their old names to be learned (see OldPlaces).
+    region.sites = PlaceNames.called(region);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
     const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.fixture)[0]!, !!options.party)]
@@ -134,9 +136,8 @@ export class WorldAssembler {
         + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
         + 'Choose three companions.' } });
-    return { path, source: new OverlayBundleSource(base, files),
-      report: { seed, region, context, placements, contacts,
-        eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
+    return { path, source: new OverlayBundleSource(base, files), report: { seed, region, context, placements, contacts,
+      eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
   }
   // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where
   // it lies in the world, with its own scenarios (none placed anywhere already), and no company of its own. The

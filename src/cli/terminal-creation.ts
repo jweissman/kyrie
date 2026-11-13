@@ -1,13 +1,15 @@
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow, type CreationCard, type CreationStep } from '../../web/engine/creation-flow';
 import type { Member, Setting } from '../../web/engine/protocol';
+import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import type { Asking } from './terminal-input';
 
 // Who comes into the world, chosen in the terminal: the engine's one creation flow (CreationFlow), its steps and cards
-// shown as numbered lines and each choice said back to it. Nothing of creation is decided here. `bin/kyrie adventure`
-// had set out with a human ranger, without asking (the owner, 14 November: TM-06). An empty answer takes the card
-// chosen already (or the first), and for the name the one drawn.
+// shown as numbered lines, each with its emblem's character as the page draws its glyph (Signs), and each choice said
+// back to it. Nothing of creation is decided here. `bin/kyrie adventure` had set out with a human ranger, without
+// asking (the owner, 14 November: TM-06). An empty answer takes the card chosen already (or the first), and for the
+// name the one drawn.
 export class TerminalCreation {
   constructor(private readonly input: Asking, private readonly say: (line: string) => void = console.log) {}
   async choose(seed: string): Promise<{ member: Member; origin?: string; setting: Setting }> {
@@ -25,7 +27,8 @@ export class TerminalCreation {
     let group: string | undefined;
     step.cards.forEach((c, i) => {
       if (c.group && c.group !== group) { group = c.group; this.say(`  ${Typography.plain(group)}`); }
-      this.say(`  ${i + 1}. ${Typography.plain(c.name)}${c.line ? ` — ${Typography.plain(c.line)}` : ''}`
+      const sign = c.emblem && Signs.emblem(c.emblem);
+      this.say(`  ${i + 1}. ${sign ? `${sign} ` : ''}${Typography.plain(c.name)}${c.line ? ` — ${Typography.plain(c.line)}` : ''}`
         + `${c.shut ? ` (${c.shut})` : ''}${c.id === step.chosen ? ' *' : ''}`);
     });
     const fallback = step.cards.find(c => c.id === step.chosen && !c.shut) ?? step.cards.find(c => !c.shut)!;

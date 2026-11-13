@@ -18,12 +18,12 @@ describe('the brothers\' errand', () => {
     expect(ScreenModel.build(s.campaign).items.map(i => i.name)).toContain('the shrine\'s coil of rope');
   }, 60000);
   // To the nearest of the makers' works: play 11's was fifteen hours off, though another was a short walk (oak's
-  // Albusfons, eleven cells from the town, where Lunastagn is one).
+  // Whitefountain, eleven cells from the town, where Moonpool is one).
   it('sends the company to the nearest of the makers\' works', async () => {
     const w = await WorldAssembler.assemble('oak', NodeBundleSource.shared,
       { origin: 'order', party: [{ name: 'Tobin', raceId: 'human', classId: 'thief' }] });
     const s = await PlaySession.start(w.path, 'oak', w.source);
     const told = PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
-    expect(told).toContain('shown the way to Lunastagn');
+    expect(told).toContain('shown the way to Moonpool');
   }, 60000);
 });

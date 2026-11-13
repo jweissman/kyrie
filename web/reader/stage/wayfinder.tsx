@@ -10,6 +10,7 @@ import { SceneSurface } from './scene-surface';
 import { Glyphs } from '../creation/glyphs';
 import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
+import { Signs } from '../../../src/presentation/signs';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
 // it goes where the aim followed names, or another aim held, and its place among the ways the aims name (see
@@ -79,7 +80,7 @@ export class Wayfinder {
       onFocus={() => Wayfinder.pick(app, w)}
       onClick={() => Wayfinder.go(app, w)}>
       <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
-        {w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither)}</span>
+        {Signs.way(w.whither, !!w.c.disabled)}</span>
       <span className="n">{GlanceStage.short(w.name)}</span>
       <Wayfinder.Marks app={app} way={w} />
       {(w.c.minutes ?? 0) > 5 && <span className="t">{Words.span(w.c.minutes!)}</span>}

@@ -65,22 +65,22 @@ describe('somewhere high', () => {
     expect(lines[0]).toStartWith('From the top of the tower Newmeet lies below you');
     expect(lines.slice(1, 6)).toEqual(['To the north, not far off: the edge of Birchwood by Newmeet.',
       'To the north-west, not far off: a square doorway in a hillside in Birchwood.',
-      'You know it by its look: that is Paliduslac.', 'It is your wayfinding that makes it out.',
+      'You know it by its look: that is Palelake.', 'It is your wayfinding that makes it out.',
       'The way to a square doorway in a hillside in Birchwood: to the edge of Birchwood by Newmeet, and on to the old bank,'
       + ' where the track to it starts.']);
     expect(lines.filter(l => /^To the /.test(l))).toHaveLength(6);
     expect(lines.at(-1)).toBe('The way down is the stair you came up.');
     // Named, the doorway is somewhere to go into: an aim (the expedition diagnosis, change 1).
-    expect(notes).toEqual(['Noted: Paliduslac: a square doorway in a hillside in Birchwood', 'Aim: The springs the '
-      + 'country once drank from were held somewhere under Paliduslac, and nobody has been down to them.']);
+    expect(notes).toEqual(['Noted: Palelake: a square doorway in a hillside in Birchwood', 'Aim: The springs the '
+      + 'country once drank from were held somewhere under Palelake, and nobody has been down to them.']);
     expect(situation.some(p => /^To the /.test(p))).toBe(false);
     // Seen with the way to it, it is somewhere to set out for all the way, not only toward the wood it stands in.
-    const ruin = Itineraries.destinations(c).find(d => d.name === 'Paliduslac')!;
+    const ruin = Itineraries.destinations(c).find(d => d.name === 'Palelake')!;
     expect([ruin.toward, ruin.legs.at(-1)?.to]).toEqual([undefined, 'region__w3']);
     await GeneratedWorld.travel(s, 's1_green');
     await GeneratedWorld.travel(s, 's1_shrine');
     const again = await High.page(s, climb);
-    expect(again.lines.filter(l => /^To the /.test(l))).toContain('To the north-west, not far off: Paliduslac.');
+    expect(again.lines.filter(l => /^To the /.test(l))).toContain('To the north-west, not far off: Palelake.');
     expect(again.lines.some(l => /by its look/.test(l))).toBe(false);
   }, 120000);
   // Once known by its name, a ruin is called by it everywhere after: the way to it in the journal, and, a step away
@@ -92,11 +92,11 @@ describe('somewhere high', () => {
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's1_shrine');
     await High.page(s, 'Climb the tower and look out over Newmeet');
-    expect(ScreenModel.build(c).knowledge.map(k => k.text)).toContain('The way to Paliduslac: to the edge of Birchwood by'
+    expect(ScreenModel.build(c).knowledge.map(k => k.text)).toContain('The way to Palelake: to the edge of Birchwood by'
       + ' Newmeet, and on to the old bank, where the track to it starts.');
     await GeneratedWorld.travel(s, 'z1_heart');
     expect(ScreenModel.build(c).exits.filter(e => e.destination.id === 'region__w3').map(e => e.destination.name))
-      .toEqual(['Paliduslac']);
+      .toEqual(['Palelake']);
   }, 120000);
   // Through a spyglass, bought from the chandler in the first town, what lies past the edge of sight is seen too, on a
   // clear day: the first town's tower shows a cave the eye alone does not.
@@ -117,7 +117,7 @@ describe('somewhere high', () => {
     // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are. The broken keep the
     // hobs hold is named, and glossed, as the first town says it of the bell they took (the expedition diagnosis).
     const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
-    expect(marks).toEqual(expect.arrayContaining(['Gefeohtgaet']));
+    expect(marks).toEqual(expect.arrayContaining(['Battlegate']));
     expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s3', 's4', 'w5']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
     expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst by Levankhafar,'

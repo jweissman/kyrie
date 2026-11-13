@@ -5,12 +5,12 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { AtHand, type Held } from './at-hand';
 import { GlanceStage } from './glance';
-import { SceneSurface } from './scene-surface';
 import { Wayfinder, type Way } from './wayfinder';
 import { WorldStage } from './world-stage';
 import { PlaceStage } from './place-stage';
 import { Emphasis } from '../../../src/presentation/emphasis';
 import { ChoiceRow } from './choice-row';
+import { Signs } from '../../../src/presentation/signs';
 
 // Mission 21's attention composition (?look=attend; proposal.md, composition B). The owner, 12 November: "There
 // shouldn't be separate explore/perceive page: they're just lenses, they should leave the scene intact but more highly
@@ -97,11 +97,10 @@ export class Attention {
     const sensed = (w: Way) => glance?.sensed?.find(x => x.to === Wayfinder.to(w) || w.holds?.includes(x.to));
     const rank = (w: Way) => (w.aim === 'followed' ? 0 : Wayfinder.tone(app, w) ? 1 : sensed(w) ? 2 : idle.has(Wayfinder.to(w)) ? 4 : 3);
     return [...Wayfinder.ways(app)].sort((a, b) => rank(a) - rank(b)).map(w => {
-      const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = w.c.disabled ? '⊘'
-        : SceneSurface.glyph(w.whither), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
+      const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = Signs.way(w.whither, !!w.c.disabled), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
       const tone = lit ?? (far ? Emphasis.tones[far.aspect] : undefined);
       return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
-        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && !lit ? `${Emphasis.words[far.aspect]}, that way` : '', time]
+        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && !lit ? Signs.sensed(far.aspect) : '', time]
           .filter(Boolean).join(' · ') || undefined,
         ...tone ? { tone } : {}, ...far && !lit ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
     });

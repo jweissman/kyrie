@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
+import { Signs } from '../../../src/presentation/signs';
 
 // Holding an act rather than touching it (the owner, 14 November: "Initial character card selections as well as
 // sustained actions in the game should all require long-touch"; "It makes the interface feel material without making
@@ -47,5 +48,5 @@ export class Hold {
       : null;
   }
   // What a reader of the page is told of it: that it is held.
-  static readonly said = 'hold to do it';
+  static readonly said = Signs.hold.said;
 }

@@ -357,8 +357,12 @@ export class ChoiceList {
       const list = c.abilities.filter(a => this.kind(a) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
           || this.last.indexOf(a.id) - this.last.indexOf(b.id));
+      // And what cannot be used now, in its place, saying why (the completion plan, §2.4).
+      const not = (c.unavailable ?? []).filter(u => (u.carried ? 'carried' : u.spell ? 'spells' : 'abilities') === id)
+        .map(u => ({ id: `unusable:${u.id}`, label: u.name, tone: id === 'spells' ? 'spell' as const : 'ability' as const,
+          disabled: u.why }));
       return { id, title, tone: id === 'spells' ? 'spell' as const : 'ability' as const, glyph: id === 'spells' ? '✦' : '⚔',
-        choices: ['abilities', 'spells'].includes(id) ? this.fold(list, id, c) : list.map(a => this.ability(a, c)) };
+        choices: [...['abilities', 'spells'].includes(id) ? this.fold(list, id, c) : list.map(a => this.ability(a, c)), ...not] };
     }).filter(s => s.choices.length).concat(this.pace(c));
   }
   // The fight's pace, as acts like any other (CN-04, CN-06: they had been the page's own buttons): the one whose turn
