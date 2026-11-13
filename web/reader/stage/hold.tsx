@@ -8,7 +8,8 @@ import { Signs } from '../../../src/presentation/signs';
 // fills over the act's own box; let go early, nothing is done; held to the end, the act is done. No box moves while it
 // fills (CN-06's stable geometry), and the edge is the act's own tone or neutral: a hold is no colour of its own.
 // Presentation only: how long the hand is held is not how long the act takes in the world.
-// The default (the owner, 14 November), no longer an experiment on the address.
+// For sustained acts only (a search, a wait, a camp): a choice of who the character is, or of what to say, is made at
+// a tap (the blind playtest of 13 November, BP-09, reversing the owner's earlier ruling on its evidence).
 export class Hold {
   // A sustained act (a search, a wait) a little longer than a commitment (who the character is).
   static readonly ms = { sustained: 850, commitment: 650 };
@@ -42,10 +43,12 @@ export class Hold {
       style: { '--hold-ms': `${ms}ms` } as CSSProperties,
     } };
   }
-  // The edge that fills while it is held, over the act's own box; its tone the act's own, or neutral.
-  static Edge({ held, tone }: { held: boolean; tone?: string }) {
-    return held ? <span className="hold-edge" aria-hidden="true" style={tone ? { '--hold-tone': tone } as CSSProperties : undefined} />
-      : null;
+  // The ring that says an act is held, at rest as at the press (the blind playtest of 13 November, BP-09: a hold no one
+  // could see had read as a game that ignored them): a small ring at the act's right, which fills round while it is
+  // held, in the act's own tone or neutral. Nothing moves; still where motion is unwanted, filled at once on the end.
+  static Ring({ held, tone }: { held: boolean; tone?: string }) {
+    return <span className={`hold-ring${held ? ' held' : ''}`} aria-hidden="true"
+      style={tone ? { '--hold-tone': tone } as CSSProperties : undefined} />;
   }
   // What a reader of the page is told of it: that it is held.
   static readonly said = Signs.hold.said;

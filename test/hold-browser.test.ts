@@ -8,19 +8,13 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { MonoDriver } from './support/mono-driver';
 
-// Holding an act rather than touching it, the default (the owner, 14 November: "Initial character card selections as
-// well as sustained actions in the game should all require long-touch"): a creation card and a sustained act (the
-// search on the rail, a wait) touched, or let go early, do nothing; held to the end, they are done; and the keys hold
-// them too, Enter on the act in focus and Enter on the highlight (ReaderKeys). The edge fills over the act's own box,
-// which does not move. Screenshots mid-hold go to KYRIE_HOLD_SHOTS where it is given
-// (doc/architecture/mission-21/aesthetic/hold/). Opt in with KYRIE_BROWSER=1.
+// Holding a sustained act rather than touching it (the owner, 14 November), narrowed by the blind playtest of 13
+// November (BP-09): a creation card is chosen at a tap; a sustained act (the search on the rail, a wait) shows its
+// ring at rest, and touched, or let go early, does nothing; held to the end it is done; and the keys hold it too,
+// Enter on the act in focus and Enter on the highlight (ReaderKeys). The ring fills round in place. Screenshots
+// mid-hold go to KYRIE_HOLD_SHOTS where it is given (doc/architecture/mission-21/aesthetic/hold/). Opt in with
+// KYRIE_BROWSER=1.
 class Holding {
-  static box(page: Page, selector: string) {
-    return page.locator(selector).first().evaluate(e => {
-      const r = e.getBoundingClientRect();
-      return [r.x, r.y, r.width, r.height].map(Math.round);
-    });
-  }
   // Pressed for so long and let go, at the act's middle.
   static async press(page: Page, selector: string, ms: number) {
     await page.locator(selector).first().hover();
@@ -57,34 +51,28 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an act held', () => {
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=kite' });
     const size = `${width}x${height}`;
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    // Who you are: a card touched, or let go early, is not chosen; held, it is; its box does not move while it fills.
+    // Who you are: chosen at a tap, then Continue (the blind playtest's BP-09): a card is never held, no ring on it.
     const card = '[data-action="origin"][aria-pressed="false"]';
     const id = await page.locator(card).first().getAttribute('data-id');
     const at = `[data-action="origin"][data-id="${id}"]`;
-    expect(await page.getAttribute(at, 'data-hold')).toBe('commitment');
-    expect(await page.locator(`${at} .sr-only`).innerText()).toContain('hold to do it');
+    expect([await page.getAttribute(at, 'data-hold'), await page.locator(`${at} .hold-ring`).count()]).toEqual([null, 0]);
     await page.click(at);
-    await Holding.press(page, at, 250);
-    expect(await page.getAttribute(at, 'aria-pressed')).toBe('false');
-    const before = await Holding.box(page, at);
-    await page.locator(at).hover(); await page.mouse.down(); await page.waitForTimeout(350);
-    expect(await page.locator(`${at} .hold-edge`).count()).toBe(1);
-    expect(await Holding.box(page, at)).toEqual(before);
-    await Holding.shot(page, `${size}-card-mid-hold`);
-    await page.waitForTimeout(500); await page.mouse.up();
     expect(await page.getAttribute(at, 'aria-pressed')).toBe('true');
+    await Holding.shot(page, `${size}-card-chosen-at-a-tap`);
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.enter();
-    // A sustained act at a place: the search on the rail, or a wait. Touched, or let go early, nothing is done.
+    // A sustained act at a place: the search on the rail, or a wait, its ring seen at rest. Touched, or let go early,
+    // nothing is done.
     const search = await Holding.drawn(page, d);
     expect(await page.locator(search).count()).toBeGreaterThan(0);
+    expect(await page.locator(`${search} .hold-ring`).first().isVisible()).toBe(true);
     const told = await Holding.told(d);
     await page.click(search); await d.settle();
     await Holding.press(page, search, 300); await d.settle();
     expect(await Holding.told(d)).toBe(told);
     await page.locator(search).first().hover(); await page.mouse.down(); await page.waitForTimeout(450);
-    expect(await page.locator(`${search} .hold-edge`).count()).toBe(1);
+    expect(await page.locator(`${search} .hold-ring.held`).count()).toBe(1);
     await Holding.shot(page, `${size}-search-mid-hold`);
     await page.mouse.up(); await d.settle();
     expect(await Holding.told(d)).toBe(told);
@@ -117,11 +105,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an act held', () => {
       await page.waitForTimeout(600); await page.keyboard.up('Enter'); await d.settle();
       expect(await Holding.told(d)).toBeGreaterThan(now);
     }
-    // Under reduced motion the edge is still, and the act is held all the same.
+    // Under reduced motion the ring is filled at once, still, and the act is held all the same.
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await Holding.drawn(page, d);
     await page.locator(search).first().hover(); await page.mouse.down(); await page.waitForTimeout(300);
-    expect(await page.locator(`${search} .hold-edge`).evaluate(e => getComputedStyle(e).animationName)).toBe('none');
+    expect(await page.locator(`${search} .hold-ring.held`).first().evaluate(e => getComputedStyle(e).animationName)).toBe('none');
     await Holding.shot(page, `${size}-search-reduced-motion`);
     await page.mouse.up();
     expect(errors).toEqual([]);
