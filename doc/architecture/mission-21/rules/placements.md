@@ -125,8 +125,8 @@ Alone and denned it is a fair fight for a warrior (60 %, two-thirds harm) and a 
 | Kind | Challenge (level 1, 5) | Placed |
 |---|---|---|
 | `ghoul` (Orsino's) | 0.5, 1 | barrows, ruins, fens, the ossuary |
-| `ghoul/barrow` | 2, 4 | nowhere (`unplaced`) |
-| `unicorn` | 24, 24 | nowhere (no habitat) |
+| `ghoul/barrow` | 4, 5 (2, 4 before its riders and the wound rule) | the vault, alone, by hand |
+| `unicorn` | 20, 20 (24 before the wound rule: its harmless hooves had stunned) | nowhere (no habitat) |
 | `golem/flesh` | 24, 24 | nowhere (`unplaced`) |
 
 The unicorn and the flesh golem are at the table's ceiling because no blade the catalog has passes 10/magic or
@@ -226,7 +226,7 @@ out, which is one; that is real play. The two ways it could follow a company tha
 ### Attack riders: the barrow ghoul's paralysis lands on a hit
 
 Its bite and claws carry the SRD's paralysis (`riders` on the breed: a Fortitude save against 12, or paralysed three
-turns) in place of Orsino's Paralyzing Touch. Re-measured: its challenge is 2 at its first level and 5 at its fifth
+turns) in place of Orsino's Paralyzing Touch. Re-measured: its challenge is 2 at its first level and 5 at its fifth (and, once only a wound triggers, 4 and 5: batch 6)
 (it had been 2 and 4). In the vault, as placed (a company of one's world; the keeper is one barrow ghoul either way):
 
 | Company | Level 1 | Level 2 (the room's company) |
@@ -262,6 +262,52 @@ first town and sites, by temper:
 
 So a lone thief can see every lethal group of a1's first fights coming and leave before it closes. That it dies in
 most fights it chooses is the calling's, and the roadmap's (companions early). Closed.
+
+## Batch 6: one chance for a venom, and only a wound triggers (13 November)
+
+Two rulings of the lead's, both in how harm lays a condition on, neither in a stat block:
+
+- **Only a wound triggers** a damage kind's condition (R9-06): a blow for nothing no longer bleeds, shreds or poisons.
+  cov7's barrow-king, half-proof against steel, is now beyond a fresh warrior or mage alone (he had been bled by their
+  blows for nothing); he warns and waits out the watch, the attack is marked, the steps back are offered
+  (`small/barrow-king-told`).
+- **A venom has one chance** (CB-14): where an act lays a condition on by itself (a venomous bite's poison, against its
+  save), the harm's own kind does not also trigger that condition's save (`test/one-venom`). Before, a bite poisoned on
+  either of two saves.
+
+The spiders where they are placed, a1 as real play writes it ([one]), the same three first-level companies, 20 seeds
+(win · median rounds · median harm · a death). Both columns have only a wound triggering; before is two chances of
+poison, after one:
+
+| Placement | Foes as placed | Before: warrior / pair / thief | After: warrior / pair / thief |
+|---|---|---|---|
+| w8_halls_ossuary_dwellers [one] | 3 × spider L1 (4/4/4) | 5% · 5 · 100% · 95% / 25% · 3 · 100% · 85% / 0% · – · 100% · 100% | 0% · – · 100% · 100% / 40% · 3 · 100% · 80% / 0% · – · 100% · 100% |
+| s1_u_spiders [one] | 1 × spider/great/cave L1 (6) | 85% · 2 · 17% · 15% / 100% · 2 · 12% · 5% / 40% · 2 · 100% · 60% | 90% · 2 · 8% · 10% / 100% · 2 · 7% · 10% / 55% · 2 · 88% · 45% |
+| s1_u_mother [one] | 1 × spider/great/cave L2 (15) | 65% · 4 · 33% · 35% / 95% · 3 · 17% · 20% / 10% · 6 · 100% · 90% | 80% · 4 · 43% · 20% / 95% · 3 · 8% · 25% / 10% · 6 · 100% · 90% |
+
+The undertown's spider and its mother come a little easier (a lone warrior 85 → 90 % and 65 → 80 %); the barrow's
+three spiders stay lethal, a pair's 25 → 40 %, a lone warrior's within the noise of twenty fights (5 → 0 %). Told at the
+door either way (the husks at the adit; the ambush's sign at every way to the ossuary).
+
+## Batch 7: the recovery rule where it bites (13 November)
+
+A healing cantrip now mends each member once between rests (recovery.md, rule 1). Fought as expeditions, not single
+fights (it is what happens between them that changed): the undertown's nine groups in the order of the way in [one],
+and a1's seven dens, a company of two of the first level, no rest between. With a Love cleric: the undertown cleared
+whole in 11 → 10 runs of 20, the dens 18 → 17, with half the heals (5 → 3, 6 → 3); with two warriors, unchanged (13
+and 19). Table in recovery.md.
+
+### The challenge table under the wound rule (measured, not written)
+
+Only a wound triggering a damage kind's condition (R9-06) changes how every kind fights, so the whole challenge table
+was measured again in scratch (`bin/kyrie bestiary challenge`, all 185 kinds, 11 minutes): **92 of 185 measures
+move**, 24 up and 39 down at the first level (the rest at the fifth only). The largest: the clockwork soldier 8 → 4, the
+gold, green and red dragons 24 → 20, the mouther 14 → 10, the fire and lava elementals 4 → 2 and 3 → 1, the bone golem
+6 → 4; the angel 12 → 14, the solar and titan up two. Twelve fights a level make some of it noise (the barrow ghoul's
+second and third levels came out 5 and 2 of twelve). **Not written:** the table decides what a generated country's
+dens and encounters hold, so writing it changes every world; only the three SRD kinds' rows were written (they are
+placed by hand or nowhere). Whether to write the rest under the wound rule, and with more fights a level, is the
+lead's (the measured file is kept in scratch, `/var/tmp/kyrie/steps/challenge.wound.json`).
 
 ## M22 notes
 

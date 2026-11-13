@@ -396,6 +396,16 @@
         "notes": "Kyr's own: a company with no light where it fights (benighted) fights under it (Mission 20: darkness had cost nothing)."
       }
     },
+    "tended": {
+      "name": "Tended",
+      "description": "A healing cantrip has done what it can for them since the company last rested: another will not mend them again until a rest, a night, or a healer's care.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own (R10-12, R11-05, the lead's ruling of 13 November): a healing cantrip mends each member once between rests in the field; in a fight cantrips are at will. Lifted by a rest's recovery and a night in the open (vocabulary.json's camp_recovery and rough_rest)."
+      }
+    },
     "weary": {
       "name": "Weary",
       "description": "Too long without sleep: slow to strike and slow to dodge, until a night's sleep.",

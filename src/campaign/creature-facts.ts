@@ -1,3 +1,4 @@
+import { Tended } from '../rules/tended';
 import { Canon } from '../canon/canon';
 import { Spellcasting } from '../rules/spellcasting';
 import { ItemCatalog } from '../item-catalog';
@@ -255,7 +256,7 @@ export class CreatureFacts {
     }
     changes.push(...this.calling(c, reference, scope, learned));
     const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
-    const useful = scope.field.filter(a => CreatureFacts.helps(a, c));
+    const useful = scope.field.filter(a => CreatureFacts.helps(a, c) && !Tended.blocks(a, c));
     if (has.has('relieves')) {
       changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(k.id, c)).map(k => k.id)));
     }
