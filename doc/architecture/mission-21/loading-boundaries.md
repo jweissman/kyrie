@@ -201,3 +201,66 @@ universe declares (its kinds, their relations, their documentation) and project 
 the catalogs and TypeScript beside them instead. Making it read the active universe's own declarations is the
 design question after Mission 21. It needs no new DSL first: a reflection over `Module.catalog` and the entities a
 universe declares, with authored exposition attached by id.
+
+## 6. The working set: a room held constant while the world grows
+
+The owner's invariant: an operation pays for its relevant working set, not for the whole possible universe.
+
+`bun scripts/scale-costs.ts [sizes]` holds one cellar of five things constant, with "Tap the barrel" as its local
+act. Around it go N rooms, each with two things and a way to the next, none of them near the cellar. Each size runs
+in a fresh process, on the production compiler, runtime and projections (SingleModule, PlaySession, ScreenModel,
+Narrator, PlayerView). All times are in ms.
+
+**Before:**
+
+| rooms | facts | start | observe | act | observe again | save | restore | heap MB |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 312 | 169 | 70 | 13 | 17 | 6 | 14 | 22 |
+| 100 | 1,308 | 263 | 72 | 12 | 24 | 8 | 25 | 50 |
+| 1,000 | 10,308 | 2,023 | 142 | 16 | 72 | 39 | 55 | 48 |
+| 4,000 | 40,308 | **35,612** | 491 | 35 | **369** | 283 | 407 | **914** |
+
+Starting grew with the square of the world, and looking again in the unchanged cellar grew with the world. Profiles
+of the 2,000- and 4,000-room worlds found three causes:
+
+1. **Exclusive asserts** (`World.change`) went through every fact of their relation to find the one displaced: 3.9 s
+   of self time at 2,000 rooms. Now `Displaced` (src/lang/displaced.ts) indexes an exclusive relation by every
+   argument but the last, once per `apply`, and keeps the index as the list writes it.
+2. **Ohm's `children`** is rebuilt on every access. `ModuleParser.Module` read `declarations.children[i]` once per
+   declaration, which is N² for a module of N declarations; it now holds the array once.
+3. **The binder's join order** (`Operators.score`). `look_closely` joined `suits(target, looking)` first, a relation
+   known only by its constant, and so proposed every thing in the world. It then tested whether the company reached
+   each one: 220 ms a look at 4,000 rooms, yielding nothing. An atom joined through an already-bound parameter (the
+   actor's `reaches`, `at`) is now preferred. The result is unchanged, since every candidate is still tested against
+   the whole precondition, and only the candidates shrink.
+
+**After:**
+
+| rooms | facts | start | observe | act | observe again | save | restore | heap MB |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 312 | 167 | 91 | 15 | 23 | 6 | 29 | 26 |
+| 100 | 1,308 | 211 | 83 | 21 | 24 | 8 | 21 | 27 |
+| 1,000 | 10,308 | 423 | 129 | 15 | 35 | 45 | 68 | 57 |
+| 4,000 | 40,308 | **1,030** | 237 | 21 | **75** | 168 | 247 | **146** |
+
+At 4,000 rooms, starting is 35× cheaper and grows linearly, and looking again is about 5× cheaper.
+
+`test/small/working-set` holds this as ratios between 100 and 3,200 rooms (25× the facts), which a loaded lane
+scales alike:
+- starting stays under three times the facts ratio (about ×8 now; about ×126 with the index undone);
+- looking again stays under ×5 (×3.2 now; ×7.4 with the old join order);
+- acting stays under ×5 (×2).
+
+Both mutations were checked.
+
+**Still growing with the world, in order of size:**
+- **Save and restore:** a save is the whole world, and that is expected.
+- **The first observation** builds the module's `Operators` (46 ms at 4,000 rooms).
+- **Looking again still grows about ×3** for ×25 facts, in a long tail of per-entity scans with none dominant:
+  - `Withheld.rows`;
+  - the skill reading's `near`;
+  - the screen's `names` and the player view's `unnamed`;
+  - `Glance.inward`;
+  - `raise_quality`'s grounding (6 ms).
+
+Each of these reads the module's entities rather than the place's. They are next, measured by the same harness.
