@@ -18,7 +18,8 @@ export class Compass {
     const here = screen.place.id;
     if (!campaign.running || !Itineraries.enclosed(campaign, here)) { return {}; }
     const out = this.out(campaign, screen), next = this.next(campaign, screen, glance);
-    const left = [...glance.lenses.things.promoted, ...glance.lenses.people.promoted].length > 0;
+    // Something left is what the glance leads with for a reason, not a lens's own acts filling it (why 'present').
+    const left = [...glance.lenses.things.promoted, ...glance.lenses.people.promoted].some(a => a.why !== 'present');
     // In the dark nothing is seen, and so nothing is known to be left or not: not exhausted.
     return { enclosed: true, compass: { ...out ? { out } : {}, ...next ? { next } : {},
       exhausted: !screen.dark && !next && !left } };

@@ -83,3 +83,21 @@ describe('a lens with nothing to lead it', () => {
     expect(waits[0]).toBe('wait');
   });
 });
+// The company's own acts are the time lens's, after the waits (the coordinator's ruling, 14 November: lighting a
+// candle, preparing a spell, tending a hurt had been in no lens, only on the old Wait page), each the company's own. A
+// cellar with no light in it, where lighting one is among them.
+const cellar = `
+  Place cellar "the cellar" is room at 0, 0 underground 1 down.
+  Company party "You" of 1 at cellar.
+  Initially Assert unlit(cellar).
+  Goal false.`;
+describe('the time lens', () => {
+  it('holds the company\'s own acts, the light first in the dark, the waits before the rest of them', async () => {
+    const t = await Tiny.start(cellar), time = t.glance.lenses.time, all = [...time.promoted, ...time.rest];
+    expect(time.promoted[0]!.command).toMatch(/^light_item\(/);
+    expect(all.every(a => a.subject === 'yourself')).toBe(true);
+    const rest = time.rest.map(a => /^wait/.test(a.command ?? '') ? 'wait' : 'own');
+    expect(rest.lastIndexOf('wait')).toBeLessThan(rest.includes('own') ? rest.indexOf('own') : Infinity);
+    expect(all.map(a => a.command)).toEqual(expect.arrayContaining(['wait', 'light_item(t__party_1__candle)']));
+  });
+});
