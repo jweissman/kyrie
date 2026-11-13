@@ -41,7 +41,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-19 | **P0** | At the dead man's map's keep the search the map marks is not led, and the gold goes to parleying with the hobs: dangers and the way back fill the three places | fixed in this branch |
 | PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
 | PL-21 | **P0** | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed in this branch |
-| PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | open |
+| PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | fixed in this branch (the telling); the take's label open |
 | PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed in this branch (the lead's ruling) |
 | PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | open (content/generation; suspected) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
@@ -395,7 +395,12 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 
 - **Repro:** pine as PL-20, "Pick the chest's lock": "The chest on the ledge stands open." Only `all` has "Take a
   stolen chalice out of a chest on the ledge". Corroborates AP-08 ("An opened chest looks empty from the scene").
-- **Status:** open (a stolen thing is not the company's spoils, so not led; but it is not even told).
+- **Status:** fixed in this branch for the telling: a thing lying in something open is told with it ("In the chest on
+  the ledge: a stolen chalice."), from the row's typed containment (`TargetRow.within`, PlayerView's `inside`), and
+  shut, nothing of it is told. Regression: `test/small/opened-box.test.ts`. **Left:** the take's label is "Take from a
+  chest on the ledge", without the chalice's name (`ChoiceGrouping`'s `take_out` path); naming it would break a dozen
+  authored journeys that step by that label, so it waits on the lead (the page's Look already says "Take a stolen
+  chalice"). A stolen thing is still not led as spoils, by design (it is someone's).
 
 ### PL-23: the gold walks a site room by room
 

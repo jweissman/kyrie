@@ -81,6 +81,8 @@ export interface ExitRow {
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
+  // What it lies in, by name, where that is open to be seen into (a chest picked: what was in it).
+  within?: string;
   // The emblem drawn for them where there is no likeness: their people's, or an animal's (see Emblems).
   emblem?: string;
   // What a group is, seen from outside: how many of what, how seasoned, how hurt.
