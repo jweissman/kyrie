@@ -11,9 +11,12 @@ type Row = { id: string; status: string; weight: string };
 
 class RegisterState {
   static readonly kinds: [string, RegExp][] = [
-    ['partly', /\b(partly|half|in part|part\b)/i], ['deferred', /\b(deferred|moved to m2\d|for m2\d)\b/i],
+    ['partly', /\b(partly|partial|half|in part|part\b|improved|addressed)/i],
+    ['deferred', /\b(deferred|moved to m2\d|for m2\d|left (by|for) m\d+|later)\b/i],
+    // An idea, a direction or a proposal is an ambition, not a defect (the M21 brief).
+    ['ambition', /\b(idea|direction recorded|proposed|proposal|to build|not built|noted)\b/i],
     ['fixed', /\b(fixed|held|mended|closed|done|met|superseded|withdrawn|not reproduced|by design|answered|moot)\b/i],
-    ['decided', /\b(decided|ruled|kept as)\b/i], ['open', /\b(open|todo|unmet|diagnosed)\b/i]];
+    ['decided', /\b(decided|ruled|kept as)\b/i], ['open', /\b(open|todo|unmet|diagnosed|not in log|no record|no completion|unverified|disappeared|cause not found)\b/i]];
   static run(args: string[]): number {
     const revision = args[0];
     const text = revision ? execSync(`git show ${revision}:doc/architecture/open-register.md`, { maxBuffer: 1 << 26 })
