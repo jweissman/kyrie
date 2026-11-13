@@ -69,8 +69,9 @@ describe('kite at a glance', () => {
   it('at the bridge the aim names, searches it, and has the ruts that run off the road', async () => {
     const glance = await Kite.g.to('region__s5_s2_way');
     expect(glance.arrival).toBe('first');
-    // The ruts first, what the aim is about there (Mission 19: they had come after Search here), then the search.
-    expect(glance.acts[0]).toMatchObject({ choice: 'drover__ruts#look', why: 'about' });
+    // The ruts first, and the aim's next step: following them brings about what it waits on (Mission 19: they had
+    // come after Search here; M21's PL-05: they had been the aim's only for being at the road it names).
+    expect(glance.acts[0]).toMatchObject({ choice: 'drover__ruts#look', why: 'advance', continues: true });
     expect(glance.acts.some(a => a.why === 'named' && a.note === 'where your aim is')).toBe(true);
     Kite.drawn(Kite.g, glance);
   });

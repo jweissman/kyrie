@@ -26,6 +26,9 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-01 | P1 | The headless terminal hid the page's promises: no signals, no Follow, an empty conversation, the gold journey dropped | fixed in this branch (see below) |
 | PL-02 | P1 | A journey's fights were fought for the player (headless `travel:` legs used the automatic controller) | fixed in this branch |
 | PL-03 | P1 | Blue ("to learn") on an act that teaches nothing: the wagoner's "Offer him a hand" | fixed in this branch |
+| PL-05 | **P0** | Gold on whatever has its own act at the place the aim names, though it does nothing for the aim (the cairn at Seolforfyrd took the debt's gold; at Tenebraetumulo the oxen's) | fixed in this branch |
+| PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
+| PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | open |
 
 ### PL-01: the headless terminal could not show what the page promises
@@ -85,6 +88,60 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   accumulation). The per-hex encounter is a design ambition (NM-06), not this defect.
 - **Status:** open.
 
+### PL-05: gold for standing at the aim's place
+
+- **Repro:** kahitude, `--origin debt`, `follow 1`, "Tell Tuck you will have it", the landing, the taproom, "Ask Aiden
+  what is out in the country round", hire Xyn, "Set out for Seolforfyrd · 181 min" (gold): at the toll-house the
+  foreground is "Call to the hobs for a parley [red]", "Attack the hobs on the gate [red]", and **"Build the cairn up
+  again, stone on stone [gold: your aim]"**. The same at a1's Tenebraetumulo for the oxen's aim (save
+  `/var/tmp/kyrie/play21/a1-mound.json`): the cairn gold, mended, then no gold at all. The cairn is a town's trouble
+  (`data/generation/town/ties.kyrt`, "custom 2": a drover's boy blamed for kicking it over) placed at the town's
+  nearest old place; mending it does nothing for a debt or for the oxen.
+- **Corroborates:** the owner's player report of 12 November (PR-01: "gold … on aims not chosen", "nothing advances");
+  the owner's 10 November notes ("can't trust that indicators will lead me to interesting places");
+  review-mitigations U1 ("no deeper way becomes gold merely because it … lies inside the destination").
+- **Cause (verified, `tools/glance.ts` on `kh-seol.json`):** `Affordances.there` gave any non-person thing with an
+  author's act not yet done the why `about` (the aim's) whenever the aim named the place the company stood in; that is
+  presentation inferring what an act will do from where it is. It had been added for the father's ruts, which
+  `AimAdvances` missed because it read a rule's effects but not what a rule `teaches` (`Rule ruts_followed …
+  teaches found_cart`).
+- **Status:** fixed in this branch: `AimAdvances.waits` counts what a rule teaches as what it makes so (the ruts now
+  advance the aim by type), and `there` is gone. Regression: `test/small/gold-at-the-place.test.ts` (each half of the
+  change fails one of its two cases without the other).
+
+### PL-06: after the aim, nothing pulls
+
+- **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
+  taken: `aims` says "No aim is held"; the foreground is two ways out into the country; Odo had said "I want the yoke
+  back. It was Grandfather's", and nothing leads home with it. Day 1, 5:40 p.m., 837 XP.
+- **Corroborates:** T24-18 (round 12, A: "after each job it moves on to the next notice"); aesthetic-and-play §5.
+- **Status:** open: a design matter (the aim's succession), recorded here because it decides whether the first hour
+  is worthwhile.
+
+### PL-07: the first fights are trivial
+
+- **Repro:** the same den: the leader (6 HP) falls to Wynn's first blow; two blighted zombies (6 HP each) are fought
+  out by `auto` in five rounds without touching Wynn (15/15) or Odo (14/14). +147 and +300 experience.
+- **Corroborates:** the owner's 10 November note (the hollow stalker "absurdly easy"); R10-12, R11-05; round 12, A
+  ("Challenge 1").
+- **Status:** open: balance (an instrument first, as the owner proposed), not a defect to patch per creature.
+
 ## Common root causes
 
-(To be written as the list grows.)
+1. **The promise/projection boundary: presentation infers what an act will do** (the retrospective's first
+   candidate). Verified twice so far: PL-05 (gold for an act's *location*, `Affordances.there`, where the typed
+   `AimAdvances` had a gap) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
+   In both the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
+   make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
+   standing on the same boundary: `TalkFocus.weighty` ranks replies by their words (`/^(Tell|Pay) /`, "would come
+   along"); `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
+   browser (`web/reader/map-view.tsx`), so the engine would still walk a `travel:` to a place in the company's own hex
+   out across the country if any client asked (the lead's finding).
+2. **Two clients over one runtime, not one contract.** PL-01 and PL-02: the terminal and the page each re-derive the
+   foreground, the conversation and the journey from `PlaySession`, and the terminal's copy had drifted (no talk, no
+   travel: ids, the automatic fighter). Round 12's top findings were half the terminal's own. The headless instrument
+   is only as faithful as its least-shared code path.
+3. **Narration by accumulation** (PL-04): the arrival is the state after everything, with the log appended; a fight
+   told dead before it starts, a five-hour journey told by nothing.
+4. **Nothing composes a larger undertaking** (PL-06) and **danger has no economy** (PL-07): design, not defects, but
+   they decide whether the first hour is worth playing.
