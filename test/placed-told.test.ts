@@ -44,9 +44,10 @@ class Placed {
         `hero:${n}`), 'fighters');
       const foes = members.map((id, k) => ({ ...CombatProjection.fighter(structuredClone(
         c.readout.creatures.find(x => x.id === id)!), 'goblins'), id: `foe${k}` }));
-      const b = new Battle({ id: 'told', combatants: [hero, ...foes], abilities: Content.abilities }, `told:${n}`, 60);
+      // At play's limit of turns (Battle's 500): at 60 a long fight had ended a draw, and was counted lost.
+      const b = new Battle({ id: 'told', combatants: [hero, ...foes], abilities: Content.abilities }, `told:${n}`);
       let first = true;
-      for (let s = 0; !b.state.outcome && s < 800; s++) {
+      for (let s = 0; !b.state.outcome && s < 5000; s++) {
         const legal = b.legalCommands();
         if (first && b.state.actor === 'hero') { first = false; flight &&= legal.some(x => x.ability === 'flee'); }
         b.step(Tactics.choose(b.state, b.plain(legal)));
@@ -73,21 +74,23 @@ class Placed {
 describe('a1\'s lethal placements, for a lone first-level warrior', () => {
   let c: Campaign, groups: Group[];
   beforeAll(async () => { c = await Placed.campaign(); groups = Placed.groups(c); }, 120000);
+  // The band that falls on whoever comes in and is lethal (at play's 500 turns, the barrow's ossuary, which lies in
+  // wait and is heard by anyone as one of the worst).
+  const falls = () => groups.find(g => g.won < 0.5 && !Placed.tells(c).has(g.temper))!;
   it('are each told before they are engaged, and escapable', () => {
     expect(groups.filter(g => g.won < 0.5).length).toBeGreaterThan(3);
-    expect(groups.filter(g => g.won < 0.5 && !Placed.tells(c).has(g.temper)).length).toBeGreaterThan(1);
+    expect(falls()).toBeDefined();
     expect(Placed.offenders(groups, c.module.observations ?? [], Placed.tells(c))).toEqual([]);
   });
   it('would be caught: a band that falls on whoever comes in, with its sound taken away', () => {
-    const savage = groups.find(g => g.won < 0.5 && g.temper === 'temper_savage')!;
-    const quiet = (c.module.observations ?? []).filter(o => !JSON.stringify(o.when).includes(`"${savage.id}"`));
-    expect(Placed.offenders(groups, quiet, Placed.tells(c))).toEqual([`${savage.id}: temper_savage, not told before `
+    const band = falls(), quiet = (c.module.observations ?? []).filter(o => !JSON.stringify(o.when)
+      .includes(`"${band.id}"`));
+    expect(Placed.offenders(groups, quiet, Placed.tells(c))).toEqual([`${band.id}: ${band.temper}, not told before `
       + 'it is engaged']);
   });
   it('would be caught: its sound heard only by a reader of sign', () => {
-    const savage = groups.find(g => g.won < 0.5 && g.temper === 'temper_savage')!;
-    const signed = (c.module.observations ?? []).map(o => JSON.stringify(o.when).includes(`"${savage.id}"`)
-      ? { ...o, by: 'woodcraft' } : o);
+    const band = falls(), signed = (c.module.observations ?? []).map(o => JSON.stringify(o.when)
+      .includes(`"${band.id}"`) ? { ...o, by: 'woodcraft' } : o);
     expect(Placed.offenders(groups, signed, Placed.tells(c))).toHaveLength(1);
   });
   it('would be caught: a warning keeper made savage, or a fight with no Flight', () => {
@@ -95,8 +98,7 @@ describe('a1\'s lethal placements, for a lone first-level warrior', () => {
     const changed = groups.map(g => g === keeper ? { ...g, temper: 'temper_savage' } : g);
     expect(Placed.offenders(changed, c.module.observations ?? [], Placed.tells(c))).toEqual([`${keeper.id}: `
       + 'temper_savage, not told before it is engaged']);
-    const savage = groups.find(g => g.won < 0.5 && g.temper === 'temper_savage')!;
-    const held = groups.map(g => g === savage ? { ...g, flight: false } : g);
-    expect(Placed.offenders(held, c.module.observations ?? [], Placed.tells(c))).toEqual([`${savage.id}: no Flight`]);
+    const band = falls(), held = groups.map(g => g === band ? { ...g, flight: false } : g);
+    expect(Placed.offenders(held, c.module.observations ?? [], Placed.tells(c))).toEqual([`${band.id}: no Flight`]);
   });
 });
