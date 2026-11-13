@@ -933,5 +933,6 @@
     "winze_foot",
     "forge"
   ],
-  "devices": [{"id": "bomb", "label": "a blasting charge", "role": "a charge"}]
+  "devices": [{"id": "bomb", "label": "a blasting charge", "role": "a charge"}],
+  "marks": {"name": "the marks on the adit's post-stone", "unread": "A post-stone stands at the mouth of the workings, cut with marks in the old script.", "read": "The marks are the makers' own, cut when the first seam was opened: who dug here, and what they believed lay below.", "label": "Read the marks on the post-stone"}
 }

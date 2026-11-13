@@ -31,7 +31,7 @@ export class DeepSites {
     return [`  Measure deepWater(place). Measure deepPumped(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
       `  Place ${site.id}_site ${this.q(values.name!)} is site within ${values.land} at ${values.x}, ${values.y}.`,
       `  Observe ${site.id}_outside at ${site.id} when true ${this.q(purpose.outside.replaceAll('{oldup}', values.oldup!))}`
-        + ` teaches ${site.id}_named.`,
+        + ` teaches ${site.id}_named.`, ...this.marks(site.id, purpose, values),
       ...this.places(layout, at.buried ? { purpose, town: at.buried } : undefined), ...this.ways(layout, handled),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
@@ -47,6 +47,15 @@ export class DeepSites {
       ...DeepArgument.lines(layout, values, purpose),
       ...at.rivals === false ? [] : DeepRivals.lines(region, site, { layout, purpose, values }),
       ...this.land(purpose, layout)];
+  }
+  // The makers' marks at the way in, read with lore: what they did and held, which is their history (see marks).
+  private static marks(id: string, purpose: DeepPurpose, values: Record<string, string>): string[] {
+    const m = purpose.marks, q = this.q;
+    if (!m || !values.makersfact) { return []; }
+    return [`  Thing ${id}_makers ${q(m.name)} at ${id} {`, `    State unread ${q(m.unread)}.`, `    State read ${q(m.read)}.`,
+      `    Change read ${q(m.label)} from unread to read needing lore.`, '  }',
+      `  Observe ${id}_makers_learned at ${id} of ${id}_makers as reading when state(${id}_makers, read)`
+        + ` ${q(`${values.craft} ${values.belief}`)} teaches ${values.makersfact}.`];
   }
   // The levels and their rooms, each with how it looks; every room below the mouth is dark, and underground (the
   // galleries told themselves "outdoors", from the wild country the workings are in). A drowned level's rooms look as

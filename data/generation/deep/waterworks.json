@@ -273,5 +273,6 @@
     ]
   },
   "rest": ["wardens_hall"],
-  "devices": [{"id": "barrier", "label": "a barricade", "role": "a barricade"}]
+  "devices": [{"id": "barrier", "label": "a barricade", "role": "a barricade"}],
+  "marks": {"name": "the marks on the lintel", "unread": "Marks are cut along the lintel over the doorway in the old script.", "read": "The marks are the makers' own, cut when the water was first brought here: who made the works, and why.", "label": "Read the marks on the lintel"}
 }
