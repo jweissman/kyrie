@@ -41,8 +41,11 @@ export class CreationFlow {
         chosen: m.traits?.[0], cards: calling.specializations.map(t => ({ id: t.id, name: t.name,
           ...t.line ? { line: t.line } : {}, ...t.text ? { text: t.text } : {},
           ...people?.forbids.includes(t.id) ? { shut: `Not for ${CreationFlow.plural(people)}` } : {} })) }] : [],
-      { id: 'before', ask: 'What did you do before this?', chosen: m.backgroundId, cards: open.map(b => ({ id: b.id,
-        name: b.name, text: b.text, group: c.kinds.find(k => k.id === b.kind)?.name ?? b.kind })) },
+      // The kind of life only: the trade within it is the one that best suits the calling, chosen later in play if at
+      // all (the owner, 14 November: "just select the high-level category at first, and then later we can backfill").
+      { id: 'before', ask: 'What did you do before this?', chosen: open.find(b => b.id === m.backgroundId)?.kind,
+        cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
+          .map(k => ({ id: k.id, name: k.name, line: k.does })) },
       { id: 'presenting', ask: 'How do you present?', chosen: m.pronouns, cards: CreationFlow.presenting
         .map(([id, name]) => ({ id, name })) },
       { id: 'name', ask: 'Choose your name', chosen: m.name, cards: [],
@@ -59,7 +62,7 @@ export class CreationFlow {
       return;
     }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
-    else if (step === 'before') { m.backgroundId = value; }
+    else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }
     CreationDefaults.settle(m, this.catalog, { trade: !this.given(), ...was ? { was } : {} });
     if (!this.named && ((step === 'you' && value !== people) || step === 'presenting')) {
@@ -83,6 +86,18 @@ export class CreationFlow {
     if (m.rolled && wants) { m.rolled = Rolls.suited(m.rolled as Record<string, number>, wants); }
     const trade = catalog.backgrounds.find(b => b.id === m.backgroundId);
     if (trade?.calling && trade.calling !== m.classId) { delete m.backgroundId; }
+  }
+  // Of a kind of life, the trade that best suits the calling (by what it adds where the calling wants it), as the
+  // page's trade step ranks them.
+  private trade(kind: string): string | undefined {
+    const c = this.catalog, wants = c.callings.find(x => x.id === this.member.classId)?.qualities ?? {};
+    const of = c.backgrounds.filter(b => b.kind === kind && (!b.calling || b.calling === this.member.classId));
+    // A calling's own trade of the kind first (a cleric's novice), else the best suited.
+    return (of.find(b => b.calling) ?? [...of].sort((a, b) => CreationFlow.fit(b.qualities, wants)
+      - CreationFlow.fit(a.qualities, wants))[0])?.id;
+  }
+  static fit(adds: Record<string, number>, wants: Record<string, number>): number {
+    return Object.entries(wants).reduce((t, [k, w]) => t + (adds[k] ?? 0) * w, 0);
   }
   // Whether the reason for having come gives a trade of its own (one who comes over the hills brings their own).
   private given(): boolean { return !!this.setting.origins?.find(o => o.id === this.origin)?.background; }

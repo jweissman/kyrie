@@ -32,6 +32,11 @@ describe('making the protagonist', () => {
     flow.choose('calling', 'warrior');
     const warrior = Creation.catalog().callings.find(c => c.id === 'warrior')!.specializations.map(t => t.id);
     expect([warrior.includes(flow.member.traits?.[0] ?? ''), flow.member.traits?.[0] === school]).toEqual([true, false]);
+    // What you did before is asked by its kind only; the trade within it is the one that suits the calling best.
+    const catalog = Creation.catalog(), before = flow.steps().find(s => s.id === 'before')!;
+    expect(before.cards.every(c => catalog.kinds.some(k => k.id === c.id))).toBe(true);
+    flow.choose('before', before.cards[0]!.id);
+    expect(catalog.backgrounds.find(b => b.id === flow.member.backgroundId)?.kind).toBe(before.cards[0]!.id);
     flow.choose('presenting', 'he');
     expect(flow.member.name).toBe('Lorin');
     flow.choose('name', 'Tam');
