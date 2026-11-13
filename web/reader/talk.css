@@ -31,6 +31,9 @@
 /* Trading, the lines hold their room from the first: each purchase told above had pushed the counter down, and the
    next touch bought what had moved under it (round 5). */
 .dialogue:has(.trading) .lines { height: 44%; }
+/* What was said goes on above what is in view: its head fades, so a cut line reads as continued, not as the start
+   (Mission 21's scenes: a long answer's first lines scrolled out to keep the aim under it whole). */
+.lines[data-above] { mask-image: linear-gradient(180deg, transparent, #000 48px); }
 /* A line is a block of its own: the place's foot's .aim and .you, flex rows, had laid a new aim's label out as a column
    three words high beside it (round 5). */
 .lines .line { display: block; margin: 0 0 .8em; animation: arrive var(--settle) var(--ease) both; }
