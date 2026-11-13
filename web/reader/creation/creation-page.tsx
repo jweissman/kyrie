@@ -3,7 +3,6 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { PeopleStep } from './people-step';
 import { CallingStep } from './calling-step';
-import { SpecialtyStep } from './specialty-step';
 import { OriginStep } from './origin-step';
 import { NameStep } from './name-step';
 import { BeforeStep } from './before-step';
@@ -19,12 +18,12 @@ type Step = { id: string; ask: string; View: (p: { app: ReaderApp; onward?: Reac
 // not painted: no likeness is chosen for you. Setting out at any page sets out as you stand.
 export class CreationPage {
   static steps(app: ReaderApp): Step[] {
-    const s = app.state, catalog = s.catalog!, m = s.party[0]!, country = s.setting?.title ?? 'this country';
-    const calling = catalog.callings.find(c => c.id === m.classId);
+    const country = app.state.setting?.title ?? 'this country';
     return [{ id: 'why', ask: `Why have you come to ${country}?`, View: OriginStep.View },
       { id: 'you', ask: 'Choose your ancestry', View: PeopleStep.View },
       { id: 'calling', ask: 'Choose your calling', View: CallingStep.View },
-      ...calling?.specializations.length ? [{ id: 'specialty', ask: SpecialtyStep.ask(calling), View: SpecialtyStep.View }] : [],
+      // The calling only, its way the calling's first until chosen later in play, as the engine's flow has it
+      // (CreationFlow; the owner, 14 November: "just select the high-level profession").
       { id: 'before', ask: BeforeStep.ask, View: BeforeStep.View },
       { id: 'name', ask: 'Choose your name', View: NameStep.View }];
   }

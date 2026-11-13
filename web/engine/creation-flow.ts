@@ -27,7 +27,7 @@ export class CreationFlow {
   }
   steps(): CreationStep[] {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
-    const calling = c.callings.find(x => x.id === m.classId), country = this.setting.title || 'this country';
+    const country = this.setting.title || 'this country';
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     return [
       { id: 'why', ask: `Why have you come to ${country}?`, chosen: this.origin, cards: (this.setting.origins ?? [])
@@ -37,10 +37,8 @@ export class CreationFlow {
       { id: 'calling', ask: 'Choose your calling', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text })) },
-      ...calling?.specializations.length ? [{ id: 'specialty' as const, ask: CreationFlow.ask(calling.id),
-        chosen: m.traits?.[0], cards: calling.specializations.map(t => ({ id: t.id, name: t.name,
-          ...t.line ? { line: t.line } : {}, ...t.text ? { text: t.text } : {},
-          ...people?.forbids.includes(t.id) ? { shut: `Not for ${CreationFlow.plural(people)}` } : {} })) }] : [],
+      // The calling only: its way (a cleric's domain, a mage's school, a warrior's way) is the calling's first until
+      // another is chosen later in play (the owner, 14 November: "just select the high-level profession").
       // The kind of life only: the trade within it is the one that best suits the calling, chosen later in play if at
       // all (the owner, 14 November: "just select the high-level category at first, and then later we can backfill").
       { id: 'before', ask: 'What did you do before this?', chosen: open.find(b => b.id === m.backgroundId)?.kind,
@@ -102,12 +100,4 @@ export class CreationFlow {
   // Whether the reason for having come gives a trade of its own (one who comes over the hills brings their own).
   private given(): boolean { return !!this.setting.origins?.find(o => o.id === this.origin)?.background; }
   static readonly presenting = [['she', 'A woman'], ['he', 'A man'], ['they', 'Neither']] as const;
-  static ask(calling: string): string {
-    return calling === 'cleric' ? 'Choose your domain' : calling === 'mage' ? 'Choose your school' : 'Choose your way';
-  }
-  static plural(people: { id: string; name: string }): string {
-    const name = people.name.toLowerCase();
-    return ({ elf: 'elves', dwarf: 'dwarves' } as Record<string, string>)[people.id] ?? (/folk$/.test(name) ? name
-      : `${name}s`);
-  }
 }

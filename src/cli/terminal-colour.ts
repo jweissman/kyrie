@@ -23,6 +23,11 @@ export class TerminalColour {
   // Weight and slant, where there is colour (what is said to the company is set in italics: the owner, 14 November).
   static bold(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[1m${text}\x1b[22m`; }
   static italic(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[3m${text}\x1b[23m`; }
+  private static halves(first: Tone, second: Tone, depth: Depth): string {
+    const [r, g, b] = Emphasis.rgb[first], [R, G, B] = Emphasis.rgb[second];
+    return depth === 'true' ? `\x1b[38;2;${r};${g};${b}m\x1b[48;2;${R};${G};${B}m▌\x1b[0m`
+      : `\x1b[38;5;${this.cube(r, g, b)}m\x1b[48;5;${this.cube(R, G, B)}m▌\x1b[0m`;
+  }
   // The nearest of the 256-colour cube's 6 × 6 × 6.
   private static cube(r: number, g: number, b: number): number {
     return 16 + 36 * this.level(r) + 6 * this.level(g) + this.level(b);
@@ -34,7 +39,12 @@ export class TerminalColour {
     if (depth === 'none') {
       return `${n}. ${label}${aspects.length ? `  [${aspects.map(a => Emphasis.words[a]).join(', ')}]` : ''}`;
     }
-    const bar = tones.length ? tones.map(t => this.paint(t, '▌', depth)).join('') : ' ';
-    return `${bar}${' '.repeat(Math.max(1, 4 - Math.max(1, tones.length)))}${n}. ${label}`;
+    // One pip. Where an act is several things at once, the pip is its first two tones in one cell, the half block in
+    // the first over a ground of the second: the page's prism, a gradient through its tones, kept in one place. The
+    // tones' mean in OKLab would be grey for gold and blue, which says nothing. It had been a bar for each (the
+    // owner, 14 November: "not a blended pip but just doubled").
+    const bar = tones.length > 1 ? this.halves(tones[0]!, tones[1]!, depth) : tones.length ? this.paint(tones[0]!, '▌', depth)
+      : ' ';
+    return `${bar}   ${n}. ${label}`;
   }
 }
