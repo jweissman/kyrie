@@ -123,8 +123,10 @@ export class Promotion {
       .filter(a => !led.has(a.choice) && !listed.some(x => x.choice === a.choice))];
     // Then the lens's own acts in its own order, up to four in all, never one that cannot be done now: a kitchen's
     // Wat, with a topic and no aim, had left the people lens empty, his talk only in the rest (14 November).
+    // Each with its own marks, as any act is drawn (the drop at the ledge had lost its "no coming back").
+    const marks = new Map(at.cands.map(c => [c.choice, c.marks]));
     const fill = all.filter(a => !a.disabled).slice(0, Math.max(0, this.all - promoted.length))
-      .map(a => this.gilded(this.present(a), at.next));
+      .map(a => this.gilded(this.present(a, marks.get(a.choice) ?? []), at.next));
     const shown = new Set([...led, ...fill.map(a => a.choice)]);
     const out = [...promoted, ...fill], rest = all.filter(a => !shown.has(a.choice));
     return { promoted: out, rest, ...this.opened([...out, ...rest], at.scene) };
@@ -156,9 +158,9 @@ export class Promotion {
           ...c.disabled ? { disabled: c.disabled } : {} }))]));
     return Object.keys(leaves).length ? { leaves } : {};
   }
-  private static present(a: LensAct): Promoted {
+  private static present(a: LensAct, marks: Mark[]): Promoted {
     return { choice: a.choice, ...a.command ? { command: a.command } : {}, ...a.subject ? { subject: a.subject } : {},
-      label: a.label, why: 'present', facets: ['here'], tier: 4, aspects: [], marks: [] };
+      label: a.label, why: 'present', facets: ['here'], tier: 4, aspects: [], marks };
   }
   // Which lens an act is in: the ways, the waiting acts, and what is done about a thing or about someone.
   private static lens(c: Candidate, at: { kinds: Map<string, string>; company: Set<string> }): Lens | undefined {

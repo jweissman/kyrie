@@ -318,6 +318,7 @@ export class MenuModel {
   }
   static shape(c: Choice) {
     return { id: c.id, label: c.label, ...(c.command ? { command: c.command } : {}),
-      ...(c.children ? { children: c.children.length } : {}), ...(c.disabled ? { disabled: c.disabled } : {}) };
+      ...(c.children ? { children: c.children.length } : {}), ...(c.disabled ? { disabled: c.disabled } : {}),
+      ...(c.hold ? { hold: c.hold } : {}) };
   }
 }

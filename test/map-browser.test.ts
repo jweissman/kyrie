@@ -64,7 +64,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     // One come in debt, who knows the country's roads as a trader does: a march-stone is on the map only once heard of,
     // or so known (the owner, 3 November: the map had begun with the whole country on it).
-    await page.click('[data-action="origin"][data-id="debt"]');
+    await driver.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // Play begins in the town (Mission 20's amendment 1): M raises the map.
