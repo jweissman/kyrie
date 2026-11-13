@@ -127,3 +127,63 @@ Alone and denned it is a fair fight for a warrior (60 %, two-thirds harm) and a 
 
 The unicorn and the flesh golem are at the table's ceiling because no blade the catalog has passes 10/magic or
 5/adamantine: until a magic or adamantine weapon exists, neither can be a fight for a company of blades, at any level.
+
+## Acted on: the lead's PL-07 decisions (13 November, batch 3)
+
+Every change is to placement data or telling, none to a stat block.
+
+1. **Denned singles get company by number.** A work's den holds half its den's number, and never one alone where two
+   are still within a first den's danger (`RegionStock.numbers`: two of a kind of challenge one or less; one beyond the
+   budget stays alone). Spec: `test/region-stock-numbers.test.ts` (0.3 s; both halves of the rule mutation-checked).
+2. **The undertown's deepest room is no longer its easiest.** The vault's keeper is the barrow ghoul alone (decision
+   5's room; see below), where Orsino's ghoul had been won 95 % of the time by a lone first-level warrior.
+3. **The spider room is told at the door.** At the quarry adit, before the gallery, anyone with a light sees the husks
+   in the web ("a fox, a dog, something the size of a calf"): an observation of the place, while the spiders live
+   (`undertown.kyrt`). The fight is as it was.
+4. **Lethal keepers are told and escapable, as placed.** Each of a1's keepers is territorial and has its own warning
+   line (the mere's water elemental, the barrow king, now the vault's ghoul): a territorial group warns, and falls on the
+   company only if it stays out the watch (`inhabitants.kyr`, `temper_closes`), so the company can back out of the room;
+   and a fight once joined always offers Flight (one try in two, then three in four, then sure). None was neither, so no
+   telling or exit was changed. Not keepers, but worth the lead's eye: the barrow's embalmers (two spirits of the third
+   level, lethal) are *savage* and fall on the company without warning.
+5. **The barrow ghoul is placed once, alone:** the keeper of the sealed vault under the first town, three levels down,
+   behind the lettered flag, at the bottom of the fights the town's comment says bring a company to the second level.
+   Not the ossuary, the king-barrow or the Howe.
+6. **A lone thief dies in most fights: open, for the lead.** A calling question, not a placement one: against every
+   pack but the frogs and the bats a first-level thief alone wins 20 % or fewer of its fights and dies in 80–100 % of
+   them, where a warrior alone wins most. The ecology prices a company of one the same whatever its calling. Nothing
+   about the thief is changed here.
+
+Spec of the placements as placed: `test/placements-a1.test.ts` (a1, 14 s: the vault's keeper is the barrow ghoul at 13,
+the ossuary's brood Orsino's, every den at least a pair, and the husks told at the adit; each mutation-checked by
+taking the barrow ghoul and the husks back out of the template).
+
+### Before and after (the groups whose placement changed; every other group fought the same, seed for seed)
+
+Each cell is **win · median rounds · median harm · a death**, first-level companies, 20 seeds.
+
+| Placement | Before: foes | Before: warrior / pair / thief | After: foes | After: warrior / pair / thief | Verdict before → after |
+|---|---|---|---|---|---|
+| w1_denned | 1 × hound/cave L1 (6) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 0% / 65% · 3 · 62% · 35% | 2 × hound/cave L1 (6/9) | 85% · 5 · 0% · 15% / 100% · 3 · 8% · 0% / 25% · 4 · 100% · 75% | trivial → fair |
+| w2_denned | 1 × hound/cave L1 (7) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 0% / 80% · 3 · 0% · 20% | 2 × hound/cave L1 (7/6) | 85% · 5 · 20% · 15% / 100% · 3 · 0% · 10% / 20% · 5 · 100% · 80% | trivial → fair |
+| w3_denned | 1 × zombie L1 (6) | 100% · 3 · 0% · 0% / 100% · 2 · 0% · 0% / 90% · 3 · 0% · 10% | 2 × zombie L1 (6/9) | 100% · 5 · 0% · 0% / 100% · 3 · 0% · 5% / 55% · 7 · 90% · 45% | trivial → trivial |
+| w4_denned | 1 × zombie L1 (7) | 100% · 2 · 0% · 0% / 100% · 2 · 0% · 0% / 70% · 3 · 50% · 30% | 2 × zombie L1 (7/6) | 95% · 5 · 17% · 5% / 100% · 3 · 9% · 5% / 20% · 4 · 100% · 80% | trivial → fair |
+| w5_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | trivial → fair |
+| w6_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | trivial → fair |
+| e1_denned | 1 × ghoul L1 (13) | 100% · 4 · 0% · 0% / 100% · 2 · 0% · 0% / 45% · 4 · 100% · 55% | 2 × ghoul L1 (13/13) | 80% · 8 · 14% · 20% / 95% · 5 · 13% · 5% / 5% · 7 · 100% · 95% | trivial → fair |
+| s1_u_keeper | 1 × ghoul L2 (16) | 95% · 4 · 12% · 0% / 100% · 3 · 0% · 0% / 20% · 7 · 100% · 80% | 1 × ghoul/barrow L2 (13) | 60% · 5 · 75% · 40% / 90% · 3 · 17% · 30% / 0% · – · 100% · 100% | trivial → fair |
+
+Verdicts over the 39 groups: before 18 trivial, 13 fair, 8 lethal; after **11 trivial, 20 fair, 8 lethal**. The pairs
+turn six of the seven trivial dens fair for a lone warrior (two zombies stay trivial); the lone thief, already the
+weak case, loses more of them (decision 6).
+
+### The barrow ghoul in the vault, by the companies of placements.md
+
+| Company | Level 1 | Level 2 (the room's company) |
+|---|---|---|
+| Warrior alone | 60 % · 5 · 75 % · 40 % | 75 % · 5 · 47 % · 25 % |
+| Warrior + cleric | 90 % · 3 · 17 % · 30 % | 100 % · 3 · 9 % · 5 % |
+| Thief alone | 0 % · – · 100 % · 100 % | 0 % · – · 100 % · 100 % |
+
+A fair fight for the company the room is for, and a hard one for a first-level warrior who finds the flag early; told
+before it is joined (its warning) and escapable.
