@@ -780,3 +780,17 @@ beginning to play. The aesthetic line takes the page; the lead takes any engine 
 | TO-05 | A vocabulary of exceptional responsive interactions with particular things (a lock's mechanism, an armillary sphere, an instrument, an architectural mechanism): read-only projections of engine state and the player's focus, committed through the engine; rare moments in a painterly game, not 3D for every object | open | P2 | M22 |
 | TO-06 | Evaluated as one experience at desktop and tablet, by keyboard, touch and reduced motion, with the transitions watched in motion and not only screenshotted; beautiful at rest and in motion | open | P1 | M21 |
 
+## 31. The owner on a place worth returning to, and earned instruments (14 November, night)
+
+The owner's words are in `mission-21/owner-returning-instruments.md`: knowing more about the world gives the player more
+interesting ways to inhabit it. One bounded experiment across the lines: the playability line the place and its walks,
+the lead the engine's instrument projection, the aesthetic line the page's treatment.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| RI-01 | One existing place worth returning to: repeatable, time-consuming investigation with context-dependent discovery and encounter tables; later visits reflecting what is established, time passed, circumstance and what the character knows or can do; durable discoveries, no resettable treasure, farming or generic repeatable quests; reachable and revisitable by reliable navigation | open | P1 | M21 |
+| RI-02 | Look, Examine, Search and sustained Explore as distinct acts in the existing vocabulary; something worth doing in an ordinary scene without a dungeon or a golden undertaking; the four promoted kept, further exploration through lenses and expanded acts | open | P1 | M21 |
+| RI-03 | Two different characters (calling, background, knowledge) discovering somewhat different possibilities at the same place, by skill-sensitive observation | open | P1 | M21 |
+| RI-04 | A few contrasting earned instruments (of: the sign and the moon's phase, the company's condition, expedition resources, the local compass, a field catalogue, progress at a non-quest activity), their values and what the character may know of them projected by the engine; contextual, optional and pinnable with a tiny default budget; honest precision; no new atlas meaning for markers, arrows or widget kinds; both clients agreeing | open | P2 | M21 |
+| RI-05 | Proved cheaply and seen: a small Kyr fixture and terminal walks for repeat exploration, persistent discovery, conditional encounters, skill-sensitive observation and concise narration; a browser review of the treatment | open | P1 | M21 |
+
