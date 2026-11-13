@@ -181,8 +181,8 @@ export class Terminal {
     const chosen = lensed ? lensed.promoted.map(a => a.command ?? a.choice) : [...new Set(ids)];
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
-    return { all, first: (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c)),
-      ...lensed ? { lens: { name: lens, more } } : {} };
+    const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
+    return { all, first: shown, ...lensed ? { lens: { name: lens, more } } : { more: all.length - shown.length } };
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
@@ -193,11 +193,23 @@ export class Terminal {
     console.log(`\nNext: ${Typography.plain(next.text)}${next.at ? ` (${next.at})` : ''}`
       + `${next.aim ? ` · follow ${n}` : typed ? ` · ${Typography.plain(typed)}` : ''}`);
   }
-  // What the page leads with, by the command each is done by: the glance's quiet row of ways is by exit, and a way
-  // in once gone through (Ísencepan's gate, after its gate-passage) had dropped from the foreground (round 13, PL-26).
+  // Where the rest lies: each lens by how many it holds, as the page's rail opens them; the journeys the page puts on
+  // its map (49 in a1's first scene, 42 of them set-outs to places known, had been one list under `all`); and `all`.
+  private static more(glance: Glance | undefined, all: Listed[], n: number): string {
+    const lenses = Object.entries(glance?.lenses ?? {}).map(([name, l]) => `${name} ${l.promoted.length + l.rest.length}`)
+      .filter(said => !said.endsWith(' 0'));
+    const journeys = all.filter(c => c.id.startsWith('travel:')).length;
+    return `(more: ${[...lenses, ...journeys ? [`map ${journeys}`] : [], `all ${n}`].join(' · ')})`;
+  }
+  // What the page leads with, by the command each is done by: the scene's four (Glance.offer, the same four the page
+  // draws: TB-01, TB-02), an opener by the act within it that it is led for (the question the aim waits on), a way by
+  // its exit's command. A way in once gone through (Ísencepan's gate) had dropped from the foreground (PL-26).
   static led(glance: Glance | undefined, screen: Screen): string[] {
-    return [...glance?.acts.flatMap(a => [...a.inside?.map(x => x.command) ?? [], a.command ?? a.choice]) ?? [],
-      ...(glance?.ways ?? []).map(id => this.way(screen, id))];
+    const acts = new Map((glance?.acts ?? []).map(a => [a.choice, a]));
+    return (glance?.offer?.primary ?? []).map(o => {
+      const a = acts.get(o.choice);
+      return a?.inside?.[0]?.command ?? a?.command ?? o.command ?? this.way(screen, o.choice);
+    });
   }
   private static way(screen: Screen, id: string): string {
     return screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command ?? id;
@@ -290,7 +302,7 @@ export class Terminal {
         console.log('');
         if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
         this.choices(offered.first);
-        if (offered.more) { console.log(`(${offered.more} more: all)`); }
+        if (offered.more) { console.log(this.more(leaf.glance, offered.all, offered.more)); }
         // The commands when asked, and a word of where they are once: a line said the same after every act, and a
         // heading over the choices, are static context (the owner, 14 November: TM-02).
         if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }

@@ -1,7 +1,6 @@
-import type { Campaign } from '../campaign/campaign';
+import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer';
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
-import { AimAdvances } from './aim-advances';
-import { AimLeads } from './aim-leads';
+import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
@@ -12,14 +11,12 @@ import { Itineraries } from '../ui/itinerary';
 import { Headings } from '../ui/headings';
 import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
-import { Marks } from '../ui/marks';
-import { SceneModel, type Scene } from '../ui/scene';
+import { Marks } from '../ui/marks'; import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
 import { AimRoute } from './aim-route';
-import { Perception } from './perception';
-import { Companions } from './companions';
+import { Perception } from './perception'; import { Companions } from './companions';
 import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
@@ -53,6 +50,7 @@ export class Glance {
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0) };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
+    const ways = Promotion.ways(cands, acts, s);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
     // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
     // has nothing to do with it (the owner, OWN-53: restrained, and only what is truly held).
@@ -68,7 +66,8 @@ export class Glance {
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
-      changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(campaign, screen, reading),
+      changed: lines.changed, acts, ways, offer: Offers.scene(acts, ways, cands, campaign),
+      ...this.aimed(campaign, screen, reading),
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
@@ -91,7 +90,8 @@ export class Glance {
       marks: Marks.journey(host.elapsed ?? 0, host.bound.minutes) ? [Marks.dusk] : [] };
     const acts = bound ? this.first(glance.acts, bound) : glance.acts;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,
-      ways: glance.ways.filter(id => !acts.some(a => a.choice === id)) };
+      ways: glance.ways.filter(id => !acts.some(a => a.choice === id)),
+      ...bound && glance.offer ? { offer: Offers.headed(glance.offer, bound) } : {} };
   }
   // The journey held, at the head of what the aim asks, and the rest capped again: three at most, two ways.
   private static first(acts: Promoted[], bound: Promoted): Promoted[] {
