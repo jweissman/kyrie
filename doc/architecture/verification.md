@@ -36,15 +36,26 @@ another (or beside tests in another worktree) runs WSL out of memory. The local 
 
 ## What CI runs
 
-`.github/workflows/ci.yml`, on every push to any branch and every pull request, these jobs:
+`.github/workflows/ci.yml`. **On every push to any branch and every pull request** (minutes):
 
 - **lint and types**: `bun install --frozen-lockfile`, lint, typecheck.
-- **suite 1/5 to 5/5**: the whole suite in five shards balanced by `test/timings.json`, each with bun's JUnit
-  report (on one runner the suite had come to 27 of its 30 minutes). `scripts/test-summary.ts` writes the counts and
-  every skipped or failed spec, by file and line, to the run's summary. Orsino is checked out beside Kyrie at the
-  revision `data/sources/orsino/registry.json` names, so the registry spec runs rather than skips.
+- **player contracts**: `test:intent`, `test:honest`, `test:small` (the rules on small worlds, Mission 21).
+- **push lane 1/8 to 8/8**: `bun scripts/test-lane.ts push` (`test/lanes.json`): every spec file under thirty seconds
+  by `test/timings.json`, everything in `test/small/`, any spec not yet timed, and a short list of sentinels (whole-world
+  and whole-adventure specs kept on every push, each with why). 524 files, ≈ 65 CI-minutes of the suite's ≈ 1 087.
+- **reference hour, through the page**: evidence, not a gate.
+
+**Nightly on main (08:00 UTC) and on demand** (Actions → CI → Run workflow, or `gh workflow run CI --ref <branch>`):
+
+- **suite 1/10 to 10/10**: the whole suite, balanced by `test/timings.json`, each with bun's JUnit report.
+  `scripts/test-summary.ts` writes the counts and every skipped or failed spec, by file and line, to the run's
+  summary. Orsino is checked out beside Kyrie at the revision `data/sources/orsino/registry.json` names, so the
+  registry spec runs rather than skips.
 - **long descents**: `KYRIE_LONG=1`; any skip fails the job (`--none-skipped`).
 - **browser specs**: Chromium installed with its libraries, `KYRIE_BROWSER=1`; any skip fails the job.
+
+Before merging something that changes many worlds or the page (the shared rules, generators, the reader), ask for
+the whole suite on its branch rather than waiting for the night.
 
 A failing spec fails its job, and so the run. `.github/workflows/pages.yml` still publishes the page from `main`
 with three quick specs of its own.

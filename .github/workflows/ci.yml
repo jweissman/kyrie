@@ -1,18 +1,24 @@
-# Kyrie's checks, on every push and pull request: lint and types, and the whole suite in five balanced shards, with
-# every skipped spec listed in the run's summary; the long descents; and the browser specs, each against the page it
-# builds. A failing spec turns its job red. Deem and the languages package are pinned in package.json (github:owner/name#commit) and installed by
+# Kyrie's checks: on every push and pull request, lint and types, the player contracts and small worlds, and the push
+# lane in eight balanced shards; nightly and on demand, the whole suite in ten, the long descents, and the browser
+# specs, each against the page it builds. Every skipped spec is listed in the run's summary. A failing spec turns its job red. Deem and the languages package are pinned in package.json (github:owner/name#commit) and installed by
 # bun from the lockfile, so a clean clone needs no sibling checkouts. Orsino, whose registry one spec regenerates byte
 # for byte, is checked out beside Kyrie at the revision the registry names. See doc/architecture/verification.md.
 name: CI
 # The owner's paintings arrive in assets/bg as they are made, which nothing builds from until they are placed (as
 # assets/portraits/scene-*): a push of those alone starts no run, and so cancels none in flight.
+# Every push runs the push lane (test/lanes.json: the specs under thirty seconds, the small worlds, the sentinels) in
+# minutes; the whole suite, the long descents and the browser specs run nightly on main and whenever asked (Actions,
+# Run workflow; or gh workflow run CI). Mission 21: 525 of 846 spec files had cost 5 % of the suite between them, and
+# every push waited thirty-five minutes for the other 321.
 on:
   push:
     paths-ignore: ['assets/bg/**']
   pull_request:
   workflow_dispatch:
+  schedule: [{ cron: '0 8 * * *' }]
 permissions: { contents: read }
-concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
+# By event too: a push must not cancel the night's whole suite.
+concurrency: { group: "ci-${{ github.ref }}-${{ github.event_name }}", cancel-in-progress: true }
 defaults:
   run: { working-directory: kyrie }
 jobs:
@@ -46,14 +52,33 @@ jobs:
       - run: bun run test:honest
       # The rules on small worlds (test/small, Mission 21's fast loop): seconds, and the first to say a rule broke.
       - run: bun run test:small
-  # The suite in five shards, balanced by the time each spec file took when the timings were last kept
-  # (test/timings.json): in three, a shard had come to 27 of its 30 minutes, and past them once the Book of Faces'
-  # hour of journeys came in (3 November).
-  # Six since 10 November: the first of five had run to its forty-five minutes and been cancelled in every run seen
-  # (the throughput review's, and the three of the contracts branch), so that its specs were never seen to pass.
+  # What every push runs: the push lane in eight shards, balanced by the files' kept times.
+  push:
+    name: push lane ${{ matrix.shard }}/8
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8] } }
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - id: orsino
+        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with: { repository: jweissman/orsino, ref: "${{ steps.orsino.outputs.revision }}", path: orsino }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bun test --parallel --shard=${{ matrix.shard }}/8 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $(bun scripts/test-lane.ts push)
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Push lane, shard ${{ matrix.shard }} of 8"
+  # The whole suite, nightly and on demand: in ten shards, balanced by the time each spec file took when the timings
+  # were last kept (test/timings.json). Five shards had come to their thirty minutes by 3 November, six to their
+  # forty-five by 10 November (a shard cancelled in every run seen, its specs never seen to pass).
   suite:
     name: suite ${{ matrix.shard }}/10
     runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
     # Ten shards since the adventure branch's standing scenarios joined every country: its worlds are larger; four of
     # six shards, then two of eight, ran past their forty-five minutes (CI on integrate/first-steps, 12 November), with
@@ -81,6 +106,7 @@ jobs:
         with: { name: "junit-shard-${{ matrix.shard }}", path: kyrie/junit.xml, retention-days: 14, if-no-files-found: ignore }
   long:
     name: long descents
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -96,6 +122,7 @@ jobs:
   # Two shards since the place's new grammar (6 November): the whole had passed in thirty minutes and then outgrew them.
   browser:
     name: browser specs ${{ matrix.shard }}/2
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy: { fail-fast: false, matrix: { shard: [1, 2] } }
