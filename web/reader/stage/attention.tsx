@@ -1,0 +1,136 @@
+import type { CSSProperties } from 'react';
+import type { ReaderApp } from '../reader-app';
+import type { Choice } from '../../../src/ui/choice-list';
+import { Typography } from '../../../src/presentation/typography';
+import { Words } from '../words';
+import { Act, type Draw } from './act';
+import { AtHand, type Held } from './at-hand';
+import { GlanceStage } from './glance';
+import { Pip } from './pip';
+import { SceneSurface } from './scene-surface';
+import { Wayfinder, type Way } from './wayfinder';
+import { WorldStage } from './world-stage';
+import { SceneRail } from './scene-rail';
+import { PlaceStage } from './place-stage';
+import { Emphasis } from '../emphasis';
+
+// Mission 21's attention composition (?look=attend; proposal.md, composition B). The owner, 12 November: "There
+// shouldn't be separate explore/perceive page: they're just lenses, they should leave the scene intact but more highly
+// favor actions of those kinds to be promoted to the top four actions." So the scene keeps its painting and its
+// telling, and its one menu shows, by the lens chosen above it, the place's few acts (Here), whom to turn to (People),
+// what to take in hand (Things) or where to go (Ways): never a page, never a second list beside the first. A thing
+// chosen unfolds in place, its acts under its name; a way or a person touched is gone to or spoken to at once.
+export type Lens = 'here' | 'people' | 'things' | 'ways';
+interface Row { id: string; label: string; note?: string; tone?: string; faint?: boolean; glyph?: string;
+  pick: () => void; chosen?: boolean; choice?: Choice }
+export class Attention {
+  // At most this many rows in a lens; the rest one quiet touch away ("All ways"), in the same menu.
+  static readonly most = 5;
+  static lens(app: ReaderApp): Lens {
+    const s = app.state;
+    return s.exploring === 'go' ? 'ways' : s.exploring === 'look' ? 'things' : s.talking ? 'people' : 'here';
+  }
+  static set(app: ReaderApp, lens: Lens) {
+    if (lens === 'people') { app.setState({ talking: true, exploring: undefined, hovered: undefined }); return; }
+    app.setState({ talking: false, exploring: lens === 'ways' ? 'go' : lens === 'things' ? 'look' : undefined,
+      hovered: undefined, open: [], kept: false, keyed: false });
+  }
+  // The tabs over the menu: each lens by its word and how many it holds; none shown that holds nothing.
+  static Tabs({ app }: { app: ReaderApp }) {
+    const on = Attention.lens(app), counts: [Lens, string, number][] = [['here', 'Here', 0],
+      ['people', 'People', Attention.people(app).length], ['things', 'Things', Attention.things(app).length],
+      ['ways', 'Ways', Wayfinder.ways(app).length]];
+    return <nav className="attention-tabs" aria-label="Attend to">
+      {counts.filter(([l, , n]) => l === 'here' || n > 0).map(([l, word, n]) => <button key={l} type="button"
+        className={`attention-tab${on === l ? ' on' : ''}`} data-lens={l} aria-pressed={on === l}
+        onClick={() => Attention.set(app, on === l ? 'here' : l)}>{word}{l !== 'here' && <span className="count">{n}</span>}
+        {Attention.tone(app, l) && <Pip.View fill={`var(--tone-${Attention.tone(app, l)})`} />}</button>)}
+    </nav>;
+  }
+  // The tone a lens holds (its first toned row), as the rail's mark had it.
+  static tone(app: ReaderApp, lens: Lens): string | undefined {
+    if (lens === 'ways') { const g = SceneRail.go(app); return 'lit' in g ? g.lit : undefined; }
+    if (lens === 'things') { const l = SceneRail.look(app); return 'lit' in l ? l.lit : undefined; }
+    if (lens === 'people') { return Attention.people(app).map(x => WorldStage.seen(app, x).tone).find(Boolean); }
+    return undefined;
+  }
+  // The menu a lens shows, in place of the four the place leads with.
+  static Menu({ app, draw, all }: { app: ReaderApp; draw: Draw; all?: boolean }) {
+    const lens = Attention.lens(app);
+    if (lens === 'here') { return null; }
+    const rows = lens === 'ways' ? Attention.wayRows(app) : lens === 'people' ? Attention.personRows(app)
+      : Attention.thingRows(app);
+    const shown = all || app.state.open.includes('attention:all') ? rows : rows.slice(0, Attention.most);
+    const chosen = lens === 'things' ? AtHand.of(app).find(h => h.id === app.state.hovered) : undefined;
+    return <ol className={`led attention-menu lens-${lens}`} aria-label={lens}>
+      {shown.map(r => <li key={r.id}>
+        <button type="button" className={`act led-act attention-row${r.chosen ? ' chosen' : ''}`} data-pick={r.id}
+          {...r.choice && draw.index.has(r.choice.id) ? { 'data-choice': r.choice.id } : {}} onClick={r.pick}>
+          {r.tone && <i className="prism-bar" aria-hidden="true" style={{ '--prism': `var(--tone-${r.tone})`,
+            ...r.faint ? { opacity: .5 } : {} } as CSSProperties} />}
+          <span className="n">{r.glyph && <span className="row-glyph" aria-hidden="true">{r.glyph}</span>}
+            {Typography.curl(r.label)}</span>
+          {r.note && <span className="why-said">{Typography.curl(r.note)}</span>}
+        </button>
+        {r.chosen && chosen && <Attention.Unfolded draw={draw} held={chosen} />}
+      </li>)}
+      {rows.length > shown.length && <li><button type="button" className="quiet-word attention-all"
+        data-action="attention-all" onClick={() => app.setState({ open: [...app.state.open, 'attention:all'] })}>
+        {`All ${rows.length} ${lens}`}</button></li>}
+    </ol>;
+  }
+  // A thing chosen, unfolded under its own row: what more there is to see of it, and what can be done with it.
+  static Unfolded({ draw, held: h }: { draw: Draw; held: Held }) {
+    const acts = h.choices.filter(c => draw.index.has(c.id));
+    return <div className="unfolded" data-held={h.id}>
+      {h.seen.slice(0, 2).map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}
+      {acts.length > 0 && <ul className="acts column">{acts.map(c => <li key={c.id}>
+        <Act.View choice={c} draw={draw} marked className="unfolded-act">
+          {Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View></li>)}</ul>}
+    </div>;
+  }
+  // Whom to turn to: those with something for the company first (a tone), then whoever will talk, then the rest.
+  static people(app: ReaderApp) {
+    return WorldStage.present(app).filter(x => x.kind !== 'companion' && !x.state);
+  }
+  private static personRows(app: ReaderApp): Row[] {
+    const rank = (x: ReturnType<typeof Attention.people>[number]) => (WorldStage.seen(app, x).tone ? 0 : x.live ? 1 : 2);
+    return [...Attention.people(app)].sort((a, b) => rank(a) - rank(b)).flatMap(x => {
+      const into = WorldStage.into(x), seen = WorldStage.seen(app, x);
+      if (!into) { return []; }
+      const verb = x.kind === 'person' ? (x.live ? 'Talk to' : 'Look at') : 'Look at';
+      return [{ id: x.id, label: `${verb} ${Words.short(x.name)}`, ...x.note ? { note: Words.described(x.note) } : {},
+        ...seen.tone ? { tone: seen.tone } : {}, choice: into, pick: () => app.choose(into) }];
+    });
+  }
+  static things(app: ReaderApp): Held[] { return AtHand.of(app).filter(h => h.id !== 'about'); }
+  private static thingRows(app: ReaderApp): Row[] {
+    return Attention.things(app).map(h => {
+      const tone = AtHand.tone(app, h), only = h.choices.length === 1 && h.choices[0]!.command ? h.choices[0] : undefined;
+      // A thing done at a way off this place is said as the act ("Drop the bar across the camp gate"), as the glance
+      // says it (GlanceStage.label), not the way it is on.
+      const said = only && (only.alone ?? Words.upper(/ — (.+)$/.exec(only.label)?.[1] ?? only.label));
+      return { id: h.id, label: said ?? Words.upper(h.name),
+        ...h.note ? { note: h.note } : {}, ...tone ? { tone } : {}, chosen: app.state.hovered === h.id,
+        ...only ? { choice: only } : {},
+        pick: () => only ? app.choose(only) : app.state.hovered === h.id ? app.setState({ hovered: undefined, open: [] })
+          : AtHand.pick(app, h) };
+    }).sort((a, b) => Number(!a.tone) - Number(!b.tone));
+  }
+  // Where to go: the aim's way first, then those lit by what the place leads with, then the rest; never the idle first.
+  private static wayRows(app: ReaderApp): Row[] {
+    const glance = app.state.frame?.leaf.glance, idle = new Set(glance?.idle ?? []);
+    // What is perceived off along a way (someone who might join you, that way): its tone, faint (see Perception).
+    const sensed = (w: Way) => glance?.sensed?.find(x => x.to === Wayfinder.to(w) || w.holds?.includes(x.to));
+    const rank = (w: Way) => (w.aim === 'followed' ? 0 : Wayfinder.tone(app, w) ? 1 : sensed(w) ? 2 : idle.has(Wayfinder.to(w)) ? 4 : 3);
+    return [...Wayfinder.ways(app)].sort((a, b) => rank(a) - rank(b)).map(w => {
+      const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = w.c.disabled ? '⊘'
+        : SceneSurface.glyph(w.whither), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
+      const tone = lit ?? (far ? Emphasis.tones[far.aspect] : undefined);
+      return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
+        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && !lit ? `${Emphasis.words[far.aspect]}, that way` : '', time]
+          .filter(Boolean).join(' · ') || undefined,
+        ...tone ? { tone } : {}, ...far && !lit ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
+    });
+  }
+}

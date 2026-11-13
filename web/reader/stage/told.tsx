@@ -1,4 +1,4 @@
-import { useRef, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
@@ -14,6 +14,8 @@ import { Stage } from './stage';
 import { Journey } from './journey';
 import { Check } from './check';
 import { Scrolled } from './scrolled';
+import { SceneBudget, type BudgetLine } from '../../../src/presentation/scene-budget';
+import { Look } from '../look';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -120,11 +122,33 @@ export class Told {
     // Nor what the opening's pages have just told (the road into the town, coming into sight), now that play begins on
     // the place it left the company in (Mission 20's amendment 1).
     const opened = Told.opened(app);
+    // Mission 21's compositions tell the place within the scene's budget (see Told.Budgeted).
+    if (Look.current()) { return <Told.Budgeted app={app} beside={beside} opened={opened} />; }
     const situation = Told.ranked(app, leaf.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p)))
       .slice(0, Told.situationAtRest);
     return <div className="setting" data-region="setting">
       {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
       <Told.Presence app={app} lines={leaf.presence.slice(0, Told.presenceAtRest)} subjects={subjects} quiet={false} />
+    </div>;
+  }
+  // The place within the scene's budget (Mission 21: three sentences at a glance; see SceneBudget): its own first
+  // words, one of its life now, what an aim bears on always; the rest a deliberate touch away, told in place, not in a
+  // panel. Bearing is still inferred from names here (Told.ranked); the typed source is the observation's facets.
+  static Budgeted({ app, beside, opened }: { app: ReaderApp; beside: Set<string>; opened: (line: string) => boolean }) {
+    const leaf = app.state.frame!.leaf, [more, open] = useState(false);
+    const said = (app.state.frame!.screen.aims ?? []).map(a => a.text).join(' ');
+    const bears = (l: string) => [...l.matchAll(/(?<=[a-z,;] )[A-Z][a-zà-ÿ]{4,}/g)].some(m => said.includes(m[0]));
+    const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p));
+    const life = leaf.presence.filter(l => !Told.roll(l)).map(l => [...beside].reduce((rest, x) => rest.replace(x, ''),
+      Typography.curl(l)).replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
+    const lines: BudgetLine[] = [...situation.map((text, i): BudgetLine => ({ text,
+      kind: i === 0 ? 'lead' : bears(text) ? 'bearing' : 'standing' })), ...life.map((text): BudgetLine => ({ text, kind: 'life' }))];
+    const b = SceneBudget.compose(lines);
+    return <div className="setting budgeted" data-region="setting" data-told={b.counted} data-held={b.held.length}>
+      {b.told.map((t, i) => <p key={i} className={`said-${t.kind}${i ? '' : ' lead'}`}>{Typography.curl(t.text)}</p>)}
+      {more && b.held.map((h, i) => <p key={`h${i}`} className="held">{Typography.curl(h)}</p>)}
+      {b.held.length > 0 && <button type="button" className="quiet-word more-told" data-action="more-told"
+        aria-expanded={more} onClick={() => open(!more)}>{more ? 'Less' : 'More of the place'}</button>}
     </div>;
   }
   // How many of what is about the place the scene tells (the owner, 6 November: the scene still too busy); the rest is

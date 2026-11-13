@@ -25,6 +25,8 @@ import { Explorer } from './explorer';
 import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
 import { Scrolled } from './scrolled';
+import { Attention } from './attention';
+import { Look } from '../look';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
 // one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
@@ -82,7 +84,11 @@ export class GlanceStage {
           <div className="do-list">
             {!apart && <GlanceStage.Aim app={app} said={g.aim} />}
             {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
-            {apart ? <GlanceStage.Resting app={app} draw={draw} top={top}
+            {/* Mission 21's attention composition: the lens chosen over the one menu promotes its kind of act into
+                it, in place of the place's own few (see Attention). */}
+            {apart && Look.is('attend') && <Attention.Tabs app={app} />}
+            {apart && Look.is('attend') && Attention.lens(app) !== 'here' ? <Attention.Menu app={app} draw={draw} />
+              : apart ? <GlanceStage.Resting app={app} draw={draw} top={top}
               acts={(app.menu.leads ?? g.acts).filter(a => GlanceStage.choice(app, a.choice)?.id !== MenuModel.country.id)} />
               : <><GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
                 <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
