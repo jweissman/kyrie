@@ -137,16 +137,15 @@ export class WorldStage {
     const g = app.state.frame?.leaf.glance;
     return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id);
   }
-  // What someone here is to the company, from what the glance leads with that is about them (and something owed): the
-  // aspects of those, together, never a claim that each thing to be done with them has them all. Gold only where they
-  // are the aim's next step and the way is shown (see Guidance); several, a ring through their tones (the owner, 11
-  // November: a person aggregates the known aspects of what can be done with them).
-  // Drawn as one pip by the likeness (see Pip); a danger the company perceives in them is among them.
+  // What someone here is to the company: the engine's one value for their likeness (Glance.likenesses, PL-32), the
+  // aspects of what can be done with them together, or the undertaking alone where they are the followed aim's next
+  // step; and of the scene's own, only something owed them and a danger seen in them. Gold only where the way is shown
+  // (see Guidance). Drawn as one pip by the likeness (see Pip), never composed again here from the glance's acts.
   static seen(app: ReaderApp, x: SceneSubject): { aspects: Aspect[]; gilded: boolean; tone?: Tone; fill?: string;
     label: string } {
-    const acts = (app.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === x.id);
-    const gilded = acts.some(a => a.continues) && Guidance.shown(app);
-    const all = [...acts.flatMap(a => a.aspects), ...x.owed ? ['payoff' as const] : [], ...x.danger ? ['danger' as const] : []];
+    const likeness = app.state.frame?.leaf.glance?.likenesses?.[x.id];
+    const gilded = !!likeness?.continues && Guidance.shown(app);
+    const all = [...likeness?.aspects ?? [], ...x.owed ? ['payoff' as const] : [], ...x.danger ? ['danger' as const] : []];
     const aspects = all.filter((a, i) => all.indexOf(a) === i).sort((a, b) => Number(b === 'undertaking') - Number(a === 'undertaking'));
     const { tone } = Emphasis.of(aspects, gilded), fill = Pip.fill(aspects, gilded);
     return { aspects, gilded, ...tone ? { tone } : {}, ...fill ? { fill } : {}, label: Pip.words(aspects, gilded) };

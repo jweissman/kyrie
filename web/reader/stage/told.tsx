@@ -119,7 +119,9 @@ export class Told {
   // The place as it is, whole, wherever the company is at rest in it (the owner, 5 November, late: a place's telling is
   // never folded away, nor cut to its first sentence once something has been done there): what is said of it, then
   // who and what is about it, what someone here is doing told with them, not again.
-  static Setting({ app }: { app: ReaderApp }) {
+  // brief: a lens on (Go, Look, Wait), whose acts want the room: the place by its first paragraph alone, the rest of
+  // it there again when the lens is put away.
+  static Setting({ app, brief }: { app: ReaderApp; brief?: boolean }) {
     const leaf = app.state.frame!.leaf, subjects = app.menu.scene?.subjects ?? [];
     const beside = new Set(subjects.flatMap(x => PlaceStage.danger(x) ? x.says?.slice(0, 1) ?? []
       : x.kind === 'person' ? x.says ?? [] : []).map(Typography.curl));
@@ -130,10 +132,15 @@ export class Told {
     // observation is; see SceneBudget): what more the place has to tell unfolds here, at a touch, not in a panel.
     const glanced = leaf.glanced ?? { situation: leaf.situation, presence: leaf.presence, held: [] };
     const situation = glanced.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p));
+    // Nor what is going on here, told whole in its own block beneath (GlanceStage.Life): the cart in the ditch had
+    // been told by its first sentence here and again in full under it.
+    const life = app.state.frame!.leaf.glance?.life?.text, going = life && Typography.curl(life);
+    const presence = glanced.presence.filter(l => !going || !going.includes(Told.first(Typography.curl(l))));
     return <div className="setting" data-region="setting" data-held={glanced.held.length || undefined}>
-      {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}><Told.Said text={p} /></p>)}
-      <Told.Presence app={app} lines={glanced.presence} subjects={subjects} quiet={false} />
-      <Told.More held={glanced.held} key={app.state.frame!.screen.place.id} />
+      {(brief ? situation.slice(0, 1) : situation).map((p, i) => <p key={i} className={i ? undefined : 'lead'}>
+        <Told.Said text={p} /></p>)}
+      {!brief && <Told.Presence app={app} lines={presence} subjects={subjects} quiet={false} />}
+      {!brief && <Told.More held={glanced.held} key={app.state.frame!.screen.place.id} />}
     </div>;
   }
   // What more the place has to tell than its glance does: a quiet word that unfolds it, in the place's order.

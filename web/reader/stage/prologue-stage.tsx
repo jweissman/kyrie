@@ -1,3 +1,4 @@
+import { useEffect, type CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { ChoiceRow } from './choice-row';
 import type { Meeting } from '../../../src/presentation/prologue';
@@ -28,11 +29,13 @@ export class PrologueStage {
     // in focus (see Scenery.approach); one who begins under a roof walked in by it too.
     const country = Scenery.country(s.setting?.terrain, s.seed);
     const view = frame.screen.dark ? undefined : Scenery.approach(frame.screen, country);
-    const credit = view && Likeness.credits[view], tap = page.kind === 'beat' && !page.last;
+    // A page with nothing to decide on it goes on at a touch anywhere, or by itself once read (CN-09); a meeting is
+    // answered, never passed by.
+    const credit = view && Likeness.credits[view], tap = page.kind !== 'meeting' && !s.pending;
     return (
-      <article className={`prologue-page page-${page.kind}${tap ? '' : ' last'}`} id="page"
+      <article className={`prologue-page page-${page.kind}${page.kind === 'beat' && !page.last ? '' : ' last'}`} id="page"
         data-beat={page.kind === 'beat' ? page.at : page.kind} aria-label="The opening"
-        onClick={tap ? () => PrologueStage.next(app) : undefined}>
+        onClick={tap ? () => { PrologueStage.paced = true; PrologueStage.next(app); } : undefined}>
         {view && <figure className="scenery" aria-hidden="true">
           <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
             onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
@@ -54,10 +57,14 @@ export class PrologueStage {
   private static Beat({ app, at, last }: { app: ReaderApp; at: number; last: boolean }) {
     return (<>
       <p key={at} className="beat" data-id="beat" aria-live="polite">{app.state.told!.beats[at]}</p>
-      {last ? <PrologueStage.Onward app={app} />
+      {last ? <PrologueStage.Onward app={app} read={app.state.told!.beats[at]!} />
         : <button key={`on${at}`} type="button" className="on" data-action="beat" aria-label="Next"><i /></button>}
       {!last && <p key={`hint${at}`} className="hint" aria-hidden="true">
         <span className="by-key">Enter to go on</span><span className="by-touch">Touch to go on</span></p>}
+      {/* A beat is no act, as the engine says (Told.pages): it goes on by itself once read, or at a touch. After the way
+          on, not between it and the beat (stage.css draws the way on by the beat it follows). */}
+      {!last && PrologueStage.none(app, 'beats') && <PrologueStage.Reading key={`read${at}`} text={app.state.told!.beats[at]!}
+        then={() => PrologueStage.next(app)} beat />}
     </>);
   }
   // Whoever is met, in their ring, what is going on, and the answers: the keys' digits are theirs, as in play.
@@ -88,17 +95,44 @@ export class PrologueStage {
         : exchange?.said && <p className="said">{Typography.curl(exchange.said)}</p>}
       {exchange?.lines.map((l, i) => <p key={i} className={`beat outcome ${l.kind}`}>{l.text}</p>)}
       {exchange?.notes.length ? <ul className="notes">{exchange.notes.map((n, i) => <li key={i}>{n}</li>)}</ul> : null}
-      {!s.pending && <PrologueStage.Onward app={app} />}
+      {!s.pending && <PrologueStage.Onward app={app} read={[exchange?.said ?? '', ...exchange?.lines.map(l => l.text) ?? []]
+        .join(' ')} />}
     </>);
   }
-  // The first aim, plainly, once; and Go on.
-  private static Onward({ app }: { app: ReaderApp }) {
+  // The first aim, plainly, once; and then on into the place, by itself once it is read (the owner, 14 November,
+  // CN-09: a page with one choice and no stakes, "Go on" after the road meeting, is no act at all), or at a touch or
+  // Enter before then. A line under it fills over the reading time, so that it is seen to be going on.
+  private static Onward({ app, read }: { app: ReaderApp; read: string }) {
     const aim = app.state.frame?.screen.objectives[0] ?? app.state.told?.aim;
-    return (<div className="onward">
+    return (<div className="onward" data-id="onward">
       {aim && <p className="first-aim" data-id="aim"><span className="kicker">Your first goal</span>{Typography.curl(aim)}</p>}
-      <button key="go-on" type="button" className="option go go-on" data-action="go-on"
-        onClick={() => PrologueStage.done(app)}>Go on</button>
+      {PrologueStage.none(app, 'after') ? <PrologueStage.Reading text={`${read} ${aim ?? ''}`} then={() => PrologueStage.done(app)} />
+        : <ChoiceRow.Button className="go-on" data={{ action: 'go-on' }} onClick={() => PrologueStage.done(app)} label="Go on" />}
+      <p className="hint" aria-hidden="true"><span className="by-key">Enter to go on</span>
+        <span className="by-touch">Touch to go on</span></p>
     </div>);
+  }
+  // Whether the engine says a page of the opening is no act (Told.pages, CN-09); an opening that says nothing of its
+  // pages is read as one that does: its beats and what comes after them are only read.
+  static none(app: ReaderApp, page: 'beats' | 'after'): boolean {
+    return (app.state.told?.pages?.[page] ?? 'none') === 'none';
+  }
+  // How long a page with nothing to decide is given to be read before it goes on by itself: a little to look up, and
+  // a reader's pace over its words (about 250 a minute), never less than a few seconds nor more than a few more.
+  static reading(text: string): number {
+    const words = text.split(/\s+/).filter(Boolean).length;
+    return Math.min(14000, Math.max(3500, 2000 + words * 240));
+  }
+  // One who has turned a page by the keys or a touch reads at their own pace: the beats wait for them after that (the
+  // last page still goes on by itself, as there is nothing on it to wait for).
+  static paced = false;
+  static Reading({ text, then, beat }: { text: string; then: () => void; beat?: boolean }) {
+    const ms = PrologueStage.reading(text);
+    useEffect(() => {
+      const t = window.setTimeout(() => { if (!beat || !PrologueStage.paced) { then(); } }, ms);
+      return () => window.clearTimeout(t);
+    }, [text]);
+    return <span className="reading" data-ms={ms} aria-hidden="true" style={{ '--read-ms': `${ms}ms` } as CSSProperties} />;
   }
   // An answer to the meeting, done as any choice is (and timed so); its page waits on what came of it.
   static answer(app: ReaderApp, choice: Meeting['choices'][number]) {
@@ -122,6 +156,7 @@ export class PrologueStage {
   // Straight on into play, whatever page it is at (Esc): where the opening left the company (see WorldStage.begins).
   static done(app: ReaderApp) {
     const frame = app.state.frame;
+    PrologueStage.paced = false;
     // What came of the answer on the road was told on the opening's last page: not again on the place under it.
     app.setState({ prologue: undefined, told: undefined, opened: app.state.told?.beats ?? [],
       ...frame ? { frame: { ...frame, leaf: { ...frame.leaf, exchange: undefined } } } : {},
@@ -130,6 +165,7 @@ export class PrologueStage {
   // The opening's keys: on, a digit for an answer, Esc straight on; nothing reaches the place's choices under it.
   static key(app: ReaderApp, key: string, held: boolean): boolean {
     const page = PrologueStage.page(app), n = Number(key);
+    PrologueStage.paced = true;
     if (/^(Enter| |ArrowRight|ArrowDown)$/.test(key)) {
       if (!held) { PrologueStage.next(app); }
       return true;

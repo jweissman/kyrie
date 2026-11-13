@@ -28,6 +28,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an aim\'s place, on the map from th
     await page.waitForSelector('.world-page.scale-scene', { timeout: 180000 });
     await driver.go('s2_green');
     await driver.mode('j');
+    // The place by the name the Notes give it (the common names renamed the old ones: Gaudumport is now another).
+    const named = (await page.textContent('[data-action="aim-map"][data-id="region__w1"]'))!.replace(/, on the map$/, '');
     await page.click('[data-action="aim-map"][data-id="region__w1"]');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(2500);
@@ -42,7 +44,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an aim\'s place, on the map from th
         shown: !mark.classList.contains('off') && !mark.classList.contains('away') };
     });
     expect([seen.chosen, seen.shown, seen.over]).toEqual([true, true, false]);
-    expect(seen.card).toContain('Gaudumport');
+    expect(seen.card).toContain(named);
     expect(seen.away).toEqual([]);
     expect(errors).toEqual([]);
     await page.close();

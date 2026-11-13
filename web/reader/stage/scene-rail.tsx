@@ -1,5 +1,6 @@
 import type { ReaderApp } from '../reader-app';
 import { Act, type Draw } from './act';
+import { CompassStage } from './compass-stage';
 import { Explorer } from './explorer';
 import { Glyphs } from '../creation/glyphs';
 import { Wayfinder } from './wayfinder';
@@ -66,6 +67,8 @@ export class SceneRail {
       <Glyphs.View id="companion" className="rail-glyph" />
     </button>;
   }
+  // Inside an enclosed place the map gives way to the compass (CN-02, CN-03): its mark turns the places lens on, the
+  // way out and the way on at its foot (see CompassStage), and nothing across the country is offered from in here.
   // The map and the book, where they stand on every page of the scene: in talk, and over a thing looked at, as at
   // rest (the owner, 11 November: no bar of them across the top of the page).
   // On the map, its mark is pressed, and touched goes back to where the company is (the owner, 11 November: the map
@@ -75,6 +78,12 @@ export class SceneRail {
       {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
         aria-label="The map: back to where you are" title="Back to where you are" onClick={() => app.outdoor(false)}>
         <Glyphs.View id="the_map" className="rail-glyph" /></button>
+        : CompassStage.of(app) ? <button type="button" className={`rail-mark opens-compass${SceneRail.mapLit(app) ? ' lit' : ''}`}
+          data-action="compass" data-key="m" aria-label="The compass: the way out, and the ways in here"
+          title="The compass: the way out, and the ways in here" aria-pressed={app.state.exploring === 'go'}
+          onClick={() => Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go')}>
+          <Glyphs.View id="the_compass" className="rail-glyph" />
+          {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>
         : <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit' : ''}`}
           data-action="mode" data-view="map" data-key="m" aria-label="The map" title="The map"
           onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" />

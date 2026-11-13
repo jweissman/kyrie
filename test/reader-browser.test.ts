@@ -138,11 +138,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     expect(await page.locator('.sheet').count()).toBe(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     // A reload carries on where the company stands.
-    const [place, clock] = [(await d.inspect()).place?.id, await page.textContent('[data-id="clock"]')];
+    const [place, clock] = [(await d.inspect()).place?.id, await page.textContent('[data-id="clock"] .at')];
     await page.reload();
     await d.click('[data-action="continue"]');
     await page.waitForSelector('[data-mode="explore"]');
-    expect([(await d.inspect()).place?.id, await page.textContent('[data-id="clock"]')]).toEqual([place, clock]);
+    expect([(await d.inspect()).place?.id, await page.textContent('[data-id="clock"] .at')]).toEqual([place, clock]);
+    // Taken up again, the hour is news, and said (the doctrine: said where it is news, not under every act).
+    expect(await page.locator('[data-id="clock"] .hour').count()).toBe(1);
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);

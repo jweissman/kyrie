@@ -44,7 +44,9 @@ export class FightStage {
       <div className={`fight${aiming ? ' aiming' : ''}`} id="page">
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
           <span data-id="place">{Typography.curl(frame.screen.place.name)}</span>
-          {combat.standing && <span className={`standing ${combat.standing.danger}`} data-region="standing">
+          {/* Said once: in the beat where it is told whole at the start, not again in the head. */}
+          {combat.standing && !(first && !recent.length && !frame.opening.some(Boolean)) && <span
+            className={`standing ${combat.standing.danger}`} data-region="standing">
             {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}
           {/* The fight so far, a page of the fight's own, read from its head: not a bar across its foot. */}
           <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}

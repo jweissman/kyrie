@@ -21,7 +21,7 @@ describe('making the protagonist', () => {
   it('is one flow: its steps, its cards, and what a choice settles', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
     // The calling only: its way (a mage's school) is not asked, but the calling's own until chosen in play.
-    expect(ids()).toEqual(['why', 'you', 'calling', 'before', 'presenting', 'name']);
+    expect(ids()).toEqual(['why', 'you', 'sign', 'calling', 'before', 'presenting', 'name']);
     flow.choose('you', 'elf');
     expect(flow.steps().find(s => s.id === 'calling')!.cards.map(c => c.id)).not.toContain('cleric');
     flow.choose('calling', 'mage');

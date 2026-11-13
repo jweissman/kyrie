@@ -138,19 +138,23 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // The drop is the ledge's one way on, so the scene offers it as itself, "To the still water…" (M19-109: two
     // clicks for no choice); the places lens, turned on by its key, still holds it, and says on it what it risks.
-    expect(await page.locator('.act.opens-go').innerText()).toMatch(/^to the still water/i);
+    // Among the engine's four now (Glance.offer), or as itself where the four do not hold it.
+    const way = await page.locator('.act.opens-go').count() ? '.act.opens-go'
+      : 'ol.led [data-act="exit:p__pool"]';
+    expect(await page.locator(way).innerText()).toMatch(/^to the still water/i);
     await d.key('g');
-    const drop = page.locator('.glance .lens-places [data-act^="exit:"][data-act*="pool"] >> nth=0');
+    const drop = page.locator('.glance .lens-places [data-act*="pool"] >> nth=0');
     if (!await drop.count()) { await page.click('.glance .lens [data-action="lens-all"]'); }
     expect(await drop.innerText()).toMatch(/no coming back|no way back/i);
     await d.key('Escape');
     // Taken from the scene, it asks before it is taken, and says why.
     await Glancing.shot(page, 'one-way-offered');
-    await d.click('.act.opens-go');
+    await d.click(way);
     await Glancing.shot(page, 'one-way-asked');
-    expect(await page.locator('.opens-go .grave-said').innerText()).toMatch(/no coming back.+Choose it again/);
+    expect(await page.locator(way).locator('.grave-said').first().innerText())
+      .toMatch(/no coming back.+Choose it again/);
     expect((await d.inspect()).place?.id).toBe('p__ledge');
-    await d.click('.act.opens-go');
+    await d.click(way);
     expect((await d.inspect()).place?.id).toBe('p__pool');
     expect(errors).toEqual([]);
     await page.close();

@@ -24,8 +24,9 @@ describe('a fight ended', () => {
   it('tells the last blow once, and how it fell by its dice alone', () => {
     const [told] = CombatTelling.exchanges(last, state);
     expect(told!.text).toContain('The third rat falls.');
-    // The blow told by its weight, 8, not by the 1 the rat had left (the adventure branch's R81).
-    expect(told!.text).toContain('for 8');
+    // The killing blow told with no number, its falling once (the first blind playtest's BP-02, which supersedes R81's
+    // "told by its weight": "for 9" over "takes 1" had read as a contradiction); its dice are the detail.
+    expect(told!.text).not.toMatch(/for \d/);
     expect(told!.detail).toContain('rolled 17, needed 9');
     expect(told!.detail).not.toMatch(/falls|fight is won/);
   });

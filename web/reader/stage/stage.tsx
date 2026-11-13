@@ -108,9 +108,23 @@ export class Stage {
         {/* How deep under the ground the company is (the owner, 4 November). */}
         {frame.screen.place.depth && <span className="depth" data-id="depth">
           {frame.screen.place.depth === 1 ? 'One storey down' : Words.upper(`${Words.many(frame.screen.place.depth, 'storey')} down`)}</span>}
-        <span className="hour">{Stage.when(frame).join(', ')}</span>
+        {Stage.fresh(frame) && <span className="hour">{Stage.when(frame).join(', ')}</span>}
       </p>
     );
+  }
+  // The hour, the weather and the day are said where they are news (the owner's doctrine, 14 November: "Don't
+  // continually repeat the date, time, location, and other unchanged facts"): on coming to a place, and when they have
+  // changed since they were last said; not again under every act done where the company stands. Decided once a frame,
+  // so that the page drawn again says the same.
+  private static said?: string;
+  private static readonly fresher = new WeakMap<Frame, boolean>();
+  static fresh(frame: Frame): boolean {
+    if (!Stage.fresher.has(frame)) {
+      const hour = Stage.when(frame).join(', ');
+      Stage.fresher.set(frame, !!frame.leaf.moved || hour !== Stage.said);
+      Stage.said = hour;
+    }
+    return Stage.fresher.get(frame)!;
   }
   // Whether the aim followed is gone to by the map: a journey, or a way out into the open country, which is crossed on
   // the map and not offered in Go… (the owner, 8 November: the road the father went out by was led with and nowhere

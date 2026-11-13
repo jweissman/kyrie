@@ -4,6 +4,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import type { Draw } from './act';
 import { AtHand } from './at-hand';
+import { GlanceStage } from './glance';
 import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
 
@@ -48,10 +49,11 @@ export class Explorer {
   // Which of these holds a choice, so that the keys coming to it, or automation, open it there.
   static holder(app: ReaderApp, id: string): Part | undefined {
     if (Wayfinder.ways(app).some(w => w.c.id === id || w.way.id === id)) { return 'go'; }
-    if (AtHand.of(app).some(h => h.opens.includes(id) || h.choices.some(c => c.id === id))) { return 'look'; }
+    if (AtHand.of(app).some(h => h.opens.includes(id) || h.choices.some(c => c.id === id))
+      || GlanceStage.lensed(app, 'things').has(id)) { return 'look'; }
     const wait = Pastime.wait(app);
-    if (wait?.id === id || wait?.children?.some(c => c.id === id)
-      || [...Pastime.sleeps(app), ...Pastime.also(app)].some(c => c.id === id)) { return 'wait'; }
+    if (wait?.id === id || wait?.children?.some(c => c.id === id) || Pastime.sleeps(app).some(c => c.id === id)
+      || GlanceStage.lensed(app, 'time').has(id)) { return 'wait'; }
     return undefined;
   }
   // One opened: what it shows opened in the menu with it (the lengths of a wait, the acts of the thing led with).
@@ -61,11 +63,14 @@ export class Explorer {
     // Put away, what was told in it stays told (not said again on the place at rest); opened, it begins afresh. A way
     // touched once in Go… that asked first is asked again (it goes at a click now: see Wayfinder.go), not taken by the
     // next touch of it elsewhere.
-    // The things lens holds what is on a way too (AtHand.onWays), its acts open, so the menu has them (see Lens).
-    const ways = part === 'look' ? AtHand.onWays(app).flatMap(h => h.opens) : [];
+    // The things lens holds what is on a way too (Glance.lenses), its openers open, so the menu has them (see Lens).
+    // And every opener the lens draws by what it opens (Lensed.leaves), so that the menu has each act within it.
+    const lens = part === 'look' ? 'things' : part === 'go' ? 'places' : part === 'wait' ? 'time' : undefined;
+    const inner = Object.keys((lens && app.state.frame?.leaf.glance?.lenses?.[lens]?.leaves) ?? {});
+    const ways = [...part === 'look' ? GlanceStage.holders(app, 'things') : [], ...inner];
     app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
       confirming: undefined,
-      open: wait ? [wait] : held ? [...held.opens, ...ways] : ways.length ? ways : app.state.open });
+      open: wait ? [wait, ...inner] : held ? [...new Set([...held.opens, ...ways])] : ways.length ? ways : app.state.open });
   }
   // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way
   // chosen), Esc to put it away. Nothing under it is done unseen.
