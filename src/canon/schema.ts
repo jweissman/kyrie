@@ -1,5 +1,6 @@
 import type { Effect } from '../lang/parse';
 import type { Modifiers } from '../rules/modifiers';
+import type { Defense } from '../rules/defenses';
 export type { Modifiers } from '../rules/modifiers';
 
 // The canonical fantasy domain. Each family has one catalog in data/catalog; see doc/architecture/domain-model.md.
@@ -132,7 +133,11 @@ export interface Species {
   // A kind met one at a time, never in a band (a lich, a vampire, a dragon): what composes an encounter (Parties) never
   // makes more than one of it.
   alone?: boolean;
-  statistics?: Statistics; abilities?: string[]; traits?: string[]; resistances?: Record<string, number>;
+  statistics?: Statistics; abilities?: string[]; traits?: string[];
+  // Its typed defenses (see Defenses): immunity, resistance flat or fractional, reduction unless an attack's tag
+  // passes it, regeneration unless harm of a kind stops it. The old resistance map (Orsino's fractions) is still
+  // read, and becomes fraction defenses as the canon loads (Canon.defended), so nothing reads it after.
+  defenses?: Defense[]; resistances?: Record<string, number>;
   temperament?: string; habitats?: string[];
   // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations
   // (variations.json), which every creature of it is made with, as an author's Variant would make it.
@@ -182,6 +187,8 @@ export interface Background {
 export interface Skill { name: string; description: string; source: Source; rests?: Attribute; means?: boolean }
 export interface WeaponStats {
   damage: string; type: string; kind?: string; weight?: string; missile?: true; intercept?: true; natural?: true;
+  // What its blow carries beside its damage type, for a defense that it passes (silver, magic: see Defenses).
+  tags?: string[];
 }
 export interface ArmorStats { ac: number; weight: string; type: string }
 export interface ItemKind {
@@ -259,4 +266,6 @@ export interface Combat {
   // Orsino's spells a day for a creature with no calling (Combat.maxSpellSlotsForLevel: 2 + level), which its own
   // powers draw on; and the shapes of the areas the catalog's abilities name none for.
   castings: { base: number; perLevel: number }; areas: Record<'burst' | 'cone', string[]>;
+  // The tags an attack can carry, and what the telling says a defense did (see Defenses).
+  defenses: { attackTags: string[]; told: Record<'immune' | 'resisted' | 'reduced' | 'passed' | 'stopped', string> };
 }

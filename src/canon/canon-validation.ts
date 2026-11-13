@@ -125,7 +125,7 @@ export class CanonValidation {
         }
       }
       for (const h of (s.habitats ?? []).filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
-      this.resistances(where, s.resistances);
+      this.defenses(where, s.defenses);
     }
   }
   // A variation's kinds and types are kinds and types, its weapon a weapon, its material a material, and what it adds
@@ -236,6 +236,9 @@ export class CanonValidation {
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {
         this.fail(where, `unknown damage type ${i.weapon.type}`);
       }
+      for (const t of (i.weapon?.tags ?? []).filter(t => !Canon.rules.combat.defenses.attackTags.includes(t))) {
+        this.fail(where, `unknown attack tag ${t}`);
+      }
       if (i.weapon && !/^\d+d\d+([+-]\d+)?$/.test(i.weapon.damage.replace(/\s/g, ''))) { this.fail(where, `damage ${i.weapon.damage} is not a die`); }
       if (i.armor && !Number.isInteger(i.armor.ac)) { this.fail(where, 'armour needs an integer ac'); }
       this.modifiers(where, i.modifiers);
@@ -291,10 +294,28 @@ export class CanonValidation {
     try { Amounts.mean(st.hitDice); } catch (error) { this.fail(where, `hit dice ${st.hitDice}: ${(error as Error).message}`); }
     if (st.growth?.hitPoints || st.hitPoints !== undefined) { this.fail(where, 'has hit dice and hit points grown or fixed besides'); }
   }
-  private resistances(where: string, r: Record<string, number> | undefined) {
-    for (const [type, amount] of Object.entries(r ?? {})) {
-      if ((type !== 'all' && !Canon.rules.damageTypes.includes(type)) || !Number.isFinite(amount)) {
-        this.fail(where, `invalid resistance ${type}`);
+  // A body's typed defenses (the SRD adaptation briefing, §3): each of a known kind, with only that kind's fields, its
+  // harm named by damage types (or physical, all), its amounts numbers or dice, and what passes a reduction one of the
+  // attack tags or a damage type. A defense nothing would read is refused, never kept inert.
+  private defenses(where: string, defenses: Species['defenses']) {
+    const fields: Record<string, string[]> = { immunity: ['kind', 'to'], resistance: ['kind', 'to', 'amount', 'mode'],
+      reduction: ['kind', 'amount', 'unless', 'to'], regeneration: ['kind', 'amount', 'stoppedBy'] };
+    const harms = ['all', ...Canon.rules.damageTypes], tags = [...Canon.rules.combat.defenses.attackTags, ...harms];
+    for (const d of defenses ?? []) {
+      const said = `${where}: defense ${JSON.stringify(d)}`;
+      if (!fields[d.kind]) { this.problems.push(`${said}: unknown kind`); continue; }
+      const extra = Object.keys(d).filter(k => !fields[d.kind]!.includes(k));
+      if (extra.length) { this.problems.push(`${said}: unknown field ${extra.join(', ')}`); }
+      const named = [...'to' in d ? d.to ?? [] : [], ...'stoppedBy' in d ? d.stoppedBy ?? [] : []];
+      for (const h of named.filter(h => !harms.includes(h))) { this.problems.push(`${said}: unknown damage type ${h}`); }
+      if ((d.kind === 'immunity' || d.kind === 'resistance') && !d.to?.length) { this.problems.push(`${said}: names no harm`); }
+      if ('amount' in d && !Amounts.valid(d.amount)) { this.problems.push(`${said}: amount is not a number or dice`); }
+      if (d.kind === 'resistance' && !['flat', 'fraction'].includes(d.mode)) { this.problems.push(`${said}: unknown mode`); }
+      if (d.kind === 'resistance' && d.mode === 'fraction' && typeof d.amount !== 'number') {
+        this.problems.push(`${said}: a fraction is a number`);
+      }
+      for (const t of (d.kind === 'reduction' ? d.unless ?? [] : []).filter(t => !tags.includes(t))) {
+        this.problems.push(`${said}: unknown attack tag ${t}`);
       }
     }
   }
