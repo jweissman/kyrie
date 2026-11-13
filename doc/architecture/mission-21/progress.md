@@ -56,3 +56,9 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   PL-06 approved, ranks 1–2 first. The lead: a way off a road names its town once (`small/way-labels`); a band down to
   its last is "the last of the cave spiders" (`small/last-of-band`, T24-17's grammar). The full run on 4415559c failed
   only `quiet-in-the-sky-browser` (its prose now under More of the place): fixed, and a full run dispatched on d0ec9afa.
+- **13 Nov, evening.** Rules batch 3 merged (3ce83fdb), PL-07 as decided: denned singles of challenge ≤ 1 now in pairs,
+  the sealed vault's keeper is the barrow ghoul (a lone level-1 warrior wins 60 %, was 95 %), the spiders told at the
+  adit by their husks; a1's 39 groups 18/13/8 trivial/fair/lethal → 11/20/8; wonders' weapons count as magic against a
+  typed reduction. Lead rulings: no change to the thief (avoid and recruit); every lethal group told at the door, the
+  barrow's savage embalmers too; silver weapons deferred. The lead: T24-17 closed but for nothing: a remedy the world
+  gives later was never `consumable` (ItemTraits read the starting kinds only: `small/given-remedy`).
