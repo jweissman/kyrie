@@ -302,7 +302,8 @@
       "id": "kill.orsino.personality.compassionate.onKill.0",
       "when": {
         "manner": "compassionate",
-        "side": "company"
+        "side": "company",
+        "slain": "person"
       },
       "text": "{Actor} looks away solemnly.",
       "source": {

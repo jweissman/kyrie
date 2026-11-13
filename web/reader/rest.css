@@ -381,6 +381,18 @@
    marked only by a rounded line at its left, in the colour of what it is (neutral where it is nothing in particular).
    A soft shade over the painting's right keeps the words readable on any painting. Who is here, the ways and the
    things at hand are lenses (see Lenses, SceneRail.Talk), shown across the foot of the painting when one is on. ---- */
+/* A tablet held upright, the telling on the painting too, the painting darkened up from its foot, not a box over it
+   (Mission 21's scenes: the panel's hard rectangle had cut the painting in two at 820 by 1180). */
+@media (min-width: 700px) and (orientation: portrait) {
+  .shell.scene-full .world-page.scale-scene .world-body > .focus {
+    border: 0; background: none; backdrop-filter: none; box-shadow: none; }
+  .shell.scene-full .world-page.scale-scene .world-body > .surface::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background: linear-gradient(0deg, rgba(8, 9, 12, .92) 0%, rgba(8, 9, 12, .82) 48%, rgba(8, 9, 12, .5) 64%,
+      rgba(8, 9, 12, 0) 80%); }
+  .world-page.scale-scene .focus .told-col p,
+  .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
+}
 /* On a wide screen held level, the telling on the painting itself; on a phone the panel stays. */
 @media (min-width: 900px) and (orientation: landscape) {
   .shell.scene-full .world-page.scale-scene .world-body > .focus {
@@ -428,3 +440,8 @@
 .world-page.scale-scene .glance .openers { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
 .world-page.scale-scene .glance .openers > :not(.as-act) { align-self: flex-start; }
 
+/* A crowd (more than a row holds): only those with something for the company (their pip), and the company, are named
+   under their likenesses; anyone else's name comes up under them at a touch or the keys, in the same place (Mission 21's
+   scenes: fifteen names cut short, "Aldous F…", "Thessal…", had made the picture's foot a list). */
+.world-page .surface .portraits.crowd li:not(.toned, .stake, .companion, .danger) .portrait .pn { visibility: hidden; }
+.world-page .surface .portraits.crowd li:is(:hover, :focus-within) .portrait .pn { visibility: visible; }

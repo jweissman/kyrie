@@ -4,6 +4,7 @@ import { Sheet } from '../sheet';
 import { MapView } from '../map-view';
 import { PlanView } from '../plan-view';
 import { Typography } from '../../../src/presentation/typography';
+import { Signs } from '../../../src/presentation/signs';
 import { Stage } from './stage';
 import { Act } from './act';
 
@@ -20,8 +21,11 @@ export class BookStage {
     return (
       <div className="book-frame" id="page">
         <header className="book-head">
-          <button type="button" className="option back-to" data-action="back" onClick={app.back}>
-            {`Back to ${Typography.curl(frame.screen.place.name)}`}</button>
+          {/* The way back to the place, a quiet word with its sign (the shared signs' out), not a boxed button over the
+              book (Mission 21's scenes: the Pack's head had read as a web page's bar). */}
+          <button type="button" className="quiet-word back-to" data-action="back" onClick={app.back}>
+            <span className="back-sign" aria-hidden="true">{Signs.way('Out')}</span>
+            {Typography.curl(frame.screen.place.name)}</button>
           {!map && <Act.Sheets app={app} />}
           {plan && <button type="button" className="option to-country" data-action="country"
             onClick={() => toCountry(true)}>The country</button>}

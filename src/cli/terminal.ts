@@ -11,7 +11,7 @@ import { Campaign } from '../campaign/campaign';
 import { Battle } from '../battle';
 import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
-import { Tactics } from '../tactics';
+import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone';
 import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatChoices, type ActionChoice } from '../ui/combat-choices';
 import { PlaySession } from '../session/play-session';
@@ -349,7 +349,13 @@ export class Terminal {
     const does = PlayerView.choices(session.campaign).find(r => r.choice.id === choice.id)?.action.schema;
     try {
       const began = performance.now();
+      // A foregone fight is one act, fought through by the company's tactics unless it turns, as the page's host
+      // fights it (see Foregone; BP-01).
+      let pressing = Foregone.is(turn.current?.screen, choice.id);
       const event = await session.leg(choice.id, async battle => {
+        const ours = battle.state.combatants.filter(f => f.team === 'fighters');
+        pressing &&= ours.every(f => f.hp > f.maxHp / 3);
+        if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands())); }
         const command = await Terminal.command(battle.state, battle.legalCommands(), input);
         if (!command) { throw new Error(quitPlay); }
         return command;

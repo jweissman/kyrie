@@ -11,6 +11,8 @@ export type Row = { id: string; line: string; status: string; weight: string };
 
 export class RegisterState {
   static readonly kinds: [string, RegExp][] = [
+    // Folded into another row, which carries it (the obligations audit's hygiene): counted apart, not as unstated.
+    ['duplicate', /\bduplicate of\b/i],
     ['partly', /\b(partly|partial|half|in part|part\b|improved|addressed)/i],
     ['deferred', /\b(deferred|moved to m2\d|for m2\d|left (by|for) m\d+|later)\b/i],
     // An idea, a direction or a proposal is an ambition, not a defect (the M21 brief).

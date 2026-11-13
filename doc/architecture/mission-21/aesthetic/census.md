@@ -38,10 +38,10 @@ Columns:
 |---|---|---|---|---|---|
 | Resting scene: the promoted four | `GlanceStage.Acts` → `ChoiceRow.Act` | row (step 1) | row + `data-act`; with a lens on, the lens's own four (`Glance.lenses[lens].promoted`), the place's own touches kept | engine (the glance's `Promoted`, `Lens`) | — |
 | Resting scene: a notice not read, what is yours | `GlanceStage.Resting` → `ChoiceRow.Act` | row (step 1) | row + mark | engine | — |
-| Resting scene: the way back ("Back: …"), the one way on ("To the old corn-store…") | `Act.View quiet` | **link-like capitals text** | row | engine (`glance.back`, the one way) | the way out to come from `Compass.out` inside an enclosure: CN-02/03 |
+| Resting scene: the way back ("Back: …"), the one way on ("To the old corn-store…") | `Act.View quiet` | **link-like capitals text** | row | engine (`glance.back`, the one way; inside an enclosure `Glance.compass`) | — (inside, the compass's Out and On rows stand there: `CompassStage`) |
 | Resting scene: Search | `Act.View` glyph (rail and opener) | icon | glyph + mark | engine | — |
-| Resting scene: "X, on the map" (the aim's place) | button `aim-map` | quiet word | quiet word (navigation: opens the map) | view | outside only once `enclosed` lands: CN-02 |
-| The rail: Talk, Go, Look, Wait; Map, Book | `SceneRail` marks | icons | icons (attention and navigation, not acts) | view | lenses in the scene: CN-01/05; Map yields the compass inside: CN-02/03 |
+| Resting scene: "X, on the map" (the aim's place) | button `aim-map` | quiet word | quiet word (navigation: opens the map) | view | — (not offered inside an enclosure) |
+| The rail: Talk, Go, Look, Wait; Map, Book | `SceneRail` marks | icons | icons (attention and navigation, not acts) | view | — (inside an enclosure the Map mark is the compass's, and M with it) |
 | Who is here (likenesses) | `WorldStage.Portrait` | button `.act.portrait` | glyph + mark | engine (talk/look choice) | the pink pip: CN-07 |
 | Lens tiles over the painting (Go's ways, Look's things) | `Lenses.Strip` | chip buttons; a way's tile goes at a touch | removed from the scene: the lens is the column's own (CN-01) | — | — |
 | Go… (explorer, wayfinder) | `Wayfinder` rows `wf-row`, `wf-go` | **a page over the scene** | the places lens in the scene (`GlanceStage.Lens`): its four, its rest unfolded beneath (walks about the town among them); the explorer only in the split scene | engine (`Lens`) | the compass inside an enclosure: CN-03 |
@@ -63,7 +63,7 @@ Columns:
 | The fight: a target on the field | `FightStage.Card` `pick` | gold ring, a chance line added to the card (it grew) | a reticle (an outline, no room taken), the chance pinned over the card's corner; marked | engine (the move's targets) | — |
 | The fight: Let … fight this turn, Press on | `ChoiceRow.Act` from the `pace` section (quiet rows at the menu's foot) | **old option buttons beside the rows** | rows of the one menu, quieter, with their act's mark | engine (`ChoiceList.pace`: `fight:auto`, and `fight:through` when as good as won) | — |
 | The fight: the fight so far | quiet word in the fight's head | an option bar across the foot | a quiet word (a view of the fight, not an act) | view | — |
-| The map: Set out, Enter, Travel, the way in, Go on to | `RouteCard`, `WorldStage.Hex` | option/enter buttons | marked | engine (`MapView.way`) | enclosed: no map inside (CN-02) |
+| The map: Set out, Enter, Travel, the way in, Go on to | `RouteCard`, `WorldStage.Hex` | option/enter buttons | marked | engine (`MapView.way`) | — |
 | A town's plan | `TownPlanView` (SVG) | clickable shapes | marked | engine | — |
 | Creation | `creation/*` cards | a deck | unchanged (choosing who you are, not an act in the world) | engine (creation rules) | — |
 
@@ -75,5 +75,5 @@ These go to the playability line rather than being inferred in the page.
    act id. Answered by the contract (`ChoiceList.pace`); drawn as the hand's quiet rows since.
 2. **The lens's ordering of ways and things** (`Lenses.Strip`, `Attention`, `Wayfinder` groups) is the page's own
    sorting, by tone and by what is idle. `Lens` replaces it (CN-01).
-3. **The way back and the one way on** are the glance's (`back`, the one way). Inside an enclosure they should become
-   `Compass.out` and `Compass.next` (CN-02/03).
+3. **The way back and the one way on** are the glance's (`back`, the one way). Inside an enclosure they are
+   `Compass.out` and `Compass.next` now (CN-02/03), drawn by `CompassStage`.

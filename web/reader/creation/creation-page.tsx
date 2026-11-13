@@ -4,11 +4,14 @@ import { Typography } from '../../../src/presentation/typography';
 import { PeopleStep } from './people-step';
 import { CallingStep } from './calling-step';
 import { OriginStep } from './origin-step';
+import { SignStep } from './sign-step';
 import { NameStep } from './name-step';
 import { BeforeStep } from './before-step';
 import { Signature } from './signature';
 
-type Step = { id: string; ask: string; View: (p: { app: ReaderApp; onward?: ReactNode }) => ReactNode };
+import type { CreationStep, CreationStepId } from '../../engine/creation-flow';
+
+type StepView = (p: { app: ReaderApp; step: CreationStep; onward?: ReactNode }) => ReactNode;
 
 // Before a country: the choice of a life, the cards and almost nothing else (OWN-14). One question to a page, centred
 // on the country's ground as the title is: why you have come, your people, your calling and its way where it has one,
@@ -17,15 +20,16 @@ type Step = { id: string; ask: string; View: (p: { app: ReaderApp; onward?: Reac
 // qualities, a trade of your own) stands as it is until changed, behind Details on the last page. You are imagined,
 // not painted: no likeness is chosen for you. Setting out at any page sets out as you stand.
 export class CreationPage {
-  static steps(app: ReaderApp): Step[] {
-    const country = app.state.setting?.title ?? 'this country';
-    return [{ id: 'why', ask: `Why have you come to ${country}?`, View: OriginStep.View },
-      { id: 'you', ask: 'Choose your ancestry', View: PeopleStep.View },
-      { id: 'calling', ask: 'Choose your calling', View: CallingStep.View },
-      // The calling only, its way the calling's first until chosen later in play, as the engine's flow has it
-      // (CreationFlow; the owner, 14 November: "just select the high-level profession").
-      { id: 'before', ask: BeforeStep.ask, View: BeforeStep.View },
-      { id: 'name', ask: 'Choose your name', View: NameStep.View }];
+  // Each page of the flow by its step (the engine's CreationFlow: its question, its cards, which is chosen); how you
+  // present is asked on the name's page, above it, as the three words the world will speak of you in (OWN-16).
+  static readonly views: Partial<Record<CreationStepId, StepView>> = { why: OriginStep.View, you: PeopleStep.View,
+    sign: SignStep.View,
+    calling: CallingStep.View, before: BeforeStep.View, name: NameStep.View };
+  static steps(app: ReaderApp): (CreationStep & { View: StepView })[] {
+    return (app.opening.flow()?.steps() ?? []).flatMap(step => {
+      const View = CreationPage.views[step.id];
+      return View ? [{ ...step, View }] : [];
+    });
   }
   static View({ app }: { app: ReaderApp }) {
     const [at, go] = useState('why'), s = app.state, [named, name] = useState(false);
@@ -42,7 +46,7 @@ export class CreationPage {
         <div className="creation-body" data-page={step.id}>
           <div className="creation-inner" key={step.id}>
             <h1 className="ask">{Typography.curl(step.ask)}</h1>
-            <step.View app={app} onward={onward} />
+            <step.View app={app} step={step} onward={onward} />
           </div>
         </div>
         <nav className="creation-edge" aria-label="The choice of a life">

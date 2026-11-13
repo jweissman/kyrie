@@ -6,6 +6,7 @@ import { Raised, type Sheet } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { Hold } from './stage/hold';
+import { CompassStage } from './stage/compass-stage';
 import type { Choice } from '../../src/ui/choice-list';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
@@ -94,6 +95,11 @@ export class ReaderKeys {
       // themselves, and at a place at rest only what will not wait is led with (the second fresh playtest of 7
       // November: "2" by "light a torch" in a dark cellar did nothing, the keys reading the menu's order).
       const drawn = ReaderKeys.keyed(Number(key)), shown = drawn ? menu.choices.findIndex(c => c.id === drawn) : -1;
+      // One of the four the engine offers that the menu has no choice for (talking to someone here): its own row.
+      if (drawn && shown < 0) {
+        const row = document.querySelector<HTMLElement>(`ol.led > li[data-promoted="${key}"] [data-choice]`);
+        if (row) { row.click(); return true; }
+      }
       if (shown >= 0 && this.hold(this.drawn(menu.choices[shown]!), key, repeat)) { return true; }
       if (shown >= 0) { app.setState({ cursor: shown }); app.choose(menu.choices[shown]!); return true; }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
@@ -119,6 +125,11 @@ export class ReaderKeys {
   private letter(key: string): boolean {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }
+    // Inside an enclosed place, M is the compass, as its mark is (see SceneRail.Books).
+    if (key === 'm' && CompassStage.of(app) && Stage.mode(app) === 'explore') {
+      Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go');
+      return true;
+    }
     if (ReaderKeys.views[key]) { app.show(ReaderKeys.views[key]); return true; }
     const part = ReaderKeys.parts[key];
     if (part && app.state.frame?.leaf.glance && !app.state.outdoors && Stage.mode(app) === 'explore') {

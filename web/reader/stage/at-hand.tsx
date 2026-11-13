@@ -83,9 +83,19 @@ export class AtHand {
       return { id: x.id, name: x.name, ...x.note ? { note: x.note } : {}, seen: ThingStage.seen(situation, x.name, x.about),
         choices: opener?.children ?? x.choices, opens: opener ? [opener.id] : [] };
     });
-    // Not a lock the company holds the key to: its way is under Go…, and wrenching or picking it is no use (rounds 10
-    // and 11, S, R and U: "you have the key" over pick, pry and push).
-    const ways = AtHand.onWays(app);
+    // What is on a way off this place, to be done to (a tripwire, a padlock, a portcullis, a door's words): each a
+    // thing at hand, by the way it is on (never a way's to go by). Not a lock the company holds the key to: its way is
+    // under Go…, and wrenching or picking it is no use (rounds 10 and 11, S, R and U: "you have the key" over pick, pry
+    // and push).
+    const ways = PlaceStage.ways(frame.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1 && !w.exit.keyed)
+      .map(w => {
+        const acts = w.choices.slice(1), thing = acts.find(c => c.children?.length);
+        return { id: w.exit.id, name: PlaceStage.thing(thing?.label ?? w.exit.way ?? w.exit.destination.name),
+          note: Words.upper(`${w.exit.way ?? 'the way'} to ${w.exit.destination.name}`),
+          seen: w.exit.blocked ? [w.exit.blocked] : w.exit.keyed ? ['It is locked, and you have the key: the way through it is open to you.'] : [],
+          choices: acts.flatMap(c => c.children?.length ? c.children : [c]),
+          opens: acts.filter(c => c.children?.length).map(c => c.id) };
+      });
     // What the place itself offers, each by what it is (the notice on the well-post, read).
     // An unread notice is on the scene itself (GlanceStage.posted), not here as well.
     const posted = GlanceStage.posted(app);
@@ -100,21 +110,6 @@ export class AtHand {
     // again here (Mission 21's budget: it had kept Look open with nothing at hand but the place's own words).
     return [...own, ...AtHand.grown(things.filter(first)), ...AtHand.grown(things.filter(t => !first(t))),
       ...ways];
-  }
-  // What is on a way off this place, to be done to (a tripwire, a padlock, a portcullis, a door's words): each a thing
-  // at hand, by the way it is on (never a way's to go by). The things lens draws them too, until the lens contract
-  // holds them (CN-01: asked of the playability line).
-  static onWays(app: ReaderApp): Held[] {
-    const frame = app.state.frame!;
-    return PlaceStage.ways(frame.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1 && !w.exit.keyed)
-      .map(w => {
-      const acts = w.choices.slice(1), thing = acts.find(c => c.children?.length);
-      return { id: w.exit.id, name: PlaceStage.thing(thing?.label ?? w.exit.way ?? w.exit.destination.name),
-        note: Words.upper(`${w.exit.way ?? 'the way'} to ${w.exit.destination.name}`),
-        seen: w.exit.blocked ? [w.exit.blocked] : w.exit.keyed ? ['It is locked, and you have the key: the way through it is open to you.'] : [],
-        choices: acts.flatMap(c => c.children?.length ? c.children : [c]),
-        opens: acts.filter(c => c.children?.length).map(c => c.id) };
-    });
   }
   // What only grows here, and can only be gathered, is one thing to look at, not a list of every flower: the edge of a
   // wood had offered ten plants, each its own pane, before anything else (the owner's play of 10 November). Named

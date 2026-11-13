@@ -4,9 +4,9 @@ import { HandbookHtml } from './render-html';
 import { Identity } from '../presentation/identity';
 import { Emblems } from '../presentation/emblems';
 
-// The Encyclopedia as pages in the game's own look (the lantern: dark ground, ivory reading face, gold for what can be
-// gone to): a title page of chapters and a search over every entry, and a page for each chapter, its contents beside
-// it, each entry a short article with what it is, what it is like, what it does in play, and where to read on.
+// The Encyclopedia as pages of a book in parchment and ink (see css): a title page of chapters and a search over every
+// entry, and a page for each chapter, its contents beside it, each entry a short article with what it is, what it is
+// like, what it does in play, and where to read on.
 export class EncyclopediaHtml {
   private readonly where: ReturnType<Encyclopedia['where']>;
   constructor(readonly book: Encyclopedia) { this.where = book.where(); }
@@ -21,7 +21,7 @@ export class EncyclopediaHtml {
     const nav = this.book.chapters.map(c => `<a href="${c.id}.html"${c.id === current ? ' aria-current="page"' : ''}>`
       + `${EncyclopediaHtml.esc(c.title)}</a>`).join('');
     return '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
-      + '<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0A0B0E">'
+      + '<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#EFE6D2">'
       + `<title>${EncyclopediaHtml.esc(title)}</title><style>${EncyclopediaHtml.css}</style></head><body>`
       + `<header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
       + `<a class="home" href="index.html">The Encyclopedia</a><nav>${nav}</nav></header>${body}`
@@ -95,63 +95,96 @@ export class EncyclopediaHtml {
     return ss.reduce((n, s) => n + (s.entries?.length ?? 0) + (s.table?.rows.length ?? 0)
       + EncyclopediaHtml.count(s.sections ?? []), 0);
   }
+  // Parchment and ink (the owner, 14 November, CN-11: "a coherent parchment-and-ink design, harmonize its
+  // illustrations with that surface, and check readability on tablet"): a bound reference's page, its ground a laid
+  // paper drawn in gradients (no image), its type and rules in ink, a running head over it, an oxblood ink for what can
+  // be gone to. Its illustrations are plates printed onto the page: in sepia, multiplied into the paper within a ruled
+  // frame, never a photograph laid on it. Light by design, in either mode: a book is read on its paper, and every
+  // colour is measured against it (body ink 12:1, the dim ink 6.4:1, the links 7.5:1, the faintest 4.8:1).
   static readonly css = `
 @font-face { font-family: 'Jost'; src: url(../fonts/jost-normal-latin.woff2) format('woff2'); font-weight: 300 800; }
 @font-face { font-family: 'Newsreader'; src: url(../fonts/newsreader-normal-latin.woff2) format('woff2'); font-weight: 300 700; }
 @font-face { font-family: 'Newsreader'; font-style: italic; src: url(../fonts/newsreader-italic-latin.woff2) format('woff2'); }
-:root { --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62;
-  --edge: rgba(236,230,217,.10); --gold: #F2BD4C; --gold-line: rgba(242,189,76,.55);
+:root { color-scheme: light; --paper: #EFE6D2; --paper-deep: #E4D8BE; --ink: #2B241B; --dim: #5B4F3F; --faint: #6E6150;
+  --rule: rgba(43,36,27,.24); --hair: rgba(43,36,27,.12); --link: #7A2E1F; --sepia: #6B4A2B;
   --read: 'Newsreader', Georgia, serif; --do: 'Jost', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif; }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--ground); color: var(--ivory); font: 18px/1.6 var(--read); }
-a { color: var(--gold); text-decoration: none; } a:hover { text-decoration: underline; }
+html { background: var(--paper-deep); }
+body { margin: 0; color: var(--ink); font: 18px/1.6 var(--read); min-height: 100vh;
+  background:
+    radial-gradient(120% 90% at 50% 40%, rgba(255,250,236,.55), rgba(255,250,236,0) 60%),
+    radial-gradient(140% 120% at 50% 50%, rgba(0,0,0,0) 62%, rgba(92,66,32,.16) 100%),
+    repeating-linear-gradient(0deg, rgba(92,66,32,.025) 0 1px, rgba(0,0,0,0) 1px 3px),
+    var(--paper); }
+a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: 3px; }
+/* The running head: the book's name and its chapters in small capitals, a double rule beneath. */
 .bar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline;
-  padding: 12px 24px; background: rgba(10,11,14,.94); border-bottom: 1px solid var(--edge); font: 500 12px/1.4 var(--do);
-  letter-spacing: .14em; text-transform: uppercase; }
-.bar .brand { color: var(--ivory); letter-spacing: .3em; } .bar .home { color: var(--dim); }
+  padding: 12px 32px 10px; background: var(--paper); border-bottom: 3px double var(--rule);
+  font: 500 11.5px/1.4 var(--do); letter-spacing: .16em; text-transform: uppercase; }
+.bar .brand { color: var(--ink); letter-spacing: .3em; } .bar .home { color: var(--dim); }
 .bar nav { display: flex; flex-wrap: wrap; gap: 4px 16px; } .bar nav a { color: var(--dim); }
-.bar nav a[aria-current] { color: var(--gold); }
-.landing { max-width: 1080px; margin: 0 auto; padding: 56px 24px 80px; }
-.over, .label, .kind { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
-h1 { font: 300 46px/1.1 var(--do); margin: 6px 0 18px; letter-spacing: .01em; }
-.lede { max-width: 64ch; color: var(--ivory); font-size: 20px; }
-input[type=search] { width: 100%; max-width: 520px; margin: 18px 0; padding: 10px 14px; background: var(--surface);
-  color: var(--ivory); border: 1px solid var(--edge); font: 16px var(--do); }
-#found { list-style: none; padding: 0; max-width: 640px; } #found li { padding: 6px 0; border-bottom: 1px solid var(--edge); }
-#found .k { color: var(--dim); font: 13px var(--do); margin-left: 10px; }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-top: 24px; }
-.card { display: block; padding: 20px 22px; background: var(--surface); border: 1px solid var(--edge); color: var(--ivory); }
-.card:hover { border-color: var(--gold-line); text-decoration: none; }
-.card h2 { font: 400 24px/1.2 var(--do); margin: 0 0 8px; color: var(--ivory); } .card p { margin: 0 0 10px; color: var(--dim); font-size: 16px; }
-.card .n { font: 500 11px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
-.layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
-.toc { position: sticky; top: 52px; align-self: start; max-height: calc(100vh - 60px); overflow: auto; padding: 24px 0;
-  font: 14px/1.5 var(--do); } .toc ol { list-style: none; padding-left: 0; margin: 0; } .toc ol ol { padding-left: 14px; }
-.toc a { color: var(--dim); } .toc input { margin-top: 0; }
-#book { padding: 32px 0 80px; min-width: 0; }
-h2 { font: 400 30px/1.2 var(--do); margin: 48px 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--edge); }
-h3 { font: 500 20px/1.3 var(--do); margin: 0 0 4px; } h4 { font: 500 16px/1.3 var(--do); letter-spacing: .14em;
-  text-transform: uppercase; color: var(--dim); margin: 28px 0 10px; }
-.intro { max-width: 68ch; color: var(--dim); }
-.entries { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
-.entry { padding: 16px 18px; background: var(--surface); border: 1px solid var(--edge); }
-.entry:target { border-color: var(--gold); }
-.entry .painting { float: right; width: 168px; height: 168px; object-fit: cover; margin: 0 0 10px 16px;
-  border: 1px solid var(--edge); } .entry::after { content: ''; display: block; clear: both; }
-@media (max-width: 560px) { .entry .painting { width: 108px; height: 108px; } }
-.entry h3 { display: flex; align-items: center; gap: 10px; } .entry { scroll-margin-top: 104px; }
+.bar nav a[aria-current] { color: var(--ink); border-bottom: 1px solid var(--ink); }
+.landing { max-width: 1000px; margin: 0 auto; padding: 56px 40px 80px; }
+.over, .label, .kind { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+h1 { font: 400 44px/1.1 var(--read); margin: 6px 0 18px; letter-spacing: .005em; }
+.landing h1 { text-align: center; } .landing .over { text-align: center; }
+.landing h1::after { content: '❦'; display: block; font-size: 18px; color: var(--sepia); margin-top: 14px; }
+.lede { max-width: 62ch; font-size: 19px; color: var(--ink); }
+.landing .lede { margin: 0 auto 8px; text-align: center; font-style: italic; }
+input[type=search] { width: 100%; max-width: 520px; margin: 18px 0; padding: 9px 2px; background: transparent;
+  color: var(--ink); border: 0; border-bottom: 1px solid var(--rule); font: 17px var(--read); font-style: italic; }
+input[type=search]::placeholder { color: var(--faint); } input[type=search]:focus { outline: none; border-bottom-color: var(--ink); }
+.landing input[type=search] { display: block; margin: 22px auto; text-align: center; }
+#found { list-style: none; padding: 0; max-width: 640px; margin: 0 auto; }
+#found li { padding: 6px 0; border-bottom: 1px solid var(--hair); }
+#found .k { color: var(--faint); font: 13px var(--do); margin-left: 10px; }
+/* The chapters as a book's contents: ruled, not boxed. */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0 40px; margin-top: 28px;
+  border-top: 1px solid var(--rule); }
+.card { display: block; padding: 18px 0 16px; border-bottom: 1px solid var(--hair); color: var(--ink); }
+.card:hover { text-decoration: none; } .card:hover h2 { color: var(--link); }
+.card h2 { font: 400 23px/1.2 var(--read); margin: 0 0 6px; color: var(--ink); border: 0; padding: 0; }
+.card p { margin: 0 0 8px; color: var(--dim); font-size: 16px; }
+.card .n { font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;
+  padding: 0 32px; }
+.toc { position: sticky; top: 52px; align-self: start; max-height: calc(100vh - 60px); overflow: auto; padding: 28px 0;
+  font: 14px/1.55 var(--do); } .toc ol { list-style: none; padding-left: 0; margin: 0; } .toc ol ol { padding-left: 14px; }
+.toc a { color: var(--dim); } .toc a:hover { color: var(--link); } .toc input { margin-top: 0; }
+#book { padding: 36px 0 80px; min-width: 0; }
+#book > h1 { border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+h2 { font: 400 28px/1.2 var(--read); margin: 52px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  font-variant: small-caps; letter-spacing: .03em; }
+h3 { font: 600 19px/1.3 var(--read); margin: 0 0 4px; } h4 { font: 500 13px/1.3 var(--do); letter-spacing: .18em;
+  text-transform: uppercase; color: var(--dim); margin: 30px 0 10px; }
+.intro { max-width: 66ch; color: var(--dim); font-style: italic; }
+/* Entries set as a reference sets them: in two columns where the page is wide enough for two measures, ruled between,
+   each kept whole. */
+.entries { columns: 2 330px; column-gap: 44px; column-rule: 1px solid var(--hair); }
+.entry { break-inside: avoid; padding: 14px 0 16px; border-bottom: 1px solid var(--hair); scroll-margin-top: 104px; }
+.entry:target { background: linear-gradient(90deg, rgba(122,46,31,.08), rgba(122,46,31,0)); }
+/* A plate: the picture in sepia, multiplied into the paper inside an inked frame with a margin of paper. */
+.entry .painting { float: right; width: 150px; height: 150px; object-fit: cover; margin: 4px 0 10px 16px; padding: 5px;
+  background: var(--paper-deep); border: 1px solid var(--rule); outline: 1px solid var(--hair); outline-offset: 3px;
+  filter: sepia(.55) saturate(.7) contrast(1.02) brightness(1.02); mix-blend-mode: multiply; }
+.entry::after { content: ''; display: block; clear: both; }
+@media (max-width: 560px) { .entry .painting { width: 100px; height: 100px; } }
+.entry h3 { display: flex; align-items: center; gap: 10px; }
 .emblem.inline { width: 1.05em; height: 1.05em; margin-right: .25em; vertical-align: -.15em; stroke-width: 1.6; }
-.emblem { width: 28px; height: 28px; flex: none; fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linecap: round;
+.emblem { width: 26px; height: 26px; flex: none; fill: none; stroke: var(--sepia); stroke-width: 1.4; stroke-linecap: round;
   stroke-linejoin: round; }
 .entry .text { font-style: italic; margin: 8px 0; } .entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
   margin: 8px 0; font: 14px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
-.rules { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--edge); font-size: 16px; } .rules p { margin: 4px 0; }
+.rules { margin-top: 10px; padding-top: 8px; border-top: 1px dotted var(--rule); font-size: 16px; } .rules p { margin: 4px 0; }
 .see { font-size: 15px; margin: 10px 0 0; } .see .label { margin-right: 8px; }
-.scroll { overflow-x: auto; } table { border-collapse: collapse; font: 14px/1.4 var(--do); margin: 8px 0 18px; }
-th, td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--edge); vertical-align: top; }
-th { color: var(--dim); font-weight: 500; } tr:target td { color: var(--gold); }
+.scroll { overflow-x: auto; } table { border-collapse: collapse; font: 14px/1.45 var(--do); margin: 8px 0 18px;
+  border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+th, td { text-align: left; padding: 6px 14px 6px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+th { color: var(--dim); font-weight: 500; border-bottom: 1px solid var(--rule); } tr:target td { color: var(--link); }
+@media (max-width: 900px) { .layout { grid-template-columns: 200px minmax(0, 1fr); gap: 28px; padding: 0 24px; } }
 @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .toc { position: static; max-height: none; }
-  h1 { font-size: 34px; } .entries { grid-template-columns: 1fr; } .bar { padding: 10px 16px; } .landing, .layout { padding: 0 16px; } }
+  h1 { font-size: 34px; } .entries { columns: 1; } .bar { padding: 10px 16px; } .landing, .layout { padding: 0 18px; } }
 `;
   // The search: on a chapter page, entries and rows hide as you type; on the title page, every entry by its name.
   static readonly script = `

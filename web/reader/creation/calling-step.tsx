@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
+import type { CreationStep } from '../../engine/creation-flow';
 import type { Catalog } from '../../engine/protocol';
 import { CreationRules } from '../creation-rules';
 import { Words } from '../words';
 import { Card } from './card';
-import { PeopleStep } from './people-step';
 
 type Calling = Catalog['callings'][number];
 
@@ -12,16 +12,14 @@ type Calling = Catalog['callings'][number];
 // beneath, and behind Details all it is by the rules (its hit points and armour, the weapons and skills it brings,
 // what it casts by, what it adds to the qualities). A calling your people never follow says so.
 export class CallingStep {
-  static View({ app, onward }: { app: ReaderApp; onward?: ReactNode }) {
-    const s = app.state, catalog = s.catalog!, m = s.party[0]!;
-    const people = catalog.ancestries.find(a => a.id === m.raceId), calling = catalog.callings.find(c => c.id === m.classId);
+  static View({ app, step, onward }: { app: ReaderApp; step: CreationStep; onward?: ReactNode }) {
+    const catalog = app.state.catalog!, calling = catalog.callings.find(c => c.id === step.chosen);
     return (
       <Card.Deck kind="callings" onward={onward} details={calling && { title: calling.name,
         head: { kind: 'Calling', glyph: calling.id, summary: calling.text },
         body: <Card.Particulars title="In play" facts={CallingStep.facts(calling, catalog).slice(1)} /> }}>
-        {catalog.callings.map(c => <Card.View key={c.id} name={c.name} line={c.line} text={c.text} glyph={c.id}
-          chosen={m.classId === c.id} data={{ choice: `classId:${c.id}` }} onChoose={() => app.opening.edit(0, 'classId', c.id)}
-          shut={people && !people.callings.includes(c.id) ? `Not for ${PeopleStep.plural(people)}` : undefined} />)}
+        {step.cards.map(c => <Card.View key={c.id} name={c.name} line={c.line} text={c.text} glyph={c.id} shut={c.shut}
+          chosen={step.chosen === c.id} data={{ choice: `classId:${c.id}` }} onChoose={() => app.opening.choose(step.id, c.id)} />)}
       </Card.Deck>
     );
   }

@@ -12,7 +12,7 @@ import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
-import { EngineCreation } from './engine-creation';
+import { EngineCreation } from './engine-creation'; import { Foregone } from '../../src/ui/foregone';
 import { EngineStarts, type Starting } from './engine-starts';
 import { Frontier } from '../../src/world/frontier';
 import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
@@ -178,7 +178,8 @@ export class EngineHost {
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's
     // among them, were fought out with no page at all (Mission 20's fourth round, F 144, 147).
-    this.fought = undefined; this.began = campaign.history.length; this.pressing = false;
+    // A foregone fight (easily won) is one act: begun pressing, fought through unless it turns (see Foregone).
+    this.fought = undefined; this.began = campaign.history.length; this.pressing = Foregone.is(this.screen, command);
     this.doing = PlayerView.choices(campaign).find(r => r.choice.id === command)?.choice.name;
     try {
       const event = await session.perform(command, this.controlling(game));

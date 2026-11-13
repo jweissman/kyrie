@@ -16,7 +16,7 @@ import { Succession } from './succession';
 import { Compass } from './compass';
 import { Likenesses } from './likenesses';
 import { LensSubjects } from './lens-subjects';
-import { Glance } from './glance';
+import { Glance } from './glance'; import { Instruments } from './instruments';
 import { SceneBudget } from './scene-budget';
 import type { Glance as GlanceView } from './glance-types';
 
@@ -39,6 +39,8 @@ export interface Leaf {
   // page and the terminal tell of situation and presence, and what they hold for a deliberate look, whole sentences in
   // the place's order. situation and presence above stay whole, for what reads the place entire.
   glanced?: { situation: string[]; presence: string[]; held: string[]; unsaid?: string[] };
+  // The company's instruments of observation, as it may read them now (see Instruments).
+  instruments?: import('./instruments').Instrument[];
   // Whether the last command brought the company here from somewhere else, and the way, told as it went.
   moved?: boolean; journey?: string[];
   // Taken up again from a save: what the company is about, and the last thing it did, and when (see EngineHost).
@@ -142,8 +144,8 @@ export class Narrator {
     });
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
     const glance = Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening });
-    return { ...leaf, glance: Likenesses.with(LensSubjects.with(campaign, screen, { ...glance,
-      ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) })) };
+    return { ...leaf, instruments: Instruments.of(campaign, screen), glance: Likenesses.with(LensSubjects.with(campaign,
+      screen, { ...glance, ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) })) };
   }
   // Whether what is seen is a thing's state that the command itself set.
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {
