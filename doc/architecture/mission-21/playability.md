@@ -51,7 +51,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-29 | P2 | Edda, gone with the company, is still told asleep on the sick child's step | fixed in this branch (data) |
 | PL-30 | P1 | In the page, the first page says no goal and offers no Follow: "Your first goal" was said only of an aim followed, and nothing is followed until chosen in the Notes | fixed in this branch |
 | PL-31 | P2 | thorn, the ossuary: gold on the *unlikely* "Tell him the town knows…", while the sure act the mage's own lore opened ("what his book left out of the ring", which ends it) is only red | open (proposal) |
-| PL-32 | P1 | In the page at Merscstede, the aim's next step (Lindal, the letter) is gold only on the rail's people icon: Lindal's own pip is blue and the foreground is Cora and the lockup; the engine's glance has Lindal gold | open (page) |
+| PL-32 | P1 | In the page at Merscstede, the aim's next step (Lindal, the letter) is gold only on the rail's people icon: Lindal's own pip is blue and the foreground is Cora and the lockup; the engine's glance has Lindal gold | contract fixed (`Glance.likenesses`); the page to draw from it |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | ranks 1 and 2 built in this branch (the lead's ruling); ranks 3–4 later |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -564,9 +564,16 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   at the lord's lockup"; the rail's people icon has the only gold (`shots/q10-town.jpg`, `q11-people.jpg`). Opened,
   Lindal's talk does mark "Give the sealed letter" (`q12-lindal.jpg`). Headless, the same state's glance has "Talk to
   Lindal" gold, subject `region__s2_merchant`, for `origin__deliver` (`tools/walkacts.ts thorn courier 3`).
-- **Status:** open: the engine is right and the page's likeness pip (`WorldStage.seen`) is not; not reproduced
-  headless, so not fixed blind. Suspect the frame the page draws after the map's Enter (a held journey's act, or the
-  menu's leads) rather than the glance.
+- **Cause (found in the page, 14 November):** the frame's glance had Lindal's talk `continues`, aspects
+  `[undertaking, knowledge]` (kyrieMono.inspect at the old stones). `WorldStage.seen` aggregates every aspect of every
+  act about someone into one pip, and gilded it became a gradient gold → blue (`Pip.fill`'s prism), which at a pip's
+  size reads blue. The page composed its own indicator from the acts instead of being told it.
+- **Contract fix:** `Glance.likenesses` (`src/presentation/likenesses.ts`), by subject id: the aim's next step is
+  `{ aspects: ['undertaking'], continues: true }` alone; anyone else, the aspects of what is led with about them
+  together. Set by the narrator and again after `Glance.held` (engine host). Held by `test/small/likenesses`.
+- **For the page (the aesthetic line):** draw a likeness's pip from `glance.likenesses[x.id]` (gold alone when
+  `continues`), adding only what is scene-level (`x.owed` payoff, `x.danger`), and stop composing it from
+  `glance.acts` in `WorldStage.seen`.
 
 ### PL-06: after the aim, nothing pulls
 

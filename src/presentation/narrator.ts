@@ -13,6 +13,7 @@ import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
 import { Succession } from './succession';
 import { Compass } from './compass';
+import { Likenesses } from './likenesses';
 import { Glance } from './glance';
 import { SceneBudget } from './scene-budget';
 import type { Glance as GlanceView } from './glance-types';
@@ -138,8 +139,8 @@ export class Narrator {
     });
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
     const glance = Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening });
-    return { ...leaf, glance: { ...glance, ...Succession.next(campaign, screen, told),
-      ...Compass.of(campaign, screen, glance) } };
+    return { ...leaf, glance: Likenesses.with({ ...glance, ...Succession.next(campaign, screen, told),
+      ...Compass.of(campaign, screen, glance) }) };
   }
   // Whether what is seen is a thing's state that the command itself set.
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {

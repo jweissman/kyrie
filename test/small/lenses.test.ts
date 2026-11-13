@@ -60,3 +60,44 @@ describe('the attention lenses', () => {
     expect({ world: t.world, elapsed: t.campaign.readout.elapsed, done: t.campaign.history.length }).toEqual(before);
   });
 });
+
+// A lens with acts of its kind promotes them, though none has a reason (the coordinator, 14 November: a kitchen's Wat,
+// with a topic and no aim, had left the people lens empty, his talk only in the rest): those with a reason first, then
+// the lens's own in its own order (talk first among people; the shorter waits first), never one that cannot be done.
+const kitchen = `
+  Place kitchen "the kitchen" is room at 0, 0 indoors.
+  Place yard "the yard" is room at 1, 0 outdoors.
+  Passage back "the back door" is door between kitchen and yard.
+  Company party "You" of 1 at kitchen.
+  Person wat "Wat" at kitchen { Role "your brother". Ancestry human. Peaceable. Pronouns he. }
+  Topic weather with wat "Ask Wat about the weather" when true { Says "'Rain by noon,' says Wat.". }
+  Goal false.`;
+describe('a lens with nothing to lead it', () => {
+  it('promotes its own acts in its own order', async () => {
+    const t = await Tiny.start(kitchen), l = t.glance.lenses;
+    expect(l.people.promoted.map(a => a.subject)).toEqual(['t__wat']);
+    expect(l.people.rest.map(a => a.subject)).not.toContain('t__wat');
+    expect(l.places.promoted.map(a => a.label).join(' ')).toMatch(/yard/);
+    const waits = l.time.promoted.map(a => a.command);
+    expect(waits.length).toBeGreaterThan(0);
+    expect(waits[0]).toBe('wait');
+  });
+});
+// The company's own acts are the time lens's, after the waits (the coordinator's ruling, 14 November: lighting a
+// candle, preparing a spell, tending a hurt had been in no lens, only on the old Wait page), each the company's own. A
+// cellar with no light in it, where lighting one is among them.
+const cellar = `
+  Place cellar "the cellar" is room at 0, 0 underground 1 down.
+  Company party "You" of 1 at cellar.
+  Initially Assert unlit(cellar).
+  Goal false.`;
+describe('the time lens', () => {
+  it('holds the company\'s own acts, the light first in the dark, the waits before the rest of them', async () => {
+    const t = await Tiny.start(cellar), time = t.glance.lenses.time, all = [...time.promoted, ...time.rest];
+    expect(time.promoted[0]!.command).toMatch(/^light_item\(/);
+    expect(all.every(a => a.subject === 'yourself')).toBe(true);
+    const rest = time.rest.map(a => /^wait/.test(a.command ?? '') ? 'wait' : 'own');
+    expect(rest.lastIndexOf('wait')).toBeLessThan(rest.includes('own') ? rest.indexOf('own') : Infinity);
+    expect(all.map(a => a.command)).toEqual(expect.arrayContaining(['wait', 'light_item(t__party_1__candle)']));
+  });
+});

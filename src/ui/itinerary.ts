@@ -30,7 +30,8 @@ export class Itineraries {
   private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[]; roam?: WayInfo[] }>();
   // roam: with every way across the open country besides, walked or not, for a journey toward a place seen (see
   // Itineraries.seen).
-  static graph(campaign: Campaign, clear = false, roam = false): Map<string, WayInfo[]> {
+  // barred: with the ways something bars besides (a locked door): what the compass says stands in the way out.
+  static graph(campaign: Campaign, clear = false, roam = false, barred = false): Map<string, WayInfo[]> {
     const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
     let kept = this.read.get(world);
     if (kept?.at !== at) {
@@ -40,7 +41,7 @@ export class Itineraries {
     if (roam) { kept.roam ??= this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true); }
     const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
     for (const w of ways) {
-      if (w.status === 'blocked' || (clear && w.status !== 'open')) { continue; }
+      if ((w.status === 'blocked' && !barred) || (clear && w.status !== 'open')) { continue; }
       // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it. But from
       // out on the open country it crosses what it knows of it, back to a way (over the march, from a hex beside the
       // march-stone, nothing on the map had a way to it: the owner, OWN-43).
