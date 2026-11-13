@@ -226,7 +226,7 @@ claims nothing beyond what the sources say.
 
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
-| WM-01 | The world forgets: the Gaffer "comes off his fleeces" after death; the sergeant's speech word for word; the players never react or leave without a line | E34 (Gaffer line open), E57 (sergeant open), R2-B top1, R4-E top3, R6-I top2, H §3 | Partly fixed (11 Nov) | P1 | M20 close |
+| WM-01 | The world forgets: the Gaffer "comes off his fleeces" after death; the sergeant's speech word for word; the players never react or leave without a line | E34 (Gaffer line open), E57 (sergeant open), R2-B top1, R4-E top3, R6-I top2, H §3 · M21 (13 Nov): the Gaffer's half fixed in the engine: what is done near someone dead is not told, unless it is told of their death (CampaignTick.heard; test/small/near-dead); the sergeant's speech word for word and the rest stay open | Partly fixed (11 Nov) | P1 | M20 close |
 | WM-02 | Dishonesty has no consequence: graves robbed under the dead who keep the bounds, for free | E45 (graves still free), R3-D top1, H §3 | Partly fixed (11 Nov) | P2 | M21 |
 | WM-03 | "Look at the cart / take the horse's head" still offered after robbing the wagoner | R6-J §15 | **Fixed** (11 Nov night): the horse's head is offered only while the meeting is unanswered (test/owed: a thief who lifts a sack is offered no hand with the cart); the cart's look is kept, a thing at the road | P3 | M20 close |
 | WM-04 | Scenario word that never goes stale (the den's directions after it is cleared) | UNT-103 | Open risk, unverified since 6 Nov; E57's stale-word fix may cover it | P3 | M21 (verify) |

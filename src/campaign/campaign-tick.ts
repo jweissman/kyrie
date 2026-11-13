@@ -225,6 +225,11 @@ export class CampaignTick {
     binding: Record<string, string> = {}): boolean {
     const player = host.playerActor, place = rule.place?.startsWith('?') ? binding[rule.place] : rule.place;
     if (!player || !worlds.at(-1)!.test(ModuleWriter.call('able', player))) { return false; }
+    // Nor what is done near someone dead, unless it is told of their death: the Gaffer had come off his fleeces and
+    // stretched after he died (WM-01).
+    const last = worlds.at(-1)!;
+    if (rule.anchor === 'near' && place && last.relates('dead') && last.test(ModuleWriter.call('dead', place))
+      && !Reads.names(host.module, [rule.when]).includes('dead')) { return false; }
     return !place || worlds.some(world => LocalObservations.perceives(world, player, place, rule.anchor));
   }
   // One who follows the company goes where it goes: a rule that neither asks nor says who follows whom (an hour's
