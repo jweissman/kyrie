@@ -439,7 +439,7 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 | id | item | sources | status | severity | home |
 |---|---|---|---|---|---|
 | AB-01 | A killing blow told by the 1 its mark had left, not its weight | R81 | **fixed** 5d55fbad (test/fight-told-once) | P1 | — |
-| AB-02 | Wounds never told; the written "hurt" lines never said | R82 | **fixed** 5d55fbad (Barks.wounded) | P2 | — |
+| AB-02 | Wounds never told; the written "hurt" lines never said | R82 | **fixed** 5d55fbad (Barks.wounded) · M21 (13 Nov): fixed for three of seven manners only (grim, cheerful, jovial): a proud, acerbic, compassionate or stoic fighter had no line; a line each added; held by `small/barks-hurt` | P2 | — |
 | AB-03 | A creature's damage does not grow with its level (a level-12 mummy's 1d4) | R83 | open | P2 | M21 |
 | AB-04 | The CLI and journeys fight a whole fight in one step; a fallen company is left with nothing offered and no ending | R80 | open | P2 | M21 |
 | AB-05 | A dark room does not say that a light is cheap or where it is sold | the branch's handoff §5 | **done** (E213): the dark note says a light is a coin, and where | P2 | M21 |
