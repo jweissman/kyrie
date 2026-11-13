@@ -3,6 +3,7 @@ import { Canon } from '../canon/canon';
 import { RandomStreams } from '../random-streams';
 import { ModuleWriter } from '../lang/module-writer';
 import { Items } from './items';
+import { ItemNames } from '../item-names';
 import { Effects } from '../effects';
 import { ObservationText } from '../lang/observation-text';
 import type { Call, Change } from '../lang/module';
@@ -100,7 +101,9 @@ export class Consequences {
         : Items.take(creatures, taker, { id: item, definition: kind, label }));
       // A thing made as it is given is a thing of the world as a kit's is, of its kind: held, it opens what needs its
       // kind (a key given with a job had opened nothing: the owner's town quests, 3 November).
-      if (made) { this.make(world, made.id, label); changes.push(this.fact('itemKind', made.id, kind)); }
+      // Named as a kit's own things are ("a lantern", not "Lantern"): the review's lantern was filled twice over, the
+      // act's words and its telling naming it two ways (T24-17).
+      if (made) { this.make(world, made.id, ItemNames.called(label)); changes.push(this.fact('itemKind', made.id, kind)); }
       changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
       // A thing given is the company's: whoever owned it no longer says "That is mine" of it (M19-178).
       if (world.relates('owns')) {
