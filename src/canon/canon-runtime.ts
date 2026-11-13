@@ -53,9 +53,23 @@ export class CanonRuntime {
     const skill = a.kind === 'technique' && a.source?.orsino?.split(':')[0] === 'ability';
     return a.recharge ?? (skill && !free.includes(id) ? technique : 0);
   }
-  // Every ability Kyr can execute. Entries recorded as unsupported stay in the catalog but are never offered.
+  // An ability that does nothing Kyr can execute, in a fight or out of one (the SRD adaptation briefing, §14): its
+  // record's effects are none, and it is no move the rules resolve themselves (waiting). It stays in the catalog, for
+  // the Encyclopedia to say it is not playable, and is never learned, prepared, granted or offered.
+  static referenceOnly(id: string): boolean {
+    const a = Canon.abilities[Canon.resolve('abilities', id)];
+    if (!a || Canon.rules.combat.recharge.free.includes(id)) { return false; }
+    return a.effects ? a.effects.length === 0 : !a.effect?.trim();
+  }
+  // Whether an ability can be played: known, with nothing recorded it cannot run, and not reference only.
+  static playable(id: string): boolean {
+    const a = Canon.abilities[Canon.resolve('abilities', id)];
+    return !!a && !a.unsupported && !this.referenceOnly(id);
+  }
+  // Every ability Kyr can execute. Entries recorded as unsupported, or reference only, stay in the catalog but are
+  // never offered.
   static abilities(): ArenaAbility[] {
-    const own = Object.fromEntries(Object.entries(Canon.abilities).filter(([, a]) => !a.unsupported)
+    const own = Object.fromEntries(Object.entries(Canon.abilities).filter(([id]) => this.playable(id))
       .map(([id, a]) => [id, this.ability(id, a)]));
     const all = { ...this.withAliases('abilities', own) };
     for (const deity of Object.values(Canon.deities)) {

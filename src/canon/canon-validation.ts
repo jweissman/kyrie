@@ -11,6 +11,8 @@ import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
 import type { Modifiers, Species } from './schema';
 import { Amounts } from '../rules/amounts';
+import { CatalogFields } from './catalog-fields';
+import { CanonRuntime } from './canon-runtime';
 import { ModifierSet } from '../rules/modifiers';
 import { LocalKinds } from './local-catalog';
 import { CreatureVariants } from '../creature-variants';
@@ -44,7 +46,7 @@ export class CanonValidation {
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
     v.conditions(); v.items();
     v.backgrounds(); v.religion(); v.plants(); v.sources();
-    return [...Canon.conflicts, ...v.problems];
+    return [...Canon.conflicts, ...CatalogFields.problems(), ...v.problems];
   }
   // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
   // is cut). Said by lint, never refused at load (the owner writes plants before their sheet is drawn).
@@ -90,6 +92,11 @@ export class CanonValidation {
     const a = Canon.abilities[id];
     if (!a) { this.fail(where, `unknown ability ${id}`); return; }
     if (!allowed.includes(a.kind)) { this.fail(where, `${id} is a ${a.kind}, not ${allowed.join(' or ')}`); }
+  }
+  // What is granted is played: an ability reference only, or with what it cannot run, is never given to a holder (the
+  // SRD adaptation briefing, §14).
+  private granted(where: string, ids: string[]) {
+    for (const a of ids.filter(a => Canon.abilities[a] && !CanonRuntime.playable(a))) { this.fail(where, `grants ${a}, which cannot be played`); }
   }
   private ancestries() {
     for (const [id, a] of Object.entries(Canon.ancestries)) {
@@ -147,7 +154,9 @@ export class CanonValidation {
     features.forEach((f, i) => {
       if (f.level < 2 || f.level > 20 || (i && f.level <= features[i - 1]!.level)) { this.fail(where, `feature at level ${f.level}`); }
       (f.abilities ?? []).forEach(a => this.ability(where, a, ['technique']));
-      for (const a of (f.abilities ?? []).filter(a => Canon.abilities[a]?.unsupported)) { this.fail(where, `${a} cannot be played`); }
+      for (const a of (f.abilities ?? []).filter(a => Canon.abilities[a] && !CanonRuntime.playable(a))) {
+        this.fail(where, `${a} cannot be played`);
+      }
       for (const t of (f.traits ?? []).filter(t => Canon.traits[t]?.category !== 'calling')) {
         this.fail(where, `${t} is not a calling trait`);
       }
@@ -192,6 +201,7 @@ export class CanonValidation {
         }
       }
       (t.grants?.abilities ?? []).forEach(a => this.ability(where, a, ['technique', 'spell', 'natural']));
+      this.granted(where, t.grants?.abilities ?? []);
       this.modifiers(where, t.modifiers);
     }
   }
@@ -222,7 +232,7 @@ export class CanonValidation {
     for (const [id, i] of Object.entries(Canon.items)) {
       const where = `item ${id}`;
       if (!CanonValidation.itemCategories.includes(i.category)) { this.fail(where, `unknown category ${i.category}`); }
-      if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); }
+      if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); this.granted(where, [i.grants.ability]); }
       // A module's own kind may grant a capability of the module's own, checked as the module was read (GTR-09).
       if (i.grants?.skill && !Canon.skills[i.grants.skill] && !LocalKinds.local(id)) {
         this.fail(where, `grants unknown skill ${i.grants.skill}`);

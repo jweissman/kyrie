@@ -2,6 +2,7 @@ import { Canon } from '../canon/canon';
 import type { Attribute, CharacterClass, Proficiencies } from '../canon/schema';
 import { Fighting } from './fighting';
 import { Amounts } from './amounts';
+import { CanonRuntime } from '../canon/canon-runtime';
 
 export interface Chassis {
   hitDie: number; attributes: Partial<Record<Attribute, number>>; abilities: string[]; traits: string[];
@@ -72,10 +73,8 @@ export class Creation {
     const mod = s.attribute ? Math.max(0, Fighting.statMod(scores[s.attribute])) : 0;
     return s.base + 2 + level + (s.multiplier ?? 0) * mod;
   }
-  static executable(id: string): boolean {
-    const a = Canon.abilities[id];
-    return !!a && !a.unsupported;
-  }
+  // What can be learned, prepared or granted: a playable ability (see CanonRuntime.playable).
+  static executable(id: string): boolean { return !!Canon.abilities[id] && CanonRuntime.playable(id); }
   // The spells of a tradition at one level that Kyr can execute, optionally within a school or domain.
   static spellbook(tradition: string, level: number, restriction?: string): string[] {
     return Object.entries(Canon.abilities).filter(([id, a]) => a.spell?.tradition === tradition

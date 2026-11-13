@@ -2432,14 +2432,10 @@
         "heal"
       ],
       "traits": [],
-      "dr": {
-        "magic": 10
-      },
-      "resist": {
-        "acid": 10,
-        "cold": 10,
-        "electricity": 10
-      },
+      "defenses": [
+        { "kind": "resistance", "to": ["acid", "cold", "lightning", "electric"], "amount": 10, "mode": "flat" },
+        { "kind": "reduction", "amount": 10, "unless": ["magic"] }
+      ],
       "worth": {
         "base": 150,
         "perLevel": 50
