@@ -5,10 +5,13 @@ import type { Module } from '../lang/module';
 // What the rules need to know of each kind of thing a module holds: worn, used up, a light, a light's fuel, and what
 // burns what. Asserted once for every kind present, when the module is composed and again when a company's gear is
 // declared into it (a candle carried by everyone from the start was never a light: no kind in the module had been one).
+// A kind the module only gives later (`Give antidote to actor.`) is one of its kinds too: the undertown's antidote for
+// the spiders' bite had been no remedy, never offered for the companion it was given for (review A's T91: T24-17).
 export class ItemTraits {
   static assert(module: Module) {
-    const kinds = new Set(module.initial.filter(c => c.kind === 'assert' && c.call.name === 'itemKind')
-      .map(c => c.call.args[1]!));
+    const kinds = new Set([...module.initial.filter(c => c.kind === 'assert' && c.call.name === 'itemKind')
+      .map(c => c.call.args[1]!), ...module.entities.filter(e => e.type === 'itemkind' && ItemCatalog.definitions[e.id])
+      .map(e => e.id)]);
     for (const kind of kinds) {
       const definition = ItemCatalog.get(kind);
       const fuel = [...kinds].some(k => ItemCatalog.get(k).fuel === kind);

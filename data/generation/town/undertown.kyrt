@@ -291,8 +291,8 @@
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
   // a company going on needs, and the knife given back is the Hobbs' to repay.
   Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.".
-  Person {t}_u_spiders "the spiders in the old workings" at {t}_u_gallery {
-    Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_gallery.
+  Person {t}_u_spiders "{spiders} in the old workings" at {t}_u_gallery {
+    Role "{webbed} strung the old workings with web". Species cave_spider. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_gallery.
   }
   Initially Set encounterXp({t}_u_spiders) to 60.
   Person {t}_u_mother "the spiders' mother" at {t}_u_brood {

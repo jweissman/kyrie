@@ -20,6 +20,9 @@ export class RegionUndertown {
     const t = s.id, q = JSON.stringify, values = { t, town: s.name, brood: company > 1 ? '2' : '1',
       // A pack of the small kind, and a pair of the middling: never one rat called the rats (the owner, 8 November).
       pack: company > 1 ? '5' : '3', pair: company > 1 ? '3' : '2', runts: company > 1 ? '' : ' Variant runt.',
+      // Nor one spider called the spiders (review A's "the spiders in the old workings lies dead").
+      spiders: company > 1 ? 'the spiders' : 'the spider', webbed: company > 1
+        ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',
       ...Object.fromEntries((['merchant', 'priest', 'innkeeper'] as const)
         .map(role => [`${role}at`, SettlementWriter.standing(region, s, role)])) };
     const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);
