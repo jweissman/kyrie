@@ -11,10 +11,12 @@ Module origin "Gone under" {
   // ask (round 6, the register's US-01).
   Entity keeper: group "Whoever keeps the inn".
   Topic sister with keeper "Ask {keeper} about your sister" when not carries(actor, pin) once {
-    Says "{keeper} is quiet a moment. 'I remember her. Midsummer, at the table by the door, with the two of them, laughing about silver.' Lower: 'They came back through at the summer's end and drank like men with something to forget. One of them said, in his cups, that she would not turn back at the door of {work}, where the light gives out, and so they left her there. If you go, look there, just inside.'".
+    Says "{keeper} is quiet a moment. 'I remember her. Midsummer, at the table by the door, with the two of them, laughing about silver.' Lower: 'They came back through at the summer's end and drank like men with something to forget. One of them said, in his cups, that she would not turn back at the door of {work}, where the light gives out, and so they left her there. If you go, look there, at the door.'".
   }
-  // What is left of her there: found by one who looks, at the door she went in by.
-  Discovery pin_found "In the dust just inside the door, where the light gives out, something small catches it: a cloak-pin of twisted copper. Your mother gave it to her the day she left." { Found by searching delving. }
+  // What is left of her there: found by one who looks, at the door she went in by, where the innkeeper says to look
+  // (a lead pays off where it points: "look there, just inside" had sent the cold playtest's searcher in past the
+  // door, where nothing was to be found: CO-02).
+  Discovery pin_found "In the dust at the door, where the light gives out, something small catches it: a cloak-pin of twisted copper. Your mother gave it to her the day she left." { Found by searching delving. }
   Item pin "your sister's cloak-pin" is cloak_pin at delving hidden until pin_found.
   Objective gone when not carries(party, pin) toward delving "Your sister went into {delving}, out in {where}, and did not come out. Search there for what became of her.".
   // Found, it is said and seen through, as the dead man's map's cross is: the pin taken up had ended the origin with
