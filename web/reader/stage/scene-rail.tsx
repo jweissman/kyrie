@@ -106,7 +106,7 @@ export class SceneRail {
       : sensed ? `${words}: ${Signs.sensed(sensed)}` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
       + `${'dim' in standing ? ' dim' : ''}${faint && !shut && !lit ? ' faint' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
-      aria-expanded={app.state.exploring === part} aria-label={said} title={said} disabled={!!shut}
+      aria-expanded={app.state.exploring === part} aria-label={said} title={shut ? said : words} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" />
       {!shut && <Pip.View fill={lit ? `var(--tone-${lit})` : faint ? `var(--tone-${faint})` : undefined} faint={!lit} />}

@@ -18,7 +18,7 @@ export class OriginStep {
     return (
       <Card.Deck kind="origins" onward={onward} details={origin && { title: origin.title,
         head: { kind: 'Why you came', glyph: origin.id, summary: origin.choice },
-        body: <Card.Particulars title="In play" facts={[OriginStep.makes(origin.background, catalog, s.party[0]?.pronouns)]} /> }}>
+        body: <Card.Particulars title="What it has made of you" facts={[OriginStep.makes(origin.background, catalog, s.party[0]?.pronouns)]} /> }}>
         {/* The flow's cards; under each name what it makes you by the rules ("Once a scribe"), its sentence the flow's. */}
         {step.cards.map(o => <Card.View key={o.id} name={o.name} line={OriginStep.rule(background(o.id), catalog, s.party[0]?.pronouns)}
           text={o.text ?? o.line} glyph={o.id} shut={o.shut} chosen={step.chosen === o.id} data={{ action: 'origin', id: o.id }}
