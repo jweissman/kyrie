@@ -766,3 +766,17 @@ contract, the runner, the walks and the matrix; the page side goes to the aesthe
 | TB-09 | Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one implementation, which both clients consume; the terminal a conformance test of the whole journey from no character (the owner, 14 November) | partly (26fe687f): creation is in the engine protocol (creation, set-out; EngineCreation over CreationFlow), the terminal makes a life only through it and plays the session it began; test/creation-conformance holds terminal and page-asked journeys equal. Open: the page's creation still keeps its own steps and rules (ReaderOpening), see workflow-parity.md | P1 | M21 |
 | TB-10 | The terminal plays by the engine's frames as the page does (perform, travel, fight, follow), not by its own travel, fight and follow; talk and the fight hand offered by the engine | open | P1 | M21 |
 
+## 30. The owner on the title and onboarding (14 November, night)
+
+The owner's words are in `mission-21/owner-title-onboarding.md`: the title is where the owner bounced off before
+beginning to play. The aesthetic line takes the page; the lead takes any engine step a presentation realizes.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| TO-01 | The title in the game's own interaction language: its choices as the modern highlighted menu (or a designed variant), Play with one strong, elegant gold focus (ceremonial gold at the entry only, the stricter gold of a followed aim kept inside), focus stable and immediate, no moving double-box decoration, no shifting geometry; teaching the grammar creation and play will use | open | P0 | M21 |
+| TO-02 | A quiet, legible foreground over a deeper, subtly moving background that answers the focused choice over a few hundred milliseconds (perspective, light, colour), the focus itself immediate; one exceptional transition, not many flourishes; art direction, not technology | open | P1 | M21 |
+| TO-03 | The studio stab, the title and creation as one designed passage: a few composed seconds of deliberate timing, typography and image flowing into the title and the title into creation; skippable; reduced motion respected | open | P1 | M21 |
+| TO-04 | One richer responsive interaction prototyped (the celestial observatory for a birth sign is the owner's example): the engine authoritative over the signs, what one means and the next question, the sky a visual realization of that decision, the terminal making the same choice in text | open | P2 | M21 |
+| TO-05 | A vocabulary of exceptional responsive interactions with particular things (a lock's mechanism, an armillary sphere, an instrument, an architectural mechanism): read-only projections of engine state and the player's focus, committed through the engine; rare moments in a painterly game, not 3D for every object | open | P2 | M22 |
+| TO-06 | Evaluated as one experience at desktop and tablet, by keyboard, touch and reduced motion, with the transitions watched in motion and not only screenshotted; beautiful at rest and in motion | open | P1 | M21 |
+
