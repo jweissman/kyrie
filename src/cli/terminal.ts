@@ -43,8 +43,7 @@ export class Terminal {
     console.log(`Turn ${state.turn}: ${state.combatants.find(f => f.id === state.actor)!.name}`);
     // In one order from turn to turn, a strike first and the rest by name, and each to be had by its name too: as
     // drawn, the list had changed its order each turn, and the key that was Cleave became Flee (the same review).
-    const choices = CombatChoices.actions(legal, Content.abilities).sort((x, y) =>
-      Number(!/^(attack|strike)/i.test(x.ability.name)) - Number(!/^(attack|strike)/i.test(y.ability.name))
+    const choices = CombatChoices.actions(legal, Content.abilities).sort((x, y) => Terminal.blow(x) - Terminal.blow(y)
       || x.ability.name.localeCompare(y.ability.name));
     for (;;) {
       choices.forEach((choice, i) => console.log(`${i + 1}. ${choice.ability.name} — ${choice.scope} (mana ${choice.ability.cost ?? 0})`));
@@ -60,6 +59,8 @@ export class Terminal {
       return target;
     }
   }
+  // A strike is the weapon's own blow, melee or ranged, by its id: by its name, "Melee Attack" had come fifth.
+  private static blow(c: ActionChoice): number { return Number(!['melee', 'ranged'].includes(c.ability.id)); }
   static async target(choice: ActionChoice, state: BattleState, input: TerminalInput): Promise<Command | 'back' | null> {
     console.log(`${choice.ability.name} — choose a target:`);
     choice.commands.forEach((command, index) => {
