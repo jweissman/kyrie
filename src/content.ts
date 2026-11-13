@@ -46,6 +46,8 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   // A kind with Hit Dice has their listed average, unless its dice are rolled from its own seed (the SRD adaptation
   // briefing, §1: an optional rolled-monster mode, the same expression thrown).
   hitPoints?: 'listed' | 'rolled';
+  // How many the company it is made to meet is (#company in its stat block's expressions); one, if unsaid.
+  company?: number;
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
@@ -102,8 +104,8 @@ export class Content {
     return options[roll - 1]!;
   }
   // A throw of dice from this generator's seeded stream (a kind's Hit Dice, rolled).
-  roll(expression: string): number {
-    const value = this.runtime.evaluate(expression);
+  roll(expression: string, context: Record<string, number> = {}): number {
+    const value = this.runtime.evaluate(expression, context);
     if (typeof value !== 'number' || !Number.isSafeInteger(value)) { throw new Error(`Not a throw: ${expression}`); }
     return value;
   }
@@ -131,7 +133,8 @@ export class Content {
         && (!Number.isSafeInteger(context[key]) || context[key]! < 1))
       || Object.values(context.rolled ?? {}).some(v => !Number.isSafeInteger(v) || v < 3 || v > 18)
       || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1))
-      || (context.hitPoints !== undefined && !['listed', 'rolled'].includes(context.hitPoints));
+      || (context.hitPoints !== undefined && !['listed', 'rolled'].includes(context.hitPoints))
+      || (context.company !== undefined && (!Number.isSafeInteger(context.company) || context.company < 1));
   }
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
@@ -186,8 +189,11 @@ export class Content {
     const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, stream('spells'));
     creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
       ...context.abilities ?? []])].filter(a => Creation.executable(a));
-    const thrown = chassis.hitDice && context.hitPoints === 'rolled' ? stream('hitPoints').roll(chassis.hitDice) : undefined;
-    creature.base.maxHp = creature.state.hp = Creation.health(chassis, level, creature.base.constitution, thrown);
+    // What its stat block's expressions read as it is made: its level, and the company it is made to meet.
+    const making = { level, company: context.company ?? 1 }, rolled = chassis.hitDice && context.hitPoints === 'rolled';
+    const thrown = rolled ? stream('hitPoints').roll(chassis.hitDice!, making) : undefined;
+    creature.base.maxHp = creature.state.hp = Creation.health(chassis, level, creature.base.constitution,
+      { thrown, company: making.company });
     // Spells spend slots by level; the general pool is only for techniques that cost something, and none does yet.
     creature.base.maxMana = creature.state.mana = 0;
     Spellcasting.equip(creature);
