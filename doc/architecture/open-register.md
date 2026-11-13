@@ -454,7 +454,7 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 | AB-14 | Declarations that fail late: shared relation names, a new site kind needing three edits, a module without milestones | R42, R39, R59 | open | P2 | M21 (authoring) |
 | R7-01 | Torches die in the middle of an act, and nothing says so | round 7, L 84, 96 | **fixed** (E145) · held by `small/torch-out` (M21: told as it gutters mid-wait in the dark; kept where not wanted) | P2 | — |
 | R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | **in part** (11 Nov night): the castellan can be answered (E150); fights and a bard's other gifts open | P1 | M21 (with CB-01) |
-| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | **fixed** (11 Nov night): true minutes (E149), the log folded (E151); the list still flat | P3 | M21 |
+| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | **fixed** (11 Nov night): true minutes (E149), the log folded (E151); the list still flat; held by `test/walk-minutes` and `test/talk-lines` (M20's own specs, named 13 Nov) | P3 | M21 |
 | R7-04 | A town known only by report has no route line before setting out (the owner's rule of 29 October: heard of is a marker only); both players missed one | round 7, K, L | by design; worth the owner's look | P3 | owner |
 
 ## 17. Integrating the adventure branch (12 November, early)
