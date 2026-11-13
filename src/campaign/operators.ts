@@ -77,8 +77,9 @@ export class Operators {
       .filter(b => world.test(schema.requires, b)).map(b => this.make(schema, b))
       .filter(op => world.admits(op.success));
   }
-  // KYRIE_CHECK_GATES=1: every action the gate passes over is grounded anyway, and its being possible is an error.
-  static checking = process.env.KYRIE_CHECK_GATES === '1';
+  // KYRIE_CHECK_GATES=1: every action the gate passes over is grounded anyway, and its being possible is an error. Read
+  // only where there is a process: in the browser a bare process.env had stopped the game loading (13 November).
+  static checking = typeof process !== 'undefined' && process.env?.KYRIE_CHECK_GATES === '1';
   private unneeded(world: World, schema: Operator, actor: string) {
     const found = this.grounded(world, schema, actor);
     if (found.length) { throw new Error(`PresenceGate closed ${schema.id} for ${actor}, but ${found[0]!.id} holds`); }
