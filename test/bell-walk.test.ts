@@ -7,7 +7,7 @@ import { Itineraries } from '../src/ui/itinerary';
 
 // The expedition the diagnosis of 30 October chose to repair, walked in by the default company from the bridge-foot
 // of Brightbridge in kite, coming home, and played only by what the aims say and the page offers: the empty frame
-// says where the bell went; the map sets out for Gaudumport; in the hold the company is let in by parley, is caught
+// says where the bell went; the map sets out for the joy gate; in the hold the company is let in by parley, is caught
 // with the bell and told so, rings it and the hobs run; the boy untied names his town; home, the bell goes back in
 // its frame and the innkeeper who told of it thanks the company; and at Brockfield the boy's mother has him back.
 // Nothing in the world is set by hand.
@@ -28,18 +28,18 @@ class Walk {
 }
 
 describe('the bell the hobs took, walked in from the bridge-foot', () => {
-  it('goes to Gaudumport, through the hold, and home with the bell and the boy', async () => {
+  it('goes to the joy gate, through the hold, and home with the bell and the boy', async () => {
     const j = await Walk.start();
     await j.step('^To the bridge-foot');
-    expect(Walk.aims(j)).toContain('Hobs took a bell from its frame, and hold out at Gaudumport.');
+    expect(Walk.aims(j)).toContain('Hobs took a bell from its frame, and hold out at the joy gate.');
     await Walk.setOut(j, 'region__w1');
-    expect(Walk.aims(j)).toContain('The stolen bell is somewhere in the hobs\' hold at Gaudumport, where bells hang '
+    expect(Walk.aims(j)).toContain('The stolen bell is somewhere in the hobs\' hold at the joy gate, where bells hang '
       + 'on the walls with their clappers torn out.');
 
     // The hold is in the country its approach is in, and its way out is to the place the aims name.
     await j.play('^Call to the hobs for a parley', '>raidersHold__mouth');
     expect(j.screen().path.map(p => p.name)).toContain('Lonecrag');
-    expect(j.offers('Out to Gaudumport')).toBe(true);
+    expect(j.offers('Out to the joy gate')).toBe(true);
     await j.play('>raidersHold__cache', '^Wenna: light a torch', '^a chapel handbell: Take');
     expect(Walk.told(j)).toContain('THIEVES!');
     expect(Walk.told(j)).toContain('nobody here will let you by');

@@ -118,7 +118,7 @@ describe('what the map knows of a place', () => {
     expect(done.arrived).toBe(true);
     const been = Knowing.of(s);
     Knowing.kept(high, been);
-    expect(been.land.marks.find(m => m.id === ruin.id)).toMatchObject({ name: 'Paliduslac', state: 'visited' });
+    expect(been.land.marks.find(m => m.id === ruin.id)).toMatchObject({ name: 'the pale lake', state: 'visited' });
     expect(been.land.known).toEqual(expect.arrayContaining(Knowing.about(been.land, ruin.cell)));
   }, 300000);
 });

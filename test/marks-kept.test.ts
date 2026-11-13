@@ -26,7 +26,7 @@ describe('a mark on the page', () => {
       party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
     const aims = Glanced.of(j.session).screen.aims ?? [];
     const sister = aims.find(a => /sister/.test(a.text))!;
-    expect(aims.filter(a => /Seolforfyrd/.test(a.text)).map(a => a.id)).toEqual([sister.id]);
+    expect(aims.filter(a => /the silver ford/.test(a.text)).map(a => a.id)).toEqual([sister.id]);
     expect(sister.about?.join(' ')).toMatch(/strongroom/);
   }, 120000);
 });
