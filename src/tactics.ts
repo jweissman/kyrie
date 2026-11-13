@@ -30,13 +30,16 @@ export class Tactics {
   }
   private static readonly reckoner = new Expressions('tactics');
   // The most an ability's harm comes to on one it falls on: its dice at their highest (3d6 is eighteen).
+  static readonly rolled = /roll\(((?:[^()]|\((?:[^()]|\([^()]*\))*\))*), (\d+)\)/g;
   static worst(ability: ArenaAbility, actor: Fighter): number {
     return ability.effects.reduce((n, e) => n + (e.kind !== 'damage' && e.kind !== 'drain' || !e.amount ? 0
       : Tactics.reckoner.harm(Tactics.highest(e.amount), Effects.context(actor))), 0);
   }
+  // Its dice at their highest: 2d6 as 12, and a die a caster level, roll(min(#level, 10), 6), as six each.
   private static highest(amount: Amount): Amount {
-    return amount.kind === 'literal' ? amount : { kind: 'deem', expression:
-      amount.expression.replace(/(\d*)d(\d+)/g, (_, n: string, d: string) => `(${Number(n || 1) * Number(d)})`) };
+    return amount.kind === 'literal' ? amount : { kind: 'deem', expression: amount.expression
+      .replace(Tactics.rolled, (_, n: string, d: string) => `((${n}) * ${d})`)
+      .replace(/(\d*)d(\d+)/g, (_, n: string, d: string) => `(${Number(n || 1) * Number(d)})`) };
   }
   static score(state: BattleState, command: Command): number {
     const actor = state.combatants.find(f => f.id === command.actor)!;

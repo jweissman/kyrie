@@ -109,6 +109,6 @@ describe('a kind with Hit Dice', () => {
     const unicorn = content.creature('unicorn', 'u', 'goblins', 5);
     expect(Effects.context(unicorn).hitDice).toBe(4);
     expect(Effects.context(unicorn).level).toBe(5);
-    expect(Effects.context(content.creature('wolf', 'w', 'goblins', 3)).hitDice).toBe(3);
+    expect(Effects.context(content.creature('hound', 'w', 'goblins', 3)).hitDice).toBe(3);
   });
 });

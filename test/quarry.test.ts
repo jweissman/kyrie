@@ -114,8 +114,9 @@ describe('a warrior strikes the foe in front of them', () => {
     expect(Tactics.choose(state, legal).ability).toBe('melee');
   });
   it('and an area is weighed by the worst its dice can do to a friend it catches', () => {
-    const cleric = Q.content.character('cleric', 'cleric', 'fighters');
+    // The SRD's Holy Smite, a d8 for every two caster levels: at the sixth, three, at worst 24.
+    const cleric = { ...Q.content.character('cleric', 'cleric', 'fighters'), level: 6 };
     const wrath = Content.abilities.find(a => a.id === 'holy_wrath')!;
-    expect(Tactics.worst(wrath, cleric)).toBe(18);
+    expect(Tactics.worst(wrath, cleric)).toBe(24);
   });
 });

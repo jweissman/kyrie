@@ -22,7 +22,8 @@ class Field {
     return f;
   }
   static foes(n: number): Fighter[] {
-    return Array.from({ length: n }, (_, i) => ({ ...new Content('foes').creature('wolf', `wolf-${i}`, 'goblins'), hp: 60, maxHp: 60 }));
+    return Array.from({ length: n }, (_, i) => ({ ...new Content('foes').creature('hound', `wolf-${i}`, 'goblins'),
+      hp: 60, maxHp: 60 }));
   }
   static battle(fighters: Fighter[], seed: string) {
     return new Battle({ id: 'field', combatants: fighters, abilities: Content.abilities }, seed);
