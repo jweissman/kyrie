@@ -15,11 +15,12 @@ class RegisterHeld {
     if (args.includes('--list')) { for (const r of bare) { console.log(`  ${r.split(' | ')[0]!.replace('| ', '')}`); } }
     return 0;
   }
-  // The specs a row names: test/x(.test.ts), and test/small's by the name they are given in the row.
+  // The specs a row names: test/x(.test.ts), small/x, or a spec's name in backquotes (`gold-thread`), in test/ or
+  // test/small/: a word that only happens to be a spec's name (voice, follow) is not a spec named.
   private static specs(row: string): string[] {
-    const named = [...row.matchAll(/\btest\/([a-z0-9/-]+?)(?:\.test\.ts)?\b/g)].map(m => `test/${m[1]}.test.ts`);
-    const small = [...row.matchAll(/\b(small\/[a-z0-9-]+)\b/g)].map(m => `test/${m[1]}.test.ts`);
-    return [...named, ...small].filter(f => existsSync(f));
+    const words = [...row.matchAll(/(?:\btest\/|\bsmall\/|`)((?:small\/)?[a-z][a-z0-9-]+)(?:\.test\.ts)?/g)]
+      .map(m => m[0].startsWith('small/') ? `small/${m[1]}` : m[1]!);
+    return [...new Set(words.flatMap(w => [`test/${w}.test.ts`, `test/small/${w}.test.ts`]))].filter(f => existsSync(f));
   }
 }
 process.exit(RegisterHeld.run(process.argv.slice(2)));
