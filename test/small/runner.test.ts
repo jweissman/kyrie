@@ -37,10 +37,21 @@ describe('the runner', () => {
     const t = await Tiny.start(yard), r = new Runner(t.session);
     await r.ask(JSON.stringify({ act: r.said().offer.primary.find(o => /kitchen/.test(o.label))!.id }));
     const at = t.campaign.readout.elapsed, lens = said(await r.ask(JSON.stringify({ lens: 'people' })));
-    expect([lens.moment, lens.offer.primary.map(o => o.label)]).toEqual(['inspect', ['Talk to Wat']]);
+    expect([lens.moment, lens.offer.primary.map(o => [o.label, o.id])])
+      .toEqual(['inspect', [['Talk to Wat', 'talk_to(t__wat)']]]);
     expect(said(await r.ask(JSON.stringify({ look: true }))).moment).toBe('inspect');
     expect(t.campaign.readout.elapsed).toBe(at);
     expect(await r.ask(JSON.stringify({ act: 'nothing(here)' }))).toEqual({ error: 'not offered: nothing(here)' });
     expect(await r.ask('not json')).toEqual({ error: 'not JSON: not json' });
+  });
+  it('does what an opener is led for, called as it is, and follows an aim without time passing', async () => {
+    const t = await Tiny.start(`${yard.replace('Goal false.', '')}
+      Initially Assert kin(party, wat).
+      Goal false.`), r = new Runner(t.session);
+    await r.ask(JSON.stringify({ act: r.said().offer.primary.find(o => /kitchen/.test(o.label))!.id }));
+    // Wat, kin, is led for the first thing to ask him; done by "Talk to Wat", a walk had taken his first reply instead
+    // (Eamon's bed, nine nights running: TB-04).
+    expect(r.said().offer.primary.map(o => [o.label, o.id])).toContainEqual(['Ask Wat about the weather', 't__weather']);
+    expect(await r.ask(JSON.stringify({ follow: 'none' }))).toEqual({ error: 'no aim: none' });
   });
 });
