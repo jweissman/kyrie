@@ -51,7 +51,7 @@ export class PackGrid {
       <span className="n">{Typography.curl(Words.upper(c.label))}</span>
       </>;
     const classes = `pack-tile${chosen ? ' chosen' : ''}`;
-    if (c.children) { return <Act.View choice={c} draw={draw} quiet className={classes}>{body}</Act.View>; }
+    if (c.children) { return <Act.View choice={c} draw={draw} quiet variant="glyph" className={classes}>{body}</Act.View>; }
     return <button type="button" className={classes} data-pick={c.id} aria-pressed={chosen}
       onClick={() => app.setState({ hovered: c.id })}>{body}</button>;
   }

@@ -185,8 +185,8 @@ export class WorldStage {
     const fell = x.state ? ` fallen ${x.state}` : '';
     if (!into) { return <WorldStage.Still subject={x} fell={fell}>{body}</WorldStage.Still>; }
     // An animal's own page is the page's to open (no command of the engine's), and is opened as one.
-    return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet className={`portrait${fell}`}>{body}</Act.View>
-      : <button type="button" className={`act portrait${fell}`} data-action="look-at" data-choice={into.id}
+    return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet variant="glyph" className={`portrait${fell}`}>{body}</Act.View>
+      : <button type="button" className={`act act-glyph portrait${fell}`} data-action="look-at" data-choice={into.id} data-act={into.id}
         onClick={() => draw.app.choose(into)}>{body}</button>;
   }
   // What touching a likeness opens: talking to a person; an animal's or a creature's own page, with what can be done
@@ -262,7 +262,7 @@ export class WorldStage {
     const entry = WorldStage.entry(app);
     if (!entry) { return null; }
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
-    return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id}
+    return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id} data-act={c.id}
       onClick={() => { app.choose(c); }}>
       <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} faint={!!a.afar} />
       {Typography.curl(a.label)}</button>;
@@ -283,7 +283,7 @@ export class WorldStage {
       {danger && <p className="about danger">{Typography.curl(risks.length
         ? `Something here is dangerous. Going on: ${risks.join('; ')}.` : 'Something here is dangerous.')}</p>}
       {danger && <p className="about">{WorldStage.flight()}</p>}
-      {on && <p className="go"><button type="button" className="option go-on" data-action="go-on"
+      {on && <p className="go"><button type="button" className="option go-on" data-action="go-on" data-act={on.id}
         onClick={() => app.choose(on)}>{`Go on to ${bound.name}`}</button></p>}
     </>;
   }
@@ -327,7 +327,8 @@ export class WorldStage {
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
         {here ? <button type="button" className="enter" data-action="enter-hex" onClick={() => { app.outdoor(false); }}>
           {inside ? `Back to ${where.replace(/^The /, 'the ')}` : `Enter ${Typography.curl(town.name)}`}</button>
-          : go && <button type="button" className="enter travel" data-action="travel" onClick={() => { app.choose(go); }}>
+          : go && <button type="button" className="enter travel" data-action="travel" data-act={go.id}
+            onClick={() => { app.choose(go); }}>
             Travel to {Typography.curl(town.name)}</button>}
         {clear && <button type="button" className="option quiet" data-action="unchoose" onClick={clear}>Back</button>}
       </section>

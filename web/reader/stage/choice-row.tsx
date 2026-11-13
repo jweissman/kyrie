@@ -38,9 +38,13 @@ export class ChoiceRow {
       <ChoiceRow.Parts {...parts} {...drawn !== undefined ? { number: drawn } : {}} /></Act.View>;
   }
   // Anything else that is chosen as a row (a fight's move, Trade): a button with its own data.
-  static Button({ className, data, onClick, expanded, ...parts }: RowParts & { className?: string;
-    data: Record<string, string | undefined>; onClick: (e: MouseEvent<HTMLButtonElement>) => void; expanded?: boolean }) {
-    const attrs = Object.fromEntries(Object.entries(data).filter(([, v]) => v !== undefined).map(([k, v]) => [`data-${k}`, v]));
+  // act: the id of the act it does, where it does one (the action system's mark: data-act); none for what only opens
+  // or turns attention (a fight's Abilities, a lens).
+  static Button({ className, data, onClick, expanded, act, ...parts }: RowParts & { className?: string;
+    data: Record<string, string | undefined>; onClick: (e: MouseEvent<HTMLButtonElement>) => void; expanded?: boolean;
+    act?: string }) {
+    const attrs = Object.fromEntries(Object.entries({ ...data, act }).filter(([, v]) => v !== undefined)
+      .map(([k, v]) => [`data-${k}`, v]));
     return <button type="button" className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}`} {...attrs}
       {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} onClick={onClick}><ChoiceRow.Parts {...parts} /></button>;
   }

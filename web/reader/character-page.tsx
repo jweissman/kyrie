@@ -169,10 +169,10 @@ export class CharacterPage {
   // What they can do and know: techniques and spells as names, one read at a time beneath them; what is prepared
   // today; skills in a line, each with what it adds.
   static Can({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
-    const [read, choose] = useState<string>(), sheet = m.sheet, shown = m.abilities.find(a => a.id === read);
+    const [read, setRead] = useState<string>(), sheet = m.sheet, shown = m.abilities.find(a => a.id === read);
     return <section className="can"><h3>Can do</h3>
       <ul className="chips">{m.abilities.map(a => <li key={a.id}><button type="button" aria-pressed={a.id === read}
-        onClick={() => choose(a.id === read ? undefined : a.id)}>{a.name}
+        onClick={() => setRead(a.id === read ? undefined : a.id)}>{a.name}
         {a.price && <small>{a.price}{CharacterPage.yet(m, a.price)}</small>}</button></li>)}</ul>
       {shown && <p className="read"><b>{shown.name}.</b> {Typography.curl(shown.text)}</p>}
       <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />

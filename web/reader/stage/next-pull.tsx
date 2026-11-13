@@ -3,6 +3,7 @@ import { Typography } from '../../../src/presentation/typography';
 import type { ReaderApp } from '../reader-app';
 import { MenuModel } from '../menu-model';
 import { Words } from '../words';
+import { ChoiceRow } from './choice-row';
 
 // As an aim followed is seen through, the one thing that pulls next (see Succession, M21's PL-06): said once under
 // what came of it, and offered, never followed for the player. The deed's consequence (the yoke, to be hung over the
@@ -15,8 +16,10 @@ export class NextPull {
       {Typography.curl(Words.upper(next.text))}{next.at ? <span className="at">{` · ${next.at}`}</span> : null}
       {next.aim ? <button type="button" className="follow-aim" data-action="follow"
         onClick={() => app.follow(next.aim)}>Follow this</button>
-        : choice ? <button type="button" className="follow-aim" data-action="next"
-          onClick={() => app.choose(choice)}>{Typography.curl(next.label ?? choice.label)}</button> : null}
+        : null}
+      {/* What pulls next is a thing to do, a row like every act (CN-04: never a link in the prose). */}
+      {!next.aim && choice && <ChoiceRow.Button className="next-act" data={{ action: 'next', choice: choice.id }} act={choice.id}
+        onClick={() => app.choose(choice)} label={Typography.curl(next.label ?? choice.label)} />}
     </p>;
   }
 }

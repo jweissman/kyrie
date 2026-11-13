@@ -70,7 +70,7 @@ export class Wayfinder {
     const next = GlanceStage.next(app), aimed = w.aim === 'followed' && (!next || next === w.c.id || next === w.way.id);
     const tone = aimed ? undefined : Wayfinder.tone(app, w);
     return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
-      + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id}
+      + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id} data-act={w.c.id}
       style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
       // Dim says what it means, once, where it is: never shut, nor far, but nothing new there for now.
       title={dim ? Wayfinder.idle : undefined}
@@ -152,7 +152,8 @@ export class Wayfinder {
   static Go({ app, draw, choice: c, children }: { app: ReaderApp; draw: Draw; choice: Choice; children: ReactNode }) {
     if (draw.index.has(c.id)) { return <Act.View choice={c} draw={draw} quiet className="wf-go">{children}</Act.View>; }
     const asks = Act.asks(c);
-    return <button type="button" className="act wf-go" data-action="go" data-choice={c.id} onClick={() => app.choose(c)}>
+    return <button type="button" className="act choice-row wf-go" data-action="go" data-choice={c.id} data-act={c.id}
+      onClick={() => app.choose(c)}>
       {children}{asks && app.state.confirming === c.id && <span className="grave-said" role="alert">
         {Typography.curl(Act.asked(asks, !!c.grave))}</span>}</button>;
   }

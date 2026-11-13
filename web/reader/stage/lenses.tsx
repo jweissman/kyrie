@@ -14,8 +14,10 @@ import { Emphasis } from '../emphasis';
 // tile touched is chosen in the lens's own panel, where what it is and what can be done with it are said. The forward
 // design's "attention lenses over one scene" (2026-11-11-forward-design.md, §G), tried on the page as it is.
 // faint: what is only perceived off along a way (someone who might join you, that way), its pip soft (see Perception).
+// act: the way it goes by, for a way's tile, which goes at a touch (the action system's mark); none for a thing's,
+// which is looked at.
 interface Tile { id: string; name: string; glyph?: string; picture?: string; tone?: string; faint?: boolean; dim?: boolean;
-  chosen: boolean; pick: () => void }
+  chosen: boolean; pick: () => void; act?: string }
 export class Lenses {
   static Strip({ app }: { app: ReaderApp }) {
     const part = app.state.exploring, tiles = part === 'go' ? Lenses.ways(app) : part === 'look' ? Lenses.things(app) : [];
@@ -26,7 +28,8 @@ export class Lenses {
           {/* One with a picture is its face and name; one without, its name and pip alone (a chip), with the way's
               direction where it goes out of the place. */}
           <button type="button" className={`lens-tile${t.picture ? '' : ' bare'}${t.chosen ? ' chosen' : ''}`
-            + `${t.dim ? ' dim' : ''}`} data-tile={t.id} aria-pressed={t.chosen} onClick={t.pick}>
+            + `${t.dim ? ' dim' : ''}`} data-tile={t.id} {...t.act ? { 'data-act': t.act } : {}} aria-pressed={t.chosen}
+            onClick={t.pick}>
             {t.picture ? <span className="lens-face" aria-hidden="true"><img src={t.picture} alt="" decoding="async" /></span>
               : t.glyph && t.glyph !== '·' && <span className="lens-glyph" aria-hidden="true">{t.glyph}</span>}
             {t.tone && <Pip.View fill={`var(--tone-${t.tone})`} faint={t.faint} />}
@@ -50,7 +53,7 @@ export class Lenses {
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
       // Touched, a way is gone by, as a likeness touched is spoken to (the owner, 12 November: a place's badge did not
       // go there); its row in Go's list still says what it is first.
-      pick: () => Wayfinder.go(app, w) })).filter(t => !t.dim)
+      act: w.c.id, pick: () => Wayfinder.go(app, w) })).filter(t => !t.dim)
       .sort((a, b) => Number(!a.tone) - Number(!b.tone) || Number(b.tone === 'gold') - Number(a.tone === 'gold'))
       .slice(0, Lenses.most);
   }

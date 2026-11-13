@@ -141,7 +141,7 @@ export class FightStage {
         {foe && !f.down && f.intent && <FightStage.Intent intent={f.intent} />}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
         {target && <span className="chance">{Typography.curl(target.note?.split(' · ')[0] ?? '')}</span>}
-        {target && app && <button type="button" className="pick" data-action="target" data-choice={target.id}
+        {target && app && <button type="button" className="pick" data-action="target" data-choice={target.id} data-act={target.id}
           aria-label={Typography.curl(target.label)} onClick={() => app.choose(target)} />}
       </li>
     );
