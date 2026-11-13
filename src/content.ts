@@ -1,4 +1,5 @@
 import { Spellcasting } from './rules/spellcasting';
+import './canon/canon-vocabulary';
 import { Costs } from './costs';
 import { buildSetting, Generator, Template } from 'deem';
 import type { DeemValue } from 'deem';

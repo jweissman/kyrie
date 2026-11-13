@@ -746,3 +746,21 @@ The owner: a mage with Plane Shift goes to each inner and outer plane, and the s
 | GT-03 | The tour as specs: a catalog census (every plane has a law, every inner law an element, every element resistible by something in the catalog); a tiny world with the canon installed, one case per plane, asserting the law, the harm landing and a matching ward stopping it, on seeded dice; one integration case through a generated world and the House of Doors | open | P1 | M21 |
 | GT-04 | Thorn's long descent dies to the drowned at the great wheel since batch 6 (3aac89a5, bisected): the record is to be played on from step 77, and wren, d4 and a1 checked, with the old places' Common names (faf6c6d9) | open | P1 | M21 |
 
+## 29. The owner on the terminal as an instrument (14 November, night)
+
+The owner's words are in `mission-21/owner-terminal-2.md`: the terminal as the fastest place to find where
+Westernesse is verbose, repetitive, mechanically inaccessible, misleadingly coloured or unable to present its most
+interesting possibilities. Folded into the fast-test, playability and aesthetic lines; the lead takes the engine
+contract, the runner, the walks and the matrix; the page side goes to the aesthetic line.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| TB-01 | One projection, 1:1 semantic parity: the terminal and the page agree, from the same state, on what is available, which four are promoted, what each means (atlas facets, gold follow-state, multifacet), and what is known; no client heuristics for colour, importance or knowledge; held by a parity spec | open | P1 | M21 |
+| TB-02 | Four promoted, everywhere: on every ordinary surface (creation, dialogue, the scene, the lenses, waiting, destinations), exactly four primary choices when there are four or more legitimate ones, the rest reachable by one intentional affordance, none invented; one attention hierarchy, each surface its own composition | open | P1 | M21 |
+| TB-03 | A taxonomy of 10–12 action types for ordinary scenes, at most one promoted of each; combat and creation with their own diversity rules; an interaction-pattern language, not another score | open | P1 | M21 |
+| TB-04 | Blind terminal walks with the prose budget: fail a walk averaging over three sentences of automatic scene narration; severe outliers reported apart; repeated descriptions, dates, unchanged status and restated facts found; a qualitative literary review of the transcripts that says where each fault lies (authored Kyr, templates, observation projection, rendering) | partly (TM-01 measures the budget) | P1 | M21 |
+| TB-05 | A stdio runner for agents: a human ANSI view and a structured protocol over the same player-safe information with stable action ids; seeds, builds, transcripts, clear failures; no separate simulation; tiny fixtures cheap, Westernesse in an integration tier | open | P1 | M21 |
+| TB-06 | The corpus matrix across callings, backgrounds, fates, seeds and policies: available, promoted, selected and realized opportunities by atlas colour; action types and how often what matters is promoted; progress, discoveries, combat, companionship, retreat, loops, dead ends, completion; repetition; narration; what each build can perceive and do | open | P1 | M21 |
+| TB-07 | A small type-constrained System 1 model, for category probabilities in promotion and separately as a light player policy; compared with deterministic walkers and reasoning agents for cost, reproducibility, diversity and the failures each finds; it never invents legality, facts, outcomes or atlas meaning | open | P2 | M21 |
+| TB-08 | Information design through the terminal: arrival, an act's outcome and deliberate inspection as distinct moments; the minimum shown on arriving; what changes after an act; what belongs behind a lens; four legible choices with twenty discoverable; at least one literary or interaction improvement made because a walk showed it | open | P1 | M21 |
+

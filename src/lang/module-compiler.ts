@@ -1,4 +1,6 @@
 import { Spatial } from '../spatial';
+// The compiler still reads the setting's catalogs (an ability's statistics), and gives the language its vocabulary.
+import '../canon/canon-vocabulary';
 import { Canon } from '../canon/canon';
 import { ComputedRelations } from './computed-relations';
 import { ObservationText } from './observation-text';
