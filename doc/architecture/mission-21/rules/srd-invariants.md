@@ -179,3 +179,9 @@ weapons (poisoned blades).
 wonders' blades are magic; but a silvered blade is a new kind of arms, and a new arms item is made a fine make for the
 capability market and drawn into loot by its worth, which changes what generated countries sell and hide. Adding one
 needs the loot and market owners' review of where silver is had, not a catalog line.
+
+**Riders for placed creatures only** (the lead, batch 5). Of a1's placed bestiary, the barrow ghoul (the vault) is the
+one SRD stat block placed, and its paralysis is its rider. The rest are Orsino's kinds, not SRD adaptations: their
+venoms and wounds are already the world's conditions (a cave spider's poison, a blade's bleeding, triggered by the
+damage kind), so no rider is added for them, and none for the unplaced unicorn or flesh golem (rend, grab: later, with
+a placed creature that needs them).

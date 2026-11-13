@@ -27,7 +27,7 @@ describe('the barrow ghoul in the vault, for a lone warrior', () => {
     expect(leg.combat?.length ?? 0).toBe(0);
     t.look();
     const keeper = t.screen.people.find(p => p.id === 't__keeper');
-    expect(['grave', 'deadly']).toContain(keeper?.reckoning?.danger);
+    expect(['grave', 'deadly']).toContain(keeper?.reckoning?.danger ?? 'none');
     expect(['could be lost', 'beyond you']).toContain(ChoiceList.chances[keeper!.reckoning!.danger]);
     expect(t.journey.choices().some(c => c.command === 'go(t__stair,t__under)')).toBe(true);
   });

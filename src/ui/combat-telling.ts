@@ -74,8 +74,22 @@ export class CombatTelling {
         bleeding.delete(e.target);
       } else if (e.type === 'death') { bleeding.delete(e.actor); }
     }
+    return new Set([...unsaid, ...CombatTelling.holding(events)]);
+  }
+  // A save held against a condition its fighter already has from an earlier blow is not told as shrugging it off: "Ralf
+  // shrugs off the armor shred" had been told while Armor Shred stood on his card (round 9, P 78; R9-06).
+  private static holding(events: CombatEvent[]): CombatEvent[] {
+    const held = new Set<string>(), unsaid: CombatEvent[] = [];
+    for (const e of events) {
+      if (e.type === 'status') { held.add(CombatTelling.on(e.target, e.detail)); }
+      else if (e.type === 'expire' || e.type === 'remove') { held.delete(CombatTelling.on(e.target, e.detail)); }
+      else if (e.type === 'save' && e.success && e.against && held.has(CombatTelling.on(e.target, e.against))) {
+        unsaid.push(e);
+      }
+    }
     return unsaid;
   }
+  private static on(target: string, id: string): string { return `${target} ${Canon.resolve('conditions', id)}`; }
   // A condition that is a wound bleeding: Orsino's bleed, which ends with the fight, and Kyr's, which outlasts it.
   private static bleeds(id?: string): boolean {
     return !!id && Canon.conditions[Canon.resolve('conditions', id)]?.saveKind === 'bleed';
