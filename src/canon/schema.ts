@@ -126,6 +126,10 @@ export interface Statistics {
   // Its natural weapons' damage in its own words, by weapon, where it is not the weapon's own (a slam of 1d6 + its
   // level), thrown per blow with its own context; and a bonus to its natural armour by its level (see StatExpressions).
   damage?: Record<string, string>; armorBonus?: string;
+  // A fixed stat block's saves as the source gives them, Fortitude, Reflex and Will (the rat's +2, +4, +1), and the
+  // bonus its blows are struck at (its bite's +4): what each save of the family and each blow is made at, whatever its
+  // scores and level (FixedStatBlock). Only on a body with Hit Dice, which no level grows.
+  saves?: { fortitude: number; reflex: number; will: number }; attackBonus?: number;
 }
 // What a variation says of itself in the canon (data/catalog/variations.json; CreatureVariants reads the rest): its
 // axis, its word, what is seen of it, the kinds and types it is for, and where a kind made with it lives and how
@@ -140,7 +144,7 @@ export interface Overlay {
   // its base's powers and nature it goes without (the generic undead package an SRD ghoul has not got).
   hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
   forgoes?: { abilities?: string[]; traits?: string[] }; riders?: Record<string, Effect[]>;
-  damage?: Record<string, string>; armorBonus?: string;
+  damage?: Record<string, string>; armorBonus?: string; saves?: Statistics['saves']; attackBonus?: number;
   // Met only where an author names it (golem/flesh), never drawn into a generated country's dens and encounters: a
   // stat block placed nowhere until each placement has been fought (the ghoul's lesson, srd-invariants.md).
   unplaced?: true;

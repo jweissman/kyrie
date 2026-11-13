@@ -19,4 +19,10 @@ describe('a deep band, from the rooms beside it', () => {
     expect(lines.filter(l => l.includes('Observe b_heard_')).length).toBe(2);
     expect(lines.some(l => l.includes('_seen_'))).toBe(false);
   });
+  it('tells what is heard as a sound, in the dark too, and what is seen as a sign, by a light alone', () => {
+    expect(told('savage').filter(l => l.includes('Observe b_heard_')).every(l => l.includes(' as sound when'))).toBe(true);
+    const ambush = told('ambush');
+    expect(ambush.filter(l => l.includes('_heard_')).every(l => l.includes(' as sign noticed by woodcraft'))).toBe(true);
+    expect(ambush.filter(l => l.includes('_seen_')).some(l => l.includes(' as sound'))).toBe(false);
+  });
 });

@@ -251,8 +251,19 @@ export class MechanicsText {
   static species(ids: string[]): string[] {
     return ids.map(id => Canon.isSpecies(id) ? Canon.creature(id).name.toLowerCase() : id);
   }
+  // A die a caster level, to a cap (roll(cappedLevel(10), 6)): said as the SRD says it, "1d6 per caster level, to
+  // 10d6", with whatever the rest adds; a cap alone (cappedLevel(5)) as "1 per caster level, to 5".
+  static readonly levelled = /^roll\(cappedLevel\((\d+)\), (\d+)\)(?: \+ (.+))?$/;
   static amount(amount: Amount, actor?: Record<string, number>): string {
     if (amount.kind === 'literal') { return String(amount.value); }
+    const levelled = amount.expression.match(this.levelled);
+    if (levelled) {
+      const [, most, sides, rest] = levelled, also = rest ? ` + ${this.amount({ kind: 'deem', expression: rest }, actor)}` : '';
+      return `1d${sides} per caster level, to ${most}d${sides}${also}`;
+    }
+    if (/cappedLevel/.test(amount.expression)) {
+      return amount.expression.replace(/cappedLevel\((\d+)\)/g, '1 per caster level, to $1');
+    }
     const result = this.preview.partialEvaluate(amount.expression, actor ?? {});
     if (result.status === 'error' || !result.expression) { return amount.expression; }
     const expression = this.unclamp(result.expression);
