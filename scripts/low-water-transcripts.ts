@@ -1,13 +1,14 @@
 #!/usr/bin/env bun
 // Plays Low Water's long journeys by the labels a player sees and writes each out as the page told it, step by step,
-// to doc/playtests/low-water-2026-10-25 (the evidence its editorial assessment quotes). Waits that tell nothing are
+// to doc/history/playtests/low-water-2026-10-25 (the evidence its editorial assessment quotes). Waits that tell
+// nothing are
 // counted, not repeated.
 import { writeFile, mkdir } from 'node:fs/promises';
 import { Journey } from '../src/session/journey';
 import { Bowl, L } from '../test/support/low-water';
 import { ScreenModel } from '../src/ui/screen-model';
 
-const out = 'doc/playtests/low-water-2026-10-25';
+const out = 'doc/history/playtests/low-water-2026-10-25';
 const leave = ['?^To the hall of the Office', '?^Out to Measures Square', '?^To the head of the Stair', '^To the north road',
   'Go up out of the Bowl'];
 // Waits a player would make by watching, named as steps: until the count closes, until the Reflected come up, until a

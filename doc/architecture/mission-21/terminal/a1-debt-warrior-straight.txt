@@ -1,0 +1,230 @@
+
+Mik's salt-house · 25 Haysel, morning · humid
+Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
+You owe Mik fifty coin, for a cart of salt that went into the river at the ford last spring, oxen and all.
+‘Wynn,’ says Mik, and does not get up.
+Aim: 50 coin by market day, owed to Mik, salter at Lowmouth.
+
+1. Ask Mik what is buried in the king-barrow  [worth a look, to learn]
+2. Talk to Mik  [worth a look, to learn]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+(? for commands)
+> 1
+‘There was a man went into Lapistumul after the king’s gold and came out with a pocket of amber and his hair gone white. Grave-goods, gold, jet, amber: I buy them and I do not ask whose they were.’ Mik weighs a bead of amber on a fingertip. ‘Bring me what the old folk buried and I will pay what it is worth.’
+
+1. Ask Mik about the rats in the corn-store  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘They’ve got into the old corn-store from underneath,’ says Mik. ‘Rats, a whole nest of them, and bold with it. I’ve lost a third of the grain.’ A key comes off a nail behind the counter. ‘There’s a trapdoor in the floor. Kill them, and find where they’re getting in, or they’ll be back by harvest. Ten coin, and I’ll see you right for a lantern besides.’ And, looking you over: ‘Or lay ratsbane where they come up, if you’d sooner not be bitten. It wants a night.’
+You take the corn-store key.
+
+1. Ask Mik what the old workings are worth  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘My grandfather went into the old dead under Lowmouth after the star-iron. He said the stair at the bottom was walled up by the Delvers themselves, and there was writing on it, and he came back up without reading it.’ Mik turns a lump of something pale over in the light. ‘Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.’
+
+1. Ask Mik how trade is  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘Dear,’ says Mik. ‘The wardens cannot cut the good oak, so the sheds buy it from me at a price I am ashamed of. Hesper Lowe at the landing came in last week with a handful of copper and a drawing of a bell, and I could not sell them what they wanted for anything the sheds would pay. There is a girl who will either be a great founder or drown in her own furnace.’
+
+1. Ask Mik about the players  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘They owe me for candles and a pot of honey,’ says Mik, ‘and I would give them the candles again for the bear’s dance alone. Lem Coyle bought a bottle off me Tuesday with a coin out of the hat. Said it was his wages.’ Mik shrugs. ‘Maybe it was.’
+
+1. Ask Mik about the stones  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘Eamon drinks and dreams,’ says Mik. ‘Those stones are where my father set them.’ Then, lower: ‘If anyone asks, you saw nothing. Five coin for your trouble.’
+
+1. Take Mik's five coin and say nothing  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+Mik counts the coins into your hand. By evening the whole town knows you took them.
+
+1. Ask Mik about the circus  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘They buy flour, bacon, oats, lamp oil, paint, and candles by the gross,’ says Mik, ‘and they pay in coin, mostly, and the rest in tickets, and a man can only see the Sylph of the Wire so many times.’ A sniff. ‘Nine. A man can see her nine times.’
+
+1. Tell Mik you will have it by market day  [worth a look]
+2. Talk to Mik  [worth a look]
+3. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+4. Set out for the old quarry pit · 6 min  [worth a look]
+> 1
+‘See that I do,’ says Mik, going back to the tally. ‘There’s no shortage of work for someone with nothing to lose. Ask at the inn.’
+Aim: You owe Mik 50 coin by market day. There is work for someone with nothing to lose: ask Eamon at the taproom of the Lucky Phoenix what is out in the country round.
+
+1. Take Mik's door to the landing at Lowmouth · 1 min  [worth a look]
+2. Set out for the old quarry pit · 6 min  [worth a look]
+3. Set out for the salt-pans · 11 min
+4. Set out for the wright's yard · 11 min
+> 1
+
+the landing at Lowmouth
+Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+Lambert is crying wares to nobody in particular: pots mended, knives ground, news for nothing.
+Patience ambles to the end of her rope to see who you are, and goes through your hands for honey.
+
+1. Talk to Lambert
+2. Read the notice on the well-post · 10 min  [to learn]
+3. Ask the drover's boy what he was doing on the hill  [to learn]
+4. Talk to a drover's boy  [to learn]
+> 1
+‘I don’t know you,’ says Lambert, and waits to be told why he should.
+
+1. Buy a ten-foot pole for Wynn · 1 coin · 3 min
+2. Buy a crowbar for Wynn · 2 coin · 3 min
+3. Buy a candle for Wynn · 1 coin · 3 min
+4. Buy a whetstone for Wynn · 1 coin · 3 min
+5. Ask Lambert about his work
+6. Ask Lambert for news of Mistshaw
+7. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a ten-foot pole.
+
+1. Buy a ten-foot pole for Wynn · 1 coin · 3 min
+2. Buy a crowbar for Wynn · 2 coin · 3 min
+3. Buy a candle for Wynn · 1 coin · 3 min
+4. Buy a whetstone for Wynn · 1 coin · 3 min
+5. Ask Lambert about his work
+6. Ask Lambert for news of Mistshaw
+7. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a ten-foot pole.
+
+1. Buy a crowbar for Wynn · 2 coin · 3 min
+2. Buy a candle for Wynn · 1 coin · 3 min
+3. Buy a whetstone for Wynn · 1 coin · 3 min
+4. Ask Lambert about his work
+5. Ask Lambert for news of Mistshaw
+6. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a crowbar.
+
+1. Buy a candle for Wynn · 1 coin · 3 min
+2. Buy a whetstone for Wynn · 1 coin · 3 min
+3. Ask Lambert about his work
+4. Ask Lambert for news of Mistshaw
+5. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a candle.
+
+1. Buy a candle for Wynn · 1 coin · 3 min
+2. Buy a whetstone for Wynn · 1 coin · 3 min
+3. Ask Lambert about his work
+4. Ask Lambert for news of Mistshaw
+5. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a candle.
+
+1. Buy a candle for Wynn · 1 coin · 3 min
+2. Buy a whetstone for Wynn · 1 coin · 3 min
+3. Ask Lambert about his work
+4. Ask Lambert for news of Mistshaw
+5. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a candle.
+
+1. Buy a candle for Wynn · 1 coin · 3 min
+2. Buy a whetstone for Wynn · 1 coin · 3 min
+3. Ask Lambert about his work
+4. Ask Lambert for news of Mistshaw
+5. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a candle.
+
+1. Buy a whetstone for Wynn · 1 coin · 3 min
+2. Ask Lambert about his work
+3. Ask Lambert for news of Mistshaw
+4. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a whetstone.
+
+1. Buy a whetstone for Wynn · 1 coin · 3 min
+2. Ask Lambert about his work
+3. Ask Lambert for news of Mistshaw
+4. Take your leave of Lambert
+> 1
+Lambert is paid, and you take a whetstone.
+
+1. Ask Lambert about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 1
+‘Knives ground, pots mended, and no questions,’ says Lambert. ‘I ask the questions.’
+
+1. Ask Lambert again about his work
+2. Ask Lambert for news of Mistshaw
+3. Take your leave of Lambert
+> 

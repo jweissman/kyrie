@@ -11,7 +11,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleParser } from '../src/lang/module-parser';
 
-// One creature pipeline (the owner, 5 November; doc/architecture/mission-19/creatures.md): every creature is made from
+// One creature pipeline (the owner, 5 November; doc/history/missions/19/creatures.md): every creature is made from
 // its kind's one record (data/catalog/animals.json, monsters.json, Orsino's generated kinds), a kind named for what
 // varies it is its base with those variations, a kind added by its record alone is made in play by an author's
 // Person and by what a country generates alike, and is shown, fights and is kept by that record.

@@ -3,7 +3,7 @@
 This is for whoever writes or edits Kyrie's prose: the lines a person, an animal, a road or a fight is told in. It
 says where each kind of text lives, how a line is chosen for a moment, and the workflow that keeps the text right:
 write, review in every person, check coverage, read in play, and test. The standards the text is held to are in
-[editorial.md](../architecture/editorial.md); this is how to meet them.
+[editorial.md](../history/architecture-2026-10/editorial.md); this is how to meet them.
 
 ## Where text lives
 
@@ -75,7 +75,7 @@ knee". Do not name what the company has not learned, and do not explain the game
    shows which lines one moment would choose among.
 4. **Read it in play.** `bin/kyrie playtext <seed> 60 --origin kin --class mage` walks a fresh country and writes
    the page as Markdown: each thing done, what came of it, each new place. Walks from Mission 12 are in
-   [doc/playtests/mission-12-text](../playtests/mission-12-text/). Read them as a player would; most faults show
+   [doc/history/playtests/mission-12-text](../history/playtests/mission-12-text/). Read them as a player would; most faults show
    only in place (a cat in the sun at midnight, a clue told every time the dog is seen).
 5. **Test.** `bun test test/voice.test.ts test/narration-audit.test.ts`. The first checks every line reads whole and
    without fault in every person. The second walks two fresh countries and checks that nothing on a page is said

@@ -112,7 +112,7 @@ Scaling (`bun scripts/scale-bench.ts`: a chain of rooms with items, generated th
 | 80 | 160 | 6 | refuses | 295 ms | 8 ms | 9 ms | 260 KB |
 
 Scenarios in a generated region (same bench, seed `thorn`, upland; each scenario adds its modules and a word-of-mouth
-module, see [generated-worlds.md](generated-worlds.md)):
+module, see [generated-worlds.md](../history/architecture-2026-10/generated-worlds.md)):
 
 | Scenarios | Modules | Entities | Schemas | Load | Choices | Tick | Save |
 |---|---|---|---|---|---|---|---|

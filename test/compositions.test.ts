@@ -4,7 +4,7 @@ import { Proto, type ProtoState, type Recorded } from '../web/compositions/proto
 import { Offers } from '../web/compositions/offer';
 import { Moments } from '../web/compositions/moments';
 
-// The composition prototypes of Priority III (doc/architecture/mission-15/priority-iii/compositions.md) compare three
+// The composition prototypes of Priority III (doc/history/missions/15/priority-iii/compositions.md) compare three
 // ways of drawing one recorded journey. What keeps the comparison honest: every composition offers the same choices
 // at every beat, and the record's own path through the six moments can be followed in each of them from the page.
 let r: Recorded;

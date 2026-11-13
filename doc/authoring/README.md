@@ -3,7 +3,7 @@
 This is the one way in for someone who wants to write something new for Westernesse today. It is a short trail of
 ten pages, each a few minutes long, in the order you will need them. Every command on them was run on `fbf38d58`
 (6 November 2026) and its output is quoted; page 3's were run again, whole, on `5a8f652f` (11 November) and hold. Where something does not yet work soundly, the page says so and names the
-open finding ([../architecture/findings/index.md](../architecture/findings/index.md) lists every one).
+open finding ([../architecture/findings/index.md](../history/findings/index.md) lists every one).
 
 | | Page | You will be able to | Sound today? |
 |---|---|---|---|
@@ -23,10 +23,10 @@ open finding ([../architecture/findings/index.md](../architecture/findings/index
 **The reference behind the trail.** The [authoring guide](guide.md) is the full manual of the language: every
 construct, with the adventure friction that shaped it; its examples are played by `test/authoring-guide.test.ts`.
 [narrative.md](narrative.md) is how the page's words should read. [data/README.md](../../data/README.md) says where
-each kind of content lives. Mission 19's [authoring workflows](../architecture/mission-19/authoring.md) are the three
+each kind of content lives. Mission 19's [authoring workflows](../history/missions/19/authoring.md) are the three
 data changes made end to end during that mission, with their commits.
 
 **Historical, not instructions.** [if-fitness-and-affordances.md](if-fitness-and-affordances.md) is an independent
 review of Kyr as an interactive-fiction language (30 October; its ten remedies are IFR-01 to IFR-10, deferred);
-[findings-response.md](findings-response.md) and [adventures-response.md](adventures-response.md) are the builder's
+[findings-response.md](../history/reviews/findings-response.md) and [adventures-response.md](../history/reviews/adventures-response.md) are the builder's
 answers to the October authors' findings.

@@ -8,7 +8,7 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 
-// The spatial journey (doc/architecture/mission-19/spatial-play.md; the owner, 4 November evening): a world moved
+// The spatial journey (doc/history/missions/19/spatial-play.md; the owner, 4 November evening): a world moved
 // through, not a database browsed. In a1 with the default character, on the real runtime: the town as it is painted,
 // every way from it beside the picture and taken at a touch; Bask spoken to and the rats job taken; the corn-store
 // and the cellar under it (a painting of a dim room, the way up among its ways), the rats fought; back up the way it

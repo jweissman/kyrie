@@ -15,7 +15,7 @@ import type { Region } from '../src/world/region-writer';
 // force; a crack the unsung stone opened round it, for a climber or a rope; and in the last hall a keeper that is the
 // singers' own last song, which their own knell stills, rung on the dirge bell the last of the cantors took down to
 // the unfinished hall below the chorus, and not a priest's prayers for the dead. d4 is a high country of stone and
-// sky, which had no deep site before. Played there first, the hall was too easy (doc/architecture/mission-14/
+// sky, which had no deep site before. Played there first, the hall was too easy (doc/history/missions/14/
 // report.md): three short levels, nobody in the still halls but the keeper, the bell beside an open crack round the
 // door, and a pilgrim's rites enough without it.
 class Hall {

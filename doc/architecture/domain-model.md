@@ -8,7 +8,7 @@
 - the migration from the old catalogs.
 
 The model is implemented under [data/catalog](../../data/catalog) and [src/canon](../../src/canon). The registry,
-support table and ledger that track Orsino coverage are described in [orsino-checkpoint.md](orsino-checkpoint.md).
+support table and ledger that track Orsino coverage are described in [orsino-checkpoint.md](../history/reviews/orsino-checkpoint.md).
 
 ## 1. Audit: what the old catalogs meant
 
@@ -161,4 +161,4 @@ ability catalog contains only things a creature can learn or be born with.
 | `rules.json` | `catalog/vocabulary.json` | moved | — |
 | `creatures.json`, `encounters.json` | arena fixture | moved under `legacy/` | — |
 
-Section 5 of the [report](domain-model-report.md) records what was actually done, and what was not.
+Section 5 of the [report](../history/reviews/domain-model-report.md) records what was actually done, and what was not.

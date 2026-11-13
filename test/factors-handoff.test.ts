@@ -8,7 +8,8 @@ import { Frontier } from '../src/world/frontier';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { GeneratedWorld } from './support/generated';
 
-// An authored -> generated -> persistent -> authored handoff (doc/imbar/authorability.md). The Long Man's steward sells
+// An authored -> generated -> persistent -> authored handoff (doc/imbar/04-authorability.md). The Long Man's
+// steward sells
 // bronze to a barge; the world's own factor of the Founders' Exchange (cast by Deem, placed by the assembler) takes
 // the lot into her keeping; her carter sends it south on a run of his own while the company is elsewhere; and Low
 // Water's Halm, who collects working things, has it in his tray when the company crosses the Rim. No module names

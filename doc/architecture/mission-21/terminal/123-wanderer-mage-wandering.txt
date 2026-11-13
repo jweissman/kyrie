@@ -1,0 +1,399 @@
+
+the road into Wrenbridge · 20 Wolfmoon, morning · cloudy
+The road comes out from under the trees, and there is Wrenbridge in its clearing: the market cross and the roofs of the stalls, reed drying in ricks, smoke from a dozen chimneys.
+You have come over the hills into Acornholt with your trade and not much else.
+A boy is down on his knees in the bracken at the side of the road, a hare kicking in a wire snare under his hands.
+Aim: There is work in Wrenbridge for someone who will do what others will not, and the place to hear of it is the taproom of the Green Phoenix.
+
+1. Take the road to the market-place of Wrenbridge · 10 min  [worth a look]
+2. Talk to the boy
+(? for commands)
+> 1
+
+the market-place of Wrenbridge
+Stalls stand in rows across the market-place of Wrenbridge under awnings faded to the colour of straw, and the cobbles between them are slick with trodden cabbage leaves.
+Hawise is roping down a load that has already been roped down twice, to be sure.
+Mouser watches you from somewhere high, unblinking, and does not come down.
+
+1. Take the door of the Green Phoenix to the taproom of the Green Phoenix · 1 min  [worth a look]
+2. Talk to Hawise
+3. Read the notice on the well-post · 10 min  [to learn]
+4. Push and pull at the corn-store padlock · 2 min  [to learn, worth a look]
+> 1
+
+the taproom of the Green Phoenix
+A long room with a fire at either end and talk going on all down it, under hams hung from the beams. The boards are tacky with spilled ale.
+Piers the drover is at the window, counting the cattle in the pens before the road, and not liking the count.
+
+1. Ask Lirien whether she would come along  [a companion]
+2. Ask Lirien about the road toll  [to learn]
+3. Talk to Lirien  [a companion, to learn]
+4. Read the notches on the tally-stick · 3 min  [worth a look]
+> 4
+The dead man kept the count of oak cut behind the Hall’s chain, and who bought it.
+Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant’s trade-mark, as the sheds know it.
+
+1. Ask Lirien whether she would come along  [a companion]
+2. Ask Lirien about the road toll  [to learn]
+3. Talk to Lirien  [a companion, to learn]
+4. Ask Carmine about the forty crowns in Merrowdale  [to learn]
+> 1
+‘Copying the old inscriptions, for a library that may not want them. It is the copying I like.’ Lirien looks you over. ‘If you are going anywhere, I would come along. 6 coin, and my keep.’
+
+1. Ask Lirien to join the company · 5 min  [a companion]
+2. Talk to Lirien  [a companion]
+3. Ask Carmine about the forty crowns in Merrowdale  [to learn]
+4. Talk to Carmine  [to learn]
+> 1
+Lirien counts the coin twice, puts it away, and shoulders her pack. ‘Where are we going, then?’
+
+1. Ask Carmine about the forty crowns in Merrowdale  [to learn]
+2. Talk to Carmine  [to learn]
+3. Ask Piers about the country off the road  [to learn]
+4. Talk to Piers  [to learn]
+> look
+
+the taproom of the Green Phoenix · Day 1, 8:19 a.m. · cloudy
+A long room with a fire at either end and talk going on all down it, under hams hung from the beams. The boards are tacky with spilled ale. Reed-cutters sit at the long table, their hands cut and bound.
+The dead man kept the count of oak cut behind the Hall’s chain, and who bought it.
+Piers the drover is at the window, counting the cattle in the pens before the road, and not liking the count.
+Jankin the carrier is at the table with his coat on, eating fast: the horse is put to, and the road is waiting.
+Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant’s trade-mark, as the sheds know it.
+Here are Carmine, the innkeeper; Dannel Hobb, a boy of ten with a white streak in his hair, kept indoors; Isaure Venn, a scholar of the old script, who has been turned back from the hill twice; Osmund Pyle, an old man with a stick and a bad hip, who means to walk to the place his wife used to leave a coin, and has been told by everyone that he will not get there; Cillian, a factor of the Founders’ Exchange, who buys old bronze; the factor’s hands; and Imogen, the factor’s carter, who takes the lots south.
+
+1. Ask Carmine about the forty crowns in Merrowdale  [to learn]
+2. Talk to Carmine  [to learn]
+3. Ask Piers about the country off the road  [to learn]
+4. Talk to Piers  [to learn]
+> 1
+‘Up the north road there is Merrowdale,’ says Carmine. ‘There is a long ridge across the head of the dale, and they say a giant king is buried under it. Something tall walks the crest at night. The steward has posted forty crowns to have it laid.’ ‘Windmill is where the road to Merrowdale goes out from,’ Carmine adds.
+
+1. Ask Piers about the country off the road  [to learn]
+2. Talk to Piers  [to learn]
+3. Ask Jankin about the country off the road  [to learn]
+4. Talk to Jankin  [to learn]
+> 1
+‘Past Millford, you mean?’ says Piers. ‘There’s Lacrimerecs, a great long mound with a door of stone in the woods south-west of Millford. I go round it, and so would you if you had any sense. So you’ll be going there, then.’
+
+1. Ask Jankin about the country off the road  [to learn]
+2. Talk to Jankin  [to learn]
+3. Read a notice from Merrowdale · 5 min  [to learn]
+4. Read a playbill of the Trial of the Wheel · 5 min  [to learn]
+> 1
+‘Past Windmill, you mean?’ says Jankin. ‘There’s Lapisrechies, a long mound north-east of Windmill. I go round it, and so would you if you had any sense. So you’ll be going there, then.’
+Aim: Whatever was buried with the dead of Lapisrechies lies there still.
+
+1. Read a notice from Merrowdale · 5 min  [to learn]
+2. Read a playbill of the Trial of the Wheel · 5 min  [to learn]
+3. Read a notice from Hollins · 5 min  [to learn]
+4. Take the Exchange's yard gate to The south road, past the Exchange's yard · 1 min
+> 1
+A notice in a clerk’s hand, carried down from Merrowdale and nailed up where travellers will see it: WHOEVER LAYS THE MOWER THAT WALKS THE LONG MAN SHALL HAVE FORTY CROWNS OF THE STEWARD. A. VENN, FOR THE LORD. Under it someone has written: up the north road, three days at most.
+
+1. Read a playbill of the Trial of the Wheel · 5 min  [to learn]
+2. Read a notice from Hollins · 5 min  [to learn]
+3. Read the Rector's proclamation of the Grand Tour · 5 min  [to learn]
+4. Take the Exchange's yard gate to The south road, past the Exchange's yard · 1 min
+> 1
+A bill in red and black, much handled and rained on: THE TRIAL OF THE WHEEL AT PENTRICE. THREE COMPANIES OF PLAYERS. THREE NIGHTS. THE PATENT OF THE WHEEL TO BE GIVEN BY THE BENCH. BY LEAVE OF THE OFFICE OF PLAIN SPEECH. Under it someone has written in pencil: west road, a day; and drawn a bear.
+
+1. Read a notice from Hollins · 5 min  [to learn]
+2. Read the Rector's proclamation of the Grand Tour · 5 min  [to learn]
+3. Read the Watch's notice from Ombra · 5 min  [to learn]
+4. Take the Exchange's yard gate to The south road, past the Exchange's yard · 1 min
+> look
+
+the taproom of the Green Phoenix · Day 1, 8:29 a.m. · cloudy
+A long room with a fire at either end and talk going on all down it, under hams hung from the beams. The boards are tacky with spilled ale. Reed-cutters sit at the long table, their hands cut and bound.
+The dead man kept the count of oak cut behind the Hall’s chain, and who bought it.
+Piers the drover is at the window, counting the cattle in the pens before the road, and not liking the count.
+Jankin the carrier is at the table with his coat on, eating fast: the horse is put to, and the road is waiting.
+Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant’s trade-mark, as the sheds know it.
+Here are Carmine, the innkeeper; Dannel Hobb, a boy of ten with a white streak in his hair, kept indoors; Isaure Venn, a scholar of the old script, who has been turned back from the hill twice; Osmund Pyle, an old man with a stick and a bad hip, who means to walk to the place his wife used to leave a coin, and has been told by everyone that he will not get there; Cillian, a factor of the Founders’ Exchange, who buys old bronze; the factor’s hands; and Imogen, the factor’s carter, who takes the lots south.
+Aim: Whatever was buried with the dead of Lapisrechies lies there still.
+
+1. Read a notice from Hollins · 5 min  [to learn]
+2. Read the Rector's proclamation of the Grand Tour · 5 min  [to learn]
+3. Read the Watch's notice from Ombra · 5 min  [to learn]
+4. Take the Exchange's yard gate to The south road, past the Exchange's yard · 1 min
+> 1
+A notice in a clear, pinched hand, carried down by a carter and nailed up where travellers will see it: WANTED, A RATCATCHER, FOR HOLLINS, THE HOUSE BEING OVERRUN. TWO CROWNS THE DAY, AND TWOPENCE THE TAIL. APPLY AT THE MAT, BOOTSCRAPE, TEN UNTIL TWO. D. PYECROFT. Under it, in pencil, someone has written: north over the march, and mind the cat.
+
+1. Read the Rector's proclamation of the Grand Tour · 5 min  [to learn]
+2. Read the Watch's notice from Ombra · 5 min  [to learn]
+3. Take the Exchange's yard gate to The south road, past the Exchange's yard · 1 min
+4. Set out for the shrine of Cernunnos · 2 min
+> 1
+A printed sheet in four colours under a seal of a door: BY THE RECTOR OF THE HOUSE OF DOORS AT SENNET. THE GRAND TOUR IS PROCLAIMED, THE FIRST IN TWO HUNDRED YEARS. WHOSOEVER BRINGS TO THE HOUSE THE FOUR PETALS OF THE ROSE OF THE WINDS SHALL GO FIRST THROUGH THE DOOR OF DOORS. I. QUANCE, RECTOR. Under it, in pencil: east, down the coast road; and someone has drawn a little door, and beside it a little figure falling out of the sky.
+
+1. Read the Watch's notice from Ombra · 5 min  [to learn]
+2. Set out for the shrine of Cernunnos · 2 min  [worth a look]
+3. Take the Exchange's yard gate to The south road, past the Exchange's yard · 1 min
+4. Set out for Imlas's herb-shop · 2 min
+> 2
+  … Take the door of the Green Phoenix to the market-place of Wrenbridge
+  … Take the shrine porch in Wrenbridge to the shrine of Cernunnos (the shrine of Cernunnos)
+
+the shrine of Cernunnos
+A long stone under a roof of shingles: the cracked altar of Cernunnos, God of Nature. Garlands of whatever is in flower hang on it, and are changed when they wilt. Offerings of reed lie before it.
+
+1. Ask Brother Anselm what he is counting  [to learn]
+2. Talk to Brother Anselm Tarr  [to learn]
+3. Climb the tower and look out over Wrenbridge · 3 min  [worth a look]
+4. Set out for Imlas's herb-shop · 2 min  [worth a look]
+> 3
+From the top of the tower Wrenbridge lies below you, its roofs and its yards, and the country round it as far as the light goes.
+To the south, not far off: the edge of Pinehurst by Wrenbridge.
+To the west, not far off: the edge of Meremoss by Wrenbridge.
+To the north-west, not far off: the broken sluice.
+To the north-east, not far off: the ford of the Fishwater.
+To the south, some way off: Lacrimerecs.
+The way to Lacrimerecs: the track to it goes from the ford of the Redbrook by Ashbrook.
+To the east, some way off: the edge of Pinehurst by Millford.
+The way down is the stair you came up.
+
+1. Look under the cloth · 3 min  [worth a look]
+2. Ask Brother Anselm what he is counting  [to learn]
+3. Talk to Brother Anselm Tarr  [to learn]
+4. Set out for Imlas's herb-shop · 2 min  [worth a look]
+> 4
+  … Take the shrine porch in Wrenbridge to the market-place of Wrenbridge
+  … Take Imlas's door to Imlas's herb-shop (Imlas's herb-shop)
+
+Imlas's herb-shop
+Bunches of herbs hang drying from every beam, and the jars along the wall are labelled in a cramped brown hand. Something bitter is simmering at the back.
+Imlas, a herb-wife, is here.
+
+1. Ask Imlas about the rats in the corn-store  [worth a look]
+2. Ask Imlas what the old workings are worth  [to learn]
+3. Talk to Imlas  [worth a look, to learn]
+4. Set out for Alma's chandlery · 2 min  [worth a look]
+> look
+
+Imlas's herb-shop · Day 1, 8:46 a.m. · cloudy
+Bunches of herbs hang drying from every beam, and the jars along the wall are labelled in a cramped brown hand. Something bitter is simmering at the back.
+Imlas, a herb-wife, is here.
+Aim: Whatever was buried with the dead of Lapisrechies lies there still.
+
+1. Ask Imlas about the rats in the corn-store  [worth a look]
+2. Ask Imlas what the old workings are worth  [to learn]
+3. Talk to Imlas  [worth a look, to learn]
+4. Set out for Alma's chandlery · 2 min  [worth a look]
+> 3
+‘Sit down a moment,’ says Imlas. ‘Whatever it is, it will keep that long.’
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Buy an antidote for Aud · 3 coin · 3 min
+6. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+7. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+9. Ask Imlas about the castellan's levy · 5 min
+10. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+11. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+12. Ask Imlas about the rats in the corn-store  [worth a look]
+13. Ask Imlas what the old workings are worth  [to learn]
+14. Ask Imlas how trade is
+15. Ask Imlas about Hatherly's tally-stick
+16. Ask Imlas about the coin on the cord round their neck
+17. Ask Imlas about the circus
+18. Take your leave of Imlas
+> 1
+Imlas counts the coins and hands over a ration.
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Buy an antidote for Aud · 3 coin · 3 min
+6. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+7. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+9. Ask Imlas about the castellan's levy · 5 min
+10. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+11. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+12. Ask Imlas about the rats in the corn-store  [worth a look]
+13. Ask Imlas what the old workings are worth  [to learn]
+14. Ask Imlas how trade is
+15. Ask Imlas about Hatherly's tally-stick
+16. Ask Imlas about the coin on the cord round their neck
+17. Ask Imlas about the circus
+18. Take your leave of Imlas
+> 12
+‘They’ve got into the old corn-store from underneath,’ says Imlas. ‘Rats, a whole nest of them, and bold with it. I’ve lost a third of the grain.’ A key comes off a nail behind the counter. ‘There’s a trapdoor in the floor. Kill them, and find where they’re getting in, or they’ll be back by harvest. Ten coin, and I’ll see you right for a lantern besides.’ And, looking you over: ‘Or lay ratsbane where they come up, if you’d sooner not be bitten. It wants a night.’
+Aud takes the corn-store key.
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Buy an antidote for Aud · 3 coin · 3 min
+6. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+7. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+9. Ask Imlas about the castellan's levy · 5 min
+10. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+11. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+12. Ask Imlas what the old workings are worth  [worth a look, to learn]
+13. Ask Imlas how trade is
+14. Ask Imlas about Hatherly's tally-stick
+15. Ask Imlas about the coin on the cord round their neck
+16. Ask Imlas about the circus
+17. Take your leave of Imlas
+> 1
+Imlas counts the coins and hands over a ration.
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+6. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+7. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the castellan's levy · 5 min
+9. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+10. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+11. Ask Imlas what the old workings are worth  [worth a look, to learn]
+12. Ask Imlas how trade is
+13. Ask Imlas about Hatherly's tally-stick
+14. Ask Imlas about the coin on the cord round their neck
+15. Ask Imlas about the circus
+16. Take your leave of Imlas
+> 11
+‘My grandfather went into the old dead under Wrenbridge after the star-iron. He said the stair at the bottom was walled up by the Delvers themselves, and there was writing on it, and he came back up without reading it.’ Imlas turns a lump of something pale over in the light. ‘Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.’
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+6. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+7. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the castellan's levy · 5 min
+9. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+10. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+11. Ask Imlas again what the old workings are worth
+12. Ask Imlas how trade is  [worth a look]
+13. Ask Imlas about Hatherly's tally-stick
+14. Ask Imlas about the coin on the cord round their neck
+15. Ask Imlas about the circus
+16. Take your leave of Imlas
+> look
+
+Imlas's herb-shop · Day 1, 8:52 a.m. · cloudy
+Bunches of herbs hang drying from every beam, and the jars along the wall are labelled in a cramped brown hand. Something bitter is simmering at the back.
+Imlas, a herb-wife, is here.
+Aim: Whatever was buried with the dead of Lapisrechies lies there still.
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+6. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+7. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the castellan's levy · 5 min
+9. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+10. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+11. Ask Imlas again what the old workings are worth
+12. Ask Imlas how trade is  [worth a look]
+13. Ask Imlas about Hatherly's tally-stick
+14. Ask Imlas about the coin on the cord round their neck
+15. Ask Imlas about the circus
+16. Take your leave of Imlas
+> 12
+‘Dear,’ says Imlas. ‘The wardens cannot cut the good oak, so the sheds buy it from me at a price I am ashamed of. Hesper Lowe at the landing came in last week with a handful of copper and a drawing of a bell, and I could not sell them what they wanted for anything the sheds would pay. There is a girl who will either be a great founder or drown in her own furnace.’
+
+1. Buy one ration from Imlas · 3 min  [worth a look]
+2. Buy healing herbs for Aud · 1 coin · 3 min
+3. Buy bandages for Aud · 1 coin · 3 min
+4. Buy a prepared yarrow poultice for Aud · 2 coin · 3 min
+5. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min
+6. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+7. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+8. Ask Imlas about the castellan's levy · 5 min
+9. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+10. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+11. Ask Imlas again what the old workings are worth
+12. Ask Imlas again how trade is
+13. Ask Imlas about Hatherly's tally-stick  [worth a look]
+14. Ask Imlas about the coin on the cord round their neck
+15. Ask Imlas about the circus
+16. Take your leave of Imlas
+> 1
+Imlas counts the coins and hands over a ration.
+
+1. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min  [worth a look]
+2. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+3. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+4. Ask Imlas about the castellan's levy · 5 min
+5. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+6. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+7. Ask Imlas again what the old workings are worth
+8. Ask Imlas again how trade is
+9. Ask Imlas about Hatherly's tally-stick  [worth a look]
+10. Ask Imlas about the coin on the cord round their neck
+11. Ask Imlas about the circus
+12. Take your leave of Imlas
+> 9
+Imlas does not look at the stick. ‘Anyone can cut a mark,’ says Imlas. ‘It is a circle with a hole in it; the children draw it in the dust.’ A long moment. ‘I bought oak. I asked where it came from and was told the wardens had a licence. I am a trader. I do not walk the woods.’ It is exactly what a guilty man says, and what an honest one does.
+
+1. Ask Imlas about the factor who buys old bronze at Wrenbridge · 5 min  [worth a look]
+2. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min
+3. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+4. Ask Imlas about the castellan's levy · 5 min
+5. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+6. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+7. Ask Imlas again what the old workings are worth
+8. Ask Imlas again how trade is
+9. Ask Imlas again about Hatherly's tally-stick
+10. Ask Imlas about the coin on the cord round their neck  [worth a look]
+11. Ask Imlas about the circus
+12. Take your leave of Imlas
+> 1
+‘A factor at the inn buys old bronze by the pound and asks no questions: bells, weir-metal, green fittings from the plough,’ says Imlas.
+
+1. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min  [worth a look]
+2. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+3. Ask Imlas about the castellan's levy · 5 min
+4. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+5. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+6. Ask Imlas again what the old workings are worth
+7. Ask Imlas again how trade is
+8. Ask Imlas again about Hatherly's tally-stick
+9. Ask Imlas about the coin on the cord round their neck  [worth a look]
+10. Ask Imlas about the circus
+11. Take your leave of Imlas
+> 9
+‘This?’ says Imlas. ‘A traveller left it for a night’s lodging in the year of the hard winter. It is Imperial. The wheel with a wing; the Posts. I have shown it to two scholars. The first said it was a forgery because it is too bright. The second said it could not be, because whoever forged it knew a regnal year no forger would know.’ They turn it in the light. ‘It buys a loaf. I have never spent it.’
+
+1. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min  [worth a look]
+2. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+3. Ask Imlas about the castellan's levy · 5 min
+4. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+5. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+6. Ask Imlas again what the old workings are worth
+7. Ask Imlas again how trade is
+8. Ask Imlas again about Hatherly's tally-stick
+9. Ask Imlas about the circus  [worth a look]
+10. Take your leave of Imlas
+> look
+
+Imlas's herb-shop · Day 1, 9:00 a.m. · cloudy
+Bunches of herbs hang drying from every beam, and the jars along the wall are labelled in a cramped brown hand. Something bitter is simmering at the back.
+Imlas, a herb-wife, is here.
+Aim: Whatever was buried with the dead of Lapisrechies lies there still.
+
+1. Ask Imlas about the bend in the old road at the fallen walls south of Millford · 5 min  [worth a look]
+2. Ask Imlas about the arch where the brook comes out under the road at the fallen walls south of Millford · 5 min
+3. Ask Imlas about the castellan's levy · 5 min
+4. Ask Imlas about the fellowship whose head sits at Wrenbridge, and the hall that will not answer it · 5 min
+5. Ask Imlas about the Walk, the barefoot company who are chalking the milestones · 5 min
+6. Ask Imlas again what the old workings are worth
+7. Ask Imlas again how trade is
+8. Ask Imlas again about Hatherly's tally-stick
+9. Ask Imlas about the circus  [worth a look]
+10. Take your leave of Imlas
+> 

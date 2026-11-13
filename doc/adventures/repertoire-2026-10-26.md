@@ -6,7 +6,7 @@ next. 26 October 2026. Spoilers for all seven.*
 
 **What was read.** Every adventure's design README and its reports in `doc/adventures`: treatments, critiques,
 fidelity specifications, friction ledgers and judgments. The Kyr of each, sampled file by file and read whole in
-places. The play transcripts in `doc/playtests/low-water-2026-10-25` and `doc/adventures/what-tessary-owes/playtest`.
+places. The play transcripts in `doc/history/playtests/low-water-2026-10-25` and `doc/adventures/what-tessary-owes/playtest`.
 The design atlas (`doc/design/ATLAS.md`), the authoring guide, the editorial standards and the five origins. I did not
 replay each work in the browser. Where this report says what a player experiences, it relies on the transcripts, the
 journeys and each work's own playtest. Counts of words are taken over each module's Kyr with `grep -oi`. They are
