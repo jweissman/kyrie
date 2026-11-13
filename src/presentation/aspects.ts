@@ -14,9 +14,9 @@ export class Aspects {
     spoils: 'payoff', means: 'payoff', companion: 'companionship',
     sign: 'knowledge', unlooked: 'knowledge', asked: 'knowledge',
     // What is worth going to see: a way not taken, further in, the place's own doings, an aim heard of and not
-    // followed, whoever is the life of the place.
+    // followed. Not whoever is the life of the place: being someone here is no opportunity, and a person is drawn by
+    // their likeness, neutral, unless there is something to be had of them (the owner, 14 November: CN-07).
     unvisited: 'exploration', deeper: 'exploration', onward: 'exploration', own: 'exploration', held: 'exploration',
-    life: 'exploration',
   };
   // whys: best first (see Promotion). A fight or a trap the company can see is a danger whatever it is led for.
   static of(whys: Why[], marks: Mark[]): Aspect[] {
