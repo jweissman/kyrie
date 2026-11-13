@@ -293,6 +293,10 @@
    0.5,
    1
   ],
+  "ghoul/barrow": [
+   2,
+   4
+  ],
   "glide_lizard": [
    0.25,
    0.5
@@ -328,6 +332,10 @@
   "golem/crystal": [
    5,
    8
+  ],
+  "golem/flesh": [
+   24,
+   24
   ],
   "golem/glass": [
    4,
@@ -670,8 +678,8 @@
    1
   ],
   "unicorn": [
-   0.5,
-   1
+   24,
+   24
   ],
   "vampire": [
    0.25,

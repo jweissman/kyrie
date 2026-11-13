@@ -153,3 +153,14 @@ again; the mechanisms (Hit Dice, typed defenses, the honest catalog) and the uni
 the unicorn. The SRD ghoul comes back as a variant (the golem decision: a material or kind variation may carry Hit
 Dice and defenses) once the challenge table is measured again and each placement reviewed: a slice that changes a
 placed creature's numbers must be fought where it is placed, not only in an arena.
+
+## The SRD ghoul and golem as variations (13 November, after the lead's decision)
+
+A variation may carry Hit Dice, defenses, a natural routine and hide, and what of its base it goes without
+(`Overlay.hitDice` and its neighbours; `Canon.stated`); a kind given one is the kind composed with it (golem with flesh
+is `golem/flesh`), and one that says `unplaced` is never drawn into a country. The SRD ghoul is `ghoul/barrow` (the
+`breed` axis) and the SRD flesh golem `golem/flesh` (a material, one archetype as the bestiary keeps it); both are
+placed nowhere. Orsino's ghoul is unchanged. The challenge table is measured again for the unicorn (24, it had been
+measured as the rolled beast, 0.5), `ghoul/barrow` (2, 4) and `golem/flesh` (24). Where each could be placed is
+[placements.md](placements.md). Specs: `test/srd-variations.test.ts` (a fixture variation, 0.25 s),
+`test/srd-slices.test.ts`, `test/srd-challenge.test.ts` (3.8 s: it fights).

@@ -147,7 +147,20 @@ export class CanonValidation {
       if (v.material && !Canon.materials[v.material]) { this.fail(where, `unknown material ${v.material}`); }
       for (const a of (v.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `unknown ability ${a}`); }
       for (const t of (v.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `unknown trait ${t}`); }
+      this.stated(where, v);
     }
+  }
+  // A variation that is a stat block (see Overlay.hitDice): its Hit Dice dice, its defenses well formed, its routine
+  // natural weapons, its hide armour, and what it goes without its base's to go without.
+  private stated(where: string, v: (typeof CreatureVariants.variations)[string]) {
+    if (v.hitDice !== undefined && (!Amounts.valid(v.hitDice) || !Amounts.dice(v.hitDice).length)) {
+      this.fail(where, `hit dice ${v.hitDice} are not dice`);
+    }
+    this.defenses(where, v.defenses);
+    for (const a of (v.attacks ?? []).filter(a => !Canon.items[a]?.weapon?.natural)) { this.fail(where, `${a} is no natural weapon`); }
+    if (v.armor && !Canon.items[v.armor]?.armor) { this.fail(where, `hide ${v.armor} is not armour`); }
+    for (const a of (v.forgoes?.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `forgoes unknown ability ${a}`); }
+    for (const t of (v.forgoes?.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `forgoes unknown trait ${t}`); }
   }
   // A calling's features come at distinct levels from 2 to 20, in order, with executable techniques and calling traits.
   private features(where: string, features: { level: number; abilities?: string[]; traits?: string[] }[]) {

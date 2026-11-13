@@ -2954,23 +2954,31 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 <img src="../../web/reader/paintings/monsters/ghoul.webp" alt="" width="128">
 
 - Type: undead (monster)
-- Hit points: 13 (2d12), whatever level it is met at
-- Qualities: strength 13, dexterity 15, constitution 10, intelligence 13, wisdom 14, charisma 12
-- Attack: bite, 1d6 piercing; claws, 1d4 slashing; claws, 1d4 slashing, in one round
-- Hide: Hide Armor, armour 1
+- Hit points: 10 + Constitution modifier + 3 a level
+- Qualities: strength 11, dexterity 11, constitution 10, intelligence 10, wisdom 9, charisma 5
+- Attack: claws, 1d4 slashing
+- Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow, ruin, fen
 - Worth: 300 + 50 experience a level
+
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
+
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
-> A gaunt eater of the dead, of the barrows and the old fens: it bites and claws, and what it touches stiffens and cannot move.
+Regeneration: Heal 1d2 - 1 (0–1) each turn.
+
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain and Paralyzing Touch.
 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
-*Adapted: The SRD ghoul (srd35-westernesse-v1): its 2d12 Hit Dice (13), its scores (Con, which it has none of, as 10), and its bite, claw and claw. Its AC 14 is Westernesse 7 for a first-level warrior's d20 (hide and its Dexterity). Adapted: its claws are the catalog's 1d4 (the SRD's 1d3), and its paralysis is its Paralyzing Touch, an act of its own between its blows, because an attack cannot yet carry a rider (the briefing's section 4). Omitted: ghoul fever, +2 turn resistance, elves' immunity. Orsino's Curse, Scream, Life Drain and regeneration, the generic undead package, are gone; it was Orsino's Ghoul type before.*
+*Adapted: Composed by OrsinoMonsters (undead class, Ghoul type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
 #### Lich
 
@@ -3367,6 +3375,8 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | silver | material | silver | made of silver: white and bright, blackening in the air | Constitution +4, Dexterity -3, Charisma +1, Wisdom +1 | only by an author |
 | glass | material | glass | made of glass: clear or green, sharp where it breaks | Constitution +1, Charisma +2, Intelligence +1 | only by an author |
 | platinum | material | platinum | made of platinum: grey-white and very heavy | Constitution +5, Dexterity -4, Strength +2, Charisma +1 | only by an author |
+| barrow | breed | barrow | of the old breed of the barrows: quick, grey and long-nailed, its bite and claws stiffening what they touch | Strength +2, Dexterity +4, Intelligence +3, Wisdom +5, Charisma +7 | only by an author |
+| flesh | material | flesh | stitched together from the dead and bolted at the joints: steel does little to it | Strength +4, Dexterity +2, Constitution -7, Intelligence -8, Wisdom +2, Charisma -7 | only by an author |
 | bronze | material | bronze | made of bronze: brown-gold, dark with handling | Constitution +3, Dexterity -2, Strength +1 | only by an author |
 | black_lineage | lineage | black | its fine scales devour light | Acid lineage, Acid breath | only by an author |
 | blue_lineage | lineage | blue | its shining azure scales sparkle like the summer sky | Lightning lineage, Lightning breath | only by an author |

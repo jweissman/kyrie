@@ -5,6 +5,7 @@ import { Canon } from './canon/canon';
 import type { Creature } from './model';
 import type { Variant, Variants } from './registry/orsino-variants';
 import { Creation } from './rules/creation';
+import type { Defense } from './rules/defenses';
 
 // One way a creature differs from its kind, on one axis (data/catalog/variations.json): the word it is called by, what
 // is seen of it, what it adds, the kinds of creature it can be, and where a generated country lays it on.
@@ -21,6 +22,10 @@ export interface Variation {
   // The natural weapon it gives (a dragon's breath, by its lineage), in place of its kind's; and the material it is of
   // (data/catalog/materials.json).
   weapon?: string; material?: string;
+  // A stat block of its own (see the canon's Overlay): Hit Dice, defenses, a routine and hide, what it goes without,
+  // and whether it is met only where an author names it.
+  hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
+  forgoes?: { abilities?: string[]; traits?: string[] }; unplaced?: true;
 }
 
 // What makes one creature of a kind other than the rest (Orsino's aspects: an agile wolf, a venomous spider), and
@@ -83,8 +88,22 @@ export class CreatureVariants {
   static structurals(kind: string): string[] {
     const s = Canon.creature(kind);
     if (s.variantOf || !s.requires) { return []; }
-    return Object.entries(this.variations).filter(([, v]) => v.axis === s.requires && v.kinds.includes(s.kind ?? 'animal')
+    // One met only where an author names it (golem/flesh) is no kind a country draws.
+    return Object.entries(this.variations).filter(([, v]) => v.axis === s.requires && !v.unplaced
+      && v.kinds.includes(s.kind ?? 'animal')
       && (!v.types || v.types.includes(s.type ?? ''))).map(([id]) => id);
+  }
+  // A kind with the variations given it that are stat blocks of their own (Hit Dice, defenses, a routine: see the
+  // canon's Overlay) as one composed kind, golem/flesh, whose record says them; any other variation stays the
+  // creature's own, as ever. Whether a variation is a stat block is what it says.
+  static body(raceId: string, ids: readonly string[] = []): string {
+    const own = new Set(raceId.split('/').slice(1));
+    const stated = ids.filter(id => !own.has(id) && CreatureVariants.stated(id));
+    return stated.length && Canon.isBody(raceId) ? [raceId, ...stated].join('/') : raceId;
+  }
+  static stated(id: string): boolean {
+    const v = this.variations[id];
+    return !!v && !!(v.hitDice || v.defenses || v.attacks || v.armor || v.forgoes);
   }
   // What a creature is called with its variations: "a wolf", old and frost, is "an old frost wolf".
   static called(role: string, ids: string[]): string {
