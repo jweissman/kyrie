@@ -9,6 +9,7 @@ import { Fighting } from '../rules/fighting';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
+import { Unusable } from './unusable';
 import { CombatPresenter } from './combat-presenter';
 import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
@@ -48,6 +49,7 @@ export class CombatModel {
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [],
         ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {},
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
+      ...ours && !state.outcome ? this.unavailable(battle, actor!) : {},
       ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
       ...!battle.opening && !state.outcome ? { standing: DangerSense.of(battle) } : {},
       // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
@@ -60,6 +62,14 @@ export class CombatModel {
       round: battle.events.filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),
     };
+  }
+  // What the one acting knows and cannot use now, by its name, and why (see Unusable).
+  private static unavailable(battle: Battle, actor: Fighter): Pick<CombatScreen, 'unavailable'> {
+    const by = new Map(battle.repertoire.map(a => [a.id, a]));
+    const out = Unusable.of(battle, actor).map(u => ({ id: u.id, name: this.named(by.get(u.id)!, actor), why: u.why,
+      ...by.get(u.id)?.spell ? { spell: true as const } : {},
+      ...actor.stock?.[u.id] ? { carried: true as const } : {} }));
+    return out.length ? { unavailable: out } : {};
   }
   // What a technique does besides a blow, for its card; a spell is told by its own preview, and running by its odds.
   private static gist(ability: ArenaAbility, actor?: Fighter): { gist?: string } {
