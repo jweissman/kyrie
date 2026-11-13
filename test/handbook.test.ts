@@ -39,7 +39,7 @@ describe('the handbooks', () => {
     expect(coverage.problems.filter(p => p.kind === 'unreachable' && p.entry.startsWith('ability:'))).toEqual([]);
     expect(PlayChapters.spell('death_wave', 8).status).toBe('unreachable');
     expect(PlayChapters.spell('weird', 8).status).toBe('unsupported');
-    expect(PlayChapters.spell('fireball', 3).status).toBe('unreachable');
+    expect(PlayChapters.spell('ice_storm', 3).status).toBe('unreachable');
   });
   it('point only at entries some book has', () => {
     expect(coverage.problems.filter(p => p.kind === 'missing reference')).toEqual([]);
