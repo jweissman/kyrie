@@ -32,4 +32,19 @@ describe('the terminal, its commands piped in at once', () => {
     await run.exited;
     expect(out).toContain('Ama — human warrior, level 1');
   }, 30000);
+  // A number is the choice of that number: the numpad's 7/9/1/3 had been shortcuts for ways, and "1" did the third
+  // of the kitchen's four (headless terminal, 12 November: T24-12).
+  it('does the choice of the number typed', async () => {
+    const after = async (n: string) => {
+      const run = Bun.spawn(['bin/kyrie', 'campaign', 'test/fixtures/household/household.campaign.json'],
+        { stdin: new TextEncoder().encode(`1\n1\n${n}\n`), stdout: 'pipe', stderr: 'pipe' });
+      const out = await new Response(run.stdout).text();
+      await run.exited;
+      return out.split(/^> /m)[3] ?? '';
+    };
+    const [one, three] = await Promise.all([after('1'), after('3')]);
+    expect(one).toContain('He took the cart to the fair at Brough');
+    expect(three).not.toContain('He took the cart to the fair at Brough');
+    expect(three).toContain('Said to them');
+  }, 30000);
 });
