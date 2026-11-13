@@ -5,15 +5,15 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind is exact in all six fields); 57 of them have an SRD counterpart for every kind. **Spells
-42 of 119** with an SRD counterpart faithful in level, school, harm and save (of
-286 catalog spells); 11 in all seven fields, their reach and duration too.
+59 of 119** with an SRD counterpart faithful in level, school, harm and save (of
+286 catalog spells); 13 in all seven fields, their reach and duration too.
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 55 % of meetings are with a
 kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 3 | armour 3 | attacks 17 | defences 1 | specials 0 | saves 0 | of 70 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 75 | school 86 | dice 19 | type 12 | save 28 | reach 78 | duration 29 | of 119 |
+| spells, field exact or converted | level 95 | school 105 | dice 21 | type 12 | save 30 | reach 78 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -98,26 +98,26 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | spell | SRD | level | school | dice | type | save | reach | duration |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | acid_arrow | acid-arrow | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✗ instant → 1 rounds |
-| animate_dead | animate-dead | ✗ 3 → 4 | ✓ | – | – | – | ✗ one → many | ✓ |
+| animate_dead | animate-dead | ✓ | ✓ | – | – | – | ✗ one → many | ✓ |
 | armor | mage-armor | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✓ |
 | augury | augury | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → instant |
 | barkskin | barkskin | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | ✓ | ✓ | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ self → many | ✗ 3 rounds → long |
-| bless | bless | ✓ | ✗ · → enchantment | – | – | – | ✗ one → many | ✗ 3 rounds → long |
+| bless | bless | ✓ | ✓ | – | – | – | ✗ one → many | ✗ 3 rounds → long |
 | blur | blur | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
 | burning_hands | burning-hands | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| calm_emotions | calm-emotions | ✓ | ✗ · → enchantment | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| cause_blindness | blindness-deafness | ✗ 3 → 2 | ✓ | – | – | ✓ | ✓ | ✗ 5 rounds → long |
+| calm_emotions | calm-emotions | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| cause_blindness | blindness-deafness | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 5 rounds → long |
 | chain_lightning | chain-lightning | ✓ | ✓ | ✗ · → 3.5/17.5/35/70 | ✗ · → electricity | ✗ · → dexterity half | ✗ · → one | ✓ |
 | charm | charm-person | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | cloudkill | cloudkill | ✓ | ✓ | ✗ 4.5/4.5/4.5/4.5 → · | – | ✓ | ✓ | ✗ 3 rounds → long |
-| command | command | ✗ 5 → 1 | ✗ · → enchantment | – | – | ✓ | ✓ | ✗ 2 rounds → 1 rounds |
+| command | command | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 2 rounds → 1 rounds |
 | cone_of_cold | cone-of-cold | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| confuse | confusion-lesser | ✓ | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → 1 rounds |
-| confusion | confusion | ✗ 3 → 4 | ✗ illusion → enchantment | – | – | ✓ | ✗ one → many | ✗ 3 rounds → 5 rounds |
+| confuse | confusion-lesser | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → 1 rounds |
+| confusion | confusion | ✓ | ✓ | – | – | ✓ | ✗ one → many | ✗ 3 rounds → 5 rounds |
 | conjure_light | light | ✓ | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
-| contagion | contagion | ✗ 7 → 4 | ✓ | ✗ 28/32/37/47 → · | – | ✗ wisdom half → constitution negates | ✗ many → one | ✗ 3 rounds → instant |
-| control_undead | control-undead | ✗ 6 → 7 | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
+| contagion | contagion | ✓ | ✓ | ✗ 28/32/37/47 → · | – | ✓ | ✗ many → one | ✗ 3 rounds → instant |
+| control_undead | control-undead | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | create_darkness | darkness | ✓ | ✓ | – | – | ✗ dexterity negates → · | ✗ many → one | ✗ 3 rounds → long |
 | cure | cure-light-wounds | ✓ | ✓ | ✓ | – | ✗ · → wisdom half | ✓ | ✓ |
 | cure_critical | cure-critical-wounds | ✓ | ✓ | ✓ | – | – | ✓ | ✗ instant → long |
@@ -125,22 +125,22 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | cure_minor | cure-minor-wounds | ✓ | ✓ | ✗ 2.5/2.5/2.5/2.5 → · | – | – | ✓ | ✗ instant → long |
 | cure_moderate | cure-moderate-wounds | ✓ | ✓ | ✓ | – | – | ✓ | ✗ instant → long |
 | cure_serious | cure-serious-wounds | ✓ | ✓ | ✓ | – | – | ✓ | ✗ instant → long |
-| curse | bestow-curse | ✗ 0 → 3 | ✗ · → necromancy | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| curse | bestow-curse | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | dancing_lights | dancing-lights | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → long |
 | daylight | daylight | ✓ | ✓ | ✗ 2.5/2.5/2.5/2.5 → · | – | – | ✗ many → one | ✗ instant → long |
-| death | power-word-kill | ✗ 8 → 9 | ✗ · → enchantment | – | – | ✗ constitution negates → · | ✓ | ✓ |
-| death_ward | death-ward | ✗ 2 → 4 | ✗ · → necromancy | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
+| death | power-word-kill | ✓ | ✓ | – | – | ✗ constitution negates → · | ✓ | ✓ |
+| death_ward | death-ward | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | disintegrate | disintegrate | ✗ 5 → 6 | ✗ evocation → transmutation | ✗ 35/35/35/35 → 7/35/70/140 | – | ✗ wisdom half → constitution negates | ✓ | ✓ |
 | dispel_magic | dispel-magic | ✗ 2 → 3 | ✓ | – | – | – | ✗ · → one | ✓ |
 | divine_favor | divine-favor | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | divine_power | divine-power | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
-| dominate_person | dominate-person | ✓ | ✗ necromancy → enchantment | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
-| domination | dominate-monster | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → long |
+| dominate_person | dominate-person | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
+| domination | dominate-monster | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → long |
 | earthquake | earthquake | ✓ | ✓ | ✓ | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → 1 rounds |
 | enlarge | enlarge-person | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
 | entangle | entangle | ✓ | ✗ · → transmutation | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| false_life | false-life | ✗ 4 → 2 | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
-| finger_of_death | finger-of-death | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✓ | ✓ |
+| false_life | false-life | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
+| finger_of_death | finger-of-death | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✓ |
 | fire_storm | fire-storm | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ many → one | ✓ |
 | fireball | fireball | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | flesh_to_stone | flesh-to-stone | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 10 rounds → instant |
@@ -148,25 +148,25 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | foresight | foresight | ✓ | ✓ | – | – | – | ✗ one → self | ✗ 3 rounds → long |
 | glyph_of_warding | glyph-of-warding | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | ✗ self → one | ✗ 3 rounds → long |
 | goodberry | goodberry | ✗ 0 → 1 | ✗ · → transmutation | – | – | – | ✗ · → one | ✗ instant → long |
-| harm | harm | ✓ | ✗ · → necromancy | ✗ 23/31/41/61 → · | – | ✓ | ✓ | ✓ |
+| harm | harm | ✓ | ✓ | ✗ 23/31/41/61 → · | – | ✓ | ✓ | ✓ |
 | haste | haste | ✗ 5 → 3 | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → 5 rounds |
 | heal | heal | ✓ | ✓ | ✗ 19/23/28/38 → · | – | ✗ · → wisdom negates | ✓ | ✓ |
-| hold_animal | hold-animal | ✗ 0 → 2 | ✗ · → enchantment | – | – | ✗ strength negates → · | ✓ | ✗ 3 rounds → long |
-| hold_person | hold-person | ✓ | ✗ · → enchantment | – | – | ≈ paralyze negates | ✓ | ✗ 3 rounds → 5 rounds |
+| hold_animal | hold-animal | ✓ | ✓ | – | – | ✗ strength negates → · | ✓ | ✗ 3 rounds → long |
+| hold_person | hold-person | ✓ | ✓ | – | – | ≈ paralyze negates | ✓ | ✗ 3 rounds → 5 rounds |
 | holy_wrath | holy-smite | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | ice_storm | ice-storm | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✗ instant → long |
 | image | major-image | ✗ 4 → 3 | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | implosion | implosion | ✓ | ✓ | ✗ 35/35/35/35 → · | – | ✓ | ✓ | ✗ instant → long |
-| insanity | insanity | ✗ 5 → 7 | ✗ necromancy → enchantment | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
+| insanity | insanity | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | invisibility | invisibility | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ one → self | ✗ 3 rounds → long |
 | invulnerability | globe-of-invulnerability | ✗ 8 → 6 | ✓ | – | – | – | ✗ self → one | ✗ 5 rounds → long |
 | knock | knock | ✓ | ✓ | – | – | – | ✗ · → many | ✓ |
-| life_drain | vampiric-touch | ✗ 2 → 3 | ✗ · → necromancy | ✗ 3.5/3.5/3.5/3.5 → 0/7/17.5/35 | – | ✗ wisdom negates → · | ✓ | ✓ |
+| life_drain | vampiric-touch | ✓ | ✓ | ✓ | – | – | ✓ | ✓ |
 | lightning_bolt | lightning-bolt | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ 3 rounds → instant |
 | magic_missile | magic-missile | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | major_restoration | restoration-greater | ✓ | ✓ | ✗ 46/50/55/65 → · | – | – | ✓ | ✗ instant → long |
-| mass_charm | charm-monster-mass | ✗ 7 → 8 | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → long |
-| mass_curse | bane | ✗ 3 → 1 | ✗ · → enchantment | – | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
+| mass_charm | charm-monster-mass | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → long |
+| mass_curse | bane | ✓ | ✓ | – | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
 | mass_heal | heal-mass | ✓ | ✓ | ✗ 14.5/18.5/23.5/33.5 → · | – | – | ✓ | ✗ instant → long |
 | maze | maze | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✓ |
 | meteor_swarm | meteor-swarm | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
@@ -181,7 +181,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | plane_shift | plane-shift | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → many | ✓ |
 | polar_ray | polar-ray | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | polymorph | polymorph | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 5 rounds → long |
-| prayer | prayer | ✗ 2 → 3 | ✗ · → enchantment | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
+| prayer | prayer | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
 | prismatic_spray | prismatic-spray | ✓ | ✓ | – | – | – | ✓ | ✓ |
 | protection_from_evil | protection-from-evil | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | protection_from_fire | protection-from-energy | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
@@ -195,7 +195,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | shield | shield-of-faith | ✗ 2 → 1 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
 | shocking_grasp | shocking-grasp | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | silence | silence | ✗ 3 → 2 | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| sleep | sleep | ✗ 3 → 1 | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| sleep | sleep | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | slow | slow | ✗ 2 → 3 | ✓ | – | – | ✗ dexterity negates → wisdom negates | ✗ many → one | ✗ 4 rounds → 5 rounds |
 | spellturning | spell-turning | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | spike_growth | spike-growth | ✗ 2 → 3 | ✗ · → transmutation | ✗ 7/7/7/7 → 2.5/2.5/2.5/2.5 | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
@@ -210,9 +210,9 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | summon_monster_vii | summon-monster-vii | ✓ | ✓ | – | – | – | ✗ self → one | ✗ instant → long |
 | summon_vermin | summon-swarm | ✓ | ✓ | – | – | – | ✗ self → one | ✗ instant → long |
 | sunburst | sunburst | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✓ |
-| symbol_of_insanity | symbol-of-insanity | ✓ | ✗ illusion → enchantment | – | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
-| terror | cause-fear | ✗ 2 → 1 | ✗ · → necromancy | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| symbol_of_insanity | symbol-of-insanity | ✓ | ✓ | – | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
+| terror | cause-fear | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | time_stop | time-stop | ✗ 8 → 9 | ✓ | – | – | – | ✓ | ✗ 1 rounds → long |
 | true_sight | true-seeing | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
-| weakness | ray-of-enfeeblement | ✗ 2 → 1 | ✓ | – | – | ✗ constitution negates → · | ✓ | ✗ 3 rounds → long |
+| weakness | ray-of-enfeeblement | ✓ | ✓ | – | – | ✗ constitution negates → · | ✓ | ✗ 3 rounds → long |
 | weird | weird | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → many | ✗ instant → long |

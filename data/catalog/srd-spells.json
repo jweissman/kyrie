@@ -178,6 +178,121 @@
    "notes": "The SRD's Summon Swarm: level 2 (Sor/Wiz), conjuration; None. Its reach and how long it lasts are Orsino's.",
    "save": "none"
   },
+  "bless": {
+   "srd35": "spell:bless",
+   "level": 1,
+   "school": "enchantment",
+   "notes": "The SRD's Bless: level 1 (Clr), enchantment; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "calm_emotions": {
+   "srd35": "spell:calm-emotions",
+   "level": 2,
+   "school": "enchantment",
+   "notes": "The SRD's Calm Emotions: level 2 (Clr), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "charm": {
+   "srd35": "spell:charm-person",
+   "level": 1,
+   "school": "enchantment",
+   "notes": "The SRD's Charm Person: level 1 (Sor/Wiz), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "command": {
+   "srd35": "spell:command",
+   "level": 1,
+   "school": "enchantment",
+   "notes": "The SRD's Command: level 1 (Clr), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "confuse": {
+   "srd35": "spell:confusion-lesser",
+   "level": 1,
+   "school": "enchantment",
+   "notes": "The SRD's Confusion, Lesser: level 1 (Brd), enchantment. Its reach and how long it lasts are Orsino's."
+  },
+  "confusion": {
+   "srd35": "spell:confusion",
+   "level": 4,
+   "school": "enchantment",
+   "notes": "The SRD's Confusion: level 4 (Sor/Wiz), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "death": {
+   "srd35": "spell:power-word-kill",
+   "level": 9,
+   "school": "enchantment",
+   "notes": "The SRD's Power Word Kill: level 9 (Sor/Wiz), enchantment; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "dominate_person": {
+   "srd35": "spell:dominate-person",
+   "level": 5,
+   "school": "enchantment",
+   "notes": "The SRD's Dominate Person: level 5 (Sor/Wiz), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "domination": {
+   "srd35": "spell:dominate-monster",
+   "level": 9,
+   "school": "enchantment",
+   "notes": "The SRD's Dominate Monster: level 9 (Sor/Wiz), enchantment. Its reach and how long it lasts are Orsino's."
+  },
+  "hold_animal": {
+   "srd35": "spell:hold-animal",
+   "level": 2,
+   "school": "enchantment",
+   "notes": "The SRD's Hold Animal: level 2 (Drd), enchantment. Its reach and how long it lasts are Orsino's."
+  },
+  "hold_person": {
+   "srd35": "spell:hold-person",
+   "level": 2,
+   "school": "enchantment",
+   "notes": "The SRD's Hold Person: level 2 (Clr), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "insanity": {
+   "srd35": "spell:insanity",
+   "level": 7,
+   "school": "enchantment",
+   "notes": "The SRD's Insanity: level 7 (Sor/Wiz), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "mass_charm": {
+   "srd35": "spell:charm-monster-mass",
+   "level": 8,
+   "school": "enchantment",
+   "notes": "The SRD's Charm Monster, Mass: level 8 (Sor/Wiz), enchantment. Its reach and how long it lasts are Orsino's."
+  },
+  "mass_curse": {
+   "srd35": "spell:bane",
+   "level": 1,
+   "school": "enchantment",
+   "notes": "The SRD's Bane: level 1 (Clr), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "prayer": {
+   "srd35": "spell:prayer",
+   "level": 3,
+   "school": "enchantment",
+   "notes": "The SRD's Prayer: level 3 (Clr), enchantment; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "sleep": {
+   "srd35": "spell:sleep",
+   "level": 1,
+   "school": "enchantment",
+   "notes": "The SRD's Sleep: level 1 (Sor/Wiz), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "symbol_of_insanity": {
+   "srd35": "spell:symbol-of-insanity",
+   "level": 8,
+   "school": "enchantment",
+   "notes": "The SRD's Symbol of Insanity: level 8 (Sor/Wiz), enchantment; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
   "blade_barrier": {
    "srd35": "spell:blade-barrier",
    "level": 6,
@@ -365,6 +480,97 @@
    "notes": "The SRD's Sunburst: level 8 (Drd), evocation; 6d6; Reflex partial. Its reach and how long it lasts are Orsino's.",
    "harm": "6d6",
    "save": "reflex negates"
+  },
+  "animate_dead": {
+   "srd35": "spell:animate-dead",
+   "level": 4,
+   "school": "necromancy",
+   "notes": "The SRD's Animate Dead: level 4 (Sor/Wiz), necromancy; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "cause_blindness": {
+   "srd35": "spell:blindness-deafness",
+   "level": 2,
+   "school": "necromancy",
+   "notes": "The SRD's Blindness/Deafness: level 2 (Sor/Wiz), necromancy; Fortitude negates. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "contagion": {
+   "srd35": "spell:contagion",
+   "level": 4,
+   "school": "necromancy",
+   "notes": "The SRD's Contagion: level 4 (Sor/Wiz), necromancy; Fortitude negates. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "control_undead": {
+   "srd35": "spell:control-undead",
+   "level": 7,
+   "school": "necromancy",
+   "notes": "The SRD's Control Undead: level 7 (Sor/Wiz), necromancy; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "curse": {
+   "srd35": "spell:bestow-curse",
+   "level": 3,
+   "school": "necromancy",
+   "notes": "The SRD's Bestow Curse: level 3 (Clr), necromancy; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "death_ward": {
+   "srd35": "spell:death-ward",
+   "level": 4,
+   "school": "necromancy",
+   "notes": "The SRD's Death Ward: level 4 (Clr), necromancy. Its reach and how long it lasts are Orsino's."
+  },
+  "false_life": {
+   "srd35": "spell:false-life",
+   "level": 2,
+   "school": "necromancy",
+   "notes": "The SRD's False Life: level 2 (Sor/Wiz), necromancy. Its reach and how long it lasts are Orsino's."
+  },
+  "finger_of_death": {
+   "srd35": "spell:finger-of-death",
+   "level": 7,
+   "school": "necromancy",
+   "notes": "The SRD's Finger of Death: level 7 (Sor/Wiz), necromancy; 3d6 and one a level (maximum 25); Fortitude partial. Its reach and how long it lasts are Orsino's.",
+   "harm": "3d6 + min(#level, 25)",
+   "save": "fortitude negates"
+  },
+  "harm": {
+   "srd35": "spell:harm",
+   "level": 6,
+   "school": "necromancy",
+   "notes": "The SRD's Harm: level 6 (Clr), necromancy; Will half. Its reach and how long it lasts are Orsino's.",
+   "save": "will half"
+  },
+  "life_drain": {
+   "srd35": "spell:vampiric-touch",
+   "level": 3,
+   "school": "necromancy",
+   "notes": "The SRD's Vampiric Touch: level 3 (Sor/Wiz), necromancy; 1d6 a two caster levels to 10d6; None. Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(min(floor(#level / 2), 10), 6)",
+   "save": "none"
+  },
+  "paralyzing_touch": {
+   "srd35": "spell:ghoul-touch",
+   "level": 2,
+   "school": "necromancy",
+   "notes": "The SRD's Ghoul Touch: level 2 (Sor/Wiz), necromancy; Fortitude negates. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "terror": {
+   "srd35": "spell:cause-fear",
+   "level": 1,
+   "school": "necromancy",
+   "notes": "The SRD's Cause Fear: level 1 (Clr), necromancy; Will partial. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "weakness": {
+   "srd35": "spell:ray-of-enfeeblement",
+   "level": 1,
+   "school": "necromancy",
+   "notes": "The SRD's Ray of Enfeeblement: level 1 (Sor/Wiz), necromancy; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
   }
  }
 }

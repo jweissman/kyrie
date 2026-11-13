@@ -251,8 +251,16 @@ export class MechanicsText {
   static species(ids: string[]): string[] {
     return ids.map(id => Canon.isSpecies(id) ? Canon.creature(id).name.toLowerCase() : id);
   }
+  // A die a caster level, as the SRD's spells are written (roll(min(#level, 10), 6), or by two levels): said as the SRD
+  // says it, "1d6 per level to 10d6", with whatever the rest adds.
+  static readonly levelled = /^roll\(min\((#level|floor\(#level \/ 2\)), (\d+)\), (\d+)\)(?: \+ (.+))?$/;
   static amount(amount: Amount, actor?: Record<string, number>): string {
     if (amount.kind === 'literal') { return String(amount.value); }
+    const levelled = amount.expression.match(this.levelled);
+    if (levelled) {
+      const [, per, most, sides, rest] = levelled, each = per === '#level' ? 'level' : 'two levels';
+      return `1d${sides} per ${each} to ${most}d${sides}${rest ? ` + ${this.amount({ kind: 'deem', expression: rest }, actor)}` : ''}`;
+    }
     const result = this.preview.partialEvaluate(amount.expression, actor ?? {});
     if (result.status === 'error' || !result.expression) { return amount.expression; }
     const expression = this.unclamp(result.expression);

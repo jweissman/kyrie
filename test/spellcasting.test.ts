@@ -4,9 +4,9 @@ import { CreatureStore } from '../src/creature-store';
 import { FieldUse } from '../src/campaign/field-use';
 import { Spellcasting } from '../src/rules/spellcasting';
 
-// A third-level cleric's picks: three of the first level, two of the second, one of the third (Cure Serious Wounds:
-// Cure Moderate Wounds is of the second since the SRD's levels).
-const spells = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'];
+// A third-level cleric's picks at the SRD's levels: three of the first, two of the second (Cure Moderate Wounds, Resist
+// Energy), one of the third (Prayer).
+const spells = ['cure', 'bless', 'anoint', 'cure_moderate', 'resist_fire', 'prayer'];
 class Casters {
   static cleric(level: number) {
     return new Content('slots').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,
@@ -23,7 +23,7 @@ describe('prepared spells', () => {
     expect(dori.base.maxSlots).toEqual([3, 1]);
     expect(dori.base.maxMana).toBe(0);
     // A first preparation takes each level's own prayers in turn.
-    expect(dori.state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
+    expect(dori.state.prepared).toEqual([['cure', 'bless', 'anoint'], ['cure_moderate']]);
     expect(dori.state.ready).toEqual(dori.state.prepared);
     expect(new Content('slots').createCreature('bran', { raceId: 'human', classId: 'warrior' }).base.maxSlots).toBeUndefined();
   });
@@ -32,7 +32,7 @@ describe('prepared spells', () => {
     Casters.cast(store, 'cure_minor');
     expect(store.get('dori').state.slots).toEqual([3, 1]);
     Casters.cast(store, 'cure');
-    expect(store.get('dori').state.ready).toEqual([['bless', 'anoint'], ['prayer']]);
+    expect(store.get('dori').state.ready).toEqual([['bless', 'anoint'], ['cure_moderate']]);
     expect(() => Casters.cast(store, 'cure')).toThrow('No ready slot holds cure');
     // Resist Fire is known but not prepared: knowing a spell is not having it ready.
     expect(() => Casters.cast(store, 'resist_fire')).toThrow('No ready slot holds resist_fire');
@@ -47,11 +47,11 @@ describe('prepared spells', () => {
     expect(dori.state.prepared![0]).toEqual(['cure', 'cure', 'bless']);
     expect(Spellcasting.restore(dori.state, 9999)).toBe(1);
     expect(dori.state.ready![0]).toEqual(['cure', 'cure', 'bless']);
-    expect(() => Spellcasting.prepare(dori.state, 0, 'cure', 'prayer')).toThrow();
+    expect(() => Spellcasting.prepare(dori.state, 0, 'cure', 'cure_moderate')).toThrow();
   });
   it('rest returns slots: all of them under a roof, one in the open, lowest level first', () => {
     const dori = Casters.cleric(3);
-    for (const id of ['cure', 'bless', 'prayer']) { Spellcasting.spend(dori.state, { id, spell: { level: Spellcasting.levelOf(id) } }); }
+    for (const id of ['cure', 'bless', 'cure_moderate']) { Spellcasting.spend(dori.state, { id, spell: { level: Spellcasting.levelOf(id) } }); }
     expect(dori.state.slots).toEqual([1, 0]);
     expect(Spellcasting.restore(dori.state, 1)).toBe(1);
     expect(dori.state.slots).toEqual([2, 0]);
@@ -61,6 +61,6 @@ describe('prepared spells', () => {
   it('a creature saved before preparation existed prepares when it is loaded', () => {
     const old = Casters.cleric(3);
     delete old.base.maxSlots; delete old.state.slots; delete old.state.prepared; delete old.state.ready;
-    expect(new CreatureStore([old]).get('dori').state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
+    expect(new CreatureStore([old]).get('dori').state.prepared).toEqual([['cure', 'bless', 'anoint'], ['cure_moderate']]);
   });
 });
