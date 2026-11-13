@@ -23,6 +23,8 @@ export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; 
 
 // The way to somewhere known, over the ways the company knows: those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways).
+// Every place reached from here, in the order settled, with its nearest way.
+interface Tree { order: string[]; best: Map<string, { minutes: number; legs: Leg[] }> }
 export class Itineraries {
   // The known ways, from each place; or only those open now, with nothing in the way and nothing to risk (a ford in
   // spate is risked, not taken). Read once for each state of the world and of where the company has been, for every
@@ -92,17 +94,32 @@ export class Itineraries {
   private static route(campaign: Campaign, destination: string, clear = false): Itinerary | undefined {
     const world = campaign.world, here = world.one('at', campaign.playerActor!);
     if (!here || here === destination) { return undefined; }
-    const graph = this.graph(campaign, clear, this.seen(campaign, destination));
-    const entities = this.byId(campaign);
+    const tree = this.tree(campaign, here, clear, this.seen(campaign, destination)), entities = this.byId(campaign);
+    // The first place settled that is the destination or within it: as near as the search came to it.
+    const at = tree.order.find(id => this.within(entities, id, destination));
+    if (!at) { return undefined; }
+    const so = tree.best.get(at)!;
+    return { id: destination, to: at, name: ObservationText.label(world, destination), legs: so.legs,
+      minutes: so.minutes };
+  }
+  // The nearest way from here to every place the company can reach, each settled in order of its minutes: searched
+  // once for each state of the world and each kind of graph, not once for every place a page plans for. The map's
+  // every area and mark had each run the whole search from here, two thirds of a waited hour's time (Mission 21's
+  // validation profile); with no way taking less than nothing, the first settled within a place is its route as before.
+  private static readonly trees = new WeakMap<object, Map<string, Tree>>();
+  private static tree(campaign: Campaign, here: string, clear: boolean, roam: boolean): Tree {
+    const world = campaign.world, key = `${campaign.playerActor}:${campaign.history.length}:${here}:${clear}:${roam}`;
+    const kept = this.trees.get(world) ?? new Map<string, Tree>();
+    this.trees.set(world, kept);
+    const known = kept.get(key);
+    if (known) { return known; }
+    const graph = this.graph(campaign, clear, roam), order: string[] = [];
     const best = new Map<string, { minutes: number; legs: Leg[] }>([[here, { minutes: 0, legs: [] }]]);
     const open = [here];
     while (open.length) {
       open.sort((a, b) => best.get(a)!.minutes - best.get(b)!.minutes);
       const at = open.shift()!, so = best.get(at)!;
-      if (this.within(entities, at, destination)) {
-        return { id: destination, to: at, name: ObservationText.label(world, destination), legs: so.legs,
-          minutes: so.minutes };
-      }
+      order.push(at);
       for (const w of graph.get(at) ?? []) {
         const minutes = so.minutes + this.minutes(campaign, w.passage);
         if ((best.get(w.to)?.minutes ?? Infinity) <= minutes) { continue; }
@@ -111,7 +128,9 @@ export class Itineraries {
         if (!open.includes(w.to)) { open.push(w.to); }
       }
     }
-    return undefined;
+    const tree = { order: [...new Set(order)], best };
+    kept.set(key, tree);
+    return tree;
   }
   // Whether the company stands inside a place's site: the ruin behind its door, or a site gone into from it.
   private static inside(byId: Map<string, Entity>,
