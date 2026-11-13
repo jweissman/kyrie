@@ -148,6 +148,9 @@ export class Promotion {
       return c.whys.filter(w => ['retreat', 'night', 'dark', 'exposed', 'hurt'].includes(w));
     }
     if (c.kind === 'step') { return c.whys.filter(w => w === 'toward'); }
+    // In the dark, a way the company has not taken is not led with for anything: it cannot be seen. The gnawed hole out
+    // of the pitch-dark corn-store cellar had been gold beside "Light a torch" (M21's PL-10; round 12, A, T39).
+    if (s.dark && this.way(c) && c.visited === false) { return c.whys.filter(w => w === 'retreat'); }
     // Something done already is not led with again because another aim names whom it is done with: the page had led a
     // follower to lodge and to work for its keep at the same inn, turn and turn about, for days (the follower's 160).
     // A town not yet been to, entered from its own country, is new though the company is not in a settlement.

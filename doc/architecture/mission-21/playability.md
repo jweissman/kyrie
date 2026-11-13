@@ -29,7 +29,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-05 | **P0** | Gold on whatever has its own act at the place the aim names, though it does nothing for the aim (the cairn at Seolforfyrd took the debt's gold; at Tenebraetumulo the oxen's) | fixed in this branch |
 | PL-08 | **P0** | Gold on "Search" wherever the aim names the place, though nothing is hidden there (Seolforfyrd: "nothing is hidden here") | fixed in this branch |
 | PL-09 | P2 | A companion "binds the hurt" of a company with nothing wrong but a lit torch: needing care held of any condition | fixed in this branch |
-| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | open |
+| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed in this branch (the page); the rule open |
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
@@ -156,9 +156,13 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   Light a torch. The company cannot see the hole.
 - **Corroborates:** round 12, A, T39; R10-11 (text of what could not be seen); the owner's rule "respect character
   knowledge".
-- **Cause (hypothesis):** the way is offered by the engine as an exit known from the room's plan, not from what the
-  company perceives; the gold rides on it as the aim's way deeper.
-- **Status:** open.
+- **Cause (verified):** `go` does not require light (`data/rules/passages.kyr`), so the way is legal; and
+  `Promotion.allowed` never read `Situation.dark`, so the way was led as the aim's like any other.
+- **Status:** fixed in this branch for the page: in the dark a way the company has not taken is led only as the way
+  back, never for anything else; "Light a torch" leads, and the hole is gold once there is light. Regression:
+  `test/small/gold-fight.test.ts`, the dark case (fails without it). **Open, a rules decision:** whether a way not
+  yet seen may be taken in the dark at all (feeling along a wall is an OSR choice with its own risk), which is the
+  rules' and the owner's, not a presentation fix.
 
 ### PL-11: gold back out of the place where the aim's work is
 
