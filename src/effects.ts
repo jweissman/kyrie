@@ -1,3 +1,4 @@
+import { Flight } from './rules/flight';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain';
@@ -337,7 +338,7 @@ export class Effects {
       // before a fight that came at it closes: flight failed again and again (PT-24), and a fragile company was killed
       // by what it had no turn to back away from (PT-10).
       case 'flee': {
-        const odds = Canon.rules.combat.flee[context.tries ?? 0];
+        const odds = Flight.roll(context.tries ?? 0);
         const dice = !context.sure && odds ? context.expressions : undefined;
         const away = !dice || dice.number(odds!.die) <= odds!.atMost;
         context.retreat = away;
