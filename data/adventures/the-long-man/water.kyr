@@ -88,7 +88,8 @@ Module longman "The Long Man" {
   }
 
   // What the company is asked, and what it comes to see it must do.
-  Objective lay_mower when knows(party, bounty_known) and not paidBounty(venn) and able(mower) and not knows(party, mower_keeps) "Aldous Venn will pay forty crowns for the Mower's mask.".
+  // Toward the Mower itself, wherever it has been seen (PL-14: the aim had named only the bounty, a thing known).
+  Objective lay_mower when knows(party, bounty_known) and not paidBounty(venn) and able(mower) and not knows(party, mower_keeps) toward mower "Aldous Venn will pay forty crowns for the Mower's mask.".
   Objective keep_wall when knows(party, teeth_taken) and knows(party, wall_known) and not state(leak_gate, mended) and not drawn(hollow) and not broke(long_man) "The Long Man is leaking where its bronze was taken, and the storm is coming.".
   Objective warn_merrow when knows(party, notches_known) and not convinced(ysolt) and not broke(long_man) "If the Long Man goes, the water will come over the chapel roof. Someone should tell Mother Ysolt.".
 }

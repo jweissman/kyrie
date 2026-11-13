@@ -36,7 +36,8 @@ Module lull "The Lull" {
     On discuss { Assert workingNamed(corin). Assert knows(actor, working_day_plan). Increase corinTrust(corin) by 1. }
   }
   Discovery working_day_plan "Corin Lindsell and the Weekday Club mean to work for wages, in public, from dawn to dusk on the Working Day (the Lullday after the one when she told you of it), mending the Shift Bridge to the Mill; they believe a day of wage-work will break the Hallowing. They need coin for wages from Mercer Haskett in Sixways.".
-  Objective obj_working when knows(party, working_day_plan) and not workingOver(lull_country) "On the Working Day the Weekday Club will mend the Shift Bridge for wages, from dawn to dusk, to break the Hallowing; at the Watching the town will see what holds.".
+  // Toward the bridge it mends (M21's playability list, PL-14: the aim had named only what the company knows).
+  Objective obj_working when knows(party, working_day_plan) and not workingOver(lull_country) toward mill_bridge "On the Working Day the Weekday Club will mend the Shift Bridge for wages, from dawn to dusk, to break the Hallowing; at the Watching the town will see what holds.".
   // The wages, from Haskett.
   Kind purse_kind "a purse of Haskett's wages" is gear worth 30 weighing 0 described "A heavy leather purse with M.H. stamped on it: thirty coin, for the wages of the Working Day.".
   Item wages "a purse of Haskett's wages" is purse_kind at limbo.

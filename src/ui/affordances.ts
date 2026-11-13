@@ -180,7 +180,10 @@ export class Affordances {
       // November).
       // So with spoils, for an aim short of coin (the keep's steel coin at its gate), never what is someone's (the
       // hobs' bell and rings in their cache, which taken had the company caught leaving).
-      ...!person && (moving.length || (spoils && r.coin)) ? ['advance' as const] : [],
+      // So with someone the aim does not name (Harbek, who knows where willow grows, PL-13), unless one it names is
+      // here: the fevered child's mother is gone to before her daughter, who could keep the cups for her.
+      ...(moving.length && (!person || (!named && !screen.people.some(p => p.id !== s.id && r.named.has(p.id)))))
+        || (!person && spoils && r.coin) ? ['advance' as const] : [],
       ...spoils ? ['spoils' as const] : [],
       ...this.about(fresh, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
@@ -212,7 +215,7 @@ export class Affordances {
     // (the priest led for his job had stood for his care of the wounded, the innkeeper for a bed); else what the
     // company needs of them.
     ...!answer && (kin || named || held) && asked ? { for: asked.command! }
-      : !answer && !person && moving[0] ? { for: moving[0].command! }
+      : !answer && moving[0] ? { for: moving[0].command! }
         : !answer && needs[0]?.choice?.command ? { for: needs[0].choice.command } : {} })];
   }
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
