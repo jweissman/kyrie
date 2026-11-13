@@ -21,7 +21,7 @@ class EngineNames {
     companyCameHere: 'that the company has stood in one of a module\'s places, which its endings wait on: written by '
       + 'the assembler into each module with endings, its own (GOS-06)',
   };
-  // The whole library parsed: ~3 s from a warm parse store, ~30 s cold (a runner without CI's cache): hence the minutes.
+  // The whole library parsed: ~3 s from a warm parse store, ~30 s cold (a runner without CI's cache): hence minutes.
   private static kept?: ReturnType<typeof KyrLint.parsed>;
   static get parsed() { return this.kept ??= KyrLint.parsed(); }
   static declared(): Set<string> {
