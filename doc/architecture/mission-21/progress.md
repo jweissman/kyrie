@@ -78,3 +78,12 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   M21's own work shows. Held rows 42 of the game's 62 fixed (by the status column alone). AR-05 in part: the roll of who is here said apart
   (`Leaf.roll`), the page's word-match gone (`small/roll-apart`). The full run on 14594d9d failed only
   `wren-tower-climbed` (re-digested: it comes where it came); a full run dispatched on c610ca2d.
+- **14 Nov, early.** Rules batch 5 merged (51c1cc4d): the vault's keeper told and escapable (`small/vault-told`), R9-06's
+  telling (`fight-status-told`). Lead rulings: a blow for nothing triggers no wound's condition (Orsino's rule; the
+  barrow-king harder, to be told and escapable); a venom gets one chance, not two; damage that grows with level is
+  M22's (a new mechanism; the mummy first). Playability batch 9 merged (bc5ab64c): PL-24 fixed in generation (works
+  teach their makers' story; five of ten seeds had an errand that could not be done: `small/errand-teaches`), PL-06
+  ranks 1–2 (one successor when an aim is seen through: `small/aim-successor`), PL-22's take names what is taken.
+  `register-state` classes a row by the state its status leads with; P1 open 22 → 21 since M20: the inherited P1s are
+  not yet paid down (debt.md). T24-20 decided (Common names first in the starting country; to build). AR-05: guidance
+  by calling id. Agents: playability on a cold round (outcome 2's evidence), rules diagnosing healing between fights.
