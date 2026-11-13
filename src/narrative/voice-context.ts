@@ -28,8 +28,9 @@ export class VoiceContext {
       // A greeting is the first only to someone the company has not had to do with before (see Telling.met).
       moment: pairs.has(`${h.kind}:${actor}`) || (['greet', 'address'].includes(h.kind) && pairs.has(`met:${actor}`))
         ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
-      // A band of many (the elders), for the lines said only of many.
-      ...(campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 ? { number: 'many' } : {} };
+      // A band of many (the elders), for the lines said only of many; one alone, for those of one (a band's "one of
+      // {them} says" had been said of a lone grave-robber: round 12, B, T24-19).
+      number: (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 ? 'many' : 'one' };
   }
   // Family first; then someone the one who plays has come to with a letter or an errand (who has not met them),
   // someone they owe, someone they have done a good turn, someone paid to come, someone being seen home, a traveller

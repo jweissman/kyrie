@@ -598,18 +598,40 @@
       "when": {
         "moment": "again",
         "temper": "territorial",
-        "kind": "person"
+        "kind": "person",
+        "number": "many"
       },
       "text": "‘You again,’ says one of {actor}. ‘Say it quick, and then go back the way you came.’"
+    },
+    {
+      "id": "address.territorial.again.2",
+      "when": {
+        "moment": "again",
+        "temper": "territorial",
+        "kind": "person",
+        "number": "one"
+      },
+      "text": "‘You again,’ says {actor}. ‘Say it quick, and then go back the way you came.’"
     },
     {
       "id": "address.defensive.first.1",
       "when": {
         "moment": "first",
         "temper": "defensive",
-        "kind": "person"
+        "kind": "person",
+        "number": "many"
       },
       "text": "{Actor} [back|backs] against the wall at the sight of you, blades up. ‘We want no trouble,’ one of {them} says, ‘and we will give it if we have to.’"
+    },
+    {
+      "id": "address.defensive.first.2",
+      "when": {
+        "moment": "first",
+        "temper": "defensive",
+        "kind": "person",
+        "number": "one"
+      },
+      "text": "{Actor} [back|backs] against the wall at the sight of you, a blade up. ‘I want no trouble,’ {they} [say|says], ‘and I will give it if I have to.’"
     },
     {
       "id": "address.defensive.again.1",

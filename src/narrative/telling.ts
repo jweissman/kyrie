@@ -106,10 +106,10 @@ export class Telling {
       }
       if (own) { return undefined; }
     }
-    // Of many, only what can be said of many; of a beast, nothing it would have to say (Fair Weather's 4: a dog that
-    // followed a second time said "'For a while, then.'").
+    // Of many, only what can be said of many, and of one nothing said of one of them (see Voice.fits); of a beast,
+    // nothing it would have to say (Fair Weather's 4: a dog that followed a second time said "'For a while, then.'").
     const beast = !!VoiceContext.species(campaign, actor ?? '');
-    const line = this.choose(Voice.fitting(h.kind, context).filter(l => (!speaking.many || Voice.agrees(l))
+    const line = this.choose(Voice.fitting(h.kind, context).filter(l => Voice.fits(l, speaking.many)
       && !(beast && /^['‘"“]/.test(l.text))), memory.key, memory.used);
     return line && { id: line.id, kind: h.kind, actor, text: Voice.render(line.text, speaking) };
   }

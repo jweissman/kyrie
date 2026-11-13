@@ -114,9 +114,13 @@ export class Discovery {
     // review's A1, and the owner's "invalid knowledge"). An imported fact is established, or not, in its own module.
     const initial = module.initial.filter(c => c.kind === 'assert' && c.call.name === 'knows').map(c => c.call);
     for (const call of initial.filter(c => !imported.includes(c.args[1]!))) {
-      if (!world.test(ModuleWriter.call('established', call.args[1]!))
-        || world.test(ModuleWriter.call('assumesFalse', ...call.args))) {
-        throw new Error('Invalid initial knowledge');
+      // Said with the fact and what would make it so: "Invalid initial knowledge" alone had left an author to guess.
+      if (!world.test(ModuleWriter.call('established', call.args[1]!))) {
+        throw new Error(`Invalid initial knowledge: ${call.name}(${call.args.join(', ')}) is of a fact not established `
+          + `(Initially Assert established(${call.args[1]}))`);
+      }
+      if (world.test(ModuleWriter.call('assumesFalse', ...call.args))) {
+        throw new Error(`Invalid initial knowledge: ${call.name}(${call.args.join(', ')}) is of a fact assumed false`);
       }
     }
     if (module.actions.some(a => [...a.success, ...a.failure].some(c => c.call.name === 'established'))) {

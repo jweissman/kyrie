@@ -10,13 +10,16 @@ import { Glob } from 'bun';
 import { readFileSync } from 'node:fs';
 
 class QuickSuite {
+  // The small worlds (test/small: a rule on a tiny Kyr world, test/support/tiny.ts) are quick by what they are, and in
+  // it whether timed or not: a new one is in the quick suite from its first run.
+  private static small(spec: string): boolean { return spec.startsWith('test/small/'); }
   static run(args: string[]): number {
     const limit = Number(args.find(a => !a.startsWith('--')) ?? 2) * 1000;
     const workers = /^--workers=(\d+)$/.exec(args.find(a => a.startsWith('--workers=')) ?? '')?.[1] ?? '6';
     const kept = (JSON.parse(readFileSync('test/timings.json', 'utf8')) as { files: Record<string, number> }).files;
     const specs = [...new Glob('test/**/*.test.ts').scanSync('.')].sort();
-    const quick = specs.filter(s => kept[s] !== undefined && kept[s] < limit).map(s => `./${s}`);
-    const untimed = specs.filter(s => kept[s] === undefined).length;
+    const quick = specs.filter(s => this.small(s) || (kept[s] !== undefined && kept[s] < limit)).map(s => `./${s}`);
+    const untimed = specs.filter(s => !this.small(s) && kept[s] === undefined).length;
     console.log(`${quick.length} spec files under ${limit / 1000} s each`
       + (untimed ? `; ${untimed} not yet timed, left out (bun run test:timings keeps them)` : ''));
     // --no-isolate: each worker keeps one module registry across the files it runs, so the engine is imported once a

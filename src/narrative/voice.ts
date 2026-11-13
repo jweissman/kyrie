@@ -47,6 +47,12 @@ export class Voice {
     return !/\{[Aa]ctor\} (?!\[)[a-z]+s\b/.test(line.text)
       && !/(?<![[|])\b(says|asks|calls|shouts) \{[Aa]ctor\}/.test(line.text);
   }
+  // Whether a line can be said only of many: it speaks of one of them ("'We want no trouble,' one of {them} says"),
+  // which of a lone grave-robber had been "one of him says" (round 12, B: T24-19).
+  static ofMany(line: VoiceLine): boolean { return /\bone of \{(them|actor|Actor)\}/.test(line.text); }
+  // Whether a line fits the speakers as they are: of many, what agrees with many; of one (or not known to be many),
+  // nothing said of one of them.
+  static fits(line: VoiceLine, many?: boolean): boolean { return many ? this.agrees(line) : !this.ofMany(line); }
   static tiers(kind: string, context: Record<string, string>): VoiceLine[][] {
     const lines = (this.table(kind)?.lines ?? []).filter(l => l.id.startsWith(`${kind}.`) || this.table(kind)?.kinds.length === 1)
       .filter(l => this.matches(l, context));
