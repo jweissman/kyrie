@@ -29,8 +29,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-05 | **P0** | Gold on whatever has its own act at the place the aim names, though it does nothing for the aim (the cairn at Seolforfyrd took the debt's gold; at Tenebraetumulo the oxen's) | fixed in this branch |
 | PL-08 | **P0** | Gold on "Search" wherever the aim names the place, though nothing is hidden there (Seolforfyrd: "nothing is hidden here") | fixed in this branch |
 | PL-09 | P2 | A companion "binds the hurt" of a company with nothing wrong but a lit torch: needing care held of any condition | fixed in this branch |
-| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | open |
-| PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | open |
+| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed in this branch (the page); the rule open |
+| PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | open |
@@ -156,9 +156,13 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   Light a torch. The company cannot see the hole.
 - **Corroborates:** round 12, A, T39; R10-11 (text of what could not be seen); the owner's rule "respect character
   knowledge".
-- **Cause (hypothesis):** the way is offered by the engine as an exit known from the room's plan, not from what the
-  company perceives; the gold rides on it as the aim's way deeper.
-- **Status:** open.
+- **Cause (verified):** `go` does not require light (`data/rules/passages.kyr`), so the way is legal; and
+  `Promotion.allowed` never read `Situation.dark`, so the way was led as the aim's like any other.
+- **Status:** fixed in this branch for the page: in the dark a way the company has not taken is led only as the way
+  back, never for anything else; "Light a torch" leads, and the hole is gold once there is light. Regression:
+  `test/small/gold-fight.test.ts`, the dark case (fails without it). **Open, a rules decision:** whether a way not
+  yet seen may be taken in the dark at all (feeling along a wall is an OSR choice with its own risk), which is the
+  rules' and the owner's, not a presentation fix.
 
 ### PL-11: gold back out of the place where the aim's work is
 
@@ -170,12 +174,19 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Corroborates:** the owner's play of 6 November (the corn-store: "the ways pointed the company back out rather
   than deeper in"); the owner's 11 November crawlway report (followed aim lost around the rats); round 12, A, T46;
   PR-01 ("out of a place and back").
-- **Cause (hypothesis, from the labels; the glance probe on the save was not finished before the crash):** the aim's
-  words name "the corn-store cellar", so the way to the cellar is `toward`/`named`, while the fight the aim actually
-  waits on is never gold (gold is never on a risky act), so the only gold left is the place-name. The same inference
-  from location as PL-05 and PL-08: the aim's typed wait (the rats' group dead) is what should decide, and with the
-  fight the only advance, the honest page leads with the fight in red and no gold, or says the aim waits on it.
-- **Status:** open: the next to fix.
+- **Cause (verified, `tools/glance.ts` on `a1-runs.json`):** the acts were "Attack" (`danger`) and "To the corn-store
+  cellar" (`retreat`, aspects `undertaking`, CONTINUES). The aim is `given(rats_job) and not done(rats_job) toward
+  cellar`; `Rule rats_cleared when not able(rats)` makes it done, so what it waits on is the rats' `able`, and
+  `AimAdvances` already read that, but nothing an act brings about could match it: a fight's end is its resolution
+  (`Resolve combat(opponent)`), not an effect, so `AimAdvances.of` was empty. The only `undertaking` aspect left was
+  the way to the place the aim's words name (`toward cellar`), the way the company had come.
+- **Status:** fixed in this branch: `AimAdvances.brings` counts a fight as leaving its foe unable and dead; an attack
+  the aim waits on has the why `advance` beside `danger` (`Affordances.threat`); and `Promotion.continued` ranks an
+  act that advances the aim first though it is led for its danger (`Promoted.advances`). The fight is now the one
+  gold act, drawn red for its danger as well, and the way back is plain: neutral, not silver, since a way back
+  stripped of the aim's aspect had fallen back to "worth a look" (checked on the a1 save: `Attack [danger,
+  undertaking] CONTINUES`, `To the corn-store cellar | retreat []`). Regression: `test/small/gold-fight.test.ts`
+  (fails on main with "To the corn-store cellar" gold, the exact a1 state).
 
 ### PL-06: after the aim, nothing pulls
 
@@ -222,8 +233,8 @@ The owner's own play first; then the agents' rounds where they corroborate it.
 1. **The promise/projection boundary: presentation infers what an act will do** (the retrospective's first
    candidate). Verified three times so far: PL-05 and PL-08 (gold for an act's *location*: `Affordances.there`, and a search
    "where your aim is", where the typed `AimAdvances` had a gap or already had the answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
-   PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stands here) is the
-   same fault, still open. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
+   PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
+   same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
    standing on the same boundary: `TalkFocus.weighty` ranks replies by their words (`/^(Tell|Pay) /`, "would come
    along"); `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the

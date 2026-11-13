@@ -114,7 +114,9 @@ export class Affordances {
     // A danger the aim followed is about (the old buck rat its nest is kept by) is gone at for the aim, red and gold:
     // the page had led past it, to the drain beyond, as "toward your aim" (round 7, both players).
     ...attack ? [this.candidate(attack, { subject: s.id, kind: 'attack', r,
-      whys: ['danger', ...r.named.has(s.id) ? ['named' as const] : []], notes: { danger: s.danger ?? '' } })] : []];
+      whys: ['danger', ...r.named.has(s.id) ? ['named' as const] : [],
+        ...r.advances?.has(this.command(attack) ?? '') ? ['advance' as const] : []], notes: { danger: s.danger ?? '' } })]
+      : []];
   }
   private static gentle(choices: Choice[], r: Reading): Choice | undefined {
     // Never leaving a talk: led with, a danger talked to had been "Take your leave" and then talked to again, round and
