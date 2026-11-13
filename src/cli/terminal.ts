@@ -20,7 +20,7 @@ import { SceneModel } from '../ui/scene';
 import { Attending } from '../ui/attention';
 import { LandCrossing } from '../ui/land-crossing';
 import type { Choice } from '../ui/choice-list';
-import type { Aspect, Promoted, Successor } from '../presentation/glance-types';
+import type { Aspect, Glance, Promoted, Successor } from '../presentation/glance-types';
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
@@ -142,8 +142,7 @@ export class Terminal {
     // What the page leads with inside a talk (the question the aim waits on, Promoted.inside) is offered as itself:
     // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
     // `all`, eight times in one cold review (12 November); the page shows it as the talk's own line.
-    const ids = [...glance?.acts.flatMap(a => [...a.inside?.map(x => x.command) ?? [], a.command ?? a.choice]) ?? [],
-      ...glance?.ways ?? []];
+    const ids = Terminal.led(glance, screen);
     // Inside a talk, each reply drawn as the likeness turned to was drawn for it (see Promoted.inside; E185).
     const acts = [...glance?.acts ?? [], ...talking ? [{ inside: talking.inside } as Promoted] : []];
     // While someone is spoken with, what can be put to them, as the page's conversation lists it (Attending.talk):
@@ -165,6 +164,15 @@ export class Terminal {
     const typed = all.find(c => c.id === next.command)?.name ?? next.label;
     console.log(`\nNext: ${Typography.plain(next.text)}${next.at ? ` (${next.at})` : ''}`
       + `${next.aim ? ` · follow ${n}` : typed ? ` · ${Typography.plain(typed)}` : ''}`);
+  }
+  // What the page leads with, by the command each is done by: the glance's quiet row of ways is by exit, and a way
+  // in once gone through (Ísencepan's gate, after its gate-passage) had dropped from the foreground (round 13, PL-26).
+  static led(glance: Glance | undefined, screen: Screen): string[] {
+    return [...glance?.acts.flatMap(a => [...a.inside?.map(x => x.command) ?? [], a.command ?? a.choice]) ?? [],
+      ...(glance?.ways ?? []).map(id => this.way(screen, id))];
+  }
+  private static way(screen: Screen, id: string): string {
+    return screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command ?? id;
   }
   private static drawn<T extends { id: string }>(acts: Promoted[], c: T): T & { said?: string } {
     const said = this.said(acts, c.id);

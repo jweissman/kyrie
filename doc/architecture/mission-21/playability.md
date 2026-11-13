@@ -45,6 +45,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed in this branch (the lead's ruling) |
 | PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | fixed in this branch (generation) |
 | PL-25 | **P0** | a1 debt: Marsh Howe's den cleared, the foreground is only the way out; the search for the coin dragged in is under `all` (and one steel coin sent the company 71 minutes home, and called Ísencepan "spent" unexplored) | fixed in this branch |
+| PL-26 | P1 | The terminal's foreground dropped the glance's quiet row of ways (by exit id, which no command is): back at Ísencepan, only the cairn; the gate in only under `all` | fixed in this branch |
+| PL-27 | P1 | The debt's chain stops at the second old place: Marsh Howe searched (27 of 50), the aim still names it, nothing is gold, and Palusporta, told of with the others, is not led | open (proposal) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | ranks 1 and 2 built in this branch (the lead's ruling); ranks 3–4 later |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -470,6 +472,29 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   coin does not send the company home; and the further aim says "{near} has not paid it", where it said "is spent" of
   a keep whose gatehouse was all that was seen (`src/world/origins.ts`). No spec: the debt's walk in `test/gold-thread`
   still ends at the next old place.
+
+### PL-26: the terminal's foreground without the ways (round 13, a1 debt)
+
+- **Repro:** a1 debt, back at Ísencepan from Marsh Howe: the foreground is "1. Build the cairn up again" and nothing
+  else; "Take the gate to the gate-passage" is only under `all`. The glance had it, in its ways (`exit:region__w6_gate`).
+  Save `play21/ga-isen2.json`.
+- **Cause:** `Terminal.foreground` matched the glance's ways, which are by exit id, against choices by command id, so
+  no way in the quiet row was ever in the terminal's foreground once it was not an act (the first visit's gate was an
+  act; gone through, it is a way). The page resolves them through `MenuModel.lead`.
+- **Fix:** `Terminal.led`: the ways by the command their exit is done by. Regression: `test/small/terminal-ways.test.ts`
+  (a keep's door gone through and come back to: the gate is in the foreground; mutation-checked).
+
+### PL-27: the debt's chain stops at the second old place (round 13, a1 debt)
+
+- **Repro:** as PL-25, the howe searched: 27 coin of 50, Day 1, 1:46 p.m. The aim still says "Eamon told of Marsh Howe
+  as well: what is in such places could pay it", of the place just emptied; nothing is gold; Palusporta, the third the
+  innkeeper named, is not led. Ísencepan's keep, unexplored past its portcullis, is not the aim's (PL-23's ruling).
+- **Cause:** `Origins.debt` writes two levels only (`owing_out` toward the nearest, `owing_further` toward the next
+  once the nearest is been to); there is no third, and nothing marks the second spent.
+- **Proposal:** write the chain over every old place the innkeeper tells of, nearest first, each aim holding until its
+  place is been to *and* what it offered is done (its own coin act taken, or nothing there left to do), the words of
+  each saying the one before "has not paid it". A fast spec over the debt origin in two worlds: past each place, the
+  next is the aim's. Not done here: it is a generation change across every debt world.
 
 ### PL-06: after the aim, nothing pulls
 
