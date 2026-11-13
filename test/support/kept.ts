@@ -1,5 +1,10 @@
 import { Journey, type Taken } from '../../src/session/journey';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
+import { DrawnWorld } from '../../src/world/drawn-world';
+import { Frontier } from '../../src/world/frontier';
+import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
+
+type Drawn = Parameters<typeof DrawnWorld.start>[1];
 
 // Journeys that begin alike are played alike once (Mission 21, Phase 0: an authored playthrough's tests each replayed
 // the same prefix, the walk to the Row and two days' waiting, 96 % of a test's time in the Book of Faces). A journey
@@ -24,6 +29,16 @@ export class Kept {
     const again = Kept.resumed(start);
     if (again) { return new Kept(again, start); }
     const journey = await Journey.start(campaign, seed, options);
+    Kept.keep(start, journey);
+    return new Kept(journey, start);
+  }
+  // A drawn world (a seed and who comes into it) begun alike is drawn once in a process, as a campaign is: the
+  // silent lord's specs each drew a1 and waited nine days to reach the keep, 90 s a case before anything was tried.
+  static async drawn(seed: string, drawn: Drawn): Promise<Kept> {
+    const start = JSON.stringify(['drawn', seed, drawn]);
+    const again = Kept.resumed(start);
+    if (again) { return new Kept(again, start); }
+    const journey = Journey.of(await DrawnWorld.start(seed, drawn, NodeBundleSource.shared));
     Kept.keep(start, journey);
     return new Kept(journey, start);
   }
@@ -53,7 +68,11 @@ export class Kept {
     if (!kept) { return undefined; }
     this.kept.delete(key); this.kept.set(key, kept);
     this.hits++;
-    const journey = Journey.of(PlaySession.resume(kept.checkpoint));
+    // A drawn world's frontier (what it held back, drawn when the company goes there) is the world's again, as a
+    // save resumed in the terminal has it (Kyrie.resume).
+    const session = PlaySession.resume(kept.checkpoint), drawn = session.transcript.drawn;
+    if (drawn) { session.extend(new Frontier(session.seed, NodeBundleSource.shared, DrawnWorld.options(drawn))); }
+    const journey = Journey.of(session);
     journey.taken.push(...structuredClone(kept.taken));
     return journey;
   }
