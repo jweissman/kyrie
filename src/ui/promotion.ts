@@ -113,7 +113,8 @@ export class Promotion {
       const aspects = a.aspects.filter(x => x !== 'undertaking');
       const inside = rest.inside?.map(x => ({ ...x, aspects: x.aspects.filter(y => y !== 'undertaking') }))
         .filter(x => x.aspects.length);
-      return { ...rest, aspects: aspects.length ? aspects : ['exploration'], ...inside ? { inside } : {} };
+      // The way back is neutral, as a need is (see Aspects): not "worth a look" for having been the aim's way.
+      return { ...rest, aspects: aspects.length || a.why === 'retreat' ? aspects : ['exploration'], ...inside ? { inside } : {} };
     });
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,

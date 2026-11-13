@@ -183,7 +183,9 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Status:** fixed in this branch: `AimAdvances.brings` counts a fight as leaving its foe unable and dead; an attack
   the aim waits on has the why `advance` beside `danger` (`Affordances.threat`); and `Promotion.continued` ranks an
   act that advances the aim first though it is led for its danger (`Promoted.advances`). The fight is now the one
-  gold act, drawn red for its danger as well, and the way back is plain. Regression: `test/small/gold-fight.test.ts`
+  gold act, drawn red for its danger as well, and the way back is plain: neutral, not silver, since a way back
+  stripped of the aim's aspect had fallen back to "worth a look" (checked on the a1 save: `Attack [danger,
+  undertaking] CONTINUES`, `To the corn-store cellar | retreat []`). Regression: `test/small/gold-fight.test.ts`
   (fails on main with "To the corn-store cellar" gold, the exact a1 state).
 
 ### PL-06: after the aim, nothing pulls
