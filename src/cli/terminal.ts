@@ -165,10 +165,8 @@ export class Terminal {
       if (replies.length) { return { all, first: replies.map(c => this.drawn(acts, c)), talk: true }; }
     }
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
-    // Where it promotes fewer than four, the next of its own acts as it orders them fill the rest: nothing re-ranked.
     const lensed = lens && glance?.lenses[lens];
-    const chosen = lensed ? [...lensed.promoted, ...lensed.rest.filter(a => !a.disabled)]
-      .map(a => a.command ?? a.choice) : [...new Set(ids)];
+    const chosen = lensed ? lensed.promoted.map(a => a.command ?? a.choice) : [...new Set(ids)];
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
     return { all, first: (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c)),
