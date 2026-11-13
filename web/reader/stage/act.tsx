@@ -1,4 +1,5 @@
 import type { MouseEvent, ReactNode } from 'react';
+import { Hold } from './hold';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Mark } from '../../../src/presentation/glance-types';
 import type { ReaderApp } from '../reader-app';
@@ -21,10 +22,15 @@ export class Act {
   // variant: how the one action system draws it (Mission 21's CN-04: every act in the world one system, never a link):
   // a row (ChoiceRow's look: the default), or a glyph (a likeness, a rail mark, a thing in the pack), which keeps its
   // own picture but carries the same marks (data-act, its id).
-  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row' }: { choice: Choice;
+  // holdTone: the tone of the edge a held act fills with (its own indicator's), where it has one (see Hold).
+  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row', holdTone }: { choice: Choice;
     draw: Draw; className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number;
-    variant?: 'row' | 'glyph' }) {
+    variant?: 'row' | 'glyph'; holdTone?: string }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
+    // An act of time and commitment (Choice.hold, the engine's) is held rather than touched, where the page holds.
+    const hold = Hold.use(c.hold && !c.disabled && Hold.on() ? Hold.ms.sustained : undefined, () => {
+      draw.app.setState({ cursor: i, keyed: false }); draw.app.choose(c);
+    });
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
     const classes = ['act', variant === 'row' ? 'choice-row' : 'act-glyph', className ?? '', selected ? 'sel' : '',
       c.risk ? 'risk' : '', c.grave ? 'grave' : '', c.disabled ? 'shut' : '',
@@ -34,7 +40,9 @@ export class Act {
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-act={c.id} data-index={i}
         data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
-        aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
+        aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)} {...hold.props}>
+        <Hold.Edge held={hold.held} {...holdTone ? { tone: holdTone } : {}} />
+        {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>

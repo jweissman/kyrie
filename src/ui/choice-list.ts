@@ -29,6 +29,9 @@ export interface Choice {
   own?: boolean; deed?: boolean;
   // What it risks, said on it before it is chosen (see Marks).
   marks?: Mark[];
+  // Done by holding rather than a touch: an act of time and commitment (a search, a wait, a rest, a camp, a long look),
+  // by its action and its minutes, never its words (see ChoiceList.sustained; the owner, 14 November).
+  hold?: 'sustained';
 }
 // What the choices are about: a person, a creature, a thing, the ways out, the company itself.
 export interface Section {
@@ -299,7 +302,15 @@ export class ChoiceList {
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
-      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}) };
+      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}),
+      ...ChoiceList.sustained(a.does, a.minutes) ? { hold: 'sustained' as const } : {} };
+  }
+  // An act of time and commitment, by its action (searching a place, waiting, resting, camping) or by how long it takes
+  // (half an hour or more: a long examination). A presentation of the act (it is held, not touched), never game time.
+  static readonly sustaining: ReadonlySet<string> = new Set(['search', 'wait', 'wait_watch', 'wait_hour', 'wait_for_light',
+    'wait_for_dark', 'rest', 'rest_unfed', 'camp']);
+  static sustained(does?: string, minutes?: number): boolean {
+    return (!!does && ChoiceList.sustaining.has(does)) || (minutes ?? 0) >= 30;
   }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

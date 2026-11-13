@@ -1,6 +1,7 @@
 import { Children, isValidElement, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactElement,
   type ReactNode } from 'react';
 import { Typography } from '../../../src/presentation/typography';
+import { Hold } from '../stage/hold';
 import { Glyphs } from './glyphs';
 import { CreationSheet, type SheetHead } from './creation-sheet';
 
@@ -15,11 +16,15 @@ export interface CardShape {
 export class Card {
   static View({ name, line, text, chosen, shut, onChoose, data, glyph }: CardShape) {
     const ref = useRef<HTMLButtonElement>(null);
+    // Choosing who the character is, held rather than touched where the page holds (see Hold).
+    const hold = Hold.use(Hold.on() && !shut ? Hold.ms.commitment : undefined, onChoose);
     useEffect(() => { if (chosen) { ref.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }, [chosen]);
     return (
       <button type="button" ref={ref} className={`card${chosen ? ' chosen' : ''}`} aria-pressed={chosen} disabled={!!shut}
         data-nav onClick={onChoose} title={text ? Typography.curl(text) : undefined}
-        {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))}>
+        {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))} {...hold.props}>
+        <Hold.Edge held={hold.held} />
+        {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
         {glyph !== undefined && <Glyphs.View id={glyph} name={name} />}
         <span className="card-name">{Typography.curl(name)}</span>
         {shut ? <span className="card-line card-shut">{Typography.curl(shut)}</span>
