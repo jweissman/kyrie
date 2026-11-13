@@ -1,0 +1,52 @@
+--- (start) (arrive)
+  the landing at Lowmouth · Day 1, morning
+  Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+  No food.
+  > Read the notice on the well-post [act:knowledge] | To the old corn-store — look at the corn-store padlock [act:knowledge,exploration] | To Mik's salt-house [go:exploration] | Wait [wait]
+  rest: To the chapel of Saint Ide | To the churchyard | To the old quarry pit | To the taproom of the Lucky Phoenix | Wait an hour | Wait until dark | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the corn-store padlock
+--- To the old quarry pit (arrive)
+  the old quarry pit
+  A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.
+  > Work along the faces of the pit, ledge by ledge [act:knowledge] | Down to the quarry adit — look at the padlock on the adit gate [act:knowledge,exploration] | To Mik's salt-house [journey:exploration] | To the landing at Lowmouth [go]
+  rest: To the taproom of the Lucky Phoenix | To the chapel of Saint Ide | To the churchyard | Wait | Search here | Wait an hour | Wait until dark | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the padlock on the adit gate
+--- look (inspect)
+  the old quarry pit · Day 1, 8:05 a.m.
+  A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.
+  Runs worn to bare earth go in under the ivy at the foot of the east face, and the smell of fox is on them.
+  No food.
+  > Work along the faces of the pit, ledge by ledge [act:knowledge] | Down to the quarry adit — look at the padlock on the adit gate [act:knowledge,exploration] | To Mik's salt-house [journey:exploration] | To the landing at Lowmouth [go]
+  rest: To the taproom of the Lucky Phoenix | To the chapel of Saint Ide | To the churchyard | Wait | Search here | Wait an hour | Wait until dark | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the padlock on the adit gate
+--- Work along the faces of the pit, ledge by ledge (outcome)
+  Halfway up the west face a ledge runs along under the ivy, the quarrymen’s, with a niche cut in the back of it for their dinners. In it, a purse rotted to a rag, and two coins green with age.
+  > Down to the quarry adit — look at the padlock on the adit gate [act:knowledge,exploration] | To Mik's salt-house [journey:exploration] | To the landing at Lowmouth [go] | Wait [wait]
+  rest: To the taproom of the Lucky Phoenix | To the chapel of Saint Ide | To the churchyard | Search here | Wait an hour | Wait until dark | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the padlock on the adit gate
+--- Search here (outcome)
+  You search the old quarry pit with care, a little at a time.
+  You turn the spoil over, a stone at a time, and under the last of the broken face a flint with a hole worn through it comes up into your hand: somebody’s luck, dropped and never found.
+  > Down to the quarry adit — look at the padlock on the adit gate [act:knowledge,exploration] | To Mik's salt-house [journey:exploration] | To the landing at Lowmouth [go] | Wait [wait]
+  rest: To the taproom of the Lucky Phoenix | To the chapel of Saint Ide | To the churchyard | Wait an hour | Wait until dark | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the padlock on the adit gate
+--- (no /Pull the ivy/ offered)
+--- To the landing at Lowmouth (arrive)
+  the landing at Lowmouth
+  Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+  > Read the notice on the well-post [act:knowledge] | To the old corn-store — look at the corn-store padlock [act:knowledge,exploration] | To Mik's salt-house [go:exploration] | Wait [wait]
+  rest: To the chapel of Saint Ide | To the churchyard | To the old quarry pit | To the taproom of the Lucky Phoenix | Wait an hour | Wait until dark | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the corn-store padlock
+--- Wait until dark (outcome)
+  Day 1, night
+  The light goes. It is dark.
+  Need: Hungry
+  > Read the notice on the well-post [act:knowledge] | To the old corn-store — look at the corn-store padlock [act:knowledge] | To Mik's salt-house [go] | Wait [wait]
+  rest: To the chapel of Saint Ide | To the churchyard | To the old quarry pit | To the taproom of the Lucky Phoenix | Wait an hour | Wait until first light | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the corn-store padlock
+--- To the old quarry pit (arrive)
+  the old quarry pit
+  Out of the ivy where the runs go in a vixen comes, and sits, and watches you as if you were the one out of place.
+  > Down to the quarry adit — look at the padlock on the adit gate [act:knowledge] | To Mik's salt-house [journey:exploration] | To the landing at Lowmouth [go] | Wait [wait]
+  rest: To the taproom of the Lucky Phoenix | To the chapel of Saint Ide | To the churchyard | Wait an hour | Wait until first light | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the padlock on the adit gate
+--- look (inspect)
+  the old quarry pit · Day 1, 9:05 p.m.
+  A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.
+  Out of the ivy where the runs go in a vixen comes, and sits, and watches you as if you were the one out of place.
+  Need: Hungry
+  No food.
+  > Down to the quarry adit — look at the padlock on the adit gate [act:knowledge] | To Mik's salt-house [journey:exploration] | To the landing at Lowmouth [go] | Wait [wait]
+  rest: To the taproom of the Lucky Phoenix | To the chapel of Saint Ide | To the churchyard | Wait an hour | Wait until first light | Wait and watch | Light a candle | Set down a javelin | Set down chain mail | Set down a bedroll | Set down firewood | Set down a flask | Set down a candle | Listen at the padlock on the adit gate

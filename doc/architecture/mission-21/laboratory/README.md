@@ -112,8 +112,50 @@ the observation or offer projection, or rendering.
 - **A question asked stayed led.** A question asked and answered stayed the person's lead (the household's Wat).
   Fixed in `CompanyRecall.same`, held by `test/small/asked-answered`.
 
+## The place worth returning to: the quarry pit (RI-01..03)
+
+The pit lies a five-minute path from the landing. Before this work it was a scene line and a locked gate. It is now
+authored in the template, so every generated town's pit has it too. No new mechanism was needed: everything below is
+existing Kyr vocabulary.
+
+| Act | What it is | In Kyr |
+|---|---|---|
+| **Look** | The place whole; and what a company's skills let it notice | `Observe … as sign noticed by woodcraft` / `lore` |
+| **Examine** | A thing looked at closer: the ivy, the gate's padlock | the things' own changes; `look_closely` |
+| **Search** | Twenty minutes over the spoil, once | `answers(pit, rummaging)`; `Discovery … Found by searching` |
+| **Explore** | An hour on the faces, ledge by ledge, once | an `Action` with `Time 6`, asserting what it found |
+
+What each visit and each company finds:
+
+- **The ranger** reads fox-runs under the ivy (`woodcraft`). Coming back after dark, she meets the vixen: an
+  observation that holds only at night and only for one who knows the runs.
+- **The scholar** sees a wheel with no wing cut low on the north face (`lore`). Only then is "Pull the ivy back off
+  the wheel" offered (`after learning`). Pulled, it shows the word ROAD under the mark. That is the Road's seal, the
+  same "wheel; no wing" as the dues-receipt on the landing's well-post in a1. On every return the ivy is still torn
+  back.
+- **Anyone** may work the faces once, finding the quarrymen's ledge and two coins green with age, or search the
+  spoil once, finding a carter's luck-stone. Neither is offered again. Nothing resets, and nothing is farmed.
+
+Footage: `footage/pit-ranger.txt` and `footage/pit-mage.txt`, each with its runner JSON lines. Held by
+`test/small/quarry-pit`: what each build finds, once-only, night, and persistence.
+
+**Editorial note, by the doctrine.**
+
+- **Opening.** The first visit is an invitation. The pit's own line has one particular detail (KEEP OUT in three
+  hands), and the four lead with the hour on the faces.
+- **Attention repaid.** Each act of attention found something different: knowledge (the runs, the mark), material
+  (the coins, the stone), a creature, and a consequence (the ivy).
+- **Return.** A return is not a reset. It is said as the place now is: the ivy torn back by day, the vixen by night.
+- **Weak points.**
+  - A sign noticed by a skill is told only on a deliberate look, not on arriving. A player who never looks never
+    learns the runs were there.
+  - The luck-stone is knowledge only. It is not yet a thing to carry, because the catalog has no such kind.
+  - The pit's interest is still small beside the adit's spiders. It is a place to come back to, not yet a reason
+    to.
+
 ## Next in it
 
-- **RI-01, the place worth returning to:** the quarry pit beside the landing.
-- **The compact tense expedition (OA-12)**, in the same place: preparation, the place, a danger, retreat or
-  confrontation, return.
+- **The compact tense expedition (OA-12)**, in the same place: preparation, the pit, the adit's danger, retreat or
+  confrontation, return to the landing.
+- **The class matrix again**, now that the pit is there. It should show what the ranger, the scholar and the rest
+  each find.

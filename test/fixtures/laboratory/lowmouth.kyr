@@ -47,6 +47,32 @@ Module lab "The undercroft at Lowmouth" {
   Passage low_u_yard_gate "the lych-gate" is gate between low_green and low_u_yard.
   Place low_u_pit "the old quarry pit" is room within low at 2, 2 outdoors.
   Passage low_u_pit_path "the path down into the old quarry" is path between low_green and low_u_pit taking 5 minutes.
+  Entity low_u_pit_foxes: fact "Foxes use the old quarry pit at Lowmouth: their runs go in under the ivy at the foot of its east face, and they come and go at dusk.".
+  Entity low_u_pit_mark: fact "Low on the north face of the old quarry pit at Lowmouth a wheel with no wing is cut, older than the quarrying: the Road's mark, without its wing.".
+  Entity low_u_pit_ledge: fact "Halfway up the west face of the old quarry pit at Lowmouth the quarrymen left a ledge, and a niche cut in the back of it.".
+  Observe low_u_pit_runs at low_u_pit as sign noticed by woodcraft when not knows(party, low_u_pit_foxes) "Runs worn to bare earth go in under the ivy at the foot of the east face, and the smell of fox is on them." teaches low_u_pit_foxes.
+  Observe low_u_pit_wheel at low_u_pit as sign noticed by lore when not knows(party, low_u_pit_mark) "Low on the north face, where the ivy has pulled away, is a mark no quarryman cut: a wheel with no wing, its strokes worn soft." teaches low_u_pit_mark.
+  Person low_u_vixen "a vixen" at low_u_pit {
+    Role "a vixen, thin from her cubs, who keeps the quarry's ivy". Species fox. Pronouns she. Peaceable. Seen when hour(clock) >= 19 or hour(clock) < 5.
+  }
+  Observe low_u_pit_dusk at low_u_pit when knows(party, low_u_pit_foxes) and (hour(clock) >= 19 or hour(clock) < 5) "Out of the ivy where the runs go in a vixen comes, and sits, and watches you as if you were the one out of place.".
+  Thing low_u_pit_ivy "the ivy on the north face" at low_u_pit {
+    State hanging "".
+    State pulled "The ivy hangs torn back from the north face, the wheel with no wing bare on the stone, and under it, cut smaller and later, the word ROAD.".
+    Change pull "Pull the ivy back off the wheel on the north face" from hanging to pulled after learning low_u_pit_mark.
+  }
+  Initially Assert answers(low_u_pit, rummaging).
+  Discovery low_u_pit_spoil "Under the spoil at the foot of the west face, where the quarrymen threw their broken stone, a carter's luck-stone: a flint the size of a fist, worn through with a hole for the string." {
+    Found by searching low_u_pit "You turn the spoil over, a stone at a time, and under the last of the broken face a flint with a hole worn through it comes up into your hand: somebody's luck, dropped and never found.".
+  }
+  Relation low_u_pit_worked(group).
+  Action low_u_pit_work(actor: group, site: place) "Work along the faces of the pit, ledge by ledge" {
+    Description "An hour on the old faces, climbing where they let you and looking where they do not: what the quarrymen left, and what has come since. Once; what it does not find is not there.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_pit) and not benighted(actor) and not low_u_pit_worked(actor).
+    Time 6.
+    On success { Assert low_u_pit_worked(actor). Assert knows(actor, low_u_pit_ledge). Increase quantity(actor, gold) by 2. }
+    Result "Halfway up the west face a ledge runs along under the ivy, the quarrymen's, with a niche cut in the back of it for their dinners. In it, a purse rotted to a rag, and two coins green with age.".
+  }
   Place low_u_cellar "the corn-store cellar" is room within low at 0, 3 underground 1 down.
   Passage low_u_trap "the trapdoor" is stair between low_u_store and low_u_cellar.
   Place low_u_warren "the rat-runs" is room within low at 0, 4 underground 1 down.
