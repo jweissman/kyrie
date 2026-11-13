@@ -87,6 +87,50 @@ search was dropped. `gold-thread`'s Westernesse test asserted that `AimAdvances.
 intermediate value, and stayed green while the page never led with it. **A small spec that walks the page's own gold
 catches what an assertion on an intermediate does not**; this is the pattern for the rest of the ports.
 
+## Experiment A: the mechanics, on the real kernel, without Westernesse (the owner, 13 November)
+
+Each row is a rule played through the engine's own actions and the page's own projections, in a world written in the
+spec; each was checked against its fault (the rule broken by hand: the spec fails). Times are the file's, on this
+machine, almost all of it the world's start (0.1–0.25 s).
+
+| Mechanic | Spec | Bed | Time | What breaks it |
+|---|---|---|---|---|
+| Gold-follow state | `small/gold`, `small/gold-thread` | inn-yard, two aims; a keep with a hidden box | 0.28, 0.38 s | following the first aim for the player; a search not led for the aim |
+| Recruitment, and its signal | `small/signals` | a green of three | 0.38 s | blue for any word; rose not resolving |
+| Perception range | `small/companion-sensed` | a lane of three | 0.21 s | reach 2 |
+| Communication (who speaks) | `small/one-or-many` | one grave-robber, or three | 1.26 s (two worlds) | a band's line said of one |
+| Knowledge propagation | `small/knowledge` | learn, tell one who trusts, a rule acts | 0.17 s | stale news passed on |
+| Inventory transfer | `small/inventory`, `small/state-changes` | a company of two; a seller | 0.20, 0.23 s | — (pins the changes and inspect's refusal) |
+| Movement in one's own hex | `small/own-hex` | the Reedlands, hand-drawn land | 0.47 s | E155's guard removed |
+| Combat's effects on the world | `small/weary-fights`, `small/fight-after` | two galleries; a den | 0.77, 0.23 s | the fight's weariness written back |
+| Time of day | `small/hour` | a green and an adit | 0.14 s | night underground |
+| The authoring path | `small/single-module` | `test/fixtures/single/yard.kyr` | 0.29 s | — |
+
+**The kernel is cheap; the start dominates.** A rule's own steps cost milliseconds; the 0.1–0.25 s is assembling
+one module on the shared rules. Generated worlds' 7–8 s is the cost of Westernesse, not of the rules.
+
+## Where a playthrough's time goes, and what did and did not help (13 November, night)
+
+Measured on the Book of Faces (`ombra-local`, 32 tests, 8 min locally, 13.6 CI-min):
+
+- **96 % of a test is its prefix**: start 1.0 s, the walk to the Row 0.9 s, two days' waiting 4.4 s; the test's own
+  tail 0.23 s.
+- **Kept prefixes** (`test/support/kept.ts`, a journey resumed from the longest beginning of its steps played before in
+  the process): **8 min → 6 min 37 s (−17 %)**, all 32 passing on resumed games. Less than hoped: the tests share one to
+  three steps before they diverge, and their dear waits are their own.
+- **What a wait costs**, profiled: 70 % is the driver building the whole page between every hour (`Journey.screen` →
+  `ScreenModel.build`); the engine's own passing of time is 19 %. Within the page: grounding every action
+  (`Operators.applicable`, a third of the wait, ≈ 24 ms a step) and the map's land.
+- **The land's nearest blocks** (`LandModel.goes`) were measured again at every page: memoised per chart, the page's
+  cost in the wait fell 3 986 → 2 945 ms (−26 %). This is the live game's cost too.
+- **Keeping each action's grounding while what it reads is unchanged** (the tick's `Reads`/`agrees` mechanism, per
+  schema): tried, and **reverted: a 4.5 % hit rate**. The townsfolk move every hour, and nearly every action reads
+  `at(actor, site)` (63 650 of 72 833 misses), then `hour`. Reuse would need stamps per relation *and argument* (where
+  the company is, not everyone): a change to `World`, for the world-construction investigation.
+- **CI with `--no-isolate`** (branch `ci/no-isolate`): every spec passes (no state leaks across 846 files), but the
+  shards' total is the same (271 → 280 shard-minutes, noise): on CI a file runs for seconds to minutes, and its 0.5 s
+  of imports is nothing. **Not adopted.** CI's wall-time is its work, ≈ 270 shard-minutes over ten shards.
+
 ## The suites, by what they are for
 
 | Suite | Command | What | Where |

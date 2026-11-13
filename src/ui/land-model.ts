@@ -144,8 +144,18 @@ export class LandModel {
   }
   // Where a journey to each cell goes, as the engine knows its places (the map reads it, and builds no id and projects
   // nothing of its own: the architecture review's P0): the stretch of open country on it; on an authored land, the
-  // place whose block it lies in, or between the author's places the nearest of them.
-  private goes(): Record<number, string> {
+  // place whose block it lies in, or between the author's places the nearest of them. A chart's own, worked out once:
+  // the nearest block of every cell had been measured again at every page (0.7 s of two days' waiting in Ombra,
+  // Mission 21's profile), and the chart never changes.
+  private static readonly going = new WeakMap<LandChart, Readonly<Record<number, string>>>();
+  private goes(): Readonly<Record<number, string>> {
+    const kept = LandModel.going.get(this.chart);
+    if (kept) { return kept; }
+    const out = Object.freeze(this.nearest());
+    LandModel.going.set(this.chart, out);
+    return out;
+  }
+  private nearest(): Record<number, string> {
     const chart = this.chart, out: Record<number, string> = {};
     for (const [id, cell] of Object.entries(chart.places)) { if (LandModel.tract.test(id)) { out[cell] = id; } }
     const blocks = Object.entries(chart.blocks ?? {}).filter(([, cells]) => cells.length);
