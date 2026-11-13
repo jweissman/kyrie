@@ -58,13 +58,13 @@ export class CampaignLint {
       }
     }
   }
-  // Somewhere, or whoever or whatever is somewhere (in something that is, or carried by someone who is, or a thing of
-  // a kind that is: the music box in the company's own hamper is where the company is).
+  // Somewhere, or whoever or whatever is somewhere (in something that is, or carried by someone who is).
   private leadable(id?: string): boolean {
+    // A kind of thing (the music box, given out of the hamper) is in the company's hands where the aim is held.
+    if (id && this.entities.get(id)?.type === 'itemkind') { return true; }
     for (let at = id, n = 0; at && n < 6; n++) {
       if (this.entities.get(at)?.space) { return true; }
-      at = this.world.one('at', at) ?? this.world.one('inside', at) ?? this.world.one('ownedItem', at)
-        ?? this.world.related('itemKind').find(r => r.args[1] === at)?.args[0];
+      at = this.world.one('at', at) ?? this.world.one('inside', at) ?? this.world.one('ownedItem', at);
     }
     return false;
   }

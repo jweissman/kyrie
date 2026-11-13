@@ -327,7 +327,7 @@ export class WorldStage {
           : <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
             : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
-        {here ? <button type="button" className="enter" data-action="enter-hex"
+        {here ? <button type="button" className="enter" data-action="enter-hex" data-act={entry?.c.id}
           onClick={() => { if (entry) { app.choose(entry.c); } else { app.outdoor(false); } }}>
           {inside ? `Back to ${where.replace(/^The /, 'the ')}` : `Enter ${Typography.curl(town.name)}`}</button>
           : go && <button type="button" className="enter travel" data-action="travel" data-act={go.id}
