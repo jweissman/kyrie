@@ -1,4 +1,4 @@
-import { createInterface, type Interface } from 'node:readline/promises';
+import { TerminalInput } from './terminal-input';
 import { writeFile } from 'node:fs/promises';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
@@ -20,7 +20,7 @@ const quitPlay = 'The player left the encounter.';
 // A text client over the same public projection and command path as the browser. It decides layout and input only:
 // PlayerView decides what is legal, ScreenModel/Narrator what the player knows, and PlaySession performs every act.
 export class Terminal {
-  static async command(state: BattleState, legal: Command[], input: Interface): Promise<Command | null> {
+  static async command(state: BattleState, legal: Command[], input: TerminalInput): Promise<Command | null> {
     // By name, never by id ("region__s2_u_rats_person_2" had stood in the table: the headless review, 12 November).
     console.table(state.combatants.map(f => ({ name: f.name, hp: `${f.hp}/${f.maxHp}`,
       mana: f.mana, statuses: f.statuses.map(s => s.id).join(', ') })));
@@ -32,8 +32,8 @@ export class Terminal {
       || x.ability.name.localeCompare(y.ability.name));
     for (;;) {
       choices.forEach((choice, i) => console.log(`${i + 1}. ${choice.ability.name} — ${choice.scope} (mana ${choice.ability.cost ?? 0})`));
-      const answer = (await input.question('Action number or name, auto, or q: ')).trim();
-      if (answer === 'q') { return null; }
+      const answer = await input.ask('Action number or name, auto, or q: ');
+      if (answer === null || answer === 'q') { return null; }
       if (answer === 'auto') { return Tactics.choose(state, legal); }
       const choice = choices[Number(answer) - 1]
         ?? choices.find(c => c.ability.name.toLowerCase() === answer.toLowerCase());
@@ -44,22 +44,22 @@ export class Terminal {
       return target;
     }
   }
-  static async target(choice: ActionChoice, state: BattleState, input: Interface): Promise<Command | 'back' | null> {
+  static async target(choice: ActionChoice, state: BattleState, input: TerminalInput): Promise<Command | 'back' | null> {
     console.log(`${choice.ability.name} — choose a target:`);
     choice.commands.forEach((command, index) => {
       const target = state.combatants.find(f => f.id === command.target)!;
       console.log(`${index + 1}. ${target.name} (${target.hp}/${target.maxHp})`);
     });
     for (;;) {
-      const answer = (await input.question('Target number, b to go back, or q: ')).trim();
-      if (answer === 'q') { return null; }
+      const answer = await input.ask('Target number, b to go back, or q: ');
+      if (answer === null || answer === 'q') { return null; }
       if (answer === 'b') { return 'back'; }
       const command = choice.commands[Number(answer) - 1];
       if (command) { return CombatChoices.target(choice, command.target); }
       console.log('Choose an eligible target.');
     }
   }
-  static async battle(battle: Battle, input: Interface): Promise<Command[] | null> {
+  static async battle(battle: Battle, input: TerminalInput): Promise<Command[] | null> {
     const commands: Command[] = [];
     while (!battle.state.outcome) {
       const state = battle.state;
@@ -133,7 +133,7 @@ export class Terminal {
     console.log(`Coin ${screen.purse.coin} · rations ${screen.purse.rations}`);
   }
   static async play(session: PlaySession) {
-    const input = createInterface({ input: process.stdin, output: process.stdout });
+    const input = TerminalInput.open();
     let told: Told | undefined;
     let current: ReturnType<typeof Terminal.scene> | undefined;
     try {
@@ -143,8 +143,8 @@ export class Terminal {
         const offered = this.foreground(session, leaf.glance, screen);
         console.log('\nForeground'); this.choices(offered.first);
         console.log('Commands: 1-4 · all · map · character · look · save <path> · q');
-        const answer = (await input.question('> ')).trim();
-        if (answer === 'q' || answer === 'quit') { return; }
+        const answer = await input.ask('> ');
+        if (answer === null || answer === 'q' || answer === 'quit') { return; }
         if (answer === 'look') { told = undefined; current = undefined; continue; }
         if (answer === 'map') { this.map(session); continue; }
         if (answer === 'character' || answer === 'dossier') { this.dossier(session); continue; }
