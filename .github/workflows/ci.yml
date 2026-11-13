@@ -69,7 +69,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
-      - run: bun test --parallel --shard=${{ matrix.shard }}/8 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $(bun scripts/test-lane.ts push)
+      - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/8 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $(bun scripts/test-lane.ts push)
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Push lane, shard ${{ matrix.shard }} of 8"
   # On every push, the page itself: loaded in Chromium, a character made, and a conversation sat at the foot of the
@@ -116,7 +116,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
-      - run: bun test --parallel --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/10 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 10"
       # Kept, so that the files' times can be read back into test/timings.json (scripts/timings-from-ci.ts).

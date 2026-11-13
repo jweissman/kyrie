@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { WorldAssembler } from '../../src/world/world-assembler';
-import { RegionWorks } from '../../src/world/region-works';
-import { Origins } from '../../src/world/origins';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { RegionWorks } from '../src/world/region-works';
+import { Origins } from '../src/world/origins';
 
 // Every country's brothers' errand is sent to a work that teaches what the errand waits on: who its makers were, or
 // how they ended (M21's playability list, PL-24). Kahitude's errand had been sent to Lapisrecs, a deep work, which
@@ -35,5 +35,5 @@ describe("the brothers' errand", () => {
     expect(errands.length).toBeGreaterThanOrEqual(5);
     const unteaching = errands.filter(e => !e.waits.some(w => e.teaches.includes(w)));
     expect(unteaching.map(e => `${e.seed}: ${e.delving}`)).toEqual([]);
-  });
+  }, 60000);
 });

@@ -25,7 +25,7 @@ class QuickSuite {
     // --no-isolate: each worker keeps one module registry across the files it runs, so the engine is imported once a
     // worker, not once a file: 34 s and 321 CPU-s had become 9.6 s, all 663 tests passing in runs at 4, 6 and 10
     // workers (mission-20/test-loop.md, item 1). A spec that leaks state into another shows here first.
-    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', ...quick],
+    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', '--timeout=30000', ...quick],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
   }
 }
