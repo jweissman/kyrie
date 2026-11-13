@@ -5,6 +5,7 @@ import { Harm } from '../rules/harm';
 import type { Campaign } from '../campaign/campaign';
 import type { Call, Module, Predicate } from '../lang/module';
 import { World } from '../lang/world';
+import { OutOf } from './out-of';
 import type { Operator } from '../campaign/planner';
 
 // The last words on a choice, once it is grounded: a way not named twice, nor for where the company stands; what a
@@ -26,7 +27,7 @@ export class ChoiceWording {
     if (at.here) { name = name.replace(` to ${at.here} to `, ' to '); }
     // Nor where where it comes to is called by the place its name goes to: "Take the road to the Lull", not "… to the
     // way into the Lull" (round 12, B: T24-19).
-    if (action.movement || action.schema === 'go') { name = this.once(name); }
+    if (action.movement || action.schema === 'go') { name = OutOf.once(this.once(name)); }
     const resolve = action.resolve, world = campaign.world;
     // A hazard is risked on the way to somewhere, and says where (the command stays the trap and who goes first).
     const to = action.schema === 'risk' && world.module.entities.find(e => e.id === action.bindings?.destination);

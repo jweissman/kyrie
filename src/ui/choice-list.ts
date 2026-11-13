@@ -2,6 +2,7 @@ import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow,
 import { Patience } from './patience';
 import { Tending } from './tending';
 import { Counted } from '../presentation/counted';
+import { OutOf } from '../presentation/out-of';
 import { Marks } from './marks';
 import type { Mark } from '../presentation/glance-types';
 
@@ -158,7 +159,7 @@ export class ChoiceList {
           : (e.several && e.transition === 'enter' || e.oneWay) && e.way
             ? `${labels[i]!} by ${this.inline(this.unrepeated(e.way, e.scope))}`
             : labels[i]!;
-      return this.way(e, label).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
+      return this.way(e, OutOf.once(label)).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
         ? { ...c, grave: ChoiceList.oneWay } : c);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };
