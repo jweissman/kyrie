@@ -1,0 +1,29 @@
+// The laboratory's host (M21's consolidated priority 3): the few places and people the first town's undertown needs
+// of its town, and nothing else, so that what is under the town (data/generation/town/undertown.kyrt, rendered by
+// scripts/laboratory.ts into lowmouth.kyr) plays alone on the shared rules, in about a second, the same every time.
+// Lowmouth, after a1's: a landing, the salter who holds the corn-store key, the inn, the chapel.
+  Place low "Lowmouth" is settlement.
+  Place low_green "the landing at Lowmouth" is room within low at 1, 0 outdoors.
+  Place low_shop "Mik's salt-house" is room within low at 0, 0 indoors.
+  Place low_taproom "the taproom of the Lucky Phoenix" is room within low at 2, 0 indoors.
+  Place low_chapel "the chapel of Saint Ide" is room within low at 1, 1 indoors.
+  Passage low_shop_door "the salt-house door" is door between low_green and low_shop.
+  Passage low_inn_door "the door of the Lucky Phoenix" is door between low_green and low_taproom.
+  Passage low_chapel_door "the chapel door" is door between low_green and low_chapel.
+  Observe low_green_scene at low_green as fixture when true "Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.".
+  Observe low_shop_scene at low_shop as fixture when true "Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.".
+  Observe low_taproom_scene at low_taproom as fixture when true "A busy room in two parts with a counter between them, and a stair going up to the bedrooms.".
+  Observe low_chapel_scene at low_chapel as fixture when true "A low stone chapel, whitewashed, with a saint painted over the altar whose face has been touched so often it is gone.".
+  Person low_merchant "Mik" at low_shop {
+    Role "a salter, who buys and sells". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Sells torch for 1 coin from 9. Sells candle for 1 coin from 9. Sells rations for 2 coin from 9.
+  }
+  Person low_innkeeper "Eamon" at low_taproom {
+    Role "who keeps the Lucky Phoenix". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+  }
+  Person low_priest "Mother Agnes" at low_chapel {
+    Role "the priest of Saint Ide's". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+  }
+  Company party "You" of 1 at low_green.
+  Initially Set quantity(party, gold) to 6.
+  Goal false.
