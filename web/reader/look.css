@@ -4,24 +4,6 @@
 /* -- Type roles. -- */
 :root[data-look] .world-page.scale-scene :is(.panel-head, .world-bar) h1.place { font: var(--t-title); letter-spacing: 0; }
 
-/* -- The fight on a phone: the foes a strip across the top, each its face and full name; the company a line under. -- */
-@media (max-width: 600px) {
-  :root[data-look] .fight > .sides { grid-template-columns: minmax(0, 1fr); grid-template-areas: "foes" "ours" "beat";
-    gap: var(--s3); }
-  :root[data-look] .fight .side.foes { grid-area: foes; display: flex; flex-wrap: wrap; gap: 6px; }
-  :root[data-look] .fight .side.foes::before { flex: 0 0 100%; }
-  :root[data-look] .fight .side.foes > .fighter { flex: 1 1 0; min-width: 0; }
-  :root[data-look] .fight .side.ours { grid-area: ours; }
-  :root[data-look] .fight .sides > .beat { grid-area: beat; }
-  :root[data-look] .fight .foes .fighter.faced { --panel: 0px; padding: 64px 8px 8px; }
-  :root[data-look] .fight .foes .fighter .face { right: 0; bottom: auto; width: auto; height: 56px; border-right: 0;
-    border-bottom: 1px solid var(--edge); }
-  :root[data-look] .fight .foes .fighter .n { font-size: 13.5px; margin-bottom: 6px; }
-  :root[data-look] .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; }
-  :root[data-look] .fight .foes .fighter :is(.tags, .defenses) { display: none; }
-  :root[data-look] .fight .foes .fighter .intent { font-size: 11.5px; padding-top: 5px; margin-top: 5px; }
-  :root[data-look] .fight .moves .bar { max-width: none; }
-}
 
 /* -- A crowd on a phone: two rows of faces at most, their names said to a reader and in the People lens, not under each
    face (thirteen names cut to "Thessal…" and "The gre…" had been three rows over the words). Their pips stay. -- */
@@ -33,12 +15,6 @@
   :root[data-look] .world-page .surface .portraits { gap: 6px; }
 }
 
-/* -- The conversation on a narrow screen: the choices hold their room and the record above gives way (it scrolls,
-   newest last). After an answer the questions had 32 px of 250, one in view. -- */
-@media (max-width: 1023px), (orientation: portrait) {
-  :root[data-look] .talk .dialogue .lines { flex: 0 1 auto; max-height: none; min-height: 5.5em; }
-  :root[data-look] .talk .dialogue .answer { flex: 0 0 auto; max-height: 60%; }
-}
 
 /* -- The book as paper: the one light composition (character, notes, pack, story are read, not lived). -- */
 :root[data-look] .shell.scene-full .book-frame {
@@ -177,4 +153,22 @@
     flex-direction: column; min-height: 0; max-height: inherit; }
   :root[data-look="attend"] .shell.scene-full .world-page.scale-scene .world-body > .focus > .glance > .told-col {
     flex: 0 1 auto; min-height: 3.5em; overflow-y: auto; }
+}
+
+/* -- The fight on a phone, an experiment: the foes a strip across the top, each its face over its whole name (a
+   departure from the owner's left-panel portraits, so never the default). -- */
+@media (max-width: 600px) {
+  :root[data-look] .fight > .sides { grid-template-columns: minmax(0, 1fr); grid-template-areas: "foes" "ours" "beat"; gap: 12px; }
+  :root[data-look] .fight .side.foes { grid-area: foes; display: flex; flex-wrap: wrap; gap: 6px; }
+  :root[data-look] .fight .side.foes::before { flex: 0 0 100%; }
+  :root[data-look] .fight .side.foes > .fighter { flex: 1 1 0; min-width: 0; }
+  :root[data-look] .fight .side.ours { grid-area: ours; }
+  :root[data-look] .fight .sides > .beat { grid-area: beat; }
+  :root[data-look] .fight .foes .fighter.faced { --panel: 0px; padding: 64px 8px 8px; }
+  :root[data-look] .fight .foes .fighter .face { right: 0; bottom: auto; width: auto; height: 56px; border-right: 0;
+    border-bottom: 1px solid var(--edge); }
+  :root[data-look] .fight .foes .fighter .n { font-size: 13.5px; margin-bottom: 6px; }
+  :root[data-look] .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; }
+  :root[data-look] .fight .foes .fighter :is(.tags, .defenses) { display: none; }
+  :root[data-look] .fight .foes .fighter .intent { font-size: 11.5px; padding-top: 5px; margin-top: 5px; }
 }

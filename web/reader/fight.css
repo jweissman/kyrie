@@ -187,3 +187,30 @@
 .fight .fighter .chance { display: block; margin-top: 6px; font: 600 12.5px var(--do); color: var(--accent); }
 .fight.aiming .fighter:not(.target) { opacity: .55; }
 
+
+/* ---- Mission 21, step 5: the fight's own composition. ---- */
+/* How it stands, told in the beat at the start (see FightStage.View), in its danger's colour only where it is grave. */
+.fight .beat .reckoning { font: italic 400 19px/1.5 var(--told); color: var(--ivory); }
+.fight .beat .reckoning:is(.grave, .deadly) { color: color-mix(in oklab, var(--ember) 45%, var(--ivory)); }
+/* A kind opened (Abilities, Spells, Items, Other): its moves across the hand's width, two rows at most, and the field
+   above gives way to them; under the hand they had run past the foot of a laptop, five of eight outside the safe zone
+   (the capture walk, 12 November). */
+.fight:has(.moves > .panel) > .sides { min-height: calc(var(--frame-h) * .18); }
+:root .fight .moves > .panel { grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); margin: 8px 0 0; padding: 8px 0 0; }
+.fight .moves > .panel .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
+.fight .moves > .panel .choice-row.choice-row > .row-aside { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* On a phone a foe's name is said whole, over two lines if need be, its painting still the card's left panel (the
+   owner, 30 October and 6 November): "The seco…" had been all of the second rat. */
+@media (max-width: 600px) {
+  .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+  /* Its reckoning is the moment's before the fight closes on a phone, as the head's is (above): the company first. */
+  .fight .beat .reckoning { display: none; }
+  /* A kind opened on a phone: its moves two by two, by name (what each does is said where there is room), and letting
+     the fight go on by itself and the fight so far stand aside until it is put away (the capture walk, 13 November: Guard
+     and Let Hamo fight this turn had stood 72 and 84 px past the foot of the safe zone). */
+  :root .fight .moves > .panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root .fight .moves > .panel .choice-row.choice-row { min-height: 38px; padding: 5px 8px 5px 14px; font-size: 14px; }
+  :root .fight .moves > .panel .choice-row.choice-row > .row-aside { display: none; }
+  .fight:has(.moves > .panel) .moves > :is(.auto, .through), .fight:has(.moves > .panel) > .fight-log-toggle { display: none; }
+  .fight:has(.moves > .panel) > .sides { min-height: calc(var(--frame-h) * .12); }
+}

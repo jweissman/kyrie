@@ -40,7 +40,7 @@
   text-wrap: balance; -webkit-tap-highlight-color: transparent;
   transition: background var(--quick), border-color var(--quick), transform var(--quick); }
 :root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
-  background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); transform: translateX(2px); outline: none; }
+  background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); outline: none; }
 :root :is(.world-page, .talk, .fight) .choice-row.choice-row:active { transform: none; }
 :root :is(.world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
   cursor: default; transform: none; }

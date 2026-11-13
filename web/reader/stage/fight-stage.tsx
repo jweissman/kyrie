@@ -52,6 +52,10 @@ export class FightStage {
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} app={app} target={aiming?.targets.get(f.id)} />)}</ul>
           <div className="beat" aria-live="polite">{log ? <FightLog.Memo exchanges={combat.exchanges} /> : <>
             {first && frame.opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
+            {/* At the start, how the fight stands, in the beat where the eye is: its middle had stood empty, the
+                reckoning in small italics at the corner (Mission 21's critique, finding 5). */}
+            {first && !recent.length && !frame.opening.some(Boolean) && combat.standing && <p
+              className={`began reckoning ${combat.standing.danger}`} data-region="reckoning">{Typography.curl(combat.standing.text)}</p>}
             {combat.moment && <p className="moment">{Typography.curl([combat.reckoned ?? '', combat.moment === 'seen'
               ? 'It has not reached you yet.' : 'It is on you, but not yet round you.'].filter(Boolean).join(' '))}</p>}
             {earlier.map(e => <p key={e.n} className="what earlier">{Typography.curl(e.text)}</p>)}

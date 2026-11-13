@@ -141,3 +141,17 @@
 @media (max-width: 899px), (orientation: portrait) {
   .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 64px; }
 }
+
+/* ---- Mission 21, step 5: the conversation at its edges. ---- */
+/* On a narrow screen the questions hold their room and the record above gives way (it scrolls, newest last): after an
+   answer they had had 32 px of 250, one in view (the capture walk, 12 November). */
+@media (max-width: 1023px), (orientation: portrait) {
+  .talk .dialogue .lines { flex: 0 1 auto; max-height: none; min-height: 5.5em; }
+  .talk .dialogue .answer { flex: 0 0 auto; max-height: 60%; }
+}
+/* Unpainted, a page in type: the name large, the people's emblem large and faint behind it (the owner, 5 and 7
+   November), not an outline floating in an empty column. */
+.sitter.unpainted { justify-content: flex-start; }
+.sitter.unpainted .sitter-emblem { top: auto; bottom: clamp(30px, 8vh, 80px); left: clamp(8px, 2vw, 28px); width: min(78%, 300px);
+  transform: none; opacity: .16; }
+.shell.scene-full .sitter.unpainted { background: linear-gradient(180deg, rgba(10, 11, 14, .55), rgba(10, 11, 14, .92)); }
