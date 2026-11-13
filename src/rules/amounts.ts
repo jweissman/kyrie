@@ -23,8 +23,9 @@ export class Amounts {
     return typeof text === 'string' && !!text.trim() && !Deem.parse(text.trim()).failed();
   }
   // The expectation of an amount, exactly: a die of n sides is (n + 1) / 2, sums and differences add, a product of
-  // independent throws multiplies, and division is by a constant. A comparison or a function has no such mean, and
-  // is refused rather than guessed at. Deem reads a bare "d6" as a word, so a catalog writes 1d6.
+  // independent throws multiplies, division is by a constant, and roll, min, max, floor, ceil and round of what is
+  // fixed are what they come to (see AmountActions.call). A comparison or another function has no such mean, and is
+  // refused rather than guessed at. Deem reads a bare "d6" as a word, so a catalog writes 1d6.
   static mean(amount: Amount | string, context: Context = {}): number {
     const text = typeof amount === 'string' ? amount : Amounts.text(amount);
     const match = Deem.parse(text);

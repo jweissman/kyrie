@@ -22,6 +22,13 @@ describe('the mean of dice', () => {
   it('reads a creature\'s quantities, and refuses what has no exact mean', () => {
     expect(Amounts.mean('1d6 + #level', { level: 4 })).toBe(7.5);
     expect(() => Amounts.mean('statMod(12)')).toThrow('No mean for a function');
+    // A die thrown a fixed number of times, and min, max, floor, ceil, round of what throws nothing: the SRD's 1d6 a
+    // caster level to ten is roll(min(#level, 10), 6). Over dice, they have none.
+    expect(Amounts.mean('roll(min(#level, 10), 6)', { level: 5 })).toBe(17.5);
+    expect(Amounts.mean('roll(min(#level, 10), 6)', { level: 14 })).toBe(35);
+    expect(Amounts.mean('1d8 + min(#level, 5) + floor(#level / 3) - ceil(0.5) + round(0.4)', { level: 7 })).toBe(10.5);
+    expect(() => Amounts.mean('floor(1d6 / 2)')).toThrow('No mean for a function');
+    expect(() => Amounts.mean('roll(1d4, 6)')).toThrow('No mean for a function');
     expect(() => Amounts.mean('1d6 > 3')).toThrow('No mean for a test');
     // Deem reads a bare "d6" as a word, not a die: a catalog writes 1d6.
     expect(() => Amounts.mean('d6')).toThrow('No value for d6');

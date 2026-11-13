@@ -1,0 +1,341 @@
+{
+ "about": "Which Revised 3.5 SRD entry each catalog creature and spell answers to (data/sources/srd35), for the fidelity census (scripts/srd-fidelity.ts). A creature entry may say which SRD special attacks its conversion carries, and as what.",
+ "creatures": {
+  "badger": {
+   "srd": "badger"
+  },
+  "balor": {
+   "srd": "balor"
+  },
+  "bat": {
+   "srd": "bat"
+  },
+  "bear": {
+   "srd": "bear-black"
+  },
+  "beetle": {
+   "srd": "giant-fire-beetle"
+  },
+  "boar": {
+   "srd": "boar"
+  },
+  "cat": {
+   "srd": "cat"
+  },
+  "centipede": {
+   "srd": "monstrous-centipede-small"
+  },
+  "centipede/great": {
+   "srd": "monstrous-centipede-medium"
+  },
+  "chimera": {
+   "srd": "chimera"
+  },
+  "crocodile": {
+   "srd": "crocodile"
+  },
+  "deva": {
+   "srd": "angel-astral-deva"
+  },
+  "dog": {
+   "srd": "dog"
+  },
+  "dryad": {
+   "srd": "dryad"
+  },
+  "eagle": {
+   "srd": "eagle"
+  },
+  "elemental/air_element": {
+   "srd": "air-elemental-medium"
+  },
+  "elemental/earth_element": {
+   "srd": "earth-elemental-medium"
+  },
+  "elemental/fire_element": {
+   "srd": "fire-elemental-medium"
+  },
+  "elemental/water_element": {
+   "srd": "water-elemental-medium"
+  },
+  "elephant": {
+   "srd": "elephant"
+  },
+  "frog": {
+   "srd": "toad"
+  },
+  "ghoul": {
+   "srd": "ghoul"
+  },
+  "ghoul/barrow": {
+   "srd": "ghoul",
+   "carries": {
+    "paralysis": "rider:paralyzed"
+   },
+   "notes": "Ghoul fever omitted."
+  },
+  "golem/clay": {
+   "srd": "clay-golem"
+  },
+  "golem/flesh": {
+   "srd": "flesh-golem",
+   "notes": "Berserk omitted."
+  },
+  "golem/iron": {
+   "srd": "iron-golem"
+  },
+  "golem/stone": {
+   "srd": "stone-golem"
+  },
+  "grey_render": {
+   "srd": "gray-render"
+  },
+  "hawk": {
+   "srd": "hawk"
+  },
+  "hound": {
+   "srd": "dog-riding"
+  },
+  "hyena": {
+   "srd": "hyena"
+  },
+  "leopard": {
+   "srd": "leopard"
+  },
+  "lillend": {
+   "srd": "lillend"
+  },
+  "lion": {
+   "srd": "lion"
+  },
+  "lizard": {
+   "srd": "lizard"
+  },
+  "locatah": {
+   "srd": "locathah"
+  },
+  "marilith": {
+   "srd": "marilith"
+  },
+  "monkey": {
+   "srd": "monkey"
+  },
+  "mummy": {
+   "srd": "mummy"
+  },
+  "nightmare": {
+   "srd": "nightmare"
+  },
+  "nymph": {
+   "srd": "nymph"
+  },
+  "ooze": {
+   "srd": "gray-ooze"
+  },
+  "owl": {
+   "srd": "owl"
+  },
+  "owlbear": {
+   "srd": "owlbear"
+  },
+  "pegasus": {
+   "srd": "pegasus"
+  },
+  "pixie": {
+   "srd": "pixie"
+  },
+  "pony": {
+   "srd": "pony"
+  },
+  "pseudodragon": {
+   "srd": "pseudodragon"
+  },
+  "rat": {
+   "srd": "rat"
+  },
+  "rat/great": {
+   "srd": "dire-rat"
+  },
+  "raven": {
+   "srd": "raven"
+  },
+  "rhino": {
+   "srd": "rhinoceros"
+  },
+  "satyr": {
+   "srd": "satyr"
+  },
+  "snake": {
+   "srd": "snake-small-viper"
+  },
+  "solar": {
+   "srd": "angel-solar"
+  },
+  "spider": {
+   "srd": "monstrous-spider-small"
+  },
+  "spider/great": {
+   "srd": "monstrous-spider-medium"
+  },
+  "spider/great/cave": {
+   "srd": "monstrous-spider-medium"
+  },
+  "three_horn": {
+   "srd": "triceratops"
+  },
+  "tiger": {
+   "srd": "tiger"
+  },
+  "titan": {
+   "srd": "titan"
+  },
+  "tyrant": {
+   "srd": "tyrannosaurus"
+  },
+  "unicorn": {
+   "srd": "unicorn"
+  },
+  "whale": {
+   "srd": "whale"
+  },
+  "wolf": {
+   "srd": "wolf"
+  },
+  "wraith": {
+   "srd": "wraith"
+  },
+  "wyvern": {
+   "srd": "wyvern"
+  },
+  "xill": {
+   "srd": "xill"
+  },
+  "yrthak": {
+   "srd": "yrthak"
+  },
+  "zombie": {
+   "srd": "human-commoner-zombie"
+  }
+ },
+ "spells": {
+  "acid_arrow": "acid-arrow",
+  "animate_dead": "animate-dead",
+  "armor": "mage-armor",
+  "augury": "augury",
+  "barkskin": "barkskin",
+  "blade_barrier": "blade-barrier",
+  "bless": "bless",
+  "blur": "blur",
+  "burning_hands": "burning-hands",
+  "calm_emotions": "calm-emotions",
+  "cause_blindness": "blindness-deafness",
+  "chain_lightning": "chain-lightning",
+  "charm": "charm-person",
+  "cloudkill": "cloudkill",
+  "command": "command",
+  "cone_of_cold": "cone-of-cold",
+  "confuse": "confusion-lesser",
+  "confusion": "confusion",
+  "conjure_light": "light",
+  "contagion": "contagion",
+  "control_undead": "control-undead",
+  "create_darkness": "darkness",
+  "cure": "cure-light-wounds",
+  "cure_critical": "cure-critical-wounds",
+  "cure_disease": "remove-disease",
+  "cure_minor": "cure-minor-wounds",
+  "cure_moderate": "cure-moderate-wounds",
+  "cure_serious": "cure-serious-wounds",
+  "curse": "bestow-curse",
+  "dancing_lights": "dancing-lights",
+  "daylight": "daylight",
+  "death": "power-word-kill",
+  "death_ward": "death-ward",
+  "disintegrate": "disintegrate",
+  "dispel_magic": "dispel-magic",
+  "divine_favor": "divine-favor",
+  "divine_power": "divine-power",
+  "dominate_person": "dominate-person",
+  "domination": "dominate-monster",
+  "earthquake": "earthquake",
+  "enlarge": "enlarge-person",
+  "entangle": "entangle",
+  "false_life": "false-life",
+  "finger_of_death": "finger-of-death",
+  "fire_storm": "fire-storm",
+  "fireball": "fireball",
+  "flesh_to_stone": "flesh-to-stone",
+  "flight": "fly",
+  "foresight": "foresight",
+  "glyph_of_warding": "glyph-of-warding",
+  "goodberry": "goodberry",
+  "harm": "harm",
+  "haste": "haste",
+  "heal": "heal",
+  "hold_animal": "hold-animal",
+  "hold_person": "hold-person",
+  "holy_wrath": "holy-smite",
+  "ice_storm": "ice-storm",
+  "image": "major-image",
+  "implosion": "implosion",
+  "insanity": "insanity",
+  "invisibility": "invisibility",
+  "invulnerability": "globe-of-invulnerability",
+  "knock": "knock",
+  "life_drain": "vampiric-touch",
+  "lightning_bolt": "lightning-bolt",
+  "magic_missile": "magic-missile",
+  "major_restoration": "restoration-greater",
+  "mass_charm": "charm-monster-mass",
+  "mass_curse": "bane",
+  "mass_heal": "heal-mass",
+  "maze": "maze",
+  "meteor_swarm": "meteor-swarm",
+  "mind_blank": "mind-blank",
+  "mind_reading": "detect-thoughts",
+  "minor_image": "minor-image",
+  "minor_restoration": "restoration-lesser",
+  "mirror_image": "mirror-image",
+  "nightmare": "nightmare",
+  "obscuring_mist": "obscuring-mist",
+  "paralyzing_touch": "ghoul-touch",
+  "plane_shift": "plane-shift",
+  "polar_ray": "polar-ray",
+  "polymorph": "polymorph",
+  "prayer": "prayer",
+  "prismatic_spray": "prismatic-spray",
+  "protection_from_evil": "protection-from-evil",
+  "protection_from_fire": "protection-from-energy",
+  "raise_dead": "raise-dead",
+  "ray_of_frost": "ray-of-frost",
+  "remove_fear": "remove-fear",
+  "resist_fire": "resist-energy",
+  "restoration": "restoration",
+  "resurrect": "resurrection",
+  "shapechange": "shapechange",
+  "shield": "shield-of-faith",
+  "shocking_grasp": "shocking-grasp",
+  "silence": "silence",
+  "sleep": "sleep",
+  "slow": "slow",
+  "spellturning": "spell-turning",
+  "spike_growth": "spike-growth",
+  "stone_to_flesh": "stone-to-flesh",
+  "stoneskin": "stoneskin",
+  "summon_monster": "summon-monster-i",
+  "summon_monster_ii": "summon-monster-ii",
+  "summon_monster_iii": "summon-monster-iii",
+  "summon_monster_iv": "summon-monster-iv",
+  "summon_monster_v": "summon-monster-v",
+  "summon_monster_vi": "summon-monster-vi",
+  "summon_monster_vii": "summon-monster-vii",
+  "summon_vermin": "summon-swarm",
+  "sunburst": "sunburst",
+  "symbol_of_insanity": "symbol-of-insanity",
+  "terror": "cause-fear",
+  "time_stop": "time-stop",
+  "true_sight": "true-seeing",
+  "weakness": "ray-of-enfeeblement",
+  "weird": "weird"
+ }
+}

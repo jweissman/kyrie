@@ -42,9 +42,31 @@ export class AmountActions {
   // choice, a test or a word has none.
   static through(this: MeanNode, ...children: ohm.Node[]): number {
     if (children.length === 1) { return AmountActions.of(children[0]!, this.args.context); }
+    if (this.ctorName === 'FunctionCall') { return AmountActions.call(this, children); }
     throw new Error(`No mean for ${AmountActions.called[this.ctorName] ?? this.ctorName}`);
   }
   static word(this: MeanNode): number { throw new Error(`No mean for '${this.sourceString}'`); }
+  // A function whose mean is exact: roll(count, sides), a die thrown so many times, its count fixed (a spell's
+  // roll(min(#level, 10), 6), the SRD's 1d6 a caster level to ten); and min, max, floor, ceil and round of what throws
+  // nothing (#level / 2). Any other, or one of these over dice, has none.
+  static call(node: MeanNode, [name, , list]: ohm.Node[]): number {
+    const args = list!.numChildren ? AmountActions.args(list!.child(0)) : [];
+    const fixed = args.every(a => !(a as DiceNode).dice().length && !/\broll\(/.test(a.sourceString));
+    if (!fixed) { throw new Error('No mean for a function'); }
+    return AmountActions.exactly(name!.sourceString, args.map(a => AmountActions.of(a, node.args.context)));
+  }
+  private static args(list: ohm.Node): ohm.Node[] { return [list.child(0), ...list.child(2).children]; }
+  private static exactly(name: string, v: number[]): number {
+    switch (name) {
+      case 'roll': return v[0]! * (v[1]! + 1) / 2;
+      case 'min': return Math.min(...v);
+      case 'max': return Math.max(...v);
+      case 'floor': return Math.floor(v[0]!);
+      case 'ceil': return Math.ceil(v[0]!);
+      case 'round': return Math.round(v[0]!);
+      default: throw new Error('No mean for a function');
+    }
+  }
   static readonly called: Record<string, string> = { ExpExp_power: 'a power', FunctionCall: 'a function',
     TernaryExp: 'a choice', LogExp_and: 'a test', LogExp_or: 'a test', LogExp_not: 'a test', CompExp_lt: 'a test',
     CompExp_gt: 'a test', CompExp_eq: 'a test', CompExp_neq: 'a test', CompExp_lte: 'a test', CompExp_gte: 'a test' };

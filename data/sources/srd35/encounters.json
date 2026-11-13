@@ -1,0 +1,897 @@
+{
+ "about": "Where a player meets each kind: a1's hostile groups as real play writes them, and the dens of six generated countries (scripts/srd-fidelity.ts --encounters).",
+ "a1": [
+  {
+   "group": "w1_frogs",
+   "kinds": [
+    "frog",
+    "frog",
+    "frog"
+   ]
+  },
+  {
+   "group": "w1_newcomers",
+   "kinds": [
+    "hound/cave",
+    "hound/cave"
+   ]
+  },
+  {
+   "group": "w1_denned",
+   "kinds": [
+    "hound/cave",
+    "hound/cave"
+   ]
+  },
+  {
+   "group": "w2_newcomers",
+   "kinds": [
+    "hound/cave",
+    "hound/cave"
+   ]
+  },
+  {
+   "group": "w2_denned",
+   "kinds": [
+    "hound/cave",
+    "hound/cave"
+   ]
+  },
+  {
+   "group": "w3_dead",
+   "kinds": [
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w3_newcomers",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "w3_denned",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "w4_dead",
+   "kinds": [
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w4_newcomers",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "w4_denned",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "w5_newcomers",
+   "kinds": [
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w5_denned",
+   "kinds": [
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w6_wolves",
+   "kinds": [
+    "wolf",
+    "wolf",
+    "wolf"
+   ]
+  },
+  {
+   "group": "w6_newcomers",
+   "kinds": [
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w6_denned",
+   "kinds": [
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w7_keeper",
+   "kinds": [
+    "elemental/water_element"
+   ]
+  },
+  {
+   "group": "w8_barrow_chamber_dwellers",
+   "kinds": [
+    "bat",
+    "bat",
+    "bat",
+    "bat"
+   ]
+  },
+  {
+   "group": "w8_barrow_chamber_device",
+   "kinds": [
+    "phylactery"
+   ]
+  },
+  {
+   "group": "w8_barrow_recess_dwellers",
+   "kinds": [
+    "rat",
+    "rat",
+    "rat",
+    "rat",
+    "rat"
+   ]
+  },
+  {
+   "group": "w8_barrow_recess2_dwellers",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "w8_halls_gallery_dwellers",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "w8_halls_mourners_dwellers",
+   "kinds": [
+    "hound/skeletal",
+    "hound/skeletal",
+    "hound/skeletal"
+   ]
+  },
+  {
+   "group": "w8_halls_ossuary_dwellers",
+   "kinds": [
+    "spider",
+    "spider",
+    "spider"
+   ]
+  },
+  {
+   "group": "w8_halls_embalmers_dwellers",
+   "kinds": [
+    "spirit",
+    "spirit"
+   ]
+  },
+  {
+   "group": "w8_barrow_newcomers",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "w8_halls_newcomers",
+   "kinds": [
+    "ghoul",
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "w8_keeper",
+   "kinds": [
+    "mummy"
+   ]
+  },
+  {
+   "group": "e1_wolves",
+   "kinds": [
+    "wolf",
+    "wolf",
+    "wolf"
+   ]
+  },
+  {
+   "group": "e1_newcomers",
+   "kinds": [
+    "ghoul"
+   ]
+  },
+  {
+   "group": "e1_denned",
+   "kinds": [
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "wm13_boar",
+   "kinds": [
+    "boar"
+   ]
+  },
+  {
+   "group": "wm157_boar",
+   "kinds": [
+    "boar"
+   ]
+  },
+  {
+   "group": "wm54_wisp",
+   "kinds": [
+    "wisp"
+   ]
+  },
+  {
+   "group": "wa135",
+   "kinds": [
+    "curlew"
+   ]
+  },
+  {
+   "group": "s1_u_rats",
+   "kinds": [
+    "rat",
+    "rat",
+    "rat"
+   ]
+  },
+  {
+   "group": "s1_u_buck",
+   "kinds": [
+    "rat/great"
+   ]
+  },
+  {
+   "group": "s1_u_dead",
+   "kinds": [
+    "ghoul"
+   ]
+  },
+  {
+   "group": "s1_u_raiser",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "s1_u_spiders",
+   "kinds": [
+    "spider/great/cave"
+   ]
+  },
+  {
+   "group": "s1_u_mother",
+   "kinds": [
+    "spider/great/cave"
+   ]
+  },
+  {
+   "group": "s1_u_shamblers",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "s1_u_beetles",
+   "kinds": [
+    "beetle",
+    "beetle",
+    "beetle"
+   ]
+  },
+  {
+   "group": "s1_u_crawler",
+   "kinds": [
+    "centipede/great"
+   ]
+  },
+  {
+   "group": "s1_u_keeper",
+   "kinds": [
+    "ghoul/barrow"
+   ]
+  },
+  {
+   "group": "s1_ud_adit_forge_dwellers",
+   "kinds": [
+    "person:goblin",
+    "person:goblin",
+    "person:goblin"
+   ]
+  },
+  {
+   "group": "s1_ud_adit_winze_head_dwellers",
+   "kinds": [
+    "spider/great/cave",
+    "spider/great/cave"
+   ]
+  },
+  {
+   "group": "s1_ud_adit_vent_dwellers",
+   "kinds": [
+    "person:goblin"
+   ]
+  },
+  {
+   "group": "s1_ud_haulage_chute_foot_dwellers",
+   "kinds": [
+    "slump"
+   ]
+  },
+  {
+   "group": "s1_ud_haulage_chute_foot_device",
+   "kinds": [
+    "bomb"
+   ]
+  },
+  {
+   "group": "s1_ud_haulage_winze_foot_dwellers",
+   "kinds": [
+    "bear"
+   ]
+  },
+  {
+   "group": "s1_ud_haulage_winze_foot_dwellers_beside",
+   "kinds": [
+    "spider",
+    "spider"
+   ]
+  },
+  {
+   "group": "s1_ud_haulage_haulage2_dwellers",
+   "kinds": [
+    "hound",
+    "hound"
+   ]
+  },
+  {
+   "group": "s1_ud_drowned_furnace_dwellers",
+   "kinds": [
+    "beetle",
+    "beetle",
+    "beetle",
+    "beetle",
+    "beetle"
+   ]
+  },
+  {
+   "group": "s1_ud_drowned_deep_cut_dwellers",
+   "kinds": [
+    "hollow_stalker"
+   ]
+  },
+  {
+   "group": "s1_ud_drowned_deep_cut_device",
+   "kinds": [
+    "bomb"
+   ]
+  },
+  {
+   "group": "s1_ud_drowned_strongroom_dwellers",
+   "kinds": [
+    "beetle",
+    "beetle",
+    "beetle"
+   ]
+  },
+  {
+   "group": "s1_ud_adit_newcomers",
+   "kinds": [
+    "rat",
+    "rat",
+    "rat",
+    "rat"
+   ]
+  },
+  {
+   "group": "s1_ud_haulage_newcomers",
+   "kinds": [
+    "ghoul",
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "s1_ud_drowned_newcomers",
+   "kinds": [
+    "elemental/crystal_element"
+   ]
+  },
+  {
+   "group": "s1_ud_keeper",
+   "kinds": [
+    "mind_destroyer"
+   ]
+  },
+  {
+   "group": "s1_stones_wisps",
+   "kinds": [
+    "wisp",
+    "wisp"
+   ]
+  },
+  {
+   "group": "s1_manor_rats",
+   "kinds": [
+    "rat",
+    "rat",
+    "rat"
+   ]
+  },
+  {
+   "group": "s1_stones_bats",
+   "kinds": [
+    "bat",
+    "bat",
+    "bat",
+    "bat",
+    "bat",
+    "bat"
+   ]
+  },
+  {
+   "group": "s1_rooke_men",
+   "kinds": [
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "factors__cell",
+   "kinds": [
+    "person:half_orc",
+    "person:half_orc"
+   ]
+  },
+  {
+   "group": "factors__lieutenant",
+   "kinds": [
+    "person:half_orc"
+   ]
+  },
+  {
+   "group": "factors__principal",
+   "kinds": [
+    "person:half_elf"
+   ]
+  },
+  {
+   "group": "factors__bravos",
+   "kinds": [
+    "person:half_orc",
+    "person:half_orc"
+   ]
+  },
+  {
+   "group": "tower__risen",
+   "kinds": [
+    "revenant",
+    "revenant"
+   ]
+  },
+  {
+   "group": "den__beasts",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "den__leader",
+   "kinds": [
+    "zombie"
+   ]
+  },
+  {
+   "group": "den2__beasts",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "den2__leader",
+   "kinds": [
+    "zombie"
+   ]
+  },
+  {
+   "group": "circus__bramble",
+   "kinds": [
+    "young_owlbear"
+   ]
+  },
+  {
+   "group": "circus__raiders",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "circus__pike",
+   "kinds": [
+    "marl_pike"
+   ]
+  },
+  {
+   "group": "circus__hook_claws",
+   "kinds": [
+    "hook_claw",
+    "hook_claw",
+    "hook_claw",
+    "hook_claw",
+    "hook_claw"
+   ]
+  },
+  {
+   "group": "circus__three_horns",
+   "kinds": [
+    "three_horn",
+    "three_horn",
+    "three_horn",
+    "three_horn"
+   ]
+  },
+  {
+   "group": "circus__tyrant",
+   "kinds": [
+    "tyrant"
+   ]
+  },
+  {
+   "group": "circus__delta_croc",
+   "kinds": [
+    "crocodile"
+   ]
+  },
+  {
+   "group": "circus__sail_wings",
+   "kinds": [
+    "sail_wing",
+    "sail_wing",
+    "sail_wing",
+    "sail_wing",
+    "sail_wing",
+    "sail_wing"
+   ]
+  },
+  {
+   "group": "circus__hatchlings",
+   "kinds": [
+    "hook_claw",
+    "hook_claw",
+    "hook_claw",
+    "hook_claw",
+    "hook_claw"
+   ]
+  },
+  {
+   "group": "circus__shore_brooder",
+   "kinds": [
+    "shore_brooder"
+   ]
+  },
+  {
+   "group": "arcology__usher",
+   "kinds": [
+    "automaton"
+   ]
+  },
+  {
+   "group": "arcology__owlbear",
+   "kinds": [
+    "owlbear"
+   ]
+  },
+  {
+   "group": "arcology__eels",
+   "kinds": [
+    "eel",
+    "eel",
+    "eel"
+   ]
+  },
+  {
+   "group": "arcology__beetles",
+   "kinds": [
+    "beetle",
+    "beetle",
+    "beetle"
+   ]
+  },
+  {
+   "group": "arcology__slump",
+   "kinds": [
+    "slump"
+   ]
+  },
+  {
+   "group": "howe__king",
+   "kinds": [
+    "revenant"
+   ]
+  },
+  {
+   "group": "howe__sworn",
+   "kinds": [
+    "revenant",
+    "revenant"
+   ]
+  },
+  {
+   "group": "howe__household",
+   "kinds": [
+    "ghoul",
+    "ghoul",
+    "ghoul",
+    "ghoul"
+   ]
+  },
+  {
+   "group": "howe__mounts",
+   "kinds": [
+    "horse",
+    "horse",
+    "horse"
+   ]
+  },
+  {
+   "group": "howe__riders",
+   "kinds": [
+    "revenant",
+    "revenant"
+   ]
+  },
+  {
+   "group": "howe__watchers",
+   "kinds": [
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__crew",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__foreman",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__sentry",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__mouth",
+   "kinds": [
+    "mouther"
+   ]
+  },
+  {
+   "group": "howe__drowned",
+   "kinds": [
+    "zombie",
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "howe__iron_caps",
+   "kinds": [
+    "zombie",
+    "zombie"
+   ]
+  },
+  {
+   "group": "howe__rcaptain",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__rhands",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__rscout",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "howe__rscholar",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "keep__doorward",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "keep__hounds",
+   "kinds": [
+    "hound",
+    "hound",
+    "hound"
+   ]
+  },
+  {
+   "group": "keep__night_guard",
+   "kinds": [
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "keep__drain_rats",
+   "kinds": [
+    "rat",
+    "rat",
+    "rat"
+   ]
+  },
+  {
+   "group": "keep__deserters",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "walk__gaunt",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "walk__staves",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "walk__hask",
+   "kinds": [
+    "person:human"
+   ]
+  },
+  {
+   "group": "walk__riders",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  },
+  {
+   "group": "walk__mob",
+   "kinds": [
+    "person:human",
+    "person:human",
+    "person:human",
+    "person:human",
+    "person:human",
+    "person:human"
+   ]
+  }
+ ],
+ "countries": [
+  "kite",
+  "thorn",
+  "wren",
+  "kahitude",
+  "mere",
+  "ember"
+ ],
+ "dens": {
+  "person:human": 131,
+  "ghoul": 49,
+  "revenant": 45,
+  "spider/great/cave": 35,
+  "zombie": 34,
+  "rat": 30,
+  "beetle": 21,
+  "hollow_stalker": 18,
+  "wolf": 17,
+  "spirit": 16,
+  "bat": 14,
+  "hound/cave": 12,
+  "hook_claw": 12,
+  "mummy": 11,
+  "bomb": 11,
+  "slump": 10,
+  "person:half_orc": 9,
+  "person:goblin": 9,
+  "hound": 8,
+  "phylactery": 8,
+  "crocodile": 7,
+  "wisp": 7,
+  "hound/skeletal": 7,
+  "eel": 7,
+  "curlew": 7,
+  "elemental/crystal_element": 7,
+  "rat/great": 6,
+  "centipede/great": 6,
+  "ghoul/barrow": 6,
+  "young_owlbear": 6,
+  "marl_pike": 6,
+  "three_horn": 6,
+  "tyrant": 6,
+  "sail_wing": 6,
+  "shore_brooder": 6,
+  "automaton": 6,
+  "owlbear": 6,
+  "horse": 6,
+  "mouther": 6,
+  "person:dwarf": 6,
+  "frog": 5,
+  "boar": 5,
+  "wraith": 5,
+  "grouse": 5,
+  "bear": 5,
+  "elemental/earth_element": 4,
+  "snake": 4,
+  "elemental/mud_element": 4,
+  "elemental/water_element": 4,
+  "banshee": 4,
+  "elemental/ice_element": 4,
+  "elemental/jewel_element": 4,
+  "mind_destroyer": 4,
+  "wolf/frost/great": 4,
+  "person:half_elf": 3,
+  "elemental": 3,
+  "centipede": 2,
+  "ooze": 2,
+  "person:gnome": 2,
+  "snake/great": 1,
+  "dragonfly": 1,
+  "barrier": 1,
+  "golem/bronze/custodian": 1,
+  "spider": 1,
+  "wyvern": 1,
+  "golem/iron": 1,
+  "lark": 1
+ }
+}

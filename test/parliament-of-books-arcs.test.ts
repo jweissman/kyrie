@@ -110,9 +110,11 @@ describe('A Parliament of Books: the night in the yard', () => {
 
 describe('A Parliament of Books: the Lexicon', () => {
   it('strikes the Lexicon\'s chains: it votes for anything, the Housebook will not sit with it, and the ninth page is learned', async () => {
-    // Fourth level, not third: since techniques rest (4fbff0a), a third-level soldier falls to the four Scholiasts
-    // in the wood of glosses, where a Second Wind every turn had carried him through.
-    const j = await Calamy.start('vask', [{ ...warrior[0]!, level: 4 }]);
+    // Sixth level: the case is the Lexicon past the wood of glosses, whose four Scholiasts warn and wait and may be
+    // gone round by woodcraft or a citation; fought, a soldier beats them 92 times in 100 at the sixth level, 67 at
+    // the fifth and 40 at the fourth (44 before only a wound bled). The fourth had rested on one of those draws
+    // (and the third, before techniques rested in 4fbff0a, on a Second Wind every turn).
+    const j = await Calamy.start('vask', [{ ...warrior[0]!, level: 6 }]);
     await Calamy.play(j, ...Steps.corvell, 'go:corvell_hall', 'Talk to Sir Gideon', 'left of their own accord', 'Take your leave',
       'go:crake_front', 'Talk to Absalom', 'Tell Absalom Crake you told', 'take you where the books go', 'Take your leave', 'go:crake_parlour',
       'ribbon: Take', 'go:reading_room', 'Talk to the Catalogue', 'about the Black Lexicon', 'Take your leave', 'go:gloss_wood', '=+2', '=+2',
