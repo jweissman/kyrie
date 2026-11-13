@@ -571,6 +571,108 @@
    "school": "necromancy",
    "notes": "The SRD's Ray of Enfeeblement: level 1 (Sor/Wiz), necromancy; None. Its reach and how long it lasts are Orsino's.",
    "save": "none"
+  },
+  "barkskin": {
+   "srd35": "spell:barkskin",
+   "level": 2,
+   "school": "transmutation",
+   "notes": "The SRD's Barkskin: level 2 (Drd), transmutation; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "disintegrate": {
+   "srd35": "spell:disintegrate",
+   "level": 6,
+   "school": "transmutation",
+   "notes": "The SRD's Disintegrate: level 6 (Sor/Wiz), transmutation; 2d6 a caster level; Fortitude partial (object). Its reach and how long it lasts are Orsino's.",
+   "harm": "roll(2 * #level, 6)",
+   "save": "fortitude negates"
+  },
+  "enlarge": {
+   "srd35": "spell:enlarge-person",
+   "level": 1,
+   "school": "transmutation",
+   "notes": "The SRD's Enlarge Person: level 1 (Sor/Wiz), transmutation; Fortitude negates. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "entangle": {
+   "srd35": "spell:entangle",
+   "level": 1,
+   "school": "transmutation",
+   "notes": "The SRD's Entangle: level 1 (Drd), transmutation; Reflex partial. Its reach and how long it lasts are Orsino's.",
+   "save": "reflex negates"
+  },
+  "flesh_to_stone": {
+   "srd35": "spell:flesh-to-stone",
+   "level": 6,
+   "school": "transmutation",
+   "notes": "The SRD's Flesh to Stone: level 6 (Sor/Wiz), transmutation; Fortitude negates. Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "flight": {
+   "srd35": "spell:fly",
+   "level": 3,
+   "school": "transmutation",
+   "notes": "The SRD's Fly: level 3 (Sor/Wiz), transmutation. Its reach and how long it lasts are Orsino's."
+  },
+  "goodberry": {
+   "srd35": "spell:goodberry",
+   "level": 1,
+   "school": "transmutation",
+   "notes": "The SRD's Goodberry: level 1 (Drd), transmutation; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "haste": {
+   "srd35": "spell:haste",
+   "level": 3,
+   "school": "transmutation",
+   "notes": "The SRD's Haste: level 3 (Sor/Wiz), transmutation. Its reach and how long it lasts are Orsino's."
+  },
+  "knock": {
+   "srd35": "spell:knock",
+   "level": 2,
+   "school": "transmutation",
+   "notes": "The SRD's Knock: level 2 (Sor/Wiz), transmutation; None. Its reach and how long it lasts are Orsino's."
+  },
+  "polymorph": {
+   "srd35": "spell:polymorph",
+   "level": 4,
+   "school": "transmutation",
+   "notes": "The SRD's Polymorph: level 4 (Sor/Wiz), transmutation; None. Its reach and how long it lasts are Orsino's.",
+   "save": "none"
+  },
+  "shapechange": {
+   "srd35": "spell:shapechange",
+   "level": 9,
+   "school": "transmutation",
+   "notes": "The SRD's Shapechange: level 9 (Sor/Wiz), transmutation. Its reach and how long it lasts are Orsino's."
+  },
+  "slow": {
+   "srd35": "spell:slow",
+   "level": 3,
+   "school": "transmutation",
+   "notes": "The SRD's Slow: level 3 (Sor/Wiz), transmutation; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "spike_growth": {
+   "srd35": "spell:spike-growth",
+   "level": 3,
+   "school": "transmutation",
+   "notes": "The SRD's Spike Growth: level 3 (Drd), transmutation; 1d4; Reflex partial. Its reach and how long it lasts are Orsino's.",
+   "harm": "1d4",
+   "save": "reflex negates"
+  },
+  "stone_to_flesh": {
+   "srd35": "spell:stone-to-flesh",
+   "level": 6,
+   "school": "transmutation",
+   "notes": "The SRD's Stone to Flesh: level 6 (Sor/Wiz), transmutation; Fortitude negates (object). Its reach and how long it lasts are Orsino's.",
+   "save": "fortitude negates"
+  },
+  "time_stop": {
+   "srd35": "spell:time-stop",
+   "level": 9,
+   "school": "transmutation",
+   "notes": "The SRD's Time Stop: level 9 (Sor/Wiz), transmutation. Its reach and how long it lasts are Orsino's."
   }
  }
 }

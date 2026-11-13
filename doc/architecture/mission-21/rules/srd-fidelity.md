@@ -5,15 +5,15 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind is exact in all six fields); 57 of them have an SRD counterpart for every kind. **Spells
-59 of 119** with an SRD counterpart faithful in level, school, harm and save (of
-286 catalog spells); 13 in all seven fields, their reach and duration too.
+66 of 119** with an SRD counterpart faithful in level, school, harm and save (of
+286 catalog spells); 14 in all seven fields, their reach and duration too.
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 55 % of meetings are with a
 kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 3 | armour 3 | attacks 17 | defences 1 | specials 0 | saves 0 | of 70 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 95 | school 105 | dice 21 | type 12 | save 30 | reach 78 | duration 29 | of 119 |
+| spells, field exact or converted | level 104 | school 110 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -101,7 +101,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | animate_dead | animate-dead | ✓ | ✓ | – | – | – | ✗ one → many | ✓ |
 | armor | mage-armor | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✓ |
 | augury | augury | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → instant |
-| barkskin | barkskin | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | ✗ self → one | ✗ 3 rounds → long |
+| barkskin | barkskin | ✓ | ✓ | – | – | – | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | ✓ | ✓ | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ self → many | ✗ 3 rounds → long |
 | bless | bless | ✓ | ✓ | – | – | – | ✗ one → many | ✗ 3 rounds → long |
 | blur | blur | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
@@ -130,15 +130,15 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | daylight | daylight | ✓ | ✓ | ✗ 2.5/2.5/2.5/2.5 → · | – | – | ✗ many → one | ✗ instant → long |
 | death | power-word-kill | ✓ | ✓ | – | – | ✗ constitution negates → · | ✓ | ✓ |
 | death_ward | death-ward | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
-| disintegrate | disintegrate | ✗ 5 → 6 | ✗ evocation → transmutation | ✗ 35/35/35/35 → 7/35/70/140 | – | ✗ wisdom half → constitution negates | ✓ | ✓ |
+| disintegrate | disintegrate | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✓ |
 | dispel_magic | dispel-magic | ✗ 2 → 3 | ✓ | – | – | – | ✗ · → one | ✓ |
 | divine_favor | divine-favor | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | divine_power | divine-power | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
 | dominate_person | dominate-person | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
 | domination | dominate-monster | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → long |
 | earthquake | earthquake | ✓ | ✓ | ✓ | – | ✗ wisdom negates → · | ✓ | ✗ 3 rounds → 1 rounds |
-| enlarge | enlarge-person | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
-| entangle | entangle | ✓ | ✗ · → transmutation | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| enlarge | enlarge-person | ✓ | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → long |
+| entangle | entangle | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | false_life | false-life | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | finger_of_death | finger-of-death | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✓ |
 | fire_storm | fire-storm | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ many → one | ✓ |
@@ -147,9 +147,9 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | flight | fly | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | foresight | foresight | ✓ | ✓ | – | – | – | ✗ one → self | ✗ 3 rounds → long |
 | glyph_of_warding | glyph-of-warding | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | ✗ self → one | ✗ 3 rounds → long |
-| goodberry | goodberry | ✗ 0 → 1 | ✗ · → transmutation | – | – | – | ✗ · → one | ✗ instant → long |
+| goodberry | goodberry | ✓ | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | harm | harm | ✓ | ✓ | ✗ 23/31/41/61 → · | – | ✓ | ✓ | ✓ |
-| haste | haste | ✗ 5 → 3 | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → 5 rounds |
+| haste | haste | ✓ | ✓ | – | – | ✗ · → constitution negates | ✓ | ✗ 3 rounds → 5 rounds |
 | heal | heal | ✓ | ✓ | ✗ 19/23/28/38 → · | – | ✗ · → wisdom negates | ✓ | ✓ |
 | hold_animal | hold-animal | ✓ | ✓ | – | – | ✗ strength negates → · | ✓ | ✗ 3 rounds → long |
 | hold_person | hold-person | ✓ | ✓ | – | – | ≈ paralyze negates | ✓ | ✗ 3 rounds → 5 rounds |
@@ -180,7 +180,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | paralyzing_touch | ghoul-touch | ✓ | ✓ | – | – | ≈ paralyze negates | ✓ | ✗ 3 rounds → long |
 | plane_shift | plane-shift | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → many | ✓ |
 | polar_ray | polar-ray | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
-| polymorph | polymorph | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 5 rounds → long |
+| polymorph | polymorph | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✓ | ✗ 5 rounds → long |
 | prayer | prayer | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → 5 rounds |
 | prismatic_spray | prismatic-spray | ✓ | ✓ | – | – | – | ✓ | ✓ |
 | protection_from_evil | protection-from-evil | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
@@ -196,9 +196,9 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | shocking_grasp | shocking-grasp | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | silence | silence | ✗ 3 → 2 | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | sleep | sleep | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| slow | slow | ✗ 2 → 3 | ✓ | – | – | ✗ dexterity negates → wisdom negates | ✗ many → one | ✗ 4 rounds → 5 rounds |
+| slow | slow | ✓ | ✓ | – | – | ✓ | ✗ many → one | ✗ 4 rounds → 5 rounds |
 | spellturning | spell-turning | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
-| spike_growth | spike-growth | ✗ 2 → 3 | ✗ · → transmutation | ✗ 7/7/7/7 → 2.5/2.5/2.5/2.5 | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
+| spike_growth | spike-growth | ✓ | ✓ | ✓ | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
 | stone_to_flesh | stone-to-flesh | ✓ | ✓ | – | – | ✗ · → constitution negates | ✗ one → many | ✓ |
 | stoneskin | stoneskin | ✗ 3 → 5 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
 | summon_monster | summon-monster-i | ✓ | ✓ | – | – | – | ✗ self → one | ✗ instant → 5 rounds |
@@ -212,7 +212,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | sunburst | sunburst | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✓ |
 | symbol_of_insanity | symbol-of-insanity | ✓ | ✓ | – | – | ✓ | ✗ many → one | ✗ 3 rounds → long |
 | terror | cause-fear | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| time_stop | time-stop | ✗ 8 → 9 | ✓ | – | – | – | ✓ | ✗ 1 rounds → long |
+| time_stop | time-stop | ✓ | ✓ | – | – | – | ✓ | ✗ 1 rounds → long |
 | true_sight | true-seeing | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 3 rounds → long |
 | weakness | ray-of-enfeeblement | ✓ | ✓ | – | – | ✗ constitution negates → · | ✓ | ✗ 3 rounds → long |
 | weird | weird | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → many | ✗ instant → long |
