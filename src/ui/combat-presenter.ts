@@ -5,6 +5,7 @@ import type { BattleState, CombatEvent } from '../model';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../item-names';
 import { Counted } from '../presentation/counted';
+import { DefenseTelling } from './defense-telling';
 
 export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
@@ -21,13 +22,18 @@ export class CombatPresenter {
       // Said as what it is, not as the engine's fraction ("resistance -100%": the second fresh playtest, M19-121).
       m.resistance ? m.resistance > 0 ? m.resistance >= 1 ? 'no harm to it' : `${Math.round(m.resistance * 100)}% resisted`
         : m.resistance <= -1 ? 'double, it is vulnerable' : `${Math.round(-m.resistance * 100)}% more, it is vulnerable` : '', m.reduction ? `reduction ${m.reduction}` : '',
-      m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
+      m.absorbed ? `${m.absorbed} absorbed` : '', ...DefenseTelling.detail(event)].filter(Boolean) : [];
     // A killing blow is told by its weight ("for 13"); what it took beyond what was left is said, so that the two agree
     // (round 10, both players: "for 13" over "takes 1 slashing damage (roll 13)").
     const spent = event.type === 'damage' && event.hp === 0 && event.amount < event.rolled + (m?.bonus ?? 0)
       && !m?.resistance && !m?.reduction && !m?.absorbed;
     const calculation = [`roll ${event.rolled}`, ...parts, ...spent ? [`${event.amount} was all it had left`] : []].join(', ');
     return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${foe ? '' : `${event.hp} HP; `}${calculation}).`;
+  }
+  // A mending, or a regeneration stopped (the fire that stopped it, said as what it is).
+  private static healed(event: Extract<CombatEvent, { type: 'damage' | 'heal' }>, target: string, foe: boolean): string {
+    if (event.stoppedBy) { return `${target}: ${DefenseTelling.detail(event).join(', ')}.`; }
+    return `${target} recovers ${event.amount} HP${foe ? '' : ` (${event.hp} HP)`}.`;
   }
   // Two or more of a thing given are said as many ("2 flasks of lamp oil"), a thing's name being capitalised as the
   // catalog has it; a count of something else (experience, spell slots) as it is.
@@ -74,7 +80,7 @@ export class CombatPresenter {
           : event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
       }
       case 'damage': return this.damage(event, target, this.foe(event, state));
-      case 'heal': return `${target} recovers ${event.amount} HP${this.foe(event, state) ? '' : ` (${event.hp} HP)`}.`;
+      case 'heal': return this.healed(event, target, this.foe(event, state));
       case 'death': return `${actor} falls.`;
       case 'defend': return `${actor} guards.`;
       case 'intercept': return `${actor} steps in front of ${target} and takes it.`;

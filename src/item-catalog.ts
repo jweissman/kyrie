@@ -62,7 +62,7 @@ export class ItemCatalog {
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
       ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
-      ...w.natural ? { natural: true } : {} };
+      ...w.natural ? { natural: true } : {}, ...w.tags?.length ? { tags: [...w.tags] } : {} };
   }
   // What a creature's equipment contributes: the wielded weapon (else its natural weapon, else a fist, as in Orsino's
   // effectiveWeapon), the body armour's ac (else its natural armour), and the modifiers and hooks of equipped items.

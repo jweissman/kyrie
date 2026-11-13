@@ -19,6 +19,7 @@ import { Advancement } from '../rules/advancement';
 import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 import { LevelDrain } from '../rules/level-drain';
+import { ConditionSense } from '../canon/condition-sense';
 
 type Entity = Module['entities'][number];
 interface Declared {
@@ -41,11 +42,28 @@ export class CreatureFacts {
   static readonly reads = [...CreatureFacts.written, 'carried', 'capacity', 'peaceable', 'state', 'warning', 'onslaught',
     'flinch', 'granted'];
   static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
+    const different = this.changes(world, actors, store);
+    return different.length ? world.apply(different) : world;
+  }
+  // What a save from an earlier build may hold otherwise, its projection since corrected: needing care had held of a
+  // lit torch (PL-09). A save that differs only in these is brought up to date, not refused.
+  // So too what everyone outside the company could wield, which is no longer said (Mission 21).
+  static readonly revised: ReadonlySet<string> = new Set(['needsCare', 'proficient']);
+  // A saved world's creature facts as the creatures project them: the same, or stale; anything else is refused.
+  static saved(world: World, actors: CampaignActor[], store: CreatureStore): 'same' | 'stale' {
+    const different = this.changes(world, actors, store);
+    if (!different.length) { return 'same'; }
+    if (different.every(c => this.revised.has(c.call.name))) { return 'stale'; }
+    throw new Error('Inconsistent saved creature facts');
+  }
+  private static changes(world: World, actors: CampaignActor[], store: CreatureStore): Change[] {
     const scope = this.scope(world), changes: Change[] = [];
     for (const actor of actors) {
       const members = actor.members.map(id => store.peek(id)), environment = Environment.of(world, actor.id);
       changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
-      if (scope.has.has('memberOf')) { for (const c of members) { changes.push(...this.member(c, actor.id, scope)); } }
+      if (scope.has.has('memberOf')) {
+        for (const c of members) { changes.push(...this.member(c, actor.id, scope, !!actor.player)); }
+      }
       // The player's company, the one who plays first: everyone else in it a companion.
       if (actor.player && scope.has.has('companion')) { changes.push(...this.companions(world, members, scope)); }
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
@@ -54,11 +72,10 @@ export class CreatureFacts {
       if (scope.has.has('skillOpen')) { changes.push(...this.schooling(world, members, scope)); }
       if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members)); }
     }
-    const different = changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
+    return changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
       c.kind === 'retract' ? world.holds(World.key(c.call)) :
         'value' in c && (c.value.kind === 'number' || c.value.kind === 'deem')
           && World.literal(c.value) !== world.number(c.call));
-    return different.length ? world.apply(different) : world;
   }
   // A group of one species takes its species' temperament, unless the place has given it one; and a group the place
   // has given no words of its own (and whose meeting with the company it has not scripted in states) speaks in the
@@ -186,7 +203,7 @@ export class CreatureFacts {
   }
   // One companion: whose they are, whether awake or hurt, what they own and wear and can wield, and what they could
   // be taught, could treat, and could cast now.
-  private static member(c: Creature, actor: string, scope: Scope): Change[] {
+  private static member(c: Creature, actor: string, scope: Scope, company: boolean): Change[] {
     const { has, kinds, references } = scope, changes: Change[] = [];
     const reference = references.get(c.id);
     if (!reference) { throw new Error(`Missing canonical member binding for ${c.id}`); }
@@ -196,8 +213,10 @@ export class CreatureFacts {
     if (scope.measures.has('levelOf')) {
       changes.push({ kind: 'set', call: ModuleWriter.call('levelOf', reference), value: ModuleWriter.number(c.base.level) });
     }
-    changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
-      call: ModuleWriter.call('needsCare', reference) });
+    // Hurt, or under something that does not help them: a torch's light is no wound (Odo had bound "the hurt" of a
+    // company with nothing wrong but a lit torch: M21's playability list, PL-09).
+    const ailing = c.state.hp < c.base.maxHp || c.state.conditions.some(k => !ConditionSense.helps(k.id));
+    changes.push({ kind: ailing ? 'assert' : 'retract', call: ModuleWriter.call('needsCare', reference) });
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
     if (has.has('levelDrained')) {
       changes.push({ kind: LevelDrain.levels(c.state.conditions) ? 'assert' : 'retract',
@@ -214,9 +233,11 @@ export class CreatureFacts {
       changes.push(...this.set(scope, 'ownedItem', reference, mine.map(i => i.id)),
         ...this.set(scope, 'wearing', reference, mine.filter(i => i.equipped).map(i => i.id)));
     }
+    // What a member could wield, for the company alone, which equips what it carries (belongings.kyr's equip_item, the
+    // only reader): said of everyone, it had been three facts in four of a world (construction.md §6).
     if (has.has('proficient')) {
-      changes.push(...this.set(scope, 'proficient', reference, kinds.filter(k => Creation.canEquip(c.classId, k.id))
-        .map(k => k.id)));
+      changes.push(...this.set(scope, 'proficient', reference, company
+        ? kinds.filter(k => Creation.canEquip(c.classId, k.id)).map(k => k.id) : []));
     }
     const learned = [...c.base.abilities, ...c.state.learnedAbilities];
     if (has.has('canTrain')) {

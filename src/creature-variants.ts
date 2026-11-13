@@ -114,8 +114,10 @@ export class CreatureVariants {
     if (ids.length) { creature.variations = [...ids]; }
     for (const v of ids.map(id => this.variations[id]!)) {
       this.apply(creature, { attributes: v.attributes ?? {}, abilities: v.abilities ?? [], traits: v.traits ?? [] });
-      // Its health at each level, and what it has now with it.
-      const more = (v.health ?? 0) * creature.base.level;
+      // Its health at each level, and what it has now with it; a fixed stat block (one with Hit Dice) is not grown by
+      // the level it is met at, and takes it once.
+      const fixed = Canon.isBody(creature.raceId) && !!Canon.creature(creature.raceId).statistics?.hitDice;
+      const more = (v.health ?? 0) * (fixed ? 1 : creature.base.level);
       creature.base.maxHp = Math.max(1, creature.base.maxHp + more);
       creature.state.hp = Math.max(1, Math.min(creature.base.maxHp, creature.state.hp + more));
     }

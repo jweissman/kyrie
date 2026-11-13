@@ -97,7 +97,7 @@ export class Promotion {
   // (the owner, 12 November: the dead man's box found, the gold had gone on into the cave).
   static readonly continuing: Why[] = ['advance', 'named', 'toward', 'bound', 'kin', 'about'];
   private static continuance(a: Promoted): number {
-    const i = this.continuing.indexOf(a.why);
+    const i = this.continuing.indexOf(a.advances ? 'advance' : a.why);
     return i < 0 ? this.continuing.length : i;
   }
   // The followed aim's next step is the one act in its gold: any other it bears on is led for what else it is, or as
@@ -113,7 +113,8 @@ export class Promotion {
       const aspects = a.aspects.filter(x => x !== 'undertaking');
       const inside = rest.inside?.map(x => ({ ...x, aspects: x.aspects.filter(y => y !== 'undertaking') }))
         .filter(x => x.aspects.length);
-      return { ...rest, aspects: aspects.length ? aspects : ['exploration'], ...inside ? { inside } : {} };
+      // The way back is neutral, as a need is (see Aspects): not "worth a look" for having been the aim's way.
+      return { ...rest, aspects: aspects.length || a.why === 'retreat' ? aspects : ['exploration'], ...inside ? { inside } : {} };
     });
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,
@@ -134,9 +135,9 @@ export class Promotion {
   }
   // The reasons it may be led with for, as what it is allows: never a wait (but for first light, in the dark with
   // nothing to give light), or studying; a step across the country only toward the aim shown (REV-08: from the edge of
-  // the known into the wild country it lies in); a search only for a sign of the place's or the aim naming it; a camp
-  // or a rest only for what the company needs; a way not yet taken only in a settlement or site, and not with a danger
-  // or a warning.
+  // the known into the wild country it lies in); a search only for a sign of the place's or what the aim waits on; a
+  // camp or a rest only for what the company needs; a way not yet taken only in a settlement or site, and not with a
+  // danger or a warning.
   private static allowed(c: Candidate, s: Situation): Why[] {
     if (c.kind === 'study') { return []; }
     // A question asked once more ("Ask Bask again about …") tells only what was told: never led with, whatever aim it
@@ -148,6 +149,9 @@ export class Promotion {
       return c.whys.filter(w => ['retreat', 'night', 'dark', 'exposed', 'hurt'].includes(w));
     }
     if (c.kind === 'step') { return c.whys.filter(w => w === 'toward'); }
+    // In the dark, a way the company has not taken is not led with for anything: it cannot be seen. The gnawed hole out
+    // of the pitch-dark corn-store cellar had been gold beside "Light a torch" (M21's PL-10; round 12, A, T39).
+    if (s.dark && this.way(c) && c.visited === false) { return c.whys.filter(w => w === 'retreat'); }
     // Something done already is not led with again because another aim names whom it is done with: the page had led a
     // follower to lodge and to work for its keep at the same inn, turn and turn about, for days (the follower's 160).
     // A town not yet been to, entered from its own country, is new though the company is not in a settlement.
@@ -155,7 +159,8 @@ export class Promotion {
       && !(c.known && w === 'held'));
     if (c.kind === 'wait') { return whys.filter(w => w === 'dark'); }
     // Or for what the aim followed waits on, hidden here (the dead man's box under the door-stone): that had been
-    // reckoned the aim's step and then dropped here, and the gold led on into the keep (test/small/gold-thread).
+    // reckoned the aim's step and then dropped here, and the gold led on into the keep (test/small/gold-thread). Not
+    // for being made where the aim is: that is gone from Affordances (M21's PL-08).
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named' || w === 'advance'); }
     if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }
     return whys;
@@ -183,7 +188,8 @@ export class Promotion {
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
       aspects: this.aspects(c, why, whys), ...note ? { note } : {}, marks: c.marks,
-      ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {} };
+      ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {},
+      ...whys.includes('advance') && why !== 'advance' ? { advances: true as const } : {} };
   }
   // What it is to the company. The place's own act that teaches it something (the notice on the well-post, read) is
   // something to learn, blue, not only something worth a look (the owner, 12 November: a bare link that "clearly gives

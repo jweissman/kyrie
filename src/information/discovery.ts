@@ -97,11 +97,18 @@ export class Discovery {
   // Facts a module imports are established by their owner; installation validates them against the whole world.
   static validate(module: Module, world: World, imported: string[] = []) {
     if (!this.supported(module)) { return; }
+    // Where each source is said to be, read in one pass over what the modules say initially: read again for each
+    // source, it had gone through every installation's initial facts once a source, at every crossing of a world that
+    // grew by each (T24-11: half a second of a province's install by the tenth, and growing as their square).
+    const located = new Map<string, Set<string | undefined>>();
+    for (const c of module.initial) {
+      if (c.kind !== 'assert' || c.call.name !== 'at') { continue; }
+      const at = located.get(c.call.args[0]!) ?? new Set();
+      located.set(c.call.args[0]!, at.add(c.call.args[1]));
+    }
     for (const source of module.entities.filter(e => e.type === 'source')) {
       const facts = world.related('reveals', source.id);
-      const locations = module.initial.filter(c => c.kind === 'assert' && c.call.name === 'at'
-        && c.call.args[0] === source.id).map(c => c.call.args[1]);
-      if (facts.length !== 1 || new Set(locations).size !== 1) {
+      if (facts.length !== 1 || located.get(source.id)?.size !== 1) {
         throw new Error('Each discovery source requires one fact and one initial location');
       }
       if (!imported.includes(facts[0]!.args[1]!) && !world.test(ModuleWriter.call('established', facts[0]!.args[1]!))) {

@@ -1,0 +1,14 @@
+import { readFileSync } from 'node:fs';
+const W = '/var/tmp/kyrie/wt-m21-play/src';
+const { PlaySession } = await import(`${W}/session/play-session.ts`);
+const { ScreenModel } = await import(`${W}/ui/screen-model.ts`);
+const { AimAdvances } = await import(`${W}/presentation/aim-advances.ts`);
+const { AimRoute } = await import(`${W}/presentation/aim-route.ts`);
+const { Stakes } = await import(`${W}/ui/stakes.ts`);
+const { Undertakings } = await import(`${W}/presentation/undertakings.ts`);
+const s = PlaySession.resume(JSON.parse(readFileSync(process.argv[2]!, 'utf8')));
+const c = s.campaign, screen = ScreenModel.build(c), def = Undertakings.followed(c)!;
+console.log('sought', AimAdvances.sought(c), 'onward', AimRoute.onward(c, screen));
+console.log('target', JSON.stringify(Stakes.target(c, def)));
+console.log('said', [...Stakes.said(c, def)], 'addresses', [...Stakes.addresses(c, def)]);
+console.log('exits', screen.exits.filter((e: any) => /manor_front|stones_top|taproom/.test(e.id)).map((e: any) => [e.id, e.visited, e.local, e.destination.underground, e.transition]));

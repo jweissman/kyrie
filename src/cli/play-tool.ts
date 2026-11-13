@@ -5,13 +5,14 @@
 // --world plays a generated world drawn from its seed instead, for one protagonist (--as race/calling/name) with an
 // origin in it (--origin, a wanderer unless it says). `play scene` and `play character` play an adventure to one of
 // its scenes or people first, in a context its author named (see PlayParts).
-//   bin/kyrie play <campaign.json> [--seed s] [--steps steps.json] [--probe "..."]... [--choices] [step ...]
+//   bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "..."]... [step ...]
 //   bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]
 //   bin/kyrie play scene|character <id> --in <adventure> [--context <name>] [step ...]
 // --keep <name> keeps the play as a regression test (see Traces): the command it was, and where it came to.
 // --roll pass|fail has every check come out so, as a journey's roll() does (Quittance's friction 7, QTC-07).
 import { readFile } from 'node:fs/promises';
 import { Journey } from '../session/journey';
+import { SingleModule } from '../campaign/single-module';
 import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { PlayParts } from './play-parts';
@@ -48,6 +49,11 @@ export class PlayTool {
     // A campaign played as someone of the player's choosing (race/calling/Name[/background]), not its own company.
     if (!o.world) {
       const party = o.as ? { party: [{ name, raceId, classId, ...backgroundId ? { backgroundId } : {} }] } : {};
+      // A bare module (site.kyr): played as a campaign of it alone, on the shared rules (see SingleModule).
+      if (o.campaign!.endsWith('.kyr')) {
+        const one = SingleModule.source(await readFile(o.campaign!, 'utf8'), party);
+        return { journey: await Journey.start(one.campaign, o.seed, { source: one.source }), lead: [] };
+      }
       return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
     }
     const drawn = { party: [{ name, raceId, classId }], origin: o.origin };

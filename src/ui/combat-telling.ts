@@ -1,7 +1,8 @@
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
-import { ConditionSense } from '../presentation/condition-sense';
+import { ConditionSense } from '../canon/condition-sense';
 import { CombatPresenter } from './combat-presenter';
+import { DefenseTelling } from './defense-telling';
 import { Barks } from '../narrative/barks';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 import { ItemCatalog } from '../item-catalog';
@@ -48,7 +49,7 @@ export class CombatTelling {
   private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
     const [first, ...rest] = group;
     const sentences = [...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
-      ...bark ? [bark] : []];
+      ...told.guards(group), ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
       // Each sentence begun as one ("The fourth bat misses Ralf", not "the fourth bat misses Ralf").
@@ -124,6 +125,11 @@ export class CombatTelling {
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
     // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
     return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}.`;
+  }
+  // What a creature's defenses did in the exchange: silver passing a unicorn's guard, fire stopping a troll's mending.
+  private guards(events: CombatEvent[]): string[] {
+    return events.filter((e): e is Harm => e.type === 'damage' || e.type === 'heal')
+      .flatMap(e => DefenseTelling.said(e, this.name(e.target)));
   }
   // What followed: harm and healing not already told, conditions taken or shaken off, who fell or got away.
   private after(events: CombatEvent[]): string[] {

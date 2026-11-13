@@ -36,6 +36,9 @@ describe('the meeting on the road in', () => {
       expect(Road.knows(after).filter(k => !before.knows.includes(k)).some(k => /^On the way into/.test(k))
         || Road.held(after) !== before.held).toBe(true);
       expect(after.screen.observed.some(o => o.id === 'origin__meeting')).toBe(false);
+      // Whoever the answer sends off is gone from the road: the boy had been told as here under the words that had him
+      // gone into the bracken (round 12, B: T24-19); held for the keeper, he goes with the keeper.
+      if (who === 'origin__poacher') { expect(after.screen.people.map(p => p.id)).not.toContain(who); }
     }, 120000);
   it('is answered differently by walking on, which the company knows of itself too', async () => {
     const { host, f } = await Road.begin('mere');

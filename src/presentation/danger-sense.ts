@@ -7,7 +7,7 @@ import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
 import { Effects } from '../effects';
 import { Environment } from '../campaign/environment';
-import { ConditionSense } from './condition-sense';
+import { ConditionSense } from '../canon/condition-sense';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';
 import type { CombatEvent, Fighter, Moment } from '../model';

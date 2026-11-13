@@ -1,3 +1,4 @@
+import { Amounts } from './amounts';
 import { Canon } from '../canon/canon';
 import { Fighting } from './fighting';
 import { Spellcasting } from './spellcasting';
@@ -32,7 +33,10 @@ export class LevelDrain {
   // kind's growth a level; never less than one.
   static perLevel(f: Pick<Drained, 'raceId' | 'classId' | 'constitution'>): number {
     const die = f.classId ? Canon.classes[f.classId]?.hitDie : undefined;
-    const grown = Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics?.growth?.hitPoints?.perLevel : undefined;
+    const st = Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics : undefined;
+    // A fixed stat block loses a Hit Die's worth, on the average (a d12's six).
+    const sides = st?.hitDice ? Amounts.dice(st.hitDice)[0]?.sides : undefined;
+    const grown = sides ? Math.floor((sides + 1) / 2) : st?.growth?.hitPoints?.perLevel;
     return Math.max(1, die ? Math.floor(die / 2) + 1 + Fighting.statMod(f.constitution) : grown ?? 1);
   }
   // A body as it stands with `n` levels more taken: lower in level and in hit points, its slots those of the level it

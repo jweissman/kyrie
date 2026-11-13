@@ -1,4 +1,4 @@
-import { Canon } from './canon/canon';
+import { Canon } from './canon/canon'; import { Flight } from './rules/flight';
 import { Spellcasting } from './rules/spellcasting';
 import { AttackRoutine } from './attack-routine'; import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store';
@@ -322,7 +322,7 @@ export class Battle {
   // The moment before a fight that came at the company closes, its first round: seen, or sprung on it.
   get opening(): Moment | undefined { return this.rounds === 1 ? this.moment : undefined; }
   // The company's chance of getting away if it runs now: sure in the moment, an even chance, then surer each time.
-  flight(): number { return this.opening ? 1 : [0.5, 0.75][this.held] ?? 1; }
+  flight(): number { return this.opening ? 1 : Flight.odds(this.held); }
   private context(actor?: Fighter): EffectContext {
     return { ...actor ? { actor } : {}, ...actor?.team === 'fighters' ? { sure: !!this.opening, tries: this.held } : {},
       fighters: this.fighters, turn: this.turn, events: this.history,

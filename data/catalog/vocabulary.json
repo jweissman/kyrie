@@ -157,6 +157,17 @@
       "base": 2,
       "perLevel": 1
     },
+    "defenses": {
+      "about": "What a creature's typed defenses read and say (the SRD adaptation briefing, section 3). The tags an attack can carry, beside its damage type, which a reduction's unless names: what it is made of (silver, cold iron, adamantine), whether it is magic, a natural body's or a made weapon, a spell. And how the telling says what a defense did: kept a blow off, turned part of it, or was passed by a tag, and a regeneration stopped by harm of the kind it cannot mend.",
+      "attackTags": ["silver", "cold_iron", "adamantine", "magic", "natural", "manufactured", "spell"],
+      "told": {
+        "immune": "no {type} harms {target}",
+        "resisted": "{target} turns {amount} of the {type}",
+        "reduced": "{target}'s guard turns {amount} of the blow",
+        "passed": "{by} passes {target}'s guard",
+        "stopped": "the {type} stops {target}'s mending"
+      }
+    },
     "areas": {
       "cone": [
         "breathe_fire",

@@ -1,9 +1,9 @@
+import { Flight } from './rules/flight';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain';
 import { Summoning } from './summoning';
 import { Content } from './content';
-import variations from '../data/catalog/variations.json';
 import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
 import { Perks } from './rules/perks';
@@ -13,6 +13,7 @@ import type { Expressions } from './expressions';
 import type { CombatEvent, Fighter } from './model';
 import { Fighting, type Combatant } from './rules/fighting';
 import { ModifierSet, type Dice, type Modifiers } from './rules/modifiers';
+import { KindDefenses, type Hit } from './kind-defenses';
 import type { Attribute } from './creature';
 
 export interface EffectContext {
@@ -66,15 +67,10 @@ export class Effects {
   // and those of what varies it (the frost's proof against cold, what the dead are hurt by).
   static modifiers(fighter: Fighter): Modifiers {
     const conditions = [...new Set(fighter.statuses.map(s => s.id))].map(id => Effects.status(id).modifiers);
-    const kind = Canon.isBody(fighter.raceId) ? Canon.creature(fighter.raceId).resistances : undefined;
-    const varied = (fighter.variations ?? []).flatMap(id => {
-      const r = (variations.variations as Record<string, { resistances?: Record<string, number> }>)[id]?.resistances;
-      return r ? [{ resistances: r }] : [];
-    });
     const at = { ...fighter.environment ? { environment: fighter.environment } : {},
       ...fighter.equipment?.weapon ? { weapon: fighter.equipment.weapon } : {} };
     return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,
-      fighter.equipment?.modifiers ?? {}, ...kind ? [{ resistances: kind }] : [], ...varied]);
+      fighter.equipment?.modifiers ?? {}, ...KindDefenses.fractions(fighter)]);
   }
   static hooks(fighter: Fighter, key: HookKey): Effect[] {
     return [...[...new Set(fighter.statuses.map(s => s.id))].flatMap(id => Effects.status(id).hooks?.[key] ?? []),
@@ -102,8 +98,8 @@ export class Effects {
   // Deem values for an actor's expressions: Orsino's #str, #wis are the record's scores; #level and #bonusSpellDC too.
   static context(actor: Fighter): Record<string, number> {
     return { strength: actor.strength, dexterity: actor.dexterity, intelligence: actor.intelligence,
-      wisdom: actor.wisdom, constitution: actor.constitution, charisma: actor.charisma,
-      hp: actor.hp, maxHp: actor.maxHp, mana: actor.mana, level: actor.level,
+      wisdom: actor.wisdom, constitution: actor.constitution, charisma: actor.charisma, hp: actor.hp,
+      maxHp: actor.maxHp, mana: actor.mana, level: actor.level, hitDice: CanonRuntime.hitDice(actor),
       bonusSpellDC: Effects.modifiers(actor).bonusSpellDC ?? 0 };
   }
   static dice(value: Dice | undefined, context: EffectContext, actor?: Fighter): number {
@@ -208,13 +204,12 @@ export class Effects {
     return success;
   }
   // Orsino's handleHit after the roll: the attacker's bonusDamage, resistance, damageReduction, temporary hit points.
-  static damage(target: Fighter, hit: { amount: number; type: string; critical?: number }, context: EffectContext) {
+  static damage(target: Fighter, hit: Hit, context: EffectContext) {
     if (target.hp === 0) { return 0; }
     const { amount: rolled, type } = hit, actor = context.actor;
     const bonus = actor && actor.id !== target.id ? Effects.dice(Effects.modifiers(actor).bonusDamage, context, actor)
       + (context.spell ? Effects.modifiers(actor).bonusSpellDamage ?? 0 : 0) : 0;
-    const mitigated = Fighting.mitigate(rolled, type, { bonus, defender: Effects.modifiers(target),
-      physical: Content.rules.physicalDamage });
+    const mitigated = KindDefenses.mitigate(target, { ...hit, amount: rolled, bonus }, context);
     // Orsino's reflect: a share of the blow goes back on whoever dealt it, through its own defences, and the holder
     // takes the rest; never true damage, nor a blow itself reflected.
     const share = actor && actor.id !== target.id && type !== 'true' && !context.reflected
@@ -226,7 +221,8 @@ export class Effects {
     if (event?.type === 'damage') {
       event.rolled = rolled; event.damageType = type;
       event.modifiers = { bonus: mitigated.bonus, resistance: mitigated.resistance, reduction: mitigated.reduction,
-        ...absorbed ? { absorbed } : {}, ...hit.critical ? { critical: hit.critical } : {} };
+        ...absorbed ? { absorbed } : {}, ...hit.critical ? { critical: hit.critical } : {},
+        ...KindDefenses.account(mitigated) };
     }
     Effects.aftermath(target, type, context);
     if (back > 0) { Effects.damage(actor!, { amount: back, type }, { ...context, actor: target, reflected: true }); }
@@ -301,6 +297,7 @@ export class Effects {
     }
     // And of what it wears: a ring of regeneration's mending (the item audit's G5: summed, and never run).
     Effects.periodicOf(actor, actor.equipment?.modifiers?.onTurnEnd ?? [], 'equipment', context);
+    KindDefenses.regenerate(actor, context);
   }
   // Orsino's onTurnEnd hooks of one condition: periodic damage or healing, rolled from the seeded stream.
   static periodic(target: Fighter, id: string, source: string | undefined, context: EffectContext) {
@@ -341,7 +338,7 @@ export class Effects {
       // before a fight that came at it closes: flight failed again and again (PT-24), and a fragile company was killed
       // by what it had no turn to back away from (PT-10).
       case 'flee': {
-        const odds = Canon.rules.combat.flee[context.tries ?? 0];
+        const odds = Flight.roll(context.tries ?? 0);
         const dice = !context.sure && odds ? context.expressions : undefined;
         const away = !dice || dice.number(odds!.die) <= odds!.atMost;
         context.retreat = away;

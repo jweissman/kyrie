@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances';
+import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
@@ -151,12 +152,13 @@ export class Glance {
       this.named(campaign), this.addressed(campaign))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
-    const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
-      .concat(screen.exits.map(e => e.destination.id), [...named], [...held]).filter(id => recall.idle(id)));
+    const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
+    const idle = new Set([...by.map(d => d.id), ...screen.exits.map(e => e.destination.id), ...named, ...held]
+      .filter(id => recall.idle(id) || spent.has(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
-    const aim = screen.aims?.find(a => a.followed)?.text, advances = AimAdvances.of(campaign, rows);
+    const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
     const coin = AimAdvances.wants(campaign);
     const holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,

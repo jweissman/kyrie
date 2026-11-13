@@ -1,0 +1,8 @@
+Module yard "A yard with a seller in it" {
+  Place yard "the yard" is room.
+  Company party "You" of 1 at yard.
+  Person halm "Teodor Halm" at yard { Role "a scholar". Peaceable. Pronouns he. Sells torch for 2 coin from 3. }
+  Initially Set quantity(party, gold) to 1.
+  Observe yard_scene at yard when true "A yard, and a scholar selling torches off a barrow.".
+  Goal false.
+}

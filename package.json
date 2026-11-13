@@ -31,7 +31,7 @@
     "arena": "bun run scripts/arena.ts",
     "test": "bun test --parallel --timings=test/timings.json",
     "test:quick": "bun scripts/test-quick.ts",
-    "test:small": "bun test --no-isolate test/small",
+    "test:small": "bun test --no-isolate test/small/",
     "test:contracts": "bun test --parallel test/choice-contract.test.ts test/creature-pipeline.test.ts test/creature-variation.test.ts test/devices.test.ts test/natural-history.test.ts test/geology.test.ts test/authorability.test.ts test/deem-cli.test.ts test/module-shadow.test.ts",
     "test:intent": "bun test test/objective-target.test.ts test/hex-ways.test.ts test/choice-contract.test.ts test/stakes.test.ts test/danger-talk.test.ts test/aim-inside-site.test.ts",
     "test:honest": "bun test test/honest-start.test.ts",
