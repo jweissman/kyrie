@@ -7,7 +7,8 @@ describe('the terminal, its commands piped in at once', () => {
   it('plays each, echoes it after its prompt, and leaves at the end of the input', async () => {
     const run = Bun.spawn(['bin/kyrie', 'campaign', 'test/fixtures/household/household.campaign.json'],
       { stdin: new TextEncoder().encode('1\n1\n'), stdout: 'pipe', stderr: 'pipe' });
-    const [out, err, code] = await Promise.all([new Response(run.stdout).text(), new Response(run.stderr).text(), run.exited]);
+    const [out, err, code] = await Promise.all([new Response(run.stdout).text(), new Response(run.stderr).text(),
+      run.exited]);
     expect(out.match(/^\S.* · Day 1, [^\n]*$/gm)).toEqual(['the lane · Day 1, 8:00 a.m.', 'the yard · Day 1, 8:01 a.m.',
       'the kitchen · Day 1, 8:02 a.m.']);
     expect(out).toContain('> 1\n');

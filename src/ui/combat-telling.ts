@@ -1,6 +1,6 @@
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
-import { ConditionSense } from '../presentation/condition-sense';
+import { ConditionSense } from '../canon/condition-sense';
 import { CombatPresenter } from './combat-presenter';
 import { Barks } from '../narrative/barks';
 import type { BattleState, CombatEvent, Fighter } from '../model';

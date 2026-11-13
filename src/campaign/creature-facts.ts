@@ -19,7 +19,7 @@ import { Advancement } from '../rules/advancement';
 import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 import { LevelDrain } from '../rules/level-drain';
-import { ConditionSense } from '../presentation/condition-sense';
+import { ConditionSense } from '../canon/condition-sense';
 
 type Entity = Module['entities'][number];
 interface Declared {
