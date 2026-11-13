@@ -15,6 +15,7 @@ index nor the README names a mission or a date. Every open promise is a row in o
 | Document | What it is |
 |---|---|
 | [design/VISION.md](design/VISION.md) | the owner's creative vision |
+| [design/DOCTRINE.md](design/DOCTRINE.md) | the aesthetic doctrine: a world that repays attention, and the question every design answers |
 | [design/ATLAS.md](design/ATLAS.md) | the living design atlas: each idea with its own status |
 | [design/AESTHETICS.md](design/AESTHETICS.md), [design/foundations.md](design/foundations.md) | the look, and the one design system from the title to the fight |
 | [imbar/](imbar/00-README.md) | the world of Imbar: its deep history, bible and lore ledger |

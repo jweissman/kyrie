@@ -1,4 +1,5 @@
 import type { Memorial } from '../../src/world/memorial';
+import sky from '../../data/imbar/sky.json';
 import partyExamples from '../../data/campaigns/companies.json';
 import { Canon } from '../../src/canon/canon';
 import { Rolls } from '../../src/rules/rolls';
@@ -52,6 +53,7 @@ export class Creation {
       kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name,
         does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' ') })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
+      signs: structuredClone(sky.signs),
       campaigns: [...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
         seed: s.seed, ...s.recommended ? { recommended: true } : {} })),
       { id: this.generated, title: 'A generated region', seed: 'thorn',

@@ -1,6 +1,7 @@
 // The Kyrie command line (bin/kyrie): play a campaign in the terminal, and the authoring and checking tools.
 import { readFile } from 'node:fs/promises';
 import { TerminalCreation } from './terminal-creation';
+import { EngineHost } from '../../web/engine/engine-host';
 import { TerminalInput } from './terminal-input';
 import { Stopwatch } from '../stopwatch';
 import { Content } from '../content';
@@ -99,11 +100,20 @@ export class KyrieCli {
     if (!options.world && !options.campaign) { console.error(PlayTool.usage); return 1; }
     // Who you are, chosen as the page chooses, where someone is at the keyboard and has not said (--as); then the
     // world, said as it is made, phase by phase, and how long it took (with --profile, each phase, and each command).
-    const input = TerminalInput.open(), asked = !!process.stdin.isTTY && !options.as && !!options.world;
-    const made = asked ? await new TerminalCreation(input).choose(options.world!) : undefined;
+    // A life made through the engine's own requests (world, creation, set-out), as the page's worker answers them,
+    // where someone is at the keyboard and has not said who (--as), or a blind player asks (--create): the start is
+    // the page's own Begin, and the session played the one it began (the owner, 14 November: no second creator).
+    const input = TerminalInput.open();
+    const create = !!options.world && !options.as && (!!process.stdin.isTTY || args.includes('--create'));
+    if (create) {
+      const host = new EngineHost(() => undefined);
+      await new TerminalCreation(input).choose(host, options.world!);
+      await host.handle({ kind: 'set-out' });
+      await Terminal.play(host.played!, { input, profile: options.profile });
+      return 0;
+    }
     const watch = Stopwatch.forTerminal(options.profile);
-    const started = await PlayTool.start({ ...options, ...made?.origin ? { origin: made.origin } : {} }, watch,
-      made?.member);
+    const started = await PlayTool.start(options, watch);
     watch.done();
     await Terminal.play(started.journey.session, { input, profile: options.profile });
     return 0;

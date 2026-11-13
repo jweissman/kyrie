@@ -763,4 +763,34 @@ contract, the runner, the walks and the matrix; the page side goes to the aesthe
 | TB-06 | The corpus matrix across callings, backgrounds, fates, seeds and policies: available, promoted, selected and realized opportunities by atlas colour; action types and how often what matters is promoted; progress, discoveries, combat, companionship, retreat, loops, dead ends, completion; repetition; narration; what each build can perceive and do | open | P1 | M21 |
 | TB-07 | A small type-constrained System 1 model, for category probabilities in promotion and separately as a light player policy; compared with deterministic walkers and reasoning agents for cost, reproducibility, diversity and the failures each finds; it never invents legality, facts, outcomes or atlas meaning | open | P2 | M21 |
 | TB-08 | Information design through the terminal: arrival, an act's outcome and deliberate inspection as distinct moments; the minimum shown on arriving; what changes after an act; what belongs behind a lens; four legible choices with twenty discoverable; at least one literary or interaction improvement made because a walk showed it | open | P1 | M21 |
+| TB-09 | Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one implementation, which both clients consume; the terminal a conformance test of the whole journey from no character (the owner, 14 November) | partly (26fe687f): creation is in the engine protocol (creation, set-out; EngineCreation over CreationFlow), the terminal makes a life only through it and plays the session it began; test/creation-conformance holds terminal and page-asked journeys equal. Open: the page's creation still keeps its own steps and rules (ReaderOpening), see workflow-parity.md | P1 | M21 |
+| TB-10 | The terminal plays by the engine's frames as the page does (perform, travel, fight, follow), not by its own travel, fight and follow; talk and the fight hand offered by the engine | open | P1 | M21 |
+
+## 30. The owner on the title and onboarding (14 November, night)
+
+The owner's words are in `mission-21/owner-title-onboarding.md`: the title is where the owner bounced off before
+beginning to play. The aesthetic line takes the page; the lead takes any engine step a presentation realizes.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| TO-01 | The title in the game's own interaction language: its choices as the modern highlighted menu (or a designed variant), Play with one strong, elegant gold focus (ceremonial gold at the entry only, the stricter gold of a followed aim kept inside), focus stable and immediate, no moving double-box decoration, no shifting geometry; teaching the grammar creation and play will use | open | P0 | M21 |
+| TO-02 | A quiet, legible foreground over a deeper, subtly moving background that answers the focused choice over a few hundred milliseconds (perspective, light, colour), the focus itself immediate; one exceptional transition, not many flourishes; art direction, not technology | open | P1 | M21 |
+| TO-03 | The studio stab, the title and creation as one designed passage: a few composed seconds of deliberate timing, typography and image flowing into the title and the title into creation; skippable; reduced motion respected | open | P1 | M21 |
+| TO-04 | One richer responsive interaction prototyped (the celestial observatory for a birth sign is the owner's example): the engine authoritative over the signs, what one means and the next question, the sky a visual realization of that decision, the terminal making the same choice in text | open | P2 | M21 |
+| TO-05 | A vocabulary of exceptional responsive interactions with particular things (a lock's mechanism, an armillary sphere, an instrument, an architectural mechanism): read-only projections of engine state and the player's focus, committed through the engine; rare moments in a painterly game, not 3D for every object | open | P2 | M22 |
+| TO-06 | Evaluated as one experience at desktop and tablet, by keyboard, touch and reduced motion, with the transitions watched in motion and not only screenshotted; beautiful at rest and in motion | open | P1 | M21 |
+
+## 31. The owner on a place worth returning to, and earned instruments (14 November, night)
+
+The owner's words are in `mission-21/owner-returning-instruments.md`: knowing more about the world gives the player more
+interesting ways to inhabit it. One bounded experiment across the lines: the playability line the place and its walks,
+the lead the engine's instrument projection, the aesthetic line the page's treatment.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| RI-01 | One existing place worth returning to: repeatable, time-consuming investigation with context-dependent discovery and encounter tables; later visits reflecting what is established, time passed, circumstance and what the character knows or can do; durable discoveries, no resettable treasure, farming or generic repeatable quests; reachable and revisitable by reliable navigation | open | P1 | M21 |
+| RI-02 | Look, Examine, Search and sustained Explore as distinct acts in the existing vocabulary; something worth doing in an ordinary scene without a dungeon or a golden undertaking; the four promoted kept, further exploration through lenses and expanded acts | open | P1 | M21 |
+| RI-03 | Two different characters (calling, background, knowledge) discovering somewhat different possibilities at the same place, by skill-sensitive observation | open | P1 | M21 |
+| RI-04 | A few contrasting earned instruments (of: the sign and the moon's phase, the company's condition, expedition resources, the local compass, a field catalogue, progress at a non-quest activity), their values and what the character may know of them projected by the engine; contextual, optional and pinnable with a tiny default budget; honest precision; no new atlas meaning for markers, arrows or widget kinds; both clients agreeing | open | P2 | M21 |
+| RI-05 | Proved cheaply and seen: a small Kyr fixture and terminal walks for repeat exploration, persistent discovery, conditional encounters, skill-sensitive observation and concise narration; a browser review of the treatment | open | P1 | M21 |
 

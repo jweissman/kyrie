@@ -8,8 +8,10 @@ import type { Catalog, Member, Setting } from './protocol';
 export interface CreationCard {
   id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
 }
-export type CreationStepId = 'why' | 'you' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
+export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
 // One step of making the protagonist: its question, its cards, which is chosen, and for the name the names drawn.
+// cards: every card, the four the step leads with first (the owner, 14 November: four promoted on every surface, the
+// rest reachable); a client shows the first four and offers the rest, numbered as they stand.
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[];
 }
@@ -27,8 +29,31 @@ export class CreationFlow {
   private named = false;
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
     this.member = structuredClone(member);
+    // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
+    const signs = catalog.signs, drawn = [...`${setting.title}${member.name ?? ''}`].reduce((n, ch) => n + ch.charCodeAt(0), 0);
+    if (signs.length && !this.member.sign) { this.member.sign = signs[drawn % signs.length]!.id; }
   }
-  steps(): CreationStep[] {
+  steps(): CreationStep[] { return this.unranked().map(step => ({ ...step, cards: this.ranked(step) })); }
+  // A step's cards in the order it leads with them, where it has more than four: the one chosen first; then, of
+  // peoples, those of this country (its names are theirs); of kinds of life, those best suited to the calling (as a
+  // trade of the kind is chosen); and the rest as the catalog gives them.
+  private ranked(step: CreationStep): CreationCard[] {
+    // Four or fewer are all shown, in their own order (she, he, neither).
+    if (step.cards.length <= 4) { return step.cards; }
+    return step.cards.map((card, i) => ({ card, i, score: this.score(step, card) }))
+      .sort((x, y) => y.score - x.score || x.i - y.i).map(x => x.card);
+  }
+  private score(step: CreationStep, card: CreationCard): number {
+    const c = this.catalog, wants = c.callings.find(x => x.id === this.member.classId)?.qualities ?? {};
+    const suits = step.id === 'before' ? Math.max(0, ...c.backgrounds.filter(b => b.kind === card.id)
+      .map(b => CreationFlow.fit(b.qualities, wants))) : 0;
+    const here = step.id === 'you' && Object.hasOwn(this.setting.names ?? {}, card.id);
+    // Of signs, those of the months following the one chosen, as the sky turns.
+    const ids = step.cards.map(x => x.id), from = ids.indexOf(step.chosen ?? '');
+    const turning = step.id === 'sign' && from >= 0 ? ids.length - ((ids.indexOf(card.id) - from + ids.length) % ids.length) : 0;
+    return (card.id === step.chosen ? 1e9 : 0) + (here ? 1e6 : 0) + suits + turning;
+  }
+  private unranked(): CreationStep[] {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
     const country = this.setting.title || 'this country';
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
@@ -37,6 +62,10 @@ export class CreationFlow {
         .map(o => ({ id: o.id, name: o.title, line: o.choice, emblem: o.id })) },
       { id: 'you', ask: 'Choose your ancestry', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id, name: a.name,
         line: a.line, text: a.text, emblem: a.id })) },
+      // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
+      // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
+      { id: 'sign', ask: 'Under which stars were you born?', chosen: m.sign, cards: c.signs.map(x => ({ id: x.id,
+        name: x.name, line: `${x.month}: ${x.line}`, emblem: x.id })) },
       { id: 'calling', ask: 'Choose your calling', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id })) },
@@ -62,6 +91,7 @@ export class CreationFlow {
       this.named = !!value.trim();
       return;
     }
+    if (step === 'sign') { m.sign = value; return; }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
     else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }

@@ -23,7 +23,10 @@ import type { CreatureStore } from '../src/creature-store';
 // he carried, the jar of the embalmers' daylight carried before them so the king goes back from it, and the crown of
 // the first king brought out at first light on the fourth day. They take some minutes, so they are opt-in:
 // KYRIE_LONG=1. A change that moves what the world offers (a new trap, a fight that goes otherwise) will stop one
-// where its record no longer holds; the record is then played on from there. (The heartland's settlements
+// where its record no longer holds; the record is then played on from there. (Thorn's second expedition rests and
+// lights its torch at the colonnade, where it hears the drowned at the great wheel, and leaves the wheel to them:
+// walked into in the dark, unheard, they fell on it, a fight a ranger and a cleric of the first level win three times
+// in five, which the record had won by a draw the wound rule turned over.) (The heartland's settlements
 // and land took Common names after these were kept, and their choices were renamed with them, Merscheald to Misthythe,
 // Murkstede to Lowmouth, Muntheald to Rainmeet, the Deopex to the Deepwater, Eikwudu to Oakhurst: the world otherwise
 // the same.)
