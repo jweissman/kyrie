@@ -847,6 +847,8 @@
     "test/bound-howe-week-people.test.ts": 749143,
     "test/arcology-house.test.ts": 331115,
     "test/arcology-ways.test.ts": 441487,
-    "test/arcology-rivals-allies.test.ts": 353349
+    "test/arcology-rivals-allies.test.ts": 353349,
+    "test/design-constraints.test.ts": 200,
+    "test/scene-budget.test.ts": 200
   }
 }
