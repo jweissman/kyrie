@@ -28,6 +28,7 @@ import { Wayfinder } from './wayfinder';
 import { Scrolled } from './scrolled';
 import { Attention } from './attention';
 import { ChoiceRow } from './choice-row';
+import { CompassStage } from './compass-stage';
 import { Look } from '../look';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
@@ -185,12 +186,17 @@ export class GlanceStage {
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     const railed = SceneRail.on(app);
-    // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back).
-    const back = GlanceStage.back(app, [only?.c, ...drawn]);
+    // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back); inside an
+    // enclosed place the compass stands there instead, the way out and the way on (see CompassStage).
+    const compass = CompassStage.of(app), back = compass ? undefined : GlanceStage.back(app, [only?.c, ...drawn]);
+    const led = shown.flatMap(a => [a.choice, a.command]);
+    const compassed = !!only && !!compass && [compass.out, compass.next].some(r => r && (r.name === only.name
+      || r.command === only.c.command || r.command === only.c.id));
     return <>
       {lens ? <GlanceStage.Lens app={app} draw={draw} lens={lens} />
         : shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
+        {compass && <CompassStage.View app={app} draw={draw} drawn={led} />}
         {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
           {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
         {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the
@@ -199,7 +205,7 @@ export class GlanceStage {
           className="opener opens-posted as-act" mark={ChoiceRow.neutral} markClass="neutral" label={Typography.curl(posted.label)} />}
         {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
           mark="var(--tone-gold)" markLabel="your aim" label={Typography.curl(yours.label)} />}
-        {only ? <Act.View choice={only.c} draw={draw} quiet
+        {only && compassed ? null : only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}
@@ -431,7 +437,8 @@ export class GlanceStage {
       <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
         {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(offered ? Told.title(aim) : aim))}
         {offered && <Told.Follow app={app} id={offered.id} />}
-        {place && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
+        {/* Not from inside an enclosed place: the compass is the way out there (CN-02). */}
+        {place && !CompassStage.of(app) && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
           onClick={() => app.choose(MenuModel.country)}>{`${place.name}, on the map`}</button>}</p>
     );
   }

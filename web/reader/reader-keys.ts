@@ -6,6 +6,7 @@ import { Raised, type Sheet } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { Hold } from './stage/hold';
+import { CompassStage } from './stage/compass-stage';
 import type { Choice } from '../../src/ui/choice-list';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
@@ -119,6 +120,11 @@ export class ReaderKeys {
   private letter(key: string): boolean {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }
+    // Inside an enclosed place, M is the compass, as its mark is (see SceneRail.Books).
+    if (key === 'm' && CompassStage.of(app) && Stage.mode(app) === 'explore') {
+      Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go');
+      return true;
+    }
     if (ReaderKeys.views[key]) { app.show(ReaderKeys.views[key]); return true; }
     const part = ReaderKeys.parts[key];
     if (part && app.state.frame?.leaf.glance && !app.state.outdoors && Stage.mode(app) === 'explore') {
