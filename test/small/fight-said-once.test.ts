@@ -22,7 +22,8 @@ describe('a fight\'s words, said once', () => {
     }
     // The story's line of the blow that ended it: no number; the numbers are its detail.
     const tellings = CombatTelling.exchanges(battle.events, battle.state);
-    const last = tellings.findLast(t => /fells|falls/.test(t.text))!;
+    const last = tellings.findLast(t => /falls/.test(t.text))!;
+    expect(last.text.match(/falls/g)).toHaveLength(1);
     expect(last.text).not.toMatch(/, for \d/);
     expect(last.detail).toMatch(/\d/);
   });

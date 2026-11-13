@@ -139,9 +139,9 @@ export class CombatTelling {
     const verb = natural ? many ? 'catch' : 'catches' : attack.critical ? 'lands a telling blow on' : kind === 'ranged'
       ? 'shoots' : 'hits';
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
-    // A blow that brings its target down is told as that, with no number: "for 9" over "takes 1" had read as the game
-    // contradicting itself (the first blind playtest, BP-02); what it did by the numbers is the fight's detail.
-    if (damage?.amount && damage.hp === 0) { return `${how} ${natural && many ? 'fell' : 'fells'} ${target}${with_}.`; }
+    // A blow that brings its target down is told with no number, its falling said once after it: "for 9" over "takes
+    // 1" had read as the game contradicting itself (the first blind playtest, BP-02); its numbers are the detail.
+    if (damage?.amount && damage.hp === 0) { return `${how} ${verb} ${target}${with_}.`; }
     // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
     return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}.`;
   }
