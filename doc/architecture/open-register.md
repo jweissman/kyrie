@@ -696,3 +696,20 @@ fixes were merged to main in batches 1–8; each row names the fast spec that ho
 | PL-27 | The debt's chain stops at the second old place: Marsh Howe searched, the aim still names it, Palusporta not led | open: proposal in `mission-21/playability.md` (a chain over every place told of) | P1 | M21 |
 | PL-28 | kite wanderer: the fever followed in Newmeet's crowded market, nothing gold, the mother not on the page; asked, still nothing, herbs on sale a door away | fixed: sellers of a kind the keeper wants lead, buying it advances; held by `small/fever-shop`; the mother still off the crowded page (P2) | P0 | M21 |
 | PL-29 | A companion (Edda) still told asleep on the step she left | fixed (data, no spec); her warrior's gear at nine and the opaque "Speak with Edda" left (P2) | P2 | M21 |
+
+## 26. The owner's continuity report (14 November)
+
+A human play attempt broke down quickly. The owner's words are in `mission-21/owner-continuity.md`; the plan for them
+is `mission-21/continuity-plan.md`. These are existing M21 obligations (one game-native interaction system), not new
+features. None is closed as a component migration until the whole ordinary action path is audited and shown in play.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| CN-01 | Look/Things, People and Places/Explore open as pages: a lens should rerank up to four promoted actions within the one resting scene, take no world time, and keep the rest a predictable expansion beneath | open | P0 | M21 |
+| CN-02 | Inside a building the world map opens, with a confusing Back and no way to other local places; overland travel offered that bypasses the site's graph | open | P0 | M21 |
+| CN-03 | In an enclosed site the Map control should be a local compass: the next known place worth going, or the way out, along known traversable ways (barriers, unknown passages, time, interruptions respected); outside when the known opportunities are spent; neutral arrows, chevrons, route lines | open | P1 | M21 |
+| CN-04 | World actions drawn in unrelated treatments: raw text links and old buttons on the resting scene and the Wait page; a census of every surface (scene, lenses, talk, look, search, wait, local ways, Pack, things, fight) onto the one action system and its availability/targeting contract | open | P0 | M21 |
+| CN-05 | Wait is its own page: a compact time lens (wait a little, watch, listen, rest, wait for something) whose opening takes no time | open | P1 | M21 |
+| CN-06 | Combat: legacy controls beside the new; the highlighted menu becomes a horizontal row; a target's card grows taller and bars cross the painting; details injected into buttons; layout jumps between target and action states | open | P0 | M21 |
+| CN-07 | Personhood drawn with a pink pip close to coral: people need no opportunity colour; atlas colours only for grounded opportunities (knowledge, recruitment…); gold only for the followed undertaking; no new colours for routing or categories | open | P1 | M21 |
+| CN-08 | One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after | open | P0 | M21 |
