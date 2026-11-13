@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
+import type { CreationStep } from '../../engine/creation-flow';
 import { CreationRules } from '../creation-rules';
 import { Card } from './card';
 import { Words } from '../words';
@@ -8,16 +9,16 @@ import { CompanyPortraits } from '../../../src/paintings/company-portraits';
 // Your people: each a card with what they are in a few words; the chosen one's sentence beneath, and behind Details
 // its every gift, what it adds to the qualities and the callings it does not follow.
 export class PeopleStep {
-  static View({ app, onward }: { app: ReaderApp; onward?: ReactNode }) {
-    const s = app.state, catalog = s.catalog!, m = s.party[0]!, mine = catalog.ancestries.find(a => a.id === m.raceId);
+  static View({ app, step, onward }: { app: ReaderApp; step: CreationStep; onward?: ReactNode }) {
+    const catalog = app.state.catalog!, mine = catalog.ancestries.find(a => a.id === step.chosen);
     return (
       <Card.Deck kind="people" onward={onward} details={mine && { title: mine.name,
         head: { kind: 'Ancestry', glyph: mine.id, face: PeopleStep.face(app, mine.id), summary: mine.text },
         body: <Card.Particulars title="In play" facts={[...mine.gifts, PeopleStep.adds(mine.qualities, catalog),
           PeopleStep.closed(mine.callings, catalog)].filter(Boolean)} /> }}>
-        {catalog.ancestries.map(a => <Card.View key={a.id} name={a.name} line={a.line} text={a.text} glyph={a.id}
-          chosen={m.raceId === a.id} data={{ choice: `raceId:${a.id}` }}
-          onChoose={() => app.opening.edit(0, 'raceId', a.id)} />)}
+        {step.cards.map(a => <Card.View key={a.id} name={a.name} line={a.line} text={a.text} glyph={a.id} shut={a.shut}
+          chosen={step.chosen === a.id} data={{ choice: `raceId:${a.id}` }}
+          onChoose={() => app.opening.choose(step.id, a.id)} />)}
       </Card.Deck>
     );
   }

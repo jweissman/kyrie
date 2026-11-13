@@ -203,6 +203,8 @@ export class MonoDriver {
   // Found in the lens turned on (see GlanceStage.Lens) and done: true when done. Waiting is the time lens itself.
   private async lensed(id: string, part: string): Promise<boolean> {
     const has = async (q: string) => (await this.page.locator(q).count()) > 0;
+    // An opener the lens draws by what it opens (Lensed.leaves) is open already: its acts are the menu's.
+    if (await has(`.glance .lens .lens-opened[data-subject]`) && (await this.inspect()).trail.includes(id)) { return true; }
     if (part === 'wait' && (await this.inspect()).choices.find(c => c.id === id)?.children) { return true; }
     const dest = id.replace(/^(travel|exit):/, '').split(/[/#]/)[0] ?? '';
     const ways = /^(travel|exit):/.test(id) ? `, [data-act="travel:${dest}"], [data-act^="exit:${dest}"]` : '';

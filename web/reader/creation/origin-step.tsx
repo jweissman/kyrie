@@ -1,6 +1,7 @@
 import { BackgroundCatalog } from '../../../src/canon/background-catalog';
 import type { ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
+import type { CreationStep } from '../../engine/creation-flow';
 import type { Catalog } from '../../engine/protocol';
 import { Words } from '../words';
 import { Card } from './card';
@@ -11,16 +12,17 @@ import { PeopleStep } from './people-step';
 // for the one chosen. The first page of creation: a life is begun from the reason it is here, before anything is said
 // of what it is by the rules.
 export class OriginStep {
-  static View({ app, onward }: { app: ReaderApp; onward?: ReactNode }) {
+  static View({ app, step, onward }: { app: ReaderApp; step: CreationStep; onward?: ReactNode }) {
     const s = app.state, catalog = s.catalog!, origins = s.setting?.origins ?? [];
-    const origin = origins.find(o => o.id === s.origin);
+    const origin = origins.find(o => o.id === step.chosen), background = (id: string) => origins.find(o => o.id === id)?.background;
     return (
       <Card.Deck kind="origins" onward={onward} details={origin && { title: origin.title,
         head: { kind: 'Why you came', glyph: origin.id, summary: origin.choice },
         body: <Card.Particulars title="In play" facts={[OriginStep.makes(origin.background, catalog, s.party[0]?.pronouns)]} /> }}>
-        {origins.map(o => <Card.View key={o.id} name={o.title} line={OriginStep.rule(o.background, catalog, s.party[0]?.pronouns)}
-          text={o.choice} glyph={o.id} chosen={s.origin === o.id} data={{ action: 'origin', id: o.id }}
-          onChoose={() => app.opening.origin(o.id)} />)}
+        {/* The flow's cards; under each name what it makes you by the rules ("Once a scribe"), its sentence the flow's. */}
+        {step.cards.map(o => <Card.View key={o.id} name={o.name} line={OriginStep.rule(background(o.id), catalog, s.party[0]?.pronouns)}
+          text={o.text ?? o.line} glyph={o.id} shut={o.shut} chosen={step.chosen === o.id} data={{ action: 'origin', id: o.id }}
+          onChoose={() => app.opening.choose(step.id, o.id)} />)}
       </Card.Deck>
     );
   }

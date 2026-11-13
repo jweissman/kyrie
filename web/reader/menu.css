@@ -110,3 +110,14 @@
 .card .hold-edge { left: 10px; right: 10px; bottom: 6px; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0; }
+
+/* ---- The compass inside an enclosed place (see CompassStage; CN-02, CN-03): the way on and the way out as the
+   column's own quieter rows, an arrow or a chevron before the words and the route under them, in the rows' ink. No
+   colour of its own. ---- */
+:root .glance .openers > .compass-rows { display: flex; flex-direction: column; gap: 6px; flex-basis: 100%; }
+:root .glance .openers > .compass-rows > .choice-row.choice-row { min-height: 40px; align-self: stretch; width: 100%; }
+.compass-rows .compass-arrow { display: inline-block; width: 1.1em; margin-right: 4px; opacity: .72; font-weight: 400; }
+.compass-rows .route-line { letter-spacing: .02em; }
+.compass-rows .barred { display: block; font-style: italic; }
+.compass-rows .shut { opacity: .62; cursor: default; }
+.compass-done { font: var(--t-aside); font-style: italic; color: rgba(236, 230, 217, .62); }

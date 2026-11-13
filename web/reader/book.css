@@ -3,7 +3,10 @@
 .book-frame { height: var(--frame-h); display: grid; grid-template-rows: auto minmax(0, 1fr); }
 .book-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; border-bottom: 1px solid var(--edge);
   padding: max(14px, env(safe-area-inset-top)) clamp(16px, 3.4vw, 44px) 14px; background: rgba(10, 11, 14, .4); }
-.book-head .back-to { min-height: 40px; padding: 8px 16px; font-size: 11.5px; }
+.book-head .back-to { min-height: 40px; display: inline-flex; align-items: center; gap: 8px; padding: 0 18px 0 0;
+  margin-right: 6px; border-right: 1px solid var(--edge); font: 500 11.5px/1 var(--do); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ivory); }
+.book-head .back-to .back-sign { font-size: 15px; letter-spacing: 0; opacity: .7; }
 .book-frame > .book { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .sheets { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
 .sheet-key { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: inline-flex; align-items: center;
@@ -316,15 +319,30 @@
 .pack-tile.act::before, .pack-tile.act::after { display: none; }
 .pack-tile:hover, .pack-tile:focus-visible, .pack-tile.act.sel { border-color: var(--edge-strong); background: rgba(236, 230, 217, .07); }
 .pack-tile.chosen, .pack-tile.act.opened { border-color: var(--accent); background: rgba(239, 230, 209, .07); }
-.pack-plate { width: 72px; height: 72px; display: grid; place-items: center; }
-.pack-plate img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5)); }
+/* The plates stand on the page as the book's own, no box round each (Mission 21's scenes: a grid of boxed tiles had
+   read as a web page's); the one chosen is edged at its plate and its name underlined. */
+.sheet .pack-tile, .sheet .pack-tile.act { border-color: transparent; background: none; }
+.sheet .pack-tile:hover .pack-plate, .sheet .pack-tile:focus-visible .pack-plate {
+  box-shadow: inset 0 0 0 1px rgba(43, 36, 27, .22), 0 0 0 1px var(--edge-strong), 0 2px 8px rgba(0, 0, 0, .5); }
+.sheet .pack-tile.chosen, .sheet .pack-tile.act.opened { border-color: transparent; background: none; }
+.sheet .pack-tile.chosen .pack-plate, .sheet .pack-tile.act.opened .pack-plate {
+  box-shadow: inset 0 0 0 1px rgba(43, 36, 27, .22), 0 0 0 2px var(--accent); }
+.sheet .pack-tile.chosen .n { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--accent); }
+/* A thing's plate: its picture printed on a square of the book's paper, multiplied into it in a warm ink, framed in a
+   hairline (as the Encyclopedia's plates are), not a coloured photograph set on the dark (Mission 21's scenes: the
+   drawings' own peach grounds had stood as bright squares across the Pack). */
+.pack-plate { width: 72px; height: 72px; display: grid; place-items: center; background: #E9DFC8; border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(43, 36, 27, .22), 0 1px 3px rgba(0, 0, 0, .45); overflow: hidden; isolation: isolate; }
+.pack-plate img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply;
+  filter: sepia(.35) saturate(.85) contrast(1.04); }
 .pack-plate.blank { border: 1px solid var(--edge); background: rgba(236, 230, 217, .04); width: 60px; height: 60px; margin: 6px; }
 .pack-tile .n { font: 500 13px/1.25 var(--do); color: var(--ivory); text-align: center; overflow-wrap: anywhere; }
 .pack-tile .in-use { margin-top: -3px; font: 500 9.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase;
   color: var(--accent); }
 .pack-chosen { padding: 4px 0 0; }
 .pack-chosen .pack-large { display: block; width: 128px; height: 128px; object-fit: contain; margin: 0 0 10px;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .5)); }
+  padding: 6px; background: #E9DFC8; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(43, 36, 27, .22);
+  filter: sepia(.35) saturate(.85) contrast(1.04) drop-shadow(0 4px 10px rgba(0, 0, 0, .5)); }
 .pack-chosen h4 { margin: 0 0 4px; font: 400 26px/1.15 var(--told); color: var(--ivory); }
 .pack-chosen .pack-note { margin: 0 0 8px; font: 500 11.5px/1.4 var(--do); letter-spacing: .14em; text-transform: uppercase;
   color: var(--dim); }

@@ -184,6 +184,8 @@ export class TalkStage {
       }
       const below = box && aim.current ? aim.current.getBoundingClientRect().bottom - box.getBoundingClientRect().bottom : 0;
       if (box && below > 0) { box.scrollTop += below; }
+      // Where what was said begins above what is in view (an aim kept whole under it), the box says so at its head.
+      box?.toggleAttribute('data-above', box.scrollTop > 4);
     }, [lines.length, pending]);
     // What was said before the last three things said is folded away: a conversation had scrolled into an
     // ever-growing log (round 7, L).
@@ -207,7 +209,8 @@ export class TalkStage {
           : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}><Told.Said text={l.text} /></p>;
     };
     return (
-      <div className="lines" aria-live="polite">
+      <div className="lines" aria-live="polite"
+        onScroll={e => e.currentTarget.toggleAttribute('data-above', e.currentTarget.scrollTop > 4)}>
         {cut > 0 && <details className="said-before"><summary>Said before…</summary>
           {lines.slice(0, cut).map((l, i) => line(l, i))}</details>}
         {lines.slice(cut).map((l, k) => line(l, cut + k))}

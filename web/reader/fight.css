@@ -108,10 +108,12 @@
   padding: 12px var(--safe-r) 0 var(--safe-l); }
 .fight .turn .now { margin: 0; font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
 .fight .turn .working { color: var(--dim); letter-spacing: .04em; text-transform: none; }
-.fight .order { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
-.fight .order li { font: 500 11.5px/1 var(--do); letter-spacing: .06em; color: var(--dim); padding: 6px 9px;
-  border: 1px solid var(--edge); }
-.fight .order li.next { color: var(--deep); background: var(--accent); border-color: var(--accent); }
+/* Who acts, in turn: a quiet line of names, a chevron between, the next in the page's ink; no chips, nothing filled
+   (Mission 21's scenes: the order had read as a row of a web page's tabs). */
+.fight .order { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+.fight .order li { font: 500 11.5px/1 var(--do); letter-spacing: .06em; color: var(--faint, rgba(236, 230, 217, .45)); }
+.fight .order li + li::before { content: '›'; margin: 0 8px; opacity: .6; }
+.fight .order li.next { color: var(--ivory); }
 /* The hand: what the one whose turn it is can do, a card each, each kind's name beside its cards, not over them, and a
    card no wider than a long note wraps to (the firebomb's saves had made it a row of its own). */
 /* What can be done keeps its room; the sides give way and scroll (the moves had been cut to 27px of 176 on a phone, and

@@ -24,7 +24,10 @@ export class PackGrid {
     ['carried', 'Carried']];
   // One of the company's things: the grid, and the one chosen beside it.
   static Owner({ app, draw, section, items }: { app: ReaderApp; draw: Draw; section: Section; items: ItemRow[] }) {
-    const chosen = section.choices.find(c => c.id === app.state.hovered) ?? section.choices.find(c => draw.open.has(c.id));
+    // Something is always beside the grid: the one chosen, or else the first thing worn (the right of the book had stood
+    // empty until a plate was touched).
+    const chosen = section.choices.find(c => c.id === app.state.hovered) ?? section.choices.find(c => draw.open.has(c.id))
+      ?? section.choices[0];
     return (
       <section className="pack-owner" data-owner={section.id}>
         <h3>{section.title}</h3>
