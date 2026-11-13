@@ -154,7 +154,9 @@ export class Promotion {
     const whys = c.whys.filter(w => (w !== 'unvisited' || (s.settled || c.whys.includes('entry')) && !s.threat && !s.warned)
       && !(c.known && w === 'held'));
     if (c.kind === 'wait') { return whys.filter(w => w === 'dark'); }
-    if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named'); }
+    // Or for what the aim followed waits on, hidden here (the dead man's box under the door-stone): that had been
+    // reckoned the aim's step and then dropped here, and the gold led on into the keep (test/small/gold-thread).
+    if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named' || w === 'advance'); }
     if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }
     return whys;
   }
