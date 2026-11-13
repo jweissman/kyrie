@@ -185,7 +185,10 @@ export class GlanceStage {
     // owner, 12 November: the bare link to the notice on the well-post, which "clearly gives you a clue").
     const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [only?.c.id, search?.id]
       .filter(id => !id || id !== next);
-    const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
+    // The engine's four where it offers them (TB-02), drawn whole, a touch of the place's own among them left out
+    // of the touches instead; else the glance's own foreground.
+    const offer = GlanceStage.offered(app);
+    const shown = offer ?? GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     const railed = SceneRail.on(app);
@@ -208,7 +211,7 @@ export class GlanceStage {
           className="opener opens-posted as-act" mark={ChoiceRow.neutral} markClass="neutral" label={Typography.curl(posted.label)} />}
         {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
           mark="var(--tone-gold)" markLabel="your aim" label={Typography.curl(yours.label)} />}
-        {only && compassed ? null : only ? <Act.View choice={only.c} draw={draw} quiet
+        {only && (compassed || (offer && !lens && drawn.some(d => d?.id === only.c.id))) ? null : only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}
@@ -390,6 +393,15 @@ export class GlanceStage {
   // What a place offers, at rest: what will not wait, then the few other things the glance finds worth doing here,
   // four at most (amendment 6, B: two to four genuinely different opportunities, never filler). Whoever is here is on
   // the picture, a journey on the map, and what the place's own touches open (a notice, a find) is drawn by them.
+  // The scene's four, as the engine offers them (Glance.offer, TB-02: the same four in the page and the terminal, each
+  // a different kind of act where it can be): as the glance led with each where it did (its reason, its subject, what
+  // it is for), else as offered, to make four.
+  static offered(app: ReaderApp): Promoted[] | undefined {
+    const g = app.state.frame?.leaf.glance;
+    return g?.offer?.primary.map(o => g.acts.find(a => a.choice === o.choice) ?? { choice: o.choice,
+      ...o.command ? { command: o.command } : {}, label: o.label, aspects: o.aspects, marks: o.marks,
+      ...o.continues ? { continues: true as const } : {}, why: 'present', facets: ['here'], tier: 4 });
+  }
   static foreground(app: ReaderApp, acts: Promoted[]): Promoted[] {
     // Whoever there is to talk to for something stands among them as well as on the picture (the owner, 12 November:
     // a taproom had led with two things, and the several there with something for the company were only likenesses).
@@ -528,8 +540,13 @@ export class GlanceStage {
   // What the glance leads with, best first: each as the player would say it, why beside it (your brother, your aim,
   // the way you came), and under it what it risks, in words; whatever it opens, open under it.
   static Acts({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
-    const shown = acts.flatMap(a => { const c = GlanceStage.choice(app, a.choice); return c ? [{ a, c }] : []; })
-      .filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
+    // An act offered with no choice of the menu's own (talking to someone here, which the page otherwise draws by their
+    // likeness) is drawn as its own row and done by its command, so that the four are the engine's four.
+    const shown = acts.flatMap(a => {
+      const c = GlanceStage.choice(app, a.choice) ?? app.menu.choices.find(m => !!a.command && m.command === a.command)
+        ?? (a.command ? { id: a.choice, label: a.label, tone: 'thing' as const, command: a.command } : undefined);
+      return c ? [{ a, c }] : [];
+    }).filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
     return (
       <ol className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
@@ -549,14 +566,19 @@ export class GlanceStage {
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           {/* One row, as every choice is (see ChoiceRow): its one indicator, neutral where it is nothing in
               particular. */}
-          <ChoiceRow.Act choice={c} draw={draw} shown={i + 1}
+          {!draw.index.has(c.id) ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
+            data={{ action: 'choice', choice: c.id }} act={c.id} onClick={() => app.choose(c)} number={i + 1}
+            mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
+            label={Typography.curl(label)} {...note ? { aside: Typography.curl(note) } : {}}
+            extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
+          : <ChoiceRow.Act choice={c} draw={draw} shown={i + 1}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`
               + `${a.afar ? ' afar' : ''}`}
             mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
             {...mark ? { markLabel: Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x]).join(', ') } : {}}
             label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></>}
             aside={note && Typography.curl(note)}
-            extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
+            extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />}
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>;
       })}</ol>
