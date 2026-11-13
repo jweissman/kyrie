@@ -29,6 +29,7 @@ describe('a calling\'s own act', () => {
     const lines = (t.leaf.exchange?.lines ?? []).map(l => l.text).join(' ');
     expect(lines).toContain(told.find(v => v.kind === 'feat')!.text);
     expect(lines).toMatch(/hangs open on its hasp/);
+    expect(lines.indexOf(told.find(v => v.kind === 'feat')!.text)).toBeLessThan(lines.indexOf('hangs open'));
     expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
   });
   it('is loud when it is forced', async () => {
