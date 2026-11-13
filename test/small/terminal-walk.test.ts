@@ -37,4 +37,20 @@ describe('the terminal, walked', () => {
       .toEqual([1, false]);
     expect(text).toContain('He took the cart to Brough');
   });
+  // A lens changes what is led with, by kind, and takes no time: in the kitchen, people leads with Wat, time with the
+  // waiting acts, and here with the scene's own again (CN-01, CN-05; TM-04).
+  it('leads through a lens without time passing', async () => {
+    const t = await Tiny.start(farm), walked = await TerminalWalk.run(t.session,
+      WalkStyle.scripted(['1', 'people', 'time', 'here']));
+    const text = walked.transcript.join('\n');
+    const after = (cmd: string) => text.split(`> ${cmd}`)[1]!.split('\n> ')[0]!;
+    expect(after('people')).toMatch(/^\(people[^)]*\)$/m);
+    expect(after('people')).toMatch(/Wat/);
+    expect(after('time')).toMatch(/^\(time[^)]*\)$/m);
+    expect(after('time')).toMatch(/Wait/);
+    expect(after('here')).not.toMatch(/^\((people|time)/m);
+    const walkedIn = await Tiny.start(farm);
+    await TerminalWalk.run(walkedIn.session, WalkStyle.scripted(['1']));
+    expect(t.screen.elapsed).toBe(walkedIn.screen.elapsed);
+  });
 });
