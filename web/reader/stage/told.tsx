@@ -184,16 +184,20 @@ export class Told {
   // was done to begin it; what else came of it is (the owner, 11 November late: the rats killed, "You attack the rats",
   // "The fight is won" and "The rats lie dead" had said one outcome three times). Its blows are the fight's log and
   // the Story's.
-  static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
+  // unsaid: on arriving, what came of it that the glance leaves to the place's More (Leaf.glanced: three sentences);
+  // then a note of what was learned, the rest said to be in the Book.
+  static Happened({ exchange, said, ready, app, unsaid }: { exchange: Exchange; said?: boolean; ready?: string;
+    app?: ReaderApp; unsaid?: string[] }) {
     const fought = exchange.tone === 'fight', at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
-    const moments = Moments.of(exchange.lines), { sights, ended, levels } = moments;
+    const left = new Set(unsaid ?? []);
+    const moments = Moments.of(exchange.lines.filter(l => !left.has(l.text))), { sights, ended, levels } = moments;
     const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
     // The aims it took up, from the aims themselves, by id: those the company holds (one folded into another is told
     // as something known of it: see folded); their notes are the narration's words for the terminal.
     const held = app?.state.frame?.screen.aims, taken = (exchange.aims ?? []).filter(a => !held || held.some(h => h.id === a.id));
     const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights))
-      .filter(n => !exchange.aims?.length || !Words.aimed.test(n)), taken.length);
+      .filter(n => !exchange.aims?.length || !Words.aimed.test(n)), taken.length + (unsaid ? 1 : 0));
     Scrolled.useNewest(at, exchange, !!said);
     if (fought && !plain!.length && !rest!.length && !sights.length && !ended && !levels.length && !notes.length) {
       return null;

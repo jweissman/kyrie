@@ -155,3 +155,5 @@
 .sitter.unpainted .sitter-emblem { top: auto; bottom: clamp(30px, 8vh, 80px); left: clamp(8px, 2vw, 28px); width: min(78%, 300px);
   transform: none; opacity: .16; }
 .shell.scene-full .sitter.unpainted { background: linear-gradient(180deg, rgba(10, 11, 14, .55), rgba(10, 11, 14, .92)); }
+/* The numbers a fold holds, beside its word (see TalkStage.span). */
+.more-talk > summary .fold-keys { margin-left: 10px; font: var(--t-key); letter-spacing: 0; color: var(--dim); }

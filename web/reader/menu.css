@@ -91,3 +91,11 @@
    quiet word. ---- */
 :root .setting > p.held { color: var(--dim); }
 :root .setting .more-told { display: inline-block; padding: 4px 0 8px; font: var(--t-label); letter-spacing: var(--track-label); }
+
+/* ---- Nothing pressed is set in capitals (design-system.md: capitals are the label role's alone): the book's tabs, a
+   conversation's fold, the scene's openers and the fight's quieter options, which set their own. ---- */
+:root :is(.sheet-key, .more-talk > summary, .said-before > summary, .openers .opener, .fight-log-toggle .option,
+  .book-head .back-to, .option.quiet) { text-transform: none; letter-spacing: 0; }
+:root :is(.sheet-key, .more-talk > summary, .said-before > summary, .fight-log-toggle .option, .book-head .back-to) {
+  font: var(--t-aside); }
+:root .openers .opener:not(.choice-row) { font: var(--t-choice); }

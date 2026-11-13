@@ -24,6 +24,8 @@ export interface Budgeted {
   held: string[];
   // Sentences counted against the budget, and those told regardless of it.
   counted: number; always: number;
+  // What came of coming here that the glance leaves to a deliberate look (see SceneBudget.typed), by its words.
+  unsaid?: string[];
 }
 interface Split extends BudgetLine { i: number; sentences: string[] }
 interface Tally { keep: Map<number, number>; counted: number; budget: number }
@@ -77,17 +79,36 @@ export class SceneBudget {
   static bears(f: { teaches?: string; aspect?: string }): boolean {
     return SceneBudget.bearing.has(f.aspect ?? '') || (!!f.teaches && !SceneBudget.standing.has(f.aspect ?? ''));
   }
+  // arrival: what came of coming here (what was said and done there, a line each), which is the moment's news and comes
+  // before the place's further words: its first line always, the rest as the three allow; what it leaves is held
+  // with the place's own (the camp at Millholm had told eight sentences: the place's three and then five of the
+  // brother's greeting and the dog's).
+  static readonly heldable: ReadonlySet<string> = new Set(['telling', 'event', 'speech']);
   static typed(paragraphs: { parts: { text: string; teaches?: string; aspect?: string }[] }[], presence: string[],
-    gone: string[], arrival = 0): Budgeted {
+    gone: string[], arrival: { text: string; kind: string }[] = []): Budgeted {
     const lines: BudgetLine[] = [...paragraphs.flatMap((p, group) => p.parts.map((part, j): BudgetLine => ({
       text: part.text, group, kind: SceneBudget.bears(part) ? 'bearing' : group === 0 && j === 0 ? 'lead' : 'standing' }))),
     ...gone.map((text): BudgetLine => ({ text, kind: 'changed' })), ...presence.map((text): BudgetLine => ({ text, kind: 'life' }))];
-    // What is told regardless (a clue, what changed, what came of coming here) counts against the three; the place's
-    // own first sentence is told whatever (the bell gone from its frame, four sentences, had made the landing seven).
+    // What is told regardless (a clue, what changed) counts against the three; the place's own first sentence is told
+    // whatever (the bell gone from its frame, four sentences, had made the landing seven).
     const always = lines.filter(l => l.kind === 'bearing' || l.kind === 'changed')
       .reduce((n, l) => n + SceneBudget.count(l.text), 0);
-    const lead = lines.some(l => l.kind === 'lead') ? 1 : 0;
-    return SceneBudget.compose(lines, Math.max(lead, SceneBudget.sentences - arrival - always));
+    const lead = lines.some(l => l.kind === 'lead') ? 1 : 0, told = SceneBudget.arrived(arrival, SceneBudget.sentences - lead - always);
+    const spent = arrival.filter(l => !told.unsaid.includes(l.text)).reduce((n, l) => n + SceneBudget.count(l.text), 0);
+    const budget = SceneBudget.compose(lines, Math.max(lead, SceneBudget.sentences - spent - always));
+    return { ...budget, held: [...budget.held, ...told.unsaid], ...told.unsaid.length ? { unsaid: told.unsaid } : {} };
+  }
+  // Which lines of what came of coming here the glance tells: the first, any that is not the telling of it (a change,
+  // a revelation, a turn of a fight), and the rest while room is left.
+  private static arrived(lines: { text: string; kind: string }[], room: number): { unsaid: string[] } {
+    let used = 0;
+    const unsaid: string[] = [];
+    lines.forEach((l, i) => {
+      const n = SceneBudget.count(l.text);
+      if (i > 0 && SceneBudget.heldable.has(l.kind) && used + n > room) { unsaid.push(l.text); return; }
+      used += n;
+    });
+    return { unsaid };
   }
   // Sentences in a text, as the scene budget's spec counts them (test/scene-sentence-budget).
   static count(text: string): number { return Sentences.split(text).length; }

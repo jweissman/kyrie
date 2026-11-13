@@ -192,6 +192,11 @@
 /* How it stands, told in the beat at the start (see FightStage.View), in its danger's colour only where it is grave. */
 .fight .beat .reckoning { font: italic 400 19px/1.5 var(--told); color: var(--ivory); }
 .fight .beat .reckoning:is(.grave, .deadly) { color: color-mix(in oklab, var(--ember) 45%, var(--ivory)); }
+/* A kind opened, the hand is that kind's moves and Attack, nothing else: letting the fight go on by itself and the fight
+   so far stand aside until it is put away (ten things had been in the hand, against eight), and the hand keeps the
+   safe zone's foot that the fight so far had kept for it (on a phone Guard had stood 80 px past it). */
+.fight:has(.moves > .panel) .moves > :is(.auto, .through), .fight:has(.moves > .panel) > .fight-log-toggle { display: none; }
+.fight:has(.moves > .panel) > .moves { padding-bottom: var(--safe-b); }
 /* A kind opened (Abilities, Spells, Items, Other): its moves across the hand's width, two rows at most, and the field
    above gives way to them; under the hand they had run past the foot of a laptop, five of eight outside the safe zone
    (the capture walk, 12 November). */
@@ -205,12 +210,9 @@
   .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
   /* Its reckoning is the moment's before the fight closes on a phone, as the head's is (above): the company first. */
   .fight .beat .reckoning { display: none; }
-  /* A kind opened on a phone: its moves two by two, by name (what each does is said where there is room), and letting
-     the fight go on by itself and the fight so far stand aside until it is put away (the capture walk, 13 November: Guard
-     and Let Hamo fight this turn had stood 72 and 84 px past the foot of the safe zone). */
+  /* A kind opened on a phone: its moves two by two, by name (what each does is said where there is room). */
   :root .fight .moves > .panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   :root .fight .moves > .panel .choice-row.choice-row { min-height: 38px; padding: 5px 8px 5px 14px; font-size: 14px; }
   :root .fight .moves > .panel .choice-row.choice-row > .row-aside { display: none; }
-  .fight:has(.moves > .panel) .moves > :is(.auto, .through), .fight:has(.moves > .panel) > .fight-log-toggle { display: none; }
   .fight:has(.moves > .panel) > .sides { min-height: calc(var(--frame-h) * .12); }
 }

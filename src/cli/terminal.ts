@@ -98,7 +98,9 @@ export class Terminal {
     // At a glance, as the page tells it (Narrator's glanced); looked at, the place whole.
     const seen = whole || !leaf.glanced ? leaf : leaf.glanced;
     const prose = [...seen.situation, ...seen.presence, ...leaf.changed];
-    if (leaf.exchange) { prose.push(...leaf.exchange.lines.map(l => l.text)); }
+    // What came of coming here, as the glance tells it: the lines it leaves are the place's more, told on a look.
+    const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
+    if (leaf.exchange) { prose.push(...leaf.exchange.lines.map(l => l.text).filter(t => !unsaid.has(t))); }
     for (const line of prose) { console.log(Typography.plain(line)); }
     if (screen.objectives.length) { console.log(`Aim: ${screen.objectives[0]}`); }
     if (leaf.glance?.need?.length) { console.log(`Need: ${leaf.glance.need.join(' · ')}`); }

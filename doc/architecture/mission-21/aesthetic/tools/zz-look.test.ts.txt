@@ -77,7 +77,14 @@ function measure() {
   const scrolls = [...document.querySelectorAll<HTMLElement>('*')]
     .filter(e => e.scrollHeight > e.clientHeight + 2 && /(auto|scroll)/.test(getComputedStyle(e).overflowY) && visible(e))
     .map(e => `${e.tagName.toLowerCase()}.${[...e.classList].slice(0, 2).join('.')} ${e.scrollHeight}/${e.clientHeight}`);
-  return { words, sentences, choices: choices.length, wrapped, rowWraps, gold, goldWhat: [...new Set(goldWhat)].slice(0, 8),
+  const choiceWhat = choices.map(c => `${c.tagName.toLowerCase()}.${[...c.classList].slice(0, 2).join('.')} ${((c as HTMLElement).innerText || c.getAttribute('aria-label') || '').trim().slice(0, 24)}`);
+  // In a fight: each part's height and the field's computed floor (why a hand does or does not fit).
+  const fight = document.querySelector('.fight') ? {
+    parts: [...document.querySelectorAll('.fight > *')].map(e => `${[...e.classList][0]} ${Math.round(e.getBoundingClientRect().height)}`),
+    sidesMin: getComputedStyle(document.querySelector('.fight > .sides')!).minHeight,
+    held: getComputedStyle(document.querySelector('.fight > .sides')!).getPropertyValue('--held'),
+    bottom: Math.round(document.querySelector('.fight > .moves')!.getBoundingClientRect().bottom) } : undefined;
+  return { fight, words, sentences, choices: choices.length, choiceWhat, wrapped, rowWraps, gold, goldWhat: [...new Set(goldWhat)].slice(0, 8),
     type: type.size, faces: [...faces], scrolls };
 }
 
