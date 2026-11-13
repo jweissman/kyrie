@@ -232,8 +232,10 @@
   /* The telling gives way (it scrolls, its fade says so); the menu and the tools never do. */
   :root[data-look="plate"] .scene-panel > .glance > .told-col { grid-column: 1; grid-row: 2; }
   :root[data-look="plate"] .scene-panel > .glance > .do-col { grid-column: 1; grid-row: 3; overflow: visible; }
-  :root[data-look="plate"] .scene-panel > .scene-rail { grid-column: 1; grid-row: 4; margin: var(--s2) 0 0; padding-top: var(--s1);
-    border-top: 1px solid var(--panel-edge); }
+  :root[data-look="plate"] .scene-panel > .scene-rail,
+  :root[data-look="plate"] .scene-panel:has(> .explorer) > .scene-rail { grid-column: 1; grid-row: 4; margin: var(--s2) 0 0;
+    padding-top: var(--s1); border-top: 1px solid var(--panel-edge); }
+  :root[data-look="plate"] .scene-panel > .explorer { grid-column: 1; grid-row: 2 / 4; }
   :root[data-look="plate"] .shell.scene-full .world-page.scale-scene.talking .focus .told-col :is(.setting, .life, .changed, .first-goal, .sight) {
     display: revert; }
   :root[data-look="plate"] .scene-panel > .scene-rail .rail-mark { width: 36px; height: 36px; }
