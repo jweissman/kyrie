@@ -9,7 +9,10 @@ import armourPaintings from '../../data/paintings/armour.json';
 import consumablePaintings from '../../data/paintings/consumables.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
-import type { Modifiers } from './schema';
+import type { Modifiers, Species } from './schema';
+import { Amounts } from '../rules/amounts';
+import { CatalogFields } from './catalog-fields';
+import { CanonRuntime } from './canon-runtime';
 import { ModifierSet } from '../rules/modifiers';
 import { LocalKinds } from './local-catalog';
 import { CreatureVariants } from '../creature-variants';
@@ -43,7 +46,7 @@ export class CanonValidation {
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
     v.conditions(); v.items();
     v.backgrounds(); v.religion(); v.plants(); v.sources();
-    return [...Canon.conflicts, ...v.problems];
+    return [...Canon.conflicts, ...CatalogFields.problems(), ...v.problems];
   }
   // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
   // is cut). Said by lint, never refused at load (the owner writes plants before their sheet is drawn).
@@ -90,6 +93,11 @@ export class CanonValidation {
     if (!a) { this.fail(where, `unknown ability ${id}`); return; }
     if (!allowed.includes(a.kind)) { this.fail(where, `${id} is a ${a.kind}, not ${allowed.join(' or ')}`); }
   }
+  // What is granted is played: an ability reference only, or with what it cannot run, is never given to a holder (the
+  // SRD adaptation briefing, §14).
+  private granted(where: string, ids: string[]) {
+    for (const a of ids.filter(a => Canon.abilities[a] && !CanonRuntime.playable(a))) { this.fail(where, `grants ${a}, which cannot be played`); }
+  }
   private ancestries() {
     for (const [id, a] of Object.entries(Canon.ancestries)) {
       const where = `ancestry ${id}`;
@@ -116,6 +124,7 @@ export class CanonValidation {
       if (!s.type || !types.includes(s.type)) { this.fail(where, `has unknown type ${s.type}`); }
       if (!Canon.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
       if (s.statistics.armor && !Canon.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
+      this.hitDice(where, s.statistics);
       (s.abilities ?? []).forEach(a => this.ability(where, a, ['natural', 'technique', 'spell']));
       for (const t of s.traits ?? []) {
         if (!['nature', 'affinity', 'character'].includes(Canon.traits[t]?.category ?? '')) {
@@ -123,7 +132,7 @@ export class CanonValidation {
         }
       }
       for (const h of (s.habitats ?? []).filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
-      this.resistances(where, s.resistances);
+      this.defenses(where, s.defenses);
     }
   }
   // A variation's kinds and types are kinds and types, its weapon a weapon, its material a material, and what it adds
@@ -145,7 +154,9 @@ export class CanonValidation {
     features.forEach((f, i) => {
       if (f.level < 2 || f.level > 20 || (i && f.level <= features[i - 1]!.level)) { this.fail(where, `feature at level ${f.level}`); }
       (f.abilities ?? []).forEach(a => this.ability(where, a, ['technique']));
-      for (const a of (f.abilities ?? []).filter(a => Canon.abilities[a]?.unsupported)) { this.fail(where, `${a} cannot be played`); }
+      for (const a of (f.abilities ?? []).filter(a => Canon.abilities[a] && !CanonRuntime.playable(a))) {
+        this.fail(where, `${a} cannot be played`);
+      }
       for (const t of (f.traits ?? []).filter(t => Canon.traits[t]?.category !== 'calling')) {
         this.fail(where, `${t} is not a calling trait`);
       }
@@ -190,6 +201,7 @@ export class CanonValidation {
         }
       }
       (t.grants?.abilities ?? []).forEach(a => this.ability(where, a, ['technique', 'spell', 'natural']));
+      this.granted(where, t.grants?.abilities ?? []);
       this.modifiers(where, t.modifiers);
     }
   }
@@ -220,7 +232,7 @@ export class CanonValidation {
     for (const [id, i] of Object.entries(Canon.items)) {
       const where = `item ${id}`;
       if (!CanonValidation.itemCategories.includes(i.category)) { this.fail(where, `unknown category ${i.category}`); }
-      if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); }
+      if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); this.granted(where, [i.grants.ability]); }
       // A module's own kind may grant a capability of the module's own, checked as the module was read (GTR-09).
       if (i.grants?.skill && !Canon.skills[i.grants.skill] && !LocalKinds.local(id)) {
         this.fail(where, `grants unknown skill ${i.grants.skill}`);
@@ -233,6 +245,9 @@ export class CanonValidation {
       if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {
         this.fail(where, `unknown damage type ${i.weapon.type}`);
+      }
+      for (const t of (i.weapon?.tags ?? []).filter(t => !Canon.rules.combat.defenses.attackTags.includes(t))) {
+        this.fail(where, `unknown attack tag ${t}`);
       }
       if (i.weapon && !/^\d+d\d+([+-]\d+)?$/.test(i.weapon.damage.replace(/\s/g, ''))) { this.fail(where, `damage ${i.weapon.damage} is not a die`); }
       if (i.armor && !Number.isInteger(i.armor.ac)) { this.fail(where, 'armour needs an integer ac'); }
@@ -276,13 +291,44 @@ export class CanonValidation {
     for (const [family, entries] of Object.entries(families)) {
       for (const [id, e] of Object.entries(entries)) {
         if (!e.source || (!e.source.orsino && !e.source.kyr)) { this.fail(`${family} ${id}`, 'has no source'); }
+        // An SRD adaptation says how it was converted and what it keeps and leaves out, never only that it is one.
+        const srd = e.source as { srd35?: string; conversion?: string; notes?: string } | undefined;
+        if (srd?.srd35 && (!srd.conversion || !srd.notes)) { this.fail(`${family} ${id}`, 'adapts the SRD without a conversion and notes'); }
       }
     }
   }
-  private resistances(where: string, r: Record<string, number> | undefined) {
-    for (const [type, amount] of Object.entries(r ?? {})) {
-      if ((type !== 'all' && !Canon.rules.damageTypes.includes(type)) || !Number.isFinite(amount)) {
-        this.fail(where, `invalid resistance ${type}`);
+  // Hit Dice are dice the grammar reads with a mean, and a stat block that has them is not also grown or fixed another
+  // way (the SRD adaptation briefing, §1: two conversions of one creature's hit points would disagree).
+  private hitDice(where: string, st: NonNullable<Species['statistics']>) {
+    if (st.hitDice === undefined) { return; }
+    if (!Amounts.valid(st.hitDice) || !Amounts.dice(st.hitDice).length) {
+      this.fail(where, `hit dice ${st.hitDice} are not dice`); return;
+    }
+    try { Amounts.mean(st.hitDice); } catch (error) { this.fail(where, `hit dice ${st.hitDice}: ${(error as Error).message}`); }
+    if (st.growth?.hitPoints || st.hitPoints !== undefined) { this.fail(where, 'has hit dice and hit points grown or fixed besides'); }
+  }
+  // A body's typed defenses (the SRD adaptation briefing, §3): each of a known kind, with only that kind's fields, its
+  // harm named by damage types (or physical, all), its amounts numbers or dice, and what passes a reduction one of the
+  // attack tags or a damage type. A defense nothing would read is refused, never kept inert.
+  private defenses(where: string, defenses: Species['defenses']) {
+    const fields: Record<string, string[]> = { immunity: ['kind', 'to'], resistance: ['kind', 'to', 'amount', 'mode'],
+      reduction: ['kind', 'amount', 'unless', 'to'], regeneration: ['kind', 'amount', 'stoppedBy'] };
+    const harms = ['all', ...Canon.rules.damageTypes], tags = [...Canon.rules.combat.defenses.attackTags, ...harms];
+    for (const d of defenses ?? []) {
+      const said = `${where}: defense ${JSON.stringify(d)}`;
+      if (!fields[d.kind]) { this.problems.push(`${said}: unknown kind`); continue; }
+      const extra = Object.keys(d).filter(k => !fields[d.kind]!.includes(k));
+      if (extra.length) { this.problems.push(`${said}: unknown field ${extra.join(', ')}`); }
+      const named = [...'to' in d ? d.to ?? [] : [], ...'stoppedBy' in d ? d.stoppedBy ?? [] : []];
+      for (const h of named.filter(h => !harms.includes(h))) { this.problems.push(`${said}: unknown damage type ${h}`); }
+      if ((d.kind === 'immunity' || d.kind === 'resistance') && !d.to?.length) { this.problems.push(`${said}: names no harm`); }
+      if ('amount' in d && !Amounts.valid(d.amount)) { this.problems.push(`${said}: amount is not a number or dice`); }
+      if (d.kind === 'resistance' && !['flat', 'fraction'].includes(d.mode)) { this.problems.push(`${said}: unknown mode`); }
+      if (d.kind === 'resistance' && d.mode === 'fraction' && typeof d.amount !== 'number') {
+        this.problems.push(`${said}: a fraction is a number`);
+      }
+      for (const t of (d.kind === 'reduction' ? d.unless ?? [] : []).filter(t => !tags.includes(t))) {
+        this.problems.push(`${said}: unknown attack tag ${t}`);
       }
     }
   }

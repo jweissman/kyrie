@@ -1,5 +1,6 @@
 import type { Modifiers } from './modifiers';
 import { FantasyRules } from '../fantasy-rules';
+import { Defenses, type Defense, type Mitigated } from './defenses';
 
 export interface WeaponProfile {
   id: string; name: string; damage: string; type: string; missile?: boolean; intercept?: boolean; natural?: boolean;
@@ -8,6 +9,8 @@ export interface WeaponProfile {
   // A lesser blow of a kind's routine (a dragon's claws beside its bite): its own dice, without the strength behind
   // the kind's own weapon, as the old games give a dragon's claws a die and its bite the weight.
   lesser?: boolean;
+  // What its blow carries beside its damage type (silver, magic), for a defense it passes.
+  tags?: string[];
 }
 // What the attack roll reads about one combatant: level, effective scores, equipment and gathered modifiers.
 export interface Combatant {
@@ -78,22 +81,16 @@ export class Fighting {
     const melee = missile ? 0 : Math.max(0, meleeBonus);
     return { amount: rolled + bonus + stat + melee, critical: bonus };
   }
-  // Commands.handleHit after the attack: the attacker's bonusDamage (not against itself), resistance (resistAll plus
-  // the kind's; positive reduces, negative amplifies, true damage ignores both), then damageReduction.
-  // bonus is the attacker's rolled bonusDamage (zero when a creature damages itself or there is no attacker).
+  // Commands.handleHit after the attack: the attacker's bonusDamage (not against itself), then the defender's
+  // defenses in their order (see Defenses: immunity, resistance as a fraction, a flat resistance, the best reduction
+  // the blow does not pass; true damage ignores them all). bonus is the attacker's rolled bonusDamage (zero when a
+  // creature damages itself or there is no attacker).
   static mitigate(amount: number, type: string, options: {
-    bonus: number; defender: Modifiers; physical: string[];
-  }): { amount: number; bonus: number; resistance: number; reduction: number } {
-    const bonus = options.bonus;
-    let damage = Math.max(0, amount + bonus), resistance = 0, reduction = 0;
-    if (type !== 'true') {
-      const r = options.defender.resistances ?? {};
-      resistance = (r.all ?? 0) + (r[type] ?? (options.physical.includes(type) ? r.physical ?? 0 : 0));
-      if (resistance > 0) { damage = Math.floor(damage * (1 - Math.min(1, resistance))); }
-      else if (resistance < 0) { damage = Math.floor(damage * (1 + Math.abs(resistance))); }
-      reduction = options.defender.damageReduction ?? 0;
-      damage = Math.max(0, damage - reduction);
-    }
-    return { amount: damage, bonus, resistance, reduction };
+    bonus: number; defender: Modifiers; physical: string[]; defenses?: readonly Defense[]; tags?: string[];
+    evaluate?: (amount: string) => number;
+  }): Mitigated {
+    return Defenses.mitigate({ amount, bonus: options.bonus, type, physical: options.physical,
+      ...options.tags ? { tags: options.tags } : {}, ...options.evaluate ? { evaluate: options.evaluate } : {} },
+    options.defender, options.defenses);
   }
 }

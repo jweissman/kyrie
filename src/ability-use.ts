@@ -209,7 +209,9 @@ export class AbilityUse {
     const melee = Effects.dice(attacker.modifiers.bonusMeleeDamage, context, actor);
     const damage = Fighting.weaponDamage(attacker, rolled, roll.critical, melee);
     const before = target.hp;
-    Effects.damage(target, { amount: damage.amount, type: attacker.weapon.type, critical: damage.critical },
+    // What the blow carries for a defense to be passed by: its weapon's tags, and a body's or a made thing's.
+    const tags = [...attacker.weapon.tags ?? [], attacker.weapon.natural ? 'natural' : 'manufactured'];
+    Effects.damage(target, { amount: damage.amount, type: attacker.weapon.type, critical: damage.critical, tags },
       { ...context, actor });
     AbilityUse.hooks(actor, 'onAttackHit', target, context);
     if (spillover && target.hp === 0 && damage.amount > before) {
