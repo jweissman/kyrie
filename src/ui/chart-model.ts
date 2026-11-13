@@ -37,6 +37,19 @@ export class ChartModel {
   // roam: for planning a journey toward a place seen, the whole open country, walked or not (the map's land is never
   // made known by it: see LandModel).
   ways(visited: Set<string>, roam = false): WayInfo[] {
+    // Read once for a state of the world, whoever asks: the routes (Itineraries.graph) and the plan (build) had each
+    // read them for every page (Mission 21's validation profile).
+    const key = `${this.actor}|${roam}|${[...visited].sort().join(',')}`;
+    const kept = ChartModel.read.get(this.world) ?? new Map<string, WayInfo[]>();
+    ChartModel.read.set(this.world, kept);
+    const known = kept.get(key);
+    if (known) { return known; }
+    const ways = this.read(visited, roam);
+    kept.set(key, ways);
+    return ways;
+  }
+  private static readonly read = new WeakMap<object, Map<string, WayInfo[]>>();
+  private read(visited: Set<string>, roam: boolean): WayInfo[] {
     const model = new PassageModel(this.world, this.actor, this.entities);
     const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model),
       ...this.kind(model, ChartModel.roads), ...this.across(model, visited, roam)];
