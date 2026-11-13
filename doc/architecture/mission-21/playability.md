@@ -42,7 +42,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
 | PL-21 | **P0** | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed in this branch |
 | PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | open |
-| PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | open (a decision: U1 against `gold-thread`'s "goes on into the site") |
+| PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | fixed in this branch (the lead's ruling) |
+| PL-24 | P1 | Kahitude's brothers' errand names Lapisrecs, whose writing tells the successors' history, not the history the errand waits on: the errand cannot be done there | open (content/generation; suspected) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -408,9 +409,27 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   (`Affordances`, `inSite`; `AimRoute.onward`): a location rule. A debt waits on coin; what lies in an unentered room
   is not the company's to know, so nothing typed can say a room bears on it, and `AimLeads.there` must not be asked
   there (it would read what the company has not seen).
-- **Status:** open, **a decision for the lead:** either gold stops at a site's door for an aim that waits on coin (or
-  on anything not known to be inside), and the rooms are silver, worth exploring, until a lead names one; or the
-  walk stays, as `test/gold-thread`'s "goes on into the site the aim names" holds it.
+- **Decided by the lead (13 November):** gold goes further into a site only when what the aim waits on is known to
+  lie within it; otherwise the unseen rooms are exploration.
+- **Status:** fixed in this branch: `AimLeads.within` (the site here or at the door): the aim names someone, something
+  or a place inside it, or what it waits on is hidden there (`AimAdvances.sought`), or is to be learned there (an
+  observation, a rule heard there, or a writing that reveals it: `AimAdvances.taughtAt`), or a lead the company holds
+  points inside (`leadsTo`). Only then is a way further in `toward` (`Affordances`) or the aim's route on
+  (`AimRoute.onward`). On the mage's saves: no gold inside the hold; at its door the parley stays the aim's. Regression:
+  `test/small/gold-site.test.ts` (the debt's hold: no gold through its rooms, which are exploration; an aim naming the
+  writing in its last room led on to it; a jewelled box seen there is the debt's step). `test/gold-thread`: the
+  Neblalac cases pass; two of its walks are brought to the ruling (kahitude's order errand may end at Lapisrecs's door,
+  see PL-24; a1's debt now ends at Ísencepan's door rather than walking its rooms).
+
+### PL-24: an errand sent where it cannot be done (suspected)
+
+- **Found by:** PL-23's walk of kahitude's order origin (`tools/herbs.ts kahitude order`): the errand ("the brothers
+  want the old writing at Lapisrecs read") waits on `knows(party, region__history_bone)` or `…_bone_fate`, taught at
+  w1, w2, w3, the manor's library and the stones' hall; Lapisrecs (w9) teaches `region__history_successors`
+  (`region__w9_barrow_passage_after1_doc_says`). `region-works.ts` says a later kingdom's work keeps the first makers'
+  story; either the errand's delving or the work's teaching is wrong.
+- **Status:** open: a generation question (src/world/region-works.ts, the order origin's choice of delving), not
+  fixed here.
 
 ### PL-06: after the aim, nothing pulls
 
@@ -419,7 +438,42 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   back. It was Grandfather's", and nothing leads home with it. Day 1, 5:40 p.m., 837 XP.
 - **Corroborates:** T24-18 (round 12, A: "after each job it moves on to the next notice"); aesthetic-and-play §5.
 - **Status:** open: a design matter (the aim's succession), recorded here because it decides whether the first hour
-  is worthwhile.
+  is worthwhile. A proposal follows (the lead asked for one, 13 November; nothing built).
+
+#### Proposal: what pulls after an aim is seen through
+
+*What the evidence says.* Every start ends its first aim in ten to forty commands, and then: a1 kin, "No aim is
+held" with the yoke in hand; a1 and pine, the next notice job or nothing; round 12 (T24-18), "after each job it
+moves on to the next notice and never makes a larger adventure the aim". What the game already holds after a first
+aim: (1) a **consequence** of what was done (the yoke Odo wanted back; the box from under the stone; the bell found in
+the hold; the rats' nest "or they will be back"); (2) **leads heard on the way** (the oxen's mound, the green-lit
+tower, thirty rumours at an inn), each a fact that `leadsTo` somewhere; (3) **people met** whose own trouble was
+glimpsed (Hesper's bell, Osmund's walk, the drover's boy); (4) the **town's standing jobs** (the notice).
+
+*What should pull, in order.* At the moment an aim is seen through, the page says once, in the scene (not in the
+Book), what the deed changes and what it opens, and offers to follow **one** successor, chosen by type, never
+followed for the player:
+1. **The deed's own consequence**, where the aim's content gives one: an aim whose ending leaves the company carrying
+   something someone wants (the yoke; the box; the bell), or owed by someone (the pay), succeeds into "bring it / be
+   paid" toward that person. Typed from what is carried (`carries`) and who `wants` it, or what the aim's ending
+   makes owed (`Owed`). This is the cheapest and the most honest: it is already in the world, it only is not said.
+2. **The strongest lead heard and not yet followed**, by `leadsTo` and nearness: the mound Odo named, a green light in
+   a lone tower. Offered as a provisional aim ("Odo said whatever took the oxen dens at the mound"), never gold until
+   followed.
+3. **A person's own trouble glimpsed** (a topic seen and not taken up), offered only where none of the above is.
+4. **The notice**, last: the standing jobs are the floor, not the next chapter.
+
+*The larger adventure (T24-18).* After two or three such aims in one town, the succession should prefer a lead that
+is a site of the region's history (`region-works`: the makers' works, the great work) over another notice, so that
+the first hour bends toward one larger place. That needs no new system: the history facts and their `leadsTo` exist;
+it is a ranking among successors.
+
+*What not to do.* No new quest system, no automatic following, no chain of generated fetch-quests. The succession is a
+**choice offered once**, with its reason in the world's words, at the moment the player is most open to one.
+
+*How to know it works.* A walk (like `gold-thread`'s) from each origin past its first aim: within five commands of
+the first aim ending, the page offers a successor whose source is one of the four above, typed; and in two cold plays
+the player follows one of them unprompted.
 
 ### PL-07: the first fights are trivial
 

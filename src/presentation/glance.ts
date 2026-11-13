@@ -343,16 +343,16 @@ export class Glance {
   // The ways toward the aims, and into a site: no step across the country toward an aim while there is a way into a
   // site here (the barrow's door beside the company, and the page had led with the map "toward your aim").
   private static ways(campaign: Campaign, screen: Screen,
-    aims: { named: Set<string>; held: Set<string>; idle: Set<string> }):
-    Pick<Reading, 'toward' | 'inward'> {
+    aims: { named: Set<string>; held: Set<string>; idle: Set<string> }): Pick<Reading, 'toward' | 'inward' | 'within'> {
     const inward = this.inward(campaign, screen), sought = this.sought(campaign, screen);
+    const within = AimLeads.within(campaign, screen, aims.named);
     // Where what the aim waits on is hidden elsewhere and the way there is known, that way is the aim's, and no other.
     const toward = sought ? new Map([[sought, 'toward' as const]]) : this.toward(campaign, screen, aims);
-    for (const id of sought ? [] : AimRoute.onward(campaign, screen)) { toward.set(id, 'toward'); }
+    for (const id of sought || !within ? [] : AimRoute.onward(campaign, screen)) { toward.set(id, 'toward'); }
     if (inward.size) {
       for (const [id] of toward) { if (screen.exits.find(e => e.id === id)?.bearing) { toward.delete(id); } }
     }
-    return { toward, inward };
+    return { toward, inward, within };
   }
   // The first way toward the nearest place where something the aim waits on lies hidden (see AimAdvances.sought), from
   // anywhere but there, by the ways the world joins: a site's way back out included, which is otherwise never led.

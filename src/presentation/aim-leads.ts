@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Operator } from '../lang/module';
+import type { Entity, Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
@@ -48,6 +48,35 @@ export class AimLeads {
         .map(a => a.id)));
     }
     return kept.get(def.id)!;
+  }
+  // Whether what the aim followed waits on is known to lie within the site the company is in, or at the door of: it
+  // names someone or something there, or a place in it, or what it waits on is hidden or to be learned there, or a lead
+  // the company holds says where in it (the lead's ruling, 13 November, PL-23). Not so, the site's unseen rooms are
+  // exploration, never the aim's: the debt's gold had walked the hobs' hold room by room into an empty spy-crack. Away
+  // from any site there is nothing to hold back.
+  static within(campaign: Campaign, screen: Screen, named: Set<string>): boolean {
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world, here = screen.place.id;
+    const sites = new Set([here, ...screen.exits.map(e => e.destination.id)]
+      .flatMap(id => this.site(byId, id) ?? []));
+    if (!sites.size) { return true; }
+    const actor = campaign.playerActor ?? 'party', at = { campaign, byId, sites, here };
+    const told = w.relates('leadsTo') ? w.related('leadsTo')
+      .filter(l => w.test(ModuleWriter.call('knows', actor, l.args[0]!))).map(l => l.args[1]!) : [];
+    return [...[...named].filter(id => id !== actor), ...AimAdvances.sought(campaign),
+      ...AimAdvances.taughtAt(campaign), ...told]
+      .some(id => this.inside(id, at));
+  }
+  private static site(byId: Map<string, Entity>, id: string): string | undefined {
+    return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
+  }
+  // Somewhere in one of those sites, or whoever or whatever stands in it, but not the site itself nor where the
+  // company stands.
+  private static inside(id: string, at: { campaign: Campaign; byId: Map<string, Entity>; sites: Set<string>;
+    here: string }): boolean {
+    const w = at.campaign.world;
+    const place = at.byId.get(id)?.space ? id : w.one('at', id) ?? (w.relates('inside') ? w.one('inside', id) : undefined);
+    return !!place && !at.sites.has(id) && place !== at.here
+      && Spatial.ancestry(at.byId, place).some(e => at.sites.has(e.id));
   }
   // Where what the aim waits on someone keeping grows: each place a stand of a kind they want stands in, and the
   // places round it.

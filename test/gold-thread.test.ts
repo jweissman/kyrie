@@ -109,12 +109,19 @@ describe('the gold\'s thread', () => {
   it('leads to the one who has the aim\'s next step, and to what they ask: the fever nursed', async () => {
     expect((await Thread.walk('kahitude', 'herbs')).end).toBe('done');
   }, 120000);
-  it('goes on into the site the aim names, and does not ask the same door over and over', async () => {
-    expect(['danger', 'done', 'going']).toContain((await Thread.walk('kahitude', 'order')).end);
-    expect((await Thread.walk('a1', 'order')).end).not.toBe('circle');
-  }, 240000);
-  it('takes what would pay the debt, and leads home with it from inside the place it was found', async () => {
+  // Into a site only so far as what the aim waits on is known to lie within it (the lead's ruling of 13 November,
+  // PL-23): kahitude's brothers' errand names Lapisrecs, whose writing tells another people's history than the one
+  // the errand waits on (PL-24), so the gold stops at its door; never the same door over and over.
+  it('goes on into a site only as far as what the aim waits on is known to be, and does not ask the same door over and over',
+    async () => {
+      expect(['danger', 'done', 'going', 'lost']).toContain((await Thread.walk('kahitude', 'order')).end);
+      expect((await Thread.walk('a1', 'order')).end).not.toBe('circle');
+    }, 240000);
+  // The debt's coin is not known to lie in Ísencepan: the gold goes to its door, and its rooms are exploration, not
+  // the debt's (PL-23; the find taken up and led home with is test/small/gold-site's).
+  it('leads the debt to the old place it was told of, and not on through its rooms', async () => {
     const walked = await Thread.walk('a1', 'debt');
-    expect(walked.trail.some(t => /_gate: Set out for/.test(t))).toBe(true);
+    expect(walked.trail.at(-1)).toMatch(/Set out for/);
+    expect(walked.trail.some(t => /^region__w\d+_/.test(t))).toBe(false);
   }, 180000);
 });

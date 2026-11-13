@@ -15,6 +15,9 @@ export interface Reading {
   // The words of the aim followed (whether one is); the choices whose doing changes what it waits on, or leads to
   // where what it waits on is (see Glance.advances, AimLeads).
   aim?: string; advances?: Set<string>; coin?: boolean;
+  // Whether what it waits on is known to lie within the site here (see AimLeads.within): only then is a way further in
+  // the aim's.
+  within?: boolean;
   // The places that hold what the aim followed names (its town, its site): a journey there goes toward it.
   holding?: Set<string>;
   schema: Map<string, string>; args: Map<string, string[]>; speakers: Set<string>;
@@ -277,9 +280,9 @@ export class Affordances {
     const present = [...screen.things, ...screen.people].some(t => r.named.has(t.id));
     // So with a way further into a site the aim names, from anywhere in it: in the barrow's mouth, the old writing the
     // brothers want further in, nothing had been gold (the owner, 12 November). Never every lane of a town it names.
-    const inSite = screen.path.some(p => p.kind === 'site' && r.named.has(p.id)) && r.inward.has(exit.id);
+    const inSite = screen.path.some(p => p.kind === 'site' && r.named.has(p.id)) && r.inward.has(exit.id) && !!r.within;
     const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back && !present
-      && (inSite || (r.named.has(r.here) && (!AimRoute.town(screen) || AimRoute.down(exit))) ? 'toward' as const
+      && (inSite || (r.named.has(r.here) && (AimRoute.town(screen) ? AimRoute.down(exit) : !!r.within)) ? 'toward' as const
         : r.held.has(r.here) ? 'held' as const : undefined);
     const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
