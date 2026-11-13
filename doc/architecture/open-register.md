@@ -100,7 +100,7 @@ claims nothing beyond what the sources say.
 | CB-11 | A persuaded foe's portrait moves to the company's side (allies or not?) | R6-I §4 (74) | Not in log (11 Nov) | P3 | M20 close |
 | CB-12 | Fight bar seen only in the CI tour; the target-chips row did nothing on a phone; "telling blow … for 1"; a fight legible at a glance | M19-226 Partial, R6-J §5–6, BRF-05, BRF-28 | Partial (10 Nov); round 6 (11 Nov) | P2 | M20 close |
 | CB-13 | Odds hidden until after committing; techniques (Second Wind) say nothing | UNT-104 | Open risk, unverified since 6 Nov | P2 | M21 |
-| CB-14 | A venomous bite has two chances to poison (the damage-triggered save plus the applied poison): a balance question | E114 | Left open (11 Nov) | P3 | M21 |
+| CB-14 | A venomous bite has two chances to poison (the damage-triggered save plus the applied poison): a balance question | E114 | Left open (11 Nov) · **fixed** (M21, 13 Nov, the lead's ruling): one chance; where an act lays a condition on by itself, its harm's kind does not also trigger it, held by `test/one-venom` (mutation-checked); fought where placed, placements.md batch 6 | P3 | M21 |
 | CB-15 | Clues the game sets up (mirror, noonlight jar, torch against the undead) have no use offered in a fight | R5-H top5 | Not in log (10 Nov) | P2 | M21 |
 | CB-16 | Locks open with no visible roll or tension | R6-J top2 | Not in log (11 Nov) | P3 | M21 |
 | CB-17 | Long fights with nothing to settle them; no morale or surrender | M19-281, REV-16 | Open (10 Nov); REV-16 Partial, unverified since 8 Nov | P3 | M21 |

@@ -74,8 +74,8 @@ export class AbilityUse {
   static perform(ability: ArenaAbility, chosenId: string, expressions: Expressions, context: EffectContext) {
     AbilityUse.validate(ability, context);
     const actor = context.actor, outer = context.drawn, aimed = context.aim, area = actor && Positions.area(ability);
-    context.drawn = undefined;
-    context.aim = area ? { area, at: chosenId } : undefined;
+    const laid = context.applies; context.applies = AbilityUse.lays(ability.effects);
+    context.drawn = undefined; context.aim = area ? { area, at: chosenId } : undefined;
     const targetId = AbilityUse.guarded(ability, chosenId, context);
     context.expressions = expressions;
     context.hook ??= AbilityUse.hooks.bind(AbilityUse);
@@ -125,7 +125,7 @@ export class AbilityUse {
     }
     if (applied) { PerkTriggers.after(ability, actor, alive, context); }
     Reactions.cast(ability, actor, context);
-    context.drawn = outer; context.aim = aimed;
+    context.drawn = outer; context.aim = aimed; context.applies = laid;
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
   }
@@ -212,13 +212,17 @@ export class AbilityUse {
     // What the blow carries for a defense to be passed by: its weapon's tags, and a body's or a made thing's.
     const tags = [...attacker.weapon.tags ?? [], attacker.weapon.natural ? 'natural' : 'manufactured'];
     Effects.damage(target, { amount: damage.amount, type: attacker.weapon.type, critical: damage.critical, tags },
-      { ...context, actor });
+      { ...context, actor, applies: AbilityUse.lays(attacker.weapon.onHit ?? []) });
     AbilityUse.hooks(actor, 'onAttackHit', target, context);
     AbilityUse.ride(actor, target, attacker.weapon.onHit, context);
     if (spillover && target.hp === 0 && damage.amount > before) {
       AbilityUse.spill(actor, damage.amount - before, attacker.weapon.type, context);
     }
     return true;
+  }
+  // The conditions a list of effects lays on itself, by their canonical ids.
+  static lays(effects: readonly Effect[]): ReadonlySet<string> {
+    return new Set(effects.flatMap(e => e.kind === 'apply' ? [Canon.resolve('conditions', e.status)] : []));
   }
   // What the blow that landed carries (its kind's riders: the SRD adaptation briefing, §4): each on what it struck, as
   // the attack's own consequence, after its harm and only on a hit; saved against as the rider says.

@@ -30,6 +30,9 @@ export interface EffectContext {
   hooking?: boolean;
   // Whether what is being done is a spell, whose harm its caster's bonusSpellDamage adds to.
   spell?: boolean;
+  // The conditions what is being done lays on by itself (a venomous bite's poison): its harm's kind does not also
+  // trigger them, so it has one chance to, not two (CB-14, the lead's ruling).
+  applies?: ReadonlySet<string>;
   // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
   drawn?: Fighter[];
   // Where an area is let loose, and its shape: whoever stands there is caught (see Positions).
@@ -248,7 +251,7 @@ export class Effects {
     // until the next fight ends (A Winter in Carth's friction 4: a bard who knelt a night on the Steps froze, died).
     for (const [id, status] of Object.entries(Content.statuses)
       // Only a blow that wounds (Orsino's damage of the kind): a bite for nothing had left its target bleeding (R9-06).
-      .filter(([id, c]) => wounded && c.trigger === type && Canon.resolve('conditions', id) === id
+      .filter(([id, c]) => wounded && c.trigger === type && Canon.resolve('conditions', id) === id && !context.applies?.has(id)
         && !(context.field && c.lifetime === 'encounter'))) {
       if (target.hp === 0) { continue; }
       const saved = Effects.save(target, status.saveKind ?? 'magic', Canon.rules.combat.triggerSave, context);
