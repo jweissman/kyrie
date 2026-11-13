@@ -60,3 +60,26 @@ describe('the attention lenses', () => {
     expect({ world: t.world, elapsed: t.campaign.readout.elapsed, done: t.campaign.history.length }).toEqual(before);
   });
 });
+
+// A lens with acts of its kind promotes them, though none has a reason (the coordinator, 14 November: a kitchen's Wat,
+// with a topic and no aim, had left the people lens empty, his talk only in the rest): those with a reason first, then
+// the lens's own in its own order (talk first among people; the shorter waits first), never one that cannot be done.
+const kitchen = `
+  Place kitchen "the kitchen" is room at 0, 0 indoors.
+  Place yard "the yard" is room at 1, 0 outdoors.
+  Passage back "the back door" is door between kitchen and yard.
+  Company party "You" of 1 at kitchen.
+  Person wat "Wat" at kitchen { Role "your brother". Ancestry human. Peaceable. Pronouns he. }
+  Topic weather with wat "Ask Wat about the weather" when true { Says "'Rain by noon,' says Wat.". }
+  Goal false.`;
+describe('a lens with nothing to lead it', () => {
+  it('promotes its own acts in its own order', async () => {
+    const t = await Tiny.start(kitchen), l = t.glance.lenses;
+    expect(l.people.promoted.map(a => a.subject)).toEqual(['t__wat']);
+    expect(l.people.rest.map(a => a.subject)).not.toContain('t__wat');
+    expect(l.places.promoted.map(a => a.label).join(' ')).toMatch(/yard/);
+    const waits = l.time.promoted.map(a => a.command);
+    expect(waits.length).toBeGreaterThan(0);
+    expect(waits[0]).toBe('wait');
+  });
+});

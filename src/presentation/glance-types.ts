@@ -42,7 +42,10 @@ export type Why =
   // A way or an act the company's last act opened (a padlock picked: the corn-store it held shut).
   | 'opened'
   // Nothing else to do here: a way on, so that a place is never left with nothing in front of the company.
-  | 'way';
+  | 'way'
+  // In a lens, one of its own acts with no reason beyond being there (talking to whoever is here): promoted after
+  // those with a reason, so that a lens with acts of its kind is never empty (see Promotion.lenses).
+  | 'present';
 // What a choice risks, or needs said before it is chosen.
 export type MarkKind = 'one-way' | 'grave' | 'fight' | 'trap' | 'unlooked' | 'heard' | 'exposed' | 'warned' | 'night';
 // ask: the page asks again before it is done.
