@@ -43,6 +43,9 @@ another (or beside tests in another worktree) runs WSL out of memory. The local 
 - **push lane 1/8 to 8/8**: `bun scripts/test-lane.ts push` (`test/lanes.json`): every spec file under thirty seconds
   by `test/timings.json`, everything in `test/small/`, any spec not yet timed, and a short list of sentinels (whole-world
   and whole-adventure specs kept on every push, each with why). 524 files, ≈ 65 CI-minutes of the suite's ≈ 1 087.
+- **the page boots**: Chromium, the page loaded, a character made, a conversation sat at the foot of the page
+  (`frame-browser`'s 820 × 1180), a gate: on 13 November a bare `process.env` had stopped the game loading, and no
+  per-push job but the reference hour (evidence, not a gate) had a browser in it.
 - **reference hour, through the page**: evidence, not a gate.
 
 **Nightly on main (08:00 UTC) and on demand** (Actions → CI → Run workflow, or `gh workflow run CI --ref <branch>`):
