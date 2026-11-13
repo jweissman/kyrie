@@ -10,7 +10,7 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
 | Playability investigator | independent agent | branch `m21-play` | two batches on main: PL-01..03, 05, 08..11 fixed (P0s 05, 08, 11); list in `playability.md` |
 | Aesthetic investigator | independent agent | branch `m21-look` | investigation merged (3b9d0a36); integration merged (e248e719): one choice row, the narrator's typed budget (2.4 sentences a glance, none ≥ 5, no clue held), stress in italics, fight and talk layouts; leftovers in hand |
 | World construction (Experiment B) | independent agent | branch `m21-world` | paused at the crash (one new spec in its tree) |
-| SRD rules as invariants | independent agent | branch `m21-rules` | hit dice as Deem amounts, typed defenses, the honest catalog: resumed |
+| SRD rules as invariants | independent agent | branch `m21-rules` | batch 2 on main (4834cb0d): variations carry HD and defenses, `ghoul/barrow` and `golem/flesh` unplaced, challenge re-measured, `rules/placements.md`; batch 3 (PL-07 placements) in hand |
 
 ## Log
 
@@ -44,3 +44,9 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   the default page now tells a place in three sentences, the rest a touch away ("More of the place"), clues always
   whole; `skeel-browser` reads that touch too. The full suite on 74daeb0b failed only `wren-tower-climbed` (re-digested:
   the ghoul's record changed what the world holds; it comes where it came).
+- **13 Nov, later.** Rules batch 2 merged (4834cb0d). Its placement report fights a1's 39 hostile groups against three
+  small companies: 18 trivial, 13 fair, 8 lethal; the undertown's keepers are its easiest rooms, its spider room is
+  lethal to a lone warrior, a lone thief dies in most fights. Decided (PL-07): no stat block is retuned; trivial
+  singles get company by number, the undertown's hardest group comes last, every lethal keeper is told at the door and
+  escapable, `ghoul/barrow` is placed alone in one room deep enough for a level-2 company and never in the first town's
+  barrows; the thief's frailty is a calling question, kept open for the lead.
