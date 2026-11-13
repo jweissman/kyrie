@@ -22,4 +22,14 @@ describe('a torch burning out', () => {
     await lit.perform('wait_hour');
     expect((lit.leaf.exchange?.lines ?? []).map(l => l.text)).not.toContain('Ama’s torch gutters out.');
   });
+  // A search the light gives out on is not made, and says so: review A's search of the rats' nest had told nothing at
+  // all as the torch guttered (T48: T24-17); it can be made again by a light.
+  it('stops a search it gives out on, and says so', async () => {
+    const t = await Tiny.start(adit(true));
+    await t.perform('light_item(t__party_1__torch)');
+    for (let i = 0; i < 4; i++) { await t.perform('wait'); }
+    await t.perform('search(t__adit)');
+    expect((t.leaf.exchange?.lines ?? []).map(l => l.text)).toContain('Your light gives out, and there is no going on with it in the dark.');
+    expect(t.world.test({ kind: 'call', name: 'searched', args: ['party', 't__adit'] })).toBe(false);
+  });
 });
