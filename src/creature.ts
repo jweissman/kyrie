@@ -12,7 +12,12 @@ export interface ConditionInstance {
   by?: string; tempHp?: number; waits?: boolean;
 }
 // charges: the uses a charged thing has left (a wand), where it has been used; its kind's charges until then.
-export interface ItemInstance { id: string; definition: string; equipped?: boolean; charges?: number }
+export interface ItemInstance {
+  id: string; definition: string; equipped?: boolean; charges?: number;
+  // What it is made of, where that is not its kind's own (a longsword of silver: data/catalog/materials.json): a weapon
+  // of a material carries what the material passes (engine-pressure.md, section 3).
+  material?: string;
+}
 // raceId is what the creature is: an ancestry (a person, who has a class) or a species (which has none).
 export interface Creature {
   id: string; name: string; raceId: string; classId?: string; backgroundId?: string; professionId?: string;
@@ -93,7 +98,7 @@ export class CreatureSchema {
     this.validateProgress(creature);
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
-      || (i.equipped !== undefined && typeof i.equipped !== 'boolean'))
+      || (i.equipped !== undefined && typeof i.equipped !== 'boolean') || (i.material && !Canon.materials[i.material]))
       || new Set(inventory.map(i => i.id)).size !== inventory.length) { throw new Error('Invalid item inventory'); }
     const slots = inventory.filter(i => i.equipped).map(i => ItemCatalog.get(i.definition).slot);
     inventory.forEach(i => ItemCatalog.get(i.definition));

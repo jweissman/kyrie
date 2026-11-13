@@ -253,7 +253,11 @@ export interface Deity {
 }
 // A material (data/catalog/materials.json): what it is called, what kind of stuff, how hard (1 soft to 10), and how it
 // looks, for whoever paints or says it.
-export interface Material { name: string; kind: string; hardness: number; looks: string; source: Source }
+export interface Material {
+  name: string; kind: string; hardness: number; looks: string; source: Source;
+  // The attack tag a weapon of it carries, for a guard it passes (silver, cold iron, adamantine: see Defenses).
+  passes?: string;
+}
 export interface Plant {
   name: string; looks: string; habitats: string[]; source: Source;
   // Its plate (data/paintings/plants.json: plants/<id>), where one is drawn.

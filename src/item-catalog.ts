@@ -57,12 +57,15 @@ export class ItemCatalog {
       .reduce((n, i) => n + (this.get(i.definition).modifiers?.attributes?.[stat] ?? 0), 0);
     return creature.base[stat] + worn;
   }
-  static weapon(id: string, name?: string): WeaponProfile {
+  static weapon(id: string, name?: string, material?: string): WeaponProfile {
     const w = this.get(id).weapon;
     if (!w) { throw new Error(`${id} is not a weapon`); }
+    // Made of a material that passes a guard (a longsword of silver), it carries what the material passes.
+    const passes = material ? Canon.materials[material]?.passes : undefined;
     // A wonder's blade is magic (what the wonders' file holds: a bolt-blade, the sword of ages), and passes a guard
     // that only magic passes (the unicorn's 10/magic: the SRD adaptation briefing, §3); its own tags beside.
-    const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : []];
+    const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : [],
+      ...passes && !w.tags?.includes(passes) ? [passes] : []];
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
       ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
@@ -83,7 +86,7 @@ export class ItemCatalog {
     }
     // A body's own blows carry its kind's riders (see Statistics.riders); a weapon in hand carries none of them.
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
-      weapon: wielded ? this.weapon(wielded.definition) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
+      weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac
         + StatExpressions.armor(natural.armorBonus, { level: creature.base.level }) : 0,
       ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon

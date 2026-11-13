@@ -11,6 +11,28 @@
         "fidelity": "adapted"
       }
     },
+    "cold_iron": {
+      "name": "Cold iron",
+      "kind": "metal",
+      "hardness": 5,
+      "looks": "dull grey-black, forged without heat, cold to the hand",
+      "passes": "cold_iron",
+      "source": {
+        "kyr": true,
+        "notes": "Iron worked cold, for blades the fey cannot abide: a weapon of it passes a guard only cold iron passes (engine-pressure.md, section 3). Nothing of the catalog is made of it yet."
+      }
+    },
+    "adamantine": {
+      "name": "Adamantine",
+      "kind": "metal",
+      "hardness": 10,
+      "looks": "black with a green sheen, harder than any steel",
+      "passes": "adamantine",
+      "source": {
+        "kyr": true,
+        "notes": "The hardest of metals: a weapon of it passes a guard only adamantine passes, a golem's (engine-pressure.md, section 3). Nothing of the catalog is made of it yet."
+      }
+    },
     "tin": {
       "name": "Tin",
       "kind": "metal",
@@ -54,8 +76,10 @@
       "looks": "white and bright, blackening in the air",
       "source": {
         "orsino": "golemSubstance:silver",
-        "fidelity": "adapted"
-      }
+        "fidelity": "adapted",
+        "notes": "A blade of it passes a guard that only silver passes (passes: the attack tag a weapon of it carries; engine-pressure.md, section 3)."
+      },
+      "passes": "silver"
     },
     "gold": {
       "name": "Gold",

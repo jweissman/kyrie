@@ -46,7 +46,7 @@ export class CanonValidation {
     const v = new CanonValidation();
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
     v.conditions(); v.items();
-    v.backgrounds(); v.religion(); v.plants(); v.sources();
+    v.backgrounds(); v.religion(); v.plants(); v.sources(); v.materials();
     return [...Canon.conflicts, ...CatalogFields.problems(), ...v.problems];
   }
   // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
@@ -151,6 +151,14 @@ export class CanonValidation {
       for (const a of (v.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `unknown ability ${a}`); }
       for (const t of (v.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `unknown trait ${t}`); }
       this.stated(where, v);
+    }
+  }
+  // What a material passes is an attack tag a guard can name (see Defenses).
+  private materials() {
+    for (const [id, m] of Object.entries(Canon.materials)) {
+      if (m.passes && !Canon.rules.combat.defenses.attackTags.includes(m.passes)) {
+        this.fail(`material ${id}`, `passes unknown attack tag ${m.passes}`);
+      }
     }
   }
   // A variation that is a stat block (see Overlay.hitDice): its Hit Dice dice, its defenses well formed, its routine

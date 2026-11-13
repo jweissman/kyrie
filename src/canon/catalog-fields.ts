@@ -33,7 +33,7 @@ const fields = {
     'count', 'cut', 'grounds'],
   deity: ['name', 'domains', 'gender', 'observance', 'blessing', 'source'],
   domain: ['name', 'alignment', 'description', 'spellDomain', 'blessing', 'source'],
-  material: ['name', 'kind', 'hardness', 'looks', 'source'],
+  material: ['name', 'kind', 'hardness', 'looks', 'source', 'passes'],
   habitat: ['name', 'orsino', 'covers', 'terrains', 'sites', 'forms', 'water', 'shore'],
   variation: ['axis', 'word', 'says', 'kinds', 'attributes', 'health', 'abilities', 'traits', 'hint', 'habitats',
     'abundance', 'resistances', 'types', 'weapon', 'material', 'temperament', 'type', 'source', 'hitDice', 'defenses',
