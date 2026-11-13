@@ -1,4 +1,5 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
+import { Band } from './band';
 import { CreaturePortraits } from '../paintings/creature-portraits'; import { ItemPlates } from '../paintings/item-plates';
 import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } from './encyclopedia-entry';
 import { CharacterSheets } from '../presentation/character-sheet';
@@ -108,8 +109,7 @@ export class ScreenModel {
   // What things cost: a service's fee, goods by the measure, and what a sale fetches (what a buyer pays for a kind, and
   // what a valuable is worth).
   private static fees(campaign: Campaign): Map<string, number> {
-    const world = campaign.world;
-    return new Map([
+    const world = campaign.world; return new Map([
       ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
       ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
@@ -304,7 +304,7 @@ export class ScreenModel {
       // architecture review's H5: exact hit points beside "In the dark you can hear…").
       const look = dark || p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner'))
         ? undefined : this.look(p.members ?? []);
-      const name = dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name);
+      const name = Band.last(p, dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name));
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       // A creature is shown by its kind's painting, where its kind has one (see CreaturePortraits).
@@ -316,7 +316,7 @@ export class ScreenModel {
       const entry = !playable && member && !dark ? EncyclopediaEntry.creature(member.raceId) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {}, ...entry ? { entry } : {},
-        ...(p.members?.length ?? 0) > 1 ? { many: true } : {}, ...Canon.isDevice(member?.raceId ?? '') && { device: true },
+        ...Band.standing(p) > 1 ? { many: true } : {}, ...Canon.isDevice(member?.raceId ?? '') && { device: true },
         ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
