@@ -263,32 +263,6 @@ first town and sites, by temper:
 So a lone thief can see every lethal group of a1's first fights coming and leave before it closes. That it dies in
 most fights it chooses is the calling's, and the roadmap's (companions early). Closed.
 
-## Batch 6: one chance for a venom, and only a wound triggers (13 November)
-
-Two rulings of the lead's, both in how harm lays a condition on, neither in a stat block:
-
-- **Only a wound triggers** a damage kind's condition (R9-06): a blow for nothing no longer bleeds, shreds or poisons.
-  cov7's barrow-king, half-proof against steel, is now beyond a fresh warrior or mage alone (he had been bled by their
-  blows for nothing); he warns and waits out the watch, the attack is marked, the steps back are offered
-  (`small/barrow-king-told`).
-- **A venom has one chance** (CB-14): where an act lays a condition on by itself (a venomous bite's poison, against its
-  save), the harm's own kind does not also trigger that condition's save (`test/one-venom`). Before, a bite poisoned on
-  either of two saves.
-
-The spiders where they are placed, a1 as real play writes it ([one]), the same three first-level companies, 20 seeds
-(win · median rounds · median harm · a death). Both columns have only a wound triggering; before is two chances of
-poison, after one:
-
-| Placement | Foes as placed | Before: warrior / pair / thief | After: warrior / pair / thief |
-|---|---|---|---|
-| w8_halls_ossuary_dwellers [one] | 3 × spider L1 (4/4/4) | 5% · 5 · 100% · 95% / 25% · 3 · 100% · 85% / 0% · – · 100% · 100% | 0% · – · 100% · 100% / 40% · 3 · 100% · 80% / 0% · – · 100% · 100% |
-| s1_u_spiders [one] | 1 × spider/great/cave L1 (6) | 85% · 2 · 17% · 15% / 100% · 2 · 12% · 5% / 40% · 2 · 100% · 60% | 90% · 2 · 8% · 10% / 100% · 2 · 7% · 10% / 55% · 2 · 88% · 45% |
-| s1_u_mother [one] | 1 × spider/great/cave L2 (15) | 65% · 4 · 33% · 35% / 95% · 3 · 17% · 20% / 10% · 6 · 100% · 90% | 80% · 4 · 43% · 20% / 95% · 3 · 8% · 25% / 10% · 6 · 100% · 90% |
-
-The undertown's spider and its mother come a little easier (a lone warrior 85 → 90 % and 65 → 80 %); the barrow's
-three spiders stay lethal, a pair's 25 → 40 %, a lone warrior's within the noise of twenty fights (5 → 0 %). Told at the
-door either way (the husks at the adit; the ambush's sign at every way to the ossuary).
-
 ## M22 notes
 
 - **The undertown for a company that grows.** It is written once, for the company as it arrives (one). Two ways it

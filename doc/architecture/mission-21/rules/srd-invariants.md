@@ -185,17 +185,3 @@ one SRD stat block placed, and its paralysis is its rider. The rest are Orsino's
 venoms and wounds are already the world's conditions (a cave spider's poison, a blade's bleeding, triggered by the
 damage kind), so no rider is added for them, and none for the unplaced unicorn or flesh golem (rend, grab: later, with
 a placed creature that needs them).
-
-## Decided for M22: damage that does not grow with level (the lead, 13 November)
-
-AB-03, CB-24 and CB-21: Orsino's natural weapons have the same dice at every level, and a grown kind's level adds only
-hit points (a level-12 mummy bites for 1d4); a stat block (the SRD's) does not grow at all. Not in M21. The two ways:
-
-1. **A level-scaled damage rule** for Orsino's grown kinds: a natural weapon's dice, or a bonus, by the level a kind is
-   met at. A new mechanism, and it moves every grown kind's lethality wherever it is placed at once.
-2. **SRD stat blocks for the high-level kinds placed**, one slice per creature, each fought where it is placed before it
-   lands (the ghoul's lesson). The first case is the **mummy** that keeps the great barrow (a1's `w8_keeper`, level
-   12: 48 hit points of 1d4 blows; the SRD mummy is 8d12+3, slam 1d6+10 and mummy rot, despair).
-
-Either way the challenge table is measured again for what changes (CB-21: it is measured against a lone warrior with
-the dice as they fell).

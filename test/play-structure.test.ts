@@ -189,17 +189,15 @@ describe('a site\'s worthiest band', () => {
   // fight played out, and the reckoning said nothing of it. Sweep rests three turns now, as Orsino's skills do (the
   // OWN-28 diagnosis: every reckoning had fought with it free each turn), so he is a long fight, said so, since he
   // shrugs off half of what steel does (PT-23); and since the dead use their own powers, his drain and his paralysing
-  // touch (M19-81), one a fresh warrior alone could lose. To a mage, he is more than they can take. And since only a
-  // wound triggers a damage kind's condition (R9-06, the lead's ruling of 13 November), a warrior's blows for nothing
-  // on his half-proof hide no longer make him bleed: to a fresh warrior alone he is more than he can take, too.
+  // touch (M19-81), one a fresh warrior alone could lose. To a mage, he is more than they can take.
   it('is no walkover for a fresh warrior when above it, and more than a mage can take', async () => {
     const warrior = await Played.worthiest('cov7', 'warrior'), mage = await Played.worthiest('cov7', 'mage');
     expect(warrior.find(b => b.name?.startsWith('the barrow-king'))?.reckoning)
-      .toEqual({ danger: 'deadly', text: 'It is more than you can take. It will be long: your weapons barely bite '
+      .toEqual({ danger: 'grave', text: 'A fight with it could be lost. It will be long: your weapons barely bite '
         + 'it; fire or radiant would serve better.' });
-    // A mage's fire bites it, as a blade bites it by half (a mummy's resistances: the fresh playtest of 7 November);
-    // but her blows for nothing no longer set it burning or bleeding either (R9-06), and he is beyond her again.
-    expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('deadly');
+    // A mage's fire bites it, as a blade bites it by half (a mummy's resistances: the fresh playtest of 7 November),
+    // so it is a grave fight for her too, no longer one beyond her.
+    expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('grave');
     // A fresh company is of the first level: no band above it is a bare walkover.
     expect(warrior.filter(b => b.level > 1 && b.reckoning.danger === 'slight' && !/so long as/.test(b.reckoning.text)))
       .toEqual([]);

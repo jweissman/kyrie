@@ -30,9 +30,6 @@ export interface EffectContext {
   hooking?: boolean;
   // Whether what is being done is a spell, whose harm its caster's bonusSpellDamage adds to.
   spell?: boolean;
-  // The conditions what is being done lays on by itself (a venomous bite's poison): its harm's kind does not also
-  // trigger them, so it has one chance to, not two (CB-14, the lead's ruling).
-  applies?: ReadonlySet<string>;
   // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
   drawn?: Fighter[];
   // Where an area is let loose, and its shape: whoever stands there is caught (see Positions).
@@ -227,14 +224,14 @@ export class Effects {
         ...absorbed ? { absorbed } : {}, ...hit.critical ? { critical: hit.critical } : {},
         ...KindDefenses.account(mitigated) };
     }
-    Effects.aftermath(target, type, context, applied > 0);
+    Effects.aftermath(target, type, context);
     if (back > 0) { Effects.damage(actor!, { amount: back, type }, { ...context, actor: target, reflected: true }); }
     return applied;
   }
   // The rest of handleHit. A creature brought to 0 saves vs death at DC 25 and stays at 1 hit point if it succeeds.
   // A survivor of damage of a triggering kind saves (DC 15) against each condition that kind triggers (piercing:
   // bleed, slashing: shred, fire: burning…), and its onAttacked hooks answer damage from another creature.
-  private static aftermath(target: Fighter, type: string, context: EffectContext, wounded: boolean) {
+  private static aftermath(target: Fighter, type: string, context: EffectContext) {
     if (!context.expressions) { return; }
     if (target.hp === 0) {
       const death = context.events.findLastIndex(e => e.type === 'death' && e.actor === target.id);
@@ -250,8 +247,7 @@ export class Effects {
     // fight none that lasts a fight begins: a night's cold chills, and does not encase a kneeling penitent in ice
     // until the next fight ends (A Winter in Carth's friction 4: a bard who knelt a night on the Steps froze, died).
     for (const [id, status] of Object.entries(Content.statuses)
-      // Only a blow that wounds (Orsino's damage of the kind): a bite for nothing had left its target bleeding (R9-06).
-      .filter(([id, c]) => wounded && c.trigger === type && Canon.resolve('conditions', id) === id && !context.applies?.has(id)
+      .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id
         && !(context.field && c.lifetime === 'encounter'))) {
       if (target.hp === 0) { continue; }
       const saved = Effects.save(target, status.saveKind ?? 'magic', Canon.rules.combat.triggerSave, context);
