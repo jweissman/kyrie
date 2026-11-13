@@ -1,4 +1,6 @@
-import type { Aspect, Facet, Mark, Promoted, Tier, Why } from '../presentation/glance-types';
+import type { Aspect, Facet, Lens, LensAct, Lensed, Mark, Promoted, Tier, Why } from '../presentation/glance-types';
+import type { Scene } from './scene';
+import { Attending } from './attention';
 import { Aspects } from '../presentation/aspects';
 
 // What a choice is, as far as leading with it goes: talking to someone, an act on someone or something, an attack, a
@@ -85,6 +87,49 @@ export class Promotion {
       picked.push(this.promoted(x.c, x.best, x.whys));
     }
     return this.continued(picked.length ? picked : this.bare(cands));
+  }
+  // The attention lenses over the one scene (CN-01, CN-05): for each, its promoted acts, at most four, ranked as the
+  // resting scene's are and from the same candidates, and the rest of its acts in the scene's order. Gold stays on the
+  // glance's own next step (acts), wherever it falls: a lens never makes another act the aim's.
+  static lenses(cands: Candidate[], scene: Scene, s: Situation, acts: Promoted[]): Record<Lens, Lensed> {
+    const at = { cands, scene, s, next: acts.find(a => a.continues)?.choice,
+      kinds: new Map(scene.subjects.map(x => [x.id, x.kind])) };
+    return { things: this.lensed('things', at), people: this.lensed('people', at), places: this.lensed('places', at),
+      time: this.lensed('time', at) };
+  }
+  private static lensed(lens: Lens, at: { cands: Candidate[]; scene: Scene; s: Situation; next?: string;
+    kinds: Map<string, string> }): Lensed {
+    const mine = at.cands.filter(c => this.lens(c, at.kinds) === lens && !c.barred);
+    const ranked = mine.map(c => ({ c, whys: this.allowed(c, at.s) })).filter(x => x.whys.length)
+      .map(x => ({ ...x, best: this.best(x.whys) }))
+      .sort((a, b) => this.ranked(a) - this.ranked(b) || a.c.order - b.c.order).slice(0, this.all);
+    const promoted = ranked.map(x => this.gilded(this.promoted(x.c, x.best, x.whys), at.next));
+    const led = new Set(promoted.map(p => p.choice));
+    return { promoted, rest: this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene) };
+  }
+  // Which lens an act is in: the ways, the waiting acts, and what is done about a thing or about someone.
+  private static lens(c: Candidate, kinds: Map<string, string>): Lens | undefined {
+    if (['way', 'step', 'travel'].includes(c.kind)) { return 'places'; }
+    if (['wait', 'rest', 'camp'].includes(c.kind)) { return 'time'; }
+    const kind = c.subject && kinds.get(c.subject);
+    return !kind || kind === 'companion' ? undefined : kind === 'thing' ? 'things' : 'people';
+  }
+  // The rest, in the scene's order; for time, each waiting act itself (a while, an hour, until dark, and watch).
+  private static rest(lens: Lens, cands: Candidate[], scene: Scene): LensAct[] {
+    const sorted = cands.toSorted((a, b) => a.order - b.order);
+    const leaves = lens === 'time' ? Attending.all(scene.you.filter(c => sorted.some(x => x.choice === c.id)))
+      .filter(c => c.command) : [];
+    return leaves.length ? leaves.map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
+      ...c.disabled ? { disabled: c.disabled } : {} }))
+      : sorted.map(c => ({ choice: c.choice, label: c.label, ...c.command ? { command: c.command } : {},
+        ...c.subject ? { subject: c.subject } : {} }));
+  }
+  // Gold only on the glance's own next step.
+  private static gilded(p: Promoted, next: string | undefined): Promoted {
+    if (p.choice === next) { return { ...p, continues: true }; }
+    const aspects = p.aspects.filter(a => a !== 'undertaking');
+    const rest = Object.fromEntries(Object.entries(p).filter(([k]) => k !== 'continues')) as Promoted;
+    return { ...rest, aspects: aspects.length || !p.aspects.length ? aspects : ['exploration'] };
   }
   // Where nothing is led with, the ways on, two at most, by the order the quiet row keeps (the way the aim goes, a way
   // the lines name, one not yet taken, then the rest): a gallery with nothing more to do in it had shown nothing at

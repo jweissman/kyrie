@@ -80,6 +80,15 @@ export interface Promoted {
   note?: string;
   marks: Mark[];
 }
+// An attention lens over the one resting scene (CN-01, CN-05; the owner, 14 November): the things at hand, the people
+// here, the places to go, and time (the waiting acts that exist). Choosing one is not a world act and takes no time:
+// each lens is read off the same glance, from the same candidates the resting scene's four come from.
+export type Lens = 'things' | 'people' | 'places' | 'time';
+// One act in a lens's rest: what the page draws it as and does it by, and why it is not now (disabled).
+export interface LensAct { choice: string; label: string; command?: string; subject?: string; disabled?: string }
+// A lens's promoted acts (at most four, ranked as the resting scene's are; gold only on the glance's own next step) and
+// the rest of its acts, in the scene's order.
+export interface Lensed { promoted: Promoted[]; rest: LensAct[] }
 export interface Glance {
   arrival: Arrival;
   // Coming here after a journey: one line of it (the legs stay in Look about).
@@ -107,6 +116,8 @@ export interface Glance {
   following?: string[];
   // The aim, said when no act serves it, on a first arrival, or when it has changed.
   aim?: string;
+  // Each lens's acts (see Lens).
+  lenses: Record<Lens, Lensed>;
   // On the game's first page, the first goal the company's own errand gives it, said once in so many words.
   goal?: string;
   // As the aim followed is seen through, the one thing that pulls next (see Succession): offered, never followed.
