@@ -193,7 +193,8 @@ export class Runner {
     const event = out.done as CampaignEvent, before = doing.before;
     this.doing = undefined;
     const moved = before.location?.id !== this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
-    this.told = { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: doing.act, moved };
+    const feedback = this.fight.closed(ActionFeedbackView.read(this.campaign, event, before));
+    this.told = { event, feedback, said: doing.act, moved };
     if (before.location?.id) { this.payoff.note(before.location.id, RunnerPayoff.changed(event, doing.act)); }
     this.n++;
     return this.said();

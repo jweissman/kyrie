@@ -5,6 +5,7 @@ import { Tactics } from '../tactics';
 import { CombatChoices } from '../ui/combat-choices';
 import { CombatTelling } from '../ui/combat-telling';
 import type { ActType } from '../presentation/offer';
+import type { ActionFeedback } from '../presentation/action-feedback';
 
 // A fight as the runner gives it to an agent, turn by turn, as the terminal and the page do: the hand (each move at
 // each target, the weapon's blow first), "auto" for this turn as the rules would play it, and "through" to the end.
@@ -15,12 +16,16 @@ export class RunnerFight {
   static readonly auto = 'fight:auto';
   static readonly through = 'fight:through';
   private pending?: { battle: Battle; resolve: (c: Command) => void };
+  // The battle last waited in, and what of it was left untold when it ended (see closed).
+  private battle?: Battle;
+  private closing?: string[];
   private waking?: () => void;
   private from = 0;
   private rest = false;
   // The controller the session's leg is given: each of the company's turns waits for the agent, unless it said through.
   readonly controller = (battle: Battle): Promise<Command> => {
     if (this.rest) { return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands())); }
+    this.battle = battle;
     return new Promise(resolve => { this.pending = { battle, resolve }; this.waking?.(); });
   };
   // The leg's end, or the next turn the agent must choose in, whichever comes first.
@@ -29,8 +34,21 @@ export class RunnerFight {
     if (this.pending) { return { turn: true }; }
     const turn = new Promise<{ turn: true }>(resolve => { this.waking = resolve.bind(undefined, { turn: true }); });
     const out = await Promise.race([leg.then(done => ({ done })), turn]);
-    if ('done' in out) { this.pending = undefined; this.rest = false; this.from = 0; }
+    if ('done' in out) {
+      const b = this.battle;
+      this.closing = b && CombatTelling.exchanges(b.events.slice(this.from), b.state).map(t => t.text);
+      this.pending = undefined; this.battle = undefined; this.rest = false; this.from = 0;
+    }
     return out;
+  }
+  // A fight told turn by turn ends by its last blows, told once as its turns were (BP-02: the outcome had told the
+  // whole fight again, "Rat 1" become "the first rat"), then what was witnessed meanwhile and how it ended, as the
+  // page's host tells it (EngineHost.unfought); a fight that never waited on the agent keeps its one telling.
+  closed(feedback: ActionFeedback): ActionFeedback {
+    const closing = this.closing;
+    this.closing = undefined;
+    return closing ? { ...feedback, immediate: [...closing, ...feedback.immediate
+      .filter(t => t.startsWith('You witness: ') || t === feedback.result)] } : feedback;
   }
   get fighting(): boolean { return !!this.pending; }
   // What has happened since the agent last chose, and who stands as they are.

@@ -148,6 +148,9 @@ export interface Overlay {
   // Met only where an author names it (golem/flesh), never drawn into a generated country's dens and encounters: a
   // stat block placed nowhere until each placement has been fought (the ghoul's lesson, srd-invariants.md).
   unplaced?: true;
+  // Its own painting, or none (null) where its base's would contradict it: an ice elemental is not shown by the
+  // elemental's burning rock (CO-04), but by its emblem, until one is painted.
+  portrait?: string | null;
 }
 export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit' | 'device';

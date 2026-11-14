@@ -66,6 +66,8 @@ too much and unspecific.
 | test/small/empty-words: as-if similes | 89 → 85 |
 | test/small/empty-words: stock sentences in more than one table | 10 → 9 |
 | Experience matrix: heavy unasked sentences, echoes within five turns | c3: 19 heavy in 30 turns |
+| test/small/fight-told-once (BP-02): a fight told once through the runner | each fall once, in the fight's names |
+| test/named-held (CO-17): a drawn town names no one who is not there | a1's first town, 76 places; 0 after the smith |
 
 Literary exceptions are declared in data (`"_literary": "<why>"` on a JSON object, `// literary:` above a Kyr line),
 never whitelisted in a test.
@@ -126,6 +128,7 @@ Distributions and outliers are read, not means. Outliers being traced:
 | Pin | Holds |
 |---|---|
 | test/small/tiny-costs | A tiny world draws no country, composes no world, and installs only its module and the canon |
+| test/journey-kept-once (AX-05) | A journey keeps the game once, not after every leg (four legs had kept it five times) |
 | test/working-set (push lane) | Between 100 and 6,400 rooms: starting under 3× the facts ratio, looking again under ×5, acting under ×5 |
 
 Baseline, `scripts/scale-costs.ts` on 14 November (clean runs; one run under load read 3 s and 907 MB and was

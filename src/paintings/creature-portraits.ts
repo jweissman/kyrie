@@ -11,6 +11,10 @@ export class CreaturePortraits {
     const [, ...made] = Canon.resolve('species', raceId).split('/');
     const undeath = made.find(v => Canon.variations[v]?.axis === 'undeath');
     if (undeath) { return this.undead[undeath] && Canon.species[this.undead[undeath]]?.portrait; }
+    // A variation with a painting of its own is shown by it; one its base's would contradict (an ice elemental, the
+    // elemental's burning rock), by none (CO-04).
+    const own = made.map(v => Canon.variations[v]?.portrait).find(p => p !== undefined);
+    if (own !== undefined) { return own ?? undefined; }
     const seen = new Set<string>();
     // An old name or a composed kind (golem/glass) by what it is: a composed kind by its base's.
     // Each step by what it names (a module's kind may be like an old name: like cave_hound, the hound in the cave).

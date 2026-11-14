@@ -29,6 +29,8 @@ export interface Variation {
   forgoes?: { abilities?: string[]; traits?: string[] }; unplaced?: true;
   riders?: Record<string, Effect[]>; damage?: Record<string, string>; armorBonus?: string;
   saves?: { fortitude: number; reflex: number; will: number }; attackBonus?: number;
+  // Its own painting, or none where its base's would contradict it (see Variation in the canon's schema).
+  portrait?: string | null;
 }
 
 // What makes one creature of a kind other than the rest (Orsino's aspects: an agile wolf, a venomous spider), and
