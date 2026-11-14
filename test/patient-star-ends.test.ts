@@ -29,7 +29,7 @@ describe('The Patient Star: what the descent costs, and the Crown\'s train', () 
     const s = await P.start(late('a'));
     const j = P.j(s);
     expect(P.holds(s, 'decreed', 'ghessil')).toBe(false);
-    const said = await j.play('=+1200');
+    const said = await j.play('==+1200');
     expect(P.measure(s, 'strain', 'ghessil')).toBeGreaterThanOrEqual(2);
     expect(P.holds(s, 'decreed', 'ghessil')).toBe(true);
     expect(said).toContain('The Warden\'s storehouse at New Orrel begins loading umber');
@@ -47,7 +47,7 @@ describe('The Patient Star: what the descent costs, and the Crown\'s train', () 
     it(`turns the train: ${name}`, async () => {
       const s = await P.start(late('a'));
       const j = P.j(s);
-      await j.play('=+1200', ...toCollarTop);
+      await j.play('==+1200', ...toCollarTop);
       expect(P.holds(s, 'decreed', 'ghessil')).toBe(true);
       await j.play(label);
       expect(P.holds(s, 'trainTurned', 'ghessil')).toBe(true);
@@ -59,14 +59,14 @@ describe('The Patient Star: what the descent costs, and the Crown\'s train', () 
   it('turns the train: the scholar reads the Crown\'s own charter', async () => {
     const s = await P.start(late('b'));
     const j = P.j(s);
-    await j.play('=+1200', ...toCollarTop);
+    await j.play('==+1200', ...toCollarTop);
     await j.play('Have Mira read the foreman');
     expect(P.holds(s, 'trainTurned', 'ghessil')).toBe(true);
   }, 600000);
 
   it('lets the covering finish: The Pit Covered, and the Mutual\'s hall afterwards', async () => {
     const s = await P.start('test/fixtures/patient/late-covered/late-covered.campaign.json');
-    const said = await P.j(s).play('=+3600');
+    const said = await P.j(s).play('==+3600');
     expect(P.holds(s, 'covered', 'ghessil')).toBe(true);
     expect(said).toContain('The Pit is covered');
     expect(P.reached(s, 'e_covered')).toBe(true);

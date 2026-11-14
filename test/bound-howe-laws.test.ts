@@ -110,7 +110,7 @@ describe('what the country keeps of it', () => {
     Placed.at(j, TOWN('green'));
     j.assert('bound_broken', 'party');
     Placed.move(j, R('king_torc_item'), R('rival_camp'));
-    await j.play('=day 6 22:00');
+    await j.play('==day 6 22:00');
     expect(Howe.fact(j, 'host_abroad')).toBe(true);
     expect(Howe.holds(j, 'at', R('household'), TOWN('green'))).toBe(true);
   }, 600000);

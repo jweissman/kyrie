@@ -59,11 +59,11 @@ describe('the factor who buys old bronze', () => {
     await World.choose(s, /^Take the road on into Merrowdale/);
     // The company does nothing for the dale, and the steward's bronze goes downriver in the Heron.
     const t0 = s.campaign.state.elapsed;
-    await j.play(`=${t0 + 330}`);
+    await j.play(`==${t0 + 330}`);
     expect(World.holds(s, 'keeps', 'factors__factor', 'plongman__teeth')).toBe(true);
     expect(World.holds(s, 'factors__carterGone', 'factors__carter')).toBe(false);
     // The carter's run is Deem's to set (two to five days after the lot comes) and the company is not there for it.
-    await j.play(`=${t0 + 330 + 6 * 144}`);
+    await j.play(`==${t0 + 330 + 6 * 144}`);
     expect(World.holds(s, 'factors__carterGone', 'factors__carter')).toBe(true);
     expect(World.holds(s, 'at', 'factors__carter', 'factors__south_road')).toBe(true);
     expect(World.holds(s, 'keeps', 'factors__carter', 'plongman__teeth')).toBe(true);
@@ -88,7 +88,7 @@ describe('the factor who buys old bronze', () => {
     await frontier.expand(s.campaign);
     await World.choose(s, /^Take the road on into Merrowdale/);
     const t0 = s.campaign.state.elapsed;
-    await j.play(`=${t0 + 330}`);
+    await j.play(`==${t0 + 330}`);
     expect(World.holds(s, 'keeps', 'factors__factor', 'plongman__teeth')).toBe(true);
     const town = (w.report.placements.find(p => p.scenario === 'factors')!.bindings as { town: string }).town;
     await GeneratedWorld.travel(s, `${town}_taproom`);
@@ -97,7 +97,7 @@ describe('the factor who buys old bronze', () => {
     // The eight days sat out at the march-stone, out of the way of the town's own troubles (the Bound Howe's
     // Spade-Company, standing in the country since the adventure branch, had come at a company waiting in the taproom).
     await GeneratedWorld.travel(s, 'gate_longman');
-    await j.play(`=${t0 + 330 + 8 * 144}`);
+    await j.play(`==${t0 + 330 + 8 * 144}`);
     expect(s.campaign.running).toBe(true);
     expect(World.holds(s, 'factors__carterGone', 'factors__carter')).toBe(false);
     await GeneratedWorld.travel(s, 'gate_lowwater');

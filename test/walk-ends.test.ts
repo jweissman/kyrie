@@ -9,18 +9,20 @@ import type { Journey } from '../src/session/journey';
 // plays some of them by the page's own labels, on foot.
 const towns = ['a', 'b', 'c', 'd'];
 let base: Journey, flash: string, placed: Record<string, string>;
+// The first morning's wait is every ending's, so it is waited once, before the fork (LC-04: each ending had waited it
+// again); the days after are the clock's, told only as each wait ends (==), since what is read is the world they leave.
 beforeAll(async () => {
   const w = await Walking.world('a1');
   base = w.j; flash = Walking.flash(base); placed = w.placed.bindings;
-}, 300000);
+  await base.play('==day 2 08:00');
+}, 600000);
 
 const ended = async (set: (j: Journey) => Promise<void> | void, lift = false) => {
   const j = Walking.fork(base);
-  await j.play('=day 2 08:00');
   await set(j);
-  await j.play('=day 9 12:00');
+  await j.play('==day 9 12:00');
   if (lift) { for (const x of towns) { Walking.retract(j, 'interdict', `walk_${x}`); Walking.assert(j, `lifted_${x}`, 'walk'); } }
-  await j.play('=day 11 10:00');
+  await j.play('==day 11 10:00');
   return j;
 };
 const marks = (j: Journey) => ({

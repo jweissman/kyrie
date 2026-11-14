@@ -42,6 +42,17 @@ export class Kept {
     Kept.keep(start, journey);
     return new Kept(journey, start);
   }
+  // A game a spec makes its own way (a country assembled and its gates gone through, facts given, a prefix played
+  // that every case shares), made once in a process under the name the spec gives it and resumed for each case after
+  // (Mission 21, LC-04: the Slack's cases each assembled a country and travelled five gates, then played the same
+  // dozen steps, before anything was tried). The name must say everything the making depends on.
+  static async of(name: string, make: () => Promise<Journey>): Promise<Journey> {
+    const key = JSON.stringify(['made', name]), again = Kept.resumed(key);
+    if (again) { return again; }
+    const journey = await make();
+    Kept.keep(key, journey);
+    return journey;
+  }
   // The steps played, from where the longest of their beginnings was played before, if it was; kept again after any
   // step that took a while (a wait of days, a long walk) and at the end.
   async play(...steps: string[]): Promise<Journey> {

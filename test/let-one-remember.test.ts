@@ -153,7 +153,7 @@ describe('Let One Remember', () => {
     expect(T.is(s, 'unclosed', 'party')).toBe(true);
     said = await T.play(s, ['^(Down |Up )?To Wendhead bridge', '^(Down |Up )?To the valley road below', '^(Down |Up )?To the well square', '^Into the Keepstone', 'Talk to Judge', '^Give']);
     expect(said).toContain('And my house is mine');
-    said = await T.play(s, ['Take your leave', '^Out', '=600', '^(Down |Up )?To the valley road', '^(Down |Up )?To Wendhead bridge', '^(Down |Up )?To the foot', '^(Down |Up )?To the eighth', '^(Down |Up )?To the street',
+    said = await T.play(s, ['Take your leave', '^Out', '==600', '^(Down |Up )?To the valley road', '^(Down |Up )?To Wendhead bridge', '^(Down |Up )?To the foot', '^(Down |Up )?To the eighth', '^(Down |Up )?To the street',
       '^(Down |Up )?To the Hawse', '^Into the Rope']);
     // A Return to a Changed Place.
     expect(said).toContain('The Registry has you down as not come back');

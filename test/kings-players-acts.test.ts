@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { p, toTheCity, actI, actII, actIVquick, actV } from './support/kp';
+import { p, toTheCity, actI, actII, actIVquick, actV, KP } from './support/kp';
+import { Kept } from './support/kept';
 import { toConcourse, actIII, type Route } from './support/kp3';
 
 // The King's Players, played from the Trial's verdict to the last bow with no teleport: every step is a label the page
@@ -11,14 +12,23 @@ const ENDINGS: Array<[Route, string, boolean]> = [
   ['shamed', 'shamed', true], ['sea', 'sea', true], ['staged', 'staged', true], ['exile', 'exile', true], ['river', 'river', true],
 ];
 
+// Every route's play to the Concourse on the morning the Edict is posted is the same play, forced where the book says
+// (Acts I and II, the Mousetrap pointed): made once in the file and resumed for each route (see Kept.of), where each
+// route had played it again before its Act III began.
+const atConcourse = async () => new KP(await Kept.of('kp g1 to the Concourse, the Mousetrap pointed', async () => {
+  const k = await toTheCity();
+  await actI(k);
+  await actII(k, 'point');
+  expect(k.holds('bodyLies', 'pentrice')).toBe(true);
+  await toConcourse(k);
+  return k.j;
+}));
+
 describe("The King's Players: Pentrice to the last bow, one route per Ending", () => {
   for (const [route, ending, chorus] of ENDINGS) {
     it(`route ${route}: Acts I-V by labels, the Edict answered, and the book ends as "${ending}"`, async () => {
-      const k = await toTheCity();
-      await actI(k);
-      await actII(k, 'point');
-      expect(k.holds('bodyLies', 'pentrice')).toBe(true);
-      await toConcourse(k);
+      const k = await atConcourse();
+      k.quiet = true;
       await actIII(k, route);
       expect(k.holds('actIIIDone', 'rierdan')).toBe(true);
       await actIVquick(k);
@@ -30,7 +40,7 @@ describe("The King's Players: Pentrice to the last bow, one route per Ending", (
 
   it('plays the Antigone act on natural dice: nothing forced, the Warden asked, whatever the dice give', async () => {
     const k = await toTheCity('g1');
-    k.natural = true;
+    k.natural = true; k.quiet = true;
     await actI(k);
     await actII(k, 'point');
     await toConcourse(k);

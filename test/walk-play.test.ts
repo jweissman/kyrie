@@ -11,7 +11,7 @@ describe('the Walk, played by a scholar', () => {
     const said = async (...steps: string[]) => { let last = ''; for (const s of steps) { last = String(await j.play(s)); } return last; };
     const here = () => j.at('party');
     // Day 2: the first sign is on the green.
-    const green = await said('=day 2 10:00');
+    const green = await said('==day 2 10:00');
     expect(green).toMatch(/barefoot strangers/);
     expect(Walking.knows(j, 'walk_heard')).toBe(true);
     await said('Keep a mile');
@@ -21,16 +21,16 @@ describe('the Walk, played by a scholar', () => {
     expect(Walking.knows(j, 'hal_named')).toBe(true);
     expect(j.choices().some(c => /Annet|roll/i.test(c.full))).toBe(true);
     // The road: the second town's camp on the fourth day (the leader has gone ahead), the third on the sixth, the duel.
-    await said('>walk__camp_b', '=day 4 12:00');
+    await said('>walk__camp_b', '==day 4 12:00');
     expect(Walking.at(j, 'leader')).toBe('walk__camp_b');
     expect(Walking.measure(j, 'host', 'walk_b')).toBeGreaterThanOrEqual(1);
-    await said('>region__s2_green', '=day 6 10:00');
+    await said('>region__s2_green', '==day 6 10:00');
     expect(Walking.holds(j, 'duel_called', 'walk')).toBe(true);
     await said('Propose that the corporal');
     expect(Walking.holds(j, 'duel_settled', 'walk')).toBe(true);
     expect(Walking.holds(j, 'lads_allied', 'walk')).toBe(true);
     // The fourth town: the Brethren hold the Station from the eighth day; the names are the way in.
-    await said('=day 7 06:00', '?To the bridge over the Deepwater', '?Pay the lord.s toll', '>walk__camp_d', '=day 8 12:00');
+    await said('==day 7 06:00', '?To the bridge over the Deepwater', '?Pay the lord.s toll', '>walk__camp_d', '==day 8 12:00');
     expect(Walking.at(j, 'gaunt')).toBe('walk__station_d');
     await said('>walk__station_d');
     await said('Say the names of the road at the Station arch');
@@ -39,16 +39,16 @@ describe('the Walk, played by a scholar', () => {
     for (let i = 0; i < 5 && !Walking.knows(j, 'stone_true'); i++) { await said('?Read the milestone'); }
     expect(Walking.knows(j, 'stone_true')).toBe(true);
     // The Bench rides in on the ninth day; the grant is laid before it, and it holds its hand and gives its leave.
-    await said('=day 9 06:00', '>region__s3_green');
+    await said('==day 9 06:00', '>region__s3_green');
     expect(Walking.at(j, 'dray')).toBe('region__s3_green');
     await said('Lay the milestone.s grant');
     expect(Walking.holds(j, 'licensed', 'walk')).toBe(true);
     expect(here()).toBe('region__s3_green');
     // The night passes without the raid; the Reckoning finds the host licensed.
-    await said('=day 11 10:00');
+    await said('==day 11 10:00');
     expect(Walking.drawn(j, 'ending')).toEqual(['e_licensed']);
     // On foot back to the first town: its green, its notice, its bailiff in his chair, and the innkeeper.
-    await said('=day 11 11:00');
+    await said('==day 11 11:00');
     await said('To the bridge over the Deepwater', '?Pay the lord.s toll', '?Tell the reeve you are on the lord.s own business', '>region__s2_green', '>region__s4_green', '>region__s1_green');
     const notice = j.choices().find(c => /notice/i.test(c.full));
     expect(Walking.state(j, 'notice_a')).toBe('walk__end_licensed');

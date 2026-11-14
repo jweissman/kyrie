@@ -60,7 +60,7 @@ describe('the Hanging Garden', () => {
     await sleeper.play('To the Hanging Garden');
     expect(sleeper.offers('Lie as you are')).toBe(true);
     const night = await House.at('terrace', 'kahitude', 'warrior');
-    await night.play('=21:00');
+    await night.play('==21:00');
     expect(House.is(night, 'state', 'blossoms', 'folded')).toBe(true);
     await night.play('To the Hanging Garden');
     expect(night.at('party')).toMatch(/garden$/);
@@ -143,7 +143,7 @@ describe('the Reckoning Room and the disc', () => {
   it('answers to the sun at noon, never to the uncounted, and rises for the counted', async () => {
     const j = await House.at('reckoning', 'kahitude', 'mage');
     expect(j.offers('Turn the ring until its mark meets the shaft of light')).toBe(false);
-    await j.play('=11:00');
+    await j.play('==11:00');
     await j.play('Turn the ring until its mark meets the shaft of light');
     expect(House.is(j, 'state', 'disc', 'risen')).toBe(true);
     expect(j.offers('^To the Quiet Floor$')).toBe(false);

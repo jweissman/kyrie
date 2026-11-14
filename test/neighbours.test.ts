@@ -83,7 +83,7 @@ describe('the first town’s neighbours', () => {
     const j = await start();
     Placed.at(j, r('s1_manor_front'));
     for (const f of ['s1_roadwood_open', 's1_roadwood_shared']) { Placed.assert(j, f, 'party'); }
-    await j.play('=+60');
+    await j.play('==+60');
     expect(Placed.holds(j, 'region__s1_family_wrote', 'party')).toBe(true);
   }, 180000);
 
@@ -91,18 +91,18 @@ describe('the first town’s neighbours', () => {
     const j = await start();
     await j.play('>s1_taproom', 'Ask Isaure Venn what she is reading', 'Agree to take Isaure Venn up the hill', 'Ask Isaure Venn to join the company');
     Placed.at(j, r('s1_stones_hall'));
-    await j.play('=+1');
+    await j.play('==+1');
     expect(Placed.holds(j, 'region__s1_iv_q1_asked', 'party')).toBe(true);
     expect(j.offers('Yes. They have a right to know')).toBe(true);
     await j.play('Yes. They have a right to know');
     expect(Placed.holds(j, 'region__s1_iv_shown_candour', 'party')).toBe(true);
     for (const f of ['s1_roadwood_shared']) { Placed.assert(j, f, 'party'); }
-    await j.play('=+1');
+    await j.play('==+1');
     await j.play('The paper does not know who is poor');
     Placed.knows(j, r('s1_boy_tune'));
-    await j.play('=+1');
+    await j.play('==+1');
     await j.play('I would rather be unmade by the truth');
-    await j.play('=+1');
+    await j.play('==+1');
     expect(Placed.holds(j, 'region__s1_iv_rank2', 'party')).toBe(true);
     expect(j.offers('Read the scored-out word on the dais')).toBe(true);
     await j.play('Read the scored-out word on the dais');

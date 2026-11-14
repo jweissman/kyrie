@@ -23,7 +23,7 @@ describe('the howe sealed from within (a1) and left broken (d4): the laws hold e
     await j.play('To the forecourt of the howe');
     await j.play('Heave the seal-stone back into its groove');
     expect(Howe.state(j, 'seal', 'set')).toBe(true);
-    await j.play('=+1').catch(() => '');
+    await j.play('==+1').catch(() => '');
     expect(Howe.fact(j, 'howe_kept', 'party')).toBe(true);
   }, 300000);
 

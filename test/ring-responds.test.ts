@@ -53,7 +53,7 @@ describe('the ring answers', () => {
     const { j } = w;
     await cellar(w);
     expect(j.holds('inside', F('leaf'), F('strongbox'))).toBe(true);
-    await j.play(`=${j.watch() + 200}`);
+    await j.play(`==${j.watch() + 200}`);
     expect(j.holds('inside', F('leaf'), F('strongbox'))).toBe(false);
     expect(j.holds(F('burnt'), F('principal'))).toBe(true);
     j.put('party', F('counting_room'));
@@ -71,7 +71,7 @@ describe('the ring answers', () => {
     j.roll(undefined);
     // Out of the town, where the hired men are not: they stand on the stair to the book.
     await GeneratedWorld.travel(w.s, 'gate_tolleth');
-    await j.play(`=${j.watch() + 300}`);
+    await j.play(`==${j.watch() + 300}`);
     expect(j.holds(F('burnt'), F('principal'))).toBe(false);
     expect(j.choices().some(c => /day-book.* › Read/.test(c.label))).toBe(true);
   }, 600000);
@@ -104,7 +104,7 @@ describe('the ring answers', () => {
     await j.play('^Wait › A while');
     expect(seen(j)).toContain('has absconded');
     const places = new Set<string>();
-    for (let t = j.watch(); t < 1500; t += 36) { await j.play(`=${t + 36}`); places.add(String(j.at(F('principal')))); }
+    for (let t = j.watch(); t < 1500; t += 36) { await j.play(`==${t + 36}`); places.add(String(j.at(F('principal')))); }
     expect(places.has(T('bonded_store'))).toBe(false);
     expect(places.has(T('ring_loft'))).toBe(true);
     // Routed is not recovered from: nobody rallies him at first light, for he has no refuge.

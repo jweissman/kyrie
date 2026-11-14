@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import { Kept } from './support/kept';
 
 // Wapshott's Fourth Act (doc/adventures/anthology/the-fourth-act.md), over the host towns of test/fixtures/circus:
 // the crate, the hatching, the town, the charter, the Sundial, and Sarn. The Revels are staged as done: what they
@@ -10,11 +11,24 @@ const host = 'test/fixtures/circus/circus.campaign.json';
 const c = (x: string) => `circus__${x}`;
 class Act {
   constructor(readonly j: Journey) {}
+  // The act's start, and its voyage to Sarn, are each played once in the file and resumed for each case after (see
+  // Kept.of): sixteen cases had each played the same two days and the charter before anything of theirs was tried.
+  // What the cases read is the world the act leaves (who holds what, where the circus is), never a page: the waits are
+  // told only as they end (==, see Journey).
   static async start(seed = 'p4') {
-    const a = new Act(await Journey.start(host, seed));
-    await a.j.play('=day 1 14:30', "To Wapshott's ground");
-    a.set('revelsDone', 'wapshotts');
-    return a;
+    return new Act(await Kept.of(`act IV ${seed}`, async () => {
+      const a = new Act(await Journey.start(host, seed));
+      await a.j.play('==day 1 14:30', "To Wapshott's ground");
+      a.set('revelsDone', 'wapshotts');
+      return a.j;
+    }));
+  }
+  static async atSarn(seed = 'p4') {
+    return new Act(await Kept.of(`act IV ${seed} to Sarn`, async () => {
+      const a = await Act.start(seed);
+      await a.toSarn();
+      return a.j;
+    }));
   }
   private apply(change: Change) {
     const w = this.j.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
@@ -26,7 +40,7 @@ class Act {
   holds(name: string, ...args: string[]) { return this.j.holds(c(name), ...args.map(x => x === 'party' ? x : c(x))); }
   knows(f: string) { return this.j.holds('knows', 'party', c(f)); }
   async toSarn() {
-    await this.j.play('=day 2 10:30', 'To the backyard of the circus', 'Ask Mate Crewe who sent the crate', 'Ask Mate Crewe where the Sundial lies', 'Prise up the lid of the crate', '=day 2 22:30');
+    await this.j.play('==day 2 10:30', 'To the backyard of the circus', 'Ask Mate Crewe who sent the crate', 'Ask Mate Crewe where the Sundial lies', 'Prise up the lid of the crate', '==day 2 22:30');
     this.j.roll('pass');
     await this.j.play("To Wapshott's ground", 'To Ashby green', 'Sit down in the middle of the green and be a tree');
     this.j.roll(undefined);
@@ -48,7 +62,7 @@ class Act {
   async decide() {
     this.rations(14); this.water(12);
     this.put('party', 'deck');
-    await this.j.play('=+520');
+    await this.j.play('==+520');
     this.rations(14); this.water(12);
     this.put('wapshott', 'landing'); this.put('party', 'landing');
     await this.j.play('Ask the Colonel what he means to do now');
@@ -60,11 +74,11 @@ describe("Wapshott's, Act IV: the crate", () => {
   it('comes after the Revels, opens on a clutch of eggs, and hatches loose in the town if nobody warms it', async () => {
     const a = await Act.start();
     expect(a.holds('crateCome', 'wapshotts')).toBe(false);
-    await a.j.play('=day 2 10:30', 'To the backyard of the circus', 'Ask Mate Crewe who sent the crate',
+    await a.j.play('==day 2 10:30', 'To the backyard of the circus', 'Ask Mate Crewe who sent the crate',
       'Ask Mate Crewe where the Sundial lies', 'Prise up the lid of the crate');
     expect(a.holds('crateCome', 'wapshotts')).toBe(true);
     expect(a.knows('crate_known') && a.knows('ship_known') && a.knows('eggs_known')).toBe(true);
-    await a.j.play('=day 2 22:30');
+    await a.j.play('==day 2 22:30');
     expect(a.holds('hatchlingsLoose', 'wapshotts')).toBe(true);
     await a.j.play("To Wapshott's ground", 'To Ashby green');
     a.j.roll('pass');
@@ -75,30 +89,29 @@ describe("Wapshott's, Act IV: the crate", () => {
 
   it('hatches penned if Billie makes a nest, and nothing is loose', async () => {
     const a = await Act.start();
-    await a.j.play('=day 2 10:30', 'To the backyard of the circus', 'Prise up the lid of the crate');
+    await a.j.play('==day 2 10:30', 'To the backyard of the circus', 'Prise up the lid of the crate');
     a.set('eggsKept', 'wapshotts');
-    await a.j.play('=day 2 22:30');
+    await a.j.play('==day 2 22:30');
     expect(a.holds('hatchlingsPenned', 'wapshotts')).toBe(true);
     expect(a.holds('hatchlingsLoose', 'wapshotts')).toBe(false);
   }, 280000);
 
   it('is a voyage of days: the clauses read, the storm ridden, the calm, the captain\'s story, landfall', async () => {
-    const a = await Act.start();
-    await a.toSarn();
+    const a = await Act.atSarn();
     expect(a.holds('voyaged', 'wapshotts') && a.holds('atSea', 'wapshotts')).toBe(true);
     a.put('fenwick', 'deck');
     await a.j.play('Ask Sir Gervase what he has signed the Colonel to');
     a.put('fenwick', 'deck');
     expect(a.holds('clausesRead', 'wapshotts')).toBe(true);
-    await a.j.play('=+760');
+    await a.j.play('==+760');
     expect(a.holds('stormOn', 'wapshotts') || a.holds('stormDone', 'wapshotts')).toBe(true);
-    await a.j.play('=+200');
+    await a.j.play('==+200');
     await a.j.play('Say nothing of his hands on the rail, and sing the second verse with him');
     expect(a.holds('colonelCovered', 'wapshotts')).toBe(true);
-    await a.j.play('=+300');
+    await a.j.play('==+300');
     await a.j.play('Ask Mate Crewe about Captain Vance');
     expect(a.holds('vanceKnown', 'wapshotts')).toBe(true);
-    await a.j.play('=+700');
+    await a.j.play('==+700');
     expect(a.holds('berthS', 'wapshotts')).toBe(true);
     await a.j.play("To the Progress's landing");
     expect(a.j.at('party')).toBe(c('landing'));
@@ -106,10 +119,10 @@ describe("Wapshott's, Act IV: the crate", () => {
 
   it('has a tent, a night and a tower: the Colonel names them, and the Quinceys sweep the church', async () => {
     const a = await Act.start();
-    await a.j.play('=day 2 10:30', 'To the backyard of the circus', 'Prise up the lid of the crate', '=day 2 22:30');
+    await a.j.play('==day 2 10:30', 'To the backyard of the circus', 'Prise up the lid of the crate', '==day 2 22:30');
     expect(a.holds('hatchlingsLoose', 'wapshotts')).toBe(true);
     expect(a.holds('colonelNamed', 'wapshotts')).toBe(true);
-    await a.j.play("To Wapshott's ground", 'To Ashby green', '=+60');
+    await a.j.play("To Wapshott's ground", 'To Ashby green', '==+60');
     expect(a.holds('loosePhase2', 'wapshotts')).toBe(true);
     a.j.roll('pass');
     await a.j.play('Go up the church tower with a sack and the Brothers Quincey');
@@ -117,10 +130,9 @@ describe("Wapshott's, Act IV: the crate", () => {
   }, 280000);
 
   it('sends the circus to Sarn, and the hook-claws take the young back only when the Colonel lets his named one go', async () => {
-    const a = await Act.start();
-    await a.toSarn();
+    const a = await Act.atSarn();
     a.put('party', 'hold');
-    await a.j.play('=+1600');
+    await a.j.play('==+1600');
     a.put('party', 'hold');
     await a.j.play('Take the young hook-claws ashore in a sack', "To the Sundial's deck", "To the Progress's landing");
     a.put('party', 'hook_den');
@@ -131,9 +143,8 @@ describe("Wapshott's, Act IV: the crate", () => {
   }, 290000);
 
   it('has many ways past Harrow, the three-horns and the tyrant', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     a.put('party', 'harrow_camp');
     a.j.roll('pass');
     await a.j.play('Cut through the net-lines and the drying-poles while the men are at their mugs');
@@ -142,50 +153,48 @@ describe("Wapshott's, Act IV: the crate", () => {
     await a.j.play("Cross the herd-trail at the herd's own pace, never looking at the calf");
     expect(a.j.holds('tolerates', c('three_horns'), 'party')).toBe(true);
     a.put('party', 'plain_south');
-    await a.j.play('=17:30');
+    await a.j.play('==17:30');
     await a.j.play('Settle among the sleeping plate-backs and keep your voices down');
     expect(a.j.holds('tolerates', c('tyrant'), 'party')).toBe(true);
   }, 290000);
 
   it('has the pipers, the herd at dawn, the Colonel\'s trumpet, the colony launched, the scuttlers\' line', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     a.water(12); a.rations(14);
     a.put('party', 'plain_south');
-    await a.j.play('=04:20');
+    await a.j.play('==04:20');
     expect(a.j.holds('knows', 'party', c('piper_known'))).toBe(true);
     a.put('party', 'lake_shore');
-    await a.j.play('=05:10');
+    await a.j.play('==05:10');
     expect(a.holds('trumpetPending', 'wapshotts')).toBe(true);
     expect(a.holds('herdSeen', 'party')).toBe(true);
     a.j.roll('pass');
     await a.j.play('Take the Colonel by the elbow before he blows');
     expect(a.holds('colonelStopped', 'wapshotts')).toBe(true);
     a.put('party', 'ledges');
-    await a.j.play('=05:30');
+    await a.j.play('==05:30');
     expect(a.j.holds('knows', 'party', c('colony_known'))).toBe(true);
     a.put('party', 'bone_beds');
-    await a.j.play('=+1');
+    await a.j.play('==+1');
     expect(a.j.holds('knows', 'party', c('crust_safe'))).toBe(true);
   }, 290000);
 
   it('keeps the trumpet to the shore: watched from the ridge it is never found; on the shore, unstopped, it is blown after the player has had a turn', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     a.water(12); a.rations(14);
     a.put('party', 'plain_ridge');
-    await a.j.play('=05:30');
+    await a.j.play('==05:30');
     expect(a.holds('herdSeen', 'party')).toBe(true);
-    await a.j.play('=+3');
+    await a.j.play('==+3');
     expect(a.holds('trumpetPending', 'wapshotts')).toBe(false);
     expect(a.holds('herdScattered', 'wapshotts')).toBe(false);
     a.put('party', 'lake_shore');
-    await a.j.play('=+1');
+    await a.j.play('==+1');
     expect(a.holds('trumpetPending', 'wapshotts')).toBe(true);
     expect(a.holds('herdScattered', 'wapshotts')).toBe(false);
-    await a.j.play('=+3');
+    await a.j.play('==+3');
     expect(a.holds('herdScattered', 'wapshotts')).toBe(true);
   }, 290000);
 
@@ -193,11 +202,10 @@ describe("Wapshott's, Act IV: the crate", () => {
 
 describe("Wapshott's, Act IV: the crate", () => {
   it('has companions who ask the player questions, and side stories that lead nowhere', async () => {
-    const a = await Act.start();
-    await a.toSarn();
+    const a = await Act.atSarn();
     a.set('billieAboard', 'wapshotts'); a.set('away', 'billie'); a.set('away', 'mumchance'); a.set('away', 'dab');
     a.put('fenwick', 'deck'); a.put('crewe', 'deck'); a.put('billie', 'deck'); a.put('wapshott', 'deck');
-    await a.j.play('=+1100');
+    await a.j.play('==+1100');
     expect(a.holds('calmDone', 'wapshotts')).toBe(true);
     await a.j.play('Ask Mate Crewe about Captain Vance');
     expect(a.holds('vanceKnown', 'wapshotts')).toBe(true);
@@ -216,7 +224,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     await a.j.play('Ask the boy what he is doing in the hold', 'Take him to the Colonel');
     expect(a.holds('dabColonel', 'wapshotts')).toBe(true);
     a.put('party', 'deck');
-    await a.j.play('=+700', "To the Progress's landing");
+    await a.j.play('==+700', "To the Progress's landing");
     a.water(12); a.rations(14);
     // The grave: the key finishes the epitaph.
     a.put('party', 'cage_row');
@@ -236,7 +244,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     // Mumchance's slate by the herd, and Sir Gervase's scope at the quay.
     a.set('mumchanceAboard', 'wapshotts'); a.put('mumchance', 'lake_shore'); a.set('herdSeen', 'party'); a.set('trumpetDone', 'wapshotts');
     a.put('party', 'lake_shore');
-    await a.j.play('=10:00');
+    await a.j.play('==10:00');
     await a.j.play('Take the slate Mumchance holds out to you', 'Write: it makes no difference');
     expect(a.holds('mumMatters', 'wapshotts')).toBe(true);
     a.set('clausesRead', 'wapshotts'); a.put('party', 'landing'); a.put('fenwick', 'landing');
@@ -255,13 +263,12 @@ describe("Wapshott's, Act IV: the crate", () => {
   // (290 s against 187 s to 292 s on CI, two minutes here: CI on f49d858e).
   for (const how of ['bare', 'cages', 'fire', 'both', 'meat'] as const) {
     it(`has a night on the quay (${how}): bare it costs the bosun; the cages alone cost him; cages and fire cost blood; meat costs nothing`, async () => {
-      const a = await Act.start();
-      await a.toSarn();
-      await a.j.play('=+1600', "To the Progress's landing");
+      const a = await Act.atSarn();
+      await a.j.play('==+1600', "To the Progress's landing");
       expect(a.holds('tideMarked', 'wapshotts')).toBe(true);
       a.set('trumpetDone', 'wapshotts'); a.set('colonelDragged', 'wapshotts');
       a.put('party', 'landing');
-      for (let i = 0; i < 40 && !a.holds('huntOn', 'wapshotts'); i++) { await a.j.play('=+30'); a.put('party', 'landing'); }
+      for (let i = 0; i < 40 && !a.holds('huntOn', 'wapshotts'); i++) { await a.j.play('==+30'); a.put('party', 'landing'); }
       expect(a.holds('huntOn', 'wapshotts')).toBe(true);
       expect(a.j.at(c('night_pack'))).toBe(c('landing'));
       a.rations(6);
@@ -270,7 +277,7 @@ describe("Wapshott's, Act IV: the crate", () => {
       if (how === 'cages' || how === 'both') { await a.j.play("Shut as many as will fit into the Wardens' cages and drop the bar"); }
       if (how === 'meat') { await a.j.play('Throw four rations of meat into the dark and sit still'); }
       a.put('party', how === 'cages' || how === 'both' ? 'cage_row' : 'landing');
-      await a.j.play('=05:00');
+      await a.j.play('==05:00');
       expect(a.holds('huntDone', 'wapshotts')).toBe(true);
       expect(a.holds('crewLost', 'wapshotts')).toBe(how === 'bare');
       expect(a.j.holds('dead', 'mudge')).toBe(how === 'bare');
@@ -280,51 +287,47 @@ describe("Wapshott's, Act IV: the crate", () => {
   }
 
   it('has a reef that shuts on a date, a run through it, and endings that differ: home with nothing, a fiasco, the Colonel stays', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     await a.decide();
     await a.j.play("To the Sundial's deck");
     a.j.roll('pass');
     await a.j.play('Take the Sundial out through the reef passage');
     expect(a.holds('reefRun', 'wapshotts') && a.holds('atSea', 'wapshotts')).toBe(true);
     a.set('colonelNamed', 'wapshotts');
-    await a.j.play('=+1750', 'To Ashby green');
+    await a.j.play('==+1750', 'To Ashby green');
     expect(a.holds('backFromSarn', 'wapshotts')).toBe(true);
     // Too late for the passage: the formidable run.
-    const c2 = await Act.start();
-    await c2.toSarn();
-    await c2.j.play('=+1600', "To the Progress's landing");
+    const c2 = await Act.atSarn();
+    await c2.j.play('==+1600', "To the Progress's landing");
     c2.water(14); c2.rations(20);
     await c2.decide();
     c2.water(14); c2.rations(20);
     c2.put('party', 'deck');
-    await c2.j.play('=+1000');
+    await c2.j.play('==+1000');
     expect(c2.j.find('Take the Sundial out through the shut reef')).toBeDefined();
   }, 290000);
 
   it('plays the charter honestly: Fenwick is off the ground until the crate brings him back, with nothing set by hand', async () => {
     const a = await Act.start();
     expect(a.j.holds('offstage', c('fenwick'))).toBe(true);
-    await a.j.play('=day 2 10:30');
+    await a.j.play('==day 2 10:30');
     expect(a.holds('crateCome', 'wapshotts')).toBe(true);
-    await a.j.play('=day 3 00:30');
+    await a.j.play('==day 3 00:30');
     expect(a.j.holds('offstage', c('fenwick'))).toBe(false);
     expect(a.holds('travels', 'fenwick')).toBe(true);
   }, 200000);
 
   it('has a Colonel who decides: moved he stays, unmoved he takes the egg and Billie goes', async () => {
-    const stay = await Act.start();
-    await stay.toSarn();
-    await stay.j.play('=+1600', "To the Progress's landing", '=+520');
+    const stay = await Act.atSarn();
+    await stay.j.play('==+1600', "To the Progress's landing", '==+520');
     for (const f of ['namedLetGo', 'ruleRead', 'colonelMoved', 'billieAboard']) { stay.set(f, 'wapshotts'); }
     stay.put('wapshott', 'landing');
     await stay.j.play('Ask the Colonel what he means to do now');
     expect(stay.holds('colonelStays', 'wapshotts')).toBe(true);
     expect(stay.holds('billieResigned', 'wapshotts')).toBe(true);
-    const egg = await Act.start();
-    await egg.toSarn();
-    await egg.j.play('=+1600', "To the Progress's landing", '=+520');
+    const egg = await Act.atSarn();
+    await egg.j.play('==+1600', "To the Progress's landing", '==+520');
     egg.put('wapshott', 'landing'); egg.put('party', 'landing');
     egg.set('billieAboard', 'wapshotts');
     egg.j.give('egg_a');
@@ -334,9 +337,8 @@ describe("Wapshott's, Act IV: the crate", () => {
   }, 290000);
 
   it('keeps the bosun aboard on the way home, and a failed reef run keeps her aground', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     await a.decide();
     await a.j.play("To the Sundial's deck");
     a.j.roll('fail');
@@ -347,7 +349,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     a.j.roll('pass');
     await a.j.play('Take the Sundial out through the shut reef on the ebb, and pray');
     expect(a.holds('atSea', 'wapshotts')).toBe(true);
-    await a.j.play('=+1750');
+    await a.j.play('==+1750');
     await a.j.play('To Ashby green');
     expect(a.holds('backFromSarn', 'wapshotts')).toBe(true);
     expect(a.j.at(c('mudge'))).toBe(c('deck'));
@@ -357,9 +359,8 @@ describe("Wapshott's, Act IV: the crate", () => {
 
 describe("Wapshott's, Act IV: the crate", () => {
   it('lets a wounded party still leave: two failed runs, then a clean one on the ebb', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     await a.decide();
     await a.j.play("To the Sundial's deck");
     a.water(4); a.rations(14);
@@ -376,33 +377,30 @@ describe("Wapshott's, Act IV: the crate", () => {
   }, 290000);
 
   it('warns before the tyrant: it walks the plain at evening, and the ground shakes where the party stands', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     a.put('party', 'plain_south');
-    await a.j.play('=19:30');
+    await a.j.play('==19:30');
     expect(a.j.at(c('tyrant'))).toBe(c('plain_mid'));
   }, 200000);
 
   it('plays the water honestly: from the quay, to the forest, after the runners at noon, up the hidden trail, to the spring, and fills the casks', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing", '=07:30');
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing", '==07:30');
     a.j.roll('pass');
-    await a.j.play("To the cycad forest's edge", '=11:30', 'Follow the fern-runners when they go off together at noon');
+    await a.j.play("To the cycad forest's edge", '==11:30', 'Follow the fern-runners when they go off together at noon');
     expect(a.j.holds('springKnown', 'party')).toBe(true);
-    await a.j.play('=14:00', 'To the cycad aisle', 'To the sheltered hollow');
+    await a.j.play('==14:00', 'To the cycad aisle', 'To the sheltered hollow');
     expect(a.j.at('party')).toBe(c('kingsfoil_hollow'));
-    await a.j.play('=+60', 'Fill the casks at the spring');
+    await a.j.play('==+60', 'Fill the casks at the spring');
     expect(a.j.measure(c('waterCasks'), c('wapshotts'))).toBeGreaterThan(3);
   }, 290000);
 
   it('plays the night where the party stands: nobody moved by hand, meat thrown, the morning clean, the Colonel asked and the Sundial taken out', async () => {
-    const a = await Act.start();
-    await a.toSarn();
-    await a.j.play('=+1600', "To the Progress's landing");
+    const a = await Act.atSarn();
+    await a.j.play('==+1600', "To the Progress's landing");
     a.set('trumpetDone', 'wapshotts');
-    for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await a.j.play('=+30'); }
+    for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await a.j.play('==+30'); }
     expect(a.holds('huntOn', 'wapshotts')).toBe(true);
     expect(a.j.at('party')).toBe(c('landing'));
     a.rations(6);
@@ -410,7 +408,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     await a.j.play('Take the Colonel by the collar and pull him into a cage');
     await a.j.play('Throw four rations of meat into the dark and sit still');
     a.j.roll(undefined);
-    await a.j.play('=05:30');
+    await a.j.play('==05:30');
     expect(a.holds('huntClean', 'wapshotts')).toBe(true);
     await a.decide();
     await a.j.play("To the Sundial's deck");

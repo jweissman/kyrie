@@ -49,7 +49,7 @@ describe('Sennet, a province of the first country', () => {
     const seen = await j.play('To the Landward Gate', 'To the Glass Market');
     expect(seen).toContain('THE GRAND TOUR IS PROCLAIMED');
     // Left alone, the week goes by and the Rector has her way; the book does not close: the world goes on.
-    while (!s.campaign.world.related('reached').length && j.watch() < arrived + 1300) { await j.play(`=${j.watch() + 36}`); }
+    while (!s.campaign.world.related('reached').length && j.watch() < arrived + 1300) { await j.play(`==${j.watch() + 36}`); }
     expect(s.campaign.world.related('reached').map(r => r.args[0])).toEqual(['psennet__end_second_whelming']);
     expect(s.campaign.running).toBe(true);
     await j.play('To the Quay');
@@ -65,7 +65,7 @@ describe('Sennet, a province of the first country', () => {
     // The Tour's days are Sennet's own, from the first morning after it is reached: its day 1 is the world's next.
     const shift = Math.ceil(j.watch() / 144);
     const route = ['=day 1 08:10', ...steps('outcomes', 'undertow')].map(x => x.replace(/>sennet__/, '>psennet__')
-      .replace(/^=day (\d+)/, (_, d: string) => `=day ${Number(d) + shift}`));
+      .replace(/^=day (\d+)/, (_, d: string) => `==day ${Number(d) + shift}`));
     await j.play(...route);
     expect(s.campaign.world.test({ kind: 'call', name: 'psennet__openedBelow', args: ['psennet__sennet_bay'] })).toBe(true);
     const offered = PlayerView.choices(s.campaign).map(c => c.choice.name);

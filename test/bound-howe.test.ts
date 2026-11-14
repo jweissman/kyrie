@@ -29,12 +29,12 @@ describe('the Bound Howe is a standing scenario', () => {
     await j.play('>s1_green');
     expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(false);
     expect(Howe.where(j, 'hirer')).toBeFalsy();
-    await j.play('=day 2 09:00');
+    await j.play('==day 2 09:00');
     expect(Howe.where(j, 'hirer')).toBe('region__s1_green');
     // The notice on the hiring-man's cart is read from the green, and it says where.
     expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(true);
     // The aim to go is held to the third day, so that the first hour's own leads (the honest start's) are led first.
-    await j.play('=day 3 09:00');
+    await j.play('==day 3 09:00');
     expect(ScreenModel.build(j.campaign).objectives.join(' ')).toContain('salvage crew is digging');
     expect(j.offers('Ask .+ where the work is')).toBe(true);
     const done = await MapPlay.press(j, SITE);
