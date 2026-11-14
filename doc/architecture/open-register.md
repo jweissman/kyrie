@@ -920,3 +920,15 @@ Scope (the owner's brief), not defects found. Folded into the laboratory: FF-02/
 | FF-06 | Consequences create the next undertaking, in the world's own words | open | P1 | M21, playability |
 | FF-07 | A dead character becomes part of the continuing country: the cairn, the pack where they fell, the merchant who remembers, the unfinished job as a lead | deferred | P2 | after Gate 1, playability |
 
+## 39. A terminal a person can comfortably play (the owner, 14 November, late)
+
+`mission-21/owner-terminal-play.md`. These are defects found in play, not new scope. They fold into TB and the interaction grammar.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| TP-01 | The terminal is miserable to operate as a person: whole observations and every action dumped. A human mode (automatic on a TTY; `--interactive`, `--headless`) with a navigable picker (arrows, j/k, Enter, back, unfold more), an economical view, and restrained colour. Headless stays plain. One EngineHost workflow for both | open | P1 | M21, terminal |
+| TP-02 | The indicator grammar breaks with many actions, or several indicators on one: one dominant colour per action by a shared precedence table from the engine's aspects (gold strictly first, then red, then the atlas order), at most two icons, meaning without colour | open | P1 | M21, terminal (table and terminal), aesthetic (page) |
+| TP-03 | Companionship as an icon rather than a colour: assessed with both clients side by side, then decided | open | P2 | M21, terminal, aesthetic |
+| TP-04 | Instruments do not say what they report: the engine gives each a label and a gloss, and clients display and inspect them | open | P1 | M21, terminal (engine side) |
+| TP-05 | A tiny fixture of the awkward cases (many actions, overlapping opportunities, long labels at a narrow width, several instruments, actions changing after a commit, creation) for cheap regressions and review, and a real interactive session assessed as a player | open | P1 | M21, terminal |
+
