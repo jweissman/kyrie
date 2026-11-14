@@ -40,7 +40,10 @@ export class Conversation {
   // What a frame adds: the company's words (not for the turning to them, which the greeting answers, nor for an act
   // whose telling says it again: "Give healing herbs to Erevan" over "Aldith gives healing herbs to Erevan"), then
   // what came of them, then what was learned.
-  static lines(frame: Frame, choice: Choice, said: string): TalkLine[] {
+  // heard: the conversation's lines so far. What was said back word for word earlier in it is told as said again, its
+  // words still above (the second blind playtest, BL-09: "Ask again" replayed the whole speech).
+  static readonly again = 'The same answer as before.';
+  static lines(frame: Frame, choice: Choice, said: string, heard: readonly TalkLine[] = []): TalkLine[] {
     const exchange = frame.leaf.exchange, words = exchange?.said ?? said.split(' › ').at(-1)!;
     const restated = Words.restates(Words.echo(words), exchange?.lines[0]?.text);
     const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
@@ -49,7 +52,9 @@ export class Conversation {
     // Nor a thing learned in the very words of an aim it took up (the second blind playtest, BL-09: one sentence
     // under "You know now" and again under "Noted, further off").
     const aims = exchange?.aims ?? [], aimed = new Set(aims.map(a => a.text));
-    return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
+    const before = new Set(heard.filter(l => l.kind === 'speech').map(l => l.text));
+    return [...you, ...(exchange?.lines ?? []).map(l => l.kind === 'speech' && before.has(l.text)
+      ? { kind: 'telling' as const, text: this.again } : { kind: l.kind, text: l.text }),
       ...(exchange?.notes ?? []).filter(text => (!aims.length || !Words.aimed.test(text))
         && !aimed.has(text.replace(Words.noted, '')))
         .map(text => ({ kind: exchange?.learned?.includes(text) ? 'learned' as const

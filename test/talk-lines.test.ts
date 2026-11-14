@@ -24,6 +24,19 @@ describe('a conversation\'s lines', () => {
     expect(Conversation.lines(f, choice('ask'), '').map(l => [l.kind, l.text])).toEqual([['you', 'Ask about the sister'],
       ['aim', text]]);
   });
+  // Asked again, what was said back word for word earlier in the conversation is told as said again, its words still
+  // above (BL-09: "Ask again" replayed the whole speech); a new answer is said whole.
+  it('says an answer heard already in this conversation as said again', () => {
+    const speech = (said: string, text: string) => ({ leaf: { exchange: { said, notes: [], tone: 'act',
+      lines: [{ text, kind: 'speech' }] } } }) as unknown as Frame;
+    const answer = '‘The ford went in the spring floods, and the alders with it, and nobody has crossed since,’ says Osric.';
+    const first = Conversation.lines(speech('Ask about the ford', answer), choice('ask'), '');
+    const again = Conversation.lines(speech('Ask about the ford again', answer), choice('ask_again'), '', first);
+    const other = Conversation.lines(speech('Ask about the eels', '‘Fat this year,’ says Osric.'), choice('eels'), '', first);
+    expect(again.map(l => [l.kind, l.text])).toEqual([['you', 'Ask about the ford again'],
+      ['telling', Conversation.again]]);
+    expect(other.map(l => l.kind)).toEqual(['you', 'speech']);
+  });
   it('keeps the company\'s words over an answer', () => {
     const lines = Conversation.lines(frame('Ask about the child', '‘Three days,’ says Erevan.'), choice('ask'), '');
     expect(lines.map(l => l.kind)).toEqual(['you', 'telling']);
