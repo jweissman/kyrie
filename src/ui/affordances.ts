@@ -53,7 +53,7 @@ export interface Reading {
     // When the company carries nothing to make light by: the kinds of thing that light, any of them worth buying.
     unlit?: Set<string>;
     // With nothing to see by, the ways from here into somewhere unlit, and who sells a light (see CompanyLight).
-    dark?: Set<string>; sellers?: Set<string>;
+    dark?: Set<string>; sellers?: Set<string>; shops?: Set<string>;
     // Whether the company is one alone, for whom someone who would join is help.
     alone?: boolean };
 }
@@ -306,6 +306,7 @@ export class Affordances {
       // Unless whoever the aim is about still stands there: fled back up from the rats' run, the way down to them is
       // still the aim's (the laboratory's lost turns).
       // Never into the dark with nothing to see by: what the aim asks there cannot be done (see CompanyLight).
+      ...this.shop(r, dest) ? ['named' as const] : [],
       ...(r.named.has(dest) || r.occupied?.has(dest)) && !r.needs.dark?.has(dest)
         && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
       ...toward ? [toward] : [],
@@ -350,6 +351,8 @@ export class Affordances {
     if (c.id !== exit || c.risk) { return []; }
     return r.inward.has(exit) ? ['deeper'] : r.inward.has(`~${exit}`) || r.inward.has(`^${exit}`) ? ['onward'] : [];
   }
+  // Where a light is to be had, with an aim followed, the dark ahead and nothing to see by (see CompanyLight).
+  private static shop(r: Reading, place: string): boolean { return !!r.aim && !!r.needs.shops?.has(place); }
   private static firstTry(c: Choice, exit: ExitRow): boolean {
     return c.id === `${exit.id}/${exit.acts[0]?.key ?? ''}`;
   }
@@ -359,7 +362,8 @@ export class Affordances {
     return (screen.around ?? []).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`, label: `To ${d.name}`,
       kind: 'travel' as const, order: 0, marks: d.minutes > 10 && Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [],
       minutes: d.minutes, visited: visited.has(d.id),
-      pointed: r.pointed.has(d.id), whys: [...r.named.has(d.id) && !r.idle?.has(d.id) ? ['named' as const] : [],
+      pointed: r.pointed.has(d.id), whys: [...(r.named.has(d.id) && !r.idle?.has(d.id)) || this.shop(r, d.id)
+        ? ['named' as const] : [],
         ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
         ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
       notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim' } }));
