@@ -137,9 +137,10 @@ export class RunnerWalk {
       && !(t.aims ?? []).some(b => b.id === a.id)));
   }
   private static lost(walk: Walk): number {
-    // Not where a danger stands in front of the company: what to do about it is the next thing, not the aim.
-    return walk.turns.filter(t => t.moment !== 'fight' && !t.end && t.aims?.some(a => a.followed) && !t.next
-      && !t.offer.primary.some(o => o.aspects.includes('danger'))
+    // Not where a danger stands in front of the company, nor just got away from one: what to do about it (or getting
+    // over it) is the next thing, not the aim.
+    return walk.turns.filter((t, i) => t.moment !== 'fight' && !t.end && t.aims?.some(a => a.followed) && !t.next
+      && !t.offer.primary.some(o => o.aspects.includes('danger')) && !/^fight:flee:/.test(walk.chosen[i - 1]?.id ?? '')
       && ![...t.offer.primary, ...t.offer.rest].some(o => o.aspects.includes('undertaking'))).length;
   }
   // Acts chosen again, by their words, within a few turns of the first time: going round.

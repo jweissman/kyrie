@@ -44,7 +44,7 @@ repaid when what came of it told something new.
 | lab2 | cleric / doctor | laboratory | straight | 23 | 2.0 | 6 5 5 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | 0 | no |
 | lab2 | cleric / doctor | laboratory | curious | 17 | 1.6 | 6 4 2 | yes | 9 | 8 | 7 / 2 | 2 | 2 | 0 | 0 | no |
 | lab2 | cleric / doctor | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 2 / 0 | 0 | 26 | 0 | 0 | no |
-| lab2 | bard / entertainer | laboratory | straight | 9 | 2.8 | 5 4 4 | yes | 5 | 4 | 2 / 0 | 6 | 2 | 0 | 3 | yes |
+| lab2 | bard / entertainer | laboratory | straight | 9 | 2.8 | 5 4 4 | yes | 5 | 4 | 2 / 0 | 6 | 2 | 0 | 1 | yes |
 | lab2 | bard / entertainer | laboratory | curious | 17 | 1.8 | 6 4 3 | yes | 9 | 8 | 7 / 1 | 1 | 2 | 0 | 0 | no |
 | lab2 | bard / entertainer | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 3 / 0 | 0 | 25 | 0 | 0 | no |
 | lab2 | ranger / archer | laboratory | straight | 23 | 2.0 | 6 5 5 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | 0 | no |
@@ -56,7 +56,7 @@ repaid when what came of it told something new.
 | lab3 | warrior / blacksmith | laboratory | straight | 12 | 3.9 | 8 6 5 | **no** | 6 | 6 | 2 / 0 | 18 | 2 | 0 | 0 | yes |
 | lab3 | warrior / blacksmith | laboratory | curious | 21 | 3.0 | 11 6 5 | yes | 14 | 7 | 8 / 1 | 7 | 3 | 0 | 0 | no |
 | lab3 | warrior / blacksmith | laboratory | seeded | 15 | 2.9 | 6 6 6 | yes | 10 | 5 | 4 / 0 | 3 | 4 | 0 | 0 | no |
-| lab3 | mage / apothecary | laboratory | straight | 8 | 3.3 | 6 5 5 | **no** | 6 | 2 | 2 / 0 | 10 | 0 | 0 | 2 | yes |
+| lab3 | mage / apothecary | laboratory | straight | 8 | 3.3 | 6 5 5 | **no** | 6 | 2 | 2 / 0 | 10 | 0 | 0 | 1 | yes |
 | lab3 | mage / apothecary | laboratory | curious | 14 | 2.4 | 6 5 5 | yes | 12 | 2 | 5 / 1 | 2 | 2 | 0 | 0 | yes |
 | lab3 | mage / apothecary | laboratory | seeded | 9 | 2.2 | 5 5 2 | yes | 8 | 1 | 3 / 0 | 1 | 3 | 0 | 0 | yes |
 | lab3 | thief / burglar | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
@@ -68,7 +68,7 @@ repaid when what came of it told something new.
 | lab3 | bard / entertainer | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
 | lab3 | bard / entertainer | laboratory | curious | 14 | 2.4 | 6 5 5 | yes | 12 | 2 | 7 / 1 | 2 | 3 | 0 | 0 | yes |
 | lab3 | bard / entertainer | laboratory | seeded | 8 | 1.9 | 5 2 2 | yes | 7 | 1 | 4 / 1 | 2 | 2 | 0 | 0 | yes |
-| lab3 | ranger / archer | laboratory | straight | 17 | 3.5 | 7 6 6 | **no** | 5 | 12 | 2 / 0 | 20 | 8 | 0 | 14 | no |
+| lab3 | ranger / archer | laboratory | straight | 17 | 3.5 | 7 6 6 | **no** | 5 | 12 | 2 / 0 | 20 | 8 | 0 | 8 | no |
 | lab3 | ranger / archer | laboratory | curious | 17 | 3.1 | 10 6 5 | **no** | 12 | 5 | 6 / 1 | 7 | 3 | 0 | 0 | no |
 | lab3 | ranger / archer | laboratory | seeded | 19 | 1.5 | 2 2 2 | yes | 6 | 13 | 2 / 0 | 0 | 23 | 0 | 0 | no |
 | lab3 | monk / gardener | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
@@ -92,15 +92,15 @@ repaid when what came of it told something new.
 - walks: 63; within the budget: 59; outlier arrivals: 7
 - attention repaid 268, empty 35
 - fights 242, retreats 28, loops 487, dead ends 0, ended 23, errors 0
-- blockers: 0 errors, 0 dead ends, 19 turns lost (an aim followed and nothing leading to it)
+- blockers: 0 errors, 0 dead ends, 10 turns lost (an aim followed and nothing leading to it)
 - intention to a consequence: 42 of 63 walks
-- mean time per walk: 1118 ms
+- mean time per walk: 1018 ms
 
 ## Gate 1, tier 1
 
 | build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
 |---|---|---|---|---|---|---|---|---|
-| 465f87a1 | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 19 | 0 | 0 |
+| 0d1362ae | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 10 | 0 | 0 |
 
 ## Lines said again (in most walks first)
 
