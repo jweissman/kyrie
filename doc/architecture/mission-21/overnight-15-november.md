@@ -57,6 +57,35 @@ Each pin was checked against a mutation: with its fix undone, it fails.
   - CN-01/02/03/05/08/09, TM-02, TP-02/07, BP-08, IG-01;
   - IG-09/11 and TO-02 superseded.
 
+## The paintings told by what they show (CO-13)
+
+All 245 scene paintings were looked at, on contact sheets, and given their light (all 245), their season where
+shown (33) and their weather where shown (47). The fit rules read these beside the painting's words (Fits.words).
+The winter rule also refuses spring and autumn. Held by test/small/paintings-season, mutation-checked.
+
+| Rule | Paintings refused before | After |
+|---|---:|---:|
+| Ruined | 18 | 91 |
+| Foul weather | 12 | 103 |
+| Winter | 4 | 33 |
+| Evening or night | 8 | 101 |
+| Under the ground | 25 | 99 |
+
+**A visible consequence, by the owner's rule (7 November) that a dim ground is better than a picture against the
+words.** Of the 147 kinds of place with paintings, the number with none that fits rises:
+
+| Condition | Before | After |
+|---|---:|---:|
+| Snow | 7 | 50 |
+| Rain | 6 | 50 |
+| Night | 5 | 49 |
+| Under the ground | 12 | 44 |
+| Ruined | 12 | 49 |
+
+So at night, in snow or rain, about a third of kinds of place now show no painting where they had shown a sunny
+one. The remedy is paintings of night, winter and weather for those kinds (doc/paintings/commission-list.md), not
+looser rules. It is the owner's call whether this is the right trade before they are painted.
+
 ## The interaction research (for M22)
 
 The investigator's four documents are in [interaction/](interaction/): study, grammar, experiment and
