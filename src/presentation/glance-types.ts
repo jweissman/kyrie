@@ -144,6 +144,8 @@ export interface Glance {
   next?: Successor;
   // The company's state, said only when something is wrong (hungry, hurt, weary, in the dark).
   need?: string[];
+  // Each barred way on in a site, what it needs and who has it, typed (see Threshold.leads, Means).
+  leads?: import('./means').Lead[];
   // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).
   after?: AfterAct;
   // The scene's four, and every other choice of it, for every client (see Offers).

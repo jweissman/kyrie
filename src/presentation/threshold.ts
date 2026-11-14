@@ -2,6 +2,9 @@ import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
+import { Canon } from '../canon/canon';
+import { ItemNames } from '../item-names';
+import { Means, type Lead } from './means';
 
 // The threshold of the place the followed aim is about: what bars the way on, and the ways that leave it.
 export class Threshold {
@@ -9,14 +12,31 @@ export class Threshold {
   // what that would take, said with what the company needs. A ranger alone at Ironkeep's portcullis had found push,
   // pull, listen and search all empty, and only the way out, while heaving it up needed brawn and the breach in the
   // curtain wall climbing or rope, said nowhere (the terminal's human session, 15 November).
-  static barred(screen: Screen, named: Set<string>): string[] {
+  // With who sells what it needs, where the world says (Means): "…: needs climbing or a coil of rope; Orm Ashby
+  // sells a coil of rope".
+  static barred(screen: Screen, named: Set<string>, campaign?: Campaign): string[] {
+    const ways = this.ways(screen, named);
+    const leads = campaign && ways.length ? Means.leads(campaign, screen, new Set(ways.map(e => e.id))) : [];
+    const byId = campaign && EntityIndex.of(campaign.module.entities).byId;
+    return ways.flatMap(e => {
+      const barred = e.acts.find(a => a.disabled), way = Threshold.upper(e.way ?? e.name);
+      const from = leads.find(l => l.way === e.id)?.from[0], kind = from && Canon.items[from.kind]?.name;
+      const who = from && byId?.get(from.seller)?.name, called = who?.includes(',') ? `${who},` : who;
+      const had = called && kind ? `; ${called} sells ${ItemNames.called(kind)}` : '';
+      if (barred) { return [`${barred.label === 'Go' ? way : barred.label}: ${Threshold.clause(barred.disabled!)}${had}`]; }
+      return !e.acts.length && e.blocked ? [`${way}: ${Threshold.clause(e.blocked)}${had}`] : [];
+    });
+  }
+  // The same, typed, for every client and pin: each barred way on, what it needs, and who has it (Glance's leads).
+  static leads(campaign: Campaign, screen: Screen, named: Set<string>): { leads?: Lead[] } {
+    const ways = this.ways(screen, named);
+    const leads = ways.length ? Means.leads(campaign, screen, new Set(ways.map(e => e.id))) : [];
+    return leads.length ? { leads } : {};
+  }
+  private static ways(screen: Screen, named: Set<string>): Screen['exits'] {
     if (!named.has(screen.place.id) && !screen.path.some(p => p.kind === 'site')) { return []; }
-    return screen.exits.filter(e => !e.visited && !e.crosses && !e.acts.some(a => a.moves && !a.disabled))
-      .flatMap(e => {
-        const barred = e.acts.find(a => a.disabled), way = Threshold.upper(e.way ?? e.name);
-        if (barred) { return [`${barred.label === 'Go' ? way : barred.label}: ${Threshold.clause(barred.disabled!)}`]; }
-        return !e.acts.length && e.blocked ? [`${way}: ${Threshold.clause(e.blocked)}`] : [];
-      });
+    return screen.exits.filter(e => !e.visited && !e.crosses && !e.acts.some(a => a.moves && !a.disabled)
+      && (e.acts.some(a => a.disabled) || (!e.acts.length && !!e.blocked)));
   }
   // "Needs brawn: no one in the company can use it now." and "You would need climbing or a coil of rope." alike.
   private static clause(reason: string): string {
