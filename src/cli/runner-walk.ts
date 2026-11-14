@@ -20,9 +20,17 @@ export interface Measures {
   available: Record<string, number>; promoted: Record<string, number>; selected: Record<string, number>;
   realized: Record<string, number>; types: Record<string, number>; ledTypes: Record<string, number>;
   attention: Attention; fights: number; retreats: number; deadEnds: number; loops: number; aimsSaid: number;
-  ended: boolean;
+  // Turns an aim was followed and nothing it was offered led toward it (no gold, nothing pulling next): a blocker.
+  lost: number; ended: boolean;
+  // Gate 1's blockers by class (doc/architecture/mission-21/consolidated.md, "Two gates"), and whether the walk
+  // carried an intention of its own to a consequence (an aim it followed seen through).
+  blockers: Record<Blocker, number>; consequence: boolean;
 }
 
+// Gate 1's classes of blocker the runner can see: an act offered that could not be done or was refused (unpursuable),
+// a turn with nothing to do (no way forward), a followed aim with nothing leading to it (lost: unpursuable too), a
+// throw (crash). Creation and hangs are the round's; a focus dead end is the page's.
+export type Blocker = 'creation' | 'no way forward' | 'unpursuable' | 'crash' | 'hang';
 export class RunnerWalk {
   // The scene budget: three sentences of narration on arriving, on the mean; an arrival past twice that is an outlier.
   static readonly budget = 3;
@@ -93,7 +101,8 @@ export class RunnerWalk {
       attention: this.attention(walk, told.fresh), fights: walk.chosen.filter(o => o.type === 'fight').length,
       retreats: walk.turns.filter(t => t.scene.prose.some(l => /clear of the fight|gets? away/.test(l))).length,
       deadEnds: walk.turns.filter(t => !t.end && !t.offer.primary.length).length, loops: this.loops(walk.chosen),
-      aimsSaid: new Set(walk.turns.flatMap(t => t.aim ?? [])).size, ended: !!walk.turns.at(-1)?.end };
+      aimsSaid: new Set(walk.turns.flatMap(t => t.aim ?? [])).size, lost: this.lost(walk),
+      ended: !!walk.turns.at(-1)?.end, blockers: this.blockers(walk), consequence: this.consequence(walk) };
   }
   // Each turn after the first: whether what came of its act told anything not told before; lines said again on any
   // later turn; and the outcomes that restated one.
@@ -115,6 +124,23 @@ export class RunnerWalk {
     const empty = at.filter(x => !fresh[x.i]);
     return { repaid: at.length - empty.length, empty: empty.length,
       emptied: empty.map(x => ({ label: x.o.label, said: walk.turns[x.i + 1]?.scene.prose ?? [] })) };
+  }
+  private static blockers(walk: Walk): Record<Blocker, number> {
+    const error = walk.error ?? '';
+    return { 'creation': 0, 'no way forward': walk.turns.filter(t => !t.end && !t.offer.primary.length).length,
+      'unpursuable': this.lost(walk) + Number(/^(not offered|could not be done)/.test(error)),
+      'crash': Number(!!error && !/^(not offered|could not be done)/.test(error)), 'hang': 0 };
+  }
+  // An aim followed on one turn, and on a later one gone from those held: seen through (or ended by the world).
+  private static consequence(walk: Walk): boolean {
+    return walk.turns.some((t, i) => i > 0 && (walk.turns[i - 1]!.aims ?? []).some(a => a.followed
+      && !(t.aims ?? []).some(b => b.id === a.id)));
+  }
+  private static lost(walk: Walk): number {
+    // Not where a danger stands in front of the company: what to do about it is the next thing, not the aim.
+    return walk.turns.filter(t => t.moment !== 'fight' && !t.end && t.aims?.some(a => a.followed) && !t.next
+      && !t.offer.primary.some(o => o.aspects.includes('danger'))
+      && ![...t.offer.primary, ...t.offer.rest].some(o => o.aspects.includes('undertaking'))).length;
   }
   // Acts chosen again, by their words, within a few turns of the first time: going round.
   private static loops(chosen: Offered[]): number {

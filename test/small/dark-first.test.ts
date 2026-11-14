@@ -22,4 +22,14 @@ describe('in the dark, beside a danger', () => {
     expect(t.glance.offer?.primary[0]?.type).toBe('light');
     expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
   });
+  // With an aim followed, the light is its next step, in gold: the gold had gone out on every dark threshold the aim
+  // led over (the laboratory's blind walks).
+  it('gilds the light, with an aim followed', async () => {
+    const t = await Tiny.start(`${face.replace('Goal false.', '')}
+      Objective spoil when true toward face "Clear the beetles out of {face}.".
+      Goal false.`);
+    t.follow('spoil');
+    await t.perform('go(t__cut,t__face)');
+    expect(t.gold.map(a => a.why)).toEqual(['dark']);
+  });
 });

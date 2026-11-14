@@ -48,7 +48,7 @@ export class Glance {
     const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
-      down: screen.party.some(m => m.hp <= 0) };
+      down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
     const ways = Promotion.ways(cands, acts, s);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
@@ -157,7 +157,9 @@ export class Glance {
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
     const idle = new Set([...by.map(d => d.id), ...screen.exits.map(e => e.destination.id), ...named, ...held]
-      .filter(id => recall.idle(id) || spent.has(id)));
+      // Never idle where the aim followed would be brought about: twice in Mik's shop without asking him, the gold had
+      // gone out of the town for good (the laboratory's lost turns).
+      .filter(id => (recall.idle(id) && !(named.has(id) && AimLeads.there(campaign, id))) || spent.has(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));

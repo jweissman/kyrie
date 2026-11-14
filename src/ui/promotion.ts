@@ -31,8 +31,9 @@ export interface Candidate {
 // Where the company stands: a danger here, someone warning it off, in the dark with no light, in a settlement or a
 // site (where a way not yet taken is worth leading with), in the open country (where the ways are the compass).
 // down: someone of the company is senseless (no hit points).
+// aimed: an aim is followed.
 export interface Situation { threat: boolean; warned: boolean; dark: boolean; settled: boolean; open: boolean;
-  down?: boolean }
+  down?: boolean; aimed?: boolean }
 
 // Chooses the few choices a place leads with (OWN-18, OWN-19; the cold review's affordance facets): urgent first (an
 // answer owed, a danger, a warning, the dark), then what the aim names, then what the company needs, then what the
@@ -88,7 +89,15 @@ export class Promotion {
       stepped ||= x.whys.includes('advance');
       picked.push(this.promoted(x.c, x.best, x.whys));
     }
-    return this.continued(picked.length ? picked : this.bare(cands));
+    return this.continued(this.lit(picked.length ? picked : this.bare(cands), s));
+  }
+  // In the dark with an aim followed, the light is the aim's next step: nothing else can be done until it is made, and
+  // the gold had gone out on every dark threshold the aim led over (the laboratory's blind walks: 89 turns of 2,520
+  // with an aim followed and nothing leading to it, most of them in a cellar or a crypt before the candle).
+  private static lit(acts: Promoted[], s: Situation): Promoted[] {
+    if (!s.dark || !s.aimed || acts.some(a => a.aspects.includes('undertaking'))) { return acts; }
+    const light = acts.find(a => a.why === 'dark');
+    return light ? acts.map(a => a === light ? { ...a, aspects: ['undertaking' as const, ...a.aspects] } : a) : acts;
   }
   // The attention lenses over the one scene (CN-01, CN-05): for each, its promoted acts, at most four, ranked as the
   // resting scene's are and from the same candidates, and the rest of its acts in the scene's order. Gold stays on the

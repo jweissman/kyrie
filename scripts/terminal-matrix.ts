@@ -70,7 +70,7 @@ export class TerminalMatrix {
     const m = r.m, end = m.ended ? 'yes' : r.error ? `error: ${r.error}` : 'no';
     return `| ${r.seed} | ${r.calling} / ${r.background} | ${r.origin} | ${r.policy} | ${m.arrivals} | `
       + `${m.mean.toFixed(1)} | ${m.worst.join(' ')} | ${m.within ? 'yes' : '**no**'} | ${m.places} | ${m.revisits} | `
-      + `${m.attention.repaid} / ${m.attention.empty} | ${m.fights} | ${m.loops} | ${m.deadEnds} | ${end} |`;
+      + `${m.attention.repaid} / ${m.attention.empty} | ${m.fights} | ${m.loops} | ${m.deadEnds} | ${m.lost} | ${end} |`;
   }
   static calling(rows: Row[], calling: string): string {
     const of = rows.filter(r => r.calling === calling);
@@ -79,6 +79,14 @@ export class TerminalMatrix {
     return `| ${calling} | ${[...new Set(of.flatMap(r => r.can))].sort().join(', ')} | ${types} | `
       + `${led} | ${promoted} | ${selected} | ${realized} | `
       + `${this.sum(of, r => r.m.attention.repaid)} / ${this.sum(of, r => r.m.attention.empty)} |`;
+  }
+  // The round's line for Gate 1: the build, what was walked, and its blockers by class.
+  static gate(rows: Row[], seeds: string[]): string {
+    const build = Bun.spawnSync(['git', 'rev-parse', '--short', 'HEAD']).stdout.toString().trim();
+    const classes = (['creation', 'no way forward', 'unpursuable', 'crash', 'hang'] as const)
+      .map(k => this.sum(rows, r => r.m.blockers[k]));
+    return `| ${build} | ${seeds.join(', ')} | ${[...new Set(rows.map(r => r.origin))].join(', ')} | `
+      + `${[...new Set(rows.map(r => r.calling))].length} | ${classes.join(' | ')} |`;
   }
   static said(rows: Row[]): string[] {
     const n = new Map<string, number>();
@@ -96,8 +104,8 @@ export class TerminalMatrix {
       `${RunnerWalk.outlier} is an outlier. Attention (doc/design/DOCTRINE.md §2) is a look, search, question or study,`,
       'repaid when what came of it told something new.', '', '## Every walk', '',
       '| seed | calling / background | origin | policy | arrivals | mean | worst | in budget | places | revisits '
-        + '| attention repaid / empty | fights | loops | dead ends | ended |',
-      '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|', ...rows.map(r => this.walk(r)), '',
+        + '| attention repaid / empty | fights | loops | dead ends | lost | ended |',
+      '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|', ...rows.map(r => this.walk(r)), '',
       '## By calling', '',
       '| calling | can do (types offered) | chose (types) | led with (types) | atlas led | atlas chosen '
         + '| atlas realized | attention repaid / empty |',
@@ -108,7 +116,12 @@ export class TerminalMatrix {
       `- fights ${this.sum(rows, r => r.m.fights)}, retreats ${this.sum(rows, r => r.m.retreats)}, loops ${this.sum(rows, r => r.m.loops)}, dead ends `
         + `${this.sum(rows, r => r.m.deadEnds)}, ended ${rows.filter(r => r.m.ended).length}, errors `
         + `${rows.filter(r => r.error).length}`,
+      `- blockers: ${rows.filter(r => r.error).length} errors, ${this.sum(rows, r => r.m.deadEnds)} dead ends, `
+        + `${this.sum(rows, r => r.m.lost)} turns lost (an aim followed and nothing leading to it)`,
+      `- intention to a consequence: ${rows.filter(r => r.m.consequence).length} of ${rows.length} walks`,
       `- mean time per walk: ${Math.round(this.sum(rows, r => r.ms) / Math.max(1, rows.length))} ms`, '',
+      '## Gate 1, tier 1', '', '| build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |',
+      '|---|---|---|---|---|---|---|---|---|', this.gate(rows, seeds), '',
       '## Lines said again (in most walks first)', '', ...this.said(rows), '',
       '## Attention repaid with nothing (the first of each label)', '',
       ...emptied.slice(0, 20).map(e => `- ${e.label}: ${e.said.join(' ') || '(nothing said)'}`), ''].join('\n');
