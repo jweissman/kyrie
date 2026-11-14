@@ -64,6 +64,6 @@ export class SpecialtyStep {
         body: <SpellStrip.Rules spells={t.spells} calling={calling} /> };
     }
     return t.rules?.length ? { title: t.name, head: { kind, glyph: t.id, summary: SpecialtyStep.sentence(t) },
-      body: <Card.Particulars title="In play" facts={t.rules} /> } : undefined;
+      body: <Card.Particulars title="In its practice" facts={t.rules} /> } : undefined;
   }
 }

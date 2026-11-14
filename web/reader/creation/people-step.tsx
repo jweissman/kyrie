@@ -14,7 +14,7 @@ export class PeopleStep {
     return (
       <Card.Deck kind="people" onward={onward} details={mine && { title: mine.name,
         head: { kind: 'Ancestry', glyph: mine.id, face: PeopleStep.face(app, mine.id), summary: mine.text },
-        body: <Card.Particulars title="In play" facts={[...mine.gifts, PeopleStep.adds(mine.qualities, catalog),
+        body: <Card.Particulars title="Born of them" facts={[...mine.gifts, PeopleStep.adds(mine.qualities, catalog),
           PeopleStep.closed(mine.callings, catalog)].filter(Boolean)} /> }}>
         {step.cards.map(a => <Card.View key={a.id} name={a.name} line={a.line} text={a.text} glyph={a.id} shut={a.shut}
           chosen={step.chosen === a.id} data={{ choice: `raceId:${a.id}` }}
