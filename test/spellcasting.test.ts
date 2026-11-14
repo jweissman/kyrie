@@ -25,15 +25,21 @@ describe('prepared spells', () => {
     expect(dori.state.ready).toEqual(dori.state.prepared);
     expect(new Content('slots').createCreature('bran', { raceId: 'human', classId: 'warrior' }).base.maxSlots).toBeUndefined();
   });
-  it('casting spends a ready slot holding that spell; a cantrip spends none; what is not prepared cannot be cast', () => {
+  // Any spell known is cast from a ready slot of its level or higher, the lowest ready (the SRD's; the owner, 15
+  // November, P0: a mage whose slots were prepared with its first-learned spells could not cast Magic Missile).
+  it('casting spends a ready slot of the spell\'s level or higher; a cantrip spends none; with none left, none is cast', () => {
     const store = new CreatureStore([Casters.cleric(3)]);
     Casters.cast(store, 'cure_minor');
     expect(store.get('dori').state.slots).toEqual([3, 1]);
     Casters.cast(store, 'cure');
     expect(store.get('dori').state.ready).toEqual([['bless', 'anoint'], ['prayer']]);
-    expect(() => Casters.cast(store, 'cure')).toThrow('No ready slot holds cure');
-    // Resist Fire is known but not prepared: knowing a spell is not having it ready.
-    expect(() => Casters.cast(store, 'resist_fire')).toThrow('No ready slot holds resist_fire');
+    Casters.cast(store, 'cure');
+    expect(store.get('dori').state.slots).toEqual([1, 1]);
+    // Resist Fire is known and was not prepared: it is cast all the same, from the second level's slot.
+    Casters.cast(store, 'resist_fire');
+    expect(store.get('dori').state.slots).toEqual([1, 0]);
+    Casters.cast(store, 'cure');
+    expect(() => Casters.cast(store, 'cure')).toThrow('No ready slot for cure');
   });
   it('preparing a spell in a ready slot readies it at once; in a spent slot, after the next rest', () => {
     const dori = Casters.cleric(3);
