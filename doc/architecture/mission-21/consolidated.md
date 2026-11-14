@@ -4,6 +4,40 @@ The owner: fewer coordinated efforts brought to experiential completion, rather 
 partial progress; make Westernesse progressively cheaper to improve and unmistakably better to play. This page
 supersedes the earlier plans' sequencing; their register rows stand.
 
+## Two gates (the owner, 14 November, late)
+
+The owner is not the integration test: their role is to protect and judge the creative vision. They play regularly,
+and much of the register comes from that play.
+
+**Gate 1, automated playability readiness. The lead owns it, and it never waits on a person.**
+- **The bar.** Ordinary play can reliably be played: several genuinely blind player agents start from the real entry
+  point, make a character, enter the world, form and pursue ordinary intentions, navigate, interact, meet
+  consequences and continue, without repeatedly hitting serious blockers.
+- **Real workflows only.** Runs use the authoritative workflows, never privileged scripts that bypass the problems.
+- **Three tiers:**
+  1. **The runner,** cheapest: the terminal from creation through EngineHost, on generated worlds and the laboratory,
+     across origins and callings. Reports blockers as blockers.
+  2. **Blind agents on the terminal,** reading nothing of the code.
+  3. **Blind agents in the browser,** on the deployed page, one Chrome at a time.
+- **A blocker** is anything that stops ordinary play or makes the game lie:
+  - creation or entry fails;
+  - there is no legal way forward;
+  - a stated reason or offered act cannot be pursued;
+  - a told outcome is untrue;
+  - a crash, a hang, or a dead end of focus.
+- **It passes** when two consecutive rounds on one build find no blocker, and every run pursues an intention of its
+  own to a consequence within fifteen minutes of play.
+- **Each blocker found** gets a root-cause fix and a regression scoped as small as it can be (tiny, Alone, the
+  laboratory).
+
+**Gate 2, human experiential acceptance.**
+- After Gate 1, on a frozen candidate build: fifteen minutes of actual play, judged for coherence, prose,
+  interaction, curiosity, and whether a new player would want to continue.
+- A failed review never stops the repairs it reveals.
+
+**The deliverable** is a game that becomes easier to test and more satisfying to play. A benchmark, audit or
+prototype is a means to it.
+
 ## Three priorities
 
 1. **A radically cheaper inner loop.**
@@ -62,3 +96,20 @@ supersedes the earlier plans' sequencing; their register rows stand.
   the work.
 - Unedited footage of ordinary play, an interesting possibility noticed, pursued and changed, recorded at each review
   from the real page.
+
+## Folded in or deferred, not opened (14 November, late)
+
+The owner: exploratory design thoughts are ways of improving or evaluating the mission, not new deliverables.
+
+| Thought | Where it lives now |
+|---|---|
+| The working set, test economics | Priority 1, as tools. The deliverable is cheaper specs (the silent lord and the howe moved to Alone) |
+| Empty words (§36) | The ratchet and the laboratory's prose pass (DN-03). The combat telling (DN-01) is P1. The composer, remote clock prose and greetings are P2 or M22 |
+| The first minute (§37) | The aesthetic line's critique, the recording, and at most one small intervention inside work already landing |
+| The first fifteen minutes (§38) | FF-02/04/06 are done in the laboratory. FF-01/03/05/07 wait until Gate 1 holds |
+
+**In the register:**
+- Rows from the owner's briefs (§29–31, §36–38) are **scope**.
+- Rows from playtests and reviews (§33–35) are **defects found**.
+- P0 is kept for what stops ordinary play or makes the game lie; a design preference is P2.
+

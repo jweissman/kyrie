@@ -1,18 +1,21 @@
 import { describe, expect, it } from 'bun:test';
 import { Placed } from './support/placed';
-import { Howe, R, FOUR } from './support/howe';
+import { HoweAlone } from './support/howe-alone';
+import { HoweReading as Howe, R, FOUR } from './support/howe-reading';
 
 // The Bound Howe's week (data/situations/bound-howe: crisis, rival, crew and town .kyr): what moves on the ridge,
 // in the towns and in the howe whether or not the company comes, and what a company can do to it. The company is four
 // of level four unless said. A company is set down (Placed.at) only to skip a walk; the days are the page's own waits
-// (`=day 5 09:00`), taken from a green so that no band meets a company that is not there. Seed a1: the Kin sealed it.
+// (`=day 5 09:00`), taken from a green so that no band meets a company that is not there. The situation alone (see
+// HoweAlone: its own module on a host of a few lines, about 0.2 s a start where each case drew a1's country), on a
+// seed whose draw sealed the howe from within, as a1's did; the town is the host's (`T`).
 
 // Part of bound-howe-week.test.ts, split so that its sections run in parallel on CI: one file's tests run in
 // one worker, and the whole had taken 42 minutes there (Mission 20's landing).
 describe('the levy, the clerk, the warden and the priest', () => {
   it('turns the levy against the diggers when the clerk is shown the reeve’s seal: it marches with salt, buries the face and sends the crew to the taproom', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     Placed.at(j, T('green'));
     j.give(R('patron_letter'));
     expect(j.offers('Show .+ the patron')).toBe(true);
@@ -29,13 +32,13 @@ describe('the levy, the clerk, the warden and the priest', () => {
   }, 1500000);
 
   it('lets the priest be told what the cutting will let out, and the warden be asked to walk down to the town, and costs her hearth', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     Placed.at(j, T('shrine'));
     Placed.knows(j, R('face_thin')); Placed.knows(j, R('torc_price'));
     await j.play('what the cutting will let out');
     expect(Howe.fact(j, 'levy_against')).toBe(true);
-    const k = await Howe.at('hearth', FOUR, 'a1');
+    const k = await HoweAlone.at('hearth', FOUR);
     Placed.knows(k, R('warden_lore'));
     k.assert(R('trusted'), R('warden'), 'party');
     await k.play('come down and speak for the howe');
@@ -47,8 +50,8 @@ describe('the levy, the clerk, the warden and the priest', () => {
 
 describe('the cutting, the breach, the flood, and the reset', () => {
   it('lets the face be wedged, which the diggers undo in three days, or brought down on itself, which they cannot', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.at('lee', FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.at('lee', FOUR);
     j.coin(40);
     await j.play('for the freedom of the camp');
     await Howe.buy(j, 'Iron spikes');
@@ -62,7 +65,7 @@ describe('the cutting, the breach, the flood, and the reset', () => {
     const d = Howe.num(j, 'rivalDay', 'crew') + 4;
     await Howe.day(j, d, '09:00');
     expect(Howe.face(j)).toBe('thin');
-    const k = await Howe.at('face', FOUR, 'a1');
+    const k = await HoweAlone.at('face', FOUR);
     k.assert('state', R('face_wall'), R('thin'));
     expect(k.offers('Pull down the props')).toBe(true);
     await k.play('Pull down the props');
@@ -70,8 +73,8 @@ describe('the cutting, the breach, the flood, and the reset', () => {
   }, 900000);
 
   it('lights the horse-hall by the breach by day, floods the second way in on the third day after it, and lets the weir’s stopcock drain it again', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     j.assert('state', R('face_wall'), R('broken'));
     Placed.at(j, T('green'));
     await Howe.day(j, 3, '09:00');
@@ -92,7 +95,7 @@ describe('the cutting, the breach, the flood, and the reset', () => {
   }, 1500000);
 
   it('resets the tread when the seal is heaved home behind a company that sprang it', async () => {
-    const j = await Howe.at('forecourt', FOUR, 'a1');
+    const j = await HoweAlone.at('forecourt', FOUR);
     j.assert('state', R('tread'), R('sprung'));
     j.assert('state', R('seal'), R('forced'));
     await j.play('Heave the seal-stone back into its groove');
@@ -105,8 +108,8 @@ describe('the cutting, the breach, the flood, and the reset', () => {
   }, 600000);
 
   it('raids the camp on the first dark after the breach, with the company in it', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.at('lee', FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.at('lee', FOUR);
     j.coin(40);
     await j.play('for the freedom of the camp');
     j.assert('state', R('face_wall'), R('broken'));
