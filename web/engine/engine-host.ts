@@ -229,13 +229,18 @@ export class EngineHost {
   // The aim followed when it was set out on: a journey set out on for another aim is not gone on with once the aim
   // followed has changed (after the father's cart was found, the page led on to Mistshaw "where you set out for").
   private boundFor?: string;
+  private travelling = false;
   private async travel(destination: string): Promise<Frame> {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     const trail: Trail = { legs: [] };
     this.bound = destination;
     this.boundFor = Undertakings.aimedAt(session.campaign, destination);
-    const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
+    // Kept once it ends, not after every leg (each a whole game written out: AX-05, a journey of four legs had kept
+    // the game five times).
+    this.travelling = true;
+    const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination)
+      .finally(() => { this.travelling = false; this.saving(); });
     const plan = Itineraries.plan(session.campaign, destination);
     // Come there, or with no way on known from where it stopped, nothing is held: the page had said "Go on to …
     // (0 minutes)" after a set-out that found no way, and going on only said so again (the navigation review).
@@ -318,7 +323,7 @@ export class EngineHost {
       narrative: Math.round(told - built), ...this.starts.phases };
     this.starts.phases = {};
     this.spent = 0;
-    this.saving();
+    if (!this.travelling) { this.saving(); }
     return frame;
   }
   // The aim the player chose to follow, kept with the game; the page drawn again for it, nothing else done.
