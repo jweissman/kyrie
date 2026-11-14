@@ -153,7 +153,10 @@ export class GlanceStage {
           is put away (Mission 21's scenes: the time lens had sat under five paragraphs at an iPad's height). */}
       <Told.Setting app={app} brief={!!s.exploring} />
       {!g.life?.danger && !s.exploring && <GlanceStage.Life app={app} glance={g} />}
-      {g.goal && !s.opened && !s.exploring && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
+      {/* Said here unless the opening said it: an opening with no aim of its own on its last page (a1's) had left the
+          first goal on no screen at all, only in the book (the second blind playtest, BL-04). */}
+      {g.goal && (!s.opened || !s.goalSaid) && !s.exploring && <p className="first-goal" data-id="goal">
+        <span className="label">Your first goal</span>
         {Typography.curl(Words.upper(g.goal))}
         {/* Offered to follow where it is said: Follow this had been only in the Notes (round 13, PL-30). */}
         {own && <Told.Follow app={app} id={own.id} />}</p>}
