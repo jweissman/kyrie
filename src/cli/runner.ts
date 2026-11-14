@@ -3,7 +3,7 @@ import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { Narrator, type Told } from '../presentation/narrator';
-import type { Lens, Successor } from '../presentation/glance-types';
+import type { Lens, Promoted, Successor } from '../presentation/glance-types';
 import { Offers, type ActType, type Offer, type Offered as Glanced } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
 import type { Act, Screen } from '../ui/screen-types';
@@ -60,17 +60,19 @@ export class Runner {
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
-      scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer: this.offer(screen, g?.offer),
+      scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer: this.offer(screen, g?.offer, g?.acts),
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
       ...Runner.promised(screen), ...c.running ? {} : { end: true } };
   }
   // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.
-  private offer(screen: Screen, offer: Offer | undefined): Said['offer'] {
+  // An opener the glance leads for an act within it (asking Wenna to come along) is that act, as the page and the
+  // terminal lead with it (TB-01, test/small/one-projection): the walkers had spent a turn opening the talk.
+  private offer(screen: Screen, offer: Offer | undefined, acts: Promoted[] = []): Said['offer'] {
     // Only what can be done by its id: a choice the page draws by a key of its own that names no command is left out.
     const names = this.names();
-    const primary = Runner.doable(screen, names, offer?.primary ?? []);
+    const primary = Runner.doable(screen, names, Runner.within(offer?.primary ?? [], acts));
     const rest = Runner.doable(screen, names, offer?.rest ?? []);
     const had = new Set([...primary, ...rest].map(o => o.id));
     // A journey the map offers and the scene does not (the terminal sets out by them too).
@@ -82,6 +84,10 @@ export class Runner {
   // Each by what it does: an opener led for something within it (a question the aim waits on, a bed for the night) by
   // that, and called as that is (the terminal's "Ask Wat about Father"). Done by its own command, "Talk to Eamon", led
   // for what he knew of the country round, had taken a bed at his inn, nine nights running (TB-04).
+  private static within(list: Glanced[], acts: Promoted[]): Glanced[] {
+    const inside = new Map(acts.flatMap(a => a.inside?.[0] ? [[a.choice, a.inside[0].command]] : []));
+    return list.map(o => o.for || !inside.has(o.choice) ? o : { ...o, for: inside.get(o.choice) });
+  }
   private static choice(screen: Screen, names: Map<string, string>, o: Glanced): Offered {
     // A thing looked at is called by what is done to it ("Take a steel coin"), not by its name alone.
     const named = o.for && names.get(o.for), id = Runner.way(screen, (named && o.for) || (o.command ?? o.choice));
@@ -151,7 +157,7 @@ export class Runner {
       return this.fight.choose(asked.act) ? this.went() : { error: `not offered in the fight: ${asked.act}` };
     }
     const screen = ScreenModel.build(this.campaign);
-    const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer);
+    const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer, g?.acts);
     // What pulls next is offered too, by its own act.
     const offered = [...o.primary, ...o.rest].map(x => x.id).concat(g?.next?.command ?? []);
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}` }; }

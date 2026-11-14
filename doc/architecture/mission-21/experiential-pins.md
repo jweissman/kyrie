@@ -33,6 +33,8 @@ separately:
 | Drawn facet → its consequence | **test/small/promises-kept** (`RunnerFidelity`) | a facet whose act does not bring that kind of change |
 | Gold strictness | test/small/gold-* (seven specs) | gold for anything but the followed aim's next step |
 | Perceived ↔ drawn, page = terminal | test/small/atlas-perception | the clients disagreeing on what is perceived and how far |
+| One projection: page = terminal = runner | **test/small/one-projection** (TB-01) | the clients leading with different acts or meanings from one state |
+| A row is called by what it does | **test/small/runner-opener** (PF-02) | a headless row worded as one act and doing another |
 
 `RunnerFidelity` takes each act the glance draws with a facet and does it in a fresh copy of the world. An opener is
 judged by the act inside it that the facet is for. It then reads the event's changes by relation:
@@ -68,7 +70,12 @@ too much and unspecific.
 Literary exceptions are declared in data (`"_literary": "<why>"` on a JSON object, `// literary:` above a Kyr line),
 never whitelisted in a test.
 
-**Gap:** nothing yet bounds a promoted act's label or a list's length against what it is for. On c3, 220 of 256
+Promoted with no reason of its own (padded to make four by kind, Offers.scene), in 15 curious turns: a1 1/60, b2
+15/60, c3 16/60. Mostly a way to the taproom, a Wait, or a talk, all plausible; on a tiny world with no clock, "Light a
+torch" in daylight. A measure, not yet a pin.
+
+**Gap:** nothing yet bounds a promoted act's label or a list's length against what it is for. On b2, nineteen turns of
+rumours of the world beyond, one Taklinn topic each, are each promoted as worth a look (the playability line). On c3, 220 of 256
 opportunities are only ever in the rest.
 
 ## 3. Continuity of intention
