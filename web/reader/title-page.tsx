@@ -45,9 +45,12 @@ export class TitlePage {
                 <span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span></button></li>}
               <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew}
                 {...item('begin')}>{mark}<span className="n">New game</span></button></li>
+              {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
+                  hover, not written out beside it: the owner, 15 November). */}
               <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" target="_blank"
-                rel="noopener" {...item('encyclopedia')}>{mark}<span className="n">The encyclopedia</span>
-                <span className="why">In a new tab ↗</span></a></li>
+                rel="noopener" title="Opens in a new tab" aria-label="The encyclopedia, opens in a new tab"
+                {...item('encyclopedia')}>{mark}<span className="n" aria-hidden="true">The encyclopedia</span>
+                <span className="why" aria-hidden="true">↗</span></a></li>
               <li><button type="button" className="way-in" data-nav data-action="options" {...item('options')}
                 onClick={TitlePage.options.bind(null, app)}>{mark}<span className="n">Options</span></button></li>
             </ul>
