@@ -178,7 +178,7 @@
    critique). The page holds its keys and touches as long (see PrologueStage.next). */
 .prologue-page .beat + .on, .prologue-page .beat + .onward, .prologue-page .notes + .onward {
   animation: appear .8s 1.4s var(--ease) both; }
-@keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); } }
+@keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; } }
 /* To one who waits on a beat a while, not knowing the page goes on, how it does: quietly, by keys or by a touch. */
 .prologue-page .hint { margin: 2px 0 0; font: 500 10px/1.4 var(--do); letter-spacing: .24em; text-transform: uppercase;
   color: var(--faint); animation: appear 1.2s 7s var(--ease) both; }
@@ -199,7 +199,7 @@
 .place-head .scenery { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .place-head .scenery img { height: 100%; object-position: 50% 42%; filter: saturate(.85) brightness(.82);
   animation: settle-in 1.2s var(--ease) both; }
-@keyframes settle-in { from { opacity: 0; transform: scale(1.03); } }
+@keyframes settle-in { from { opacity: 0; } }
 .place-head .scenery::after { content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(18, 19, 24, .1) 0%, rgba(18, 19, 24, .25) 45%, rgba(18, 19, 24, .97) 100%),
     linear-gradient(90deg, rgba(18, 19, 24, .7), transparent 60%); }

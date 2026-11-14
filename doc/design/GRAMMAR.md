@@ -37,6 +37,9 @@ controller of the page's own.
     small or round for corners to read, and keep their pressed ring.
 - **Focus answers immediately.** Anything that responds to focus more slowly (the title's sky, a lens's painting, the
   observatory later) follows it and never holds it up.
+- **Nothing moves under the hand** (IG-08, IG-12). A press never changes which cards are shown or where: the deck
+  is the four and "N more", opened only by the player. A passage between screens is a cut or a short fade in place;
+  nothing slides, scrolls or wipes.
 - **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold mark is ceremonial, the
   entry's alone.
 
@@ -94,4 +97,5 @@ controller of the page's own.
 | Reading pages | `test/small/reading-pages` |
 | The compass | `test/small/compass-stage` |
 | The fight's stable geometry | `test/fight-geometry-browser` |
+| Nothing moves under the hand | `test/steady-start-browser` |
 | The title's immediate focus | `test/opening-browser` |

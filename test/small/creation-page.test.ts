@@ -44,7 +44,7 @@ describe('the page of making the protagonist', () => {
     const state = made(), a = app(state);
     for (const step of CreationPage.steps(a).filter(s => s.cards.length > 0)) {
       const html = renderToStaticMarkup(createElement(step.View, { app: a, step })), shown = cards(html);
-      const at = step.cards.findIndex(c => c.id === step.chosen), folds = step.cards.length > 5 && at < 4;
+      const folds = step.cards.length > 5;
       expect([step.id, shown.length]).toEqual([step.id, folds ? 4 : step.cards.length]);
       expect([step.id, html.includes('data-action="more-cards"')]).toEqual([step.id, folds]);
       expect(shown.filter(c => c.includes('aria-pressed="true"')).length).toBe(step.chosen ? 1 : 0);

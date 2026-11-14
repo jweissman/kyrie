@@ -1,4 +1,4 @@
-import { Children, isValidElement, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactElement,
+import { Children, isValidElement, useLayoutEffect, useRef, useState, type CSSProperties, type ReactElement,
   type ReactNode } from 'react';
 import { Typography } from '../../../src/presentation/typography';
 import { Glyphs } from './glyphs';
@@ -17,7 +17,7 @@ export class Card {
     const ref = useRef<HTMLButtonElement>(null);
     // Chosen at a tap, then Continue (the blind playtest of 13 November, BP-09: a card that had to be held had looked
     // chosen and done nothing at a click, "I initially believed the game had ignored me").
-    useEffect(() => { if (chosen) { ref.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }, [chosen]);
+    // Chosen, it stays where it is: a press moves nothing on the page, nor the page under it (IG-08).
     return (
       <button type="button" ref={ref} className={`card${chosen ? ' chosen' : ''}`} aria-pressed={chosen} disabled={!!shut}
         data-nav onClick={onChoose} title={text ? Typography.curl(text) : undefined}
@@ -59,9 +59,12 @@ export class Card {
     const [open, show] = useState(false), all = Children.toArray(children), deck = useRef<HTMLElement>(null);
     const chosen = all.find((c): c is ReactElement<CardShape> => isValidElement<CardShape>(c) && !!c.props.chosen)?.props;
     // The four the step leads with (the engine gives them first), the rest one quiet word away and never dumped (the
-    // owner, 14 November: four promoted on every surface); the chosen card is always in sight.
-    const [more, unfold] = useState(false), at = all.findIndex(c => isValidElement<CardShape>(c) && !!c.props.chosen);
-    const folds = all.length > Card.four + 1 && !more && at < Card.four, cards = folds ? all.slice(0, Card.four) : all;
+    // owner, 14 November: four promoted on every surface).
+    const [more, unfold] = useState(false);
+    // The deck's layout is the step's, fixed: the four, and the rest behind one quiet word the player alone opens; a press
+    // never changes which cards are shown or where (IG-08: a card chosen outside the four had unfolded the deck under
+    // the hand).
+    const folds = all.length > Card.four + 1 && !more, cards = folds ? all.slice(0, Card.four) : all;
     const n = cards.length, size = { '--card-wide': `${n <= 4 ? 176 : n <= 7 ? 150 : n <= 8 ? 140 : 128}px`,
       '--card-narrow': `${n <= 4 ? 176 : n <= 7 ? 150 : 140}px`, '--row': n <= 8 ? n : Math.ceil(n / 2),
       '--row-narrow': n <= 4 ? n : Math.ceil(n / Math.ceil(n / 4)) } as CSSProperties;
