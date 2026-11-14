@@ -15,6 +15,7 @@ Each batch was green on CI before it landed. Main was left still until each one'
 | play-13 | The experience measures and their baseline; play-12's reds |
 | prose-6 (1–6) | DN-06's editorial pass; test/small/empty-words; clause load 1144 → 1030 |
 | play-15 | EX-02's bearings (frontier, retreat, return); the aim's site never idle while unmet; a barred way's lead to its means; `held` never on a way out (PF-03); callings-differ and frontier pins |
+| play-16, play-17 | The held why only where something there serves the held aim; Promoted.aim; b2's nineteen turns of rumours gone; BP-05 closed with its evidence; the families' pins in experience.md |
 | lead-30..38 | CO-18 gardens by climate; promise fidelity (PF-01/02); one projection (TB-01); the drawn-town lint (CO-17); a journey kept once (AX-05); CO-04 fixed |
 
 ## Pins added tonight, by family
@@ -29,8 +30,11 @@ Each batch was green on CI before it landed. Main was left still until each one'
 | Promise fidelity | test/small/painted-as-it-is | a creature shown by a painting that contradicts it |
 | Attention | test/small/fight-told-once | a fight told twice, its names changed, its damage beside it |
 | Attention | test/small/empty-words (prose line) | indeterminate frames, as-if similes, stock sentences |
-| Continuity | test/aim-return, test/small/frontier, held-ways (playability) | the aim's site left with nothing leading back; exploration not told from retreat |
-| Differentiation | test/small/callings-differ (playability) | callings that meet the same possibilities |
+| Promise fidelity | test/laboratory-promises | any facet a thirty-turn laboratory walk draws that its act does not keep (now all kept) |
+| Promise fidelity | test/small/held-aim (playability) | an act drawn for an aim heard of that does not say which |
+| Continuity | test/aim-return, test/small/frontier, held-ways, barred-means (playability) | the aim's site left with nothing leading back; exploration not told from retreat; a barred way with no lead to its means |
+| Differentiation | test/small/callings-differ (playability) | callings that meet the same possibilities (25, 30 and 31 acts apart; floor 20) |
+| Payoff | test/small/payoff (playability) | a bond made and not found holding on return |
 | Locality | test/journey-kept-once | a journey writing the whole game out after every leg |
 
 Each pin was checked against a mutation: with its fix undone, it fails.
@@ -44,6 +48,8 @@ Each pin was checked against a mutation: with its fix undone, it fails.
 - **BP-02:** in the runner.
 - **BP-04:** the starving beast.
 - **TB-01:** partly.
+- **BP-05:** the starting premise is pursuable; closed by the playability line with test/premise-pursuable over all eight a1 origins.
+- **CN-04:** the action system's census owes nothing.
 - **PF-02:** the runner's opener.
 - **PF-03:** `held` on ways out (playability).
 - **AX-05:** partly.
