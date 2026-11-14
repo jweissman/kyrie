@@ -42,6 +42,11 @@ describe('the way into the dark, with nothing to see by', () => {
       Passage shop_door "the chandler's door" is door between store and shop.
       Person nell "Nell" at shop { Role "a chandler". Ancestry human. Peaceable. Pronouns she. Sells candle for 1 coin from 9. }
       Goal false.`);
+    // Been in the chandler's already, doing nothing there: still the way to a light (a monk in the laboratory).
+    for (let n = 0; n < 2; n++) {
+      await t.perform('go(t__shop_door,t__shop)');
+      await t.perform('go(t__shop_door,t__store)');
+    }
     Dark.out(t);
     t.follow('rats');
     expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/chandler/)]);

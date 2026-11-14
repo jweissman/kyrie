@@ -94,13 +94,13 @@ repaid when what came of it told something new.
 - fights 226, retreats 27, loops 485, dead ends 0, ended 23, errors 0
 - blockers: 0 errors, 0 dead ends, 5 turns lost (an aim followed and nothing leading to it)
 - intention to a consequence: 42 of 63 walks
-- mean time per walk: 1645 ms
+- mean time per walk: 1702 ms
 
 ## Gate 1, tier 1
 
 | build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
 |---|---|---|---|---|---|---|---|---|
-| f02c7169 | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 5 | 0 | 0 |
+| d44f420b | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 5 | 0 | 0 |
 
 ### Unpursuable turns
 
