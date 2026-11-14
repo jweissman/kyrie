@@ -47,11 +47,40 @@ events show fire riding each landed blow:
 - **Playability is not judged here.** Whether a player meets such a blade in the first hour is content placement,
   not capability.
 
+## The deep mine
+
+`test/small/pin-deep-mine`: a pit-head and a stope under it, joined by a shaft, in the fast lane.
+
+**The journey:** light a torch, go down the shaft, search the stope (a seam is found and a lump of star-iron comes to
+light), take it, climb out. The company is then saved and restored, and goes back down: the ore is still gone and the
+seam still known.
+
+**Findings:**
+- **The kernel and content support it whole:** a shaft, the underground dark, a discovery found by searching, a
+  hidden item, and persistence across a save, all through the player's own acts. It passed on the first try.
+- **Depth is realized eagerly.** A drawn country's deep (src/world/deep) is written out whole when the country is
+  drawn; nothing is made only when reached. The fantasy does not need lazy depth, but cost does. This is the
+  architecture review's AX-07, design for M22.
+- **The ore's kind is borrowed** (`like cell_key worth 20`). A module has no plain "valuable" kind to be like, which
+  is a small gap beside the fiery blade's first.
+
+## The remembered favour
+
+The playability line's `test/small/pin-remembered-favour`:
+- **Expressible, but unreached until now.** `grateful`, the voice's friend bond, timed topics and gifts all existed,
+  but no content made a job's giver grateful.
+- **The undertown now does:** a day after the rats, Mik gives a candle and oil, "No charge".
+- **One generic rule was missing:** gratitude never touched a price. It is fixed as CO-16, where a grateful seller asks
+  a coin less (test/small/thanks-priced).
+
 ## Next
 
 - **The remembered favour:** help someone, leave, and return to a changed relationship. It belongs in the
   laboratory; the playability line owns it.
 - **The adventure-density pin** is the laboratory's own question, judged by Gate 1's walks: opportunities reached
   through ordinary decisions, not counted.
-- **The ranger's mount and the deep mine** probe persistence and lazy realization (AX-07). They are candidates for
-  M22.
+- **The ranger's mount:** next. Animals that come along exist, but nothing rides, mounts or dismounts in the rules;
+  expected to be a clean missing-capability finding.
+- **Familiar scouting and the planar gate:** after the mount, or as M22 notes. There is little for familiars; the
+  House of Doors and the planes' conditions exist, but a threshold's prerequisites and consequences are the deferred
+  grand tour.
