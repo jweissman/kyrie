@@ -5,10 +5,19 @@
 // what can be done there, of doing one local act, of observing again, and of saving and restoring, with the heap it
 // leaves. Each size in a fresh process. The production compiler, runtime and projections throughout (SingleModule,
 // PlaySession, ScreenModel, Narrator, PlayerView).
-//   bun scripts/scale-costs.ts [sizes=0,100,1000,4000]
+// Each room elsewhere adds ten facts (relations and measures asserted), so rooms 0, 10, 100 and 1,000 are about 0, 100,
+// 1,000 and 10,000 irrelevant facts (performance-report.md §3). With --runs N, the median of N fresh processes a size,
+// and the load average beside each.
+//   bun scripts/scale-costs.ts [sizes=0,10,100,1000] [--runs N] [--json out]
+import { loadavg } from 'node:os';
 import { Costs, type Tally } from '../src/costs';
+import type { SingleModule as SingleModuleT } from '../src/campaign/single-module';
+import type { PlaySession as PlaySessionT } from '../src/session/play-session';
 
 interface Measure { size: number; facts: number; ms: Record<string, number>; heapMB: number; tally: Tally }
+interface Median {
+  size: number; facts: number; ms: Record<string, number>; heapMB: number; load: number[]; runs: number;
+}
 const cellar = `
   Place cellar "the cellar" is room at 0, 0.
   Place stair "the stair" is room at 0, 1.
@@ -37,8 +46,7 @@ export class ScaleCosts {
     const { Narrator } = await import('../src/presentation/narrator');
     const { PlayerView } = await import('../src/presentation/player-view');
     const ms: Record<string, number> = {}, mark = Costs.mark();
-    const { source, campaign } = SingleModule.source(`${cellar}\n  ${this.elsewhere(rooms)}`);
-    const session = await this.time(ms, 'start', () => PlaySession.start(campaign, 'scale', source));
+    const session = await this.time(ms, 'start', () => this.start(rooms, SingleModule, PlaySession));
     const c = session.campaign;
     await this.time(ms, 'observe', () => Narrator.leaf(c, ScreenModel.build(c)));
     const choices = await this.time(ms, 'choices', () => PlayerView.choices(c));
@@ -49,8 +57,16 @@ export class ScaleCosts {
     const save = await this.time(ms, 'save', () => c.save());
     await this.time(ms, 'restore', () => PlaySession.fromSave(save));
     const facts = c.world.view.relations.length + c.world.view.measures.length;
+    Bun.gc(true);
     const heapMB = Math.round(process.memoryUsage().heapUsed / 1e6);
     return { size: rooms, facts, ms, heapMB, tally: Costs.since(mark) };
+  }
+  // The cellar with so many rooms elsewhere, started (the modules given, so that a caller's imports are not timed).
+  static async start(rooms: number, single?: typeof SingleModuleT, play?: typeof PlaySessionT): Promise<PlaySessionT> {
+    const SingleModule = single ?? (await import('../src/campaign/single-module')).SingleModule;
+    const PlaySession = play ?? (await import('../src/session/play-session')).PlaySession;
+    const { source, campaign } = SingleModule.source(`${cellar}\n  ${this.elsewhere(rooms)}`);
+    return PlaySession.start(campaign, 'scale', source);
   }
   static async time<T>(ms: Record<string, number>, name: string, f: () => T | Promise<T>): Promise<T> {
     const t = performance.now(), r = await f();
@@ -59,18 +75,40 @@ export class ScaleCosts {
   }
   static async main(args: string[]): Promise<number> {
     if (args[0] === '--one') { console.log(JSON.stringify(await this.one(Number(args[1])))); return 0; }
-    const sizes = (args[0] ?? '0,100,1000,4000').split(',').map(Number);
-    console.log('rooms facts | start observe choices act observe-again choices-again save restore (ms) | heap MB');
+    const runs = Number(this.flag(args, '--runs') ?? 1), json = this.flag(args, '--json');
+    const sizes = (args[0] && !args[0].startsWith('--') ? args[0] : '0,10,100,1000').split(',').map(Number);
+    console.log('rooms facts +facts | start observe choices act observe-again choices-again save restore (ms) | heap MB'
+      + ' | load');
+    const out: Median[] = [];
     for (const size of sizes) {
+      const m = this.median(size, runs);
+      if (!m) { continue; }
+      out.push(m);
+      const extra = m.facts - (out[0]?.size === 0 ? out[0].facts : m.facts);
+      console.log(`${String(m.size).padStart(5)} ${String(m.facts).padStart(6)} ${String(extra).padStart(6)} | ${
+        Object.values(m.ms).map(v => String(v).padStart(7)).join(' ')} | ${m.heapMB} | ${m.load.join('–')}`);
+    }
+    if (json) { await Bun.write(json, JSON.stringify(out, null, 1)); }
+    return 0;
+  }
+  static flag(args: string[], name: string): string | undefined {
+    const i = args.indexOf(name);
+    return i < 0 ? undefined : args[i + 1];
+  }
+  static mid(xs: number[]): number { return xs.sort((a, b) => a - b)[Math.floor(xs.length / 2)]!; }
+  // The median of each stage over so many fresh processes, with the one-minute load before and after.
+  static median(size: number, runs: number): Median | undefined {
+    const all: Measure[] = [], load = [loadavg()[0]!];
+    for (let i = 0; i < runs; i++) {
       const out = Bun.spawnSync(['bun', 'scripts/scale-costs.ts', '--one', String(size)]);
       const line = out.stdout.toString().trim().split('\n').at(-1) ?? '';
-      try {
-        const m = JSON.parse(line) as Measure;
-        console.log(`${String(m.size).padStart(5)} ${String(m.facts).padStart(6)} | ${Object.values(m.ms).map(v =>
-          String(v).padStart(7)).join(' ')} | ${m.heapMB}`);
-      } catch { console.error(size, out.stderr.toString().slice(-600)); }
+      try { all.push(JSON.parse(line) as Measure); } catch { console.error(size, out.stderr.toString().slice(-600)); }
     }
-    return 0;
+    load.push(loadavg()[0]!);
+    if (!all.length) { return undefined; }
+    const ms = Object.fromEntries(Object.keys(all[0]!.ms).map(k => [k, this.mid(all.map(m => m.ms[k] ?? 0))]));
+    return { size, facts: all[0]!.facts, ms, heapMB: this.mid(all.map(m => m.heapMB)), runs: all.length,
+      load: load.map(l => Math.round(l * 10) / 10) };
   }
 }
 if (import.meta.main) { process.exit(await ScaleCosts.main(process.argv.slice(2))); }

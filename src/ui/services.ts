@@ -5,6 +5,7 @@ import { TradeModel, type Counter } from './trade-model';
 import type { World } from '../lang/world';
 import { Canon } from '../canon/canon';
 import type { Screen } from './screen-types';
+import type { Names } from './known-names';
 
 // Where in the settlement the company is in it can find what it needs (Mission 18, the owner's fifth priority:
 // rations, light, rope and a crowbar found from a typical start without searching blindly through many shops): for
@@ -24,7 +25,7 @@ export class Services {
   private static is(world: World, relation: string, kind: string): boolean {
     return world.relates(relation) && world.related(relation, kind).length > 0;
   }
-  static of(campaign: Campaign, names: Map<string, string>): NonNullable<Screen['services']> {
+  static of(campaign: Campaign, names: Names): NonNullable<Screen['services']> {
     const world = campaign.world, here = world.one('at', campaign.playerActor ?? 'party');
     const byId = new Map(campaign.module.entities.map(e => [e.id, e]));
     const town = here && Spatial.ancestry(byId, here).find(e => e.space?.kind === 'settlement');

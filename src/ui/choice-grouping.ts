@@ -10,6 +10,7 @@ import { Provocation } from '../campaign/provocation';
 import type { PublicChoice } from '../presentation/action-presentation';
 import type { ExitActs } from './passages';
 import type { Act, Passage } from './screen-types';
+import type { Names } from './known-names';
 import { Exposure } from './exposure';
 import { Carriers } from './carriers';
 
@@ -36,7 +37,7 @@ export interface Grouped {
 // A legal command, or one the company could make with a skill it lacks (wanting says which), and who it needs.
 export interface Row { choice: PublicChoice; action: Operator; wanting?: string; by?: string[] }
 export interface GroupingContext {
-  names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
+  names: Names; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
   fees?: Map<string, number>; several?: Set<string>;
   // Where a night in the open costs something, and what, and whether it is night now (see Exposure).
   exposed?: Map<string, string>; night?: boolean;
