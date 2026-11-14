@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import type { Screen } from '../ui/screen-types';
 import type { Entity, Objective } from '../lang/module';
 import { Stakes } from '../ui/stakes';
 import { FictionalTime } from '../campaign/fictional-time';
@@ -64,7 +65,13 @@ export class Undertakings {
   // Stakes.here); in words, and by id.
 // The places of the aims held, and of the one followed: what a list of journeys leads with (TP-06: the a1 camp had
   // offered 36 set-outs by distance alone).
-  static aimed(campaign: Campaign): { followed: string[]; held: string[] } {
+// Whether a place come to is one the aim followed names, or lies within one (said there on arriving: Glance).
+  static bears(campaign: Campaign, screen: Pick<Screen, 'aims'>, here: string): boolean {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const around = new Set([here, ...Spatial.ancestry(byId, here).map(e => e.id)]);
+    return (screen.aims?.find(a => a.followed)?.places ?? []).some(p => around.has(p));
+  }
+    static aimed(campaign: Campaign): { followed: string[]; held: string[] } {
     const held = this.held(campaign), followed = this.followed(campaign, held);
     return { followed: followed ? this.places(campaign, followed) : [],
       held: held.flatMap(o => this.places(campaign, o)) };

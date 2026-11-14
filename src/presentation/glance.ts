@@ -37,12 +37,6 @@ export interface Host { bound?: { id: string; name: string; minutes: number }; r
 // draws and does not guess; everything else stays where it was, a deliberate look away (Look about, Every way, More).
 export class Glance {
   // What each aim names, a site's every room among them, read once for a module.
-  // Whether the place come to is one the aim followed names, or lies within one.
-  private static bears(campaign: Campaign, screen: Screen, here: string): boolean {
-    const places = screen.aims?.find(a => a.followed)?.places ?? [];
-    const byId = EntityIndex.of(campaign.module.entities).byId;
-    return places.some(p => Itineraries.within(byId, here, p));
-  }
   private static readonly namings = new WeakMap<Module, Map<string, Set<string>>>();
   static of(campaign: Campaign, screen: Screen, told: Told | undefined, telling: Telling): View {
     const recall = CompanyRecall.of(campaign), here = screen.place.id;
@@ -67,7 +61,7 @@ export class Glance {
     // Not again beneath "A new aim" that has just said it.
     // Coming somewhere new is an occasion only where the aim followed bears on it: it had been said again at every new
     // room on the way (a landing, a taproom, a keep and its gate-passage: the terminal line's second play).
-    const bearing = arrival === 'first' && this.bears(campaign, screen, here);
+    const bearing = arrival === 'first' && Undertakings.bears(campaign, screen, here);
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'resume'].includes(arrival) || bearing || turned);
     const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark), after = told
