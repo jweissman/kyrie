@@ -13,14 +13,16 @@ export class RunnerAmid {
     const def = Undertakings.followed(campaign);
     if (!def) { return false; }
     const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
-    const sites = new Set([screen.place.id, ...screen.exits.map(e => e.destination.id)]
-      .flatMap(id => RunnerAmid.site(byId, id) ?? []));
-    if (!sites.size) { return false; }
+    // Where the company stands and the places a step off, each with all it lies within.
+    const near = new Set([screen.place.id, ...screen.exits.map(e => e.destination.id)]
+      .flatMap(id => Spatial.ancestry(byId, id).map(e => e.id)));
     const t = Stakes.target(campaign, def);
     const named = [...Stakes.named(campaign, def), ...t.actionAt ? [t.actionAt] : []];
+    // The site what it names lies in, or, out of any site (a work standing alone in the wild, Mistlake), the place it
+    // is at itself.
     return named.some(id => {
       const at = byId.get(id)?.space ? id : w.one('at', id);
-      return !!at && sites.has(RunnerAmid.site(byId, at) ?? '');
+      return !!at && near.has(RunnerAmid.site(byId, at) ?? at);
     });
   }
   private static site(byId: ReturnType<typeof EntityIndex.of>['byId'], id: string): string | undefined {

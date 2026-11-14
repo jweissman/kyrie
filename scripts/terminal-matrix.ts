@@ -168,4 +168,4 @@ export class TerminalMatrix {
     console.error(`wrote ${out}`);
   }
 }
-await TerminalMatrix.main();
+if (import.meta.main) { await TerminalMatrix.main(); }

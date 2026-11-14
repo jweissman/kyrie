@@ -160,10 +160,12 @@ export class RunnerWalk {
   // Of the lost turns, those with nothing else that serves the aim: a blocker. In or at the door of the site the aim
   // is about (Said.amid), with somewhere there to explore, the site's unseen rooms serve it (PL-23); anywhere else,
   // no gold is no way to pursue it.
+  // A grave choice there is the aim's too, the player's to make (a word pressed on the speaking door: never led, by the
+  // owner's ruling of 12 November).
   private static stranded(walk: Walk): number {
     return this.lostIndices(walk).filter(i => !(walk.turns[i]!.amid
       && [...walk.turns[i]!.offer.primary, ...walk.turns[i]!.offer.rest]
-        .some(o => o.aspects.includes('exploration')))).length;
+        .some(o => o.aspects.includes('exploration') || o.marks.includes('grave')))).length;
   }
   private static lostIndices(walk: Walk): number[] {
     // Not where a danger stands in front of the company, nor just got away from one: what to do about it (or getting
