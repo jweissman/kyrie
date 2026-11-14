@@ -61,12 +61,18 @@ assert, and writes the counts the migration is measured by to `doc/architecture/
 - **the page boots**: Chromium, the page loaded, a character made, a conversation drawn at 820 × 1180. A gate: a bare
   `process.env` read at a module's load once stopped the game loading in the page, and nothing else on a push had a
   browser in it.
-- **suite 1/16 to 16/16**: the whole suite, balanced by `test/timings.json`, with a thirty-second default timeout and
+- **suite 1/16 to 16/16**: on a push, the push lane (`test/lanes.json`: every file under thirty kept seconds, all of
+  `test/small`, the named sentinels; `bun scripts/test-lane.ts push --sum`); nightly and on demand, the whole suite. It
+  is balanced by `test/timings.json`, with a thirty-second default timeout and
   the library parse store cached between runs (a cold parse is about thirty seconds a worker). Each shard writes bun's
   JUnit report, and `scripts/test-summary.ts` puts the counts and every skipped or failed spec in the run's summary.
   Orsino is checked out beside Kyrie at the revision `data/sources/orsino/registry.json` names, so the registry spec
   runs rather than skips.
 - **reference hour, through the page**: evidence, not a gate (it may fail without failing the run).
+
+**What CI is doing now:** `bun scripts/ci-status.ts` lists each unfinished run's jobs (queued, running, done) and its
+age. A run queued past twenty minutes is waiting on the account's jobs at once, not hung; a job running past
+twenty-five is flagged. A push runs eight shards (the push lane), the whole suite sixteen.
 
 **Nightly on main (08:00 UTC), and on any branch on demand** (`gh workflow run CI --ref <branch>`):
 - **long descents**: `KYRIE_LONG=1`; any skip fails the job.

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
+import { Offers } from '../../src/presentation/offer';
+import type { Candidate } from '../../src/ui/promotion';
 import { Terminal } from '../../src/cli/terminal';
 import { PlayerView } from '../../src/presentation/player-view';
 
@@ -31,6 +33,16 @@ describe('the scene\'s offer', () => {
     const led = Terminal.led(t.glance, t.screen);
     expect(led).toHaveLength(4);
     expect(led.filter(id => !legal.has(id) && !id.startsWith('travel:'))).toEqual([]);
+  });
+  it('keeps the company\'s own gear behind what can be done here in the rest, whatever order they came in (TP-06)', () => {
+    const c = (choice: string, kind: Candidate['kind'], order: number): Candidate =>
+      ({ choice, label: choice, command: choice, kind, whys: [], order, marks: [] } as unknown as Candidate);
+    // The four are filled first, each of a kind, never with the company's upkeep; the rest is ranked, upkeep last.
+    const cands = [c('drop', 'other', 0), c('pack', 'other', 1), c('pull', 'act', 2), c('look', 'search', 3),
+      c('lane', 'way', 4), c('nap', 'wait', 5), c('ask', 'talk', 9), c('tell', 'talk', 10)];
+    const offer = Offers.scene([], [], cands);
+    expect(offer.primary.map(o => o.choice)).toEqual(['pull', 'look', 'lane', 'nap']);
+    expect(offer.rest.map(o => o.choice)).toEqual(['ask', 'tell', 'drop', 'pack']);
   });
   it('offers what there is where there is less, and nothing made up', async () => {
     const t = await Tiny.start(`Place loft "the loft" is room at 0, 0. Company party "You" of 1 at loft.`);

@@ -81,7 +81,7 @@ bun run test:changed     # then the specs a change touches, by its code and by t
 bun test test/small/     # the rules on tiny Kyr worlds (test/support/tiny.ts), a tenth of a second a spec
 ```
 
-CI runs the whole suite on every push and pull request, and the page is published from `main` only once that run
+CI runs the push lane (the faster specs, all the small ones and a few sentinels) on every push and pull request, and the whole suite nightly, and the page is published from `main` only once that run
 has passed. The long descents and the browser specs run nightly, or on a branch on demand. Which check answers which
 question, what each costs, and how to make a slow spec cheap are in
 [doc/architecture/verification.md](doc/architecture/verification.md). `bin/kyrie` is the one executable; development

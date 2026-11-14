@@ -6,6 +6,7 @@ import type { View } from '../menu-model';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Signs } from '../../../src/presentation/signs';
+import { Grave } from '../../../src/presentation/grave';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
 // menu (data-index), marked when the keys are on it, saying what it opens when it opens something. Its look is the
@@ -51,11 +52,9 @@ export class Act {
     );
   }
   // What a choice that is asked again says when it is chosen once: what it cannot undo, or how a fight would go.
-  static asks(c: Choice): string | undefined { return c.grave ?? c.marks?.find(m => m.ask)?.said; }
-  static asked(said: string, grave: boolean): string {
-    const whole = `${Words.upper(said)}${/[.!?]$/.test(said) ? '' : '.'}`;
-    return `${whole}${grave ? ' It cannot be undone.' : ''} Choose it again to do it.`;
-  }
+  // The shared rule (Grave), as every client asks it.
+  static asks(c: Choice): string | undefined { return Grave.asks(c); }
+  static asked(said: string, grave: boolean): string { return Grave.asked(said, grave); }
   // The tags a choice carries where it is drawn: not what its look says already (cannot be undone, a risk); a way
   // with no coming back says that, in place of cannot be undone.
   static tags(c: Choice): Mark[] {

@@ -59,8 +59,11 @@ export class Glance {
     // otherwise the aim followed (see Undertakings).
     const aim = told?.feedback.aims?.at(-1) ?? screen.aims?.find(a => a.followed)?.text ?? screen.objectives[0];
     // Not again beneath "A new aim" that has just said it.
+    // Coming somewhere new is an occasion only where the aim followed bears on it: it had been said again at every new
+    // room on the way (a landing, a taproom, a keep and its gate-passage: the terminal line's second play).
+    const bearing = arrival === 'first' && Undertakings.bears(campaign, screen, here);
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
-      && (['opening', 'first', 'resume'].includes(arrival) || turned);
+      && (['opening', 'resume'].includes(arrival) || bearing || turned);
     const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark), after = told
       && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
@@ -164,7 +167,9 @@ export class Glance {
     const idle = new Set([...by.map(d => d.id), ...screen.exits.map(e => e.destination.id), ...named, ...held]
       // Never idle where the aim followed would be brought about: twice in Mik's shop without asking him, the gold had
       // gone out of the town for good (the laboratory's lost turns).
-      .filter(id => (recall.idle(id) && !(named.has(id) && AimLeads.there(campaign, id))) || spent.has(id)));
+      // Nor where a light is to be had, with the dark ahead and nothing to see by (see CompanyLight).
+      .filter(id => (recall.idle(id) && !(named.has(id) && AimLeads.there(campaign, id))
+        && !this.sells(campaign, id, seller)) || spent.has(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
@@ -190,6 +195,9 @@ export class Glance {
         open: screen.exits.some(e => !!e.bearing), alone: screen.party.length === 1,
         ...this.bed(campaign, screen, schema),
         ...light } };
+  }
+  private static sells(campaign: Campaign, place: string, sellers: Set<string> | undefined): boolean {
+    return !!sellers && [...sellers].some(p => campaign.world.one('at', p) === place);
   }
   // Where a bed is to be had a step from here, in a settlement at night, when no one here offers one: whoever offers
   // lodging, where they are.

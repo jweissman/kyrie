@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { Undertakings } from '../presentation/undertakings';
 import type { Call, Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { ActionTime } from '../campaign/action-time';
@@ -161,8 +162,9 @@ export class Itineraries {
     const ways = world.related('connects');
     const plans = [...known].filter(id => id !== area?.id && !this.inside(byId, { here, id, ways, entities })
       && (told.includes(id) || this.worth(byId.get(id))))
-      .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; })
-      .sort((a, b) => a.minutes - b.minutes);
+      .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; });
+    const toward = { ...Undertakings.aimed(campaign), told, visited };
+    plans.sort((a, b) => this.rank(byId, toward, a.id) - this.rank(byId, toward, b.id) || a.minutes - b.minutes);
     // A door someone told of and the ruin gone into behind it are one place, not two: the ruin, whose way goes by its
     // door, is left out ("Riwustagn" was offered twice, back in town: play 7; a lone tower's foot and the keep gone
     // into from it were "Aurumvigilia" and "The tower": play 8).
@@ -270,6 +272,13 @@ export class Itineraries {
   }
   // The entities by id, read once for the world as it is (a route had read every entity of the world again for each
   // place it planned for).
+  // What a journey is to the company, nearest first within each: toward the aim it follows, toward any it holds,
+  // somewhere it has been told of and not been, and the rest (TP-06).
+  private static rank(byId: Map<string, Entity>, toward: { followed: string[]; held: string[]; told: string[];
+    visited: ReadonlySet<string> }, id: string): number {
+    return toward.followed.some(p => this.within(byId, p, id)) ? 0 : toward.held.some(p => this.within(byId, p, id)) ? 1
+      : toward.told.includes(id) && !toward.visited.has(id) ? 2 : 3;
+  }
   private static byId(campaign: Campaign): Map<string, Entity> { return EntityIndex.of(campaign.module.entities).byId; }
   private static area(byId: Map<string, Entity>, id: string): Entity | undefined {
     return Spatial.ancestry(byId, id).find(e => ['settlement', 'site'].includes(e.space?.kind ?? ''));

@@ -4,6 +4,7 @@ import { AimSaid } from '../presentation/aim-said';
 import { Signs } from '../presentation/signs';
 import { ToldLines } from '../presentation/told-lines';
 import { TerminalColour, type Depth } from './terminal-colour';
+import { TerminalWidth } from './terminal-width';
 import type { Leaf } from '../presentation/narrator';
 import type { Screen } from '../ui/screen-types';
 
@@ -34,8 +35,14 @@ export class TerminalScene {
     const place = this.fresh('place', screen.place.name, whole), weather = this.fresh('weather', screen.weather, whole);
     // The hour itself only on a look: the part of the day is what changes how a place is.
     const when = whole ? screen.clock : time;
-    const name = turned === 'act' ? undefined : TerminalColour.bold(place ?? screen.place.name, this.depth);
-    const header = [name, when, weather].filter(Boolean).join(' · ');
+    // The place as a heading, in the stage's ivory, the day and the weather quiet beside it, a faint rule under it
+    // where there is colour (headless, the line alone).
+    const d = this.depth, named = turned === 'act' ? undefined : place ?? screen.place.name;
+    const name = named && TerminalColour.bold(TerminalColour.ink('ivory', named, d), d);
+    const beside = [when, weather].filter(Boolean).join(' · ');
+    const header = [name, beside && (name ? TerminalColour.ink('dim', beside, d) : beside)].filter(Boolean).join(' · ');
+    const rule = header && d !== 'none' ? [TerminalColour.ink('faint', '─'.repeat(Math.min(60,
+      TerminalWidth.of(header))), d)] : [];
     const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
     const happened = ToldLines.said(leaf.exchange?.lines ?? [], whole).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
@@ -47,17 +54,26 @@ export class TerminalScene {
       : whole || !g ? [...placed, ...happened] : [...seen, ...happened];
     const reference = [...this.aim(screen, g?.aim, whole), ...this.need(leaf, whole), ...this.instruments(leaf, whole)];
     this.told.push({ turned, lines: prose, reference });
-    return [...header ? ['', header] : [], ...prose, ...reference];
+    return [...header ? ['', header, ...rule] : [], ...prose, ...reference];
   }
-  // The aim, by the page's rule, when it has changed (or on a look).
+  // The aim, said once for each change, never by comparing its words: when the glance says it (Glance.aim: on a first
+  // arrival, where no act serves it, when it has changed), when the aim followed has changed (Follow this, or let go),
+  // and on a look. Followed, it is said as followed, even before anything is done: following is the change. It had been
+  // said two and three times over as its words lengthened once it was held (the human mode's assessment).
   private aim(screen: Screen, glanced: string | undefined, whole: boolean): string[] {
-    const aim = AimSaid.of(screen, glanced), text = aim && Typography.plain(aim.text);
-    // Said again when it is followed or let go, as well as when its words change.
-    if (!aim || !this.fresh('aim', `${aim.followed ? 'followed' : 'held'}:${text}`, whole)) { return []; }
+    const followed = screen.aims?.find(a => a.followed), state = followed?.id ?? '';
+    const turned = this.said.aim !== undefined && this.said.aim !== state;
+    this.said.aim = state;
+    if (!whole && !glanced && !turned) { return []; }
     const d = this.depth;
-    if (aim.followed) { return [TerminalColour.paint('gold', TerminalColour.bold(`Following: ${text}`, d), d)]; }
+    if (followed) {
+      return [TerminalColour.paint('gold', TerminalColour.bold(`Following: ${Typography.plain(followed.text)}`, d), d)];
+    }
+    const aim = AimSaid.of(screen, glanced);
+    if (!aim) { return []; }
     const n = (screen.aims ?? []).findIndex(a => a.id === aim.offered) + 1;
-    return [`${TerminalColour.bold(`An aim: ${text}`, d)}${n ? this.o.picked ? ' · a to follow' : ` · follow ${n}` : ''}`];
+    return [`${TerminalColour.bold(`An aim: ${Typography.plain(aim.text)}`, d)}${n ? this.o.picked ? ' · a to follow'
+      : ` · follow ${n}` : ''}`];
   }
   private need(leaf: Leaf, whole: boolean): string[] {
     const need = this.fresh('need', leaf.glance?.need?.join(' · '), whole);

@@ -73,6 +73,8 @@ export class ChoiceGrouping {
     // Not "Elen's the Abbess's Eye" (Thrume's B4): a thing is said by its own name, and who carries it beside it.
     change_thing_spending: { slot: 'target', param: 'thing', path: ['{how}', 'using {spent}'], doer: 'carrier' },
     lead: { slot: 'target', param: 'companion', path: ['Ask {them} to come with you'] },
+    // What joining costs, where it costs anything (the terminal line: Cyril's 6 coin was said only in her reply).
+    recruit: { slot: 'target', param: 'recruit', path: ['Ask {recruit} to join the company{hirefee}'] },
     buy_goods: { slot: 'target', param: 'seller', path: ['Buy', 'A {goods} — {goodsfee} coin'] },
     take_lodging: { slot: 'target', param: 'host', path: ['Take {service} — {fee} coin'] },
     take_healing: { slot: 'target', param: 'healer', path: ['Ask for {service} — {fee} coin'] },
@@ -167,8 +169,7 @@ export class ChoiceGrouping {
     wait_for_light: { slot: 'camp', path: ['Wait', 'Until first light'] },
     wait_for_dark: { slot: 'camp', path: ['Wait', 'Until dark'] },
     wait_watch: { slot: 'camp', path: ['Wait', 'And watch, until something changes'] },
-    eat: { slot: 'camp', path: ['Eat a ration'] },
-    rest: { slot: 'camp', path: ['Rest six hours'] },
+    eat: { slot: 'camp', path: ['Eat a ration'] }, rest: { slot: 'camp', path: ['Rest six hours'] },
     // Said as what it is: with nothing to eat, a rest is no rest (it takes a minute, and says so; the architecture
     // review's H5 found it told and kept as six hours' rest).
     rest_unfed: { slot: 'camp', path: ['Try to rest, with nothing to eat'] },
@@ -387,6 +388,7 @@ export class ChoiceGrouping {
       key === 'goodsfee' ? String(data.context.fees?.get(`${data.b.seller}:${data.b.goods}`) ?? 0) :
       key === 'sellfee' ? String(data.context.fees?.get(`pays:${data.b.buyer}:${data.b.form}`) ?? 0) :
       key === 'worthfee' ? String(data.context.fees?.get(`worth:${data.b.form}`) ?? 0) :
+      key === 'hirefee' ? ` — ${data.context.fees?.get(`hire:${data.b.recruit}`) ?? 0} coin`.replace(/^ — 0 coin$/, '') :
       key === 'them' || key === 'their' ? PronounWords.of(data.context.world, data.b.companion, key) :
       key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.world, data.b.form ?? '',
         data.b.recipient ?? '', data.context.names) : '') :

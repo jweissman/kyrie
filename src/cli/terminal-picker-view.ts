@@ -1,70 +1,106 @@
 import { TerminalColour, type Shows } from './terminal-colour';
 import { TerminalWidth } from './terminal-width';
 import { TerminalPicker, type Row } from './terminal-picker';
+import { Emphasis } from '../presentation/emphasis';
 
 // Where a picker is drawn: how wide and how tall it may be, and what the terminal shows.
 export interface Room { width: number; height: number; shows: Shows }
 
-// A picker drawn as lines, each no wider than the terminal, so that it can be drawn again in place (TP-01). A row is
-// its focus mark, its one pip (Indicator), its words and at most two icons. The row focused is lit, its long words
-// wrapped rather than cut, and under it what it costs or risks; on asking (?), its whole. Every other row is one line,
-// cut where it is too long. Where the rows are more than the room, a window about the focus, with how many lie above
-// and below.
+// A picker drawn as the page's quiet dark stage is (the owner, 15 November: "was hoping for a beautiful term
+// experience"). Its question as a heading in ivory over a faint rule; the rows one line each, never reflowed: the
+// focus mark, a thin mark and an icon in the row's one meaning tone (Indicator.of), the words; under a rule, one detail
+// area of fixed height for the row in hand (to the right, on a terminal 120 wide or more); the keys that apply, dim,
+// on the last line. The detail had been wrapped into the list under the row focused, and the list moved under the
+// keys. Nothing is coloured for its own sake: the inks are ivory, the terminal's own and dim; the rest is meaning.
 export class TerminalPickerView {
+  // The detail area's height, always the same; and the width from which it stands beside the list.
+  static readonly detail = 3;
+  static readonly wide = 120;
   static lines(p: TerminalPicker, room: Room): string[] {
-    const { shows } = room, width = Math.max(20, room.width - 1);
-    const blocks = p.visible.map((row, i) => this.row(p, row, { i, width, shows }));
-    const head = p.menu.title ? [TerminalColour.bold(TerminalWidth.cut(p.menu.title, width), shows.depth)] : [];
-    const foot = this.footer(p, width, shows);
-    const body = this.window(blocks, p.focus, Math.max(4, room.height - head.length - foot.length));
-    return [...head, ...body, ...foot];
+    const { shows } = room, width = Math.max(20, room.width - 1), d = shows.depth;
+    const title = p.menu.title ? TerminalWidth.cut(p.menu.title, width) : undefined;
+    const head = title ? [TerminalColour.bold(TerminalColour.ink('ivory', title, d), d),
+      TerminalColour.ink('faint', '─'.repeat(Math.min(width, TerminalWidth.of(title))), d)] : [];
+    const rail = [this.rail(p, width, shows)];
+    if (width >= this.wide) { return [...head, ...this.beside(p, room, width), '', ...rail]; }
+    const rows = this.list(p, width, shows);
+    const body = this.window(rows, p.focus, Math.max(4, room.height - head.length - rail.length - this.detail - 2));
+    return [...head, ...body, TerminalColour.ink('faint', '─'.repeat(Math.min(width, 40)), d),
+      ...this.about(p, width, shows), ...rail];
   }
-  private static row(p: TerminalPicker, row: Row, at: { i: number; width: number; shows: Shows }): string[] {
-    const { i, width, shows } = at, d = shows.depth, focused = i === p.focus, prev = p.visible[i - 1];
-    const group = row.group && row.group !== prev?.group ? [TerminalColour.dim(`  ${row.group}`, d)] : [];
-    const gap = row.info && !prev?.info ? [''] : [];
-    const signed = { ...row.signed ?? {}, aspects: row.aspects ?? [] };
-    const indicated = TerminalColour.indicated(signed, shows.companion);
-    const pip = row.info || row.id === TerminalPicker.more ? ' ' : TerminalColour.pip(indicated, shows, signed.sensed);
-    const icons = indicated.icons.map(x => TerminalColour.sign(x, shows.unicode)).join(' ');
-    const mark = focused ? (shows.unicode ? '›' : '>') : ' ';
-    // The icons after the words' last line: each line is cut or wrapped to leave them room.
-    const room = width - 4 - (icons ? TerminalWidth.of(icons) + 1 : 0);
-    const words = focused ? TerminalWidth.wrap(row.label, room) : [TerminalWidth.cut(row.label, room)];
-    const lines = words.map((w, n) => `${n ? '   ' : `${mark} ${pip}`} ${this.lit(w, { row, focused, shows })}`
-      + `${icons && n === words.length - 1 ? ` ${icons}` : ''}`);
-    return [...gap, ...group, ...lines, ...focused ? this.under(p, row, width, shows) : []];
+  // The list at the left, the detail at its right, a faint line between.
+  private static beside(p: TerminalPicker, room: Room, width: number): string[] {
+    const left = Math.min(72, Math.floor(width * 0.55)), right = width - left - 3, d = room.shows.depth;
+    const rows = this.window(this.list(p, left, room.shows), p.focus, Math.max(4, room.height - 4));
+    const detail = this.about(p, right, room.shows, Math.max(this.detail, rows.length));
+    return Array.from({ length: Math.max(rows.length, detail.length) }, (_, i) => {
+      const l = rows[i] ?? '', pad = ' '.repeat(Math.max(0, left - TerminalWidth.of(l)));
+      return `${l}${pad} ${TerminalColour.ink('faint', '│', d)} ${detail[i] ?? ''}`.trimEnd();
+    });
   }
-  // A row's words: lit where it is focused, dim where it has nothing new or cannot be chosen, and through its tones
-  // where the prism experiment is asked for.
-  private static lit(words: string, o: { row: Row; focused: boolean; shows: Shows }): string {
-    const { row, focused, shows } = o, d = shows.depth;
-    if (row.info || row.id === TerminalPicker.more || row.shut || row.signed?.idle) {
-      return focused ? TerminalColour.bold(words, d) : TerminalColour.dim(words, d);
-    }
-    const coloured = shows.prism ? TerminalColour.prism(words, row.aspects ?? [], d) : words;
-    return focused ? TerminalColour.bold(coloured, d) : coloured;
+  // Each row one line, cut to the width; a group's heading where its rows begin.
+  private static list(p: TerminalPicker, width: number, shows: Shows): string[][] {
+    return p.visible.map((row, i) => {
+      const prev = p.visible[i - 1], d = shows.depth;
+      const group = row.group && !row.header && row.group !== prev?.group
+        ? [TerminalColour.ink('dim', TerminalWidth.cut(`   ${row.group}`, width), d)] : [];
+      const gap = row.info && !prev?.info ? [''] : [];
+      return [...gap, ...group, this.row(p, row, { focused: i === p.focus, width, shows })];
+    });
   }
-  // Under the row focused: its note, what a grave act asks, why it cannot be chosen, and on asking its whole.
-  private static under(p: TerminalPicker, row: Row, width: number, shows: Shows): string[] {
-    const d = shows.depth, said: string[] = [];
-    if (row.note) { said.push(row.note); }
-    if (row.shut) { said.push(row.shut); }
-    if (p.asking === row.id && row.ask) { said.push(`${row.ask} Enter again to do it.`); }
-    if (p.about === row.id) { said.push(...row.about ?? [], ...row.about?.length ? [] : ['Nothing more is known of it.']); }
-    if (p.said && p.said !== row.shut) { said.push(p.said); }
-    return said.flatMap(s => TerminalWidth.wrap(s, width - 4)).map(l => TerminalColour.dim(`    ${l}`, d));
+  // The focus mark (the page's reticule), a thin mark in the row's tone, its icon in the same tone, its words, and
+  // its icons for what it is besides.
+  private static row(p: TerminalPicker, row: Row, at: { focused: boolean; width: number; shows: Shows }): string {
+    const { focused, width, shows } = at, d = shows.depth;
+    // No ring for a held act any more (IG-07): its kind's icon (⧗) says it.
+    const signed = { ...row.signed ?? {}, aspects: row.aspects ?? [], hold: undefined };
+    const ind = TerminalColour.indicated(signed), tone = ind.tone;
+    const mark = focused ? TerminalColour.ink('ivory', shows.unicode ? '▸' : '>', d) : ' ';
+    const faint = !tone && signed.sensed && !ind.icons.length;
+    const bar = d === 'none' ? TerminalColour.pip(ind, shows, signed.sensed) : tone ? TerminalColour.paint(tone, '▎', d)
+      : faint ? TerminalColour.dim(TerminalColour.paint(Emphasis.tones[signed.sensed!], '▎', d), d) : ' ';
+    const glyph = row.header ? (p.opened.has(row.group ?? '') ? '−' : '+') : row.icon ?? ' ';
+    const icon = tone ? TerminalColour.paint(tone, glyph, d) : TerminalColour.ink(row.icon ? 'dim' : 'faint', glyph, d);
+    // An icon the row's own kind says already (a journey's ⇢) is not said twice.
+    const after = ind.icons.filter(x => x.sign !== row.icon).map(x => TerminalColour.sign(x, shows.unicode)).join(' ');
+    const words = TerminalWidth.cut(row.label, width - 5 - (after ? TerminalWidth.of(after) + 1 : 0));
+    const quiet = row.info || row.header || row.id === TerminalPicker.more || row.shut || row.signed?.idle;
+    const lit = quiet ? TerminalColour.ink('dim', words, d) : focused
+      ? TerminalColour.bold(TerminalColour.ink('ivory', words, d), d)
+      : shows.prism ? TerminalColour.prism(words, row.aspects ?? [], d) : words;
+    return `${mark}${bar}${icon} ${lit}${after ? ` ${TerminalColour.ink('dim', after, d)}` : ''}`;
   }
-  // The keys, quietly under the picker: how to choose, unfold, ask and go back, and every other key on asking (/).
-  private static footer(p: TerminalPicker, width: number, shows: Shows): string[] {
-    const arrows = shows.unicode ? '↑↓ ⏎' : 'j/k enter';
-    const more = p.menu.rest?.length ? [p.unfolded ? '← fewer' : '→ more'] : [];
-    const keys = p.keyed ? [...Object.entries(p.menu.keys ?? {}).map(([k, v]) => `${k} ${v.said}`), 'q leave']
-      : Object.keys(p.menu.keys ?? {}).length ? ['/ keys'] : ['q leave'];
-    const said = [`${arrows} choose`, ...more, '? about', ...p.menu.back ? ['← back'] : [], ...keys];
-    return ['', ...TerminalWidth.wrap(said.join(' · '), width)].map(l => TerminalColour.dim(l, shows.depth));
+  // The row in hand, said in one area of fixed height: its words whole where the list cut them, what it costs or
+  // risks, what a grave act asks, why it cannot be chosen; its whole on asking (?), which may run longer. More than
+  // fits, the last line says so.
+  private static about(p: TerminalPicker, width: number, shows: Shows, height: number = TerminalPickerView.detail)
+    : string[] {
+    const row = p.focused, d = shows.depth;
+    if (!row) { return Array.from({ length: height }, () => ''); }
+    const said = [...TerminalWidth.of(row.label) > width - 6 ? [row.label] : [], ...row.note ? [row.note] : [],
+      ...row.shut ? [row.shut] : [], ...p.asking === row.id && row.ask ? [row.ask] : [],
+      ...row.about ?? [], ...row.kinds && (p.about === row.id || d === 'none') ? [row.kinds] : [],
+      ...p.said && p.said !== row.shut ? [p.said] : []];
+    const lines = said.flatMap(s => TerminalWidth.wrap(s, Math.max(10, width - 4)));
+    const fits = p.about === row.id || lines.length <= height;
+    const shown = fits ? lines : [...lines.slice(0, height - 1), '… ? more'];
+    return [...shown.map(l => `    ${TerminalColour.ink(p.asking === row.id && l === row.ask ? 'ivory' : 'dim', l, d)}`),
+      ...Array.from({ length: Math.max(0, height - shown.length) }, () => '')];
   }
-  // The blocks that fit about the focus, with how many rows lie beyond them each way.
+  // The keys that apply here, dim, on one line: how to choose, the rest, asking, back, and a menu's own few (its
+  // many behind /).
+  private static rail(p: TerminalPicker, width: number, shows: Shows): string {
+    const row = p.focused, u = shows.unicode;
+    const more = p.menu.rest?.length ? [p.unfolded ? `${u ? '←' : 'h'} fewer` : `${u ? '→' : 'l'} more`] : [];
+    const grouped = p.visible.some(r => r.group) ? ['[ ] group'] : [];
+    const asking = row && (row.about?.length || row.kinds) ? ['? about'] : [];
+    const own = Object.entries(p.menu.keys ?? {}).map(([k, v]) => `${k} ${v.said}`);
+    const keys = p.keyed || own.length <= 2 ? [...own, 'q leave'] : ['/ keys'];
+    const said = [`${u ? '↑↓ ⏎' : 'j/k enter'} choose`, ...more, ...grouped, ...asking,
+      ...p.menu.back ? [`${u ? '←' : 'h'} back`] : [], ...keys];
+    return TerminalColour.ink('dim', TerminalWidth.cut(said.join(' · '), width), shows.depth);
+  }
+  // The rows that fit about the focus, with how many lie beyond them each way.
   private static window(blocks: string[][], focus: number, height: number): string[] {
     const total = blocks.reduce((n, b) => n + b.length, 0);
     if (total <= height) { return blocks.flat(); }
@@ -77,7 +113,7 @@ export class TerminalPickerView {
       if (up) { used += blocks[--from]!.length; }
       if (!down && !up) { break; }
     }
-    return [from ? `  ↑ ${from} more` : '', ...blocks.slice(from, to).flat(),
-      to < blocks.length ? `  ↓ ${blocks.length - to} more` : ''];
+    return [...from ? [`   ↑ ${from} more`] : [], ...blocks.slice(from, to).flat(),
+      ...to < blocks.length ? [`   ↓ ${blocks.length - to} more`] : []];
   }
 }
