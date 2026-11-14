@@ -160,6 +160,11 @@ In a1's camp the same choice comes up. Before the aim is followed, "Ask Osbert w
 silver with ⚭. Once it is followed, it is companionship alone, and in the colour treatment it turns rose with no icon.
 The act's meaning has not changed, yet its colour has.
 
+The page draws the same camp in today's colour (the aesthetic line's captures, on look-7:
+`mission-21/aesthetic/scenes/resting-crowded/1280x800-scene.png` and `820x1180-scene.png`).
+- "Talk to your brother" carries a rose bar and the ⚭ icon beside it: the same thing said twice.
+- Osbert's likeness carries a rose pip as well.
+
 **Recommendation: a companion as an icon, never a colour.**
 - The page already draws ⚭ beside every such act (GlanceStage.Icons), so rose and ⚭ say the same thing twice.
 - Last in the precedence, rose only shows where a companion is the act's only promise. So it flickers on and off as
