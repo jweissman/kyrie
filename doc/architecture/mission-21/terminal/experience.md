@@ -200,6 +200,8 @@ stays a script (`bun scripts/experience-matrix.ts`, `bun scripts/exploration-sam
 | Continuity of intention | [aim-return](../../../../test/aim-return.test.ts) (a1) | out of the aim's site, nothing leading back (EX-01: 81 turns) | gold back out of the shop, over a landing passed twice |
 | Continuity of intention | [barred-means](../../../../test/small/barred-means.test.ts) (tiny tower) | a barred way said, its means nowhere (EX-01: 85 turns) | the need names the chandler; typed as the glance's leads |
 | Continuity of intention | [frontier](../../../../test/small/frontier.test.ts), [held-ways](../../../../test/small/held-ways.test.ts) (laboratory) | the unexplored ways not told from the way back (EX-02, EX-04); a way back drawn worth a look (PF-03) | bearings frontier/retreat/return; no held or exploring retreat in 30 turns |
+| Payoff | [payoff](../../../../test/small/payoff.test.ts) (tiny barrow) | a bond made and never come back to, or come back to and gone (back to a bond 0 on every generated world) | gratitude kept on return, and a torch a coin less |
+| Promise fidelity (held) | [held-aim](../../../../test/small/held-aim.test.ts) (tiny yard) | another aim's person led for what does not serve it (Taklinn's nineteen rumours on b2) | led for the serving question, with the aim's id |
 | Character differentiation | [callings-differ](../../../../test/small/callings-differ.test.ts) (laboratory) | callings that open nothing apart (b2's six identical walks, an instrument's defect) | each pair of warrior, thief and mage 25 to 31 acts apart; floor 20 |
 
 Repairs behind them: a place the followed aim names, or one on its way, is never idle while the aim is unmet
@@ -212,10 +214,11 @@ Gaps, where the projection cannot yet say what a pin would need:
 - **Brawn has no source.** "Needs brawn" (Ironkeep's portcullis, Tinhold's lift-cage) is answered by no seller, and
   nothing in the projection says who of brawn could come along: the hire and recruit data is not read for it. Until
   it is, those sites' openers are a gap in what the country supplies.
-- **A held act does not say which aim it is for.** A Promoted drawn for another aim (`held`) carries no aim id, so no
-  client or pin can check that it advances that aim; the same field the frontier's "toward which aim" would need.
-- **Payoff is rarely reached.** "Back to a bond" is 0 on every generated world and 1.0 on the laboratory: blind
-  walkers seldom come back where a bond was made. No pin yet: a return policy for the matrix would measure it.
+- ~~A held act does not say which aim it is for.~~ Closed: Promoted.aim (Undertakings.heldFor), and held is kept only
+  where something there serves that aim (Undertakings.serving).
+- **Payoff is rarely reached by blind walks.** "Back to a bond" is 0 on every generated world and 1.0 on the
+  laboratory: blind walkers seldom come back where a bond was made (c3's curious walker never returns at all: its
+  policy takes the fresh first). The pin holds the property on a tiny world; the walks do not measure it yet.
 - **Opportunity density by count misleads.** c3's 256 opportunities are mostly gatherable plants (220 buried);
   b2's 140 are mostly the innkeeper's rumours of the lands beyond, nineteen turns of them promoted one at a time.
   Distinct commands are the honest key, but a family of same-subject acts reads as one opportunity to a player.
