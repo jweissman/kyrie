@@ -1,5 +1,6 @@
 import type { Candidate, Kind } from '../ui/promotion';
 import type { Campaign } from '../campaign/campaign';
+import type { Screen } from '../ui/screen-types';
 import { PlayerView } from './player-view';
 import { Aspects } from './aspects';
 import type { Aspect, Mark, Promoted } from './glance-types';
@@ -15,8 +16,10 @@ export type ActType = 'talk' | 'fight' | 'act' | 'search' | 'go' | 'journey' | '
 // for: of an opener (a talk), what it is led for within it (Promoted.for), which a headless player does by it.
 export interface Offered {
   choice: string; command?: string; for?: string; label: string; type: ActType; aspects: Aspect[]; marks: Mark[];
-  continues?: true; minutes?: number;
+  continues?: true; minutes?: number; bearing?: Bearing;
 }
+// A way's bearing in a site (see Offers.borne).
+export type Bearing = 'frontier' | 'retreat' | 'return';
 // What a surface offers: exactly four primary choices where there are four or more to be had (never filler where
 // there are fewer), and every other one in the rest, kept for one deliberate step further (all, More, a lens).
 export interface Offer { primary: Offered[]; rest: Offered[] }
@@ -34,8 +37,10 @@ export class Offers {
     tend: 'care', study: 'study', other: 'other' };
   // out: at the followed aim's place, the ways that leave it (see AimBusiness): with a grave choice there, that choice
   // is promoted after what is urgent, and the way out, never gilded, after it.
+  // screen: where the company stands; in a site or under the ground, each way is told by its bearing (frontier,
+  // retreat, return).
   static scene(acts: Promoted[], ways: string[], cands: Candidate[],
-    { campaign, out }: { campaign?: Campaign; out?: Set<string> } = {}): Offer {
+    { campaign, out, screen }: { campaign?: Campaign; out?: Set<string>; screen?: Screen } = {}): Offer {
     const live = [...cands.filter(c => !c.barred), ...this.besides(cands, campaign)];
     const byChoice = new Map(live.map(c => [c.choice, c]));
     const graves = out ? live.filter(c => c.marks.some(m => m.kind === 'grave')) : [];
@@ -64,8 +69,23 @@ export class Offers {
       }
     }
     const primary = [...led, ...fill].slice(0, this.four);
-    return { primary, rest: live.filter(c => !shown.has(c.choice))
-      .sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order).map(c => this.candidate(c)) };
+    const rest = live.filter(c => !shown.has(c.choice)).sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order)
+      .map(c => this.candidate(c));
+    // A site, or under the ground (a town's undertown is one too).
+    const site = !!screen && (screen.path.some(p => p.kind === 'site') || !!screen.place.underground);
+    const at = { site, ...out ? { out } : {} };
+    return { primary: primary.map(o => this.borne(o, byChoice.get(o.choice), at)),
+      rest: rest.map(o => this.borne(o, byChoice.get(o.choice), at)) };
+  }
+  // In a site, a way's bearing, typed for every client to say as a small sign or a word (EX-02): the frontier, a way
+  // not yet taken whose contents are not known (further in, or along); the retreat, the way the company came or out
+  // of what the aim is about; the return, a way to somewhere been. Never a claim that the aim lies that way: gold
+  // stays the aim's evidenced next step alone.
+  private static borne(o: Offered, c: Candidate | undefined, at: { site: boolean; out?: Set<string> }): Offered {
+    if (!at.site || !c?.exit || c.kind === 'act') { return o; }
+    const bearing: Bearing = c.whys.includes('retreat') || at.out?.has(c.exit) ? 'retreat'
+      : c.visited ? 'return' : 'frontier';
+    return { ...o, bearing };
   }
   // A way out, offered without the aim's gold.
   private static ungilded({ continues: _, ...o }: Offered): Offered {
