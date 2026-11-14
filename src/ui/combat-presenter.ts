@@ -68,7 +68,9 @@ export class CombatPresenter {
   private static foe(event: { target: string }, state: BattleState): boolean {
     return state.combatants.find(f => f.id === event.target)?.team === 'goblins';
   }
-  static format(event: CombatEvent, state: BattleState): string {
+  // dice: whether a blow's rolls are said ("rolled 5, needed 14"): the chronicle's, not a scene's (see blows in
+  // ActionFeedbackView: a flight had been told with them).
+  static format(event: CombatEvent, state: BattleState, dice = true): string {
     const known = [...state.combatants, ...state.departed ?? []];
     const actor = 'actor' in event ? known.find(f => f.id === event.actor)?.name ?? event.actor : '';
     const target = 'target' in event ? known.find(f => f.id === event.target)?.name ?? event.target : '';
@@ -93,7 +95,7 @@ export class CombatPresenter {
       case 'skip': return `${actor} cannot act.`;
       case 'random': return `${actor} is not in their right mind, and does whatever comes first.`;
       case 'attack': return `${actor} ${event.success ? event.critical ? 'critically hits' : 'hits' : event.evaded
-        ? 'is evaded by' : 'misses'} ${target} (rolled ${event.die}, needed ${event.need}).`;
+        ? 'is evaded by' : 'misses'} ${target}${dice ? ` (rolled ${event.die}, needed ${event.need})` : ''}.`;
       case 'flee': return event.success ? `${actor} gets away.` : `${actor} tries to get away, and cannot.`;
       case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
         + ` ${o.roll}`).join(', ')}.`;

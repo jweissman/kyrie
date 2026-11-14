@@ -208,9 +208,12 @@ export class ActionFeedbackView {
   }
   private static blows(events: CampaignEvent['combat'], before: PlayerSnapshot,
     names: Parameters<typeof CombatPresenter.format>[1]): string[] {
-    return events.filter(e => e.type !== 'action' && !('amount' in e && e.amount === 0 && e.type !== 'damage')
+    // Without who moved first nor a blow's dice: a flight had been told "Initiative: the third wolf 14, … The third
+    // wolf misses Wynn (rolled 5, needed 14)" (the laboratory's matrix: 33 arrivals past six sentences, all retreats).
+    return events.filter(e => e.type !== 'action' && e.type !== 'initiative'
+      && !('amount' in e && e.amount === 0 && e.type !== 'damage')
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
-      .map(e => CombatPresenter.format(e, names));
+      .map(e => CombatPresenter.format(e, names, false));
   }
   // What lasting conditions ran out (a light, a ward): by the event, and the condition's lifetime.
   private static lapsed(event: CampaignEvent, names: Parameters<typeof CombatPresenter.format>[1]):

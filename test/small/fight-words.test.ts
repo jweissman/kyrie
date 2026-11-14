@@ -20,6 +20,6 @@ describe('a fight, as it is told', () => {
     }
     expect(said.some(l => /wolf.* takes \d+/.test(l))).toBe(true);
     expect(said.filter(l => /wolf.* takes \d+ .*\(\d+ HP/.test(l))).toEqual([]);
-    expect(said.filter(l => /\(roll \d+|against \d+\)/.test(l))).toEqual([]);
+    expect(said.filter(l => /\(roll \d+|against \d+\)|rolled \d+, needed \d+|^Initiative:/.test(l))).toEqual([]);
   });
 });
