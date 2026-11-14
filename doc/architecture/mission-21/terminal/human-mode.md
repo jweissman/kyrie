@@ -186,6 +186,9 @@ default is unchanged (colour), and the icon treatment is one flag.
 - One pip and at most two icons is quiet. The gold step reads at once, and the aim's question showed ✦ and ℹ together
   without noise.
 - The picker's history collapses to `› chosen`, so the scrollback reads like a story.
+- In a talk, the picker is headed by whom it is with, and its rest is the talk's own replies.
+- In a fight, each exchange since the company's last turn is told before it chooses again. Before, only the hurts had
+  shown between turns.
 - The weak point is the scene above the picker, not the picker. Arrivals often run four to six sentences. The causeway
   opening is two long paragraphs before the first choice.
 
@@ -200,10 +203,6 @@ default is unchanged (colour), and the icon treatment is one flag.
   - The lenses help, and the map is now a picker of journeys.
   - But the journeys come unranked: the engine ranks no journey against another.
   - *Engine-shaped:* a journey order (aim first, near before far) would help both clients.
-- **A talk's "more" is the whole scene's rest,** not the talk's own. The talk leads with its replies, and the
-  terminal has no "Something else…" of its own to offer.
-- **Inside a fight only the hurts show between turns.** What happened on each blow is told after the fight, as in
-  headless. The terminal's fight loop (`Terminal.battle`) tells exchanges, but the act path does not.
 - **Holding has no key.** ⧗ marks a sustained act, and one Enter does it. The grammar's held ring has no terminal
   equivalent yet.
 - **A grave act asks once by the page's own rule,** which lives in `web/reader/stage/act.tsx` (`Act.asks`). The terminal

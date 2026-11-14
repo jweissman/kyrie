@@ -115,6 +115,13 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(lensed.lines.some(l => /^ {4}\d+ more$/.test(l)) || !lensed.menu.rest!.length).toBe(true);
     expect(k.last.menu.title).toBeUndefined();
   });
+  it('talks through the same picker, headed by whom, its rest its own replies and not the scene\'s', async () => {
+    const t = await Awkward.start();
+    const k = await Keyed.play(t.session, ['t', 'return']);
+    expect(k.last.menu.title).toBe('With Wenna');
+    expect(k.last.menu.rows.map(r => r.label)).toContain('Ask Wenna about the mill');
+    expect([...k.last.menu.rows, ...k.last.menu.rest ?? []].some(r => /^Set down|^Wait/.test(r.label))).toBe(false);
+  });
   it('fights through the same picker: the moves, a target, back to the moves', async () => {
     const t = await Awkward.start();
     t.journey.put('party', 't__cellar');

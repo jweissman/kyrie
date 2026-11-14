@@ -33,9 +33,10 @@ const quitPlay = 'The player left the encounter.';
 interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed;
   journey?: true }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
-// lens.rest: the rest of the lens's own, as the page's lens has them under All.
-interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number;
-  lens?: { name: Lens; more: number; rest: Listed[] } }
+// rest: where the few are a surface's own (a lens, a talk), the rest of its own, as the page's All or Something
+// else… has them.
+interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
+  lens?: { name: Lens; more: number } }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
@@ -146,7 +147,8 @@ export class Terminal {
       const leave = this.leaves(talk.leave).flatMap(c => byId.get(c.command!) ?? []);
       const shown = asked.slice(0, 4 - leave.length), more = asked.length - shown.length;
       if (shown.length || leave.length) {
-        return { all, first: [...shown, ...leave].map(c => this.drawn(acts, c)), talk: true, ...more ? { more } : {} };
+        return { all, first: [...shown, ...leave].map(c => this.drawn(acts, c)), talk: true, ...more ? { more } : {},
+          rest: asked.slice(shown.length).map(c => this.drawn(acts, c)) };
       }
     }
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
@@ -157,7 +159,7 @@ export class Terminal {
     const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
     const after = lensed ? lensed.rest.flatMap(a => byId.get(a.command ?? a.choice) ?? []) : [];
     return { all, first: shown,
-      ...lensed ? { lens: { name: lens, more, rest: after } } : { more: all.length - shown.length } };
+      ...lensed ? { lens: { name: lens, more }, rest: after } : { more: all.length - shown.length } };
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
@@ -313,7 +315,7 @@ export class Terminal {
     : Promise<Listed | string | null> {
     if (!turn.spaced) { console.log(''); turn.spaced = true; }
     const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
-      all: offered.lens ? [...offered.first, ...offered.lens.rest] : offered.all,
+      all: offered.rest ? [...offered.first, ...offered.rest] : offered.all,
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
       ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
@@ -388,10 +390,17 @@ export class Terminal {
       // A foregone fight is one act, fought through by the company's tactics unless it turns, as the page's host
       // fights it (see Foregone; BP-01).
       let pressing = Foregone.is(turn.current?.screen, choice.id);
+      // What came of each exchange since the company's last turn, told before it chooses again, as the page's fight
+      // tells it (CombatTelling): only the hurts had shown between turns, the blows told after the fight.
+      const told = new Map<Battle, number>();
       const event = await session.leg(choice.id, async battle => {
         const ours = battle.state.combatants.filter(f => f.team === 'fighters');
         pressing &&= ours.every(f => f.hp > f.maxHp / 3);
         if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands())); }
+        const events = battle.events;
+        CombatTelling.exchanges(events.slice(told.get(battle) ?? events.length), battle.state)
+          .forEach(t => console.log(t.text));
+        told.set(battle, events.length);
         const command = await Terminal.command(battle.state, battle.legalCommands(), input);
         if (!command) { throw new Error(quitPlay); }
         return command;
