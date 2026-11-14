@@ -41,20 +41,19 @@
   content: 'Hold'; position: absolute; right: 38px; top: 50%; margin-top: -6px; font: var(--t-label);
   letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); grid-column: auto; }
 
-/* The reticle the page draws while a hold lasts (see Reticle), in place of the system's: the pressed reticle's ring,
-   filling round, its centre filled when it is full. */
+/* The reticle the page draws while a hold lasts (see Reticle), in place of the system's: the ring, and a disc filling it
+   from the centre out, full when the hold is. */
 :root[data-ix="b"]:is([data-holding], :has(.ix-reticle.held)) .shell,
 :root[data-ix="b"]:is([data-holding], :has(.ix-reticle.held)) .shell * { cursor: none !important; }
-.ix-reticle { position: fixed; left: 0; top: 0; z-index: 10000; width: 26px; height: 26px; margin: -13px 0 0 -13px;
+.ix-reticle { position: fixed; left: 0; top: 0; z-index: 10000; width: 44px; height: 44px; margin: -22px 0 0 -22px;
   pointer-events: none; border-radius: 50%; visibility: hidden;
-  background: conic-gradient(#ECE6D9 var(--hold-p), rgba(236, 230, 217, .22) 0);
-  --ring: radial-gradient(circle, transparent 0 6.4px, #000 6.8px 10.2px, transparent 10.6px);
-  -webkit-mask: var(--ring); mask: var(--ring);
-  filter: drop-shadow(0 0 1.2px rgba(10, 11, 14, .9)) drop-shadow(0 0 2px rgba(10, 11, 14, .6)); }
+  /* The ring stays; what fills is the disc inside it, from the centre out to the ring (the owner, 15 November). */
+  background: radial-gradient(circle closest-side, #ECE6D9 var(--hold-p, 0%), rgba(236, 230, 217, .10) calc(var(--hold-p, 0%) + .1%));
+  box-shadow: inset 0 0 0 1.8px #ECE6D9, 0 0 0 2px rgba(10, 11, 14, .55);
+  filter: drop-shadow(0 0 1.2px rgba(10, 11, 14, .9)); }
 .ix-reticle:is(.holding, .held, .drain) { visibility: visible; }
 .ix-reticle.holding { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
-.ix-reticle.held { --hold-p: 100%; --ring: radial-gradient(circle, #000 0 2.6px, transparent 3px 6.4px, #000 6.8px 10.2px,
-  transparent 10.6px); }
+.ix-reticle.held { --hold-p: 100%; }
 .ix-reticle.drain { animation: ix-drain 240ms var(--ease) forwards; }
 
 /* Less motion: the rings fill by quarters, and nothing fades in. */

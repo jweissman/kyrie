@@ -8,10 +8,11 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 // The pointer is the reticle (IG-15, the owner: "target reticule" meant the mouse cursor), and the buttons answer the
-// hand (IG-16). At a laptop's 1280 by 800 with a mouse: wherever the hand is, the cursor is a small ring; over anything
-// that can be chosen, the ring a little wider, never ticked; pressed, at once, tightened and filled. What the hand is
-// on is lit in its own tone (the row's mark's), never by corners drawn on it, and nothing moves or changes size under
-// the hand, over or pressed: on the title's ways, creation's cards and the scene's rows. One click commits.
+// hand (IG-16). At a laptop's 1280 by 800 with a mouse: wherever the hand is, the cursor is a ring (twice the size
+// it was, the owner, 15 November); over anything that can be chosen, the ring a little wider, never ticked;
+// pressed, at once, tightened (never filled). What the hand is on is lit in its own tone (the row's mark's), never
+// by corners drawn on it, and nothing moves or changes size under the hand, over or pressed: on the title's ways,
+// creation's cards and the scene's rows. One click commits.
 class Hand {
   static at = { x: 0, y: 0 };
   static async over(page: Page, selector: string) {
@@ -53,8 +54,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('rings the hand, closes over a choice, fills pressed, and nothing moves', async () => {
-    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '' });
+  it('rings the hand, closes over a choice, tightens pressed, and nothing moves', async () => {
+    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '?creation=cards' });
     await page.waitForSelector('.beat-ready', { timeout: 30000 }); await page.waitForTimeout(600);
     // The title: a ring on the dark; the ways in, each as it was over and pressed; no corners drawn on any.
     Hand.at = { x: 30, y: 400 }; await page.mouse.move(30, 400); await page.waitForTimeout(100);

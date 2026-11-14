@@ -27,14 +27,14 @@
   --paper-edge: rgba(41, 36, 29, .14);
 }
 :root { --row-neutral: rgba(236, 230, 217, .28); }
-/* The pointer is the reticle (IG-15, the owner: "target reticule" meant the cursor): a small ring wherever the hand is,
-   a little wider over anything that can be chosen, and tightened and filled the moment it is pressed; always only a
-   circle, never crossed by ticks (the owner, 15 November). The system's
-   own cursor stands behind each, and a touch screen has none. A long press, should an act ever ask one again, would fill
-   the ring by steps; a click commits at once, as everything does. */
-:root { --cursor-rest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-rest' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='5' fill='none' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3C/svg%3E") 12 12, auto;
-  --cursor-act: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-act' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3C/svg%3E") 12 12, pointer;
-  --cursor-press: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-press' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4.5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='4.5' fill='%23ECE6D9' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3C/svg%3E") 12 12, pointer; }
+/* The pointer is the reticle (IG-15, the owner: "target reticule" meant the cursor): a ring wherever the hand is, a little
+   wider over anything that can be chosen, and tightened the moment it is pressed (not filled); always only a circle, never
+   crossed by ticks, and large enough to find (the owner, 15 November: "way too small"; twice the size it was). The system's
+   own cursor stands behind each, and a touch screen has none. A long press fills the reticle from its centre out to the
+   ring (see instrument.css); a click commits at once, as everything does. */
+:root { --cursor-rest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-rest' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='10' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='10' fill='none' stroke='%23ECE6D9' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, auto;
+  --cursor-act: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-act' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='13' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='13' fill='none' stroke='%23ECE6D9' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, pointer;
+  --cursor-press: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-press' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='8' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='8' fill='none' stroke='%23ECE6D9' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, pointer; }
 @media (pointer: fine) {
   .shell, .shell * { cursor: var(--cursor-rest) !important; }
   .shell :is(input[type="text"], input:not([type]), textarea) { cursor: text !important; }
