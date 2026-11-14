@@ -14,7 +14,7 @@ describe('the clause load', () => {
     expect(ClauseLoad.heavy('Between you and the horse, the cart comes out of the ditch.')).toBe(false);
   });
   it('is no heavier in what every first hour meets than it was', () => {
-    const held = 1118;
+    const held = 1090;
     const heavy = ClauseCensus.count(true).reduce((n, c) => n + c.heavy.length, 0);
     expect(heavy).toBeLessThanOrEqual(held);
   });

@@ -18,50 +18,50 @@
     },
     "drover": {
       "role": "drover", "background": "herdsman", "painting": "shepherd",
-      "road": ["{Name} is driving a dozen red cattle along the road toward {to}, walking behind them with a stick {they} never [use|uses].", "Cattle fill the road from hedge to hedge, going to {to}, and somewhere among them is {Name}, the drover, whistling."],
-      "rest": ["{Name}, the drover, has the cattle penned for the night and {themself} by the fire.", "{Name} the drover is counting money on the table, twice, and then a third time to be sure."],
-      "morning": "{Name} the drover is at the window, counting the cattle in the pens before the road, and not liking the count.",
+      "road": ["{Name} is driving a dozen red cattle along the road toward {to}, walking behind them with a hazel stick.", "Cattle fill the road from hedge to hedge, going to {to}, and {Name}, the drover, is whistling among them."],
+      "rest": ["{Name}, the drover, has the cattle penned for the night and {themself} by the fire.", "{Name} the drover is counting coins into stacks on the table."],
+      "morning": "{Name} the drover is at the window, counting the cattle in the pens before the road.",
       "tracks": "The road is churned by cattle, all going toward {to}, and not long since: some of it is still warm.",
       "going": "'{to}, for the market,' says {Name}. 'They don't want to go. They never want to go. They always go.'",
       "trouble": { "kind": "stray",
-        "seen": "{Name} is standing in the road shouting at a hedge. One of the cattle has gone through it and is somewhere on the other side, being a cow.",
+        "seen": "{Name} is standing in the road shouting at a hedge. One of the cattle has gone through it into the field beyond.",
         "act": "Go through the hedge after {Name}'s cow",
         "about": "A cow in a thicket does not want to come out; a cow that has decided to come out cannot be stopped.",
-        "done": "You find the cow in a thicket, eating something it should not, and walk it back to the road by the simple means of being behind it. {Name} gives you a coin for your trouble and a long look at the cow.",
-        "freed": "{Name}'s stray cow has come back on its own, looking pleased with itself.",
+        "done": "You find the cow in a thicket, pulling at the hazel, and drive it back to the road. {Name} gives you a coin for your trouble.",
+        "freed": "{Name}'s stray cow has come back through the gap in the hedge on its own.",
         "reward": 1 }
     },
     "pedlar": {
       "role": "pedlar", "background": "tinker", "painting": "peddler",
-      "road": ["A pedlar is walking toward {to} under a pack twice the size of {their} back, with pans hung off it that ring like bells: {Name}.", "{Name}, a pedlar, is sitting on a milestone on the road to {to}, rearranging a tray of small things to look like more of them."],
-      "rest": ["{Name}, the pedlar, has {their} tray open on a bench, in case.", "{Name} the pedlar is selling a ribbon to someone who did not know they wanted one."],
+      "road": ["A pedlar is walking toward {to} under a pack twice the size of {their} back, with pans hung off it that ring like bells: {Name}.", "{Name}, a pedlar, is sitting on a milestone on the road to {to}, laying out a tray of ribbons, buttons and needles."],
+      "rest": ["{Name}, the pedlar, has {their} tray of ribbons and needles open on a bench.", "{Name} the pedlar is measuring out a length of ribbon for a customer."],
       "morning": "{Name} the pedlar is packing the tray away for the road, everything in its own place.",
-      "tracks": "A tin button lies in the road, the kind pedlars sell by the card. Someone's pack has a hole in it.",
+      "tracks": "A tin button lies in the road, the kind pedlars sell by the card.",
       "going": "'{to}, then wherever's next,' says {Name}. 'There's always a next. That's the trade.'",
       "sells": [["torch", 2, 3], ["rope", 2, 1], ["bandages", 1, 2], ["herbs", 2, 2], ["spyglass", 18, 1]]
     },
     "pilgrim": {
       "role": "pilgrim", "background": "acolyte", "painting": "pilgrim",
-      "road": ["A pilgrim is walking to {to} with a staff and a scallop-shell hat, slowly, as if every step had been promised: {Name}.", "{Name}, a pilgrim, is resting on the bank by the road to {to} with {their} shoes off and {their} feet in the grass."],
-      "rest": ["{Name}, the pilgrim, is eating bread in a corner with great attention, as if it were part of the pilgrimage.", "{Name} the pilgrim is asleep sitting up."],
+      "road": ["A pilgrim is walking to {to} with a staff and a scallop-shell hat, slowly: {Name}.", "{Name}, a pilgrim, is resting on the bank by the road to {to} with {their} shoes off and {their} feet in the grass."],
+      "rest": ["{Name}, the pilgrim, is eating bread in a corner, a scallop shell on {their} hat.", "{Name} the pilgrim is asleep sitting up."],
       "morning": "{Name} the pilgrim stands in the door with a staff, looking at the sky to see what the day will be.",
-      "tracks": "Someone has left a twist of grass on the milestone, knotted, the way pilgrims do when they pass.",
+      "tracks": "A knotted twist of grass lies on the milestone, as pilgrims leave one when they pass.",
       "going": "'To {to}, and the shrine there,' says {Name}. 'And back again, and then to the next. I promised. I didn't say how many.'"
     },
     "messenger": {
       "role": "messenger", "background": "servant", "painting": "servant",
       "road": ["A messenger is going hard toward {to}, half running, with a satchel held to {their} side: {Name}, who does not stop.", "{Name}, a messenger, overtakes you at a trot on the road to {to}, and calls back over {their} shoulder that {they} cannot stop."],
-      "rest": ["{Name}, the messenger, is asleep with {their} head on the satchel, which {they} [have|has] not let go of.", "{Name} the messenger eats standing up, as if the road might leave without {them}."],
+      "rest": ["{Name}, the messenger, is asleep with {their} head on the satchel, which {they} [have|has] not let go of.", "{Name} the messenger eats standing up by the door."],
       "morning": "{Name} the messenger is already at the door, the satchel on, eating as {they} [go|goes].",
-      "tracks": "Footprints go along the soft edge of the road toward {to}, far apart: someone running, and not for pleasure.",
+      "tracks": "Footprints go along the soft edge of the road toward {to}, far apart: a runner's.",
       "going": "'{to}, with a letter, and I'm late,' says {Name}. 'I'm always late. They write them late.'"
     },
     "family": {
       "role": "carter, moving house", "background": "farmer", "painting": "peasant",
-      "road": ["A family is moving house along the road to {to}: {Name} pushing a handcart with everything they own on it, and three children walking beside it carrying the rest.", "{Name}'s handcart has stopped on the road to {to} while a child is found who was not where everyone thought."],
-      "rest": ["{Name} and the children have the corner by the fire, and the children have everyone else's attention.", "{Name} is mending a handcart wheel while the children explain to strangers where they are moving to."],
-      "morning": "{Name} is tying the last of {their} things into bundles for the handcart, and the children are helping, more or less.",
-      "tracks": "A child's wooden horse lies in the road, dropped, facing {to}. Somebody will be missing it about now.",
+      "road": ["A family is moving house along the road to {to}: {Name} pushing a handcart with everything they own on it, and three children walking beside it carrying the rest.", "{Name}'s handcart has stopped on the road to {to} while the children are counted."],
+      "rest": ["{Name} and the children have the corner by the fire, the youngest asleep in a heap.", "{Name} is mending a handcart wheel while the children explain to strangers where they are moving to."],
+      "morning": "{Name} is tying the last of {their} things into bundles for the handcart, and the children are carrying out the small bundles.",
+      "tracks": "A child's wooden horse lies dropped in the road, facing {to}.",
       "going": "'{to},' says {Name}. 'My sister's there. She said come. She may not have meant it, but she said it.'"
     }
   },
@@ -72,20 +72,20 @@
   ],
   "gossip": {
     "crossing": ["The water's up a hand on the post since the rain.", "Somebody's horse lay down in the ford and wouldn't get up. Took four of them.", "The ferryman's put his fare up a penny and says it's the eels' fault.", "Somebody fell in at the stepping-stones and came out with a pike in his boot.", "They've been arguing a year over who mends the bridge rail, and it's still down.", "A cart went over at the ford with a load of crocks, and the children have been finding them all week.", "The ferry rope's fraying, and the ferryman says it'll last the winter, and says it a lot."],
-    "harbour": ["A boat came in yesterday with nobody's name on it.", "Fish are dear, and everyone blames the fishermen, who blame the fish.", "A man came ashore off a foreign boat and asked the way to a town nobody had heard of.", "The harbour-master's taken against gulls, and is losing.", "There's a smell off the tide-line nobody will own to.", "The fish-wives have stopped speaking to the net-menders, and nobody remembers why.", "A whale came up on the sand in the spring, and they're still arguing over the bones."],
-    "fishing": ["They say the eels are running early, and say it like a warning.", "Someone's net came up with a boot in it. Just the one.", "The heron's back on the weir, and the old men say that's a sign of something.", "Two boats went out after the same shoal and came back not speaking.", "Somebody's selling smoked fish that never saw smoke.", "The old weir's leaking, and the eels are going through it like gossip.", "Somebody caught a fish with a ring in it, and three people have claimed the ring."],
+    "harbour": ["A boat came in yesterday with nobody's name on it.", "Fish are dear this month; the boats are coming in half empty.", "A man came ashore off a foreign boat and asked the way to a town nobody had heard of.", "The harbour-master has doubled the mooring fee.", "There's a smell off the tide-line nobody will own to.", "The fish-wives have stopped speaking to the net-menders, and nobody remembers why.", "A whale came up on the sand in the spring, and they're still arguing over the bones."],
+    "fishing": ["They say the eels are running early, and say it like a warning.", "Someone's net came up with a boot in it. Just the one.", "The heron's back on the weir, and the old men say that means a dry summer.", "Two boats went out after the same shoal and came back not speaking.", "Somebody's selling smoked fish that never saw smoke.", "The old weir's leaking, and the eels are going through it.", "Somebody caught a fish with a ring in it, and three people have claimed the ring."],
     "workings": ["They've broken into an old working, and nobody wants to be first down it.", "The horn went twice last week, and the second time it was for real.", "A seam ran out under the hill, and they're cutting a new adit on a dowser's word.", "The reckoner's book doesn't tally, and three men are swearing it's the other two.", "Somebody heard knocking below the deepest level, and the shift came up early.", "The water's up in the low level again, and the pumps going day and night.", "A pony came up out of the dark by itself, and nobody can say who sent it."],
-    "yard": ["There's more work than hands, and they'll take anyone who can lift.", "A fire got out of one of the clamps and took a shed with it. Nobody hurt but the shed.", "The master's taken on a lad who works for two and eats for three.", "A whole stack came down in the night, and nobody heard it fall.", "They're short of rope, and the ropewalk's short of hemp, and everyone's short of temper.", "They're building a boat nobody ordered, and the master says it'll sell itself.", "The tar-boiler's daughter has run off with a carter, tar and all."],
-    "farm": ["The miller's put his price up again, and the village has put up with it again.", "Somebody's heifer has calved twins, and they are being visited like royalty.", "The hay's in, and nobody can remember a year it came in so dry.", "A fox got into the hen-house and left the door shut behind it.", "Old Ma's predicting a hard winter from the onions, and nobody's arguing.", "The bull's out again, and the lane's been his since Tuesday.", "The reeve's counted the sheep twice and got two different numbers, and both of them are low."],
-    "monastery": ["The brothers have a new bell, and it's worse than the old one.", "One of the brothers has run off with the cellarer's sister, or the cellarer, depending who you ask.", "The brothers are copying a book nobody's allowed to read, and everybody wants to.", "The cellarer's beer has been better since the abbot stopped drinking it.", "A pilgrim came for the relic and went away saying it was smaller than he'd heard.", "The brothers have taken a vow of silence for Lent, and the bees are the loudest thing up there.", "A novice climbed the bell-tower for a dare and is still up there, by the sound of it, praying."],
+    "yard": ["There's more work than hands, and they'll take anyone who can lift.", "A fire got out of one of the clamps and took a shed with it. Nobody was hurt.", "The master's taken on a lad who works for two and eats for three.", "A whole stack came down in the night, and nobody heard it fall.", "They're short of rope, and the ropewalk's short of hemp, and everyone's short of temper.", "They're building a boat nobody ordered, and the master says it'll sell itself.", "The tar-boiler's daughter has run off with a carter."],
+    "farm": ["The miller's put his price up again, and the village has put up with it again.", "A heifer has calved twins, and half the village has been to see them.", "The hay's in, and nobody can remember a year it came in so dry.", "A fox got into the hen-house and left the door shut behind it.", "Old Ma's predicting a hard winter from the onions, and nobody's arguing.", "The bull's out again, and the lane's been his since Tuesday.", "The reeve's counted the sheep twice and got two different numbers, and both of them are low."],
+    "monastery": ["The brothers have a new bell, and it's worse than the old one.", "One of the brothers has run off with the cellarer's sister.", "The brothers are copying a book nobody's allowed to read, and everybody wants to.", "The cellarer's beer has been better since the abbot stopped drinking it.", "A pilgrim came for the relic and went away saying it was smaller than he'd heard.", "The brothers have taken a vow of silence for Lent, and the bees are the loudest thing up there.", "A novice climbed the bell-tower for a dare and is still up there, by the sound of it, praying."],
     "fortress": ["They're short of soldiers up there, and they're not fussy about who.", "The captain's been looking at the road a great deal, which nobody likes.", "The new sergeant drills them at dawn, and the whole valley hears it.", "Somebody's been selling the garrison's oats, and the horses know it.", "They've bricked up the postern, and nobody will say why.", "The captain's wife has had the walls whitewashed, and the soldiers are taking it badly.", "A deserter came back of his own accord, and nobody knows what to do with him."],
     "ancient": ["The old well's been talking again: a sound up from it at night, like breathing.", "Someone's found another of the old stones, under a pigsty, and now nobody can agree whose pigsty it is.", "A child dug up a coin with a face on it nobody knows.", "The standing stones were counted again, and came out one short.", "The old road's showing through the field again after the rain, straight as a rule.", "The barrow on the hill has a new hole in it, and nobody will say who dug it.", "An old woman says the stones walk on midsummer night, and she's not one for saying things."],
     "migration": ["The newcomers had a wedding and the whole country could hear it.", "Somebody said something about the newcomers at the market and somebody else said something back. Nobody's hurt. Yet.", "The newcomers' children have taught ours a song, and the priest doesn't like the words.", "They bake a bread you can't stop eating, and won't say what's in it.", "One of theirs married one of ours, and both families are pretending it was their idea.", "The newcomers have built their houses the wrong way round, they say, and they look warmer for it.", "Their elders and ours sat down to talk boundaries, and got up friends, which nobody expected."],
-    "market": ["Prices are up, and everyone says it's the roads.", "There's a man at the market selling a cure for everything. He looks ill.", "The weights have been checked, and two stalls have shut for the week.", "A pedlar's selling ribbons from the city that fade in a day.", "There's a dispute over a pig that's gone to the reeve, and the pig's enjoying it.", "The cheese-woman has a new cheese, and the town is divided.", "Somebody's been passing clipped coin, and everybody's biting everything."]
+    "market": ["Prices are up, and everyone says it's the roads.", "A quack was selling a cure-all at the market until the reeve moved him on.", "The weights have been checked, and two stalls have shut for the week.", "A pedlar's selling ribbons from the city that fade in a day.", "A dispute over a pig has gone to the reeve.", "The baker has put up the price of a loaf, and the town is divided.", "Somebody's been passing clipped coin, and everybody's biting everything."]
   },
   "knows": [
     "'Past {near}, you mean?' says {Name}. 'There's {seen}. I go round it, and so would you if you had any sense. So you'll be going there, then.'",
-    "'Nothing on this road worth stopping for,' says {Name}. 'Off it, now: {seen}. They say there's something there. They say a lot of things.'"
+    "'Nothing on this road worth stopping for,' says {Name}. 'Off it, now: {seen}. Nobody I know has been in.'"
   ],
   "deeds": "'Word's going round,' says {Name}, 'that some stranger's been making themselves useful. Folk notice that. Folk talk about it, too, more than's good for anybody.'"
 }

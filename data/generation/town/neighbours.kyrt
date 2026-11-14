@@ -221,7 +221,7 @@
     On discuss { Assert willing({t}_iv, actor). Set hire({t}_iv) to 0. Retract {t}_iv_stays(party). }
   }
   Observe {t}_iv_stay_seen at {station}_office when {t}_iv_stays(party) and at({t}_iv, {station}_office) "Isaure Venn sits at the stationmaster's desk with her back to the door, copying, in a hand that gets smaller by the hour, with a lantern, three pots of ink, and the look of a person who has been given the key to the house she was born in.".
-  Observe {t}_iv_letter at {t}_taproom when {t}_iv_stays(party) "A letter in a good, small, hurried hand is pinned to the taproom's board, addressed to no one in particular and everyone who went with her: IT IS ALL HERE. DO NOT COME BACK WITHOUT THE WORKS. P.S. SEND PAPER.".
+  Observe {t}_iv_letter at {t}_taproom when {t}_iv_stays(party) "A letter in a good, small, hurried hand is pinned to the taproom's board, addressed to everyone who went with her: IT IS ALL HERE. DO NOT COME BACK WITHOUT THE WORKS. P.S. SEND PAPER.".
 --- isaure plain 1 unless station
   Person {t}_iv "Isaure Venn" at {t}_taproom {
     Role "a scholar of the old script, who has been turned back from the hill twice". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful. Pronouns she.
