@@ -74,4 +74,28 @@ describe('the way into the dark, with nothing to see by', () => {
     t.follow('job');
     expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/cellar/)]);
   });
+  // Two steps off by the town's ways, the chandler's is still the way to a light: a monk in the laboratory, out of
+  // light in the corn-store with coin in hand, had been led nowhere (Gate 1).
+  it('leads to the light-seller across the town', async () => {
+    const t = await Tiny.start(`
+      Place town "Lowmouth" is settlement.
+      Place green "the landing" is room within town at 1, 0 outdoors.
+      Place store "the corn-store" is room within town at 0, 0 indoors.
+      Place shop "the chandler's" is room within town at 2, 0 indoors.
+      Place cellar "the cellar" is room within town at 0, 1 underground.
+      Passage store_door "the store door" is door between green and store.
+      Passage shop_door "the chandler's door" is door between green and shop.
+      Passage trapdoor "the trapdoor" is stair between store and cellar.
+      Initially Assert unlit(cellar).
+      Company party "You" of 1 at green.
+      Person nell "Nell" at shop { Role "a chandler". Ancestry human. Peaceable. Pronouns she. Sells candle for 1 coin from 9. }
+      Objective rats when true toward cellar "Clear the rats out of {cellar}.".
+      Goal false.`);
+    await t.perform('go(t__shop_door,t__shop)');
+    await t.perform('go(t__shop_door,t__green)');
+    await t.perform('go(t__store_door,t__store)');
+    Dark.out(t);
+    t.follow('rats');
+    expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/chandler|landing/)]);
+  });
 });

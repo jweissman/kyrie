@@ -9,90 +9,401 @@ repaid when what came of it told something new.
 
 ## Every walk
 
-| seed | calling / background | origin | policy | arrivals | mean | worst | in budget | places | revisits | attention repaid / empty | fights | loops | dead ends | ended |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| a1 | warrior / blacksmith | debt | straight | 13 | 4.2 | 7 7 6 | **no** | 6 | 7 | 2 / 0 | 10 | 2 | 0 | yes |
-| a1 | warrior / blacksmith | debt | curious | 3 | 4.0 | 4 4 4 | **no** | 3 | 0 | 28 / 0 | 0 | 0 | 0 | no |
-| a1 | mage / apothecary | kin | straight | 23 | 3.0 | 8 8 7 | **no** | 13 | 10 | 4 / 0 | 0 | 7 | 0 | no |
-| a1 | mage / apothecary | kin | curious | 13 | 2.6 | 7 5 5 | yes | 9 | 4 | 12 / 0 | 0 | 1 | 0 | no |
-| a1 | thief / burglar | herbs | straight | 14 | 2.1 | 5 5 3 | yes | 10 | 4 | 5 / 0 | 11 | 0 | 0 | no |
-| a1 | thief / burglar | herbs | curious | 7 | 3.3 | 5 5 5 | **no** | 7 | 0 | 2 / 2 | 19 | 0 | 0 | no |
-| a1 | cleric / doctor | order | straight | 26 | 2.3 | 4 4 4 | yes | 6 | 20 | 3 / 0 | 0 | 23 | 0 | no |
-| a1 | cleric / doctor | order | curious | 9 | 2.9 | 4 4 4 | yes | 7 | 2 | 19 / 0 | 0 | 1 | 0 | no |
-| a1 | bard / entertainer | wanderer | straight | 17 | 2.0 | 7 5 4 | yes | 9 | 8 | 4 / 1 | 4 | 4 | 0 | no |
-| a1 | bard / entertainer | wanderer | curious | 12 | 2.5 | 7 4 4 | yes | 9 | 3 | 17 / 0 | 0 | 2 | 0 | no |
-| a1 | ranger / archer | map | straight | 24 | 1.9 | 7 4 2 | yes | 4 | 20 | 2 / 0 | 0 | 16 | 0 | no |
-| a1 | ranger / archer | map | curious | 10 | 3.2 | 7 5 4 | **no** | 7 | 3 | 5 / 0 | 0 | 1 | 0 | no |
-| a1 | monk / gardener | lost | straight | 24 | 2.6 | 7 4 4 | yes | 6 | 18 | 2 / 0 | 0 | 14 | 0 | no |
-| a1 | monk / gardener | lost | curious | 10 | 3.4 | 7 5 4 | **no** | 7 | 3 | 1 / 0 | 2 | 1 | 0 | no |
-| b2 | warrior / blacksmith | order | straight | 17 | 2.4 | 5 4 4 | yes | 15 | 2 | 6 / 0 | 0 | 4 | 0 | no |
-| b2 | warrior / blacksmith | order | curious | 11 | 3.8 | 8 6 5 | **no** | 7 | 4 | 13 / 1 | 3 | 1 | 0 | no |
-| b2 | mage / apothecary | wanderer | straight | 8 | 3.9 | 7 6 5 | **no** | 6 | 2 | 3 / 1 | 8 | 0 | 0 | yes |
-| b2 | mage / apothecary | wanderer | curious | 14 | 3.0 | 7 5 5 | yes | 9 | 5 | 5 / 1 | 9 | 1 | 0 | no |
-| b2 | thief / burglar | map | straight | 21 | 2.0 | 7 5 4 | yes | 12 | 9 | 3 / 0 | 0 | 8 | 0 | no |
-| b2 | thief / burglar | map | curious | 17 | 2.8 | 7 5 4 | yes | 13 | 4 | 4 / 1 | 0 | 3 | 0 | no |
-| b2 | cleric / doctor | lost | straight | 21 | 2.0 | 7 5 4 | yes | 12 | 9 | 3 / 0 | 0 | 8 | 0 | no |
-| b2 | cleric / doctor | lost | curious | 17 | 2.6 | 7 5 4 | yes | 13 | 4 | 6 / 1 | 0 | 4 | 0 | no |
-| b2 | bard / entertainer | courier | straight | 14 | 2.6 | 7 5 5 | yes | 9 | 5 | 2 / 0 | 7 | 2 | 0 | no |
-| b2 | bard / entertainer | courier | curious | 4 | 4.0 | 7 4 3 | **no** | 4 | 0 | 24 / 0 | 0 | 0 | 0 | no |
-| b2 | ranger / archer | debt | straight | 16 | 2.3 | 6 4 4 | yes | 12 | 4 | 9 / 0 | 6 | 2 | 0 | no |
-| b2 | ranger / archer | debt | curious | 18 | 2.9 | 6 5 5 | yes | 13 | 5 | 12 / 0 | 0 | 4 | 0 | no |
-| b2 | monk / gardener | kin | straight | 15 | 3.9 | 6 6 5 | **no** | 5 | 10 | 3 / 0 | 17 | 4 | 0 | no |
-| b2 | monk / gardener | kin | curious | 8 | 3.3 | 9 5 3 | **no** | 6 | 2 | 19 / 1 | 3 | 1 | 0 | no |
-| c3 | warrior / blacksmith | lost | straight | 10 | 4.1 | 7 5 5 | **no** | 6 | 4 | 2 / 0 | 8 | 4 | 0 | yes |
-| c3 | warrior / blacksmith | lost | curious | 25 | 2.6 | 7 7 5 | yes | 17 | 8 | 2 / 0 | 0 | 5 | 0 | no |
-| c3 | mage / apothecary | courier | straight | 20 | 2.8 | 7 5 5 | yes | 15 | 5 | 8 / 0 | 0 | 5 | 0 | no |
-| c3 | mage / apothecary | courier | curious | 4 | 4.0 | 7 4 4 | **no** | 4 | 0 | 24 / 0 | 0 | 0 | 0 | no |
-| c3 | thief / burglar | debt | straight | 3 | 4.0 | 4 4 4 | **no** | 3 | 0 | 28 / 0 | 0 | 0 | 0 | no |
-| c3 | thief / burglar | debt | curious | 3 | 4.0 | 4 4 4 | **no** | 3 | 0 | 28 / 0 | 0 | 0 | 0 | no |
-| c3 | cleric / doctor | kin | straight | 21 | 2.9 | 7 7 6 | yes | 14 | 7 | 4 / 0 | 0 | 6 | 0 | no |
-| c3 | cleric / doctor | kin | curious | 10 | 2.5 | 7 5 3 | yes | 7 | 3 | 21 / 0 | 0 | 2 | 0 | no |
-| c3 | bard / entertainer | herbs | straight | 15 | 2.4 | 6 5 5 | yes | 11 | 4 | 5 / 0 | 10 | 0 | 0 | no |
-| c3 | bard / entertainer | herbs | curious | 8 | 3.6 | 11 5 4 | **no** | 6 | 2 | 18 / 1 | 4 | 0 | 0 | no |
-| c3 | ranger / archer | order | straight | 5 | 2.8 | 5 4 3 | yes | 5 | 0 | 24 / 0 | 0 | 0 | 0 | no |
-| c3 | ranger / archer | order | curious | 19 | 2.6 | 5 4 4 | yes | 16 | 3 | 5 / 0 | 0 | 2 | 0 | no |
-| c3 | monk / gardener | wanderer | straight | 17 | 2.0 | 7 5 4 | yes | 9 | 8 | 4 / 1 | 4 | 4 | 0 | no |
-| c3 | monk / gardener | wanderer | curious | 18 | 2.2 | 7 4 4 | yes | 14 | 4 | 10 / 0 | 0 | 2 | 0 | no |
+| seed | calling / background | origin | policy | arrivals | mean | worst | in budget | places | revisits | attention repaid / empty | fights | loops | dead ends | lost | ended |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| a1 | warrior / blacksmith | debt | straight | 13 | 2.5 | 4 4 4 | yes | 7 | 6 | 3 / 0 | 3 | 1 | 0 | 9 | yes |
+| a1 | warrior / blacksmith | debt | curious | 3 | 4.0 | 4 4 4 | **no** | 3 | 0 | 28 / 0 | 0 | 0 | 0 | 0 | no |
+| a1 | mage / apothecary | kin | straight | 23 | 2.8 | 7 6 6 | yes | 13 | 10 | 4 / 0 | 0 | 7 | 0 | 0 | no |
+| a1 | mage / apothecary | kin | curious | 13 | 2.6 | 7 5 5 | yes | 9 | 4 | 11 / 1 | 0 | 2 | 0 | 0 | no |
+| a1 | thief / burglar | herbs | straight | 21 | 2.8 | 7 6 6 | yes | 13 | 8 | 5 / 0 | 0 | 4 | 0 | 0 | no |
+| a1 | thief / burglar | herbs | curious | 16 | 2.8 | 7 6 5 | yes | 12 | 4 | 11 / 0 | 0 | 0 | 0 | 0 | no |
+| a1 | cleric / doctor | order | straight | 26 | 2.3 | 4 4 4 | yes | 6 | 20 | 3 / 0 | 0 | 23 | 0 | 24 | no |
+| a1 | cleric / doctor | order | curious | 9 | 2.9 | 4 4 4 | yes | 7 | 2 | 19 / 0 | 0 | 1 | 0 | 2 | no |
+| a1 | bard / entertainer | wanderer | straight | 22 | 2.2 | 7 6 4 | yes | 11 | 11 | 4 / 0 | 0 | 11 | 0 | 1 | no |
+| a1 | bard / entertainer | wanderer | curious | 12 | 2.8 | 7 4 4 | yes | 12 | 0 | 18 / 0 | 0 | 0 | 0 | 5 | no |
+| a1 | ranger / archer | map | straight | 24 | 1.9 | 7 4 2 | yes | 4 | 20 | 2 / 0 | 0 | 14 | 0 | 25 | no |
+| a1 | ranger / archer | map | curious | 10 | 3.0 | 7 4 4 | yes | 7 | 3 | 5 / 0 | 2 | 1 | 0 | 19 | no |
+| a1 | monk / gardener | lost | straight | 27 | 2.6 | 7 4 4 | yes | 6 | 21 | 2 / 0 | 0 | 18 | 0 | 15 | no |
+| a1 | monk / gardener | lost | curious | 10 | 3.4 | 7 5 4 | **no** | 7 | 3 | 1 / 0 | 2 | 1 | 0 | 0 | no |
+| b2 | warrior / blacksmith | order | straight | 19 | 2.5 | 5 4 4 | yes | 13 | 6 | 8 / 0 | 0 | 6 | 0 | 17 | no |
+| b2 | warrior / blacksmith | order | curious | 8 | 3.9 | 5 5 5 | **no** | 7 | 1 | 10 / 1 | 8 | 1 | 0 | 0 | no |
+| b2 | mage / apothecary | wanderer | straight | 16 | 2.6 | 7 5 5 | yes | 10 | 6 | 5 / 1 | 7 | 0 | 0 | 0 | no |
+| b2 | mage / apothecary | wanderer | curious | 14 | 3.6 | 7 5 5 | **no** | 12 | 2 | 2 / 1 | 8 | 2 | 0 | 0 | yes |
+| b2 | thief / burglar | map | straight | 26 | 1.8 | 7 5 4 | yes | 10 | 16 | 3 / 0 | 0 | 16 | 0 | 24 | no |
+| b2 | thief / burglar | map | curious | 18 | 2.4 | 7 4 4 | yes | 15 | 3 | 2 / 0 | 0 | 1 | 0 | 13 | no |
+| b2 | cleric / doctor | lost | straight | 26 | 1.8 | 7 5 4 | yes | 10 | 16 | 3 / 0 | 0 | 16 | 0 | 24 | no |
+| b2 | cleric / doctor | lost | curious | 18 | 2.6 | 7 5 4 | yes | 13 | 5 | 7 / 1 | 0 | 4 | 0 | 10 | no |
+| b2 | bard / entertainer | courier | straight | 25 | 2.0 | 7 4 4 | yes | 8 | 17 | 3 / 0 | 0 | 17 | 0 | 26 | no |
+| b2 | bard / entertainer | courier | curious | 16 | 3.7 | 7 5 5 | **no** | 13 | 3 | 7 / 1 | 4 | 1 | 0 | 0 | no |
+| b2 | ranger / archer | debt | straight | 24 | 1.7 | 5 4 4 | yes | 10 | 14 | 6 / 0 | 0 | 14 | 0 | 23 | no |
+| b2 | ranger / archer | debt | curious | 14 | 3.4 | 9 6 5 | **no** | 11 | 3 | 15 / 0 | 0 | 1 | 0 | 9 | no |
+| b2 | monk / gardener | kin | straight | 19 | 2.5 | 5 4 4 | yes | 13 | 6 | 8 / 0 | 0 | 6 | 0 | 17 | no |
+| b2 | monk / gardener | kin | curious | 8 | 3.9 | 5 5 5 | **no** | 7 | 1 | 10 / 1 | 8 | 1 | 0 | 0 | no |
+| c3 | warrior / blacksmith | lost | straight | 21 | 3.0 | 7 5 4 | yes | 7 | 14 | 2 / 0 | 7 | 9 | 0 | 0 | no |
+| c3 | warrior / blacksmith | lost | curious | 23 | 2.3 | 7 7 4 | yes | 15 | 8 | 2 / 0 | 0 | 5 | 0 | 5 | no |
+| c3 | mage / apothecary | courier | straight | 21 | 2.5 | 7 5 5 | yes | 13 | 8 | 7 / 0 | 0 | 9 | 0 | 24 | no |
+| c3 | mage / apothecary | courier | curious | 4 | 4.0 | 7 4 4 | **no** | 4 | 0 | 24 / 0 | 0 | 0 | 0 | 0 | no |
+| c3 | thief / burglar | debt | straight | 3 | 4.0 | 4 4 4 | **no** | 3 | 0 | 28 / 0 | 0 | 0 | 0 | 0 | no |
+| c3 | thief / burglar | debt | curious | 3 | 4.0 | 4 4 4 | **no** | 3 | 0 | 28 / 0 | 0 | 0 | 0 | 0 | no |
+| c3 | cleric / doctor | kin | straight | 22 | 2.8 | 7 7 6 | yes | 16 | 6 | 4 / 0 | 0 | 7 | 0 | 0 | no |
+| c3 | cleric / doctor | kin | curious | 10 | 2.5 | 7 5 3 | yes | 7 | 3 | 21 / 0 | 0 | 2 | 0 | 0 | no |
+| c3 | bard / entertainer | herbs | straight | 22 | 3.0 | 7 7 6 | yes | 16 | 6 | 4 / 0 | 0 | 7 | 0 | 0 | no |
+| c3 | bard / entertainer | herbs | curious | 10 | 2.5 | 7 5 3 | yes | 7 | 3 | 21 / 0 | 0 | 2 | 0 | 0 | no |
+| c3 | ranger / archer | order | straight | 5 | 2.8 | 5 4 3 | yes | 5 | 0 | 24 / 0 | 0 | 0 | 0 | 0 | no |
+| c3 | ranger / archer | order | curious | 19 | 2.8 | 8 4 4 | yes | 16 | 3 | 6 / 0 | 0 | 2 | 0 | 3 | no |
+| c3 | monk / gardener | wanderer | straight | 16 | 2.4 | 7 4 4 | yes | 16 | 0 | 11 / 0 | 0 | 0 | 0 | 0 | no |
+| c3 | monk / gardener | wanderer | curious | 20 | 2.1 | 7 4 4 | yes | 19 | 1 | 6 / 0 | 0 | 0 | 0 | 0 | no |
 
 ## By calling
 
 | calling | can do (types offered) | chose (types) | led with (types) | atlas led | atlas chosen | atlas realized | attention repaid / empty |
 |---|---|---|---|---|---|---|---|
-| warrior | act, fight, go, journey, light, other, search, talk, wait | go 55, talk 41, act 23, fight 21, journey 10, light 4, search 4, other 2, wait 1 | go 158, act 127, talk 120, fight 76, wait 69, journey 41, light 27, search 26, other 12 | none 248, exploration 203, undertaking 93, knowledge 56, danger 49, companionship 30, payoff 5 | exploration 91, undertaking 34, none 20, knowledge 19, danger 18, payoff 1 | exploration 83, undertaking 31, knowledge 19, danger 5, payoff 1 | 53 / 1 |
-| mage | act, care, fight, go, journey, light, other, search, study, talk, wait | go 64, talk 40, act 26, fight 17, journey 11, light 4, search 4, study 2, other 1, care 1, wait 1 | go 165, talk 133, act 121, wait 83, fight 70, journey 46, other 39, search 17, study 10, care 10, light 9 | none 314, exploration 181, knowledge 112, undertaking 80, danger 41, companionship 35 | exploration 91, none 36, undertaking 30, knowledge 24, danger 17 | exploration 83, undertaking 27, knowledge 24, danger 6 | 56 / 2 |
-| thief | act, care, fight, go, journey, light, other, search, talk, wait | talk 64, go 53, fight 30, act 11, journey 6, wait 6, search 5, light 4, other 1 | go 175, talk 152, fight 119, act 106, wait 81, search 31, journey 27, other 18, care 8, light 7 | none 315, exploration 255, undertaking 113, knowledge 99, companionship 54, danger 35, payoff 2 | exploration 98, undertaking 93, none 29, danger 27, knowledge 15, payoff 2 | exploration 97, undertaking 90, knowledge 15, danger 3, payoff 2 | 70 / 3 |
-| cleric | act, fight, go, journey, light, other, search, study, talk, wait | go 89, talk 42, act 27, journey 8, wait 5, search 3, light 2, study 2, other 2 | go 195, act 128, talk 124, wait 111, study 53, journey 44, search 25, other 18, fight 11, light 4 | none 325, exploration 203, undertaking 97, knowledge 68, companionship 26, danger 19 | exploration 108, none 45, undertaking 27, knowledge 15, danger 4 | exploration 101, undertaking 27, knowledge 15, danger 4 | 56 / 1 |
-| bard | act, fight, go, journey, light, other, search, study, talk, wait | talk 59, go 53, act 27, fight 25, journey 10, light 4, search 2 | talk 182, go 137, act 136, fight 92, journey 81, wait 63, search 29, other 11, study 8, light 5 | exploration 299, none 242, knowledge 151, undertaking 68, companionship 37, danger 32, payoff 1 | exploration 123, undertaking 29, knowledge 24, danger 24, none 11, payoff 1 | exploration 112, undertaking 26, knowledge 24, danger 4, payoff 1 | 70 / 2 |
-| ranger | act, fight, go, journey, light, other, search, talk, wait | go 82, act 39, talk 36, wait 6, fight 6, journey 5, search 2, light 2, other 2 | act 202, go 197, wait 112, talk 111, light 41, fight 38, journey 24, search 18, other 1 | none 327, exploration 228, knowledge 120, undertaking 52, companionship 30, danger 29, payoff 17 | exploration 109, none 33, undertaking 30, knowledge 24, danger 9, payoff 3, companionship 2 | exploration 87, undertaking 30, knowledge 24, danger 4, payoff 3, companionship 2 | 57 / 0 |
-| monk | act, fight, go, journey, light, other, search, talk, wait | go 67, act 33, talk 27, fight 26, journey 12, search 5, wait 5, light 4, other 1 | go 213, act 108, talk 107, fight 105, wait 97, journey 66, search 29, light 16, other 3 | none 345, exploration 244, knowledge 83, undertaking 74, danger 42, companionship 18, payoff 16 | exploration 87, none 60, undertaking 22, knowledge 17, danger 17, payoff 2 | exploration 77, undertaking 16, knowledge 16, payoff 2 | 39 / 2 |
+| warrior | act, fight, go, journey, light, other, search, talk, wait | go 67, talk 38, act 29, fight 18, journey 9, search 5, wait 2, light 2, other 1 | go 181, act 138, talk 114, fight 86, wait 81, light 45, journey 34, search 15, other 2 | none 279, exploration 188, undertaking 113, danger 59, knowledge 53, companionship 30, payoff 5 | exploration 82, undertaking 48, none 30, danger 19, knowledge 15, payoff 1 | exploration 71, undertaking 36, knowledge 15, danger 6, payoff 1 | 53 / 1 |
+| mage | act, fight, go, journey, light, other, search, study, talk, wait | go 75, talk 39, act 26, fight 15, journey 11, light 5, study 3, search 2, other 1, wait 1 | go 197, talk 133, act 116, wait 91, fight 63, journey 50, study 35, search 20, light 19, other 7 | none 315, exploration 191, undertaking 114, knowledge 100, danger 37, companionship 35, payoff 2 | exploration 96, undertaking 44, none 31, knowledge 24, danger 16 | exploration 87, undertaking 38, knowledge 24, danger 7 | 53 / 3 |
+| thief | act, fight, go, journey, light, other, search, talk, wait | go 75, talk 66, act 18, journey 6, wait 6, search 4, light 3, other 2 | go 214, talk 170, act 140, wait 97, light 33, journey 25, search 20, other 10, fight 9 | exploration 275, none 260, undertaking 121, knowledge 109, companionship 70, danger 15, payoff 2 | exploration 117, undertaking 82, none 33, knowledge 14, danger 4, payoff 2 | exploration 109, undertaking 81, knowledge 14, danger 4, payoff 2 | 77 / 0 |
+| cleric | act, fight, go, journey, light, other, search, study, talk, wait | go 96, talk 42, act 23, journey 8, search 3, wait 3, study 2, other 2, light 1 | go 200, act 133, talk 126, wait 109, study 59, journey 45, search 16, fight 11, other 8, light 4 | none 334, exploration 188, undertaking 99, knowledge 65, companionship 26, danger 19 | exploration 102, none 51, undertaking 28, knowledge 11, danger 3 | exploration 95, undertaking 28, knowledge 11, danger 3 | 57 / 1 |
+| bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 86, talk 43, act 26, journey 13, fight 4, search 3, other 2, light 2, wait 1 | go 191, talk 142, act 125, wait 87, journey 71, light 43, fight 34, study 18, search 16, care 14, other 2 | none 297, exploration 230, undertaking 111, knowledge 73, danger 39, companionship 28, payoff 7 | exploration 118, undertaking 40, none 26, knowledge 16, danger 10 | exploration 102, undertaking 31, knowledge 16, danger 7 | 57 / 1 |
+| ranger | act, fight, go, journey, light, other, search, talk, wait | go 84, act 40, talk 34, journey 7, wait 6, search 3, light 2, other 2, fight 2 | go 208, act 185, wait 124, talk 94, light 50, journey 32, search 20, fight 19, other 1 | none 356, exploration 197, knowledge 97, undertaking 69, companionship 27, danger 24, payoff 16 | exploration 95, none 47, undertaking 33, knowledge 21, danger 5, payoff 3, companionship 1 | exploration 75, undertaking 32, knowledge 21, danger 4, payoff 3, companionship 1 | 58 / 0 |
+| monk | act, fight, go, journey, light, other, search, talk, wait | go 60, act 41, journey 33, talk 17, fight 10, search 7, wait 6, light 3, other 3 | go 222, act 123, journey 112, wait 92, talk 84, fight 55, light 35, search 18, other 3 | none 352, exploration 211, undertaking 108, knowledge 79, danger 28, payoff 17, companionship 2 | exploration 83, none 56, undertaking 32, knowledge 24, danger 6, payoff 1 | exploration 75, undertaking 30, knowledge 23, payoff 1, danger 1 | 38 / 1 |
 
 ## Totals
 
-- walks: 42; within the budget: 26; outlier arrivals: 33
-- attention repaid 401, empty 11
-- fights 125, retreats 17, loops 144, dead ends 0, ended 3, errors 0
-- mean time per walk: 18600 ms
+- walks: 42; within the budget: 32; outlier arrivals: 33
+- attention repaid 393, empty 7
+- fights 49, retreats 7, loops 212, dead ends 0, ended 2, errors 0
+- blockers: 0 errors, 0 dead ends, 295 turns lost (an aim followed and nothing leading to it), 242 of them unpursuable (not amid the site the aim is about with somewhere there to explore)
+- intention to a consequence: 36 of 42 walks
+- mean time per walk: 20177 ms
+
+## Gate 1, tier 1
+
+| build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
+|---|---|---|---|---|---|---|---|---|
+| b50a7c4f | a1, b2, c3 | debt, kin, herbs, order, wanderer, map, lost, courier | 7 | 0 | 0 | 243 | 0 | 0 |
+
+### Unpursuable turns
+
+- a1 warrior/blacksmith debt straight, turn 6, at Ironkeep after "Set out for Ironkeep": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 9, at Ironkeep after "Out to Ironkeep": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 10, at The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it. after "Build the cairn up again, stone on stone": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 11, at open fields north-west of Mistshaw after "To open fields north-west of Mistshaw": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 12, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 13, at Ironkeep after "To Ironkeep": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 15, at Ironkeep after "Out to Ironkeep": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 16, at the gate-passage after "Into the gate-passage by the gate": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 warrior/blacksmith debt straight, turn 17, at You set your shoulder to it and heave. Wood groans and iron shrieks, and the noise of it goes further than you would like. after "To the bailey — heave the portcullis up and wedge it": You owe Mik, salter at Lowmouth 50 coin by market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, nearest of the old places round about: what is in such places could pay it.
+- a1 cleric/doctor order straight, turn 7, at You put an ear to the speaking door, and hold your breath. There is nothing to hear from it. after "Into the head of the steps — look at the speaking door": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 8, at The letters are worn shallow, but they are letters you have met before in older books; you read them slowly, under your breath, and they hold together. after "Read the letters over the door": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 9, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 10, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 11, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 12, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 13, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 14, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 15, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 16, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 17, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 18, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 19, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 20, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 21, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 22, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 23, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 24, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 25, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 26, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 27, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 28, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 29, at Mistlake after "To Mistlake": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order straight, turn 30, at the woods of Elmholt after "To the woods of Elmholt": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order curious, turn 26, at the lord's chamber after "To the lord's chamber": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 cleric/doctor order curious, turn 27, at The oldest roll is the grant of the keep to its first lord, and says whose kingdom it was, and what kind of kingdom. after "Untie the castle roll and read it": The brothers want the old writing at Mistlake read and set down. Find what is written there of who made the place, or how its makers ended.
+- a1 bard/entertainer wanderer straight, turn 9, at Fengate after "Set out for Fengate": The old road bends round a hill with nothing in it at Fengate, and the ground there is said to hum.
+- a1 bard/entertainer wanderer curious, turn 24, at Ulf's chandlery after "To Ulf's chandlery": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 bard/entertainer wanderer curious, turn 25, at Aldred's herb-shop after "To Aldred's herb-shop": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 bard/entertainer wanderer curious, turn 27, at the boat-sheds after "To the boat-sheds": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 bard/entertainer wanderer curious, turn 28, at Aldith nods to you, and says nothing until you do. after "Talk to Aldith": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 bard/entertainer wanderer curious, turn 29, at Marjory Twelvetrees's general store after "To Marjory Twelvetrees's general store": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 5, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 6, at The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it. after "Build the cairn up again, stone on stone": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 7, at open fields north-west of Mistshaw after "To open fields north-west of Mistshaw": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 8, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 9, at Ironkeep after "To Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 11, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 12, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 13, at You take a steel coin. after "Collect a steel coin for Hamo": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 14, at You push at the portcullis, then pull. It does not shift, either way. after "To the bailey — look at the portcullis": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 15, at You put an ear to the portcullis, and hold your breath. There is nothing to hear from it. after "To the bailey — look at the portcullis — Listen at it": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 16, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 17, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 18, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 19, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 20, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 21, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 22, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 23, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 24, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 25, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 26, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 27, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 28, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 29, at the gate-passage after "Into the gate-passage by the gate": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map straight, turn 30, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 9, at open fields north-west of Mistshaw after "To open fields north-west of Mistshaw": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 10, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 11, at Ironkeep after "To Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 12, at Hamo gains 1 experience: found a brass-bound measure. after "Collect a brass-bound measure for Hamo": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 13, at Time passes. after "Wait": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 14, at You light a candle. after "Light a candle": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 15, at You put the light out, and what was left of it is spent. after "Put out Hamo's light for good": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 16, at You set a brass-bound measure down. after "Set down a brass-bound measure": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 17, at 25 Haysel, evening after "Make camp and sleep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 18, at You set a dead man’s map down. after "Set down a dead man's map": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 19, at You take a dead man’s map. after "Collect a dead man's map for Hamo": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 20, at An hour passes. after "Wait an hour": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 21, at 25 Haysel, night after "Wait until dark": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 22, at 26 Haysel, morning after "Wait until first light": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 23, at 26 Haysel, afternoon after "Wait and watch": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 24, at the road between Lowmouth and Mistshaw after "Take the track to the road between Lowmouth and Mistshaw": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 25, at ‘Now then!’ says Martin, loud enough for anyone near to hear. ‘A new face. What can I do for you?’ after "Talk to Martin": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 26, at ‘Lowmouth, for the market,’ says Martin. ‘They don’t want to go. They never want to go. They always go.’ after "Talk to Martin": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 ranger/archer map curious, turn 29, at Hamo hits a badger. after "Ranged Attack at a badger": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 5, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 7, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 8, at The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it. after "Build the cairn up again, stone on stone": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 9, at open fields north-west of Mistshaw after "To open fields north-west of Mistshaw": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 10, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 11, at Ironkeep after "To Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 13, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 15, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 17, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 19, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 21, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 23, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 25, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 27, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- a1 monk/gardener lost straight, turn 29, at Ironkeep after "Out to Ironkeep": Nobody has held Ironkeep since the kingdom fell, and what its lords left there is there still.
+- b2 warrior/blacksmith order straight, turn 12, at Tinhold after "Set out for Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 14, at Tinhold after "Out to Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 15, at The letters are worn shallow, but they are letters you have met before in older books; you read them slowly, under your breath, and they hold together. after "Read the letters on the lintel beam": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 16, at the crag after "To the crag": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 17, at From the top of the crag the whole of Zhargeithhar is laid out: the paths, the becks, the folds, and the valley road below. after "Climb the crag and look out over Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 18, at You search the crag with care, a little at a time. after "Search here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 19, at Eaglelow after "To a square tower": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 21, at Eaglelow after "Out to Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 22, at It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense. after "Read the letters round the door": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 23, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 24, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 25, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 26, at 11 Thaw, night after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 27, at 12 Thaw, morning after "Make camp for the night": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 28, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 29, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 warrior/blacksmith order straight, turn 30, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 6, at Tinhold after "Out to Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 7, at the crag after "To the crag": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 8, at From the top of the crag the whole of Zhargeithhar is laid out: the paths, the becks, the folds, and the valley road below. after "Climb the crag and look out over Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 9, at You search the crag with care, a little at a time. after "Search here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 10, at Eaglelow after "To a square tower": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 12, at Eaglelow after "Out to Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 13, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 14, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 15, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 16, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 17, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 18, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 19, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 20, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 21, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 22, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 23, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 24, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 25, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 26, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 27, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 28, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 29, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map straight, turn 30, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 18, at 12 Thaw, morning after "Make camp for the night": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 19, at the fells of Zhargeithhar after "To the fells of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 20, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 21, at Tinhold after "To Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 22, at Time passes. after "Wait": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 23, at You put the light out, and what was left of it is spent. after "Put out Brottor's light for good": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 24, at An hour passes. after "Wait an hour": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 25, at 12 Thaw, night after "Wait until dark": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 26, at You light a candle. after "Light a candle": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 27, at 13 Thaw, morning after "Wait until first light": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 28, at 13 Thaw, afternoon after "Wait and watch": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 29, at the crag after "Take the track to the crag": The old workings of Tinhold go further down than anyone has followed them.
+- b2 thief/burglar map curious, turn 30, at From the top of the crag the whole of Zhargeithhar is laid out: the paths, the becks, the folds, and the valley road below. after "Climb the crag and look out over Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 6, at Tinhold after "Out to Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 7, at the crag after "To the crag": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 8, at From the top of the crag the whole of Zhargeithhar is laid out: the paths, the becks, the folds, and the valley road below. after "Climb the crag and look out over Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 9, at You search the crag with care, a little at a time. after "Search here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 10, at Eaglelow after "To a square tower": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 12, at Eaglelow after "Out to Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 13, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 14, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 15, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 16, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 17, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 18, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 19, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 20, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 21, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 22, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 23, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 24, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 25, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 26, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 27, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 28, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 29, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost straight, turn 30, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 20, at 12 Thaw, afternoon after "Make camp and sleep": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 21, at the fells of Zhargeithhar after "To the fells of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 22, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 23, at A shepherd looks up, and puts his hands still, and waits for you to say what you want. after "Talk to a shepherd": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 24, at ‘A ewe,’ says the shepherd. ‘Old Blackface. She goes off every lambing and I spend a day after her. She’ll be in the bracken somewhere hereabouts, caught by the fleece as like as not. If you come on her, I’d thank you.’ after "Talk to a shepherd": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 25, at ‘A ewe,’ says the shepherd. ‘Old Blackface. She goes off every lambing and I spend a day after her. She’ll be in the bracken somewhere hereabouts, caught by the fleece as like as not. If you come on her, I’d thank you.’ after "Talk to a shepherd": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 26, at Tinhold after "To Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 27, at Time passes. after "Wait": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 29, at the fells of Zhargeithhar after "Set out for Gebaglornof": The old workings of Tinhold go further down than anyone has followed them.
+- b2 cleric/doctor lost curious, turn 30, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 bard/entertainer courier straight, turn 4, at Princeport after "Set out for Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 6, at Princeport after "Out to Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 7, at The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it. after "Build the cairn up again, stone on stone": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 8, at the same place after "Build the cairn up again, stone on stone": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 9, at the great oak after "To the great oak": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 10, at From up there the wood is a roof of green, and you can see where everything lies: the clearings, the line of the water, the road beyond the trees. after "Climb up and look out over Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 11, at You search the great oak with care, a little at a time. You have been over the whole of it, and nothing is hidden here. after "Search here": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 12, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 13, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 14, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 15, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 16, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 17, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 18, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 19, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 20, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 21, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 22, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 23, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 24, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 25, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 26, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 27, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 28, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 29, at Princeport after "To Princeport": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 bard/entertainer courier straight, turn 30, at the woods of Zavimchursha after "To the woods of Zavimchursha": The princes' tolls were counted in Princeport, and nobody has been into its strongroom since.
+- b2 ranger/archer debt straight, turn 6, at Tinhold after "Set out for Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 8, at Tinhold after "Out to Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 9, at the crag after "To the crag": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 10, at From the top of the crag the whole of Zhargeithhar is laid out: the paths, the becks, the folds, and the valley road below. after "Climb the crag and look out over Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 11, at You search the crag with care, a little at a time. after "Search here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 12, at Eaglelow after "To a square tower": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 14, at Eaglelow after "Out to Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 15, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 16, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 17, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 18, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 19, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 20, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 21, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 22, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 23, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 24, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 25, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 26, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 27, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 28, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 29, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt straight, turn 30, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 ranger/archer debt curious, turn 14, at Iron Garth after "To Iron Garth": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 18, at the armoury after "To the armoury": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 19, at You drag the bench across the door and kick a wedge under it, and the room feels, a good deal, like a room. after "Wedge the door with the bench, and sleep with your boots on": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 20, at He has asked for nothing, and written down to the penny what that has cost. after "Read the pay-roll": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 21, at The stamp is a small square counter: PAID TO THE CALENDS. Whoever carried this shield was paid up to a day, and then, the marshal says, was not. after "Look at the stamp on the shield-boss": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 26, at the chancery after "To the chancery": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 28, at the chapel after "To the chapel": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 29, at ‘It was told to stop,’ says Thora Loderr. ‘It was too proud to hear. And then it had stopped.’ She looks at the altar step. ‘You will say that is not a reason. I think it is the only kind of reason there is, child. Ask the marshal; he has another. Ask the clerk; he has a third. They are each of them sure, and they have never once sat at one table to say so.’ after "Ask Thora Loderr what became of the Empire": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 ranger/archer debt curious, turn 30, at ‘Tired,’ says Thora Loderr. ‘We keep vigil in this house for a good many things.’ She picks a candle-end off the floor and puts it, absently, in her sleeve. ‘If you want the crypt, you must ask me properly, and not today. I have not the strength to be told no by the dead.’ after "Ask Thora Loderr how she is": You owe Eberk, smith at Ramavor 50 coin by market day. Taklinn, innkeeper at Ramavor, told of Iron Garth, nearest of the old places round about: what is in such places could pay it.
+- b2 monk/gardener kin straight, turn 12, at Tinhold after "Set out for Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 14, at Tinhold after "Out to Tinhold": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 15, at The letters are worn shallow, but they are letters you have met before in older books; you read them slowly, under your breath, and they hold together. after "Read the letters on the lintel beam": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 16, at the crag after "To the crag": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 17, at From the top of the crag the whole of Zhargeithhar is laid out: the paths, the becks, the folds, and the valley road below. after "Climb the crag and look out over Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 18, at You search the crag with care, a little at a time. after "Search here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 19, at Eaglelow after "To a square tower": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 21, at Eaglelow after "Out to Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 22, at It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense. after "Read the letters round the door": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 23, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 24, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 25, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 26, at 11 Thaw, night after "Look out over the country from here": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 27, at 12 Thaw, morning after "Make camp for the night": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 28, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 29, at the heights of Zhargeithhar after "To the heights of Zhargeithhar": The old workings of Tinhold go further down than anyone has followed them.
+- b2 monk/gardener kin straight, turn 30, at Eaglelow after "To Eaglelow": The old workings of Tinhold go further down than anyone has followed them.
+- c3 warrior/blacksmith lost curious, turn 16, at the high ledge after "To the high ledge": Your sister went into Stonekeep, out in the fells north of Brightford, and did not come out. Search there for what became of her.
+- c3 warrior/blacksmith lost curious, turn 17, at It holds, and holds, and then it does not, all at once, with a crack that anyone near will have heard. after "Break the chest open": Your sister went into Stonekeep, out in the fells north of Brightford, and did not come out. Search there for what became of her.
+- c3 warrior/blacksmith lost curious, turn 28, at You take a hand-sewn pouch. after "Collect a hand-sewn pouch for Hamo": Nobody has held Stonekeep since the kingdom fell, and what its lords left there is there still.
+- c3 warrior/blacksmith lost curious, turn 29, at Time passes. after "Wait": Nobody has held Stonekeep since the kingdom fell, and what its lords left there is there still.
+- c3 warrior/blacksmith lost curious, turn 30, at open heath north-east of Longbourne after "To open heath north-east of Longbourne": Nobody has held Stonekeep since the kingdom fell, and what its lords left there is there still.
+- c3 mage/apothecary courier straight, turn 6, at Eaglelow after "Set out for Eaglelow": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 8, at Eaglelow after "Out to Eaglelow": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 9, at It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense. after "Read the letters round the door": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 10, at the herders' summer huts after "To the herders' summer huts": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 11, at The world outside slows to a crawl. When you step out, you keep a little of the quickness. after "Step into the slow place": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 12, at the fells of Snowedge after "To the fells of Snowedge": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 13, at You look out over the country, but the weather has closed in: the nearer land is plain enough, and nothing past it. after "Look out over the country, as far as the weather lets you": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 14, at the herders' summer huts after "To the herders' summer huts": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 15, at the stepping-stones over the Bitterwater after "To the stepping-stones over the Bitterwater": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 16, at 5 Wolfmoon, morning after "Make camp for the night": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 17, at the fells of Snowedge after "To the fells of Snowedge": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 18, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 19, at the stepping-stones over the Bitterwater after "To the stepping-stones over the Bitterwater": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 20, at the high pass after "To the high pass": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 21, at the fells of Snowedge after "To the fells of Snowedge": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 22, at You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it. after "Look out over the country from here": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 23, at A shepherd hears you come, and finishes what he was doing before he looks round. after "Talk to a shepherd": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 24, at the high pass after "To the high pass": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 25, at the mountain lake after "To the mountain lake": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 26, at the fells of Snowedge after "To the fells of Snowedge": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 27, at 5 Wolfmoon, afternoon after "Look out over the country from here": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 28, at the mountain lake after "To the mountain lake": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 29, at the fells of Snowedge after "To the fells of Snowedge": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 mage/apothecary courier straight, turn 30, at the mountain lake after "To the mountain lake": Nobody has climbed Eaglelow in living memory, to see what its makers watched for.
+- c3 ranger/archer order curious, turn 24, at You light a candle. after "Hamo: light a candle": You have read and set down the old writing at Darkhigh. Orsik, priest of Flidais at the shrine of Flidais, at Longbourne should see it.
+- c3 ranger/archer order curious, turn 25, at It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense. after "To the crossing — read which of the carvings is set in, and keep your hands from it": You have read and set down the old writing at Darkhigh. Orsik, priest of Flidais at the shrine of Flidais, at Longbourne should see it.
+- c3 ranger/archer order curious, turn 27, at You talk it over with the goblins, and in the end you are let be. after "Ask the goblins to let you by · an even chance · one try": You have read and set down the old writing at Darkhigh. Orsik, priest of Flidais at the shrine of Flidais, at Longbourne should see it.
+
+### Promises the screens did not keep
+
+- c3 ranger/archer order curious, turn 24, at You light a candle.: a lump of star-iron lies here to be taken, and nothing takes it
 
 ## Lines said again (in most walks first)
 
-- 9× It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
-- 5× The wolves are here.
-- 5× Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.
-- 5× A house of the grey stone of the hill, long and gabled, its windows set in rows, smoke going up from three chimneys.
-- 4× A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth.
-- 3× Wynn gets away.
-- 3× You are clear of the fight.
-- 3× The fight is won.
-- 3× The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it.
+- 8× It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+- 6× A square keep of grey stone stands on the rise above the road, its corners rounded by weather and its top broken like a bad tooth.
+- 5× The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it.
+- 5× A raven keeps pace with you from cairn to cairn.
+- 5× A tower of grey stone stands on the height, roofless.
+- 5× The heights: rock and old snow and nothing growing but lichen, the air thin and the drop on every side.
+- 4× The ring stands on the shoulder of the ridge, fourteen stones taller than a man on a horse, grey and lichened and set in a circle that has not given a hand’s breadth in all the years since.
+- 4× The rise is a plain of heather and pale grass with the wind on it, the highest ground before the howe.
+- 4× The Spade-Company’s hands are here.
+- 4× Spades go down all along the camp as the diggers straighten. ‘Hold,’ says someone, and four hands in canvas and iron caps move between you and the trench, not drawing yet. They are looking over your shoulder for who else is with you.
+- 4× The fight is won.
+- 3× The wolves are here.
+- 3× Wolves come out of the guardrooms into the bailey, heads low, and spread out along the wall.
 - 3× You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it.
-- 2× The portcullis is wedged up in its grooves with a beam, and the way into the bailey is open.
 - 2× A vaulted passage through the gatehouse, murder-holes in the roof, a guardroom on either side with its door gone.
-- 2× The bailey is grass and nettles round a well-head.
-- 2× The ring stands on the shoulder of the ridge, fourteen stones taller than a man on a horse, grey and lichened and set in a circle that has not given a hand’s breadth in all the years since.
-- 2× The rise is a plain of heather and pale grass with the wind on it, the highest ground before the howe.
 
 ## Attention repaid with nothing (the first of each label)
 
+- Hamo: prepare spells: You spend an hour over Mage Armor. Hamo: Mage Armor is ready.
 - Search here: (nothing said)
 - Talk to the wagoner: (nothing said)
 - Talk to a shepherd: ‘A ewe,’ says the shepherd. ‘Old Blackface. She goes off every lambing and I spend a day after her. She’ll be in the bracken somewhere hereabouts, caught by the fleece as like as not. If you come on her, I’d thank you.’

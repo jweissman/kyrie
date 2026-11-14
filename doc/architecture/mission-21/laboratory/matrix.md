@@ -29,7 +29,7 @@ repaid when what came of it told something new.
 | lab1 | ranger / archer | laboratory | straight | 24 | 2.1 | 6 5 5 | yes | 16 | 8 | 6 / 0 | 8 | 0 | 0 | 0 | no |
 | lab1 | ranger / archer | laboratory | curious | 17 | 1.6 | 6 4 2 | yes | 9 | 8 | 6 / 1 | 2 | 1 | 0 | 0 | no |
 | lab1 | ranger / archer | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 2 / 0 | 0 | 25 | 0 | 0 | no |
-| lab1 | monk / gardener | laboratory | straight | 26 | 2.7 | 9 7 5 | yes | 9 | 17 | 2 / 0 | 18 | 8 | 0 | 4 | no |
+| lab1 | monk / gardener | laboratory | straight | 26 | 2.7 | 9 7 5 | yes | 6 | 20 | 2 / 0 | 18 | 10 | 0 | 0 | no |
 | lab1 | monk / gardener | laboratory | curious | 9 | 1.8 | 6 2 2 | yes | 8 | 1 | 4 / 1 | 1 | 1 | 0 | 0 | yes |
 | lab1 | monk / gardener | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 2 / 0 | 0 | 25 | 0 | 0 | no |
 | lab2 | warrior / blacksmith | laboratory | straight | 23 | 2.1 | 6 5 5 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | 0 | no |
@@ -85,30 +85,26 @@ repaid when what came of it told something new.
 | cleric | act, care, fight, go, journey, light, other, search, study, talk, wait | go 109, journey 48, fight 40, wait 38, act 36, talk 20, search 10, study 10, light 7, other 2, care 1 | go 326, wait 255, journey 179, act 166, fight 143, study 79, talk 75, search 49, other 26, light 10, care 3 | none 776, exploration 279, undertaking 180, knowledge 132, danger 65 | none 143, exploration 95, undertaking 82, danger 31, knowledge 28 | exploration 92, undertaking 63, knowledge 28, danger 7 | 43 / 7 |
 | bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 74, journey 38, act 27, wait 25, fight 18, talk 14, study 8, light 7, search 7, care 1, other 1 | go 222, wait 177, journey 133, act 131, talk 65, fight 65, study 54, search 22, light 10, other 7, care 5 | none 524, exploration 207, knowledge 120, undertaking 99, danger 32 | none 113, exploration 71, undertaking 31, knowledge 22, danger 13 | exploration 68, undertaking 25, knowledge 22, danger 2 | 35 / 4 |
 | ranger | act, fight, go, journey, light, other, search, talk, wait | go 118, journey 48, wait 43, act 39, fight 29, talk 23, search 8, light 7, other 3 | go 350, wait 261, journey 203, act 199, fight 103, talk 80, search 45, other 33, light 25 | none 753, exploration 316, undertaking 170, knowledge 131, danger 52 | none 139, exploration 100, undertaking 82, danger 29, knowledge 27 | exploration 91, undertaking 64, knowledge 27, danger 7 | 38 / 3 |
-| monk | act, fight, go, journey, light, other, search, talk, wait | go 98, journey 41, wait 38, fight 31, act 30, talk 15, light 7, search 6, other 2 | go 292, wait 223, act 167, journey 163, fight 100, talk 69, search 36, light 25, other 16 | none 650, exploration 264, knowledge 123, undertaking 111, danger 43 | none 139, exploration 78, undertaking 44, knowledge 22, danger 21 | exploration 69, undertaking 26, knowledge 22, danger 4 | 28 / 3 |
+| monk | act, fight, go, journey, light, other, search, talk, wait | go 98, journey 41, wait 38, fight 31, act 30, talk 15, light 7, search 6, other 2 | go 292, wait 223, act 166, journey 164, fight 100, talk 70, search 35, light 25, other 16 | none 652, exploration 258, knowledge 121, undertaking 115, danger 43 | none 139, exploration 75, undertaking 47, knowledge 22, danger 21 | exploration 66, undertaking 26, knowledge 22, danger 4 | 28 / 3 |
 
 ## Totals
 
 - walks: 63; within the budget: 60; outlier arrivals: 10
 - attention repaid 263, empty 34
-- fights 226, retreats 27, loops 485, dead ends 0, ended 23, errors 0
-- blockers: 0 errors, 0 dead ends, 5 turns lost (an aim followed and nothing leading to it)
+- fights 226, retreats 27, loops 487, dead ends 0, ended 23, errors 0
+- blockers: 0 errors, 0 dead ends, 1 turns lost (an aim followed and nothing leading to it)
 - intention to a consequence: 42 of 63 walks
-- mean time per walk: 1702 ms
+- mean time per walk: 1338 ms
 
 ## Gate 1, tier 1
 
 | build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
 |---|---|---|---|---|---|---|---|---|
-| d44f420b | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 5 | 0 | 0 |
+| 151937fd | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 1 | 0 | 0 |
 
 ### Unpursuable turns
 
 - lab1 mage/apothecary laboratory straight, turn 11, at Wynn recovers 3 HP (4 HP). after "Tend Wynn": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 19, at the old corn-store after "Up to the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 22, at the old corn-store after "To the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 25, at the old corn-store after "To the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 28, at the old corn-store after "To the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
 
 ### Promises the screens did not keep
 
@@ -117,7 +113,7 @@ repaid when what came of it told something new.
 ## Lines said again (in most walks first)
 
 - 53× Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
-- 46× Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
+- 47× Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
 - 21× Time passes.
 - 17× A low stone chapel, whitewashed, with a saint painted over the altar whose face has been touched so often it is gone.
 - 15× A busy room in two parts with a counter between them, and a stair going up to the bedrooms.
