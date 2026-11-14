@@ -6133,1227 +6133,1552 @@
   "scene-alchemist-still": {
    "form": "interior",
    "shows": "an alchemist's still-room: a copper still, retorts, a fire, books",
-   "era": "late"
+   "era": "late",
+   "light": "firelit, daylight"
   },
   "scene-apothecary": {
    "form": "interior",
    "shows": "an apothecary: jars to the ceiling, a ladder on a rail, scales on the counter",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit"
   },
   "scene-barrow-interior": {
    "form": "interior",
    "shows": "a stone-lined barrow chamber with niches and a stone bier, a passage beyond",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-barrow": {
    "form": "landscape",
    "shows": "a grassed burial mound with a stone-lined entrance on a heath",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-bee-garden": {
    "form": "landscape",
    "shows": "a walled bee-garden of straw skeps among flowers",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-bog": {
    "form": "landscape",
    "shows": "a misty bog of black pools and tussocks at dusk",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "weather": "fog"
   },
   "scene-cave": {
    "form": "interior",
    "shows": "a cave chamber with stalactites over a still pool",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-cellar": {
    "form": "interior",
    "shows": "a low brick cellar, barrels and a spilled sack of grain",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-churchyard": {
    "form": "landscape",
    "shows": "a lych-gate before a churchyard and a squat stone church",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "spring",
+   "weather": "clear"
   },
   "scene-cistern": {
    "form": "interior",
    "shows": "a drowned vaulted cistern, pillars standing in black water",
-   "era": "late"
+   "era": "late",
+   "light": "dim, candlelit"
   },
   "scene-commandery": {
    "form": "interior",
    "shows": "the hall of a knightly order: long tables, banners with red crosses, a fire",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-counting-house": {
    "form": "interior",
    "shows": "a counting-house: scales, ledgers, an abacus, a barred window",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, candlelit"
   },
   "scene-crypt": {
    "form": "interior",
    "shows": "a vaulted crypt of stone tombs, light from one window",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-desert": {
    "form": "landscape",
    "shows": "dunes under a low sun",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
   },
   "scene-drowned-room": {
    "form": "interior",
    "shows": "a drowned room in green water light",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-enchanted-glade": {
    "form": "landscape",
    "shows": "sunbeams over a glade with a deer, an old oak and a stream",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-estuary": {
    "form": "landscape",
    "shows": "an estuary at low water, shingle, a boat drawn up",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
   },
   "scene-forest": {
    "form": "landscape",
    "shows": "a track through deep green woods under old oaks",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-forge": {
    "form": "interior",
    "shows": "a forge glowing in a dark smithy, an anvil, tongs on the wall",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "scene-general-store": {
    "form": "interior",
    "shows": "a general store: shelves to the beams, sacks, a worn counter",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, candlelit"
   },
   "scene-guard-room": {
    "form": "interior",
    "shows": "a guardroom with a brazier and a rack of weapons",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-heath": {
    "form": "landscape",
    "shows": "open heather under a big sky, a lone tree and stones",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "season": "summer"
   },
   "scene-inn-hamlet": {
    "form": "interior",
    "shows": "a hamlet inn's one room: a fire, barrels, one long table",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "scene-inn-town": {
    "form": "interior",
    "shows": "a town inn's long beamed taproom with a gallery and fires",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "scene-inn-village": {
    "form": "interior",
    "shows": "a village inn's low room by a hearth, pewter and benches",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "scene-ironmongery": {
    "form": "interior",
    "shows": "an ironmonger's: hooks, chain, tools and a counter",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-ossuary": {
    "form": "interior",
    "shows": "an ossuary: skulls and bones stacked in arched niches",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-rocky-waste": {
    "form": "landscape",
    "shows": "a rocky waste of crags under storm light",
-   "era": "late"
+   "era": "late",
+   "light": "stormy",
+   "weather": "storm"
   },
   "scene-rustic-home": {
    "form": "interior",
    "shows": "a cottage room: hearth, table, a bed in an alcove",
-   "era": "late"
+   "era": "late",
+   "light": "firelit, daylight"
   },
   "scene-salt-warehouse": {
    "form": "interior",
    "shows": "a salt-house: sacks and barrels of salt, scales",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-scriveners": {
    "form": "interior",
    "shows": "a scrivener's room: a sloping desk, pigeon-holes, books",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, candlelit"
   },
   "scene-ship-deck": {
    "form": "landscape",
    "shows": "a ship's deck at sea, rigging and a rail at sunset",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-tower-hall": {
    "form": "interior",
    "shows": "a round tower hall with a stair rising along the wall",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, candlelit"
   },
   "scene-town-night": {
    "form": "landscape",
    "shows": "a town by a river at night, lit windows under the moon",
-   "era": "late"
+   "era": "late",
+   "light": "night, moonlit, lamplit",
+   "weather": "clear"
   },
   "scene-town-snowbound": {
    "form": "landscape",
    "shows": "a walled town in snow by a frozen river",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "snow"
   },
   "scene-willow-strand": {
    "form": "landscape",
    "shows": "a rushing river under willows",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-woodland-shrine": {
    "form": "interior",
    "shows": "a woodland shrine: a standing stone under shingles, lamps and offerings",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-city-seven-towers": {
    "form": "landscape",
    "shows": "a great white city of many towers over a river, a crowd small in the street",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-city-gate": {
    "form": "landscape",
    "shows": "the great gate of a white city, figures small beneath",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-fishmonger": {
    "form": "landscape",
    "shows": "a fish stall under an awning on a quay, a harbour beyond",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-bloomery": {
    "form": "interior",
    "shows": "a bloomery: a clay furnace glowing under a timber roof, ore and charcoal in baskets",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "scene-carnival": {
    "form": "landscape",
    "shows": "a fair at dusk: striped tents, booths and painted wagons in the mud",
-   "era": "late"
+   "era": "late",
+   "light": "dusk, lamplit"
   },
   "scene-charcoal-clamps": {
    "form": "landscape",
    "shows": "turf-covered charcoal clamps smoking in a woodland clearing",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-fur-post": {
    "form": "landscape",
    "shows": "a fur post in a stockade: pelts on racks, a watch-tower, a jetty",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-mill-floor": {
    "form": "interior",
    "shows": "a mill floor: millstones, a hopper, sacks, the wheel through a window",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-peat-banks": {
    "form": "landscape",
    "shows": "black peat banks cut in steps on a moor, stacked turves, a spade",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-quarry-adit": {
    "form": "landscape",
    "shows": "a timbered adit into a quarry face, cut stone and tools before it",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, lamplit"
   },
   "scene-reed-ricks": {
    "form": "landscape",
    "shows": "ricks of reed taller than a house on a fen at sunset",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-salt-pans": {
    "form": "landscape",
    "shows": "square salt-pans on a shore, white heaps of salt, a boiling-house",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-stable": {
    "form": "interior",
    "shows": "a timber stable: stalls, a manger, harness, straw, an open door",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-theatre-woods": {
    "form": "landscape",
    "shows": "a players' stage in a wood: curtains, a painted backcloth, benches",
-   "era": "late"
+   "era": "late",
+   "light": "dusk, lamplit"
   },
   "scene-timber-yard": {
    "form": "landscape",
    "shows": "a timber yard: stacked trunks, a sawpit, trestles, a crane",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-wood-wright": {
    "form": "interior",
    "shows": "a woodwright's shop: a bench, shavings, wheels and a cart half made",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-house-of-doors-inner": {
    "form": "interior",
    "shows": "a great hall of doors, each opening on another world: fire, water, ice, storm",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-outer": {
    "form": "interior",
    "shows": "galleries of doors over a polished floor, a stair rising between them",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-air-portal": {
    "form": "interior",
    "shows": "a carved door standing open on cloud islands in an endless sky",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-earth-portal": {
    "form": "interior",
    "shows": "a carved door standing open on crags and falls in green light",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-fire-portal": {
    "form": "interior",
    "shows": "a carved door standing open on rivers of fire under a burning sky",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-ice-portal": {
    "form": "interior",
    "shows": "a carved door standing open on falls of ice under the aurora",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-lightning-portal": {
    "form": "interior",
    "shows": "a carved door standing open on a storm of violet lightning",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-water-portal": {
    "form": "interior",
    "shows": "a carved door standing open on deep bright water and falling waves",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-market": {
    "form": "landscape",
    "shows": "a market-place of stalls under awnings round a fountain, a castle above the town",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-clothier": {
    "form": "interior",
    "shows": "a clothier's: bolts of cloth to the ceiling, a cutting table, garments on a rail",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-burrow": {
    "form": "interior",
    "shows": "an earth burrow: a crawlway of roots and gnawed earth opening into dark",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-cave-mouth": {
    "form": "landscape",
    "shows": "a dark cave mouth in a crag over a path, trees about it",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-cell": {
    "form": "interior",
    "shows": "a stone cell: a barred door, a pallet of straw, light from a high grating",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-keep-bailey": {
    "form": "landscape",
    "shows": "a keep's bailey inside curtain walls: a yard, sheds, a round tower",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-keep-gatehouse": {
    "form": "interior",
    "shows": "a gatehouse within: a portcullis raised on the road, a stair, banners",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-mine-gallery": {
    "form": "interior",
    "shows": "a timbered mine gallery: rails, an ore tub, lanterns going on into the dark",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-mine-shaft": {
    "form": "interior",
    "shows": "a mine shaft: a ladder going up into daylight between timbers",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit, daylight"
   },
   "scene-sewer-drain": {
    "form": "interior",
    "shows": "an old drain: a brick culvert running with water, great pipes",
-   "era": "late"
+   "era": "late",
+   "light": "dim, lamplit"
   },
   "scene-spider-chamber": {
    "form": "interior",
    "shows": "a cave hung with web and great egg-sacs, water on its floor",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-town-gate": {
    "form": "landscape",
    "shows": "a town gate between two round towers, the street going in",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-town-green": {
    "form": "landscape",
    "shows": "a village green with an old tree and a well, cottages round it",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-town-lane": {
    "form": "landscape",
    "shows": "a narrow lane between yards and workshops, doors open",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-town-merchant": {
    "form": "interior",
    "shows": "a merchant's shop: a worn counter, scales, shelves to the beams",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-town-stairs-to-darkness": {
    "form": "landscape",
    "shows": "steps going down from a street into a dark archway under the town",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, lamplit"
   },
   "scene-house-of-doors-abyss-portal": {
    "form": "interior",
    "shows": "a carved door standing open on abyss",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-arcadia-portal": {
    "form": "interior",
    "shows": "a carved door standing open on arcadia",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-cthelll-portal": {
    "form": "interior",
    "shows": "a carved door standing open on cthelll",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-exaltation-portal": {
    "form": "interior",
    "shows": "a carved door standing open on exaltation",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-gehenna-portal": {
    "form": "interior",
    "shows": "a carved door standing open on gehenna",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-hades-portal": {
    "form": "interior",
    "shows": "a carved door standing open on hades",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-limbo-portal": {
    "form": "interior",
    "shows": "a carved door standing open on limbo",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-mechanus-portal": {
    "form": "interior",
    "shows": "a carved door standing open on mechanus",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-nirvana-portal": {
    "form": "interior",
    "shows": "a carved door standing open on nirvana",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-pandemonium-portal": {
    "form": "interior",
    "shows": "a carved door standing open on pandemonium",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-ysgard-portal": {
    "form": "interior",
    "shows": "a carved door standing open on ysgard",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-house-of-doors-zephyrus-portal": {
    "form": "interior",
    "shows": "a carved door standing open on zephyrus",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-archive": {
    "form": "interior",
    "shows": "an archive: shelves of books to a coffered ceiling, ladders, a desk with a globe and a bust",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-arena": {
    "form": "landscape",
    "shows": "an arena seen from its gallery: tiers of seats round a sanded floor, banners",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-crystal-grotto": {
    "form": "interior",
    "shows": "a grotto of crystal and blue stone over a still pool, a statue at its edge",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit"
   },
   "scene-floating-city": {
    "form": "landscape",
    "shows": "a city on an island floating in cloud, waterfalls falling from it",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-garden": {
    "form": "landscape",
    "shows": "a walled garden of hedges, a fountain, cypresses and statues",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-jungle": {
    "form": "landscape",
    "shows": "a jungle valley of great trees and falls in misty light",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-library": {
    "form": "interior",
    "shows": "a library: galleries of shelves, an armillary sphere, a reading table",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-menagerie": {
    "form": "landscape",
    "shows": "a menagerie court of cages and an aviary, a peacock and a deer",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-oasis": {
    "form": "landscape",
    "shows": "an oasis of palms and flowers by a pool under red desert cliffs",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-statuary": {
    "form": "landscape",
    "shows": "a sculpture garden: statues along a colonnade and a fountain",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-dovecote": {
    "form": "landscape",
    "shows": "a round stone dovecote among cypresses, doves about it",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-solarium": {
    "form": "interior",
    "shows": "a glass-roofed solarium of orange trees, a fountain, cushions and a sundial floor",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ballroom": {
    "form": "interior",
    "shows": "a ballroom: chandeliers, a painted ceiling, a polished floor between columns",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit"
   },
   "scene-gloriet": {
    "form": "interior",
    "shows": "a gloriet: an open pavilion of columns and rich cushions over a garden and a fountain",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-great-hall": {
    "form": "interior",
    "shows": "a great hall: a hearth, banners, chandeliers, a high table on a dais",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit, firelit"
   },
   "scene-harbor": {
    "form": "landscape",
    "shows": "a harbour of a white city: ships at the quay, cargo, a hill of towers behind",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-spicery": {
    "form": "interior",
    "shows": "a spicery: jars and sacks of spices, scales, herbs hanging, a marble counter",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-stockade": {
    "form": "landscape",
    "shows": "a timber stockade with watch-towers and a gate over a ditch, a camp before it",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-sudatorium": {
    "form": "interior",
    "shows": "a bath-house's steam room: a basin, a lion fountain, painted walls in steam",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-tower-roof": {
    "form": "landscape",
    "shows": "a tower's roof: battlements and a turret, a banner, the country far below",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "season": "summer"
   },
   "scene-underground-passage": {
    "form": "interior",
    "shows": "a long vaulted passage under the ground, statues in niches, torches",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "scene-volcanic-isle": {
    "form": "landscape",
    "shows": "a green island under a smoking volcano, a sea about it",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-archipelago": {
    "form": "landscape",
    "shows": "an archipelago: green islands in clear shallows, a harbour tower, sails",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-baths": {
    "form": "interior",
    "shows": "a bath-house: a pool under painted arches, steam, a lion fountain",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-labyrinth": {
    "form": "landscape",
    "shows": "a hedge labyrinth with a statue at its heart, a garden gate beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-manor": {
    "form": "landscape",
    "shows": "a stone manor-house with gables and chimneys behind its garden",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-palace": {
    "form": "landscape",
    "shows": "a palace above terraced gardens, a fountain, statues and skeps",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-nymphaeum": {
    "form": "interior",
    "shows": "a nymphaeum: a grotto of a spring dressed with columns, statues and falling water",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-adyton": {
    "form": "interior",
    "shows": "an adyton: a statue in a niche behind curtains, an altar, lamps, incense",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-bridge": {
    "form": "landscape",
    "shows": "an old stone bridge of three arches over a still river, a villa beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-falconry-mews": {
    "form": "landscape",
    "shows": "a falconry mews: an arcade of perches round a courtyard",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-necromanteion": {
    "form": "landscape",
    "shows": "a necromanteion: a dark doorway between painted columns, steam from below, the moon",
-   "era": "late"
+   "era": "late",
+   "light": "night, firelit"
   },
   "scene-sphaeristerium": {
    "form": "landscape",
    "shows": "a sphaeristerium: a walled ball-court of beaten earth under painted arcades",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-temple": {
    "form": "landscape",
    "shows": "a sunlit classical temple of marble columns on a stepped base, fires burning before it, flowering urns and cypresses in summer",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-atrium": {
    "form": "interior",
    "shows": "an atrium: a pool open to the sky, painted walls, a mosaic floor",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-granary": {
    "form": "landscape",
    "shows": "a stone granary raised on piers, its doors open on sacks and jars",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-herbarium": {
    "form": "interior",
    "shows": "a herbarium: herbs drying from the beams, jars, pressed leaves on the wall",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-infirmary": {
    "form": "interior",
    "shows": "an infirmary: beds behind curtains, a table of jars and basins",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-kitchen": {
    "form": "interior",
    "shows": "a kitchen: a great hearth with a pot over the fire, a scrubbed table",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-larder": {
    "form": "interior",
    "shows": "a larder: hams and game hanging, cheeses, jars and baskets on shelves",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-large-oak": {
    "form": "landscape",
    "shows": "a great oak alone in a meadow at the edge of a wood",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-macellum": {
    "form": "landscape",
    "shows": "a macellum: a round market hall of stalls about a fountain",
-   "era": "late"
+   "era": "late",
+   "light": "bright day",
+   "weather": "clear"
   },
   "scene-oast-house": {
    "form": "landscape",
    "shows": "an oast-house: round kilns with white cowls beside a barn",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-orangery": {
    "form": "interior",
    "shows": "an orangery: orange trees in great pots under tall windows",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-peristyle": {
    "form": "landscape",
    "shows": "a peristyle: a garden court within a colonnade, a fountain",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-psychomanteum": {
    "form": "interior",
    "shows": "a psychomanteum: a dark pool in a curtained chamber, lamps and incense",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-saucery": {
    "form": "interior",
    "shows": "a saucery: copper pans over a fire, herbs and jars along the walls",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-scullery": {
    "form": "interior",
    "shows": "a scullery: a stone sink with running water, tubs and dishes",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-theatre-stone": {
    "form": "landscape",
    "shows": "a stone theatre: tiers of seats round a timber stage with a painted cloth",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-undercroft": {
    "form": "interior",
    "shows": "an undercroft: low vaults on round pillars, barrels, a stair up to daylight",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit, daylight"
   },
   "scene-chandlery": {
    "form": "interior",
    "shows": "a chandlery: candles on every shelf, dipped tapers drying from a hoop, lanterns, wax and wicks on the bench",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-mine-face": {
    "form": "interior",
    "shows": "a mine's working face: a seam in the rock, picks left against a prop, a lantern, an ore tub on rails",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-mine-ore-pass": {
    "form": "interior",
    "shows": "an ore pass: a timbered chute spilling ore onto a plank floor, a rail, a lantern, a shovel",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-mine-pump-room": {
    "form": "interior",
    "shows": "a pump-room below ground: a rusted beam pump and wheel drawing black water up into a pipe, a lantern",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-mine-sump": {
    "form": "interior",
    "shows": "a flooded mine level: black water to the timbers, a lantern on a post, the gallery going on into the dark",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-mine-tunnel": {
    "form": "interior",
    "shows": "a timbered mine tunnel in the dark, lit only by one candle in the foreground, black beyond",
-   "era": "late"
+   "era": "late",
+   "light": "dim, candlelit"
   },
   "scene-mine-winze": {
    "form": "interior",
    "shows": "a winze in the workings: a windlass and rope over a square shaft going down, a ladder, a coiled rope, a lantern",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-mine-furnace-hall": {
    "form": "interior",
    "shows": "a cold furnace hall below ground: stone hearths under a chimney, slag and ore heaped, a tub on rails",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-barrow-forecourt": {
    "form": "exterior",
    "shows": "a barrow's forecourt at dusk: a kerb of stones before a grassed mound, a great seal-stone across its door",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
   },
   "scene-barrow-passage": {
    "form": "interior",
    "shows": "a megalithic passage: upright slabs under capstones, one lamp on a stone, the passage going on into the dark",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-barrow-chamber": {
    "form": "interior",
    "shows": "a corbelled stone chamber: a stone cist with grave goods, pots, a lamp in a niche",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-barrow-recess": {
    "form": "interior",
    "shows": "a side recess in a barrow: a skeleton laid among pots, a ring in a niche, one lamp",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-barrow-stairs": {
    "form": "interior",
    "shows": "steps going down between slabs into a barrow, small lamps in niches",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-undercroft-dark": {
    "form": "interior",
    "shows": "an empty undercroft unlit: rib vaults on square pillars, a wet flagged floor, the arches going on into black",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-grain-cellar": {
    "form": "interior",
    "shows": "a vaulted grain cellar: sacks and bins of grain, baskets, a lantern, a padlocked door",
-   "era": "late"
+   "era": "late",
+   "light": "dim, lamplit"
   },
   "scene-town-houses": {
    "form": "exterior",
    "shows": "a row of stone cottages along a cobbled street at evening, thatch and smoking chimneys, a town gate beyond",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-town-lanes": {
    "form": "exterior",
    "shows": "a narrow lane between old houses: washing hung across, a well with a windlass, baskets and jars, a tower beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-vault-sealed": {
    "form": "interior",
    "shows": "a small burial vault seen from above under a lifted flag: steps down, a carved sarcophagus, a ring and pots in niches, one candle",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit"
   },
   "scene-village-gate-yard": {
    "form": "exterior",
    "shows": "a small town's gate-yard at dusk: a timber gate in a stone wall, a guard's shed with spears and a brazier, carts and barrels",
-   "era": "late"
+   "era": "late",
+   "light": "dusk, firelit"
   },
   "scene-boat-sheds": {
    "form": "exterior",
    "shows": "boat-sheds on a quay at evening: hulls on trestles under timber roofs, barrels, a moored boat, a town and bridge beyond",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-counting-room": {
    "form": "interior",
    "shows": "a counting-room by daylight: scales and a ledger on a table, a purse and coins, an iron-bound chest",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-indoors-plain": {
    "form": "interior",
    "shows": "a bare plastered room by daylight: a window, a table and bench, a jug and bowl, a candle unlit",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-landing": {
    "form": "exterior",
    "shows": "a small river landing: a timber jetty with a moored ferry, barrels and sacks, stone houses along the water",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-warehouse": {
    "form": "interior",
    "shows": "a quay warehouse within: bales hung from a hoist, a loft of crates, a cart, water at a door",
-   "era": "late"
+   "era": "late",
+   "light": "dim, lamplit"
   },
   "scene-portico": {
    "form": "exterior",
    "shows": "an open loggia of columns and arches along a house, roses in pots, a lake and hills beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-ruins-tribunal": {
    "form": "exterior",
    "shows": "a long roofless hall of the ancients: tall worn statues on a dais, steps, broken benches, light through the fallen roof",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-ruins-cenotaph": {
    "form": "exterior",
    "shows": "a vast ancient stone dome open at its crown, a beam of light falling through, ruins and still water before it",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ancient-tree": {
    "form": "exterior",
    "shows": "an immense ancient tree, its roots heaving up the turf, a ruined arch at its edge in golden light",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-ruins-hill": {
    "form": "exterior",
    "shows": "a broken tower and a lone arch on a hill over a wide valley, a path going up past an old tree",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-granary-interior": {
    "form": "interior",
    "shows": "inside a granary: grain bins raised on stone piers, sacks and a barrel, a ladder, a cart at the open door",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-loggia": {
    "form": "exterior",
    "shows": "a loggia of arches under a vine, a table set with a jug and fruit, a bust in a niche, a town's towers beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "autumn"
   },
   "scene-town-stable": {
    "form": "interior",
    "shows": "a town stable: two horses looking over their stalls, harness and saddles, straw, an arch onto a yard",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins": {
    "form": "landscape",
    "shows": "a ruined arcade of arches and a broken square tower on a rise over a wide valley, a track winding up past an old oak",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-waterworks": {
    "form": "interior",
    "shows": "a vaulted stone waterworks: pipes, a valve-wheel, iron-bound doors, a stair and a bridge over falling water, shafts of light from above",
-   "era": "late"
+   "era": "late",
+   "light": "dim, lamplit"
   },
   "scene-crossroads": {
    "form": "landscape",
    "shows": "a signpost on a cairn where two tracks fork under an oak, sheep behind a wall, a river valley beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-lone-tower": {
    "form": "landscape",
    "shows": "a round crenellated tower and a ruined arch on a heathery hill, a path up to it, a river valley and an oak in the foreground",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins-arcology": {
    "form": "interior",
    "shows": "a vast ruined hall of tiers and bridges grown over with ivy, a glazed roof broken open to the sky, a waterfall beyond a balustrade",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins-installation": {
    "form": "landscape",
    "shows": "a drowned city of spires and domes under a great curved ring in the sky, broken viaducts over waterfalls, ivy on the foreground slabs",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-parchmentry": {
    "form": "interior",
    "shows": "a parchment-maker’s open workshop: a skin stretched on a frame, hides drying, a vat, scrolls on a table and shelves, a sunlit cloister beyond",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-pool": {
    "form": "landscape",
    "shows": "a still pool at a villa terrace by night: moon over a distant lit town and a river, a pillar and flowers at the pool's edge",
-   "era": "late"
+   "era": "late",
+   "light": "night, moonlit",
+   "weather": "clear"
   },
   "scene-chandelry": {
    "form": "interior",
    "shows": "a chandler's workshop: dipped candles hanging in bunches, cheese and wax on the counter, a copper pot, shelves of candles and lanterns, a sunlit arcade beyond",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-mint-house": {
    "form": "interior",
    "shows": "a mint: a screw-press, a furnace glowing, ingots and coin-blanks on a bench, sacks, a copper cauldron, scales",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-enchanted-grove": {
    "form": "landscape",
    "shows": "a birch grove in low gold light, a flat stone ring in a clearing, sunbeams through the leaves",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-glowing-pool": {
    "form": "landscape",
    "shows": "a rock pool glowing green from beneath in a ruined grotto, broken columns and steps, ivy, sunbeams through the trees",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-lake": {
    "form": "landscape",
    "shows": "a mountain lake at the foot of snow peaks, a wooded shore, an oak in the foreground",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins-starship": {
    "form": "landscape",
    "shows": "the rusted hull of an enormous cylindrical vessel half buried in a green valley, a stream, mountains beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-crystallarium": {
    "form": "interior",
    "shows": "a crystal-cutter's library: shelves of blue and white crystals, a great crystal on a stone stand, a candle, a map on the table, a domed window",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, candlelit"
   },
   "scene-shimmering-veil": {
    "form": "landscape",
    "shows": "a curtain of shimmering light hung across a rock opening in a wood, a distant glimmering city seen through it",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-infinite-library": {
    "form": "interior",
    "shows": "a vaulted library of endless corridors of shelves receding in lamplight, a spiral stair, a reading desk with an open book and a lamp, a carpet",
-   "era": "late"
+   "era": "late",
+   "light": "lamplit"
   },
   "scene-campfire": {
    "form": "landscape",
    "shows": "a fire under a lean-to of poles and hides on a hillside at night, stars and a milky way, mountains beyond",
-   "era": "late"
+   "era": "late",
+   "light": "night, firelit",
+   "weather": "clear"
   },
   "scene-ecumenopolis": {
    "form": "landscape",
    "shows": "a vast terraced city of lights and smoke to the horizon seen from a balcony with a curtain, arches and viaducts",
-   "era": "late"
+   "era": "late",
+   "light": "dusk, lamplit"
   },
   "scene-log-cabin": {
    "form": "landscape",
    "shows": "a log cabin with a stone chimney and a woodpile under an oak, a track, hills in a golden evening",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-meadow-lane": {
    "form": "landscape",
    "shows": "a grassy lane through a meadow with sheep, a gate, hills and an oak at the left, afternoon light",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-peak": {
    "form": "landscape",
    "shows": "a snow-capped alpine peak above pine slopes, a stream tumbling past rocks and an oak in the foreground",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-clockmaker": {
    "form": "interior",
    "shows": "a clockmaker's workshop: a grandfather clock, shelves of clocks and instruments, a bench with vice and gears, a lens, a sunlit arcade",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-city-shambles": {
    "form": "exterior",
    "shows": "a covered city butchery lane: carcasses hung in an arcade, a chopping block, a fountain, towers beyond",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-tallowhouse": {
    "form": "interior",
    "shows": "a tallow-chandler's: a cauldron over a fire, a candle-mould on the table, cheese and wax, hanging cloths, a lamp",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-pass": {
    "form": "landscape",
    "shows": "a stony track winding up a mountain pass between two rock slopes, sun on the far side, an oak at the left",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-jungle-falls": {
    "form": "landscape",
    "shows": "a waterfall dropping into a pool in dense jungle, vines and ferns, mist in sunbeams",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-celestial-observatory": {
    "form": "interior",
    "shows": "an observatory: a great brass telescope on a stair through a round opening to the stars, globes, books, frescoed domed walls, a candle",
-   "era": "late"
+   "era": "late",
+   "light": "night, candlelit"
   },
   "scene-floating-disk": {
    "form": "interior",
    "shows": "a vaulted frescoed hall with a stone disc as wide as a table floating a hand above the floor, shafts of light, an armillary at the left",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-fullery": {
    "form": "interior",
    "shows": "a fulling mill: a water-wheel and mallets over a stone trough, cloth drying, vats, an arcade",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-river-vale": {
    "form": "landscape",
    "shows": "a river vale at sunset with a village and church tower, a footpath and fence in the foreground, an oak at the left",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-farmhouse": {
    "form": "exterior",
    "shows": "a stone farmhouse with a pantile roof and vine, a courtyard with a hay-cart, a lantern, white flowers in a pot",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-cartographers-guild": {
    "form": "interior",
    "shows": "a cartographers' hall: a great map on a table, a painted world map on the wall, globes, a ladder on rails, tall windows, a lamp",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-toymaker-workshop": {
    "form": "interior",
    "shows": "a toymaker's shop: wooden horses, ships, castles and dolls on shelves, a bench with tools, a leaded window",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, lamplit"
   },
   "scene-celestial-map": {
    "form": "interior",
    "shows": "a domed room painted with constellations, an armillary, a globe, a candle, an open book and a quill on a table, an arched window",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit"
   },
   "scene-wheat-field": {
    "form": "landscape",
    "shows": "a field of ripe wheat under an oak with a hillside farmhouse and cypresses beyond, poppies at the edge",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer"
   },
   "scene-tannery": {
    "form": "interior",
    "shows": "a tannery workshop: hides hanging, a barrel, a bench with knives and curved blades, leather in rolls, a sunlit window",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-eyrie": {
    "form": "landscape",
    "shows": "a cliff ledge with a cave mouth over a misty river valley, a bird of prey in the sky",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-cliffside-villa": {
    "form": "exterior",
    "shows": "a villa on a cliff over a waterfall, loggias and balconies, ivy, a river valley and mountains beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-gaming-hall": {
    "form": "interior",
    "shows": "a gaming room: a chess table, a backgammon board, a card-table with dice, a hearth with fire, a tapestry, an arcade",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-ruins-installation-bridge": {
    "form": "landscape",
    "shows": "a drowned city of domes and arches seen along a broken curved viaduct over waterfalls, ivy, mist and golden clouds",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-cave-falls": {
    "form": "landscape",
    "shows": "a cavern with a waterfall from a skylight into a dark pool, a lantern at the left, cavern mouths beyond",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-river-vale-night": {
    "form": "landscape",
    "shows": "a river vale at night under a milky way, a lit cottage and a gate in the foreground, hills beyond",
-   "era": "late"
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
   },
   "scene-river-gorge": {
    "form": "landscape",
    "shows": "a rocky river gorge with cascades, mossy boulders, cliffs and a snowy peak, an oak at the top left",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "scene-city-neighborhood": {
    "form": "exterior",
    "shows": "a city street of timber-framed houses with a tall arch, a shop sign, barrels, towers in the distance",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-glowing-crystal": {
    "form": "interior",
    "shows": "a scholar's nook in a cave wall: an armillary, a quill and an open book on a table, a single crystal glowing in the rock, a candle",
-   "era": "late"
+   "era": "late",
+   "light": "dim, candlelit"
   },
   "scene-firth": {
    "form": "landscape",
    "shows": "a wide tidal firth at sunset, channels of shining water between mudflats, dramatic clouds, a headland, an oak at the left",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-city-market": {
    "form": "exterior",
    "shows": "a city market square: awnings with fruit, a fountain with a lion-head basin, statues, an arcaded palazzo, towers beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-city-harbor": {
    "form": "exterior",
    "shows": "a city harbour: a ship moored at a quay, bollards and rope, barrels and sacks and chests under arches, towers beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-city-compound": {
    "form": "exterior",
    "shows": "a palazzo courtyard with loggias, cypresses, stair and statues, a fountain basin, city towers beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-secret-passage": {
    "form": "interior",
    "shows": "a vaulted stone passage lit by one candle in a wall niche beside a folded red cloth, steps climbing to a lit arch beyond",
-   "era": "late"
+   "era": "late",
+   "light": "dim, candlelit"
   },
   "scene-alley": {
    "form": "exterior",
    "shows": "a narrow stone alley at dusk: lit lattice windows, a covered bridge across it, wet cobbles, a red cloth over a sill",
-   "era": "late"
+   "era": "late",
+   "light": "dusk, lamplit"
   },
   "scene-ruins-gates": {
    "form": "exterior",
    "shows": "a pair of tall brass doors in an ivy-grown stone wall, one a hand open, on a wet flagged terrace with a balustrade, terraced ruins and waterfalls beyond",
-   "era": "late"
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
   },
   "scene-auditorium": {
    "form": "interior",
    "shows": "an empty candlelit concert stage: gilt chairs and music stands before a red curtain, a large painting on the wall, rows of red seats in the foreground",
-   "era": "late"
+   "era": "late",
+   "light": "candlelit"
   },
   "scene-fortune-teller": {
    "form": "interior",
    "shows": "a fortune-teller's table under a window: a crystal ball, tarot cards, a candle, an armillary sphere, scrolls and an hourglass on shelves, a crescent-moon hanging",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, candlelit"
   },
   "scene-ruins-garden": {
    "form": "interior",
    "shows": "terraced gardens grown wild inside a vaulted ruin: stepped beds, a stair, a green pool with lilies and small falls, an iron pipe with a valve wheel, light through broken vaults",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins-elevator-base": {
    "form": "landscape",
    "shows": "the foot of an enormous ruined tower braced with cables, a broken skybridge arching from it, rusted machinery in the foreground, cloud and hills beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins-flooded": {
    "form": "interior",
    "shows": "a flooded vaulted hall: pillars standing in still black water, an iron pipe with a valve wheel, shafts of light from a ruined glass roof far above",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "scene-drill-yard": {
    "form": "exterior",
    "shows": "a cobbled drill-yard behind a town wall: a rope-wound post, a rack of spears, shields and barrels, a bench, half-timbered houses and a castle tower beyond",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "scene-well": {
    "form": "exterior",
    "shows": "a stone well with a windlass and bucket in a sunny cobbled courtyard, an arcade, roses, flowering pots, a barrel",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "season": "summer",
+   "weather": "clear"
   },
   "scene-cathedral": {
    "form": "interior",
    "shows": "the nave of a Gothic cathedral: sunlight through stained glass in shafts, choir stalls, candles, a red-carpeted way to a distant high altar",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-vintner": {
    "form": "interior",
    "shows": "a vintner's arbour: barrels, a wine-press, a rack of bottles, baskets of grapes, a table with wine, bread and cheese, vines overhead and a hanging sign of grapes",
-   "era": "late"
+   "era": "late",
+   "light": "daylight",
+   "season": "autumn"
   },
   "scene-cafe": {
    "form": "interior",
    "shows": "a coffee-house: tables and chairs in a vaulted room, a copper pot and cups, lemons, candles, a tall window and an arch on to a sunny square",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-salon": {
    "form": "interior",
    "shows": "a salon: a round table with an open book, armchairs, a fire with a marble bust above it, a bookcase, a telescope and globe, tall window, gilt-framed paintings",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, firelit"
   },
   "scene-ruins-terrace": {
    "form": "interior",
    "shows": "a vast glass-roofed hall of tiers: a lamplit gallery with a balustrade beside a stone bridge, waterfalls down the far walls, ivy, people small in the distance",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, lamplit"
   },
   "scene-ruins-citadel": {
    "form": "landscape",
    "shows": "a terraced citadel of arcades built into a cliff above a misty river valley, a waterfall pouring down it, ivy, golden evening light",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-ruins-elevator": {
    "form": "landscape",
    "shows": "a broken viaduct and a slender ruined spire in the distance over a green valley, stormy gold clouds, a ruined arch and a red cloth in the foreground",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-ruins-elevator-station": {
    "form": "exterior",
    "shows": "a balcony stop on the flank of a huge cabled tower: a rail, crates and a barrel, a lantern and a red banner by a lit doorway, a valley and a river far below at sunset",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-shipwright": {
    "form": "interior",
    "shows": "a shipwright's open shed: the ribs of a boat on a slip, trestles, shavings, plans and tools on a bench, an anchor and rope, a harbour beyond the arches",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-floating-isle-overlook": {
    "form": "landscape",
    "shows": "a cliff edge under an oak looking over cloud at a rocky island floating in the sky",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-overlook": {
    "form": "landscape",
    "shows": "a rocky outcrop under an oak on a high ridge above a river valley and distant hills, stormy evening light",
-   "era": "late"
+   "era": "late",
+   "light": "dusk"
   },
   "scene-ruins-bridge": {
    "form": "interior",
    "shows": "a stone bridge on one great arch with a balustrade, crossing a glass-roofed hall of tiers, light in shafts, ivy",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "scene-overlook-city": {
    "form": "interior",
    "shows": "a vaulted stone passage lit by one candle in a wall niche beside a folded red cloth, steps climbing to a lit arch beyond (the same image, byte for byte, as secret-passage: not a city)",
-   "era": "late"
+   "era": "late",
+   "light": "dim, candlelit"
   },
   "scene-ruins-hall": {
    "form": "interior",
    "shows": "a long vaulted colonnaded gallery with lit lanterns and a polished floor, a balustrade opening on a glass-roofed hall of tiers with a bridge and a waterfall",
-   "era": "late"
+   "era": "late",
+   "light": "daylight, lamplit"
   }
  }
 }

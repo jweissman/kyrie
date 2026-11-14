@@ -18,12 +18,13 @@ export interface Painting {
   large: string; largeBytes: number; seen: Seen;
 }
 // What a painting shows, recorded by looking at it: its form; for a portrait, the sitter as seen; the era of its
-// manner; where the face sits, as a percentage of the height; a few words of what it shows.
+// manner; where the face sits, as a percentage of the height; a few words of what it shows; and, for a scene, its
+// light, and its season and weather where it shows them (CO-13: read by the fit rules, src/ui/fits.ts).
 export interface Seen {
   form: 'portrait' | 'group' | 'scene' | 'landscape' | 'interior' | 'object' | 'animal'; shows: string;
   era: 'early' | 'late' | 'modern'; sex?: 'man' | 'woman' | 'mixed'; age?: 'child' | 'young' | 'adult' | 'old';
   station?: 'labouring' | 'middling' | 'high' | 'religious' | 'martial' | 'learned' | 'artist' | 'player';
-  face?: number;
+  face?: number; light?: string; season?: 'spring' | 'summer' | 'autumn' | 'winter'; weather?: string;
 }
 
 // Reads a JPEG's own metadata, segment by segment, and makes what it says into an attribution: the Web Gallery of Art
