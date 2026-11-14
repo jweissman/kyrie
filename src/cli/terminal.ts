@@ -64,8 +64,8 @@ export class Terminal {
     + ' · aims · follow <n> · save [path] · q';
   static readonly lenses = new Set(['things', 'people', 'places', 'time', 'here']);
   // A fight's turn, as TerminalFight takes it (typed, or picked in the human mode).
-  static command(state: BattleState, legal: Command[], input: Asking): Promise<Command | null> {
-    return TerminalFight.command(state, legal, input);
+  static command(state: BattleState, legal: Command[], input: Asking, onward?: () => void): Promise<Command | null> {
+    return TerminalFight.command(state, legal, input, onward);
   }
   static async battle(battle: Battle, input: Asking): Promise<Command[] | null> {
     const commands: Command[] = [];
@@ -78,7 +78,8 @@ export class Terminal {
       if (!command) { return null; }
       const events = battle.step(command);
       commands.push(command);
-      CombatTelling.exchanges(events, battle.state).forEach(t => console.log(t.text));
+      CombatTelling.since(battle.events, battle.events.length - events.length, battle.state)
+        .forEach(t => console.log(t.text));
     }
     console.log(`Encounter: ${battle.state.outcome ?? 'active'}`);
     return commands;
@@ -407,19 +408,23 @@ export class Terminal {
       const began = performance.now();
       // A foregone fight is one act, fought through by the company's tactics unless it turns, as the page's host
       // fights it (see Foregone; BP-01).
-      let pressing = Foregone.is(turn.current?.screen, choice.id);
+      // Pressed on to its end (TerminalFight's end) is the same, from the turn it was asked for (HP-05).
+      let pressing = Foregone.is(turn.current?.screen, choice.id), pressed = false;
       // What came of each exchange since the company's last turn, told before it chooses again, as the page's fight
       // tells it (CombatTelling): only the hurts had shown between turns, the blows told after the fight.
       const told = new Map<Battle, number>();
       const event = await session.leg(choice.id, async battle => {
         const ours = battle.state.combatants.filter(f => f.team === 'fighters');
-        pressing &&= ours.every(f => f.hp > f.maxHp / 3);
+        const holding = ours.every(f => f.hp > f.maxHp / 3);
+        if (pressed && pressing && !holding) { console.log('The fight turns against you: choose again.'); }
+        pressing &&= holding;
         if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands())); }
         const events = battle.events;
-        CombatTelling.exchanges(events.slice(told.get(battle) ?? events.length), battle.state)
-          .forEach(t => console.log(t.text));
+        CombatTelling.since(events, told.get(battle) ?? events.length, battle.state).forEach(t => console.log(t.text));
         told.set(battle, events.length);
-        const command = await Terminal.command(battle.state, battle.legalCommands(), input);
+        const command = await Terminal.command(battle.state, battle.legalCommands(), input, () => {
+          pressing = pressed = true;
+        });
         if (!command) { throw new Error(quitPlay); }
         return command;
       });

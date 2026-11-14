@@ -1,3 +1,4 @@
+import { Spellcasting } from '../rules/spellcasting';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { Narration } from '../presentation/narration';
 import { Effects } from '../effects';
@@ -45,7 +46,7 @@ export class CombatModel {
         ...this.gist(c.ability, actor),
         rank: Math.max(...c.commands.map(command => Tactics.score(state, command))),
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
-          ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
+          ready: actor ? Spellcasting.casts(actor, c.ability) : 0 } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [],
         ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {},
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),

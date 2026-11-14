@@ -198,8 +198,11 @@ describe('a site\'s worthiest band', () => {
       .toEqual({ danger: 'deadly', text: 'It is more than you can take. It will be long: your weapons barely bite '
         + 'it; fire or radiant would serve better.' });
     // A mage's fire bites it, as a blade bites it by half (a mummy's resistances: the fresh playtest of 7 November);
-    // but her blows for nothing no longer set it burning or bleeding either (R9-06), and he is beyond her again.
-    expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('deadly');
+    // but her blows for nothing no longer set it burning or bleeding either (R9-06), and he is beyond her again. Grave
+    // at the least: a first-level mage once reckoned deadly here could cast only the spell each slot had been prepared
+    // with, and now casts any she knows from a ready slot (OP-05, 15 November), so she is a little less hopeless.
+    const king = mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger ?? '';
+    expect(['grave', 'deadly']).toContain(king);
     // A fresh company is of the first level: no band above it is a bare walkover.
     expect(warrior.filter(b => b.level > 1 && b.reckoning.danger === 'slight' && !/so long as/.test(b.reckoning.text)))
       .toEqual([]);

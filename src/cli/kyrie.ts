@@ -99,7 +99,18 @@ export class KyrieCli {
       default: return this.lookUp(mode, path, argument);
     }
   }
+  // Its own usage on asking, before anything is parsed as a path, drawn or written (the owner's headless review,
+  // 14 November: `adventure --help` was taken for a campaign and failed with a stack trace).
+  static readonly adventureUsage = [
+    'usage: bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name[/background]] [--create]',
+    '         [--interactive | --headless] [--save-as] [--profile]',
+    '       bin/kyrie resume [save.json]',
+    '  With no --as at a terminal (or with --create), you choose who you are as the page does; through a pipe, give --as.',
+    '  --interactive is the picker, --headless plain numbered lines (the default through a pipe).',
+    '  save keeps the game in the one slot and resume takes it up; --save-as asks for a path instead.',
+    '  e.g. bin/kyrie adventure --world a1 --origin wanderer --as human/ranger/Rowan --headless'].join('\n');
   private static async adventure(all: string[]): Promise<number> {
+    if (all.includes('--help') || all.includes('-h')) { console.log(this.adventureUsage); return 0; }
     const args = TerminalMode.rest(all), options = PlayTool.parse(args);
     if (!options.world && !options.campaign) { console.error(PlayTool.usage); return 1; }
     // Who you are, chosen as the page chooses, where someone is at the keyboard and has not said (--as); then the

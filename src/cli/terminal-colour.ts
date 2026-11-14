@@ -75,10 +75,10 @@ export class TerminalColour {
   // and after them its icons (Indicator) and what the page draws beside them in words (Signs): its minutes, what it
   // risks, what is perceived that way. A way with nothing new is dim, or said so.
   static choice(n: number, label: string, signed: Signed & { aspects?: readonly Aspect[] }, depth: Depth): string {
-    const words = Indicator.words(signed.aspects ?? []);
+    const words = Indicator.said(signed.aspects ?? []);
     // What is perceived along a way said in words wherever it is, not only on a way of no colour of its own.
     const after = [...signed.bearing ? [signed.bearing] : [], ...signed.tags ?? [],
-      ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [],
+      ...Indicator.tells(signed.sensed) ? [Signs.sensed(signed.sensed!, signed.far)] : [],
       ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
     if (depth === 'none') {
       const held = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;

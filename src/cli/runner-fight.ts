@@ -36,7 +36,7 @@ export class RunnerFight {
     const out = await Promise.race([leg.then(done => ({ done })), turn]);
     if ('done' in out) {
       const b = this.battle;
-      this.closing = b && CombatTelling.exchanges(b.events.slice(this.from), b.state).map(t => t.text);
+      this.closing = b && CombatTelling.since(b.events, this.from, b.state).map(t => t.text);
       this.pending = undefined; this.battle = undefined; this.rest = false; this.from = 0;
     }
     return out;
@@ -55,7 +55,7 @@ export class RunnerFight {
   lines(): string[] {
     const b = this.pending?.battle;
     if (!b) { return []; }
-    const events = b.events, told = CombatTelling.exchanges(events.slice(this.from), b.state).map(t => t.text);
+    const events = b.events, told = CombatTelling.since(events, this.from, b.state).map(t => t.text);
     this.from = events.length;
     const who = b.state.combatants.map(f => `${f.name} ${f.hp}/${f.maxHp}`).join(' · ');
     return [...told, who];

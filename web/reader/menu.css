@@ -28,12 +28,13 @@
 }
 :root { --row-neutral: rgba(236, 230, 217, .28); }
 /* The pointer is the reticle (IG-15, the owner: "target reticule" meant the cursor): a small ring wherever the hand is,
-   closed by four ticks over anything that can be chosen, and tightened and filled the moment it is pressed. The system's
+   a little wider over anything that can be chosen, and tightened and filled the moment it is pressed; always only a
+   circle, never crossed by ticks (the owner, 15 November). The system's
    own cursor stands behind each, and a touch screen has none. A long press, should an act ever ask one again, would fill
    the ring by steps; a click commits at once, as everything does. */
 :root { --cursor-rest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-rest' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='5' fill='none' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3C/svg%3E") 12 12, auto;
-  --cursor-act: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-act' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3Cline x1='12' y1='2' x2='12' y2='5.5' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='12' y1='2' x2='12' y2='5.5' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='12' y1='18.5' x2='12' y2='22' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='12' y1='18.5' x2='12' y2='22' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='2' y1='12' x2='5.5' y2='12' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='2' y1='12' x2='5.5' y2='12' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='18.5' y1='12' x2='22' y2='12' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='18.5' y1='12' x2='22' y2='12' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, pointer;
-  --cursor-press: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-press' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4.5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='4.5' fill='%23ECE6D9' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3Cline x1='12' y1='4' x2='12' y2='7.5' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='12' y1='4' x2='12' y2='7.5' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='12' y1='16.5' x2='12' y2='20' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='12' y1='16.5' x2='12' y2='20' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='4' y1='12' x2='7.5' y2='12' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='4' y1='12' x2='7.5' y2='12' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3Cline x1='16.5' y1='12' x2='20' y2='12' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.2' stroke-linecap='round'/%3E%3Cline x1='16.5' y1='12' x2='20' y2='12' stroke='%23ECE6D9' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, pointer; }
+  --cursor-act: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-act' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='6.5' fill='none' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3C/svg%3E") 12 12, pointer;
+  --cursor-press: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-press' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4.5' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='3.4'/%3E%3Ccircle cx='12' cy='12' r='4.5' fill='%23ECE6D9' stroke='%23ECE6D9' stroke-width='1.4'/%3E%3C/svg%3E") 12 12, pointer; }
 @media (pointer: fine) {
   .shell, .shell * { cursor: var(--cursor-rest) !important; }
   .shell :is(input[type="text"], input:not([type]), textarea) { cursor: text !important; }
@@ -61,11 +62,14 @@
 
 /* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a
    conversation's questions, its leave and Trade, a fight's moves. Its one indicator at the left, its words in sentence
-   case, a quiet line under them, its key at the right; the same height and ground everywhere. ---- */
+   case, whatever it says of itself beside them on the same line, its key at the right; one line, of one height, and the
+   same ground, everywhere (the owner, 15 November: no jagged list where some rows have a subheader of details; a brief
+   main action and its details, all on one row). What does not fit is cut short, never wrapped. ---- */
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row {
-  all: unset; box-sizing: border-box; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center; align-content: center; column-gap: var(--s3); width: 100%; min-height: var(--choice-h); margin: 0;
-  padding: 9px 14px 9px 22px;
+  all: unset; box-sizing: border-box; position: relative; display: flex; flex-wrap: nowrap; align-items: center;
+  column-gap: var(--s2); width: 100%; max-width: 100%; min-width: 0; height: var(--choice-h); margin: 0; overflow: hidden;
+  white-space: nowrap;
+  padding: 0 14px 0 22px;
   font: var(--t-choice); letter-spacing: 0; text-transform: none; text-align: left; color: var(--ivory); cursor: pointer;
   background: var(--choice-ground); border: 1px solid var(--choice-edge); border-radius: var(--choice-radius);
   text-wrap: balance; -webkit-tap-highlight-color: transparent;
@@ -93,19 +97,33 @@
   animation: prism-drift 9s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) {
   :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
+/* A row never widens what holds it: its words are cut short instead. */
+:root :is(.shell, .world-page, .talk, .fight) :is(li, .led-act):has(> .choice-row) { min-width: 0; max-width: 100%; }
 /* Asked already: its words lowered, still to be chosen. */
 :root .talk .replies .asked .choice-row.choice-row { color: var(--dim); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark) { grid-column: 1; min-width: 0; }
-/* What an act says of itself beside its words (why it is shut, what it risks, the question asked again before it is
-   done): under them, across the row. */
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark, .why,
+  .about, .grave-said, .mark-tag) { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap !important; display: block; margin: 0; }
+/* Its words keep their room first; what the act says of itself (why it is shut, what it risks, the question asked again
+   before it is done) gives way before them. */
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label { flex-shrink: 0; max-width: 100%; }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
-  grid-column: 1 / -1; font: var(--t-aside); color: var(--dim); }
+  font: var(--t-aside); color: var(--dim); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label { font: inherit; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); margin-top: 1px; }
+/* On a phone a way's whole name can be wider than the row ("Into the old stones above Broadholm by the path up the
+   hill"): every row of a list is a little taller there, room for its words on two lines, so that no name is cut
+   short and the list stays even (the owner, 15 November: one height, never a second line of details). */
+@media (max-width: 600px) {
+  :root { --choice-h: 56px; }
+  :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label {
+    white-space: normal !important; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+    line-height: 1.25; }
+}
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { grid-column: 2; grid-row: 1 / span 3;
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { flex: none; margin-left: auto;
   position: static; min-width: 0; padding: 0; border: 0; background: none; font: var(--t-key); color: var(--dim); opacity: .7; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.risk, .grave)::after { grid-column: 1 / -1; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.risk, .grave)::after { flex: none; }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
 @media (hover: none) { :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-key { display: none; } }
 /* Taking one's leave, quieter than what can be said. */

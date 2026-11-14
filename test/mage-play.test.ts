@@ -102,13 +102,15 @@ describe('a mage in the king-barrow', () => {
     const event = await Barrow.take(s, /^Talk to the elders$/);
     expect(event.voiced?.map(v => v.text)).toContain('The elders break off talking among themselves to hear what you want.');
   }, 60000);
+  // Against the barrow's dead, a fight a lone mage loses: the beetles had been that fight until she could cast what she
+  // knows (OP-05, 15 November), and she now beats them.
   it('says where one fell, and what struck them, when no one is left', async () => {
-    const s = await Barrow.start([Barrow.mage]);
-    GeneratedWorld.put(s, 'w9_barrow_back_stone');
-    await Barrow.take(s, /^Attack the beetles$/);
+    const s = await Barrow.start([Barrow.mage], 'a1');
+    GeneratedWorld.put(s, 'w4_end');
+    await Barrow.take(s, /^Attack the barrow-dead$/);
     expect(s.campaign.running).toBe(false);
     const [fell, , struck] = Obituary.of(s.campaign).lines;
-    expect(fell).toStartWith('Wenna fell at the back-stone');
-    expect(struck).toMatch(/with its mandibles/);
+    expect(fell).toStartWith('Wenna fell at the round chamber');
+    expect(struck).toMatch(/with its claws/);
   }, 60000);
 });

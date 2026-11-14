@@ -156,6 +156,10 @@ export class CreationFlow {
   private trade(kind: string): string | undefined {
     const c = this.catalog, wants = c.callings.find(x => x.id === this.member.classId)?.qualities ?? {};
     const of = c.backgrounds.filter(b => b.kind === kind && (!b.calling || b.calling === this.member.classId));
+    // The reason for having come's own trade where it is of the kind chosen: "Once a prospector" on Gone under's card
+    // had become a collier at the trades' page, the prospector's own kind chosen (the second blind playtest, BL-06).
+    const given = this.setting.origins?.find(o => o.id === this.origin)?.background;
+    if (given && of.some(b => b.id === given)) { return given; }
     // A calling's own trade of the kind first (a cleric's novice), else the best suited.
     return (of.find(b => b.calling) ?? [...of].sort((a, b) => CreationFlow.fit(b.qualities, wants)
       - CreationFlow.fit(a.qualities, wants))[0])?.id;

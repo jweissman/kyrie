@@ -10,10 +10,12 @@ interface Caster { slots?: number[]; mana: number; prepared?: string[][]; ready?
   level?: number; daily?: Daily }
 interface Spell { id?: string; cost?: number; spell?: { level: number }; uses?: number }
 
-// Old-school spellcasting. A caster has slots for each spell level, from its class table and level, and prepares a
-// known spell in each one (a spell of that level or lower). Casting spends a ready slot holding that spell; a cantrip
-// spends none. Rest makes every slot ready again. Preparing a different spell takes an hour: in a slot still ready,
-// it can be cast at once; in a spent slot, after the next rest.
+// Spellcasting by slots, as the SRD has it. A caster has slots for each spell level, from its class table and level.
+// Casting a spell it knows spends a ready slot of the spell's level or higher, the lowest that is ready; a cantrip
+// spends none. Rest makes every slot ready again. Each slot still names a spell (its preparation), kept for the sheet
+// and for preparing; it no longer binds what the slot can cast: a first-level mage of the warding school, its two
+// slots prepared with the first spells it learned, knew Magic Missile and Mage Armor and could cast neither, and the
+// owner died to the rats trying (15 November, P0). A spell known is a spell that can be cast while a slot is ready.
 export class Spellcasting {
   static table(classId: string | undefined, level: number, scores: Partial<Record<Attribute, number>>): number[] {
     const casting = Creation.classOf(classId)?.spellcasting;
@@ -60,11 +62,15 @@ export class Spellcasting {
     return creature;
   }
   static needsSlot(ability: Spell): boolean { return (ability.spell?.level ?? 0) > 0; }
-  // The level index of the ready slot a spell would spend, if any: the lowest that holds it.
+  // The level index of the ready slot a spell would spend, if any: the lowest of its level or higher that is ready.
   static slotFor(caster: Caster, ability: Spell): number | undefined {
     const ready = caster.ready ?? [];
-    for (let i = (ability.spell?.level ?? 1) - 1; i < ready.length; i++) { if (ready[i]!.includes(ability.id ?? '')) { return i; } }
+    for (let i = (ability.spell?.level ?? 1) - 1; i < ready.length; i++) { if (ready[i]!.length) { return i; } }
     return undefined;
+  }
+  // How many casts of a spell the ready slots allow: those of its level or higher.
+  static casts(caster: Caster, ability: Spell): number {
+    return (caster.ready ?? []).slice((ability.spell?.level ?? 1) - 1).reduce((n, r) => n + r.length, 0);
   }
   // Whether it can be used now: what it costs is there, and what it can do only so often a day is not used up (an
   // innate spell draws on its kind's spells a day: see DailyUses).
@@ -79,8 +85,10 @@ export class Spellcasting {
     if (!ability.spell) { caster.mana -= ability.cost ?? 0; return; }
     if (!this.needsSlot(ability) || caster.innate?.includes(ability.id ?? '')) { return; }
     const i = this.slotFor(caster, ability);
-    if (i === undefined) { throw new Error(`No ready slot holds ${ability.id}`); }
-    caster.ready![i]!.splice(caster.ready![i]!.indexOf(ability.id!), 1);
+    if (i === undefined) { throw new Error(`No ready slot for ${ability.id}`); }
+    // The slot that named it, where one of that level did; else the first ready.
+    const ready = caster.ready![i]!, named = ready.indexOf(ability.id!);
+    ready.splice(named < 0 ? 0 : named, 1);
     caster.slots![i] = caster.ready![i]!.length;
   }
   // Makes up to `count` spent slots ready again, lowest level first; how many came back.

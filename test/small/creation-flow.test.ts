@@ -18,6 +18,18 @@ const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { headin
   party: [Creation.protagonist('human', 'flow', names)] };
 
 describe('making the protagonist', () => {
+  // The reason for having come's own trade stays where its kind is chosen at "What did you do before this?" (the
+  // second blind playtest, BL-06: Gone under's card said "Once a prospector", and the character set out a collier).
+  it('keeps the trade the reason for having come gave, its kind chosen again', () => {
+    const lost: Setting = { ...setting, origins: [{ id: 'lost', title: 'Gone under', choice: 'Someone went under',
+      background: 'prospector' }] };
+    const flow = new CreationFlow(lost, Creation.catalog());
+    flow.choose('why', 'lost');
+    flow.choose('calling', 'warrior');
+    const kind = Creation.catalog().backgrounds.find(b => b.id === 'prospector')!.kind;
+    flow.choose('before', kind);
+    expect(flow.member.backgroundId).toBe('prospector');
+  });
   it('is one flow: its steps, its cards, and what a choice settles', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
     // The calling only: its way (a mage's school) is not asked, but the calling's own until chosen in play.

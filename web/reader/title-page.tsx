@@ -32,7 +32,6 @@ export class TitlePage {
     const mark = <i className="row-mark" aria-hidden="true" />;
     return (
       <div className={`opening title-page beat-${beat}`} data-mode="title">
-        <TitlePage.Sky />
         {beat !== 'ident' && <TitlePage.Motes />}
         {beat === 'ident' && <Ident.View studio={named.studio} />}
         <main className="title-main" aria-hidden={beat === 'ident' || beat === 'dark' || undefined}>
@@ -46,9 +45,12 @@ export class TitlePage {
                 <span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span></button></li>}
               <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew}
                 {...item('begin')}>{mark}<span className="n">New game</span></button></li>
+              {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
+                  hover, not written out beside it: the owner, 15 November). */}
               <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" target="_blank"
-                rel="noopener" {...item('encyclopedia')}>{mark}<span className="n">The encyclopedia</span>
-                <span className="why">In a new tab ↗</span></a></li>
+                rel="noopener" title="Opens in a new tab" aria-label="The encyclopedia, opens in a new tab"
+                {...item('encyclopedia')}>{mark}<span className="n" aria-hidden="true">The encyclopedia</span>
+                <span className="why" aria-hidden="true">↗</span></a></li>
               <li><button type="button" className="way-in" data-nav data-action="options" {...item('options')}
                 onClick={TitlePage.options.bind(null, app)}>{mark}<span className="n">Options</span></button></li>
             </ul>
@@ -87,34 +89,6 @@ export class TitlePage {
     );
   }
   static readonly motes = 34;
-  // The sky the title stands under, in layers: the deep of it, a light low on the horizon, and a far ridge with the
-  // seven towers of the studio's mark small upon it (the horizon the mark drew becomes this one). It is completely
-  // still, whatever the hand is on (IG-11): no light answering focus, no haze, no sparks.
-  static Sky() {
-    const towers = Ident.towers, w = 1200, base = 540, gap = 22, x0 = 640 - (towers.length - 1) * gap / 2;
-    return (
-      <div className="title-sky" aria-hidden="true">
-        <i className="sky-deep" />
-        {/* The first stars, fixed (the same each time), and few: depth, not ornament. */}
-        <svg className="sky-stars" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" focusable="false">
-          {TitlePage.stars.map(([x, y, r], i) => <circle key={i} cx={x} cy={y} r={r} />)}
-        </svg>
-        <i className="sky-light" />
-        <svg className="sky-ridge" viewBox={`0 0 ${w} 600`} preserveAspectRatio="xMidYMax slice" focusable="false">
-          <path d={`M0 ${base + 8} C 180 ${base - 22} 330 ${base - 6} 470 ${base - 14} S 760 ${base - 30} 900 ${base - 10}`
-            + ` S 1110 ${base - 18} ${w} ${base - 4} L ${w} 600 L 0 600 Z`} />
-          {towers.map((h, i) => <rect key={i} x={x0 + i * gap - 1.6} y={base - 14 - h * 34} width={3.2}
-            height={h * 34 + 6} />)}
-          {/* The mark's lamps, far off now: lit on the towers as the light finds them. */}
-          {towers.map((h, i) => <circle key={`l${i}`} className={i === 3 ? 'lamp seventh' : 'lamp'} cx={x0 + i * gap}
-            cy={base - 14 - h * 34 - 1} r={i === 3 ? 1.8 : 1.3} />)}
-        </svg>
-      </div>
-    );
-  }
-  // Forty stars over the upper sky, placed by a fixed rule (no chance in it), the brighter fewer.
-  static readonly stars: [number, number, number][] = Array.from({ length: 40 }, (_, i) =>
-    [(i * 271 + 37) % 1000, (i * 113 + 19) % 330, i % 7 === 0 ? 1.6 : i % 3 === 0 ? 1.1 : .7]);
   // When the name's middle letter begins to be lit, after the black; and how long the whole title takes to come up.
   static readonly lit = 120;
   static readonly reveal = 3200;

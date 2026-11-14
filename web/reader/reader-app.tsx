@@ -313,7 +313,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
       const attention = aside ? Conversation.place : Conversation.holds(turning ?? this.state.attention, frame, next);
       const person = attention.kind === 'person';
-      const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
+      const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said, this.state.talk)] : [];
       const keeps = ReaderApp.keeps(this.state.exploring, frame, next);
       this.setState({ frame: next, pending: undefined, cursor: 0,
         open: keeps ? this.state.open : this.kept(next, attention), hovered: keeps ? this.state.hovered : undefined,

@@ -20,9 +20,10 @@ export class Unusable {
   private static why(actor: Fighter, a: ArenaAbility): string | undefined {
     const m = Effects.modifiers(actor), turns = actor.cooldowns?.[a.id] ?? 0;
     if (!DailyUses.ready(actor, a)) { return 'used up until a rest'; }
+    // Beyond the caster's level first: a third-level spell known at the first had said "no spell of its level left".
+    if ((a.spell?.level ?? a.level ?? 0) > Fighting.maxSpellLevel(actor.level)) { return 'beyond your level yet'; }
     if (!Spellcasting.affordable(actor, a)) { return a.spell ? 'no spell of its level left to cast' : 'not enough mana'; }
     if (turns) { return `again in ${turns} ${turns === 1 ? 'turn' : 'turns'}`; }
-    if ((a.spell?.level ?? a.level ?? 0) > Fighting.maxSpellLevel(actor.level)) { return 'beyond your level yet'; }
     if (a.spell && m.noSpellcasting) { return 'no spell can be cast now'; }
     if (a.requires?.status && !actor.statuses.some(s => s.id === a.requires!.status)) {
       return `only while ${ConditionSense.name(a.requires.status)}`;

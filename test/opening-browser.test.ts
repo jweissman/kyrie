@@ -31,13 +31,14 @@ class Stage {
         scrolls: doc.scrollHeight > innerHeight || doc.scrollWidth > innerWidth };
     });
   }
-  // The ways in as drawn: each one's box, which is marked (aria-current), and whether its own mark is gold.
+  // The ways in as drawn: each one's box, which is marked (aria-current), and whether its own mark is gold; and what it
+  // says (each says one thing: no row writes out "In a new tab" beside its name, the owner, 15 November).
   // settled: once the letters' face has come and the title has stood still a moment.
   static async ways(page: Page, settled = false) {
     if (settled) { await page.evaluate(() => document.fonts.ready.then(() => new Promise(r => setTimeout(r, 400)))); }
     return page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.title-menu .way-in')].map(w => {
       const r = w.getBoundingClientRect(), mark = getComputedStyle(w.querySelector('.row-mark')!).backgroundColor;
-      return { way: w.dataset.way, box: [r.x, r.y, r.width, r.height].map(Math.round).join(','),
+      return { way: w.dataset.way, said: w.textContent ?? '', box: [r.x, r.y, r.width, r.height].map(Math.round).join(','),
         marked: w.getAttribute('aria-current') === 'true', gold: /242, 189, 76/.test(mark) };
     }));
   }
@@ -106,7 +107,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.hover('[data-action="options"]'); await page.waitForTimeout(400);
     const after = await Stage.ways(page);
     expect(after.filter(w => w.marked).map(w => w.way)).toEqual(['options']);
-    expect(after.filter(w => w.gold)).toEqual([]);
+    expect([after.filter(w => w.gold), before.filter(w => /new tab/i.test(w.said))]).toEqual([[], []]);
     expect(after.map(w => w.box)).toEqual(before.map(w => w.box));
     expect([sky.running, sky.embers.length, await Stage.sky(page)]).toEqual([0, TitlePage.motes, sky]);
     expect(errors).toEqual([]);

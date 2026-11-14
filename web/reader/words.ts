@@ -16,6 +16,14 @@ export class Words {
   }
   static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelfth'];
+  // A way's name as its going and how: "Into the old stones above Broadholm" and "by the path up the hill to the old
+  // stones", "To the Walkers' camp" and "drop the bar across the camp gate", so that a row says the going whole and
+  // what is cut short, where the row is narrow, is only how (the owner, 15 November: a brief main action and its
+  // details on one row). Anything not a way, or with nothing after its going, is its name alone.
+  static going(label: string): [string, string?] {
+    const m = /^((?:To|Into|Out to|Up|Down|Back to) .+?) (?:— |(?=by ))(.+)$/.exec(label);
+    return m ? [m[1]!, m[2]!] : [label];
+  }
   static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // "Bask", "Bask and Mik", "Bask, Mik and Ulf".
   static listed(xs: string[]): string { return xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs.at(-1)}`; }

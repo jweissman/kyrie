@@ -39,6 +39,18 @@ export class Indicator {
     return [...Emphasis.ranked(drawn), ...drawn.includes('companionship') ? ['companionship' as const] : []]
       .map(a => Emphasis.words[a]);
   }
+  // The words said unasked where there is no colour: what the player chose (the aim) and what is so of the act (a
+  // danger seen, someone who could join); never the editorial ones (worth a look, to learn, to gain, uncanny), which
+  // told the player where curiosity ought to be before the fiction had raised it (the owner's headless review,
+  // 14 November). Those stay the act's colour, and are said on asking.
+  static readonly unasked: readonly Aspect[] = ['undertaking', 'danger', 'companionship'];
+  static said(aspects: readonly Aspect[] | undefined, gilded = true): string[] {
+    const kept = (aspects ?? []).filter(a => this.unasked.includes(a));
+    return this.words(kept, gilded);
+  }
+  // Whether what is perceived off along a way is said in words unasked: only what is so (a danger, someone), never
+  // that it is worth a look.
+  static tells(sensed: Aspect | undefined): boolean { return !!sensed && this.unasked.includes(sensed); }
   // Whether what is perceived along a way is its faint pip: the way has no colour of its own, and it is no companion.
   static faint(c: Carrying, tone = Emphasis.ranked(Emphasis.drawn(c.aspects, c.gilded ?? true))[0]): boolean {
     return !!c.sensed && !tone && c.sensed.aspect !== 'companionship';

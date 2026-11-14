@@ -327,10 +327,11 @@ export class GlanceStage {
   static LensRow({ app, draw, act: a }: { app: ReaderApp; draw: Draw; act: LensAct }) {
     const c = GlanceStage.choice(app, a.choice);
     // What it risks said on it, as the four say theirs (a way with no coming back).
-    const risks = (c?.marks ?? []).map(m => Words.upper(m.said)).join(' · ');
+    const [going, how] = Words.going(a.label);
+    const risks = [how ?? '', ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
     if (c && draw.index.has(c.id)) {
       // What it opens (the words that can be said at a door) opened beneath it, as under the four.
-      return <><ChoiceRow.Act choice={c} draw={draw} label={Typography.curl(a.label)} {...risks ? { aside: Typography.curl(risks) } : {}} />
+      return <><ChoiceRow.Act choice={c} draw={draw} label={Typography.curl(going)} {...risks ? { aside: Typography.curl(risks) } : {}} />
         <PlaceStage.Opened choice={c} draw={draw} /></>;
     }
     const own: Choice = { id: a.choice, label: a.label, tone: 'way', ...a.command ? { command: a.command } : {},

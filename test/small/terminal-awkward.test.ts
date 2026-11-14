@@ -246,12 +246,15 @@ describe('the terminal\'s human mode, in the awkward world, its rest and its dra
 });
 
 describe('the terminal\'s headless mode, in the awkward world', () => {
-  it('keeps its plain lines: numbered, the aspects said in words in the shared order', async () => {
+  // Said unasked only what was chosen or is so: the aim, not that the question teaches (the owner's headless review,
+  // 14 November: "worth a look" told the player where curiosity ought to occur before the fiction had produced it).
+  it('keeps its plain lines: numbered, the aim said in words, never an editorial word', async () => {
     const t = await Awkward.start();
     const walked = await TerminalWalk.run(t.session, WalkStyle.scripted(['follow 1', 'look']));
     const text = walked.transcript.join('\n');
     expect(text).not.toContain('\x1b[');
-    expect(text).toMatch(/^1\. Ask Osric whether .* {2}\[your aim, to learn\]$/m);
+    expect(text).toMatch(/^1\. Ask Osric whether .* {2}\[your aim\]$/m);
+    expect(text).not.toMatch(/worth a look|to learn|to gain|uncanny/);
     expect(text).toMatch(/^\(more: .*all \d+\)$/m);
   });
 });
