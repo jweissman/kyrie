@@ -48,8 +48,7 @@ export class TerminalPickerView {
       return [...gap, ...group, this.row(p, row, { focused: i === p.focus, width, shows })];
     });
   }
-  // The focus mark (the page's reticule), a thin mark in the row's tone, its icon in the same tone, its words, and
-  // its icons for what it is besides.
+  // The focus mark, a thin mark in the row's tone, and its words.
   private static row(p: TerminalPicker, row: Row, at: { focused: boolean; width: number; shows: Shows }): string {
     const { focused, width, shows } = at, d = shows.depth;
     // No ring for a held act any more (IG-07): its kind's icon (⧗) says it.
@@ -59,16 +58,15 @@ export class TerminalPickerView {
     const faint = !tone && signed.sensed && !ind.icons.length;
     const bar = d === 'none' ? TerminalColour.pip(ind, shows, signed.sensed) : tone ? TerminalColour.paint(tone, '▎', d)
       : faint ? TerminalColour.dim(TerminalColour.paint(Emphasis.tones[signed.sensed!], '▎', d), d) : ' ';
-    const glyph = row.header ? (p.opened.has(row.group ?? '') ? '−' : '+') : row.icon ?? ' ';
-    const icon = tone ? TerminalColour.paint(tone, glyph, d) : TerminalColour.ink(row.icon ? 'dim' : 'faint', glyph, d);
-    // An icon the row's own kind says already (a journey's ⇢) is not said twice.
-    const after = ind.icons.filter(x => x.sign !== row.icon).map(x => TerminalColour.sign(x, shows.unicode)).join(' ');
-    const words = TerminalWidth.cut(row.label, width - 5 - (after ? TerminalWidth.of(after) + 1 : 0));
+    // Text only, the owner (15 November): no icon beside an act, nor icons after it; a group's +/− alone. Its
+    // meaning is the thin mark's tone, and its words on `?`.
+    const icon = row.header ? TerminalColour.ink('dim', p.opened.has(row.group ?? '') ? '−' : '+', d) : '';
+    const words = TerminalWidth.cut(row.label, width - 5);
     const quiet = row.info || row.header || row.id === TerminalPicker.more || row.shut || row.signed?.idle;
     const lit = quiet ? TerminalColour.ink('dim', words, d) : focused
       ? TerminalColour.bold(TerminalColour.ink('ivory', words, d), d)
       : shows.prism ? TerminalColour.prism(words, row.aspects ?? [], d) : words;
-    return `${mark}${bar}${icon} ${lit}${after ? ` ${TerminalColour.ink('dim', after, d)}` : ''}`;
+    return `${mark}${bar}${icon ? `${icon} ` : ' '}${lit}`;
   }
   // The row in hand, said in one area of fixed height: its words whole where the list cut them, what it costs or
   // risks, what a grave act asks, why it cannot be chosen; its whole on asking (?), which may run longer. More than

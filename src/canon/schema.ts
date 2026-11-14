@@ -266,6 +266,9 @@ export interface Material {
   passes?: string;
 }
 export interface Plant {
+  // The climates it grows in (RegionWeather.climate), where it does not grow in every one: bamboo and cinnamon in
+  // the warm and wet, not a northern fishing town's garden (CO-18).
+  climates?: string[];
   name: string; looks: string; habitats: string[]; source: Source;
   // Its plate (data/paintings/plants.json: plants/<id>), where one is drawn.
   portrait?: string;

@@ -468,7 +468,7 @@ Module lab "The undercroft at Lowmouth" {
   Objective low_u_vault_sought when knows(party, low_u_vault_found) and able(low_u_keeper) toward low_u_vault "Something keeps {low_u_vault} under the undercroft.".
   Entity low_u_notice: fact "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} for the gate key.'".
   Thing low_u_notice_post "the notice on the well-post" at low_green { }
-  Observe low_u_notice_up near low_u_notice_post of low_u_notice_post when (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)) and not knows(party, low_u_notice) "Paper nailed to the post by the well, written over in several hands.".
+  Observe low_u_notice_up near low_u_notice_post of low_u_notice_post when (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)) and not knows(party, low_u_notice) "A notice is nailed to the post by the well, written over in several hands.".
   Action low_u_notice_read(actor: group, site: place) "Read the notice on the well-post" {
     Requires able(actor) and at(actor, site) and at(actor, low_green) and not knows(actor, low_u_notice) and (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)).
     Time 1.

@@ -269,7 +269,7 @@
       ],
       "lit": true,
       "scenes": [
-        "A timbered mouth opens in the hillside, the height of a man and the width of a cart, its lintel a single oak beam gone black with age. The spoil of the old workings spreads below it in a grey fan that the heather has never taken. Cold air comes out of it, steady as breath."
+        "A timbered mouth opens in the hillside, the height of a man and the width of a cart. Its lintel is a single oak beam, black with age. The spoil of the old workings spreads below it in a grey fan that the heather has never taken. Cold air comes out of it, steady as breath."
       ]
     },
     "adit": {
@@ -278,7 +278,7 @@
         "the long adit"
       ],
       "scenes": [
-        "The adit runs straight into the hill, cut just high enough to walk upright, its roof held on oak props every few paces. Ruts are worn into the floor where the tubs ran, and a rail of black wood still lies in one of them.",
+        "The adit runs straight into the hill, just high enough to walk upright. Oak props hold its roof every few paces. Ruts are worn into the floor where the tubs ran, and a rail of black wood still lies in one of them.",
         "A gallery runs on into the hill, dry and cold, the props on either hand furred with white mould. Somewhere ahead water drips into water."
       ]
     },
@@ -297,8 +297,8 @@
         "the wide stope"
       ],
       "scenes": [
-        "A long chamber where the vein was taken out from floor to roof, the hanging wall held up by walls of stacked stone. The pale ore is gone; what is left glitters faintly where your light touches it.",
-        "The vein was wide here, and the Delvers followed it up and down into a hall of their own making, its roof lost in the dark above your light. Rubble lies in heaps where they left it."
+        "A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it.",
+        "The vein was wide here, and the Delvers followed it up and down into a hall of their own making. Its roof is lost in the dark above your light. Rubble lies in heaps where they left it."
       ]
     },
     "shaft_head": {
@@ -306,7 +306,7 @@
         "the shaft head"
       ],
       "scenes": [
-        "The gallery widens into a chamber round the head of a shaft. A winding wheel taller than a man stands over the hole on a frame of oak and bronze, and a chain runs from it down into the dark. Whatever hangs on the chain is somewhere below."
+        "The gallery widens into a chamber round the head of a shaft. A winding wheel taller than a man stands over the hole on a frame of oak and bronze. A chain runs from it down into the dark. Whatever hangs on the chain is somewhere below."
       ]
     },
     "winze_head": {
@@ -314,7 +314,7 @@
         "the head of the winze"
       ],
       "scenes": [
-        "A square hole drops through the floor in a corner, ladders lashed to its side going down one below another out of your light. The miners' way down, not the ore's: for those who did not trust the cage."
+        "A square hole drops through the floor in a corner. Ladders lashed to its side go down, one below another, out of your light. The miners' way down, not the ore's: for those who did not trust the cage."
       ]
     },
     "vent": {
@@ -338,7 +338,7 @@
         "the smithy"
       ],
       "scenes": [
-        "A side chamber with a hearth cut into the rock and a smoke-hole above it, an anvil standing on a block of oak. Here the Delvers mended their picks; the floor is black with a century of scale."
+        "A side chamber with a hearth cut into the rock and a smoke-hole above it. An anvil stands on a block of oak. Here the Delvers mended their picks; the floor is black with a century of scale."
       ]
     },
     "shaft_bottom": {
@@ -355,7 +355,7 @@
         "the long haulage"
       ],
       "scenes": [
-        "The main road of the level: a broad gallery with a rail down its middle, and refuges cut in the walls every fifty paces to step into when the tubs came.",
+        "The main road of the level is a broad gallery with a rail down its middle. Refuges are cut in the walls every fifty paces, to step into when the tubs came.",
         "The haulage runs on, straight as a rule, and the rail in it is iron here, not wood. Your steps come back to you from far ahead."
       ]
     },
@@ -364,7 +364,7 @@
         "the Delvers' hall"
       ],
       "scenes": [
-        "A long hall cut in the rock, its benches cut from the rock too, and a hearth at the end with a smoke-hole going up into the dark. Names are cut on every wall, hundreds of them, each with a small star beside it."
+        "A long hall cut in the rock, with benches of the same rock. At the end a hearth's smoke-hole goes up into the dark. Names are cut on every wall, hundreds of them, each with a small star beside it."
       ]
     },
     "stores": {
@@ -372,7 +372,7 @@
         "the stores"
       ],
       "scenes": [
-        "Racks and bins along both walls: rope rotted to dust, lamp-oil dried to varnish in its jars, iron tools stacked as if someone meant to come back for them."
+        "Racks and bins line both walls: rope rotted to dust, lamp-oil dried to varnish in its jars. The iron tools are stacked neatly, as if for the next shift."
       ]
     },
     "shrine": {
@@ -388,7 +388,7 @@
         "the pump-room"
       ],
       "scenes": [
-        "A wheel as tall as two men stands in a pit, with a race cut in the rock above it to bring water down onto its paddles, and buckets on a chain hanging from its axle into a well-shaft. The shaft goes down to the level below."
+        "A wheel as tall as two men stands in a pit, under a race cut to bring water onto its paddles. Buckets on a chain hang from its axle into a well-shaft. The shaft goes down to the level below."
       ]
     },
     "winze_foot": {
@@ -396,7 +396,7 @@
         "the foot of the winze"
       ],
       "scenes": [
-        "The ladders end in a small chamber at the haulage level, with a bench cut in the wall where the climbers sat to get their breath."
+        "The ladders end in a small chamber at the haulage level. A bench is cut in the wall, where the climbers sat to get their breath."
       ]
     },
     "chute_foot": {
@@ -412,7 +412,7 @@
         "the sealed stair"
       ],
       "scenes": [
-        "At the end of the level the haulage way stops, and a stair cut in the rock goes down from it, steep and worn hollow in the middle by the Delvers' boots. The air that comes up it is wet."
+        "At the end of the level the haulage way stops. A stair cut in the rock goes down from it, steep, worn hollow by the Delvers' boots. The air that comes up it is wet."
       ]
     },
     "stair_foot": {
@@ -428,7 +428,7 @@
         "the sump gallery"
       ],
       "scenes": [
-        "A long gallery that was under water for longer than anyone remembers. Silt lies a foot deep, and things lie in it: a lamp, a boot, the bones of something small."
+        "A long gallery that was under water for longer than anyone remembers. Silt lies a foot deep, and in it lie a lamp, a boot and the bones of a rat."
       ]
     },
     "furnace": {
@@ -436,7 +436,7 @@
         "the furnace hall"
       ],
       "scenes": [
-        "A hall where the star-iron was smelted: a furnace like a beehive taller than a house, its mouth black, its bellows rotted to rags on their frames. The floor is glass in places where the slag ran."
+        "A hall where the star-iron was smelted. A furnace like a beehive, taller than a house, stands with its mouth black and its bellows rotted to rags. The floor is glass in places where the slag ran."
       ]
     },
     "deep_cut": {
@@ -444,7 +444,7 @@
         "the deep cut"
       ],
       "scenes": [
-        "Past the furnace the gallery stops being a gallery: a rough cut goes down at a steep slant, hacked out fast by many hands, the pick-marks still sharp. The air coming up it is colder than the rest of the mine."
+        "Past the furnace a rough cut goes down at a steep slant, hacked out fast by many hands. The pick-marks are still sharp. The air coming up it is colder than the rest of the mine."
       ]
     },
     "strongroom": {
@@ -460,7 +460,7 @@
         "the last face"
       ],
       "scenes": [
-        "The vein shows in the face of the gallery as a seam of pale stuff as thick as your arm, and it is not pale here: in your light it moves, a slow shimmer under the surface, as if something far off were breathing on it."
+        "The vein shows in the face of the gallery as a seam of pale ore as thick as your arm. In your light it shimmers slowly under the surface, rising and falling like breath."
       ]
     },
     "breach": {
@@ -468,7 +468,7 @@
         "the breach"
       ],
       "scenes": [
-        "The rough cut ends at a hole in the rock that is not the Delvers' work. Its sides are smooth as the inside of a bell and faintly warm, and it opens into a space too large for your light to find the far side of."
+        "The rough cut ends at a hole in the rock that is not the Delvers' work. Its sides are smooth as the inside of a bell, and faintly warm. It opens into a space too large for your light to find the far side."
       ]
     },
     "vault": {
@@ -476,7 +476,7 @@
         "the hollow vault"
       ],
       "scenes": [
-        "A cavern no one cut: a dome of rock streaked through with the pale ore, which here gives off a light of its own, enough to see by, grey as a winter morning. The Delvers' ladders and props end at its edge as if their makers had stopped there, all at once."
+        "A cavern no one cut: a dome of rock streaked with the pale ore. Here the ore gives a light of its own, grey as a winter morning, enough to see by. The Delvers' ladders and props end at its edge as if their makers had stopped there, all at once."
       ]
     },
     "hollow": {
@@ -484,7 +484,7 @@
         "a side hollow"
       ],
       "scenes": [
-        "A pocket of the cavern, low-roofed, where the floor is littered with the Delvers' things: picks, a dropped lamp, a cloak, set down neatly in a row."
+        "A low-roofed pocket of the cavern. The Delvers' things lie on its floor in a neat row: picks, a lamp, a cloak."
       ]
     },
     "rift": {
@@ -492,7 +492,7 @@
         "the rift"
       ],
       "scenes": [
-        "At the back of the cavern the floor opens in a crack you could walk into sideways, and it goes down, smooth-sided and faintly warm, further than anything the Delvers dug. A smell comes up it like the inside of a shell."
+        "At the back of the cavern the floor opens in a crack you could walk into sideways. It goes down, smooth-sided and faintly warm, further than anything the Delvers dug. A smell comes up it like the inside of a shell."
       ]
     },
     "heart": {
@@ -508,7 +508,7 @@
         "the spring"
       ],
       "scenes": [
-        "A spring comes out of the rock here and runs off along a channel cut in the floor. Beside it a second channel, a race, goes off into the dark, cut to carry the water somewhere below, and a gate of bronze stands where the two divide."
+        "A spring comes out of the rock here and runs off along a channel cut in the floor. Beside it a race goes off into the dark, cut to carry the water to the levels below. A bronze gate stands where the two divide."
       ]
     }
   },
@@ -645,16 +645,16 @@
     "'My grandfather went into {name} after the star-iron. He said the stair at the bottom was walled up by the Delvers themselves, and there was writing on it, and he came back up without reading it.'"
   ],
   "land": {
-    "blight": "The heather stops a long stride short of the adit mouth all round, as though it had been burned back, and grows again beyond. Nothing nests in the spoil.",
+    "blight": "The heather stops a long stride short of the adit mouth all round, scorched back, and grows again beyond. Nothing nests in the spoil.",
     "signs": {
       "woodcraft": "There is no track into the adit that is not a man's, and the foxes' runs bend wide of it. Only at noon, with the sun full on the hillside, do the ravens come down and sit on the spoil.",
-      "digging": "The last of the spoil, at the top of the heap, is not the same stone as the rest: black, glassy, as if it had been in a fire. The Delvers' last gallery broke into something that was not rock."
+      "digging": "The last of the spoil, at the top of the heap, is not the same stone as the rest. It is black and glassy, as if fired. The Delvers' last gallery broke into something that was not rock."
     },
     "healed": "The heather has begun to creep back toward the adit mouth, and a wheatear has a nest in the spoil."
   },
   "camp": {
     "later": "The same party camped here too, further in: the ring of stones again, smaller, and less left beside it than above, a blanket and an empty water-skin, as if they were travelling lighter by now.",
-    "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
+    "scene": "A party camped here not long ago, on the dry floor between the props: a ring of stones round dead ashes, a bedroll stiff with damp. A pack lies with its straps cut, and nobody came back for it.",
     "journal": [
       "A damp notebook, the last pages written small to save them. 'The cage is at the bottom and the wheel will not turn: rusted. Brann says a bar under the axle would free it, if we had brought one. The ladders in the winze are sound as far as we went. Something lives in the props by the adit; it bit Edda.'",
       "A damp notebook, the last pages written small. 'The stair at the end of the haulage is walled up, and there is writing on it nobody can read. Under the pump-room the shaft is full of water. Edda says the wheel was turned by water from above, and that is what the dry channel up by the spring is for. She wants to try it. I want to go home.'",
@@ -662,7 +662,7 @@
       "A notebook with one line in it, written by someone lying down: 'it is not asleep'."
     ]
   },
-  "outside": "Spoil heaps run down the hillside in grey fans that the heather has never taken, and above them a timbered mouth opens into the hill, its lintel a single oak beam. Cut into the beam in the old script, worn but whole: {oldup}.",
+  "outside": "Spoil heaps run down the hillside in grey fans the heather has never taken. Above them a timbered mouth opens into the hill. Cut into the beam in the old script, worn but whole: {oldup}.",
   "hook": {
     "topic": "the old workings",
     "trade": { "topic": "what the old workings are worth", "says": "turns a lump of something pale over in the light. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'" },
@@ -846,7 +846,7 @@
   ],
   "after": {
     "warlords": [
-      { "role": "adit", "scene": "Someone after the Delvers built a gate of squared timbers across the adit and cut slots in the rock beside it for bowmen. It stands open now, its bar rotted through.",
+      { "role": "adit", "scene": "The warlords who came after the Delvers built a gate of squared timbers across the adit and cut slots in the rock beside it for bowmen. It stands open now, its bar rotted through.",
         "document": { "name": "the words burned into the gate-beam", "shut": "Words are burned into the gate's crossbeam with a hot iron, in the kingdom's letters, not the old script.", "label": "Read the words on the gate-beam", "text": "BY THE LORD OF {kingdomup} THIS WORKING IS HELD. NONE BELOW THE CROSSING." } },
       { "role": "crossing", "barrier": { "to": "winze_head", "name": "the warlords' barricade", "text": "A barricade of ore-tubs and timber, chained together, closes the gallery to the winze: whoever held the adit did not want anything coming up from below.", "down": "The warlords' barricade lies dragged apart across the gallery.", "label": "Drag the barricade apart" } }
     ],
@@ -869,8 +869,8 @@
       { "role": "hall", "scene": "In the long winter whole families lived down here, where it was warmer than above: hearths of stacked stone along the walls, and a child's carving of a cow left on a ledge." }
     ],
     "heirs": [
-      { "role": "chute_foot", "scene": "In the war of the heirs someone came down here with something to hide: there are boot-marks in the old ore dust that are not the Delvers'.",
-        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox someone buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+      { "role": "chute_foot", "scene": "In the war of the heirs an heir's man came down here with his lord's coin to hide: there are boot-marks in the old ore dust that are not the Delvers'.",
+        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox an heir's man buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea kept their plunder in the adit one summer: their carved post still stands at the mouth, a ship's figurehead with its face hacked off." }

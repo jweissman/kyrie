@@ -4,7 +4,7 @@
     "hamlet": [
       "{name} is a handful of houses round a trodden green, with {trade}. Hens scratch in the dirt by the doors.",
       "A few houses stand round a pound for strays at {name}, with {trade}. The air smells of dung and woodsmoke.",
-      "{name} is one farm grown into four, their yards running together, with {trade}. A cow lows somewhere behind a wall.",
+      "{name} is one farm grown into four, their yards running together, with {trade}. A cow lows behind a wall.",
       "Three houses and a byre stand about a well at {name}, with {trade}. The well-chain knocks against the stones when the wind moves it.",
       "{name} straggles along the track for a bowshot, house, garden, house, with {trade}. Smoke leans from the chimneys."
     ],
@@ -12,7 +12,7 @@
       "The houses of {name} stand round a wide green with their backs to the weather, with {trade}. Geese graze the grass short.",
       "{name} is a green with a pond on it and houses round it, with {trade}. Ducks dabble at the pond's edge.",
       "{name} is one long street with a green at the end of it, with {trade}. Cartwheels have cut the street into ruts that hold the water.",
-      "{name} climbs a slope from its green in steps of garden wall, with {trade}. A gate creaks somewhere, and a hammer rings.",
+      "{name} climbs a slope from its green in steps of garden wall, with {trade}. A gate creaks, and a hammer rings.",
       "At {name} the houses stand close round a green trodden bare, with {trade}. The smell of baking drifts from an open door.",
       "{name} is built along a stream, with a plank bridge to every second door and {trade}. The water chatters under the planks."
     ],
@@ -50,7 +50,7 @@
     "hamlet": [
       "A low room with a peat fire, one long table and a bench along the wall, all of it smelling of smoke.",
       "The inn is one room, with the fire at one end, the barrels at the other and a long table scarred with knife-marks between them.",
-      "The inn is a kitchen with a long table and a counter in it. A pot of something with onions in it simmers on the hearth."
+      "The inn is a kitchen with a long table and a counter in it. A pot of mutton and onions simmers on the hearth."
     ],
     "village": [
       "A low-beamed room, dark with old smoke, where the fire spits under a black kettle and the benches are polished with sitting.",
@@ -79,18 +79,18 @@
     "peat": "Peat-cutters sit at the long table, their boots still black."
   },
   "life": {
-    "salt": "Someone is raking out a salt-pan at the end of the green, and the steam comes off it white.",
+    "salt": "A salt-boiler is raking out a pan at the end of the green, and the steam comes off it white.",
     "eels": "Two women are skinning eels on a bench by the water, and the cats are watching.",
     "reed": "A man goes by with a bundle of reed on his back as big as himself.",
     "tin": "A string of ponies goes through with panniers of grey ore, heads down.",
     "iron": "A cart of red ore grinds through toward the hearths, and the road behind it is rust-coloured.",
     "wool": "Sheep are being driven through, bleating, and the way fills with the smell of wet fleece.",
-    "timber": "Somebody is splitting logs behind the houses, and the sound comes back off the walls.",
+    "timber": "A woodman is splitting logs behind the houses, and the sound comes back off the walls.",
     "charcoal": "A cart goes by loaded with charcoal sacks, and black dust sifts from it onto the road.",
     "honey": "A child is selling honey-cake from a tray, waving the wasps off it.",
     "slate": "The tap of slate-splitters comes from a yard behind the houses, steady as rain.",
     "furs": "A trapper is haggling at a door with a bundle of pelts over one shoulder.",
-    "whale oil": "Gulls scream and fight over something on the shore.",
+    "whale oil": "Gulls scream and fight over scraps of blubber on the shore.",
     "peat": "A sledge of turves goes by, pulled by a man and a shaggy pony, both bent to the weight."
   }
 }

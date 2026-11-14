@@ -5,7 +5,7 @@
     { "id": "join.kin.1", "when": { "bond": "kin" }, "text": "{Actor} is already reaching for {their} coat. 'I was going to go anyway,' {actor} says. 'Now I don't have to go alone.'" },
     { "id": "join.kin.2", "when": { "bond": "kin" }, "text": "'About time,' [say|says] {actor}, and takes the heavier bag without being asked." },
     { "id": "join.kin.3", "when": { "bond": "kin" }, "text": "{Actor} looks at you a long moment, then nods. Neither of you says anything about why." },
-    { "id": "join.kin.grim", "when": { "bond": "kin", "manner": ["grim", "stoic"] }, "text": "{Actor} gets up without a word and goes for {their} boots. Whatever is out there, you will face it together." },
+    { "id": "join.kin.grim", "when": { "bond": "kin", "manner": ["grim", "stoic"] }, "text": "{Actor} gets up without a word and goes for {their} boots." },
     { "id": "join.kin.cheerful", "when": { "bond": "kin", "manner": ["cheerful", "jovial"] }, "text": "'I was hoping you'd ask,' [say|says] {actor}, grinning for the first time since you came home. 'Give me a minute to find my other boot.'" },
     { "id": "join.kin.compassionate", "when": { "bond": "kin", "manner": "compassionate" }, "text": "'Of course,' [say|says] {actor}, and puts a hand on your arm. 'We'll find out together.'" },
     { "id": "join.friend.1", "when": { "bond": "friend" }, "text": "'Then I'm coming,' [say|says] {actor}. 'Someone has to keep you out of trouble.'" },

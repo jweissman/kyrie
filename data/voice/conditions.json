@@ -392,6 +392,282 @@
   "preparing_to_charge": {
    "begins": "{target} gathers to charge.",
    "ends": "{target} gives up the charge."
+  },
+  "agility": {
+   "begins": "{target} moves lightly.",
+   "ends": "{target}'s lightness leaves them."
+  },
+  "anointed": {
+   "begins": "{target} is anointed.",
+   "ends": "The anointing on {target} dries."
+  },
+  "augured": {
+   "begins": "{target} has read the signs.",
+   "ends": "The signs {target} read have passed."
+  },
+  "major_augured": {
+   "begins": "{target} has read the signs clearly.",
+   "ends": "The signs {target} read have passed."
+  },
+  "bloodfrenzy": {
+   "begins": "{target} is wild with blood.",
+   "ends": "{target}'s frenzy burns out."
+  },
+  "clarity": {
+   "begins": "{target}'s mind clears.",
+   "ends": "{target}'s clear head clouds again."
+  },
+  "major_clarity": {
+   "begins": "{target}'s mind is very clear.",
+   "ends": "{target}'s clear head clouds again."
+  },
+  "cunning": {
+   "begins": "{target} grows sly.",
+   "ends": "{target}'s slyness leaves them."
+  },
+  "major_cunning": {
+   "begins": "{target} grows very sly.",
+   "ends": "{target}'s slyness leaves them."
+  },
+  "death_ward": {
+   "begins": "A ward against death holds over {target}.",
+   "ends": "The ward against death on {target} is spent."
+  },
+  "deflection": {
+   "begins": "Blows slide off {target}.",
+   "ends": "Blows land on {target} again."
+  },
+  "major_deflection": {
+   "begins": "Blows slide off {target}.",
+   "ends": "Blows land on {target} again."
+  },
+  "divine_champion": {
+   "begins": "{target} fights as their god's champion.",
+   "ends": "{target} is only themselves again."
+  },
+  "endurance": {
+   "begins": "{target} feels they could go all day.",
+   "ends": "{target} tires again."
+  },
+  "major_endurance": {
+   "begins": "{target} feels they could go for days.",
+   "ends": "{target} tires again."
+  },
+  "enlightened": {
+   "begins": "{target} sees further than before.",
+   "ends": "{target}'s insight fades."
+  },
+  "ghost_touch": {
+   "begins": "{target}'s blows can strike the dead.",
+   "ends": "{target}'s blows pass through the dead again."
+  },
+  "grace": {
+   "begins": "{target} moves with grace.",
+   "ends": "{target}'s grace leaves them."
+  },
+  "insane": {
+   "begins": "{target} is out of their wits.",
+   "ends": "{target} is in their right mind again."
+  },
+  "insight": {
+   "begins": "{target} sees through pretence.",
+   "ends": "{target}'s insight fades."
+  },
+  "major_insight": {
+   "begins": "{target} sees through every pretence.",
+   "ends": "{target}'s insight fades."
+  },
+  "minor_insight": {
+   "begins": "{target} notices more.",
+   "ends": "{target} notices no more than usual."
+  },
+  "invulnerable": {
+   "begins": "Nothing can hurt {target}.",
+   "ends": "{target} can be hurt again."
+  },
+  "keensense": {
+   "begins": "{target}'s senses are keen.",
+   "ends": "{target}'s senses dull again."
+  },
+  "major_courage": {
+   "begins": "{target} is fearless.",
+   "ends": "{target}'s courage fades."
+  },
+  "major_distracted": {
+   "begins": "{target} cannot keep their mind on the fight.",
+   "ends": "{target} attends again."
+  },
+  "major_false_life": {
+   "begins": "A borrowed life fills {target}.",
+   "ends": "The borrowed life drains out of {target}."
+  },
+  "major_focus": {
+   "begins": "{target} sees nothing but the work.",
+   "ends": "{target}'s focus slips."
+  },
+  "major_reflect": {
+   "begins": "Spells glance back off {target}.",
+   "ends": "Spells reach {target} again."
+  },
+  "reflect": {
+   "begins": "Spells may glance back off {target}.",
+   "ends": "Spells reach {target} again."
+  },
+  "minor_reflect": {
+   "begins": "Some spells glance back off {target}.",
+   "ends": "Spells reach {target} again."
+  },
+  "spellturn": {
+   "begins": "{target} sets spells aside.",
+   "ends": "Spells reach {target} again."
+  },
+  "major_spellturn": {
+   "begins": "{target} sets spells aside.",
+   "ends": "Spells reach {target} again."
+  },
+  "splendor": {
+   "begins": "{target} shines with a borrowed splendour.",
+   "ends": "{target}'s splendour fades."
+  },
+  "major_splendor": {
+   "begins": "{target} shines with a borrowed splendour.",
+   "ends": "{target}'s splendour fades."
+  },
+  "major_strength": {
+   "begins": "{target} is very strong.",
+   "ends": "{target}'s strength ebbs."
+  },
+  "major_warded": {
+   "begins": "A strong ward shields {target}.",
+   "ends": "The ward on {target} fades."
+  },
+  "minor_warded": {
+   "begins": "A light ward shields {target}.",
+   "ends": "The ward on {target} fades."
+  },
+  "major_weakened": {
+   "begins": "{target} is badly weakened.",
+   "ends": "{target}'s strength comes back."
+  },
+  "wisdom": {
+   "begins": "{target} grows wise.",
+   "ends": "{target}'s wisdom fades."
+  },
+  "major_wisdom": {
+   "begins": "{target} grows very wise.",
+   "ends": "{target}'s wisdom fades."
+  },
+  "mind_blank": {
+   "begins": "{target}'s mind is closed.",
+   "ends": "{target}'s mind opens again."
+  },
+  "naturality": {
+   "begins": "{target} is at one with the wild.",
+   "ends": "{target} is themselves again."
+  },
+  "oathbound": {
+   "begins": "{target} is bound by an oath.",
+   "ends": "{target}'s oath is fulfilled."
+  },
+  "overwatch": {
+   "begins": "{target} watches the ground ahead.",
+   "ends": "{target} stops watching."
+  },
+  "prey": {
+   "begins": "{target} is marked as prey.",
+   "ends": "{target} is no one's prey now."
+  },
+  "pure_strike": {
+   "begins": "{target}'s next blow will strike true.",
+   "ends": "{target}'s true blow is spent."
+  },
+  "scaleskin": {
+   "begins": "{target}'s skin hardens into scales.",
+   "ends": "{target}'s scales soften."
+  },
+  "shred": {
+   "begins": "{target}'s armour is torn open.",
+   "ends": "{target}'s armour is whole again."
+  },
+  "sunmarked": {
+   "begins": "{target} is marked by the sun.",
+   "ends": "The sun's mark on {target} fades."
+  },
+  "timestopped": {
+   "begins": "Time stands still for {target}.",
+   "ends": "Time moves for {target} again."
+  },
+  "timewalk": {
+   "begins": "{target} steps out of time.",
+   "ends": "{target} steps back into time."
+  },
+  "vital_boost": {
+   "begins": "{target} feels hale.",
+   "ends": "{target}'s vigour ebbs."
+  },
+  "wildheart": {
+   "begins": "{target}'s heart beats with the wild.",
+   "ends": "{target} is themselves again."
+  },
+  "poisoning_blade": {
+   "begins": "{target}'s blade is poisoned.",
+   "ends": "The poison on {target}'s blade is spent."
+  },
+  "disrupting": {
+   "begins": "{target} disrupts spells nearby.",
+   "ends": "{target} disrupts no more spells."
+  },
+  "magebane": {
+   "begins": "{target} is bane to mages.",
+   "ends": "{target} is no bane to mages now."
+  },
+  "mind_reading": {
+   "begins": "{target} reads thoughts.",
+   "ends": "{target} reads no more thoughts."
+  },
+  "shapechanged": {
+   "begins": "{target} takes another shape.",
+   "ends": "{target} takes their own shape again."
+  },
+  "blade_barrier": {
+   "begins": "Blades whirl around {target}.",
+   "ends": "The blades around {target} vanish."
+  },
+  "charming": {
+   "begins": "{target} is charming.",
+   "ends": "{target}'s charm fades."
+  },
+  "electrostatic_field": {
+   "begins": "Sparks crackle about {target}.",
+   "ends": "The sparks about {target} die."
+  },
+  "toxicity": {
+   "begins": "{target} is poisonous to touch.",
+   "ends": "{target} is safe to touch again."
+  },
+  "greater_toxicity": {
+   "begins": "{target} is deadly to touch.",
+   "ends": "{target} is safe to touch again."
+  },
+  "ion_shield": {
+   "begins": "A crackling shield wraps {target}.",
+   "ends": "The crackling shield on {target} dies."
+  },
+  "luminous_blade": {
+   "begins": "{target}'s blade shines.",
+   "ends": "{target}'s blade dims."
+  },
+  "wayfarer_guard": {
+   "begins": "{target} keeps watch on the road.",
+   "ends": "{target} stops keeping watch."
+  },
+  "tended": {
+   "begins": "{target}'s wounds are tended.",
+   "ends": "{target}'s bandages are spent."
+  },
+  "ready": {
+   "begins": "{target} stands ready.",
+   "ends": "{target} stands easy."
   }
  }
 }

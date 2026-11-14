@@ -292,8 +292,7 @@ export class Narrator {
   // The roll of who is here is said apart (roll), for a page that shows them by their likenesses instead: the page
   // had known it by its words ("… is here.", "Here are …": AR-05).
   private static presence(screen: Screen, fought = new Set<string>()): { lines: string[]; roll?: string } {
-    const lines: string[] = [], named: string[] = [];
-    let many = false;
+    const lines: string[] = [], named: { who: string; short: string; many: boolean }[] = [];
     for (const t of [...screen.people.filter(p => !p.companion && !(p.state && fought.has(p.id))), ...screen.things]) {
       // Their own line said, someone is still said to be here unless it names them (the Grand Tour's X02: a line near
       // them, of what they keep, had left them unsaid).
@@ -307,7 +306,9 @@ export class Narrator {
         lines.push(`${this.upper(this.short(t.name))} ${lie}.`); continue;
       }
       // Whoever and whatever is here is said to be (the goblins, the bats), unless it has its own telling.
-      if (t.kind === 'person' || t.kind === 'creature') { named.push(this.who(t)); many ||= !!t.many; }
+      if (t.kind === 'person' || t.kind === 'creature') {
+        named.push({ who: this.who(t), short: this.short(t.name), many: !!t.many });
+      }
     }
     // What lies in something open here is told with it ("In the chest on the ledge: a stolen chalice."): a chest
     // picked had said only that it stood open, and what was in it was under Every way (M21's PL-22).
@@ -323,8 +324,7 @@ export class Narrator {
     const heard = screen.people.filter(p => !p.companion && !p.state).map(p => this.short(p.name));
     const all = heard.length > 1 ? `${heard.slice(0, -1).join(', ')} and ${heard.at(-1)}` : heard[0];
     if (screen.dark) { return { lines: all ? [`In the dark you can hear ${all} close by.`] : [] }; }
-    const roll = named.length === 1 ? `${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`
-      : named.length ? `Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.` : undefined;
+    const roll = this.roll(named);
     if (roll) { lines.push(roll); }
     // How long whoever warns the company off will wait (the Banns at Hessel's friction 23: the rest of a watch, and
     // nothing on the page said so).
@@ -346,6 +346,21 @@ export class Narrator {
   static readonly bare = new RegExp(`^(${['the', 'a', 'an', 'his', 'her', 'their', 'your', 'my', 'our', 'who', 'whose',
     'of', 'in', 'at', 'on', 'from', 'with', 'by', 'under', 'out', 'off', 'back', 'home', 'newly', 'lately'].join('|')}) `, 'i');
   // "Eamon, innkeeper" is "Eamon, the innkeeper"; "Cyril, pilgrim" is "Cyril, a pilgrim".
+  // Who is here, each in a short sentence of their own: three said with what they are, any more by name alone (DN-06,
+  // the owner: "Here are A, the reeve …; B, an apprentice …; and C …" was one sentence of five semicolons).
+  static readonly rolled = 3;
+  private static roll(named: { who: string; short: string; many: boolean }[]): string | undefined {
+    const said = named.slice(0, this.rolled).map(n => this.here(n.who, n.many));
+    const rest = named.slice(this.rolled), names = rest.map(n => n.short);
+    if (rest.length) {
+      const all = names.length < 2 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+      said.push(`So ${rest.length > 1 || rest[0]!.many ? 'are' : 'is'} ${all}.`);
+    }
+    return said.length ? said.join(' ') : undefined;
+  }
+  private static here(who: string, many: boolean): string {
+    return `${this.upper(who)}${who.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`;
+  }
   static who(t: Pick<TargetRow, 'name' | 'many'>): string {
     const [name, ...rest] = t.name.split(', '), role = rest.join(', ');
     if (!role) { return name!; }

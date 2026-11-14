@@ -287,7 +287,7 @@
         "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
       }
     },
-    "amaranth": {
+    "amaranth": { "climates": ["tropical", "humid", "arid"],
       "name": "Amaranth",
       "looks": "A tall plant with broad leaves and clusters of small, colorful flowers.",
       "portrait": "plants/amaranth",
@@ -300,7 +300,7 @@
       "yields": "amaranth",
       "gathered": "a handful of amaranth",
       "count": 1,
-      "stand": "Amaranth grows here in the open, its colorful flower clusters standing out among the grass.",
+      "stand": "Amaranth grows here, its dark red tassels hanging over the beds.",
       "uses": [
         "medicine",
         "food",
@@ -325,7 +325,7 @@
       "yields": "aster",
       "gathered": "a handful of aster",
       "count": 1,
-      "stand": "Asters grow here in clusters, their colorful flowers bright among the grass.",
+      "stand": "Asters grow here in clumps, mauve with yellow eyes.",
       "uses": [
         "medicine",
         "decoration",
@@ -336,7 +336,7 @@
         "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, aster)."
       }
     },
-    "bamboo": {
+    "bamboo": { "climates": ["tropical", "humid"],
       "name": "Bamboo",
       "looks": "A tall, woody grass with jointed stems.",
       "portrait": "plants/bamboo",
@@ -349,7 +349,7 @@
       "yields": "bamboo",
       "gathered": "a stalk of bamboo",
       "count": 1,
-      "stand": "Bamboo grows here in dense clumps, its tall stems swaying in the breeze.",
+      "stand": "Bamboo grows here in a dense clump, its canes knocking together in the wind.",
       "uses": [
         "construction",
         "crafting",
@@ -375,7 +375,7 @@
       "yields": "bay",
       "gathered": "a sprig of bay",
       "count": 1,
-      "stand": "Bay grows here with its aromatic leaves and small yellow flowers.",
+      "stand": "A bay tree grows here, dark and glossy, clipped for its leaves.",
       "uses": [
         "medicine",
         "cooking",
@@ -401,7 +401,7 @@
       "yields": "banewort",
       "gathered": "a sprig of banewort",
       "count": 1,
-      "stand": "Banewort grows here with its dark green leaves and small flowers.",
+      "stand": "Banewort grows here, dark-leaved, with dull purple bells.",
       "uses": [
         "medicine",
         "protection",
@@ -426,7 +426,7 @@
       "yields": "dragonwort",
       "gathered": "a sprig of dragonwort",
       "count": 1,
-      "stand": "Dragonwort grows here with its vibrant red flowers and spiky leaves.",
+      "stand": "Dragonwort grows here, a red spike among spearing leaves.",
       "uses": [
         "medicine",
         "protection",
@@ -450,7 +450,7 @@
       "yields": "bloodroot",
       "gathered": "a sprig of bloodroot",
       "count": 1,
-      "stand": "Bloodroot grows here with its large leaves and clusters of white flowers.",
+      "stand": "Bloodroot grows here, broad-leaved, with white flowers low to the ground.",
       "uses": [
         "medicine",
         "protection",
@@ -476,7 +476,7 @@
       "yields": "gilliflower",
       "gathered": "a sprig of gilliflower",
       "count": 1,
-      "stand": "Gilliflower grows here with its clusters of small, colorful flowers.",
+      "stand": "Gilliflowers grow here, pink and white, smelling of cloves.",
       "uses": [
         "medicine",
         "protection",
@@ -502,7 +502,7 @@
       "yields": "celandine",
       "gathered": "a sprig of celandine",
       "count": 1,
-      "stand": "Celandine grows here with its bright yellow flowers and lobed leaves.",
+      "stand": "Celandine grows here, yellow-starred in the damp.",
       "uses": [
         "medicine",
         "protection",
@@ -528,7 +528,7 @@
       "yields": "cinquefoil",
       "gathered": "a sprig of cinquefoil",
       "count": 1,
-      "stand": "Cinquefoil grows here with its five-petaled yellow flowers and serrated leaves.",
+      "stand": "Cinquefoil runs over the ground here, its small yellow flowers five-petalled.",
       "uses": [
         "medicine",
         "protection",
@@ -553,7 +553,7 @@
       "yields": "daffodil",
       "gathered": "a sprig of daffodil",
       "count": 1,
-      "stand": "Daffodil grows here with its bright yellow trumpet-shaped flowers.",
+      "stand": "Daffodils grow here in a bank, their strap-leaves in clumps.",
       "uses": [
         "medicine",
         "love",
@@ -578,7 +578,7 @@
       "yields": "dulse",
       "gathered": "a handful of dulse",
       "count": 1,
-      "stand": "Dulse grows here along the rocky shores.",
+      "stand": "Dulse grows on the rocks here, red-brown and slick at low water.",
       "uses": [
         "food",
         "lust",
@@ -603,7 +603,7 @@
       "yields": "alhuren",
       "gathered": "a sprig of alhuren",
       "count": 1,
-      "stand": "Alhuren grows here with its silver leaves and glowing blue flowers.",
+      "stand": "Alhuren grows here, silver-leaved, its blue flowers pale as a candle-flame.",
       "uses": [
         "magic",
         "protection",
@@ -627,7 +627,7 @@
       "yields": "euphrosyne",
       "gathered": "a sprig of eyebright",
       "count": 1,
-      "stand": "Euphrosyne grows here with its small white flowers.",
+      "stand": "Euphrosyne grows here, low, with small white flowers: eyebright.",
       "uses": [
         "medicine",
         "prophecy"
@@ -650,7 +650,7 @@
       "yields": "rosenoble",
       "gathered": "a sprig of rosenoble",
       "count": 1,
-      "stand": "Rosenoble grows here with its deep red roses.",
+      "stand": "Rosenoble grows here, a briar of deep red roses.",
       "uses": [
         "love",
         "healthy",
@@ -674,7 +674,7 @@
       "yields": "gentian",
       "gathered": "a sprig of gentian",
       "count": 1,
-      "stand": "Bitter Root grows here with its vibrant blue flowers.",
+      "stand": "Gentian grows here, its blue trumpets open to the sun.",
       "uses": [
         "medicine",
         "love",
@@ -698,7 +698,7 @@
       "yields": "furze",
       "gathered": "a sprig of furze",
       "count": 1,
-      "stand": "Ruffet grows here with its bright yellow flowers.",
+      "stand": "Furze grows here, spiny and yellow-flowered, smelling of coconut in the sun.",
       "uses": [
         "protection",
         "magic"
@@ -721,7 +721,7 @@
       "yields": "hazel",
       "gathered": "a sprig of hazel",
       "count": 1,
-      "stand": "Hazel grows here with its broad leaves and clusters of nuts.",
+      "stand": "Hazel grows here, broad-leaved, its nuts in clusters of three.",
       "uses": [
         "medicine",
         "magic",
@@ -748,7 +748,7 @@
       "yields": "woodbine",
       "gathered": "a sprig of woodbine",
       "count": 1,
-      "stand": "Honeysuckle grows here with its fragrant flowers.",
+      "stand": "Woodbine climbs here, its cream and yellow flowers sweet at dusk.",
       "uses": [
         "love",
         "protection",
@@ -772,7 +772,7 @@
       "yields": "hyssop",
       "gathered": "a sprig of hyssop",
       "count": 1,
-      "stand": "Hyssop grows here with its spikes of blue flowers.",
+      "stand": "Hyssop grows here in spikes of blue, bees working it.",
       "uses": [
         "medicine",
         "protection",
@@ -797,7 +797,7 @@
       "yields": "stellaria",
       "gathered": "a sprig of stellaria",
       "count": 1,
-      "stand": "Stellaria grows here with its star-shaped white flowers.",
+      "stand": "Stellaria grows here, its white flowers split like stars.",
       "uses": [
         "medicine",
         "love"
@@ -820,7 +820,7 @@
       "yields": "staggerweed",
       "gathered": "a sprig of staggerweed",
       "count": 1,
-      "stand": "Larkspur grows here with its small, inconspicuous flowers.",
+      "stand": "Staggerweed grows here, tall, with spurred blue flowers.",
       "uses": [
         "medicine",
         "magic",
@@ -845,7 +845,7 @@
       "yields": "cedron",
       "gathered": "a sprig of cedron",
       "count": 1,
-      "stand": "Lemon Verbena grows here with its aromatic leaves.",
+      "stand": "Cedron grows here, its leaves smelling of lemon when brushed.",
       "uses": [
         "medicine",
         "purification",
@@ -869,7 +869,7 @@
       "yields": "pennyroyal",
       "gathered": "a sprig of pennyroyal",
       "count": 1,
-      "stand": "Pennyroyal grows here with its small, purple flowers.",
+      "stand": "Pennyroyal grows here, low and minty, with small purple flowers.",
       "uses": [
         "strength",
         "protection",
@@ -893,7 +893,7 @@
       "yields": "poppy",
       "gathered": "a sprig of poppy",
       "count": 1,
-      "stand": "Poppy grows here with its bright red flowers.",
+      "stand": "Poppies grow here, red among the beds.",
       "uses": [
         "fertility",
         "love",
@@ -919,7 +919,7 @@
       "yields": "purslane",
       "gathered": "a sprig of purslane",
       "count": 1,
-      "stand": "Purslane grows here with its small, fleshy leaves.",
+      "stand": "Purslane grows here, low, with small fleshy leaves.",
       "uses": [
         "sleep",
         "protection",
@@ -945,7 +945,7 @@
       "yields": "rosemary",
       "gathered": "a sprig of rosemary",
       "count": 1,
-      "stand": "Rosemary grows here with its needle-like leaves and small blue flowers.",
+      "stand": "Rosemary grows here, grey-green, with small blue flowers.",
       "uses": [
         "protection",
         "love",
@@ -971,7 +971,7 @@
       "yields": "rue",
       "gathered": "a sprig of rue",
       "count": 1,
-      "stand": "Rue grows here with its bluish-green leaves and yellow flowers.",
+      "stand": "Rue grows here, blue-green and bitter-smelling.",
       "uses": [
         "healing",
         "love",
@@ -997,7 +997,7 @@
       "yields": "thistle",
       "gathered": "a sprig of thistle",
       "count": 1,
-      "stand": "Thistle grows here with its spiny leaves and purple flowers.",
+      "stand": "Thistles grow here, purple-headed.",
       "uses": [
         "protection",
         "love",
@@ -1022,7 +1022,7 @@
       "yields": "thyme",
       "gathered": "a sprig of thyme",
       "count": 1,
-      "stand": "Thyme grows here with its small green leaves and tiny purple flowers.",
+      "stand": "Thyme grows here in low mats, flowering purple.",
       "uses": [
         "protection",
         "love",
@@ -1047,7 +1047,7 @@
       "yields": "tansy",
       "gathered": "a sprig of tansy",
       "count": 1,
-      "stand": "Tansy grows here with its yellow button-like flowers and feathery leaves.",
+      "stand": "Tansy grows here, its yellow buttons over feathery leaves.",
       "uses": [
         "protection",
         "love",
@@ -1072,7 +1072,7 @@
       "yields": "sweetgrass",
       "gathered": "a sprig of sweetgrass",
       "count": 1,
-      "stand": "Sweetgrass grows here with its long, fragrant green blades.",
+      "stand": "Sweetgrass grows here, its long blades smelling of hay.",
       "uses": [
         "protection",
         "love",
@@ -1097,7 +1097,7 @@
       "yields": "dropberry",
       "gathered": "a handful of dropberries",
       "count": 1,
-      "stand": "Dropberry grows here with its red berries hanging down from the branches.",
+      "stand": "A dropberry bush grows here, its red berries hanging in strings.",
       "uses": [
         "protection",
         "love",
@@ -1122,7 +1122,7 @@
       "yields": "cherry",
       "gathered": "a handful of cherries",
       "count": 1,
-      "stand": "Cherry grows here with its pink blossoms and red fruit.",
+      "stand": "A cherry tree grows here, its bark banded and glossy.",
       "uses": [
         "divination",
         "love"
@@ -1145,7 +1145,7 @@
       "yields": "starwort",
       "gathered": "a handful of starwort flowers",
       "count": 1,
-      "stand": "Starwort grows here with its star-shaped white flowers.",
+      "stand": "Starwort grows here, small and white-flowered.",
       "uses": [
         "fidelity",
         "love"
@@ -1155,7 +1155,7 @@
         "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, starwort)."
       }
     },
-    "cinnamon": {
+    "cinnamon": { "climates": ["tropical", "humid"],
       "name": "Cinnamon",
       "looks": "A small tree with aromatic bark and green leaves.",
       "portrait": "plants/cinnamon",
@@ -1168,7 +1168,7 @@
       "yields": "cinnamon",
       "gathered": "a stick of cinnamon bark",
       "count": 1,
-      "stand": "Cinnamon grows here with its aromatic bark and green leaves.",
+      "stand": "A cinnamon tree grows here, its bark peeled in strips.",
       "uses": [
         "protection",
         "love",
@@ -1193,7 +1193,7 @@
       "yields": "carenfil",
       "gathered": "a handful of carenfil flowers",
       "count": 1,
-      "stand": "Carenfil grows here with its delicate petals and fragrant aroma.",
+      "stand": "Carenfil grows here, pale-petalled, its scent heavy on still days.",
       "uses": [
         "protection",
         "love"
@@ -1216,7 +1216,7 @@
       "yields": "actaea",
       "gathered": "a handful of actaea flowers",
       "count": 1,
-      "stand": "Actaea grows here with its clusters of small white flowers and dark berries.",
+      "stand": "Actaea grows here, its white flowers in feathery spikes.",
       "uses": [
         "love",
         "courage",
@@ -1240,7 +1240,7 @@
       "yields": "bruisewort",
       "gathered": "a handful of bruisewort leaves",
       "count": 1,
-      "stand": "Bruisewort grows here with its thick leaves and small purple flowers.",
+      "stand": "Bruisewort grows here, thick-leaved, with small purple flowers.",
       "uses": [
         "safety",
         "healing",
@@ -1264,7 +1264,7 @@
       "yields": "groundbread",
       "gathered": "a handful of groundbread leaves",
       "count": 1,
-      "stand": "Groundbread grows here with its broad leaves and small white flowers.",
+      "stand": "Groundbread grows here, broad-leaved, with small white flowers.",
       "uses": [
         "fertility",
         "protection",
@@ -1288,7 +1288,7 @@
       "yields": "ofbit",
       "gathered": "a handful of ofbit flowers",
       "count": 1,
-      "stand": "Ofbit grows here with its delicate blue flowers and thin stems.",
+      "stand": "Ofbit grows here on thin stems, its flowers blue.",
       "uses": [
         "love",
         "protection",

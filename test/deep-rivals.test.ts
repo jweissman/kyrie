@@ -83,7 +83,7 @@ describe('rivals for a deep site\'s prize', () => {
     Rivals.stage(s, 2);
     for (const [mark, shown] of [['trace0', true], ['trace1', true], ['trace2', false]] as const) {
       Rivals.put(s, Rivals.where(s, mark));
-      expect(Rivals.seen(s).includes('Someone else has been this way: a cross is scratched')).toBe(shown);
+      expect(Rivals.seen(s).includes('The brothers have been this way: their mark, a cross, is scratched')).toBe(shown);
     }
   }, 60000);
   it('are broken at the bottom by a keeper still there, while the company is not, and the price goes up', async () => {

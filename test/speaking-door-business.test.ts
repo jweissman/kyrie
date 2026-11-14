@@ -14,8 +14,9 @@ describe('the speaking door, its safe tries spent', () => {
       classId: 'cleric', backgroundId: 'doctor' }] }, NodeBundleSource.shared);
     const walk = await RunnerWalk.run(new Runner(s), 'straight', 8, 1);
     // Before, the door's own safe tries are its gold (look, push, listen); after, nothing is.
+    // (The door's tries by what they do: offered as one, once worded "look at the speaking door", they pushed.)
     const said = walk.turns.find(t => t.offer.primary.some(o => /^Press the word/.test(o.label))
-      && !t.offer.primary.some(o => /look at the speaking door/.test(o.label)))!;
+      && !t.offer.primary.some(o => /^(push|listen|look_closely)\(region__w2_riddle\b/.test(o.id)))!;
     expect(said).toBeDefined();
     const words = said.offer.primary.filter(o => /^Press the word/.test(o.label));
     expect(words.length).toBeGreaterThanOrEqual(2);

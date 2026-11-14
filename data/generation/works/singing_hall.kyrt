@@ -49,7 +49,7 @@
 --- successors fold 2
   Observe {w}_fold at {w}_porch when true "Shepherds of the kingdom of {successors} used the porch as a fold; hurdles of rotten hazel still stand across it, and the floor is soft with old dung.".
 --- successors chapel 1
-  Observe {w}_chapel at {w}_hall when true "Someone painted saints on the round hall's walls, long after the Singers: the kingdom of {successors} made a chapel of it. The paint has flaked, and under it the stone is untouched.".
+  Observe {w}_chapel at {w}_hall when true "Long after the Singers, the kingdom of {successors} painted saints on the round hall's walls and made a chapel of it. The paint has flaked, and under it the stone is untouched.".
 --- successors forgotten 1
   Observe {w}_empty at {w}_porch when true "Nothing has been brought in here, and nothing taken out.".
 --- present elemental 1

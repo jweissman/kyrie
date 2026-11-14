@@ -27,7 +27,7 @@ Module origin "The brothers' errand" {
   // Come in off the road, the town named: the opening had told the letter and never where (its critique).
   Observe arrival at shrine as feature when watch(clock) < 1 "{homename} is smaller than the brothers made it sound, after so many days on the road. The first person you ask points the way to the priest of {cult}, and you go in.".
   Topic give_letter with priest "Give {priest} the brothers' letter" when expects(priest, actor) once {
-    Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}. I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight, and take the shrine's rope: the old places were not built to be walked into.'".
+    Says "{priest} reads it by the door, where the light is, and then reads it again. 'The old Prior's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}. I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight, and take the shrine's rope: the old places were not built to be walked into.'".
     On discuss { Retract expects(priest, actor). Assert delivered(actor). Assert knows(actor, found). Assert offers(priest, bed).
       Assert knows(actor, rope_handed). Give shrine_rope to actor. }
   }

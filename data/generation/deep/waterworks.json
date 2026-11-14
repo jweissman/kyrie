@@ -60,27 +60,27 @@
     { "kind": "climb", "from": ["cistern", "archive"], "to": ["still", "shore"], "minutes": 6, "needs": ["climbing", "rope"], "names": ["the steps cut in the cistern wall"] }
   ],
   "roles": {
-    "mouth": { "lit": true, "names": ["the doorway"], "scenes": ["A square doorway is cut in the hillside, its jambs and lintel single blocks of limestone fitted so close a knife would not go between them."] },
+    "mouth": { "lit": true, "names": ["the doorway"], "scenes": ["A square doorway is cut in the hillside. Its jambs and lintel are single blocks of limestone, fitted so close a knife would not go between them."] },
     "gate_hall": { "names": ["the gate-hall"], "scenes": ["A hall of dressed limestone, its floor channelled: a channel for each spring, each with a bronze slot where a gate stood. The mouth of a great pipe of lead opens in one wall, dark, breathing cold air."] },
-    "race_head": { "names": ["the master sluice"], "scenes": ["The springs come together here in a basin of stone, and leave it by two ways: a channel that runs off to the doorway and the hillside, and a race that goes down into the dark. A bronze gate as tall as a house stands where the two divide."] },
-    "store": { "names": ["the wardens' store"], "scenes": ["Shelves of stone, and on them the Wardens' tools in rows: rods and gauges of bronze, a coil of lead pipe, wax for the gates, all of it set down as if someone meant to be back in the morning."] },
+    "race_head": { "names": ["the master sluice"], "scenes": ["The springs come together here in a stone basin. They leave it by a channel to the doorway and the hillside, and by a race that goes down into the dark. A bronze gate as tall as a house stands where the two divide."] },
+    "store": { "names": ["the wardens' store"], "scenes": ["On stone shelves the Wardens' tools lie in rows: bronze rods and gauges, a coil of lead pipe, wax for the gates. All of it is set down as if for the morning."] },
     "still_room": { "names": ["the reading-room"], "scenes": ["A round room with a shallow basin in its floor, full of water so still it is hard to see where the stone stops. Benches go round the wall, facing it, as if people sat here to watch the water."] },
-    "vent": { "names": ["the overflow"], "scenes": ["A culvert where the water once ran off when the cisterns were full: a low tunnel of fitted stone, floored with silt, that goes up and out toward a grey light."] },
-    "stair_head": { "names": ["the head of the stair"], "scenes": ["The hall narrows to a stair going down between two slots cut deep in the walls, where a gate runs, and beside the stair stands a wheel of bronze as tall as a man."] },
-    "stair_foot": { "names": ["the foot of the stair"], "scenes": ["The stair comes down onto a stone walkway along the side of a cistern: black water a hand below the walkway's edge, and pillars standing up out of it into the dark, in rows."] },
-    "colonnade": { "names": ["the colonnade"], "scenes": ["A forest of pillars stands in the water, carved at the top like the heads of reeds, and walkways run between them a hand above the surface. Your light goes off across the water and does not reach the other side."] },
-    "pipe_gallery": { "names": ["the pipe gallery"], "scenes": ["A gallery where the pipes of lead run along both walls in bundles as thick as a man, each stamped with the Wardens' mark and a number, going away into the hill to places with names nobody knows now."] },
+    "vent": { "names": ["the overflow"], "scenes": ["A culvert where the water ran off when the cisterns were full. The low tunnel of fitted stone, floored with silt, goes up toward a grey light."] },
+    "stair_head": { "names": ["the head of the stair"], "scenes": ["The hall narrows to a stair going down between two deep slots, where a gate runs. Beside the stair stands a bronze wheel as tall as a man."] },
+    "stair_foot": { "names": ["the foot of the stair"], "scenes": ["The stair comes down onto a stone walkway along a cistern. Black water lies a hand below its edge, and rows of pillars stand up out of it into the dark."] },
+    "colonnade": { "names": ["the colonnade"], "scenes": ["A forest of pillars stands in the water, carved at the top like the heads of reeds. Walkways run between them a hand above the surface. Your light goes off across the water and does not reach the other side."] },
+    "pipe_gallery": { "names": ["the pipe gallery"], "scenes": ["Lead pipes run along both walls of this gallery in bundles as thick as a man. Each is stamped with the Wardens' mark and a number, and goes away into the hill."] },
     "wardens_hall": { "names": ["the wardens' hall"], "scenes": ["A dry hall over the cisterns, with a hearth and stone benches, where the Wardens on watch slept and ate. A chart of the springs is cut in the wall, every spring a circle, every gate a line across a channel."] },
-    "pump": { "names": ["the great wheel"], "scenes": ["A wheel as tall as two houses stands in a pit, with a race in the rock above to bring water down onto its paddles, and pump-rods of bronze running from its axle down into the deep cistern below."] },
-    "cell": { "names": ["a warden's cell"], "scenes": ["A cell with a stone bed and a stone shelf, and on the shelf a little dish worn smooth with use, for still water to be read in alone."] },
-    "deep_gate": { "names": ["the end of the gallery"], "scenes": ["The gallery ends at a gate: two posts of limestone and a lintel cut with the Wardens' mark, round a black opening, and the sound of a great deal of water standing very still beyond it."] },
-    "landing": { "names": ["the landing"], "scenes": ["A landing of stone at the top of a flight of steps that goes down into the deep cistern, and a pillar beside it with marks cut every hand's breadth, where the Wardens read how full it was."] },
-    "drowned_hall": { "names": ["the drowned hall"], "scenes": ["A hall of the deep cistern where the water stood longest: its pillars are furred with lime, and the floor is a crust of white, and the walkways have fallen in places."] },
-    "vault": { "names": ["the wardens' vault"], "scenes": ["A vault off the drowned hall, its door of bronze sealed with wax that has kept the water out: inside, shelves, and on them what the Wardens kept dry."] },
-    "archive": { "names": ["the archive"], "scenes": ["A room of stone shelves above the waterline, where the Wardens kept their reckoning of the springs, year by year, cut in tablets of slate. At the back the floor drops away in steps cut down the cistern's wall."] },
-    "shore": { "names": ["the shore"], "scenes": ["At the bottom of the steps there is a shore, a strip of white stone along water that does not move at all: not a ripple, not a drip, though water runs everywhere above."] },
+    "pump": { "names": ["the great wheel"], "scenes": ["A wheel as tall as two houses stands in a pit, under a race that brings water onto its paddles. Bronze pump-rods run from its axle down into the deep cistern."] },
+    "cell": { "names": ["a warden's cell"], "scenes": ["A cell with a stone bed and a stone shelf. On the shelf is a little dish, worn smooth, for still water to be read in alone."] },
+    "deep_gate": { "names": ["the end of the gallery"], "scenes": ["The gallery ends at a gate of two limestone posts and a lintel cut with the Wardens' mark. Beyond its black opening is the hush of a great deal of still water."] },
+    "landing": { "names": ["the landing"], "scenes": ["A stone landing at the head of steps going down into the deep cistern. A pillar beside it is marked every hand's breadth, where the Wardens read the level."] },
+    "drowned_hall": { "names": ["the drowned hall"], "scenes": ["In this hall of the deep cistern the water stood longest. Its pillars are furred with lime, the floor is a white crust, and the walkways have fallen in places."] },
+    "vault": { "names": ["the wardens' vault"], "scenes": ["A vault off the drowned hall, its bronze door sealed with wax against the water. Inside are shelves, and what the Wardens kept dry."] },
+    "archive": { "names": ["the archive"], "scenes": ["A room of stone shelves above the waterline. Here the Wardens kept their reckoning of the springs, year by year, on tablets of slate. At the back the floor drops away in steps cut down the cistern's wall."] },
+    "shore": { "names": ["the shore"], "scenes": ["At the bottom of the steps a strip of white stone runs along water that does not move at all. Not a ripple shows, though water runs everywhere above."] },
     "heart": { "names": ["the still water"], "scenes": ["A pool as wide as a hall lies under the hill, perfectly still, and your light does not go into it but lies on top of it. In the middle of the pool, on a pillar a hand under the surface, there is something that glints."] },
-    "source": { "names": ["the source"], "scenes": ["Behind the pool the rock opens on a crack where the water comes up from somewhere much deeper, silently, without a sound or a ripple. The air in the crack is warm."] }
+    "source": { "names": ["the source"], "scenes": ["Behind the pool the rock opens on a crack. Water wells up through it from far below, without a sound or a ripple. The air in the crack is warm."] }
   },
   "dwellerHabitats": ["cave", "lake", "river", "fen"],
   "dwellers": [
@@ -166,7 +166,7 @@
   },
   "camp": {
     "later": "The same party camped here too, further down: the ring of stones again, on the one dry ledge, and less left beside it than above, a blanket and an empty water-skin, as if they were travelling lighter by now.",
-    "scene": "Someone camped here, and not so long ago: a ring of stones round dead ashes, a bedroll gone stiff with damp, a pack with its straps cut. They did not come back for any of it.",
+    "scene": "A party camped here not long ago, on the one dry step: a ring of stones round dead ashes, a bedroll stiff with damp. A pack lies with its straps cut, and nobody came back for it.",
     "journal": [
       "A notebook, swollen with damp. 'The gate across the stair is down and its wheel is green with verdigris. A bar would start it, Brann says. There is a pipe in the gate-hall you could go down feet first, if you did not mind not coming back up it.'",
       "A notebook, the last pages written small. 'The gate of the deep cistern is sealed and there are words round it. Below it the cistern is full to the steps. The master sluice up top turns the springs, and the great wheel's rods go down into the cistern: Edda thinks one would empty the other, given time.'",
@@ -244,8 +244,8 @@
   },
   "after": {
     "warlords": [
-      { "role": "mouth", "scene": "Someone after the Water-Wardens made a stronghold of the doorway: a wall of rough stone built up across half of it, with a slit to shoot from, and the stream let out through a grating." },
-      { "role": "gate_hall", "document": { "name": "the words cut over the great pipe", "shut": "Over the mouth of the great pipe someone has cut words in the kingdom's letters, not the old script.", "label": "Read the words over the great pipe", "text": "THE SPRINGS OF THIS VALLEY ARE THE LORD OF {kingdomup}'S. WHOSO TURNS A GATE WITHOUT HIS LEAVE HANGS." } }
+      { "role": "mouth", "scene": "The warlords who came after the Water-Wardens made a stronghold of the doorway: a wall of rough stone built up across half of it, with a slit to shoot from, and the stream let out through a grating." },
+      { "role": "gate_hall", "document": { "name": "the words cut over the great pipe", "shut": "Over the mouth of the great pipe the warlords have cut words in the kingdom's letters, not the old script.", "label": "Read the words over the great pipe", "text": "THE SPRINGS OF THIS VALLEY ARE THE LORD OF {kingdomup}'S. WHOSO TURNS A GATE WITHOUT HIS LEAVE HANGS." } }
     ],
     "abbots": [
       { "role": "still_room", "scene": "The brothers who came after the Wardens made a chapel of the reading-room: their sign is cut over the door, and the still basin has been blessed for a font.",
@@ -265,8 +265,8 @@
       { "role": "gate_hall", "scene": "In the long winter, when the springs froze above, the town came down for water here, where it never froze: there are steps worn in the channel's side, and a broken bucket." }
     ],
     "heirs": [
-      { "role": "landing", "scene": "In the war of the heirs someone sank something in the deep cistern with a rope tied to the landing's pillar: the rope is still there, gone down into the dark.",
-        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox someone sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+      { "role": "landing", "scene": "In the war of the heirs an heir's man sank his lord's coin in the deep cistern with a rope tied to the landing's pillar: the rope is still there, gone down into the dark.",
+        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox an heir's man sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea came for the Wardens' silver one summer and found the doorway: there is a raiders' mark hacked in the lintel, and the stream runs over a broken oar." }

@@ -47,6 +47,12 @@ export class LocalObservations {
         right: { kind: 'and', left: ModuleWriter.call('memberOf', '?bearer', '?company'),
           right: ModuleWriter.call('at', '?company', '?here') } } };
     }
+    // Set on a way (a door), near both its ends: what an ear to the rent-office door heard had been said nowhere (the
+    // listening pin, 15 November).
+    if (world.module.relations.some(r => r.name === 'on')) {
+      near = { kind: 'or', left: near, right: { kind: 'and', left: ModuleWriter.call('on', entity, '?door'),
+        right: ModuleWriter.call('connects', '?door', '?here', '?beyond') } };
+    }
     if (world.module.relations.some(r => r.name === 'inside')) {
       near = { kind: 'or', left: near, right: { kind: 'and', left: ModuleWriter.call('inside', entity, '?box'),
         right: { kind: 'and', left: ModuleWriter.call('at', '?box', '?here'),
