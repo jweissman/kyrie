@@ -35,6 +35,21 @@ improvement that gives real leverage:
 - The protocol (EngineHost, `serve`, the runner) separates requests, but no one has shown that observation is free of
   side effects.
 
+**The first concrete target** (the lead, 15 November, on the owner's word that Kyr's expressivity matters most here).
+The Paragon pins each found a capability the engine has that Kyr cannot name. The investigation starts by closing the
+most general of them, through a general form and never a special case:
+1. **A local kind declares what its use carries.** The engine runs item hooks (`onAttackHit`, `onAttacked`,
+   `onCombatStart` …) in its effect language, and a module's own kind cannot say any of them. The proof is the fiery
+   blade made as a new kind (`Kind flame_brand "a flaming greatsword" like greatsword` with its fire carried on a
+   blow) in `test/small/pin-fiery-blade`, where today it borrows the catalog's wonder.
+2. **The others, as findings with their smallest failing examples:**
+   - an innate affinity on a person (by kind only, today);
+   - riding (the mount pin);
+   - a companion acting and perceiving apart (the familiar pin);
+   - a plain valuable kind (the mine pin).
+
+   Some may stay M22 design. Each is sized.
+
 **Deliverables:**
 - How each boundary works today, with measurements, in `mission-21/abstraction-tower.md` (this file).
 - One or two tiny probes with the real compiler and runtime, for example:
