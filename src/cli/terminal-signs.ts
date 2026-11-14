@@ -1,5 +1,6 @@
 import { ChoiceList, type Choice } from '../ui/choice-list';
 import { Signs } from '../presentation/signs';
+import { Grave } from '../presentation/grave';
 import type { Aspect, Glance } from '../presentation/glance-types';
 import type { Screen } from '../ui/screen-types';
 
@@ -10,8 +11,8 @@ import type { Screen } from '../ui/screen-types';
 // terminal a fallback for every text-adjacent treatment, from one shared game definition).
 // tags: each mark's words, all of them, since the terminal has no line beneath to say what cannot be undone.
 // crosses: it goes over into the next stretch of country, as the page's journey glyph says (not a walk about a town).
-// grave: what cannot be undone by it, which the page asks again about before it is done (GRAMMAR.md).
-export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; idle?: true; crosses?: true; grave?: string }
+// asks: what it says when chosen once, a grave act asking before it is done (Grave, the page's own rule).
+export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; idle?: true; crosses?: true; asks?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
   private readonly idle: Set<string>;
@@ -24,10 +25,10 @@ export class TerminalSigns {
     const c = this.choices.get(id), to = TerminalSigns.to(this.screen, id);
     const sensed = this.glance?.sensed?.find(x => x.to === to)?.aspect;
     const tags = (c?.marks ?? []).map(m => Signs.marks[m.kind]);
-    const grave = c?.grave ?? c?.marks?.find(m => m.ask)?.said;
+    const said = c && Grave.asks(c), asks = said && Grave.asked(said, !!c.grave);
     return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
       ...sensed ? { sensed } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
-      ...this.crosses(id) ? { crosses: true as const } : {}, ...grave ? { grave } : {} };
+      ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {} };
   }
   // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way
   // marked so.

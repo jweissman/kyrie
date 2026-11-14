@@ -9,12 +9,11 @@ import { TitlePage } from './title-page';
 export class LoadingPage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, heading = s.setting?.pitch.heading ?? s.saved?.title;
-    // Drawing a country after the title, and setting out from the choice of a life, under the title's own sky held as
-    // New game left it, the road's dawn far off: one passage from the title into play, not a black page between, nor a
+    // Drawing a country after the title, and setting out from the choice of a life, under the title's own still sky, the
+    // road's dawn far off: one passage from the title into play, not a black page between, nor a
     // blurred photograph while the world is drawn (TO-03, IG-05).
     return (
-      <div className={`opening loading sky-page${s.leaving ? ' leaving' : ''}`} data-mode="loading" aria-busy="true"
-        data-focus="begin">
+      <div className={`opening loading sky-page${s.leaving ? ' leaving' : ''}`} data-mode="loading" aria-busy="true">
         <TitlePage.Sky />
         <main>
           {!s.leaving && heading && <h1>{heading}</h1>}

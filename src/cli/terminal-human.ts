@@ -19,9 +19,28 @@ export class TerminalHuman implements Picking {
   // picker to the next. Hidden from the first, the lenses' keys went unfound.
   private keyed = true;
   private taught = false;
-  private constructor(readonly shows: Shows, private readonly out: NodeJS.WriteStream) {}
+  // How many of the terminal's rows what was told since the last picker took, and the column the last line ended at:
+  // the picker is drawn in what is left, so the place stays in sight above it (it had been pushed off the top of a
+  // 24-row terminal by a picker of twenty lines).
+  private above = 0;
+  private column = 0;
+  // Writing to the terminal: the picker's own lines, not counted as told.
+  private readonly put: (text: string) => unknown;
+  private constructor(readonly shows: Shows, private readonly out: NodeJS.WriteStream) {
+    this.put = out.write.bind(out);
+  }
+  // What is told (console.log: the scene, what came of an act) goes to the terminal as it would, its rows counted.
+  private told(log: typeof console.log, ...said: unknown[]): void {
+    const cols = this.out.columns || 80;
+    for (const line of said.map(x => String(x)).join(' ').split('\n')) {
+      this.above += Math.max(1, Math.ceil((this.column + TerminalWidth.of(line)) / cols));
+      this.column = 0;
+    }
+    log(...said);
+  }
   static open(shows: Shows = TerminalColour.shows()): TerminalHuman {
     const human = new TerminalHuman(shows, process.stdout);
+    console.log = human.told.bind(human, console.log.bind(console));
     emitKeypressEvents(process.stdin);
     process.stdin.setRawMode?.(true);
     process.stdin.resume();
@@ -40,7 +59,7 @@ export class TerminalHuman implements Picking {
   async pick(menu: Menu): Promise<Picked> {
     const picker = this.picker = new TerminalPicker(menu);
     picker.keyed = this.keyed;
-    this.out.write('\x1b[?25l');
+    this.put('\x1b[?25l');
     try {
       for (;;) {
         this.redraw();
@@ -50,25 +69,27 @@ export class TerminalHuman implements Picking {
         this.erase();
         const row = picked && 'choice' in picked ? picker.visible.find(r => r.id === picked.choice) : undefined;
         if (row && menu.keys && !this.taught) { this.taught = true; this.keyed = false; }
-        if (row) { this.out.write(`${TerminalColour.dim(`› ${row.label}`, this.shows.depth)}\n`); }
+        // What is told from here on is the next turn's: the line of what was chosen, then what came of it.
+        this.above = row && !menu.quiet ? 1 : 0; this.column = 0;
+        if (row && !menu.quiet) { this.put(`${TerminalColour.dim(`› ${row.label}`, this.shows.depth)}\n`); }
         return picked;
       }
-    } finally { this.picker = undefined; this.out.write('\x1b[?25h'); }
+    } finally { this.picker = undefined; this.put('\x1b[?25h'); }
   }
   // A line typed after a prompt, as a headless player's would be: Enter says it, Escape or Ctrl-C says nothing more.
   async ask(prompt: string): Promise<string | null> {
-    this.out.write(prompt);
+    this.put(prompt);
     let line = '';
     for (;;) {
       const key = await this.key();
-      if (key.ctrl && (key.name === 'c' || key.name === 'd')) { this.out.write('\n'); return null; }
-      if (key.name === 'return' || key.name === 'enter') { this.out.write('\n'); return line.trim(); }
-      if (key.name === 'escape') { this.out.write('\n'); return ''; }
+      if (key.ctrl && (key.name === 'c' || key.name === 'd')) { this.put('\n'); return null; }
+      if (key.name === 'return' || key.name === 'enter') { this.put('\n'); this.above++; return line.trim(); }
+      if (key.name === 'escape') { this.put('\n'); return ''; }
       if (key.name === 'backspace') {
-        if (line) { line = [...line].slice(0, -1).join(''); this.out.write('\b \b'); }
+        if (line) { line = [...line].slice(0, -1).join(''); this.put('\b \b'); }
         continue;
       }
-      if (key.ch && !key.ctrl && key.ch >= ' ') { line += key.ch; this.out.write(key.ch); }
+      if (key.ch && !key.ctrl && key.ch >= ' ') { line += key.ch; this.put(key.ch); }
     }
   }
   private heard(ch: string | undefined, key: { name?: string; ctrl?: boolean } | undefined) {
@@ -82,14 +103,15 @@ export class TerminalHuman implements Picking {
   }
   private redraw() {
     if (!this.picker) { return; }
-    // A long list is a window of a screenful's half or so: the picker under what was told, never over all of it.
-    const room = { width: this.out.columns || 80, height: Math.max(8, Math.min(20, (this.out.rows || 24) - 4)),
-      shows: this.shows };
+    // What is left under what was told since the last choice (the place, what came of the act), at most twenty rows
+    // and never fewer than eight: a long list is a window, paged.
+    const rows = this.out.rows || 24, room = { width: this.out.columns || 80,
+      height: Math.max(8, Math.min(20, rows - this.above - 1)), shows: this.shows };
     const lines = TerminalPickerView.lines(this.picker, room);
     this.erase();
     const fit = lines.map(l => TerminalWidth.of(l) < room.width ? l
       : TerminalWidth.cut(TerminalWidth.plain(l), room.width - 1));
-    this.out.write(fit.join('\n'));
+    this.put(fit.join('\n'));
     this.drawn = lines.length;
   }
   // The picker put away: each of its lines cleared, from the last up to the first, the cursor left there. Line by
@@ -97,7 +119,7 @@ export class TerminalHuman implements Picking {
   // page to keep, and kept the picker in its history.
   private erase() {
     if (!this.drawn) { return; }
-    this.out.write(`\r\x1b[2K${'\x1b[1A\x1b[2K'.repeat(this.drawn - 1)}`);
+    this.put(`\r\x1b[2K${'\x1b[1A\x1b[2K'.repeat(this.drawn - 1)}`);
     this.drawn = 0;
   }
 }

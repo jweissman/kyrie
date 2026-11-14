@@ -29,7 +29,7 @@ repaid when what came of it told something new.
 | lab1 | ranger / archer | laboratory | straight | 24 | 2.1 | 6 5 5 | yes | 16 | 8 | 6 / 0 | 8 | 0 | 0 | 0 | no |
 | lab1 | ranger / archer | laboratory | curious | 17 | 1.6 | 6 4 2 | yes | 9 | 8 | 6 / 1 | 2 | 1 | 0 | 0 | no |
 | lab1 | ranger / archer | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 2 / 0 | 0 | 25 | 0 | 0 | no |
-| lab1 | monk / gardener | laboratory | straight | 17 | 3.5 | 9 7 5 | **no** | 5 | 12 | 2 / 0 | 18 | 12 | 0 | 10 | no |
+| lab1 | monk / gardener | laboratory | straight | 26 | 2.7 | 9 7 5 | yes | 9 | 17 | 2 / 0 | 18 | 8 | 0 | 4 | no |
 | lab1 | monk / gardener | laboratory | curious | 9 | 1.8 | 6 2 2 | yes | 8 | 1 | 4 / 1 | 1 | 1 | 0 | 0 | yes |
 | lab1 | monk / gardener | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 2 / 0 | 0 | 25 | 0 | 0 | no |
 | lab2 | warrior / blacksmith | laboratory | straight | 23 | 2.1 | 6 5 5 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | 0 | no |
@@ -63,7 +63,7 @@ repaid when what came of it told something new.
 | lab3 | thief / burglar | laboratory | curious | 16 | 2.3 | 6 5 5 | yes | 13 | 3 | 7 / 1 | 2 | 3 | 0 | 0 | yes |
 | lab3 | thief / burglar | laboratory | seeded | 20 | 1.4 | 2 2 2 | yes | 8 | 12 | 5 / 0 | 0 | 12 | 0 | 0 | no |
 | lab3 | cleric / doctor | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 4 | 0 | 0 | 0 | yes |
-| lab3 | cleric / doctor | laboratory | curious | 17 | 3.1 | 8 7 6 | **no** | 12 | 5 | 7 / 1 | 6 | 4 | 0 | 7 | no |
+| lab3 | cleric / doctor | laboratory | curious | 17 | 3.1 | 8 7 6 | **no** | 12 | 5 | 7 / 1 | 6 | 4 | 0 | 0 | no |
 | lab3 | cleric / doctor | laboratory | seeded | 11 | 2.9 | 8 5 5 | yes | 8 | 3 | 4 / 2 | 7 | 3 | 0 | 0 | yes |
 | lab3 | bard / entertainer | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
 | lab3 | bard / entertainer | laboratory | curious | 14 | 2.4 | 6 5 5 | yes | 12 | 2 | 7 / 1 | 2 | 3 | 0 | 0 | yes |
@@ -79,49 +79,36 @@ repaid when what came of it told something new.
 
 | calling | can do (types offered) | chose (types) | led with (types) | atlas led | atlas chosen | atlas realized | attention repaid / empty |
 |---|---|---|---|---|---|---|---|
-| warrior | act, care, fight, go, journey, light, other, search, talk, wait | go 137, fight 57, journey 48, act 31, wait 28, talk 27, search 16, light 14, other 2 | go 379, wait 268, fight 239, journey 182, act 169, talk 83, search 68, light 58, other 25, care 4 | none 836, exploration 331, undertaking 189, knowledge 123, danger 104, payoff 9 | none 123, exploration 115, undertaking 107, danger 51, knowledge 20, payoff 2 | exploration 108, undertaking 80, knowledge 20, danger 12, payoff 2 | 45 / 9 |
+| warrior | act, care, fight, go, journey, light, other, search, talk, wait | go 137, fight 57, journey 48, act 31, wait 28, talk 27, search 16, light 14, other 2 | go 379, wait 268, fight 239, journey 182, act 171, talk 83, search 66, light 58, other 25, care 4 | none 834, exploration 331, undertaking 189, knowledge 125, danger 104, payoff 9 | none 123, exploration 114, undertaking 107, danger 51, knowledge 21, payoff 2 | exploration 107, undertaking 80, knowledge 21, danger 12, payoff 2 | 45 / 9 |
 | mage | act, care, fight, go, journey, light, other, search, study, talk, wait | go 82, journey 39, act 24, wait 21, talk 17, fight 17, light 7, search 5, care 1, other 1 | go 229, wait 169, act 138, journey 124, talk 69, fight 51, other 33, search 28, light 18, study 5, care 3 | none 488, exploration 226, knowledge 115, undertaking 92, danger 43 | none 87, exploration 75, undertaking 51, knowledge 19, danger 19 | exploration 72, undertaking 37, knowledge 19, danger 10 | 30 / 2 |
 | thief | act, fight, go, journey, light, other, search, talk, wait | go 115, journey 53, fight 34, wait 29, act 27, talk 26, search 15, light 8, other 3 | go 321, wait 244, journey 186, act 173, fight 128, talk 93, search 52, light 35, other 31 | none 754, exploration 265, undertaking 155, knowledge 141, danger 59 | none 130, exploration 93, undertaking 80, danger 32, knowledge 22 | exploration 90, undertaking 61, knowledge 22, danger 7 | 44 / 6 |
-| cleric | act, care, fight, go, journey, light, other, search, study, talk, wait | go 109, journey 48, fight 40, wait 38, act 36, talk 20, search 10, study 10, light 7, other 2, care 1 | go 325, wait 256, journey 179, act 166, fight 143, study 79, talk 75, search 49, other 26, light 10, care 3 | none 785, exploration 279, undertaking 171, knowledge 132, danger 65 | none 143, exploration 95, undertaking 82, danger 31, knowledge 28 | exploration 92, undertaking 64, knowledge 28, danger 7 | 43 / 7 |
+| cleric | act, care, fight, go, journey, light, other, search, study, talk, wait | go 109, journey 48, fight 40, wait 38, act 36, talk 20, search 10, study 10, light 7, other 2, care 1 | go 326, wait 255, journey 179, act 166, fight 143, study 79, talk 75, search 49, other 26, light 10, care 3 | none 776, exploration 279, undertaking 180, knowledge 132, danger 65 | none 143, exploration 95, undertaking 82, danger 31, knowledge 28 | exploration 92, undertaking 63, knowledge 28, danger 7 | 43 / 7 |
 | bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 74, journey 38, act 27, wait 25, fight 18, talk 14, study 8, light 7, search 7, care 1, other 1 | go 222, wait 177, journey 133, act 131, talk 65, fight 65, study 54, search 22, light 10, other 7, care 5 | none 524, exploration 207, knowledge 120, undertaking 99, danger 32 | none 113, exploration 71, undertaking 31, knowledge 22, danger 13 | exploration 68, undertaking 25, knowledge 22, danger 2 | 35 / 4 |
 | ranger | act, fight, go, journey, light, other, search, talk, wait | go 118, journey 48, wait 43, act 39, fight 29, talk 23, search 8, light 7, other 3 | go 350, wait 261, journey 203, act 199, fight 103, talk 80, search 45, other 33, light 25 | none 753, exploration 316, undertaking 170, knowledge 131, danger 52 | none 139, exploration 100, undertaking 82, danger 29, knowledge 27 | exploration 91, undertaking 64, knowledge 27, danger 7 | 38 / 3 |
-| monk | act, fight, go, journey, light, other, search, talk, wait | go 92, wait 47, journey 38, fight 31, act 30, talk 15, light 7, search 6, other 2 | go 289, wait 223, act 163, journey 163, fight 100, talk 67, search 45, light 25, other 16 | none 662, exploration 258, knowledge 121, undertaking 105, danger 43 | none 148, exploration 75, undertaking 38, knowledge 22, danger 21 | exploration 66, undertaking 26, knowledge 22, danger 4 | 28 / 3 |
+| monk | act, fight, go, journey, light, other, search, talk, wait | go 98, journey 41, wait 38, fight 31, act 30, talk 15, light 7, search 6, other 2 | go 292, wait 223, act 167, journey 163, fight 100, talk 69, search 36, light 25, other 16 | none 650, exploration 264, knowledge 123, undertaking 111, danger 43 | none 139, exploration 78, undertaking 44, knowledge 22, danger 21 | exploration 69, undertaking 26, knowledge 22, danger 4 | 28 / 3 |
 
 ## Totals
 
-- walks: 63; within the budget: 59; outlier arrivals: 10
+- walks: 63; within the budget: 60; outlier arrivals: 10
 - attention repaid 263, empty 34
-- fights 226, retreats 27, loops 489, dead ends 0, ended 23, errors 0
-- blockers: 0 errors, 0 dead ends, 18 turns lost (an aim followed and nothing leading to it)
+- fights 226, retreats 27, loops 485, dead ends 0, ended 23, errors 0
+- blockers: 0 errors, 0 dead ends, 5 turns lost (an aim followed and nothing leading to it)
 - intention to a consequence: 42 of 63 walks
-- mean time per walk: 1193 ms
+- mean time per walk: 1702 ms
 
 ## Gate 1, tier 1
 
 | build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
 |---|---|---|---|---|---|---|---|---|
-| 2774b572 | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 18 | 0 | 0 |
+| d44f420b | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 5 | 0 | 0 |
 
 ### Unpursuable turns
 
 - lab1 mage/apothecary laboratory straight, turn 11, at Wynn recovers 3 HP (4 HP). after "Tend Wynn": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
 - lab1 monk/gardener laboratory straight, turn 19, at the old corn-store after "Up to the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 20, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 21, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 22, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 23, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 24, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 25, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 26, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 27, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab1 monk/gardener laboratory straight, turn 28, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
-- lab3 cleric/doctor laboratory curious, turn 26, at Day 1, afternoon after "Lever the lettered flag up by main force · unlikely": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
-- lab3 cleric/doctor laboratory curious, turn 27, at There is nothing left to eat. You could lie down, but you would get up no better: a rest wants a ration with it, and there are rations at any inn. after "Try to rest, with nothing to eat": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
-- lab3 cleric/doctor laboratory curious, turn 30, at Time passes. after "Wait": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
-- lab3 cleric/doctor laboratory curious, turn 31, at An hour passes. after "Wait an hour": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
-- lab3 cleric/doctor laboratory curious, turn 33, at Day 2, morning after "Wait": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
-- lab3 cleric/doctor laboratory curious, turn 34, at Day 2, afternoon after "Wait and watch": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
-- lab3 cleric/doctor laboratory curious, turn 35, at You spend an hour over Smite Evil. after "Have Wynn prepare Smite Evil in place of Aquatic Bolt, in a first-level slot": Ask Mik, a salter, who buys and sells at Mik's salt-house, about the rats in the corn-store at Lowmouth: the corn-store is locked.
+- lab1 monk/gardener laboratory straight, turn 22, at the old corn-store after "To the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
+- lab1 monk/gardener laboratory straight, turn 25, at the old corn-store after "To the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
+- lab1 monk/gardener laboratory straight, turn 28, at the old corn-store after "To the old corn-store": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
 
 ### Promises the screens did not keep
 
@@ -129,7 +116,7 @@ repaid when what came of it told something new.
 
 ## Lines said again (in most walks first)
 
-- 52× Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+- 53× Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
 - 46× Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
 - 21× Time passes.
 - 17× A low stone chapel, whitewashed, with a saint painted over the altar whose face has been touched so often it is gone.
