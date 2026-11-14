@@ -11,7 +11,7 @@
 --- yardafter
   Initially Set lessonFee({s}_drill_master) to {fee}.
   Observe {s}_drill_scene at {s}_drill as fixture when true "A square of beaten earth behind {inn}, a rack of blunted blades along one wall and a post hacked pale at the height of a man's neck. Whoever teaches here will show a technique to anyone who has done enough to be worth the showing, and can pay for it.".
-  Observe {s}_drill_lessons at {s}_drill as ambience when true "{name} teaches {lessons}, {fee} coin a lesson: an hour's work, and only to one who has done enough out in the world to have earned it. On the rack by the gate, for sale and not for practice, {sold}: the yard's smith's best work.".
+  Observe {s}_drill_lessons at {s}_drill as ambience when true "{name} teaches {lessons}, {fee} coin a lesson: an hour's work, and only to one who has done enough out in the world to have earned it. On the rack by the gate, for sale and not for practice, are {sold}.".
 --- scrivener
   // The scrivener's, and the curtain at the back of it: shut, and saying so, until the company asks after the older
   // books; behind it someone who teaches arcane spells, found, not posted.
