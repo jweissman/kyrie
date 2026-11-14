@@ -39,7 +39,8 @@ describe('a bout, and a band that breaks', () => {
   }, 60000);
 
   it('a band that breaks runs once half of it is down, and is routed', async () => {
-    const j = await Bout.start('b');
+    // (Seed d: since a foe brought to nothing stays down (CO-05), b's company fells all four before half can run.)
+    const j = await Bout.start('d');
     await j.play('To the lane', 'Attack');
     const end = j.taken.at(-1)!.event.combat.find(e => e.type === 'end');
     expect(end).toMatchObject({ outcome: 'fighters', reason: 'routed' });

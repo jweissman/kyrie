@@ -8,11 +8,13 @@ import type { Asking } from '../../src/cli/terminal-input';
 // A foregone fight is one act (the first blind playtest, 14 November: six rounds of a fight the game had called
 // easily won; BP-01). An attack the reckoning calls easily won is fought through by the company's own tactics, asking
 // nothing, unless it turns; a fight of any danger is the player's, turn by turn. The terminal and the page's host read
-// the one rule (Foregone). A warrior in a cellar with a rat, and another with an owlbear.
-const cellar = (foe: string) => Tiny.start(`
+// the one rule (Foregone). A warrior of the tenth level in a cellar with a rat, and one of the second with an owlbear:
+// "no match" wants a lower bound of nine in ten on winning (FightOdds), which a second-level warrior bitten and
+// bleeding now and then by a rat does not reach.
+const cellar = (foe: string, level = foe === 'rat' ? 10 : 2) => Tiny.start(`
   Place cellar "the cellar" is room at 0, 0.
   Person foe "${foe === 'rat' ? 'a rat' : 'an owlbear'}" at cellar { Role "what is in the cellar". Species ${foe}. }
-  Company party "You" of 1 at cellar.`, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level: 2 }] });
+  Company party "You" of 1 at cellar.`, { party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', level }] });
 const attack = (t: Tiny) => PlayerView.choices(t.campaign).find(r => r.action.schema === 'attack')!.choice;
 describe('a foregone fight', () => {
   it('is reckoned so for a rat, and not for an owlbear', async () => {

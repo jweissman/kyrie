@@ -60,7 +60,7 @@ Module quarrel "The boundary stones" {
 
   // Where the stones are, and once their old holes are found, who must hear of it: the aim had said only that there was
   // a quarrel, and a player who gathered every account of it found nothing to do with them (round 4, E 140–144).
-  Objective stones when knows(party, feud) and not knows(party, holes) and not restored(trader) and not bought(party) toward garden "The innkeeper and the merchant are at odds over the boundary stones in the inn's back garden.".
+  Objective stones when knows(party, feud) and not knows(party, holes) and not restored(trader) and not bought(party) toward garden by taproom "The innkeeper and the merchant are at odds over the boundary stones in the inn's back garden.".
   Objective stones_holes when knows(party, holes) and not restored(trader) and not bought(party) toward trader "The boundary stones were moved: their old holes are under the grass by the hedge, and {trader} has not been told so to their face.".
   // Once the stones are back, the word of the quarrel is old.
   Rule word_old when restored(trader) and not stale(feud) { Assert stale(feud). }

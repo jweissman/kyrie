@@ -22,6 +22,10 @@ describe('the company\'s instruments', () => {
     for (const t of [mage, warrior]) { await t.play('Wait › Until dark'); }
     expect(sky(mage)).toMatchObject({ emblem: 'sign_scythe', relevant: true });
     expect(sky(mage)!.said).toMatch(/moon.*, and the Scythe rising\.$/);
+    // What it reports is said beside it, and what the sign named means (TP-04).
+    expect(sky(mage)).toMatchObject({ label: 'Sky' });
+    expect(sky(mage)!.gloss).toMatch(/moon's age.*Scythe: /);
+    expect(sky(warrior)!.gloss).not.toMatch(/Scythe/);
     expect(sky(warrior)!.said).not.toMatch(/Scythe/);
     expect(sky(warrior)!.said).toMatch(/moon/);
     // Under a roof, no sky.

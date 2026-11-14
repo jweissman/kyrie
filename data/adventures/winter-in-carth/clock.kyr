@@ -78,11 +78,11 @@ Module gaunt "A Winter in Carth" {
 
   // ── Aims the page can lead with ───────────────────────────────────────────────────────────────────────────────────
   Objective who_paid_for_carth when knows(party, vigil_kept) and not knows(party, thackray_vigil)
-    "Someone paid the Scaifes of Carth to sit forty nights without a fire. The coin carries a little cut log.".
+    toward annis "Someone paid the Scaifes of Carth to sit forty nights without a fire. The coin carries a little cut log.".
   Objective under_the_window when knows(party, hal_plan) and not hernFreed(hern) and not verdictGiven(consistory)
     "Hal Metcalfe means to be under the gaol window at eleven on Fastens' Eve with a ladder and a file.".
   Objective ash_day_sitting when knows(party, beadle_offer) and not verdictGiven(consistory)
-    "The Consistory of Gaunt sits on Ninian Hern on Ash Day.".
+    toward chapter_house "The Consistory of Gaunt sits on Ninian Hern on Ash Day.".
   Objective north_tower when knows(party, unbuilding) and not knows(party, lodge_under)
-    "By night Canon Laverock's men take down the course of stone Joby Thwaite's masons set on the north tower by day.".
+    toward tower_foot "By night Canon Laverock's men take down the course of stone Joby Thwaite's masons set on the north tower by day.".
 }

@@ -125,6 +125,11 @@ export class AimLeads {
   // Only the kinds of act that could: those that change a relation the aim waits on, or end in a fight or a find.
   // Worked out once for each world (a world is never changed, only replaced), as the glance is drawn again and again.
   private static readonly answered = new WeakMap<object, Map<string, boolean>>();
+  // Where someone the aim names stands, still able: the rats' run the company fled back up from is still the aim's.
+  static occupied(campaign: Campaign, named: Set<string>): Set<string> {
+    const w = campaign.world;
+    return new Set([...named].filter(id => w.test(ModuleWriter.call('able', id))).flatMap(id => w.one('at', id) ?? []));
+  }
   static there(campaign: Campaign, place: string): boolean {
     const w = campaign.world, known = this.answered.get(w) ?? this.answered.set(w, new Map()).get(w)!;
     const key = `${Undertakings.followed(campaign)?.id ?? ''}|${place}`;

@@ -1,4 +1,5 @@
 import sky from '../../data/imbar/sky.json';
+import voice from '../../data/voice/instruments.json';
 import { Calendar } from '../campaign/calendar';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import type { Campaign } from '../campaign/campaign';
@@ -9,7 +10,9 @@ import type { Screen } from '../ui/screen-types';
 // drawn with, and whether it bears on the moment (a client shows a relevant one on a slow surface, Look, waiting,
 // camp, and any the player has pinned; the rest stay out of sight). Its value and what the company may know of it are
 // the engine's; a client draws it and estimates nothing.
-export interface Instrument { id: 'sky' | 'provisions'; said: string; emblem?: string; relevant: boolean }
+// Its label and gloss say what it reports (data/voice/instruments.json), and what the sign named means where one is.
+export interface Instrument { id: 'sky' | 'provisions'; label: string; gloss: string; said: string; emblem?: string;
+  relevant: boolean }
 // A month of Imbar is a moon: thirty days from new to new.
 const phases = ['a new moon', 'a thin crescent moon', 'the moon at its first quarter', 'a waxing moon, near full',
   'the full moon', 'a waning moon', 'the moon at its last quarter', 'an old crescent moon'];
@@ -22,6 +25,10 @@ export class Instruments {
   static of(campaign: Campaign, screen: Screen): Instrument[] {
     return [...this.sky(campaign, screen), this.provisions(screen)];
   }
+  private static named(id: Instrument['id'], extra?: string): Pick<Instrument, 'label' | 'gloss'> {
+    const v = (voice.instruments as Record<string, { label: string; gloss: string }>)[id]!;
+    return { label: v.label, gloss: extra ? `${v.gloss} ${extra}` : v.gloss };
+  }
   private static sky(campaign: Campaign, screen: Screen): Instrument[] {
     const start = campaign.readout.calendar;
     if (!start || !screen.place.open || screen.place.underground || screen.place.indoors) { return []; }
@@ -31,7 +38,8 @@ export class Instruments {
     const sign = this.reader(campaign) ? sky.signs.find(s => s.month === date.name) : undefined;
     const moon = phases[Math.floor(((date.day - 1) / 30) * phases.length) % phases.length]!;
     const said = !dark ? 'Daylight.' : `${moon[0]!.toUpperCase()}${moon.slice(1)}${sign ? `, and ${sign.name} rising` : ''}.`;
-    return [{ id: 'sky', said, ...dark && sign ? { emblem: sign.id } : {}, relevant: dark }];
+    const told = dark && sign ? `${sign.name}: ${sign.line}` : undefined;
+    return [{ id: 'sky', ...this.named('sky', told), said, ...dark && sign ? { emblem: sign.id } : {}, relevant: dark }];
   }
   // Whether anyone of the company reads the stars.
   private static reader(campaign: Campaign): boolean {
@@ -42,7 +50,7 @@ export class Instruments {
   private static provisions(screen: Screen): Instrument {
     const e = screen.expedition, days = e.rations;
     const food = days < 1 ? 'No food' : `Food for ${days} ${days === 1 ? 'day' : 'days'}`;
-    return { id: 'provisions', said: `${food}${e.light ? ` · ${e.light}` : ''}.`,
+    return { id: 'provisions', ...this.named('provisions'), said: `${food}${e.light ? ` · ${e.light}` : ''}.`,
       relevant: days <= 1 || e.hungry || !!screen.dark || e.daylight === 'night' };
   }
 }

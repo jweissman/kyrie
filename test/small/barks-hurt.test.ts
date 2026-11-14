@@ -30,4 +30,11 @@ describe('a blow that tells', () => {
     expect(said(9).filter(Boolean).length).toBeGreaterThan(15);
     expect(said(15).filter(Boolean)).toEqual([]);
   });
+  // One fighter is one, whatever the pronoun said of them: "'Oh, well struck,' say Haze" (the laboratory).
+  it('agrees with the one fighter it is said of', () => {
+    const said = Array.from({ length: 80 }, (_, i) => new Barks([fighter(`m${i}`)], `s${i}`).of(blow(`m${i}`, 4), 1))
+      .filter((x): x is string => !!x);
+    // The verb beside the name, before or after it (one after the pronoun goes by the pronoun).
+    expect(said.filter(x => /\b(say|straighten) [A-Z]|\b[A-Z][a-z]+ (straighten|say)\b/.test(x))).toEqual([]);
+  });
 });

@@ -1,38 +1,12 @@
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
-import { WorldAssembler } from '../src/world/world-assembler';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
+import { Rivals } from './support/rivals';
 
 // The Collegium of the Measured Road in the Numbered House (data/situations/arcology/rivals.kyr): a rival expedition on
 // its own clock, what it changes, and what a company of each calling can do about it. A spec puts the company down with
-// `Placed.at` only to skip the walk, never to bypass the mechanism it is about.
-class Rivals {
-  static a(x: string) { return x === 'party' || x.includes('__') ? x : `arcology__${x}`; }
-  static is(j: Journey, rel: string, ...args: string[]) { return j.holds(rel, ...args.map(x => this.a(x))); }
-  static n(j: Journey, rel: string, ...args: string[]) { return j.measure(rel, ...args.map(x => this.a(x))); }
-  static async site(seed = 'kahitude') {
-    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, {});
-    return w.report.placements.find(x => x.scenario === 'arcology')!.bindings.works!;
-  }
-  static async start(cls = 'warrior', seed = 'kahitude') {
-    return Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: cls }] }, NodeBundleSource.shared));
-  }
-  // The company at the Bend, as it would be on arriving: the expedition's clock starts there.
-  static async bend(cls = 'warrior') {
-    const j = await this.start(cls);
-    Placed.at(j, `region__${await this.site()}`);
-    await j.play('=day 3 06:00', 'Wait › A while');
-    return j;
-  }
-  static async stage(j: Journey, n: number) {
-    while (this.n(j, 'rivalStage', 'house') < n) { await j.play('=+60'); }
-  }
-  static at(j: Journey, who: string) { return j.at(this.a(who)); }
-  static carries(j: Journey, name: string) { return j.choices().some(c => new RegExp(`^Pack › ${name}`, 'i').test(c.full)); }
-}
+// `Placed.at` only to skip the walk, never to bypass the mechanism it is about. The situation alone (SituationAlone:
+// its own module on a host written from its imports, a third of a second a start where each case drew a country);
+// the company is put down below the works (`outside`), as on arriving at the Bend.
 
 describe('the Collegium of the Measured Road goes down the House on its own clock', () => {
   it('goes in on the third day, with or without the company: the Prior and the hands at the Landing, the stair still sounding', async () => {
@@ -41,7 +15,7 @@ describe('the Collegium of the Measured Road goes down the House on its own cloc
     expect(Rivals.at(j, 'quill')).toMatch(/landing$/);
     expect(Rivals.at(j, 'crew')).toMatch(/landing$/);
     expect(Rivals.is(j, 'state', 'treads', 'sounding')).toBe(true);
-  }, 300000);
+  }, 120000);
 
   it('wedges the stair, winds the capstans and asks the tablets, a stage at a time, and what it does stays done', async () => {
     const j = await Rivals.bend();
@@ -100,7 +74,7 @@ describe('allying with, racing, being robbed by and fighting the expedition', ()
     expect(Rivals.carries(j, 'the Collegium')).toBe(true);
     await j.play('Wait › A while');
     expect(Rivals.is(j, 'tolerates', 'crew', 'party')).toBe(true);
-  }, 300000);
+  }, 120000);
 
   it('is stopped on the bridge by the hands for a toll, and a warrior who has read the line faces it down', async () => {
     const j = await Rivals.bend();

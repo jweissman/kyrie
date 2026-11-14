@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
+import { Undertakings } from '../src/presentation/undertakings';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
@@ -230,13 +231,19 @@ describe('an origin', () => {
     await Opening.purse(s, 60);
     expect(Opening.seen(await Opening.take(s, /^Pay .* what you owe$/))).toEqual(['experience: what is owed, seen through']);
   }, 60000);
+});
+// The brothers' errand, seen through only by the copying at the work itself (the cold playtest, CO-01).
+describe('the order\'s errand', () => {
   it('is seen through when the copies are shown, and is worth experience', async () => {
     const s = await Opening.start('order');
     await Opening.take(s, /^Give .* the brothers' letter$/);
-    // Who made the work it was sent to copy, learnt there: the fact is the work's own, which the origin names.
-    const shown = s.campaign.module.actions.find(a => a.id === 'origin__show_copies')!;
-    const history = /"name":"knows","args":\["actor","([^"]+)"\]/.exec(JSON.stringify(shown.requires))![1]!;
+    // Known from elsewhere (a scholar at the inn) it is not seen through (CO-01); set down at the work, it is.
+    const copy = s.campaign.module.actions.find(a => a.id === 'origin__set_down')!;
+    const history = /"name":"readIn","args":\["actor","([^"]+)"\]/.exec(JSON.stringify(copy.requires))![1]!;
     Opening.grant(s, [{ kind: 'assert', call: ModuleWriter.call('knows', 'party', history) }]);
+    expect([PlayerView.choices(s.campaign).some(c => /^Show .* what you copied at /.test(c.choice.name)),
+      Undertakings.held(s.campaign).some(o => o.id === 'origin__errand_known')]).toEqual([false, true]);
+    Opening.grant(s, [{ kind: 'assert', call: ModuleWriter.call('origin__setDown', 'party') }]);
     expect(Opening.seen(await Opening.take(s, /^Show .* what you copied at /))).toEqual(['experience: the brothers\' errand, seen through']);
   }, 60000);
 });

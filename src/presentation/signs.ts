@@ -25,6 +25,15 @@ export class Signs {
     way: '⇢', camp: '△', shrine: '☩', barrow: '◓', tarn: '◯', crag: '▲', grove: '♣', place: '◆', unknown: '?' };
   private static readonly texts: Record<string, string> = Object.assign({},
     ...Object.values(emblems.sets as Record<string, { text?: Record<string, string> }>).map(s => s.text ?? {}));
+  // Each aspect as one character, and as a plain one where a terminal has no unicode: drawn where colour is not (an
+  // act's indicator without colour), and for what an act is besides its colour (see Indicator). A companion is the
+  // emblem the page draws beside such an act (acts.companion).
+  static readonly aspects: Record<Aspect, { sign: string; plain: string }> = {
+    undertaking: { sign: '✦', plain: '*' }, danger: { sign: '⚠', plain: '!' }, exploration: { sign: '◇', plain: '+' },
+    payoff: { sign: '¤', plain: '$' }, knowledge: { sign: 'ℹ', plain: 'i' }, wonder: { sign: '✧', plain: '~' },
+    companionship: { sign: Signs.texts.companion!, plain: '&' } };
+  // Going over into the next stretch of country (the page's journey emblem), and its plain sign.
+  static readonly crossing = { sign: Signs.texts.journey!, plain: '>', said: 'into the next stretch of country' };
   static way(whither: string | undefined, shut = false): string {
     return shut ? this.shut : this.whither[whither ?? ''] ?? '·';
   }

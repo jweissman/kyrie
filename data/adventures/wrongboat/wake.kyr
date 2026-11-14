@@ -7,9 +7,9 @@ Module wrongboat "The Wrong Boat" {
   Chapter ch_mill "The Mill Reach" when been(party, millyard) "A weir, a lock, a lever, and two men in grey coats standing on the path as if they had been planted.".
   Chapter ch_foot "Highfoot" when been(party, ferry_stage) "The last of the river. After this there is only the hill, and whatever you have chosen to carry up it.".
 
-  Objective get_away when t0() > 0 and not boxReturned(party) and not caught(party) and not bessTook(party) "Get down the Aldwater and over the hills before a toll-clerk, or the Trust's two lads, catch you with something that is not yours.".
+  Objective get_away when t0() > 0 and not boxReturned(party) and not caught(party) and not bessTook(party) toward hill_road "Get down the Aldwater and over the hills before a toll-clerk, or the Trust's two lads, catch you with something that is not yours.".
   Objective what_is_it when holding(party, music_box) and not drawerOpen(party) "There is a music box in the hamper. It plays a tune everyone on the river knows. It has a back-plate nobody has looked behind.".
-  Objective hob_wait when hobMet(party) and not boxReturned(party) "Hob Garrod is in the Pelham lock-up, and has asked that Bess Lowther be told.".
+  Objective hob_wait when hobMet(party) and not boxReturned(party) toward bess "Hob Garrod is in the Pelham lock-up, and has asked that Bess Lowther be told.".
 
   Milestone m_afloat "got away from Staithe on the wrong boat" worth 100 when been(party, deck).
   Milestone m_accused "was shouted at on a quay for a hamper" worth 60 when accused(party).

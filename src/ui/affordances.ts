@@ -44,12 +44,16 @@ export interface Reading {
   opened?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
+  // Where someone or something the aim names stands, still able (see Glance.occupied).
+  occupied?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
     open: boolean;
     // Where in the settlement a bed is to be had, a step from here, when there is none here.
     bed?: string;
     // When the company carries nothing to make light by: the kinds of thing that light, any of them worth buying.
     unlit?: Set<string>;
+    // With nothing to see by, the ways from here into somewhere unlit, and who sells a light (see CompanyLight).
+    dark?: Set<string>; sellers?: Set<string>;
     // Whether the company is one alone, for whom someone who would join is help.
     alone?: boolean };
 }
@@ -292,14 +296,18 @@ export class Affordances {
     const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back && !present
       && (inSite || (r.named.has(r.here) && (AimRoute.town(screen) ? AimRoute.down(exit) : !!r.within)) ? 'toward' as const
         : r.held.has(r.here) ? 'held' as const : undefined);
-    const toward = r.toward.get(exit.id) ?? (on || undefined);
+    const toward = r.needs.dark?.has(dest) ? undefined : r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
     const up = at.lightless && ['ascend', 'leave'].includes(exit.transition ?? '');
     const whys: Why[] = [...(at.back && dest === r.back || up) && !c.disabled ? ['retreat' as const] : [],
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
       // Nor to one it left having done nothing there, with nothing done since (see CompanyRecall.idle).
-      ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) && !r.idle?.has(dest) ? ['named' as const] : [],
+      // Unless whoever the aim is about still stands there: fled back up from the rats' run, the way down to them is
+      // still the aim's (the laboratory's lost turns).
+      // Never into the dark with nothing to see by: what the aim asks there cannot be done (see CompanyLight).
+      ...(r.named.has(dest) || r.occupied?.has(dest)) && !r.needs.dark?.has(dest)
+        && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
       ...toward ? [toward] : [],
       ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
       ...this.inward(c, exit.id, r),
@@ -395,7 +403,10 @@ export class Affordances {
     const whys: Why[] = [...kind === 'light' ? ['dark' as const] : [], ...lit ? ['dark' as const] : [],
       ...mended ? ['hurt' as const] : [], ...kind === 'eat' && n.hungry && n.rations > 0 ? ['hungry' as const] : [],
       ...kind === 'camp' && ((n.night && !n.settled) || n.weary) ? ['exposed' as const] : [],
-      ...kind === 'rest' && n.hurt.size > 0 && !at.threat ? ['hurt' as const] : [],
+      // Not a rest with nothing to eat, which mends nothing ("you would get up no better"): a hungry company had been
+      // led to lie down and get up again, over and over (the laboratory's lost turns).
+      ...kind === 'rest' && n.hurt.size > 0 && !at.threat && r.schema.get(c.command ?? '') !== 'rest_unfed'
+        ? ['hurt' as const] : [],
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
       // What the aim waits on, done by the company here (sitting up with the fevered child, a search where what it
       // waits on is hidden): its next step. A search is not the aim's for being made where the aim is: at Seolforfyrd
@@ -442,9 +453,13 @@ export class Affordances {
   }
   // A way's acts gone by in turn, never one that is grave or a risk: the speaking door's first word had been pressed
   // at random, as the way's next act (the owner, 12 November).
+  // An opener's own command is its talk where it has one, and never a trade: done by a headless player, "Talk to
+  // Mik", once he had been spoken to, had bought a coil of rope, a torch, rashers of bacon, ten times over (the
+  // runner's blind walk, 15 November: TB-04).
   private static command(c: Choice): string | undefined {
-    return c.command ?? Attending.all(c.children ?? []).find(k => k.command && !k.disabled && !k.grave && !k.risk)
-      ?.command;
+    if (c.command) { return c.command; }
+    const open = Attending.all(c.children ?? []).filter(k => k.command && !k.disabled && !k.grave && !k.risk);
+    return (open.find(k => k.does === 'talk_to') ?? open.find(k => !/^(buy|sell)_/.test(k.does ?? '')))?.command;
   }
   private static risky(c: Choice): boolean {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));
