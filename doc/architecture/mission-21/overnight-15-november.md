@@ -102,9 +102,10 @@ tonight with mutation-checked pins:
 - **The one made armed as creation showed:** a companion's presence no longer drops the protagonist's weapon
   (BL-06, partly).
 
-**A new P0 for the morning, BL-01:** the Go lens's full list of ways runs off the fixed screen and cannot be
-scrolled, and the inn the rail pointed to was among the ways out of reach. It wants the overflow seen and fixed in
-the page at 1280×800 and 820×1180, with a browser spec.
+**BL-01, the one new P0, fixed the same night:** the Go lens's full list of ways ran off the fixed screen and could
+not be scrolled, the inn the rail pointed to among the ways out of reach. Reproduced at a1's camp, 25 ways. A lens
+unfolded whole now takes what the column has left and scrolls within it; the page never scrolls, and ordinary pages
+keep their layout. Held by test/lens-all-browser at 1280×800 and 820×1180.
 
 **What recurs is sameness:** the same opening and the same town skeleton in two countries (CO-03), ancestry and
 star sign never drawn on in play (RI-03), the garnish word for word (BP-02). That is content and authorship, the
@@ -141,8 +142,7 @@ The worst moment of the first touch is the 10–17 s setting-out wait, which is 
 
 ## What still fails or is open
 
-At the end of the night the register holds one P0 partly open (DN-06), one P0 newly open (BL-01, from the blind
-playtest), and 48 P1 rows (29 open, 19 partly). It began the
+At the end of the night the register holds one P0 partly open (DN-06), and 48 P1 rows (29 open, 19 partly). It began the
 night with 5 P0 open and 5 partly.
 
 **P0: DN-06, the writing.** The editorial pass has landed (prose-1..6), and its pins hold the measurable part:

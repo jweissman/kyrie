@@ -9,8 +9,13 @@
 /* More of the telling below than is in view: its foot fades, so that it is seen to go on (see Scrolled). */
 .world-page.scale-scene .focus > .glance > .told-col[data-more] {
   mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent); }
+/* The touches keep their height at the foot until a lens is unfolded whole; then it takes what the column has left
+   and scrolls within it (the second blind playtest, BL-01: the Go lens's twenty-five ways ran off the fixed screen,
+   the way the rail pointed to among them, out of reach). */
 .world-page.scale-scene .focus > .glance > .do-col { flex: none; }
-.world-page.scale-scene .focus > .glance .do-list { padding: 4px clamp(18px, 2.2vw, 30px) clamp(14px, 2.4vh, 22px); }
+.world-page.scale-scene .focus > .glance > .do-col:has(.lens-rest) { flex: 0 1 auto; min-height: 0; }
+.world-page.scale-scene .focus > .glance .do-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; padding: 4px clamp(18px, 2.2vw, 30px) clamp(14px, 2.4vh, 22px); }
 .setting { margin: 0; }
 @media (min-width: 900px) and (orientation: landscape) {
   .world-page.scale-scene .world-body { grid-template-columns: minmax(0, 1.6fr) minmax(22rem, 1fr); }
