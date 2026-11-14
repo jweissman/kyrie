@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer'; import { CompanyLight } from './company-light';
+import { BarredWays } from './barred-ways';
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
@@ -61,7 +62,8 @@ export class Glance {
     // Not again beneath "A new aim" that has just said it.
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
-    const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark), after = told
+    const need = [...this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark),
+      ...BarredWays.said(screen, reading.named)], after = told
       && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
