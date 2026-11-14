@@ -46,7 +46,9 @@ export class AimLeads {
     const kept = this.kinds.get(campaign.module) ?? this.kinds.set(campaign.module, new Map()).get(campaign.module)!;
     if (!kept.has(def.id)) {
       const coin = AimAdvances.wants(campaign);
-      const names = new Set(AimAdvances.waits(campaign.module, def).map(c => c.name));
+      // And a search, where what it waits on is found by searching (the boundary stones' old holes, under the grass of
+      // the inn's back garden): left unsearched, the garden had been idle, and nothing led back to it.
+      const names = new Set([...AimAdvances.waits(campaign.module, def).map(c => c.name), 'searched']);
       kept.set(def.id, new Set(campaign.module.actions.filter(a => ['combat', 'acquire'].includes(a.resolve?.name ?? '')
         || (coin && /^sell_/.test(a.schema ?? a.id)) || (a.success ?? []).some(c => c.call && names.has(c.call.name)))
         .map(a => a.id)));
