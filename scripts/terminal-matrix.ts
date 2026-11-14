@@ -2,7 +2,8 @@
 // background of its kind and an origin, on a few seeds, by a few policies; what each build was offered, led with,
 // chose and came to, written to doc/architecture/mission-21/terminal/matrix.md. Bounded: one world drawn per walk, a
 // fixed number of turns. Regenerate with
-//   bun scripts/terminal-matrix.ts [--lab] [--seeds a1,b2,c3] [--turns 20] [--policies straight,curious] [--out file]
+//   bun scripts/terminal-matrix.ts [--lab | --create] [--seeds a1,b2,c3] [--turns 20] [--policies straight,curious]
+//     [--out file]
 // --lab walks the laboratory (scripts/laboratory.ts) instead, each build alone in the first town's undertown.
 import { writeFile } from 'node:fs/promises';
 import { DrawnWorld } from '../src/world/drawn-world';
@@ -12,6 +13,8 @@ import { RunnerWalk, type Measures, type Policy } from '../src/cli/runner-walk';
 import { PlayTool } from '../src/cli/play-tool';
 import type { PlaySession } from '../src/session/play-session';
 import { Laboratory } from './laboratory';
+import { EngineHost } from '../web/engine/engine-host';
+import type { CreationState } from '../web/engine/engine-creation';
 
 interface Row { calling: string; background: string; origin: string; seed: string; policy: Policy; m: Measures;
   can: string[]; error?: string; ms: number }
@@ -35,8 +38,24 @@ export class TerminalMatrix {
       const args = [Laboratory.file, '--as', `human/${calling}/Wynn/${background}`, '--seed', seed];
       return (await PlayTool.start(PlayTool.parse(args))).journey.session;
     }
+    if (this.create) { return this.made(seed, origin, calling); }
     const party = [{ name: 'Wynn', raceId: 'human', classId: calling, backgroundId: background }];
     return DrawnWorld.start(seed, { origin, party }, NodeBundleSource.shared);
+  }
+  // --create: the life made from the real entry point, as Gate 1's first tier asks: the engine's own requests (world,
+  // creation, set-out) through EngineHost, choosing the origin and the calling, the rest as the page has them.
+  static readonly create = process.argv.includes('--create');
+  static async made(seed: string, origin: string, calling: string): Promise<PlaySession> {
+    const host = new EngineHost(() => undefined);
+    await host.handle({ kind: 'world', seed });
+    let state = await host.handle({ kind: 'creation' }) as CreationState;
+    for (let i = 0; i < state.steps.length; i++) {
+      const step = state.steps[i]!, want = step.id === 'why' ? origin : step.id === 'calling' ? calling : undefined;
+      const value = want && step.cards.some(c => c.id === want && !c.shut) ? want : step.chosen ?? '';
+      state = await host.handle({ kind: 'creation', step: step.id, value }) as CreationState;
+    }
+    await host.handle({ kind: 'set-out' });
+    return host.played!;
   }
   static async walks(seeds: string[], policies: Policy[], turns: number): Promise<Row[]> {
     const rows: Row[] = [];
