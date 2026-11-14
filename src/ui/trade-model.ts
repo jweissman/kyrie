@@ -1,4 +1,5 @@
 import type { World } from '../lang/world';
+import type { Names } from './known-names';
 
 // One merchant's side of the counter, as the world has it: what they sell (goods by the measure, and things laid
 // out for sale), at what price and how many are left, what kinds of thing they buy and for how much, and their coin.
@@ -17,7 +18,7 @@ export interface Counter {
 // Read by the world's own indexes, never by copying it (the screen had copied every fact the world held for each room
 // of a town, to find who sold what: two thirds of every command's half second, the owner's 5 November latency).
 export class TradeModel {
-  static at(world: World, here: string, names: Map<string, string>): Counter[] {
+  static at(world: World, here: string, names: Names): Counter[] {
     const present = new Set(world.relatedTo('at', here).map(r => r.args[0]!));
     if (!present.size) { return []; }
     const merchants = [...new Set([
@@ -27,7 +28,7 @@ export class TradeModel {
     ])];
     return merchants.map(id => this.counter(world, id, names)).filter(c => c.sells.length || c.buys.length);
   }
-  private static counter(world: World, id: string, names: Map<string, string>): Counter {
+  private static counter(world: World, id: string, names: Names): Counter {
     const goods = world.related('sells', id).map(r => r.args[1]!)
       .map(g => ({ name: this.name(g, names), price: this.value(world, 'goodsPrice', id, g),
         stock: this.value(world, 'quantity', id, g), kind: g, good: true as const }));
@@ -46,7 +47,7 @@ export class TradeModel {
   // The company's things a dealer would take (sell_valuable, sell_ware: in valuables, or of their trade; not one they
   // pay for already) but cannot pay for with what they have.
   private static short(world: World, id: string, coin: number,
-    names: Map<string, string>): { name: string; pays: number }[] {
+    names: Names): { name: string; pays: number }[] {
     if (!world.relates('ownedItem') || !world.relates('memberOf')) { return []; }
     const ours = new Set(world.related('memberOf').filter(r => r.args[1] === 'party').map(r => r.args[0]!));
     const trades = new Set(world.relates('dealsIn') ? world.related('dealsIn', id).map(r => r.args[1]!) : []);
@@ -66,7 +67,7 @@ export class TradeModel {
   private static value(world: World, name: string, ...args: string[]): number {
     return world.measured(name).find(m => m.call.args.every((a, i) => a === args[i]))?.value ?? 0;
   }
-  private static name(id: string, names: Map<string, string>): string {
+  private static name(id: string, names: Names): string {
     const name = names.get(id) ?? id.replace(/^.*__/, '').replace(/_/g, ' ');
     return name.charAt(0).toUpperCase() + name.slice(1);
   }

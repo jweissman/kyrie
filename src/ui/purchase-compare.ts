@@ -1,11 +1,12 @@
 import { ItemCatalog } from '../item-catalog';
 import type { World } from '../lang/world';
+import type { Names } from './known-names';
 
 // What a thing for sale is beside what its buyer has on in the same place (body, hand): armour that turns less than
 // the scale mail worn, a weapon lighter than the longsword carried, said on the purchase before it is made (the cold
 // review of 1 November: inferior chitin armour bought with nothing to compare it to).
 export class PurchaseCompare {
-  static versus(world: World, kind: string, recipient: string, names: Map<string, string>): string {
+  static versus(world: World, kind: string, recipient: string, names: Names): string {
     const it = this.def(kind), slot = it?.slot;
     if (!it || !slot || !world.relates('wearing')) { return ''; }
     const worn = world.related('wearing').filter(r => r.args[1] === recipient).map(r => r.args[0]!)

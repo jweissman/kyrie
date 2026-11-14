@@ -5,6 +5,7 @@ import type { Call, Module, Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { Candidates } from '../lang/candidates';
 import { PresenceGate } from './presence-gate';
+import { EntityIndex } from '../lang/entity-index';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -151,8 +152,11 @@ export class Operators {
       pending.splice(pending.indexOf(atom), 1);
       rows = this.join(world, schema, atom, rows) ?? rows;
     }
+    // A parameter left open is enumerated over the entities of its type, in the module's order: over every entity, a
+    // company's raise_quality had tested the whole world's for being a quality each step (performance-report.md §3).
     for (const p of parameters) {
-      rows = rows.flatMap(row => row[p.name] !== undefined ? [row] : this.module.entities
+      const pool = p.type === 'entity' ? this.module.entities : EntityIndex.of(this.module.entities).typed(p.type);
+      rows = rows.flatMap(row => row[p.name] !== undefined ? [row] : pool
         .filter(e => this.fits(schema, p.name, e.id)).map(e => ({ ...row, [p.name]: e.id })));
     }
     const ranked = rows.map(row => ({ row, rank: parameters.map(p => this.order.get(row[p.name]!) ?? 0) }));

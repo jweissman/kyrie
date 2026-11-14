@@ -10,6 +10,7 @@ import { Typography } from './typography';
 import { Narration } from './narration';
 import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
+import { EntityIndex } from '../lang/entity-index';
 import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
 import { Succession } from './succession';
@@ -271,7 +272,9 @@ export class Narrator {
   // Where the company stands, as the place says it, or as its kind and setting imply: a room of a building is under
   // a roof; a green, a road and wild country are open to the sky.
   static shelter(campaign: Pick<Campaign, 'module'>, place: string): Shelter | undefined {
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    // By the module's kept index: a map of every entity made afresh on each call had been most of a step's narration
+    // in a world of 10,000 rooms (performance-report.md §3).
+    const entities = EntityIndex.of(campaign.module.entities).byId;
     let at: Entity | undefined = entities.get(place);
     if (at?.space?.shelter) { return at.space.shelter; }
     for (let n = 0; at?.space?.parent && n < 8; n++) {

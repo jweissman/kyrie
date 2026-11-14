@@ -5,7 +5,7 @@ import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } 
 import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
-import { ItemNames } from '../item-names'; import { Passages } from './passages';
+import { ItemNames } from '../item-names'; import { Passages } from './passages'; import { KnownNames } from './known-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../canon/background-catalog';
@@ -43,7 +43,7 @@ export class ScreenModel {
   static build(campaign: Campaign): Screen { return Costs.time('screen', () => ScreenModel.built(campaign)); }
   private static built(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
-    const names = this.names(campaign), prices = this.prices(world);
+    const names = new KnownNames(campaign), prices = this.prices(world);
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign), { present, names, prices, passageOf, fees,
@@ -343,12 +343,6 @@ export class ScreenModel {
       : told.description;
   }
   private static bare(s: string): string { return s.toLowerCase().replace(/^(an?|the) /, ''); }
-  // Every entity by the name the company knows it by: a member by their own name.
-  private static names(campaign: Campaign): Map<string, string> {
-    const world = campaign.world, byId = new Map(campaign.readout.creatures.map(c => [c.id, c]));
-    return new Map(campaign.module.entities.map(e =>
-      [e.id, (e.creatureId && byId.get(e.creatureId)?.name) || ObservationText.label(world, e.id)]));
-  }
   // A group the company could attack is weighed up before it does; not one that has let it be (the hobs at the gate,
   // parleyed with and asking it in, had been led with as a danger to attack, "easily won": OWN-57's play).
   private static reckoning(campaign: Campaign, id: string, grouped: Grouped): Pick<TargetRow, 'reckoning'> {

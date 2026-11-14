@@ -1,5 +1,8 @@
 # Mission 21: a performance retrospective
 
+*Succeeded by [performance-report.md](performance-report.md) (15 November, evening): the same measures again, world
+size in facts, and where its figures differ from these (its §7).*
+
 Written for the owner, 15 November. Measurements are on this machine (WSL2, 16 CPUs, 15 GB) and on CI (GitHub
 runners). "Before" means the baselines recorded at the start of M21:
 - [fast-loop.md](fast-loop.md), 12 November;
