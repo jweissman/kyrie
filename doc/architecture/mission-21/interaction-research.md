@@ -52,3 +52,15 @@ What the lead knows to start from:
 - `mission-21/first-minute/` (the IG-01 critique and recordings);
 - `owner-first-minute.md`;
 - register IG-07 (no hold, for now), IG-14..16 (the embers, the cursor reticle, better buttons).
+
+**An input from the design review `history/reviews/design-pull-and-astonishment-2026-11-13.md`** (§7 and finding G):
+exceptional moments should take an exceptional form. A small dramatic vocabulary (ordinary, speech, revelation,
+reckoning, loss) would govern composition and pacing:
+- unrelated controls suppressed;
+- the person, object or place kept;
+- a deliberate continuation required;
+- the next lead's promotion delayed, so a death or a homecoming is not overwritten by the next job.
+
+This bears directly on the fundamental action: when an act resolves at once, and when the game slows and asks for a
+deliberate continuation. Take it as an input to the grammar, not a separate deliverable.
+

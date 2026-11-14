@@ -135,3 +135,21 @@ They are counted from the engine's own semantics (Offer aspects, ActType, action
 never gamed with decoration. A failure is reduced to a fixture, fixed at its root, and re-run; findings are grouped by
 root cause. The baselines and representative transcripts are in `mission-21/terminal/experience.md`. These floors are
 not a substitute for people playing.
+
+## The design review on pull and astonishment (kept 15 November)
+
+`history/reviews/design-pull-and-astonishment-2026-11-13.md` argues that dramatic facts are seldom first-class:
+- longing becomes an aim;
+- return becomes movement;
+- companionship becomes willingness;
+- history becomes events without interpretation.
+
+Its delivery is in two gates: prove one emotional expedition in authored content ("Gone under", the sister's origin),
+then promote only the semantics that proof shows are needed (a return context, open questions with evidence,
+authored accounts). Where it lives:
+- §7, exceptional moments taking an exceptional form, is an input to the interaction research;
+- the content proof fits the laboratory after Gate 1;
+- the semantic promotion is a candidate frame for M22.
+
+M21 opens no new system for it.
+
