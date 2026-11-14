@@ -21,7 +21,7 @@
   ],
   "homecoming": [
     "'{home},' says {name}, and stands a moment where the track comes in. 'Smaller than it was.'",
-    "{name} looks round {home} as if counting it, and seems satisfied that it is all still there."
+    "{name} looks round {home} slowly, house by house."
   ],
   "greet": {
     "innkeeper": "'{name}!' {kinName} comes round the end of the counter and holds {name} at arm's length, then hugs hard. There is supper for the company before anyone asks for it, and bread and cheese wrapped up for the road.",
@@ -66,7 +66,7 @@
       "knows": { "of": "wood", "label": "Ask {name} about the woods hereabouts",
         "says": "'{zone}.' {name} names the runs the beasts use as if they were roads, and where they cross water. 'From {edge} you can get to {heart} in a morning, if you follow the deer and not the paths.'" },
       "remarks": {
-        "spring": "{name} kneels and reads the mud at the water's edge. 'Fox, and a badger, and something bigger, two nights ago. Gone south.'",
+        "spring": "{name} kneels and reads the mud at the water's edge. 'Fox, and a badger, and a boar, two nights ago. Gone south.'",
         "windfall": "'Marten den under there, or was,' says {name}, crouching. 'They like a fallen tree.'",
         "holly": "'Holly keeps the snow off,' says {name}. 'Beasts lie up in it. So do people, in a hard winter.'"
       },
@@ -204,7 +204,7 @@
         "tarn": "{name} sings one note across the tarn to hear it come back off the crag, and laughs when it does."
       },
       "ruin": [
-        "'Somebody should make a song about that place,' says {name}. 'Somebody probably did, and it was sad.'",
+        "'Somebody should make a song about that place,' says {name}.",
         "{name} stops singing, and does not start again until it is well behind you."
       ],
       "story": [

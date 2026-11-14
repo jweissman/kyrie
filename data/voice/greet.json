@@ -11,7 +11,7 @@
     { "id": "greet.horse.1", "when": { "species": "horse" }, "text": "{Actor} blows through {their} nose at you, and puts {their} head out to be noticed." },
     { "id": "greet.goat.1", "when": { "species": ["goat", "sheep"] }, "text": "{Actor} stops chewing long enough to look at you." },
     { "id": "greet.hen.1", "when": { "species": "hen" }, "text": "{Actor} complains about you to the others." },
-    { "id": "greet.pig.1", "when": { "species": "pig" }, "text": "{Actor} grunts, hopefully, in case you have brought something." },
+    { "id": "greet.pig.1", "when": { "species": "pig" }, "text": "{Actor} grunts, hopefully, in case you have brought food." },
     { "id": "greet.cow.1", "when": { "species": "cow" }, "text": "{Actor} turns {their} great head to look at you, and goes on chewing." },
     { "id": "greet.animal.1", "text": "{Actor} comes to see who you are." }
   ]

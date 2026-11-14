@@ -76,28 +76,28 @@
     "discriminator": "form",
     "groups": {
       "altar": [
-        "[stone]a long stone under a roof of shingles",
-        "[stone]a slab of the old stone, worn hollow in the middle"
+        "[stone|altar]a long stone under a roof of shingles",
+        "[stone|altar]a slab of the old stone, worn hollow in the middle"
       ],
       "statue": [
-        "[stone]a figure of grey stone, taller than a man, its face worn smooth",
-        "[wood]a figure of black wood, rubbed bright at the knees"
+        "[stone|figure]a figure of grey stone, taller than a man, its face worn smooth",
+        "[wood|figure]a figure of black wood, rubbed bright at the knees"
       ],
       "fountain": [
-        "[water]a spring led up into a basin of cut stone",
-        "[water]a well-head with a carved lip, the water close under it"
+        "[water|spring]a spring led up into a basin of cut stone",
+        "[water|well-head]a well-head with a carved lip, the water close under it"
       ],
       "obelisk": [
-        "[stone]a standing stone, squared and cut with lines",
-        "[stone]a pillar of the old stone, leaning a little"
+        "[stone|standing stone]a standing stone, squared and cut with lines",
+        "[stone|pillar]a pillar of the old stone, leaning a little"
       ],
       "mural": [
-        "[wall]a wall painted from end to end, the colours going",
-        "[wall]a painted wall under a deep eave, kept out of the weather"
+        "[wall|painted wall]a wall painted from end to end, the colours going",
+        "[wall|painted wall]a painted wall under a deep eave, kept out of the weather"
       ],
       "relic": [
-        "[relic]a bronze box on a stone shelf, its lid pierced over a knucklebone",
-        "[relic]a niche in the wall, and in it a hand-bone wrapped in gold thread"
+        "[relic|reliquary]a bronze box on a stone shelf, its lid pierced over a knucklebone",
+        "[relic|relic]a niche in the wall, and in it a hand-bone wrapped in gold thread"
       ]
     }
   },
