@@ -306,8 +306,8 @@
   Entity {t}_u_book_left: fact "The raiser's book of the dead lies on the bones in the ossuary.".
   Item {t}_u_raiser_book "a book of the dead" is raiser_book at {t}_u_ossuary hidden until {t}_u_book_left.
   Rule {t}_u_book_dropped when ({t}_u_done({t}_u_raiser) or not able({t}_u_raiser)) and at(party, {t}_u_ossuary) and not knows(party, {t}_u_book_left) says "His book lies on the bones." teaches {t}_u_book_left { }
-  Entity {t}_u_dead_read: fact "The marks round the chalk ring are copied from an old book of the dead. They are copied badly: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
-  Observe {t}_u_crypt_marks at {t}_u_crypt as sign when capable(party, lore) and knows(party, {t}_u_dead_raised) and not knows(party, {t}_u_dead_read) "You know these marks from the old scripts. Round the chalk ring they say what they are for, and they are copied badly. The warding line is not there, the one that keeps the dead off whoever calls them." teaches {t}_u_dead_read.
+  Entity {t}_u_dead_read: fact "The marks round the chalk ring are copied badly, from an old book of the dead: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
+  Observe {t}_u_crypt_marks at {t}_u_crypt as sign when capable(party, lore) and knows(party, {t}_u_dead_raised) and not knows(party, {t}_u_dead_read) "You know these marks from the old scripts. The warding line is missing from the marks round the chalk ring, the one that keeps the dead off whoever calls them." teaches {t}_u_dead_read.
   Action {t}_u_raiser_read(actor: group, site: place) "Tell the man with the black candle what his book left out of the ring" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and at({t}_u_raiser, {t}_u_ossuary) and able({t}_u_raiser) and knows(actor, {t}_u_dead_read) and state({t}_u_candle, alight).
     Time 0.
@@ -374,7 +374,7 @@
   }
   // A ranger's way (Mission 19): one who reads wild country reads the web at the adit, and knows what the boy saw
   // without asking him.
-  Observe {t}_u_adit_web at {t}_u_adit as sign when capable(party, woodcraft) and not knows(party, {t}_u_spiders_eggs) "The web across the cutting is new at the edges and old in the middle. The drag-lines all run back one way. Something big at the back is laying, and has been for a while." teaches {t}_u_spiders_eggs.
+  Observe {t}_u_adit_web at {t}_u_adit as sign when capable(party, woodcraft) and not knows(party, {t}_u_spiders_eggs) "Something big at the back is laying: the web across the cutting is new at the edges and old in the middle. The drag-lines all run back one way." teaches {t}_u_spiders_eggs.
   Discovery {t}_u_knife_found "Under the web at the gallery's mouth, a bone-handled knife with an H burned into the handle." {
     Found by searching {t}_u_gallery "Something under the web at the gallery's mouth catches the light.".
   }

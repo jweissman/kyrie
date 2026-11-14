@@ -6,15 +6,16 @@ Module origin "The brothers' errand" {
   Entity fate: fact "How they ended".
   Entity found: fact "The way there".
   Relation delivered(group). Relation copied(group).
-  // Read and set down at the place itself, in the company's own hand: what the old writing says may be told anywhere
-  // (a scholar hired at the inn, asked about the old script, had told it, and the errand was seen through without
-  // leaving town: the cold playtest, 14 November, CO-01). Heard elsewhere, it is a clue to what is cut there; the
-  // brothers asked for it copied where it is cut.
+  // Read with the company's own eyes and set down in its own hand: what the old writing says may be told anywhere (a
+  // scholar hired at the inn, asked about the old script, had told it, and the errand was seen through without leaving
+  // town: the cold playtest, 14 November, CO-01). Told, it is a clue to what is cut there; read where it is cut
+  // (readIn or learnedFrom the writing itself, not toldBy anyone), it can be copied for the brothers.
   Relation setDown(group).
   Action set_down(actor: group, site: place) "Copy the old writing into your book, stroke by stroke" {
     Description "An hour with the stone and a stub of charcoal, setting down what is cut there for the brothers.".
-    Requires able(actor) and company(actor) and at(actor, site) and within(actor, delving) and not benighted(actor)
-      and (knows(actor, history) or knows(actor, fate)) and not setDown(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and not benighted(actor)
+      and (readIn(actor, history) or readIn(actor, fate) or learnedFrom(actor, ?s, history) or learnedFrom(actor, ?s, fate))
+      and not setDown(actor).
     Time 6.
     On success { Assert setDown(actor). }
     Result "You set it down as it is cut, stroke by stroke, the worn places marked as worn. It is the brothers' now, as well as the stone's.".

@@ -257,8 +257,8 @@ Module lab "The undercroft at Lowmouth" {
   Entity low_u_book_left: fact "The raiser's book of the dead lies on the bones in the ossuary.".
   Item low_u_raiser_book "a book of the dead" is raiser_book at low_u_ossuary hidden until low_u_book_left.
   Rule low_u_book_dropped when (low_u_done(low_u_raiser) or not able(low_u_raiser)) and at(party, low_u_ossuary) and not knows(party, low_u_book_left) says "His book lies on the bones." teaches low_u_book_left { }
-  Entity low_u_dead_read: fact "The marks round the chalk ring are copied from an old book of the dead. They are copied badly: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
-  Observe low_u_crypt_marks at low_u_crypt as sign when capable(party, lore) and knows(party, low_u_dead_raised) and not knows(party, low_u_dead_read) "You know these marks from the old scripts. Round the chalk ring they say what they are for, and they are copied badly. The warding line is not there, the one that keeps the dead off whoever calls them." teaches low_u_dead_read.
+  Entity low_u_dead_read: fact "The marks round the chalk ring are copied badly, from an old book of the dead: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
+  Observe low_u_crypt_marks at low_u_crypt as sign when capable(party, lore) and knows(party, low_u_dead_raised) and not knows(party, low_u_dead_read) "You know these marks from the old scripts. The warding line is missing from the marks round the chalk ring, the one that keeps the dead off whoever calls them." teaches low_u_dead_read.
   Action low_u_raiser_read(actor: group, site: place) "Tell the man with the black candle what his book left out of the ring" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_ossuary) and at(low_u_raiser, low_u_ossuary) and able(low_u_raiser) and knows(actor, low_u_dead_read) and state(low_u_candle, alight).
     Time 0.
@@ -308,7 +308,7 @@ Module lab "The undercroft at Lowmouth" {
     Says "The boy looks at the door before he answers. 'There's a big one at the back,' he says. 'Bigger than a dog. And bags. Hanging up, white, like puddings. They was moving.' He swallows. 'I dropped Dad's knife. Don't tell him.'".
     On discuss { Assert knows(actor, low_u_spiders_eggs). }
   }
-  Observe low_u_adit_web at low_u_adit as sign when capable(party, woodcraft) and not knows(party, low_u_spiders_eggs) "The web across the cutting is new at the edges and old in the middle. The drag-lines all run back one way. Something big at the back is laying, and has been for a while." teaches low_u_spiders_eggs.
+  Observe low_u_adit_web at low_u_adit as sign when capable(party, woodcraft) and not knows(party, low_u_spiders_eggs) "Something big at the back is laying: the web across the cutting is new at the edges and old in the middle. The drag-lines all run back one way." teaches low_u_spiders_eggs.
   Discovery low_u_knife_found "Under the web at the gallery's mouth, a bone-handled knife with an H burned into the handle." {
     Found by searching low_u_gallery "Something under the web at the gallery's mouth catches the light.".
   }

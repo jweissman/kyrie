@@ -21,6 +21,8 @@ describe('the first page of every origin on a1', () => {
       // The origin's own errand; or, where its premise is a trouble of the country's (the fever's child, the
       // wanderer's first trouble), the first aim it is held by.
       const c = s.campaign, held = Undertakings.held(c), aim = held.find(o => Undertakings.errand(c, o)) ?? held[0];
+      // An origin this world cannot hold (herbs, with no fever placed) is not offered at creation, and drew nothing.
+      if (!c.module.entities.some(e => /^origin__/.test(e.id))) { continue; }
       if (!aim) { out.push(`${origin}: no aim held on the first page`); continue; }
       const byId = EntityIndex.of(c.module.entities).byId, t = Stakes.target(c, aim);
       const named = [...aim.toward ?? [], t.actionAt, t.subject].filter((x): x is string => !!x)

@@ -239,7 +239,7 @@ describe('the order\'s errand', () => {
     await Opening.take(s, /^Give .* the brothers' letter$/);
     // Known from elsewhere (a scholar at the inn) it is not seen through (CO-01); set down at the work, it is.
     const copy = s.campaign.module.actions.find(a => a.id === 'origin__set_down')!;
-    const history = /"name":"knows","args":\["actor","([^"]+)"\]/.exec(JSON.stringify(copy.requires))![1]!;
+    const history = /"name":"readIn","args":\["actor","([^"]+)"\]/.exec(JSON.stringify(copy.requires))![1]!;
     Opening.grant(s, [{ kind: 'assert', call: ModuleWriter.call('knows', 'party', history) }]);
     expect([PlayerView.choices(s.campaign).some(c => /^Show .* what you copied at /.test(c.choice.name)),
       Undertakings.held(s.campaign).some(o => o.id === 'origin__errand_known')]).toEqual([false, true]);

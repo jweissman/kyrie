@@ -46,7 +46,7 @@ describe('under the town the company begins in', () => {
       /^Take a hole gnawed/, /^Attack the rats/);
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);
     // Their run goes down to their nest, and the old buck rat that keeps it (Mission 19: two rats had been the job).
-    expect(aims()).toContain('Clear the rats\' nest');
+    expect(aims()).toContain('Clear the nest down the rats\' run');
     // Hurt from the brood, the company rests before it goes down to the buck, as a player would.
     await Town.take(s, /^Take a hole gnawed/, /^Take the trapdoor/, /^Rest and recover/, /^Take the trapdoor/,
       /^Take a hole gnawed/, /^Take the rats' run down/, /^Attack the old buck rat/);
