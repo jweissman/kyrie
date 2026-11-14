@@ -25,7 +25,6 @@ import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Prologue } from '../../src/presentation/prologue';
 import { Obituary } from '../../src/narrative/obituary';
-import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
@@ -445,8 +444,7 @@ export class EngineHost {
           ? { combat: CombatModel.ended(this.fought, this.told.event.combat,
             { called: BandNames.of(campaign), faces, said }) } : {},
       opening: this.opening.filter(Boolean),
-      ...this.screen.running ? {} : { ending: Endings.reached(campaign.world, campaign.installations)
-        ?? Obituary.of(campaign) },
+      ...this.screen.running ? {} : { ending: Obituary.ending(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
       ...going, transcript: session.transcript };

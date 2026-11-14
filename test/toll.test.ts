@@ -4,6 +4,9 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import { ScreenModel } from '../src/ui/screen-model';
+import { Narrator } from '../src/presentation/narrator';
+import { PlayerView } from '../src/presentation/player-view';
 
 // Running a toll is going on along the road past the bar without paying. In a1 the lord's reeve keeps the bar at the
 // bridge over the Deepwater, where paths go off into five woods and fens: a company that came over the bridge from
@@ -65,6 +68,22 @@ describe('the lord\'s toll at the bridge', () => {
     await s.leg('go(region__road_s2_s3,region__s2_green)');
     expect([Toll.outlawed(s), purse()]).toEqual([false, left]);
   }, 120000);
+  // A lone novice who fights the toll-house dies (the placement measure, CB-04: the reeve and his two men beat a lone
+  // warrior nine times in ten); a road trouble is the player's to fight, not the road's to force. So the bar is told
+  // beyond him before he chooses, the toll paid or talked down leads, a fight is marked beyond him and asked before it
+  // is begun, and the way back is open.
+  it('tells a lone warrior the toll-house is beyond him, and leads with the toll, not a fight', async () => {
+    const s = await Toll.start(), screen = ScreenModel.build(s.campaign);
+    const keepers = screen.people.filter(p => /^tollKeepers__(chief|keepers)$/.test(p.id));
+    expect(keepers.map(p => p.reckoning?.danger)).toEqual(['deadly', 'deadly']);
+    const led = Narrator.leaf(s.campaign, screen).glance!.acts;
+    expect(led.slice(0, 2).map(a => a.command)).toEqual([expect.stringMatching(/__pay_toll\(/),
+      expect.stringMatching(/__talk_toll\(/)]);
+    for (const fight of led.filter(a => a.command?.startsWith('attack('))) {
+      expect([fight.note, fight.marks.find(m => m.kind === 'fight')?.ask]).toEqual(['beyond you', true]);
+    }
+    expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain('go(region__road_s2_s3_on,region__s3_green)');
+  }, 60000);
   it('is run by going on along the road without paying', async () => {
     const s = await Toll.start();
     await s.leg('go(region__road_s2_s3,region__s2_green)');
