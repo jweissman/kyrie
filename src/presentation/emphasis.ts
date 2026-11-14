@@ -18,6 +18,17 @@ export class Emphasis {
     violet: [180, 156, 255], rose: [247, 124, 137] };
   static readonly words: Record<Aspect, string> = { undertaking: 'your aim', exploration: 'worth a look',
     payoff: 'to gain', knowledge: 'to learn', danger: 'danger', wonder: 'uncanny', companionship: 'a companion' };
+  // Which of an act's aspects is its one colour, where it has several (the owner, 14 November: TP-02, one dominant
+  // colour per act from one table that every client reads). The followed aim's gold strictly first, and only where it
+  // is drawn at all (see drawn); then a danger seen; then the rest in the atlas's own order. What it is besides is said
+  // by at most two icons, or in its detail (see Indicator).
+  static readonly precedence: readonly Aspect[] = ['undertaking', 'danger', 'exploration', 'payoff', 'knowledge',
+    'wonder', 'companionship'];
+  // Its aspects as drawn, in that order: the first is its colour.
+  static ranked(aspects: readonly Aspect[] | undefined, gilded = true): Aspect[] {
+    const drawn = this.drawn(aspects, gilded);
+    return this.precedence.filter(a => drawn.includes(a));
+  }
   // The aspects as drawn: the aim's only on the one choice that carries it on, and only where the page shows the way
   // (see Guidance); elsewhere such a choice is drawn as what else it is (somewhere worth exploring), or neutral.
   static drawn(aspects: readonly Aspect[] | undefined, gilded = false): Aspect[] {

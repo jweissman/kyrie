@@ -1,0 +1,57 @@
+/// <reference lib="dom" />
+import { afterAll, beforeAll, describe, it } from 'bun:test';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { SiteBuild } from '../src/cli/site-build';
+import { MonoBrowser } from './support/mono-browser';
+
+// Capture harness (kept in aesthetic/tools): the title in motion, frames to TITLE_SHOTS.
+const out = process.env.TITLE_SHOTS ?? '/var/tmp/kyrie/m21-look/title';
+describe.skipIf(!process.env.KYRIE_BROWSER)('the title in motion', () => {
+  let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
+  beforeAll(async () => {
+    site = await mkdtemp(join(tmpdir(), 'kyrie-title-'));
+    await SiteBuild.site(site, {});
+    browser = await MonoBrowser.launch();
+  }, 300000);
+  afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
+  it.each([[1280, 800], [820, 1180]] as const)('at %ix%i', async (width, height) => {
+    const size = `${width}x${height}`;
+    const { page } = await MonoBrowser.page(browser, { width, height }, { site, query: '?ident' });
+    const t0 = Date.now(), log: string[] = [];
+    // The passage: the studio's mark into the title, a frame every 400 ms for seven seconds.
+    for (let i = 0; i < 18; i++) {
+      await page.screenshot({ path: join(out, `${size}-passage-${String(i).padStart(2, '0')}.png`) });
+      log.push(`${Date.now() - t0}ms ${await page.evaluate(() => document.querySelector('.title-page')?.className)}`);
+      await page.waitForTimeout(400);
+    }
+    // Focus by the keys: marked at once (the frame at 0 ms), the sky answering over the next second.
+    for (const way of ['encyclopedia', 'options', 'begin']) {
+      await page.focus(`[data-way="${way}"]`);
+      const now = await page.evaluate(() => document.querySelector('.way-in[aria-current="true"]')?.getAttribute('data-way'));
+      log.push(`focus ${way}: marked ${now} at once`);
+      for (const ms of [0, 300, 900]) {
+        if (ms) { await page.waitForTimeout(ms === 300 ? 300 : 600); }
+        await page.screenshot({ path: join(out, `${size}-focus-${way}-${ms}.png`) });
+      }
+    }
+    // Into creation: New game chosen, the passage on, a frame every 300 ms.
+    await page.click('[data-way="begin"]');
+    for (let i = 0; i < 14; i++) {
+      await page.screenshot({ path: join(out, `${size}-into-${String(i).padStart(2, '0')}.png`) });
+      log.push(`into ${i}: ${await page.evaluate(() => document.querySelector('[data-mode]')?.getAttribute('data-mode'))}`);
+      await page.waitForTimeout(300);
+    }
+    console.log(`TITLE ${size}\n${log.join('\n')}`);
+    await page.close();
+    // Less motion: the title at once, the sky still.
+    const still = await MonoBrowser.page(browser, { width, height }, { site, query: '?ident' });
+    await still.page.emulateMedia({ reducedMotion: 'reduce' });
+    await still.page.reload();
+    await still.page.waitForSelector('.beat-ready', { timeout: 30000 });
+    await still.page.focus('[data-way="options"]');
+    await still.page.screenshot({ path: join(out, `${size}-reduced-options.png`) });
+    await still.page.close();
+  }, 200000);
+});

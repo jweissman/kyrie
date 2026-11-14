@@ -1,5 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type CSSProperties, type MouseEvent,
-  type RefObject } from 'react';
+import { useEffect, useState, type ChangeEvent, type CSSProperties, type MouseEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
@@ -7,84 +6,59 @@ import { Ident } from './ident';
 import { Build } from './build';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
-// Where the gold mark stands within the menu: the chosen way's name, from its left edge and its middle, and how wide.
-type Place = { x: number; y: number; w: number };
+// A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
+type Way = 'continue' | 'begin' | 'encyclopedia' | 'options';
 
-// The title. Once a session, the studio's mark draws itself and goes out; a moment of black; then the game's name is
-// lit from its middle letter outward over embers going up out of the dark, a gold
-// horizon is drawn under it and its diamond kindled (the mark's star again), and the few ways in arrive one after
-// another, centred: carry on, a new game, the encyclopedia, options. Any key or touch skips straight to them, and is
-// only that, save a touch on a way in already there, which is that way at once (New game in one click). One who asks for less motion is shown them at once, and so is
-// one coming back to the title from Options. A gold diamond before the chosen way's name and a short line after it
-// close about the way the pointer or the keys are on, and slide and widen to the next. Nothing here says how a
-// country is made; a save file brought from elsewhere is opened from Options, and the ways in for testing (a named
-// campaign) appear only when the address asks (?dev). The names shown are the game's and the studio's (src/presentation/identity.ts).
+// The title, the first page of the game's own language (the owner, 14 November, TO-01..03: "a quiet, extremely
+// legible foreground over a deeper, more complex, subtly moving background"; the moving double box about the choices
+// had been where he bounced off). Once a session the studio's mark draws its seven towers on a horizon; its horizon
+// becomes the title's own as the sky comes up behind it (no black between), and the game's name is lit from its middle
+// letter outward. The ways in are the game's rows (see ChoiceRow), centred: the one the hand or the keys are on has
+// the strong gold mark at its left at once, and nothing moves to get there; ceremonial gold, the entry's alone (inside
+// the game gold is the aim followed). The sky answers it over most of a second, never the menu: New game turns it to
+// the road's dawn far off, Continue to the hearth's warmth close by, the Encyclopedia to lamplight, Options to the
+// quiet dark. Any key or touch skips straight to the ways in. One who asks for less motion is shown them at once, and
+// the sky changes without moving. Nothing here says how a country is made; a save brought from elsewhere is opened
+// from Options, and the ways in for testing appear only when the address asks (?dev). The names shown are the game's
+// and the studio's (src/presentation/identity.ts).
 export class TitlePage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), beat = TitlePage.useBeat(query.has('ident') || query.has('studio'));
-    const [active, activate] = useState(0);
-    const menu = useRef<HTMLElement>(null), items = useRef<(HTMLElement | null)[]>([]);
-    const at = TitlePage.useIndicator(menu, items, active, `${beat}:${saved ? 1 : 0}`);
-    const item = (i: number) => ({ ref: (el: HTMLElement | null) => { items.current[i] = el; },
-      onMouseEnter: () => activate(i), onFocus: () => activate(i), 'aria-current': active === i || undefined });
-    let n = 0;
+    const first: Way = saved ? 'continue' : 'begin', [active, activate] = useState<Way>(first);
+    // The way the hand or the keys are on, marked at once; the sky follows it (see TitlePage.Sky).
+    const item = (way: Way) => ({ onMouseEnter: () => activate(way), onFocus: () => activate(way),
+      'aria-current': active === way || undefined, 'data-way': way });
+    const mark = <i className="row-mark" aria-hidden="true" />;
     return (
-      <div className={`opening title-page beat-${beat}`} data-mode="title">
+      <div className={`opening title-page beat-${beat}`} data-mode="title" data-focus={active}>
+        <TitlePage.Sky />
         {beat === 'ident' && <Ident.View studio={named.studio} />}
         <main className="title-main" aria-hidden={beat === 'ident' || beat === 'dark' || undefined}>
           <TitlePage.Mark name={named.game} />
           <p className="horizon" aria-hidden="true"><i /></p>
           <p className="lede">Vol I: A History of Emprise</p>
-          <nav className="title-menu" aria-label="Ways in" ref={menu}>
-            {at && <span className="indicator" aria-hidden="true"
-              style={{ transform: `translate(${at.x}px, ${at.y}px)`, width: `${at.w}px` }} />}
+          <nav className="title-menu" aria-label="Ways in">
             <ul>
               {saved && <li><button type="button" className="way-in" data-nav data-action="continue" onClick={app.opening.carryOn}
-                {...item(n++)}><span className="n">Continue</span>
+                {...item('continue')}>{mark}<span className="n">Continue</span>
                 <span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span></button></li>}
-              <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew} {...item(n++)}>
-                <span className="n">New game</span></button></li>
+              <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew}
+                {...item('begin')}>{mark}<span className="n">New game</span></button></li>
               <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" target="_blank"
-                rel="noopener" {...item(n++)}><span className="n">The encyclopedia</span>
+                rel="noopener" {...item('encyclopedia')}>{mark}<span className="n">The encyclopedia</span>
                 <span className="why">In a new tab ↗</span></a></li>
-              <li><button type="button" className="way-in" data-nav data-action="options" {...item(n++)}
-                onClick={TitlePage.options.bind(null, app)}><span className="n">Options</span></button></li>
+              <li><button type="button" className="way-in" data-nav data-action="options" {...item('options')}
+                onClick={TitlePage.options.bind(null, app)}>{mark}<span className="n">Options</span></button></li>
             </ul>
           </nav>
           {dev && <TitlePage.Dev app={app} />}
         </main>
-        {beat !== 'ident' && <TitlePage.Motes />}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} />
       </div>
     );
   }
-  // Where the gold mark stands: about the chosen way's name, a little before it and a little after. Measured within
-  // the menu from the name's own place, not from where it is drawn (each way rises into place as the title comes up),
-  // and again once the letters' face has come and whenever the screen is turned or resized.
-  static useIndicator(menu: RefObject<HTMLElement | null>, items: RefObject<(HTMLElement | null)[]>, active: number,
-    again: string): Place | undefined {
-    const [at, place] = useState<Place>();
-    useLayoutEffect(() => {
-      const measure = () => {
-        const n = items.current?.[active]?.querySelector<HTMLElement>('.n');
-        let x = 0, y = 0, e: HTMLElement | null = n ?? null;
-        while (e && e !== menu.current) {
-          x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent as HTMLElement | null;
-        }
-        const reach = TitlePage.reach;
-        place(n && e ? { x: x - reach, y: y + n.offsetHeight / 2, w: n.offsetWidth + 2 * reach } : undefined);
-      };
-      measure();
-      void document.fonts?.ready.then(measure);
-      window.addEventListener('resize', measure);
-      return () => window.removeEventListener('resize', measure);
-    }, [menu, items, active, again]);
-    return at;
-  }
-  // How far the gold mark reaches beyond the name on either side, in pixels: the diamond before it, the line after.
-  static readonly reach = 22;
   // The game's name, a letter at a time from the middle outward (the towers rose so), each out of a blur and a glow;
   // sized by its letters, so that whichever name is asked for (?name=) keeps to one line on a phone. A space between
   // words is set wider than the tracking between letters (a third of an em more), so that two words read as two.
@@ -99,19 +73,35 @@ export class TitlePage {
       </h1>
     );
   }
-  // Sparks going up slowly through the dark over the country, as off a fire out of sight below the title: a few, each
-  // its own way across and its own pace, the same every time (no chance in it), gone for one who asks for less motion.
-  static Motes() {
+  // The sky the title stands under, in layers: the deep of it, a light low on the horizon, a haze drifting very
+  // slowly across, and a far ridge with the seven towers of the studio's mark small upon it (the horizon the mark drew
+  // becomes this one). Which way in is chosen sets where the light stands and what colour it is (see frame.css,
+  // [data-focus]); the layers ease there, the menu never waits on them. No sparks, nothing busy: one light, moving.
+  static Sky() {
+    const towers = Ident.towers, w = 1200, base = 540, gap = 22, x0 = 640 - (towers.length - 1) * gap / 2;
     return (
-      <div className="motes" aria-hidden="true">
-        {Array.from({ length: TitlePage.motes }, (_, i) => <i key={i} style={{ '--x': `${(i * 37 + 11) % 100}%`,
-          '--d': `${-((i * 7919) % 23)}s`, '--t': `${16 + (i * 13) % 11}s`, '--s': `${2 + (i % 3)}px` } as CSSProperties} />)}
+      <div className="title-sky" aria-hidden="true">
+        <i className="sky-deep" />
+        {/* The first stars, fixed (the same each time), and few: depth, not ornament. */}
+        <svg className="sky-stars" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" focusable="false">
+          {TitlePage.stars.map(([x, y, r], i) => <circle key={i} cx={x} cy={y} r={r} />)}
+        </svg>
+        <i className="sky-light" /><i className="sky-haze" />
+        <svg className="sky-ridge" viewBox={`0 0 ${w} 600`} preserveAspectRatio="xMidYMax slice" focusable="false">
+          <path d={`M0 ${base + 8} C 180 ${base - 22} 330 ${base - 6} 470 ${base - 14} S 760 ${base - 30} 900 ${base - 10}`
+            + ` S 1110 ${base - 18} ${w} ${base - 4} L ${w} 600 L 0 600 Z`} />
+          {towers.map((h, i) => <rect key={i} x={x0 + i * gap - 1.6} y={base - 14 - h * 34} width={3.2}
+            height={h * 34 + 6} />)}
+          {/* The mark's lamps, far off now: lit on the towers as the light finds them. */}
+          {towers.map((h, i) => <circle key={`l${i}`} className={i === 3 ? 'lamp seventh' : 'lamp'} cx={x0 + i * gap}
+            cy={base - 14 - h * 34 - 1} r={i === 3 ? 1.8 : 1.3} />)}
+        </svg>
       </div>
     );
   }
-  // The title stands in the dark with the embers going up through it, and no painting (the owner's play of 10
-  // November: the painting behind it was blurred, and its slow drift added nothing).
-  static readonly motes = 34;
+  // Forty stars over the upper sky, placed by a fixed rule (no chance in it), the brighter fewer.
+  static readonly stars: [number, number, number][] = Array.from({ length: 40 }, (_, i) =>
+    [(i * 271 + 37) % 1000, (i * 113 + 19) % 330, i % 7 === 0 ? 1.6 : i % 3 === 0 ? 1.1 : .7]);
   // When the name's middle letter begins to be lit, after the black; and how long the whole title takes to come up.
   static readonly lit = 120;
   static readonly reveal = 3200;
