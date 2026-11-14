@@ -906,6 +906,9 @@ Scope (the owner's brief), not defects found.
 |---|---|---|---|---|
 | IG-01 | The opening (stab, title, creation, first scene, first acts) as one interaction instrument: focus, selection, preview, commitment, response, continuation. Read as controller inputs; one design language across title, creation and scene; hold-to-commit as the sustained-act ring. Deliverables: an unedited recording from the deployed page, a candid critique, and the smallest intervention prototyped | open | P2 | M21, aesthetic |
 
+| IG-07 | The owner, playing: the hold is a mess and does not work: a press does nothing, and the release shows a tenth of a second of animation. Decision (the lead): no hold anywhere for now; every act, the sustained too, is committed by a tap through the one focus mark; a slowly filling mark on the focused act is kept for a future Energy cost, designed once | open | P0 | M21, aesthetic |
+| IG-08 | The owner, playing: the cards reshuffle under the hand at every press. The engine's ranking had put the chosen card first. Fixed: a step's order never follows what is chosen; the signs turn from the one drawn (test/small/creation-four) | fixed | P0 | M21, lead |
+| IG-09 | The owner: the one focus mark as a target reticule, everywhere it can be (title, creation, scene, map), in place of the gold bar and the two outlines | open | P1 | M21, aesthetic |
 ## 38. The first fifteen minutes, deepened (the owner, 14 November)
 
 Scope (the owner's brief), not defects found. Folded into the laboratory: FF-02/04/06 first, the rest after Gate 1.

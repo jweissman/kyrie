@@ -33,16 +33,20 @@ export class CreationFlow {
   readonly member: Member;
   origin?: string;
   private named = false;
+  // The sign the life was first drawn under: the signs turn from it, and never from the one chosen since.
+  private readonly drawnSign?: string;
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
     this.member = structuredClone(member);
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
     const signs = catalog.signs, drawn = [...`${setting.title}${member.name ?? ''}`].reduce((n, ch) => n + ch.charCodeAt(0), 0);
     if (signs.length && !this.member.sign) { this.member.sign = signs[drawn % signs.length]!.id; }
+    this.drawnSign = this.member.sign;
   }
   steps(): CreationStep[] { return this.unranked().map(step => ({ ...step, cards: this.ranked(step) })); }
-  // A step's cards in the order it leads with them, where it has more than four: the one chosen first; then, of
-  // peoples, those of this country (its names are theirs); of kinds of life, those best suited to the calling (as a
-  // trade of the kind is chosen); and the rest as the catalog gives them.
+  // A step's cards in the order it leads with them, where it has more than four: of peoples, those of this country
+  // (its names are theirs); of kinds of life, those best suited to the calling (as a trade of the kind is chosen);
+  // and the rest as the catalog gives them. Never by what is chosen: a card chosen had leapt to the front, and the
+  // deck reshuffled under the player's hand at every press (the owner, 14 November).
   private ranked(step: CreationStep): CreationCard[] {
     // Four or fewer are all shown, in their own order (she, he, neither).
     if (step.cards.length <= 4) { return step.cards; }
@@ -54,10 +58,10 @@ export class CreationFlow {
     const suits = step.id === 'before' ? Math.max(0, ...c.backgrounds.filter(b => b.kind === card.id)
       .map(b => CreationFlow.fit(b.qualities, wants))) : 0;
     const here = step.id === 'you' && Object.hasOwn(this.setting.names ?? {}, card.id);
-    // Of signs, those of the months following the one chosen, as the sky turns.
-    const ids = step.cards.map(x => x.id), from = ids.indexOf(step.chosen ?? '');
+    // Of signs, those of the months following the one the life was drawn under, as the sky turns.
+    const ids = step.cards.map(x => x.id), from = ids.indexOf(this.drawnSign ?? '');
     const turning = step.id === 'sign' && from >= 0 ? ids.length - ((ids.indexOf(card.id) - from + ids.length) % ids.length) : 0;
-    return (card.id === step.chosen ? 1e9 : 0) + (here ? 1e6 : 0) + suits + turning;
+    return (here ? 1e6 : 0) + suits + turning;
   }
   private unranked(): CreationStep[] {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
