@@ -8,6 +8,7 @@ import { Tactics } from '../tactics';
 import { Effects } from '../effects';
 import { Environment } from '../campaign/environment';
 import { ConditionSense } from '../canon/condition-sense';
+import { FightOdds } from './fight-odds';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';
 import type { CombatEvent, Fighter, Moment } from '../model';
@@ -27,8 +28,9 @@ type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
 interface Trial { won: boolean; fell: string[]; hurt: number; held?: string; blows: number; blunted: number;
   hurtBy: string[]; harmed?: boolean }
 // worst: the most any fight won took; harmed: whether any left someone poisoned, or otherwise hurt past its end.
+// sure: whether the fights won bear out an easy win, at a confidence the reckoning can be acted on (FightOdds).
 interface Fight { odds: number; fallen: number; hurt: number; frail?: string; held?: string; blunted: number;
-  hurtBy: string[]; worst: number; harmed: boolean }
+  hurtBy: string[]; worst: number; harmed: boolean; sure: boolean }
 export class DangerSense {
   static readonly trials = 6;
   // How a foe is kept from fighting back, by what keeps it so; anything else, from fighting back.
@@ -129,6 +131,11 @@ export class DangerSense {
     for (let trial = this.trials; first > 0 && (first < 0.9 || near) && trial < more; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
     }
+    // One every fight of which went the company's way is played on until it is sure, either way (FightOdds): an easy
+    // win is what a fight is pressed through on, as one act (Foregone), and six of six is no proof of it (BP-01).
+    while (first === 1 && !near && FightOdds.open(played.filter(t => t.won).length, played.length)) {
+      played.push(this.trial(ours, foes, `${key}:${played.length}`, place));
+    }
     const won = played.filter(t => t.won), falls = new Map<string, number>();
     for (const id of won.flatMap(t => t.fell)) { falls.set(id, (falls.get(id) ?? 0) + 1); }
     const frail = [...falls].sort((a, b) => b[1] - a[1])[0]?.[0], held = this.heldBy(won);
@@ -136,6 +143,7 @@ export class DangerSense {
       fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
       hurt: won.length ? DangerSense.worse(won.map(t => t.hurt)) : 1, ...frail ? { frail } : {},
       worst: Math.max(0, ...won.map(t => t.hurt)), harmed: won.some(t => t.harmed),
+      sure: FightOdds.easy(won.length, played.length),
       ...held ? { held } : {}, ...this.bite(played) };
   }
   // How hurt the company could come out of a fight it wins: as it does one time in four, not on average (two great
@@ -174,7 +182,7 @@ export class DangerSense {
   private static trial(ours: Creature[], foes: Creature[], seed: string, place: Place): Trial {
     const store = new CreatureStore(structuredClone([...ours, ...foes]));
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
-      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, ...place });
+      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: FightOdds.turns, ...place });
     while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); }
     const bite = this.blows(battle, new Set(ours.map(c => c.id)), new Set(foes.map(f => f.id)));
     // The last foe running off is the company's fight won, not lost (three rats with a flee in them, beaten in play,
@@ -216,7 +224,7 @@ export class DangerSense {
     // centipede reckoned so took five of a lone thief's seven at its first bite and poisoned her (round 7, K 43).
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < grave ? 'grave'
       : fight.odds < 0.9 || fight.fallen > 0 || (ours.length === 1 && fight.worst > 0.6) ? 'hard'
-        : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed ? 'fair' : 'slight';
+        : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed || !fight.sure ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
     const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
       || b.base.level - a.base.level || b.state.experience - a.state.experience)[0]!;
@@ -228,7 +236,7 @@ export class DangerSense {
       grave: `a fight with ${them} could be lost`,
       hard: `you would likely beat ${them}, but ${frail ?? 'someone'} could fall${ours.length === 1
         ? ', with no one to get you up' : ''}`,
-      fair: `you should beat ${them}, though not unhurt`,
+      fair: `you should beat ${them}${fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed ? ', though not unhurt' : ''}`,
       slight: `${they} no match for you`,
     };
     // An easy win that rests on keeping the foe from fighting back says so: the company that does not, or cannot,

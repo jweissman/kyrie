@@ -824,7 +824,7 @@ lines are in `mission-21/after-the-blind-playtest.md`.
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | partly | P0 | M21, lead (engine), aesthetic (page) |
+| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | partly; the reckoning it rests on (rules): "no match for you" only at a lower confidence bound of nine in ten on winning (FightOdds, Wilson one-sided: fifteen of fifteen, not six of six), played on to at most 24 until it settles, each fight at play's 500 turns, not 150; reckoned only where a fight is offered, so a1's first screen is unchanged (364 ms against 401, noise), a screen with one offered 0.6–1.5× as long as before (the halls' gallery 935 → 1447 ms, its zombies now reckoned hard); test/small/fight-odds | P0 | M21, lead (engine), aesthetic (page) |
 | BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | partly | P1 | M21, lead |
 | BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | partly | P1 | M21, lead (engine), aesthetic (page) |
 | BP-04 | Warnings the world does not keep (a band that "will not wait" lets the company walk past) | open | P1 | M21, rules |
