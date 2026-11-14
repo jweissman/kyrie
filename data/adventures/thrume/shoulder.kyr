@@ -235,6 +235,6 @@ Module thrume "Thrume" {
   Rule dream_loose when state(ice_cage, melted) and at(salt_dream, limbo) { Assert at(salt_dream, cage_room). }
 
   Objective free_miners when not freed(aud) and not razed(scree) "Forty miners are held in the Shoulder Hall, and the young bloods mean to kill them on the second night.".
-  Objective learn_why when knows(party, song_seen) and not knows(party, thrume_known) "The giants keep something, and their song says what.".
+  Objective learn_why when knows(party, song_seen) and not knows(party, thrume_known) toward rememberer "The giants keep something, and their song says what.".
   Objective close_wound when sworn(morrach) and cutting(brannoc) "You swore to Thane Mórrach to stop the cutting.".
 }

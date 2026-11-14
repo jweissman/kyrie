@@ -44,6 +44,8 @@ export interface Reading {
   opened?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
+  // Where someone or something the aim names stands, still able (see Glance.occupied).
+  occupied?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
     open: boolean;
     // Where in the settlement a bed is to be had, a step from here, when there is none here.
@@ -299,7 +301,10 @@ export class Affordances {
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
       // Nor to one it left having done nothing there, with nothing done since (see CompanyRecall.idle).
-      ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) && !r.idle?.has(dest) ? ['named' as const] : [],
+      // Unless whoever the aim is about still stands there: fled back up from the rats' run, the way down to them is
+      // still the aim's (the laboratory's lost turns).
+      ...(r.named.has(dest) || r.occupied?.has(dest))
+        && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
       ...toward ? [toward] : [],
       ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
       ...this.inward(c, exit.id, r),
@@ -442,9 +447,13 @@ export class Affordances {
   }
   // A way's acts gone by in turn, never one that is grave or a risk: the speaking door's first word had been pressed
   // at random, as the way's next act (the owner, 12 November).
+  // An opener's own command is its talk where it has one, and never a trade: done by a headless player, "Talk to
+  // Mik", once he had been spoken to, had bought a coil of rope, a torch, rashers of bacon, ten times over (the
+  // runner's blind walk, 15 November: TB-04).
   private static command(c: Choice): string | undefined {
-    return c.command ?? Attending.all(c.children ?? []).find(k => k.command && !k.disabled && !k.grave && !k.risk)
-      ?.command;
+    if (c.command) { return c.command; }
+    const open = Attending.all(c.children ?? []).filter(k => k.command && !k.disabled && !k.grave && !k.risk);
+    return (open.find(k => k.does === 'talk_to') ?? open.find(k => !/^(buy|sell)_/.test(k.does ?? '')))?.command;
   }
   private static risky(c: Choice): boolean {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));

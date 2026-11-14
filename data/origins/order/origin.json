@@ -1,3 +1,3 @@
 { "id": "order", "title": "The brothers' errand", "experience": 300, "binder": "order", "source": "origin.kyr", "background": "scribe", "coin": 10,
   "otherwise": ["old_glossary"],
-  "choice": "The brothers of your order have sent you to {home} with a letter for the priest, and an errand: to copy the old writing at {work}, which no one has ever copied." }
+  "choice": "The brothers of your order have sent you to {home} with a letter for the priest. Your errand is to copy the old writing at {work}, which no one has ever copied." }

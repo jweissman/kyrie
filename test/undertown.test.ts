@@ -46,7 +46,7 @@ describe('under the town the company begins in', () => {
       /^Take a hole gnawed/, /^Attack the rats/);
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);
     // Their run goes down to their nest, and the old buck rat that keeps it (Mission 19: two rats had been the job).
-    expect(aims()).toContain('Clear the rats\' nest');
+    expect(aims()).toContain('Clear the nest down the rats\' run');
     // Hurt from the brood, the company rests before it goes down to the buck, as a player would.
     await Town.take(s, /^Take a hole gnawed/, /^Take the trapdoor/, /^Rest and recover/, /^Take the trapdoor/,
       /^Take a hole gnawed/, /^Take the rats' run down/, /^Attack the old buck rat/);
@@ -73,7 +73,7 @@ describe('under the town the company begins in', () => {
     await Town.take(s, /^Attack the man with the black candle/);
     await Town.take(s, /^Pinch out the black candle/);
     const aims = ScreenModel.build(c).objectives.join(' ');
-    expect(aims).toContain('Tell Carmine the dead are laid and who raised them');
+    expect(aims).toMatch(/Tell Carmine at .* that the dead are laid, and who raised them/);
     await Town.take(s, /^Take an arch stacked/, /^Take the stone stair/, /^Take the lych-gate/,
       /^Take the shrine porch/);
     expect(await Town.take(s, /^Tell Carmine the dead under the churchyard are laid, and who raised them/))

@@ -14,7 +14,7 @@ describe('the corn-store rats, unasked', () => {
     c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('able', rats) }]));
     await s.perform('wait');
     const aims = (ScreenModel.build(c).aims ?? []).map(a => a.text).join(' | ');
-    expect(aims).not.toMatch(/rest of the pay|ten coin, and a lantern/);
+    expect(aims).not.toMatch(/rest of the pay|Ten coin are yours/);
     expect(aims).not.toMatch(/where the job ended/);
   }, 120000);
 });

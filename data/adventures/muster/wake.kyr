@@ -48,11 +48,11 @@ Module muster "The Long Muster's Road" {
   Observe fate_silent_shrine at shrine when traded_only(party) "Old Gaius is sitting by the lamp with the Prefect's pouch ready. In the spring he will go again.".
 
   Objective cross_road when not been(party, septimus_hall) "Three days of road lead over the Hesper Fells from Kell Ford, and the board in the village says the far end is held.".
-  Objective find_cohort when been(party, septimus_hall) and not been(party, gate) "The road is the legion's, and the legion's road leads somewhere. The stones count it down in cables to a number the village does not mention.".
+  Objective find_cohort when been(party, septimus_hall) and not been(party, gate) toward gate "The road is the legion's, and the legion's road leads somewhere. The stones count it down in cables to a number the village does not mention.".
   Objective read_graffiti when been(party, septimus_hall) and not knows(party, rufus_5) "A soldier called Rufus has scratched his name on every wall of the road, and the walls remember him.".
   Objective tell_valley when been(party, gate) and not valleyTold(party) and not traded_only(party) "The Cohort holds its gate against an empire that is dust. Someone should be told. Or not.".
-  Objective carry_dispatch when dispatchTaken(party) and not dispatchSent(party) "The Prefect has given the company a dispatch for the Emperor. The reeve at Kell Ford knows a bishop who keeps the old archives.".
-  Objective aurel_letter when holding(party, aurel_letter_kind) and not merulaKnowsSon(party) "A pouch on the Eagle's stack is addressed to a Centurion of the Cohort, in a young man's hand. It has waited nine springs.".
+  Objective carry_dispatch when dispatchTaken(party) and not dispatchSent(party) toward cattermole "The Prefect has given the company a dispatch for the Emperor. The reeve at Kell Ford knows a bishop who keeps the old archives.".
+  Objective aurel_letter when holding(party, aurel_letter_kind) and not merulaKnowsSon(party) toward merula "A pouch on the Eagle's stack is addressed to a Centurion of the Cohort, in a young man's hand. It has waited nine springs.".
 
   Milestone m_septimus "reached the Mansio Septimus" worth 100 when been(party, septimus_hall).
   Milestone m_octavius "reached the Mansio Octavius" worth 150 when been(party, octavius_hall).

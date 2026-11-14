@@ -1,5 +1,5 @@
 import text from '../../data/generation/town/undertown.kyrt' with { type: 'text' };
-import { KyrTemplates } from './kyr-template';
+import { KyrTemplates, type KyrSection } from './kyr-template';
 import { SettlementWriter } from './settlement-writer';
 import { DeepPurposes } from './deep/deep-purposes';
 import { DeepSites } from './deep/deep-sites';
@@ -17,22 +17,31 @@ export class RegionUndertown {
   static lines(region: Region, s: Settlement, company = 3): string[] {
     // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed; and how
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
-    const t = s.id, q = JSON.stringify, values = { t, town: s.name, brood: company > 1 ? '2' : '1',
+    const t = s.id, values = this.values(t, s.name, company, { merchant: SettlementWriter.standing(region, s, 'merchant'),
+      priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') });
+    const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);
+    return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
+      ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
+  }
+  // The values a town's undertown is written with (see lines): its id and name, how many of each foe for a company
+  // of so many, and where each who pays stands.
+  static values(t: string, town: string, company: number, standing: Record<'merchant' | 'priest' | 'innkeeper', string>)
+    : Record<string, string> {
+    return { t, town, brood: company > 1 ? '2' : '1',
       // A pack of the small kind, and a pair of the middling: never one rat called the rats (the owner, 8 November).
       pack: company > 1 ? '5' : '3', pair: company > 1 ? '3' : '2', runts: company > 1 ? '' : ' Variant runt.',
       // Nor one spider called the spiders (review A's "the spiders in the old workings lies dead").
       spiders: company > 1 ? 'the spiders' : 'the spider', webbed: company > 1
         ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',
-      ...Object.fromEntries((['merchant', 'priest', 'innkeeper'] as const)
-        .map(role => [`${role}at`, SettlementWriter.standing(region, s, role)])) };
-    const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);
-    const troubles = sections.filter(x => x.said.length), notice = `${t}_u_notice`;
+      merchantat: standing.merchant, priestat: standing.priest, innkeeperat: standing.innkeeper };
+  }
+  // The notice on the green that gathers what each trouble chosen says of itself; read, an aim for each.
+  static notice(t: string, sections: KyrSection[], values: Record<string, string>): string[] {
+    const troubles = sections.filter(x => x.said.length), notice = `${t}_u_notice`, q = JSON.stringify;
     const open = troubles.map(x => `able(${t}_u_${x.option})`).join(' or ');
     const said = KyrTemplates.fill([`A notice on the post by the well, in ${troubles.length === 3 ? 'three' : 'several'}`
       + ` hands. ${troubles.flatMap(x => x.said).join(' ')}`], values)[0]!;
-    return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
-      ...RegionMarket.home(region, s),
-      ...open ? [`  Entity ${notice}: fact ${q(said)}.`,
+    return [...open ? [`  Entity ${notice}: fact ${q(said)}.`,
         // The notice is a thing on the green, found among what is there to look at, not a line of the green's own
         // description (the owner, 7 November: the place had read as a list of objects).
         `  Thing ${notice}_post "the notice on the well-post" at ${t}_green { }`,

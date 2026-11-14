@@ -31,8 +31,9 @@ export interface Candidate {
 // Where the company stands: a danger here, someone warning it off, in the dark with no light, in a settlement or a
 // site (where a way not yet taken is worth leading with), in the open country (where the ways are the compass).
 // down: someone of the company is senseless (no hit points).
+// aimed: an aim is followed.
 export interface Situation { threat: boolean; warned: boolean; dark: boolean; settled: boolean; open: boolean;
-  down?: boolean }
+  down?: boolean; aimed?: boolean }
 
 // Chooses the few choices a place leads with (OWN-18, OWN-19; the cold review's affordance facets): urgent first (an
 // answer owed, a danger, a warning, the dark), then what the aim names, then what the company needs, then what the
@@ -43,9 +44,10 @@ export class Promotion {
   static readonly cap = 3;
   // With whoever there is to talk to.
   static readonly all = 4;
-  // Each reason's tier and its place in it.
+  // Each reason's tier and its place in it. In the dark the light comes before any danger: a light to hand had been
+  // led after "Attack" beside the beetles, and a walker fought blind and died (the laboratory, 15 November).
   static readonly tiers: Record<Why, [Tier, number]> = {
-    helpless: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4], opened: [0, 5],
+    helpless: [0, -2], dark: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], retreat: [0, 4], opened: [0, 5],
     advance: [1, -1], bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5],
     deeper: [1, 6],
     hungry: [2, 0], hurt: [2, 1], night: [2, 2], exposed: [2, 3],
@@ -87,7 +89,15 @@ export class Promotion {
       stepped ||= x.whys.includes('advance');
       picked.push(this.promoted(x.c, x.best, x.whys));
     }
-    return this.continued(picked.length ? picked : this.bare(cands));
+    return this.continued(this.lit(picked.length ? picked : this.bare(cands), s));
+  }
+  // In the dark with an aim followed, the light is the aim's next step: nothing else can be done until it is made, and
+  // the gold had gone out on every dark threshold the aim led over (the laboratory's blind walks: 89 turns of 2,520
+  // with an aim followed and nothing leading to it, most of them in a cellar or a crypt before the candle).
+  private static lit(acts: Promoted[], s: Situation): Promoted[] {
+    if (!s.dark || !s.aimed || acts.some(a => a.aspects.includes('undertaking'))) { return acts; }
+    const light = acts.find(a => a.why === 'dark');
+    return light ? acts.map(a => a === light ? { ...a, aspects: ['undertaking' as const, ...a.aspects] } : a) : acts;
   }
   // The attention lenses over the one scene (CN-01, CN-05): for each, its promoted acts, at most four, ranked as the
   // resting scene's are and from the same candidates, and the rest of its acts in the scene's order. Gold stays on the

@@ -231,6 +231,12 @@ Module hob_folk "Hobs" {
   Topic gaffer_terms with gaffer "Ask the Gaffer what it would take to leave the farms alone" when tolerates(gaffer, party) once {
     Says "The Gaffer takes off his spectacles and polishes them on his beard. 'Shiny things,' he says. 'A ring, a cup, a pretty. Give the Gaffer something he likes and the farms can sleep. For a month, say. A month is a long time for a hob.'".
   }
+  // Coin is shiny too, to a hob: the Gaffer's price is one the company can pay with what it has, and is offered (the
+  // cold playtest, 14 November: he named a price and no give was ever offered, with nothing he wanted carried; CO-07).
+  Topic gaffer_coin with gaffer "Offer the Gaffer ten coin to leave the farms alone" when tolerates(gaffer, party) and not paid(gaffer) and quantity(actor, gold) >= 10 once {
+    Says "The Gaffer holds out a hand like a bundle of twigs, and you count the coin into it. He bites one, and then another, and drops them down the front of his mitre. 'Shiny,' he says. 'The farms can sleep. A month.'".
+    On discuss { Decrease quantity(actor, gold) by 10. Assert paid(gaffer). Assert quiet(raiders). Set shame(raiders) to 30. }
+  }
   Rule tribute when keeps(gaffer, ?gift) and not paid(gaffer)
     says "The Gaffer bites it, holds it to the light and bites it again. 'The farms can sleep,' he says. 'A month.'" {
     Assert paid(gaffer). Assert quiet(raiders). Set shame(raiders) to 30.

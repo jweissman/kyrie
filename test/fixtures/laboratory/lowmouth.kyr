@@ -1,0 +1,473 @@
+// Written by scripts/laboratory.ts from test/fixtures/laboratory/host.kyr and
+// data/generation/town/undertown.kyrt: edit those, not this.
+Module lab "The undercroft at Lowmouth" {
+  Place low "Lowmouth" is settlement.
+  Place low_green "the landing at Lowmouth" is room within low at 1, 0 outdoors.
+  Place low_shop "Mik's salt-house" is room within low at 0, 0 indoors.
+  Place low_taproom "the taproom of the Lucky Phoenix" is room within low at 2, 0 indoors.
+  Place low_chapel "the chapel of Saint Ide" is room within low at 1, 1 indoors.
+  Passage low_shop_door "the salt-house door" is door between low_green and low_shop.
+  Passage low_inn_door "the door of the Lucky Phoenix" is door between low_green and low_taproom.
+  Passage low_chapel_door "the chapel door" is door between low_green and low_chapel.
+  Observe low_green_scene at low_green as fixture when true "Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.".
+  Observe low_shop_scene at low_shop as fixture when true "Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.".
+  Observe low_taproom_scene at low_taproom as fixture when true "A busy room in two parts with a counter between them, and a stair going up to the bedrooms.".
+  Observe low_chapel_scene at low_chapel as fixture when true "A low stone chapel, whitewashed, with a saint painted over the altar whose face has been touched so often it is gone.".
+  Person low_merchant "Mik" at low_shop {
+    Role "a salter, who buys and sells". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Sells torch for 1 coin from 9. Sells candle for 1 coin from 9. Sells rations for 2 coin from 9.
+    Sells ratsbane for 2 coin from 4. Sells oil_firebomb for 3 coin from 3.
+  }
+  Person low_innkeeper "Eamon" at low_taproom {
+    Role "who keeps the Lucky Phoenix". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+  }
+  Person low_priest "Mother Agnes" at low_chapel {
+    Role "the priest of Saint Ide's". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+  }
+  Company party "You" of 1 at low_green.
+  Initially Set quantity(party, gold) to 6.
+  Goal false.
+  Relation low_u_paid(entity). Relation low_u_done(entity). Relation low_u_given(entity).
+  Relation low_u_halved(entity).
+  Place low_u_store "the old corn-store" is room within low at 0, 1 indoors.
+  Kind corn_store_key "the corn-store key" like cell_key described "A heavy iron key on a loop of string, with the corn-store's mark burned into its wooden tag.".
+  Kind crypt_key "the crypt key" like cell_key described "A long black key, worn smooth, for the stone door into the catacombs under the churchyard.".
+  Kind quarry_key "the key to the quarry gate" like cell_key described "A small brass padlock key, for the gate the inn put across the old quarry's adit.".
+  Passage low_u_store_door "the corn-store door" is door between low_green and low_u_store.
+  Thing low_u_store_lock "the corn-store padlock" on low_u_store_door {
+    State locked blocking "".
+    State open "The corn-store padlock hangs open on its hasp.".
+    Change pick "Pick the corn-store padlock" from locked to open needing lockwork.
+    Change wrench "Wrench the padlock's hasp out of the old door" from locked to torn needing brawn.
+    Change mend "Set the hasp back in the corn-store door with new bolts" from torn to open needing mending.
+    State torn "The hasp hangs out of the corn-store door by one bolt, the oak split round it.".
+  }
+  Relation low_u_hasp_noted(entity).
+  Relation low_u_hasp_found(entity).
+  Rule low_u_hasp_looked when state(low_u_store_lock, torn) and at(party, low_green) and been(party, low_u_store) and not low_u_hasp_found(low_u_store_lock) and not low_u_hasp_noted(low_u_store_lock)
+    says "{low_merchant} is out at the corn-store door, turning the torn hasp over. A look round, and back inside." {
+    Assert low_u_hasp_found(low_u_store_lock).
+  }
+  Rule low_u_hasp_seen when state(low_u_store_lock, torn) and low_u_hasp_found(low_u_store_lock) and together(low_merchant, party) and not low_u_hasp_noted(low_u_store_lock) says "{low_merchant} does not look up. 'Somebody tore the hasp out of my corn-store door. I had a key for whoever asked.' A look at your hands, then. 'I'll know them by the splinters.'" { Assert low_u_hasp_noted(low_u_store_lock). }
+  Observe low_u_store_lock_shut near low_u_store_lock of low_u_store_lock when state(low_u_store_lock, locked) "A padlock the size of a fist hangs on the corn-store door, its hasp bolted through the old oak.".
+  Place low_u_yard "the churchyard" is room within low at 1, 2 outdoors.
+  Passage low_u_yard_gate "the lych-gate" is gate between low_green and low_u_yard.
+  Place low_u_pit "the old quarry pit" is room within low at 2, 2 outdoors.
+  Passage low_u_pit_path "the path down into the old quarry" is path between low_green and low_u_pit taking 5 minutes.
+  Entity low_u_pit_foxes: fact "Foxes use the old quarry pit at Lowmouth. Their runs go in under the ivy at the foot of its east face. They come and go at dusk.".
+  Entity low_u_pit_mark: fact "A wheel with no wing is cut low on the north face of the old quarry pit at Lowmouth. It is older than the quarrying: the Road's mark, without its wing.".
+  Entity low_u_pit_ledge: fact "Halfway up the west face of the old quarry pit at Lowmouth, the quarrymen left a ledge. A niche is cut in its back.".
+  Observe low_u_pit_runs at low_u_pit as sign noticed by woodcraft when not knows(party, low_u_pit_foxes) "Runs worn to bare earth go in under the ivy at the foot of the east face. The smell of fox is on them." teaches low_u_pit_foxes.
+  Observe low_u_pit_wheel at low_u_pit as sign noticed by lore when not knows(party, low_u_pit_mark) "Low on the north face, where the ivy has pulled away, is a mark no quarryman cut. It is a wheel with no wing, its strokes worn soft." teaches low_u_pit_mark.
+  Person low_u_vixen "a vixen" at low_u_pit {
+    Role "a vixen, thin from her cubs, who keeps the quarry's ivy". Species fox. Pronouns she. Peaceable. Seen when hour(clock) >= 19 or hour(clock) < 5.
+  }
+  Observe low_u_pit_dusk at low_u_pit when knows(party, low_u_pit_foxes) and (hour(clock) >= 19 or hour(clock) < 5) "A vixen comes out of the ivy where the runs go in. She sits, and watches you as if you were the one out of place.".
+  Thing low_u_pit_ivy "the ivy on the north face" at low_u_pit {
+    State hanging "".
+    State pulled "The ivy hangs torn back from the north face, and the wheel with no wing is bare. Under it is cut the word ROAD, smaller and later.".
+    Change pull "Pull the ivy back off the wheel on the north face" from hanging to pulled after learning low_u_pit_mark.
+  }
+  Initially Assert answers(low_u_pit, rummaging).
+  Discovery low_u_pit_spoil "A carter's luck-stone lay under the spoil at the foot of the west face. It is a flint the size of a fist, worn through with a hole for the string." {
+    Found by searching low_u_pit "You turn the spoil over, a stone at a time. Under the last of the broken face, a flint with a hole worn through it comes up into your hand. It is somebody's luck, dropped and never found.".
+  }
+  Relation low_u_pit_worked(group).
+  Action low_u_pit_work(actor: group, site: place) "Work along the faces of the pit, ledge by ledge" {
+    Description "An hour on the old faces, climbing where they let you. You look for what the quarrymen left, and what has come since. Once; what it does not find is not there.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_pit) and not benighted(actor) and not low_u_pit_worked(actor).
+    Time 6.
+    On success { Assert low_u_pit_worked(actor). Assert knows(actor, low_u_pit_ledge). Increase quantity(actor, gold) by 2. }
+    Result "Halfway up the west face, a ledge runs along under the ivy. It was the quarrymen's, with a niche cut in its back for their dinners. In it, a purse rotted to a rag, and two coins green with age.".
+  }
+  Place low_u_cellar "the corn-store cellar" is room within low at 0, 3 underground 1 down.
+  Passage low_u_trap "the trapdoor" is stair between low_u_store and low_u_cellar.
+  Place low_u_warren "the rat-runs" is room within low at 0, 4 underground 1 down.
+  Passage low_u_runs "a hole gnawed through the cellar wall" is crawl between low_u_cellar and low_u_warren.
+  Place low_u_nest "the nest" is room within low at 0, 6 underground 2 down.
+  Passage low_u_nest_way "the rats' run down" is crawl between low_u_warren and low_u_nest.
+  Passage low_u_nest_shelf "a shelf above the water" is passage between low_u_nest and low_u_drain.
+  Place low_u_crypt "the crypt" is room within low at 1, 3 underground 1 down.
+  Passage low_u_crypt_stair "the stone stair under the churchyard" is stair between low_u_yard and low_u_crypt.
+  Thing low_u_crypt_lock "the lock of the stone door" on low_u_crypt_stair {
+    State locked blocking "".
+    State open "The stone door into the ground stands unlocked.".
+    Change pick "Pick the old lock of the stone door" from locked to open needing lockwork.
+    Change force "Set your shoulder to the stone door until the old lock gives" from locked to open needing brawn.
+  }
+  Place low_u_ossuary "the ossuary" is room within low at 1, 4 underground 1 down.
+  Passage low_u_bone_arch "an arch stacked round with skulls" is arch between low_u_crypt and low_u_ossuary.
+  Place low_u_adit "the quarry adit" is room within low at 2, 3 underground 1 down.
+  Passage low_u_adit_mouth "the gated adit" is passage between low_u_pit and low_u_adit.
+  Thing low_u_adit_lock "the padlock on the adit gate" on low_u_adit_mouth {
+    State locked blocking "".
+    State open "The adit gate's padlock hangs open on its chain.".
+    Change pick "Pick the brass padlock" from locked to open needing lockwork.
+    Change force "Wrench the adit gate's padlock off its staple" from locked to open needing brawn.
+  }
+  Place low_u_gallery "the cut gallery" is room within low at 2, 4 underground 1 down.
+  Passage low_u_gallery_way "the old cutting" is passage between low_u_adit and low_u_gallery.
+  Place low_u_brood "the brood-chamber" is room within low at 3, 4 underground 1 down.
+  Passage low_u_brood_way "a crack at the back of the gallery, hung with web" is crawl between low_u_gallery and low_u_brood.
+  Initially Assert unlit(low_u_cellar). Initially Assert unlit(low_u_warren). Initially Assert unlit(low_u_crypt).
+  Initially Assert unlit(low_u_ossuary). Initially Assert unlit(low_u_adit). Initially Assert unlit(low_u_gallery).
+  Initially Assert unlit(low_u_nest).
+  Initially Assert restful(low_u_store).
+  Observe low_u_cellar_scene at low_u_cellar as fixture when true "A low brick cellar under the corn-store, damp to the touch. Spilled grain is trodden black on the floor, among the droppings of something bigger than mice.".
+  Observe low_u_warren_scene at low_u_warren as fixture when true "A crawlway of earth and old brick runs behind the cellar wall, gnawed wider than any rat should need. It is littered with husks and bones, and stinks of a nest.".
+  Observe low_u_crypt_scene at low_u_crypt as fixture when true "A vaulted crypt under the churchyard, its shelves of coffins pushed askew. The dust on the floor is scuffed through in a dozen places by feet that dragged.".
+  Observe low_u_ossuary_scene at low_u_ossuary as fixture when true "Bones are stacked to the roof in patient courses, with skulls in rows along the top like a frieze. There are gaps in the courses where some have lately been taken down.".
+  Observe low_u_adit_scene at low_u_adit as fixture when true "The old quarry's adit runs straight into the hill, its walls bitten by picks. Grey threads of web cross it at the height of a face.".
+  Observe low_u_gallery_scene at low_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.".
+  Observe low_u_store_scene at low_u_store as fixture when true "Sacks are stacked to the rafters, and the place smells of mice. A sack of grain weighs down a trapdoor in the floor, and every wall is gnawed through at its foot.".
+  Person low_u_rats "the rats under the corn-store" at low_u_warren {
+    Role "rats, fat and bold, that have eaten their way into the corn-store from below". Species rat. Variant runt. Numbers 3. Level 1. Temperament territorial. Lair low_u_warren.
+  }
+  Initially Set encounterXp(low_u_rats) to 60.
+  Person low_u_buck "the old buck rat" at low_u_nest {
+    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species great_rat. Variant elder. Numbers 1. Level 2. Temperament territorial. Lair low_u_nest.
+  }
+  Initially Set encounterXp(low_u_buck) to 120.
+  Entity low_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth.".
+  Entity low_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
+  Topic low_u_rats_job_ask with low_merchant "Ask {low_merchant} about the rats in the corn-store" when not low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) once {
+    Says "'They've got into the old corn-store from underneath,' says {low_merchant}. 'Rats, a whole nest of them, and bold with it. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.' And, looking you over: 'Or lay ratsbane where they come up, if you'd sooner not be bitten. It wants a night.'".
+    On discuss { Assert knows(actor, low_u_rats_job). Assert low_u_given(low_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, low_u_store_lock). }
+  }
+  Observe low_u_rats_run_seen at low_u_warren as sign when not knows(party, low_u_rats_source) "The rats have worn a path in the dirt along the back wall of the runs. It goes down through the old brickwork, toward the smell of the drain." teaches low_u_rats_source.
+  Observe low_u_nest_scene at low_u_nest as fixture when true "A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks over bones. The stink is enough to make the eyes run.".
+  Action low_u_nest_burned(actor: group, site: place) "Throw an oil firebomb into the nest" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, low_u_warren) or at(actor, low_u_drain)) and holding(actor, oil_firebomb) and able(low_u_buck).
+    Time 1 minutes.
+    On success { Spend oil_firebomb from actor. Slay low_u_buck. }
+    Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
+  }
+  Action low_u_rats_slept(actor: group, site: place) "Put the rats in the run to sleep with a mage's charm, and do for them where they lie" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_warren) and able(low_u_rats) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, sleep)).
+    Time 1 minutes.
+    On success { Slay low_u_rats. }
+    Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were. It is quick after that, and not pleasant. None of them wakes for it.".
+  }
+  Rule low_u_rats_cleared when not able(low_u_rats) and not low_u_done(low_u_rats_job) { Assert low_u_done(low_u_rats_job). }
+  Relation low_u_nest_cleared(entity).
+  Rule low_u_nest_ended when not able(low_u_buck) and not low_u_nest_cleared(low_u_rats_job) { Assert low_u_nest_cleared(low_u_rats_job). }
+  Discovery low_u_nest_hoard "Under the nest's sacking, what the rats dragged in over the years." {
+    Found by searching low_u_nest "Under the chewed sacking something catches the light.".
+  }
+  Item low_u_nest_ring "a cord of grave rings" is grave_rings at low_u_nest hidden until low_u_nest_hoard.
+  Relation low_u_baited(group). Measure low_u_baited_at(group).
+  Action low_u_rats_baited(actor: group, site: place) "Lay ratsbane where the rats come up into the cellar" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_cellar) and holding(actor, ratsbane) and able(low_u_rats) and not low_u_baited(low_u_rats).
+    Time 1.
+    On success { Spend ratsbane from actor. Assert low_u_baited(low_u_rats). Set low_u_baited_at(low_u_rats) to watch(clock). }
+    Result "You lay the ratsbane in twists along the foot of the wall where the droppings are thickest. Something scrabbles behind the brick, and goes quiet. By morning, it will have done its work.".
+  }
+  Rule low_u_rats_poisoned when low_u_baited(low_u_rats) and able(low_u_rats) and watch(clock) >= low_u_baited_at(low_u_rats) + 36 { Slay low_u_rats. }
+  Objective low_u_rats_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) toward low_merchant "Ask {low_merchant} about the rats in the corn-store at Lowmouth: the corn-store is locked.".
+  Objective low_u_rats_job_aim when low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) toward low_u_cellar, low_u_rats by low_u_store "Clear the rats out of {low_u_cellar}, under {low_u_store} at Lowmouth, and find where they get in.".
+  Objective low_u_rats_job_run when low_u_done(low_u_rats_job) and knows(party, low_u_rats_source) and not low_u_nest_cleared(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_u_nest, low_u_buck by low_u_warren "Clear the nest down the rats' run from {low_u_warren} under {low_u_store}. Deal with the old buck rat that keeps it, or they will be back.".
+  Topic low_u_rats_job_paid with low_merchant "Tell {low_merchant} the rats under the corn-store are dead, nest and all" when low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and not low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) once {
+    Says "{low_merchant} hears about the drain and the old buck rat with a face that says the grain is the least of it. Ten coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'That drain goes under half the town,' says {low_merchant}. 'If you're going back down it, go with a light that won't blow out.'".
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert low_u_paid(low_u_rats_job). Retract knows(actor, low_u_rats_job). }
+  }
+  Topic low_u_rats_job_rest with low_merchant "Tell {low_merchant} the rats' nest in the drain is cleared" when low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) once {
+    Says "{low_merchant} hears about the drain and the old buck rat, and counts out the other four coin. A lantern and two flasks of oil go on the counter beside them. 'That drain goes under half the town,' says {low_merchant}. 'If you're going back down it, go with a light that won't blow out.'".
+    On discuss { Increase quantity(actor, gold) by 4. Give lantern to actor. Give 2 lamp_oil to actor. Assert low_u_paid(low_u_rats_job). Retract knows(actor, low_u_rats_job). }
+  }
+  Topic low_u_rats_job_half with low_merchant "Tell {low_merchant} the rats under the corn-store are dead" when low_u_done(low_u_rats_job) and not low_u_nest_cleared(low_u_rats_job) and not low_u_paid(low_u_rats_job) once {
+    Says "'Dead,' says {low_merchant}. 'And the rest of them coming up the same way they came, I don't doubt.' Six coin are counted out. 'Find where they come from and clear it. Then you'll have the other four, and the lantern.'".
+    On discuss { Increase quantity(actor, gold) by 6. Assert low_u_halved(low_u_rats_job). }
+  }
+  Objective low_u_rats_job_owed when low_u_given(low_u_rats_job) and low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_merchant "Tell {low_merchant} at {low_shop} that the rats and their nest are dealt with. The rest of the pay is yours, and a lantern.".
+  Objective low_u_rats_job_owed_whole when low_u_given(low_u_rats_job) and low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and not low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_merchant "Tell {low_merchant} at {low_shop} that the rats and their nest are dealt with. Ten coin are yours, and a lantern.".
+  Rule low_u_rats_onward when low_u_done(low_u_rats_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Relation low_u_docked(entity). Relation low_u_mended(entity). Relation low_u_bait_told(entity).
+  Rule low_u_door_docked when low_u_paid(low_u_rats_job) and state(low_u_store_lock, torn) and together(low_merchant, party) and not low_u_docked(low_u_store_lock)
+    says "{low_merchant} takes two of the coins back off the counter. 'For my door.'" {
+    Decrease quantity(party, gold) by 2. Assert low_u_docked(low_u_store_lock).
+  }
+  Rule low_u_bait_smelt when low_u_paid(low_u_rats_job) and low_u_baited(low_u_rats) and together(low_merchant, party) and not low_u_bait_told(low_u_rats)
+    says "{low_merchant} sniffs at your sleeve. 'Ratsbane. Cheaper than a sword, and no blood on the sacks.'" {
+    Assert low_u_bait_told(low_u_rats).
+  }
+  Objective low_u_door_owed when low_u_hasp_noted(low_u_store_lock) and state(low_u_store_lock, torn) and not low_u_docked(low_u_store_lock) toward low_u_store "{low_merchant} will know you by the splinters. Set the corn-store's hasp back, or be docked for the door.".
+  Rule low_u_door_mended when low_u_hasp_noted(low_u_store_lock) and state(low_u_store_lock, open) and together(low_merchant, party) and not low_u_mended(low_u_store_lock)
+    says "{low_merchant} has been to look at the corn-store door. 'New bolts,' {low_merchant} says, and nods once." {
+    Assert low_u_mended(low_u_store_lock).
+  }
+  Observe low_u_yard_scene at low_u_yard as fixture when true "Old stones lean in the grass. In the corner by the wall, a low stone door goes into the ground. Its iron ring is bright where someone has pulled at it lately.".
+  Entity low_u_dead_robbed: fact "Someone has been opening graves in the churchyard by night, and going down into the catacombs.".
+  Entity low_u_dead_raised: fact "The dead under the churchyard have been raised. A ring of chalk and the ends of black candles are on the crypt floor.".
+  Entity low_u_dead_lodger: fact "A man lodging at the inn goes out after dark. He comes back before light with grave-dirt on his boots.".
+  Observe low_u_yard_graves at low_u_yard as sign when not knows(party, low_u_dead_robbed) "Three graves by the wall have been dug into and filled again badly. The grass is trodden flat from them to the stone door." teaches low_u_dead_robbed.
+  Observe low_u_crypt_circle at low_u_crypt as sign when not knows(party, low_u_dead_raised) "On the crypt floor is a ring of chalk with marks round it. Inside it, the ends of black candles are burned to the floor." teaches low_u_dead_raised.
+  Person low_u_dead "the hungry dead of the ossuary" at low_u_ossuary {
+    Role "dead things raised out of the bone-heaps, hungry". Species ghoul. Numbers 1. Level 1. Temperament territorial. Lair low_u_ossuary.
+  }
+  Initially Assert tolerates(low_u_dead, party).
+  Initially Set encounterXp(low_u_dead) to 75.
+  Person low_u_raiser "the man with the black candle" at low_u_ossuary {
+    Role "a grave-robber who has read a book he should not have, and is trying what it says". Ancestry human. Calling mage. Level 2. Temperament defensive. Lair low_u_ossuary. Pronouns he.
+    Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
+  }
+  Initially Set encounterXp(low_u_raiser) to 90.
+  Initially Assert beside(low_u_dead, low_u_raiser).
+  Thing low_u_candle "the black candle" at low_u_ossuary {
+    State alight "A black candle burns on a skull in the middle of the bone-heaps, with a flame that does not move.".
+    State snuffed "The black candle is out, and smells of something worse than tallow.".
+    Change pinch "Pinch out the black candle" from alight to snuffed when not at(low_u_raiser, low_u_ossuary) or not able(low_u_raiser) "The man with the black candle stands over it, and the dead are his while it burns.".
+  }
+  Entity low_u_dead_job: fact "Lay the dead in the crypt under the churchyard at Lowmouth.".
+  Topic low_u_dead_job_ask with low_priest "Ask {low_priest} about the noises under the churchyard" when not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) once {
+    Says "{low_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
+    On discuss { Assert knows(actor, low_u_dead_job). Assert low_u_given(low_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, low_u_crypt_lock). }
+  }
+  Topic low_u_dead_lodger_ask with low_innkeeper "Ask {low_innkeeper} who goes out at night" when knows(actor, low_u_dead_robbed) and not knows(actor, low_u_dead_lodger) once {
+    Says "{low_innkeeper} wipes the same place on the counter twice. 'There's a man in the back room, been here a fortnight, pays in old coin. Goes out after dark and comes in before light. There's grave-dirt on his boots that I scrub off the step.'".
+    On discuss { Assert knows(actor, low_u_dead_lodger). }
+  }
+  Observe low_u_lodger_goes at low_u_yard as sign when dark() and knows(party, low_u_dead_lodger) and able(low_u_raiser) and not low_u_done(low_u_raiser) "Late, a man in good boots crosses the churchyard with a lantern shuttered to a slit. He goes down the crypt stair without looking back. The innkeeper's lodger keeps his hours.".
+  Observe low_u_lodger_known at low_u_ossuary when knows(party, low_u_dead_lodger) and at(low_u_raiser, low_u_ossuary) and able(low_u_raiser) "There is grave-dirt to the ankles of his good boots: the man who lodges at the inn and pays in old coin.".
+  Action low_u_raiser_talked(actor: group, site: place) "Tell the man with the black candle the town knows what he has done, and that it ends now" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_ossuary) and at(low_u_raiser, low_u_ossuary) and able(low_u_raiser) and knows(actor, low_u_dead_raised) and state(low_u_candle, alight).
+    Time 0.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert state(low_u_candle, snuffed). Retract state(low_u_candle, alight). Retract at(low_u_raiser, low_u_ossuary). Assert low_u_done(low_u_raiser). }
+    Result "He looks at you a long time over the flame, and then at the dead. Then he wets his fingers and pinches the candle out. He goes past you up the stair without a word, and out of Lowmouth before morning. The book he leaves on the bones.".
+    Otherwise "'They'll hang me whether I stop or not,' he says, and lifts the candle higher. The dead turn their heads.".
+  }
+  Action low_u_dead_rested(actor: group, site: place) "Say the rite of rest over the bone-heaps, against the black candle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_ossuary) and state(low_u_candle, alight) and capable(actor, rites).
+    Time 1.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert state(low_u_candle, snuffed). Retract state(low_u_candle, alight). Retract at(low_u_raiser, low_u_ossuary). Assert low_u_done(low_u_raiser). }
+    Result "You say the words for the dead that every shrine keeps, slowly, as they are meant to be said. The flame on the black candle leans as if a door had opened somewhere, and goes out. The man in the muddy coat looks at you as if you had struck him. He goes up the stair at a run, and out of Lowmouth before morning. The book he leaves on the bones.".
+    Otherwise "The words come, but the black candle's flame does not move. The dead turn their heads toward the sound.".
+  }
+  Action low_u_candle_crept(actor: group, site: place) "Creep round behind the bone-heaps and pinch out the black candle at his back" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_ossuary) and at(low_u_raiser, low_u_ossuary) and able(low_u_raiser) and state(low_u_candle, alight) and capable(actor, stealth).
+    Time 1.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert state(low_u_candle, snuffed). Retract state(low_u_candle, alight). Retract at(low_u_raiser, low_u_ossuary). Assert low_u_done(low_u_raiser). }
+    On failure { Retract tolerates(low_u_dead, party). }
+    Result "You go back the way you came and round, along the foot of the bone-heaps where his candle throws no light. You come up behind him. He hears nothing until the flame is a wisp between your fingers. He turns and sees the dead fall, and runs. He is up the stair and out of Lowmouth before morning. The book he leaves on the bones.".
+    Otherwise "A skull rolls off the course under your hand and goes down the heap, knocking. He turns with the candle held high, and the dead turn with him.".
+  }
+  Kind raiser_book "a book of the dead" is gear worth 6 weighing 1 described "A small fat book in a scraped calf binding, copied out by several hands over a long time. It holds rites for the dead. In the margins, in a newer hand, is how they might be called back up. Someone has drawn the chalk ring on the last page and got it wrong.".
+  Entity low_u_book_left: fact "The raiser's book of the dead lies on the bones in the ossuary.".
+  Item low_u_raiser_book "a book of the dead" is raiser_book at low_u_ossuary hidden until low_u_book_left.
+  Rule low_u_book_dropped when (low_u_done(low_u_raiser) or not able(low_u_raiser)) and at(party, low_u_ossuary) and not knows(party, low_u_book_left) says "His book lies on the bones." teaches low_u_book_left { }
+  Entity low_u_dead_read: fact "The marks round the chalk ring are copied badly, from an old book of the dead: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
+  Observe low_u_crypt_marks at low_u_crypt as sign when capable(party, lore) and knows(party, low_u_dead_raised) and not knows(party, low_u_dead_read) "You know these marks from the old scripts. The warding line is missing from the marks round the chalk ring, the one that keeps the dead off whoever calls them." teaches low_u_dead_read.
+  Action low_u_raiser_read(actor: group, site: place) "Tell the man with the black candle what his book left out of the ring" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_ossuary) and at(low_u_raiser, low_u_ossuary) and able(low_u_raiser) and knows(actor, low_u_dead_read) and state(low_u_candle, alight).
+    Time 0.
+    On success { Assert state(low_u_candle, snuffed). Retract state(low_u_candle, alight). Retract at(low_u_raiser, low_u_ossuary). Assert low_u_done(low_u_raiser). }
+    Result "You tell him about the warding line. He looks down at the chalk, and you watch him find the place where it should be. His hand shakes when he pinches the candle out. He goes up the stair without looking at the dead, and out of Lowmouth before morning. The book he leaves on the bones.".
+  }
+  Rule low_u_dead_masterless when not at(low_u_raiser, low_u_ossuary) and state(low_u_candle, alight) and tolerates(low_u_dead, party) says "With no one to hold them, the dead turn their heads toward the living." { Retract tolerates(low_u_dead, party). }
+  Rule low_u_dead_masterless_fallen when not able(low_u_raiser) and state(low_u_candle, alight) and tolerates(low_u_dead, party) says "With no one to hold them, the dead turn their heads toward the living." { Retract tolerates(low_u_dead, party). }
+  Rule low_u_dead_lie when state(low_u_candle, snuffed) and at(low_u_dead, low_u_ossuary) and able(low_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at(low_u_dead, low_u_ossuary). Assert low_u_done(low_u_dead_job). }
+  Rule low_u_dead_cleared when not able(low_u_dead) and not low_u_done(low_u_dead_job) { Assert low_u_done(low_u_dead_job). }
+  Rule low_u_raiser_ended when not able(low_u_raiser) and not low_u_done(low_u_raiser) { Assert low_u_done(low_u_raiser). }
+  Objective low_u_dead_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_priest "Ask {low_priest} about what has come up under the churchyard at Lowmouth: the crypt is locked.".
+  Objective low_u_dead_job_aim when low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_u_dead, low_u_raiser by low_u_yard "Lay the dead in {low_u_crypt} under {low_u_yard} at Lowmouth, and find out who raised them.".
+  Topic low_u_dead_job_paid with low_priest "Tell {low_priest} the dead under the churchyard are laid, and who raised them" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
+    Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
+    On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert low_u_paid(low_u_dead_job). Retract knows(actor, low_u_dead_job). }
+  }
+  Topic low_u_dead_job_rest with low_priest "Tell {low_priest} who raised the dead under the churchyard" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
+    Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then the rest of the coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
+    On discuss { Increase quantity(actor, gold) by 5. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert low_u_paid(low_u_dead_job). Retract knows(actor, low_u_dead_job). }
+  }
+  Topic low_u_dead_job_half with low_priest "Tell {low_priest} the dead under the churchyard are laid" when low_u_done(low_u_dead_job) and not low_u_done(low_u_raiser) and not low_u_paid(low_u_dead_job) once {
+    Says "'Laid,' says {low_priest}, 'until whoever raised them comes back with another candle.' Ten coin. 'Find who it is. Then the rest is yours, and more.'".
+    On discuss { Increase quantity(actor, gold) by 10. Assert low_u_halved(low_u_dead_job). }
+  }
+  Objective low_u_dead_job_owed when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_paid(low_u_dead_job) toward low_priest "Tell {low_priest} at {low_chapel} that the dead are laid, and who raised them. Fifteen coin are yours, and what the shrine can give.".
+  Rule low_u_dead_onward when low_u_done(low_u_dead_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Observe low_u_pit_scene at low_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces. At the bottom a square adit goes back into the rock behind a barred gate. A board on the gate says KEEP OUT in three hands.".
+  Observe low_u_husks at low_u_adit when able(low_u_spiders) "Things hang in the web across the cutting ahead, wrapped grey and sucked dry. A fox, a dog, something the size of a calf. Whatever strung it takes prey that big.".
+  Person low_u_spiders "the spider in the old workings" at low_u_gallery {
+    Role "a cave spider the size of a dog, that has strung the old workings with web". Species cave_spider. Numbers 1. Level 1. Temperament territorial. Lair low_u_gallery.
+  }
+  Initially Set encounterXp(low_u_spiders) to 60.
+  Person low_u_mother "the spiders' mother" at low_u_brood {
+    Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species cave_spider. Variant brood_mother. Numbers 1. Level 2. Temperament defensive. Lair low_u_brood.
+  }
+  Initially Set encounterXp(low_u_mother) to 120.
+  Person low_u_hobb "Dannel Hobb" at low_taproom { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
+  Entity low_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at Lowmouth.".
+  Entity low_u_spiders_eggs: fact "The spiders' mother has hung her eggs at the back of the old workings. Unless they are burned, the spiders will come again.".
+  Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
+  Topic low_u_spiders_job_ask with low_innkeeper "Ask {low_innkeeper} about the old quarry" when not low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) once {
+    Says "'Nobody goes in the old quarry now,' says {low_innkeeper}. 'There's webs across the adit thick as sailcloth. The Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.' A stoppered phial follows it, the cork waxed. 'Hobb's mother made that, for the bite. Drink it the moment one has you, not after.'".
+    On discuss { Assert knows(actor, low_u_spiders_job). Assert low_u_given(low_u_spiders_job). Give quarry_key to actor. Give antidote to actor. Assert keyholder(actor, low_u_adit_lock). }
+  }
+  Topic low_u_hobb_told with low_u_hobb "Ask Dannel Hobb what he saw in the old quarry" when knows(actor, low_u_spiders_job) and not knows(actor, low_u_spiders_eggs) once {
+    Says "The boy looks at the door before he answers. 'There's a big one at the back,' he says. 'Bigger than a dog. And bags. Hanging up, white, like puddings. They was moving.' He swallows. 'I dropped Dad's knife. Don't tell him.'".
+    On discuss { Assert knows(actor, low_u_spiders_eggs). }
+  }
+  Observe low_u_adit_web at low_u_adit as sign when capable(party, woodcraft) and not knows(party, low_u_spiders_eggs) "Something big at the back is laying: the web across the cutting is new at the edges and old in the middle. The drag-lines all run back one way." teaches low_u_spiders_eggs.
+  Discovery low_u_knife_found "Under the web at the gallery's mouth, a bone-handled knife with an H burned into the handle." {
+    Found by searching low_u_gallery "Something under the web at the gallery's mouth catches the light.".
+  }
+  Item low_u_knife "a bone-handled knife" is hobb_knife at low_u_gallery hidden until low_u_knife_found.
+  Thing low_u_eggs "the spiders' egg-sacs" at low_u_brood {
+    State hanging "White sacs the size of loaves hang from the roof in a cluster, and something in them moves.".
+    State burnt "Where the egg-sacs hung there is a black stain on the roof and a smell of burnt hair.".
+    Change burn "Burn the egg-sacs" from hanging to burnt needing flame when not able(low_u_mother) "The spiders' mother crouches over them, and will not let you near.".
+  }
+  Action low_u_brood_burned(actor: group, site: place) "Throw an oil firebomb through the crack into the brood-chamber" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_gallery) and holding(actor, oil_firebomb) and able(low_u_mother).
+    Time 1 minutes.
+    On success { Spend oil_firebomb from actor. Slay low_u_mother. Retract state(low_u_eggs, hanging). Assert state(low_u_eggs, burnt). }
+    Result "The flask bursts somewhere behind the web, and the crack fills with light. Something heavy thrashes in there a long while, and then the only sound is the sacs popping in the heat.".
+  }
+  Action low_u_brood_spelled(actor: group, site: place) "Burn the brood-chamber through the crack with a magician's fire" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_gallery) and able(low_u_mother) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, firebolt) or learned(?m, burning_hands) or learned(?m, scald)).
+    Time 1 minutes.
+    On success { Slay low_u_mother. Retract state(low_u_eggs, hanging). Assert state(low_u_eggs, burnt). }
+    Result "The words come out cold and the fire comes out hot. It goes through the crack in a sheet, and the web catches like paper. Something heavy thrashes behind it a long while, and then the only sound is the sacs popping in the heat.".
+  }
+  Action low_u_spiders_burned(actor: group, site: place) "Throw an oil firebomb into the web across the cutting" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_adit) and holding(actor, oil_firebomb) and able(low_u_spiders).
+    Time 1 minutes.
+    On success { Spend oil_firebomb from actor. Slay low_u_spiders. }
+    Result "The flask bursts against the web. The fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
+  }
+  Rule low_u_spiders_cleared when not able(low_u_spiders) and not low_u_done(low_u_spiders_job) { Assert low_u_done(low_u_spiders_job). }
+  Objective low_u_spiders_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) toward low_innkeeper "Ask {low_innkeeper} about the old quarry at Lowmouth: its gate is locked.".
+  Objective low_u_spiders_job_aim when low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) toward low_u_gallery by low_u_pit "Burn the spiders out of {low_u_adit} under {low_u_pit} at Lowmouth.".
+  Objective low_u_spiders_job_eggs when low_u_done(low_u_spiders_job) and knows(party, low_u_spiders_eggs) and state(low_u_eggs, hanging) and able(low_u_mother) toward low_u_brood "Deal with the spiders' mother in {low_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
+  Objective low_u_spiders_job_burn when low_u_done(low_u_spiders_job) and knows(party, low_u_spiders_eggs) and state(low_u_eggs, hanging) and not able(low_u_mother) toward low_u_brood "Burn the spiders' eggs in {low_u_brood} behind the quarry's gallery, or the spiders will come again.".
+  Topic low_u_spiders_job_paid with low_innkeeper "Tell {low_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when low_u_done(low_u_spiders_job) and state(low_u_eggs, burnt) and not low_u_halved(low_u_spiders_job) and not low_u_paid(low_u_spiders_job) once {
+    Says "{low_innkeeper} counts out 12 coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate,' says {low_innkeeper}. 'We'll not want it now.'".
+    On discuss { Increase quantity(actor, gold) by 12. Give fireproof_salve to actor. Give rope to actor. Assert low_u_paid(low_u_spiders_job). Retract knows(actor, low_u_spiders_job). }
+  }
+  Topic low_u_spiders_job_rest with low_innkeeper "Tell {low_innkeeper} the spiders' eggs in the old quarry are burned" when low_u_done(low_u_spiders_job) and state(low_u_eggs, burnt) and low_u_halved(low_u_spiders_job) and not low_u_paid(low_u_spiders_job) once {
+    Says "{low_innkeeper} counts out the other five coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate,' says {low_innkeeper}. 'We'll not want it now.'".
+    On discuss { Increase quantity(actor, gold) by 5. Give fireproof_salve to actor. Give rope to actor. Assert low_u_paid(low_u_spiders_job). Retract knows(actor, low_u_spiders_job). }
+  }
+  Topic low_u_spiders_job_half with low_innkeeper "Tell {low_innkeeper} the spiders in the old quarry are dead" when low_u_done(low_u_spiders_job) and state(low_u_eggs, hanging) and not low_u_paid(low_u_spiders_job) once {
+    Says "'And the eggs?' says {low_innkeeper}, and sees your face. 'Then they'll be back by spring.' Seven coin. 'Burn them and the rest is yours.'".
+    On discuss { Increase quantity(actor, gold) by 7. Assert low_u_halved(low_u_spiders_job). }
+  }
+  Topic low_u_hobb_knife with low_u_hobb "Give Dannel Hobb his father's knife back" when holding(actor, hobb_knife) once {
+    Says "The boy takes it in both hands. That evening his mother comes to find you, with a bottle wrapped in a cloth. 'From the boy,' she says. 'It's what I had by me.'".
+    On discuss { Spend hobb_knife from actor. Give minor_healing_potion to actor. }
+  }
+  Objective low_u_spiders_job_owed when low_u_done(low_u_spiders_job) and state(low_u_eggs, burnt) and not low_u_paid(low_u_spiders_job) toward low_innkeeper "Tell {low_innkeeper} at {low_taproom} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
+  Rule low_u_spiders_onward when low_u_done(low_u_spiders_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Place low_u_drain "the old drain" is room within low at 0, 5 underground 2 down.
+  Passage low_u_drain_way "a culvert going down" is crawl between low_u_warren and low_u_drain.
+  Entity low_u_onward: fact "".
+  Objective low_u_onward_sought when low_u_done(low_u_onward) and not been(party, low_u_undercroft) "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_floor_sought when been(party, low_u_undercroft) and not knows(party, low_u_vault_found) toward low_u_undercroft "Something is under the floor of {low_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
+  Place low_u_undercroft "the undercroft" is room within low at 1, 5 underground 2 down.
+  Passage low_u_drain_mouth "the mouth of the drain" is passage between low_u_drain and low_u_undercroft.
+  Place low_u_charnel "the charnel passage" is room within low at 1, 4 underground 2 down.
+  Passage low_u_charnel_arch "a low arch behind the bone-heaps" is passage between low_u_ossuary and low_u_charnel.
+  Passage low_u_ossuary_steps "steps down behind the bone-heaps" is steps between low_u_charnel and low_u_undercroft.
+  Initially Assert unlit(low_u_charnel).
+  Observe low_u_charnel_scene at low_u_charnel as fixture when true "A long low passage lined with shelves of the older dead, wrapped in cloth gone brown. Some of the shelves are empty, and the cloth on the floor under them is torn.".
+  Person low_u_shamblers "the dead in the charnel passage" at low_u_charnel {
+    Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers 2. Level 1. Temperament territorial. Lair low_u_charnel.
+  }
+  Initially Set encounterXp(low_u_shamblers) to 90.
+  Discovery low_u_charnel_goods "On the last shelf, under a fall of cloth, lies what the old dead were buried with. Nobody has been down to take it." {
+    Found by searching low_u_charnel "Under the cloth on the last shelf, something hard and cold.".
+  }
+  Item low_u_charnel_plate "a silver grave-plate" is chapel_plate at low_u_charnel hidden until low_u_charnel_goods.
+  Item low_u_charnel_torc "an iron torc" is iron_torc at low_u_charnel hidden until low_u_charnel_goods.
+  Item low_u_charnel_bracelet "a bronze bracelet" is bronze_bracelet at low_u_charnel hidden until low_u_charnel_goods.
+  Place low_u_face "the old working face" is room within low at 2, 5 underground 2 down.
+  Passage low_u_face_way "a cut going on past the web" is passage between low_u_gallery and low_u_face.
+  Passage low_u_gallery_breach "a breach in the gallery floor" is crawl between low_u_face and low_u_undercroft.
+  Initially Assert unlit(low_u_face).
+  Observe low_u_face_scene at low_u_face as fixture when true "Where the quarrymen stopped: a face of stone with the pick-marks still on it, and a rotten ladder. In one corner the floor is broken through into somewhere older underneath. Things click and scuttle in the spoil.".
+  Person low_u_beetles "the beetles in the spoil" at low_u_face {
+    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers 3. Level 1. Temperament defensive. Lair low_u_face.
+  }
+  Initially Set encounterXp(low_u_beetles) to 60.
+  Discovery low_u_face_tools "Under the ladder is a quarryman's bag, left when the face was given up. In it are his tools, and his wages, never collected." {
+    Found by searching low_u_face "A leather bag under the ladder, stiff with age.".
+  }
+  Item low_u_face_crowbar "a quarryman's crowbar" is crowbar at low_u_face hidden until low_u_face_tools.
+  Item low_u_face_purse "a quarryman's wages" is steel_coin at low_u_face hidden until low_u_face_tools.
+  Item low_u_face_garnet "a garnet in the spoil" is garnet at low_u_face hidden until low_u_face_tools.
+  Initially Assert unlit(low_u_drain). Initially Assert unlit(low_u_undercroft).
+  Initially Assert restful(low_u_undercroft).
+  Observe low_u_drain_scene at low_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle. The walls are furred with something pale that moves when the light touches it.".
+  Observe low_u_undercroft_scene at low_u_undercroft as fixture when true "A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides. Those who dug did not know it was here.".
+  Observe low_u_undercroft_flag at low_u_undercroft as sign when not knows(party, low_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest.".
+  Person low_u_crawler "a great centipede" at low_u_drain {
+    Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair low_u_drain.
+  }
+  Initially Set encounterXp(low_u_crawler) to 60.
+  Entity low_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".
+  Topic low_u_drain_asked with low_innkeeper "Ask {low_innkeeper} about the old drain under Lowmouth" when not knows(actor, low_u_drain_warm) once {
+    Says "'The old drain?' says {low_innkeeper}. 'There's a long thing down there, all legs. It lies up by the bakehouse flue, where the stone is warm. Keep to the cold side and it won't stir.'".
+    On discuss { Assert knows(actor, low_u_drain_warm). }
+  }
+  Action low_u_drain_cold(actor: group, site: place) "Keep to the cold side of the drain, away from the warm stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_drain) and knows(actor, low_u_drain_warm) and able(low_u_crawler) and not tolerates(low_u_crawler, actor).
+    Time 1 minutes.
+    On success { Assert tolerates(low_u_crawler, actor). }
+    Result "You keep to the cold wall, single file, the light low. By the warm stone something long shifts its legs, and lets you by.".
+  }
+  Discovery low_u_drain_cache_found "Wedged in the drain where the water would have carried it, a purse someone dropped down a grating long ago." {
+    Found by searching low_u_drain "Something wedged in the drain, where the water left it.".
+  }
+  Item low_u_drain_purse "a mouldy purse" is steel_coin at low_u_drain hidden until low_u_drain_cache_found.
+  Entity low_u_vault_found: fact "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark.".
+  Discovery low_u_letters "A ring of letters is cut small over the oldest stone of the old work. Three of them are cut deeper than the rest, worn smooth by thumbs, as if pressed." {
+    Found by searching low_u_ossuary "Over the oldest niche, behind the bone-heaps, a ring of letters cut small, three of them deeper than the rest.".
+    Found by searching low_u_brood "Under the webs, on the one dressed stone in the chamber's wall, a ring of letters is cut small. Three of them are worn deep.".
+    Found by searching low_u_drain "On the keystone where the drain meets the old work, a ring of letters cut small, three of them worn deep.".
+  }
+  Action low_u_flag_pressed(actor: group, site: place) "Press the three deep-cut letters on the flag, as the ring below has them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and knows(actor, low_u_letters) and not knows(actor, low_u_vault_found).
+    Time 1.
+    On success { Assert knows(actor, low_u_vault_found). }
+    Result "One, then the next, then the last. Each gives a little under your thumb, with a click somewhere under the floor. The flag sinks a finger's width, and slides aside on its own weight. Under it, a stair goes down into the dark.".
+  }
+  Action low_u_flag_read(actor: group, site: place) "Read the ring of letters on the flag" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and capable(actor, lore) and not knows(actor, low_u_letters) and not knows(actor, low_u_vault_found).
+    Time 1.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, low_u_letters). }
+    Result "The letters are the makers' own, and run round the flag twice over. Their pattern is not a word at all but a count. Three of them, read as numbers, are cut deeper than the rest. Pressed in their order, they would be the key.".
+    Otherwise "The letters are the makers' own, and you cannot make them out. The same ring may be cut somewhere else, where whoever cut it meant it to be read.".
+  }
+  Action low_u_flag_levered(actor: group, site: place) "Lever the lettered flag up by main force" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and not knows(actor, low_u_vault_found).
+    Time 6.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert knows(actor, low_u_vault_found). }
+    Result "It takes most of an hour, and the edge of everything you have that will take a strain. The flag comes up grinding, and something in the floor below breaks with a sound like a bell. Under it, a stair goes down into the dark. Below, something has heard you.".
+    Otherwise "The flag does not move, and an hour is gone. It was not made to be lifted.".
+  }
+  Place low_u_vault "the sealed vault" is room within low at 1, 6 underground 3 down.
+  Passage low_u_vault_stair "the stair under the lettered flag" is stair between low_u_undercroft and low_u_vault hidden until low_u_vault_found.
+  Initially Assert unlit(low_u_vault).
+  Observe low_u_vault_scene at low_u_vault as fixture when true "A small square vault, dry as an oven, smelling of old spice. A stone chair stands at the far end, and niches in the walls once kept something.".
+  Person low_u_keeper "the keeper of the vault" at low_u_vault {
+    Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Variant barrow. Numbers 1. Level 2. Temperament territorial. Lair low_u_vault.
+    Warns "Something stands up from a stone chair at the far end of the vault. It rises slowly, as if it had been waiting a long time.".
+  }
+  Initially Set encounterXp(low_u_keeper) to 300.
+  Item low_u_vault_rings "a cord of old rings" is grave_rings at low_u_vault.
+  Item low_u_vault_stone "a moonstone the size of a thumb" is moonstone at low_u_vault.
+  Milestone low_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, low_u_vault).
+  Objective low_u_vault_sought when knows(party, low_u_vault_found) and able(low_u_keeper) toward low_u_vault "Something keeps {low_u_vault} under the undercroft.".
+  Entity low_u_notice: fact "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} for the gate key.'".
+  Thing low_u_notice_post "the notice on the well-post" at low_green { }
+  Observe low_u_notice_up near low_u_notice_post of low_u_notice_post when (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)) and not knows(party, low_u_notice) "Paper nailed to the post by the well, written over in several hands.".
+  Action low_u_notice_read(actor: group, site: place) "Read the notice on the well-post" {
+    Requires able(actor) and at(actor, site) and at(actor, low_green) and not knows(actor, low_u_notice) and (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)).
+    Time 1.
+    On success { Assert knows(actor, low_u_notice). }
+    Result "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} for the gate key.'".
+  }
+}

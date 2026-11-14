@@ -373,8 +373,9 @@ export class Narrator {
     const spoken = speaker ? feedback.discoveries.map(d => Spoken.speech(d, speaker)) : [];
     const fight = event.combat.some(e => e.type === 'end');
     // What the voice tables told of it (someone joining, a dog patted) stands for the bare result of the command.
-    const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey'))
-      .map(v => ({ text: v.text, kind: 'telling' as const }));
+    // How a skilled act went (feat) is told before what it came to: the lock picked, then the padlock open (BP-06).
+    const [feat = [], voiced = []] = [true, false].map(f => (event.voiced ?? []).filter(v => !v.kind.startsWith('journey')
+      && (v.kind === 'feat') === f).map(v => ({ text: v.text, kind: 'telling' as const })));
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
     const bare = voiced.length && (/^You do /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));
@@ -402,7 +403,7 @@ export class Narrator {
     const opened = chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [], first = told.moved || waiting;
     const lines: ExchangeLine[] = [
       ...first ? opened : [],
-      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...changing ? events : [], ...result,
+      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...result,
       ...first ? [] : opened,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing || fight ? [] : events,

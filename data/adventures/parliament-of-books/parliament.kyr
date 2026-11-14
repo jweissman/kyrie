@@ -37,7 +37,7 @@ Module calamy "A Parliament of Books" {
     On discuss { Assert knows(actor, session_known). }
   }
   Discovery session_known "The Parliament of the Bound sits on Kindling eve, the ninth day, from noon until the readers are called home; until then its members are in their own places in the Commonplace.".
-  Objective sit_eve when knows(party, session_known) and not sessionOpen(chamber) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Be in the Chamber with standing on Kindling eve, from noon, when the Parliament of the Bound sits.".
+  Objective sit_eve when knows(party, session_known) and not sessionOpen(chamber) and not colophonSealed(chamber) and not kindlingDone(ashpit) toward chamber "Be in the Chamber with standing on Kindling eve, from noon, when the Parliament of the Bound sits.".
   Rule members_come when sessionOpen(chamber) and voter(?m) and not walkedOut(?m) and not silenced(?m) and not sits(?m) and not housebookAway(?m) {
     Assert at(?m, chamber). Assert sits(?m). Increase seated(chamber) by 1. }
   Query housebookAway(m: group) means housebookOffended(m).

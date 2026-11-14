@@ -14,9 +14,9 @@ Module tallow "Tallow Deep" {
   Observe watch_gone at adit when sold_out(party) "The bend of the adit is empty. The lantern has gone from its hook.".
 
 
-  Objective ask_swallet when not knows(party, breakthrough_known) "Swallet keeps its back to the hill. The assayer, the landlady and an old miner by the fire all know something of why.".
-  Objective find_foreman when knows(party, foreman_known) and not knows(party, letter_read) "Foreman Carr led the Breakthrough and left a letter in his office in the hall under the Blind Shaft. Someone should read it.".
-  Objective open_road when knows(party, calx_known) and not state(calx_gate, raised) "There is said to be an old road under the ridge, with a rusted gate and a wheel.".
+  Objective ask_swallet when not knows(party, breakthrough_known) toward taproom "Swallet keeps its back to the hill. The assayer, the landlady and an old miner by the fire all know something of why.".
+  Objective find_foreman when knows(party, foreman_known) and not knows(party, letter_read) toward counting "Foreman Carr led the Breakthrough and left a letter in his office in the hall under the Blind Shaft. Someone should read it.".
+  Objective open_road when knows(party, calx_known) and not state(calx_gate, raised) toward calx_portal "There is said to be an old road under the ridge, with a rusted gate and a wheel.".
   Objective reach_bore when knows(party, bore_known) and not been(party, dial_room) "The Cap in the Cistern Hall covers a shaft, and the Tally-Wall says a weight still swings in it.".
 
   Milestone m_foreman "found Foreman Carr's papers" worth 120 when knows(party, letter_read).

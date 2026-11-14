@@ -1,0 +1,17 @@
+{
+  "about": "Something changed by a calling's own skill (a lock picked, a door forced, an old hand read, a dead man laid to rest, a broken thing mended, a wall climbed): told as the act it is, in a sentence of how it went, before what it came to. Picking takes care and an eye on the way back; forcing is loud. The blind playtest of 13 November: a thief's padlock had only 'hung open on its hasp'.",
+  "kinds": ["feat"],
+  "lines": [
+    { "id": "feat.lockwork.1", "when": { "capability": "lockwork" }, "text": "You work a bent pin and a thin blade into the lock and feel for its wards one at a time, with an ear to the way you came, until the last of them gives." },
+    { "id": "feat.lockwork.2", "when": { "capability": "lockwork" }, "text": "It is an old lock and a stiff one. You take your time over it, by feel, and it turns at last with a sound like a knuckle cracking." },
+    { "id": "feat.lockwork.3", "when": { "capability": "lockwork" }, "text": "The wards are crude and the spring is tired; it takes a pin, a breath held, and a quarter-turn more than it should." },
+    { "id": "feat.brawn.1", "when": { "capability": "brawn" }, "text": "You set your shoulder to it and heave. Wood groans and iron shrieks, and the noise of it goes further than you would like." },
+    { "id": "feat.brawn.2", "when": { "capability": "brawn" }, "text": "It holds, and holds, and then it does not, all at once, with a crack that anyone near will have heard." },
+    { "id": "feat.lore.1", "when": { "capability": "lore" }, "text": "The letters are worn shallow, but they are letters you have met before in older books; you read them slowly, under your breath, and they hold together." },
+    { "id": "feat.lore.2", "when": { "capability": "lore" }, "text": "It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense." },
+    { "id": "feat.climbing.1", "when": { "capability": "climbing" }, "text": "You go up it by the cracks and the old fixings, testing each before you trust it with your weight." },
+    { "id": "feat.rites.1", "when": { "capability": "rites" }, "text": "You say the words for the dead as they were said over your own, without hurrying, and the place is quieter when you have done." },
+    { "id": "feat.mending.1", "when": { "capability": "mending" }, "text": "You work at it with what you have, patiently, as you were taught, until it holds." },
+    { "id": "feat.persuasion.1", "when": { "capability": "persuasion" }, "text": "You do not argue. You let them talk, agree with the half of it that is true, and the rest comes round of itself." }
+  ]
+}

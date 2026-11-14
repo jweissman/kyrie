@@ -22,7 +22,8 @@ import { Traces, type Came } from './traces';
 import type { Happened } from './happened';
 
 export class PlayTool {
-  static readonly usage = 'usage: kyrie play <campaign.json> [--as race/calling/Name[/background]] | --world <seed> [--origin o] [--as race/calling/Name]'
+  static readonly usage = 'usage: kyrie play <campaign.json> [--as race/calling/Name[/background]]'
+    + ' | --world <seed> [--origin o] [--as race/calling/Name[/background]]'
     + ' | scene|character <id> --in <adventure> [--context name] [--seed s] [--steps steps.json] [--probe "..."]'
     + ' [--choices] [--keep name] [--roll pass|fail] [step ...]\n  (the steps file is played first, then the steps written after it)';
   static parse(args: string[]) {
@@ -60,7 +61,8 @@ export class PlayTool {
       }
       return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
     }
-    const drawn = { party: [made ?? { name, raceId, classId }], origin: o.origin };
+    const one = { name, raceId, classId, ...backgroundId ? { backgroundId } : {} };
+    const drawn = { party: [made ?? one], origin: o.origin };
     return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch)), lead: [] };
   }
   // A kept play's command played again, to where it comes (see Traces).

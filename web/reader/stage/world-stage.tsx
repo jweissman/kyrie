@@ -311,6 +311,9 @@ export class WorldStage {
     const come = here && app.state.frame?.travel?.arrived;
     const inside = here && !app.state.frame?.travel && !!screen.elapsed;
     const where = Typography.curl(Words.upper(screen.place.name));
+    // At its gate, Enter is the way in, as the scene leads with it: it had shut the map on the road outside, where the
+    // company already stood (the blind playtest, 13 November: "Enter Shaynof" returned to the road; BP-05).
+    const entry = here && !inside ? WorldStage.entry(app) : undefined;
     return (
       <section className="enter-card" data-id={town.id} data-state={here ? come ? 'arrived' : inside ? 'inside' : 'here'
         : 'chosen'} aria-live="polite">
@@ -324,7 +327,8 @@ export class WorldStage {
           : <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
             : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
-        {here ? <button type="button" className="enter" data-action="enter-hex" onClick={() => { app.outdoor(false); }}>
+        {here ? <button type="button" className="enter" data-action="enter-hex" data-act={entry?.c.id}
+          onClick={() => { if (entry) { app.choose(entry.c); } else { app.outdoor(false); } }}>
           {inside ? `Back to ${where.replace(/^The /, 'the ')}` : `Enter ${Typography.curl(town.name)}`}</button>
           : go && <button type="button" className="enter travel" data-action="travel" data-act={go.id}
             onClick={() => { app.choose(go); }}>
