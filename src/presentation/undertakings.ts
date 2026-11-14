@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
-import type { Entity, Objective } from '../lang/module';
+import type { Entity, Objective, Operator } from '../lang/module';
+import { AimAdvances } from './aim-advances';
 import { Stakes } from '../ui/stakes';
 import { FictionalTime } from '../campaign/fictional-time';
 import { EntityIndex } from '../lang/entity-index';
@@ -130,6 +131,21 @@ export class Undertakings {
       const aim = places.find(p => [...p.at].some(id => line.has(id)) || (!!a.subject && p.at.has(a.subject)))?.id;
       return aim ? { ...a, aim } : a;
     });
+  }
+  // The choices that would teach the company something an aim held and not followed waits on, or where it lies (a
+  // fact that leads to one of its places): only for those is someone it names led as worth a look. Taklinn, whom the
+  // spiders job names, had been led nineteen turns running for the next rumour of the lands beyond (b2's walk).
+  static serving(campaign: Campaign, rows: { choice: { id: string }; action: Operator }[]): Set<string> {
+    const w = campaign.world, followed = this.followed(campaign)?.id;
+    const aims = this.held(campaign).filter(o => o.id !== followed);
+    if (!aims.length) { return new Set(); }
+    const waited = new Set(aims.flatMap(o => AimAdvances.waits(campaign.module, o))
+      .filter(c => c.name === 'knows').map(c => c.args.at(-1)!));
+    const places = new Set(aims.flatMap(o => this.places(campaign, o)));
+    const leading = new Set(w.relates('leadsTo') ? w.related('leadsTo').filter(l => places.has(l.args[1]!))
+      .map(l => l.args[0]!) : []);
+    return new Set(rows.filter(r => (r.action.success ?? []).some(c => c.kind === 'assert' && c.call?.name === 'knows'
+      && (waited.has(c.call.args[1] ?? '') || leading.has(c.call.args[1] ?? '')))).map(r => r.choice.id));
   }
   // The places an aim is about, by id, most particular first: those its words or condition name; then the outside of
   // a site among them (the barrow's outside, where the map has it); then what they lie in (the inn's town). For the

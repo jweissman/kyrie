@@ -42,6 +42,8 @@ export interface Reading {
   willing?: Set<string>;
   // What the company's last act opened, by command (see ActionFeedback.opened): led first, as what came of it.
   opened?: Set<string>;
+  // The choices that teach what an aim held and not followed waits on, or where it lies (see Undertakings.serving).
+  serves?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
   // Where someone or something the aim names stands, still able (see Glance.occupied).
@@ -240,9 +242,12 @@ export class Affordances {
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
   // town was shown nothing to do with what it had won: the owner, 31 October).
-  // Something to ask not yet asked that teaches.
+  // Something not yet done there for an aim held: a question that teaches what it waits on, or an act on them that is
+  // not talk nor trade (the hobs' stolen bell, rung); never merely talking or trading with them, nor a question that
+  // teaches it nothing (Taklinn, whom the spiders job names, had been led nineteen turns running for rumours).
   private static new(leaves: Choice[], r: Reading): boolean {
-    return leaves.some(c => c.teaches && !r.done.has(c.command!));
+    return leaves.some(c => !r.done.has(c.command!) && (r.serves?.has(c.command!) || (!r.speakers.has(c.command!)
+      && !/^(talk_to|take_leave|look_closely|ask|buy_|sell_|take_lodging|work_|pay_)/.test(r.schema.get(c.command!) ?? ''))));
   }
   private static served(leaves: Choice[], r: Reading): { why: Why; note: string; choice?: Choice }[] {
     const bed = r.needs.night && r.needs.settled && this.offered(leaves, r, ['take_lodging', 'take_lodging_guest']);

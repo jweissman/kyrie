@@ -180,7 +180,7 @@ export class Glance {
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
     const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
-      args, touches, authored,
+      args, touches, authored, serves: Undertakings.serving(campaign, rows),
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       willing: new Set(rows.filter(r => r.action.speaker && (r.action.success ?? []).some(c => c.kind === 'assert'
         && c.call?.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker)).map(r => r.choice.id)),
