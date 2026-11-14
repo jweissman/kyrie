@@ -23,9 +23,10 @@ Module origin "Gone under" {
   // door, where nothing was to be found: CO-02).
   Discovery pin_found "In the dust at the door, where the light gives out, a cloak-pin of twisted copper catches it. Your mother gave it to her the day she left." { Found by searching delving. }
   Item pin "your sister's cloak-pin" is cloak_pin at delving hidden until pin_found.
-  Objective gone when not carries(party, pin) toward delving "Your sister went into {delving}, out in {where}, and did not come out. Search there for what became of her.".
+  Objective gone when not carries(party, pin) toward delving "Your sister went into {delving}, out in {where}, and did not come out. Search there for any sign of her.".
   // Found, it is said and seen through, as the dead man's map's cross is: the pin taken up had ended the origin with
-  // nothing said.
+  // nothing said. The aim asks for a sign of her, which the pin is, not for what became of her, which it does not tell
+  // (the second blind playtest, BL-11: seen through "without saying what became of her").
   Relation pinTaken(entity).
   Rule pin_taken when carries(party, pin) and not pinTaken(pin) says "On the back of the pin, scratched in with a knife's point, are her mark and the day. It was midsummer. She came this far, and wanted someone to know it. It is something to take home to your mother." { Assert pinTaken(pin). }
   Milestone m_pin "found your sister's cloak-pin" worth 100 when carries(party, pin).
