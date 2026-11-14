@@ -90,8 +90,11 @@ describe('the howe sealed from within (a1) and left broken (d4): the laws hold e
 });
 
 describe('what the howe asks of a company, by level', () => {
-  it('kills four of level three in the horse-hall unfed, and is taken by four of level four', async () => {
-    const low = await Howe.at('gallery', levelled(3, 'warrior', 'cleric', 'thief', 'mage'));
+  // The curve moved when a mage could cast what she knows (OP-05, 15 November): four of the third level had been killed
+  // here, and now come through (at the second, one falls); four of the first still die. The howe's asking level is a
+  // balance question for the rules line (register §45).
+  it('kills four of level one in the horse-hall unfed, and is taken by four of level four', async () => {
+    const low = await Howe.at('gallery', levelled(1, 'warrior', 'cleric', 'thief', 'mage'));
     await Howe.torch(low);
     low.assert('tolerates', R('household'), 'party');
     await low.play('To the horse-hall');
