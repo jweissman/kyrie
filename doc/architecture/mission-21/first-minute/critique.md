@@ -112,6 +112,11 @@ not a redesign.
 | IG-04 | Creation's Continue as the grammar's row, as New game is | done in look-7 |
 | IG-05 | Setting out under the title's sky, the engine's steps as quiet lines | done in look-7, with the title passage |
 | IG-06 | A low tone on commit (sound), later | M22 |
+| IG-07 | No hold anywhere for now: every act commits at one tap (the owner's play of the live build) | done in look-9 |
+| IG-08 | A press never moves a card: the deck fixed for the step (the engine's order, the page's fold) | engine 61b95ef8, page in look-11 |
+| IG-09 | The one focus mark is a reticule: title, creation, the scene's rows and the fight's targets | done in look-10 |
+| IG-12 | The start's vertical dissolve gone: every passage a cut or a fade in place | done in look-11 |
+| IG-10 | The reticule on the map's chosen hex, drawn in the board's own layer | later |
 
 ## The deployed recording (e1de5734, main up to look-6)
 

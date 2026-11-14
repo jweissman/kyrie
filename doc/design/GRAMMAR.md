@@ -27,20 +27,29 @@ controller of the page's own.
 
 ## Focus
 
-- **One focus at a time.** The choice the hand or the keys are on is marked at once, in the same frame as the input:
-  a strong mark at the row's left and its words lit. Nothing slides to it. No box moves or changes size to show it.
+- **One focus at a time, by the reticule** (IG-09): four corners close on what the hand or the keys are on, at
+  once, in the same frame as the input, drawn into its own box. Nothing slides to it, no box moves or changes size,
+  and its shape says focus without its colour.
+  - It is drawn on the title's ways, creation's cards and Continue, the scene's, lenses', talk's and the fight's rows,
+    and a foe aimed at.
+  - It is not yet drawn on the map's chosen hex, the rail's icons or the likenesses. The board draws its own selection in
+    its own layer, and a reticule there needs drawing in that layer; the rail's marks and the round likenesses are too
+    small or round for corners to read, and keep their pressed ring.
 - **Focus answers immediately.** Anything that responds to focus more slowly (the title's sky, a lens's painting, the
   observatory later) follows it and never holds it up.
+- **Nothing moves under the hand** (IG-08, IG-12). A press never changes which cards are shown or where: the deck
+  is the four and "N more", opened only by the player. A passage between screens is a cut or a short fade in place;
+  nothing slides, scrolls or wipes.
 - **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold mark is ceremonial, the
   entry's alone.
 
 ## Choosing
 
-- **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice.
+- **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice, done at once.
 - **Creation's cards are chosen at a tap, then Continue.** A held card had looked chosen and done nothing (BP-09).
-- **Holding is for sustained acts alone.** A search, a wait, a rest or a camp is held, and says so: a small ring at the
-  act's right, seen at rest, fills round while it is held. Let go early, nothing happens. The keys hold it as the hand
-  does.
+- **Nothing is held, for now.** A search, a wait, a rest or a camp commits at a tap like everything else (IG-07: the
+  hold did nothing at a click). A mark that fills while a costly act is pressed is the design for a future Energy cost,
+  built once, in M22.
 - **A grave act asks once before it is done.** Something that cannot be undone, a way with no coming back or a fight
   is chosen once, then again to do it.
 - **A page with nothing to decide is no act.** The opening's beats and the page after the road meeting go on by
@@ -83,9 +92,10 @@ controller of the page's own.
 | The four are the engine's | `test/small/offer-page` |
 | A thing's look in place | `test/small/look-in-place` |
 | Kind words off the page | `test/small/kind-words` |
-| The tap and the ring | `test/hold-browser` |
+| A tap commits | `test/tap-browser` |
 | A foregone fight and the dice | `test/small/foregone-page` |
 | Reading pages | `test/small/reading-pages` |
 | The compass | `test/small/compass-stage` |
 | The fight's stable geometry | `test/fight-geometry-browser` |
+| Nothing moves under the hand | `test/steady-start-browser` |
 | The title's immediate focus | `test/opening-browser` |

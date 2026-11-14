@@ -34,8 +34,6 @@ export class MonoDriver {
   }
   // A phone is touched: a tap, which leaves no pointer hovering where it was, made as a finger would, once what it
   // is aimed at has been scrolled to the middle of the screen and has stopped moving.
-  // An act that is held (data-hold: a search, a wait, a creation card) is held, by the pointer or the finger, as long
-  // as it asks and a little more (see Hold): the one way every spec does a held act.
   async click(selector: string) {
     this.presses++;
     // A card among the rest of a creation step's deck is one quiet word away, as a player finds it.
@@ -45,32 +43,10 @@ export class MonoDriver {
     if (this.pointer) {
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();
-    }
-    if (!await MonoDriver.held(this.page, selector)) {
-      await (this.pointer ? this.page.tap(selector) : this.page.click(selector));
-    }
+      await this.page.tap(selector);
+    } else { await this.page.click(selector); }
     await this.settle();
   }
-  // Held, where what the selector finds is held: true where it was (a spec without a driver uses it as it is).
-  static async held(page: Page, selector: string): Promise<boolean> {
-    const at = page.locator(selector).first();
-    const ms = await at.evaluate(e => e.hasAttribute('data-hold') ? parseInt(getComputedStyle(e).getPropertyValue('--hold-ms')) || 850 : 0);
-    if (!ms) { return false; }
-    await at.hover();
-    await page.mouse.down();
-    await page.waitForTimeout(ms + 150);
-    await page.mouse.up();
-    return true;
-  }
-  // Enter held on the highlight as long as a held act asks (see ReaderKeys).
-  async holdKey(key = 'Enter') {
-    this.presses++;
-    await this.page.keyboard.down(key);
-    await this.page.waitForTimeout(MonoDriver.ms + 150);
-    await this.page.keyboard.up(key);
-    await this.settle();
-  }
-  static readonly ms = 850;
   still() {
     return this.page.waitForFunction(() => new Promise<boolean>(done => {
       const pages = [document.getElementById('page'), document.querySelector('.book')], tops = pages.map(p => p?.scrollTop);
@@ -266,7 +242,7 @@ export class MonoDriver {
     }
     for (let i = 0; i <= state.choices.length && (await this.inspect()).selected !== id; i++) { await this.key('ArrowDown'); }
     if ((await this.inspect()).selected !== id) { return false; }
-    await (state.choices[index]!.hold ? this.holdKey() : this.key('Enter'));
+    await this.key('Enter');
     return true;
   }
   // A choice about a subject (its id, or the id without the installation prefix), by the start of its label; then

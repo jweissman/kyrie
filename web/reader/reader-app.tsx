@@ -124,13 +124,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   override componentDidMount() {
     window.addEventListener('keydown', this.keys.press);
-    window.addEventListener('keyup', this.keys.release);
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
-  override componentWillUnmount() {
-    window.removeEventListener('keydown', this.keys.press); window.removeEventListener('keyup', this.keys.release);
-  }
+  override componentWillUnmount() { window.removeEventListener('keydown', this.keys.press); }
   // A new place opens at the top; what came of something done at the same place is in view where it is told; the
   // choice the keys are on is brought into view with them.
   override componentDidUpdate(_props: unknown, prev: AppState) {
