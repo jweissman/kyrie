@@ -464,7 +464,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
       case 'company': return !this.state.setting?.generated ? <CompanyPage.View app={this} />
-        : Touch.on() ? <ComposedCreation.View app={this} /> : <CreationPage.View app={this} />;
+        : this.props.query.get('creation') === 'cards' ? <CreationPage.View app={this} /> : <ComposedCreation.View app={this} />;
       case 'loading': return <LoadingPage.View app={this} />;
       case 'play': return <PlayPage.View app={this} />;
     }

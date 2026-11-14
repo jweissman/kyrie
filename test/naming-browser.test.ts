@@ -50,7 +50,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
 
   it.each([[1180, 820], [390, 844]])('at %i by %i offers names to roll on as you present', async (width, height) => {
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height }, { site, pointer: width < 900,
-      query: '?world=kite' });
+      query: '?world=kite&creation=cards' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     for (let i = 0; i < 6 && await page.getAttribute('.creation-body', 'data-page') !== 'name'; i++) {
       await page.click('[data-action="next"]');

@@ -161,7 +161,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   }, 120000);
 
   it('begins a life from why you have come, with no likeness of you, and goes on by Continue', async () => {
-    const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '' });
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '?creation=cards' });
     await page.click('[data-action="begin"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     expect(await page.textContent('.ask')).toMatch(/^Why have you come to /);
@@ -196,7 +196,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it.each([[1440, 900, 'kin', false], [390, 844, 'wanderer', true]] as [number, number, string, boolean][])(
     'at %i by %i sets out into the opening of %s, and goes on into the place', async (width, height, origin, touch) => {
       const { page, errors, driver } = await MonoBrowser.page(browser, { width, height }, { site, pointer: touch,
-        query: '?world=kite&opening' });
+        query: '?world=kite&opening&creation=cards' });
       if (touch) { await page.emulateMedia({ reducedMotion: 'reduce' }); }
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
       await driver.click(`[data-action="origin"][data-id="${origin}"]`);
@@ -257,7 +257,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it.each([[1440, 900], [1180, 820], [820, 1180], [390, 844]])(
     'at %i by %i holds the scene to the screen, the page still', async (width, height) => {
       const { page, errors } = await MonoBrowser.page(browser, { width, height }, { site, pointer: width < 900,
-        query: '?world=kite' });
+        query: '?world=kite&creation=cards' });
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
       const creating = await Stage.bounds(page);
       await page.click('[data-action="start"]');

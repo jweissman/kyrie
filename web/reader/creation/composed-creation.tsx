@@ -9,8 +9,6 @@ import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { NameStep } from './name-step';
 import { Signature } from './signature';
-import { CreationSheet } from './creation-sheet';
-import { KitSheet } from './kit-sheet';
 
 // Creation as one composition in the game's own grammar (the first touch, ?touch; the owner, 15 November): every step
 // is the engine's (CreationFlow: its question, its options in its order, which is chosen), and every step is answered
@@ -20,10 +18,13 @@ import { KitSheet } from './kit-sheet';
 // its ring filled, or tapped once to be asked and again to go.
 export class ComposedCreation {
   static readonly folded = 4;
+  static readonly cards = 4;
   static View({ app }: { app: ReaderApp }) {
-    const [at, go] = useState<string>('why'), [roll, reroll] = useState(0), [more, unfold] = useState(false);
+    const [at, go] = useState<string>('why'), [roll, reroll] = useState(0), [more, turn] = useState(0);
     const s = app.state;
-    useEffect(() => { PressGuard.changed(); unfold(false); }, [at]);
+    useEffect(() => { PressGuard.changed(); turn(0); }, [at]);
+    // Its styling is the touch rows' (touch.css, by the presence of data-touch); the press pipeline is not, and is only ?touch.
+    useEffect(() => ComposedCreation.styled(), []);
     useEffect(() => ComposedCreation.escape(() => {
       const ids = ComposedCreation.ids(app), i = ids.indexOf(at), to = i < 0 ? ids.at(-1) : ids[i - 1];
       if (to) { go(to); return true; }
@@ -36,7 +37,7 @@ export class ComposedCreation {
     return (
       <div className="creation composed" data-mode="create" data-page={step?.id ?? 'go'}>
         {step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
-          more={more} unfold={() => unfold(true)} onward={next} />
+          more={more} unfold={() => turn(m => m + 1)} onward={next} />
           : <ComposedCreation.Go key="go" app={app} />}
         <nav className="creation-edge" aria-label="The choice of a life">
           {back ? <button type="button" className="quiet-word back" data-action="back"
@@ -50,6 +51,13 @@ export class ComposedCreation {
       </div>
     );
   }
+  // While creation is on screen the root carries data-touch (touch.css styles its rows by the attribute's presence); it is
+  // not 'down' or 'up', so Touch.on() stays false and no press pipeline is attached (that is ?touch, and not the default).
+  static styled(): () => void {
+    const root = document.documentElement, mine = root.dataset.touch === undefined;
+    if (mine) { root.dataset.touch = 'creation'; }
+    return () => { if (mine && root.dataset.touch === 'creation') { delete root.dataset.touch; } };
+  }
   // The flow's steps as the composition asks them, in its order: every one, how you present among them.
   static ids(app: ReaderApp): string[] { return app.opening.steps().map(x => x.id); }
   // Escape goes back a step (and is the keys' alone while it does), unless a sheet is open over the page.
@@ -62,7 +70,7 @@ export class ComposedCreation {
     return () => window.removeEventListener('keydown', key, true);
   }
   static Step({ app, step, roll, reroll, more, unfold, onward }: { app: ReaderApp; step: CreationStep; roll: number;
-    reroll: () => void; more: boolean; unfold: () => void; onward: () => void }) {
+    reroll: () => void; more: number; unfold: () => void; onward: () => void }) {
     const offer = ComposedOptions.of(app, step, roll), first = step.chosen ?? offer.options[0]?.id ?? '';
     const [lit, consider] = useState(first), [flare, flared] = useState<string>(), leaving = useRef(false);
     useEffect(() => { ComposedCreation.focus(); }, []);
@@ -93,21 +101,29 @@ export class ComposedCreation {
     );
   }
   static readonly flare = 340;
-  static Options({ offer, more, unfold, chosen, lit, consider, choose, after }: { offer: Offer; more: boolean;
+  static Options({ offer, more, unfold, chosen, lit, consider, choose, after }: { offer: Offer; more: number;
     unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
     after?: ReactNode }) {
-    const all = offer.options, folds = !offer.all && !offer.cards && all.length > ComposedCreation.folded + 1 && !more;
-    const shown = folds ? all.slice(0, ComposedCreation.folded) : all;
+    const all = offer.options, per = offer.cards ? ComposedCreation.cards : ComposedCreation.folded;
+    // Never more than four cards at once (the owner, 15 November): the rest are a page on, and the pages go round.
+    // Rows fold to four and the rest, once, where there are more than five.
+    const pages = offer.cards ? Math.ceil(all.length / per) : 1;
+    const folds = !offer.all && (offer.cards ? all.length > per : all.length > per + 1 && !more);
+    const page = offer.cards ? more % Math.max(1, pages) : 0;
+    const shown = !folds ? all : offer.cards ? all.slice(page * per, page * per + per) : all.slice(0, per);
+    const last = offer.cards && page === pages - 1;
+    const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: last ? 'The first again'
+      : `${all.length - (page + 1) * per > 0 || !offer.cards ? all.length - shown.length : 0} more`, aside: '' }}
+    onConsider={() => undefined} onChoose={unfold} />];
     if (offer.cards) {
       return <div className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
-        lit={lit === o.id} onConsider={consider} onChoose={choose} />)}</div>;
+        lit={lit === o.id} onConsider={consider} onChoose={choose} />)}{rest}</div>;
     }
     return (
       <div className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
         {shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined} chosen={chosen === o.id}
           lit={lit === o.id} onConsider={consider} onChoose={id => choose(id)} />)}
-        {folds && <ComposedRow.View option={{ id: 'more', name: `${all.length - shown.length} more`, aside: '' }}
-          onConsider={() => undefined} onChoose={unfold} />}
+        {rest}
         {after}
       </div>
     );
@@ -125,7 +141,7 @@ export class ComposedCreation {
   }
   // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).
   static Go({ app }: { app: ReaderApp }) {
-    const [asked, ask] = useState(false), [open, show] = useState(false);
+    const [asked, ask] = useState(false);
     useEffect(() => { ComposedCreation.focus(); }, []);
     const name = app.state.party[0]?.name ?? '', country = app.state.setting?.title ?? 'the country';
     const go = (_: string, held: boolean) => { if (held || asked) { app.opening.begin(); } else { ask(true); } };
@@ -137,13 +153,9 @@ export class ComposedCreation {
           <div className="composed-rows" role="menu">
             <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
               hold n={1} lit onConsider={() => undefined} onChoose={go} />
-            <ComposedRow.View option={{ id: 'details', name: 'What you set out with', aside: 'details' }} n={2}
-              onConsider={() => undefined} onChoose={() => show(true)} />
           </div>
           <p className="consider" aria-live="polite">{asked ? 'Hold to set out, or press it again.' : ''}</p>
         </div>
-        {open && <CreationSheet.View title="What you set out with" onClose={() => show(false)}>
-          <KitSheet.View app={app} /></CreationSheet.View>}
       </div>
     );
   }
