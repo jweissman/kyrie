@@ -39,10 +39,13 @@ describe('the design system, held by the stylesheets', () => {
   // may paint with gold only where its selector says it is the aim's (aimed, followed, led for the aim, the step it
   // continues by, the gold tone). The rest are listed as they stand on 12 November, each a debt to retire.
   const aims = /\.aim\b|aimed|-aim\b|\.aims\b|follow|\.led\b|continues|tone-gold|gild|\.bound\b/;
+  // And the entry's ceremonial gold, there alone (the owner, 14 November, TO-01: "ceremonial gold as an entry-point
+  // emphasis, while preserving the stricter semantic meaning of gold for followed undertakings once we're inside"): the
+  // title's ways in and its sky, and creation's focus mark and its Continue.
+  const entry = /\.way-in|\.title-sky|\.creation \.card|\.creation-go/;
   const known = new Set([
     'fight.css .fight .fighter.target', 'fight.css .fight .moves .aiming', 'foundations.css .kicker',
     'foundations.css .cornered::after', 'frame.css .frame::after',
-    'frame.css .title-menu .indicator::before, .title-menu .indicator::after', 'frame.css .motes i',
     'frame.css .ident .ground', 'frame.css .ident .lamp', 'frame.css .ident .lamp.seventh', 'frame.css .ident .star',
     'reader.css .fields input:focus, .fields select:focus', 'reader.css .campaign-sheet .card.recommended',
     'reader.css .character .members .act.here .n', 'reader.css .character .gauge .bar i.mana',
@@ -52,7 +55,8 @@ describe('the design system, held by the stylesheets', () => {
   it('paints gold only where the aim is', () => {
     const gold = Sheets.golds(rules), uses = (body: string) => body.split(';').some(d => !/^\s*--/.test(d)
       && [...gold].some(g => d.includes(`var(${g})`)));
-    const found = rules.filter(r => uses(r.body) && !aims.test(r.selector)).map(r => `${r.file} ${r.selector}`);
+    const found = rules.filter(r => uses(r.body) && !aims.test(r.selector) && !entry.test(r.selector))
+      .map(r => `${r.file} ${r.selector}`);
     const fresh = found.filter(f => !known.has(f));
     expect(fresh).toEqual([]);
   });
