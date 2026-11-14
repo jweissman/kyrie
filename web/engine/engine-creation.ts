@@ -1,5 +1,5 @@
 import { Creation } from './creation';
-import { CreationFlow, type CreationStep, type CreationStepId } from './creation-flow';
+import { CreationFlow, type CreationChoice, type CreationStep } from './creation-flow';
 import type { Starting } from './engine-starts';
 import type { Member, Setting } from './protocol';
 
@@ -18,6 +18,9 @@ export class EngineCreation {
   // The country a life is now made for: the flow begins again on it.
   begun(setting: Setting, at: { campaign: string; seed: string; terrain?: string }): Setting {
     this.flow = new CreationFlow(setting, Creation.catalog());
+    // The first reason for having come is chosen to begin with, as the page's own making had it: set out at once, a
+    // life comes by its country's first origin, not by none (a drawn country had begun in its town square, unarrived).
+    if (setting.origins?.[0]) { this.flow.choose('why', setting.origins[0].id); }
     this.at = at;
     return setting;
   }
@@ -26,7 +29,7 @@ export class EngineCreation {
     return { steps: flow.steps(), member: structuredClone(flow.member), ...flow.origin ? { origin: flow.origin } : {},
       country: this.at!.seed };
   }
-  choose(step: CreationStepId, value: string): CreationState {
+  choose(step: CreationChoice, value: string): CreationState {
     this.made().choose(step, value);
     return this.state();
   }

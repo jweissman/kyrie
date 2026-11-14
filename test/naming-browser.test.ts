@@ -16,8 +16,18 @@ import { MonoBrowser } from './support/mono-browser';
 class Naming {
   static options(page: Page) { return page.locator('[data-action="name-option"]').allTextContents(); }
   static value(page: Page) { return page.inputValue('[data-field="name"]'); }
+  // The engine's answer to the choice, which draws the name again, a moment after the press (EngineCreation).
+  static async settle(page: Page) {
+    await page.waitForFunction(() => {
+      const first = document.querySelector('[data-action="name-option"]')?.getAttribute('data-name');
+      const field = document.querySelector<HTMLInputElement>('[data-field="name"]');
+      return !first || !field || field.value === first;
+    }, null, { timeout: 5000 }).catch(() => undefined);
+    await page.waitForTimeout(150);
+  }
   static async present(page: Page, as: string) {
     await page.click(`[data-action="presenting"][data-id="${as}"]`);
+    await Naming.settle(page);
     return { names: await Naming.options(page), name: await Naming.value(page) };
   }
 }
