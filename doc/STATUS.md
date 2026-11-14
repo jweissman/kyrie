@@ -27,8 +27,7 @@ table.
   down quickly.
 - **The game is still a collection of pages, not one scene.** The register's continuity rows (CN, §26) are open.
 - **Planes differ only in combat.** Their laws and Plane Shift are commissioned (GT, §28).
-- **The whole suite runs on every push, but it is not yet fast.** It takes about 19 minutes in 16 shards. The target
-  is under 10.
+- **A push runs the push lane; the night runs the whole suite** (the owner, 15 November). The push lane is 720 files and about 74 CI-minutes over 16 shards; the 267 slow files (about 680 CI-minutes) run nightly and on demand, and the night is kept green.
 - **SRD fidelity is low.** Of placed encounters, 0 of 88 are faithful; of spells, 9 of 119, with conversion under
   way. The census is in [rules/srd-fidelity.md](architecture/mission-21/rules/srd-fidelity.md).
 
