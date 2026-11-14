@@ -17,6 +17,7 @@ import { TerminalWalk, type Presented } from './terminal-walk';
 import { RunnerFight } from './runner-fight';
 import { RunnerCreation } from './runner-creation';
 import { RunnerLines } from './runner-lines';
+import { RunnerAmid } from './runner-amid';
 import type { CampaignEvent } from '../campaign/campaign-types';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
@@ -30,7 +31,7 @@ export interface Offered { id: string; label: string; aspects: string[]; type: A
 export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' | 'fight';
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
-  broken?: string[]; end?: true }
+  amid?: true; broken?: string[]; end?: true }
 // What pulls once an aim is seen through (Succession): its words, and the act that takes it up, or the aim to follow.
 export interface Next { text: string; act?: string; label?: string; follow?: string }
 // An aim held, as the Notes list it: following one (as Follow this does) takes no time.
@@ -64,6 +65,7 @@ export class Runner {
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
+      ...RunnerAmid.of(c, screen) ? { amid: true as const } : {},
       ...Runner.promised(screen), ...c.running ? {} : { end: true } };
   }
   // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.

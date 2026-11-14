@@ -21,7 +21,7 @@ export interface Measures {
   realized: Record<string, number>; types: Record<string, number>; ledTypes: Record<string, number>;
   attention: Attention; fights: number; retreats: number; deadEnds: number; loops: number; aimsSaid: number;
   // Turns an aim was followed and nothing it was offered led toward it (no gold, nothing pulling next): a blocker.
-  lost: number; lostAt: { turn: number; aim: string; at: string; after: string }[]; ended: boolean;
+  lost: number; lostAt: { turn: number; aim: string; at: string; after: string }[]; stranded: number; ended: boolean;
   // Gate 1's blockers by class (doc/architecture/mission-21/consolidated.md, "Two gates"), and whether the walk
   // carried an intention of its own to a consequence (an aim it followed seen through).
   blockers: Record<Blocker, number>; consequence: boolean;
@@ -104,6 +104,7 @@ export class RunnerWalk {
       retreats: walk.turns.filter(t => t.scene.prose.some(l => /clear of the fight|gets? away/.test(l))).length,
       deadEnds: walk.turns.filter(t => !t.end && !t.offer.primary.length).length, loops: this.loops(walk.chosen),
       aimsSaid: new Set(walk.turns.flatMap(t => t.aim ?? [])).size, lost: this.lost(walk), lostAt: this.lostTurns(walk),
+      stranded: this.stranded(walk),
       ended: !!walk.turns.at(-1)?.end, blockers: this.blockers(walk), consequence: this.consequence(walk),
       broken: this.broken(walk) };
   }
@@ -131,7 +132,8 @@ export class RunnerWalk {
   private static blockers(walk: Walk): Record<Blocker, number> {
     const error = walk.error ?? '';
     return { 'creation': 0, 'no way forward': walk.turns.filter(t => !t.end && !t.offer.primary.length).length,
-      'unpursuable': this.lost(walk) + this.broken(walk).length + Number(/^(not offered|could not be done)/.test(error)),
+      'unpursuable': this.stranded(walk) + this.broken(walk).length
+        + Number(/^(not offered|could not be done)/.test(error)),
       'crash': Number(!!error && !/^(not offered|could not be done)/.test(error)), 'hang': 0 };
   }
   private static broken(walk: Walk): { turn: number; text: string; at: string }[] {
@@ -154,6 +156,14 @@ export class RunnerWalk {
     return this.lostIndices(walk).map(i => ({ turn: walk.turns[i]!.turn,
       aim: walk.turns[i]!.aims?.find(a => a.followed)?.text ?? '', at: walk.turns[i]!.scene.lines[0] ?? '',
       after: walk.chosen[i - 1]?.label ?? '' }));
+  }
+  // Of the lost turns, those with nothing else that serves the aim: a blocker. In or at the door of the site the aim
+  // is about (Said.amid), with somewhere there to explore, the site's unseen rooms serve it (PL-23); anywhere else,
+  // no gold is no way to pursue it.
+  private static stranded(walk: Walk): number {
+    return this.lostIndices(walk).filter(i => !(walk.turns[i]!.amid
+      && [...walk.turns[i]!.offer.primary, ...walk.turns[i]!.offer.rest]
+        .some(o => o.aspects.includes('exploration')))).length;
   }
   private static lostIndices(walk: Walk): number[] {
     // Not where a danger stands in front of the company, nor just got away from one: what to do about it (or getting

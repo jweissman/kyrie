@@ -147,7 +147,8 @@ export class TerminalMatrix {
         + `${this.sum(rows, r => r.m.deadEnds)}, ended ${rows.filter(r => r.m.ended).length}, errors `
         + `${rows.filter(r => r.error).length}`,
       `- blockers: ${rows.filter(r => r.error).length} errors, ${this.sum(rows, r => r.m.deadEnds)} dead ends, `
-        + `${this.sum(rows, r => r.m.lost)} turns lost (an aim followed and nothing leading to it)`,
+        + `${this.sum(rows, r => r.m.lost)} turns lost (an aim followed and nothing leading to it), `
+        + `${this.sum(rows, r => r.m.stranded)} of them unpursuable (not amid the site the aim is about with somewhere there to explore)`,
       `- intention to a consequence: ${rows.filter(r => r.m.consequence).length} of ${rows.length} walks`,
       `- mean time per walk: ${Math.round(this.sum(rows, r => r.ms) / Math.max(1, rows.length))} ms`, '',
       '## Gate 1, tier 1', '', '| build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |',
