@@ -191,11 +191,11 @@
   Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and knows(party, {t}_u_rats_source) and not {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_u_nest, {t}_u_buck by {t}_u_warren "Clear the nest down the rats' run from {{t}_u_warren} under {{t}_u_store}. Deal with the old buck rat that keeps it, or they will be back.".
   Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, nest and all" when {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) once {
     Says "{{t}_merchant} hears about the drain and the old buck rat with a face that says the grain is the least of it. Ten coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'That drain goes under half the town,' says {{t}_merchant}. 'If you're going back down it, go with a light that won't blow out.'".
-    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). Retract knows(actor, {t}_u_rats_job). }
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). Retract knows(actor, {t}_u_rats_job). Assert grateful({t}_merchant, actor). Set {t}_u_thanked_at({t}_merchant) to watch(clock). }
   }
   Topic {t}_u_rats_job_rest with {t}_merchant "Tell {{t}_merchant} the rats' nest in the drain is cleared" when {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) once {
     Says "{{t}_merchant} hears about the drain and the old buck rat, and counts out the other four coin. A lantern and two flasks of oil go on the counter beside them. 'That drain goes under half the town,' says {{t}_merchant}. 'If you're going back down it, go with a light that won't blow out.'".
-    On discuss { Increase quantity(actor, gold) by 4. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). Retract knows(actor, {t}_u_rats_job). }
+    On discuss { Increase quantity(actor, gold) by 4. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_rats_job). Retract knows(actor, {t}_u_rats_job). Assert grateful({t}_merchant, actor). Set {t}_u_thanked_at({t}_merchant) to watch(clock). }
   }
   Topic {t}_u_rats_job_half with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead" when {t}_u_done({t}_u_rats_job) and not {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) once {
     Says "'Dead,' says {{t}_merchant}. 'And the rest of them coming up the same way they came, I don't doubt.' Six coin are counted out. 'Find where they come from and clear it. Then you'll have the other four, and the lantern.'".
@@ -217,6 +217,13 @@
   Rule {t}_u_bait_smelt when {t}_u_paid({t}_u_rats_job) and {t}_u_baited({t}_u_rats) and together({t}_merchant, party) and not {t}_u_bait_told({t}_u_rats)
     says "{{t}_merchant} sniffs at your sleeve. 'Ratsbane. Cheaper than a sword, and no blood on the sacks.'" {
     Assert {t}_u_bait_told({t}_u_rats).
+  }
+  // A favour remembered (M21's paragon pin, in FF-06): the rats seen to, the merchant is grateful, and greets the
+  // company as a friend; come back a day on, and there is a friend's price on what lights the way down.
+  Measure {t}_u_thanked_at(group).
+  Topic {t}_u_favour with {t}_merchant "Ask {{t}_merchant} how the corn-store is keeping" when grateful({t}_merchant, actor) and watch(clock) >= {t}_u_thanked_at({t}_merchant) + 72 once {
+    Says "'Dry and quiet,' says {{t}_merchant}. 'The grain is going out by the cartload.' A candle and a flask of oil come across the counter. 'No charge. You'll be going down again, I don't doubt.'".
+    On discuss { Give candle to actor. Give lamp_oil to actor. }
   }
   // The torn door is the next thing asked, in the merchant's own words (FF-06): set back, it is forgiven.
   Objective {t}_u_door_owed when {t}_u_hasp_noted({t}_u_store_lock) and state({t}_u_store_lock, torn) and not {t}_u_docked({t}_u_store_lock) toward {t}_u_store "{{t}_merchant} will know you by the splinters. Set the corn-store's hasp back, or be docked for the door.".

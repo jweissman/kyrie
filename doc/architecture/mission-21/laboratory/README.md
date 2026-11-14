@@ -120,6 +120,35 @@ the observation or offer projection, or rendering.
   clue: the chalk ring, the wingless wheel, the eggs to burn.
 - **The bark.** "'Oh, well struck,' say Haze" now agrees with the one fighter.
 
+## Paragon pin: the remembered favour
+
+Help someone, leave, come back later, and find the relationship or the opportunity changed. It is held in the
+laboratory by `test/small/pin-remembered-favour`, which is mutation-checked: without the gratitude, it fails.
+
+**The journey:**
+1. A warrior takes Mik's rats job and clears the rats and the old buck.
+2. He is paid, and Mik is grateful from then on: he is greeted as a friend.
+3. A day on, "Ask Mik how the corn-store is keeping" is offered. Mik answers "No charge" and hands over a candle and
+   a flask of oil for the way down.
+
+**Findings:**
+- **Expressible, but unreached until now.** The generic pieces exist:
+  - `grateful(person, company)` gives the voice tables' `friend` bond, which greets and thanks as a friend;
+  - a measure set to `watch(clock)` and a topic gated on it give the "later";
+  - topics can give things.
+
+  No content used them for a job done. Mik had stayed a `stranger` however much the company did for him; that is
+  the smallest failing example, VoiceContext.bond after the paid topic. Only an escort home (`people.kyr`) ever made
+  anyone grateful.
+- **The content gap is closed for the undertown's merchant.** The rats job's pay now asserts gratitude, and the
+  favour is authored.
+- **One generic capability is missing.** Gratitude changes words but nothing else: no price, credit or service
+  follows from it anywhere in the rules. A friend's price has to be authored per situation, as Mik's is. A shared
+  rule would let any situation's helped person sell or serve differently. Something like "a grateful seller asks one
+  coin less", in `services.kyr`, is the smallest such rule, and it is the rules line's to decide.
+- **Is it satisfying?** It works and reads well. But it is reached only by asking again a day later, and no aim or
+  sign points there. Whether the page should hint at it is a presentation question.
+
 ## What was fixed through it
 
 - **The feat came after its result.** The skilled act was told after what it came to (the lock open, then how it was
