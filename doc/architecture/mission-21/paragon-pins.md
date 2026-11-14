@@ -104,8 +104,11 @@ horse, and can be asked along again.
   - knowledge it gains, passed to the company by an act or on rejoining;
   - the owner's view, not the familiar's, deciding what is told.
 
-  This is the same capability a scout, a split party or a messenger would use. No fixture is written, since no
-  journey can be.
+  This is the same capability a scout, a split party or a messenger would use.
+- **The fixture, kept failing** (`test/small/pin-familiar-scouting`, `it.failing`, at the owner's word): a mage's owl
+  is to be sent over a barred gate into a yard, and the company is to learn from it that a sentry stands there. It
+  fails at the missing act ("Send Hob …" is not among the choices). When the capability is built, it begins to fail
+  as a failing spec, which is the signal to make it an ordinary one.
 
 ## The planar gate (partial: a finding)
 
