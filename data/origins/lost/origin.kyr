@@ -10,8 +10,13 @@ Module origin "Gone under" {
   // Someone at home to ask of her, and where to look (Origins.lost): followed, the hook had gone quiet with no one to
   // ask (round 6, the register's US-01).
   Entity keeper: group "Whoever keeps the inn".
+  // What the keeper tells is a lead to where she went, so that the asking is weighty among everything the keeper could
+  // be asked: it had been seventeenth of nineteen (the cold playtest's CO-08; M20's R10-15, R11-02).
+  Entity told_door: fact "Your sister went in at the door of {work}, where the light gives out, and did not come out.".
+  Initially Assert leadsTo(told_door, delving).
   Topic sister with keeper "Ask {keeper} about your sister" when not carries(actor, pin) once {
     Says "{keeper} is quiet a moment. 'I remember her. Midsummer, at the table by the door, with the two of them, laughing about silver.' Lower: 'They came back through at the summer's end and drank like men with something to forget. One of them said in his cups that she would not turn back. That was at the door of {work}, where the light gives out, and so they left her there. If you go, look there, at the door.'".
+    On discuss { Assert knows(actor, told_door). }
   }
   // What is left of her there: found by one who looks, at the door she went in by, where the innkeeper says to look
   // (a lead pays off where it points: "look there, just inside" had sent the cold playtest's searcher in past the
