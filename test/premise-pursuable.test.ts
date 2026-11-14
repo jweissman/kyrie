@@ -18,8 +18,10 @@ describe('the first page of every origin on a1', () => {
     for (const origin of ['debt', 'kin', 'herbs', 'order', 'wanderer', 'map', 'lost', 'courier']) {
       const s = await DrawnWorld.start('a1', { origin, party: [{ name: 'Haze', raceId: 'human', classId: 'thief' }] },
         NodeBundleSource.shared);
-      const c = s.campaign, aim = Undertakings.held(c).find(o => Undertakings.errand(c, o));
-      if (!aim) { out.push(`${origin}: no errand`); continue; }
+      // The origin's own errand; or, where its premise is a trouble of the country's (the fever's child, the
+      // wanderer's first trouble), the first aim it is held by.
+      const c = s.campaign, held = Undertakings.held(c), aim = held.find(o => Undertakings.errand(c, o)) ?? held[0];
+      if (!aim) { out.push(`${origin}: no aim held on the first page`); continue; }
       const byId = EntityIndex.of(c.module.entities).byId, t = Stakes.target(c, aim);
       const named = [...aim.toward ?? [], t.actionAt, t.subject].filter((x): x is string => !!x)
         .map(id => byId.get(id)?.space ? id : c.world.one('at', id) ?? id);
