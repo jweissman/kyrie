@@ -85,7 +85,7 @@ export class Runner {
   private static choice(screen: Screen, names: Map<string, string>, o: Glanced): Offered {
     // A thing looked at is called by what is done to it ("Take a steel coin"), not by its name alone.
     const named = o.for && names.get(o.for), id = Runner.way(screen, (named && o.for) || (o.command ?? o.choice));
-    const own = !named && /#look$/.test(o.choice) ? names.get(id) : undefined;
+    const own = !named && (/#look$/.test(o.choice) || Runner.opener(screen, o.choice)) ? names.get(id) : undefined;
     return { id, label: Typography.plain(named || own || o.label), aspects: o.aspects, type: o.type,
       ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind) };
   }
@@ -122,6 +122,14 @@ export class Runner {
       if (found) { return found; }
     }
     return undefined;
+  }
+  // A choice the page opens (a look at a thing on a way, with its tries under it) and the runner does by the first act
+  // within: called by that act, not the opener ("Push and pull at the corn-store padlock", which it does, where it had
+  // said "look at the corn-store padlock": the promise-fidelity walk, 14 November).
+  private static opener(screen: Screen, choice: string): boolean {
+    const key = choice.slice(choice.indexOf('/') + 1);
+    const act = Runner.keyed([...screen.exits, ...screen.people, ...screen.things].flatMap(r => r.acts), key);
+    return !!act && !act.command && !!act.children?.length && !act.children.some(a => a.does === 'look_closely');
   }
   private static first(acts: Act[]): string | undefined {
     for (const a of acts) {

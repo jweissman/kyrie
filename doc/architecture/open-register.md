@@ -961,3 +961,15 @@ The generated-world walks' 292 unpursuable turns are mostly walkers inside the v
 | EX-03 | The one exception: an aim that asks to explore or survey an area makes exploring it gold progress; an aim to find an unknown thing within an area does not, without evidence | open | P1 | M21, playability |
 | EX-04 | A small regression: a walker entering the aim's site tells unvisited ways from the retreat, pursues an investigation, meets a meaningful clue or obstacle, and makes recognisable progress, with no false certainty | open | P1 | M21, playability |
 
+
+## 41. Experiential pins, by family (the owner, 15 November)
+
+Recurring complaints become a small, durable suite of cheap behavioural pins, organised by family: promise fidelity, attention economy, continuity of intention, opportunity density, character differentiation, computation locality. Each runs complaint → trace → minimal test → root-cause repair → regression. The family map, its pins, baselines and gaps are in [mission-21/experiential-pins.md](mission-21/experiential-pins.md). Rows here are the defects and gaps the pins found.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| PF-01 | A drawn facet is a promise its act keeps: test/small/promises-kept (each facet's act done in a fresh world, its changes read by relation; mutation-checked) and scripts/promise-fidelity.ts over curious walks on a1/b2/c3. Baseline after PF-02: knowledge 15/15, 8/8, 8/8; companionship 3/3, 3/3; worth a look 9/15, 11/15, 11/15 | fixed | P1 | M21, lead |
+| PF-02 | The runner (the terminal's agents, the walkers) offered an opener done by its first act under the opener's words: "To the old corn-store — look at the corn-store padlock" pushed at the padlock. **Fixed:** Runner.opener calls it by the act it does ("Push and pull at the corn-store padlock"). test/small/runner-opener, mutation-checked | fixed | P1 | M21, lead |
+| PF-03 | Every remaining break is the `held` why (an aim heard of, not followed → worth a look). Inside a manor, "To the forecourt of … Hall", a way back out to a visited place, is drawn silver from every room (b2, c3); Eogan's topic about the acolyte changes nothing typed (a1). Ruling: `held` never marks a way that leaves a site or returns to a known place (that is retreat, EX-02); on a topic only where it gives something typed toward that aim. **Gap:** a Promoted with why `held` does not say which aim it is for, so its progress cannot be checked | open | P1 | M21, playability |
+| LC-01 | `canTrain` is written, once a member has 20 experience, for every declared ability they have not learned (a dragon's breaths included): a world-sized fact set per member, and noise in every event's changes. Play is unaffected (`teaches` gates each lesson); narrowing it needs care, as `teaches` is asserted by rules mid-play | open | P3 | M21, lead |
+| LC-02 | The first observation of an unchanged cellar still grows with the world (63 → 220 ms from 0 to 4,000 rooms elsewhere): it builds the module's Operators. Looking again keeps a long tail of per-entity scans (loading-boundaries.md) | open | P2 | M21, lead |
