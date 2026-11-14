@@ -118,9 +118,7 @@ export class WorldAssembler {
       { library: [...library, ...heralds, ...standing], base, region, contacts, context, files, root, modules,
         family });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
-    // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
-    // and not drawn for either: --as herbs on a1 had set out with "No aim is held".
-    if (told) { modules.push(told.request); } else if (origin) { throw new Error(`no ${origin.manifest.id} origin in ${seed}`); }
+    if (told) { modules.push(told.request); }
     // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
     if (!told || party.length === 1) {
       this.arrival(region, { size: party.length, contacts, start: told?.start.place }, { files, root, modules });

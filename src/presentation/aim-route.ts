@@ -13,16 +13,18 @@ export class AimRoute {
   // is in it, at what the aim is toward, or on the way from the one to the other: the churchyard lit from the shrine,
   // and nothing lit back out of the crypt between it and the ossuary the dead are in.
   static routed(campaign: Campaign, screen: Screen, aimed: Set<string>): Set<string> {
-    // Out of an enclosed place toward what it names, or where its author says it is gone to by (the courier's town).
     const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
-    const out = this.outward(campaign, screen, t?.routeTo ? new Set([...aimed, t.routeTo]) : aimed);
-    const named = out ? new Set([...aimed, out]) : aimed;
-    if (!t?.routeTo || t.routeTo === t.actionAt) { return named; }
+    const by = t?.routeTo && t.routeTo !== t.actionAt && !this.there(campaign, screen, t) ? t.routeTo : undefined;
+    // Out of an enclosed place toward what it names, or where its author says it is gone to by (the courier's town).
+    const toward = by ? new Set([...aimed, by]) : aimed, out = this.outward(campaign, screen, toward);
+    return out ? new Set([...toward, out]) : toward;
+  }
+  // In the place it is gone to by, at what it is toward, or on the way from the one to the other.
+  private static there(campaign: Campaign, screen: Screen, t: ReturnType<typeof Stakes.target>): boolean {
     const byId = EntityIndex.of(campaign.module.entities).byId, line = Spatial.ancestry(byId, screen.place.id);
     const at = t.actionAt ?? (t.subject ? campaign.world.one('at', t.subject) : undefined);
-    const there = line.some(e => e.id === t.routeTo || e.id === at) || (!!at && this.between(campaign, t.routeTo, at)
+    return line.some(e => e.id === t.routeTo || e.id === at) || (!!at && this.between(campaign, t.routeTo!, at)
       .has(screen.place.id));
-    return there ? named : new Set([...named, t.routeTo]);
   }
   // From an enclosed place, where what the aim names lies outside it, the first place outside on the way there: no
   // journey is set out on from inside (CN-02), so the way out is the aim's (from the Lucky Phoenix's taproom, the
@@ -30,6 +32,9 @@ export class AimRoute {
   private static outward(campaign: Campaign, screen: Screen, named: Set<string>): string | undefined {
     const here = screen.place.id;
     if (!named.size || !Itineraries.enclosed(campaign, here)) { return undefined; }
+    // Not where a way or a walk from here goes to it itself (from the chandlery, the walk to the churchyard).
+    const direct = [...screen.exits.map(e => e.destination.id), ...(screen.around ?? []).map(d => d.id)];
+    if (direct.some(id => named.has(id))) { return undefined; }
     for (const id of named) {
       // Someone it names is gone to where they are (Glen, at his forge in Brightford).
       const to = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id) ?? id;
