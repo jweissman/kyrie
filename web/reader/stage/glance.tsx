@@ -541,6 +541,14 @@ export class GlanceStage {
       </section>
     );
   }
+  // A thing's look among the four, with acts beneath it, is the act it leads with, done at once, not a row that opens a
+  // cluster of them (the owner, 15 November: "compound command clusters" for perceiving; one flat list of acts, composed).
+  // The rest of what can be done with the thing is the Look lens's. A look with nothing led stays what it is.
+  static acted(a: Promoted, c: Choice): Choice {
+    if (!/#look$/.test(c.id) || !c.children?.length) { return c; }
+    const leaves = Attending.all(c.children).filter(k => k.command && !k.children?.length), want = a.for ?? a.inside?.[0]?.command;
+    return leaves.find(k => k.command === want) ?? leaves[0] ?? c;
+  }
   // How a fight would go, said as a line of its own: "beyond you", alone in the danger box, had read as a stray
   // fragment (round 9, Q 69).
   static fight(chance: string): string { return `A fight: ${chance}.`; }
@@ -552,7 +560,7 @@ export class GlanceStage {
     const shown = acts.flatMap(a => {
       const c = GlanceStage.choice(app, a.choice) ?? app.menu.choices.find(m => !!a.command && m.command === a.command)
         ?? (a.command ? { id: a.choice, label: a.label, tone: 'thing' as const, command: a.command } : undefined);
-      return c ? [{ a, c }] : [];
+      return c ? [{ a, c: GlanceStage.acted(a, c) }] : [];
     }).filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
     return (

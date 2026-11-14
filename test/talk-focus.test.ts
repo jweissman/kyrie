@@ -10,21 +10,29 @@ const said = (id: string, command?: string, more: Partial<Choice> = {}): Choice 
 describe('what is said, as attention holds it', () => {
   const replies = [said('well', 'ask(inn,word2)'), said('mound', 'ask(inn,word4)'),
     ...['crowns', 'saltgrave', 'glass'].map(x => said(x, `gate_${x}_beyond_told_s2`)), said('tower', 'w9_asked'),
-    said('quarry', 'spiders_job_ask'), said('bed', 'take_lodging(lodging,inn)'),
+    said('quarry', 'spiders_job_ask'), said('ford', 'ask(inn,word6)'), said('weir', 'ask(inn,word7)'),
+    said('bed', 'take_lodging(lodging,inn)'),
     said('song', undefined, { disabled: 'Needs persuasion', does: 'sing_supper' })];
+  // A short list is one flat list (the owner, 15 November: no cluster to open); only a long one keeps a fold.
+  it('shows a short list whole, with nothing folded', () => {
+    const f = TalkFocus.of(replies.slice(0, 5), { asked: [] });
+    expect(f.salient.length + f.more.length).toBe(3);
+    expect(f.more).toEqual([]);
+  });
   it('shows three, folds the rest, and sets trading apart', () => {
     const f = TalkFocus.of(replies, { asked: [] });
     expect(f.salient.map(c => c.id)).toEqual(['well', 'mound', 'tower']);
-    expect(f.more.map(c => c.id)).toEqual(['quarry', 'crowns#beyond']);
-    expect(f.more[1]!.children!.map(c => c.id)).toEqual(['crowns', 'saltgrave', 'glass']);
+    expect(f.more.map(c => c.id)).toEqual(['quarry', 'ford', 'weir', 'crowns#beyond']);
+    expect(f.more[3]!.children!.map(c => c.id)).toEqual(['crowns', 'saltgrave', 'glass']);
     expect(f.services.map(c => c.id)).toEqual(['bed', 'song']);
   });
   // What the last answer opened is kept among the few, in its written place: put first, it had moved every other
   // topic after each question (round 6, the register's FH-16).
-  it('puts first what the page leads them with, keeps what the last answer opened in its place, and last what was asked', () => {
-    const f = TalkFocus.of(replies, { led: 'spiders_job_ask', heard: replies.filter(c => c.id !== 'tower').map(c => c.id),
-      asked: ['well'] });
-    expect(f.salient.map(c => c.id)).toEqual(['quarry', 'mound', 'tower']);
+  it('puts first what the page leads them with, keeps what the last answer opened, and last what was asked', () => {
+    const heard = replies.filter(c => c.id !== 'tower').map(c => c.id);
+    const f = TalkFocus.of(replies, { led: 'spiders_job_ask', heard, asked: ['well'] });
+    // Six fresh topics are a short list, shown whole: what is led first, what the last answer opened in its place.
+    expect(f.salient.map(c => c.id)).toEqual(['quarry', 'mound', 'tower', 'ford', 'weir', 'crowns#beyond']);
     expect(f.opened.has('tower')).toBe(true);
     expect(f.more.at(-1)!.id).toBe('well');
   });
@@ -37,7 +45,8 @@ describe('what is said, as attention holds it', () => {
     const brom = [said('Ask about the old toll-house', 'r1'), said('Ask about the factor who buys old bronze', 'r2'),
       said('Ask about the players stuck at Aldermead', 'r3'), said('Ask about the rats in the corn-store', 'rats')];
     expect(TalkFocus.of(brom, { asked: [], weighty: ['rats'] }).salient[0]!.command).toBe('rats');
-    expect(TalkFocus.of(brom, { asked: [] }).salient.map(c => c.id)).not.toContain('Ask about the rats in the corn-store');
+    // Not led first by its words: it stands where the author put it, after the rumours (a short list is shown whole).
+    expect(TalkFocus.of(brom, { asked: [] }).salient[0]!.command).not.toBe('rats');
     const beak = [said('Ask what is down in the cisterns', 'r1'), said('Ask about the factor', 'r2'),
       said('Ask about the silk from the sink', 'r3'), said('Ask about the old well', 'r4')];
     const told = said('Tell Beak the rats under the corn-store are dead, nest and all', 'u_rats_told');
@@ -46,7 +55,7 @@ describe('what is said, as attention holds it', () => {
     expect(TalkFocus.of(traubon, { asked: [] }).salient[0]!.id).toBe('Would you come along?');
     // A label is not weight: "Pay Tuck what you owe", where it settles nothing the company holds, stays in its place.
     const pay = said('Pay Tuck what you owe', 'topic_x');
-    expect(TalkFocus.of([...beak, pay], { asked: [] }).salient).not.toContain(pay);
+    expect(TalkFocus.of([...beak, pay], { asked: [] }).salient[0]).not.toBe(pay);
     expect(TalkFocus.of([...beak, pay], { asked: [], weighty: ['topic_x'] }).salient[0]).toBe(pay);
   });
   it('makes room for an answer owed', () => {

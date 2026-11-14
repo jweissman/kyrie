@@ -8,6 +8,7 @@ import type { Choice } from '../../src/ui/choice-list';
 // work (a bed, care, a song for supper, a lesson, a sale) set apart for trading, not among what is said.
 export class TalkFocus {
   static readonly most = 3;
+  static readonly flat = 6;
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
@@ -28,7 +29,10 @@ export class TalkFocus {
     const opened = at.heard ? fresh.filter(c => !heard.has(c.id) && !c.children?.some(k => heard.has(k.id))
       && !led.includes(c)) : [];
     const ranked = [...led, ...opened, ...fresh.filter(c => !led.includes(c) && !opened.includes(c))];
-    const room = Math.max(1, TalkFocus.most - (answers.length ? 1 : 0));
+    // A short list is shown whole, one flat list of what can be said; only a long one keeps its few and a fold (the
+    // owner, 15 November: no cluster to open to find the rest; hearsay is one question, NewsFold, so lists are short).
+    const most = Math.max(1, TalkFocus.most - (answers.length ? 1 : 0));
+    const room = ranked.length <= TalkFocus.flat ? ranked.length : most;
     // What the last answer opened is among the few, but in its written place, after what is led: put first, it had
     // moved every other topic down after each question (round 6, the register's FH-16).
     const few = ranked.slice(0, room), first = few.filter(c => led.includes(c));

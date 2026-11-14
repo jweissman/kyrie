@@ -37,9 +37,12 @@ describe('the page\'s four', () => {
     const html = renderToStaticMarkup(createElement(GlanceStage.Acts, { app, draw: Act.draw(app), acts: four }));
     const rows = [...html.matchAll(/<li data-promoted="(\d)"[^>]*>[\s\S]*?data-act="([^"]+)"/g)].map(m => [m[1], m[2]]);
     expect(rows.map(r => r[0])).toEqual(['1', '2', '3', '4']);
-    // Each row does the act offered: its own choice, or the command where the menu has none of its own.
+    // Each row does the act offered: its own choice, or the command where the menu has none of its own; a thing's look
+    // is the act it leads with, one of the thing's own (the owner, 15 November), as the terminal's is.
     const offered = t.glance.offer!.primary;
-    expect(rows.map(r => r[1])).toEqual(offered.map(o => o.choice));
+    const does = rows.map((r, i) => /#look$/.test(offered[i]!.choice)
+      ? r[1]!.startsWith(offered[i]!.choice.replace(/#look$/, '/')) : r[1] === offered[i]!.choice);
+    expect(does).toEqual(offered.map(() => true));
     // And the terminal leads with the same four, by the commands they do.
     expect(Terminal.led(t.glance, t.screen)).toEqual(offered.map(o => o.command ?? o.choice));
   });
