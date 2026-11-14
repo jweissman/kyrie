@@ -5,7 +5,7 @@ import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } 
 import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../item-names'; import { Passages } from './passages';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../canon/background-catalog';
@@ -20,11 +20,10 @@ import { SeenThrough } from './seen-through'; import { Calendar } from '../campa
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
-import { Withheld } from './withheld';
+import { Withheld } from './withheld'; import { LightLeft } from './light-left';
 import { CompanyRecall } from '../presentation/company-recall';
 import { DangerSense } from '../presentation/danger-sense';
 import { ChoiceGrouping, type Grouped } from './choice-grouping';
-import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
 import { Overlays } from '../overlays'; import { ItemStow } from './item-stow'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
@@ -46,8 +45,7 @@ export class ScreenModel {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
     const names = this.names(campaign), prices = this.prices(world);
     const present = new Set(view.present.map(p => p.id));
-    const passageOf = this.passageOf(world, view.location?.id ?? '');
-    const fees = this.fees(campaign);
+    const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign),
@@ -97,7 +95,8 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
-    return { ...screen, ...TownPlan.of(screen, entities, world, { visited, recall: CompanyRecall.of(campaign) }) };
+    return { ...screen, camp: LightLeft.warned(screen.camp, screen.expedition.flame),
+      ...TownPlan.of(screen, entities, world, { visited, recall: CompanyRecall.of(campaign) }) };
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
   private static prices(world: World): Map<string, number> {
