@@ -11,10 +11,8 @@ import { Indicator, type Indicated } from '../../../src/presentation/indicator';
 // where it is only perceived, off along a way (faint, not dim: dim is the whole mark lowered, with nothing new). It
 // says in words what it is, for whoever cannot see the colour.
 export class Pip {
-  // Its colour as Indicator gives it, a companion apart: the page draws the companion's icon itself (see View), and
-  // so asks no companion of Indicator, whose way of drawing one has varied by client (TP-03).
   static of(aspects: readonly Aspect[] | undefined, gilded: boolean): Indicated {
-    return Indicator.of({ aspects: (aspects ?? []).filter(a => a !== 'companionship'), gilded });
+    return Indicator.of({ aspects: aspects ?? [], gilded });
   }
   static tone(aspects: readonly Aspect[] | undefined, gilded: boolean): Tone | undefined {
     return Pip.of(aspects, gilded).tone;
@@ -27,9 +25,9 @@ export class Pip {
   static sensed(aspect: Aspect | undefined): Tone | undefined {
     return aspect && aspect !== 'companionship' ? Emphasis.tones[aspect] : undefined;
   }
-  // All it is, in words, its colour's first.
+  // All it is, in words, its colour's first and a companion's last (Indicator.words).
   static words(aspects: readonly Aspect[] | undefined, gilded: boolean): string {
-    return Emphasis.ranked(aspects, gilded).map(a => Emphasis.words[a]).join(', ');
+    return Indicator.words(aspects, gilded).join(', ');
   }
   // Its pip, and a companion's icon beside it or alone (the words said once, on whichever is drawn first).
   static View({ fill, faint, label, companion }: { fill?: string; faint?: boolean; label?: string;
@@ -38,7 +36,7 @@ export class Pip {
     const said = (first: boolean) => label && first ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true };
     return <>
       {fill && <i className={`pip${faint ? ' faint' : ''}`} style={{ '--pip': fill } as CSSProperties} {...said(true)} />}
-      {companion && <Glyphs.View id="companion" className={`pip-icon${faint ? ' faint' : ''}`}
+      {companion && <Glyphs.View id="companion" className={`pip-icon companion${faint ? ' faint' : ''}`}
         {...label && !fill ? { label } : {}} />}
     </>;
   }

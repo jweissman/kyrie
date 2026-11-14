@@ -3,7 +3,8 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { Choice } from '../../src/ui/choice-list';
 import type { Aspect, Promoted } from '../../src/presentation/glance-types';
-import { Indicator, type Carrying, type Indicated } from '../../src/presentation/indicator';
+import { Indicator, type Carrying } from '../../src/presentation/indicator';
+import { Signs } from '../../src/presentation/signs';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
@@ -16,9 +17,9 @@ import { WorldStage } from '../../web/reader/stage/world-stage';
 // through several; a companion its icon alone, never a colour (TP-03); nothing held. A row's mark, a likeness's pip,
 // the place's mark and the rail's pips are each the colour Indicator.of gives, so that the page and the terminal can
 // never draw one act two ways.
-// The terminal's own reading, a companion as its icon (TP-03): asked as an icon where Indicator still takes the choice,
-// and where it no longer does (term-3: always an icon), the same.
-const terminal = (c: Carrying) => (Indicator.of as (c: Carrying, companion?: 'icon') => Indicated)(c, 'icon');
+// The terminal's own reading: its colour, and whether a companion's icon stands among its icons (TP-03).
+const terminal = (c: Carrying) => Indicator.of(c);
+const kin = (c: Carrying) => terminal(c).icons.some(i => i.sign === Signs.aspects.companionship.sign);
 const cases: { aspects: Aspect[]; gilded: boolean }[] = [
   { aspects: ['exploration', 'payoff'], gilded: false }, { aspects: ['wonder', 'knowledge'], gilded: false },
   { aspects: ['companionship', 'knowledge'], gilded: false }, { aspects: ['companionship'], gilded: false },
@@ -26,7 +27,7 @@ const cases: { aspects: Aspect[]; gilded: boolean }[] = [
   { aspects: ['danger', 'undertaking'], gilded: true }];
 const expected = (c: typeof cases[number]) => {
   const tone = terminal({ aspects: c.aspects, gilded: c.gilded }).tone;
-  return { tone: tone ? `var(--tone-${tone})` : undefined, companion: c.aspects.includes('companionship') };
+  return { tone: tone ? `var(--tone-${tone})` : undefined, companion: kin({ aspects: c.aspects, gilded: c.gilded }) };
 };
 const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'person', command: 'ask(wat, well)' };
 const app = (acts: Promoted[], likenesses = {}) => ({ state: { keyed: false, cursor: 0, open: [], frame: {
@@ -40,7 +41,7 @@ const led = (c: typeof cases[number]): Promoted => ({ choice: ask.id, label: ask
 const drawn = (html: string, property: string) => {
   const fill = new RegExp(`--${property}:\\s*([^;"]+)`).exec(html)?.[1]?.trim();
   return { tone: fill === 'var(--faint)' || fill === 'var(--tone-neutral)' ? undefined : fill,
-    companion: /companion/.test(html) && /pip-icon|led-icon/.test(html) };
+    companion: /class="(pip-icon companion|led-icon)/.test(html) };
 };
 
 describe('the page\'s one indicator', () => {

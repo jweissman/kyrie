@@ -102,7 +102,7 @@ export class Attention {
       // anything else perceived is the faint tone of a way with none (the atlas-perception matrix, M21).
       const tone = lit ?? Pip.sensed(far?.aspect), kin = far?.aspect === 'companionship';
       return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
-        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && (kin || !lit) ? Signs.sensed(far.aspect) : '', time]
+        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && (kin || !lit) ? Signs.sensed(far.aspect, far.far) : '', time]
           .filter(Boolean).join(' · ') || undefined,
         ...tone ? { tone } : {}, ...far && !lit && !kin ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
     });
