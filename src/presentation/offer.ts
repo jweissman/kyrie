@@ -46,7 +46,10 @@ export class Offers {
       for (const c of order) {
         if (led.length + fill.length >= this.four) { break; }
         const type = this.types[c.kind];
-        if (shown.has(c.choice) || (distinct && types.has(type))) { continue; }
+        // The company's own upkeep (gear, preparing spells) with no reason here never fills the four: two of the
+        // four at a keep's door had been "Have Cyril prepare Cure Light Wounds in place of Charm Person".
+        const upkeep = type === 'other' && !c.whys.length;
+        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }
@@ -71,7 +74,8 @@ export class Offers {
   static readonly ranks: readonly ActType[] = ['talk', 'go', 'journey', 'search', 'act', 'study', 'fight', 'light',
     'care', 'wait', 'other'];
   private static rank(c: Candidate): number { return this.ranks.indexOf(this.types[c.kind]); }
-  private static readonly gear = new Set(['put_item', 'put_in', 'transfer_item', 'equip_item', 'douse_light']);
+  private static readonly gear = new Set(['put_item', 'put_in', 'transfer_item', 'equip_item', 'douse_light',
+    'prepare_spell']);
   private static kind(schema: string | undefined): Kind {
     const s = schema ?? '';
     if (this.gear.has(s)) { return 'other'; }

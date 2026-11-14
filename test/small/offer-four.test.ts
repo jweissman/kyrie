@@ -37,10 +37,12 @@ describe('the scene\'s offer', () => {
   it('keeps the company\'s own gear behind what can be done here in the rest, whatever order they came in (TP-06)', () => {
     const c = (choice: string, kind: Candidate['kind'], order: number): Candidate =>
       ({ choice, label: choice, command: choice, kind, whys: [], order, marks: [] } as unknown as Candidate);
-    // The four are filled first, each of a kind (a gear act among them, being first); the rest is ranked.
+    // The four are filled first, each of a kind, never with the company's upkeep; the rest is ranked, upkeep last.
     const cands = [c('drop', 'other', 0), c('pack', 'other', 1), c('pull', 'act', 2), c('look', 'search', 3),
       c('lane', 'way', 4), c('nap', 'wait', 5), c('ask', 'talk', 9), c('tell', 'talk', 10)];
-    expect(Offers.scene([], [], cands).rest.map(o => o.choice)).toEqual(['ask', 'tell', 'nap', 'pack']);
+    const offer = Offers.scene([], [], cands);
+    expect(offer.primary.map(o => o.choice)).toEqual(['pull', 'look', 'lane', 'nap']);
+    expect(offer.rest.map(o => o.choice)).toEqual(['ask', 'tell', 'drop', 'pack']);
   });
   it('offers what there is where there is less, and nothing made up', async () => {
     const t = await Tiny.start(`Place loft "the loft" is room at 0, 0. Company party "You" of 1 at loft.`);
