@@ -1,0 +1,15 @@
+Module barrow "A torch-seller with a stuck barrow, and a lane" {
+  Place yard "the yard" is room.
+  Place lane "the lane" is room.
+  Passage gate "the yard gate" is gate between yard and lane.
+  Company party "You" of 1 at yard.
+  Person halm "Teodor Halm" at yard { Role "a scholar". Peaceable. Pronouns he. Sells torch for 3 coin from 3. }
+  Topic barrow with halm "Help Halm free his barrow's wheel" when not grateful(halm, party) {
+    Says "The wheel comes up out of the rut with a jolt, and Halm thanks you twice over.".
+    On discuss { Assert grateful(halm, party). }
+  }
+  Initially Set quantity(party, gold) to 5.
+  Observe yard_scene at yard when true "A yard, and a scholar selling torches off a barrow.".
+  Observe lane_scene at lane when true "A lane between hedges.".
+  Goal false.
+}

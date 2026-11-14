@@ -43,10 +43,11 @@ describe('the terminal, its commands piped in at once', () => {
       await run.exited;
       return out.split(/^> /m)[3] ?? '';
     };
-    // The kitchen's four: Wat's question the aim waits on first, the back door third (Glance.offer).
-    const [one, three] = await Promise.all([after('1'), after('3')]);
+    // The kitchen's four: Wat's question the aim waits on first, the back door second (Glance.offer). The mother's
+    // letter, which teaches nothing, is no longer led as worth a look (PF-03's held topic).
+    const [one, two] = await Promise.all([after('1'), after('2')]);
     expect(one).toContain('He took the cart to the fair at Brough');
-    expect(three).not.toContain('He took the cart to the fair at Brough');
-    expect(three).toMatch(/^the yard$/m);
+    expect(two).not.toContain('He took the cart to the fair at Brough');
+    expect(two).toMatch(/^the yard$/m);
   }, 30000);
 });

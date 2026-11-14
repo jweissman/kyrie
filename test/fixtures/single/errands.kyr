@@ -1,0 +1,20 @@
+Module errands "Two errands in a yard" {
+  Place yard "the yard" is room.
+  Place lane "the lane" is room.
+  Passage gate "the yard gate" is gate between yard and lane.
+  Company party "You" of 1 at yard.
+  Person halm "Teodor Halm" at yard { Role "a scholar". Peaceable. Pronouns he. }
+  Entity road: fact "Where the road goes". Entity ringplace: fact "Where the ring was lost".
+  Topic road with halm "Ask Halm where the road goes" when not knows(actor, road) {
+    Says "'Down the lane, and on to the sea,' says Halm.".
+    On discuss { Assert knows(actor, road). }
+  }
+  Topic ring with halm "Ask Halm where he lost his ring" when not knows(actor, ringplace) {
+    Says "'By the yard gate, the day it rained,' says Halm.".
+    On discuss { Assert knows(actor, ringplace). }
+  }
+  Objective walk when not been(party, lane) toward lane "Walk down the lane.".
+  Objective ring when not knows(party, ringplace) toward halm "Halm has lost a ring, and would know where.".
+  Observe yard_scene at yard when true "A yard, and a scholar at a barrow.".
+  Goal false.
+}
