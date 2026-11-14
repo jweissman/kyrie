@@ -47,6 +47,6 @@ export class Keyed implements Picking {
   get last(): Frame { return this.frames.at(-1)!; }
   private heard(...said: unknown[]) { this.said.push(said.map(s => typeof s === 'string' ? s : JSON.stringify(s)).join(' ')); }
   static key(k: string): Key {
-    return ['up', 'down', 'left', 'right', 'return', 'escape', 'tab', 'backspace'].includes(k) ? { name: k } : { ch: k };
+    return ['up', 'down', 'left', 'right', 'return', 'escape', 'tab', 'backspace', 'pageup', 'pagedown'].includes(k) ? { name: k } : { ch: k };
   }
 }

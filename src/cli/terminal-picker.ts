@@ -97,9 +97,10 @@ export class TerminalPicker {
     if (next !== undefined) { this.focus = next; this.about = undefined; this.asking = undefined; }
     return undefined;
   }
+  // Up from the first row stays there, as down from the last: going round had taken an Up meant for the four into the
+  // folded rest at the foot, and the Enter after it unfolded that (the human mode's second play).
   private move(by: number): undefined {
-    const n = this.visible.length;
-    if (n) { this.focus = (this.focus + by + n) % n; }
+    this.focus = Math.max(0, Math.min(this.visible.length - 1, this.focus + by));
     this.about = undefined; this.asking = undefined;
     return undefined;
   }

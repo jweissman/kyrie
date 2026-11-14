@@ -262,3 +262,41 @@ and the picker never got in my way. It is not yet comfortable for an hour. Long 
 and the town's rest is a list nobody would read. A fight is clerical. The first two are mostly the engine's (scene
 length, an Offers ranking of the rest); the third is the terminal's to fix next: one Enter for a blow at the only
 foe, and the hand's choices said by what they do.
+
+## After term-4: a second play (80 × 24 and 140 × 45)
+
+I played about twenty minutes on main with term-4 merged. On an 80 × 24 pty I made an elf thief who owes Mik fifty
+coin. I followed the aim, asked Eamon, hired Cyril, went across the fen to Ironkeep and into its gate-passage. On a
+140 × 45 pty I played a dwarf cleric on the landing at Lowmouth, buying from Lambert.
+
+**Pleasant: yes, for the first quarter of an hour.**
+- The debt opening is three lines and a gold row, and the chain holds without a stumble: Mik, the inn, Eamon's three
+  old places, Cyril, then "Set out for Ironkeep", gold and first, 71 minutes.
+- Cyril's line at the keep's foot ("More if you come back out of it") arrives on its own, one key after the journey.
+
+**Legible: yes.**
+- The place stays on screen at 24 rows, and the folded rest ("▸ Do · 19", "▸ Across the country · 34") reads at a
+  glance.
+- Companions are an icon, with no rose: "Ask Cyril whether she would come along ⚭".
+- The coin to collect was gold with ¤: the aim and what it pays, in one row.
+
+**Operable: yes, with two snags.**
+- Up from the first row had gone round into the folded rest, and the next Enter unfolded it. Up and down now stop at
+  the ends.
+- Escape followed within half a second by another key is read as one key sequence (the terminal's escape timeout).
+  ← goes back at once, and the footer says ←.
+
+**Still miserable, and none of it the client's.** These went to the lead.
+- **The followed aim is said again in every new room.** "Following: You owe Mik, salter at Lowmouth 50 coin by
+  market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, …" (three lines) came at the landing, the taproom,
+  Ironkeep and the gate-passage. The terminal says it where Glance.aim is set, and the glance sets it on every first
+  arrival.
+- **The golden thread ends at a portcullis.** In Ironkeep's gate-passage, after the coin, nothing is gold. Pushing,
+  pulling, listening and searching all say nothing is there. The only way is back out.
+- **The four fill with spell swaps at a spent place.** "Have Cyril prepare Cure Light Wounds in place of Charm
+  Person…" took two of the four at the keep's door.
+- **The map from the taproom did not offer Ironkeep.** Eamon had told how to reach it; from Mik's salt-house it was
+  the gold first row.
+- **Hiring says its price only in the reply.** "Ask Cyril to join the company" carries no cost; her "6 coin, and my
+  keep" was said before it.
+- **`--as` with `--origin herbs` holds no aim.** `a` said "No aim is held."

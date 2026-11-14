@@ -88,7 +88,7 @@ describe('the terminal\'s human mode, in the awkward world', () => {
   it('reads the instruments that bear on the moment, each one\'s gloss on asking', async () => {
     const t = await Awkward.start();
     await t.play('Wait › Until dark');
-    const k = await Keyed.play(t.session, ['up', 'up', '?']);
+    const k = await Keyed.play(t.session, ['pagedown', 'up', '?']);
     const info = k.last.menu.info!.map(r => r.label);
     expect(info).toEqual([expect.stringMatching(/^Sky: .*moon/), expect.stringMatching(/^Provisions: /)]);
     expect(k.last.focused).toBe('instrument:sky');
