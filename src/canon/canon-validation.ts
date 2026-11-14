@@ -8,6 +8,7 @@ import armsPaintings from '../../data/paintings/arms.json';
 import armourPaintings from '../../data/paintings/armour.json';
 import consumablePaintings from '../../data/paintings/consumables.json';
 import geology from '../../data/catalog/geology.json';
+import weather from '../../data/generation/tables/weather.json';
 import { Canon } from './canon';
 import { CastingLevel } from '../rules/casting-level';
 import type { Modifiers, Species } from './schema';
@@ -342,6 +343,8 @@ export class CanonValidation {
       if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
       for (const h of o.habitats.filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
       for (const g of (o.grounds ?? []).filter(g => !CanonValidation.grounds.has(g))) { this.fail(where, `unknown ground ${g}`); }
+      const climates = weather.climateWeather.groups;
+      for (const c of (o.climates ?? []).filter(c => !(c in climates))) { this.fail(where, `unknown climate ${c}`); }
     }
   }
   private sources() {

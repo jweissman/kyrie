@@ -287,7 +287,7 @@
         "notes": "Orsino's herb, a thing sold and used, here the plant it is gathered from."
       }
     },
-    "amaranth": {
+    "amaranth": { "climates": ["tropical", "humid", "arid"],
       "name": "Amaranth",
       "looks": "A tall plant with broad leaves and clusters of small, colorful flowers.",
       "portrait": "plants/amaranth",
@@ -336,7 +336,7 @@
         "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, aster)."
       }
     },
-    "bamboo": {
+    "bamboo": { "climates": ["tropical", "humid"],
       "name": "Bamboo",
       "looks": "A tall, woody grass with jointed stems.",
       "portrait": "plants/bamboo",
@@ -1155,7 +1155,7 @@
         "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, starwort)."
       }
     },
-    "cinnamon": {
+    "cinnamon": { "climates": ["tropical", "humid"],
       "name": "Cinnamon",
       "looks": "A small tree with aromatic bark and green leaves.",
       "portrait": "plants/cinnamon",

@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { RegionWeather } from './region-weather';
 import { Draw } from './land/draw';
 import { Geology } from './land/geology';
 import { RegionGeography } from './region-geography';
@@ -35,9 +36,11 @@ export class RegionGrowth {
   // whose habitat it has, by that chance in ten (a rare herb is rare), twice that on the rock it does best on (heather
   // on the granite, selfheal on the limestone: M19-68). A plant added there grows where it lives.
   static get plants(): string[] { return Object.keys(Canon.plants).filter(id => Canon.plants[id]!.stand); }
-  static grown(place: { id: string }, habitats: Set<string>, rocks: Set<string> = new Set()): [string, Plant][] {
+  static grown(place: { id: string; climate?: string }, habitats: Set<string>, rocks: Set<string> = new Set()):
+    [string, Plant][] {
     const fits = this.plants.map(id => [id, Canon.plants[id]!] as [string, Plant])
-      .filter(([, o]) => o.habitats.some(h => habitats.has(h)));
+      .filter(([, o]) => o.habitats.some(h => habitats.has(h))
+        && (!o.climates || !place.climate || o.climates.includes(place.climate)));
     return [...fits.filter(([, o]) => !o.abundance).slice(0, 2),
       ...fits.filter(([id, o]) => o.abundance && new Draw(`${place.id}:${id}`).chance(this.odds(o, rocks)))];
   }
@@ -77,7 +80,7 @@ export class RegionGrowth {
   static readonly gardens = 2;
   private static planted(region: Region): { place: { id: string; cells: number[] }; here: [string, Plant][] }[] {
     return region.settlements.filter(t => t.cell !== undefined).map(t => {
-      const place = { id: `${t.id}_green`, cells: [t.cell!] };
+      const place = { id: `${t.id}_green`, cells: [t.cell!], climate: RegionWeather.climate(region) };
       return { place, here: this.grown(place, new Set(['settlement']), this.rocks(region, place.cells))
         .filter(([, o]) => o.abundance).slice(0, this.gardens) };
     });
@@ -85,8 +88,9 @@ export class RegionGrowth {
   static lines(region: Region): string[] {
     const q = JSON.stringify, lines: string[] = [];
     const roads = new Set(RegionGeography.roads(region).map(r => r.way)), greens = new Set<string>();
+    const climate = RegionWeather.climate(region);
     const wild = this.places(region).map(place => ({ place,
-      here: this.grown(place, this.habitats(region, place.cells), this.rocks(region, place.cells)) }));
+      here: this.grown({ ...place, climate }, this.habitats(region, place.cells), this.rocks(region, place.cells)) }));
     const gardens = this.planted(region);
     for (const g of gardens) { greens.add(g.place.id); }
     for (const { place, here } of [...wild, ...gardens]) {

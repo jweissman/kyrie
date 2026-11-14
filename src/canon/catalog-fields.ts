@@ -30,7 +30,7 @@ const fields = {
     'spellcasting', 'rank', 'omits', 'source'],
   skill: ['name', 'description', 'source', 'rests', 'means'],
   plant: ['name', 'looks', 'habitats', 'source', 'portrait', 'uses', 'abundance', 'stand', 'yields', 'gathered',
-    'count', 'cut', 'grounds'],
+    'count', 'cut', 'grounds', 'climates'],
   deity: ['name', 'domains', 'gender', 'observance', 'blessing', 'source'],
   domain: ['name', 'alignment', 'description', 'spellDomain', 'blessing', 'source'],
   material: ['name', 'kind', 'hardness', 'looks', 'source', 'passes'],
