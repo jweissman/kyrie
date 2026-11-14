@@ -239,11 +239,14 @@ export class Effects {
     if (!context.expressions) { return; }
     if (target.hp === 0) {
       const death = context.events.findLastIndex(e => e.type === 'death' && e.actor === target.id);
-      if (Effects.save(target, 'death', Canon.rules.combat.deathSave, context)) {
+      // The company keeps Orsino's save; a foe brought to 0 is dead unless its kind rises again (CO-05: "falls",
+      // told, had been followed by "returns with 1 HP").
+      const rises = !!target.traits?.includes('rises_again');
+      if ((target.team === 'fighters' || rises) && Effects.save(target, 'death', Canon.rules.combat.deathSave, context)) {
         target.hp = 1;
         if (death >= 0) { context.events.splice(death, 1); }
         context.events.push({ type: 'revive', turn: context.turn, actor: target.id, target: target.id,
-          detail: 'saved against death', amount: 1 });
+          detail: rises && target.team !== 'fighters' ? 'rises again' : 'saved against death', amount: 1 });
       }
       return;
     }

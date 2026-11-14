@@ -1,38 +1,10 @@
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
-import { WorldAssembler } from '../src/world/world-assembler';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
+import { Rivals } from './support/rivals';
 
 // The Collegium of the Measured Road in the Numbered House (data/situations/arcology/rivals.kyr): a rival expedition on
 // its own clock, what it changes, and what a company of each calling can do about it. A spec puts the company down with
 // `Placed.at` only to skip the walk, never to bypass the mechanism it is about.
-class Rivals {
-  static a(x: string) { return x === 'party' || x.includes('__') ? x : `arcology__${x}`; }
-  static is(j: Journey, rel: string, ...args: string[]) { return j.holds(rel, ...args.map(x => this.a(x))); }
-  static n(j: Journey, rel: string, ...args: string[]) { return j.measure(rel, ...args.map(x => this.a(x))); }
-  static async site(seed = 'kahitude') {
-    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, {});
-    return w.report.placements.find(x => x.scenario === 'arcology')!.bindings.works!;
-  }
-  static async start(cls = 'warrior', seed = 'kahitude') {
-    return Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: cls }] }, NodeBundleSource.shared));
-  }
-  // The company at the Bend, as it would be on arriving: the expedition's clock starts there.
-  static async bend(cls = 'warrior') {
-    const j = await this.start(cls);
-    Placed.at(j, `region__${await this.site()}`);
-    await j.play('=day 3 06:00', 'Wait › A while');
-    return j;
-  }
-  static async stage(j: Journey, n: number) {
-    while (this.n(j, 'rivalStage', 'house') < n) { await j.play('=+60'); }
-  }
-  static at(j: Journey, who: string) { return j.at(this.a(who)); }
-  static carries(j: Journey, name: string) { return j.choices().some(c => new RegExp(`^Pack › ${name}`, 'i').test(c.full)); }
-}
 
 // Part of arcology-rivals.test.ts, split so that its sections run in parallel on CI: one file's tests run in
 // one worker, and the whole had taken 20 minutes there (Mission 20's landing).
@@ -44,7 +16,7 @@ describe('what each calling reads in the House', () => {
     Placed.at(j, 'arcology__drawers');
     await j.play('Wait › A while');
     expect(j.seen()).toMatch(/ring has six notches/);
-  }, 300000);
+  }, 120000);
 
   it('a ranger reads the owlbear’s line and goes round it', async () => {
     const j = await Rivals.start('ranger');
@@ -54,7 +26,7 @@ describe('what each calling reads in the House', () => {
     expect(Rivals.is(j, 'warned', 'owlbear', 'party')).toBe(true);
     await j.play('Take the owlbear.s line');
     expect(Rivals.is(j, 'tolerates', 'owlbear', 'party')).toBe(true);
-  }, 300000);
+  }, 120000);
 
   it('a cleric sees the dead tenants’ shift at dusk, and asks them to wind the weights', async () => {
     const j = await Rivals.start('cleric');
@@ -67,7 +39,7 @@ describe('what each calling reads in the House', () => {
     await j.play('Have .* say the office for the tenants');
     expect(Rivals.is(j, 'state', 'winch_a', 'wound')).toBe(true);
     expect(Rivals.is(j, 'state', 'winch_b', 'wound')).toBe(true);
-  }, 300000);
+  }, 120000);
 
   it('a company with the surveyors’ plate flashes the drowned city and is answered: WAIT', async () => {
     const j = await Rivals.start();
@@ -77,5 +49,5 @@ describe('what each calling reads in the House', () => {
     await j.play('Flash the surveyors');
     expect(Rivals.is(j, 'knows', 'party', 'tower_answers')).toBe(true);
     expect(Rivals.is(j, 'state', 'ring_sight', 'answered')).toBe(true);
-  }, 300000);
+  }, 120000);
 });

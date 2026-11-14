@@ -65,7 +65,7 @@ export class TerminalScene {
   // moment, and only when what it reads has changed. Quiet, each by its emblem's character where it has one.
   private instruments(leaf: Leaf, whole: boolean): string[] {
     const shown = (leaf.instruments ?? []).filter(i => whole || i.relevant)
-      .map(i => `${i.emblem ? `${Signs.emblem(i.emblem) ?? ''} ` : ''}${i.said}`);
+      .map(i => `${i.emblem ? `${Signs.emblem(i.emblem) ?? ''} ` : ''}${i.label}: ${i.said}`);
     const said = this.fresh('instruments', shown.join(' | ') || undefined, whole);
     return said ? shown.map(l => TerminalColour.dim(l, this.depth)) : [];
   }

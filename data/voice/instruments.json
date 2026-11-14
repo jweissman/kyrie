@@ -1,0 +1,13 @@
+{
+ "about": "What each instrument is called and what it reports, for any client to show beside it and on asking (the owner, 14 November: an instrument the player cannot read is noise). A short label, and a gloss of one or two light sentences. Read by src/presentation/instruments.ts; a client displays them and interprets nothing.",
+ "instruments": {
+  "sky": {
+   "label": "Sky",
+   "gloss": "The moon's age. To one who reads the stars, the sign rising this month."
+  },
+  "provisions": {
+   "label": "Provisions",
+   "gloss": "Days of food in the company's packs, and the light it carries. Hunger and the dark come when they run out."
+  }
+ }
+}

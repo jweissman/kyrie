@@ -1,6 +1,13 @@
 {
   "about": "Traits: permanent grants. Orsino traits are generated into data/catalog/orsino/traits.json with their categories: lineage (given at birth by an ancestry), nature, affinity, character, feat, party and specialization (a school or domain with spell access). This file holds Kyr's own traits and adaptations.",
   "traits": {
+    "rises_again": {
+      "name": "Rises Again",
+      "category": "nature",
+      "description": "Brought down, it may get up again: it saves against death as the company does, and rises (CO-05: a foe brought to nothing is otherwise dead).",
+      "modifiers": {},
+      "source": { "kyr": true, "notes": "Kyr's own: for the kinds that rise again (a troll, some of the dead); no kind bears it yet." }
+    },
     "deep_water": {
       "name": "Of deep water",
       "category": "nature",

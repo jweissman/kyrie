@@ -68,7 +68,16 @@ export class CombatPresenter {
   private static foe(event: { target: string }, state: BattleState): boolean {
     return state.combatants.find(f => f.id === event.target)?.team === 'goblins';
   }
-  static format(event: CombatEvent, state: BattleState): string {
+  // One back on their feet: come round in a bout, beaten and yielding, a foe of a kind that rises again, or one of the
+  // company who saved against death.
+  private static revived(detail: string | undefined, target: string, hp: number): string {
+    return detail === 'comes round' ? `${target} comes round, with ${hp} HP.` : detail === 'yields'
+      ? `${target} is beaten, and yields.` : detail === 'rises again' ? `${target} rises again.`
+        : `${target} returns with ${hp} HP.`;
+  }
+  // dice: whether a blow's rolls are said ("rolled 5, needed 14"): the chronicle's, not a scene's (see blows in
+  // ActionFeedbackView: a flight had been told with them).
+  static format(event: CombatEvent, state: BattleState, dice = true): string {
     const known = [...state.combatants, ...state.departed ?? []];
     const actor = 'actor' in event ? known.find(f => f.id === event.actor)?.name ?? event.actor : '';
     const target = 'target' in event ? known.find(f => f.id === event.target)?.name ?? event.target : '';
@@ -93,7 +102,7 @@ export class CombatPresenter {
       case 'skip': return `${actor} cannot act.`;
       case 'random': return `${actor} is not in their right mind, and does whatever comes first.`;
       case 'attack': return `${actor} ${event.success ? event.critical ? 'critically hits' : 'hits' : event.evaded
-        ? 'is evaded by' : 'misses'} ${target} (rolled ${event.die}, needed ${event.need}).`;
+        ? 'is evaded by' : 'misses'} ${target}${dice ? ` (rolled ${event.die}, needed ${event.need})` : ''}.`;
       case 'flee': return event.success ? `${actor} gets away.` : `${actor} tries to get away, and cannot.`;
       case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
         + ` ${o.roll}`).join(', ')}.`;
@@ -108,8 +117,7 @@ export class CombatPresenter {
       case 'remove': return `${target} loses ${event.detail}.`;
       case 'expire': return this.told(event.detail, 'ends')?.replace('{target}', target) ?? `${target}'s ${event.detail} expires.`;
       // One beaten in a bout to yielding gets up again, beaten (see Morale).
-      case 'revive': return event.detail === 'comes round' ? `${target} comes round, with ${event.amount ?? 0} HP.`
-        : event.detail === 'yields' ? `${target} is beaten, and yields.` : `${target} returns with ${event.amount ?? 0} HP.`;
+      case 'revive': return this.revived(event.detail, target, event.amount ?? 0);
       case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
         : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
           // One thing taken into the hands ("Ivo gains 1 the deeds of the held", "Ama gains 1 Davy's red coat") is a

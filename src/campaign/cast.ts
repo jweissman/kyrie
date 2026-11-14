@@ -91,10 +91,15 @@ export class Cast {
   private static numbered(p: Person, generated: Record<string, unknown>, i: number): string {
     const role = typeof generated.role === 'string' ? generated.role : p.role;
     const species = Content.race(p.raceId ?? '')?.name;
-    const kind = !role || / and |,/.test(role) || role.split(' ').length > 3 ? species ?? p.name : role;
+    const unusable = !role || / and |,/.test(role) || role.split(' ').length > 3;
+    // A group its author named as someone's ("Skell's sons") is told by that name, one by one ("The second of Skell's
+    // sons"), not by its kind: the barge's fight had been "Human 1", "Human 2" (CO-14).
+    if (unusable && /\w['’]s /.test(p.name) && i < Cast.ordinals.length) { return `The ${Cast.ordinals[i]} of ${p.name}`; }
+    const kind = unusable ? species ?? p.name : role!;
     const bare = kind.replace(/^(a|an|the) /i, '');
     return `${bare.charAt(0).toUpperCase()}${bare.slice(1)} ${i + 1}`;
   }
+  private static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth'];
   // What a profession means for a person in the world: what they offer, and where they spend their day.
   static professions(module: Module, people: Person[]) {
     for (const p of people) {
