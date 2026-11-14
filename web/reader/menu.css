@@ -110,6 +110,15 @@
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
   font: var(--t-aside); color: var(--dim); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label { font: inherit; }
+/* On a phone a way's whole name can be wider than the row ("Into the old stones above Broadholm by the path up the
+   hill"): every row of a list is a little taller there, room for its words on two lines, so that no name is cut
+   short and the list stays even (the owner, 15 November: one height, never a second line of details). */
+@media (max-width: 600px) {
+  :root { --choice-h: 56px; }
+  :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label {
+    white-space: normal !important; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+    line-height: 1.25; }
+}
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { flex: none; margin-left: auto;

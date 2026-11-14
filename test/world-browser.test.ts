@@ -102,7 +102,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     if (await all.count()) { await all.click(); }
     const names = await page.$$eval('.glance .lens-places [data-act]', tiles => tiles.map(t => {
       const n = t.querySelector('.row-label')!, box = t.getBoundingClientRect();
-      return n.scrollWidth <= n.clientWidth + 1 && box.right <= innerWidth && box.left >= 0;
+      // Whole: neither cut short on its line nor past the two lines a phone's row gives it (menu.css).
+      return n.scrollWidth <= n.clientWidth + 1 && n.scrollHeight <= n.clientHeight + 1 && box.right <= innerWidth
+        && box.left >= 0;
     }));
     expect(names.length).toBeGreaterThan(0);
     expect(names.every(Boolean)).toBe(true);
