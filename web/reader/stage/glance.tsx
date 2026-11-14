@@ -262,25 +262,27 @@ export class GlanceStage {
     const none = !promoted.length && !opened.length, all = none || app.state.open.includes(`lens:${lens}`);
     // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
     // door: Lensed.subjects), said once above them, under its name.
-    const seen = [...new Set(promoted.flatMap(p => p.subject && lensed.subjects?.[p.subject]?.seen ? [p.subject] : []))];
+    // Said once, no heading over it (a heading is a category marker in the list: the owner, 15 November), and not
+    // where a row of the four says it already (the corn-store padlock's words had stood above and under the row).
+    const said = new Set(promoted.flatMap(p => {
+      const c = GlanceStage.choice(app, p.choice);
+      return c ? [GlanceStage.note(p, c, GlanceStage.label(app, p, c)) ?? ''] : [];
+    }));
+    const seen = [...new Set(promoted.flatMap(p => p.subject && lensed.subjects?.[p.subject]?.seen ? [p.subject] : []))]
+      .map(id => ({ id, lines: lensed.subjects![id]!.seen!.filter(l => !said.has(l)) })).filter(x => x.lines.length);
     return <div className={`lens lens-${lens}`} data-lens={lens}>
-      {seen.map(id => <div key={id} className="lens-group lens-seen" data-subject={id}>
-        <p className="label">{Typography.curl(Words.upper(lensed.subjects![id]!.name))}</p>
-        {lensed.subjects![id]!.seen!.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
+      {seen.map(x => <div key={x.id} className="lens-seen" data-subject={x.id}>
+        {x.lines.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
       <GlanceStage.Acts app={app} draw={draw} acts={promoted} />
-      {opened.map(o => <div key={o.choice} className="lens-group lens-opened" data-subject={o.subject ?? o.choice}>
-        <p className="label">{Typography.curl(Words.upper(GlanceStage.named(app, o.subject ?? '') || o.label))}</p>
-        <ul className="acts">{inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} /></li>)}</ul>
-      </div>)}
+      {/* Only the acts, each in words that stand alone: no heading among them (the owner, 15 November: text between
+          the acts, a category marker, should never be in the list; "Talk to Wellby" under WELLBY). */}
+      {opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>
+        {inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} /></li>)}</ul>)}
       {rest.length > 0 && !none && <button type="button" className="quiet-word lens-all" data-action="lens-all" aria-expanded={all}
         onClick={() => app.setState({ open: all ? app.state.open.filter(o => o !== `lens:${lens}`) : [...app.state.open, `lens:${lens}`] })}>
         {all ? 'Fewer' : `All ${rest.length + promoted.length + opened.flatMap(inside).length}`}</button>}
-      {all && <ul className="acts lens-rest">{GlanceStage.grouped(rest).map(g => g.subject
-        ? <li key={g.subject} className="lens-group" data-subject={g.subject}>
-          <p className="label">{Typography.curl(Words.upper(GlanceStage.named(app, g.subject)))}</p>
-          {lensed.subjects?.[g.subject]?.seen?.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}
-          <ul className="acts">{g.acts.map(a => <li key={a.choice}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul></li>
-        : g.acts.map(a => <li key={a.choice}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>))}</ul>}
+      {all && <ul className="acts lens-rest">{GlanceStage.grouped(rest).flatMap(g => g.acts).map(a =>
+        <li key={a.choice} data-subject={a.subject}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul>}
     </div>;
   }
   // A lens's rest by what it is done to (LensAct.subject): a thing's or someone's acts together under their name, so
