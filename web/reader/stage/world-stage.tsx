@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
-import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
+import type { Tone } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { Frame } from '../../engine/protocol';
@@ -147,7 +147,7 @@ export class WorldStage {
     const gilded = !!likeness?.continues && Guidance.shown(app);
     const all = [...likeness?.aspects ?? [], ...x.owed ? ['payoff' as const] : [], ...x.danger ? ['danger' as const] : []];
     const aspects = all.filter((a, i) => all.indexOf(a) === i).sort((a, b) => Number(b === 'undertaking') - Number(a === 'undertaking'));
-    const { tone } = Emphasis.of(aspects, gilded), fill = Pip.fill(aspects, gilded);
+    const tone = Pip.tone(aspects, gilded), fill = Pip.fill(aspects, gilded);
     return { aspects, gilded, ...tone ? { tone } : {}, ...fill ? { fill } : {}, label: Pip.words(aspects, gilded) };
   }
   // A likeness with nothing to open, touched, says why beneath it for a moment, rather than nothing (round 6: three taps
@@ -168,7 +168,8 @@ export class WorldStage {
     }
     return x.danger ? 'Means you harm: what can be done is in the scene.' : x.says?.[0] ?? 'Nothing to say to you now.';
   }
-  static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string } }) {
+  static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string;
+    aspects?: Aspect[] } }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
       ? /(^|\/)(animals|monsters)\//.test(x.portrait.src)
@@ -177,7 +178,7 @@ export class WorldStage {
       : <Glyphs.View id={Glyphs.met(x)} className="emblem" />;
     const name = Typography.curl(Words.upper(x.name));
     const body = <><span className="face" aria-hidden="true">{face}</span>
-      <Pip.View fill={pip?.fill} label={pip?.label} />
+      <Pip.View fill={pip?.fill} label={pip?.label} companion={!!pip?.aspects?.includes('companionship')} />
       <span className="pn" title={name}>{name}</span>
       {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;
     // The fallen are drawn fallen (the owner, 7 November: the dead had stood in their likenesses as if alive).
@@ -263,7 +264,8 @@ export class WorldStage {
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
     return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id} data-act={c.id}
       onClick={() => { app.choose(c); }}>
-      <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} faint={!!a.afar} />
+      <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} faint={!!a.afar}
+        companion={a.aspects.includes('companionship')} />
       {Typography.curl(a.label)}</button>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let

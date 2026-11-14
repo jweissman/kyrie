@@ -140,7 +140,7 @@ export class TalkStage {
   // Trade, drawn as what the glance found among what is had of them for coin (a bed for the night, what the aim waits
   // on to be sold: Mission 20).
   static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
-    const bar = Emphasis.bar(aspects, gilded);
+    const bar = Pip.fill(aspects, gilded);
     // A row like the questions, not a boxed capital word (Mission 21's one choice row).
     return <p className="to-trade"><ChoiceRow.Button className={`option${gilded && aspects.includes('undertaking') ? ' aimed' : ''}`}
       data={{ action: 'trade', aspects: aspects.join(' ') || undefined }} onClick={() => app.trade(true)} label="Trade"
@@ -297,10 +297,10 @@ export class TalkStage {
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
   // What pays the company is marked green, as the likeness that has something for it is (see Owed), and said so to a
   // reader of the page alone (BP-08: its mark carries it).
-  // What it is to the company is the one indicator at its left, as a led act's is (see Emphasis.bar).
+  // What it is to the company is the one indicator at its left, as a led act's is (see Pip).
   static Reply({ choice: c, draw, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
     asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
-    const bar = Emphasis.bar(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');
+    const bar = Pip.fill(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');
     return (
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
         bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>

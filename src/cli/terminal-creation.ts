@@ -66,7 +66,7 @@ export class TerminalCreation {
   static menu(step: CreationStep): Menu {
     const rows: Row[] = step.cards.map(c => {
       const sign = c.emblem && Signs.emblem(c.emblem);
-      return { id: c.id, label: `${sign ? `${sign} ` : ''}${Typography.plain(c.name)}`,
+      return { id: c.id, label: Typography.plain(c.name), ...sign ? { icon: sign } : {},
         ...c.line ? { note: Typography.plain(c.line) } : {}, ...c.group ? { group: Typography.plain(c.group) } : {},
         ...c.shut ? { shut: `${c.shut}.` } : {}, about: c.text ? [Typography.plain(c.text)] : [] };
     });

@@ -27,20 +27,34 @@ controller of the page's own.
 
 ## Focus
 
-- **One focus at a time.** The choice the hand or the keys are on is marked at once, in the same frame as the input:
-  a strong mark at the row's left and its words lit. Nothing slides to it. No box moves or changes size to show it.
-- **Focus answers immediately.** Anything that responds to focus more slowly (the title's sky, a lens's painting, the
-  observatory later) follows it and never holds it up.
-- **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold mark is ceremonial, the
-  entry's alone.
+- **The pointer is the reticle** (IG-15). Wherever the hand is, the cursor is a small ring; over anything that can be
+  chosen, four ticks close it; pressed, it tightens and fills at once. A long press, should an act use one again,
+  fills it by steps. Touch has no cursor; the tint below does the work.
+- **What the hand or the keys are on is lit in its own tone**, at once: a tint of its row's mark (the atlas colour,
+  Indicator.of), ivory where it is nothing in particular, gold only for the followed step. Pressed, deeper. Never
+  corners, never movement, never a box that changes size.
+- **Every button has three states** (IG-16): at rest a row's ground and edge (a choice, not a link), lit under the
+  hand, deeper pressed; the same on the title, creation, the scene, talk and the fight.
+- **Focus answers immediately.** Anything that responds to focus more slowly (a lens's painting, the observatory
+  later) follows it and never holds it up.
+- **The title answers nothing the hand does** (IG-11, IG-14). Its sky is still: no light following focus, no haze.
+  Its one motion is the embers' own slow drift. The studio's mark cuts to the title.
+- **Nothing moves under the hand** (IG-08, IG-12). A press never changes which cards are shown or where: the deck
+  is the four and "N more", opened only by the player. A passage between screens is a cut or a short fade in place;
+  nothing slides, scrolls or wipes.
+- **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold name is ceremonial,
+  the entry's alone; no focus is gold.
+- **One indicator, one colour** (TP-02). An act's mark, a likeness's pip, the place's mark and the rail's pips take
+  the act's chief aspect by one precedence (gold, red, green, blue, violet, silver), never a gradient. A companion is
+  its icon, never a colour (TP-03). The rest is said in hidden words.
 
 ## Choosing
 
-- **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice.
+- **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice, done at once.
 - **Creation's cards are chosen at a tap, then Continue.** A held card had looked chosen and done nothing (BP-09).
-- **Holding is for sustained acts alone.** A search, a wait, a rest or a camp is held, and says so: a small ring at the
-  act's right, seen at rest, fills round while it is held. Let go early, nothing happens. The keys hold it as the hand
-  does.
+- **Nothing is held, for now.** A search, a wait, a rest or a camp commits at a tap like everything else (IG-07: the
+  hold did nothing at a click). A mark that fills while a costly act is pressed is the design for a future Energy cost,
+  built once, in M22.
 - **A grave act asks once before it is done.** Something that cannot be undone, a way with no coming back or a fight
   is chosen once, then again to do it.
 - **A page with nothing to decide is no act.** The opening's beats and the page after the road meeting go on by
@@ -83,9 +97,12 @@ controller of the page's own.
 | The four are the engine's | `test/small/offer-page` |
 | A thing's look in place | `test/small/look-in-place` |
 | Kind words off the page | `test/small/kind-words` |
-| The tap and the ring | `test/hold-browser` |
+| One indicator, one colour | `test/small/indicator-page` |
+| A tap commits | `test/tap-browser` |
 | A foregone fight and the dice | `test/small/foregone-page` |
 | Reading pages | `test/small/reading-pages` |
 | The compass | `test/small/compass-stage` |
 | The fight's stable geometry | `test/fight-geometry-browser` |
-| The title's immediate focus | `test/opening-browser` |
+| Nothing moves under the hand | `test/steady-start-browser` |
+| The title's immediate focus, its still sky, its embers | `test/opening-browser` |
+| The reticle cursor, the tint, nothing moves | `test/reticle-browser` |

@@ -4,6 +4,7 @@ import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emblems } from '../../../src/presentation/emblems';
 import { SceneKinds } from '../../../src/ui/scene-kinds';
 import { Emphasis } from '../../../src/presentation/emphasis';
+import { Pip } from './pip';
 import { Guidance } from '../guidance';
 import { PlaceStage } from './place-stage';
 
@@ -21,10 +22,10 @@ export class PlaceMark {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, family = PlaceMark.family(app), facets = PlaceMark.facets(app);
     const idle = frame.leaf.glance?.idle?.includes(frame.screen.place.id);
-    const tone = Emphasis.of(facets, false).tone, prism = Emphasis.prism(facets, false);
-    const said = [PlaceMark.words[family], ...facets.map(a => Emphasis.words[a])].join(', ');
-    return <span className={`place-mark${idle ? ' dim' : ''}${prism ? ' prism' : ''}`} aria-label={said}
-      role="img" style={{ '--pm': prism ?? (tone ? `var(--tone-${tone})` : 'var(--faint)') } as CSSProperties}>
+    // One colour, as every indicator is (see Pip): what it is chiefly, by the one precedence; never through several.
+    const fill = Pip.fill(facets, false), said = [PlaceMark.words[family], Pip.words(facets, false)].filter(Boolean).join(', ');
+    return <span className={`place-mark${idle ? ' dim' : ''}`} aria-label={said}
+      role="img" style={{ '--pm': fill ?? 'var(--faint)' } as CSSProperties}>
       <i className="pm-accent" aria-hidden="true" /></span>;
   }
   // The kind of place: its scene's kind's family, else what the place is.

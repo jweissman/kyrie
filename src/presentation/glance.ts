@@ -60,11 +60,14 @@ export class Glance {
     // otherwise the aim followed (see Undertakings).
     const aim = told?.feedback.aims?.at(-1) ?? screen.aims?.find(a => a.followed)?.text ?? screen.objectives[0];
     // Not again beneath "A new aim" that has just said it.
+    // Coming somewhere new is an occasion only where the aim followed bears on it: it had been said again at every new
+    // room on the way (a landing, a taproom, a keep and its gate-passage: the terminal line's second play).
+    const bearing = arrival === 'first' && Undertakings.bears(campaign, screen, here);
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
-      && (['opening', 'first', 'resume'].includes(arrival) || turned);
+      && (['opening', 'resume'].includes(arrival) || bearing || turned);
     const need = [...this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark),
-      ...Threshold.barred(screen, reading.named, campaign)], after = told
-      && this.after(campaign, told, { screen, acts, scene });
+      ...Threshold.barred(screen, reading.named, campaign)],
+      after = told && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
@@ -450,8 +453,7 @@ export class Glance {
   // The first place on the way to a place: within the area when it lies in it, two legs away at most when not.
   private static leading(graph: Map<string, WayInfo[]>,
     at: { here: string; id: string; byId: Map<string, Entity>; area?: string }): string | undefined {
-    const firsts = new Map<string, string>([[at.here, '']]);
-    let frontier = [at.here];
+    const firsts = new Map<string, string>([[at.here, '']]); let frontier = [at.here];
     for (let legs = 0; frontier.length && (at.area || legs < 2); legs++) {
       const next: string[] = [];
       for (const from of frontier) {

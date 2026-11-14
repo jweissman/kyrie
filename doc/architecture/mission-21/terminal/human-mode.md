@@ -19,10 +19,14 @@ real pty (tmux, 100 × 50 and 60 × 40), from creation in a1 through the father'
 - → unfolds the rest of the legal acts, and ← or Escape folds them again.
 - `?` shows an act's whole, or an instrument's gloss.
 - `/` shows every key. They are said until the first act in the world, then folded away.
+- PgUp and PgDn move a page at a time, and `[` `]` move a group at a time.
 - `q` asks once before leaving the game.
 - Digits choose the row of that number, as typed headless.
 - Lens keys: `t` talk, `g` go, `l` look, `w` wait. `o` looks about, `m` opens the map (a picker of journeys), `c` the
   company, `a` the aims (a picker: Enter follows), `s` saves.
+- The rest unfolded lists what is done here first, then the journeys under the map's own headings: onward, about the
+  town, places you know the way to, where the roads go, across the country. They are grouped, never ranked: the order
+  within each group is the engine's, until Offers ranks journeys (the lead's).
 - It is drawn in place under what was told, then cleared, leaving one line, `› what was chosen`. The scrollback reads as
   a story, not a menu log.
 - The focus is kept by id while nothing is done (a lens, the aims, the map), and goes back to the first row once an act
@@ -39,14 +43,16 @@ real pty (tmux, 100 × 50 and 60 × 40), from creation in a1 through the father'
   | 4 | to learn | blue |
   | 5 | uncanny | violet |
   | 6 | worth a look | silver |
-  | 7 | a companion | rose |
 
   The aesthetic line moved silver to the end of the rest: it is the most general promise, and it had hidden a
   particular green or blue.
-- At most two icons for what an act is besides: the other aspects, then the crossing ⇢, then the hold ⧗. Anything past
-  two is said on `?`.
-- Without colour (NO_COLOR, a pipe), the colour's own sign stands where the pip would be (✦ ⚠ ¤ ℹ ✧ ◇ ⚭). Every sign
-  has a plain fallback (`KYRIE_ASCII`). Meaning never rests on colour.
+- A companion is no colour, only its icon ⚭ (TP-03, decided below).
+- At most two icons for what an act is besides: a companion first, then the other aspects, then the crossing ⇢, then
+  the hold ⧗. Anything past two is said on `?`.
+- Without colour (NO_COLOR, a pipe), the colour's own sign stands where the pip would be (✦ ⚠ ¤ ℹ ✧ ◇). Every sign has
+  a plain fallback (`KYRIE_ASCII`). Meaning never rests on colour.
+- A grave act asks once by one shared rule (`src/presentation/grave.ts`). The page's `Act.asks` reads the same
+  function.
 - The prism gradient is retired. A label coloured through two tones survives only behind `KYRIE_PRISM=1`.
 
 **Instruments** (TP-04, the client side).
@@ -60,8 +66,8 @@ real pty (tmux, 100 × 50 and 60 × 40), from creation in a1 through the father'
   once the aim is followed, a question of 120 characters, the sky and the provisions, and acts that change once one is
   done.
 - `test/support/keyed.ts` plays the human mode by keys on the real picker, in the process, at any width.
-- `test/small/terminal-awkward` holds eleven cases, including creation's calling step and a fight's moves and target
-  through the same picker. It runs in about 1.5 s.
+- `test/small/terminal-awkward` holds fourteen cases. They include creation's calling step, a talk, a fight's moves
+  and target through the same picker, the journeys grouped, and TP-03's a1 camp case. It runs in about 1.5 s.
 
 ## A transcript: a1, coming home (100 columns, the picker's last state shown)
 
@@ -144,12 +150,12 @@ This is drawn without colour, so each pip is its colour's sign. The focused ques
 The question is gold and teaches, so it carries ✦ and ℹ. The companion's asking has nothing else, so ⚭ stands in its
 pip.
 
-## TP-03: a companion as a colour, or as an icon
+## TP-03: a companion as a colour, or as an icon (decided: an icon)
 
 The same four on the green, in true colour. The `[tone]` marks below stand for the pip's colour.
 
 ```
-companion as colour (default)                     companion as icon (KYRIE_COMPANION=icon)
+companion as colour (before)                      companion as icon (now)
 › [silver] Take the inn door to the Eel…          › [silver] Take the inn door to the Eel…
   [rose] Ask Wenna whether she would come…          Ask Wenna whether she would come along ⚭
   [blue] Ask Osric whether the old ford…            [blue] Ask Osric whether the old ford…
@@ -165,7 +171,7 @@ The page draws the same camp in today's colour (the aesthetic line's captures, o
 - "Talk to your brother" carries a rose bar and the ⚭ icon beside it: the same thing said twice.
 - Osbert's likeness carries a rose pip as well.
 
-**Recommendation: a companion as an icon, never a colour.**
+**Recommended, and decided by the lead: a companion as an icon, never a colour.**
 - The page already draws ⚭ beside every such act (GlanceStage.Icons), so rose and ⚭ say the same thing twice.
 - Last in the precedence, rose only shows where a companion is the act's only promise. So it flickers on and off as
   other aspects come and go, as with Osbert above.
@@ -174,49 +180,251 @@ The page draws the same camp in today's colour (the aesthetic line's captures, o
 - Meaning survives without colour either way: ⚭ is the sign in both treatments.
 
 The aesthetic line agrees, and calls the camp case the deciding one. The page already took that line for a person
-nearby in CN-07, who gets no rose pip, only a likeness. It will take the page's screenshots of the same green, in both
-treatments, at 1280 × 800 and 820 × 1180. The decision is the lead's and the owner's. Until then the terminal's
-default is unchanged (colour), and the icon treatment is one flag.
+nearby in CN-07, who gets no rose pip, only a likeness.
 
-## Is it pleasant, legible and operable?
+**Decided** (the lead, with the owner's lean): a companion is its icon only, in the shared table and both clients.
+- Rose is out of `Emphasis.precedence`, and `Indicator.of` always gives ⚭ as the first icon.
+- A companion perceived along a way is said in words, never as a faint rose pip.
+- There is no flag: `KYRIE_COMPANION` is gone.
+- Its spec is the a1 camp case in `test/small/terminal-awkward`: the same act, before and after following, keeps one
+  icon and never turns rose.
+- The page adopts the same through the aesthetic line.
 
-**Operable: yes.**
-- I never had to type an id or remember a command.
-- Arrows and Enter carried me from creation to the father's body and back to Millholm.
-- Back always did the expected thing: it folded the rest, left the lens, or left the aims.
-- Focus never jumped while I looked about. It returned to the first row after an act, which is where the new four
-  begin.
-- Narrow terminals hold: every picker line fits at 32 columns, wrapped where focused and cut elsewhere.
+## Is it pleasant, legible and operable? (candidly)
 
-**Legible: mostly.**
-- One pip and at most two icons is quiet. The gold step reads at once, and the aim's question showed ✦ and ℹ together
-  without noise.
-- The picker's history collapses to `› chosen`, so the scrollback reads like a story.
-- In a talk, the picker is headed by whom it is with, and its rest is the talk's own replies.
-- In a fight, each exchange since the company's last turn is told before it chooses again. Before, only the hurts had
-  shown between turns.
-- The weak point is the scene above the picker, not the picker. Arrivals often run four to six sentences. The causeway
-  opening is two long paragraphs before the first choice.
+I played a1 from creation to the father's body, back to the camp and into its lists; the awkward world at 32 and 40
+columns; and the cellar rats. What follows is what it was like, not what the specs prove.
 
-**Pleasant: yes, more than I expected.**
-- Making a life is seven Enters, each with the card's line under it, and the world is ready in five seconds.
-- The coming-home opening is moving in this form. The ruts over the edge, then "You know the coat first", then
-  Osbert's "I want to see it" arrive one keypress apart, with nothing between them.
+**What works.**
+- **Operable from end to end without typing.** Seven Enters make a life, and the world is ready in about five seconds.
+  From there, arrows and Enter carried me to the cart in the ditch and back to Osbert in fourteen keys.
+- **The scrollback reads as a story.** Each picker is cleared on a choice, leaving `› Follow the ruts over the edge`,
+  so the page above is prose and choices, not menus.
+- **The coming-home opening lands.** "It is your father. You know the coat first…" one keypress after the ruts, then
+  Osbert's "I want to see it": the terminal gets out of the way of the best writing in the game.
+- **The four are a good default.** One pip and at most two icons is quiet. The gold step is obvious once an aim is
+  followed.
+- **Back is predictable.** It folds the rest, leaves a lens or the aims, or goes back from a target to the moves.
+- **Narrow terminals hold.** At 32 columns every line fits: the focused label wraps and the others are cut.
 
-## What is still awkward
-
-- **The rest is enormous at a town** ("117 more"). Unfolded, it is a long window, mostly "Set out for …" journeys.
-  - The lenses help, and the map is now a picker of journeys.
-  - But the journeys come unranked: the engine ranks no journey against another.
-  - *Engine-shaped:* a journey order (aim first, near before far) would help both clients.
-- **Holding has no key.** ⧗ marks a sustained act, and one Enter does it. The grammar's held ring has no terminal
-  equivalent yet.
-- **A grave act asks once by the page's own rule,** which lives in `web/reader/stage/act.tsx` (`Act.asks`). The terminal
-  reads the same fields (`Choice.grave`, `Mark.ask`). *Engine-shaped:* the rule belongs in `src/presentation`, so that
-  neither client keeps its own.
-- **The aim is said again on following** ("An aim: … did not come home."), because its words lengthen once it is held
-  (TerminalScene's freshness test).
-- **A journey's echo repeats its own name:** "… Take the road to the road between Mistshaw and Millholm (the road
+**What is still miserable.**
+- **The scene above the picker is too long, and it scrolls away.** The causeway opening is two paragraphs, seven
+  sentences, before the first choice. On a 24-row terminal the picker (up to 20 lines when unfolded) pushes the scene
+  off the top. You read the choices without the place they belong to. The prose is the engine's; the terminal has
+  no way yet to keep a place's one line pinned above the picker.
+- **The rest at a town is a junk drawer.** The camp's 117 are now grouped: what is done here, then journeys under the
+  map's headings. But "what is done here" is still sixty-odd rows. Many of them are "Set down a candle", "Light a
+  torch", "Gather a handful of aster for Hamo" and every "Ask X about his work" in the camp. Paging helps you move
+  through it, and nothing helps you find anything in it. The lenses are the real way in, and their keys (t g l w) are
+  folded behind `/` after the first act.
+- **Thirty-six journeys, unranked.** "Where to?" lists "Set out for the way into Tolleth and the Skerrow passage" as
+  readily as Mistshaw, an hour away. Grouping by the map's kinds makes it scannable, but the order inside "Where the
+  roads go" means nothing to a player (the lead's, to rank).
+- **Fights are two keypresses a blow, and the hand is opaque.**
+  - Melee Attack, then a target, every turn. With one rat left the target picker still asks.
+  - "Call Animal Companion", "Ensnare" and "Defend" sit beside the blow with only a scope line under them ("choose
+    target", "self").
+  - `f` (fight on as you would) exists but is said only on `/`.
+  - The exchanges are now told between turns, but the hurts line repeats every turn whether anything changed or not.
+- **The aim is said twice when followed.** The picker's echo, then "Following: …" with the same sentence, and once
+  ("An aim: … did not come home.") a third time, because the words lengthen once the aim is held.
+- **Talk is a list of questions with no faces and no stakes.** "With the wagoner" helps. But most replies carry no
+  indicator, and "Take your leave of the wagoner" takes a quarter of the four in every talk.
+- **Holding has no key.** ⧗ marks a search or a wait, and one Enter does it, so the grammar's held ring has no meaning
+  here.
+- **The edges where the picker gives way to typing** are the name, and a save path (`s` asks for a path; there is no
+  default).
+- **"Provisions: No food." sits at the foot of every picker** at the start of a1. It is true and it bears on the
+  moment, but after the third time it is nagging, not informing.
+- **Journey echoes repeat their own name:** "… Take the road to the road between Mistshaw and Millholm (the road
   between Mistshaw and Millholm)". This is the same in headless.
-- **The name step is a line typed after a prompt,** the one place where the picker gives way. Enter takes the drawn
-  name.
+
+**Mended since (term-4), in the lead's order.**
+- **The place stays in sight.** The picker is drawn in what is left under what was told since the last choice: at
+  most twenty rows, never fewer than eight. A longer list is a window, paged. On a 24-row terminal the camp keeps its
+  heading and its three lines above the unfolded rest.
+- **One key a blow at the only foe.** With one target the move is made at it, as the page's fight does (FightMoves);
+  the target is asked only where there is a choice. Each move says what it does under it (its description), and a
+  menu's few keys (the fight's `f`) are said in its footer.
+- **The aim once per change.** It is said where the glance says it (Glance.aim), when the aim followed changes, and on
+  a look. Picking an aim leaves no line of its own; "Following: …" says it.
+- **The rest folded by kind of act.** What is done here falls under Offers' act types (Speak, Do, Ways, Light,
+  Wait…), then the journeys under the map's headings, each group folded to one row with its count. Enter or → opens
+  one; ← shuts it. The camp's 117 read as ten rows. They are grouped, never ranked, until Offers ranks them (TP-06).
+- **Talk says what a question does,** from its act's fields: that it teaches, that it bears on an aim, what its note
+  says (a price, a wait).
+- **Saving keeps the game in the engine's one slot** (CheckpointStore's autosave, in `~/.kyrie/slots.json`), and
+  `bin/kyrie resume` with no path takes it up. A path is asked for only with `--save-as`.
+- **No hold key, by design:** the hold is gone everywhere now (IG-07).
+
+**Verdict.** It is now the pleasantest way I know to play Westernesse quickly. The first ten minutes in a1 are good,
+and the picker never got in my way. It is not yet comfortable for an hour. Long arrivals push the place off screen,
+and the town's rest is a list nobody would read. A fight is clerical. The first two are mostly the engine's (scene
+length, an Offers ranking of the rest); the third is the terminal's to fix next: one Enter for a blow at the only
+foe, and the hand's choices said by what they do.
+
+## After term-4: a second play (80 × 24 and 140 × 45)
+
+I played about twenty minutes on main with term-4 merged. On an 80 × 24 pty I made an elf thief who owes Mik fifty
+coin. I followed the aim, asked Eamon, hired Cyril, went across the fen to Ironkeep and into its gate-passage. On a
+140 × 45 pty I played a dwarf cleric on the landing at Lowmouth, buying from Lambert.
+
+**Pleasant: yes, for the first quarter of an hour.**
+- The debt opening is three lines and a gold row, and the chain holds without a stumble: Mik, the inn, Eamon's three
+  old places, Cyril, then "Set out for Ironkeep", gold and first, 71 minutes.
+- Cyril's line at the keep's foot ("More if you come back out of it") arrives on its own, one key after the journey.
+
+**Legible: yes.**
+- The place stays on screen at 24 rows, and the folded rest ("▸ Do · 19", "▸ Across the country · 34") reads at a
+  glance.
+- Companions are an icon, with no rose: "Ask Cyril whether she would come along ⚭".
+- The coin to collect was gold with ¤: the aim and what it pays, in one row.
+
+**Operable: yes, with two snags.**
+- Up from the first row had gone round into the folded rest, and the next Enter unfolded it. Up and down now stop at
+  the ends.
+- Escape followed within half a second by another key had been read as one key sequence (readline's escape timeout).
+  A lone Escape is now back once nothing follows it for 50 ms (term-6).
+- A buy row had said its price twice ("Buy a ten-foot pole for Disa · 1 coin" over "1 coin · 3 min"). A row now
+  takes the page's own words and note (ChoiceList): "A ten-foot pole", with "1 coin" under it (term-6).
+
+**Still miserable, and none of it the client's.** These went to the lead.
+- **The followed aim is said again in every new room.** "Following: You owe Mik, salter at Lowmouth 50 coin by
+  market day. Eamon, innkeeper at Lowmouth, told of Ironkeep, …" (three lines) came at the landing, the taproom,
+  Ironkeep and the gate-passage. The terminal says it where Glance.aim is set, and the glance sets it on every first
+  arrival.
+- **The golden thread ends at a portcullis.** In Ironkeep's gate-passage, after the coin, nothing is gold. Pushing,
+  pulling, listening and searching all say nothing is there. The only way is back out.
+- **The four fill with spell swaps at a spent place.** "Have Cyril prepare Cure Light Wounds in place of Charm
+  Person…" took two of the four at the keep's door.
+- **The map from the taproom did not offer Ironkeep.** Eamon had told how to reach it; from Mik's salt-house it was
+  the gold first row.
+- **Hiring says its price only in the reply.** "Ask Cyril to join the company" carries no cost; her "6 coin, and my
+  keep" was said before it.
+- **`--as` with `--origin herbs` holds no aim.** `a` said "No aim is held."
+
+## The design pass (the owner, 15 November)
+
+The owner played the terminal in VS Code's integrated terminal, which shows true colour: "Terminal play is still
+kind of a mess. There's no colorization, it seems like we're getting action details interspersed with the list."
+
+**Why there was almost no colour.**
+- Colour was not switched off. The depth was detected right (`COLORTERM=truecolor`), and the dim grey the owner saw
+  was SGR 2.
+- But nothing in creation was drawn in colour. Its cards carry no aspects, the picker coloured only an aspect's pip,
+  and the heading and focus were bold alone.
+- The focused row's description was wrapped into the list under it, so the list moved each time the focus did.
+
+**What the pass did, for every picker** (creation, the scene, talk, the map, aims, a fight):
+- **The question is a heading.** It is drawn in the stage's ivory, in bold, over a faint rule. A scene's place name is
+  drawn the same way, with its day and weather dim beside it.
+- **The rows never reflow.** Each row is one line:
+  - the focus mark `▸` in ivory;
+  - a thin `▎` and the row's icon, both in its one meaning tone (`Indicator.of`, gold only where followed);
+  - its words, in the terminal's own ink, or bold ivory when focused, or dim when it cannot be chosen.
+- **Every row has an icon.** An act shows its kind's (`Signs.acts`: ☺ talk, → go, ⇢ journey, ◆ act, ⧗ wait, ⌕ search,
+  ✚ care, ☀ light), a card shows its emblem, an instrument its sign, and a fight move ⚔.
+- **One detail area.** It sits under a faint rule, always three lines tall, padded:
+  - the words in full where the row cut them;
+  - what it costs or risks, what a grave act asks, why it is shut;
+  - its whole on `?`; past three lines, "… ? more".
+  - From 120 columns it stands to the right of the list, beyond a faint `│`.
+- **The rail.** The last line, dim, holds only the keys that apply. A menu's own few keys (a fight's `f`) are said; a
+  scene's ten are behind `/`.
+- **Restraint.** There are three inks: ivory, the terminal's own, and dim (with faint for rules). Beyond those are
+  only the meaning tones, and no boxes.
+- **The scene's prose is broken at its words** to the terminal's width, at most 100 columns, not where the terminal
+  broke it mid-word.
+
+**Creation cards take no tone.** Their emblems carry none in the shared data (`data/paintings/emblems.json`), so the
+icon is drawn in the dim ink. Nothing is coloured only for decoration.
+
+**Held by.** `test/small/terminal-awkward` checks that the picker emits SGR codes at true colour and at 256 colours,
+and none without; that the list is as tall whichever row is in hand; and that the detail stands beside the list at
+140 columns.
+
+**Captures.** The raw files, escape codes and all, are in `mission-21/terminal/captures/` (`cat` one in a terminal
+to see it as the owner would). Below they are shown as plain text, and one before/after pair as the escapes run.
+
+Creation at 80 × 24, before:
+
+```
+Why have you come to Merscfaenn?
+    ⌂ Coming home
+›   ▤ The brothers' errand
+    The brothers of your order have sent you to Lowmouth with a letter for the
+    priest. Your errand is to copy the old writing at Mistlake, which no one
+    has ever copied.
+    ◎ What is owed
+    ⇝ Over the hills
+    3 more
+
+↑↓ ⏎ choose · → more · ? about · q leave
+```
+
+After:
+
+```
+Why have you come to Merscfaenn?
+────────────────────────────────
+  ⌂ Coming home
+▸ ▤ The brothers' errand
+  ◎ What is owed
+  ⇝ Over the hills
+  … 3 more
+────────────────────────────────────────
+    The brothers of your order have sent you to Lowmouth with a letter for the
+    priest. Your errand is to copy the old writing at Mistlake, which no one
+    has ever copied.
+↑↓ ⏎ choose · → more · q leave
+```
+
+The first lines of each, as the escapes run (`cat -v`, tmux's trailing resets left out, the glyphs as they are):
+
+```
+before: ^[[1mWhy have you come to Merscfaenn?^[[0m
+        M-bM-^@M-:   ^[[1mM-bM-^VM-$ The brothers' errand^[[0m
+after:  ^[[1m^[[38;2;236;230;217mWhy have you come to Merscfaenn?^[[0m
+        ^[[38;2;110;106;98m────────────────────────────────
+          ^[[38;2;165;159;148m⌂^[[39m Coming home
+        ^[[38;2;236;230;217m▸^[[39m ^[[38;2;165;159;148m▤^[[39m ^[[1m^[[38;2;236;230;217mThe brothers' errand^[[0m
+```
+
+The camp at Millholm at 80 × 24, after. The pips and icons of the four are silver, silver, blue and blue, each by its
+one meaning:
+
+```
+the camp at Millholm
+────────────────────
+Millholm is half houses and half wagons with their wheels taken off, painted
+saffron and rose and a deep blue. Cook-smoke drifts between them, smelling of
+cumin and charred onion.
+Your brother is sitting on a rail with your father's old spear across his
+knees, watching the road. He is taller by a head than when you went away.
+The grey dog barks twice, for form's sake, then comes to see who you are.
+
+▸▎☺ Ask Osbert what he means to do ⚭
+ ▎⇢ To the road between Mistshaw and Millholm
+ ▎◆ Read the notice on the well-post
+ ▎◆ Make much of the grey dog
+  … 115 more
+────────────────────────────────────────
+
+
+
+↑↓ ⏎ choose · → more · ? about · / keys
+```
+
+At 140 × 45, the rest unfolded and folded by kind, the detail to the right:
+
+```
+ ▎☺ Ask Osbert what he means to do ⚭                                     │     into the next stretch of country
+▸▎⇢ To the road between Mistshaw and Millholm                            │
+ ▎◆ Read the notice on the well-post                                     │
+ ▎◆ Make much of the grey dog                                            │
+  + Speak · 12                                                           │
+  + Do · 27                                                              │
+  + Ways · 25                                                            │
+  …
+↑↓ ⏎ choose · ← fewer · [ ] group · ? about · / keys
+```

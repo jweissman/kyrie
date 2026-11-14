@@ -8,7 +8,7 @@ import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { Glyphs } from '../creation/glyphs';
-import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
+import type { Tone } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { Signs } from '../../../src/presentation/signs';
 
@@ -100,7 +100,7 @@ export class Wayfinder {
     if (!crosses && !sensed) { return <span className="wf-marks" />; }
     return <span className="wf-marks">
       {sensed && <span className="wf-mark sensed">
-        <Pip.View fill={`var(--tone-${Emphasis.tones[sensed.aspect]})`} faint /><span className="said sr-only">{said}</span></span>}
+        <Pip.View fill={Pip.fill([sensed.aspect], false)} companion={sensed.aspect === 'companionship'} faint /><span className="said sr-only">{said}</span></span>}
       {crosses && <Glyphs.View id="journey" className="wf-mark journey" label="into the next stretch of country" />}
     </span>;
   }
@@ -261,7 +261,7 @@ export class Wayfinder {
   static tone(app: ReaderApp, w: Way): Tone | undefined {
     const ids = new Set([w.c.id, w.way.id]), led = app.state.frame?.leaf.glance?.acts.find(a => ids.has(a.choice)
       || ids.has(GlanceStage.choice(app, a.choice)?.id ?? ''));
-    return led ? Emphasis.of(led.aspects, false).tone : undefined;
+    return led ? Pip.tone(led.aspects, false) : undefined;
   }
   static aimed(ways: Way[]): Way | undefined {
     return ways.filter(w => w.aim === 'followed').sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))[0];

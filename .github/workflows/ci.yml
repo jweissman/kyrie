@@ -98,11 +98,12 @@ jobs:
   # The whole suite, nightly and on demand: in ten shards, balanced by the time each spec file took when the timings
   # were last kept (test/timings.json). Five shards had come to their thirty minutes by 3 November, six to their
   # forty-five by 10 November (a shard cancelled in every run seen, its specs never seen to pass).
-  # The whole suite, on every push as on demand and nightly: the gate a deploy waits on (the owner, 14 November: every
-  # test every time as the baseline, and fast; a push lane of the faster files had only moved the rest out of sight).
-  # Sixteen shards, balanced by the files' kept times.
+  # On a push the push lane (test/lanes.json: every file under thirty kept seconds, all of test/small, the sentinels),
+  # the gate a deploy waits on; nightly and on demand the whole suite (the owner, 15 November: the whole on every push
+  # had brought each run back to twenty and thirty minutes; the 267 slow files, nine tenths of the suite's time, go to
+  # the night, and the night is kept green). Sixteen shards, balanced by the files' kept times.
   suite:
-    name: suite ${{ matrix.shard }}/16
+    name: suite ${{ matrix.shard }}/${{ github.event_name == 'push' && 8 || 16 }}
     runs-on: ubuntu-latest
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
     # Ten shards since the adventure branch's standing scenarios joined every country: its worlds are larger; four of
@@ -111,7 +112,12 @@ jobs:
     # never kept (their shards never finished): a run to the end keeps them, and the shards balance again (M21's
     # test-loop diagnosis, doc/history/missions/20/test-loop.md, is the remedy, not the limit).
     timeout-minutes: 60
-    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] } }
+    # Eight on a push, sixteen for the whole: a push's eight leave room for other branches' runs under the account's
+    # jobs at once, where sixteen a run had kept whole runs queued, looking hung (15 November).
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(github.event_name == 'push' && '[1,2,3,4,5,6,7,8]' || '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]') }}
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
@@ -130,9 +136,15 @@ jobs:
           path: kyrie/node_modules/.cache/kyrie-parse
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
-      - run: bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/16 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
+      - run: |
+          files=""
+          if [ "${{ github.event_name }}" = "push" ]; then
+            files=$(bun scripts/test-lane.ts push | tr '\n' ' ')
+            test -n "$files" || { echo "the push lane is empty"; exit 1; }
+          fi
+          bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/${{ github.event_name == 'push' && 8 || 16 }} --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $files
       - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 16"
+        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of ${{ github.event_name == 'push' && 8 || 16 }}"
       # Kept, so that the files' times can be read back into test/timings.json (scripts/timings-from-ci.ts).
       - if: always()
         uses: actions/upload-artifact@v4

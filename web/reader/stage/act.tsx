@@ -1,5 +1,4 @@
 import type { MouseEvent, ReactNode } from 'react';
-import { Hold } from './hold';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Mark } from '../../../src/presentation/glance-types';
 import type { ReaderApp } from '../reader-app';
@@ -7,6 +6,7 @@ import type { View } from '../menu-model';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Signs } from '../../../src/presentation/signs';
+import { Grave } from '../../../src/presentation/grave';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
 // menu (data-index), marked when the keys are on it, saying what it opens when it opens something. Its look is the
@@ -23,15 +23,13 @@ export class Act {
   // variant: how the one action system draws it (Mission 21's CN-04: every act in the world one system, never a link):
   // a row (ChoiceRow's look: the default), or a glyph (a likeness, a rail mark, a thing in the pack), which keeps its
   // own picture but carries the same marks (data-act, its id).
-  // holdTone: the tone of the edge a held act fills with (its own indicator's), where it has one (see Hold).
-  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row', holdTone }: { choice: Choice;
+  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row' }: { choice: Choice;
     draw: Draw; className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number;
-    variant?: 'row' | 'glyph'; holdTone?: string }) {
+    variant?: 'row' | 'glyph' }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
-    // An act of time and commitment (Choice.hold, the engine's) is held rather than touched.
-    const hold = Hold.use(c.hold && !c.disabled ? Hold.ms.sustained : undefined, () => {
-      draw.app.setState({ cursor: i, keyed: false }); draw.app.choose(c);
-    });
+    // Every act commits at a tap or its key, a sustained one too (the owner's play of the live build, IG-07: a hold had
+    // done nothing at a click and showed a tenth of a second of its mark on release). A cost felt in the hand is for
+    // later, built once (M22).
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
     const classes = ['act', variant === 'row' ? 'choice-row' : 'act-glyph', className ?? '', selected ? 'sel' : '',
       c.risk ? 'risk' : '', c.grave ? 'grave' : '', c.disabled ? 'shut' : '',
@@ -41,7 +39,7 @@ export class Act {
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-act={c.id} data-index={i}
         data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
-        aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)} {...hold.props}>
+        aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
@@ -50,18 +48,13 @@ export class Act {
         {c.about && (c.risk || c.grave) && !children && !quiet && <span className="about">{Typography.curl(c.about)}</span>}
         {asks && s.confirming === c.id && <span className="grave-said" role="alert">
           {Typography.curl(Act.asked(asks, !!c.grave))}</span>}
-        {/* After its words, so that it is read as said of them (see Hold). */}
-        {'data-hold' in hold.props && <Hold.Ring held={hold.held} {...holdTone ? { tone: holdTone } : {}} />}
-        {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
       </button>
     );
   }
   // What a choice that is asked again says when it is chosen once: what it cannot undo, or how a fight would go.
-  static asks(c: Choice): string | undefined { return c.grave ?? c.marks?.find(m => m.ask)?.said; }
-  static asked(said: string, grave: boolean): string {
-    const whole = `${Words.upper(said)}${/[.!?]$/.test(said) ? '' : '.'}`;
-    return `${whole}${grave ? ' It cannot be undone.' : ''} Choose it again to do it.`;
-  }
+  // The shared rule (Grave), as every client asks it.
+  static asks(c: Choice): string | undefined { return Grave.asks(c); }
+  static asked(said: string, grave: boolean): string { return Grave.asked(said, grave); }
   // The tags a choice carries where it is drawn: not what its look says already (cannot be undone, a risk); a way
   // with no coming back says that, in place of cannot be undone.
   static tags(c: Choice): Mark[] {

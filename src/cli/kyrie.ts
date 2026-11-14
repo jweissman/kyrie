@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { TerminalCreation } from './terminal-creation';
 import { EngineHost } from '../../web/engine/engine-host';
 import { TerminalMode } from './terminal-mode';
+import { TerminalSlots } from './terminal-slots';
 import { Stopwatch } from '../stopwatch';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
@@ -39,8 +40,9 @@ import { Serve } from './serve';
 
 export class KyrieCli {
   static readonly usage = [
-    'Play:      bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume <save.json>',
-    '           (a picker on a terminal, plain lines through a pipe; --interactive or --headless to say which)',
+    'Play:      bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume [save.json]',
+    '           (a picker on a terminal, plain lines through a pipe; --interactive or --headless to say which;',
+    '            save keeps the game in one slot, resume takes it up; --save-as asks for a path instead)',
     '           bin/kyrie run --world <seed> [--origin o] [--as race/calling/Name] [--transcript out.jsonl] (JSON lines)',
     '           bin/kyrie serve                    (one game over stdin/stdout, a JSON line each way: see src/cli/serve.ts)',
     '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
@@ -93,7 +95,7 @@ export class KyrieCli {
       case 'campaign': await Terminal.playCampaign(await Campaign.load(path, TerminalMode.rest(rest)[1] ?? 'campaign',
         NodeBundleSource.shared), TerminalMode.input(rest)); return 0;
       case 'replay': return this.replay(path);
-      case 'resume': return this.resume(path, rest);
+      case 'resume': return this.resume(rest);
       default: return this.lookUp(mode, path, argument);
     }
   }
@@ -105,7 +107,7 @@ export class KyrieCli {
     // A life made through the engine's own requests (world, creation, set-out), as the page's worker answers them,
     // where someone is at the keyboard and has not said who (--as), or a blind player asks (--create): the start is
     // the page's own Begin, and the session played the one it began (the owner, 14 November: no second creator).
-    const input = TerminalMode.input(all);
+    const { input, ...played } = TerminalMode.play(all);
     const create = !!options.world && !options.as && (!!process.stdin.isTTY || args.includes('--create'));
     if (create) {
       const host = new EngineHost(() => undefined);
@@ -114,7 +116,7 @@ export class KyrieCli {
         throw error;
       }
       await host.handle({ kind: 'set-out' });
-      await Terminal.play(host.played!, { input, profile: options.profile });
+      await Terminal.play(host.played!, { input, profile: options.profile, ...played });
       return 0;
     }
     const watch = Stopwatch.forTerminal(options.profile);
@@ -125,17 +127,20 @@ export class KyrieCli {
     });
     if (typeof started === 'string') { console.error(`${started}: its premise is not placed there.`); return 1; }
     watch.done();
-    await Terminal.play(started.journey.session, { input, profile: options.profile });
+    await Terminal.play(started.journey.session, { input, profile: options.profile, ...played });
     return 0;
   }
-  private static async resume(path: string, args: string[]): Promise<number> {
-    const parsed = CheckpointStore.parse(await readFile(path, 'utf8'));
+  // A save file, or with none named the game kept in the terminal's slot (TerminalSlots).
+  private static async resume(args: string[]): Promise<number> {
+    const path = TerminalMode.rest(args)[0];
+    const parsed = path ? CheckpointStore.parse(await readFile(path, 'utf8'))
+      : TerminalSlots.store().read(CheckpointStore.autosave);
     const session = 'transcript' in parsed ? PlaySession.resume(parsed) : PlaySession.fromSave(parsed, path);
     const drawn = session.transcript.drawn;
     if (drawn && Frontier.generated(session.scenario)) {
       session.extend(new Frontier(session.seed, NodeBundleSource.shared, DrawnWorld.options(drawn)));
     }
-    await Terminal.play(session, { input: TerminalMode.input(args) });
+    await Terminal.play(session, TerminalMode.play(args));
     return 0;
   }
   // A game saved from the browser kept as a regression test (see Traces).

@@ -46,9 +46,10 @@ export class TerminalFight {
     : Promise<Command | null> {
     const depth = TerminalColour.depth();
     console.log(`\n${TerminalMenus.fighters(state, depth).join('\n')}`);
-    const rows = choices.map((c, i) => ({ id: String(i), label: c.ability.name,
-      note: `${c.scope}${c.ability.cost ? ` · mana ${c.ability.cost}` : ''}`,
-      about: [c.ability.description ?? ''].filter(Boolean) }));
+    // Each move said by what it does, under it while focused ("choose target" had been all Ensnare said of itself).
+    const rows = choices.map((c, i) => ({ id: String(i), label: c.ability.name, icon: c.requiresTarget ? '⚔' : '·',
+      note: [c.ability.description, c.ability.cost ? `mana ${c.ability.cost}` : ''].filter(Boolean).join(' · ')
+        || c.scope, about: [c.scope] }));
     const actor = state.combatants.find(f => f.id === state.actor)!.name;
     for (;;) {
       const picked = await input.pick({ title: `${actor}'s turn`, rows: rows.slice(0, 4), rest: rows.slice(4),
@@ -61,11 +62,14 @@ export class TerminalFight {
       if (target !== 'back') { return target; }
     }
   }
+  // With one to choose from, there is no choosing: the move is made at it, as the page's fight makes it (FightMoves:
+  // one target, chosen at the tap). A blow at the last rat had been two keys.
   static async target(choice: ActionChoice, state: BattleState, input: Asking): Promise<Command | 'back' | null> {
+    if (choice.commands.length === 1) { return CombatChoices.target(choice, choice.commands[0]!.target); }
     const named = choice.commands.map(command => state.combatants.find(f => f.id === command.target)!);
     if (TerminalInput.picks(input)) {
       const picked = await input.pick({ title: `${choice.ability.name}: at whom?`, back: 'back',
-        rows: named.map((t, i) => ({ id: String(i), label: t.name, note: `${t.hp}/${t.maxHp}` })) });
+        rows: named.map((t, i) => ({ id: String(i), label: t.name, icon: '◎', note: `${t.hp}/${t.maxHp}` })) });
       if (!picked) { return null; }
       return 'command' in picked ? 'back' : CombatChoices.target(choice, choice.commands[Number(picked.choice)]!.target);
     }

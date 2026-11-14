@@ -1,13 +1,13 @@
 import { Emphasis, type Tone } from '../presentation/emphasis';
 import { Signs } from '../presentation/signs';
-import { Indicator, type Companion, type Icon, type Indicated } from '../presentation/indicator';
+import { Indicator, type Icon, type Indicated } from '../presentation/indicator';
 import type { Aspect } from '../presentation/glance-types';
 import type { Signed } from './terminal-signs';
 
 export type Depth = 'true' | '256' | 'none';
-// What a terminal can show: its colour, whether it has unicode (else each sign's plain character), how a companion is
-// drawn (TP-03), and the true-colour gradient across a label (flag only: KYRIE_PRISM=1).
-export interface Shows { depth: Depth; unicode: boolean; companion: Companion; prism: boolean }
+// What a terminal can show: its colour, whether it has unicode (else each sign's plain character), and the true-colour
+// gradient across a label (flag only: KYRIE_PRISM=1).
+export interface Shows { depth: Depth; unicode: boolean; prism: boolean }
 
 // The atlas in a terminal, as the page draws it, from the page's one table of tones (Emphasis) and its one indicator
 // grammar (Indicator): an act's colour is one pip at its left edge, and what it is besides at most two icons after its
@@ -26,13 +26,21 @@ export class TerminalColour {
     return env.KYRIE_ASCII === undefined && (!locale || /utf-?8/i.test(locale));
   }
   static shows(env: Record<string, string | undefined> = process.env, tty = !!process.stdout.isTTY): Shows {
-    return { depth: this.depth(env, tty), unicode: this.unicode(env),
-      companion: env.KYRIE_COMPANION === 'icon' ? 'icon' : 'colour', prism: env.KYRIE_PRISM === '1' };
+    return { depth: this.depth(env, tty), unicode: this.unicode(env), prism: env.KYRIE_PRISM === '1' };
   }
   static paint(tone: Tone, text: string, depth: Depth): string {
     const [r, g, b] = Emphasis.rgb[tone];
     if (depth === 'true') { return `\x1b[38;2;${r};${g};${b}m${text}\x1b[0m`; }
     if (depth === '256') { return `\x1b[38;5;${this.cube(r, g, b)}m${text}\x1b[0m`; }
+    return text;
+  }
+  // The stage's inks (web/reader/foundations.css): ivory for what is read first (a heading, the row in hand), dim for
+  // what is said beside it, faint for rules. Two or three inks and the meaning tones, nothing else.
+  static readonly inks = { ivory: [236, 230, 217], dim: [165, 159, 148], faint: [110, 106, 98] } as const;
+  static ink(ink: keyof typeof TerminalColour.inks, text: string, depth: Depth): string {
+    const [r, g, b] = this.inks[ink];
+    if (depth === 'true') { return `\x1b[38;2;${r};${g};${b}m${text}\x1b[39m`; }
+    if (depth === '256') { return `\x1b[38;5;${this.cube(r, g, b)}m${text}\x1b[39m`; }
     return text;
   }
   // Weight and slant, where there is colour (what is said to the company is set in italics: the owner, 14 November).
@@ -45,14 +53,16 @@ export class TerminalColour {
   }
   private static level(v: number): number { return v < 48 ? 0 : v < 115 ? 1 : Math.min(5, Math.floor((v - 35) / 40)); }
   // An act's indicator, as the shared grammar has it.
-  static indicated(signed: Signed & { aspects?: readonly Aspect[] }, companion: Companion = 'colour'): Indicated {
+  static indicated(signed: Signed & { aspects?: readonly Aspect[] }): Indicated {
     return Indicator.of({ aspects: signed.aspects ?? [], gilded: true, ...signed.crosses ? { crosses: true } : {},
-      ...signed.hold ? { hold: true } : {} }, companion);
+      ...signed.hold ? { hold: true } : {},
+      ...signed.sensed ? { sensed: { aspect: signed.sensed, far: signed.far ?? 1 } } : {} });
   }
   // The one cell at an act's left edge: its colour's pip; without colour, its colour's sign; perceived along a way and
   // not here, faint; otherwise nothing.
-  static pip(ind: Indicated, shows: Pick<Shows, 'depth' | 'unicode'>, sensed?: Aspect): string {
-    const { depth, unicode } = shows;
+  // A companion perceived along a way is said in words, never a faint rose (TP-03).
+  static pip(ind: Indicated, shows: Pick<Shows, 'depth' | 'unicode'>, perceived?: Aspect): string {
+    const { depth, unicode } = shows, sensed = perceived === 'companionship' ? undefined : perceived;
     if (depth === 'none') {
       const a = ind.aspect ?? sensed;
       return a ? this.sign(Indicator.icon(a), unicode) : ' ';
@@ -65,12 +75,13 @@ export class TerminalColour {
   // and after them its icons (Indicator) and what the page draws beside them in words (Signs): its minutes, what it
   // risks, what is perceived that way. A way with nothing new is dim, or said so.
   static choice(n: number, label: string, signed: Signed & { aspects?: readonly Aspect[] }, depth: Depth): string {
-    const aspects = Emphasis.ranked(signed.aspects ?? []);
-    const after = [...signed.tags ?? [], ...signed.sensed && !aspects.length ? [Signs.sensed(signed.sensed)] : [],
+    const words = Indicator.words(signed.aspects ?? []);
+    // What is perceived along a way said in words wherever it is, not only on a way of no colour of its own.
+    const after = [...signed.tags ?? [], ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [],
       ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
     if (depth === 'none') {
-      const words = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;
-      return `${n}. ${words}${after}${aspects.length ? `  [${aspects.map(a => Emphasis.words[a]).join(', ')}]` : ''}`;
+      const held = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;
+      return `${n}. ${held}${after}${words.length ? `  [${words.join(', ')}]` : ''}`;
     }
     const ind = this.indicated(signed), icons = ind.icons.map(i => ` ${i.sign}`).join('');
     const line = `${n}. ${label}${icons}${after}`;

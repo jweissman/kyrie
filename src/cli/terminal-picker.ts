@@ -5,10 +5,14 @@ import type { Signed } from './terminal-signs';
 // the one indicator). note: said quietly under it while it is focused (its minutes, what it risks); about: said in
 // whole on asking (?). group: the heading it stands under (creation's). shut: why it cannot be chosen. ask: what a
 // grave act asks before it is done, chosen once and then again (GRAMMAR.md). info: not a choice (an instrument), read
-// on asking.
+// on asking. header: a folded group's own row, which opens it (see Menu.fold). icon: one character before its words,
+// what kind of thing it is (an act's kind, a card's emblem).
 export interface Row {
   id: string; label: string; aspects?: Aspect[]; signed?: Signed; note?: string; about?: string[]; group?: string;
-  shut?: string; ask?: string; info?: true;
+  shut?: string; ask?: string; info?: true; header?: true; icon?: string;
+  // What kind of thing it is to the company, in words (to learn, a companion): said on asking, and where there is no
+  // colour; the page keeps such words for a screen reader (BP-08).
+  kinds?: string;
 }
 // What a picker offers: the few led with, the rest one deliberate step away, what is read rather than chosen (the
 // instruments that bear on the moment), a heading, the keys that are commands here, what back does with nothing open,
@@ -16,6 +20,10 @@ export interface Row {
 export interface Menu {
   rows: Row[]; rest?: Row[]; info?: Row[]; title?: string;
   keys?: Record<string, { command: string; said: string }>; back?: string; focus?: string;
+  // quiet: what is chosen leaves no line of itself above, where what follows says it already (an aim followed).
+  quiet?: true;
+  // fold: the rest's groups each folded under a row of their own, opened one at a time (a town's rest).
+  fold?: true;
 }
 // A choice by its id, a command (a lens, the map, back) with the row the focus was on, or leaving.
 export type Picked = { choice: string } | { command: string; focus?: string } | null;
@@ -36,6 +44,8 @@ export class TerminalPicker {
   said?: string;
   // Whether every key is said under the picker, or only how to choose and how to ask (/ shows them all).
   keyed = false;
+  // The groups of the rest opened (see Menu.fold).
+  readonly opened = new Set<string>();
   constructor(readonly menu: Menu) {
     // Kept where it is in view; a row now among the rest is not unfolded to (a lens turned to had opened on the whole
     // list, the focus deep in it).
@@ -43,9 +53,20 @@ export class TerminalPicker {
   }
   get visible(): Row[] {
     const rest = this.menu.rest ?? [];
-    const more: Row[] = rest.length && !this.unfolded ? [{ id: TerminalPicker.more, label: `${rest.length} more` }] : [];
-    return [...this.menu.rows, ...more, ...this.unfolded ? rest : [], ...this.menu.info ?? []];
+    const more: Row[] = rest.length && !this.unfolded ? [{ id: TerminalPicker.more, label: `${rest.length} more`,
+      icon: '…' }] : [];
+    const shown = !this.unfolded ? [] : this.menu.fold ? this.folded(rest) : rest;
+    return [...this.menu.rows, ...more, ...shown, ...this.menu.info ?? []];
   }
+  // Each group under its own row, its rows shown only while it is open.
+  private folded(rest: Row[]): Row[] {
+    return rest.flatMap((r, i) => {
+      const head: Row[] = r.group && r.group !== rest[i - 1]?.group ? [{ id: `${TerminalPicker.head}${r.group}`,
+        label: `${r.group} · ${rest.filter(x => x.group === r.group).length}`, group: r.group, header: true }] : [];
+      return [...head, ...!r.group || this.opened.has(r.group) ? [r] : []];
+    });
+  }
+  static readonly head = '…group:';
   get focused(): Row | undefined { return this.visible[this.focus]; }
   // A key: what was chosen, or undefined to go on picking.
   press(key: Key): Picked | undefined {
@@ -56,7 +77,9 @@ export class TerminalPicker {
     if (name === 'up' || key.ch === 'k') { return this.move(-1); }
     if (name === 'down' || key.ch === 'j') { return this.move(1); }
     if (name === 'return' || name === 'enter' || name === 'space' || key.ch === ' ') { return this.enter(); }
-    if (name === 'right' || name === 'tab' || key.ch === '+') { this.unfold(); return undefined; }
+    if (name === 'pagedown' || name === 'pageup') { return this.page(name === 'pagedown' ? 1 : -1); }
+    if (key.ch === ']' || key.ch === '[') { return this.group(key.ch === ']' ? 1 : -1); }
+    if (name === 'right' || name === 'tab' || key.ch === '+') { this.open(); return undefined; }
     if (name === 'left' || name === 'escape' || name === 'backspace' || key.ch === 'h') { return this.back(); }
     if (key.ch === '?') { this.inspect(); return undefined; }
     if (key.ch === '/') { this.keyed = !this.keyed; return undefined; }
@@ -65,9 +88,24 @@ export class TerminalPicker {
     const command = key.ch ? this.menu.keys?.[key.ch]?.command : undefined;
     return command ? this.command(command) : undefined;
   }
+  // A page at a time, without going round: a long list (a town's journeys) is gone through a screenful at once.
+  static readonly paged = 10;
+  private page(by: number): undefined {
+    this.focus = Math.max(0, Math.min(this.visible.length - 1, this.focus + by * TerminalPicker.paged));
+    this.about = undefined; this.asking = undefined;
+    return undefined;
+  }
+  // To the first row of the next group (or of this one, then the one before), as the journeys are grouped.
+  private group(by: number): undefined {
+    const rows = this.visible, starts = rows.flatMap((r, i) => r.group && r.group !== rows[i - 1]?.group ? [i] : []);
+    const next = by > 0 ? starts.find(i => i > this.focus) : starts.findLast(i => i < this.focus);
+    if (next !== undefined) { this.focus = next; this.about = undefined; this.asking = undefined; }
+    return undefined;
+  }
+  // Up from the first row stays there, as down from the last: going round had taken an Up meant for the four into the
+  // folded rest at the foot, and the Enter after it unfolded that (the human mode's second play).
   private move(by: number): undefined {
-    const n = this.visible.length;
-    if (n) { this.focus = (this.focus + by + n) % n; }
+    this.focus = Math.max(0, Math.min(this.visible.length - 1, this.focus + by));
     this.about = undefined; this.asking = undefined;
     return undefined;
   }
@@ -75,6 +113,7 @@ export class TerminalPicker {
     const row = this.focused;
     if (!row) { return undefined; }
     if (row.id === TerminalPicker.more) { this.unfold(); return undefined; }
+    if (row.header) { this.toggle(row.group!); return undefined; }
     if (row.info) { this.inspect(); return undefined; }
     if (row.shut) { this.said = row.shut; return undefined; }
     if (row.ask && this.asking !== row.id) { this.asking = row.id; return undefined; }
@@ -87,11 +126,24 @@ export class TerminalPicker {
     this.unfolded = true;
     if (on) { this.focus = this.menu.rows.length; }
   }
-  // Back puts away what was opened last: the whole of a row, a grave act's asking, the rest unfolded; then whatever
-  // back is here (a lens let go, a target not chosen).
+  // A group opened where the focus is on its row, else the rest unfolded.
+  private open() {
+    const row = this.focused;
+    if (row?.header && !this.opened.has(row.group!)) { this.toggle(row.group!); return; }
+    this.unfold();
+  }
+  // A group opened or shut, the focus on its own row.
+  private toggle(group: string) {
+    if (!this.opened.delete(group)) { this.opened.add(group); }
+    this.focus = Math.max(0, this.visible.findIndex(r => r.header && r.group === group));
+  }
+  // Back puts away what was opened last: the whole of a row, a grave act's asking, the group the focus is in, the rest
+  // unfolded; then whatever back is here (a lens let go, a target not chosen).
   private back(): Picked | undefined {
     if (this.about) { this.about = undefined; return undefined; }
     if (this.asking) { this.asking = undefined; return undefined; }
+    const group = this.focused?.group;
+    if (this.menu.fold && this.unfolded && group && this.opened.has(group)) { this.toggle(group); return undefined; }
     if (this.unfolded) {
       const id = this.focused?.id;
       this.unfolded = false;
@@ -111,7 +163,7 @@ export class TerminalPicker {
   }
   // A number chooses the row of that number among the choices shown, as a number typed headless does.
   private numbered(n: number): Picked | undefined {
-    const choices = this.visible.filter(r => !r.info && r.id !== TerminalPicker.more);
+    const choices = this.visible.filter(r => !r.info && !r.header && r.id !== TerminalPicker.more);
     const row = choices[n - 1];
     if (!row) { return undefined; }
     this.focus = this.visible.indexOf(row);

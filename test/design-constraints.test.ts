@@ -16,14 +16,15 @@ class Sheets {
         body: m[2]! }));
     });
   }
-  // The custom properties that are gold, by name or by being defined as one (--blue: var(--gold) is gold).
+  // The custom properties that are gold, by name or by being defined as one (--blue: var(--gold) is gold); one bound to
+  // gold only on the aim's own tone (a row whose mark is the followed step's: IG-15) is the aim's.
   static golds(rules: Rule[]): Set<string> {
     const gold = new Set(['--gold', '--gold-glow', '--gold-line', '--gold-bright', '--gold-deep']);
     for (let grew = true; grew;) {
       grew = false;
       for (const r of rules) {
         for (const m of r.body.matchAll(/(--[\w-]+)\s*:\s*([^;]+)/g)) {
-          if (!gold.has(m[1]!) && [...gold].some(g => m[2]!.includes(`var(${g})`)) && !/^\.tone-gold$/.test(r.selector)) {
+          if (!gold.has(m[1]!) && [...gold].some(g => m[2]!.includes(`var(${g})`)) && !/tone-gold/.test(r.selector)) {
             gold.add(m[1]!); grew = true;
           }
         }
@@ -41,8 +42,8 @@ describe('the design system, held by the stylesheets', () => {
   const aims = /\.aim\b|aimed|-aim\b|\.aims\b|follow|\.led\b|continues|tone-gold|gild|\.bound\b/;
   // And the entry's ceremonial gold, there alone (the owner, 14 November, TO-01: "ceremonial gold as an entry-point
   // emphasis, while preserving the stricter semantic meaning of gold for followed undertakings once we're inside"): the
-  // title's ways in and its sky, and creation's focus mark and its Continue.
-  const entry = /\.way-in|\.title-sky|\.creation \.card|\.creation-go/;
+  // title's ways in, its sky and its embers (IG-14), and creation's focus mark and its Continue.
+  const entry = /\.way-in|\.title-sky|\.motes|\.creation \.card|\.creation-go/;
   const known = new Set([
     'fight.css .fight .fighter.target', 'fight.css .fight .moves .aiming', 'foundations.css .kicker',
     'foundations.css .cornered::after', 'frame.css .frame::after',

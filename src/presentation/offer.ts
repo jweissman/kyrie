@@ -61,12 +61,16 @@ export class Offers {
       for (const c of order) {
         if (led.length + fill.length >= this.four) { break; }
         const type = this.types[c.kind];
-        if (shown.has(c.choice) || (distinct && types.has(type))) { continue; }
+        // The company's own upkeep (gear, preparing spells) with no reason here never fills the four: two of the
+        // four at a keep's door had been "Have Cyril prepare Cure Light Wounds in place of Charm Person".
+        const upkeep = type === 'other' && !c.whys.length;
+        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }
     const primary = [...led, ...fill].slice(0, this.four);
-    const rest = live.filter(c => !shown.has(c.choice)).sort((a, b) => a.order - b.order).map(c => this.candidate(c));
+    const rest = live.filter(c => !shown.has(c.choice)).sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order)
+      .map(c => this.candidate(c));
     // A site, or under the ground (a town's undertown is one too).
     const site = !!screen && (screen.path.some(p => p.kind === 'site') || !!screen.place.underground);
     const at = { site, ...out ? { out } : {} };
@@ -99,8 +103,17 @@ export class Offers {
         kind: this.kind(r.action.schema), whys: [], order: cands.length + i,
         marks: r.action.grave ? [{ kind: 'grave' as const, said: r.action.grave, ask: true }] : [] }));
   }
+  // The rest in an order by what each is, the scene's own order within: talk and ways and what is done here before
+  // the company's own gear (setting a thing down, giving it across, packing it), which a town's rest had led with
+  // (TP-06: 60 rows at the a1 camp, the terminal line's "junk drawer").
+  static readonly ranks: readonly ActType[] = ['talk', 'go', 'journey', 'search', 'act', 'study', 'fight', 'light',
+    'care', 'wait', 'other'];
+  private static rank(c: Candidate): number { return this.ranks.indexOf(this.types[c.kind]); }
+  private static readonly gear = new Set(['put_item', 'put_in', 'transfer_item', 'equip_item', 'douse_light',
+    'prepare_spell']);
   private static kind(schema: string | undefined): Kind {
     const s = schema ?? '';
+    if (this.gear.has(s)) { return 'other'; }
     return s === 'talk_to' ? 'talk' : s === 'attack' ? 'attack' : s.startsWith('wait') ? 'wait'
       : /^(camp|rest)/.test(s) ? 'rest' : s === 'search' ? 'search' : s === 'eat' ? 'eat' : /light|kindle/.test(s) ? 'light'
         : /^(go|travel|walk|enter|leave|climb|descend)/.test(s) ? 'way' : 'act';

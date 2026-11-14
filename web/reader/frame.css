@@ -40,7 +40,7 @@ html, body { overflow: hidden; }
 }
 /* Arriving: what the stage now shows rises into its light. */
 .frame > * { animation: arrive var(--settle) var(--ease) both; }
-@keyframes arrive { from { opacity: 0; transform: translateY(6px); } }
+@keyframes arrive { from { opacity: 0; } }
 
 
 /* ---- The title: the whole screen, dark; the painting comes up behind the name; the ways in, centred. ---- */
@@ -68,77 +68,55 @@ html, body { overflow: hidden; }
 .title-menu ul { list-style: none; margin: 0; padding: 0; }
 .title-menu ul { display: grid; gap: 6px; }
 /* The ways in are the game's own rows (ChoiceRow's grammar: a mark at the left, the words, a quiet line under them),
-   centred under the name. The one the hand or the keys are on has the strong gold mark at once, its ground warmed a
-   little and its words lit; nothing slides to it and no box moves (the owner, 14 November: "no moving double box, no
-   jumping indicators, no shifting geometry"). Ceremonial gold, the entry's alone. */
+   centred under the name: a row's ground and edge at rest, so that each reads as a choice and not a link (IG-16). The
+   one the hand or the keys are on is lit at once in the row's tint, its words full; pressed, deeper; nothing slides to
+   it and no box moves (the owner, 14 November: "no moving double box, no jumping indicators, no shifting geometry"). */
 .way-in { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: column;
   align-items: center; justify-content: center; width: 100%; min-height: 54px; padding: 9px 40px;
-  color: var(--dim); text-decoration: none; border: 0; border-radius: 10px;
-  -webkit-tap-highlight-color: transparent; }
+  color: rgba(236, 230, 217, .8); text-decoration: none; border: 1px solid var(--choice-edge); border-radius: 10px;
+  background: var(--choice-ground); -webkit-tap-highlight-color: transparent;
+  transition: background var(--quick), border-color var(--quick), color var(--quick); }
 .way-in .row-mark { position: absolute; left: 14px; top: 13px; bottom: 13px; width: 3px; border-radius: 2px;
   background: rgba(236, 230, 217, .16); }
 .way-in .n { font: 500 15px/1.2 var(--do); letter-spacing: .26em; text-transform: uppercase; padding-left: .26em; }
 .way-in .why { font: italic 400 14.5px/1.35 var(--told); color: var(--dim); margin-top: 4px; letter-spacing: 0; }
-.way-in[aria-current="true"] { color: var(--ivory);
-  background: linear-gradient(90deg, rgba(242, 189, 76, .10), rgba(242, 189, 76, .03) 55%, rgba(242, 189, 76, 0));
-  box-shadow: 0 0 34px rgba(242, 189, 76, .07); }
-.way-in[aria-current="true"] .row-mark { background: var(--gold); box-shadow: 0 0 12px rgba(242, 189, 76, .7); }
+.way-in[aria-current="true"] { color: var(--ivory); background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+.way-in:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); transition: none; }
+.way-in[aria-current="true"] .row-mark { background: rgba(236, 230, 217, .7); }
 .way-in:focus-visible { outline: none; }
 .way-in:focus-visible:not([aria-current="true"]) { color: var(--ivory); }
-.way-in:active .n { transform: translateY(1px); }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
   margin: 0; font: 400 11.5px var(--do); color: var(--dim); letter-spacing: .04em; }
-/* The light the title stands in: a warm glow behind the name, low and wide, as off a hearth; the painting drifting
-   very slowly closer once the title is up; and sparks going up through it (TitlePage.Motes). Still for one who asks
-   for less motion. */
+/* The light the title stands in: a warm glow behind the name, low and wide, as off a hearth. */
 .title-page .build { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
   margin: 0; font: 400 11px var(--do); letter-spacing: .06em; color: var(--dim); }
 .title-page::before { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 46% 30% at 50% 40%, rgba(242, 189, 76, .10), transparent 70%),
     linear-gradient(180deg, transparent 55%, rgba(10, 11, 14, .65)); }
-.shell.phase-title:has(.beat-ready) .ambient { animation: drift 90s ease-in-out infinite alternate; }
-@keyframes drift { from { transform: scale(1.04); } to { transform: scale(1.13) translate(-1.2%, -.8%); } }
-/* The sky the title stands under (TitlePage.Sky): the deep of it, one light low on the horizon, a haze drifting very
-   slowly, and the far ridge with the seven towers on it. Which way in is chosen sets the light (where it stands, its
-   colour) and how near the ridge stands: the layers ease there over most of a second, the menu at once. */
-@property --glow-x { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
-@property --glow-y { syntax: '<percentage>'; inherits: true; initial-value: 64%; }
-@property --glow { syntax: '<color>'; inherits: true; initial-value: rgba(242, 189, 76, .2); }
-@property --glow-2 { syntax: '<color>'; inherits: true; initial-value: rgba(176, 120, 60, .1); }
-@property --deep-low { syntax: '<color>'; inherits: true; initial-value: #141016; }
-@property --near { syntax: '<number>'; inherits: true; initial-value: 1; }
-@property --lamps { syntax: '<number>'; inherits: true; initial-value: .55; }
-@property --stars { syntax: '<number>'; inherits: true; initial-value: .7; }
-:is(.title-page, .sky-page) { transition: --glow-x 900ms cubic-bezier(.2, .7, .2, 1), --glow-y 900ms cubic-bezier(.2, .7, .2, 1),
-  --glow 900ms ease, --glow-2 900ms ease, --deep-low 900ms ease, --near 1100ms cubic-bezier(.2, .7, .2, 1),
-  --lamps 700ms ease, --stars 1200ms ease; }
+/* The sky the title stands under (TitlePage.Sky): the deep of it, one light low on the horizon, and the far ridge with
+   the seven towers on it. It answers nothing the hand does (IG-11): no light following focus, no haze. Its one motion is
+   the embers' own (TitlePage.Motes, IG-14), going up slowly through it as they did before look-7. */
 :is(.title-page, .sky-page) { --glow-x: 50%; --glow-y: 64%; --glow: rgba(242, 189, 76, .20); --glow-2: rgba(176, 120, 60, .10);
-  --deep-top: #07080b; --deep-low: #141016; --near: 1; --ridge: #050608; --haze: .5; --lamps: .55; --stars: .7; }
-:is(.title-page, .sky-page)[data-focus="begin"] { --lamps: .9; --stars: .8; --glow-x: 62%; --glow-y: 66%; --glow: rgba(214, 196, 150, .22);
-  --glow-2: rgba(92, 120, 150, .14); --deep-low: #10141b; --near: 1.035; --haze: .55; }
-:is(.title-page, .sky-page)[data-focus="continue"] { --lamps: .75; --stars: .45; --glow-x: 46%; --glow-y: 70%; --glow: rgba(242, 160, 76, .26);
-  --glow-2: rgba(170, 90, 40, .14); --deep-low: #19110d; --near: 1.06; --haze: .4; }
-:is(.title-page, .sky-page)[data-focus="encyclopedia"] { --lamps: .45; --stars: .9; --glow-x: 40%; --glow-y: 50%; --glow: rgba(236, 214, 160, .16);
-  --glow-2: rgba(150, 130, 90, .08); --deep-low: #15130f; --near: 1.01; --haze: .65; }
-:is(.title-page, .sky-page)[data-focus="options"] { --lamps: .25; --stars: .5; --glow-x: 50%; --glow-y: 76%; --glow: rgba(200, 200, 210, .07);
-  --glow-2: rgba(80, 90, 110, .06); --deep-low: #0c0d11; --near: 1; --haze: .3; }
+  --deep-top: #07080b; --deep-low: #141016; --ridge: #050608; }
 .title-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.motes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.motes i { position: absolute; left: var(--x); bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%;
+  background: var(--gold-bright); box-shadow: 0 0 8px var(--gold); opacity: 0;
+  animation: mote var(--t) linear var(--d) infinite; }
+@keyframes mote { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: .55; }
+  70% { opacity: .3; } 100% { opacity: 0; transform: translate(4vw, -78vh); } }
+.beat-reveal .motes { animation: fade-in 3s 1s var(--ease) both; }
+.beat-dark .motes { opacity: 0; }
 .title-sky > i, .title-sky svg { position: absolute; inset: 0; display: block; }
 .title-sky .sky-deep { background: linear-gradient(180deg, var(--deep-top) 0%, var(--deep-low) 100%); }
 .title-sky .sky-light { inset: -20%; background:
     radial-gradient(ellipse 34% 22% at var(--glow-x) var(--glow-y), var(--glow), transparent 70%),
     radial-gradient(ellipse 70% 40% at var(--glow-x) calc(var(--glow-y) + 6%), var(--glow-2), transparent 75%); }
-.title-sky .sky-haze { inset: -10% -30%; opacity: var(--haze);
-  background: repeating-linear-gradient(176deg, rgba(236, 230, 217, 0) 0 18%, rgba(236, 230, 217, .025) 26%,
-    rgba(236, 230, 217, 0) 34%);
-  animation: haze 80s linear infinite alternate; transition: opacity 900ms ease; }
-@keyframes haze { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
-.title-sky .sky-ridge { width: 100%; height: 100%; fill: var(--ridge); transform-origin: 50% 92%;
-  transform: scale(var(--near)); }
-.title-sky .sky-ridge .lamp { fill: var(--gold-bright); opacity: var(--lamps); filter: drop-shadow(0 0 3px var(--gold)); }
+.title-sky .sky-ridge { width: 100%; height: 100%; fill: var(--ridge); }
+.title-sky .sky-ridge .lamp { fill: var(--gold-bright); opacity: .55; filter: drop-shadow(0 0 3px var(--gold)); }
 .title-sky .sky-ridge .lamp.seventh { filter: drop-shadow(0 0 5px var(--gold)); }
-.title-sky .sky-stars { width: 100%; height: 100%; fill: rgba(236, 230, 217, .55); opacity: var(--stars);
-  transform: scale(calc(2 - var(--near))); transform-origin: 50% 60%;
+.title-sky .sky-stars { width: 100%; height: 100%; fill: rgba(236, 230, 217, .55); opacity: .7;
   mask-image: radial-gradient(ellipse 38% 26% at 50% 38%, transparent 35%, #000 85%); }
 .title-page .dev { margin-top: 32px; text-align: left; }
 .title-page .dev ol { list-style: none; padding: 0; display: grid; gap: 6px; }
@@ -154,29 +132,22 @@ html, body { overflow: hidden; }
 .beat-dark .credit, .beat-dark .build { opacity: 0; }
 .frame > .opening.loading.sky-page { position: relative; overflow: hidden; height: var(--frame-h); }
 .sky-page > main { position: relative; z-index: 1; }
-/* The country comes up from the same horizon as the choice of a life begins: its painting rises from where the
-   title's ridge stood, the dark giving way to it, so that the title, the drawing of the country and the first
-   question are one passage (TO-03). Once, as the choosing begins; still for one who asks for less motion. */
-.shell.phase-company.creating .ambient { animation: country-up 1.6s cubic-bezier(.2, .7, .2, 1) both; }
-@keyframes country-up { from { opacity: 0; clip-path: inset(70% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
-/* The studio's horizon becomes the title's: as the mark goes out the sky comes up behind where it stood, from the
-   horizon upward, the ridge settling into place; no black between them (one passage, not two screens). */
+/* A passage between screens is a cut, or at most a short fade in place: nothing slides, scrolls or wipes (the owner,
+   IG-12: "some weird vertical dissolve that seems to scroll a blank screen out of the way when you start"). The
+   country's painting fades in as the choosing begins. */
+.shell.phase-company.creating .ambient { animation: fade-in .4s ease both; }
+/* The studio's mark goes out to the title with no black between them, the sky behind faded in place (IG-12: no wipe). */
 .beat-ident .title-sky { opacity: 0; }
-:is(.beat-dark, .beat-reveal) .title-sky { animation: sky-up 2.2s cubic-bezier(.2, .7, .2, 1) both; }
-:is(.beat-dark, .beat-reveal) .title-sky .sky-ridge { animation: ridge-up 2.6s cubic-bezier(.2, .7, .2, 1) both; }
-@keyframes sky-up { from { opacity: 0; clip-path: inset(62% 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
-@keyframes ridge-up { from { transform: translateY(2%) scale(1.04); } }
+:is(.beat-dark, .beat-reveal) .title-sky { animation: fade-in .5s ease both; }
 .beat-reveal .build { animation: fade-in 1.2s 2.2s var(--ease) both; }
-.shell:has(.beat-reveal) .ambient { animation: plate-up 3s cubic-bezier(.33, 0, .2, 1) both; }
-@keyframes plate-up { from { opacity: 0; transform: scale(1.12); } }
+.shell:has(.beat-reveal) .ambient { animation: fade-in .5s ease both; }
 .beat-reveal .mark span { animation: letter 1.5s var(--ease) both; }
-@keyframes letter { from { opacity: 0; filter: blur(10px); transform: translateY(.06em);
+@keyframes letter { from { opacity: 0; filter: blur(10px);
   text-shadow: 0 0 30px rgba(239, 230, 209, .6); } }
 .beat-reveal .horizon::before { animation: line-out 1.1s .7s var(--ease) both; }
-@keyframes line-out { from { transform: scaleX(0); } }
+@keyframes line-out { from { opacity: 0; } }
 .beat-reveal .horizon i { animation: kindle .8s 1.25s var(--ease) both; }
-@keyframes kindle { from { opacity: 0; transform: rotate(45deg) scale(.2); box-shadow: 0 0 0 var(--accent); }
-  60% { opacity: 1; transform: rotate(45deg) scale(1.35); box-shadow: 0 0 22px var(--accent); } }
+@keyframes kindle { from { opacity: 0; box-shadow: 0 0 0 var(--accent); } 60% { opacity: 1; box-shadow: 0 0 22px var(--accent); } }
 .beat-reveal .lede { animation: rise 1s 1.2s var(--ease) both; }
 .beat-reveal .title-menu li { animation: rise .8s var(--ease) both; }
 .beat-reveal .title-menu li:nth-child(1) { animation-delay: 1.55s; }
@@ -186,7 +157,7 @@ html, body { overflow: hidden; }
 .beat-reveal .title-menu li:nth-child(5) { animation-delay: 2.03s; }
 .beat-reveal .dev { animation: rise .8s 2.05s var(--ease) both; }
 .beat-reveal .credit { animation: fade-in 1.1s 2s var(--ease) both; }
-@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+@keyframes rise { from { opacity: 0; } }
 @keyframes fade-in { from { opacity: 0; } }
 /* The studio's mark (Ident): its timings are the page's, set on each part; here only how each part arrives. */
 .ident { position: absolute; inset: 0; z-index: 30; display: grid; place-content: center; justify-items: center;
@@ -214,6 +185,7 @@ html, body { overflow: hidden; }
   to { opacity: .82; letter-spacing: .5em; padding-left: .5em; filter: blur(0); } }
 @keyframes ident-out { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .title-page *, .sky-page *, .ident, .shell .ambient { animation: none !important; }
+  .motes { display: none; }
   .title-page, .title-sky * { transition: none !important; } }
 
 /* ---- Creation: the cards and almost nothing else (OWN-14). The whole screen, as the title is: dark, the country's
@@ -309,17 +281,22 @@ html, body { overflow: hidden; }
 .creation .card-name { display: flex; flex-direction: column; justify-content: flex-end; min-height: var(--name-h, auto);
   text-wrap: balance; }
 .creation .card-line { display: block; min-height: var(--line-h, auto); margin-top: 6px; }
-/* One focus mark, the grammar's (IG-02): the card the pointer or the keys are on takes the title's gold mark along its
-   foot, at once, and moves nowhere; the chosen card alone is raised. Two states, two kinds of mark, never two outlines. */
-.creation .card:is(:hover, :focus-visible):not(.chosen) { box-shadow: inset 0 -3px 0 var(--gold); outline: none; }
-.creation .card.chosen:focus-visible { outline: none; box-shadow: inset 0 -3px 0 var(--gold), 0 18px 40px rgba(0, 0, 0, .45); }
+/* The card the pointer or the keys are on is lit in the row's tint at once, and moves nowhere; pressed, deeper; the
+   chosen card alone is edged. Two states, two kinds of mark, never two outlines (IG-02, IG-15). */
+.creation .card { position: relative; }
+.creation .card::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; display: none;
+  border-radius: inherit; background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+.creation .card:is(:hover, :focus-visible) { outline: none; }
+.creation .card:is(:hover, :focus-visible, :active)::before { display: block; }
+.creation .card:active::before { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
 .creation .cards:has(.chosen) .card:not(.chosen) { background: var(--card-quiet);
   border-color: rgba(236, 230, 217, .07); }
 .creation .cards:has(.chosen) .card:not(.chosen) .card-name { color: rgba(236, 230, 217, .8); }
 .creation .cards:has(.chosen) .card:not(.chosen) .glyph { stroke: var(--dim); }
 .creation .cards:has(.chosen) .card:not(.chosen):hover .glyph, .creation .card:not(.chosen):focus-visible .glyph { stroke: var(--ivory); }
 
-.creation .card.chosen { transform: translateY(-8px); border-color: var(--accent);
+.creation .card.chosen { border-color: var(--accent);
   background: var(--card-chosen);
   box-shadow: 0 0 0 1px var(--accent), 0 20px 44px rgba(0, 0, 0, .55), var(--glow-chosen); }
 .creation .card.chosen::after { display: none; }
@@ -348,9 +325,10 @@ html, body { overflow: hidden; }
   border-radius: 10px; font: 500 14px/1 var(--do); letter-spacing: .2em; text-transform: uppercase; box-shadow: none; }
 .creation-go .option.go::before { content: ''; position: absolute; left: 14px; top: 12px; bottom: 12px; width: 3px;
   border-radius: 2px; background: rgba(236, 230, 217, .3); }
-.creation-go .option.go:is(:hover, :focus-visible) { background: linear-gradient(90deg, rgba(242, 189, 76, .12),
-  rgba(242, 189, 76, .03) 60%, rgba(242, 189, 76, 0)); border-color: rgba(242, 189, 76, .3); outline: none; }
-.creation-go .option.go:is(:hover, :focus-visible)::before { background: var(--gold); box-shadow: 0 0 12px rgba(242, 189, 76, .7); }
+.creation-go .option.go:is(:hover, :focus-visible) { outline: none;
+  background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+.creation-go .option.go:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
 .spells-choose { display: flex; justify-content: center; margin: 14px 0 0; }
 
 /* A school's or a domain's spells: those cast from the first, under when (at will, first level), a row each with its

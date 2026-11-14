@@ -216,8 +216,15 @@
 .fight > .status .standing + .fight-log-toggle { margin-left: var(--s4); }
 /* Whom to choose: a reticle (an outline, which takes no room) on each who can be, its chance pinned over the card's
    corner, not a line added to it; the rest lowered. Neither gold (the aim's) nor a card made taller. */
-.fight .fighter.target { cursor: pointer; outline: 2px solid var(--accent); outline-offset: 3px; }
-.fight .fighter.target:hover, .fight .fighter.target:focus-within { outline-color: var(--ivory); }
+/* A foe that can be aimed at: edged quietly in the danger's own red, and the one the hand or the keys are on lit in its
+   tint, deeper pressed (IG-15: the pointer is the reticle); drawn into the card's own box, nothing moves (CN-06). */
+.fight .fighter.target { cursor: pointer; }
+.fight .fighter.target::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  border-radius: inherit; box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--row-tone) 38%, transparent); }
+.fight .fighter.target:hover::after, .fight .fighter.target:focus-within::after {
+  background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--row-tone) 75%, transparent); }
+.fight .fighter.target:active::after { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
 .fight .fighter .chance { position: absolute; top: 6px; right: 8px; z-index: 3; padding: 2px 6px; font: var(--t-key);
   color: var(--deep); background: var(--accent); border-radius: 3px; pointer-events: none; }
 @media (max-width: 600px) {
