@@ -100,7 +100,14 @@ repaid when what came of it told something new.
 
 | build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
 |---|---|---|---|---|---|---|---|---|
-| 281b0c4c | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 4 | 0 | 0 |
+| ffa0f02d | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 4 | 0 | 0 |
+
+### Unpursuable turns
+
+- lab3 ranger/archer laboratory straight, turn 20, at the corn-store cellar after "Down to the corn-store cellar": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
+- lab3 ranger/archer laboratory straight, turn 22, at the corn-store cellar after "Down to the corn-store cellar": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
+- lab3 ranger/archer laboratory straight, turn 24, at the corn-store cellar after "Down to the corn-store cellar": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
+- lab3 ranger/archer laboratory straight, turn 26, at the corn-store cellar after "Down to the corn-store cellar": Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth, and find where they get in.
 
 ## Lines said again (in most walks first)
 

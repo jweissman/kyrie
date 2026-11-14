@@ -88,6 +88,12 @@ export class TerminalMatrix {
     return `| ${build} | ${seeds.join(', ')} | ${[...new Set(rows.map(r => r.origin))].join(', ')} | `
       + `${[...new Set(rows.map(r => r.calling))].length} | ${classes.join(' | ')} |`;
   }
+  // Each turn an aim was followed and nothing led to it: the walk, the turn, where, after what, and the aim.
+  static lost(rows: Row[]): string[] {
+    const out = rows.flatMap(r => r.m.lostAt.map(l => `- ${r.seed} ${r.calling}/${r.background} ${r.origin} ${r.policy}, `
+      + `turn ${l.turn}, at ${l.at.replace(/ · .*$/, '') || 'the same place'} after "${l.after}": ${l.aim}`));
+    return out.length ? out : ['- none'];
+  }
   static said(rows: Row[]): string[] {
     const n = new Map<string, number>();
     for (const l of rows.flatMap(r => r.m.repeated)) { n.set(l, (n.get(l) ?? 0) + 1); }
@@ -122,6 +128,7 @@ export class TerminalMatrix {
       `- mean time per walk: ${Math.round(this.sum(rows, r => r.ms) / Math.max(1, rows.length))} ms`, '',
       '## Gate 1, tier 1', '', '| build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |',
       '|---|---|---|---|---|---|---|---|---|', this.gate(rows, seeds), '',
+      '### Unpursuable turns', '', ...this.lost(rows), '',
       '## Lines said again (in most walks first)', '', ...this.said(rows), '',
       '## Attention repaid with nothing (the first of each label)', '',
       ...emptied.slice(0, 20).map(e => `- ${e.label}: ${e.said.join(' ') || '(nothing said)'}`), ''].join('\n');
