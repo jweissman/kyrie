@@ -125,8 +125,13 @@ export class Operators {
     }
     return out;
   }
+  // An atom joined through a parameter already bound reads the working set's own facts (where the actor is, what it
+  // has noticed); one known only by a constant (suits(target, looking)) proposes from the whole world, and is
+  // preferred after: look_closely went through every thing in the world that suits looking, to test whether the
+  // company reached it (scripts/scale-costs, 4,000 rooms: 220 ms a look).
   private score(atom: Call, names: Set<string>, bound: Set<string>): number {
-    return Operators.known(atom, names, bound) - (this.queries.has(atom.name) ? 0.5 : 0);
+    const local = atom.args.some(x => names.has(x) && bound.has(x)) ? 10 : 0;
+    return local + Operators.known(atom, names, bound) - (this.queries.has(atom.name) ? 0.5 : 0);
   }
   private static known(atom: Call, names: Set<string>, bound: Set<string>): number {
     return atom.args.filter(x => !names.has(x) || bound.has(x)).length;

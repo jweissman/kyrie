@@ -1,4 +1,5 @@
 import { FictionalTime } from '../campaign/fictional-time';
+import voiced from '../../data/voice/conditions.json';
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
@@ -9,8 +10,11 @@ import { DefenseTelling } from './defense-telling';
 
 export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
+  // In the condition's own words, else the voice table's (data/voice/conditions.json): never its name and duration
+  // ("Hild gains inspired for 3h": the cold playtest, CO-10).
   static told(id: string, when: 'begins' | 'ends'): string | undefined {
-    return Canon.conditions[Canon.resolve('conditions', id)]?.[when];
+    const resolved = Canon.resolve('conditions', id), voice = voiced.conditions as Record<string, Record<string, string>>;
+    return Canon.conditions[resolved]?.[when] ?? voice[resolved]?.[when] ?? voice[id]?.[when];
   }
   // The dice behind a blow, for the chronicle: the roll, then each adjustment. A foe's hit points are not said: how it
   // stands is told in words on its card (the owner, 7 November); only one of the company's is counted here.
@@ -28,7 +32,7 @@ export class CombatPresenter {
     const spent = event.type === 'damage' && event.hp === 0 && event.amount < event.rolled + (m?.bonus ?? 0)
       && !m?.resistance && !m?.reduction && !m?.absorbed;
     const calculation = [`roll ${event.rolled}`, ...parts, ...spent ? [`${event.amount} was all it had left`] : []].join(', ');
-    return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${foe ? '' : `${event.hp} HP; `}${calculation}).`;
+    return `${target} takes ${event.amount} ${event.damageType === 'true' ? '' : event.damageType ?? ''} damage (${foe ? '' : `${event.hp} HP; `}${calculation}).`;
   }
   // A mending, or a regeneration stopped (the fire that stopped it, said as what it is).
   private static healed(event: Extract<CombatEvent, { type: 'damage' | 'heal' }>, target: string, foe: boolean): string {

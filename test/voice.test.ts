@@ -65,7 +65,7 @@ describe('The voice of the household', () => {
 });
 
 describe('The voice tables', () => {
-  const keys = ['bond', 'manner', 'pronoun', 'kind', 'species', 'time', 'shelter', 'moment', 'cause', 'side', 'role',
+  const keys = ['bond', 'manner', 'pronoun', 'kind', 'species', 'time', 'shelter', 'moment', 'cause', 'side', 'role', 'slain',
     'sky', 'land', 'crossing', 'size', 'temper', 'mood', 'light', 'number', 'present'];
   it('every line has its own id, names only circumstances the narrator knows, and says where it came from', () => {
     const ids = Voice.tables.flatMap(t => t.lines.map(l => l.id));

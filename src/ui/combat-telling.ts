@@ -116,7 +116,9 @@ export class CombatTelling {
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return `${actor} waits.`; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
-    const landed = attack ? attack.success ? `, and it lands${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}` : ', and misses' : '';
+    // A blow that brings its target down is told by that alone (it falls, after), not by a number (BP-02).
+    const weight = damage?.amount && damage.hp !== 0 ? `, for ${CombatTelling.blow(damage)}` : '';
+    const landed = attack ? attack.success ? `, and it lands${weight}` : ', and misses' : '';
     // What came to nothing says so: "Ithil uses Soot Cloud." was all a cloud of soot told, with nothing hidden for it
     // to show (the play-structure investigation's PT-23).
     const nothing = !attack && !rest.some(e => e.type !== 'initiative' && e.type !== 'end') ? ', to no effect' : '';
@@ -137,6 +139,9 @@ export class CombatTelling {
     const verb = natural ? many ? 'catch' : 'catches' : attack.critical ? 'lands a telling blow on' : kind === 'ranged'
       ? 'shoots' : 'hits';
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
+    // A blow that brings its target down is told with no number, its falling said once after it: "for 9" over "takes
+    // 1" had read as the game contradicting itself (the first blind playtest, BP-02); its numbers are the detail.
+    if (damage?.amount && damage.hp === 0) { return `${how} ${verb} ${target}${with_}.`; }
     // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
     return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}.`;
   }
@@ -159,7 +164,7 @@ export class CombatTelling {
       case 'damage': if (!e.amount && e.modifiers?.resistance !== 1) { return undefined; }
         return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
         : e.damageType === 'bleed' ? `${this.name(e.target)} bleeds, for ${e.amount}.`
-        : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${CombatTelling.blow(e)} ${e.damageType} damage.`
+        : e.damageType && e.damageType !== 'physical' && e.damageType !== 'true' ? `${this.name(e.target)} takes ${CombatTelling.blow(e)} ${e.damageType} damage.`
           : `${this.name(e.target)} is hurt, for ${CombatTelling.blow(e)}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
       case 'save': return this.saved(e);

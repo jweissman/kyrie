@@ -1,5 +1,6 @@
 import { Deem } from 'deem';
 import { FantasyRules } from './fantasy-rules';
+import { CastingLevel } from './rules/casting-level';
 import type { Amount } from './lang/parse';
 
 export class Expressions {
@@ -13,19 +14,19 @@ export class Expressions {
     this.runtime = new Deem({ seed: Expressions.seed(seed), stdlib: FantasyRules.functions });
   }
   integer(expression: string, context: Record<string, number> = {}): number {
-    const value = this.runtime.evaluate(expression, context);
+    const value = this.runtime.evaluate(CastingLevel.expand(expression), context);
     if (typeof value !== 'number' || !Number.isSafeInteger(value)) { throw new Error('Expected a safe integer'); }
     return value;
   }
   number(expression: string, context: Record<string, number> = {}): number {
-    const value = this.runtime.evaluate(expression, context);
+    const value = this.runtime.evaluate(CastingLevel.expand(expression), context);
     if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || !Number.isSafeInteger(value)) {
       throw new Error(`Expected a nonnegative safe integer from (${expression}), got ${String(value)}`);
     }
     return value;
   }
   condition(expression: string, context: Record<string, number>): boolean {
-    const result = this.runtime.evaluate(expression, context);
+    const result = this.runtime.evaluate(CastingLevel.expand(expression), context);
     if (typeof result !== 'boolean') { throw new Error(`Expected boolean from (${expression})`); }
     return result;
   }

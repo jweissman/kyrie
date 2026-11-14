@@ -4,6 +4,7 @@ import { Spellcasting } from './rules/spellcasting';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Positions } from './rules/positions';
+import { Volley } from './rules/volley';
 import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
 import type { Fighter } from './model';
@@ -114,7 +115,7 @@ export class AbilityUse {
       const targets = AbilityUse.targets(effect, targetId, expressions, context);
       let success = ['defend', 'flee', 'travel'].includes(effect.kind) && !targets.length;
       if (success) { Effects.apply(effect, actor!, 0, context); }
-      for (const target of targets) {
+      for (const target of AbilityUse.landings(effect, targets, expressions, context)) {
         touched.add(target.id);
         const took = AbilityUse.effectOn(effect, target, { expressions, context, resisted: resisted.has(target.id),
           ability: ability.id });
@@ -128,6 +129,19 @@ export class AbilityUse {
     context.drawn = outer; context.aim = aimed; context.applies = laid;
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
+  }
+  // Whom an effect lands on, each of its targets once; or for a volley, each of its blows as it is about to be dealt
+  // (Volley), the chosen foe until it falls and then the next standing: read one blow at a time, after the last landed.
+  private static *landings(effect: Effect, targets: Fighter[], expressions: Expressions, context: EffectContext) {
+    for (const aimed of targets) {
+      if (!Volley.of(effect) || !context.actor) { yield aimed; continue; }
+      const blows = expressions.amount(effect.count!, Effects.context(context.actor));
+      for (let n = 0; n < blows; n++) {
+        const target = Volley.next(aimed, context.fighters);
+        if (!target) { return; }
+        yield target;
+      }
+    }
   }
   // A blow aimed at one enemy who is guarded strikes the guard instead, while the guard stands and can act.
   private static guarded(ability: ArenaAbility, targetId: string, context: EffectContext): string {

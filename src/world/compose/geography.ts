@@ -1,5 +1,6 @@
 import type { Entity, Module } from '../../lang/module';
 import type { Ledger, Provenance } from './ledger';
+import { MinHeap } from '../land/min-heap';
 
 // A region module as the assembler sees it: its installation id, its parsed source, what it exports (only exported
 // places can be bound by kits) and the facts its author fixed in its manifest (a chokepoint, a landmark, the terrain).
@@ -113,15 +114,21 @@ export class Geography {
     ledger.measures([...best].map(([key, ticks]) => ({ fact: 'hours', args: key.split('|'), value: Math.ceil(ticks / 6) })),
       by);
   }
-  // Watches from one room to every room reachable from it (Dijkstra over a small graph).
+  // Watches from one room to every room reachable from it (Dijkstra), in the order they are reached: the nearest
+  // first, and of rooms as near, the one first seen. A heap: going through the whole frontier for each room reached
+  // was about 1.2 s of every start of a1 (the architecture review, 14 November).
   private static reach(from: string, edges: Edges): Map<string, number> {
-    const done = new Map<string, number>(), frontier = new Map([[from, 0]]);
-    while (frontier.size) {
-      const [room, ticks] = [...frontier].reduce((a, b) => (b[1] < a[1] ? b : a));
-      frontier.delete(room); done.set(room, ticks);
+    const done = new Map<string, number>(), seen = new Map([[from, 0]]), names = [from], heap = new MinHeap();
+    heap.push(0, 0, 0);
+    for (let top = heap.pop(); top; top = heap.pop()) {
+      const room = names[top.cell]!;
+      if (done.has(room)) { continue; }
+      done.set(room, top.priority);
       for (const next of edges.get(room) ?? []) {
         if (done.has(next.to)) { continue; }
-        frontier.set(next.to, Math.min(frontier.get(next.to) ?? Infinity, ticks + next.ticks));
+        let cell = seen.get(next.to);
+        if (cell === undefined) { cell = names.push(next.to) - 1; seen.set(next.to, cell); }
+        heap.push(cell, top.priority + next.ticks, cell);
       }
     }
     return done;

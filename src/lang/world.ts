@@ -5,6 +5,7 @@ import { RelationViews } from './relation-views';
 import { Asking } from './asking';
 import { QueryModes } from './query-modes';
 import { Counts } from './counts';
+import { Displaced } from './displaced';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -254,8 +255,8 @@ export class World {
   // A world is never changed once made, so no changes at all give this world itself.
   apply(changes: Change[]): World {
     if (!changes.length) { return this; }
-    const next = World.fork(this), counts = new Counts();
-    for (const change of changes) { next.change(change, counts); }
+    const next = World.fork(this), counts = new Counts(), displaced = new Displaced();
+    for (const change of changes) { next.change(change, counts, displaced); }
     return next;
   }
   // Whether `apply(changes)` would succeed, without building the next world, and keep every count it changes at or
@@ -321,7 +322,7 @@ export class World {
   }
   // Whether two worlds are of one line, so that what each shares with the other is shared (see `differing`).
   sameLine(other: World): boolean { return this.lineage === other.lineage; }
-  private change(change: Change, counts: Counts) {
+  private change(change: Change, counts: Counts, displaced: Displaced) {
     this.memoSnapshot = undefined;
     this.stamps.set(change.call.name, ++World.writes);
     const key = World.key(change.call);
@@ -330,16 +331,13 @@ export class World {
       if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
       const named = this.named(change.call.name);
       RelationViews.forget(named);
-      if (named.delete(key)) { this.sum(key, -1); this.count--; }
+      if (named.delete(key)) { this.sum(key, -1); this.count--; displaced.removed(change.call, key); }
       if (change.kind === 'assert' && relation.exclusive) {
-        for (const [k, call] of [...named]) {
-          if (call.args.slice(0, -1).every((arg, i) => arg === change.call.args[i])) {
-          named.delete(k); this.sum(k, -1); this.count--;
-        }
-        }
+        for (const k of displaced.take(named, change.call)) { if (named.delete(k)) { this.sum(k, -1); this.count--; } }
       }
       if (change.kind === 'assert') {
         const call = World.copy(change.call); named.set(key, call); this.sum(key, 1); this.count++;
+        displaced.added(call, key);
       } else if (!named.size) { this.byName.delete(change.call.name); this.owned.delete(change.call.name); }
       return;
     }

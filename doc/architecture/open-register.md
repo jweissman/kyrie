@@ -744,7 +744,8 @@ The owner: a mage with Plane Shift goes to each inner and outer plane, and the s
 | GT-01 | Every plane differs in play: an inner plane's law has an ambient effect by its element, per round in a fight and per watch out of one, through the ordinary damage pipeline (Fire burns; Water drowns without water-breathing; the Negative drains, stopped by death ward; the Positive heals, with an overload; Earth to be judged); the outer planes keep their spell DC and gain whatever SRD trait is cheap to make real. Today a law is read only in combat and is ±1 spell DC; Earth, Water, Positive and Negative have none | open | P1 | M21, rules |
 | GT-02 | Plane Shift as an executable effect to a named plane's canonical threshold (today `unsupported`: effect:planeshift) | open | P1 | M21, rules |
 | GT-03 | The tour as specs: a catalog census (every plane has a law, every inner law an element, every element resistible by something in the catalog); a tiny world with the canon installed, one case per plane, asserting the law, the harm landing and a matching ward stopping it, on seeded dice; one integration case through a generated world and the House of Doors | open | P1 | M21, rules |
-| GT-04 | Thorn's long descent dies to the drowned at the great wheel since batch 6 (3aac89a5, bisected): the record is to be played on from step 77, and wren, d4 and a1 checked, with the old places' Common names (faf6c6d9) | fixed (818159e2, merged 0b879d5c): thorn re-recorded from its second expedition, resting and lighting its torch at the colonnade; wren, d4 and a1 play to their ends; held by `descent` | P1 | M21 |
+| GT-04 | Thorn's long descent dies to the drowned at the great wheel since batch 6 (3aac89a5, bisected): the record is to be played on from step 77, and wren, d4 and a1 checked, with the old places' Common names (faf6c6d9) | fixed (818159e2): thorn rests and lights its torch at the colonnade, hears the drowned and leaves the wheel to them; the four descents green on a dispatched run (43500210898) | P1 | M21 |
+| GT-05 | A lethal band was heard only by a company carrying a light: in the dark, every observation was hidden but those marked as a sound or a touch, and DeepSounds wrote a band's sound with no aspect, so the drowned at thorn's great wheel fell, unheard, on a company in the dark colonnade (found in GT-04). Danger should warn, and attention be repaid: what is heard is heard in the dark, what is seen is not | fixed (rules-slice): a band's sound is written as sound; a sign (an ambush's) stays sight; test/deep-sounds-ambush | P1 | M21 |
 
 ## 29. The owner on the terminal as an instrument (14 November, night)
 
@@ -823,9 +824,9 @@ lines are in `mission-21/after-the-blind-playtest.md`.
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | open | P0 | M21, lead (engine), aesthetic (page) |
-| BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | open | P1 | M21, lead |
-| BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | open | P1 | M21, lead (engine), aesthetic (page) |
+| BP-01 | A foregone fight ("easily won") is six rounds of clerical clicking: offered as one consequential act that resolves it whole and is told in a sentence or two; round by round only for real uncertainty or on asking | partly | P0 | M21, lead (engine), aesthetic (page) |
+| BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | partly | P1 | M21, lead |
+| BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | partly | P1 | M21, lead (engine), aesthetic (page) |
 | BP-04 | Warnings the world does not keep (a band that "will not wait" lets the company walk past) | open | P1 | M21, rules |
 | BP-05 | The starting premise is not pursuable (Greyhold on the map, unroutable; "Enter Shaynof" returns to the road outside) | open | P0 | M21, playability |
 | BP-06 | A distinctive act is acknowledged, not dramatized (the thief's lock "hangs open on its hasp"): a sentence of texture and a due consequence, from authorable templates | open | P1 | M21, playability |
@@ -833,3 +834,60 @@ lines are in `mission-21/after-the-blind-playtest.md`.
 | BP-08 | Classificatory labels on the visible page ("to learn", "to gain", "worth a look", "for you", "by the rules", "In play, by the rules"): off the page, kept for screen readers and the colourless terminal | open | P1 | M21, aesthetic |
 | BP-09 | Press-and-hold to choose a creation card read as the game ignoring the player: a tap chooses; hold only for sustained acts, with a visible cue (the lead's decision, reversing the owner's earlier long-press direction on this evidence) | open | P0 | M21, aesthetic |
 
+## 34. The cold playtest of the deployed game (14 November, night)
+
+Two cold runs of about 25 minutes each, on desktop and tablet: `history/playtests/cold-2026-11-14/`. The player's
+summary: it "writes like a novelist and remembers like a slot machine." Already in the register: the hold to choose
+(BP-09), aims buried and leading nowhere (PL-14), and a warned danger walked past (BP-04).
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| CO-01 | The chosen reason completed off-stage: a hired scholar's one answer set the Marblehollow inscription "read and set down", and the priestess paid it as seen through, with the place never visited. The reason completes only by the player's own act at the place it names; elsewhere it gathers clues | open | P0 | M21, playability (the laboratory) |
+| CO-02 | The sister's trail ("look there, just inside" Darkgate) ends with nothing there: a reason's lead pays off where it points | open | P0 | M21, playability |
+| CO-03 | Towns read as one kit in a second country: the same innkeeper portrait and first line, the corn-store, the Merrowdale notice, a woodland paragraph word for word. Each was a New Game on its own world seed, so this is the kits' variety, not the seed collision (AX-02), which is between countries of one world | open | P1 | M21, playability (kit variety) |
+| CO-04 | The world contradicts itself: a summer temple painted under "snowy"; one inscription spelled two ways (MARMORISCAVUS / MARMORISCAW); a flute pale wood, then a split reed, then playing; "I did not know he was still living" of a namesake standing in the room; an ice elemental with a fire portrait | open | P1 | M21, lead (painting season, inscriptions, names), rules (portrait) |
+| CO-05 | A monster told dead ("5 was all it had left") returns with 1 HP and fights on: a death the log tells holds, or the log does not tell it | open | P1 | M21, rules |
+| CO-06 | The death screen says the country goes on, then "Begin again in this country" rewinds it to day 1 with the padlock rehung: tell the truth about persistence, or make it true | open | P1 | M21, playability |
+| CO-07 | Things that look answerable are not: the road pedlar ("someone is here") cannot be spoken to; the Gaffer names a price and no give is offered | open | P1 | M21, playability |
+| CO-08 | The reason's own topic is the last of an innkeeper's nineteen ("Ask about your sister"): the player's reason first in every talk list | open | P1 | M21, aesthetic (talk offer) |
+| CO-09 | Travel: "No way known" offers only the town's places; on leaving a town the map's primary button is "Enter" that town; on a tablet the place card covers the target. Offer the adjacent country when no way is known | open | P1 | M21, aesthetic (map), lead (the act offered) |
+| CO-10 | Mechanics in the prose: "gains inspired for 3h", "2 true damage", "under migraine", "You collect a garnet for Hild", raw `*habit*` asterisks in the Story. The engine's side is partly done: a condition's beginning and ending are told from data/voice/conditions.json where the condition has no words of its own (51 of the 184 without them, those a first hour meets), and "true" damage is no longer named (test/small/conditions-told). Still to do: the other 133, the collect line, and the page's asterisks | partly | P1 | M21, aesthetic (telling), lead (engine words) |
+| CO-13 | The paintings' seen words are too thin for the fit rules to read: 37 of 245 scene paintings say anything of light, season or weather (scene-temple said nothing of its sun, flowering urns and cypresses, and so stood for the shrine of Danu under snow). Each scene painting looked at and given its light, season and weather | open | P1 | M21, an agent with eyes on the images |
+| CO-11 | Generated names that break the register: "Hollywood", "Peahgiba", "Lent" | open | P2 | M21, lead (names) |
+| CO-12 | A torch or candle burnt out in one search | open | P2 | M21, rules |
+
+## 35. The independent architecture review (14 November, night)
+
+`history/reviews/architecture-review-2026-11.md`, with its probes in `scripts/review-2026-11/`. Its quadratic
+exclusive asserts are repaired (loading-boundaries.md §6).
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| AX-01 | `Geography.distances` is all pairs by a linear scan, about 1.2 s of every a1 start: a binary heap. `reach` runs on `MinHeap` with the old order of rooms kept exactly (identical on 400 random graphs with ties), about 0.29 s a start; what remains is all-pairs itself, and hours asked lazily is AX-07's design | fixed | P1 | M21, lead |
+| AX-02 | Every generated country's module is seeded alike (`["a1","module","region",""]`), so the same person rolls the same body in every country: seed by installation id, with a transcript version bump. A drawn country's request carries its cell as its random identity (`WorldAssembler.beyond`), and the first country keeps its seed; the review's probe now finds 2 alike of 17, both fixed-stat ghouls (`test/countries-seeded-apart`, mutation-checked) | fixed | P1 | M21, lead |
+| AX-03 | The shared rules are recomposed and revalidated by each of 39 installs, 15–20 ms each: compile once per edition, compose by reference | open | P1 | M21, lead |
+| AX-04 | A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST, or keep the parse | open | P1 | M22, lead |
+| AX-05 | The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey | open | P1 | M21, lead |
+| AX-06 | A save is 19 MB, 11 MB of it the compiled module | open | P2 | M22, lead |
+| AX-07 | Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global commitments from addresses, not from what has been realized (order-independent-generation.md) | open | P1 | M22, lead |
+| AX-08 | The kernel is not bounded: the compiler imports the catalog, the parser imports Deem, grounding imports the creature pipeline; `engine-owned.ts` names 30 setting relations; an undeclared relation read returns nothing silently | open | P2 | M22, lead |
+| AX-09 | The docs disagree with the code (parse-store's browser claim; "6.5 s warm" holds only for a replayed seed; `Costs` misattributes kit composition, and its session stage equals campaign) | open | P2 | M21, lead |
+
+## 36. Empty words (the owner and the prose-density audit, 14 November)
+
+The audit is `history/reviews/prose-density-audit-2026-11-13.md`. The owner adds that empty words are an obstacle:
+they make the game feel slower and more pointless. The long, detailed compound sentence is the engine's worst tic, and
+a three-sentence budget does not catch it. Less text also helps performance at the limit.
+- The measure is `src/presentation/clause-load.ts`. A heavy sentence passes 22 words or 3 joints.
+- The terminal walks report the clause load of everything said unasked.
+- `bun scripts/clause-census.ts [--first-hour]` is the editors' worklist.
+- `test/small/clause-load` is the ratchet. It holds the first hour's heavy sentences at 1,256 of 7,275 (17.3 %). The
+  whole authored corpus stands at 20.1 %.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| DN-01 | One turn, one beat in a fight, and three beats at its resolution: the decisive turn, the cost, the consequential discovery. The ledger only on asking (the audit's §1; BP-02/03's engine sides are landed) | partly | P1 | M21, lead (engine), aesthetic (page) |
+| DN-02 | A transition composer above the scene budget: harm or interruption first, then the actionable change or clue, then who caused it, then one orienting sentence. The rest is held under its subject (the audit's §2) | open | P1 | M21, lead |
+| DN-03 | The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy), then the road prologues and origins, the roadstation and the town's neighbours. The ratchet is lowered as each lands | open | P1 | M21, playability (the laboratory) |
+| DN-04 | Remote clock prose is told only if witnessed: chapter curtains and attended spectacles stay, while a remote event is told by its consequence (the audit's §4) | open | P2 | M21, playability |
+| DN-05 | Greetings in a sentence or two, with their prices, history and rumours moved into named questions (the audit's §5) | open | P2 | M22 |

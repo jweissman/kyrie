@@ -23,22 +23,26 @@ export class Barks {
   of(events: CombatEvent[], n: number): string | undefined {
     const moment = this.moment(events);
     if (!moment) { return undefined; }
-    const [kind, who] = moment, fighter = this.fighters.find(f => f.id === who);
+    const [kind, who, slain] = moment, fighter = this.fighters.find(f => f.id === who);
     if (!fighter || this.roll(`${n}:${kind}:${who}`) >= (Barks.chance[kind] ?? 0)) { return undefined; }
     // The telling already says who falls and who runs: of those, only what someone says is added.
-    const fit = Voice.fitting(kind, this.context(fighter)).filter(l => !['fall', 'flee'].includes(kind) || /['‘"“]/.test(l.text));
+    // A kill knows what was killed (a person, a beast), for lines that are for one and not the other: a compassionate
+    // fighter looks away from a man dead, not from a rat (the first blind playtest, BP-02).
+    const dead = slain && this.fighters.find(f => f.id === slain), context = this.context(fighter);
+    if (dead) { context.slain = this.context(dead).kind!; }
+    const fit = Voice.fitting(kind, context).filter(l => !['fall', 'flee'].includes(kind) || /['‘"“]/.test(l.text));
     const line = Editor.choose(fit, `${this.seed}:${n}:${kind}`, this.used);
     if (!line || this.used.has(line.id)) { return undefined; }
     Editor.said(this.used, line.id);
     return Voice.render(line.text, { actor: fighter.name.replace(/^an? /, 'the '), pronoun: this.said?.get(fighter.id) ?? 'they' });
   }
   // The turning point of an exchange: someone falling, a kill, a blow that tells, a flight, a miss.
-  private moment(events: CombatEvent[]): [string, string] | undefined {
+  private moment(events: CombatEvent[]): [string, string, string?] | undefined {
     const death = events.find(e => e.type === 'death');
     const attack = events.find(e => e.type === 'attack');
     if (death && death.type === 'death') {
       const killer = attack && attack.type === 'attack' && attack.target === death.actor ? attack.actor : undefined;
-      return killer && this.team(killer) === 'fighters' ? ['kill', killer] : ['fall', death.actor];
+      return killer && this.team(killer) === 'fighters' ? ['kill', killer, death.actor] : ['fall', death.actor];
     }
     const flee = events.find(e => e.type === 'flee' && e.success);
     if (flee && flee.type === 'flee') { return ['flee', flee.actor]; }

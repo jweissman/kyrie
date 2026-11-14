@@ -1,6 +1,7 @@
 import { Terminal } from './terminal';
 import { TerminalScene, type Turned } from './terminal-scene';
 import { Sentences } from '../presentation/sentences';
+import { ClauseLoad, type Load } from '../presentation/clause-load';
 import type { Asking } from './terminal-input';
 import type { PlaySession } from '../session/play-session';
 
@@ -8,8 +9,10 @@ import type { PlaySession } from '../session/play-session';
 export interface Style { answer(said: string[], prompt: string, n: number): string | null }
 export interface Presented { turned: Turned; lines: string[]; reference: string[]; sentences: number }
 export interface Walked { transcript: string[]; scenes: Presented[] }
-// The arrivals' scene prose (the budget's), and apart from it the sentences said for reference on arriving (the aim).
-export interface Budget { scenes: number; mean: number; median: number; worst: Presented[]; reference: number }
+// The arrivals' scene prose (the budget's), and apart from it the sentences said for reference on arriving (the aim);
+// and what everything said unasked (arrivals and what came of acts, not looks) made the reader carry (ClauseLoad).
+export interface Budget { scenes: number; mean: number; median: number; worst: Presented[]; reference: number;
+  unasked: Load }
 
 // The terminal played through as a player would, by a style, in the process: what it printed is kept whole as the
 // walk's transcript, and each scene it presented with how its turn was come to, so that what is shown on its own
@@ -44,7 +47,8 @@ export class TerminalWalk implements Asking {
     const median = !counts.length ? 0 : counts.length % 2 ? counts[mid]! : (counts[mid - 1]! + counts[mid]!) / 2;
     return { scenes: arrived.length, mean: counts.reduce((a, b) => a + b, 0) / Math.max(1, counts.length), median,
       worst: [...arrived].sort((a, b) => b.sentences - a.sentences).slice(0, 3),
-      reference: arrived.reduce((n, s) => n + this.count(s.reference), 0) / Math.max(1, arrived.length) };
+      reference: arrived.reduce((n, s) => n + this.count(s.reference), 0) / Math.max(1, arrived.length),
+      unasked: ClauseLoad.said(walked.scenes.filter(s => s.turned !== 'look').flatMap(s => s.lines)) };
   }
   // In a fight a walk lets the fight go as the rules would play it (auto), and takes the first target.
   static fighting(prompt: string): string | undefined {
