@@ -13,6 +13,7 @@ import type { Promoted } from '../../src/presentation/glance-types';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
+import { PressGuard } from './press-guard';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings';
 import { TitlePage } from './title-page';
@@ -124,6 +125,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   override componentDidMount() {
     window.addEventListener('keydown', this.keys.press);
+    // A press taken once, on the screen it was made on (IG-17, IG-18).
+    PressGuard.attach(() => this.state.frame ?? this.state.phase);
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
@@ -134,6 +137,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame;
     if (frame && prev.frame !== frame) {
       Timings.painted(frame);
+      PressGuard.changed();
       // The keys rest on what the page marks first, not on whatever is drawn first (the owner, 4 November: the first
       // option lit while another was the aim's).
       const top = this.state.keyed ? GlanceStage.top(this) : -1;
@@ -145,6 +149,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     // So does someone or something turned to (a phone kept the place's scroll, and opened a portrait at its chest).
     const [was, now] = [prev.attention, this.state.attention];
     if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { ReaderApp.top(); }
+    if (was !== now) { PressGuard.changed(); }
     if (prev.cursor !== this.state.cursor && prev.frame === frame && this.state.keyed && !this.state.hovered) {
       // On the sheet raised over a place, when it is there too (a way rowed under the glance and among every way).
       const at = `[data-action="choice"][data-index="${this.state.cursor}"]`;

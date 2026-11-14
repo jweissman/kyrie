@@ -6,6 +6,7 @@ import { Raised, type Sheet } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
+import { PressGuard } from './press-guard';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
@@ -26,6 +27,8 @@ export class ReaderKeys {
       if (e.key === 'Escape') { target.blur(); }
       return;
     }
+    // A key held down does its act once (IG-17): its repeats are dropped, the browser's click on a focused button too.
+    if (PressGuard.repeated(e)) { e.preventDefault(); return; }
     // Enter or Space on a focused act is that act, at once (IG-07: one press commits), where the arrows are not
     // driving the page's own highlight.
     if ((e.key === 'Enter' || e.key === ' ') && !this.app.state.keyed
