@@ -12,7 +12,10 @@ import type { Screen } from '../ui/screen-types';
 // tags: each mark's words, all of them, since the terminal has no line beneath to say what cannot be undone.
 // crosses: it goes over into the next stretch of country, as the page's journey glyph says (not a walk about a town).
 // asks: what it says when chosen once, a grave act asking before it is done (Grave, the page's own rule).
-export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; idle?: true; crosses?: true; asks?: string }
+// shown, note: the choice's words and its note as the page draws them (ChoiceList: a price said beside the act, not run
+// into its words).
+export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; idle?: true; crosses?: true; asks?: string;
+  shown?: string; note?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
   private readonly idle: Set<string>;
@@ -28,7 +31,8 @@ export class TerminalSigns {
     const said = c && Grave.asks(c), asks = said && Grave.asked(said, !!c.grave);
     return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
       ...sensed ? { sensed } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
-      ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {} };
+      ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
+      ...c ? { shown: c.label } : {}, ...c?.note ? { note: c.note } : {} };
   }
   // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way
   // marked so.

@@ -283,8 +283,10 @@ coin. I followed the aim, asked Eamon, hired Cyril, went across the fen to Ironk
 **Operable: yes, with two snags.**
 - Up from the first row had gone round into the folded rest, and the next Enter unfolded it. Up and down now stop at
   the ends.
-- Escape followed within half a second by another key is read as one key sequence (the terminal's escape timeout).
-  ← goes back at once, and the footer says ←.
+- Escape followed within half a second by another key had been read as one key sequence (readline's escape timeout).
+  A lone Escape is now back once nothing follows it for 50 ms (term-6).
+- A buy row had said its price twice ("Buy a ten-foot pole for Disa · 1 coin" over "1 coin · 3 min"). A row now
+  takes the page's own words and note (ChoiceList): "A ten-foot pole", with "1 coin" under it (term-6).
 
 **Still miserable, and none of it the client's.** These went to the lead.
 - **The followed aim is said again in every new room.** "Following: You owe Mik, salter at Lowmouth 50 coin by

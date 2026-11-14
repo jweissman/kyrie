@@ -198,6 +198,12 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     const ford = k.last.menu.rows.find(r => r.id === 't__osric_ford')!;
     expect([k.last.menu.title, ford.note]).toEqual(['With Osric', 'teaches']);
   });
+  // A price once, where the page says it: "Buy a ten-foot pole for Disa · 1 coin" had stood over "1 coin · 3 min".
+  it('says a price once, in the note, the act in the page\'s own words', () => {
+    const row = TerminalMenus.row({ id: 'buy', name: 'Buy a candle for Disa — 1 coin', time: 3,
+      signed: { shown: 'A candle', note: '1 coin' } });
+    expect([row.label, row.note]).toEqual(['A candle', '1 coin']);
+  });
   it('keeps a game in the engine\'s one slot, a path asked for only with --save-as', async () => {
     const path = join(tmpdir(), `kyrie-slots-${Bun.hash(String(performance.now())).toString(36)}.json`);
     const t = await Awkward.start();

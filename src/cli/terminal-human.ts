@@ -1,4 +1,4 @@
-import { emitKeypressEvents } from 'node:readline';
+import { emitKeypressEvents, type Interface } from 'node:readline';
 import { TerminalColour, type Shows } from './terminal-colour';
 import { TerminalPicker, type Key, type Menu, type Picked } from './terminal-picker';
 import { TerminalPickerView } from './terminal-picker-view';
@@ -18,6 +18,7 @@ export class TerminalHuman implements Picking {
   // Whether every key is said (/ turns it): said until the first act in the world, then only on asking, kept from one
   // picker to the next. Hidden from the first, the lenses' keys went unfound.
   private keyed = true;
+  static readonly escape = 50;
   private taught = false;
   // How many of the terminal's rows what was told since the last picker took, and the column the last line ended at:
   // the picker is drawn in what is left, so the place stays in sight above it (it had been pushed off the top of a
@@ -41,7 +42,9 @@ export class TerminalHuman implements Picking {
   static open(shows: Shows = TerminalColour.shows()): TerminalHuman {
     const human = new TerminalHuman(shows, process.stdout);
     console.log = human.told.bind(human, console.log.bind(console));
-    emitKeypressEvents(process.stdin);
+    // A lone Escape is back as soon as nothing follows it for 50 ms: at readline's half second, Escape and the arrow
+    // after it had been read as one sequence, and back was lost (the human mode's second play).
+    emitKeypressEvents(process.stdin, { escapeCodeTimeout: TerminalHuman.escape } as unknown as Interface);
     process.stdin.setRawMode?.(true);
     process.stdin.resume();
     process.stdin.on('keypress', human.heard.bind(human));

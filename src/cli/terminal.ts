@@ -211,11 +211,10 @@ export class Terminal {
     return { first: [...shown, ...leave].map(c => this.drawn(acts, c)), talk: true, ...more ? { more } : {},
       rest: asked.slice(shown.length).map(c => this.drawn(acts, c)) };
   }
-  // What a question does, from its act's own fields: that it teaches, what it costs or why it waits (its note), that it
-  // bears on an aim. Talk's rows had carried their words and little else (the human mode's assessment).
+  // What a question does, from its act's own fields: that it teaches, that it bears on an aim (what it costs or why it
+  // waits is its note, said with every row's). Talk's rows had carried their words and little else.
   private static topic(c: Choice, acts: Promoted[]): string[] {
-    return [...c.teaches ? ['teaches'] : [], ...Emphasis.within(acts, c).includes('undertaking') ? ['bears on an aim'] : [],
-      ...c.note ? [Typography.plain(c.note)] : []];
+    return [...c.teaches ? ['teaches'] : [], ...Emphasis.within(acts, c).includes('undertaking') ? ['bears on an aim'] : []];
   }
   private static leaves(c: Choice): Choice[] {
     return c.children?.length ? c.children.flatMap(k => this.leaves(k)) : c.command ? [c] : [];

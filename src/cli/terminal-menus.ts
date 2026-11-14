@@ -64,11 +64,14 @@ export class TerminalMenus {
   // to the company (each aspect's word, its colour's first), what it risks, and how it is done.
   static row(c: Listing): Row {
     const signed = c.signed ?? {}, words = Indicator.words(c.aspects ?? []);
-    const note = [...c.told ?? [], ...c.time ? [`${c.time} min`] : [], ...signed.tags ?? [],
+    // Its price once, as the page says it: in its note, not run into its words too ("Buy a ten-foot pole for Disa ·
+    // 1 coin", then "1 coin · 3 min" under it).
+    const priced = signed.note ? [Typography.plain(signed.note)] : c.time ? [`${c.time} min`] : [];
+    const note = [...c.told ?? [], ...priced, ...signed.tags ?? [],
       ...signed.sensed && !words.length ? [Signs.sensed(signed.sensed)] : [], ...signed.idle ? [Signs.idle] : []];
     const about = [...words.length ? [words.join(', ')] : [],
       ...signed.crosses ? [Signs.crossing.said] : [], ...signed.hold ? [Signs.hold.said] : []];
-    return { id: c.id, label: Typography.plain(c.name), aspects: c.aspects ?? [], signed,
+    return { id: c.id, label: Typography.plain(signed.shown ?? c.name), aspects: c.aspects ?? [], signed,
       ...note.length ? { note: note.join(' · ') } : {}, about,
       ...signed.asks ? { ask: Typography.plain(signed.asks) } : {} };
   }
