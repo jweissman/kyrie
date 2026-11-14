@@ -37,8 +37,8 @@ export class TerminalPicker {
   // Whether every key is said under the picker, or only how to choose and how to ask (/ shows them all).
   keyed = false;
   constructor(readonly menu: Menu) {
-    const at = menu.focus ? this.visible.findIndex(r => r.id === menu.focus) : -1;
-    if (at < 0 && menu.focus && menu.rest?.some(r => r.id === menu.focus)) { this.unfolded = true; }
+    // Kept where it is in view; a row now among the rest is not unfolded to (a lens turned to had opened on the whole
+    // list, the focus deep in it).
     this.focus = Math.max(0, this.visible.findIndex(r => r.id === menu.focus));
   }
   get visible(): Row[] {

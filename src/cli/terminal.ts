@@ -31,7 +31,9 @@ const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
 interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
-interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; lens?: { name: Lens; more: number } }
+// lens.rest: the rest of the lens's own, as the page's lens has them under All.
+interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number;
+  lens?: { name: Lens; more: number; rest: Listed[] } }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
@@ -39,6 +41,8 @@ interface Turn {
   scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number }; lens?: Lens;
   // The row the human mode's focus was on, kept while nothing is done (a lens, the map), let go once something is.
   focus?: string;
+  // Whether the line between what was told and the picker has been given since the scene was told.
+  spaced?: boolean;
 }
 
 // A text client over the same public projection and command path as the browser. It decides layout and input only:
@@ -149,7 +153,9 @@ export class Terminal {
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
     const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
-    return { all, first: shown, ...lensed ? { lens: { name: lens, more } } : { more: all.length - shown.length } };
+    const after = lensed ? lensed.rest.flatMap(a => byId.get(a.command ?? a.choice) ?? []) : [];
+    return { all, first: shown,
+      ...lensed ? { lens: { name: lens, more, rest: after } } : { more: all.length - shown.length } };
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
@@ -262,7 +268,7 @@ export class Terminal {
     const turn: Turn = { scene, ...o.profile ? { profile: {} } : {} };
     try {
       while (session.campaign.running) {
-        turn.current ??= this.scene(session, turn);
+        if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
         const { screen, leaf } = turn.current;
         const offered = this.foreground(session, leaf.glance, screen, { talking: turn.talking, lens: turn.lens });
         if (turn.talking && !offered.talk) { turn.talking = undefined; }
@@ -299,13 +305,19 @@ export class Terminal {
   // The human mode: the same four and every legal act behind More, picked (TerminalMenus); a choice by its id, or a
   // command (a lens, the map) as it would have been typed.
   private static async picked(input: Picking, offered: Offered, turn: Turn): Promise<Listed | string | null> {
-    console.log('');
-    const picked = await input.pick(TerminalMenus.scene({ first: offered.first, all: offered.all,
+    if (!turn.spaced) { console.log(''); turn.spaced = true; }
+    const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
+      all: offered.lens ? [...offered.first, ...offered.lens.rest] : offered.all,
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
+      ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
     if (!picked) { return null; }
     if ('command' in picked) { turn.focus = picked.focus; return picked.command; }
     return offered.all.find(c => c.id === picked.choice) ?? picked.choice;
+  }
+  // Whom the company is speaking with, by the name the screen gives them.
+  private static whom(screen: Screen | undefined, id: string): string | undefined {
+    return screen && SceneModel.build(screen).subjects.find(x => x.id === id)?.name;
   }
   // A choice typed: by its number among those led with, by its id, or by its words as printed.
   private static chosen(offered: Offered, answer: string): Listed | undefined {

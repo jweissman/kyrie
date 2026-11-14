@@ -11,8 +11,9 @@ import type { Signed } from './terminal-signs';
 export interface Listing { id: string; name: string; time: number; aspects?: Aspect[]; signed?: Signed }
 // What a scene's picker is made of: the few led with and every legal act, the lens looked through (or the talk), the
 // instruments that bear on the moment, and the row the focus was on.
+// with: whom the company is speaking with, by name.
 export interface Scene {
-  first: Listing[]; all: Listing[]; lens?: Lens; talk?: boolean; instruments?: Instrument[]; focus?: string;
+  first: Listing[]; all: Listing[]; lens?: Lens; with?: string; instruments?: Instrument[]; focus?: string;
 }
 
 // The human mode's menus (TP-01), made from what the terminal already lists: a scene's four and the rest of the legal
@@ -30,8 +31,8 @@ export class TerminalMenus {
       { command: s.lens === lens ? 'here' : lens, said: this.lensSaid[lens] }]));
     return { rows: s.first.map(c => this.row(c)), rest: s.all.filter(c => !shown.has(c.id)).map(c => this.row(c)),
       info: (s.instruments ?? []).filter(i => i.relevant).map(i => this.instrument(i)),
-      ...s.lens ? { title: Typography.plain(`${this.lensSaid[s.lens][0]!.toUpperCase()}${this.lensSaid[s.lens].slice(1)}`),
-        back: 'here' } : {},
+      ...s.lens ? { title: `${this.lensSaid[s.lens][0]!.toUpperCase()}${this.lensSaid[s.lens].slice(1)}`, back: 'here' }
+        : s.with ? { title: `With ${Typography.plain(s.with)}` } : {},
       keys: { ...keys, o: { command: 'look', said: 'look about' }, m: { command: 'map', said: 'map' },
         c: { command: 'character', said: 'company' }, a: { command: 'aims', said: 'aims' },
         s: { command: 'save', said: 'save' } },

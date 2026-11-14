@@ -87,10 +87,12 @@ export class TerminalHuman implements Picking {
     this.out.write(fit.join('\n'));
     this.drawn = lines.length;
   }
-  // The picker put away: the cursor back to its first line, and everything from there cleared.
+  // The picker put away: each of its lines cleared, from the last up to the first, the cursor left there. Line by
+  // line, not the screen from the cursor down: a multiplexer (tmux) takes a clear from the top of the screen for a
+  // page to keep, and kept the picker in its history.
   private erase() {
     if (!this.drawn) { return; }
-    this.out.write(`${this.drawn > 1 ? `\x1b[${this.drawn - 1}A` : ''}\r\x1b[0J`);
+    this.out.write(`\r\x1b[2K${'\x1b[1A\x1b[2K'.repeat(this.drawn - 1)}`);
     this.drawn = 0;
   }
 }

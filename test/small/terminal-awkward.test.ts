@@ -105,6 +105,24 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     // Each card by its emblem's character, as the scene's acts are by their signs.
     expect(picker.visible.every(r => /^\S /.test(r.label))).toBe(true);
   });
+  it('turns a lens on and off by its key, its own few and its own rest, without the focus unfolding them', async () => {
+    const t = await Awkward.start(), people = t.glance.lenses.people;
+    const k = await Keyed.play(t.session, ['down', 't', 't']);
+    const lensed = k.frames[2]!;
+    expect([lensed.menu.title, lensed.menu.rows.length]).toEqual(['Talk', Math.min(4, people.promoted.length)]);
+    expect(lensed.menu.rest!.length).toBe(people.promoted.length + people.rest.length - lensed.menu.rows.length);
+    expect(lensed.lines.some(l => /^ {4}\d+ more$/.test(l)) || !lensed.menu.rest!.length).toBe(true);
+    expect(k.last.menu.title).toBeUndefined();
+  });
+  it('fights through the same picker: the moves, a target, back to the moves', async () => {
+    const t = await Awkward.start();
+    t.journey.put('party', 't__cellar');
+    const k = await Keyed.play(t.session, ['return', 'return', 'left', 'return', 'return']);
+    const titles = k.frames.map(f => f.menu.title ?? '');
+    expect(titles).toContain('Aud\'s turn');
+    expect(titles).toContain('Melee Attack: at whom?');
+    expect(k.said.join('\n')).toMatch(/^Aud \d+\/\d+$/m);
+  });
   it('asks once before an act that cannot be undone, and leaving the game too', () => {
     const picker = new TerminalPicker({ rows: [{ id: 'jump', label: 'Jump into the weir', ask: 'No way back.' }] });
     expect([picker.press({ name: 'return' }), picker.asking]).toEqual([undefined, 'jump']);
