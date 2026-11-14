@@ -134,23 +134,18 @@
 .prologue-page .chapter { margin: 0 0 22px; animation: rise 1s .3s var(--ease) both; }
 .prologue-page .beat { margin: 0 0 30px; font: var(--type-prose); color: var(--ivory);
   text-wrap: pretty; text-shadow: 0 1px 16px rgba(0, 0, 0, .7); animation: rise 1.1s .5s var(--ease) both; }
-/* The way on: a gold diamond that breathes until it is touched; under the last page, the first aim said once and Go
-   on, the gold way on of every phase (foundations.css .option.go). */
-.prologue-page .on { all: unset; cursor: pointer; display: inline-grid; place-items: center; width: 44px; height: 44px; }
-.prologue-page .on i { width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg);
-  box-shadow: 0 0 14px var(--gold); animation: breathe 2.4s var(--ease) infinite; }
-.prologue-page .on:focus-visible i { outline: 1px solid var(--ivory); outline-offset: 6px; }
+/* The way on of a beat is no mark at all (the owner, 15 November: "do we need the bright yellow square and hard vertical bar
+   as well as Enter to go on? It should just set a timer"): the page goes on by itself once read, and Enter or a touch
+   anywhere on it goes on sooner. The button stays, as the page's way on for keys and screen readers, an invisible plate over
+   the page that cannot be touched before the words are seen (see below). */
+.prologue-page .on { all: unset; cursor: pointer; position: absolute; inset: 0; z-index: 1; }
+.prologue-page .on i { display: none; }
 .prologue-page .onward { display: flex; flex-direction: column; align-items: center; gap: 22px; }
 .prologue-page .first-aim { margin: 0; max-width: 32rem; font: var(--type-lead); color: var(--ivory); text-wrap: balance;
   text-shadow: 0 1px 16px rgba(0, 0, 0, .7); }
 .prologue-page .first-aim .kicker { display: block; margin: 0 0 6px; }
-/* A page with nothing to decide goes on by itself once read (CN-09): a hairline under it fills over the reading time,
-   in the page's ink, still where motion is unwanted. */
-.prologue-page .reading { display: block; width: min(320px, 60%); height: 1px; margin: 18px auto 0; background: rgba(236, 230, 217, .14);
-  position: relative; overflow: hidden; }
-.prologue-page .reading::after { content: ''; position: absolute; inset: 0; background: rgba(236, 230, 217, .55);
-  transform-origin: left center; animation: hold-fill var(--read-ms, 6s) linear forwards; }
-@media (prefers-reduced-motion: reduce) { .prologue-page .reading::after { animation: none; transform: scaleX(.5); opacity: .5; } }
+/* A page with nothing to decide goes on by itself once read (CN-09): a timer, with nothing drawn to say so. */
+.prologue-page .reading { display: block; height: 1px; opacity: 0; }
 /* Whoever is met on the road: their likeness in its ring over what is going on, and the answers beneath, play's own
    choices (reader.css .act), numbered as play numbers them. */
 .prologue-page .met { margin: 0 0 14px; display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -179,11 +174,8 @@
 .prologue-page .beat + .on, .prologue-page .beat + .onward, .prologue-page .notes + .onward {
   animation: appear .8s 1.4s var(--ease) both; }
 @keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; } }
-/* To one who waits on a beat a while, not knowing the page goes on, how it does: quietly, by keys or by a touch. */
-.prologue-page .hint { margin: 2px 0 0; font: 500 10px/1.4 var(--do); letter-spacing: .24em; text-transform: uppercase;
-  color: var(--faint); animation: appear 1.2s 7s var(--ease) both; }
-.prologue-page .hint .by-touch { display: none; }
-@media (hover: none) { .prologue-page .hint .by-key { display: none; } .prologue-page .hint .by-touch { display: inline; } }
+/* No hint of how the page goes on: it goes on by itself, and a key or a touch goes on sooner. */
+.prologue-page .hint { display: none; }
 .prologue-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left));
   bottom: max(14px, env(safe-area-inset-bottom)); z-index: 1; margin: 0; font: 400 11px/1.4 var(--do); color: var(--faint); }
 @media (prefers-reduced-motion: reduce) { .prologue-page *, .prologue-page .scenery img { animation: none !important; } }
