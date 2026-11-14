@@ -46,7 +46,8 @@ export class TerminalColour {
   // An act's indicator, as the shared grammar has it.
   static indicated(signed: Signed & { aspects?: readonly Aspect[] }): Indicated {
     return Indicator.of({ aspects: signed.aspects ?? [], gilded: true, ...signed.crosses ? { crosses: true } : {},
-      ...signed.hold ? { hold: true } : {} });
+      ...signed.hold ? { hold: true } : {},
+      ...signed.sensed ? { sensed: { aspect: signed.sensed, far: signed.far ?? 1 } } : {} });
   }
   // The one cell at an act's left edge: its colour's pip; without colour, its colour's sign; perceived along a way and
   // not here, faint; otherwise nothing.
@@ -66,7 +67,8 @@ export class TerminalColour {
   // risks, what is perceived that way. A way with nothing new is dim, or said so.
   static choice(n: number, label: string, signed: Signed & { aspects?: readonly Aspect[] }, depth: Depth): string {
     const words = Indicator.words(signed.aspects ?? []);
-    const after = [...signed.tags ?? [], ...signed.sensed && !words.length ? [Signs.sensed(signed.sensed)] : [],
+    // What is perceived along a way said in words wherever it is, not only on a way of no colour of its own.
+    const after = [...signed.tags ?? [], ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [],
       ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
     if (depth === 'none') {
       const held = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;

@@ -38,7 +38,11 @@ export class Signs {
     return shut ? this.shut : this.whither[whither ?? ''] ?? '·';
   }
   // What is perceived off along a way, said: "worth a look, that way".
-  static sensed(aspect: Aspect): string { return `${Emphasis.words[aspect]}, that way`; }
+  // Graduated by how far off it is: one place off, what kind of thing and which way; farther, only perhaps (the page's
+  // wayfinder had said so in words of its own: "perhaps someone, farther on").
+  static sensed(aspect: Aspect, far = 1): string {
+    return far > 1 ? `perhaps ${Emphasis.words[aspect]}, farther on` : `${Emphasis.words[aspect]}, that way`;
+  }
   // An emblem as one character, where its set gives one.
   static emblem(id: string): string | undefined { return Object.hasOwn(this.texts, id) ? this.texts[id] : undefined; }
   static place(kind: string): string { return this.places[kind] ?? this.places.place!; }

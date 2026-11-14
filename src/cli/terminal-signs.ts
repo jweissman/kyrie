@@ -14,8 +14,9 @@ import type { Screen } from '../ui/screen-types';
 // asks: what it says when chosen once, a grave act asking before it is done (Grave, the page's own rule).
 // shown, note: the choice's words and its note as the page draws them (ChoiceList: a price said beside the act, not run
 // into its words).
-export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; idle?: true; crosses?: true; asks?: string;
-  shown?: string; note?: string }
+// far: how many places off along the way what is sensed lies.
+export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; far?: number; idle?: true; crosses?: true;
+  asks?: string; shown?: string; note?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
   private readonly idle: Set<string>;
@@ -26,11 +27,11 @@ export class TerminalSigns {
   }
   on(id: string): Signed {
     const c = this.choices.get(id), to = TerminalSigns.to(this.screen, id);
-    const sensed = this.glance?.sensed?.find(x => x.to === to)?.aspect;
+    const off = this.glance?.sensed?.find(x => x.to === to), sensed = off?.aspect;
     const tags = (c?.marks ?? []).map(m => Signs.marks[m.kind]);
     const said = c && Grave.asks(c), asks = said && Grave.asked(said, !!c.grave);
     return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
-      ...sensed ? { sensed } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
+      ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
       ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
       ...c ? { shown: c.label } : {}, ...c?.note ? { note: c.note } : {} };
   }

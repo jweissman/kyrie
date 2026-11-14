@@ -3,6 +3,7 @@ import type { Screen } from '../ui/screen-types';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Aspect, Sensed } from './glance-types';
 import { Companions } from './companions';
+import { PassageModel } from '../ui/passage-model';
 
 // What a company perceives beyond where it stands, apart from what it can do here (the owner, 11 November: perception
 // range is not actionability). Each kind of opportunity is perceived so many ways off along the world's connections:
@@ -29,26 +30,34 @@ export class Perception {
     const at = new Map<string, string[]>();
     for (const w of who) { const p = campaign.world.one('at', w); if (p) { at.set(p, [...at.get(p) ?? [], w]); } }
     if (!at.size) { return []; }
-    // The ways between places, read only where the reach goes past the next place.
-    const links = range > 1 ? campaign.world.related('connects') : [], out: Sensed[] = [];
+    // The ways on from each place, as the company would find them (PassageModel), read only where the reach goes past
+    // the next place: a shut door, a guarded way or one that wants a skill is not seen past, as the first step's is
+    // not (a Gregarious company had perceived someone three places off through a padlocked shed door: the atlas
+    // characterized).
+    const ways = range > 1 && campaign.playerActor
+      ? new PassageModel(campaign.world, campaign.playerActor, new Map(campaign.module.entities.map(e => [e.id, e])))
+      : undefined;
+    const out: Sensed[] = [];
     for (const to of new Set(screen.exits.filter(e => !e.blocked).map(e => e.destination.id))) {
-      const far = this.nearest(to, { links, here: screen.place.id, range, at });
+      const far = this.nearest(to, { ways, here: screen.place.id, range, at });
       if (far !== undefined) { out.push({ to, aspect: 'companionship', far }); }
     }
     return out;
   }
   // How many places off the nearest place along a way holds one, counting the way's own end as one; none past reach.
-  private static nearest(first: string, { links, here, range, at }: { links: readonly { args: readonly string[] }[];
-    here: string; range: number; at: Map<string, string[]> }): number | undefined {
+  private static nearest(first: string, { ways, here, range, at }: { ways?: PassageModel; here: string;
+    range: number; at: Map<string, string[]> }): number | undefined {
     const seen = new Set([here, first]);
     for (let frontier = [first], far = 1; frontier.length && far <= range; far++) {
       if (frontier.some(p => at.has(p))) { return far; }
-      if (far === range) { break; }
-      frontier = frontier.flatMap(p => links.filter(l => l.args[1] === p && !seen.has(l.args[2]!))
-        .map(l => { seen.add(l.args[2]!); return l.args[2]!; }));
+      if (far === range || !ways) { break; }
+      frontier = frontier.flatMap(p => ways.ways(p).filter(w => !Perception.shut.has(w.status) && !seen.has(w.to))
+        .map(w => { seen.add(w.to); return w.to; }));
     }
     return undefined;
   }
+  // What a way that is not gone along is: shut, guarded, or wanting what the company has not got.
+  private static readonly shut = new Set(['blocked', 'guarded', 'needs']);
   static shown(campaign: Campaign, screen: Screen): { sensed?: Sensed[] } {
     const sensed = this.sensed(campaign, screen);
     return sensed.length ? { sensed } : {};
