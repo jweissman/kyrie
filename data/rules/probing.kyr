@@ -46,6 +46,10 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
     On success { Assert tried(target, pushing). }
     Result "You push at {target}, then pull.".
   }
+  // What was heard at a door holds while the company stays by it; gone from it, the ear is free again, and a return may
+  // hear the room changed (the listening pin: once a door, ever, had been the old games' opposite).
+  Rule listened_again when tried(?door, listening) and company(?c) and not reaches(?c, ?door) {
+    Retract tried(?door, listening). }
   // Listening wants no light: an ear to a door in the dark is the oldest way to know what is behind it (the owner, 15
   // November: hearing passes a shut door; the listening pin).
   Action listen(actor: group, target: entity, site: place) "Listen at {target}" {

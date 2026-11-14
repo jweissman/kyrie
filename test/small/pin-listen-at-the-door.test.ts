@@ -10,9 +10,12 @@ import { ScreenModel } from '../../src/ui/screen-model';
 const passage = (goblins: boolean) => `
   Place passage "the dark passage" is room at 0, 0 underground.
   Place guardroom "the guardroom" is room at 1, 0 underground.
+  Place stair "the stair" is room at 0, 1 underground.
+  Place den "the den" is room at 2, 0 underground.
   Passage oak "the oak door" is door between passage and guardroom.
+  Passage steps "the steps" is path between passage and stair.
   Company party "You" of 1 at passage.
-  Initially Assert unlit(passage). Initially Assert unlit(guardroom).
+  Initially Assert unlit(passage). Initially Assert unlit(guardroom). Initially Assert unlit(stair).
   Thing door "the oak door" on oak {
     Tries listening.
     State shut blocking "The oak door is shut.".
@@ -34,5 +37,14 @@ describe('listening at a door', () => {
     };
     expect(await heard(true)).toMatch(/low voices/);
     expect(await heard(false)).toMatch(/nothing: not a breath/);
+  });
+  it('may be done again on coming back, and hears the room as it is now', async () => {
+    const t = await Tiny.start(passage(true));
+    await t.journey.play('Listen at it');
+    expect(ScreenModel.build(t.campaign).observed.map(o => o.text).join(' ')).toMatch(/low voices/);
+    await t.journey.play('To the stair');
+    t.journey.assert('at', 't__goblins', 't__den'); // (they go while the company is up the stair)
+    await t.journey.play('To the dark passage', 'Listen at it');
+    expect(ScreenModel.build(t.campaign).observed.map(o => o.text).join(' ')).toMatch(/nothing: not a breath/);
   });
 });

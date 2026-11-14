@@ -135,8 +135,9 @@ of who would join do not.
 - **What was heard was said nowhere.** An observation `near` a thing set on a way (a door) resolved to no place, so
   the Quittance's rent-office door, written exactly so, had never told what an ear to it heard. A thing on a way is
   now near both its ends (LocalObservations.near).
-- **Listening is once per door, ever** (`not tried(target, listening)`). In the old games it is done again after time
-  has passed and things have moved. Making it repeatable after a while is small, and wanted.
+- **Listening was once per door, ever.** Fixed: what was heard holds while the company stays by the door; gone from it,
+  the ear is free again (`listened_again`), and a return hears the room as it is now (the pin's second case,
+  mutation-checked).
 - **What is heard is the author's text**, conditioned on who is there if the author writes it so. Deriving it from
   what is actually beyond (who, how many, doing what) is a generic capability for M22, which also serves passive
   hearing and the familiar's report.
@@ -153,7 +154,7 @@ Both fixes are mutation-checked: putting either back fails the pin.
 | Deep dwarven mine | descend, discover, return, revisit; lazy depth optional | **passes**; drawn depth is realized eagerly (AX-07) |
 | Planar gate | prerequisites, interactions, traversal, consequences | **partly:** the House of Doors and the planes' laws exist; the threshold as a thing does not (GT) |
 | Remembered favour | help, leave, return to a changed relationship or opportunity | **passes**, after content made gratitude and a shared rule made it count in trade (CO-16) |
-| Listening at a door (the owner's) | hear through a shut door, in the dark, what is beyond | **passes**, after two defects fixed; repeatable listening and derived hearing open |
+| Listening at a door (the owner's) | hear through a shut door, in the dark, what is beyond, again on returning | **passes**, after three defects fixed; derived hearing open (M22) |
 
 ## Next
 
