@@ -8,7 +8,6 @@ import type { CreatureStore } from '../src/creature-store';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ProvincePlay } from './support/province-play';
-import { Kept } from './support/kept';
 
 // What Tessary Owes (doc/adventures/what-tessary-owes): each journey plays by the labels a player sees, from the
 // steps in test/fixtures/tessary, and checks what the world did. The standalone campaign starts at eight in the
@@ -23,13 +22,9 @@ const phase = (name: string, key: string): string[] =>
   (JSON.parse(readFileSync(`test/fixtures/tessary/${name}.json`, 'utf8')) as Record<string, string[]>)[key]!;
 const t = (id: string) => `tessary__${id}`;
 class Tessary {
-  // Begun alike, played alike once in the file (see Kept): the fixtures' first days are each case's own beginning. A
-  // case that compares two plays of one seed plays both afresh (fresh), or it would compare a game with its own copy.
-  static async start(seed = 'tessary') { return new Tessary(await Kept.start(campaign, seed)); }
-  static async fresh(seed: string) { return new Tessary(await Journey.start(campaign, seed)); }
-  private constructor(private readonly game: Kept | Journey) {}
-  get j(): Journey { return this.game instanceof Kept ? this.game.journey : this.game; }
-  async play(...labels: string[]) { await this.game.play(...labels); return this; }
+  static async start(seed = 'tessary') { return new Tessary(await Journey.start(campaign, seed)); }
+  private constructor(readonly j: Journey) {}
+  async play(...labels: string[]) { await this.j.play(...labels); return this; }
   async fixture(name: string) { return this.play(...steps(name)); }
   holds(name: string, ...args: string[]) { return this.j.holds(t(name), ...args.map(a => a === 'party' ? a : t(a))); }
   knows(fact: string) { return this.j.holds('knows', 'party', t(fact)); }
@@ -342,10 +337,10 @@ describe('What Tessary Owes: more than one key', () => {
 
 describe('What Tessary Owes: saving, replaying, and the world it lies in', () => {
   it('kept mid-fortnight and opened again, the world goes on to the same end as one never kept', async () => {
-    const whole = await Tessary.fresh('kept');
+    const whole = await Tessary.start('kept');
     const all = steps('release');
     await whole.play(...all);
-    const split = await Tessary.fresh('kept'), at = all.indexOf('=1104');
+    const split = await Tessary.start('kept'), at = all.indexOf('=1104');
     await split.play(...all.slice(0, at));
     const back = PlaySession.resume(JSON.parse(JSON.stringify(split.j.session.checkpoint())));
     const resumed = Journey.of(back);
@@ -366,7 +361,7 @@ describe('What Tessary Owes: saving, replaying, and the world it lies in', () =>
   }, 240000);
 
   it('played twice from the same seed, the same steps make the same history', async () => {
-    const a = await Tessary.fresh('twice'), b = await Tessary.fresh('twice');
+    const a = await Tessary.start('twice'), b = await Tessary.start('twice');
     const some = steps('kept-promise').slice(0, 60);
     await a.play(...some); await b.play(...some);
     expect(a.j.campaign.state.elapsed).toBe(b.j.campaign.state.elapsed);

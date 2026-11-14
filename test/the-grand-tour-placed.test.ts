@@ -64,7 +64,7 @@ describe('Sennet, a province of the first country', () => {
     await j.play('To the top of the coast road');
     // The Tour's days are Sennet's own, from the first morning after it is reached: its day 1 is the world's next.
     const shift = Math.ceil(j.watch() / 144);
-    const route = ['==day 1 08:10', ...steps('outcomes', 'undertow')].map(x => x.replace(/>sennet__/, '>psennet__')
+    const route = ['=day 1 08:10', ...steps('outcomes', 'undertow')].map(x => x.replace(/>sennet__/, '>psennet__')
       .replace(/^=day (\d+)/, (_, d: string) => `==day ${Number(d) + shift}`));
     await j.play(...route);
     expect(s.campaign.world.test({ kind: 'call', name: 'psennet__openedBelow', args: ['psennet__sennet_bay'] })).toBe(true);
