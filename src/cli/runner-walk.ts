@@ -167,7 +167,7 @@ export class RunnerWalk {
       && [...walk.turns[i]!.offer.primary, ...walk.turns[i]!.offer.rest]
         .some(o => o.aspects.includes('exploration') || o.marks.includes('grave')))).length;
   }
-  private static lostIndices(walk: Walk): number[] {
+  static lostIndices(walk: Walk): number[] {
     // Not where a danger stands in front of the company, nor just got away from one: what to do about it (or getting
     // over it) is the next thing, not the aim.
     return walk.turns.flatMap((t, i) => t.moment !== 'fight' && !t.end && t.aims?.some(a => a.followed)

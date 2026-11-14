@@ -18,6 +18,7 @@ import { RunnerFight } from './runner-fight';
 import { RunnerCreation } from './runner-creation';
 import { RunnerLines } from './runner-lines';
 import { RunnerAmid } from './runner-amid';
+import { RunnerPayoff } from './runner-payoff';
 import type { CampaignEvent } from '../campaign/campaign-types';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
@@ -31,7 +32,10 @@ export interface Offered { id: string; label: string; aspects: string[]; type: A
 export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' | 'fight';
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
-  amid?: true; broken?: string[]; end?: true }
+  amid?: true; broken?: string[]; end?: true;
+  // Instruments (the experience measures): where the company stands, what the act just done changed beyond time and
+  // position, and, come back where a bond was made or a fact learned, how much of it still holds.
+  at?: string; changed?: string[]; kept?: { held: number; of: number } }
 // What pulls once an aim is seen through (Succession): its words, and the act that takes it up, or the aim to follow.
 export interface Next { text: string; act?: string; label?: string; follow?: string }
 // An aim held, as the Notes list it: following one (as Follow this does) takes no time.
@@ -48,6 +52,7 @@ export type Asked = { act: string } | { lens: Lens } | { look: true } | { more: 
 export class Runner {
   private n = 0;
   private told?: Told;
+  private readonly payoff = new RunnerPayoff();
   private readonly scene = new TerminalScene();
   private readonly fight = new RunnerFight();
   private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent> };
@@ -65,8 +70,13 @@ export class Runner {
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
-      ...RunnerAmid.of(c, screen) ? { amid: true as const } : {},
+      ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : { end: true } };
+  }
+  private instruments(screen: Screen, turned: Turned): Pick<Said, 'at' | 'changed' | 'kept'> {
+    const changed = this.told && turned !== 'look' ? RunnerPayoff.changed(this.told.event, this.told.said) : [];
+    const kept = this.told?.moved && turned === 'arrive' ? this.payoff.back(this.campaign, screen.place.id) : undefined;
+    return { at: screen.place.id, ...changed.length ? { changed } : {}, ...kept ? { kept } : {} };
   }
   // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.
   private offer(screen: Screen, offer: Offer | undefined): Said['offer'] {
@@ -169,6 +179,7 @@ export class Runner {
     this.doing = undefined;
     const moved = before.location?.id !== this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
     this.told = { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: doing.act, moved };
+    if (before.location?.id) { this.payoff.note(before.location.id, RunnerPayoff.changed(event, doing.act)); }
     this.n++;
     return this.said();
   }
