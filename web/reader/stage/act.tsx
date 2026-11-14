@@ -51,7 +51,7 @@ export class Act {
         {asks && s.confirming === c.id && <span className="grave-said" role="alert">
           {Typography.curl(Act.asked(asks, !!c.grave))}</span>}
         {/* After its words, so that it is read as said of them (see Hold). */}
-        <Hold.Edge held={hold.held} {...holdTone ? { tone: holdTone } : {}} />
+        {'data-hold' in hold.props && <Hold.Ring held={hold.held} {...holdTone ? { tone: holdTone } : {}} />}
         {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
       </button>
     );
