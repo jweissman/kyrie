@@ -66,6 +66,8 @@ export interface Promoted {
   inside?: { command: string; aspects: Aspect[] }[];
   label: string;
   why: Why; facets: Facet[]; tier: Tier;
+  // Drawn for an aim held and not followed (why held): which aim, by id (see Undertakings.heldFor).
+  aim?: string;
   // What it is to the company, chiefly first (see Aspects); none for a need or the way back.
   aspects: Aspect[];
   // The one led act that is the followed aim's known next step, where one is known (see Promotion.continued): the

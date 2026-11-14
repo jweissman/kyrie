@@ -42,6 +42,8 @@ export interface Reading {
   willing?: Set<string>;
   // What the company's last act opened, by command (see ActionFeedback.opened): led first, as what came of it.
   opened?: Set<string>;
+  // The choices that teach what an aim held and not followed waits on, or where it lies (see Undertakings.serving).
+  serves?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
   // Where someone or something the aim names stands, still able (see Glance.occupied).
@@ -171,8 +173,10 @@ export class Affordances {
       ? !talked || serving.length > 0 : !talked || fresh.some(c => !r.done.has(c.command!))));
     // Led for that aim, gilded as the aim's (the merchant the rats job sends the company to had been led as kin, and
     // not drawn in the aim's gold: the owner, 8 November).
-    const named = owed && r.named.has(s.id);
-    const answer = leaves.find(c => c.answer), kin = owed && ours && !named, held = owed && !ours;
+    const named = owed && r.named.has(s.id), answer = leaves.find(x => x.answer);
+    // Led for another aim only where saying something to them would teach the company something not yet asked: the
+    // man with the black candle, talked to for it, had given nothing but his acquaintance (PF-03's laboratory walk).
+    const kin = owed && ours && !named, held = owed && !ours && this.new(leaves, r);
     const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
     // A treasure lying here is what the delve was for: taken up, led with (the vault's rings and moonstone had been
@@ -209,7 +213,7 @@ export class Affordances {
       ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
-      : fresh.find(c => !r.done.has(c.command!));
+      : this.unasked(fresh, r, !!held);
     // The act within that each reason is for, so that the page finds it again inside (see Promotion.inside).
     const kept = (kin || named || held) && asked?.command, take = spoils
       ? leaves.find(c => /^(take_item|take_out)\(/.test(c.command!))?.command : undefined;
@@ -238,6 +242,18 @@ export class Affordances {
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
   // town was shown nothing to do with what it had won: the owner, 31 October).
+  // The first thing not yet asked, and for an aim held, what serves it first.
+  private static unasked(fresh: Choice[], r: Reading, held: boolean): Choice | undefined {
+    const open = fresh.filter(c => !r.done.has(c.command!));
+    return (held ? open.find(c => r.serves?.has(c.command!)) : undefined) ?? open[0];
+  }
+  // Something not yet done there for an aim held: a question that teaches what it waits on, or an act on them that is
+  // not talk nor trade (the hobs' stolen bell, rung); never merely talking or trading with them, nor a question that
+  // teaches it nothing (Taklinn, whom the spiders job names, had been led nineteen turns running for rumours).
+  private static new(leaves: Choice[], r: Reading): boolean {
+    return leaves.some(c => !r.done.has(c.command!) && (r.serves?.has(c.command!) || (!r.speakers.has(c.command!)
+      && !/^(talk_to|take_leave|look_closely|ask|buy_|sell_|take_lodging|work_|pay_)/.test(r.schema.get(c.command!) ?? ''))));
+  }
   private static served(leaves: Choice[], r: Reading): { why: Why; note: string; choice?: Choice }[] {
     const bed = r.needs.night && r.needs.settled && this.offered(leaves, r, ['take_lodging', 'take_lodging_guest']);
     const cure = r.needs.hurt.size > 0 && this.offered(leaves, r, ['take_healing']);

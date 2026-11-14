@@ -50,7 +50,8 @@ export class Glance {
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
-    const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
+    const cands = Affordances.of(scene, screen, reading);
+    const acts = Undertakings.heldFor(campaign, screen, Promotion.pick(cands, s));
     const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
     // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
@@ -159,8 +160,7 @@ export class Glance {
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
     // With an aim followed and the dark ahead, nothing to see by: whoever sells a light is the aim's way.
-    const light = CompanyLight.of(campaign, screen);
-    const seller = screen.aims?.some(a => a.followed) ? light.sellers : undefined;
+    const light = CompanyLight.of(campaign, screen), seller = screen.aims?.some(a => a.followed) ? light.sellers : null;
     const named = AimRoute.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
       new Set([...this.named(campaign), ...seller ?? []]), this.addressed(campaign))));
     const held = this.inside(campaign, screen,
@@ -173,14 +173,14 @@ export class Glance {
       // What it names and has nothing more for now is spent instead (AimLeads.spent).
       // Nor where a light is to be had, with the dark ahead and nothing to see by (see CompanyLight).
       .filter(id => (recall.idle(id) && !named.has(id)
-        && !this.sells(campaign, id, seller)) || spent.has(id)));
+        && !this.sells(campaign, id, seller ?? undefined)) || spent.has(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
     const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
-      args, touches, authored,
+      args, touches, authored, serves: Undertakings.serving(campaign, rows),
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       willing: new Set(rows.filter(r => r.action.speaker && (r.action.success ?? []).some(c => c.kind === 'assert'
         && c.call?.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker)).map(r => r.choice.id)),
