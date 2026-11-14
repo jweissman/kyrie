@@ -3,12 +3,12 @@
   "kinds": {
     "wild": {
       "seen": [
-        "{Name} the {trade} is scraping mud off {their} boots on the edge of the step, a bundle of something wet at {their} feet.",
+        "{Name} the {trade} is scraping mud from {their} boots on the step, a brace of snared rabbits at {their} feet.",
         "{Name} is sitting on a log by the door, mending a strap and watching the treeline.",
-        "{Name} the {trade} comes in from the fields with burrs on {their} sleeves and says nothing to anyone."
+        "{Name} the {trade} comes in from the fields with burrs on {their} sleeves."
       ],
       "talk": [
-        "'Out there it tells you what it wants, if you'll listen,' says {Name}. 'Most won't. I'm the {trade}; I listen.'",
+        "'Follow the water downhill and you will come out somewhere,' says {Name}. 'That is the first thing a {trade} learns.'",
         "'Three days without a roof,' says {Name}. 'You get to like it. Then it rains.'",
         "'If you're going past the last field, go with the light behind you,' says {Name}. 'That's all a {trade} can tell you for free.'"
       ]
@@ -17,30 +17,30 @@
       "seen": [
         "{Name} the {trade} is checking the shoes of a tired horse, one hoof at a time.",
         "{Name} is counting coins into a purse by the road, lips moving.",
-        "{Name} sits with {their} pack against the wall, boots off, as if {they} had walked all week."
+        "{Name} sits against the wall with {their} pack beside {them} and {their} boots off."
       ],
       "talk": [
-        "'Every road is the same road with different mud,' says {Name}. 'Thirty years a {trade}; I should know.'",
+        "'Thirty years a {trade},' says {Name}. 'The roads are worse than they were, and the inns are dearer.'",
         "'The ford's high and the bridge wants a toll,' says {Name}. 'Pick which you'd rather pay with: your feet or your purse.'",
-        "'People think a {trade} sees the world,' says {Name}. 'I see the road. The world's off to the sides.'"
+        "'People think a {trade} sees the world,' says {Name}. 'I see the road, and the back of a horse.'"
       ]
     },
     "mechanisms": {
       "seen": [
-        "{Name} the {trade} is bent over something small and brass on a cloth, a lens screwed into one eye.",
-        "{Name} is turning a key back and forth in a lock that is not in any door, listening to it.",
-        "{Name} has the back off a clock and is talking to it under {their} breath."
+        "{Name} the {trade} has a brass lock in pieces on a cloth, a lens screwed into one eye.",
+        "{Name} is filing a blank key, trying it in a padlock after every few strokes.",
+        "{Name} has the back off a clock and is oiling its wheels with a feather."
       ],
       "talk": [
         "'Everything made can be unmade by the one who knows how it was made,' says {Name}. 'That's the whole of being a {trade}.'",
         "'Bring it to me if it sticks,' says {Name}. 'Don't force it. Forcing is what breaks things, and I charge more to mend broken.'",
-        "'A lock is a promise,' says {Name}. 'Most promises have a weak spring.'"
+        "'Most locks fail at the spring,' says {Name}. 'Not the bolt.'"
       ]
     },
     "shadows": {
       "seen": [
-        "{Name} is leaning in a doorway where the light does not quite reach, watching who passes.",
-        "{Name} the {trade} is shuffling a worn deck of cards with one hand, very fast, very quietly.",
+        "{Name} leans in a dark doorway, watching who passes.",
+        "{Name} the {trade} is shuffling a worn pack of cards one-handed.",
         "{Name} glances at your purse, then at your face, then away, as if neither had interested {them}."
       ],
       "talk": [
@@ -51,9 +51,9 @@
     },
     "healing": {
       "seen": [
-        "{Name} the {trade} is grinding something green in a mortar, the smell of it sharp across the way.",
+        "{Name} the {trade} is grinding yarrow in a mortar, and the smell is sharp across the way.",
         "{Name} is washing {their} hands in a basin until the water runs clear, and then again.",
-        "{Name} is binding a child's knee on the step and telling {them} a story about a dragon to keep {them} still."
+        "{Name} is binding a child's grazed knee on the step."
       ],
       "talk": [
         "'Most of what I do is tell people to rest,' says {Name}. 'Most of what they do is not listen. That's a {trade}'s life.'",
@@ -64,8 +64,8 @@
     "faith": {
       "seen": [
         "{Name} the {trade} is sweeping a doorstep, and blessing each corner of it in turn.",
-        "{Name} is reading from a small book with {their} lips moving and {their} eyes shut.",
-        "{Name} sits very still by the door, hands folded, as if listening for something under the noise."
+        "{Name} is reading the evening office from a small book, lips moving.",
+        "{Name} sits still by the door with {their} hands folded and {their} eyes closed."
       ],
       "talk": [
         "'The gods ask very little,' says {Name}. 'It's the asking that's hard. I'm the {trade} here; I do the asking.'",
@@ -75,13 +75,13 @@
     },
     "learning": {
       "seen": [
-        "{Name} the {trade} has three books open on a bench and is reading all of them at once.",
+        "{Name} the {trade} is copying a page from a borrowed book, a stone on each corner.",
         "{Name} is writing small and fast in a notebook, and covers the page with {their} sleeve when you come near.",
-        "{Name} is arguing with nobody at all, counting points off on {their} fingers."
+        "{Name} is measuring the letters of a rubbing with a knotted string."
       ],
       "talk": [
         "'Everything is written down somewhere,' says {Name}. 'Being a {trade} is knowing where.'",
-        "'Ask me about anything but the weather,' says {Name}. 'Nobody knows about the weather.'",
+        "'Most of what is written in a town was written by its clerks,' says {Name}. 'Clerks lie in small, careful ways.'",
         "'I came here for a month to read the stones by the river,' says {Name}. 'That was nine years ago.'"
       ]
     },
@@ -89,7 +89,7 @@
       "seen": [
         "{Name} the {trade} is knocking dried clay from a pick, a careful blow at a time.",
         "{Name} has grey dust to the elbows and a lantern hooked to {their} belt even in daylight.",
-        "{Name} is turning a stone over and over in {their} hand, as though it had said something."
+        "{Name} is splitting a lump of slate with a chisel, looking at the grain."
       ],
       "talk": [
         "'The ground keeps what you give it and gives back what it likes,' says {Name}. 'A {trade} learns not to argue.'",
@@ -100,7 +100,7 @@
     "arms": {
       "seen": [
         "{Name} the {trade} is running a stone along a blade in long, unhurried strokes.",
-        "{Name} stands with {their} weight on both feet, the way someone stands who has had to stand their ground.",
+        "{Name} stands by the door with a cudgel at {their} belt, watching the street.",
         "{Name} is showing a boy how to hold a staff, and correcting his feet without a word."
       ],
       "talk": [
@@ -112,20 +112,20 @@
     "water": {
       "seen": [
         "{Name} the {trade} is coiling a wet rope over {their} arm and elbow, neat as a skein.",
-        "{Name} smells of tar and the river, and is looking at the sky as if it owed {them} a wind.",
+        "{Name} smells of tar, and is watching the western sky for weather.",
         "{Name} is mending a net with a wooden needle, quick as knitting."
       ],
       "talk": [
         "'The water's up two hands since spring,' says {Name}. 'A {trade} watches the water. Nobody else does.'",
-        "'Never trust a calm,' says {Name}. 'It's only the river thinking.'",
-        "'I'll take you across if you're paying,' says {Name}. 'I'll take you across if you're not, but slower.'"
+        "'A still morning on the water means wind by noon,' says {Name}.",
+        "'I take people across when the water is low enough,' says {Name}. 'It is not, this week.'"
       ]
     },
     "stage": {
       "seen": [
-        "{Name} the {trade} is practising something under {their} breath, with small gestures, to the wall.",
-        "{Name} sweeps a bow to nobody in particular and laughs at {themself}.",
-        "{Name} has a tin of paint and a brush and is touching up the edge of something painted, a little at a time."
+        "{Name} the {trade} is saying lines under {their} breath, a playbook open on {their} knee.",
+        "{Name} is darning the hem of a red stage cloak.",
+        "{Name} is touching up a painted backcloth of a castle with a small brush."
       ],
       "talk": [
         "'Give me a crowd and I'll give them a night,' says {Name}. 'That's what a {trade} is for.'",
@@ -135,8 +135,8 @@
     },
     "trade": {
       "seen": [
-        "{Name} the {trade} is weighing something on a small brass scale and frowning at it.",
-        "{Name} is writing a column of figures on a slate and rubbing out the last of them.",
+        "{Name} the {trade} is weighing a handful of nails on a small brass scale.",
+        "{Name} is reckoning the week's takings on a slate.",
         "{Name} has an apron with a pocket for every tool and is mending a hinge, tapping the pin home with a small hammer."
       ],
       "talk": [
@@ -148,7 +148,7 @@
     "court": {
       "seen": [
         "{Name} the {trade} is reading a letter with great attention and a seal broken on the table beside it.",
-        "{Name} walks as though there were always someone a little behind {them}, carrying something.",
+        "{Name} crosses the way with a clerk behind {them} carrying {their} papers.",
         "{Name} is dictating to a clerk who cannot write as fast as {they} can talk."
       ],
       "talk": [
@@ -161,7 +161,7 @@
       "seen": [
         "{Name} sits with {their} back to a warm wall and a bowl beside {them}, watching the feet go by.",
         "{Name} the {trade} is sorting rags by colour into three small heaps.",
-        "{Name} is eating a heel of bread very slowly, as if to make it last a day."
+        "{Name} is eating a heel of dry bread, slowly."
       ],
       "talk": [
         "'Nobody looks at a {trade},' says {Name}. 'So I see everything.'",
