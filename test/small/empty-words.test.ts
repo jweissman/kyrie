@@ -18,7 +18,7 @@ describe('empty words', () => {
     expect(said.some(s => s.startsWith('A wire catches the light'))).toBe(true);
   });
   it('is no worse in what every first hour meets than it was', () => {
-    const held = { indeterminate: 304, similes: 85, stock: 9 }, c = EmptyWords.count();
+    const held = { indeterminate: 266, similes: 83, stock: 9 }, c = EmptyWords.count();
     expect(c.indeterminate.length).toBeLessThanOrEqual(held.indeterminate);
     expect(c.similes.length).toBeLessThanOrEqual(held.similes);
     expect(c.stock.length).toBeLessThanOrEqual(held.stock);

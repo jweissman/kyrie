@@ -69,7 +69,7 @@
   Observe {w}_hall_scene at {w}_hall when true "The posting-hall is a long room with a hearth at each end, benches round the walls and a low platform for the clerk. On the wall facing the door a road is painted the length of the room, between towns, rivers and hills, each with a name and a number.".
   Observe {w}_office_scene at {w}_office when true "A small square room, shelved to the ceiling in pigeonholes, each with a numbered lead tag. There is a sloped desk, a balance with two bronze pans, and a stair going up. A smell of old wax and dry dust.".
   Observe {w}_strong_scene at {w}_strong when true "A vault under the office, the walls three courses of dressed stone, the door iron. There is a floor-drain, a shelf, and a chest bolted to the floor. A thin draught stirs the dust from a vent high in the wall.".
-  Observe {w}_shrine_scene at {w}_shrine when true "A large, plain niche under an arch, with a bench, a bronze lamp in a bracket and a bowl of offerings. At the back stands a figure no taller than a child, worn smooth by hands. Its face is a woman's, tired, one hand lifted as if to wave someone on.".
+  Observe {w}_shrine_scene at {w}_shrine when true "A large, plain niche under an arch, with a bench, a bronze lamp in a bracket and a bowl of offerings. At the back stands a figure no taller than a child, worn smooth by hands. Its face is a woman's, tired, one hand lifted as if to wave a traveller on.".
   Observe {w}_baths_scene at {w}_baths when true "A plunge-bath with a floor of small coloured stones, a bench along three sides, and a niche for oil. The floor rings hollow under your feet: there is a space beneath it. There is a furnace-door in the south wall.".
   Observe {w}_stoke_scene at {w}_stoke when true "A low cellar, black with old soot, with a furnace-mouth big enough to crawl into. Charcoal has gone to dust beside a stack of bronze pipes, and a valve-wheel is set in the wall.".
   Observe {w}_cistern_scene at {w}_cistern when true "Below the yard is a vaulted tank lined in red plaster, its water black and still. Steps go down into it at one end. A low arch at the far end takes the overflow out under the road-wall.".
@@ -302,7 +302,7 @@
 --- successors chapel 2
   Observe {w}_chapel_seen at {w}_shrine when true "The kingdom of {successors} did not clear out the Lady. They hung the sign of {deity} over her, and a small bell, and called her by another name; but the folk who came to leave their coins went on leaving them, and the bell has gathered dust and the Lady has not.".
 --- successors lodge 1
-  Observe {w}_lodge_seen at {w}_hall when true "The kingdom's lords made the hall a hunting-lodge. Antlers hang on every beam, the hearth is walled down to half its size, and a table stands where the clerk's platform was. The painted road is still on the wall, with a hound drawn in the margin by someone with time.".
+  Observe {w}_lodge_seen at {w}_hall when true "The kingdom's lords made the hall a hunting-lodge. Antlers hang on every beam, the hearth is walled down to half its size, and a table stands where the clerk's platform was. The painted road is still on the wall, with a hound drawn in the margin by an idle clerk.".
 --- successors forgotten 1
   Observe {w}_forgot_seen at {w}_yard when true "No one has used the stage since the Posts left. A fig tree is growing out of the well-head. The cobbles are almost all moss.".
 --- hook road 2

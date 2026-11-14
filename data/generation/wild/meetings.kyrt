@@ -124,7 +124,7 @@
     Warns "A grey wolf gets up from behind the stones with blood to the eyes, and does not run. Its lip goes back from its teeth.".
   }
   Initially Set encounterXp({m}_wolf) to 20.
-  Observe {m}_mark at {tract} when not able({m}_wolf) and not wildSpent({m}_mark) "The dead ewe has a shepherd's mark on her fleece, red ruddle on the shoulder: someone on the fell will want to know.".
+  Observe {m}_mark at {tract} when not able({m}_wolf) and not wildSpent({m}_mark) "The dead ewe has a shepherd's mark on her fleece, red ruddle on the shoulder: the shepherd on the fell will want to know.".
   Entity {m}_mark: fact "A wolf killed a marked ewe on the fell.".
   Action {m}_fleece(actor: group, site: place) "Cut the ruddled fleece off the dead ewe, to show whose she was" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {tract}) and not able({m}_wolf) and not wildSpent({m}_mark).
@@ -226,7 +226,7 @@
   // A fallen stone of the old makers' road, its face under moss: cleared, a hand cut in it points the way the road
   // went, to a site beyond; one who knows the old script reads the place's name, and the way (REV-08).
   Thing {m}_stone "the fallen way-stone" at {tract} {
-    State mossed "A long stone lies half sunk in the ground, squared once by somebody's tools; moss covers the face of it.".
+    State mossed "A long stone lies half sunk in the ground, squared once by a mason's tools; moss covers the face of it.".
     State cleared "The fallen way-stone lies with its face cleared: letters in the old script, and a hand cut pointing {toward}.".
     Change clear "Scrape the moss off the face of the fallen stone" from mossed to cleared.
   }

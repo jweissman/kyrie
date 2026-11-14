@@ -140,7 +140,7 @@
     "ancient": {
       "sight": "a ring of great old stones in the middle of it",
       "heart": ["the old stones at {name}"],
-      "why": ["{name} is built round something older than itself: the makers' well, which goes down further than anyone has followed it, and which has never once run dry.", "Before there was {name} there was the makers' well, and the first settlers drank from it and stayed."],
+      "why": ["{name} is built round the makers' well, which is older than the town: it goes down further than anyone has followed it, and has never once run dry.", "Before there was {name} there was the makers' well, and the first settlers drank from it and stayed."],
       "scene": ["The houses of {name} stand in a ring round a paved place of great old stones, too big and too square for anyone living to have laid them. In the middle the makers' well opens, and cold air comes up out of it.", "At {name} the new houses stand on old walls, rough stone laid on dressed, the joins plain to see. The paving where the lanes meet is worn into hollows that hold the rain."],
       "life": ["A line of people with buckets waits at the old well, and the windlass creaks as each pail comes up.", "Children are daring each other to drop a stone down the old well and count; the oldest says she got to twenty.", "A ring of plaited straw hangs on the tallest of the old stones."],
       "place": { "id": "well", "name": "the makers' well", "outdoors": true,

@@ -846,7 +846,7 @@
   ],
   "after": {
     "warlords": [
-      { "role": "adit", "scene": "Someone after the Delvers built a gate of squared timbers across the adit and cut slots in the rock beside it for bowmen. It stands open now, its bar rotted through.",
+      { "role": "adit", "scene": "The warlords who came after the Delvers built a gate of squared timbers across the adit and cut slots in the rock beside it for bowmen. It stands open now, its bar rotted through.",
         "document": { "name": "the words burned into the gate-beam", "shut": "Words are burned into the gate's crossbeam with a hot iron, in the kingdom's letters, not the old script.", "label": "Read the words on the gate-beam", "text": "BY THE LORD OF {kingdomup} THIS WORKING IS HELD. NONE BELOW THE CROSSING." } },
       { "role": "crossing", "barrier": { "to": "winze_head", "name": "the warlords' barricade", "text": "A barricade of ore-tubs and timber, chained together, closes the gallery to the winze: whoever held the adit did not want anything coming up from below.", "down": "The warlords' barricade lies dragged apart across the gallery.", "label": "Drag the barricade apart" } }
     ],
@@ -869,8 +869,8 @@
       { "role": "hall", "scene": "In the long winter whole families lived down here, where it was warmer than above: hearths of stacked stone along the walls, and a child's carving of a cow left on a ledge." }
     ],
     "heirs": [
-      { "role": "chute_foot", "scene": "In the war of the heirs someone came down here with something to hide: there are boot-marks in the old ore dust that are not the Delvers'.",
-        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox someone buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+      { "role": "chute_foot", "scene": "In the war of the heirs an heir's man came down here with his lord's coin to hide: there are boot-marks in the old ore dust that are not the Delvers'.",
+        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox an heir's man buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea kept their plunder in the adit one summer: their carved post still stands at the mouth, a ship's figurehead with its face hacked off." }

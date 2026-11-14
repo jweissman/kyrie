@@ -19,7 +19,7 @@
   Passage {t}_manor_libdoor "the library door" is door between {t}_manor_hall and {t}_manor_library.
   Passage {t}_manor_steps "the steps down into the garden" is steps between {t}_manor_loggia and {t}_manor_garden.
   Passage {t}_manor_gate "a door in the garden wall" is door between {t}_manor_garden and {t}_manor_front.
-  Observe {t}_manor_front_scene at {t}_manor_front when true "A house of the grey stone of the hill, long and gabled, its windows set in rows, smoke going up from three chimneys. The forecourt is raked gravel round a mounting-block. Somebody keeps all this, and keeps it well.".
+  Observe {t}_manor_front_scene at {t}_manor_front when true "A house of the grey stone of the hill, long and gabled, its windows set in rows, smoke going up from three chimneys. The forecourt is raked gravel round a mounting-block. The steward keeps all this, and keeps it well.".
   Observe {t}_manor_hall_scene at {t}_manor_hall when true "The hall goes up the whole height of the house to a roof of dark beams. A fire is laid in a hearth carved with the arms of the house, and the long table under the windows is set for nobody.".
   Observe {t}_manor_loggia_scene at {t}_manor_loggia when true "An open walk of columns along the garden side of the house, out of the wind. The country goes away below it to the river, and above the roofs of {town} the hill stands up with its old stones on top.".
   Observe {t}_manor_library_scene at {t}_manor_library when true "Books to the ceiling on three walls, a ladder on a rail, and a table under the window with the house's papers squared on it.".

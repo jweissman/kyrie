@@ -244,8 +244,8 @@
   },
   "after": {
     "warlords": [
-      { "role": "mouth", "scene": "Someone after the Water-Wardens made a stronghold of the doorway: a wall of rough stone built up across half of it, with a slit to shoot from, and the stream let out through a grating." },
-      { "role": "gate_hall", "document": { "name": "the words cut over the great pipe", "shut": "Over the mouth of the great pipe someone has cut words in the kingdom's letters, not the old script.", "label": "Read the words over the great pipe", "text": "THE SPRINGS OF THIS VALLEY ARE THE LORD OF {kingdomup}'S. WHOSO TURNS A GATE WITHOUT HIS LEAVE HANGS." } }
+      { "role": "mouth", "scene": "The warlords who came after the Water-Wardens made a stronghold of the doorway: a wall of rough stone built up across half of it, with a slit to shoot from, and the stream let out through a grating." },
+      { "role": "gate_hall", "document": { "name": "the words cut over the great pipe", "shut": "Over the mouth of the great pipe the warlords have cut words in the kingdom's letters, not the old script.", "label": "Read the words over the great pipe", "text": "THE SPRINGS OF THIS VALLEY ARE THE LORD OF {kingdomup}'S. WHOSO TURNS A GATE WITHOUT HIS LEAVE HANGS." } }
     ],
     "abbots": [
       { "role": "still_room", "scene": "The brothers who came after the Wardens made a chapel of the reading-room: their sign is cut over the door, and the still basin has been blessed for a font.",
@@ -265,8 +265,8 @@
       { "role": "gate_hall", "scene": "In the long winter, when the springs froze above, the town came down for water here, where it never froze: there are steps worn in the channel's side, and a broken bucket." }
     ],
     "heirs": [
-      { "role": "landing", "scene": "In the war of the heirs someone sank something in the deep cistern with a rope tied to the landing's pillar: the rope is still there, gone down into the dark.",
-        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox someone sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+      { "role": "landing", "scene": "In the war of the heirs an heir's man sank his lord's coin in the deep cistern with a rope tied to the landing's pillar: the rope is still there, gone down into the dark.",
+        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox an heir's man sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea came for the Wardens' silver one summer and found the doorway: there is a raiders' mark hacked in the lintel, and the stream runs over a broken oar." }

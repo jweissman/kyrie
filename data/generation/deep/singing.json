@@ -211,8 +211,8 @@
   },
   "after": {
     "warlords": [
-      { "role": "mouth", "scene": "Someone after the Stone-Singers made a hold of the cave mouth: a wall of rough stones piled across half of it, ugly against the smooth rock, with a slit to shoot from." },
-      { "role": "doors", "document": { "name": "the words scratched on a door", "shut": "Across one of the stone doors someone has scratched words in the kingdom's letters, deep and crooked.", "label": "Read the words scratched on the door", "text": "THESE HALLS ARE THE LORD OF {kingdomup}'S. HIS MEN WENT DOWN AND DID NOT COME UP. NONE GOES DOWN." } }
+      { "role": "mouth", "scene": "The warlords who came after the Stone-Singers made a hold of the cave mouth: a wall of rough stones piled across half of it, ugly against the smooth rock, with a slit to shoot from." },
+      { "role": "doors", "document": { "name": "the words scratched on a door", "shut": "Across one of the stone doors the warlords' men have scratched words in the kingdom's letters, deep and crooked.", "label": "Read the words scratched on the door", "text": "THESE HALLS ARE THE LORD OF {kingdomup}'S. HIS MEN WENT DOWN AND DID NOT COME UP. NONE GOES DOWN." } }
     ],
     "abbots": [
       { "role": "choir_hall", "scene": "The brothers who came after the Stone-Singers sang their own offices in the choir: their sign is cut on the lowest tier, small and careful, and the music-wall has a cross scratched over it.",
@@ -232,8 +232,8 @@
       { "role": "doors", "scene": "In the long winter people lived in the hall of doors, where the cold could not get in: there are hearths along it now, and soot on the smooth walls." }
     ],
     "heirs": [
-      { "role": "listening", "scene": "In the war of the heirs someone hid something in the listening-room, under the bowl in its floor: the stone of the bowl has been prised up and set back crooked.",
-        "hidden": { "found": "Under the bowl of the listening-room, prised up, a strongbox someone hid in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+      { "role": "listening", "scene": "In the war of the heirs an heir's man hid his lord's coin in the listening-room, under the bowl in its floor: the stone of the bowl has been prised up and set back crooked.",
+        "hidden": { "found": "Under the bowl of the listening-room, prised up, a strongbox an heir's man hid in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea came for the singers' stones one summer: there is a raiders' mark hacked in the smooth rim of the cave mouth, the only mark on it." }

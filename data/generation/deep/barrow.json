@@ -208,8 +208,8 @@
   },
   "after": {
     "warlords": [
-      { "role": "mouth", "scene": "Someone after the Barrow-Kin made a fort of the forecourt: a bank of earth thrown up across it, with a palisade's post-holes along the top, and a ditch the grass has half filled." },
-      { "role": "passage", "document": { "name": "the words cut on the passage stone", "shut": "On one slab of the passage someone has cut words in the kingdom's letters, not the old script, over the spirals.", "label": "Read the words on the passage stone", "text": "HELD FOR THE LORD OF {kingdomup}. WHOEVER GOES DOWN GOES DOWN BY HIS LEAVE." } }
+      { "role": "mouth", "scene": "The warlords who came after the Barrow-Kin made a fort of the forecourt: a bank of earth thrown up across it, with a palisade's post-holes along the top, and a ditch the grass has half filled." },
+      { "role": "passage", "document": { "name": "the words cut on the passage stone", "shut": "On one slab of the passage the warlords have cut words in the kingdom's letters, not the old script, over the spirals.", "label": "Read the words on the passage stone", "text": "HELD FOR THE LORD OF {kingdomup}. WHOEVER GOES DOWN GOES DOWN BY HIS LEAVE." } }
     ],
     "abbots": [
       { "role": "mourners", "scene": "The brothers who came after the Barrow-Kin hung a bell in the mourners' hall and cut their sign over the hearth, and said their own prayers for the old dead.",
@@ -229,8 +229,8 @@
       { "role": "chamber", "scene": "In the long winter people lived in the passage-grave, where the cold could not get in: there are hearths in the arms of the chamber, and the basins have been used to cook in." }
     ],
     "heirs": [
-      { "role": "well", "scene": "In the war of the heirs someone climbed down into the well of offerings with something to hide: there are new knots in an old rope tied to the kerb.",
-        "hidden": { "found": "At the bottom of the well, among the offerings, a strongbox someone lowered in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+      { "role": "well", "scene": "In the war of the heirs an heir's man climbed down into the well of offerings with his lord's coin to hide: there are new knots in an old rope tied to the kerb.",
+        "hidden": { "found": "At the bottom of the well, among the offerings, a strongbox an heir's man lowered in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea dug into the forecourt one summer looking for gold, and gave up: there is a trench half across it, and a broken spade in the bottom." }

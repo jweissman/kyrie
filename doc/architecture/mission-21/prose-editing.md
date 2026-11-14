@@ -20,7 +20,7 @@ is on the `prose-edit` branch, in the batches `ci/prose-1`, `ci/prose-2`, `ci/pr
   thing, readable on a look.
 - The voice is a sober, particular English, nearer a careful travel writer than fantasy pastiche.
 
-The ratchet started at 1,144 heavy sentences in the first hour (1,141 measured). It now stands at 1,031 of 7,569
+The ratchet started at 1,144 heavy sentences in the first hour (1,141 measured). It now stands at 1,030 of 7,569
 (13.6 %).
 
 ## Before and after
@@ -145,13 +145,18 @@ These sentences are put together in TypeScript, so editing the tables could not 
 Two cheap pins would have caught what this pass fixed. Both read data and are held at honest baselines.
 
 - **`test/small/clause-load`** (existing). It counts the heavy sentences in the first hour's tables. It was held at
-  1,144 and is now 1,031 of 7,569 (13.6 %).
+  1,144 and is now 1,030 of 7,569 (13.6 %).
 - **`test/small/empty-words`** (new; `bun scripts/empty-words.ts [--show=…]` is its worklist). It runs three
   ratchets over the same tables, with speech passed over:
   - **indeterminate**: narration that names nothing ("whatever", "something", "someone", "nobody in particular").
-    This is the owner's "garlands of whatever is in flower". The baseline is 304.
+    This is the owner's "garlands of whatever is in flower". The baseline is 304, and it is now 266. Each line
+    brought down names the particular thing its frame stood for: "someone after the Delvers" became the warlords;
+    "someone ... with something to hide" became an heir's man with his lord's coin; "someone else has been this
+    way" became the castellan's men, the brothers or the company's diggers, by their mark; "a vein of something
+    pale" became pale ore. The rest are honest unknowns: tracks, signs and the dark, which the walker has not made
+    out.
   - **similes**: the "as if" / "as though" tic, mostly whimsy tagged onto a plain act ("as though it owed them
-    money"). The baseline is 89, now 85.
+    money"). The baseline is 89, now 83.
   - **stock**: a sentence of eight words or more said word for word in more than one table. One camp was told alike
     in every kind of dungeon. The baseline was 10; it is 9 now that each dungeon's camp has its own detail.
 

@@ -199,7 +199,7 @@
       "knows": { "of": "song", "label": "Ask {name} for a song of this country",
         "says": "'There is only one song anybody here asks for.' {name} sings it low, for you and nobody else: how the kingdom of {kingdom} rose on what the old makers left, where the power lay with {were}, and how it fell to {fall}. 'It is longer,' {name} says, 'but that is the bone of it.'" },
       "remarks": {
-        "oak": "{name} hums something under the great oak, then stops: it is an old song about a tree like this, and it does not end well.",
+        "oak": "{name} hums a few bars under the great oak, then stops: it is an old song about a tree like this, and it does not end well.",
         "mere": "{name} skims a stone across the mere: seven, eight. 'There is a song about a woman who drowned in a mere. There always is.'",
         "tarn": "{name} sings one note across the tarn to hear it come back off the crag, and laughs when it does."
       },
