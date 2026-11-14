@@ -20,7 +20,7 @@ export class ExperienceMatrix {
   static readonly origins: Record<string, string> = { a1: 'order', b2: 'courier', c3: 'wanderer' };
   static readonly columns: [Counted, string][] = [['facets', 'facets'], ['opportunities', 'opps'],
     ['promoted', 'led'], ['buried', 'buried'], ['pursued', 'taken'], ['resolved', 'aims done'],
-    ['changing', 'changed'], ['acts', 'acts'], ['returns', 'returns'], ['differing', 'differ'],
+    ['changing', 'changed'], ['learning', 'learned'], ['acts', 'acts'], ['returns', 'returns'], ['differing', 'differ'],
     ['longest', 'longest'], ['alternations', 'A-B-A-B'], ['heavy', 'heavy'], ['sentences', 'said'],
     ['echoes', 'echoes'], ['revisited', 'back to a bond'], ['kept', 'kept']];
   static async walks(seeds: string[], turns: number, policy: Policy, lab: boolean): Promise<Row[]> {

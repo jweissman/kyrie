@@ -24,7 +24,7 @@ describe('the experience measures', () => {
   it('count variety, continuity, prose and payoff from the turns alone', () => {
     const e = RunnerExperience.of(walk);
     expect([e.facets, e.opportunities, e.promoted, e.buried, e.pursued]).toEqual([3, 2, 1, 1, 2]);
-    expect([e.resolved, e.changing, e.acts, e.returns, e.differing]).toEqual([1, 1, 5, 2, 1]);
+    expect([e.resolved, e.changing, e.learning, e.acts, e.returns, e.differing]).toEqual([1, 1, 0, 5, 2, 1]);
     expect([e.longest, e.echoes, e.revisited, e.kept]).toEqual([4, 1, 1, 1]);
     expect(e.keys).toEqual(['ask(eamon,road)', 'take_item(coin,hamo)']);
   });

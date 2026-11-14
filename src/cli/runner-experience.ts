@@ -11,7 +11,8 @@ export interface Experience {
   facets: number; opportunities: number; promoted: number; buried: number; pursued: number; resolved: number;
   // Acts that changed the world beyond time and position, of the acts taken; returns to a place known before that
   // found something different there (what it offered, or a change made since), of the returns.
-  changing: number; acts: number; returns: number; differing: number;
+  // (Facts learned are counted apart, as learning.)
+  changing: number; learning: number; acts: number; returns: number; differing: number;
   // Continuity: the longest run of turns carrying one aim, something leading on it each turn; two places
   // alternated with nothing changed between.
   longest: number; alternations: number;
@@ -33,11 +34,16 @@ export class RunnerExperience {
     const kept = t.flatMap(x => x.kept ? [x.kept] : []);
     return { facets: new Set(all.flatMap(o => o.aspects)).size, opportunities: keys.size, promoted: led.size,
       buried: keys.size - led.size, pursued: new Set(walk.chosen.filter(o => keys.has(o.id)).map(o => o.id)).size,
-      resolved: this.resolved(t), changing: t.slice(1).filter((x, i) => walk.chosen[i]?.type !== 'fight'
-        && !!x.changed?.length).length, acts: acts.length, returns, differing, longest: this.longest(walk),
+      resolved: this.resolved(t), changing: this.acted(walk, c => !/^\+ knows\(/.test(c)),
+      learning: this.acted(walk, c => /^\+ knows\(/.test(c)), acts: acts.length, returns, differing,
+      longest: this.longest(walk),
       alternations: this.alternations(t), heavy: walk.budget.unasked.heavy.length,
       sentences: walk.budget.unasked.sentences, echoes: this.echoes(t), kept: kept.filter(k => k.held === k.of).length,
       revisited: kept.length, keys: [...keys].sort() };
+  }
+  // Acts (not a fight's turns) whose changes include one of a kind.
+  private static acted(walk: Walk, kind: (change: string) => boolean): number {
+    return walk.turns.slice(1).filter((x, i) => walk.chosen[i]?.type !== 'fight' && (x.changed ?? []).some(kind)).length;
   }
   // An act on something: not a step, a journey, a wait, nor setting a thing down.
   private static opportunity(o: Offered): boolean {

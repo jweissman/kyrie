@@ -14,8 +14,9 @@ export class RunnerPayoff {
   private readonly made = new Map<string, string[]>();
   // And not the bookkeeping of what was said and carried, nor the world's own ticking elsewhere (prices, larders):
   // a change counts where it touches the company or what the act was done to.
-  private static readonly kept =
-    /^[+-] (\w+__)*(said_|heard_|toldBy|readIn|learnedFrom|carried|goodsPrice|larder|wages)/;
+  private static readonly kept = new RegExp(`^[+-] (\\w+__)*(${['said_', 'heard_', 'toldBy', 'readIn', 'learnedFrom',
+    'carried', 'goodsPrice', 'larder', 'wages', 'lingered', 'arrivedAt', 'tookWay', 'addressed', 'acquainted', 'tried',
+    'greeted', '\\w*answered', '\\w*asked', '\\w*noted'].join('|')})`);
   static changed(event: CampaignEvent, act = ''): string[] {
     const touched = [/\bparty\b/, /_member_/, ...(/\((.*)\)/.exec(act)?.[1]?.split(',') ?? []).map(a => a.trim())
       .filter(a => a && !/^(party|region__member_)/.test(a)).map(a => new RegExp(`\\b${a}\\b`))];
