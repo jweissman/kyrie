@@ -1,4 +1,3 @@
-import { createInterface } from 'node:readline';
 import { appendFile } from 'node:fs/promises';
 import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
@@ -15,6 +14,8 @@ import { TerminalScene, type Turned } from './terminal-scene';
 import { PlayTool } from './play-tool';
 import { TerminalWalk, type Presented } from './terminal-walk';
 import { RunnerFight } from './runner-fight';
+import { RunnerCreation } from './runner-creation';
+import { RunnerLines } from './runner-lines';
 import type { CampaignEvent } from '../campaign/campaign-types';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
@@ -187,12 +188,15 @@ export class Runner {
   static async main(args: string[]): Promise<number> {
     const options = PlayTool.parse(args.filter((a, i) => a !== '--transcript' && args[i - 1] !== '--transcript'));
     const kept = args.includes('--transcript') ? args[args.indexOf('--transcript') + 1] : undefined;
-    if (!options.world && !options.campaign) { console.error(`${PlayTool.usage} [--transcript out.jsonl]`); return 1; }
-    const runner = new Runner((await PlayTool.start(options)).journey.session);
+    if (!options.world && !options.campaign) { console.error(`${PlayTool.usage} [--create] [--transcript out.jsonl]`); return 1; }
+    // --create on a world: the life made from the real entry point, through the engine's own requests (Gate 1).
+    const lines = new RunnerLines(), creating = !!options.world && !options.as && args.includes('--create');
+    const session = creating ? await new RunnerCreation(lines, out => Runner.say(out, kept)).begin(options.world!)
+      : (await PlayTool.start(options)).journey.session;
+    const runner = new Runner(session);
     await Runner.say(runner.said(), kept);
-    for await (const line of createInterface({ input: process.stdin })) {
-      if (!line.trim()) { continue; }
-      const out = await runner.ask(line.trim());
+    for (let line = await lines.next(); line !== null; line = await lines.next()) {
+      const out = await runner.ask(line);
       await Runner.say(out, kept);
       if ('end' in out) { return 0; }
     }
