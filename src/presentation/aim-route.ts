@@ -13,8 +13,10 @@ export class AimRoute {
   // is in it, at what the aim is toward, or on the way from the one to the other: the churchyard lit from the shrine,
   // and nothing lit back out of the crypt between it and the ossuary the dead are in.
   static routed(campaign: Campaign, screen: Screen, aimed: Set<string>): Set<string> {
-    const out = this.outward(campaign, screen, aimed), named = out ? new Set([...aimed, out]) : aimed;
+    // Out of an enclosed place toward what it names, or where its author says it is gone to by (the courier's town).
     const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
+    const out = this.outward(campaign, screen, t?.routeTo ? new Set([...aimed, t.routeTo]) : aimed);
+    const named = out ? new Set([...aimed, out]) : aimed;
     if (!t?.routeTo || t.routeTo === t.actionAt) { return named; }
     const byId = EntityIndex.of(campaign.module.entities).byId, line = Spatial.ancestry(byId, screen.place.id);
     const at = t.actionAt ?? (t.subject ? campaign.world.one('at', t.subject) : undefined);
@@ -29,7 +31,9 @@ export class AimRoute {
     const here = screen.place.id;
     if (!named.size || !Itineraries.enclosed(campaign, here)) { return undefined; }
     for (const id of named) {
-      const legs = id === campaign.playerActor ? [] : Itineraries.plan(campaign, id)?.legs ?? [];
+      // Someone it names is gone to where they are (Glen, at his forge in Brightford).
+      const to = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id) ?? id;
+      const legs = id === campaign.playerActor ? [] : Itineraries.plan(campaign, to)?.legs ?? [];
       const out = legs.find(l => !Itineraries.enclosed(campaign, l.to));
       if (out) { return out.to; }
     }
