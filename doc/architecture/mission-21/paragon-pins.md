@@ -73,14 +73,29 @@ The playability line's `test/small/pin-remembered-favour`:
 - **One generic rule was missing:** gratitude never touched a price. It is fixed as CO-16, where a grateful seller asks
   a coin less (test/small/thanks-priced).
 
+## The ranger's mount
+
+`test/small/pin-ranger-mount`: a yard, a lane and a far field, a ranger, and a bay gelding named Bran.
+
+**The journey:** "Ask Bran to come with you"; the company goes to the far field and Bran is there with it. "Let Bran
+make his own way"; the company walks back to the yard, waits an hour, and returns: Bran is in the far field, the same
+horse, and can be asked along again.
+
+**Findings:**
+- **Expressible, as an animal that is led:** the escort rules (`lead`, `part_ways`, `acceptsEscort`) give a named,
+  persistent animal that travels with the company and is found where it was left.
+- **Riding is a missing generic capability.** No act mounts or dismounts. A led horse does not change how long a
+  journey takes, what can be carried, or how a fight goes. The smallest failing example: the same yard to the far
+  field, with Bran led and without, takes the same time, and nothing offers "Mount Bran". This needs a design (a
+  `mounted` state, travel time by the mount's pace, a carrying load, dismounting before a narrow way) and is noted for
+  M22. It is not built here.
+
 ## Next
 
 - **The remembered favour:** help someone, leave, and return to a changed relationship. It belongs in the
   laboratory; the playability line owns it.
 - **The adventure-density pin** is the laboratory's own question, judged by Gate 1's walks: opportunities reached
   through ordinary decisions, not counted.
-- **The ranger's mount:** next. Animals that come along exist, but nothing rides, mounts or dismounts in the rules;
-  expected to be a clean missing-capability finding.
 - **Familiar scouting and the planar gate:** after the mount, or as M22 notes. There is little for familiars; the
   House of Doors and the planes' conditions exist, but a threshold's prerequisites and consequences are the deferred
   grand tour.
