@@ -487,6 +487,19 @@
     Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
   }
   Initially Set encounterXp({t}_u_crawler) to 60.
+  // What is known above opens a better way below (M21's FF-02): asked about the old drain, the innkeeper tells where
+  // its centipede lies up; known, the company keeps to the cold side, and it does not stir.
+  Entity {t}_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".
+  Topic {t}_u_drain_asked with {t}_innkeeper "Ask {{t}_innkeeper} about the old drain under {town}" when not knows(actor, {t}_u_drain_warm) once {
+    Says "'The old drain?' says {{t}_innkeeper}. 'There's a long thing down there, all legs. It lies up by the bakehouse flue, where the stone is warm. Keep to the cold side and it won't stir.'".
+    On discuss { Assert knows(actor, {t}_u_drain_warm). }
+  }
+  Action {t}_u_drain_cold(actor: group, site: place) "Keep to the cold side of the drain, away from the warm stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_drain) and knows(actor, {t}_u_drain_warm) and able({t}_u_crawler) and not tolerates({t}_u_crawler, actor).
+    Time 1 minutes.
+    On success { Assert tolerates({t}_u_crawler, actor). }
+    Result "You keep to the cold wall, single file, the light low. By the warm stone something long shifts its legs, and lets you by.".
+  }
   Discovery {t}_u_drain_cache_found "Wedged in the drain where the water would have carried it, a purse someone dropped down a grating long ago." {
     Found by searching {t}_u_drain "Something wedged in the drain, where the water left it.".
   }
