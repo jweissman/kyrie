@@ -16,6 +16,7 @@ Module lab "The undercroft at Lowmouth" {
   Person low_merchant "Mik" at low_shop {
     Role "a salter, who buys and sells". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Sells torch for 1 coin from 9. Sells candle for 1 coin from 9. Sells rations for 2 coin from 9.
+    Sells ratsbane for 2 coin from 4. Sells oil_firebomb for 3 coin from 3.
   }
   Person low_innkeeper "Eamon" at low_taproom {
     Role "who keeps the Lucky Phoenix". Ancestry human. Peaceable. Pronouns he. Manner jovial.
@@ -38,6 +39,7 @@ Module lab "The undercroft at Lowmouth" {
     State open "The corn-store padlock hangs open on its hasp.".
     Change pick "Pick the corn-store padlock" from locked to open needing lockwork.
     Change wrench "Wrench the padlock's hasp out of the old door" from locked to torn needing brawn.
+    Change mend "Set the hasp back in the corn-store door with new bolts" from torn to open needing mending.
     State torn "The hasp hangs out of the corn-store door by one bolt, the oak split round it.".
   }
   Relation low_u_hasp_noted(entity).
@@ -174,6 +176,20 @@ Module lab "The undercroft at Lowmouth" {
   Objective low_u_rats_job_owed when low_u_given(low_u_rats_job) and low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_merchant "Tell {low_merchant} at {low_shop} that the rats and their nest are dealt with. The rest of the pay is yours, and a lantern.".
   Objective low_u_rats_job_owed_whole when low_u_given(low_u_rats_job) and low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and not low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_merchant "Tell {low_merchant} at {low_shop} that the rats and their nest are dealt with. Ten coin are yours, and a lantern.".
   Rule low_u_rats_onward when low_u_done(low_u_rats_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Relation low_u_docked(entity). Relation low_u_mended(entity). Relation low_u_bait_told(entity).
+  Rule low_u_door_docked when low_u_paid(low_u_rats_job) and state(low_u_store_lock, torn) and together(low_merchant, party) and not low_u_docked(low_u_store_lock)
+    says "{low_merchant} takes two of the coins back off the counter. 'For my door.'" {
+    Decrease quantity(party, gold) by 2. Assert low_u_docked(low_u_store_lock).
+  }
+  Rule low_u_bait_smelt when low_u_paid(low_u_rats_job) and low_u_baited(low_u_rats) and together(low_merchant, party) and not low_u_bait_told(low_u_rats)
+    says "{low_merchant} sniffs at your sleeve. 'Ratsbane. Cheaper than a sword, and no blood on the sacks.'" {
+    Assert low_u_bait_told(low_u_rats).
+  }
+  Objective low_u_door_owed when low_u_hasp_noted(low_u_store_lock) and state(low_u_store_lock, torn) and not low_u_docked(low_u_store_lock) toward low_u_store "{low_merchant} will know you by the splinters. Set the corn-store's hasp back, or be docked for the door.".
+  Rule low_u_door_mended when low_u_hasp_noted(low_u_store_lock) and state(low_u_store_lock, open) and together(low_merchant, party) and not low_u_mended(low_u_store_lock)
+    says "{low_merchant} has been to look at the corn-store door. 'New bolts,' {low_merchant} says, and nods once." {
+    Assert low_u_mended(low_u_store_lock).
+  }
   Observe low_u_yard_scene at low_u_yard as fixture when true "Old stones lean in the grass. In the corner by the wall, a low stone door goes into the ground. Its iron ring is bright where someone has pulled at it lately.".
   Entity low_u_dead_robbed: fact "Someone has been opening graves in the churchyard by night, and going down into the catacombs.".
   Entity low_u_dead_raised: fact "The dead under the churchyard have been raised. A ring of chalk and the ends of black candles are on the crypt floor.".

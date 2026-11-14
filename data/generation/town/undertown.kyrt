@@ -33,6 +33,8 @@
     State open "The corn-store padlock hangs open on its hasp.".
     Change pick "Pick the corn-store padlock" from locked to open needing lockwork.
     Change wrench "Wrench the padlock's hasp out of the old door" from locked to torn needing brawn.
+    // Torn, it can be set back by one who can mend, and is forgiven (M21's FF-06: what the job leaves is the next thing).
+    Change mend "Set the hasp back in the corn-store door with new bolts" from torn to open needing mending.
     State torn "The hasp hangs out of the corn-store door by one bolt, the oak split round it.".
   }
   // Torn out, it is noticed by whoever owns the store, once, when the company is next before them: a cold player tore
@@ -198,6 +200,23 @@
   Objective {t}_u_rats_job_owed_whole when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} that the rats and their nest are dealt with. Ten coin are yours, and a lantern.".
 >> 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
   Rule {t}_u_rats_onward when {t}_u_done({t}_u_rats_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  // By force or by craft, the job is paid, and the merchant remembers which (M21's FF-04). A door torn open is docked
+  // from the pay, unless it was mended first; rats laid by ratsbane are smelt on the one who laid it.
+  Relation {t}_u_docked(entity). Relation {t}_u_mended(entity). Relation {t}_u_bait_told(entity).
+  Rule {t}_u_door_docked when {t}_u_paid({t}_u_rats_job) and state({t}_u_store_lock, torn) and together({t}_merchant, party) and not {t}_u_docked({t}_u_store_lock)
+    says "{{t}_merchant} takes two of the coins back off the counter. 'For my door.'" {
+    Decrease quantity(party, gold) by 2. Assert {t}_u_docked({t}_u_store_lock).
+  }
+  Rule {t}_u_bait_smelt when {t}_u_paid({t}_u_rats_job) and {t}_u_baited({t}_u_rats) and together({t}_merchant, party) and not {t}_u_bait_told({t}_u_rats)
+    says "{{t}_merchant} sniffs at your sleeve. 'Ratsbane. Cheaper than a sword, and no blood on the sacks.'" {
+    Assert {t}_u_bait_told({t}_u_rats).
+  }
+  // The torn door is the next thing asked, in the merchant's own words (FF-06): set back, it is forgiven.
+  Objective {t}_u_door_owed when {t}_u_hasp_noted({t}_u_store_lock) and state({t}_u_store_lock, torn) and not {t}_u_docked({t}_u_store_lock) toward {t}_u_store "{{t}_merchant} will know you by the splinters. Set the corn-store's hasp back, or be docked for the door.".
+  Rule {t}_u_door_mended when {t}_u_hasp_noted({t}_u_store_lock) and state({t}_u_store_lock, open) and together({t}_merchant, party) and not {t}_u_mended({t}_u_store_lock)
+    says "{{t}_merchant} has been to look at the corn-store door. 'New bolts,' {{t}_merchant} says, and nods once." {
+    Assert {t}_u_mended({t}_u_store_lock).
+  }
 --- yard dead
   // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
   // them with a black candle in the ossuary; the churchyard, the crypt and the lodger at the inn say so to whoever

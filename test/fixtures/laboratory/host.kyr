@@ -17,6 +17,7 @@
   Person low_merchant "Mik" at low_shop {
     Role "a salter, who buys and sells". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Sells torch for 1 coin from 9. Sells candle for 1 coin from 9. Sells rations for 2 coin from 9.
+    Sells ratsbane for 2 coin from 4. Sells oil_firebomb for 3 coin from 3.
   }
   Person low_innkeeper "Eamon" at low_taproom {
     Role "who keeps the Lucky Phoenix". Ancestry human. Peaceable. Pronouns he. Manner jovial.
