@@ -4,6 +4,7 @@ import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
+import { ToldLines } from '../../../src/presentation/told-lines';
 import { Narration } from '../../../src/presentation/narration';
 import { Words } from '../words';
 import { AimNear } from '../aim-near';
@@ -193,12 +194,17 @@ export class Told {
   // the Story's.
   // unsaid: on arriving, what came of it that the glance leaves to the place's More (Leaf.glanced: three sentences);
   // then a note of what was learned, the rest said to be in the Book.
-  static Happened({ exchange, said, ready, app, unsaid }: { exchange: Exchange; said?: boolean; ready?: string;
-    app?: ReaderApp; unsaid?: string[] }) {
+  // looked: the dice shown from the first (a deliberate look already made).
+  static Happened({ exchange, said, ready, app, unsaid, looked: shown = false }: { exchange: Exchange; said?: boolean;
+    ready?: string; app?: ReaderApp; unsaid?: string[]; looked?: boolean }) {
     const fought = exchange.tone === 'fight', at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const left = new Set(unsaid ?? []);
-    const moments = Moments.of(exchange.lines.filter(l => !left.has(l.text))), { sights, ended, levels } = moments;
+    // The outcome in prose; the dice behind it kept for a deliberate look (ToldLines, the one rule both clients keep:
+    // the blind playtest's BP-03, "1 on the die, needing 11" beside a success the prose had made plain).
+    const [looked, look] = useState(shown), rolled = exchange.lines.some(l => l.kind === 'roll');
+    const lines = ToldLines.said(exchange.lines, looked);
+    const moments = Moments.of(lines.filter(l => !left.has(l.text))), { sights, ended, levels } = moments;
     const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
     // The aims it took up, from the aims themselves, by id: those the company holds (one folded into another is told
     // as something known of it: see folded); their notes are the narration's words for the terminal.
@@ -218,6 +224,8 @@ export class Told {
           onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
         {rest!.map((l, i) => Check.of(l, `r${i}`)
           ?? <p key={`r${i}`} className={l.kind}><Told.Said text={l.text} /></p>)}
+        {rolled && <button type="button" className="quiet-word dice-look" data-action="dice" aria-expanded={looked}
+          onClick={() => look(!looked)}>{looked ? 'Put the dice away' : 'How it fell'}</button>}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {(notes.length > 0 || taken.length > 0) && <ul className="notes">

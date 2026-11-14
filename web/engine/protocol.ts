@@ -122,7 +122,7 @@ export type Request =
   | { kind: 'world'; seed: string; terrain?: string }
   // Making a life, as the engine holds it: where it stands, or a choice at a step and where it then stands (see
   // EngineCreation); and setting out as it stands, the start the page's Begin asks.
-  | { kind: 'creation'; step?: import('./creation-flow').CreationStepId; value?: string }
+  | { kind: 'creation'; step?: import('./creation-flow').CreationChoice; value?: string }
   | { kind: 'set-out'; apart?: boolean }
   | { kind: 'preview'; party: Member[]; generated: boolean }
   // apart: the page tells the opening apart, before the first place (see Prologue), and its frame says so.

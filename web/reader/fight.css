@@ -238,3 +238,18 @@
   :root .fight .hand-menu .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
   :root .fight .hand-menu .quiet-row.choice-row.choice-row { min-height: 34px; padding-top: 4px; padding-bottom: 4px; }
 }
+
+/* A foregone fight told by its end (FightStage.Told, BP-01): the column's own place and measure over the place's
+   painting, a sentence or two, what it cost, and the way on; the blows behind a quiet word. */
+.fight-told { position: relative; height: var(--frame-h); display: grid; align-items: start; justify-items: end;
+  padding: max(var(--safe-t, 84px), 84px) var(--safe-x, 28px) var(--safe-y, 24px); }
+.fight-told-col { width: var(--panel-w, min(30rem, 100%)); display: grid; gap: 10px;
+  font: var(--t-tell, 400 17px/1.55 var(--told)); color: var(--ivory); text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
+.fight-told .told-end { margin: 0; font: var(--t-tell-lead, 400 19px/1.5 var(--told)); }
+.fight-told .after { margin: 0; color: var(--dim); }
+.fight-told .aftermath p { margin: 0; }
+.fight-told-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 8px 0 0; }
+.fight-told-foot .choice-row { flex: 1 1 14rem; }
+@media (max-width: 899px), (orientation: portrait) {
+  .fight-told { align-items: end; justify-items: stretch; padding-bottom: calc(var(--safe-b, 24px) + 64px); }
+  .fight-told-col { width: auto; } }
