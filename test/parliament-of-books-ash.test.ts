@@ -52,9 +52,10 @@ describe('A Parliament of Books: the Ash', () => {
     async () => {
       // Tenth level, and a night's camp at the burned edge before the hearth: since techniques rest (4fbff0a), an
       // eighth-level soldier no longer outlasts the four Cinders on a Second Wind every turn, nor a tenth the Penknife
-      // straight after.
+      // straight after. Thirteenth since a foe brought to nothing stays down (CO-05): the dice fall otherwise, and the
+      // Penknife's fight is a toss near the tenth (the eleventh won it, the twelfth lost); the route is the point here.
       const j = await Calamy.start('ash-fight',
-        [{ name: 'Brand', raceId: 'human', classId: 'warrior', backgroundId: 'soldier', level: 10 } as CreatureGenerationContext]);
+        [{ name: 'Brand', raceId: 'human', classId: 'warrior', backgroundId: 'soldier', level: 13 } as CreatureGenerationContext]);
       await Calamy.play(j, ...withCrake, 'go:char_edge', 'Attack', 'go:cinderfield', 'Attack', 'go:char_edge',
         'Make camp', 'go:hearth', 'Attack');
       expect(j.holds('dead', C('penknife')) || Calamy.holds(j, 'routed', 'penknife')).toBe(true);
