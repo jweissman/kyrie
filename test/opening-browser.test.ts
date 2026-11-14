@@ -40,6 +40,21 @@ class Stage {
         marked: w.getAttribute('aria-current') === 'true', gold: /242, 189, 76/.test(mark) };
     }));
   }
+  // The title's sky as drawn: each layer's light, place and size, and how many of its animations run without end.
+  static sky(page: Page) {
+    return page.evaluate(() => {
+      const layers = [...document.querySelectorAll<HTMLElement>('.title-sky > *')].map(l => {
+        const c = getComputedStyle(l);
+        return [c.backgroundImage, c.opacity, c.transform, c.fill].join(' ');
+      });
+      const running = document.getAnimations().filter(a => {
+        const target = (a.effect as KeyframeEffect | null)?.target;
+        return target instanceof Element && !!target.closest('.title-sky, .ambient')
+          && a.effect?.getTiming().iterations === Infinity;
+      }).length;
+      return { layers, running };
+    });
+  }
   // Where the opening has got to, and where Begin's middle is (laid out though not yet shown).
   static begin(page: Page) {
     return page.evaluate(() => {
@@ -77,14 +92,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     const named = [await page.getAttribute('.mark', 'aria-label'), await page.title()];
     expect(named).toEqual([Identity.spoken(), Identity.spoken()]);
     // The way pointed at is marked at once by its own gold mark, no way moving or changing size to show it (TO-01: no
-    // moving double box, no jumping indicators, no shifting geometry); the sky behind answers it (data-focus).
-    const before = await Stage.ways(page, true);
-    await page.hover('[data-action="options"]');
+    // moving double box, no jumping indicators, no shifting geometry). The sky behind is completely still, whatever the
+    // hand is on (IG-11): nothing in it runs, and its light is the same.
+    const before = await Stage.ways(page, true), sky = await Stage.sky(page);
+    await page.hover('[data-action="options"]'); await page.waitForTimeout(400);
     const after = await Stage.ways(page);
     expect(after.filter(w => w.marked).map(w => [w.way, w.gold])).toEqual([['options', true]]);
     expect(after.filter(w => !w.marked).every(w => !w.gold)).toBe(true);
     expect(after.map(w => w.box)).toEqual(before.map(w => w.box));
-    expect(await page.getAttribute('.title-page', 'data-focus')).toBe('options');
+    expect([sky.running, await Stage.sky(page)]).toEqual([0, sky]);
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

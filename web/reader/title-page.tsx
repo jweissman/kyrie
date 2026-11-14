@@ -26,12 +26,12 @@ export class TitlePage {
     const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), beat = TitlePage.useBeat(query.has('ident') || query.has('studio'));
     const first: Way = saved ? 'continue' : 'begin', [active, activate] = useState<Way>(first);
-    // The way the hand or the keys are on, marked at once; the sky follows it (see TitlePage.Sky).
+    // The way the hand or the keys are on, marked at once by the reticule, the one sign of focus; the sky is still.
     const item = (way: Way) => ({ onMouseEnter: () => activate(way), onFocus: () => activate(way),
       'aria-current': active === way || undefined, 'data-way': way });
     const mark = <i className="row-mark" aria-hidden="true" />;
     return (
-      <div className={`opening title-page beat-${beat}`} data-mode="title" data-focus={active}>
+      <div className={`opening title-page beat-${beat}`} data-mode="title">
         <TitlePage.Sky />
         {beat === 'ident' && <Ident.View studio={named.studio} />}
         <main className="title-main" aria-hidden={beat === 'ident' || beat === 'dark' || undefined}>
@@ -73,10 +73,9 @@ export class TitlePage {
       </h1>
     );
   }
-  // The sky the title stands under, in layers: the deep of it, a light low on the horizon, a haze drifting very
-  // slowly across, and a far ridge with the seven towers of the studio's mark small upon it (the horizon the mark drew
-  // becomes this one). Which way in is chosen sets where the light stands and what colour it is (see frame.css,
-  // [data-focus]); the layers ease there, the menu never waits on them. No sparks, nothing busy: one light, moving.
+  // The sky the title stands under, in layers: the deep of it, a light low on the horizon, and a far ridge with the
+  // seven towers of the studio's mark small upon it (the horizon the mark drew becomes this one). It is completely
+  // still, whatever the hand is on (IG-11): no light answering focus, no haze, no sparks.
   static Sky() {
     const towers = Ident.towers, w = 1200, base = 540, gap = 22, x0 = 640 - (towers.length - 1) * gap / 2;
     return (
@@ -86,7 +85,7 @@ export class TitlePage {
         <svg className="sky-stars" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" focusable="false">
           {TitlePage.stars.map(([x, y, r], i) => <circle key={i} cx={x} cy={y} r={r} />)}
         </svg>
-        <i className="sky-light" /><i className="sky-haze" />
+        <i className="sky-light" />
         <svg className="sky-ridge" viewBox={`0 0 ${w} 600`} preserveAspectRatio="xMidYMax slice" focusable="false">
           <path d={`M0 ${base + 8} C 180 ${base - 22} 330 ${base - 6} 470 ${base - 14} S 760 ${base - 30} 900 ${base - 10}`
             + ` S 1110 ${base - 18} ${w} ${base - 4} L ${w} 600 L 0 600 Z`} />
