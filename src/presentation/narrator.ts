@@ -28,8 +28,9 @@ export interface ExchangeLine {
 }
 // aims: the aims it took up, by id with their words (the notes say them too, in the narration's words).
 // learned: those of the notes that are what the company learned or saw borne out; act: the action told, by its name.
+// held: a fight that had a page of its own, whose blows and end were told there (the page's host says so).
 export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail';
-  aims?: { id: string; text: string; now?: true }[]; learned?: string[]; act?: string }
+  aims?: { id: string; text: string; now?: true }[]; learned?: string[]; act?: string; held?: true }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
 export interface Leaf {
