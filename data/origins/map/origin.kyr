@@ -6,9 +6,9 @@ Module origin "A dead man's map" {
   Entity named: fact "Where it is". Entity found: fact "The way there".
   Initially Assert knows(party, named). Initially Assert knows(party, found).
   Observe arrival at approach as fixture when true "{scene}".
-  Observe map at approach as feature when watch(clock) < 1 "The map is inside your shirt, where it has been since the night you won it: a square of greased hide, the hills drawn on it in soot, {work} out in {where}, and a cross at its door. The drover you won it from laughed when he lost it. In the morning he was dead in the straw, and nobody in the inn would say of what.".
+  Observe map at approach as feature when watch(clock) < 1 "The map is inside your shirt, where it has been since the night you won it. It is a square of greased hide with the hills drawn on it in soot. On it are {work} out in {where}, and a cross at its door. The drover you won it from laughed when he lost it. In the morning he was dead in the straw, and nobody in the inn would say of what.".
   // What the cross marks: under the door-stone, for one who looks, a dead man's hoard.
-  Discovery cache_found "Under the stone at the door, where the map put its cross, the earth has been dug and filled again; a hand's depth down is a box wrapped in oilcloth." { Found by searching delving. }
+  Discovery cache_found "Under the stone at the door, where the map put its cross, the earth has been dug and filled again. A hand's depth down is a box wrapped in oilcloth." { Found by searching delving. }
   Item cache "the dead man's box" is jeweled_box at delving hidden until cache_found.
   Objective marked when not carries(party, cache) toward delving "The dead man's map marks {delving}, out in {where}, with a cross at its door. Search there.".
   // Found, it is seen through, and said: the cross on the map had given a box the catalog calls empty, with no word of

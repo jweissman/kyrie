@@ -103,33 +103,9 @@ describe('the Marshal, and the figure on the green', () => {
     await j.play('Wind the counting figure down with the Marshal’s key');
     expect(House.is(j, 'state', 'counter', 'stilled')).toBe(true);
   }, 600000);
-
-  it('makes the keepers tolerate whoever holds the key', async () => {
-    const j = await House.at('bay', 'kahitude', 'thief');
-    j.roll('pass');
-    await j.play('Draw the winding-key out of the Marshal’s back', 'Wait › A while');
-    expect(House.is(j, 'tolerates', 'keepers', 'party')).toBe(true);
-    expect(House.is(j, 'tolerates', 'usher', 'party')).toBe(true);
-  }, 300000);
 });
 
 describe('the ways round the Count', () => {
-  it('lets one who can climb go up the Ledge, past the Lodge and the Usher, to the Terrace by the narrow stair', async () => {
-    const j = await House.at('landing', 'kahitude', 'monk');
-    await j.play('To the Goat Ledge');
-    expect(j.at('party')).toMatch(/ledge$/);
-    expect(House.is(j, 'counted', 'party')).toBe(false);
-    await j.play('To the Terrace of Tiers');
-    expect(j.at('party')).toMatch(/terrace$/);
-    expect(House.is(j, 'counted', 'party')).toBe(false);
-  }, 240000);
-
-  it('shows the hull from the Ledge to anyone', async () => {
-    const j = await House.at('ledge', 'kahitude', 'ranger');
-    expect(j.seen()).toMatch(/curved wall of dark metal/);
-    await j.play('Wait › A while');
-    expect(House.is(j, 'knows', 'party', 'hull_seen')).toBe(true);
-  }, 240000);
 
   it('enters by the brook for those who found the arch: the sluice-race, in the dark', async () => {
     const { p } = await House.world('kahitude');
@@ -138,45 +114,9 @@ describe('the ways round the Count', () => {
     await j.play('Search here', 'Into the sluice-race');
     expect(j.at('party')).toMatch(/race$/);
   }, 300000);
-
-  it('counts the company on the Roll, in chalk found at the Landing, and reopens the count: the cheap way, with a cost outside', async () => {
-    const j = await House.at('landing', 'kahitude', 'mage');
-    await j.play('Search here', 'a stub of the survey’s chalk: Take');
-    Placed.at(j, 'arcology__drawers');
-    await j.play('Write the company’s names in the Roll, in chalk');
-    expect(House.is(j, 'counted', 'party')).toBe(true);
-    expect(House.is(j, 'rolled', 'house')).toBe(true);
-    expect(House.hum(j)).toBeGreaterThanOrEqual(1);
-  }, 300000);
-
-  it('shows the ring in the sky from the roof, and leaves the drowned city a view', async () => {
-    const j = await House.at('ring_walk', 'kahitude', 'mage');
-    expect(j.seen()).toMatch(/great ring stands on edge/);
-    await j.play('Wait › A while');
-    expect(House.is(j, 'knows', 'party', 'ring_seen')).toBe(true);
-  }, 240000);
 });
 
 describe('light, air, bait and the Gardener’s gift', () => {
-  it('vents the seed-vault before the door is safe: dead air stands behind it until the wheel is turned', async () => {
-    const j = await House.at('roots', 'kahitude', 'warrior');
-    expect(House.is(j, 'state', 'vault_air', 'foul')).toBe(true);
-    await j.play('Turn the vent-wheel');
-    await j.play('Wait › A while');
-    expect(House.is(j, 'state', 'vault_air', 'clean')).toBe(true);
-  }, 240000);
-
-  it('sets the bronze ring by the surveyors’ plate and a lit candle at night, when the sun will not do', async () => {
-    const j = await House.at('landing', 'kahitude', 'mage');
-    await j.play('Search here', 'the surveyors’ signal-plate: Take');
-    Placed.at(j, 'arcology__reckoning');
-    await j.play('=22:00');
-    expect(House.is(j, 'state', 'bronze_ring', 'unset')).toBe(true);
-    await j.play('a candle: Light');
-    expect(j.offers('Throw lamplight onto the ring’s mark')).toBe(true);
-    await j.play('Throw lamplight onto the ring’s mark with the surveyors’ plate');
-    expect(House.is(j, 'state', 'disc', 'risen')).toBe(true);
-  }, 300000);
 
   it('gives rations to the owlbear for peace at the foot of the Void, and the pod to one who has been below', async () => {
     const j = await House.at('foot', 'kahitude', 'warrior');

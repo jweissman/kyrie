@@ -23,7 +23,7 @@ describe('the first town\'s first job', () => {
     await j.step('Attack');
     expect(j.campaign.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);
     // Their run goes down to the nest, where the old buck rat keeps it: the job's second fight (Mission 19).
-    expect(j.screen().objectives.join(' ')).toMatch(/Clear the rats' nest/);
+    expect(j.screen().objectives.join(' ')).toMatch(/Clear the nest down the rats' run/);
     await j.step('To the nest');
     await j.step('Attack');
     expect(j.campaign.world.test(ModuleWriter.call('able', 'region__s1_u_buck'))).toBe(false);

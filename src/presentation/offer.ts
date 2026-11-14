@@ -12,8 +12,9 @@ export type ActType = 'talk' | 'fight' | 'act' | 'search' | 'go' | 'journey' | '
   | 'other';
 // One choice offered: the page's own id for it, the command it does, its words, its type, what it is to the company
 // (its aspects, as Emphasis draws them; gold only where it continues the aim followed), and what it risks.
+// for: of an opener (a talk), what it is led for within it (Promoted.for), which a headless player does by it.
 export interface Offered {
-  choice: string; command?: string; label: string; type: ActType; aspects: Aspect[]; marks: Mark[];
+  choice: string; command?: string; for?: string; label: string; type: ActType; aspects: Aspect[]; marks: Mark[];
   continues?: true; minutes?: number;
 }
 // What a surface offers: exactly four primary choices where there are four or more to be had (never filler where
@@ -83,7 +84,8 @@ export class Offers {
       rest: ranked.slice(this.four).map(t => offered(t)) };
   }
   private static promoted(a: Promoted, c: Candidate | undefined): Offered {
-    return { choice: a.choice, ...a.command ? { command: a.command } : {}, label: a.label,
+    return { choice: a.choice, ...a.command ? { command: a.command } : {}, ...a.for ? { for: a.for } : {},
+      label: a.label,
       type: c ? this.types[c.kind] : 'other', aspects: a.aspects, marks: a.marks, ...a.continues ? { continues: true } : {},
       ...c?.minutes ? { minutes: c.minutes } : {} };
   }

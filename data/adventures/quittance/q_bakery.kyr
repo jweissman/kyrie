@@ -232,6 +232,6 @@ Module quittance "Quittance" {
   Rule bk_flash when watch(clock) >= 564 and bk_coal_dead(bk_bakery) and not bk_flash_told(bk_bakery) says "At six on the fourth morning a chimney goes up in Brick Lane: Tolliver's. The Phoenix comes with its engine, the crew sing out the street, and in twenty minutes the bakehouse is a black wet room and the loaves are in the road. The Office pays, with a cheque for the ceiling, and the Inspector of Flues, who is made to attend, writes in his ledger the single word UNAVOIDABLE." {
     Assert bk_flash_told(bk_bakery).
   }
-  Objective bk_obj when (knows(party, bk_claim) or knows(party, bk_survey)) and watch(clock) < 312 and not bk_pass(bk_bakery) "Tolliver's oven is surveyed under the Smokeless Ordinance at noon on the second day; unless it passes, the bakery's cover lapses at midnight after. Its flue draws, and Gwen Tolliver does not know why.".
-  Objective bk_obj_late when bk_failed(bk_bakery) and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery) "The oven failed its survey. The cover lapses at midnight on the third day unless it can still be satisfied.".
+  Objective bk_obj when (knows(party, bk_claim) or knows(party, bk_survey)) and watch(clock) < 312 and not bk_pass(bk_bakery) toward bakehouse "Tolliver's oven is surveyed under the Smokeless Ordinance at noon on the second day; unless it passes, the bakery's cover lapses at midnight after. Its flue draws, and Gwen Tolliver does not know why.".
+  Objective bk_obj_late when bk_failed(bk_bakery) and not bk_pass(bk_bakery) and not bk_lapsed(bk_bakery) toward bakehouse "The oven failed its survey. The cover lapses at midnight on the third day unless it can still be satisfied.".
 }

@@ -29,7 +29,7 @@ describe('a calling\'s own way in the first town', () => {
     expect(cleric.offers('what his book left out')).toBe(false);
     const mage = await start('mage');
     for (const step of crypt.slice(0, -1)) { await mage.step(step); }
-    expect(mage.latest).toMatch(/the warding line/);
+    expect(mage.latest).toMatch(/[Tt]he warding line/);
     await mage.step('To the ossuary');
     expect(mage.offers('Say the rite of rest')).toBe(false);
     expect(await mage.step('what his book left out')).toMatch(/out of Lowmouth before morning/);
@@ -39,8 +39,8 @@ describe('a calling\'s own way in the first town', () => {
       'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light'];
     const ranger = await start('ranger'), warrior = await start('warrior');
     for (const step of adit) { await ranger.step(step); await warrior.step(step); }
-    expect(ranger.latest).toMatch(/something big at the back is laying/);
-    expect(warrior.latest).not.toMatch(/something big at the back is laying/);
+    expect(ranger.latest).toMatch(/[Ss]omething big at the back is laying/);
+    expect(warrior.latest).not.toMatch(/[Ss]omething big at the back is laying/);
   }, 120000);
   // Prepared at the chandler's, a lone mage can do the jobs a warrior fights through: ratsbane laid in the cellar
   // kills the rats by morning, and an oil firebomb thrown into the web burns the spiders out (Mission 19: alone, a mage

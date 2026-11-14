@@ -48,7 +48,7 @@ export class Glance {
     const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
-      down: screen.party.some(m => m.hp <= 0) };
+      down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
     const ways = Promotion.ways(cands, acts, s);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
@@ -61,7 +61,8 @@ export class Glance {
     // Not again beneath "A new aim" that has just said it.
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
-    const need = this.need(screen), after = told && this.after(campaign, told, { screen, acts, scene });
+    const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred)), after = told
+      && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
@@ -114,10 +115,11 @@ export class Glance {
   // The company's state, said only when something is wrong: who is low or down, and what holds anyone (asleep,
   // stunned), which had been said nowhere while lying as you are was all there was to do (the owner's trap, 11
   // November).
-  private static need(screen: Screen): string[] {
-    const e = screen.expedition;
-    return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...screen.dark ? ['No light'] : [],
-      ...screen.party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
+  // Dark with a light to hand is said as it is, not as a want: "No light" beside "Haze: light a candle" had the player
+  // arbitrate between the two (the blind playtest, 13 November).
+  private static need({ expedition: e, dark, party }: Screen, lightable: boolean): string[] {
+    return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...dark ? [lightable ? 'Dark' : 'No light'] : [],
+      ...party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
         ...m.hp <= 0 ? ['down'] : m.hp < m.maxHp / 2 ? [`${m.hp} of ${m.maxHp}`] : [],
         ...m.conditions.map(c => c.toLowerCase())].join(', ')}`)];
   }
@@ -155,7 +157,9 @@ export class Glance {
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
     const idle = new Set([...by.map(d => d.id), ...screen.exits.map(e => e.destination.id), ...named, ...held]
-      .filter(id => recall.idle(id) || spent.has(id)));
+      // Never idle where the aim followed would be brought about: twice in Mik's shop without asking him, the gold had
+      // gone out of the town for good (the laboratory's lost turns).
+      .filter(id => (recall.idle(id) && !(named.has(id) && AimLeads.there(campaign, id))) || spent.has(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
@@ -167,7 +171,7 @@ export class Glance {
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       willing: new Set(rows.filter(r => r.action.speaker && (r.action.success ?? []).some(c => c.kind === 'assert'
         && c.call?.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker)).map(r => r.choice.id)),
-      named, held, companions: Companions.possible(campaign),
+      named, held, occupied: AimLeads.occupied(campaign, named), companions: Companions.possible(campaign),
       sensed: new Set(at.sensed.filter(x => x.far === 1).map(x => x.to)), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,

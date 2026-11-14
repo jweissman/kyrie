@@ -34,7 +34,9 @@ export class Barks {
     const line = Editor.choose(fit, `${this.seed}:${n}:${kind}`, this.used);
     if (!line || this.used.has(line.id)) { return undefined; }
     Editor.said(this.used, line.id);
-    return Voice.render(line.text, { actor: fighter.name.replace(/^an? /, 'the '), pronoun: this.said?.get(fighter.id) ?? 'they' });
+    // One fighter is one, whatever the pronoun said of them: "'Oh, well struck,' say Haze" (the laboratory).
+    return Voice.render(line.text, { actor: fighter.name.replace(/^an? /, 'the '),
+      pronoun: this.said?.get(fighter.id) ?? 'they', many: false });
   }
   // The turning point of an exchange: someone falling, a kill, a blow that tells, a flight, a miss.
   private moment(events: CombatEvent[]): [string, string, string?] | undefined {

@@ -60,13 +60,13 @@ Module wrayford "The Third Night" {
   // ── Aims the page can lead with ───────────────────────────────────────────────────────────────────────────────────
   // Each is true while its question is open and says only what the company has learned; none names a way to answer it.
   Objective bury_the_dead when knows(party, third_night_custom) and stillHanging() and not buriedByNight(wray)
-    "Wrayford buries its dead on the third day, or they do not rest. Three men have hung on the gatehouse rail since the night of the rising.".
+    toward gatehouse "Wrayford buries its dead on the third day, or they do not rest. Three men have hung on the gatehouse rail since the night of the rising.".
   Objective kit_at_midnight when knows(party, kit_plan) and not cartersOut(carters) and not cartersTaken(carters)
     "At midnight on the second night Kit Pardoe and the young carters mean to burn the Bridge Company's counting-house.".
   Objective answer_the_captain when knows(party, captain_question) and not verdictGiven(wray)
-    "The lord's captain comes at dusk on the third day, to ask Wrayford one question: is it in rebellion?".
+    toward gate_leads "The lord's captain comes at dusk on the third day, to ask Wrayford one question: is it in rebellion?".
   Objective who_wrote_the_letter when knows(party, letter_read) and not knows(party, hand_match)
-    "Someone in Wrayford wrote to the riders at midnight, naming the road the carters took. The hand has not been matched.".
+    toward quoin_shop "Someone in Wrayford wrote to the riders at midnight, naming the road the carters took. The hand has not been matched.".
   Objective ice_for_the_boy when knows(party, ice_seen) and not jennetIced(jennet)
     "In the Hill's ice-house the blocks lie in the straw. In a front room on the bridge a boy has lain under a sheet for four days.".
 }

@@ -26,11 +26,11 @@ Module sallowfield "Three Nights at Sallowfield" {
   Chapter ch_wave2 "The Second Wave" when w2done(ford_stones) and w2done(bridge) and w2done(mill_yard) and w2done(nave) "The second wave has gone where the first opened a road.".
   Chapter ch_morning "The Morning" when dawned(party) "It is light. You count.".
 
-  Objective ob_news when watch(clock) < 120 and not knowsNumbers(party) "A company of unpaid soldiers has been seen on the east road. Crowther the shepherd, Nan Ashworth and the reeve each know a different part.".
-  Objective ob_watch when watch(clock) < 78 and not watchedFord() "His riders will come to the ford at dusk. What they find there will be told.".
-  Objective ob_works when not planned(party) and not barricadeUp(party) and not bridgeCut(party) "There are two days. A wall, a cut, a flood and a drill each take hours the others need.".
-  Objective ob_parley when parleyHeld(party) and not wyreMet(party) "A white rag on a lance, by the standing stone.".
-  Objective ob_night when battleOn() and not dawned(party) "It is dark. They are coming.".
+  Objective ob_news when watch(clock) < 120 and not knowsNumbers(party) toward crowther, ashworth "A company of unpaid soldiers has been seen on the east road. Crowther the shepherd, Nan Ashworth and the reeve each know a different part.".
+  Objective ob_watch when watch(clock) < 78 and not watchedFord() toward ford_stones "His riders will come to the ford at dusk. What they find there will be told.".
+  Objective ob_works when not planned(party) and not barricadeUp(party) and not bridgeCut(party) toward stansfield "There are two days. A wall, a cut, a flood and a drill each take hours the others need.".
+  Objective ob_parley when parleyHeld(party) and not wyreMet(party) toward parley_stone "A white rag on a lance, by the standing stone.".
+  Objective ob_night when battleOn() and not dawned(party) toward ford_stones "It is dark. They are coming.".
 
   Milestone m_scout "caught the boy in the reeds" worth 150 when heldScout(lowes).
   Milestone m_stone "went to the standing stone and heard the captain out" worth 200 when wyreMet(party).

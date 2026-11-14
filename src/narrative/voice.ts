@@ -8,6 +8,7 @@ import combat from '../../data/voice/combat.json';
 import journey from '../../data/voice/journey.json';
 import address from '../../data/voice/address.json';
 import farewell from '../../data/voice/farewell.json';
+import feat from '../../data/voice/feat.json';
 
 // One line of a voice table: what is said or told, in which circumstances (each key of when must match the moment's
 // context: one value, or any of several), how often against the others, and where it came from.
@@ -27,8 +28,8 @@ export interface Speaking { actor?: string; target?: string; pronoun?: string; p
 // The voice tables (data/voice): for each kind of happening, the lines it may be told in, by the circumstances that
 // call for each. Editors change the tables; bin/kyrie voice shows every line in the moments it would be chosen in.
 export class Voice {
-  static readonly tables: VoiceTable[] = [join, part, greet, pet, turn, thank, combat, journey, address, farewell] as
-    VoiceTable[];
+  static readonly tables: VoiceTable[] = [join, part, greet, pet, turn, thank, combat, journey, address, farewell,
+    feat] as VoiceTable[];
   private static readonly byKind = new Map(Voice.tables.flatMap(t => t.kinds.map(k => [k, t] as const)));
   static table(kind: string): VoiceTable | undefined { return this.byKind.get(kind); }
   // The lines of a kind that fit a moment: every key a line names must be one of the moment's values for it; a line

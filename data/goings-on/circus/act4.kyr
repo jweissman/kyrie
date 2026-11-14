@@ -180,11 +180,11 @@ Module circus "Wapshott's Peregrine Circus" {
   Chapter ch_sarn "The Isle of Sarn" when voyaged(wapshotts) and within(party, sarn) "A hundred and fifty miles south of the Cape, on a quay with a crowned wheel on every post, in a jungle where nothing has been shown for four hundred years.".
   Chapter ch_after_sarn "After Sarn" when backFromSarn(wapshotts) "The Sundial has put them down at the fair town's quay. Whatever the Colonel took home, or left, the wagons are where they were.".
 
-  Objective colonel_told when voyageReady(wapshotts) and not wapshottAboard(wapshotts) "Sir Gervase has chartered the Sundial. The Colonel will want to be told.".
-  Objective crate_ask when crateCome(wapshotts) and not knows(party, crate_known) "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. Mate Crewe in the yard will say who sent it.".
-  Objective hatch_ask when crateOpened(wapshotts) and not eggsHatched(wapshotts) "The eggs will not wait. Billie, Honoria's oven, a lamp: they hatch tonight.".
-  Objective loose_ask when hatchlingsLoose(wapshotts) "Eleven young hook-claws are loose in the town, and the geese are screaming.".
-  Objective sarn_ask when knows(party, sarn_known) and not voyaged(wapshotts) "The crate came from the Isle of Sarn, where the Progress once kept its beasts. Sir Gervase will charter the Sundial.".
+  Objective colonel_told when voyageReady(wapshotts) and not wapshottAboard(wapshotts) toward wapshott "Sir Gervase has chartered the Sundial. The Colonel will want to be told.".
+  Objective crate_ask when crateCome(wapshotts) and not knows(party, crate_known) toward crewe "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. Mate Crewe in the yard will say who sent it.".
+  Objective hatch_ask when crateOpened(wapshotts) and not eggsHatched(wapshotts) toward billie "The eggs will not wait. Billie, Honoria's oven, a lamp: they hatch tonight.".
+  Objective loose_ask when hatchlingsLoose(wapshotts) toward billie "Eleven young hook-claws are loose in the town, and the geese are screaming.".
+  Objective sarn_ask when knows(party, sarn_known) and not voyaged(wapshotts) toward fenwick "The crate came from the Isle of Sarn, where the Progress once kept its beasts. Sir Gervase will charter the Sundial.".
 
   Milestone m_crate "learned who sent the crate" worth 80 when knows(party, crate_known).
   Milestone m_hatched "saw the clutch through its first night, penned or caught" worth 150 when hatchlingsPenned(wapshotts).

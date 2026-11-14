@@ -215,5 +215,5 @@ Module season "Hold One Season" {
 
   Objective find_garret when not cameUp(garret) and asleep(garret) and kin(party, garret) "Garret, your uncle, is held in an open granary vault under Quell. Dagny will halve your debt if you bring him up.".
   Objective bring_garret when not cameUp(garret) and not asleep(garret) "Garret is awake, and slow, and hungry, a long way under Quell. Bring him up to the Mutual's hall.".
-  Objective held_alive when knows(party, garret_held) and not knows(party, doran_breathed) and not knows(party, prayer_label) "Are the held truly alive? In Ennick they visit theirs once a month to watch them breathe.".
+  Objective held_alive when knows(party, garret_held) and not knows(party, doran_breathed) and not knows(party, prayer_label) toward garret "Are the held truly alive? In Ennick they visit theirs once a month to watch them breathe.".
 }

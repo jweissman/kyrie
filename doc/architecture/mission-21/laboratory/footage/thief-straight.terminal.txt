@@ -1,0 +1,589 @@
+┌───┬───────┬──────┬──────┬───────────┐
+│   │ name  │ hp   │ mana │ statuses  │
+├───┼───────┼──────┼──────┼───────────┤
+│ 0 │ Haze  │ 6/10 │ 0    │ candlelit │
+│ 1 │ Rat 1 │ 1/1  │ 0    │           │
+│ 2 │ Rat 2 │ 1/1  │ 0    │           │
+│ 3 │ Rat 3 │ 1/1  │ 0    │           │
+└───┴───────┴──────┴──────┴───────────┘
+┌───┬───────┬──────┬──────┬───────────┐
+│   │ name  │ hp   │ mana │ statuses  │
+├───┼───────┼──────┼──────┼───────────┤
+│ 0 │ Haze  │ 6/10 │ 0    │ candlelit │
+│ 1 │ Rat 1 │ 1/1  │ 0    │           │
+│ 2 │ Rat 2 │ 1/1  │ 0    │           │
+│ 3 │ Rat 3 │ 1/1  │ 0    │           │
+└───┴───────┴──────┴──────┴───────────┘
+┌───┬───────┬──────┬──────┬───────────┐
+│   │ name  │ hp   │ mana │ statuses  │
+├───┼───────┼──────┼──────┼───────────┤
+│ 0 │ Haze  │ 6/10 │ 0    │ candlelit │
+│ 1 │ Rat 1 │ 1/1  │ 0    │           │
+│ 2 │ Rat 2 │ 1/1  │ 0    │           │
+│ 3 │ Rat 3 │ 1/1  │ 0    │           │
+└───┴───────┴──────┴──────┴───────────┘
+┌───┬───────┬──────┬──────┬───────────┐
+│   │ name  │ hp   │ mana │ statuses  │
+├───┼───────┼──────┼──────┼───────────┤
+│ 0 │ Haze  │ 6/10 │ 0    │ candlelit │
+│ 1 │ Rat 1 │ 0/1  │ 0    │           │
+│ 2 │ Rat 2 │ 1/1  │ 0    │           │
+│ 3 │ Rat 3 │ 1/1  │ 0    │           │
+└───┴───────┴──────┴──────┴───────────┘
+┌───┬───────┬──────┬──────┬───────────┐
+│   │ name  │ hp   │ mana │ statuses  │
+├───┼───────┼──────┼──────┼───────────┤
+│ 0 │ Haze  │ 6/10 │ 0    │ candlelit │
+│ 1 │ Rat 1 │ 0/1  │ 0    │           │
+│ 2 │ Rat 2 │ 1/1  │ 0    │           │
+│ 3 │ Rat 3 │ 1/1  │ 0    │           │
+└───┴───────┴──────┴──────┴───────────┘
+┌───┬───────┬──────┬──────┬───────────┐
+│   │ name  │ hp   │ mana │ statuses  │
+├───┼───────┼──────┼──────┼───────────┤
+│ 0 │ Haze  │ 6/10 │ 0    │ candlelit │
+│ 1 │ Rat 1 │ 0/1  │ 0    │           │
+│ 2 │ Rat 2 │ 0/1  │ 0    │           │
+│ 3 │ Rat 3 │ 1/1  │ 0    │           │
+└───┴───────┴──────┴──────┴───────────┘
+┌───┬──────────────────┬──────┬──────┬───────────┐
+│   │ name             │ hp   │ mana │ statuses  │
+├───┼──────────────────┼──────┼──────┼───────────┤
+│ 0 │ Haze             │ 6/10 │ 0    │ candlelit │
+│ 1 │ the old buck rat │ 8/8  │ 0    │           │
+└───┴──────────────────┴──────┴──────┴───────────┘
+┌───┬──────────────────┬──────┬──────┬──────────────────┐
+│   │ name             │ hp   │ mana │ statuses         │
+├───┼──────────────────┼──────┼──────┼──────────────────┤
+│ 0 │ Haze             │ 3/10 │ 0    │ candlelit, bleed │
+│ 1 │ the old buck rat │ 1/8  │ 0    │ shred            │
+└───┴──────────────────┴──────┴──────┴──────────────────┘
+┌───┬───────────────────┬──────┬──────┬───────────┐
+│   │ name              │ hp   │ mana │ statuses  │
+├───┼───────────────────┼──────┼──────┼───────────┤
+│ 0 │ Haze              │ 1/10 │ 0    │ candlelit │
+│ 1 │ a great centipede │ 7/7  │ 0    │           │
+└───┴───────────────────┴──────┴──────┴───────────┘
+┌───┬───────────────────┬──────┬──────┬───────────┐
+│   │ name              │ hp   │ mana │ statuses  │
+├───┼───────────────────┼──────┼──────┼───────────┤
+│ 0 │ Haze              │ 1/10 │ 0    │ candlelit │
+│ 1 │ a great centipede │ 7/7  │ 0    │           │
+└───┴───────────────────┴──────┴──────┴───────────┘
+┌───┬──────────┬──────┬──────┬───────────┐
+│   │ name     │ hp   │ mana │ statuses  │
+├───┼──────────┼──────┼──────┼───────────┤
+│ 0 │ Haze     │ 1/10 │ 0    │ candlelit │
+│ 1 │ Beetle 1 │ 2/2  │ 0    │           │
+│ 2 │ Beetle 2 │ 2/2  │ 0    │           │
+│ 3 │ Beetle 3 │ 2/2  │ 0    │           │
+└───┴──────────┴──────┴──────┴───────────┘
+┌───┬──────────┬──────┬──────┬───────────┐
+│   │ name     │ hp   │ mana │ statuses  │
+├───┼──────────┼──────┼──────┼───────────┤
+│ 0 │ Haze     │ 1/10 │ 0    │ candlelit │
+│ 1 │ Beetle 1 │ 0/2  │ 0    │           │
+│ 2 │ Beetle 2 │ 2/2  │ 0    │           │
+│ 3 │ Beetle 3 │ 2/2  │ 0    │           │
+└───┴──────────┴──────┴──────┴───────────┘
+┌───┬──────────┬──────┬──────┬───────────┐
+│   │ name     │ hp   │ mana │ statuses  │
+├───┼──────────┼──────┼──────┼───────────┤
+│ 0 │ Haze     │ 1/10 │ 0    │ candlelit │
+│ 1 │ Beetle 1 │ 0/2  │ 0    │           │
+│ 2 │ Beetle 2 │ 0/2  │ 0    │           │
+│ 3 │ Beetle 3 │ 2/2  │ 0    │           │
+└───┴──────────┴──────┴──────┴───────────┘
+
+the landing at Lowmouth · Day 1, morning
+Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+No food.
+
+1. Read the notice on the well-post · 10 min  [to learn]
+2. Pick the corn-store padlock · 3 min  [to learn, worth a look]
+3. Take the salt-house door to Mik's salt-house · 1 min
+4. Wait a while · 10 min ⧗
+(more: things 5 · places 5 · time 4 · all 14)
+(? for commands)
+> 1
+A notice on the post by the well, in three hands. ‘RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask Mik for the key.’ ‘Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine’s thanks. Ask Mother Agnes.’ ‘SPIDERS in the old quarry. Twelve coin from the house. Ask Eamon for the gate key.’
+An aim: Ask Mik · follow 1
+
+1. Pick the corn-store padlock · 3 min  [to learn, worth a look]
+2. Take the salt-house door to Mik's salt-house · 1 min  [worth a look]
+3. Wait a while · 10 min ⧗
+4. Light a candle · 1 min
+(more: things 4 · places 5 · time 4 · all 13)
+> 1
+You work a bent pin and a thin blade into the lock and feel for its wards one at a time, with an ear to the way you came, until the last of them gives.
+The corn-store padlock hangs open on its hasp.
+
+1. Take the corn-store door to the old corn-store · 1 min  [worth a look]
+2. Take the salt-house door to Mik's salt-house · 1 min  [worth a look]
+3. Wait a while · 10 min ⧗
+4. Light a candle · 1 min
+(more: places 6 · time 4 · all 11)
+> 1
+
+the old corn-store
+Sacks are stacked to the rafters, and the place smells of mice. A sack of grain weighs down a trapdoor in the floor, and every wall is gnawed through at its foot.
+
+1. Take the trapdoor to the corn-store cellar · 2 min  [worth a look]
+2. Set out for Mik's salt-house · 2 min  [worth a look]
+3. Wait a while · 10 min ⧗
+4. Search the old corn-store · 20 min ⧗
+(more: things 1 · places 7 · time 5 · map 5 · all 14)
+> 1
+
+the corn-store cellar
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+Need: Dark
+No food · Nothing lit · 1 candle to spare.
+
+1. Light a candle · 1 min
+2. Take a hole gnawed through the cellar wall to the rat-runs · 10 min
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 5 · all 7)
+> 1
+You light a candle.
+A low brick cellar under the corn-store, damp to the touch. Spilled grain is trodden black on the floor, among the droppings of something bigger than mice.
+No food · Haze's candle, 2 hours left · nothing to spare.
+
+1. Take a hole gnawed through the cellar wall to the rat-runs · 10 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the corn-store cellar · 20 min ⧗
+4. Put out Haze's light for good · 1 min
+(more: things 1 · places 2 · time 5 · all 7)
+> 1
+
+the rat-runs
+A crawlway of earth and old brick runs behind the cellar wall, gnawed wider than any rat should need. It is littered with husks and bones, and stinks of a nest.
+The rats under the corn-store are here.
+The rats under the corn-store stand their ground and watch you. They will not have you here for long.
+No food · Haze's candle, an hour and 50 minutes left · nothing to spare.
+
+1. Attack the rats under the corn-store · 10 min · a fight  [danger]
+2. Take a hole gnawed through the cellar wall to the corn-store cellar · 10 min · they will not wait
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the rat-runs · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 3 · time 5 · all 9)
+> 1
+Turn 4: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 8: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 10: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 13: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 16: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 19: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+You hit the first rat.
+The first rat takes 1 slashing damage.
+The first rat falls.
+You hit the second rat.
+The second rat takes 1 slashing damage.
+The second rat falls.
+You hit the third rat.
+The third rat takes 1 slashing damage.
+The third rat falls.
+The fight is won.
+Haze gains 60 experience.
+An aim: Clear the nest down the rats' run from the rat-runs under the old corn-store · follow 1
+No food · Haze's candle, an hour and 40 minutes left · nothing to spare.
+
+1. Take the rats' run down to the nest · 10 min  [worth a look]
+2. Take a culvert going down to the old drain · 10 min  [worth a look]
+3. Wait a while · 10 min ⧗
+4. Search the rat-runs · 20 min ⧗
+(more: things 1 · places 3 · time 5 · all 8)
+> 1
+
+the nest
+A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks over bones. The stink is enough to make the eyes run.
+The old buck rat is here.
+The old buck rat stands its ground and watches you. It will not have you here for long.
+No food · Haze's candle, an hour and 30 minutes left · nothing to spare.
+
+1. Attack the old buck rat · 10 min · a fight  [danger]
+2. Take the rats' run down to the rat-runs · 10 min · they will not wait
+3. Take a shelf above the water to the old drain · 10 min · they will not wait  [worth a look]
+4. Wait a while · 10 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 2 · time 5 · all 8)
+> 1
+Turn 1: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 4: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Haze critically hits the old buck rat.
+The old buck rat takes 1 slashing damage.
+The old buck rat falls.
+The fight is won.
+Haze gains 120 experience.
+An aim: Ask Mother Agnes · follow 1
+Need: Haze: 3 of 10
+No food · Haze's candle, an hour and 20 minutes left · nothing to spare.
+
+1. Take a shelf above the water to the old drain · 10 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the nest · 20 min ⧗
+4. Put out Haze's light for good · 1 min
+(more: things 1 · places 2 · time 5 · all 7)
+> 1
+
+the old drain
+An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle. The walls are furred with something pale that moves when the light touches it.
+A great centipede is here.
+A great centipede stands its ground and watches you. It will not have you here for long.
+No food · Haze's candle, an hour and 10 minutes left · nothing to spare.
+
+1. Attack a great centipede · 10 min · a fight  [danger]
+2. Take a shelf above the water to the nest · 10 min · they will not wait
+3. Take the mouth of the drain to the undercroft · 10 min · they will not wait  [worth a look]
+4. Wait a while · 10 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 3 · time 5 · all 9)
+> 1
+Turn 2: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 3: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+You hit a great centipede.
+A great centipede takes 7 slashing damage.
+A great centipede falls.
+The fight is won.
+Haze gains 60 experience.
+Need: Haze: 1 of 10
+No food · Haze's candle, an hour left · nothing to spare.
+
+1. Take the mouth of the drain to the undercroft · 10 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the old drain · 20 min ⧗
+4. Put out Haze's light for good · 1 min
+(more: things 1 · places 3 · time 5 · all 8)
+> 1
+
+the undercroft
+A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides.
+An aim: Something is under the floor of the undercroft · follow 1
+No food · Haze's candle, 50 minutes left · nothing to spare.
+
+1. Take steps down behind the bone-heaps to the charnel passage · 2 min  [worth a look]
+2. Take a breach in the gallery floor to the old working face · 10 min  [worth a look]
+3. Rest and recover at the undercroft · 1 min ⧗
+4. Search the undercroft · 20 min ⧗
+(more: things 2 · places 3 · time 6 · all 10)
+> 1
+
+the charnel passage
+A long low passage lined with shelves of the older dead, wrapped in cloth gone brown. Some of the shelves are empty, and the cloth on the floor under them is torn.
+The dead in the charnel passage are here.
+The dead in the charnel passage stand their ground and watch you. They will not have you here for long.
+An aim: Ask Mother Agnes · follow 1
+
+1. Take steps down behind the bone-heaps to the undercroft · 2 min · they will not wait  [worth a look]
+2. Attack the dead in the charnel passage · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the charnel passage · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 2 · time 5 · all 8)
+> 1
+
+the undercroft
+A long room of round pillars, older than anything above it.
+An aim: Something is under the floor of the undercroft · follow 1
+No food · Haze's candle, 40 minutes left · nothing to spare.
+
+1. Take a breach in the gallery floor to the old working face · 10 min  [worth a look]
+2. Rest and recover at the undercroft · 1 min ⧗
+3. Lever the lettered flag up by main force · unlikely · 60 min ⧗  [to learn]
+4. Search the undercroft · 20 min ⧗
+(more: things 2 · places 3 · time 6 · all 10)
+> 1
+
+the old working face
+Where the quarrymen stopped: a face of stone with the pick-marks still on it, and a rotten ladder. In one corner the floor is broken through into somewhere older underneath.
+The beetles in the spoil are here.
+The beetles in the spoil will not let you come any nearer.
+An aim: Ask Mother Agnes · follow 1
+No food · Haze's candle, 30 minutes left · nothing to spare.
+
+1. Attack the beetles in the spoil · 10 min · a fight  [danger]
+2. Take a breach in the gallery floor to the undercroft · 10 min · they will not wait · nothing new
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the old working face · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 2 · time 5 · all 8)
+> 1
+Turn 3: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 6: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+Turn 8: Haze
+1. Melee Attack — choose target (mana 0)
+2. Defend — self (mana 0)
+3. Dirty Trick — choose target (mana 0)
+4. Dodge — self (mana 0)
+(4 more: all)
+Action number or name, auto, or q: auto
+You hit the first beetle.
+The first beetle takes 2 slashing damage.
+The first beetle falls.
+You hit the second beetle.
+The second beetle takes 2 slashing damage.
+The second beetle falls.
+You hit the third beetle.
+The third beetle takes 2 slashing damage.
+The third beetle falls.
+The fight is won.
+Haze gains 60 experience.
+No food · Haze's candle, 20 minutes left · nothing to spare.
+
+1. Take a cut going on past the web to the cut gallery · 10 min  [worth a look]
+2. Wait a while · 10 min ⧗
+3. Search the old working face · 20 min ⧗
+4. Put out Haze's light for good · 1 min
+(more: things 1 · places 2 · time 5 · all 7)
+> 1
+
+the cut gallery
+A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+No food · Haze's candle, 10 minutes left · nothing to spare.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Search the cut gallery · 20 min ⧗ · they will not wait
+(more: things 1 · people 1 · places 3 · time 5 · all 9)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+Haze’s candle burns down to nothing.
+Need: No light · Haze: 1 of 10
+No food · Nothing lit · nothing to spare.
+
+1. Take a cut going on past the web to the cut gallery · 10 min
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait · nothing new
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait · nothing new
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait · nothing new
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait · nothing new
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery · Day 1, afternoon
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait · nothing new
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 1
+
+the cut gallery
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+The spider in the old workings is here.
+The spider in the old workings stands its ground and watches you. It will not have you here for long.
+
+1. Take a cut going on past the web to the old working face · 10 min · they will not wait · nothing new
+2. Attack the spider in the old workings · 10 min · a fight  [danger]
+3. Wait a while · 10 min ⧗ · they will not wait
+4. Set down a shortsword · 1 min
+(more: people 1 · places 3 · time 4 · all 7)
+> 1
+
+the old working face
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+
+1. Take a cut going on past the web to the cut gallery · 10 min · nothing new
+2. Take a breach in the gallery floor to the undercroft · 10 min · nothing new
+3. Wait a while · 10 min ⧗
+4. Set down a shortsword · 1 min
+(more: places 2 · time 4 · all 5)
+> 
+
+[budget: 26 arrivals, mean 3.4, median 3.5, worst 5 5 5]

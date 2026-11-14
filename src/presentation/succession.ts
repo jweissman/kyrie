@@ -11,6 +11,7 @@ import { PlayerView } from './player-view';
 import { Sentences } from './sentences';
 import type { Told } from './narrator';
 import { Undertakings } from './undertakings';
+import { SeenThrough } from '../ui/seen-through';
 
 // What pulls once an aim followed is seen through (M21's playability list, PL-06; the lead's ruling, 13 November:
 // ranks 1 and 2 only). Said once, as the aim ends, and offered, never followed for the player: an aim seen through had
@@ -18,8 +19,8 @@ import { Undertakings } from './undertakings';
 // First the deed's own consequence: something carried, or lying here to be taken, that an act elsewhere is for, with
 // whoever it is for standing there (the yoke, to be hung over the drover's hearth). Then the strongest lead not
 // followed: an aim held, the nearest first; else the nearest place a thing the company knows leads to, not yet been to.
-// Later (not built): a person's own trouble glimpsed, the notice last, and, after two or three aims in one town, a lead
-// that is a site of the country's history preferred over another notice (T24-18's larger adventure).
+// Then an act here that would tell of somewhere not yet been to, and the nearest site on the map; and, once two aims
+// are seen through, a site something known leads to before another of the town's jobs (T24-18's larger adventure).
 export class Succession {
   // The glance's part: after an act, what pulls next, where anything does.
   static next(campaign: Campaign, screen: Screen, told?: Told): { next?: Successor } {
@@ -85,15 +86,25 @@ export class Succession {
     return Spatial.ancestry(byId, id).find(e => ['settlement', 'site'].includes(e.space?.kind ?? ''))?.id;
   }
   // An aim held and not followed, as the notes order them (where the company stands first); else where something
-  // known leads, not yet been to, the nearest.
+  // known leads, not yet been to, the nearest; else an act here that would tell of such a place (Eamon's "what is out
+  // in the country round"); else the nearest site on the company's map not yet been to. Once two aims have been seen
+  // through, a site something known leads to comes before another of the town's jobs, so that the first hour bends
+  // toward one larger place (round 12's T24-18: after each job it moved on to the next notice, and then nothing).
   private static lead(campaign: Campaign, screen: Screen): Successor | undefined {
     const aim = screen.aims?.find(a => !a.followed);
+    const larger = SeenThrough.of(campaign).length >= 2 ? this.known(campaign, screen, true) : undefined;
+    if (larger) { return larger; }
     if (aim) { return { kind: 'lead', text: Sentences.first(aim.text), aim: aim.id }; }
+    return this.known(campaign, screen, false) ?? this.telling(campaign, screen) ?? this.site(campaign, screen);
+  }
+  // Where something the company knows leads, not yet been to, the nearest (a site only, where sites is asked).
+  private static known(campaign: Campaign, screen: Screen, sites: boolean): Successor | undefined {
     const w = campaign.world;
     if (!w.relates('leadsTo')) { return undefined; }
-    const been = new Set(screen.map.filter(p => p.visited || p.here).map(p => p.id));
+    const been = this.been(screen), byId = EntityIndex.of(campaign.module.entities).byId;
     const known = new Map(PlayerView.observe(campaign).knowledge.map(k => [k.id, k.text]));
-    const leads = w.related('leadsTo').filter(l => known.has(l.args[0]!) && !been.has(l.args[1]!))
+    const leads = w.related('leadsTo').filter(l => known.has(l.args[0]!) && !been.has(l.args[1]!)
+      && (!sites || this.inSite(byId, l.args[1]!)))
       .flatMap(l => { const plan = Itineraries.plan(campaign, l.args[1]!);
         return plan ? [{ fact: l.args[0]!, place: l.args[1]!, minutes: plan.minutes }] : []; })
       .toSorted((a, b) => a.minutes - b.minutes);
@@ -102,5 +113,29 @@ export class Succession {
     const name = ObservationText.label(w, best.place);
     return { kind: 'lead', text: Sentences.first(known.get(best.fact)!), command: `travel:${best.place}`,
       label: `To ${name}` };
+  }
+  // An act here that would tell the company of a place it has not been to (a question whose answer leads there).
+  private static telling(campaign: Campaign, screen: Screen): Successor | undefined {
+    const w = campaign.world, been = this.been(screen);
+    const leads = new Set(w.related('leadsTo').filter(l => !been.has(l.args[1]!)).map(l => l.args[0]!));
+    const known = new Set(PlayerView.observe(campaign).knowledge.map(k => k.id));
+    const row = leads.size ? PlayerView.choices(campaign).find(r => r.action.success.some(c => c.kind === 'assert'
+      && c.call.name === 'knows' && leads.has(c.call.args[1]!) && !known.has(c.call.args[1]!))) : undefined;
+    return row && { kind: 'lead', text: row.choice.name, command: row.choice.id, label: row.choice.name };
+  }
+  // The nearest site on the company's map it has not been to, that it can set out for.
+  private static site(campaign: Campaign, screen: Screen): Successor | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const best = screen.map.filter(p => !p.visited && !p.here && byId.get(p.id)?.space?.kind === 'site')
+      .flatMap(p => { const plan = Itineraries.plan(campaign, p.id);
+        return plan ? [{ p, minutes: plan.minutes }] : []; })
+      .toSorted((a, b) => a.minutes - b.minutes)[0];
+    return best && { kind: 'lead', text: best.p.name, command: `travel:${best.p.id}`, label: `To ${best.p.name}` };
+  }
+  private static been(screen: Screen): Set<string> {
+    return new Set(screen.map.filter(p => p.visited || p.here).map(p => p.id));
+  }
+  private static inSite(byId: Map<string, Entity>, place: string): boolean {
+    return Spatial.ancestry(byId, place).some(e => e.space?.kind === 'site');
   }
 }

@@ -91,8 +91,8 @@ Module quittance "Quittance" {
   Observe wk_slate_k at slip_room when day(clock) >= 1 and day(clock) <= 3 "Under the Teague claim a hand has chalked: it is a mercy the policy is not on the parrot." teaches wk_claim.
   Observe wk_fusby_asleep at teague_front when state(wk_cage, covered) and wk_asleep(wk_fusby) > 0 "The cloth rises and falls a little, regularly.".
 
-  Objective wk_obj when knows(party, wk_claim) and not wk_settled(party) "Settle Mr Teague's four hundred before four on the third day: two Rosalinds, a parrot, and the Providence's pencil.".
-  Objective wk_obj_hatch when knows(party, wk_last) and not knows(party, d_way_teague) "Make sense of Mr Teague's last words, which are not about Rosalind.".
+  Objective wk_obj when knows(party, wk_claim) and not wk_settled(party) toward teague_front "Settle Mr Teague's four hundred before four on the third day: two Rosalinds, a parrot, and the Providence's pencil.".
+  Objective wk_obj_hatch when knows(party, wk_last) and not knows(party, d_way_teague) toward teague_front "Make sense of Mr Teague's last words, which are not about Rosalind.".
 
   // ── What people say ──────────────────────────────────────────────────────────────────────────────────────
   Topic wk_u_wake with wk_undertaker "Ask Mr Skillicorn who is waking whom" when true once {

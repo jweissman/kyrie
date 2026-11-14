@@ -4,7 +4,8 @@ import type { EngineHost } from '../../web/engine/engine-host';
 import type { Setting } from '../../web/engine/protocol';
 import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
-import type { Asking } from './terminal-input';
+import { TerminalInput, type Asking, type Picking } from './terminal-input';
+import type { Menu, Row } from './terminal-picker';
 
 // Who comes into the world, chosen in the terminal as the page chooses: by asking the engine where the making of a
 // life stands and sending it each choice, through the same requests the page's worker answers (world, creation,
@@ -28,6 +29,7 @@ export class TerminalCreation {
   }
   // A step's cards by number, under their groups; a card that cannot be taken says why, and is not taken.
   private async card(step: CreationStep): Promise<CreationCard> {
+    if (TerminalInput.picks(this.input)) { return this.picked(step, this.input); }
     this.say(`\n${Typography.plain(step.ask)}`);
     let group: string | undefined;
     // The four the step leads with, and the rest under `more`, numbered as they stand (the owner, 14 November).
@@ -51,6 +53,28 @@ export class TerminalCreation {
       this.say(card?.shut ? `${card.shut}.` : `Choose a number from 1 to ${step.cards.length}.`);
     }
   }
+  // The human mode: the same cards, the four the step leads with and the rest behind More, picked by the same keys as
+  // a scene (TP-05: creation and navigation through one grammar). A card that cannot be taken says why, on Enter.
+  private async picked(step: CreationStep, input: Picking): Promise<CreationCard> {
+    const menu = TerminalCreation.menu(step), picked = await input.pick(menu);
+    if (!picked) { throw new Error(TerminalCreation.left); }
+    return step.cards.find(c => 'choice' in picked && c.id === picked.choice)
+      ?? step.cards.find(c => c.id === menu.focus) ?? step.cards[0]!;
+  }
+  // A step as a picker's menu: its question, its four and the rest, each card by its emblem and name, its line under
+  // it while focused, its whole on asking; the focus on the card chosen already.
+  static menu(step: CreationStep): Menu {
+    const rows: Row[] = step.cards.map(c => {
+      const sign = c.emblem && Signs.emblem(c.emblem);
+      return { id: c.id, label: `${sign ? `${sign} ` : ''}${Typography.plain(c.name)}`,
+        ...c.line ? { note: Typography.plain(c.line) } : {}, ...c.group ? { group: Typography.plain(c.group) } : {},
+        ...c.shut ? { shut: `${c.shut}.` } : {}, about: c.text ? [Typography.plain(c.text)] : [] };
+    });
+    const chosen = step.chosen ?? step.cards.find(c => !c.shut)?.id;
+    return { title: Typography.plain(step.ask), rows: rows.slice(0, 4), rest: rows.slice(4),
+      ...chosen ? { focus: chosen } : {} };
+  }
+  static readonly left = 'The player left before setting out.';
   private async name(step: CreationStep): Promise<string> {
     const drawn = step.names?.[0] ?? step.chosen ?? '';
     this.say(`\n${Typography.plain(step.ask)}${drawn ? ` (Enter for ${drawn})` : ''}`);

@@ -190,7 +190,8 @@ Module players "The players on the green" {
   Rule lem_leaves when lemSent(lem) and at(lem, kiln) { Retract at(lem, kiln). }
 
   Objective players when knows(party, on_green) and stuck(gosse) and not gone(gosse) "Gosse's Company, players, are stuck at {town} until someone pays their reckoning.".
-  Objective players_west when knows(party, joined) "Be at the Painted Moon by the Westgate of Pentrice, over the march west, before the Trial of the Wheel.".
+  // Taken into the company, what is said of it is kept among what is known (joined): Pentrice and its Painted Moon lie in
+  // no country this module knows, so it is no aim to follow (an aim Follow this led nowhere by: M21's PL-14).
   // Once the reckoning is paid the word of them stuck is old: Fenwick at Elmham had still told of the wagon chained, hours
   // after (Mission 20's fourth round, E 79).
   Rule word_old when reckoned(gosse) and not stale(on_green) { Assert stale(on_green). }
