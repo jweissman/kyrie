@@ -90,12 +90,48 @@ horse, and can be asked along again.
   `mounted` state, travel time by the mount's pace, a carrying load, dismounting before a narrow way) and is noted for
   M22. It is not built here.
 
+## Familiar scouting (not expressible: a finding)
+
+**Findings:**
+- **A missing generic capability.** Perception and knowledge belong to the company as a whole: what it notices
+  (`noticed`), what is shown to it (`visibleTo`), and what it knows (`knows(party, …)`). No act sends a companion
+  somewhere apart: `lead`, `part_ways` and `send_off` only follow, release or dismiss. Nothing lets a creature apart
+  learn a fact and bring it back.
+- **The smallest failing example:** a mage with an owl at a gate, and a sentry in the next room unseen. There is no act
+  "send the owl into the next room", and no rule by which what the owl sees becomes `knows(party, sentry_there)`.
+- **What it wants, as a design note for M22:**
+  - a member or companion acting apart, with a place and a perception of its own;
+  - knowledge it gains, passed to the company by an act or on rejoining;
+  - the owner's view, not the familiar's, deciding what is told.
+
+  This is the same capability a scout, a split party or a messenger would use. No fixture is written, since no
+  journey can be.
+
+## The planar gate (partial: a finding)
+
+**Findings:**
+- **What exists:**
+  - the House of Doors, one per world, reached from the first country;
+  - each plane's laws as conditions on whoever is there (`plane_fire`, `plane_air`, … in the catalog);
+  - the canonical ids across lazy install (M18, OWN-31..38).
+- **What is missing** is the threshold as a thing with real prerequisites (a key, a rite, a season), interactions (it
+  can be opened, sealed, guarded or paid), traversal (who may pass, what crossing costs) and consequences (what follows
+  the company back). This is the deferred grand tour (register GT-01..03, M22). No pin is written here.
+
+## Against the owner's rubric (15 November)
+
+| Pin | Rubric | State |
+|---|---|---|
+| Fiery greatsword | equipment, damage composition, visible consequences | **passes** with the catalog's longsword of flames; Kyr cannot make a new magic weapon |
+| Ranger's mount | acquire, travel with, dismount, find again | **partly:** led along and found again; riding and dismounting do not exist |
+| Familiar scouting | perceive what the owner cannot, communicate a discovery | **missing:** no companion acts or perceives apart from the company |
+| Deep dwarven mine | descend, discover, return, revisit; lazy depth optional | **passes**; drawn depth is realized eagerly (AX-07) |
+| Planar gate | prerequisites, interactions, traversal, consequences | **partly:** the House of Doors and the planes' laws exist; the threshold as a thing does not (GT) |
+| Remembered favour | help, leave, return to a changed relationship or opportunity | **passes**, after content made gratitude and a shared rule made it count in trade (CO-16) |
+
 ## Next
 
 - **The remembered favour:** help someone, leave, and return to a changed relationship. It belongs in the
   laboratory; the playability line owns it.
 - **The adventure-density pin** is the laboratory's own question, judged by Gate 1's walks: opportunities reached
   through ordinary decisions, not counted.
-- **Familiar scouting and the planar gate:** after the mount, or as M22 notes. There is little for familiars; the
-  House of Doors and the planes' conditions exist, but a threshold's prerequisites and consequences are the deferred
-  grand tour.
