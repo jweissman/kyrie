@@ -62,7 +62,8 @@ export interface Site extends Naming { id: string; kind: string; name: string; h
   // Its old name, where the starting country calls it by its Common meaning (see OldPlaces): learned by reading it.
   old?: string;
   // The makers' work it is, if it is one (see Histories): by which plan and art.
-  work?: { plan: string; art: string; great?: boolean; deep?: boolean; imperial?: boolean } }
+  // A work's: its plan, its makers' art, and the name its makers gave it (`made`), which the folk wore down.
+  work?: { plan: string; art: string; made?: string; great?: boolean; deep?: boolean; imperial?: boolean } }
 export interface Region extends Naming {
   name: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };

@@ -244,6 +244,6 @@ Module lowwater "Low Water" {
   Relation plotsSealed(place).
   Observe accord_square at measures_square when verdictAccord(ammerlin) "Somebody has chalked on the Office's wall, under the words over the door, in a child's capitals: AND SUNG.".
   Observe accord_office at office_hall when verdictAccord(ammerlin) "On the counter, open, the newest ledger of the Office of Measures, and on its newest page, in Isaura Vant's hand, a right that has never been written before: THE RECKONER UNDER THE MERE. ONE CUPFUL NIGHTLY. BY THE SEVENTH REMAINDER.".
-  Objective give_finding when knows(party, commission) and not hearingDone(ammerlin) "Find why the Mere is falling, and give your Finding to the Council at the Hearing in the Moot Hall.".
+  Objective give_finding when knows(party, commission) and not hearingDone(ammerlin) toward moot_hall "Find why the Mere is falling, and give your Finding to the Council at the Hearing in the Moot Hall.".
   Objective break_ordered when verdictBreak(ammerlin) and not broken(reckoner) "The Council has ordered the Reckoner's governor broken, and left it to you.".
 }

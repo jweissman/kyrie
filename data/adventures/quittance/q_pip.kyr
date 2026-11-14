@@ -49,7 +49,7 @@ Module quittance "Quittance" {
 
   // ── The slate, and the stair ────────────────────────────────────────────────────────────────────────────
   Observe pt_slate at slip_room when day(clock) <= 3 and not pt_saved(party) and not pt_lost(party) "CLAIMS OPEN, in a child's capitals pasted over a corner of the Slate: WANTED. SOMEONE TO SIT WITH A FIRE. SALT LANE, TOP OF THE STAIR. PAYS NOTHING. ASK FOR PIP. Underneath, in the chalk boy's hand: 'Pays nothing' has been underlined twice, in admiration." teaches pt_claim.
-  Objective pt_tin_obj when knows(party, pt_claim) and not pt_saved(party) and not pt_lost(party) "A coal in a tin at the top of a Salt Lane stair is going out, and a child will not let anyone but a polite person near it. It has until the end of the third day.".
+  Objective pt_tin_obj when knows(party, pt_claim) and not pt_saved(party) and not pt_lost(party) toward pip_stair "A coal in a tin at the top of a Salt Lane stair is going out, and a child will not let anyone but a polite person near it. It has until the end of the third day.".
 
   Topic pip_tin with pt_pip "Say please, and ask Pip about the tin" when true once {
     Says "Pip considers the please, and finds it genuine. 'It's Gran's,' she says. 'It was her mam's. I'm to keep it. It has to be kept in a tin because the stair is draughty, and you have to talk to it, only not much, because it gets embarrassed.' She looks at the tin. 'It's gone a bit small.'".

@@ -148,8 +148,8 @@ Module quittance "Quittance" {
   Observe sd_study_scene at corbett_study when true "Across the plan-chest, under a pencil, one sheet has been measured twice and has one line left blank." teaches sd_unwritten.
   Observe sd_met at corbett_study when at(ianthe, corbett_study) "Ianthe Corbett has hung her coat on its hook and is sitting where the plans are." teaches d_ianthe_met.
   Observe sd_flue_look at dyers_alley when true "Along the front of 4 Dyers' Alley, at the height of a man's chest, someone has pencilled a line beside a crack in the party wall, and dated it, and dated it again." teaches sd_flue_seen.
-  Objective sd_obj when knows(party, sd_claim) and not sd_decided() and not sd_gone(party) "The Pargeters' flue in Dyers' Alley is overdue for a verdict: and the surveyor has not written it. The Guild's list closes at noon on the fifth day.".
-  Objective sd_obj_tobias when knows(party, sd_unwritten) and not sd_beat3(party) and not sd_decided() "Ianthe Corbett and Tobias Pargeter have never said a word aloud to each other. Contrive it.".
+  Objective sd_obj when knows(party, sd_claim) and not sd_decided() and not sd_gone(party) toward pargeter_front "The Pargeters' flue in Dyers' Alley is overdue for a verdict: and the surveyor has not written it. The Guild's list closes at noon on the fifth day.".
+  Objective sd_obj_tobias when knows(party, sd_unwritten) and not sd_beat3(party) and not sd_decided() toward corbett_study "Ianthe Corbett and Tobias Pargeter have never said a word aloud to each other. Contrive it.".
 
   // ── What people say ──────────────────────────────────────────────────────────────────────────────────────
   Topic sd_c_tinn with sd_clerk "Ask Mr Tinniswood about the Pargeters' survey" when knows(party, sd_claim) or knows(party, sd_unwritten) once {

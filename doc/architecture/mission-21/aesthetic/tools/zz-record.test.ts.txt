@@ -1,0 +1,63 @@
+/// <reference lib="dom" />
+// The first minute, recorded unedited from the deployed page (IG-01): the studio's mark, the title, creation, the
+// opening, the first scene and its first few acts, as a player at a keyboard and a mouse meets them, at a laptop's
+// 1280 by 800. Copied to test/zz-record-browser.test.ts to run; the video goes to RECORD_OUT (a .webm). Opt in with
+// KYRIE_BROWSER=1. The address asks for the studio's mark and the opening (?ident&opening) because the page spares
+// automation both, which a player sees.
+import { describe, it } from 'bun:test';
+import { MonoBrowser } from './support/mono-browser';
+
+const url = process.env.RECORD_URL ?? 'https://jweissman.github.io/kyrie/';
+const out = process.env.RECORD_OUT ?? '/var/tmp/kyrie/first-minute';
+describe.skipIf(!process.env.KYRIE_BROWSER)('the first minute', () => {
+  it('is recorded', async () => {
+    const browser = await MonoBrowser.launch();
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 },
+      recordVideo: { dir: out, size: { width: 1280, height: 800 } } });
+    const page = await context.newPage(), pause = (ms: number) => page.waitForTimeout(ms);
+    const log: string[] = [], t0 = Date.now();
+    // Each moment noted, with a still of it beside the video (for reading the minute without a player for the video).
+    let shots = 0;
+    const note = async (s: string) => {
+      log.push(`${((Date.now() - t0) / 1000).toFixed(1)}s ${s}`);
+      await page.screenshot({ path: `${out}/${String(++shots).padStart(2, '0')}-${s.replace(/\W+/g, '-').slice(0, 40)}.png` });
+    };
+    await page.goto(`${url}?ident&opening`);
+    await note('page');
+    // The studio's mark and the title, left to play.
+    await page.waitForSelector('.beat-ready', { timeout: 30000 }); await note('title ready');
+    await pause(1500);
+    // The keys over the ways in, as a player tries them, then New game.
+    await page.keyboard.press('ArrowDown'); await pause(900);
+    await page.keyboard.press('ArrowDown'); await pause(900);
+    await page.hover('[data-action="begin"]'); await pause(1200);
+    await page.click('[data-action="begin"]'); await note('new game');
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); await note('creation');
+    // Creation: a card or two touched on each page, read a moment, Continue.
+    for (let step = 0; step < 8 && await page.locator('[data-action="next"]').count(); step++) {
+      await pause(1400);
+      const cards = page.locator('.creation .card:not([disabled])');
+      const n = await cards.count();
+      if (n > 1) { await cards.nth(Math.min(1, n - 1)).click(); await note(`card on ${await page.getAttribute('.creation-body', 'data-page')}`); await pause(1200); }
+      await page.click('[data-action="next"]');
+    }
+    await pause(1500);
+    await page.click('[data-action="start"]'); await note('set out');
+    // The opening: its beats read and turned by Enter; the meeting answered by its first answer; on into the place.
+    await page.waitForSelector('[data-mode="prologue"], [data-mode="explore"]', { timeout: 120000 });
+    for (let beat = 0; beat < 8 && await page.locator('[data-mode="prologue"]').count(); beat++) {
+      await pause(3000);
+      if (await page.locator('[data-action="answer"]').count()) {
+        await page.keyboard.press('1'); await note('answered the meeting'); await pause(4000);
+      } else { await note(`beat ${beat}`); await page.keyboard.press('Enter'); }
+    }
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 }); await note('first scene');
+    await pause(4000);
+    // The first acts: the first of the four, then the Look lens, then the first of its rows.
+    for (const pick of ['ol.led li:first-child [data-act]', '.rail-mark.opens-look', '.glance .lens [data-act] >> nth=0']) {
+      if (await page.locator(pick).count()) { await page.click(pick); await note(`chose ${pick}`); await pause(4500); }
+    }
+    console.log(log.join('\n'));
+    await context.close(); await browser.close();
+  }, 300000);
+});

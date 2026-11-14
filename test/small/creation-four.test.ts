@@ -8,21 +8,30 @@ import { EngineHost } from '../../web/engine/engine-host';
 import type { Asking } from '../../src/cli/terminal-input';
 
 // Creation leads with four, as every surface does (the owner, 14 November: TB-02): a step of more than four cards puts
-// first the one chosen, then the peoples of this country, or the kinds of life that best suit the calling; the
-// terminal shows those four and keeps the rest under `more`. A step of four or fewer keeps its own order.
+// first the peoples of this country, or the kinds of life that best suit the calling; the terminal shows those four
+// and keeps the rest under `more`. A step of four or fewer keeps its own order. Never by what is chosen: the chosen
+// card had leapt to the front and the deck reshuffled under the player's hand (the owner, 14 November).
 const names = { dwarf: { she: ['Disa'], he: ['Dain'], they: ['Dvalin'] }, human: { she: ['Wenna'], he: ['Odo'],
   they: ['Wren'] } };
 const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
   origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
   party: [Creation.protagonist('human', 'four', names)] };
 describe('creation', () => {
-  it('leads each step of many cards with four: the chosen, this country\'s peoples, the best suited', () => {
+  it('leads each step of many cards with four: this country\'s peoples, the best suited', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
     const step = (id: string) => flow.steps().find(s => s.id === id)!;
     expect(step('you').cards.slice(0, 2).map(c => c.id)).toEqual(['human', 'dwarf']);
     flow.choose('calling', 'warrior');
     expect(step('before').cards[0]!.id).toBe('arms');
     expect(step('presenting').cards.map(c => c.id)).toEqual(['she', 'he', 'they']);
+  });
+  it('keeps a step\'s order whatever is chosen in it', () => {
+    const flow = new CreationFlow(setting, Creation.catalog());
+    const order = (id: string) => flow.steps().find(s => s.id === id)!.cards.map(c => c.id);
+    const [you, sign] = [order('you'), order('sign')];
+    flow.choose('you', you.at(-1)!);
+    flow.choose('sign', sign.at(-1)!);
+    expect([order('you'), order('sign')]).toEqual([you, sign]);
   });
   it('is shown four at a time in the terminal, the rest under more', async () => {
     const said: string[] = [], input = { ask: async () => '', close: () => undefined } as Asking;
@@ -47,6 +56,7 @@ describe('creation', () => {
     const from = months.indexOf(drawn);
     expect(sign().cards.slice(0, 4).map(c => c.id)).toEqual([0, 1, 2, 3].map(i => months[(from + i) % 12]!));
     flow.choose('sign', 'sign_wolf');
-    expect([flow.member.sign, sign().cards[0]!.id]).toEqual(['sign_wolf', 'sign_wolf']);
+    // Chosen, it is the life's sign, and the deck stays where it was.
+    expect([flow.member.sign, sign().cards[0]!.id]).toEqual(['sign_wolf', drawn]);
   });
 });

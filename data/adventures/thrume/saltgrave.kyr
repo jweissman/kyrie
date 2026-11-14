@@ -203,5 +203,5 @@ Module thrume "Thrume" {
   }
 
   Objective find_col when knows(party, col_gone) and not freed(col) "Hesper Dunmore's son Col did not come home from the Red Lantern.".
-  Objective lay_thane when knows(party, bounty_known) and not knows(party, thrume_known) "The Margravine will pay a lordship for Thane Mórrach's head.".
+  Objective lay_thane when knows(party, bounty_known) and not knows(party, thrume_known) toward morrach "The Margravine will pay a lordship for Thane Mórrach's head.".
 }

@@ -30,14 +30,15 @@ class Stage {
         scrolls: doc.scrollHeight > innerHeight || doc.scrollWidth > innerWidth };
     });
   }
-  // Where the gold mark stands about the way it is on, beside where that way's name is.
-  static indicator(page: Page) {
-    return page.evaluate(() => {
-      const mark = document.querySelector('.title-menu .indicator')!.getBoundingClientRect();
-      const name = document.querySelector('.way-in[aria-current="true"] .n')!.getBoundingClientRect();
-      return { before: Math.round(name.left - mark.left), after: Math.round(mark.right - name.right),
-        middle: Math.abs(Math.round(mark.top - (name.top + name.height / 2))) };
-    });
+  // The ways in as drawn: each one's box, which is marked (aria-current), and whether its own mark is gold.
+  // settled: once the letters' face has come and the title has stood still a moment.
+  static async ways(page: Page, settled = false) {
+    if (settled) { await page.evaluate(() => document.fonts.ready.then(() => new Promise(r => setTimeout(r, 400)))); }
+    return page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.title-menu .way-in')].map(w => {
+      const r = w.getBoundingClientRect(), mark = getComputedStyle(w.querySelector('.row-mark')!).backgroundColor;
+      return { way: w.dataset.way, box: [r.x, r.y, r.width, r.height].map(Math.round).join(','),
+        marked: w.getAttribute('aria-current') === 'true', gold: /242, 189, 76/.test(mark) };
+    }));
   }
   // Where the opening has got to, and where Begin's middle is (laid out though not yet shown).
   static begin(page: Page) {
@@ -75,15 +76,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(await page.locator('[data-action="begin"]').isVisible()).toBe(true);
     const named = [await page.getAttribute('.mark', 'aria-label'), await page.title()];
     expect(named).toEqual([Identity.spoken(), Identity.spoken()]);
-    // The gold mark goes to the way pointed at.
-    const at = () => page.locator('.title-menu .indicator').evaluate(e => getComputedStyle(e).transform);
-    const before = await at();
+    // The way pointed at is marked at once by its own gold mark, no way moving or changing size to show it (TO-01: no
+    // moving double box, no jumping indicators, no shifting geometry); the sky behind answers it (data-focus).
+    const before = await Stage.ways(page, true);
     await page.hover('[data-action="options"]');
-    await page.waitForTimeout(400);
-    expect(await at()).not.toBe(before);
-    // It closes about that way's name, a little before and after it, at the name's middle (to a pixel's rounding).
-    const mark = await Stage.indicator(page);
-    expect([mark.before - 22, mark.after - 22, mark.middle].map(d => Math.abs(d) <= 1)).toEqual([true, true, true]);
+    const after = await Stage.ways(page);
+    expect(after.filter(w => w.marked).map(w => [w.way, w.gold])).toEqual([['options', true]]);
+    expect(after.filter(w => !w.marked).every(w => !w.gold)).toBe(true);
+    expect(after.map(w => w.box)).toEqual(before.map(w => w.box));
+    expect(await page.getAttribute('.title-page', 'data-focus')).toBe('options');
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

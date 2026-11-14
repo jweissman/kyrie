@@ -146,7 +146,7 @@
 .prologue-page .first-aim .kicker { display: block; margin: 0 0 6px; }
 /* A page with nothing to decide goes on by itself once read (CN-09): a hairline under it fills over the reading time,
    in the page's ink, still where motion is unwanted. */
-.prologue-page .reading { display: block; width: min(320px, 60%); height: 1px; margin: 18px 0 0; background: rgba(236, 230, 217, .14);
+.prologue-page .reading { display: block; width: min(320px, 60%); height: 1px; margin: 18px auto 0; background: rgba(236, 230, 217, .14);
   position: relative; overflow: hidden; }
 .prologue-page .reading::after { content: ''; position: absolute; inset: 0; background: rgba(236, 230, 217, .55);
   transform-origin: left center; animation: hold-fill var(--read-ms, 6s) linear forwards; }

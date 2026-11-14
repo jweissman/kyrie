@@ -23,8 +23,8 @@ Module quittance "Quittance" {
   Rule qu_line_opens when queueOpen(party) and state(qu_line, closed) { Assert state(qu_line, open). }
 
   Observe qu_slate at slip_room when day(clock) <= 6 and not queueOpen(party) "CLAIMS OPEN: Exchange cellars. Persons unknown, in some numbers, standing. A clerk wanted who is not afraid of being thanked. The Exchange regrets that it has no record." teaches qu_claim.
-  Objective qu_obj when knows(party, qu_claim) and not queueOpen(party) "The dead of the Burning are queueing in the Exchange cellars. Nobody goes down past them without answering them.".
-  Objective an_obj when knows(party, an_claim) and an_status(party) < 2 "The Sovereign means to stop Mrs Oakes's annuity on Monday at noon, and seven people in the almshouse live on it.".
+  Objective qu_obj when knows(party, qu_claim) and not queueOpen(party) toward queue_hall "The dead of the Burning are queueing in the Exchange cellars. Nobody goes down past them without answering them.".
+  Objective an_obj when knows(party, an_claim) and an_status(party) < 2 toward oakes_room "The Sovereign means to stop Mrs Oakes's annuity on Monday at noon, and seven people in the almshouse live on it.".
   Observe qu_arcade_note at cellar_arcade when not queueOpen(party) "Past the pillars the arch to the Queue's hall is open, and from it comes a sound you take for the draught, and which turns out, when you stop, to be several hundred people not coughing.".
   Observe qu_pushed_scene at queue_hall when qu_pushed(party) "The Queue has closed up behind you into a silence like a held breath. They are not hurt. They are offended, which is a great deal quieter.".
   Observe qu_released_scene at queue_hall when qu_released(party) "The hall is empty to the walls, and swept, as a church is after a funeral. The scraps of paper lie in a neat pile by the clerk's desk, tied, and a smell of candle-smoke goes slowly out through the arch.".

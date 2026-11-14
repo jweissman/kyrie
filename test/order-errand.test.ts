@@ -50,6 +50,11 @@ describe('the brothers\' errand', () => {
     await GeneratedWorld.travel(s, `${work.replace(/^region__/, '')}_undercroft`);
     await Errand.act(s, /^Light a torch/);
     await Errand.act(s, /^Read the tablets/);
+    // Read, it is to be copied there, by the company's own hand (the cold playtest's CO-01): then it is set down.
+    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toMatch(/You know now what the old writing at .+ should say/);
+    // The torch lit for the reading may have burned down: the light again, where it is wanted, then the copying.
+    if (PlayerView.choices(s.campaign).some(x => /^Light a/.test(x.choice.name))) { await Errand.act(s, /^Light a/); }
+    await Errand.act(s, /^Copy the old writing into your book/);
     expect(ScreenModel.build(s.campaign).objectives.join(' ')).toMatch(/You have read and set down the old writing at .+ should see it\./);
     GeneratedWorld.put(s, shrine.replace(/^region__/, ''));
     const before = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));

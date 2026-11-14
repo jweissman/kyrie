@@ -43,6 +43,10 @@ what, read [verification.md](verification.md); for what is open, read [the regis
    - **The page** (`web/reader`) draws it on the stage (`web/reader/stage`). `MenuModel` (`web/reader/menu-model.ts`)
      builds its choices from `ChoiceList` (`src/ui/choice-list.ts`).
    - **The terminal** (`src/cli/terminal*.ts`) draws it as lines.
+   - **The runner** (`bin/kyrie run`, `src/cli/runner.ts`) says it as JSON lines for agents playing blind: the
+     glance's offer (`Offers`, `src/presentation/offer.ts`: four primary, the rest), each choice by the real id that
+     does it (an opener by what it is led for). `RunnerWalk` (`src/cli/runner-walk.ts`) walks it by a policy and
+     measures the walk; `scripts/terminal-matrix.ts` writes the matrix of walks across builds.
    - Both take their presentation decisions from one place:
      - colour by aspect from `Emphasis` (`src/presentation/emphasis.ts`), the design atlas: gold the followed aim,
        silver worth exploring, green gain, blue knowledge, red danger, violet the uncanny, rose a companion;

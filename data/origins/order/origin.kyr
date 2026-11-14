@@ -6,14 +6,28 @@ Module origin "The brothers' errand" {
   Entity fate: fact "How they ended".
   Entity found: fact "The way there".
   Relation delivered(group). Relation copied(group).
+  // Read with the company's own eyes and set down in its own hand: what the old writing says may be told anywhere (a
+  // scholar hired at the inn, asked about the old script, had told it, and the errand was seen through without leaving
+  // town: the cold playtest, 14 November, CO-01). Told, it is a clue to what is cut there; read where it is cut
+  // (readIn or learnedFrom the writing itself, not toldBy anyone), it can be copied for the brothers.
+  Relation setDown(group).
+  Action set_down(actor: group, site: place) "Copy the old writing into your book, stroke by stroke" {
+    Description "An hour with the stone and a stub of charcoal, setting down what is cut there for the brothers.".
+    Requires able(actor) and company(actor) and at(actor, site) and not benighted(actor)
+      and (readIn(actor, history) or readIn(actor, fate) or learnedFrom(actor, ?s, history) or learnedFrom(actor, ?s, fate))
+      and not setDown(actor).
+    Time 6.
+    On success { Assert setDown(actor). }
+    Result "You set it down as it is cut, stroke by stroke, the worn places marked as worn. It is the brothers' now, as well as the stone's.".
+  }
   // The bed the priest gives, once the letter is read: lodging for nothing, for as long as the errand lasts.
   Entity bed: service "the bed in the back". Initially Assert serviceOf(bed, lodging). Initially Set fee(bed) to 0.
   Initially Assert expects(priest, party). Initially Assert knows(party, named).
-  Observe letter at shrine as feature when expects(priest, party) "You have the letter inside your coat: from the brothers of your order, over the hills, to the priest of {cult} at {homename}, asking that {protagonist}, who reads the old script, be given a bed and shown the way to {work}. There is writing there that the order has heard of for a hundred years and never seen copied.".
+  Observe letter at shrine as feature when expects(priest, party) "You have the letter inside your coat, from the brothers of your order to the priest of {cult} at {homename}. It asks that {protagonist}, who reads the old script, be given a bed and shown the way to {work}. There is writing there that the order has heard of for a hundred years and never seen copied.".
   // Come in off the road, the town named: the opening had told the letter and never where (its critique).
   Observe arrival at shrine as feature when watch(clock) < 1 "{homename} is smaller than the brothers made it sound, after so many days on the road. The first person you ask points the way to the priest of {cult}, and you go in.".
   Topic give_letter with priest "Give {priest} the brothers' letter" when expects(priest, actor) once {
-    Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}, and I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight, and take the shrine's rope: the old places were not built to be walked into.'".
+    Says "{priest} reads it by the door, where the light is, and then reads it again. 'Brother Anselm's hand,' {priest} says. 'I did not know he was still living.' A pause. 'There is a bed in the back, such as it is. As for {work}: it is out in {where}. I will tell you the way, since he asks it. People go out there and come back with their sheep missing. Go in daylight, and take the shrine's rope: the old places were not built to be walked into.'".
     On discuss { Retract expects(priest, actor). Assert delivered(actor). Assert knows(actor, found). Assert offers(priest, bed).
       Assert knows(actor, rope_handed). Give shrine_rope to actor. }
   }
@@ -23,7 +37,7 @@ Module origin "The brothers' errand" {
   // way told seem borne out.
   Entity rope_handed: fact "".
   Item shrine_rope "the shrine's coil of rope" is rope at shrine hidden until rope_handed.
-  Topic show_copies with priest "Show {priest} what you copied at {work}" when (knows(actor, history) or knows(actor, fate)) and delivered(actor) and not copied(actor) once {
+  Topic show_copies with priest "Show {priest} what you copied at {work}" when setDown(actor) and delivered(actor) and not copied(actor) once {
     Says "{priest} turns the pages slowly, and is a long time saying anything. 'So that is who they were,' {priest} says at last. 'The brothers will want this.' Coin is pressed into your hand for the road: the order pays its debts, even through other people's purses.".
     On discuss { Assert copied(actor). Increase quantity(actor, gold) by 40. }
   }
@@ -33,7 +47,9 @@ Module origin "The brothers' errand" {
   // What "copied" asks, said: the old writing read, who made the place or how its makers ended (round 8, N: the
   // inscription read at the king's door, and no way to tell what copying the writing would take).
   Objective errand_letter when expects(priest, party) and not copied(party) toward priest "The brothers want the old writing at {delving} read and set down: who made the place, or how its makers ended. Their letter is for {priest}, who will show you the way.".
-  Objective errand when not expects(priest, party) and not copied(party) and not knows(party, history) and not knows(party, fate) toward delving "The brothers want the old writing at {delving} read and set down: find what is written there of who made the place, or how its makers ended, and read it.".
-  Objective errand_home when not copied(party) and (knows(party, history) or knows(party, fate)) toward priest "You have read and set down the old writing at {delving}. {priest} at {homename} should see it.".
+  Objective errand when not expects(priest, party) and not copied(party) and not knows(party, history) and not knows(party, fate) toward delving "The brothers want the old writing at {delving} read and set down. Find what is written there of who made the place, or how its makers ended.".
+  // Known, and not yet set down there: a clue to what is cut at the place, which is still to be gone to.
+  Objective errand_known when not expects(priest, party) and not copied(party) and not setDown(party) and (knows(party, history) or knows(party, fate)) toward delving "You know now what the old writing at {delving} should say. The brothers asked for it copied where it is cut: go there, and set it down.".
+  Objective errand_home when not copied(party) and setDown(party) toward priest "You have read and set down the old writing at {delving}. {priest} at {homename} should see it.".
   Goal copied(party).
 }

@@ -21,6 +21,7 @@ import { OrsinoRegistryTool } from './orsino-registry';
 import { BestiaryTool } from './bestiary-tool';
 import { Playtext } from './playtext';
 import { PlayTool } from './play-tool';
+import { Runner } from './runner';
 import { InspectTool } from './inspect-tool';
 import { Traces } from './traces';
 import { VerifyTool } from './verify-tool';
@@ -42,6 +43,7 @@ export class KyrieCli {
     'Play:      bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume [save.json]',
     '           (a picker on a terminal, plain lines through a pipe; --interactive or --headless to say which;',
     '            save keeps the game in one slot, resume takes it up; --save-as asks for a path instead)',
+    '           bin/kyrie run --world <seed> [--origin o] [--as race/calling/Name] [--transcript out.jsonl] (JSON lines)',
     '           bin/kyrie serve                    (one game over stdin/stdout, a JSON line each way: see src/cli/serve.ts)',
     '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
@@ -89,6 +91,7 @@ export class KyrieCli {
       case 'transcripts': return TranscriptsTool.main(rest);
       case 'prose': return ProseTool.main(rest);
       case 'adventure': return this.adventure(rest);
+      case 'run': return Runner.main(rest);
       case 'campaign': await Terminal.playCampaign(await Campaign.load(path, TerminalMode.rest(rest)[1] ?? 'campaign',
         NodeBundleSource.shared), TerminalMode.input(rest)); return 0;
       case 'replay': return this.replay(path);

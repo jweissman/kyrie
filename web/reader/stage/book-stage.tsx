@@ -49,7 +49,7 @@ export class BookStage {
         {ending.lines.map((l, i) => <p key={i} className={i === 0 ? 'how' : undefined}>{Typography.curl(l)}</p>)}
         <ul className="acts">
           {frame.ending?.memorial && <li><button type="button" className="act" data-action="again"
-            onClick={app.opening.again}>Begin again in this country</button></li>}
+            onClick={app.opening.again}>Begin again in this country, from its first day</button></li>}
           <li><button type="button" className="act" data-action="new" onClick={app.opening.title}>Back to the title</button></li>
         </ul>
       </div>

@@ -46,7 +46,10 @@ export class Obituary {
       // How many against how many, as it was: not "one against one" for one against two (the cold playtest).
       `${rounds > 1 ? `It lasted ${rounds} rounds` : 'It was over in a round'}; ${this.count(Math.max(1, foes.size))
       } against ${this.count(party.size)}.`,
-      'The country goes on without you. What you did there is in the story so far.',
+      // What is true of beginning again: the same country from its first day, remembering the dead; "the country goes
+      // on without you" had been said over a game that, begun again, rehung the padlock on day 1 (CO-06).
+      'What you did there is in the story so far. Begun again, the country is as it was on its first day, and remembers'
+        + ' you.',
     ].filter(Boolean), memorial: { name: who, place: where,
       how: killer ? `${this.upper(killer)} killed ${who}.` : 'Nobody saw how.' } };
   }

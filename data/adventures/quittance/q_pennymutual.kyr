@@ -56,8 +56,8 @@ Module quittance "Quittance" {
   Rule pm_neglect when pm_dying(wardsfolk) <= 4 and not pm_fund_home(party) and not pm_neglected(party) { Assert pm_neglected(party). }
 
   Observe pm_slate at slip_room when day(clock) <= 4 and not pm_resolved(party) "CLAIMS OPEN: the Penny Mutual of Salt Lane asks an adjuster to find the whereabouts of its treasurer. Reward: the Mutual's gratitude, which is to say its pie. Underneath, in the chalk boy's hand: 'Nine.'" teaches pm_claim.
-  Objective pm_find_obj when knows(party, pm_claim) and not pm_fund_home(party) "The Penny Mutual of Salt Lane has lost its fund to a treasurer it has voted to forgive. Nine members are on the NEXT board, and no one will be buried or physicked until the fund is home.".
-  Objective pm_warn_obj when knows(party, d_candlewick_next) and not pm_court_warned(party) "Candlewick Court is stamped for the second night. Someone in the Wards must believe the warning before then.".
+  Objective pm_find_obj when knows(party, pm_claim) and not pm_fund_home(party) toward penny_hall "The Penny Mutual of Salt Lane has lost its fund to a treasurer it has voted to forgive. Nine members are on the NEXT board, and no one will be buried or physicked until the fund is home.".
+  Objective pm_warn_obj when knows(party, d_candlewick_next) and not pm_court_warned(party) toward candlewick "Candlewick Court is stamped for the second night. Someone in the Wards must believe the warning before then.".
 
   Topic trendle_club with pm_trendle "Ask Mrs Trendle what the Penny Mutual is" when true once {
     Says "'A penny a week, a farthing for the children,' says Keturah Trendle, 'and when one of us dies the club buries them decent, with a coffin, a cloth, a pie for the wake and a priest who has been paid, and when one of us is ill it pays the physic-man. In the rest of the city you can be insured against your house burning. Here you can be insured against being thrown in a pit.' She sniffs. 'It is the same thing, but nobody has put a bird on it.'".

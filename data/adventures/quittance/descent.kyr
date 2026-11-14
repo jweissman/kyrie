@@ -20,9 +20,9 @@ Module quittance "Quittance" {
   // ── The Slate ───────────────────────────────────────────────────────────────────────────────────────────
   Discovery ds_claim "The Slate carries an old claim, in no one's hand and with no date, on the cellars of the Old Exchange: an account unpaid, claimant 'the occupier'.".
   Observe ds_slate_claim at slip_room when true "At the bottom of CLAIMS OPEN, below a rust-coloured stain that has been wiped many times, a line has been chalked so long that the chalk has become part of the slate: EXCHANGE CELLARS. AN ACCOUNT, UNPAID. CLAIMANT: THE OCCUPIER. REWARD: TO BE AGREED." teaches ds_claim.
-  Objective ds_obj_claim when knows(party, ds_claim) and not knows(party, d_fire_is_real) "The Slate has an undated claim on the Exchange cellars, filed by 'the occupier'. The cellar door is in the Exchange court.".
-  Objective ds_obj_speak when knows(party, d_fire_is_real) and not fireHeard(party) "Something under the Exchange has been waiting ninety-four years to be paid. The Glass City lies below the Queue, and the Hearth Below at the end of it.".
-  Objective ds_obj_terms when fireHeard(party) and not fireTerms(party) and not fireWrathful(party) and not fireSlain(party) "The Fire has been spoken to. What it counts as payment, and what it would take instead of the Burning, remains to be learned.".
+  Objective ds_obj_claim when knows(party, ds_claim) and not knows(party, d_fire_is_real) toward exchange_court "The Slate has an undated claim on the Exchange cellars, filed by 'the occupier'. The cellar door is in the Exchange court.".
+  Objective ds_obj_speak when knows(party, d_fire_is_real) and not fireHeard(party) toward hearth_below "Something under the Exchange has been waiting ninety-four years to be paid. The Glass City lies below the Queue, and the Hearth Below at the end of it.".
+  Objective ds_obj_terms when fireHeard(party) and not fireTerms(party) and not fireWrathful(party) and not fireSlain(party) toward hearth_below "The Fire has been spoken to. What it counts as payment, and what it would take instead of the Burning, remains to be learned.".
 
   // ══ THE FIRST WAY DOWN: the Exchange cellar stair ═══════════════════════════════════════════════════════
   Hazard ds_splinter "the bar of the cellar door, coming apart" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".

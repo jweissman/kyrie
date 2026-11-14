@@ -14,11 +14,11 @@ Module calamy "A Parliament of Books" {
     says "There is somewhere the books go, and somewhere their Parliament sits; and there are people in Calamy who have been there and come back." teaches commonplace_known { }
 
   // What the company is trying to do, as it comes to know it.
-  Objective why_speak when knows(party, almanack_one) and not knows(party, sewing_is_sleep) "Find out why Calamy's books have begun to speak.".
-  Objective what_sewing when knows(party, sewing_is_sleep) and not knows(party, kindling_is_rite) "Find out what the Sewing is, who made it, and what was promised for it.".
-  Objective go_there when knows(party, kindling_is_rite) and not inCommonplace(party) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Before the Kindling, find a way to where the books go, and be heard by their Parliament.".
-  Objective be_heard when inCommonplace(party) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Find the members of the Parliament of the Bound where they live, learn where each stands, and bring what will move them.".
-  Objective kindling_home when colophonSealed(chamber) and not kindlingDone(ashpit) "Be at the Ashpit on Kindling night, when the city burns the old year.".
+  Objective why_speak when knows(party, almanack_one) and not knows(party, sewing_is_sleep) toward almanack "Find out why Calamy's books have begun to speak.".
+  Objective what_sewing when knows(party, sewing_is_sleep) and not knows(party, kindling_is_rite) toward runner "Find out what the Sewing is, who made it, and what was promised for it.".
+  Objective go_there when knows(party, kindling_is_rite) and not inCommonplace(party) and not colophonSealed(chamber) and not kindlingDone(ashpit) toward chained_room "Before the Kindling, find a way to where the books go, and be heard by their Parliament.".
+  Objective be_heard when inCommonplace(party) and not colophonSealed(chamber) and not kindlingDone(ashpit) toward chamber "Find the members of the Parliament of the Bound where they live, learn where each stands, and bring what will move them.".
+  Objective kindling_home when colophonSealed(chamber) and not kindlingDone(ashpit) toward ashpit "Be at the Ashpit on Kindling night, when the city burns the old year.".
   Objective find_library when knows(party, library_vanished) and not knows(party, collection_emigrated) and not corvellTold(corvell) "Find out how Sir Gideon Corvell's library left a locked room.".
   Objective plead_pask when advocate(party, pask) and not paskHeard(court) "Plead the Treatise's cause at the Court of Pleas, at ten on the fourth day.".
   Objective cure_ague when knows(party, orme_remedy) and not cured(nance) "Find Mother Orme's cut chapter on the marsh ague, and calamus dug at low water, for Goody Nance.".

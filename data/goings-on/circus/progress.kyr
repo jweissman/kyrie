@@ -51,7 +51,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Entity revels_wants: fact "For the Revels the Steward will want the King's Rest fit (the Hall roofed, the dens fit for beasts, the Warm-House standing), what of the Inventory a company can show, a masque with Virtues in it, and the Household's seal, which Tobias lost on the hill.".
   Entity seal_lost_known: fact "Tobias Quarrendon lost the Household's seal-ring up at the King's Rest.".
-  Objective revels when knows(party, letter_known) and not revelsDone(wapshotts) "Help Wapshott's win the office of the Revels at the King's Rest, on the twelfth night after the letter: the Rest made fit, the Inventory shown, a masque, and the Household's seal found.".
+  Objective revels when knows(party, letter_known) and not revelsDone(wapshotts) toward rest_gate "Help Wapshott's win the office of the Revels at the King's Rest, on the twelfth night after the letter: the Rest made fit, the Inventory shown, a masque, and the Household's seal found.".
   Objective seal when knows(party, seal_lost_known) and sealLost(tobias) and not revelsDone(wapshotts) "Find the Household's seal-ring, which Tobias lost up at the King's Rest.".
 
   // The last stand of the Revels round is up the hill, in the Long Court, instead of on the second town's field.

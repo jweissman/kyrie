@@ -4,7 +4,8 @@ import { CampaignLint } from '../../src/cli/campaign-lint';
 
 // An aim Follow this can lead nowhere by is an author's to mend: one about a fact the company knows, with no `toward`,
 // names nowhere and no one the page could lead to (The Lull's first aim, its inn and stone in words alone: M21's
-// playability list, PL-14). The lint advises it; given a place, or someone who stands in one, it is quiet.
+// playability list, PL-14). The lint warns of it (failing recommended content); given a place, or someone who
+// stands in one, it is quiet.
 const village = `
   Place vale "the vale" is settlement.
   Place green "the green" is room within vale at 0, 0 outdoors.

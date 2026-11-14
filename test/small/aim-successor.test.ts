@@ -49,6 +49,24 @@ const lead = `
     Change clean "Clear the well" from foul to clean. }
   Objective well when state(well, foul) "The well in {yard} is foul.".
   Goal false.`;
+// None held and nothing known to lead anywhere, but someone here who would tell of somewhere: the asking is offered
+// (round 12's T24-18: after the town's jobs, nothing pulled).
+const telling = `
+  Place yard "the yard" is room at 0, 0 outdoors.
+  Place tower "the lone tower" is room at 3, 0 outdoors.
+  Passage track "the long track" is path between yard and tower.
+  Company party "You" of 1 at yard.
+  Person keeper "Eamon" at yard { Role "who keeps the inn". Ancestry human. Peaceable. Pronouns he. }
+  Entity green_light: fact "A green light burns at night in the lone tower.".
+  Initially Assert established(green_light). Initially Assert leadsTo(green_light, tower).
+  Topic country with keeper "Ask Eamon what is out in the country round" when true once {
+    Says "'There's a tower with a green light in it,' says Eamon.".
+    On discuss { Assert knows(actor, green_light). }
+  }
+  Thing well "the well" at yard { State foul "The well is foul.". State clean "The well is clean.".
+    Change clean "Clear the well" from foul to clean. }
+  Objective well when state(well, foul) "The well in {yard} is foul.".
+  Goal false.`;
 
 describe('what pulls after an aim', () => {
   it('offers the deed\'s own consequence: the yoke to take, then to be hung at Hythe, never followed', async () => {
@@ -85,5 +103,13 @@ describe('what pulls after an aim', () => {
     t.follow('bell');
     await t.perform('change_thing(t__well_clean)');
     expect(t.glance.next).toBeUndefined();
+  });
+  it('offers the asking that would tell of somewhere, where nothing known leads anywhere yet', async () => {
+    const t = await Tiny.start(telling);
+    t.follow('well');
+    await t.perform('change_thing(t__well_clean)');
+    expect(t.glance.next).toMatchObject({ kind: 'lead', text: 'Ask Eamon what is out in the country round',
+      command: 't__country' });
+    expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
   });
 });

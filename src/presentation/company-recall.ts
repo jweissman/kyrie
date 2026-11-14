@@ -119,12 +119,14 @@ export class CompanyRecall {
   }
   // Whether a command as the page offers it is one done: the same, or the same act with the page's arguments among the
   // engine's, in order (the page leaves out those its label does not show, the company first): "work_keep(innkeeper)"
-  // is "work_keep(party,innkeeper)". Without it nothing offered in that form had ever counted as done.
+  // is "work_keep(party,innkeeper)". Without it nothing offered in that form had ever counted as done. So with a
+  // question offered by its name alone ("h__father", done as "h__father(party,h__kitchen)"): asked and answered, "Ask
+  // Wat about Father" had been what Wat was led for still (the household's kitchen, 15 November: TB-04).
   static same(offered: string, done: string): boolean {
     if (offered === done) { return true; }
-    const [a, b] = [offered, done].map(c => /^([^(]+)\((.*)\)$/.exec(c));
+    const [a, b] = [/[()]/.test(offered) ? offered : `${offered}()`, done].map(c => /^([^(]+)\((.*)\)$/.exec(c));
     if (!a || !b || a[1] !== b[1]) { return false; }
-    const want = a[2]!.split(','), have = b[2]!.split(',');
+    const want = a[2] ? a[2].split(',') : [], have = b[2]!.split(',');
     let at = 0;
     for (const x of want) { at = have.indexOf(x, at); if (at < 0) { return false; } at++; }
     return true;
