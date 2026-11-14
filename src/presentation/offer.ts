@@ -51,8 +51,8 @@ export class Offers {
       }
     }
     const primary = [...led, ...fill];
-    return { primary, rest: live.filter(c => !shown.has(c.choice)).sort((a, b) => a.order - b.order)
-      .map(c => this.candidate(c)) };
+    return { primary, rest: live.filter(c => !shown.has(c.choice))
+      .sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order).map(c => this.candidate(c)) };
   }
   // Every other legal choice of the scene, which the page reaches through its likenesses and lenses rather than as an
   // act (talking to whoever is here, setting a thing down, lighting a torch by day): kept in the rest, by the kind of
@@ -65,8 +65,16 @@ export class Offers {
       .map((r, i) => ({ choice: r.choice.id, command: r.choice.id, label: r.choice.name,
         kind: this.kind(r.action.schema), whys: [], order: cands.length + i, marks: [] }));
   }
+  // The rest in an order by what each is, the scene's own order within: talk and ways and what is done here before
+  // the company's own gear (setting a thing down, giving it across, packing it), which a town's rest had led with
+  // (TP-06: 60 rows at the a1 camp, the terminal line's "junk drawer").
+  static readonly ranks: readonly ActType[] = ['talk', 'go', 'journey', 'search', 'act', 'study', 'fight', 'light',
+    'care', 'wait', 'other'];
+  private static rank(c: Candidate): number { return this.ranks.indexOf(this.types[c.kind]); }
+  private static readonly gear = new Set(['put_item', 'put_in', 'transfer_item', 'equip_item', 'douse_light']);
   private static kind(schema: string | undefined): Kind {
     const s = schema ?? '';
+    if (this.gear.has(s)) { return 'other'; }
     return s === 'talk_to' ? 'talk' : s === 'attack' ? 'attack' : s.startsWith('wait') ? 'wait'
       : /^(camp|rest)/.test(s) ? 'rest' : s === 'search' ? 'search' : s === 'eat' ? 'eat' : /light|kindle/.test(s) ? 'light'
         : /^(go|travel|walk|enter|leave|climb|descend)/.test(s) ? 'way' : 'act';
