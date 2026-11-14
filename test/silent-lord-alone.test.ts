@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { Alone } from './support/alone';
+import { KeepAlone } from './support/keep-alone';
 import { Placed } from './support/placed';
-import type { Journey } from '../src/session/journey';
 
 // The darker side of the keep (data/situations/silent-lord/malice.kyr), as a targeted scenario: the situation's own
 // module on the shared rules, its imports bound to a host of a few lines instead of a generated country (see Alone).
@@ -9,36 +8,8 @@ import type { Journey } from '../src/session/journey';
 // cases); they test the situation's rules, which do not need the country, and start here in under half a second. What
 // needs the generated site itself (the wicket's bar, the rider's tracks at the keep's foot) stays in that spec. A
 // spec puts the company down with `Placed.at` only to skip a walk; where it is given a fact it says so.
-const k = (name: string) => `keep__${name}`;
-const host = `
-  Place land "the downs" is wilderness at 0, 0.
-  Place outside "below the keep" is room within land at 0, 0 outdoors.
-  Place town "Hythe" is settlement.
-  Place green "the green" is room within town at 0, 0 outdoors.
-  Place taproom "the taproom" is room within town at 1, 0.
-  Place shrine "the shrine" is room within town at 0, 1.
-  Place far "Farham" is settlement.
-  Place far_green "the green at Farham" is room within far at 0, 0 outdoors.
-  Person keeper "Mag" at taproom { Role "who keeps the inn". Ancestry human. Peaceable. Pronouns she. }
-  Person priest "Father Odo" at shrine { Role "the priest". Ancestry human. Peaceable. Pronouns he. }
-  Person trader "Wat" at green { Role "a merchant". Ancestry human. Peaceable. Pronouns he. }
-  Company party "You" of 1 at green.`;
-const roles = ['land', 'outside', 'taproom', 'shrine', 'keeper', 'priest', 'trader', 'far_green'];
-class Keep {
-  static async at(place: string, calling = 'warrior', wait = '=day 10 09:00'): Promise<Journey> {
-    const a = await Alone.start({ id: 'keep', bundle: '../../data/situations/silent-lord/module.json', host,
-      exports: [...roles, 'green'], imports: { ...Object.fromEntries(roles.map(r => [r, r])), gossip: 'green' },
-      party: [{ name: 'Mira', raceId: 'human', classId: calling }] });
-    // Nothing of the country was drawn for it: the cost of the start is the situation's own.
-    expect([a.costs.region, a.costs.world]).toEqual([undefined, undefined]);
-    if (wait) { await a.journey.play(wait); }
-    if (place) { Placed.at(a.journey, k(place)); }
-    return a.journey;
-  }
-  static holds(j: Journey, relation: string, ...args: string[]) { return Placed.holds(j, k(relation), ...args); }
-  static knows(j: Journey, fact: string) { return Placed.holds(j, 'knows', 'party', k(fact)); }
-  static state(j: Journey, thing: string) { return j.campaign.world.one('state', k(thing)); }
-}
+const k = KeepAlone.id;
+const Keep = KeepAlone;
 
 describe('the silent lord alone: malice, and the signal before it', () => {
   it('warns a company that counts the lord’s trays: Thole’s Hands bar the ward, and the toll settles it', async () => {
