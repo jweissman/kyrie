@@ -1,34 +1,12 @@
 import { describe, expect, it } from 'bun:test';
-import type { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
-import { SituationAlone } from './support/situation-alone';
+import { Rivals } from './support/rivals';
 
 // The Collegium of the Measured Road in the Numbered House (data/situations/arcology/rivals.kyr): a rival expedition on
 // its own clock, what it changes, and what a company of each calling can do about it. A spec puts the company down with
 // `Placed.at` only to skip the walk, never to bypass the mechanism it is about. The situation alone (SituationAlone:
 // its own module on a host written from its imports, a third of a second a start where each case drew a country);
 // the company is put down below the works (`outside`), as on arriving at the Bend.
-class Rivals {
-  static a(x: string) { return x === 'party' || x.includes('__') ? x : `arcology__${x}`; }
-  static is(j: Journey, rel: string, ...args: string[]) { return j.holds(rel, ...args.map(x => this.a(x))); }
-  static n(j: Journey, rel: string, ...args: string[]) { return j.measure(rel, ...args.map(x => this.a(x))); }
-  static async start(cls = 'warrior') {
-    return (await SituationAlone.start('arcology', 'arcology', { party: [{ name: 'Mira', raceId: 'human', classId: cls }] }))
-      .journey;
-  }
-  // The company at the Bend, as it would be on arriving: the expedition's clock starts there.
-  static async bend(cls = 'warrior') {
-    const j = await this.start(cls);
-    Placed.at(j, 'host__outside');
-    await j.play('=day 3 06:00', 'Wait › A while');
-    return j;
-  }
-  static async stage(j: Journey, n: number) {
-    while (this.n(j, 'rivalStage', 'house') < n) { await j.play('=+60'); }
-  }
-  static at(j: Journey, who: string) { return j.at(this.a(who)); }
-  static carries(j: Journey, name: string) { return j.choices().some(c => new RegExp(`^Pack › ${name}`, 'i').test(c.full)); }
-}
 
 describe('the Collegium of the Measured Road goes down the House on its own clock', () => {
   it('goes in on the third day, with or without the company: the Prior and the hands at the Landing, the stair still sounding', async () => {
