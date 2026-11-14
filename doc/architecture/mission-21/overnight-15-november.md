@@ -57,6 +57,35 @@ Each pin was checked against a mutation: with its fix undone, it fails.
   - CN-01/02/03/05/08/09, TM-02, TP-02/07, BP-08, IG-01;
   - IG-09/11 and TO-02 superseded.
 
+## The interaction research (for M22)
+
+The investigator's four documents are in [interaction/](interaction/): study, grammar, experiment and
+recommendation.
+
+**Two defects it found, fixed for everyone:**
+- **IG-17 (P0):** Enter held on a focused row sent three commands. The talk, then its first reply, then another,
+  none read.
+- **IG-18:** the next screen lit the row under a pointer that had not moved, in 120 of 120 acts.
+
+Both are held by test/press-guard-browser and written into GRAMMAR.md.
+
+**Two versions of the principal control, behind the address only:**
+- **`?ix=a`, tap:** the chosen row stays pressed while the engine answers; one low knock on commit (`&sound=0` to
+  silence it).
+- **`?ix=b`, hold:** as a, plus the engine's sustained acts held 520 ms, the reticle filling at the hand.
+
+The recordings are under /var/tmp/kyrie/ix/. **IG-19 is the owner's decision:** which version, whether the tone
+stays, and whether any hold should exist before Energy. Nobody has yet tried the tone, the hold's feel or the
+reticle by hand.
+
+**Its recommendation:** M22 narrow, in this order:
+1. a's additions for everyone, with a sound option;
+2. the dramatic register marked by the engine (revelation, reckoning, loss) with deliberate continuation;
+3. one focus model and one commit path (a controller and IG-03 need them);
+4. a hold only together with Energy.
+
+The worst moment of the first touch is the 10–17 s setting-out wait, which is engine work.
+
 ## What still fails or is open
 
 (Filled in at the end of the night.)
