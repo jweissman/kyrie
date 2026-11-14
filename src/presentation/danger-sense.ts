@@ -205,6 +205,8 @@ export class DangerSense {
       .flatMap(f => Object.entries(Effects.modifiers(f).resistances ?? {}).filter(([, v]) => v < 0).map(([k]) => k)));
     return { blows: landed.length, blunted: landed.filter(r => r >= 0.5).length, hurtBy: [...hurtBy].sort() };
   }
+  // How many of a company fall, on the mean, in the fights it wins before it is told one of them could (see judge).
+  static readonly falls = 0.2;
   // Anyone falling in any of the fights played out makes it a hard one: one who falls may not get up. Who would
   // fall is said by name (Wenna, at seven hit points, where the beetles are no match for Tharash).
   private static judge(fight: Fight, ours: Creature[], foes: Creature[]): Reckoning {
@@ -222,9 +224,13 @@ export class DangerSense {
     // J 46–47), its venom a save, round the armour the fights played had mostly kept it from.
     // Nor "should be won", alone, where a fight won had still left the one who fought it near the end: a great
     // centipede reckoned so took five of a lone thief's seven at its first bite and poisoned her (round 7, K 43).
+    // Someone falls in a fight it would win: alone, at all (no one would get you up); with others beside you, in one
+    // won fight in five or more, not once in two dozen (the second blind playtest, BL-08: every hob fight said "Ander
+    // could fall", and every one was won unhurt).
+    const falls = fight.fallen > (ours.length === 1 ? 0 : DangerSense.falls);
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < grave ? 'grave'
-      : fight.odds < 0.9 || fight.fallen > 0 || (ours.length === 1 && fight.worst > 0.6) ? 'hard'
-        : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed || !fight.sure ? 'fair' : 'slight';
+      : fight.odds < 0.9 || falls || (ours.length === 1 && fight.worst > 0.6) ? 'hard'
+        : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed || fight.fallen > 0 || !fight.sure ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
     const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
       || b.base.level - a.base.level || b.state.experience - a.state.experience)[0]!;
@@ -236,7 +242,8 @@ export class DangerSense {
       grave: `a fight with ${them} could be lost`,
       hard: `you would likely beat ${them}, but ${frail ?? 'someone'} could fall${ours.length === 1
         ? ', with no one to get you up' : ''}`,
-      fair: `you should beat ${them}${fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed ? ', though not unhurt' : ''}`,
+      fair: `you should beat ${them}${fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed || fight.fallen > 0
+        ? ', though not unhurt' : ''}`,
       slight: `${they} no match for you`,
     };
     // An easy win that rests on keeping the foe from fighting back says so: the company that does not, or cannot,
