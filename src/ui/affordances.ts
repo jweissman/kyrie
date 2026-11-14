@@ -213,7 +213,7 @@ export class Affordances {
       ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
-      : fresh.find(c => !r.done.has(c.command!));
+      : this.unasked(fresh, r, !!held);
     // The act within that each reason is for, so that the page finds it again inside (see Promotion.inside).
     const kept = (kin || named || held) && asked?.command, take = spoils
       ? leaves.find(c => /^(take_item|take_out)\(/.test(c.command!))?.command : undefined;
@@ -242,6 +242,11 @@ export class Affordances {
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
   // town was shown nothing to do with what it had won: the owner, 31 October).
+  // The first thing not yet asked, and for an aim held, what serves it first.
+  private static unasked(fresh: Choice[], r: Reading, held: boolean): Choice | undefined {
+    const open = fresh.filter(c => !r.done.has(c.command!));
+    return (held ? open.find(c => r.serves?.has(c.command!)) : undefined) ?? open[0];
+  }
   // Something not yet done there for an aim held: a question that teaches what it waits on, or an act on them that is
   // not talk nor trade (the hobs' stolen bell, rung); never merely talking or trading with them, nor a question that
   // teaches it nothing (Taklinn, whom the spiders job names, had been led nineteen turns running for rumours).
