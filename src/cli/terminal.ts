@@ -29,7 +29,9 @@ import type { Aspect, Glance, Lens, Promoted, Successor } from '../presentation/
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
-interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed }
+// journey: set out on over the map (a journey to a place known, a crossing of the country), not a way from here.
+interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed;
+  journey?: true }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 // lens.rest: the rest of the lens's own, as the page's lens has them under All.
 interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number;
@@ -96,19 +98,19 @@ export class Terminal {
     const world = session.campaign.world;
     const minutes = new Map(PlayerView.choices(session.campaign)
       .map(r => [r.choice.id, ActionTime.minutes(r.action, world)]));
-    const all = PlayerView.observe(session.campaign).choices
-      .map(c => ({ ...c, time: minutes.get(c.id) ?? c.time * 10 }));
+    const all: (ReturnType<typeof PlayerView.observe>['choices'][number] & { journey?: true })[] = PlayerView
+      .observe(session.campaign).choices.map(c => ({ ...c, time: minutes.get(c.id) ?? c.time * 10 }));
     for (const d of [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]) {
       const id = `travel:${d.id}`;
       if (!all.some(c => c.id === id)) {
         all.push({ id, name: `Set out for ${d.name}`, time: d.minutes, encounter: false,
-          category: 'travel', targets: [d.id] });
+          category: 'travel', targets: [d.id], journey: true });
       }
     }
     // And across the country to a place the map shows, as the engine allows it (LandCrossing), as the page's map does.
     for (const x of LandCrossing.offers(screen).filter(o => !all.some(c => c.id === o.command))) {
       all.push({ id: x.command, name: `Go across country to ${x.name}`, time: 0, encounter: false, category: 'travel',
-        targets: [x.id] });
+        targets: [x.id], journey: true });
     }
     // A way into the next stretch of country led with is set out on as a journey there (travel:, see HexBoundary),
     // as the page's map does: the gold "To the road between Mistshaw and Millholm" had been dropped from the
@@ -117,7 +119,7 @@ export class Terminal {
     for (const a of [...glance?.acts ?? [], ...next]) {
       if (a.command?.startsWith('travel:') && !all.some(c => c.id === a.command)) {
         all.push({ id: a.command, name: a.label, time: 0, encounter: false, category: 'travel',
-          targets: [a.command.slice('travel:'.length)] });
+          targets: [a.command.slice('travel:'.length)], journey: true });
       }
     }
     const signs = new TerminalSigns(screen, glance);
@@ -237,10 +239,12 @@ export class Terminal {
     aims.forEach((a, i) => console.log(`${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`));
     if (!aims.length) { console.log('No aim is held.'); }
   }
-  private static map(session: PlaySession) {
+  // The places known; and, typed, the journeys and crossings in a line each (the human mode picks among them).
+  private static map(session: PlaySession, journeys = true) {
     const screen = ScreenModel.build(session.campaign);
     console.log(`\nMap — ${screen.place.name}`);
     for (const p of screen.map) { console.log(`${p.here ? '*' : p.visited ? '·' : '?'} ${p.name}${p.zone ? ` — ${p.zone}` : ''}`); }
+    if (!journeys) { return; }
     const destinations = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []];
     if (destinations.length) { console.log(`Journeys: ${destinations.map(d => d.name).join(' · ')}`); }
     const across = LandCrossing.offers(screen);
@@ -273,7 +277,8 @@ export class Terminal {
         const offered = this.foreground(session, leaf.glance, screen, { talking: turn.talking, lens: turn.lens });
         if (turn.talking && !offered.talk) { turn.talking = undefined; }
         this.next(leaf.glance?.next, screen, { all: offered.all, human });
-        const answer = human ? await this.picked(input, offered, turn) : await this.typed(input, offered, turn);
+        const answer = human ? await this.picked(input, offered, { turn, session })
+          : await this.typed(input, offered, turn);
         if (answer === null) { return; }
         if (typeof answer === 'string' && await this.aside(session, answer, offered.all, { turn, input })) { continue; }
         const choice = typeof answer === 'string' ? this.chosen(offered, answer) : answer;
@@ -304,7 +309,8 @@ export class Terminal {
   }
   // The human mode: the same four and every legal act behind More, picked (TerminalMenus); a choice by its id, or a
   // command (a lens, the map) as it would have been typed.
-  private static async picked(input: Picking, offered: Offered, turn: Turn): Promise<Listed | string | null> {
+  private static async picked(input: Picking, offered: Offered, { turn, session }: { turn: Turn; session: PlaySession })
+    : Promise<Listed | string | null> {
     if (!turn.spaced) { console.log(''); turn.spaced = true; }
     const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
       all: offered.lens ? [...offered.first, ...offered.lens.rest] : offered.all,
@@ -312,8 +318,22 @@ export class Terminal {
       ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
     if (!picked) { return null; }
-    if ('command' in picked) { turn.focus = picked.focus; return picked.command; }
+    if ('command' in picked) {
+      turn.focus = picked.focus;
+      return picked.command === 'map' ? this.journeys(input, offered, session) : picked.command;
+    }
     return offered.all.find(c => c.id === picked.choice) ?? picked.choice;
+  }
+  // The map in the human mode: the places known, and the journeys and crossings it offers picked among, as the page's
+  // map sets out on them (the owner: the map is the basic navigation). Back, and nothing is done.
+  private static async journeys(input: Picking, offered: Offered, session: PlaySession)
+    : Promise<Listed | string | null> {
+    this.map(session, false);
+    const ways = offered.all.filter(c => c.journey);
+    if (!ways.length) { console.log('No journey is known from here.'); return 'here'; }
+    const picked = await input.pick({ title: 'Where to?', rows: ways.map(c => TerminalMenus.row(c)), back: 'here' });
+    if (!picked) { return null; }
+    return 'command' in picked ? 'here' : ways.find(c => c.id === picked.choice) ?? 'here';
   }
   // Whom the company is speaking with, by the name the screen gives them.
   private static whom(screen: Screen | undefined, id: string): string | undefined {
@@ -333,7 +353,7 @@ export class Terminal {
     // A lens: what is led with, by kind (things, people, places, time); here, the scene's own. It takes no time.
     if (Terminal.lenses.has(answer)) { turn.lens = answer === 'here' ? undefined : answer as Lens; return true; }
     if (answer === 'map') { this.map(session); return true; }
-    if (answer === 'character' || answer === 'dossier') { this.dossier(session); return true; }
+    if (answer === 'character' || answer === 'dossier') { this.dossier(session); turn.spaced = false; return true; }
     if (answer === 'aims' && TerminalInput.picks(input)) {
       return this.aside(session, await this.aim(session, input), all, { turn, input });
     }

@@ -22,10 +22,11 @@ const labels = (k: Keyed, n = -1) => k.frames.at(n)!.menu.rows.map(r => r.label)
 
 describe('the indicator grammar (TP-02)', () => {
   it('is one colour by one precedence, at most two icons, and the rest in words', () => {
-    // Gold first, and only where the aim is followed; then danger; then the atlas's own order.
+    // Gold first, and only where the aim is followed; then danger; then the particular promises before the general.
     expect(Indicator.of({ aspects: ['knowledge', 'undertaking', 'danger'] }).tone).toBe('gold');
     expect(Indicator.of({ aspects: ['knowledge', 'undertaking', 'danger'], gilded: false }).tone).toBe('red');
-    expect(Indicator.of({ aspects: ['companionship', 'knowledge', 'exploration'] }).aspect).toBe('exploration');
+    expect(Indicator.of({ aspects: ['companionship', 'exploration', 'knowledge'] }).aspect).toBe('knowledge');
+    expect(Indicator.of({ aspects: ['companionship', 'exploration'] }).aspect).toBe('exploration');
     const many = Indicator.of({ aspects: ['wonder', 'payoff', 'knowledge', 'danger'], crosses: true, hold: true });
     expect([many.aspect, many.icons.map(i => i.said), many.detail])
       .toEqual(['danger', ['to gain', 'to learn'], ['uncanny', Signs.crossing.said, Signs.hold.said]]);
