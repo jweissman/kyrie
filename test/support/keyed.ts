@@ -17,7 +17,7 @@ export class Keyed implements Picking {
   private constructor(private readonly keys: string[], readonly room: Room) {}
   static of(keys: string[], room: Partial<Room> = {}): Keyed {
     return new Keyed([...keys], { width: 80, height: 40,
-      shows: { depth: 'none', unicode: true, companion: 'colour', prism: false }, ...room });
+      shows: { depth: 'none', unicode: true, prism: false }, ...room });
   }
   // A session played by these keys until they run out; what was printed, kept.
   static async play(session: PlaySession, keys: string[], room: Partial<Room> = {}): Promise<Keyed> {

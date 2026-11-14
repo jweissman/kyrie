@@ -24,7 +24,7 @@ export class TerminalPickerView {
     const group = row.group && row.group !== prev?.group ? [TerminalColour.dim(`  ${row.group}`, d)] : [];
     const gap = row.info && !prev?.info ? [''] : [];
     const signed = { ...row.signed ?? {}, aspects: row.aspects ?? [] };
-    const indicated = TerminalColour.indicated(signed, shows.companion);
+    const indicated = TerminalColour.indicated(signed);
     const pip = row.info || row.id === TerminalPicker.more ? ' ' : TerminalColour.pip(indicated, shows, signed.sensed);
     const icons = indicated.icons.map(x => TerminalColour.sign(x, shows.unicode)).join(' ');
     const mark = focused ? (shows.unicode ? '›' : '>') : ' ';
@@ -50,7 +50,7 @@ export class TerminalPickerView {
     const d = shows.depth, said: string[] = [];
     if (row.note) { said.push(row.note); }
     if (row.shut) { said.push(row.shut); }
-    if (p.asking === row.id && row.ask) { said.push(`${row.ask} Enter again to do it.`); }
+    if (p.asking === row.id && row.ask) { said.push(row.ask); }
     if (p.about === row.id) { said.push(...row.about ?? [], ...row.about?.length ? [] : ['Nothing more is known of it.']); }
     if (p.said && p.said !== row.shut) { said.push(p.said); }
     return said.flatMap(s => TerminalWidth.wrap(s, width - 4)).map(l => TerminalColour.dim(`    ${l}`, d));
@@ -59,8 +59,9 @@ export class TerminalPickerView {
   private static footer(p: TerminalPicker, width: number, shows: Shows): string[] {
     const arrows = shows.unicode ? '↑↓ ⏎' : 'j/k enter';
     const more = p.menu.rest?.length ? [p.unfolded ? '← fewer' : '→ more'] : [];
-    const keys = p.keyed ? [...Object.entries(p.menu.keys ?? {}).map(([k, v]) => `${k} ${v.said}`), 'q leave']
-      : Object.keys(p.menu.keys ?? {}).length ? ['/ keys'] : ['q leave'];
+    const grouped = p.visible.some(r => r.group) ? ['[ ] group'] : [];
+    const keys = p.keyed ? [...grouped, ...Object.entries(p.menu.keys ?? {}).map(([k, v]) => `${k} ${v.said}`), 'q leave']
+      : Object.keys(p.menu.keys ?? {}).length ? ['/ keys'] : [...grouped, 'q leave'];
     const said = [`${arrows} choose`, ...more, '? about', ...p.menu.back ? ['← back'] : [], ...keys];
     return ['', ...TerminalWidth.wrap(said.join(' · '), width)].map(l => TerminalColour.dim(l, shows.depth));
   }

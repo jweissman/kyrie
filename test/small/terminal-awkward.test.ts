@@ -6,6 +6,7 @@ import { Emphasis } from '../../src/presentation/emphasis';
 import { Signs } from '../../src/presentation/signs';
 import { Terminal } from '../../src/cli/terminal';
 import { TerminalCreation } from '../../src/cli/terminal-creation';
+import { TerminalMenus, type Journeyed } from '../../src/cli/terminal-menus';
 import { TerminalPicker } from '../../src/cli/terminal-picker';
 import { TerminalWidth } from '../../src/cli/terminal-width';
 import { TerminalWalk } from '../../src/cli/terminal-walk';
@@ -30,10 +31,17 @@ describe('the indicator grammar (TP-02)', () => {
     const many = Indicator.of({ aspects: ['wonder', 'payoff', 'knowledge', 'danger'], crosses: true, hold: true });
     expect([many.aspect, many.icons.map(i => i.said), many.detail])
       .toEqual(['danger', ['to gain', 'to learn'], ['uncanny', Signs.crossing.said, Signs.hold.said]]);
-    // A companion as an icon alone (TP-03, the experiment): never the colour, always the first icon.
-    const icon = Indicator.of({ aspects: ['companionship', 'knowledge'] }, 'icon');
-    expect([icon.tone, icon.icons[0]!.sign]).toEqual(['blue', Signs.emblem('companion')]);
-    expect(Emphasis.precedence).toHaveLength(Object.keys(Emphasis.tones).length);
+  });
+  // TP-03, decided by a1's camp: the brother's "Ask Osbert what he means to do" was worth a look and a companion before
+  // the aim was followed, a companion alone after it, and had turned from silver to rose with nothing about him
+  // changed. A companion is its icon, the first, and never a colour, whatever else the act is.
+  it('draws a companion by its icon alone, the same before and after the aim is followed (a1\'s camp)', () => {
+    const before = Indicator.of({ aspects: ['exploration', 'companionship'] });
+    const after = Indicator.of({ aspects: ['companionship'] });
+    expect([before.tone, before.icons[0]!.sign]).toEqual(['silver', Signs.emblem('companion')]);
+    expect([after.tone, after.icons[0]!.sign]).toEqual([undefined, Signs.emblem('companion')]);
+    expect(Emphasis.precedence).not.toContain('companionship');
+    expect(Indicator.words(['companionship', 'knowledge'])).toEqual(['to learn', 'a companion']);
   });
 });
 
@@ -60,8 +68,8 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(lines).toMatch(/^› ✦ Ask Osric whether /m);
     expect(lines).toMatch(/causeway ℹ$/m);
     expect(lines).toMatch(/^ {4}your aim, to learn$/m);
-    // The companion's asking, a companion and nothing else: its own sign where its colour would be.
-    expect(lines).toMatch(/^ {2}⚭ Ask Wenna whether she would come along$/m);
+    // The companion's asking, a companion and nothing else: no colour, nor its sign in the pip, but its icon (TP-03).
+    expect(lines).toMatch(/^ {4}Ask Wenna whether she would come along ⚭$/m);
   });
   it('fits every line to a narrow terminal, the long question wrapped where it is focused and cut elsewhere', async () => {
     const t = await Awkward.start();
@@ -130,6 +138,27 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(titles).toContain('Aud\'s turn');
     expect(titles).toContain('Melee Attack: at whom?');
     expect(k.said.join('\n')).toMatch(/^Aud \d+\/\d+$/m);
+  });
+  // A town's rest had been 117 acts, 36 of them journeys in one unranked list: grouped by the map's own kinds, gone
+  // through a page or a group at a time, the engine's order kept within each (it ranks no journey yet).
+  it('groups the journeys under the map\'s headings, after what is done here, and pages through them', () => {
+    const at = (id: string, journey?: Journeyed) => ({ id, name: id, time: 0, ...journey ? { journey } : {} });
+    const listed = [at('travel:b', 'roads'), at('wait'), at('travel:a', 'known'), at('travel:c', 'roads'),
+      ...Array.from({ length: 12 }, (_, i) => at(`travel:r${i}`, 'roads')), at('search')];
+    const rows = TerminalMenus.grouped(listed);
+    expect(rows.map(r => r.id).slice(0, 5)).toEqual(['wait', 'search', 'travel:a', 'travel:b', 'travel:c']);
+    expect(rows.map(r => r.group ?? '').slice(1, 4)).toEqual(['', 'Places you know the way to', 'Where the roads go']);
+    const picker = new TerminalPicker({ rows });
+    picker.press({ ch: ']' });
+    expect(picker.focused!.id).toBe('travel:a');
+    picker.press({ ch: ']' });
+    expect(picker.focused!.id).toBe('travel:b');
+    picker.press({ name: 'pagedown' });
+    expect(picker.focus).toBe(3 + TerminalPicker.paged);
+    picker.press({ name: 'pagedown' });
+    expect(picker.focus).toBe(rows.length - 1);
+    picker.press({ ch: '[' });
+    expect(picker.focused!.id).toBe('travel:b');
   });
   it('asks once before an act that cannot be undone, and leaving the game too', () => {
     const picker = new TerminalPicker({ rows: [{ id: 'jump', label: 'Jump into the weir', ask: 'No way back.' }] });

@@ -56,6 +56,8 @@ export class TerminalPicker {
     if (name === 'up' || key.ch === 'k') { return this.move(-1); }
     if (name === 'down' || key.ch === 'j') { return this.move(1); }
     if (name === 'return' || name === 'enter' || name === 'space' || key.ch === ' ') { return this.enter(); }
+    if (name === 'pagedown' || name === 'pageup') { return this.page(name === 'pagedown' ? 1 : -1); }
+    if (key.ch === ']' || key.ch === '[') { return this.group(key.ch === ']' ? 1 : -1); }
     if (name === 'right' || name === 'tab' || key.ch === '+') { this.unfold(); return undefined; }
     if (name === 'left' || name === 'escape' || name === 'backspace' || key.ch === 'h') { return this.back(); }
     if (key.ch === '?') { this.inspect(); return undefined; }
@@ -64,6 +66,20 @@ export class TerminalPicker {
     if (key.ch === 'q') { return this.quit(had); }
     const command = key.ch ? this.menu.keys?.[key.ch]?.command : undefined;
     return command ? this.command(command) : undefined;
+  }
+  // A page at a time, without going round: a long list (a town's journeys) is gone through a screenful at once.
+  static readonly paged = 10;
+  private page(by: number): undefined {
+    this.focus = Math.max(0, Math.min(this.visible.length - 1, this.focus + by * TerminalPicker.paged));
+    this.about = undefined; this.asking = undefined;
+    return undefined;
+  }
+  // To the first row of the next group (or of this one, then the one before), as the journeys are grouped.
+  private group(by: number): undefined {
+    const rows = this.visible, starts = rows.flatMap((r, i) => r.group && r.group !== rows[i - 1]?.group ? [i] : []);
+    const next = by > 0 ? starts.find(i => i > this.focus) : starts.findLast(i => i < this.focus);
+    if (next !== undefined) { this.focus = next; this.about = undefined; this.asking = undefined; }
+    return undefined;
   }
   private move(by: number): undefined {
     const n = this.visible.length;

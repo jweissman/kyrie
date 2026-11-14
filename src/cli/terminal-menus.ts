@@ -1,4 +1,4 @@
-import { Emphasis } from '../presentation/emphasis';
+import { Indicator } from '../presentation/indicator';
 import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import { TerminalColour } from './terminal-colour';
@@ -7,8 +7,12 @@ import type { Aspect, Lens } from '../presentation/glance-types';
 import type { Menu, Row } from './terminal-picker';
 import type { Signed } from './terminal-signs';
 
+// Which of the map's journeys an act is, by where the screen keeps it: a place known the way to, another place of the
+// town, a town the known roads go to, the next stretch of country led with, a crossing of the open country.
+export type Journeyed = 'known' | 'town' | 'roads' | 'onward' | 'across';
 // A choice as the terminal lists it (see Terminal): its id, words, minutes, and what the page draws on it.
-export interface Listing { id: string; name: string; time: number; aspects?: Aspect[]; signed?: Signed }
+export interface Listing { id: string; name: string; time: number; aspects?: Aspect[]; signed?: Signed;
+  journey?: Journeyed }
 // What a scene's picker is made of: the few led with and every legal act, the lens looked through (or the talk), the
 // instruments that bear on the moment, and the row the focus was on.
 // with: whom the company is speaking with, by name.
@@ -29,7 +33,7 @@ export class TerminalMenus {
     const shown = new Set(s.first.map(c => c.id));
     const keys = Object.fromEntries(Object.entries(this.lenses).map(([k, lens]) => [k,
       { command: s.lens === lens ? 'here' : lens, said: this.lensSaid[lens] }]));
-    return { rows: s.first.map(c => this.row(c)), rest: s.all.filter(c => !shown.has(c.id)).map(c => this.row(c)),
+    return { rows: s.first.map(c => this.row(c)), rest: this.grouped(s.all.filter(c => !shown.has(c.id))),
       info: (s.instruments ?? []).filter(i => i.relevant).map(i => this.instrument(i)),
       ...s.lens ? { title: `${this.lensSaid[s.lens][0]!.toUpperCase()}${this.lensSaid[s.lens].slice(1)}`, back: 'here' }
         : s.with ? { title: `With ${Typography.plain(s.with)}` } : {},
@@ -38,22 +42,28 @@ export class TerminalMenus {
         s: { command: 'save', said: 'save' } },
       ...s.focus ? { focus: s.focus } : {} };
   }
+  // The map's kinds of journey, each under its heading, in the order the map's own lists come.
+  private static readonly headings: Record<Journeyed, string> = { onward: 'Onward', town: 'About the town',
+    known: 'Places you know the way to', roads: 'Where the roads go', across: 'Across the country' };
+  // The rest as rows: what is done here first, as the engine lists it, then the journeys under their headings (the
+  // camp at Millholm's 117 had been one list, 36 journeys among them). Grouped, never ranked: the order within a group
+  // is the engine's, until it ranks journeys itself.
+  static grouped(listed: Listing[]): Row[] {
+    const order = Object.keys(this.headings) as Journeyed[];
+    return [...listed.filter(c => !c.journey).map(c => this.row(c)), ...order.flatMap(kind => listed
+      .filter(c => c.journey === kind).map(c => ({ ...this.row(c), group: this.headings[kind] })))];
+  }
   // One act as a row: its words, its indicator, and under it what it costs and risks; its whole on asking: what it is
   // to the company (each aspect's word, its colour's first), what it risks, and how it is done.
   static row(c: Listing): Row {
-    const signed = c.signed ?? {}, aspects = Emphasis.ranked(c.aspects ?? []);
+    const signed = c.signed ?? {}, words = Indicator.words(c.aspects ?? []);
     const note = [...c.time ? [`${c.time} min`] : [], ...signed.tags ?? [],
-      ...signed.sensed && !aspects.length ? [Signs.sensed(signed.sensed)] : [], ...signed.idle ? [Signs.idle] : []];
-    const about = [...aspects.length ? [aspects.map(a => Emphasis.words[a]).join(', ')] : [],
+      ...signed.sensed && !words.length ? [Signs.sensed(signed.sensed)] : [], ...signed.idle ? [Signs.idle] : []];
+    const about = [...words.length ? [words.join(', ')] : [],
       ...signed.crosses ? [Signs.crossing.said] : [], ...signed.hold ? [Signs.hold.said] : []];
     return { id: c.id, label: Typography.plain(c.name), aspects: c.aspects ?? [], signed,
       ...note.length ? { note: note.join(' · ') } : {}, about,
-      ...signed.grave ? { ask: this.asked(signed.grave) } : {} };
-  }
-  // What a grave act says when it is chosen once (the page's Act.asked, its last words the terminal's key).
-  private static asked(said: string): string {
-    const whole = Typography.plain(said);
-    return `${whole.charAt(0).toUpperCase()}${whole.slice(1)}${/[.!?]$/.test(whole) ? '' : '.'}`;
+      ...signed.asks ? { ask: Typography.plain(signed.asks) } : {} };
   }
   // An instrument as a row to read, not choose: its emblem, its label and what it reads; its gloss on asking.
   static instrument(i: Instrument): Row {
