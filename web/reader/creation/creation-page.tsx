@@ -26,7 +26,7 @@ export class CreationPage {
     sign: SignStep.View,
     calling: CallingStep.View, before: BeforeStep.View, name: NameStep.View };
   static steps(app: ReaderApp): (CreationStep & { View: StepView })[] {
-    return (app.opening.flow()?.steps() ?? []).flatMap(step => {
+    return app.opening.steps().flatMap(step => {
       const View = CreationPage.views[step.id];
       return View ? [{ ...step, View }] : [];
     });

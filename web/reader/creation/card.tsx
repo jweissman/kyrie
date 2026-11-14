@@ -45,6 +45,7 @@ export class Card {
       </section>
     );
   }
+  static readonly four = 4;
   // The first sentence of a card's words, for beneath the cards (the rest is on the card, under the pointer).
   static sentence(text: string): string { return /^.+?[.!?](?=\s|$)/.exec(text)?.[0] ?? text; }
   // The cards together, centred, all in sight: the fewer there are, the larger, and as many to a row as leaves none
@@ -55,8 +56,12 @@ export class Card {
   // card's rules over the page, and Continue, kept in sight when the page is longer than the screen.
   static Deck({ kind, children, details, after, onward }: { kind: string; children: ReactNode;
     details?: { title: string; body: ReactNode; head?: SheetHead }; after?: ReactNode; onward?: ReactNode }) {
-    const [open, show] = useState(false), cards = Children.toArray(children), deck = useRef<HTMLElement>(null);
-    const chosen = cards.find((c): c is ReactElement<CardShape> => isValidElement<CardShape>(c) && !!c.props.chosen)?.props;
+    const [open, show] = useState(false), all = Children.toArray(children), deck = useRef<HTMLElement>(null);
+    const chosen = all.find((c): c is ReactElement<CardShape> => isValidElement<CardShape>(c) && !!c.props.chosen)?.props;
+    // The four the step leads with (the engine gives them first), the rest one quiet word away and never dumped (the
+    // owner, 14 November: four promoted on every surface); the chosen card is always in sight.
+    const [more, unfold] = useState(false), at = all.findIndex(c => isValidElement<CardShape>(c) && !!c.props.chosen);
+    const folds = all.length > Card.four + 1 && !more && at < Card.four, cards = folds ? all.slice(0, Card.four) : all;
     const n = cards.length, size = { '--card-wide': `${n <= 4 ? 176 : n <= 7 ? 150 : n <= 8 ? 140 : 128}px`,
       '--card-narrow': `${n <= 4 ? 176 : n <= 7 ? 150 : 140}px`, '--row': n <= 8 ? n : Math.ceil(n / 2),
       '--row-narrow': n <= 4 ? n : Math.ceil(n / Math.ceil(n / 4)) } as CSSProperties;
@@ -71,7 +76,9 @@ export class Card {
     }, [n]);
     return (
       <section className={`deck deck-${kind}${n >= 7 ? ' deck-many' : ''}`} style={size} ref={deck}>
-        <div className="cards">{children}</div>
+        <div className="cards">{cards}</div>
+        {folds && <p className="deck-more"><button type="button" className="quiet-word" data-nav data-action="more-cards"
+          onClick={() => unfold(true)}>{`${all.length - Card.four} more`}</button></p>}
         <p className="chosen-lead" aria-live="polite">{chosen?.text && Typography.curl(Card.sentence(chosen.text))}</p>
         {after}
         <p className="creation-go">

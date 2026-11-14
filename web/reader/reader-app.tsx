@@ -44,6 +44,10 @@ export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
+  // Where making a life stands, as the engine holds it (EngineCreation, TB-09): its steps, their cards (the four it
+  // leads with first), which is chosen, and whom the choices have made. In a drawn country the page shows it and
+  // sends back each choice; it decides no step, no card's place and nothing a choice settles.
+  creation?: import('../engine/engine-creation').CreationState;
   // An encyclopedia entry open over the game, by its address (see EncyclopediaOverlay).
   entry?: string;
   // Whether the protagonist's name is one the player wrote: a name drawn for them is drawn again for a new people.

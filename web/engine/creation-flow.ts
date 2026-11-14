@@ -9,6 +9,12 @@ export interface CreationCard {
   id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
 }
 export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
+// What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
+// a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
+// thrown again; and the first spells known ("a,b,c").
+// A name taken from the table of names (drawn) is borne but still the table's: a new people or way of presenting draws
+// again over it, as over a name never written.
+export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 'reroll' | 'spells' | 'drawn';
 // One step of making the protagonist: its question, its cards, which is chosen, and for the name the names drawn.
 // cards: every card, the four the step leads with first (the owner, 14 November: four promoted on every surface, the
 // rest reachable); a client shows the first four and offers the rest, numbered as they stand.
@@ -83,9 +89,15 @@ export class CreationFlow {
     ];
   }
   // A card chosen at a step (or, at the name, the name written): what it settles, by the page's rules.
-  choose(step: CreationStepId, value: string) {
+  choose(step: CreationChoice, value: string) {
     const m = this.member, was = m.classId, people = m.raceId;
     if (step === 'why') { this.origin = value; return; }
+    if (step === 'weapon') { m.weapon = value; return; }
+    if (step === 'drawn') { m.name = value; this.named = false; return; }
+    if (step === 'spells') { m.spells = value.split(',').filter(Boolean); return; }
+    if (step === 'place') { this.place(value); return; }
+    if (step === 'reroll') { this.reroll(); return; }
+    if (step === 'trade') { if (value) { m.backgroundId = value; } else { delete m.backgroundId; } return; }
     if (step === 'name') {
       m.name = value.trim() || CreationDefaults.names(m, this.setting)[0] || m.name;
       this.named = !!value.trim();
@@ -99,6 +111,23 @@ export class CreationFlow {
     if (!this.named && ((step === 'you' && value !== people) || step === 'presenting')) {
       m.name = CreationDefaults.names(m, this.setting)[0] ?? m.name;
     }
+  }
+  // Two qualities' rolls changed over, as the player places them ("strength:wisdom").
+  private place(pair: string) {
+    const rolled = this.member.rolled as Record<string, number> | undefined, [a, b] = pair.split(':');
+    if (!rolled || !a || !b || rolled[a] === undefined || rolled[b] === undefined) { return; }
+    [rolled[a], rolled[b]] = [rolled[b]!, rolled[a]!];
+  }
+  // Six new rolls of three dice, one on each quality where it falls, then placed where the calling wants them.
+  private reroll() {
+    const m = this.member;
+    if (!m.rolled) { return; }
+    const die = new Uint8Array(18);
+    crypto.getRandomValues(die);
+    m.rolled = Object.fromEntries(Object.keys(m.rolled).map((q, i) => [q,
+      [0, 1, 2].reduce((sum, k) => sum + 1 + die[i * 3 + k]! % 6, 0)]));
+    const wants = this.catalog.callings.find(c => c.id === m.classId)?.qualities;
+    if (wants) { m.rolled = Rolls.suited(m.rolled as Record<string, number>, wants); }
   }
   private change(field: 'raceId' | 'classId' | 'pronouns', value: string) {
     const m = this.member, was = m.classId, catalog = this.catalog;

@@ -38,6 +38,10 @@ export class MonoDriver {
   // as it asks and a little more (see Hold): the one way every spec does a held act.
   async click(selector: string) {
     this.presses++;
+    // A card among the rest of a creation step's deck is one quiet word away, as a player finds it.
+    if (!await this.page.locator(selector).count() && await this.page.locator('[data-action="more-cards"]').count()) {
+      await this.page.click('[data-action="more-cards"]');
+    }
     if (this.pointer) {
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();
