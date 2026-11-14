@@ -403,7 +403,10 @@ export class Affordances {
     const whys: Why[] = [...kind === 'light' ? ['dark' as const] : [], ...lit ? ['dark' as const] : [],
       ...mended ? ['hurt' as const] : [], ...kind === 'eat' && n.hungry && n.rations > 0 ? ['hungry' as const] : [],
       ...kind === 'camp' && ((n.night && !n.settled) || n.weary) ? ['exposed' as const] : [],
-      ...kind === 'rest' && n.hurt.size > 0 && !at.threat ? ['hurt' as const] : [],
+      // Not a rest with nothing to eat, which mends nothing ("you would get up no better"): a hungry company had been
+      // led to lie down and get up again, over and over (the laboratory's lost turns).
+      ...kind === 'rest' && n.hurt.size > 0 && !at.threat && r.schema.get(c.command ?? '') !== 'rest_unfed'
+        ? ['hurt' as const] : [],
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
       // What the aim waits on, done by the company here (sitting up with the fevered child, a search where what it
       // waits on is hidden): its next step. A search is not the aim's for being made where the aim is: at Seolforfyrd
