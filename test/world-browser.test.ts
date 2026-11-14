@@ -45,12 +45,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.waitForFunction(() => !!localStorage.getItem('kyrie.mono.v1.summary'), null, { timeout: 30000 });
     const kept = await page.evaluate(() => localStorage.getItem('kyrie.mono.v1.summary'));
     await driver.pick(c => /^To /.test(c.label), 'a way on');
-    const [place, clock] = [(await driver.inspect()).place?.id, await page.textContent('[data-id="clock"]')];
+    const [place, clock] = [(await driver.inspect()).place?.id, await page.textContent('[data-id="clock"] .at')];
     await page.waitForFunction(was => localStorage.getItem('kyrie.mono.v1.summary') !== was, kept, { timeout: 30000 });
     await page.reload();
     await driver.click('[data-action="continue"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    expect([(await driver.inspect()).place?.id, await page.textContent('[data-id="clock"]')]).toEqual([place, clock]);
+    expect([(await driver.inspect()).place?.id, await page.textContent('[data-id="clock"] .at')]).toEqual([place, clock]);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

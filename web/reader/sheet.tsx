@@ -2,6 +2,7 @@ import type { Entry, Frame } from '../engine/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Words } from './words';
+import { Told } from './stage/told';
 import { Typography } from '../../src/presentation/typography';
 import { CharacterPage } from './character-page';
 import { BoardField } from './board-field';
@@ -137,7 +138,7 @@ export class Sheet {
           return <div key={e.id}>{chapter}
             {e.said && !Words.restates(Words.echo(Words.lastSaid(e.said)), e.lines[0])
               && <p className="you">{Words.echo(Words.lastSaid(e.said))}</p>}
-            {again ? <p className="again">The same as before.</p> : fresh.map((l, i) => <p key={i}>{l}</p>)}</div>;
+            {again ? <p className="again">The same as before.</p> : fresh.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}</div>;
         }) : <p className="none">Nothing has happened yet.</p>}
       </article>
     );

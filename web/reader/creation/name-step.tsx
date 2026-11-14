@@ -20,7 +20,7 @@ import { KitSheet } from './kit-sheet';
 export class NameStep {
   static View({ app }: { app: ReaderApp; step: CreationStep }) {
     // How you present: the flow's own step, asked here above the name (its words without their article).
-    const presenting = app.opening.flow()?.steps().find(x => x.id === 'presenting');
+    const presenting = app.opening.steps().find(x => x.id === 'presenting');
     const [open, show] = useState(false), m = app.state.party[0]!, setting = app.state.setting;
     // The table is rolled again for how you present and your people as they are: changed, it starts again at the top.
     const key = `${m.raceId ?? ''}:${m.pronouns ?? ''}`, [rolled, roll] = useState({ key, n: 0 });
@@ -59,6 +59,7 @@ export class NameStep {
   // A name taken from the table is the player's to bear but still the table's: it is set as written is, and counted as
   // drawn (named: false), so a new way of presenting or a new people draws again (see ReaderOpening.edit).
   static take(app: ReaderApp, name: string) {
+    if (app.state.creation) { app.opening.drawn(name); return; }
     app.opening.edit(0, 'name', name);
     app.setState({ named: false });
   }

@@ -53,8 +53,9 @@ describe('a roll made outside a fight', () => {
       }
     }
   });
+  // Looked at: the dice are behind a deliberate look (BP-03), and here the look is made.
   const html = (...lines: ExchangeLine[]) => renderToStaticMarkup(createElement(Told.Happened,
-    { exchange: { lines, notes: [], tone: 'act' } }));
+    { exchange: { lines, notes: [], tone: 'act' }, looked: true }));
   it('is drawn as the twenty faces, those that would do it lit, and the die where it came down', () => {
     const out = html({ text: 'You look closely at the grate.', kind: 'event' },
       { text: check({ die: 14, stat: 'wisdom', modifier: 2, trained: 3, rolled: 19, success: true }), kind: 'roll' });

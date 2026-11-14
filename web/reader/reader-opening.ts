@@ -4,7 +4,8 @@ import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
 import { CreationDefaults } from '../engine/creation-defaults';
-import { CreationFlow, type CreationStepId } from '../engine/creation-flow';
+import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
+import type { CreationState } from '../engine/engine-creation';
 import { WorldStage } from './stage/world-stage';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
@@ -42,8 +43,12 @@ export class ReaderOpening {
       if (setting.generated && party[0] && catalog) {
         CreationDefaults.settle(party[0], catalog, { trade: !first?.background });
       }
-      app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting, party,
-        editing: -1, origin: first?.id, named: false });
+      // A drawn country's life is the engine's to hold (EngineCreation): where it stands, asked once it is drawn.
+      const creation = setting.generated && campaign === 'world'
+        ? await app.engine.request<CreationState>({ kind: 'creation' }) : undefined;
+      app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting,
+        party: creation ? [creation.member, ...party.slice(1)] : party, editing: -1,
+        origin: creation ? creation.origin : first?.id, named: false, creation });
       this.readySoon();
       await this.preview(party);
     // A pick that fails goes back where it came from: the title, or for development (?dev) the list of campaigns (a
@@ -62,6 +67,11 @@ export class ReaderOpening {
   }
   // Making the protagonist as the engine's one flow says it (CreationFlow): its steps, their questions and cards, and
   // which is chosen; the page shows them and says which was chosen.
+  // Where the engine holds the making (a drawn country), its steps as it gives them; else, for a campaign's own
+  // company, the same flow made here.
+  steps(): CreationStep[] {
+    return this.app.state.creation?.steps ?? this.flow()?.steps() ?? [];
+  }
   flow(): CreationFlow | undefined {
     const s = this.app.state;
     if (!s.setting || !s.catalog || !s.party[0]) { return undefined; }
@@ -72,6 +82,8 @@ export class ReaderOpening {
   // A card chosen at a step of the flow. Its rules are the page's as they stand (edit, origin), which the flow's own
   // choose follows; a kind of life is the trade of it the flow finds best suited to the calling.
   choose(step: CreationStepId, id: string) {
+    // The engine's making, where it holds it: the choice goes to it, and what it settles comes back.
+    if (this.app.state.creation) { void this.chosen(step, id); return; }
     if (step === 'why') { this.origin(id); return; }
     if (step === 'before') {
       const flow = this.flow();
@@ -83,10 +95,31 @@ export class ReaderOpening {
       name: 'name' } as const)[step];
     this.edit(0, field, id);
   }
+  private async chosen(step: CreationChoice, value: string) {
+    const app = this.app;
+    this.pressed(step, value);
+    try {
+      const creation = await app.engine.request<CreationState>({ kind: 'creation', step, value });
+      // A name being written stays as the hand has it (a reply to an earlier letter must not undo a later one).
+      const member = step === 'name' || step === 'drawn'
+        ? { ...creation.member, name: app.state.party[0]?.name ?? creation.member.name } : creation.member;
+      const party = [member, ...app.state.party.slice(1)];
+      app.setState({ creation, party, origin: creation.origin, ...step === 'name' ? { named: !!value.trim() } : {},
+        ...step === 'drawn' ? { named: false } : {} });
+      if (step !== 'name' && step !== 'drawn') { void this.preview(party); }
+      this.readySoon();
+    } catch (error) { this.fail(error, 'company'); }
+  }
   // A change to one companion. Changing calling or specialization discards choices that no longer fit; in a drawn
   // country, what is discarded is taken again as it stands until changed (see CreationDefaults), and a name the
   // player has not written or chosen is drawn again for a new people, or a new way of presenting.
   edit(index: number, field: string, value: string) {
+    // The engine's making, where it holds it: each change goes to it as the choice it is (see CreationChoice).
+    const engine = ReaderOpening.choices[field];
+    if (this.app.state.creation && index === 0 && engine) {
+      void this.chosen(engine, value);
+      return;
+    }
     const party = structuredClone(this.app.state.party), member = party[index], was = member?.classId;
     if (!member) { return; }
     const people = member.raceId;
@@ -105,6 +138,7 @@ export class ReaderOpening {
   }
   // The spells chosen for a member at first level (see SpellChoice), as they are to be set out with.
   spells(index: number, ids: string[]) {
+    if (this.app.state.creation && index === 0) { void this.chosen('spells', ids.join(',')); return; }
     const party = structuredClone(this.app.state.party), member = party[index];
     if (!member) { return; }
     member.spells = ids;
@@ -133,6 +167,28 @@ export class ReaderOpening {
     const s = this.app.state;
     return !!s.setting?.origins?.find(o => o.id === s.origin)?.background;
   }
+  // The press shown at once, never waiting on the engine (the grammar: focus and choosing answer in the same frame):
+  // the card chosen, the field it names set, two rolls changed over; what the choice settles besides comes back with
+  // the engine's state and replaces this.
+  private pressed(step: CreationChoice, value: string) {
+    const s = this.app.state, creation = s.creation, member = s.party[0];
+    if (!creation || !member) { return; }
+    const field = ({ you: 'raceId', calling: 'classId', presenting: 'pronouns', weapon: 'weapon', sign: 'sign',
+      trade: 'backgroundId' } as Partial<Record<CreationChoice, keyof Member>>)[step];
+    const named = step === 'name' || step === 'drawn';
+    const now = { ...member, ...field ? { [field]: value } : {}, ...named ? { name: value } : {} } as Member;
+    const [a, b] = step === 'place' ? value.split(':') : [], rolled = now.rolled as Record<string, number> | undefined;
+    if (a && b && rolled?.[a] !== undefined && rolled[b] !== undefined) {
+      now.rolled = { ...rolled, [a]: rolled[b]!, [b]: rolled[a]! };
+    }
+    const steps = creation.steps.map(x => x.id === step ? { ...x, chosen: value } : x), why = step === 'why' ? { origin: value } : {};
+    this.app.setState({ creation: { ...creation, steps, ...why }, party: [now, ...s.party.slice(1)], ...why });
+  }
+  // A name taken from the table, borne as the table's (see CreationChoice).
+  drawn(name: string) { void this.chosen('drawn', name); }
+  // Each field the page changes, as the engine's making names the choice.
+  static readonly choices: Record<string, CreationChoice> = { raceId: 'you', classId: 'calling', pronouns: 'presenting',
+    name: 'name', specialization: 'specialty', backgroundId: 'trade', weapon: 'weapon' };
   // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,
   // none until it is chosen, or in a drawn country the calling's own until then (the engine gives the origin's too:
   // Origins.member).
@@ -146,6 +202,7 @@ export class ReaderOpening {
   }
   // Two qualities' rolls changed over, as the player places them.
   place(a: string, b: string) {
+    if (this.app.state.creation) { void this.chosen('place', `${a}:${b}`); return; }
     const party = structuredClone(this.app.state.party);
     const rolled = party[0]?.rolled as Record<string, number> | undefined;
     if (!rolled || rolled[a] === undefined || rolled[b] === undefined) { return; }
@@ -155,6 +212,7 @@ export class ReaderOpening {
   }
   // Six new rolls of three dice, one on each quality where it falls.
   reroll() {
+    if (this.app.state.creation) { void this.chosen('reroll', ''); return; }
     const party = structuredClone(this.app.state.party), member = party[0];
     if (!member?.rolled) { return; }
     const die = new Uint8Array(18);
@@ -200,7 +258,10 @@ export class ReaderOpening {
     const starting = this.starting();
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
     clearTimeout(this.readyTimer);
-    await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting, apart: this.apart() }), 'company');
+    // The life the engine holds, set out with as it stands (EngineCreation); else the page's own company.
+    await this.enter(this.app.state.creation
+      ? this.app.engine.request<Frame>({ kind: 'set-out', apart: this.apart() })
+      : this.app.engine.request<Frame>({ kind: 'begin', ...starting, apart: this.apart() }), 'company');
   }
   // Whether the page tells a new game's opening apart, before the first place (see PrologueStage). The engine says
   // whether there is one (an origin's first moment; an authored campaign has none, and opens on its first place).
