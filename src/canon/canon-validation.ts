@@ -152,6 +152,7 @@ export class CanonValidation {
       if (v.material && !Canon.materials[v.material]) { this.fail(where, `unknown material ${v.material}`); }
       for (const a of (v.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `unknown ability ${a}`); }
       for (const t of (v.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `unknown trait ${t}`); }
+      if (v.portrait && !CanonValidation.paintings.has(v.portrait)) { this.fail(where, `no plate ${v.portrait} cut yet`); }
       this.stated(where, v);
     }
   }
