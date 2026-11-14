@@ -1,6 +1,7 @@
 import emblems from '../../data/paintings/emblems.json';
 import { Emphasis } from './emphasis';
 import type { Aspect, MarkKind } from './glance-types';
+import type { Bearing, Offer } from './offer';
 
 // The game's signs, as text: what every client draws beside an act's words, from one table, so that the page and the
 // terminal cannot say them differently (the owner, 14 November: the terminal and the browser drawing from one shared
@@ -20,6 +21,18 @@ export class Signs {
   static readonly hold = { sign: '⧗', said: 'hold to do it' };
   // A way to a place with nothing new to give for now (Glance.idle): drawn dim, and said so where nothing dims.
   static readonly idle = 'nothing new';
+  // A way's bearing in a site (Offers.borne, EX-02): the frontier, not yet taken, its contents unknown; or back to
+  // familiar ground, the retreat the company came by or a return to somewhere been (EX-02 tells the two apart from
+  // the frontier, not from each other). Signed by direction (in, out), never by colour, and said in a plain word.
+  static readonly bearings: Record<Bearing, { sign: string; said: string }> = {
+    frontier: { sign: Signs.whither.Into!, said: 'unexplored' }, retreat: { sign: Signs.whither.Out!, said: 'back' },
+    return: { sign: Signs.whither.Out!, said: 'back' } };
+  // The bearing of the offered act a row does (by its command or its choice), as both clients read it.
+  static bearing(glance: { offer?: Offer } | undefined, id: string): { sign: string; said: string } | undefined {
+    const o = [...glance?.offer?.primary ?? [], ...glance?.offer?.rest ?? []]
+      .find(x => x.bearing && (x.command === id || x.choice === id));
+    return o?.bearing ? this.bearings[o.bearing] : undefined;
+  }
   // The board's kinds of place, as the map's own signs draw them (web/reader/board/board-glyphs), one character each.
   static readonly places: Record<string, string> = { tower: '♜', ruin: '◫', cave: '◠', stone: '▮', ford: '≋',
     way: '⇢', camp: '△', shrine: '☩', barrow: '◓', tarn: '◯', crag: '▲', grove: '♣', place: '◆', unknown: '?' };

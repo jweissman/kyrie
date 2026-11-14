@@ -1,0 +1,76 @@
+/// <reference lib="dom" />
+// The opening, recorded unedited with one of the interaction research's versions of the action control (IX=a or b;
+// unset, the game as it is): the studio's mark, the title, creation, setting out, the opening's pages, the first
+// scene, then a dozen uses of the control there (talk, leave, a wait: held in b), as a player at a keyboard and a
+// mouse meets them, at 1280 by 800. As aesthetic/tools/zz-record, with the hand drawn into the video (a recording
+// has no cursor: a dim stand-in ring follows the pointer; the reticle b draws while a hold lasts is the page's own).
+// Copied to test/zz-ix-record-browser.test.ts to run, with RECORD_SITE (a built site) and RECORD_OUT; KYRIE_BROWSER=1.
+import { describe, it } from 'bun:test';
+import type { Page } from 'playwright-core';
+import { MonoBrowser } from './support/mono-browser';
+
+const site = process.env.RECORD_SITE ?? '/var/tmp/kyrie/ix/site', ix = process.env.IX ?? '';
+const out = process.env.RECORD_OUT ?? `/var/tmp/kyrie/ix/opening-${ix || 'base'}`;
+class Ghost {
+  static readonly script = () => {
+    const ghost = document.createElement('i');
+    ghost.style.cssText = 'position:fixed;left:-11px;top:-11px;width:16px;height:16px;margin:3px;border-radius:50%;'
+      + 'border:1.5px solid rgba(236,230,217,.8);box-shadow:0 0 0 1.5px rgba(10,11,14,.55);pointer-events:none;z-index:9999';
+    window.addEventListener('pointermove', e => {
+      if (!ghost.isConnected) { document.body?.append(ghost); }
+      ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    }, true);
+  };
+  static async to(page: Page, selector: string) {
+    const b = await page.locator(selector).first().boundingBox({ timeout: 5000 }).catch(() => null);
+    if (b) { await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 12 }); }
+    return !!b;
+  }
+}
+describe.skipIf(!process.env.KYRIE_BROWSER)('the opening, with the action control', () => {
+  it('is recorded', async () => {
+    const browser = await MonoBrowser.launch();
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 },
+      recordVideo: { dir: out, size: { width: 1280, height: 800 } } });
+    await context.addInitScript(`(${Ghost.script.toString()})()`);
+    const page = await context.newPage(), pause = (ms: number) => page.waitForTimeout(ms);
+    const log: string[] = [], t0 = Date.now(), note = (s: string) => log.push(`${((Date.now() - t0) / 1000).toFixed(1)}s ${s}`);
+    await page.goto(`file://${site}/mono.html?ident&opening${ix ? `&ix=${ix}` : ''}`);
+    await page.waitForSelector('.beat-ready', { timeout: 30000 }); note('title ready');
+    await page.mouse.move(640, 700); await pause(1200);
+    await page.keyboard.press('ArrowDown'); await pause(800); await page.keyboard.press('ArrowUp'); await pause(800);
+    await Ghost.to(page, '[data-action="begin"]'); await pause(600);
+    await page.click('[data-action="begin"]'); note('new game');
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); note('creation');
+    for (let step = 0; step < 8 && await page.locator('[data-action="next"]').count(); step++) {
+      await pause(1200);
+      const cards = page.locator('.creation .card:not([disabled])');
+      if (await cards.count() > 1) { await Ghost.to(page, '.creation .card:not([disabled]) >> nth=1'); await pause(400); await cards.nth(1).click(); }
+      await pause(900); await Ghost.to(page, '[data-action="next"]'); await pause(300); await page.click('[data-action="next"]');
+    }
+    await pause(1200); await Ghost.to(page, '[data-action="start"]'); await page.click('[data-action="start"]'); note('set out');
+    await page.waitForSelector('[data-mode="prologue"], [data-mode="explore"]', { timeout: 120000 }); note('opening');
+    for (let beat = 0; beat < 8 && await page.locator('[data-mode="prologue"]').count(); beat++) {
+      await pause(3000);
+      if (await page.locator('[data-action="answer"]').count()) { await page.keyboard.press('1'); await pause(3500); }
+      else { await page.keyboard.press('Enter'); }
+    }
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 }); note('first scene'); await pause(3500);
+    // The control, a dozen times: the first person here talked to and left, by the hand and by the keys; a wait.
+    const talk = ':is([data-act$="#talk"], [data-act^="talk_to("])', leave = '[data-act$="#leave"]';
+    for (let i = 0; i < 12; i++) {
+      if (i % 3 === 2) {
+        if (!await Ghost.to(page, '[data-act="company/0:Wait"]')) { continue; }
+        await page.click('[data-act="company/0:Wait"]'); await pause(700);
+        if (!await Ghost.to(page, '[data-act="company/0:Wait/0:A while"]')) { continue; }
+        await page.mouse.down(); await pause(ix === 'b' ? 650 : 60); await page.mouse.up(); note('a while');
+      } else if (await Ghost.to(page, talk)) {
+        await pause(300); await page.click(talk); note('talk'); await pause(2200);
+        if (await Ghost.to(page, leave)) { await pause(300); await page.click(leave); note('leave'); }
+      }
+      await pause(2000);
+    }
+    console.log(log.join('\n'));
+    await context.close(); await browser.close();
+  }, 400000);
+});

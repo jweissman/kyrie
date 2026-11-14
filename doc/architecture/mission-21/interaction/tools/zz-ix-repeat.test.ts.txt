@@ -1,0 +1,207 @@
+/// <reference lib="dom" />
+// The interaction research's repetition test (doc/architecture/mission-21/interaction/experiment.md): the principal
+// action control used over and over, as a player at a keyboard and a mouse uses it, on the game as it is (IX unset)
+// or on one of its two versions (IX=a, the tap; IX=b, the hold). Each repetition talks to the first person here and
+// takes leave (by the hand, then by the keys, in turn) and waits a while (by the hand: a hold in b). Then the accidents
+// a player makes: a double click, a key held down, a press begun on one screen and let go on the next, a second click
+// while the first is answered; and in b the hold's own (a tap on a held act, one let go early, one held by the keys).
+// Measured from the page: the engine's requests (a wrapped Worker.postMessage), when the press is first shown taken
+// (a frame after the hand or key went down), the engine's round trip (Timings), whether the next screen lights the
+// row under a hand that has not moved, and whether anything moved under the hand while pressed.
+// Copied to test/zz-ix-repeat-browser.test.ts to run, with IX_SITE (a built site), IX, IX_REPS, IX_OUT; KYRIE_BROWSER=1.
+import { describe, it } from 'bun:test';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import type { Page } from 'playwright-core';
+import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
+
+const site = process.env.IX_SITE ?? '/var/tmp/kyrie/ix/site', ix = process.env.IX ?? '';
+const reps = Number(process.env.IX_REPS ?? 30), out = process.env.IX_OUT ?? `/var/tmp/kyrie/ix/repeat-${ix || 'base'}`;
+type Probe = { sent: string[]; down: number; ack: number; done: number; box: string; boxAck: string };
+class Hand {
+  static readonly talk = ':is([data-act$="#talk"], [data-act^="talk_to("])';
+  static readonly leave = '[data-act$="#leave"]';
+  static readonly wait = '[data-act="company/0:Wait"]';
+  static readonly awhile = '[data-act="company/0:Wait/0:A while"]';
+  // Counts the engine's requests and times the first frame a press is shown taken, from the page's first script.
+  static readonly script = () => {
+    const w = window as unknown as { __ix: Probe };
+    w.__ix = { sent: [], down: 0, ack: 0, done: 0, box: '', boxAck: '' };
+    const post = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function (this: Worker, m: { request?: { kind: string } }, ...rest: never[]) {
+      if (m?.request) { w.__ix.sent.push(m.request.kind); }
+      return post.call(this, m, ...rest);
+    } as typeof post;
+    const box = () => [...document.querySelectorAll('.choice-row')].map(e => {
+      const r = e.getBoundingClientRect(); return `${Math.round(r.x)},${Math.round(r.y)},${Math.round(r.width)},${Math.round(r.height)}`;
+    }).join(';');
+    const down = () => {
+      w.__ix.down = performance.now(); w.__ix.ack = 0; w.__ix.done = 0; w.__ix.box = box();
+      const busy = () => !!document.querySelector('[data-taken], .stage[aria-busy], [data-holding]');
+      const finish = (t: number) => {
+        if (!busy()) { w.__ix.done = t; return; }
+        if (t - w.__ix.down < 5000) { requestAnimationFrame(finish); }
+      };
+      const look = (t: number) => {
+        if (busy()) { w.__ix.ack = t; w.__ix.boxAck = box(); requestAnimationFrame(finish); return; }
+        if (t - w.__ix.down < 3000) { requestAnimationFrame(look); }
+      };
+      requestAnimationFrame(look);
+    };
+    // The system's cursor is not in a recording: a stand-in ring follows the hand, dimmer, for the video alone.
+    const ghost = document.createElement('i');
+    ghost.style.cssText = 'position:fixed;left:-11px;top:-11px;width:16px;height:16px;margin:3px;border-radius:50%;'
+      + 'border:1.5px solid rgba(236,230,217,.8);box-shadow:0 0 0 1.5px rgba(10,11,14,.55);pointer-events:none;z-index:9999';
+    window.addEventListener('pointermove', e => {
+      if (!ghost.isConnected) { document.body?.append(ghost); }
+      ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    }, true);
+    window.addEventListener('pointerdown', down, true);
+    window.addEventListener('keydown', e => { if (!e.repeat) { down(); } }, true);
+  };
+  static probe(page: Page) { return page.evaluate(() => (window as unknown as { __ix: Probe }).__ix); }
+  static async sent(page: Page) { return (await Hand.probe(page)).sent.filter(k => k !== 'save').length; }
+  static async over(page: Page, selector: string) {
+    const b = (await page.locator(selector).first().boundingBox({ timeout: 5000 }))!;
+    await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 4 });
+  }
+  // Whether the row under the resting hand is lit after the screen changed under it.
+  static lit(page: Page) {
+    return page.evaluate(() => {
+      const hot = document.querySelector('.choice-row:hover');
+      const cold = [...document.querySelectorAll('.choice-row')].find(e => e !== hot && !e.matches('.sel, :focus-visible'));
+      return !!hot && !!cold && getComputedStyle(hot).backgroundColor !== getComputedStyle(cold).backgroundColor;
+    });
+  }
+  static async held(page: Page, selector: string, ms: number) {
+    await Hand.over(page, selector); await page.mouse.down(); await page.waitForTimeout(ms); await page.mouse.up();
+  }
+  static async digit(page: Page, selector: string) {
+    const n = await page.locator(`${selector} .row-key, ${selector} kbd`).first().textContent();
+    await page.keyboard.press(n!.trim());
+  }
+}
+class Run {
+  readonly rows: Record<string, unknown>[] = [];
+  readonly accidents: Record<string, unknown> = {};
+  constructor(readonly page: Page, readonly d: MonoDriver) {}
+  // One act, by whatever means, measured: requests sent, the press shown taken, the round trip, a hand left lit.
+  async act(what: string, how: () => Promise<void>) {
+    const page = this.page, before = await Hand.sent(page);
+    await how(); await this.d.settle(); await page.waitForTimeout(ix === 'b' ? 420 : 120);
+    const p = await Hand.probe(page), timing = await page.evaluate(() =>
+      (window as unknown as { kyrieMono: { inspect(): { timings: { total: number }[] } } }).kyrieMono.inspect().timings.at(-1));
+    this.rows.push({ what, sent: (await Hand.sent(page)) - before, ack: p.ack ? Math.max(0, Math.round(p.ack - p.down)) : null,
+      total: p.done ? Math.round(p.done - p.down) : timing?.total, moved: p.ack ? p.box !== p.boxAck : null, lit: await Hand.lit(page) });
+  }
+  // Stills of the first repetition: the hand over a row, a hold half way, the hint after a tap on a held act.
+  async stills() {
+    const page = this.page, shot = (n: string) => page.screenshot({ path: `${out}/still-${n}.png` });
+    await Hand.over(page, Hand.talk); await page.waitForTimeout(250); await shot('over');
+    await page.click(Hand.wait); await page.waitForTimeout(300);
+    await Hand.over(page, Hand.awhile); await page.waitForTimeout(250); await shot('wait-open');
+    if (ix !== 'b') { await page.keyboard.press('Escape'); return; }
+    // Slowed for the stills alone (a screenshot takes longer than the hold), then as it was.
+    await page.evaluate(() => document.documentElement.style.setProperty('--hold-ms', '3000ms'));
+    await page.mouse.down(); await page.waitForTimeout(1300); await shot('held-half');
+    await page.mouse.up(); await page.waitForTimeout(90); await shot('let-go');
+    await page.waitForTimeout(400); await shot('hint');
+    await page.evaluate(() => document.documentElement.style.removeProperty('--hold-ms')); await this.home();
+  }
+  async repeat(i: number) {
+    const page = this.page, keys = i % 2 === 1;
+    await this.act(keys ? 'talk (key)' : 'talk (hand)', () => keys ? Hand.digit(page, Hand.talk) : page.click(Hand.talk));
+    await this.act(keys ? 'leave (key)' : 'leave (hand)', () => keys ? Hand.digit(page, Hand.leave) : page.click(Hand.leave));
+    await page.click(Hand.wait); await page.waitForTimeout(150);
+    await this.act(ix === 'b' ? 'a while (held)' : 'a while (hand)', () => ix === 'b' ? Hand.held(page, Hand.awhile, 640)
+      : page.click(Hand.awhile));
+  }
+  // Back to the place at rest, the first person there to be talked to, whatever an accident did.
+  async home() {
+    for (let k = 0; k < 6 && !await this.page.locator(Hand.talk).count(); k++) {
+      if (await this.page.locator(Hand.leave).count()) { await this.page.click(Hand.leave); }
+      else { await this.page.keyboard.press('Escape'); }
+      await this.d.settle(); await this.page.waitForTimeout(200);
+    }
+    if (!await this.page.locator(Hand.talk).count()) {
+      const s = await this.d.inspect();
+      console.log('lost:', s.mode, JSON.stringify(s.place), s.choices.map(c => c.id).join(' | '));
+      await this.page.screenshot({ path: `${out}/lost.png` });
+      console.log(await this.page.evaluate(() => [...document.querySelectorAll('button')].filter(b => /Talk/.test(b.textContent ?? '')).map(b => b.outerHTML.slice(0, 300)).join('\n')));
+    }
+  }
+  async counted(name: string, how: () => Promise<void>) {
+    const before = await Hand.sent(this.page);
+    try { await how(); } catch (e) { this.accidents[`${name}: failed`] = String(e).slice(0, 120); }
+    await this.page.waitForTimeout(500); await this.d.settle(); await this.page.waitForTimeout(300);
+    this.accidents[name] = (await Hand.sent(this.page)) - before;
+    const said = await this.page.evaluate(() => (window as unknown as { kyrieMono: { inspect(): { timings: { said: string }[] } } })
+      .kyrieMono.inspect().timings.slice(-4).map(t => t.said));
+    this.accidents[`${name}: last said`] = said;
+    await this.home();
+  }
+}
+
+describe.skipIf(!process.env.KYRIE_BROWSER)('the action control, over and over', () => {
+  it(`is used ${reps} times (${ix || 'the game as it is'})`, async () => {
+    mkdirSync(out, { recursive: true });
+    const browser = await MonoBrowser.launch();
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 },
+      recordVideo: { dir: out, size: { width: 1280, height: 800 } } });
+    await context.addInitScript(`(${Hand.script.toString()})()`);
+    const page = await context.newPage(), errors: string[] = [];
+    page.on('pageerror', e => errors.push(String(e)));
+    const d = new MonoDriver(page, false), run = new Run(page, d);
+    await page.goto(`file://${site}/mono.html?world=kite${ix ? `&ix=${ix}` : ''}`);
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 }); await d.enter(); await page.waitForTimeout(800);
+    await run.stills(); await run.home();
+    for (let i = 0; i < reps; i++) {
+      try { await run.repeat(i); } catch (e) { run.rows.push({ what: `rep ${i} failed`, error: String(e).slice(0, 160) }); }
+      await run.home();
+    }
+    // The accidents.
+    await run.counted('double click on talk', () => page.dblclick(Hand.talk));
+    if (!process.env.IX_SKIP_ENTER) await run.counted('Enter held on talk', async () => {
+      await page.locator(Hand.talk).first().focus();
+      for (let k = 0; k < 10; k++) { await page.keyboard.down('Enter'); await page.waitForTimeout(40); }
+      await page.keyboard.up('Enter');
+    });
+    await run.counted('press begun in talk, let go in the place', async () => {
+      await page.click(Hand.talk); await d.settle();
+      const rows = page.locator('.talk .replies .choice-row');
+      await Hand.over(page, (await rows.count()) > 1 ? '.talk .replies li:nth-child(2) .choice-row' : `${Hand.leave} >> nth=0`);
+      await page.mouse.down(); await Hand.digit(page, Hand.leave); await d.settle(); await page.mouse.up();
+    });
+    run.accidents['press begun in talk, let go in the place'] = Number(run.accidents['press begun in talk, let go in the place']) - 2;
+    await run.home();
+    await page.mouse.move(5, 5);
+    await run.counted('two clicks 90 ms apart on talk', async () => {
+      const r = (await page.locator(Hand.talk).first().boundingBox())!, x = r.x + r.width / 2, y = r.y + r.height / 2;
+      await page.mouse.click(x, y); await page.waitForTimeout(90); await page.mouse.click(x, y);
+    });
+    if (ix === 'b') {
+      await page.click(Hand.wait); await page.waitForTimeout(150);
+      await run.counted('tap on a held act', () => page.click(Hand.awhile));
+      run.accidents['hint after the tap'] = await page.locator('[data-hint]').count();
+      await run.counted('held act let go at 250 ms', () => Hand.held(page, Hand.awhile, 250));
+      await run.counted('held act held by Enter', async () => {
+        await page.locator(Hand.awhile).first().focus();
+        for (let k = 0; k < 16; k++) { await page.keyboard.down('Enter'); await page.waitForTimeout(40); }
+        await page.keyboard.up('Enter');
+      });
+    }
+    const rows = run.rows, n = (f: (r: Record<string, unknown>) => boolean) => rows.filter(f).length;
+    const acks = rows.map(r => r.ack as number | null).filter((a): a is number => a !== null).sort((a, b) => a - b);
+    const totals = rows.map(r => r.total as number).filter(Boolean).sort((a, b) => a - b);
+    const summary = { ix: ix || 'base', reps, acts: rows.length, duplicates: n(r => (r.sent as number) > 1),
+      missed: n(r => (r.sent as number) < 1), litAfter: n(r => !!r.lit), movedUnderHand: n(r => !!r.moved),
+      ackMedian: acks[acks.length >> 1], ackP95: acks[Math.floor(acks.length * .95)],
+      totalMedian: totals[totals.length >> 1], totalP95: totals[Math.floor(totals.length * .95)],
+      accidents: run.accidents, errors };
+    console.log(JSON.stringify(summary, null, 1));
+    writeFileSync(`${out}/summary.json`, JSON.stringify({ summary, rows }, null, 1));
+    await context.close(); await browser.close();
+  }, 1200000);
+});

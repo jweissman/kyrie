@@ -13,6 +13,10 @@ import type { Promoted } from '../../src/presentation/glance-types';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
+import { PressGuard } from './press-guard';
+import { Press } from './instrument/press';
+import { Hold } from './instrument/hold';
+import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings';
 import { TitlePage } from './title-page';
@@ -81,7 +85,8 @@ export interface AppState {
   // Whether the keys are being used: only then is the choice they are on shown.
   keyed?: boolean;
   // What is under way, as it is said; a journey, by what way (where it is known), and that it is one.
-  pending?: { said: string; travel?: Travel; going?: boolean };
+  // taken: the choice it was, drawn taken while the engine answers (the interaction research's versions: see Press).
+  pending?: { said: string; travel?: Travel; going?: boolean; taken?: string };
   // What the player is attending to (the place, someone spoken with, one thing looked at), what has been said in
   // the conversation under way, and which of its questions have been put already.
   attention: Attention; talk: TalkLine[]; asked: string[];
@@ -124,6 +129,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   override componentDidMount() {
     window.addEventListener('keydown', this.keys.press);
+    // A press taken once, on the screen it was made on (IG-17, IG-18).
+    PressGuard.attach(() => this.state.frame ?? this.state.phase);
+    Press.attach(() => this.state.phase === 'play'); Hold.attach();
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
@@ -134,6 +142,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame;
     if (frame && prev.frame !== frame) {
       Timings.painted(frame);
+      PressGuard.changed(); Press.arrived();
       // The keys rest on what the page marks first, not on whatever is drawn first (the owner, 4 November: the first
       // option lit while another was the aim's).
       const top = this.state.keyed ? GlanceStage.top(this) : -1;
@@ -145,6 +154,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     // So does someone or something turned to (a phone kept the place's scroll, and opened a portrait at its chest).
     const [was, now] = [prev.attention, this.state.attention];
     if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { ReaderApp.top(); }
+    if (was !== now) { PressGuard.changed(); }
     if (prev.cursor !== this.state.cursor && prev.frame === frame && this.state.keyed && !this.state.hovered) {
       // On the sheet raised over a place, when it is there too (a way rowed under the glance and among every way).
       const at = `[data-action="choice"][data-index="${this.state.cursor}"]`;
@@ -222,11 +232,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
+    if (!Hold.holds(choice)) { Tone.play('commit'); }
     // The fight's pace (ChoiceList.pace): its own requests.
     if (choice.command === 'fight:auto') { this.auto(); return; }
     if (choice.command === 'fight:through') { this.through(); return; }
     if (frame.combat) {
-      this.setState({ pending: { said }, fight: ReaderApp.mark(frame, this.state.fight) });
+      this.setState({ pending: { said, taken: choice.id }, fight: ReaderApp.mark(frame, this.state.fight) });
       this.engine.request({ kind: 'fight', choice: choice.command }).catch(this.failed);
       return;
     }
@@ -283,12 +294,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private async perform(choice: Choice, said: string, turning?: Attention) {
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame), going = /^travel:/.test(choice.command!);
     const heard = this.menu.talk?.replies.map(c => c.id), was = this.state.attention;
-    this.setState({ pending: { said, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });
+    this.setState({ pending: { said, taken: choice.id, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });
+    const started = performance.now();
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
+      await Press.settle(started);
       // A journey over the land is walked on the map, wherever it was set out from, to the hex it came to: where it
       // arrived, or where it was stopped; what came of it is told once the company is there.
       const walked = journey ? JourneyCourse.of(frame, next) : undefined;

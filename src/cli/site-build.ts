@@ -92,7 +92,7 @@ export class SiteBuild {
   // type, surfaces, the shared controls); the lantern's ground, choices and books; the shell, title and creation; then
   // each composition of play; then the light the company carries, over all of them.
   static readonly sheets = ['foundations.css', 'reader.css', 'frame.css', 'stage.css', 'glance.css', 'world.css',
-    'rest.css', 'talk.css', 'fight.css', 'book.css', 'light.css', 'menu.css', 'look.css'];
+    'rest.css', 'talk.css', 'fight.css', 'book.css', 'light.css', 'menu.css', 'look.css', 'instrument.css'];
   // The page, its title the game's name (src/presentation/identity.ts) and the given script before its end.
   private static async page(out: string, script: string) {
     const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8'))

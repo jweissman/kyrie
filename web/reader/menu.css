@@ -44,6 +44,8 @@
   .shell :is(button, a[href], [role="button"], [data-act], [data-choice], [data-action], .card, .fighter.target, label, summary):not(:disabled, [aria-disabled="true"]):active * {
     cursor: var(--cursor-press) !important; }
 }
+/* The hand that has not moved since the screen changed lights nothing (IG-18, see PressGuard): what it rests on was
+   never pointed at. It lights again as soon as it moves or presses; the keys' highlight and a focused row keep theirs. */
 /* What the hand or the keys are on is lit in its own tone (IG-15): a tint of the row's colour, the atlas's one
    (Indicator.of, the row's mark), ivory where it is nothing in particular, gold only for the followed step. Pressed,
    deeper, at once. Never movement, never a box that changes size (IG-08). */
@@ -73,6 +75,8 @@
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel):not(.shut, [disabled], [aria-disabled="true"]) {
   background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
   border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+:root[data-still] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:hover:not(:active, .sel, :focus-visible, .opened, [aria-expanded="true"], .shut, [disabled], [aria-disabled="true"]) {
+  background: var(--choice-ground); border-color: var(--choice-edge); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:active:not(.shut, [disabled], [aria-disabled="true"]) {
   background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
   border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transform: none; transition: none; }
