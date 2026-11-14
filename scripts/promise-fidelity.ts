@@ -59,4 +59,4 @@ export class PromiseFidelity {
     }
   }
 }
-await PromiseFidelity.main(process.argv.slice(2));
+if (import.meta.main) { await PromiseFidelity.main(process.argv.slice(2)); }
