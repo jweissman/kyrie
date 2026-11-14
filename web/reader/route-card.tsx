@@ -40,7 +40,7 @@ export class RouteCard {
           {way.go && <button type="button" className="act go rc-go" data-action="set-out" data-act={way.go.id} aria-label={way.go.label}
             title={way.go.label} onClick={() => app.choose(way.go!)}>Set out</button>}
           {nearby.length > 0 && <button type="button" className="option rc-near" data-action="explore-nearby"
-            onClick={() => RouteCard.explore(app)}>Explore nearby<span className="rc-span">
+            onClick={() => RouteCard.explore(app)}>{Typography.curl(RouteCard.around(screen))}<span className="rc-span">
               {Words.many(nearby.length, 'place')}</span></button>}
         </div>}
         {clear && !over && <button type="button" className="unchoose" data-action="map-unchoose"
@@ -130,6 +130,13 @@ export class RouteCard {
   static nearby(region: RegionChart): NonNullable<RegionChart['land']>['marks'] {
     const land = region.land;
     return land?.here === undefined ? [] : land.marks.filter(m => m.cell === land.here && !m.here && m.state !== 'unknown');
+  }
+  // What the way back to where the company stands is called on the card: around the town or the place it is in, not
+  // "Explore nearby", which beside a place that has no way known had read as the way there (the cold playtest of 14
+  // November, CO-09: "Explore nearby · 31 places" was the town the company was leaving).
+  static around(screen: Screen): string {
+    const town = screen.path.find(p => p.kind === 'settlement')?.name;
+    return `Around ${(town ?? screen.place.name).replace(/^The /, 'the ')}`;
   }
   // Back to where the company stands, whose ways go among them (Go…), the map put away.
   private static explore(app: ReaderApp): void {

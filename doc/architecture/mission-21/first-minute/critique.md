@@ -112,3 +112,17 @@ not a redesign.
 | IG-04 | Creation's Continue as the grammar's row, as New game is | done in look-7 |
 | IG-05 | Setting out under the title's sky, the engine's steps as quiet lines | done in look-7, with the title passage |
 | IG-06 | A low tone on commit (sound), later | M22 |
+
+## The deployed recording (e1de5734, main up to look-6)
+
+The whole opening, unedited, was recorded from <https://jweissman.github.io/kyrie/> at 1280×800, keyboard and mouse,
+by `aesthetic/tools/zz-record.test.ts.txt`.
+- **The video** is `/var/tmp/kyrie/first-minute/969ea41465297cb907f6bc41d16e34f1.webm` (5.6 MB, about 58 s), kept out
+  of the repository.
+- **Its stills, one at each moment:** `live-e1de5734.png`.
+
+**What the live opening still gets wrong.**
+- The title is still the old moving double-diamond over drifting embers, and creation's focus is two outlines, so the
+  first two screens speak two different control languages.
+- In the first talk, "· for you" is still on the visible row. All of this is fixed in look-7, which is not yet
+  deployed.

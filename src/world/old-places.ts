@@ -19,7 +19,9 @@ export class OldPlaces {
     return region.sites.map((s, i) => {
       const common = said[i];
       if (!common || said.filter(c => c === common).length > 1 || towns.has(common)) { return s; }
-      return { ...s, name: common, old: s.name };
+      // A work's old name is what its makers cut over its door, not what the folk wore it down to: the two had been
+      // cut on one place in two spellings (LAPISTUMUL over the way in, LAPISTUMULO on the lintel: CO-04).
+      return { ...s, name: common, old: s.work?.made ?? s.name };
     });
   }
   // What its old name means, said in Common as the country's towns are: one word made of two by the languages
