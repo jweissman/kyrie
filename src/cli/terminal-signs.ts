@@ -20,9 +20,12 @@ export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; far?: n
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
   private readonly idle: Set<string>;
+  // The choices that stand at the top of a list, whose words say the whole act ("A while" is a wait's, under Wait).
+  private readonly whole: Set<string>;
   constructor(private readonly screen: Screen, private readonly glance: Glance | undefined) {
-    this.choices = new Map(ChoiceList.explore(screen).flatMap(s => s.choices).flatMap(c => TerminalSigns.leaves(c))
-      .map(c => [c.command!, c]));
+    const top = ChoiceList.explore(screen).flatMap(s => s.choices);
+    this.choices = new Map(top.flatMap(c => TerminalSigns.leaves(c)).map(c => [c.command!, c]));
+    this.whole = new Set(top.flatMap(c => c.command && !c.children?.length ? [c.command] : []));
     this.idle = new Set(glance?.idle ?? []);
   }
   on(id: string): Signed {
@@ -33,7 +36,8 @@ export class TerminalSigns {
     return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
       ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
       ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
-      ...c ? { shown: c.label } : {}, ...c?.note ? { note: c.note } : {} };
+      ...c && (c.alone ?? this.whole.has(id)) ? { shown: c.alone ?? c.label } : {},
+      ...c?.note ? { note: c.note } : {} };
   }
   // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way
   // marked so.

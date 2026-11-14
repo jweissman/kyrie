@@ -69,21 +69,24 @@ export class TerminalMenus {
     const priced = signed.note ? [Typography.plain(signed.note)] : c.time ? [`${c.time} min`] : [];
     const note = [...c.told ?? [], ...priced, ...signed.tags ?? [],
       ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [], ...signed.idle ? [Signs.idle] : []];
-    const about = [...words.length ? [words.join(', ')] : [],
+    const about = [
       ...signed.crosses ? [Signs.crossing.said] : [], ...signed.hold ? [Signs.hold.said] : []];
-    return { id: c.id, label: Typography.plain(signed.shown ?? c.name), aspects: c.aspects ?? [], signed,
+    const icon = Signs.acts[c.journey ? 'journey' : c.type ?? 'other'];
+    return { id: c.id, label: Typography.plain(signed.shown ?? c.name), aspects: c.aspects ?? [], signed, icon,
+      ...words.length ? { kinds: words.join(', ') } : {},
       ...note.length ? { note: note.join(' · ') } : {}, about,
       ...signed.asks ? { ask: Typography.plain(signed.asks) } : {} };
   }
   // An instrument as a row to read, not choose: its emblem, its label and what it reads; its gloss on asking.
   static instrument(i: Instrument): Row {
     const sign = i.emblem ? Signs.emblem(i.emblem) : undefined;
-    return { id: `instrument:${i.id}`, label: `${sign ? `${sign} ` : ''}${i.label}: ${Typography.plain(i.said)}`,
+    return { id: `instrument:${i.id}`, label: `${i.label}: ${Typography.plain(i.said)}`, icon: sign ?? '◌',
       info: true, about: [Typography.plain(i.gloss)] };
   }
   // The aims held, as the Notes list them: one followed by choosing it, the one followed let go by choosing it again.
   static aims(aims: { text: string; followed?: boolean }[]): Menu {
-    return { title: 'Aims', back: 'here', quiet: true, rows: aims.map((a, i) => ({ id: a.followed ? 'unfollow' : `follow ${i + 1}`,
+    return { title: 'Aims', back: 'here', quiet: true, rows: aims.map((a, i) => ({ icon: Signs.aspects.undertaking.sign,
+      id: a.followed ? 'unfollow' : `follow ${i + 1}`,
       label: Typography.plain(a.text), ...a.followed ? { aspects: ['undertaking' as const],
         note: 'Followed. Choose it to let it go.' } : { note: 'Choose it to follow it.' } })) };
   }

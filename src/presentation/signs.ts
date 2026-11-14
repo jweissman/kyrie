@@ -34,6 +34,11 @@ export class Signs {
     companionship: { sign: Signs.texts.companion!, plain: '&' } };
   // Going over into the next stretch of country (the page's journey emblem), and its plain sign.
   static readonly crossing = { sign: Signs.texts.journey!, plain: '>', said: 'into the next stretch of country' };
+  // Each kind of act (Offers' types) as one character, drawn before its words in a list (the terminal's rows), the
+  // emblems' own where they have one.
+  static readonly acts: Record<string, string> = { talk: Signs.texts.someone!, fight: '⚔', act: '◆', search:
+    Signs.texts.search!, go: Signs.texts.go_on!, journey: Signs.texts.journey!, light: '☀', wait: Signs.texts.wait!,
+    care: '✚', study: '✎', other: '·' };
   static way(whither: string | undefined, shut = false): string {
     return shut ? this.shut : this.whither[whither ?? ''] ?? '·';
   }

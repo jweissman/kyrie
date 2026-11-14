@@ -8,6 +8,7 @@ import { Terminal } from '../../src/cli/terminal';
 import { TerminalCreation } from '../../src/cli/terminal-creation';
 import { TerminalMenus, type Journeyed } from '../../src/cli/terminal-menus';
 import { TerminalPicker } from '../../src/cli/terminal-picker';
+import { TerminalPickerView } from '../../src/cli/terminal-picker-view';
 import { TerminalWidth } from '../../src/cli/terminal-width';
 import { TerminalSlots } from '../../src/cli/terminal-slots';
 import { CheckpointStore } from '../../src/session/checkpoint-store';
@@ -56,14 +57,15 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     const t = await Awkward.start(), four = Terminal.led(t.glance, t.screen);
     const k = await Keyed.play(t.session, ['down', 'down', 'down', 'down', 'return', 'down', 'left']);
     expect(k.frames[0]!.menu.rows.map(r => r.id)).toEqual(four);
-    expect(k.frames[0]!.lines).toContain(`    ${k.frames[0]!.menu.rest!.length} more`);
+    expect(k.frames[0]!.lines).toContain(`  … ${k.frames[0]!.menu.rest!.length} more`);
     expect(k.frames[0]!.menu.rest!.length).toBeGreaterThan(10);
     // Unfolded on More, the focus on the first of the rest; folded, on More again.
     expect(k.frames[4]!.focused).toBe(TerminalPicker.more);
     // The rest by kind of act, each kind folded: the focus on the first kind's own row.
     expect(k.frames[5]!.focused).toBe(`${TerminalPicker.head}${k.frames[0]!.menu.rest![0]!.group}`);
     expect(k.frames.at(-1)!.focused).toBe(TerminalPicker.more);
-    expect(k.frames.at(-1)!.lines.length).toBe(k.frames[0]!.lines.length - 1);
+    // The list never reflows: folded again, the picker is as tall as it was.
+    expect(k.frames.at(-1)!.lines.length).toBe(k.frames[0]!.lines.length);
   });
   it('draws an act that is several things by its one colour, its icon besides, and says all of it on ?', async () => {
     const t = await Awkward.start();
@@ -71,11 +73,10 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     const k = await Keyed.play(t.session, ['a', 'return', 'up', 'up', '?']);
     const lines = k.last.lines.join('\n');
     // Followed, the aim's question is gold, said by its sign without colour, and teaches: its icon.
-    expect(lines).toMatch(/^› ✦ Ask Osric whether /m);
-    expect(lines).toMatch(/causeway ℹ$/m);
+    expect(lines).toMatch(/^▸✦☺ Ask Osric whether .*… ℹ$/m);
     expect(lines).toMatch(/^ {4}your aim, to learn$/m);
     // The companion's asking, a companion and nothing else: no colour, nor its sign in the pip, but its icon (TP-03).
-    expect(lines).toMatch(/^ {4}Ask Wenna whether she would come along ⚭$/m);
+    expect(lines).toMatch(/^ {2}☺ Ask Wenna whether she would come along ⚭$/m);
   });
   it('fits every line to a narrow terminal, the long question wrapped where it is focused and cut elsewhere', async () => {
     const t = await Awkward.start();
@@ -118,7 +119,7 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     picker.press({ name: 'right' });
     expect(picker.visible).toHaveLength(step.cards.length);
     // Each card by its emblem's character, as the scene's acts are by their signs.
-    expect(picker.visible.every(r => /^\S /.test(r.label))).toBe(true);
+    expect(picker.visible.every(r => !!r.icon)).toBe(true);
   });
   it('turns a lens on and off by its key, its own few and its own rest, without the focus unfolding them', async () => {
     const t = await Awkward.start(), people = t.glance.lenses.people;
@@ -179,18 +180,21 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     picker.press({ ch: '[' });
     expect(picker.focused!.id).toBe('travel:b');
   });
+});
+
+describe('the terminal\'s human mode, in the awkward world, its rest and its drawing', () => {
   // The town's sixty-odd acts done here: each kind of act (Offers' types) folded under a row of its own, opened one at
   // a time, and back shuts the group the focus is in before it folds the rest.
   it('folds the rest by kind of act, each group opened on Enter and shut again on back', async () => {
     const t = await Awkward.start();
     const k = await Keyed.play(t.session, ['down', 'down', 'down', 'down', 'return', 'return', 'down', 'left']);
-    const heads = k.frames[5]!.menu.fold ? k.frames[5]!.lines.filter(l => /^[› ] ▸ /.test(l)) : [];
+    const heads = k.frames[5]!.menu.fold ? k.frames[5]!.lines.filter(l => /^[▸ ] \+ /.test(l)) : [];
     expect(heads.length).toBeGreaterThan(2);
     expect(heads.join(' ')).toMatch(/Speak · \d+/);
-    expect(k.frames[6]!.lines.some(l => / ▾ /.test(l))).toBe(true);
+    expect(k.frames[6]!.lines.some(l => /^[▸ ] − /.test(l))).toBe(true);
     expect(k.frames[7]!.focused).not.toMatch(/^…group:/);
     expect(k.last.focused).toMatch(/^…group:/);
-    expect(k.last.lines.some(l => / ▾ /.test(l))).toBe(false);
+    expect(k.last.lines.some(l => /^[▸ ] − /.test(l))).toBe(false);
   });
   it('says what a question does from its act\'s fields: that it teaches', async () => {
     const t = await Awkward.start();
@@ -210,6 +214,27 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     TerminalSlots.store(path).write(CheckpointStore.autosave, t.session.checkpoint());
     expect(TerminalSlots.store(path).read(CheckpointStore.autosave).transcript.seed).toBe(t.session.seed);
     rmSync(path, { force: true });
+  });
+  // The owner saw creation all but uncoloured (15 November): the heading, the focus, the rows' meaning and the rail in
+  // the stage's inks and the meaning tones, wherever the terminal has 256 colours or more; the detail in one area of
+  // fixed height under the list, never wrapped into it; beside it from 120 columns.
+  it('draws in colour wherever there is colour: the heading, the focus, the meaning, the rail', async () => {
+    const t = await Awkward.start();
+    t.follow('ford');
+    const menu = (await Keyed.play(t.session, [])).last.menu;
+    const draw = (depth: 'true' | '256' | 'none', width = 80) => TerminalPickerView.lines(new TerminalPicker(
+      { ...menu, title: 'Why have you come to Hythe?' }), { width, height: 24, shows: { depth, unicode: true,
+      prism: false } });
+    const [rich, cube, none] = [draw('true'), draw('256'), draw('none')];
+    expect(rich[0]).toContain('\x1b[1m');
+    expect(rich.join('\n')).toContain(`\x1b[38;2;242;189;76m▎`);
+    expect(cube.join('\n')).toContain('\x1b[38;5;');
+    expect(none.join('\n')).not.toContain('\x1b[');
+    // As tall whichever row is in hand, the detail beneath the list; at 140 columns, beside it.
+    expect(rich.length).toBe(draw('true').length);
+    const wide = draw('true', 140);
+    expect(wide.some(l => l.includes('│'))).toBe(true);
+    expect(wide.length).toBeLessThan(rich.length);
   });
   it('asks once before an act that cannot be undone, and leaving the game too', () => {
     const picker = new TerminalPicker({ rows: [{ id: 'jump', label: 'Jump into the weir', ask: 'No way back.' }] });

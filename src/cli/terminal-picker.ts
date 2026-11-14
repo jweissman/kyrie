@@ -5,10 +5,14 @@ import type { Signed } from './terminal-signs';
 // the one indicator). note: said quietly under it while it is focused (its minutes, what it risks); about: said in
 // whole on asking (?). group: the heading it stands under (creation's). shut: why it cannot be chosen. ask: what a
 // grave act asks before it is done, chosen once and then again (GRAMMAR.md). info: not a choice (an instrument), read
-// on asking. header: a folded group's own row, which opens it (see Menu.fold).
+// on asking. header: a folded group's own row, which opens it (see Menu.fold). icon: one character before its words,
+// what kind of thing it is (an act's kind, a card's emblem).
 export interface Row {
   id: string; label: string; aspects?: Aspect[]; signed?: Signed; note?: string; about?: string[]; group?: string;
-  shut?: string; ask?: string; info?: true; header?: true;
+  shut?: string; ask?: string; info?: true; header?: true; icon?: string;
+  // What kind of thing it is to the company, in words (to learn, a companion): said on asking, and where there is no
+  // colour; the page keeps such words for a screen reader (BP-08).
+  kinds?: string;
 }
 // What a picker offers: the few led with, the rest one deliberate step away, what is read rather than chosen (the
 // instruments that bear on the moment), a heading, the keys that are commands here, what back does with nothing open,
@@ -49,7 +53,8 @@ export class TerminalPicker {
   }
   get visible(): Row[] {
     const rest = this.menu.rest ?? [];
-    const more: Row[] = rest.length && !this.unfolded ? [{ id: TerminalPicker.more, label: `${rest.length} more` }] : [];
+    const more: Row[] = rest.length && !this.unfolded ? [{ id: TerminalPicker.more, label: `${rest.length} more`,
+      icon: '…' }] : [];
     const shown = !this.unfolded ? [] : this.menu.fold ? this.folded(rest) : rest;
     return [...this.menu.rows, ...more, ...shown, ...this.menu.info ?? []];
   }
