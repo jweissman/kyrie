@@ -34,6 +34,15 @@ export class TerminalColour {
     if (depth === '256') { return `\x1b[38;5;${this.cube(r, g, b)}m${text}\x1b[0m`; }
     return text;
   }
+  // The stage's inks (web/reader/foundations.css): ivory for what is read first (a heading, the row in hand), dim for
+  // what is said beside it, faint for rules. Two or three inks and the meaning tones, nothing else.
+  static readonly inks = { ivory: [236, 230, 217], dim: [165, 159, 148], faint: [110, 106, 98] } as const;
+  static ink(ink: keyof typeof TerminalColour.inks, text: string, depth: Depth): string {
+    const [r, g, b] = this.inks[ink];
+    if (depth === 'true') { return `\x1b[38;2;${r};${g};${b}m${text}\x1b[39m`; }
+    if (depth === '256') { return `\x1b[38;5;${this.cube(r, g, b)}m${text}\x1b[39m`; }
+    return text;
+  }
   // Weight and slant, where there is colour (what is said to the company is set in italics: the owner, 14 November).
   static bold(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[1m${text}\x1b[22m`; }
   static italic(text: string, depth: Depth): string { return depth === 'none' ? text : `\x1b[3m${text}\x1b[23m`; }
@@ -46,7 +55,8 @@ export class TerminalColour {
   // An act's indicator, as the shared grammar has it.
   static indicated(signed: Signed & { aspects?: readonly Aspect[] }): Indicated {
     return Indicator.of({ aspects: signed.aspects ?? [], gilded: true, ...signed.crosses ? { crosses: true } : {},
-      ...signed.hold ? { hold: true } : {} });
+      ...signed.hold ? { hold: true } : {},
+      ...signed.sensed ? { sensed: { aspect: signed.sensed, far: signed.far ?? 1 } } : {} });
   }
   // The one cell at an act's left edge: its colour's pip; without colour, its colour's sign; perceived along a way and
   // not here, faint; otherwise nothing.
@@ -66,7 +76,8 @@ export class TerminalColour {
   // risks, what is perceived that way. A way with nothing new is dim, or said so.
   static choice(n: number, label: string, signed: Signed & { aspects?: readonly Aspect[] }, depth: Depth): string {
     const words = Indicator.words(signed.aspects ?? []);
-    const after = [...signed.tags ?? [], ...signed.sensed && !words.length ? [Signs.sensed(signed.sensed)] : [],
+    // What is perceived along a way said in words wherever it is, not only on a way of no colour of its own.
+    const after = [...signed.tags ?? [], ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [],
       ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
     if (depth === 'none') {
       const held = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;

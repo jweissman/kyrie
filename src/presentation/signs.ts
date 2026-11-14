@@ -34,11 +34,20 @@ export class Signs {
     companionship: { sign: Signs.texts.companion!, plain: '&' } };
   // Going over into the next stretch of country (the page's journey emblem), and its plain sign.
   static readonly crossing = { sign: Signs.texts.journey!, plain: '>', said: 'into the next stretch of country' };
+  // Each kind of act (Offers' types) as one character, drawn before its words in a list (the terminal's rows), the
+  // emblems' own where they have one.
+  static readonly acts: Record<string, string> = { talk: Signs.texts.someone!, fight: '⚔', act: '◆', search:
+    Signs.texts.search!, go: Signs.texts.go_on!, journey: Signs.texts.journey!, light: '☀', wait: Signs.texts.wait!,
+    care: '✚', study: '✎', other: '·' };
   static way(whither: string | undefined, shut = false): string {
     return shut ? this.shut : this.whither[whither ?? ''] ?? '·';
   }
   // What is perceived off along a way, said: "worth a look, that way".
-  static sensed(aspect: Aspect): string { return `${Emphasis.words[aspect]}, that way`; }
+  // Graduated by how far off it is: one place off, what kind of thing and which way; farther, only perhaps (the page's
+  // wayfinder had said so in words of its own: "perhaps someone, farther on").
+  static sensed(aspect: Aspect, far = 1): string {
+    return far > 1 ? `perhaps ${Emphasis.words[aspect]}, farther on` : `${Emphasis.words[aspect]}, that way`;
+  }
   // An emblem as one character, where its set gives one.
   static emblem(id: string): string | undefined { return Object.hasOwn(this.texts, id) ? this.texts[id] : undefined; }
   static place(kind: string): string { return this.places[kind] ?? this.places.place!; }

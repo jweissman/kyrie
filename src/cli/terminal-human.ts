@@ -1,4 +1,4 @@
-import { emitKeypressEvents } from 'node:readline';
+import { emitKeypressEvents, type Interface } from 'node:readline';
 import { TerminalColour, type Shows } from './terminal-colour';
 import { TerminalPicker, type Key, type Menu, type Picked } from './terminal-picker';
 import { TerminalPickerView } from './terminal-picker-view';
@@ -15,10 +15,10 @@ export class TerminalHuman implements Picking {
   private waiting?: (key: Key) => void;
   private drawn = 0;
   private picker?: TerminalPicker;
-  // Whether every key is said (/ turns it): said until the first act in the world, then only on asking, kept from one
-  // picker to the next. Hidden from the first, the lenses' keys went unfound.
-  private keyed = true;
-  private taught = false;
+  // Whether every key is said (/ turns it), kept from one picker to the next: the rail is one quiet line, and a scene's
+  // ten keys said at once had run off its end (the owner, 15 November).
+  private keyed = false;
+  static readonly escape = 50;
   // How many of the terminal's rows what was told since the last picker took, and the column the last line ended at:
   // the picker is drawn in what is left, so the place stays in sight above it (it had been pushed off the top of a
   // 24-row terminal by a picker of twenty lines).
@@ -41,7 +41,9 @@ export class TerminalHuman implements Picking {
   static open(shows: Shows = TerminalColour.shows()): TerminalHuman {
     const human = new TerminalHuman(shows, process.stdout);
     console.log = human.told.bind(human, console.log.bind(console));
-    emitKeypressEvents(process.stdin);
+    // A lone Escape is back as soon as nothing follows it for 50 ms: at readline's half second, Escape and the arrow
+    // after it had been read as one sequence, and back was lost (the human mode's second play).
+    emitKeypressEvents(process.stdin, { escapeCodeTimeout: TerminalHuman.escape } as unknown as Interface);
     process.stdin.setRawMode?.(true);
     process.stdin.resume();
     process.stdin.on('keypress', human.heard.bind(human));
@@ -68,7 +70,6 @@ export class TerminalHuman implements Picking {
         if (picked === undefined) { continue; }
         this.erase();
         const row = picked && 'choice' in picked ? picker.visible.find(r => r.id === picked.choice) : undefined;
-        if (row && menu.keys && !this.taught) { this.taught = true; this.keyed = false; }
         // What is told from here on is the next turn's: the line of what was chosen, then what came of it.
         this.above = row && !menu.quiet ? 1 : 0; this.column = 0;
         if (row && !menu.quiet) { this.put(`${TerminalColour.dim(`› ${row.label}`, this.shows.depth)}\n`); }
@@ -106,7 +107,7 @@ export class TerminalHuman implements Picking {
     // What is left under what was told since the last choice (the place, what came of the act), at most twenty rows
     // and never fewer than eight: a long list is a window, paged.
     const rows = this.out.rows || 24, room = { width: this.out.columns || 80,
-      height: Math.max(8, Math.min(20, rows - this.above - 1)), shows: this.shows };
+      height: Math.max(12, Math.min(22, rows - this.above - 1)), shows: this.shows };
     const lines = TerminalPickerView.lines(this.picker, room);
     this.erase();
     const fit = lines.map(l => TerminalWidth.of(l) < room.width ? l

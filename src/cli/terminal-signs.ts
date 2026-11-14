@@ -12,23 +12,32 @@ import type { Screen } from '../ui/screen-types';
 // tags: each mark's words, all of them, since the terminal has no line beneath to say what cannot be undone.
 // crosses: it goes over into the next stretch of country, as the page's journey glyph says (not a walk about a town).
 // asks: what it says when chosen once, a grave act asking before it is done (Grave, the page's own rule).
-export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; idle?: true; crosses?: true; asks?: string }
+// shown, note: the choice's words and its note as the page draws them (ChoiceList: a price said beside the act, not run
+// into its words).
+// far: how many places off along the way what is sensed lies.
+export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; far?: number; idle?: true; crosses?: true;
+  asks?: string; shown?: string; note?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
   private readonly idle: Set<string>;
+  // The choices that stand at the top of a list, whose words say the whole act ("A while" is a wait's, under Wait).
+  private readonly whole: Set<string>;
   constructor(private readonly screen: Screen, private readonly glance: Glance | undefined) {
-    this.choices = new Map(ChoiceList.explore(screen).flatMap(s => s.choices).flatMap(c => TerminalSigns.leaves(c))
-      .map(c => [c.command!, c]));
+    const top = ChoiceList.explore(screen).flatMap(s => s.choices);
+    this.choices = new Map(top.flatMap(c => TerminalSigns.leaves(c)).map(c => [c.command!, c]));
+    this.whole = new Set(top.flatMap(c => c.command && !c.children?.length ? [c.command] : []));
     this.idle = new Set(glance?.idle ?? []);
   }
   on(id: string): Signed {
     const c = this.choices.get(id), to = TerminalSigns.to(this.screen, id);
-    const sensed = this.glance?.sensed?.find(x => x.to === to)?.aspect;
+    const off = this.glance?.sensed?.find(x => x.to === to), sensed = off?.aspect;
     const tags = (c?.marks ?? []).map(m => Signs.marks[m.kind]);
     const said = c && Grave.asks(c), asks = said && Grave.asked(said, !!c.grave);
     return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
-      ...sensed ? { sensed } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
-      ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {} };
+      ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
+      ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
+      ...c && (c.alone ?? this.whole.has(id)) ? { shown: c.alone ?? c.label } : {},
+      ...c?.note ? { note: c.note } : {} };
   }
   // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way
   // marked so.

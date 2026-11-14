@@ -1,5 +1,7 @@
 import { TerminalInput, type Asking, type Picking } from './terminal-input';
 import { TerminalFight } from './terminal-fight';
+import { TerminalBooks } from './terminal-books';
+import { TerminalWidth } from './terminal-width';
 import { TerminalSlots } from './terminal-slots';
 import { CheckpointStore } from '../session/checkpoint-store';
 import { TerminalMenus, type Journeyed } from './terminal-menus';
@@ -50,6 +52,8 @@ interface Turn {
   // Whether the line between what was told and the picker has been given since the scene was told; whether a save
   // asks for a path (--save-as).
   spaced?: boolean; saveAs?: boolean;
+  // The terminal's width, where the scene is broken at its words to it (the human mode).
+  width?: () => number;
 }
 
 // A text client over the same public projection and command path as the browser. It decides layout and input only:
@@ -87,7 +91,11 @@ export class Terminal {
     // Following an aim or letting it go changes what is led with, not where the company is (attended).
     const turned = whole ? 'look' : turn.attended ? 'act' : !turn.told || turn.told.moved ? 'arrive' : 'act';
     turn.attended = false;
-    for (const line of (turn.scene ??= new TerminalScene()).lines(screen, leaf, turned)) { console.log(line); }
+    // Picked at a terminal, each line broken at its words to the terminal's width, not where the terminal breaks it.
+    const width = turn.width?.();
+    for (const line of (turn.scene ??= new TerminalScene()).lines(screen, leaf, turned)) {
+      for (const l of width && line ? TerminalWidth.wrap(line, width - 1) : [line]) { console.log(l); }
+    }
     if (turn.profile) {
       const world = turn.profile.world === undefined ? '' : `the world ${Stopwatch.seconds(turn.profile.world)} · `;
       console.log(`  (${world}the telling ${Stopwatch.seconds(performance.now() - began)})`);
@@ -133,6 +141,10 @@ export class Terminal {
     // And what kind of act each is (Offers' types), by which the human mode folds the rest.
     const offer = glance?.offer, rest = new Map((offer?.rest ?? []).map(o => [o.command ?? o.choice, o.aspects]));
     const types = new Map([...offer?.primary ?? [], ...offer?.rest ?? []].map(o => [o.command ?? o.choice, o.type]));
+    // An act within an opener (the question a talk is led for) is of the opener's kind.
+    for (const a of glance?.acts ?? []) {
+      for (const x of a.inside ?? []) { if (!types.has(x.command)) { types.set(x.command, types.get(a.choice) ?? 'talk'); } }
+    }
     for (const c of all) {
       const aspects = rest.get(c.id);
       Object.assign(c, { signed: signs.on(c.id), type: types.get(c.id) ?? 'other', ...aspects?.length ? { aspects } : {} });
@@ -211,11 +223,10 @@ export class Terminal {
     return { first: [...shown, ...leave].map(c => this.drawn(acts, c)), talk: true, ...more ? { more } : {},
       rest: asked.slice(shown.length).map(c => this.drawn(acts, c)) };
   }
-  // What a question does, from its act's own fields: that it teaches, what it costs or why it waits (its note), that it
-  // bears on an aim. Talk's rows had carried their words and little else (the human mode's assessment).
+  // What a question does, from its act's own fields: that it teaches, that it bears on an aim (what it costs or why it
+  // waits is its note, said with every row's). Talk's rows had carried their words and little else.
   private static topic(c: Choice, acts: Promoted[]): string[] {
-    return [...c.teaches ? ['teaches'] : [], ...Emphasis.within(acts, c).includes('undertaking') ? ['bears on an aim'] : [],
-      ...c.note ? [Typography.plain(c.note)] : []];
+    return [...c.teaches ? ['teaches'] : [], ...Emphasis.within(acts, c).includes('undertaking') ? ['bears on an aim'] : []];
   }
   private static leaves(c: Choice): Choice[] {
     return c.children?.length ? c.children.flatMap(k => this.leaves(k)) : c.command ? [c] : [];
@@ -258,30 +269,6 @@ export class Terminal {
     aims.forEach((a, i) => console.log(`${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`));
     if (!aims.length) { console.log('No aim is held.'); }
   }
-  // The places known; and, typed, the journeys and crossings in a line each (the human mode picks among them).
-  private static map(session: PlaySession, journeys = true) {
-    const screen = ScreenModel.build(session.campaign);
-    console.log(`\nMap — ${screen.place.name}`);
-    for (const p of screen.map) { console.log(`${p.here ? '*' : p.visited ? '·' : '?'} ${p.name}${p.zone ? ` — ${p.zone}` : ''}`); }
-    if (!journeys) { return; }
-    const destinations = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []];
-    if (destinations.length) { console.log(`Journeys: ${destinations.map(d => d.name).join(' · ')}`); }
-    const across = LandCrossing.offers(screen);
-    if (across.length) { console.log(`Across country: ${across.map(x => x.name).join(' · ')}`); }
-  }
-  private static dossier(session: PlaySession) {
-    const screen = ScreenModel.build(session.campaign);
-    for (const m of screen.party) {
-      // Who they are first, as the page draws it (people and calling), then the level and what they were before: an
-      // elf thief had been "level 1, Drifter", a mage "Trader" (round 12, B; M21's cold mage).
-      console.log(`\n${m.name} — ${m.line}, level ${m.level}${m.background ? ` · ${m.background}` : ''}`);
-      console.log(`HP ${m.hp}/${m.maxHp} · mana ${m.mana}/${m.maxMana} · XP ${m.experience}`);
-      console.log(Object.entries(m.attributes).map(([k, v]) => `${k} ${v}`).join(' · '));
-      if (m.conditions.length || m.boons?.length) { console.log(`Conditions: ${[...m.conditions, ...m.boons ?? []].join(', ')}`); }
-      if (m.spells?.length) { console.log(`Spells: ${m.spells.map(s => `${s.name}${s.ready ? '' : ' (spent)'}`).join(', ')}`); }
-    }
-    console.log(`Coin ${screen.purse.coin} · rations ${screen.purse.rations}`);
-  }
   // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk); with
   // profile, each act says what it took: the world's turn and the telling of it.
   static async play(session: PlaySession,
@@ -289,7 +276,8 @@ export class Terminal {
     const input = o.input ?? TerminalInput.open(), human = TerminalInput.picks(input);
     // The human mode shows the instruments that bear on the moment in its picker, each to be read on asking.
     const scene = o.scene ?? new TerminalScene(TerminalColour.depth(), { instruments: !human, picked: human });
-    const turn: Turn = { scene, ...o.profile ? { profile: {} } : {}, ...o.saveAs ? { saveAs: true } : {} };
+    const turn: Turn = { scene, ...o.profile ? { profile: {} } : {}, ...o.saveAs ? { saveAs: true } : {},
+      ...human ? { width: Terminal.columns } : {} };
     try {
       while (session.campaign.running) {
         if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
@@ -313,6 +301,8 @@ export class Terminal {
       console.log('The story has ended.');
     } finally { input.close(); }
   }
+  // A measure a person reads at, on a wide terminal too.
+  static columns(): number { return Math.min(process.stdout.columns || 80, 100); }
   // Headless: the choices as numbered lines, where the rest lies, and the answer typed; null to leave.
   private static async typed(input: Asking, offered: Offered, turn: Turn): Promise<string | null> {
     const glance = turn.current?.leaf.glance;
@@ -348,7 +338,7 @@ export class Terminal {
   // map sets out on them (the owner: the map is the basic navigation). Back, and nothing is done.
   private static async journeys(input: Picking, offered: Offered, session: PlaySession)
     : Promise<Listed | string | null> {
-    this.map(session, false);
+    TerminalBooks.map(session, false);
     const ways = TerminalMenus.grouped(offered.all.filter(c => c.journey));
     if (!ways.length) { console.log('No journey is known from here.'); return 'here'; }
     const picked = await input.pick({ title: 'Where to?', rows: ways, back: 'here' });
@@ -372,8 +362,8 @@ export class Terminal {
     if (answer === 'help' || answer === '?') { console.log(Terminal.commands); return true; }
     // A lens: what is led with, by kind (things, people, places, time); here, the scene's own. It takes no time.
     if (Terminal.lenses.has(answer)) { turn.lens = answer === 'here' ? undefined : answer as Lens; return true; }
-    if (answer === 'map') { this.map(session); return true; }
-    if (answer === 'character' || answer === 'dossier') { this.dossier(session); turn.spaced = false; return true; }
+    if (answer === 'map') { TerminalBooks.map(session); return true; }
+    if (answer === 'character' || answer === 'dossier') { TerminalBooks.dossier(session); turn.spaced = false; return true; }
     if (answer === 'aims' && TerminalInput.picks(input)) {
       return this.aside(session, await this.aim(session, input), all, { turn, input });
     }

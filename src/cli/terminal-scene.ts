@@ -4,6 +4,7 @@ import { AimSaid } from '../presentation/aim-said';
 import { Signs } from '../presentation/signs';
 import { ToldLines } from '../presentation/told-lines';
 import { TerminalColour, type Depth } from './terminal-colour';
+import { TerminalWidth } from './terminal-width';
 import type { Leaf } from '../presentation/narrator';
 import type { Screen } from '../ui/screen-types';
 
@@ -34,8 +35,14 @@ export class TerminalScene {
     const place = this.fresh('place', screen.place.name, whole), weather = this.fresh('weather', screen.weather, whole);
     // The hour itself only on a look: the part of the day is what changes how a place is.
     const when = whole ? screen.clock : time;
-    const name = turned === 'act' ? undefined : TerminalColour.bold(place ?? screen.place.name, this.depth);
-    const header = [name, when, weather].filter(Boolean).join(' · ');
+    // The place as a heading, in the stage's ivory, the day and the weather quiet beside it, a faint rule under it
+    // where there is colour (headless, the line alone).
+    const d = this.depth, named = turned === 'act' ? undefined : place ?? screen.place.name;
+    const name = named && TerminalColour.bold(TerminalColour.ink('ivory', named, d), d);
+    const beside = [when, weather].filter(Boolean).join(' · ');
+    const header = [name, beside && (name ? TerminalColour.ink('dim', beside, d) : beside)].filter(Boolean).join(' · ');
+    const rule = header && d !== 'none' ? [TerminalColour.ink('faint', '─'.repeat(Math.min(60,
+      TerminalWidth.of(header))), d)] : [];
     const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
     const happened = ToldLines.said(leaf.exchange?.lines ?? [], whole).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
@@ -47,7 +54,7 @@ export class TerminalScene {
       : whole || !g ? [...placed, ...happened] : [...seen, ...happened];
     const reference = [...this.aim(screen, g?.aim, whole), ...this.need(leaf, whole), ...this.instruments(leaf, whole)];
     this.told.push({ turned, lines: prose, reference });
-    return [...header ? ['', header] : [], ...prose, ...reference];
+    return [...header ? ['', header, ...rule] : [], ...prose, ...reference];
   }
   // The aim, said once for each change, never by comparing its words: when the glance says it (Glance.aim: on a first
   // arrival, where no act serves it, when it has changed), when the aim followed has changed (Follow this, or let go),
