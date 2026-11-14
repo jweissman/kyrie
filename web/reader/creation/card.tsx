@@ -1,7 +1,6 @@
 import { Children, isValidElement, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactElement,
   type ReactNode } from 'react';
 import { Typography } from '../../../src/presentation/typography';
-import { Hold } from '../stage/hold';
 import { Glyphs } from './glyphs';
 import { CreationSheet, type SheetHead } from './creation-sheet';
 
@@ -16,15 +15,13 @@ export interface CardShape {
 export class Card {
   static View({ name, line, text, chosen, shut, onChoose, data, glyph }: CardShape) {
     const ref = useRef<HTMLButtonElement>(null);
-    // Choosing who the character is, held rather than touched (see Hold).
-    const hold = Hold.use(!shut ? Hold.ms.commitment : undefined, onChoose);
+    // Chosen at a tap, then Continue (the blind playtest of 13 November, BP-09: a card that had to be held had looked
+    // chosen and done nothing at a click, "I initially believed the game had ignored me").
     useEffect(() => { if (chosen) { ref.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } }, [chosen]);
     return (
       <button type="button" ref={ref} className={`card${chosen ? ' chosen' : ''}`} aria-pressed={chosen} disabled={!!shut}
         data-nav onClick={onChoose} title={text ? Typography.curl(text) : undefined}
-        {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))} {...hold.props}>
-        <Hold.Edge held={hold.held} />
-        {'data-hold' in hold.props && <span className="sr-only">{`, ${Hold.said}`}</span>}
+        {...Object.fromEntries(Object.entries(data ?? {}).map(([k, v]) => [`data-${k}`, v]))}>
         {glyph !== undefined && <Glyphs.View id={glyph} name={name} />}
         <span className="card-name">{Typography.curl(name)}</span>
         {shut ? <span className="card-line card-shut">{Typography.curl(shut)}</span>
