@@ -716,7 +716,7 @@ features. None is closed as a component migration until the whole ordinary actio
 | CN-06 | Combat: legacy controls beside the new; the highlighted menu becomes a horizontal row; a target's card grows taller and bars cross the painting; details injected into buttons; layout jumps between target and action states | fixed for desktop and tablet: one fight composition on main (86a57fa3), held by `test/fight-geometry-browser` at 1280×800 and 820×1180; the phone is T24-06 | P0 | M21 |
 | CN-07 | Personhood drawn with a pink pip close to coral: people need no opportunity colour; atlas colours only for grounded opportunities (knowledge, recruitment…); gold only for the followed undertaking; no new colours for routing or categories | fixed: no aspect for being the life of the place, held by `small/person-aspects`; people marked neutrally in the page (86a57fa3) | P1 | M21 |
 | CN-08 | One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after | partly: the walk headless, held by `test/interior-walk` (on main); the browser walk at both sizes (93cb4963, `interior-walk-browser`) on m21-look only, not merged | P0 | M21, aesthetic and playability |
-| CN-09 | A page with one choice and no stakes drawn as a webapp button ("Go on" after the road meeting): the engine says what a page is: no act at all (the browser moves on by itself after a reading time, the terminal continues), or one act that matters, drawn by the action menu in its atlas tones (held where it is a challenge); and less narration on such pages (the owner, 14 November) | open | P0 | M21, aesthetic |
+| CN-09 | A page with one choice and no stakes drawn as a webapp button ("Go on" after the road meeting): the engine says what a page is: no act at all (the browser moves on by itself after a reading time, the terminal continues), or one act that matters, drawn by the action menu in its atlas tones (held where it is a challenge); and less narration on such pages (the owner, 14 November) · 14 Nov: a design preference, not a blocker (P0 kept for what stops play or lies) | open | P1 | M21, aesthetic |
 | CN-10 | Creation asked for the specific trade within its kind: ask the kind of life only, the trade the one that suits the calling, backfilled later in play; one creation flow in the engine for every client (the owner, 14 November) | duplicate of TB-09 | P1 | see TB-09 |
 | CN-11 | The Encyclopedia as one surface of parchment and ink: its type, rules and margins on a parchment ground, its illustrations harmonized with that surface (ink and wash, not photographs pasted on it), readable on a tablet (the owner, 14 November) | open | P2 | M21, aesthetic |
 
@@ -774,7 +774,7 @@ beginning to play. The aesthetic line takes the page; the lead takes any engine 
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| TO-01 | The title in the game's own interaction language: its choices as the modern highlighted menu (or a designed variant), Play with one strong, elegant gold focus (ceremonial gold at the entry only, the stricter gold of a followed aim kept inside), focus stable and immediate, no moving double-box decoration, no shifting geometry; teaching the grammar creation and play will use | open | P0 | M21, aesthetic |
+| TO-01 | The title in the game's own interaction language: its choices as the modern highlighted menu (or a designed variant), Play with one strong, elegant gold focus (ceremonial gold at the entry only, the stricter gold of a followed aim kept inside), focus stable and immediate, no moving double-box decoration, no shifting geometry; teaching the grammar creation and play will use · 14 Nov: a design preference, not a blocker | open | P1 | M21, aesthetic |
 | TO-02 | A quiet, legible foreground over a deeper, subtly moving background that answers the focused choice over a few hundred milliseconds (perspective, light, colour), the focus itself immediate; one exceptional transition, not many flourishes; art direction, not technology | open | P1 | M21, aesthetic |
 | TO-03 | The studio stab, the title and creation as one designed passage: a few composed seconds of deliberate timing, typography and image flowing into the title and the title into creation; skippable; reduced motion respected | open | P1 | M21, aesthetic |
 | TO-04 | One richer responsive interaction prototyped (the celestial observatory for a birth sign is the owner's example): the engine authoritative over the signs, what one means and the next question, the sky a visual realization of that decision, the terminal making the same choice in text | open | P2 | M21, aesthetic |
@@ -828,11 +828,11 @@ lines are in `mission-21/after-the-blind-playtest.md`.
 | BP-02 | A fight's telling contradicts itself ("for 9", then "takes 1") and garnishes ("looks away solemnly" after a rat): each outcome said once; garnish cut or tied to the character and the moment | partly | P1 | M21, lead |
 | BP-03 | Raw arithmetic beside the prose ("1 on the die, needing 11"): odds as words on the choice, the outcome as prose, the dice only on a deliberate look | partly | P1 | M21, lead (engine), aesthetic (page) |
 | BP-04 | Warnings the world does not keep (a band that "will not wait" lets the company walk past) | open | P1 | M21, rules |
-| BP-05 | The starting premise is not pursuable (Greyhold on the map, unroutable; "Enter Shaynof" returns to the road outside) | open | P0 | M21, playability |
+| BP-05 | The starting premise is not pursuable (Greyhold on the map, unroutable; "Enter Shaynof" returns to the road outside) · enter at the gate and the premise routed and gold on all eight a1 origins (test/premise-pursuable), on ci/play-6/7, awaiting CI | partly | P0 | M21, playability |
 | BP-06 | A distinctive act is acknowledged, not dramatized (the thief's lock "hangs open on its hasp"): a sentence of texture and a due consequence, from authorable templates | open | P1 | M21, playability |
 | BP-07 | The first undertown is stocked, not inhabited (rats, beetles, a centipede, a spider, most trivial or passed): fewer, more credible dangers | open | P1 | M21, rules |
 | BP-08 | Classificatory labels on the visible page ("to learn", "to gain", "worth a look", "for you", "by the rules", "In play, by the rules"): off the page, kept for screen readers and the colourless terminal | open | P1 | M21, aesthetic |
-| BP-09 | Press-and-hold to choose a creation card read as the game ignoring the player: a tap chooses; hold only for sustained acts, with a visible cue (the lead's decision, reversing the owner's earlier long-press direction on this evidence) | open | P0 | M21, aesthetic |
+| BP-09 | Press-and-hold to choose a creation card read as the game ignoring the player: a tap chooses; hold only for sustained acts, with a visible cue (the lead's decision, reversing the owner's earlier long-press direction on this evidence) · on main 9f30672a (look-5b): a tap chooses; the hold only for sustained acts, with a ring | fixed | P0 | M21, aesthetic |
 
 ## 34. The cold playtest of the deployed game (14 November, night)
 
@@ -842,8 +842,8 @@ summary: it "writes like a novelist and remembers like a slot machine." Already 
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| CO-01 | The chosen reason completed off-stage: a hired scholar's one answer set the Marblehollow inscription "read and set down", and the priestess paid it as seen through, with the place never visited. The reason completes only by the player's own act at the place it names; elsewhere it gathers clues | open | P0 | M21, playability (the laboratory) |
-| CO-02 | The sister's trail ("look there, just inside" Darkgate) ends with nothing there: a reason's lead pays off where it points | open | P0 | M21, playability |
+| CO-01 | The chosen reason completed off-stage: a hired scholar's one answer set the Marblehollow inscription "read and set down", and the priestess paid it as seen through, with the place never visited. The reason completes only by the player's own act at the place it names; elsewhere it gathers clues · the errand completes only by copying within the work (test/origins), on ci/play-6/7, awaiting CI | partly | P0 | M21, playability (the laboratory) |
+| CO-02 | The sister's trail ("look there, just inside" Darkgate) ends with nothing there: a reason's lead pays off where it points · the pin is where the innkeeper says, on ci/play-6/7, awaiting CI | partly | P0 | M21, playability |
 | CO-03 | Towns read as one kit in a second country: the same innkeeper portrait and first line, the corn-store, the Merrowdale notice, a woodland paragraph word for word. Each was a New Game on its own world seed, so this is the kits' variety, not the seed collision (AX-02), which is between countries of one world | open | P1 | M21, playability (kit variety) |
 | CO-04 | The world contradicts itself: a summer temple painted under "snowy"; one inscription spelled two ways (MARMORISCAVUS / MARMORISCAW); a flute pale wood, then a split reed, then playing; "I did not know he was still living" of a namesake standing in the room; an ice elemental with a fire portrait | open | P1 | M21, lead (painting season, inscriptions, names), rules (portrait) |
 | CO-05 | A monster told dead ("5 was all it had left") returns with 1 HP and fights on: a death the log tells holds, or the log does not tell it | open | P1 | M21, rules |
@@ -875,6 +875,8 @@ exclusive asserts are repaired (loading-boundaries.md §6).
 
 ## 36. Empty words (the owner and the prose-density audit, 14 November)
 
+Scope (the owner's brief), not defects found.
+
 The audit is `history/reviews/prose-density-audit-2026-11-13.md`. The owner adds that empty words are an obstacle:
 they make the game feel slower and more pointless. The long, detailed compound sentence is the engine's worst tic, and
 a three-sentence budget does not catch it. Less text also helps performance at the limit.
@@ -887,30 +889,34 @@ a three-sentence budget does not catch it. Less text also helps performance at t
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
 | DN-01 | One turn, one beat in a fight, and three beats at its resolution: the decisive turn, the cost, the consequential discovery. The ledger only on asking (the audit's §1; BP-02/03's engine sides are landed) | partly | P1 | M21, lead (engine), aesthetic (page) |
-| DN-02 | A transition composer above the scene budget: harm or interruption first, then the actionable change or clue, then who caused it, then one orienting sentence. The rest is held under its subject (the audit's §2) | open | P1 | M21, lead |
+| DN-02 | A transition composer above the scene budget: harm or interruption first, then the actionable change or clue, then who caused it, then one orienting sentence. The rest is held under its subject (the audit's §2) | open | P2 | M21, lead |
 | DN-03 | The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy), then the road prologues and origins, the roadstation and the town's neighbours. The ratchet is lowered as each lands | open | P1 | M21, playability (the laboratory) |
 | DN-04 | Remote clock prose is told only if witnessed: chapter curtains and attended spectacles stay, while a remote event is told by its consequence (the audit's §4) | open | P2 | M21, playability |
 | DN-05 | Greetings in a sentence or two, with their prices, history and rumours moved into named questions (the audit's §5) | open | P2 | M22 |
 
 ## 37. The first minute as a microscope (the owner, 14 November)
 
+Scope (the owner's brief), not defects found.
+
 `mission-21/owner-first-minute.md`.
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| IG-01 | The opening (stab, title, creation, first scene, first acts) as one interaction instrument: focus, selection, preview, commitment, response, continuation. Read as controller inputs; one design language across title, creation and scene; hold-to-commit as the sustained-act ring. Deliverables: an unedited recording from the deployed page, a candid critique, and the smallest intervention prototyped | open | P1 | M21, aesthetic |
+| IG-01 | The opening (stab, title, creation, first scene, first acts) as one interaction instrument: focus, selection, preview, commitment, response, continuation. Read as controller inputs; one design language across title, creation and scene; hold-to-commit as the sustained-act ring. Deliverables: an unedited recording from the deployed page, a candid critique, and the smallest intervention prototyped | open | P2 | M21, aesthetic |
 
 ## 38. The first fifteen minutes, deepened (the owner, 14 November)
+
+Scope (the owner's brief), not defects found. Folded into the laboratory: FF-02/04/06 first, the rest after Gate 1.
 
 `mission-21/first-fifteen.md`: seven properties the laboratory proves, each by a walk and a spec.
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| FF-01 | Time and absence matter: something in the undertown moves on without the company, and a returning player finds it changed and told | open | P1 | M21, playability |
+| FF-01 | Time and absence matter: something in the undertown moves on without the company, and a returning player finds it changed and told | deferred | P2 | after Gate 1, playability |
 | FF-02 | Knowledge enables better decisions: a fact learned above opens a better way below, and the walk that knows it fares measurably better | open | P1 | M21, playability |
-| FF-03 | Retreat can be satisfying: going back up keeps what was learned, and a second descent is better prepared | open | P1 | M21, playability, rules (BP-04) |
+| FF-03 | Retreat can be satisfying: going back up keeps what was learned, and a second descent is better prepared | deferred | P2 | after Gate 1, playability, rules (BP-04) |
 | FF-04 | Two materially different solutions genuinely work (force and craft), both paid, and the world remembers which | open | P1 | M21, playability |
-| FF-05 | NPC actions stay legible: every act in the first quarter-hour is announced by something seen first | open | P1 | M21, playability |
+| FF-05 | NPC actions stay legible: every act in the first quarter-hour is announced by something seen first | deferred | P2 | after Gate 1, playability |
 | FF-06 | Consequences create the next undertaking, in the world's own words | open | P1 | M21, playability |
-| FF-07 | A dead character becomes part of the continuing country: the cairn, the pack where they fell, the merchant who remembers, the unfinished job as a lead | open | P1 | M21, playability, lead (engine) |
+| FF-07 | A dead character becomes part of the continuing country: the cairn, the pack where they fell, the merchant who remembers, the unfinished job as a lead | deferred | P2 | after Gate 1, playability |
 
