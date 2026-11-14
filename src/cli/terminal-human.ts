@@ -15,8 +15,10 @@ export class TerminalHuman implements Picking {
   private waiting?: (key: Key) => void;
   private drawn = 0;
   private picker?: TerminalPicker;
-  // Whether the player asked for every key (/): kept from one picker to the next.
-  private keyed = false;
+  // Whether every key is said (/ turns it): said until the first act in the world, then only on asking, kept from one
+  // picker to the next. Hidden from the first, the lenses' keys went unfound.
+  private keyed = true;
+  private taught = false;
   private constructor(readonly shows: Shows, private readonly out: NodeJS.WriteStream) {}
   static open(shows: Shows = TerminalColour.shows()): TerminalHuman {
     const human = new TerminalHuman(shows, process.stdout);
@@ -47,6 +49,7 @@ export class TerminalHuman implements Picking {
         if (picked === undefined) { continue; }
         this.erase();
         const row = picked && 'choice' in picked ? picker.visible.find(r => r.id === picked.choice) : undefined;
+        if (row && menu.keys && !this.taught) { this.taught = true; this.keyed = false; }
         if (row) { this.out.write(`${TerminalColour.dim(`› ${row.label}`, this.shows.depth)}\n`); }
         return picked;
       }
@@ -79,7 +82,9 @@ export class TerminalHuman implements Picking {
   }
   private redraw() {
     if (!this.picker) { return; }
-    const room = { width: this.out.columns || 80, height: Math.max(8, (this.out.rows || 24) - 4), shows: this.shows };
+    // A long list is a window of a screenful's half or so: the picker under what was told, never over all of it.
+    const room = { width: this.out.columns || 80, height: Math.max(8, Math.min(20, (this.out.rows || 24) - 4)),
+      shows: this.shows };
     const lines = TerminalPickerView.lines(this.picker, room);
     this.erase();
     const fit = lines.map(l => TerminalWidth.of(l) < room.width ? l

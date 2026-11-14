@@ -72,7 +72,8 @@ export class TerminalMenus {
     statuses: { id: string }[] }[] }, depth: Parameters<typeof TerminalColour.dim>[1]): string[] {
     return state.combatants.map(f => {
       const line = `${f.name} ${f.hp}/${f.maxHp}${f.statuses.length ? ` · ${f.statuses.map(s => s.id).join(', ')}` : ''}`;
-      return f.hp <= 0 ? TerminalColour.dim(line, depth) : f.team === 'fighters' ? line : `  ${line}`;
+      const placed = f.team === 'fighters' ? line : `  ${line}`;
+      return f.hp <= 0 ? TerminalColour.dim(placed, depth) : placed;
     });
   }
 }
