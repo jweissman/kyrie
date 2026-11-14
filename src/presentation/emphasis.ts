@@ -22,11 +22,12 @@ export class Emphasis {
   // colour per act from one table that every client reads). The followed aim's gold strictly first, and only where it
   // is drawn at all (see drawn); then a danger seen; then the atlas's other promises, the most particular first: what
   // is to be gained, learned, or is uncanny, before what is only worth a look, the most general, which had hidden them
-  // (the terminal and aesthetic lines, reviewing it together); a companion last, its icon saying it (TP-03). What it is
+  // (the terminal and aesthetic lines, reviewing it together). A companion is no colour at all but its icon (TP-03:
+  // in a1's camp a brother drawn silver turned rose once the aim was followed, his meaning unchanged). What an act is
   // besides is said by at most two icons, or in its detail (see Indicator).
   static readonly precedence: readonly Aspect[] = ['undertaking', 'danger', 'payoff', 'knowledge', 'wonder',
-    'exploration', 'companionship'];
-  // Its aspects as drawn, in that order: the first is its colour.
+    'exploration'];
+  // Its coloured aspects as drawn, in that order: the first is its colour.
   static ranked(aspects: readonly Aspect[] | undefined, gilded = true): Aspect[] {
     const drawn = this.drawn(aspects, gilded);
     return this.precedence.filter(a => drawn.includes(a));

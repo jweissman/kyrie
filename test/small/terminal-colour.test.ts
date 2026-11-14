@@ -46,10 +46,12 @@ describe('the terminal\'s colour', () => {
     expect(before).not.toContain('your aim');
     const gold = after!.split('\n').filter(l => /your aim/.test(l));
     expect([gold.length > 0, gold.every(l => /bridge road/.test(l))]).toEqual([true, true]);
-    // The aim as the page says it: offered by its title with how to follow it, and once followed and anything done
-    // (the page does not say it again on the first page, before anything is done), as followed.
+    // The aim as the page says it: offered by its title with how to follow it; once followed, as followed, said once
+    // for the change (following it), and not again after an act (the human mode's assessment: said three times).
     expect(before).toMatch(/^An aim: Your father went out by the bridge over the Reed with the cart · follow 1$/m);
-    expect(after!.split('> wait')[1]).toMatch(/^Following: Your father went out by the bridge over the Reed with the cart\.$/m);
+    const following = /^Following: Your father went out by the bridge over the Reed with the cart\.$/m;
+    expect(after!.split('> look')[0]).toMatch(following);
+    expect(after!.split('> wait')[1]).not.toMatch(following);
     // Following an aim is a change of attention, not an arrival: the place is not come to again.
     expect(after!.split('> look')[0]).not.toMatch(/^the inn-yard/m);
     // Each choice the terminal leads with is drawn as the page draws the same act (by its command), in the same words.
