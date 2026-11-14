@@ -164,17 +164,18 @@ export class Glance {
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
     const idle = new Set([...by.map(d => d.id), ...screen.exits.map(e => e.destination.id), ...named, ...held]
-      // Never idle where the aim followed would be brought about: twice in Mik's shop without asking him, the gold had
-      // gone out of the town for good (the laboratory's lost turns).
+      // Never idle while the aim followed is unmet where it names, or on its way: twice in Mik's shop without asking
+      // him, the gold had gone out of the town for good (the laboratory's lost turns); passed twice over Lowmouth's
+      // green, the way out of the general store toward Ironkeep had been nobody's (EX-01's navigational confusion).
+      // What it names and has nothing more for now is spent instead (AimLeads.spent).
       // Nor where a light is to be had, with the dark ahead and nothing to see by (see CompanyLight).
-      .filter(id => (recall.idle(id) && !(named.has(id) && AimLeads.there(campaign, id))
+      .filter(id => (recall.idle(id) && !named.has(id)
         && !this.sells(campaign, id, seller)) || spent.has(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
-    const coin = AimAdvances.wants(campaign);
-    const holding = this.holding(campaign, named);
+    const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
       args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
@@ -344,7 +345,8 @@ export class Glance {
     const step = aim && !journey && ![...out.values()].includes('toward') && LandModel.tract.test(here)
       ? Headings.toward(campaign.module, { path: screen.path, here, exits: screen.exits }, { id: aim, entities: byId })
       : undefined;
-    if (step && !out.has(step)) { out.set(step, 'toward'); }
+    const on = step ?? (![...out.values()].includes('toward') ? AimRoute.door(campaign, screen, aims.named) : undefined);
+    if (on && !out.has(on)) { out.set(on, 'toward'); }
     return out;
   }
   // The ways toward the aims, and into a site: no step across the country toward an aim while there is a way into a

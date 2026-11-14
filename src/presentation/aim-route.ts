@@ -44,6 +44,15 @@ export class AimRoute {
     }
     return undefined;
   }
+  // Deeper in than a step or two, the first step of the way out toward what the aim names outside (see outward): in
+  // Ironkeep's lord's chamber, following the brothers' errand to Mistlake, the way out by the great hall had been led
+  // only as "back out", three legs from the door, and nothing was gold (EX-01's navigational confusion).
+  static door(campaign: Campaign, screen: Screen, named: Set<string>): string | undefined {
+    const out = this.outward(campaign, screen, named);
+    if (!out || screen.exits.some(e => e.destination.id === out)) { return undefined; }
+    const first = Itineraries.plan(campaign, out)?.legs[0]?.to;
+    return screen.exits.find(e => e.destination.id === first)?.id;
+  }
   // At the place the aim is gone to by, the ways on from it not yet taken that go down or in: what its author meant by
   // it ("toward the dead by the churchyard": the churchyard gone to, and the crypt under it found from there). The
   // churchyard had led only back to the gate-yard, "another aim", and down to the crypt as one way among others.
