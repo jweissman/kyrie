@@ -871,7 +871,7 @@ exclusive asserts are repaired (loading-boundaries.md §6).
 | AX-03 | The shared rules are recomposed and revalidated by each of 39 installs, 15–20 ms each: compile once per edition, compose by reference | open | P1 | M21, lead |
 | AX-04 | A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST, or keep the parse | open | P1 | M22, lead |
 | AX-05 | The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey | open | P1 | M21, lead |
-| AX-06 | A save is 19 MB, 11 MB of it the compiled module | open | P2 | M22, lead |
+| AX-06 | A save is 19 MB, 11 MB of it the compiled module · 14 Nov: the terminal's save slot holds the full checkpoint, 22 MB for a1, where the page keeps its game packed and keyed (KeptGame, SaveCodec); one packed form for both, from the engine | open | P2 | M22, lead |
 | AX-07 | Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global commitments from addresses, not from what has been realized (order-independent-generation.md) | open | P1 | M22, lead |
 | AX-08 | The kernel is not bounded: the compiler imports the catalog, the parser imports Deem, grounding imports the creature pipeline; `engine-owned.ts` names 30 setting relations; an undeclared relation read returns nothing silently | open | P2 | M22, lead |
 | AX-09 | The docs disagree with the code (parse-store's browser claim; "6.5 s warm" holds only for a replayed seed; `Costs` misattributes kit composition, and its session stage equals campaign) | open | P2 | M21, lead |
