@@ -32,4 +32,19 @@ describe('a place gone through doing nothing', () => {
     expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/landing|salt-house/)]);
     expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
   });
+  // Fled back up from the rats' run, the way down to them is still the aim's while they stand (the laboratory).
+  it('leads back down to whoever the aim names, still standing where the company has been', async () => {
+    const t = await Tiny.start(`
+      Place cellar "the cellar" is room at 0, 0 indoors.
+      Place runs "the rat-runs" is room at 1, 0 indoors.
+      Passage hole "a hole in the wall" is crawl between cellar and runs.
+      Company party "You" of 1 at cellar.
+      Person rats "the rats" at runs { Role "rats". Species rat. Numbers 2. Level 1. Temperament territorial. Lair runs. }
+      Objective job when able(rats) toward cellar, rats "Clear the rats out of {cellar}.".
+      Goal false.`);
+    t.follow('job');
+    await t.perform('go(t__hole,t__runs)');
+    await t.perform('go(t__hole,t__cellar)');
+    expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/rat-runs/)]);
+  });
 });

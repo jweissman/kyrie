@@ -44,6 +44,8 @@ export interface Reading {
   opened?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
+  // Where someone or something the aim names stands, still able (see Glance.occupied).
+  occupied?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
     open: boolean;
     // Where in the settlement a bed is to be had, a step from here, when there is none here.
@@ -299,7 +301,10 @@ export class Affordances {
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
       // Nor to one it left having done nothing there, with nothing done since (see CompanyRecall.idle).
-      ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) && !r.idle?.has(dest) ? ['named' as const] : [],
+      // Unless whoever the aim is about still stands there: fled back up from the rats' run, the way down to them is
+      // still the aim's (the laboratory's lost turns).
+      ...(r.named.has(dest) || r.occupied?.has(dest))
+        && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
       ...toward ? [toward] : [],
       ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
       ...this.inward(c, exit.id, r),

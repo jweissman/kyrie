@@ -44,7 +44,7 @@ repaid when what came of it told something new.
 | lab2 | cleric / doctor | laboratory | straight | 23 | 2.0 | 6 5 5 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | 0 | no |
 | lab2 | cleric / doctor | laboratory | curious | 17 | 1.6 | 6 4 2 | yes | 9 | 8 | 7 / 2 | 2 | 2 | 0 | 0 | no |
 | lab2 | cleric / doctor | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 2 / 0 | 0 | 26 | 0 | 0 | no |
-| lab2 | bard / entertainer | laboratory | straight | 9 | 2.8 | 5 4 4 | yes | 5 | 4 | 2 / 0 | 6 | 2 | 0 | 1 | yes |
+| lab2 | bard / entertainer | laboratory | straight | 7 | 2.6 | 5 4 3 | yes | 5 | 2 | 2 / 0 | 3 | 1 | 0 | 0 | yes |
 | lab2 | bard / entertainer | laboratory | curious | 17 | 1.8 | 6 4 3 | yes | 9 | 8 | 7 / 1 | 1 | 2 | 0 | 0 | no |
 | lab2 | bard / entertainer | laboratory | seeded | 29 | 1.1 | 2 2 1 | yes | 7 | 22 | 3 / 0 | 0 | 25 | 0 | 0 | no |
 | lab2 | ranger / archer | laboratory | straight | 23 | 2.0 | 6 5 5 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | 0 | no |
@@ -56,7 +56,7 @@ repaid when what came of it told something new.
 | lab3 | warrior / blacksmith | laboratory | straight | 12 | 3.9 | 8 6 5 | **no** | 6 | 6 | 2 / 0 | 18 | 2 | 0 | 0 | yes |
 | lab3 | warrior / blacksmith | laboratory | curious | 21 | 3.0 | 11 6 5 | yes | 14 | 7 | 8 / 1 | 7 | 3 | 0 | 0 | no |
 | lab3 | warrior / blacksmith | laboratory | seeded | 15 | 2.9 | 6 6 6 | yes | 10 | 5 | 4 / 0 | 3 | 4 | 0 | 0 | no |
-| lab3 | mage / apothecary | laboratory | straight | 8 | 3.3 | 6 5 5 | **no** | 6 | 2 | 2 / 0 | 10 | 0 | 0 | 1 | yes |
+| lab3 | mage / apothecary | laboratory | straight | 7 | 3.0 | 6 5 4 | yes | 5 | 2 | 2 / 0 | 5 | 1 | 0 | 0 | yes |
 | lab3 | mage / apothecary | laboratory | curious | 14 | 2.4 | 6 5 5 | yes | 12 | 2 | 5 / 1 | 2 | 2 | 0 | 0 | yes |
 | lab3 | mage / apothecary | laboratory | seeded | 9 | 2.2 | 5 5 2 | yes | 8 | 1 | 3 / 0 | 1 | 3 | 0 | 0 | yes |
 | lab3 | thief / burglar | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
@@ -68,7 +68,7 @@ repaid when what came of it told something new.
 | lab3 | bard / entertainer | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
 | lab3 | bard / entertainer | laboratory | curious | 14 | 2.4 | 6 5 5 | yes | 12 | 2 | 7 / 1 | 2 | 3 | 0 | 0 | yes |
 | lab3 | bard / entertainer | laboratory | seeded | 8 | 1.9 | 5 2 2 | yes | 7 | 1 | 4 / 1 | 2 | 2 | 0 | 0 | yes |
-| lab3 | ranger / archer | laboratory | straight | 17 | 3.5 | 7 6 6 | **no** | 5 | 12 | 2 / 0 | 20 | 8 | 0 | 8 | no |
+| lab3 | ranger / archer | laboratory | straight | 24 | 3.0 | 7 6 6 | yes | 5 | 19 | 2 / 0 | 20 | 8 | 0 | 4 | no |
 | lab3 | ranger / archer | laboratory | curious | 17 | 3.1 | 10 6 5 | **no** | 12 | 5 | 6 / 1 | 7 | 3 | 0 | 0 | no |
 | lab3 | ranger / archer | laboratory | seeded | 19 | 1.5 | 2 2 2 | yes | 6 | 13 | 2 / 0 | 0 | 23 | 0 | 0 | no |
 | lab3 | monk / gardener | laboratory | straight | 5 | 2.2 | 5 2 2 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | 0 | yes |
@@ -80,27 +80,27 @@ repaid when what came of it told something new.
 | calling | can do (types offered) | chose (types) | led with (types) | atlas led | atlas chosen | atlas realized | attention repaid / empty |
 |---|---|---|---|---|---|---|---|
 | warrior | act, care, fight, go, journey, light, other, search, talk, wait | go 123, fight 61, journey 47, act 31, wait 27, talk 23, search 16, light 13, other 2 | go 348, wait 254, fight 238, act 168, journey 167, talk 78, search 61, light 58, other 22, care 5 | none 806, exploration 305, undertaking 170, knowledge 122, danger 101, payoff 8 | none 123, exploration 106, undertaking 94, danger 53, knowledge 20, payoff 2 | exploration 100, undertaking 68, knowledge 20, danger 13, payoff 2 | 41 / 9 |
-| mage | act, care, fight, go, journey, light, other, search, study, talk, wait | go 85, journey 40, act 24, fight 24, wait 21, talk 18, light 7, search 5, care 1, other 1 | go 236, wait 175, act 138, journey 127, fight 80, talk 71, other 34, search 30, light 18, study 5, care 1 | none 520, exploration 233, knowledge 118, undertaking 97, danger 50 | none 87, exploration 80, undertaking 57, danger 26, knowledge 20 | exploration 77, undertaking 44, knowledge 20, danger 10 | 31 / 2 |
+| mage | act, care, fight, go, journey, light, other, search, study, talk, wait | go 84, journey 40, act 24, wait 21, fight 19, talk 18, light 7, search 5, other 1 | go 231, wait 171, act 138, journey 127, talk 71, fight 63, other 34, search 27, light 18, study 5, care 2 | none 498, exploration 231, knowledge 118, undertaking 96, danger 45 | none 86, exploration 79, undertaking 56, knowledge 20, danger 20 | exploration 76, undertaking 44, knowledge 20, danger 8 | 31 / 2 |
 | thief | act, care, fight, go, journey, light, other, search, talk, wait | go 117, journey 54, fight 31, wait 29, act 27, talk 26, search 15, light 8, other 3 | go 327, wait 244, journey 187, act 174, fight 113, talk 93, search 52, light 35, other 30, care 8 | none 751, exploration 270, undertaking 158, knowledge 142, danger 56 | none 129, exploration 96, undertaking 85, danger 30, knowledge 22 | exploration 93, undertaking 64, knowledge 22, danger 9 | 44 / 6 |
 | cleric | act, care, fight, go, journey, light, other, search, study, talk, wait | go 112, journey 49, act 35, wait 35, fight 34, talk 20, search 12, study 10, light 7, other 3, care 1 | go 328, wait 255, journey 189, act 160, fight 125, talk 76, study 72, search 49, other 32, light 10, care 3 | none 764, exploration 296, undertaking 169, knowledge 136, danger 59 | none 141, exploration 97, undertaking 81, danger 29, knowledge 28 | exploration 94, undertaking 63, knowledge 28, danger 7 | 45 / 7 |
-| bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 89, journey 42, act 29, fight 25, wait 25, talk 18, study 8, light 7, search 7, care 2, other 1 | go 260, wait 201, journey 151, act 141, fight 84, talk 71, study 54, search 36, other 14, light 10, care 5 | none 600, exploration 240, undertaking 125, knowledge 123, danger 45 | none 115, exploration 82, undertaking 57, knowledge 23, danger 21 | exploration 79, undertaking 44, knowledge 23, danger 6 | 39 / 4 |
-| ranger | act, fight, go, journey, light, other, search, talk, wait | go 125, wait 56, fight 49, journey 48, act 41, talk 23, search 8, light 7, other 3 | go 395, wait 292, journey 211, act 210, fight 165, talk 80, search 64, other 33, light 25 | none 889, exploration 324, undertaking 186, knowledge 132, danger 72 | none 174, exploration 100, undertaking 88, danger 34, knowledge 28 | exploration 91, undertaking 64, knowledge 28, danger 6 | 38 / 3 |
+| bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 88, journey 42, act 29, wait 25, fight 22, talk 18, study 8, light 7, search 7, care 1, other 1 | go 255, wait 198, journey 151, act 141, fight 75, talk 71, study 54, search 32, other 14, light 10, care 6 | none 582, exploration 240, undertaking 125, knowledge 123, danger 42 | none 111, exploration 82, undertaking 57, knowledge 23, danger 19 | exploration 79, undertaking 45, knowledge 23, danger 6 | 39 / 4 |
+| ranger | act, fight, go, journey, light, other, search, talk, wait | go 132, fight 49, wait 49, journey 48, act 41, talk 23, search 8, light 7, other 3 | go 398, wait 292, act 214, journey 207, fight 165, talk 80, search 60, other 34, light 25 | none 888, exploration 320, undertaking 191, knowledge 132, danger 72 | none 169, exploration 100, undertaking 93, danger 34, knowledge 28 | exploration 91, undertaking 65, knowledge 28, danger 6 | 38 / 3 |
 | monk | act, fight, go, journey, light, other, search, talk, wait | go 92, journey 40, wait 38, act 32, fight 18, talk 17, light 7, search 6, other 2 | go 276, wait 208, act 167, journey 163, talk 70, fight 68, search 28, light 25, other 18 | none 587, exploration 267, knowledge 121, undertaking 111, danger 36 | none 122, exploration 81, undertaking 44, knowledge 22, danger 20 | exploration 72, undertaking 34, knowledge 22, danger 7 | 30 / 4 |
 
 ## Totals
 
-- walks: 63; within the budget: 59; outlier arrivals: 7
+- walks: 63; within the budget: 61; outlier arrivals: 7
 - attention repaid 268, empty 35
-- fights 242, retreats 28, loops 487, dead ends 0, ended 23, errors 0
-- blockers: 0 errors, 0 dead ends, 10 turns lost (an aim followed and nothing leading to it)
+- fights 234, retreats 27, loops 487, dead ends 0, ended 23, errors 0
+- blockers: 0 errors, 0 dead ends, 4 turns lost (an aim followed and nothing leading to it)
 - intention to a consequence: 42 of 63 walks
-- mean time per walk: 1018 ms
+- mean time per walk: 996 ms
 
 ## Gate 1, tier 1
 
 | build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |
 |---|---|---|---|---|---|---|---|---|
-| 0d1362ae | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 10 | 0 | 0 |
+| 281b0c4c | lab1, lab2, lab3 | laboratory | 7 | 0 | 0 | 4 | 0 | 0 |
 
 ## Lines said again (in most walks first)
 
@@ -111,9 +111,9 @@ repaid when what came of it told something new.
 - 15× A busy room in two parts with a counter between them, and a stair going up to the bedrooms.
 - 14× It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
 - 12× The fight is won.
-- 7× Wynn gets away.
-- 7× You are clear of the fight.
 - 6× Old stones lean in the grass.
+- 6× Wynn gets away.
+- 6× You are clear of the fight.
 - 5× Wynn gains 60 experience.
 - 4× The hasp hangs out of the corn-store door by one bolt, the oak split round it.
 - 4× The corn-store padlock hangs open on its hasp.
