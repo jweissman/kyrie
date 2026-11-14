@@ -27,23 +27,26 @@ controller of the page's own.
 
 ## Focus
 
-- **One focus at a time, by the reticule** (IG-09): four corners close on what the hand or the keys are on, at
-  once, in the same frame as the input, drawn into its own box. Nothing slides to it, no box moves or changes size,
-  and its shape says focus without its colour.
-  - It is drawn on the title's ways, creation's cards and Continue, the scene's, lenses', talk's and the fight's rows,
-    and a foe aimed at.
-  - It is not yet drawn on the map's chosen hex, the rail's icons or the likenesses. The board draws its own selection in
-    its own layer, and a reticule there needs drawing in that layer; the rail's marks and the round likenesses are too
-    small or round for corners to read, and keep their pressed ring.
+- **The pointer is the reticle** (IG-15). Wherever the hand is, the cursor is a small ring; over anything that can be
+  chosen, four ticks close it; pressed, it tightens and fills at once. A long press, should an act use one again,
+  fills it by steps. Touch has no cursor; the tint below does the work.
+- **What the hand or the keys are on is lit in its own tone**, at once: a tint of its row's mark (the atlas colour,
+  Indicator.of), ivory where it is nothing in particular, gold only for the followed step. Pressed, deeper. Never
+  corners, never movement, never a box that changes size.
+- **Every button has three states** (IG-16): at rest a row's ground and edge (a choice, not a link), lit under the
+  hand, deeper pressed; the same on the title, creation, the scene, talk and the fight.
 - **Focus answers immediately.** Anything that responds to focus more slowly (a lens's painting, the observatory
   later) follows it and never holds it up.
-- **The title's motion is none** (IG-11). Its sky is completely still: no light answering focus, no haze, drift or
-  embers. The reticule is the one sign of focus; the studio's mark cuts to the title.
+- **The title answers nothing the hand does** (IG-11, IG-14). Its sky is still: no light following focus, no haze.
+  Its one motion is the embers' own slow drift. The studio's mark cuts to the title.
 - **Nothing moves under the hand** (IG-08, IG-12). A press never changes which cards are shown or where: the deck
   is the four and "N more", opened only by the player. A passage between screens is a cut or a short fade in place;
   nothing slides, scrolls or wipes.
-- **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold mark is ceremonial, the
-  entry's alone.
+- **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold name is ceremonial,
+  the entry's alone; no focus is gold.
+- **One indicator, one colour** (TP-02). An act's mark, a likeness's pip, the place's mark and the rail's pips take
+  the act's chief aspect by one precedence (gold, red, green, blue, violet, silver), never a gradient. A companion is
+  its icon, never a colour (TP-03). The rest is said in hidden words.
 
 ## Choosing
 
@@ -94,10 +97,12 @@ controller of the page's own.
 | The four are the engine's | `test/small/offer-page` |
 | A thing's look in place | `test/small/look-in-place` |
 | Kind words off the page | `test/small/kind-words` |
+| One indicator, one colour | `test/small/indicator-page` |
 | A tap commits | `test/tap-browser` |
 | A foregone fight and the dice | `test/small/foregone-page` |
 | Reading pages | `test/small/reading-pages` |
 | The compass | `test/small/compass-stage` |
 | The fight's stable geometry | `test/fight-geometry-browser` |
 | Nothing moves under the hand | `test/steady-start-browser` |
-| The title's immediate focus, its still sky | `test/opening-browser` |
+| The title's immediate focus, its still sky, its embers | `test/opening-browser` |
+| The reticle cursor, the tint, nothing moves | `test/reticle-browser` |

@@ -12,7 +12,8 @@ import { MonoBrowser } from './support/mono-browser';
 // pages a press moves no card, at a desk by the mouse and on an iPad by touch, and the deck shows what it showed (the
 // four, the rest only when the player opens them). IG-12: from the studio's mark through the title and creation into
 // the opening, no animation slides, scrolls or wipes (no translate, no clip-path) and the page never scrolls; a passage
-// is a cut or a short fade in place. The studio's mark's own drawing is apart; the title's sky is still (IG-11).
+// is a cut or a short fade in place. The studio's mark's own drawing and the title's embers' own drift (IG-14) are
+// apart.
 class Steady {
   static cards(page: Page) {
     return page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.creation .card')].map(c => {
@@ -25,7 +26,7 @@ class Steady {
     return page.evaluate(() => ({
       sliding: document.getAnimations().flatMap(a => {
         const effect = a.effect as KeyframeEffect | null, target = effect?.target as Element | null;
-        if (!effect || !target || target.closest('.ident')) { return []; }
+        if (!effect || !target || target.closest('.ident, .motes')) { return []; }
         const frames = effect.getKeyframes().map(k => `${k.transform ?? ''} ${k.clipPath ?? ''}`).join(' ');
         return /translate|inset\(/.test(frames) ? [`${target.className}: ${frames.trim()}`] : [];
       }),

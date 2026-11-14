@@ -77,6 +77,15 @@
 /* One with something for the company now (thanks that pay, a payment owed: see Owed): a green seal on the shoulder of
    the likeness, whatever ring it has, never the gold of a lead nor the red of danger (the owner, 7 November). */
 .portraits .portrait { position: relative; }
+/* Someone who could join the company is the companion's icon, never a colour (TP-03): beside the pip where there is one,
+   else where the pip would stand; soft where only perceived. */
+.pip-icon { display: inline-block; flex: none; width: 14px; height: 14px; fill: none; stroke: var(--ivory);
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: -2px; pointer-events: auto;
+  filter: drop-shadow(0 0 2px rgba(10, 11, 14, .9)); }
+.pip-icon.faint { opacity: .55; }
+.portraits .portrait > .pip-icon { position: absolute; z-index: 2; top: -2px; left: calc(50% - 29px); }
+.rail-mark > .pip-icon { position: absolute; top: 3px; right: 3px; width: 12px; height: 12px; }
+.rail-mark > .pip + .pip-icon { top: auto; bottom: 3px; }
 
 /* What is opened: over the whole stage under the place bar, one purpose, put away by its cross or Esc. Look… over the
    picture alone, the telling and the place's touches beside it still to hand (see Explorer). */
@@ -351,8 +360,8 @@
 .shell.scene-full .focus > .explorer .wf-list { display: block; overflow: visible; }
 .shell.scene-full .focus > .explorer .wf-group { margin: 0 0 10px; }
 .shell.scene-full .focus > .explorer .wf-where { display: none; }
-/* The one indicator (see Pip): a small pip of the tone of what can be done, or through several tones where several
-   meet; soft where only perceived. Beside a likeness at its shoulder, by a rail mark at its corner, on a way before its
+/* The one indicator (see Pip): a small pip of one tone, what can be done chiefly by the one precedence (TP-02); soft
+   where only perceived. Beside a likeness at its shoulder, by a rail mark at its corner, on a way before its
    word. Frames, outlines and surfaces round it stay neutral (the owner, 11 November). */
 .pip { display: inline-block; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--pip);
   box-shadow: 0 0 0 2px rgba(10, 11, 14, .85); pointer-events: auto; }
@@ -428,6 +437,9 @@
 .lens-face .lens-glyph { font: 400 22px/1 var(--do); color: var(--ivory); }
 .lens-face .emblem { width: 28px; height: 28px; fill: none; stroke: var(--ivory); stroke-width: 1.4; }
 .lens-tile > .pip { position: absolute; top: 6px; right: 12px; }
+.lens-tile > .pip-icon { position: absolute; top: 4px; right: 10px; }
+.lens-tile > .pip + .pip-icon { right: 26px; }
+.lens-tile.bare > .pip-icon { position: static; }
 .lens-tile.bare > .pip { position: static; }
 .lens-name { font: 500 11.5px/1.2 var(--do); text-align: center; max-width: 100%; overflow: hidden;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 1px 2px rgba(0, 0, 0, .8); }

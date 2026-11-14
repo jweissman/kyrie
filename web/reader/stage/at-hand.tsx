@@ -51,7 +51,7 @@ export class AtHand {
     const shown = h.choices.filter(c => draw.index.has(c.id)), acts = s.frame!.leaf.glance?.acts, gilded = Guidance.shown(app);
     // Each act drawn as what the glance found in it, so that the mark on Look… and on the thing's row is found again on
     // the act it is for (the owner, 12 November: green on the rail, and nothing inside said which).
-    const bar = (c: Choice) => Emphasis.bar(Emphasis.within(acts, c, (acts ?? []).filter(a => a.choice === c.id)
+    const bar = (c: Choice) => Pip.fill(Emphasis.within(acts, c, (acts ?? []).filter(a => a.choice === c.id)
       .flatMap(a => a.aspects.filter(x => x !== 'undertaking' || a.continues))), gilded);
     return (
       <section className="ah-pane" aria-live="polite" data-held={h.id}>
@@ -138,7 +138,7 @@ export class AtHand {
       && a.aspects.length);
     // In the aim's gold where it is the aim's next step, as the scene draws it (the speaking door had been gold on the
     // scene and blue in Look…: round 11, T 33–34).
-    return led ? Emphasis.of(led.aspects, !!led.continues && Guidance.shown(app)).tone : undefined;
+    return led ? Pip.tone(led.aspects, !!led.continues && Guidance.shown(app)) : undefined;
   }
   // The one the glance leads with, where it leads with something at hand.
   static led(app: ReaderApp, held: Held[]): Held | undefined {

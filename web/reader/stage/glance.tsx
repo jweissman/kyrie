@@ -12,6 +12,7 @@ import { MenuModel } from '../menu-model';
 import { Aims } from '../aims';
 import { Words } from '../words';
 import { Emphasis } from '../../../src/presentation/emphasis';
+import { Pip } from './pip';
 import { Guidance } from '../guidance';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
@@ -557,10 +558,9 @@ export class GlanceStage {
         // Beneath it only what it adds: never what kind of thing it is (its indicator says that), but whom it is done
         // with where its words do not say (the owner, 11 November: "Offer the heel of a loaf": to whom?).
         const note = (aimed && !gilded ? undefined : said) ?? GlanceStage.whom(app, a, label);
-        // One indicator at the left carries what it is: its tone, or through its tones where several meet; the rest of
-        // it stays neutral (the owner, 11 November: colour concentrated, sparing, consistent).
-        const { tone } = Emphasis.of(a.aspects, gilded), prism = Emphasis.prism(a.aspects, gilded);
-        const mark = prism ?? (tone ? `var(--tone-${tone})` : undefined);
+        // One indicator at the left carries what it is: one colour, by the precedence every client reads (see Pip);
+        // the rest of it stays neutral (the owner, 11 November: colour concentrated, sparing, consistent).
+        const tone = Pip.tone(a.aspects, gilded), mark = Pip.fill(a.aspects, gilded);
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
           data-continues={a.continues || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
@@ -581,7 +581,7 @@ export class GlanceStage {
             label={Typography.curl(label)} {...note ? { aside: GlanceStage.aside(note) } : {}}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
           : <ChoiceRow.Act choice={c} draw={draw} shown={i + 1}
-            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`
+            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`
               + `${a.afar ? ' afar' : ''}`}
             mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
             {...mark ? { markLabel: Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x]).join(', ') } : {}}

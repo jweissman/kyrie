@@ -8,7 +8,7 @@ import { AtHand } from './at-hand';
 import { Pastime } from './pastime';
 import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
-import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
+import type { Tone } from '../../../src/presentation/emphasis';
 import { Signs } from '../../../src/presentation/signs';
 import type { Aspect } from '../../../src/presentation/glance-types';
 import { Pip } from './pip';
@@ -97,11 +97,11 @@ export class SceneRail {
   // Its pip (see Pip): lit, of the tone of something here; soft, of the tone of something perceived off along a way
   // from here (see Perception); none with nothing; and the whole mark lowered (dim) with nothing new.
   static Mark({ app, part, glyph, words, standing, faint }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
-    glyph: string; words: string; standing: Standing; faint?: Tone }) {
+    glyph: string; words: string; standing: Standing; faint?: Aspect }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
     // What is perceived that way, said as every client says it (Signs): it had said "someone who might join you" of
     // whatever was perceived.
-    const sensed = faint && (Object.keys(Emphasis.tones) as Aspect[]).find(a => Emphasis.tones[a] === faint);
+    const sensed = faint, tone = Pip.sensed(faint);
     const said = shut ? `${words}: ${shut}` : 'dim' in standing ? `${words}: ${Signs.idle} for now`
       : sensed ? `${words}: ${Signs.sensed(sensed)}` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
@@ -109,7 +109,8 @@ export class SceneRail {
       aria-expanded={app.state.exploring === part} aria-label={said} title={shut ? said : words} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" />
-      {!shut && <Pip.View fill={lit ? `var(--tone-${lit})` : faint ? `var(--tone-${faint})` : undefined} faint={!lit} />}
+      {!shut && <Pip.View fill={lit ? `var(--tone-${lit})` : tone ? `var(--tone-${tone})` : undefined} faint={!lit}
+        companion={!lit && faint === 'companionship'} />}
     </button>;
   }
   // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way the place leads with; dim where
@@ -139,14 +140,13 @@ export class SceneRail {
     if (GlanceStage.serves(app, hand) && Guidance.shown(app)) { return { lit: 'gold' }; }
     const ids = new Set(hand.flatMap(h => [...h.choices.map(c => c.id), ...h.opens]));
     const led = glance?.acts.find(a => ids.has(GlanceStage.choice(app, a.choice)?.id ?? '') && a.aspects.length);
-    const tone = led && Emphasis.of(led.aspects, false).tone;
+    const tone = led && Pip.tone(led.aspects, false);
     if (tone) { return { lit: tone }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
   }
-  // What is perceived off along the ways from here, by the tone of its kind.
-  static sensed(app: ReaderApp): Tone | undefined {
-    const first = app.state.frame?.leaf.glance?.sensed?.[0];
-    return first && Emphasis.tones[first.aspect];
+  // What is perceived off along the ways from here: its kind, drawn by its tone or, a companion, its icon (see Pip).
+  static sensed(app: ReaderApp): Aspect | undefined {
+    return app.state.frame?.leaf.glance?.sensed?.[0]?.aspect;
   }
   // The map, where a journey there is the aim's next step, and the way is shown.
   static mapLit(app: ReaderApp): boolean {

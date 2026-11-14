@@ -117,7 +117,10 @@ not a redesign.
 | IG-09 | The one focus mark is a reticule: title, creation, the scene's rows and the fight's targets | done in look-10 |
 | IG-11 | The title completely still: no light answering focus, no haze or embers; the reticule the one focus sign | done in look-12 |
 | IG-12 | The start's vertical dissolve gone: every passage a cut or a fade in place | done in look-11 |
-| IG-10 | The reticule on the map's chosen hex, drawn in the board's own layer | later |
+| IG-14 | The title's embers back as before look-7; the still sky keeps no focus light | look-14 |
+| IG-15 | The reticle is the pointer: a ring cursor that closes over a choice and fills pressed; focus by a tint of the row's tone; the corner reticule gone | look-14 |
+| IG-16 | Buttons: rest, hover and press states, a row's ground at rest, the press felt at once, the same on every screen; before and after stills in aesthetic/buttons/ | look-14 |
+| IG-10 | The reticule on the map's chosen hex, drawn in the board's own layer | superseded by IG-15 (the reticle is the pointer) |
 
 ## The deployed recording (e1de5734, main up to look-6)
 
