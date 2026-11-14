@@ -11,6 +11,7 @@ import { PlaceStage } from './place-stage';
 import { Pip } from './pip';
 import { ChoiceRow } from './choice-row';
 import { Signs } from '../../../src/presentation/signs';
+import { Indicator } from '../../../src/presentation/indicator';
 
 // Mission 21's attention composition (?look=attend; proposal.md, composition B). The owner, 12 November: "There
 // shouldn't be separate explore/perceive page: they're just lenses, they should leave the scene intact but more highly
@@ -101,10 +102,11 @@ export class Attention {
       const bearing = Signs.bearing(glance, w.c.command ?? w.c.id);
       const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = bearing?.sign ?? Signs.way(w.whither, !!w.c.disabled), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
       // A companion perceived that way is said whatever colour the way has of its own (it is an icon, never a tone);
-      // anything else perceived is the faint tone of a way with none (the atlas-perception matrix, M21).
+      // anything else perceived is the faint tone of a way with none (the atlas-perception matrix, M21), said in words
+      // only where it is so (a danger, someone), never that it is worth a look (the owner's headless review, HP-06).
       const tone = lit ?? Pip.sensed(far?.aspect), kin = far?.aspect === 'companionship';
       return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
-        note: [bearing?.said ?? '', w.c.disabled ? `shut: ${w.c.disabled}` : '', far && (kin || !lit) ? Signs.sensed(far.aspect, far.far) : '', time]
+        note: [bearing?.said ?? '', w.c.disabled ? `shut: ${w.c.disabled}` : '', far && (kin || !lit) && Indicator.tells(far.aspect) ? Signs.sensed(far.aspect, far.far) : '', time]
           .filter(Boolean).join(' · ') || undefined,
         ...tone ? { tone } : {}, ...far && !lit && !kin ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
     });
