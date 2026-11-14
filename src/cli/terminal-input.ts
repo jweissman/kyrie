@@ -1,4 +1,5 @@
 import { createInterface, type Interface } from 'node:readline';
+import type { Menu, Picked } from './terminal-picker';
 
 // What the player types, each line kept until it is asked for. Piped in at once (a headless player's commands, a
 // journey written down), every line arrived before the first prompt, and readline's question() took only the one it
@@ -9,6 +10,8 @@ import { createInterface, type Interface } from 'node:readline';
 // What the terminal asks its player through: the keyboard or a pipe (TerminalInput), or a walk that answers as a
 // style of player would (TerminalWalk).
 export interface Asking { ask(prompt: string): Promise<string | null>; close(): void }
+// A player who chooses from a menu by keys rather than typing (TerminalHuman, the human mode: TP-01).
+export interface Picking extends Asking { pick(menu: Menu): Promise<Picked> }
 
 export class TerminalInput implements Asking {
   private readonly lines: string[] = [];
@@ -18,6 +21,8 @@ export class TerminalInput implements Asking {
     reader.on('line', line => this.heard(line));
     reader.on('close', () => { this.ended = true; this.answer(null); });
   }
+  // Whether a player chooses by menu.
+  static picks(input: Asking): input is Picking { return typeof (input as Partial<Picking>).pick === 'function'; }
   static open(): TerminalInput {
     const typed = !!process.stdin.isTTY;
     const reader = createInterface({ input: process.stdin, output: process.stdout, terminal: typed });

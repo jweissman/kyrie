@@ -25,7 +25,9 @@ export class TerminalScene {
   // an act), and apart from it what it says for reference (the aim, what is needed), so that a walk measures each
   // (TerminalWalk).
   readonly told: { turned: Turned; lines: string[]; reference: string[] }[] = [];
-  constructor(private readonly depth: Depth = 'none') {}
+  // instruments: whether the instruments are said among the lines (the human mode reads them in its picker instead);
+  // picked: whether the player picks by keys, so that how to follow an aim is its key, not a command to type.
+  constructor(private readonly depth: Depth = 'none', private readonly o: { instruments?: boolean; picked?: boolean } = {}) {}
   lines(screen: Screen, leaf: Leaf, turned: Turned): string[] {
     const whole = turned === 'look', day = screen.date?.short ?? `Day ${FictionalTime.day(screen.elapsed)}`;
     const time = this.fresh('time', `${day}, ${FictionalTime.part(screen.elapsed)}`, whole);
@@ -55,7 +57,7 @@ export class TerminalScene {
     const d = this.depth;
     if (aim.followed) { return [TerminalColour.paint('gold', TerminalColour.bold(`Following: ${text}`, d), d)]; }
     const n = (screen.aims ?? []).findIndex(a => a.id === aim.offered) + 1;
-    return [`${TerminalColour.bold(`An aim: ${text}`, d)}${n ? ` · follow ${n}` : ''}`];
+    return [`${TerminalColour.bold(`An aim: ${text}`, d)}${n ? this.o.picked ? ' · a to follow' : ` · follow ${n}` : ''}`];
   }
   private need(leaf: Leaf, whole: boolean): string[] {
     const need = this.fresh('need', leaf.glance?.need?.join(' · '), whole);
@@ -64,6 +66,7 @@ export class TerminalScene {
   // The company's instruments (see Instruments): every one it can read on a look; otherwise one that bears on the
   // moment, and only when what it reads has changed. Quiet, each by its emblem's character where it has one.
   private instruments(leaf: Leaf, whole: boolean): string[] {
+    if (this.o.instruments === false && !whole) { return []; }
     const shown = (leaf.instruments ?? []).filter(i => whole || i.relevant)
       .map(i => `${i.emblem ? `${Signs.emblem(i.emblem) ?? ''} ` : ''}${i.label}: ${i.said}`);
     const said = this.fresh('instruments', shown.join(' | ') || undefined, whole);

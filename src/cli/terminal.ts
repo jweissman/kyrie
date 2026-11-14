@@ -1,4 +1,6 @@
-import { TerminalInput, type Asking } from './terminal-input';
+import { TerminalInput, type Asking, type Picking } from './terminal-input';
+import { TerminalFight } from './terminal-fight';
+import { TerminalMenus } from './terminal-menus';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
 import { TerminalSigns, type Signed } from './terminal-signs';
@@ -6,14 +8,12 @@ import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
 import { Typography } from '../presentation/typography';
 import { writeFile } from 'node:fs/promises';
-import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
 import { Battle } from '../battle';
 import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
 import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone';
 import { CombatTelling } from '../ui/combat-telling';
-import { CombatChoices, type ActionChoice } from '../ui/combat-choices';
 import { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
 import { ScreenModel } from '../ui/screen-model';
@@ -31,12 +31,18 @@ const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
 interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
-interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; lens?: { name: Lens; more: number } }
+// lens.rest: the rest of the lens's own, as the page's lens has them under All.
+interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number;
+  lens?: { name: Lens; more: number; rest: Listed[] } }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
   told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
   scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number }; lens?: Lens;
+  // The row the human mode's focus was on, kept while nothing is done (a lens, the map), let go once something is.
+  focus?: string;
+  // Whether the line between what was told and the picker has been given since the scene was told.
+  spaced?: boolean;
 }
 
 // A text client over the same public projection and command path as the browser. It decides layout and input only:
@@ -45,50 +51,9 @@ export class Terminal {
   static readonly commands = 'Commands: a number · things · people · places · time · here · all · look · map · character'
     + ' · aims · follow <n> · save <path> · q';
   static readonly lenses = new Set(['things', 'people', 'places', 'time', 'here']);
-  static async command(state: BattleState, legal: Command[], input: Asking): Promise<Command | null> {
-    // By name, never by id ("region__s2_u_rats_person_2" had stood in the table: the headless review, 12 November).
-    console.table(state.combatants.map(f => ({ name: f.name, hp: `${f.hp}/${f.maxHp}`,
-      mana: f.mana, statuses: f.statuses.map(s => s.id).join(', ') })));
-    console.log(`Turn ${state.turn}: ${state.combatants.find(f => f.id === state.actor)!.name}`);
-    // In one order from turn to turn, a strike first and the rest by name, and each to be had by its name too: as
-    // drawn, the list had changed its order each turn, and the key that was Cleave became Flee (the same review).
-    const choices = CombatChoices.actions(legal, Content.abilities).sort((x, y) => Terminal.blow(x) - Terminal.blow(y)
-      || x.ability.name.localeCompare(y.ability.name));
-    // Four in the hand, the weapon's blow first, as the page's fight leads with; all says every move, numbered alike.
-    let every = false;
-    for (;;) {
-      const shown = every ? choices : choices.slice(0, 4);
-      shown.forEach((choice, i) => console.log(`${i + 1}. ${choice.ability.name} — ${choice.scope} (mana ${choice.ability.cost ?? 0})`));
-      if (shown.length < choices.length) { console.log(`(${choices.length - shown.length} more: all)`); }
-      const answer = await input.ask('Action number or name, auto, or q: ');
-      if (answer === null || answer === 'q') { return null; }
-      if (answer === 'all' || answer === 'more') { every = true; continue; }
-      if (answer === 'auto') { return Tactics.choose(state, legal); }
-      const choice = choices[Number(answer) - 1]
-        ?? choices.find(c => c.ability.name.toLowerCase() === answer.toLowerCase());
-      if (!choice) { console.log('Choose a listed action.'); continue; }
-      if (!choice.requiresTarget) { return choice.commands[0]!; }
-      const target = await Terminal.target(choice, state, input);
-      if (target === 'back') { continue; }
-      return target;
-    }
-  }
-  // A strike is the weapon's own blow, melee or ranged, by its id: by its name, "Melee Attack" had come fifth.
-  private static blow(c: ActionChoice): number { return Number(!['melee', 'ranged'].includes(c.ability.id)); }
-  static async target(choice: ActionChoice, state: BattleState, input: Asking): Promise<Command | 'back' | null> {
-    console.log(`${choice.ability.name} — choose a target:`);
-    choice.commands.forEach((command, index) => {
-      const target = state.combatants.find(f => f.id === command.target)!;
-      console.log(`${index + 1}. ${target.name} (${target.hp}/${target.maxHp})`);
-    });
-    for (;;) {
-      const answer = await input.ask('Target number, b to go back, or q: ');
-      if (answer === null || answer === 'q') { return null; }
-      if (answer === 'b') { return 'back'; }
-      const command = choice.commands[Number(answer) - 1];
-      if (command) { return CombatChoices.target(choice, command.target); }
-      console.log('Choose an eligible target.');
-    }
+  // A fight's turn, as TerminalFight takes it (typed, or picked in the human mode).
+  static command(state: BattleState, legal: Command[], input: Asking): Promise<Command | null> {
+    return TerminalFight.command(state, legal, input);
   }
   static async battle(battle: Battle, input: Asking): Promise<Command[] | null> {
     const commands: Command[] = [];
@@ -156,7 +121,13 @@ export class Terminal {
       }
     }
     const signs = new TerminalSigns(screen, glance);
-    for (const c of all) { Object.assign(c, { signed: signs.on(c.id) }); }
+    // What each of the rest is to the company, as the glance's offer says it (Offers.scene): the rest unfolded carries
+    // the same indicator as the four (TP-02).
+    const rest = new Map((glance?.offer?.rest ?? []).map(o => [o.command ?? o.choice, o.aspects]));
+    for (const c of all) {
+      const aspects = rest.get(c.id);
+      Object.assign(c, { signed: signs.on(c.id), ...aspects?.length ? { aspects } : {} });
+    }
     const byId = new Map(all.map(c => [c.id, c]));
     // What the page leads with inside a talk (the question the aim waits on, Promoted.inside) is offered as itself:
     // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
@@ -182,16 +153,18 @@ export class Terminal {
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
     const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
-    return { all, first: shown, ...lensed ? { lens: { name: lens, more } } : { more: all.length - shown.length } };
+    const after = lensed ? lensed.rest.flatMap(a => byId.get(a.command ?? a.choice) ?? []) : [];
+    return { all, first: shown,
+      ...lensed ? { lens: { name: lens, more, rest: after } } : { more: all.length - shown.length } };
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
-  private static next(next: Successor | undefined, screen: Screen, all: Listed[]) {
+  private static next(next: Successor | undefined, screen: Screen, { all, human }: { all: Listed[]; human: boolean }) {
     if (!next) { return; }
     const n = (screen.aims ?? []).findIndex(a => a.id === next.aim) + 1;
     const typed = all.find(c => c.id === next.command)?.name ?? next.label;
     console.log(`\nNext: ${Typography.plain(next.text)}${next.at ? ` (${next.at})` : ''}`
-      + `${next.aim ? ` · follow ${n}` : typed ? ` · ${Typography.plain(typed)}` : ''}`);
+      + `${next.aim ? human ? ' · a to follow' : ` · follow ${n}` : typed ? ` · ${Typography.plain(typed)}` : ''}`);
   }
   // Where the rest lies: each lens by how many it holds, as the page's rail opens them; the journeys the page puts on
   // its map (49 in a1's first scene, 42 of them set-outs to places known, had been one list under `all`); and `all`.
@@ -289,59 +262,102 @@ export class Terminal {
   // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk); with
   // profile, each act says what it took: the world's turn and the telling of it.
   static async play(session: PlaySession, o: { input?: Asking; scene?: TerminalScene; profile?: boolean } = {}) {
-    const input = o.input ?? TerminalInput.open();
-    const turn: Turn = { scene: o.scene ?? new TerminalScene(TerminalColour.depth()),
-      ...o.profile ? { profile: {} } : {} };
+    const input = o.input ?? TerminalInput.open(), human = TerminalInput.picks(input);
+    // The human mode shows the instruments that bear on the moment in its picker, each to be read on asking.
+    const scene = o.scene ?? new TerminalScene(TerminalColour.depth(), { instruments: !human, picked: human });
+    const turn: Turn = { scene, ...o.profile ? { profile: {} } : {} };
     try {
       while (session.campaign.running) {
-        turn.current ??= this.scene(session, turn);
+        if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
         const { screen, leaf } = turn.current;
         const offered = this.foreground(session, leaf.glance, screen, { talking: turn.talking, lens: turn.lens });
         if (turn.talking && !offered.talk) { turn.talking = undefined; }
-        this.next(leaf.glance?.next, screen, offered.all);
-        console.log('');
-        if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
-        this.choices(offered.first);
-        if (offered.more) { console.log(this.more(leaf.glance, offered.all, offered.more)); }
-        // The commands when asked, and a word of where they are once: a line said the same after every act, and a
-        // heading over the choices, are static context (the owner, 14 November: TM-02).
-        if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }
-        let answer = await input.ask('> ');
-        while (answer === '') { answer = await input.ask('> '); }
-        if (answer === null || answer === 'q' || answer === 'quit') { return; }
-        if (await this.aside(session, answer, offered.all, turn)) { continue; }
-        const numbered = Number(answer) - 1;
-        const choice = numbered >= 0 && numbered < offered.first.length ? offered.first[numbered]
-          : offered.all.find(c => c.id === answer || Terminal.same(c.name, answer));
+        this.next(leaf.glance?.next, screen, { all: offered.all, human });
+        const answer = human ? await this.picked(input, offered, turn) : await this.typed(input, offered, turn);
+        if (answer === null) { return; }
+        if (typeof answer === 'string' && await this.aside(session, answer, offered.all, { turn, input })) { continue; }
+        const choice = typeof answer === 'string' ? this.chosen(offered, answer) : answer;
         if (!choice) {
           console.log('Choose a number, or type a choice as it is written (all lists every one; ? the commands).');
           continue;
         }
+        turn.focus = undefined;
         if (!await this.act(session, choice, turn, input)) { return; }
       }
       this.scene(session, turn);
       console.log('The story has ended.');
     } finally { input.close(); }
   }
+  // Headless: the choices as numbered lines, where the rest lies, and the answer typed; null to leave.
+  private static async typed(input: Asking, offered: Offered, turn: Turn): Promise<string | null> {
+    const glance = turn.current?.leaf.glance;
+    console.log('');
+    if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
+    this.choices(offered.first);
+    if (offered.more) { console.log(this.more(glance, offered.all, offered.more)); }
+    // The commands when asked, and a word of where they are once: a line said the same after every act, and a
+    // heading over the choices, are static context (the owner, 14 November: TM-02).
+    if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }
+    let answer = await input.ask('> ');
+    while (answer === '') { answer = await input.ask('> '); }
+    return answer === null || answer === 'q' || answer === 'quit' ? null : answer;
+  }
+  // The human mode: the same four and every legal act behind More, picked (TerminalMenus); a choice by its id, or a
+  // command (a lens, the map) as it would have been typed.
+  private static async picked(input: Picking, offered: Offered, turn: Turn): Promise<Listed | string | null> {
+    if (!turn.spaced) { console.log(''); turn.spaced = true; }
+    const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
+      all: offered.lens ? [...offered.first, ...offered.lens.rest] : offered.all,
+      ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
+      ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
+      ...turn.focus ? { focus: turn.focus } : {} }));
+    if (!picked) { return null; }
+    if ('command' in picked) { turn.focus = picked.focus; return picked.command; }
+    return offered.all.find(c => c.id === picked.choice) ?? picked.choice;
+  }
+  // Whom the company is speaking with, by the name the screen gives them.
+  private static whom(screen: Screen | undefined, id: string): string | undefined {
+    return screen && SceneModel.build(screen).subjects.find(x => x.id === id)?.name;
+  }
+  // A choice typed: by its number among those led with, by its id, or by its words as printed.
+  private static chosen(offered: Offered, answer: string): Listed | undefined {
+    const numbered = Number(answer) - 1;
+    return numbered >= 0 && numbered < offered.first.length ? offered.first[numbered]
+      : offered.all.find(c => c.id === answer || Terminal.same(c.name, answer));
+  }
   // What is not an act in the story: looking again, the map, the sheet, the aims, the whole list, a save.
-  private static async aside(session: PlaySession, answer: string, all: Listed[], turn: Turn): Promise<boolean> {
+  private static async aside(session: PlaySession, answer: string, all: Listed[],
+    { turn, input }: { turn: Turn; input: Asking }): Promise<boolean> {
     if (answer === 'look') { turn.told = undefined; turn.current = this.scene(session, turn, true); return true; }
     if (answer === 'help' || answer === '?') { console.log(Terminal.commands); return true; }
     // A lens: what is led with, by kind (things, people, places, time); here, the scene's own. It takes no time.
     if (Terminal.lenses.has(answer)) { turn.lens = answer === 'here' ? undefined : answer as Lens; return true; }
     if (answer === 'map') { this.map(session); return true; }
     if (answer === 'character' || answer === 'dossier') { this.dossier(session); return true; }
+    if (answer === 'aims' && TerminalInput.picks(input)) {
+      return this.aside(session, await this.aim(session, input), all, { turn, input });
+    }
     if (answer === 'aims') { this.aims(session, answer); return true; }
     if (/^(follow \d+|unfollow)$/.test(answer)) {
       this.aims(session, answer); turn.current = undefined; turn.told = undefined; turn.attended = true; return true;
     }
     if (answer === 'all' || answer === 'more') { console.log('\nAll legal interactions'); this.choices(all); return true; }
+    if (answer === 'save' && TerminalInput.picks(input)) {
+      return this.aside(session, `save ${await input.ask('Save to (a path): ') ?? ''}`, all, { turn, input });
+    }
     if (!answer.startsWith('save ')) { return false; }
     const path = answer.slice(5).trim();
     if (!path) { console.log('Name a save path.'); return true; }
     await writeFile(path, JSON.stringify(session.checkpoint(), null, 2));
     console.log(`Saved ${path}.`);
     return true;
+  }
+  // An aim picked to follow, or the one followed let go, as the Notes do (the human mode's aims).
+  private static async aim(session: PlaySession, input: Picking): Promise<string> {
+    const aims = ScreenModel.build(session.campaign).aims ?? [];
+    if (!aims.length) { console.log('No aim is held.'); return 'here'; }
+    const picked = await input.pick(TerminalMenus.aims(aims));
+    return picked && 'choice' in picked ? picked.choice : 'here';
   }
   // One act, its fight the player's; false if the player left the game in a fight.
   private static async act(session: PlaySession, choice: Listed, turn: Turn, input: Asking): Promise<boolean> {
@@ -378,5 +394,7 @@ export class Terminal {
     return true;
   }
   // Compatibility for the legacy `campaign` command; new play uses a session checkpoint end to end.
-  static playCampaign(campaign: Campaign) { return this.play(PlaySession.fromSave(campaign.save(), 'campaign')); }
+  static playCampaign(campaign: Campaign, input?: Asking) {
+    return this.play(PlaySession.fromSave(campaign.save(), 'campaign'), input ? { input } : {});
+  }
 }
