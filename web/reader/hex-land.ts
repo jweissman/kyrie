@@ -111,12 +111,21 @@ export class HexLand {
     [/mound|barrow|cairn/i, 'barrow'], [/camp|clearing|burners/i, 'camp'], [/stone|march/i, 'stone'],
     [/tarn|mere|pool|spring/i, 'tarn'], [/crag|rock|scar/i, 'crag'], [/ford|crossing|bridge/i, 'ford'],
     [/grove|oak|thorn|willow|alder/i, 'grove'], [/way into|gate/i, 'gate']];
+  // Whether a place stands on the land by itself: not one within a town, which its town stands for on the map (the
+  // town's own plan draws its rooms). Wapshott's ground, the circus's backyard and its ring of living-wagons had stood
+  // as signs over Lowmouth's houses, with its inn and its salt-house, and a touch on the town had chosen the wagons,
+  // and the journey gone to them (round 9's P: R9-04).
+  static alone(region: RegionChart, id: string): boolean {
+    const area = region.within[id];
+    return !area || region.areas.find(a => a.id === area)?.kind !== 'settlement';
+  }
   private static marks(region: RegionChart): Mark[] {
     const land = region.land!, W = land.width;
     const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name,
       cell: a.y * W + a.x, sign: 'town', visited: a.visited, town: true, here: a.here, state: this.town(land, a) }));
-    const others = land.marks.map(m => ({ id: m.id, name: Typography.curl(m.name.replace(/^the /, '')), cell: m.cell,
-      sign: this.sign(m), visited: m.visited, town: false, here: m.here, state: m.state }));
+    const others = land.marks.filter(m => HexLand.alone(region, m.id)).map(m => ({ id: m.id,
+      name: Typography.curl(m.name.replace(/^the /, '')), cell: m.cell, sign: this.sign(m), visited: m.visited,
+      town: false, here: m.here, state: m.state }));
     return [...towns, ...others].map(m => ({ ...m, ...this.centre(m.cell, W) }));
   }
   private static zone(z: Land['zones'][number], W: number): Pt & { id: string; name: string } {
