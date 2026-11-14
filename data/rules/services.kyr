@@ -87,6 +87,14 @@ Module world_services "Lodging, goods and camping" {
       Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1. }
     Result "{seller} counts the coins and hands over a {goods}.".
   }
+  // A favour remembered in trade: one grateful to a company asks a coin less of it for each of their wares (the
+  // remembered-favour pin, CO-16: gratitude had changed words and never a price). Once a ware, and never below one.
+  Relation thanksPriced(group, good).
+  Rule thanks_priced when grateful(?seller, ?company) and sells(?seller, ?goods) and goodsPrice(?seller, ?goods) > 1
+    and not thanksPriced(?seller, ?goods) { Decrease goodsPrice(?seller, ?goods) by 1. Assert thanksPriced(?seller, ?goods). }
+  Relation thanksPricedItem(item).
+  Rule thanks_priced_item when grateful(?seller, ?company) and soldBy(?ware, ?seller) and forSale(?ware) and price(?ware) > 1
+    and not thanksPricedItem(?ware) { Decrease price(?ware) by 1. Assert thanksPricedItem(?ware). }
   // Where a night in the open costs something (the cold on a pass, after dark), and what: the camp says so before it
   // is made (see Exposure).
   Relation unsheltered(place, entity).
