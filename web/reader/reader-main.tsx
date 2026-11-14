@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { ReaderApp } from './reader-app';
 import { Identity } from '../../src/presentation/identity';
 import { Look } from './look';
+import { Press } from './instrument/press';
 
 // Starts the page and exposes the same semantic state it draws to tests and automation.
 class ReaderMain {
@@ -19,6 +20,8 @@ class ReaderMain {
     if (face && ReaderMain.faces.includes(face)) { document.documentElement.classList.add(`face-${face}`); }
     // Mission 21's compositions (see Look), never the default.
     Look.set(query.get('look'));
+    // The interaction research's versions of the action control (see Press), never the default.
+    Press.set(query);
     createRoot(root).render(<ReaderApp ref={ReaderMain.app} query={query} />);
     // What automation may do besides look (scripts/journey-browser.ts): set out with a given company, do a command by
     // its id, let a fight go on, and go back from a fight that has ended.

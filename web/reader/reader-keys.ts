@@ -6,6 +6,8 @@ import { Raised, type Sheet } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
+import { PressGuard } from './press-guard';
+import { Hold } from './instrument/hold';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
@@ -26,6 +28,8 @@ export class ReaderKeys {
       if (e.key === 'Escape') { target.blur(); }
       return;
     }
+    // A key held down does its act once (IG-17): its repeats are dropped, the browser's click on a focused button too.
+    if (PressGuard.repeated(e)) { e.preventDefault(); return; }
     // Enter or Space on a focused act is that act, at once (IG-07: one press commits), where the arrows are not
     // driving the page's own highlight.
     if ((e.key === 'Enter' || e.key === ' ') && !this.app.state.keyed
@@ -63,6 +67,7 @@ export class ReaderKeys {
         return true;
       }
       const chosen = menu.choices[s.cursor];
+      if (chosen && Hold.key(app, chosen, key)) { return true; }
       if (chosen && ReaderKeys.opener(chosen.id)) { ReaderKeys.opener(chosen.id)!.click(); return true; }
       if (chosen) { app.choose(chosen); }
       return !!chosen;
@@ -86,6 +91,7 @@ export class ReaderKeys {
         if (row) { row.click(); return true; }
       }
       if (drawn && ReaderKeys.opener(drawn)) { ReaderKeys.opener(drawn)!.click(); return true; }
+      if (shown >= 0 && Hold.key(app, menu.choices[shown]!, key)) { return true; }
       if (shown >= 0) { app.setState({ cursor: shown }); app.choose(menu.choices[shown]!); return true; }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
       const led = Stage.mode(app) === 'explore' ? Raised.led(app) : undefined;

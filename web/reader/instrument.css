@@ -1,0 +1,65 @@
+/* ---- The interaction research's two versions of the action control (web/reader/instrument/press.ts; Mission 21's
+   interaction/experiment.md): ?ix=a, the tap; ?ix=b, the hold. Nothing here applies without the address. ---- */
+
+/* The act taken: while the engine answers, the row chosen stays pressed in its own tone and the rest go quiet and
+   cannot be pressed. Only once the answer is slower than a glance (80 ms), so a quick one does not flicker. */
+:root[data-ix] .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken]) {
+  opacity: .42; pointer-events: none; transition: opacity 140ms var(--ease) 80ms; }
+:root[data-ix] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-taken] {
+  background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
+  border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transition: none; }
+
+/* The hold's version: what came of an act is given a beat, and the next choices are let in after it. */
+@keyframes ix-arrive { from { opacity: 0; } }
+:root[data-ix="b"][data-fresh] .stage:not([aria-busy]) :is(ol.led, ul.acts, .replies, .lens) {
+  animation: ix-arrive 220ms var(--ease) 140ms both; }
+:root[data-ix="b"][data-fresh] .stage:not([aria-busy]) .happened:not(.working) { animation: ix-arrive 180ms var(--ease) both; }
+
+/* A held act (see Hold): a small open ring at its right says it is held; held, it fills round in the row's tone over
+   the hold, the row pressed at once; let go early it drains from where it got to, and "Hold" is said beside it. */
+@property --hold-p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@keyframes ix-fill { from { --hold-p: 0%; } to { --hold-p: 100%; } }
+@keyframes ix-drain { from { --hold-p: var(--hold-from, 0%); } to { --hold-p: 0%; } }
+:root[data-ix="b"] [data-hold] { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hold]::before {
+  display: block; content: ''; position: absolute; left: auto; right: 16px; top: 50%; width: 12px; height: 12px;
+  margin-top: -6px; border: 0; border-radius: 50%; transform: none;
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--row-tone) 55%, transparent);
+  background: conic-gradient(var(--row-tone) var(--hold-p), transparent 0); }
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hold]:has(> .row-key)::before {
+  right: 34px; }
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hint]:has(> .row-key)::after {
+  right: 56px; }
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-holding] {
+  background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
+  border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transition: none; }
+:root[data-ix="b"] .choice-row.choice-row.choice-row[data-holding]::before {
+  animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
+:root[data-ix="b"] .choice-row.choice-row.choice-row[data-held]::before { --hold-p: 100%; }
+:root[data-ix="b"] .choice-row.choice-row.choice-row[data-let-go]::before { animation: ix-drain 240ms var(--ease) forwards; }
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hint]::after {
+  content: 'Hold'; position: absolute; right: 38px; top: 50%; margin-top: -6px; font: var(--t-label);
+  letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); grid-column: auto; }
+
+/* The reticle the page draws while a hold lasts (see Reticle), in place of the system's: the pressed reticle's ring,
+   filling round, its centre filled when it is full. */
+:root[data-ix="b"]:is([data-holding], :has(.ix-reticle.held)) .shell,
+:root[data-ix="b"]:is([data-holding], :has(.ix-reticle.held)) .shell * { cursor: none !important; }
+.ix-reticle { position: fixed; left: 0; top: 0; z-index: 10000; width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  pointer-events: none; border-radius: 50%; visibility: hidden;
+  background: conic-gradient(#ECE6D9 var(--hold-p), rgba(236, 230, 217, .22) 0);
+  --ring: radial-gradient(circle, transparent 0 6.4px, #000 6.8px 10.2px, transparent 10.6px);
+  -webkit-mask: var(--ring); mask: var(--ring);
+  filter: drop-shadow(0 0 1.2px rgba(10, 11, 14, .9)) drop-shadow(0 0 2px rgba(10, 11, 14, .6)); }
+.ix-reticle:is(.holding, .held, .drain) { visibility: visible; }
+.ix-reticle.holding { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
+.ix-reticle.held { --hold-p: 100%; --ring: radial-gradient(circle, #000 0 2.6px, transparent 3px 6.4px, #000 6.8px 10.2px,
+  transparent 10.6px); }
+.ix-reticle.drain { animation: ix-drain 240ms var(--ease) forwards; }
+
+/* Less motion: the rings fill by quarters, and nothing fades in. */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-ix="b"] .choice-row.choice-row.choice-row[data-holding]::before,
+  .ix-reticle.holding { animation-timing-function: steps(4, end); }
+  :root[data-ix="b"][data-fresh] .stage :is(ol.led, ul.acts, .replies, .lens, .happened) { animation: none; }
+}

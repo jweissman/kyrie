@@ -35,6 +35,8 @@ controller of the page's own.
   corners, never movement, never a box that changes size.
 - **Every button has three states** (IG-16): at rest a row's ground and edge (a choice, not a link), lit under the
   hand, deeper pressed; the same on the title, creation, the scene, talk and the fight.
+- **A hand that has not moved lights nothing** (IG-18). The next screen does not light the row under a resting
+  pointer: what it rests on was never pointed at. It lights again as soon as the hand moves or presses.
 - **Focus answers immediately.** Anything that responds to focus more slowly (a lens's painting, the observatory
   later) follows it and never holds it up.
 - **The title answers nothing the hand does** (IG-11, IG-14). Its sky is still: no light following focus, no haze.
@@ -51,6 +53,8 @@ controller of the page's own.
 ## Choosing
 
 - **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice, done at once.
+- **A press is taken once, on its own screen** (IG-17). A key held down does its act once (the repeats of Enter, Space
+  or a digit are dropped), and a press begun on one screen and let go on the next does nothing there.
 - **Creation's cards are chosen at a tap, then Continue.** A held card had looked chosen and done nothing (BP-09).
 - **Nothing is held, for now.** A search, a wait, a rest or a camp commits at a tap like everything else (IG-07: the
   hold did nothing at a click). A mark that fills while a costly act is pressed is the design for a future Energy cost,
@@ -106,3 +110,4 @@ controller of the page's own.
 | Nothing moves under the hand | `test/steady-start-browser` |
 | The title's immediate focus, its still sky, its embers | `test/opening-browser` |
 | The reticle cursor, the tint, nothing moves | `test/reticle-browser` |
+| A press once, on its own screen; nothing lit under a still hand | `test/press-guard-browser` |
