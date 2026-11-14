@@ -149,6 +149,7 @@ one's why, command and changes.
 | a1 | 15/15 | — | 9/15 |
 | b2 (before → after PF-02) | 5/8 → 8/8 | 3/3 | 8/15 → 11/15 |
 | c3 (before → after PF-02) | 5/8 → 8/8 | 3/3 | 8/15 → 11/15 |
+| laboratory (30 turns; danger 1/1) | 6/6 | — | 15/18 |
 
 The traces gave three classes:
 1. **The runner's opener (PF-02, fixed).** "To the old corn-store — look at the corn-store padlock" was done by its
@@ -160,4 +161,6 @@ The traces gave three classes:
 3. **The restore itself is faithful.** A restored save and the live session give identical changes for the same act;
    the travelling circus moving on at the morning hour is the world's own ticking.
 
-No danger or payoff was drawn on these first fifteen turns: those facets are held by the tiny pin alone so far.
+The laboratory's three breaks are `held` too: two ways out of the undertown to the landing, and "To the corn-store
+cellar", which is led as a retreat (its best why) and still drawn silver by a `held` beside it. It reproduces PF-03 in
+4 seconds. No payoff was drawn in any walk, so that facet is held by the tiny pin alone so far.

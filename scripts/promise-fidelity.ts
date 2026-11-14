@@ -3,8 +3,9 @@
 // every turn each facet the glance draws checked by doing its act in a copy of the world (RunnerFidelity). Counts by
 // facet, and every promise broken with where, for reading as traces. A measure, not a gate: the tiny pin is
 // test/small/promises-kept.
-//   bun scripts/promise-fidelity.ts [worlds=a1,b2,c3] [turns=20]
+//   bun scripts/promise-fidelity.ts [worlds=a1,b2,c3,laboratory] [turns=20]
 import { PlayTool } from '../src/cli/play-tool';
+import { Laboratory } from './laboratory';
 import { Runner, type Offered, type Said } from '../src/cli/runner';
 import { RunnerFidelity } from '../src/cli/runner-fidelity';
 import { RunnerWalk } from '../src/cli/runner-walk';
@@ -18,8 +19,10 @@ const origins: Record<string, string> = { a1: 'order', b2: 'courier', c3: 'wande
 interface Tally { drawn: number; broken: number }
 export class PromiseFidelity {
   static async walk(world: string, turns: number): Promise<{ tally: Record<string, Tally>; broken: string[] }> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', world, '--origin', origins[world] ?? 'wanderer',
-      '--as', 'human/ranger/Aud']));
+    // The laboratory (scripts/laboratory.ts): a hand-written world with its fights and finds in reach of the start.
+    const { journey } = await PlayTool.start(PlayTool.parse(world === 'laboratory'
+      ? [Laboratory.file, '--as', 'human/ranger/Aud', '--seed', 'a1']
+      : ['--world', world, '--origin', origins[world] ?? 'wanderer', '--as', 'human/ranger/Aud']));
     const runner = new Runner(journey.session), tally: Record<string, Tally> = {}, broken: string[] = [];
     const chosen: Offered[] = [];
     let said: Said = runner.said();
