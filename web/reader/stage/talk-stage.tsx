@@ -295,7 +295,8 @@ export class TalkStage {
     </section>;
   }
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
-  // What pays the company is marked green, as the likeness that has something for it is (see Owed).
+  // What pays the company is marked green, as the likeness that has something for it is (see Owed), and said so to a
+  // reader of the page alone (BP-08: its mark carries it).
   // What it is to the company is the one indicator at its left, as a led act's is (see Emphasis.bar).
   static Reply({ choice: c, draw, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
     asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
@@ -307,7 +308,7 @@ export class TalkStage {
         <ChoiceRow.Act choice={c} draw={draw} number={TalkStage.n(draw.app, TalkStage.key(c))}
           {...bar ? { mark: bar, markLabel: Pip.words(aspects!, gilded) } : {}}
           label={<span className="said">{Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}
-            {asked && <small> · asked</small>}{pays && <small className="for-you"> · for you</small>}</span>} />
+            {asked && <small> · asked</small>}{pays && <span className="for-you sr-only">, for you</span>}</span>} />
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}
           choice={k} draw={draw} />)}</ol>}
       </li>
