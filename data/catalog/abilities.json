@@ -192,6 +192,29 @@
       },
       "uses": 3
     },
+    "magic_missile": {
+      "name": "Magic Missile",
+      "kind": "spell",
+      "description": "A dart of force springs from your hand and strikes unerringly, and another for every two levels you have past the first, to five.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "1d4 + 1" },
+          "damageType": "force",
+          "target": "enemy",
+          "count": { "kind": "deem", "expression": "floor((cappedLevel(9) + 1) / 2)" }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 1, "school": "evocation" },
+      "source": {
+        "orsino": "arcaneSpell:magic_missile",
+        "srd35": "spell:magic-missile",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: spell resistance and Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random."
+      }
+    },
     "conjure_light": {
       "name": "Light",
       "kind": "spell",

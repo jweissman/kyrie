@@ -20,6 +20,7 @@
    "duration": "1 round + 1 round per three levels",
    "save": "None",
    "sr": "No",
+   "attack": "ranged touch",
    "damage": {
     "dice": "2d4",
     "type": "acid"
@@ -40,6 +41,7 @@
    "duration": "1 round/level",
    "save": "None",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "2d6",
     "type": "acid"
@@ -59,6 +61,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "No",
+   "attack": "ranged touch",
    "damage": {
     "dice": "1d3",
     "type": "acid"
@@ -79,7 +82,8 @@
    "targets": "Living creature touched",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "air-walk": {
    "name": "Air Walk",
@@ -97,6 +101,7 @@
    "duration": "10 min./level",
    "save": "None",
    "sr": "Yes (harmless)",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -115,7 +120,8 @@
    "targets": "20-ft.-radius emanation centered on a point in space",
    "duration": "2 hours/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "align-weapon": {
    "name": "Align Weapon",
@@ -130,7 +136,8 @@
    "targets": "Weapon touched or fifty projectiles (all of which must be in contact with each other at the time of casting)",
    "duration": "1 min./level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "alter-self": {
    "name": "Alter Self",
@@ -144,7 +151,8 @@
    "targets": "You",
    "duration": "10 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "analyze-dweomer": {
    "name": "Analyze Dweomer",
@@ -158,7 +166,8 @@
    "targets": "One object or creature per caster level",
    "duration": "1 round/level (D)",
    "save": "None or Will negates; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "animal-growth": {
    "name": "Animal Growth",
@@ -173,7 +182,8 @@
    "targets": "Up to one animal (Gargantuan or smaller) per two levels, no two of which can be more than 30 ft. apart",
    "duration": "1 min./level",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "animal-messenger": {
    "name": "Animal Messenger",
@@ -190,7 +200,8 @@
    "targets": "One Tiny animal",
    "duration": "One day/level",
    "save": "None; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "animal-shapes": {
    "name": "Animal Shapes",
@@ -204,7 +215,8 @@
    "targets": "Up to one willing creature per level, all within 30 ft. of each other",
    "duration": "1 hour/level (D)",
    "save": "None; see text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "animal-trance": {
    "name": "Animal Trance",
@@ -221,7 +233,8 @@
    "targets": "Animals or magical beasts with Intelligence 1 or 2",
    "duration": "Concentration",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "animate-dead": {
    "name": "Animate Dead",
@@ -238,7 +251,8 @@
    "targets": "One or more corpses touched",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "animate-objects": {
    "name": "Animate Objects",
@@ -253,7 +267,8 @@
    "targets": "One Small object per caster level; see text",
    "duration": "1 round/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "animate-plants": {
    "name": "Animate Plants",
@@ -267,7 +282,8 @@
    "targets": "One Large plant per three caster levels or all plants within range; see text",
    "duration": "1 round/level or 1 hour/level; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "animate-rope": {
    "name": "Animate Rope",
@@ -281,7 +297,8 @@
    "targets": "One ropelike object, length up to 50 ft. + 5 ft./level; see text",
    "duration": "1 round/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "ranged touch"
   },
   "antilife-shell": {
    "name": "Antilife Shell",
@@ -296,7 +313,8 @@
    "targets": "10-ft.-radius emanation, centered on you",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "antimagic-field": {
    "name": "Antimagic Field",
@@ -312,7 +330,8 @@
    "targets": "10-ft.-radius emanation, centered on you",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "See text"
+   "sr": "See text",
+   "attack": "none"
   },
   "antipathy": {
    "name": "Antipathy",
@@ -328,7 +347,8 @@
    "targets": "One location (up to a 10-ft. cube/level) or one object",
    "duration": "2 hours/level (D)",
    "save": "Will partial",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "antiplant-shell": {
    "name": "Antiplant Shell",
@@ -341,7 +361,8 @@
    "targets": "10-ft.-radius emanation, centered on you",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "arcane-eye": {
    "name": "Arcane Eye",
@@ -354,7 +375,8 @@
    "targets": "Magical sensor",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "arcane-lock": {
    "name": "Arcane Lock",
@@ -367,7 +389,8 @@
    "targets": "The door, chest, or portal touched, up to 30 sq. ft./level in size",
    "duration": "Permanent",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "arcane-mark": {
    "name": "Arcane Mark",
@@ -380,7 +403,8 @@
    "targets": "One personal rune or mark, all of which must fit within 1 sq. ft.",
    "duration": "Permanent",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "arcane-sight": {
    "name": "Arcane Sight",
@@ -393,7 +417,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "arcane-sight-greater": {
    "name": "Arcane Sight, Greater",
@@ -406,7 +431,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "astral-projection": {
    "name": "Astral Projection",
@@ -421,7 +447,8 @@
    "targets": "You plus one additional willing creature touched per two caster levels",
    "duration": "See text",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "atonement": {
    "name": "Atonement",
@@ -435,7 +462,8 @@
    "targets": "Living creature touched",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "augury": {
    "name": "Augury",
@@ -448,7 +476,8 @@
    "targets": "You",
    "duration": "Instantaneous",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "awaken": {
    "name": "Awaken",
@@ -461,7 +490,8 @@
    "targets": "Animal or tree touched",
    "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "baleful-polymorph": {
    "name": "Baleful Polymorph",
@@ -475,7 +505,8 @@
    "targets": "One creature",
    "duration": "Permanent",
    "save": "Fortitude negates, Will partial; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "bane": {
    "name": "Bane",
@@ -491,7 +522,8 @@
    "targets": "All enemies within 50 ft.",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "banishment": {
    "name": "Banishment",
@@ -505,7 +537,8 @@
    "targets": "One or more extraplanar creatures, no two of which can be more than 30 ft. apart",
    "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "barkskin": {
    "name": "Barkskin",
@@ -520,7 +553,8 @@
    "targets": "Living creature touched",
    "duration": "10 min./level",
    "save": "None",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "bears-endurance": {
    "name": "Bear’s Endurance",
@@ -536,7 +570,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "bears-endurance-mass": {
    "name": "Bear’s Endurance, Mass",
@@ -551,7 +586,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "bestow-curse": {
    "name": "Bestow Curse",
@@ -565,7 +601,8 @@
    "targets": "Creature touched",
    "duration": "Permanent",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "binding": {
    "name": "Binding",
@@ -580,7 +617,8 @@
    "targets": "One living creature",
    "duration": "See text (D)",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "black-tentacles": {
    "name": "Black Tentacles",
@@ -594,6 +632,7 @@
    "duration": "1 round/level (D)",
    "save": "None",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "1d6+4",
     "type": "untyped"
@@ -615,6 +654,7 @@
    "duration": "1 min./level (D)",
    "save": "Reflex half or Reflex negates; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "force",
@@ -637,7 +677,8 @@
    "targets": "Nonevil creatures in a 40-ft.-radius spread centered on you",
    "duration": "Instantaneous",
    "save": "None or Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "bless": {
    "name": "Bless",
@@ -653,7 +694,8 @@
    "targets": "The caster and all allies within a 50-ft. burst, centered on the caster",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "bless-water": {
    "name": "Bless Water",
@@ -669,7 +711,8 @@
    "targets": "Flask of water touched",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "bless-weapon": {
    "name": "Bless Weapon",
@@ -682,7 +725,8 @@
    "targets": "Weapon touched",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "blight": {
    "name": "Blight",
@@ -697,6 +741,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude half; see text",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d6",
     "type": "untyped",
@@ -717,7 +762,8 @@
    "targets": "One living creature",
    "duration": "Permanent (D)",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "blink": {
    "name": "Blink",
@@ -732,6 +778,7 @@
    "duration": "1 round/level (D)",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -749,7 +796,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "break-enchantment": {
    "name": "Break Enchantment",
@@ -766,7 +814,8 @@
    "targets": "Up to one creature per level, all within 30 ft. of each other",
    "duration": "Instantaneous",
    "save": "See text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "bulls-strength": {
    "name": "Bull’s Strength",
@@ -783,7 +832,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "bulls-strength-mass": {
    "name": "Bull’s Strength, Mass",
@@ -798,7 +848,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "burning-hands": {
    "name": "Burning Hands",
@@ -815,6 +866,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d4",
     "type": "fire",
@@ -836,6 +888,7 @@
    "duration": "1 min./level",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "electricity"
@@ -855,6 +908,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "5d6",
     "type": "electricity"
@@ -875,7 +929,8 @@
    "targets": "Animals within 30 ft. of each other",
    "duration": "1 min./level",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "calm-emotions": {
    "name": "Calm Emotions",
@@ -892,7 +947,8 @@
    "targets": "Creatures in a 20-ft.-radius spread",
    "duration": "Concentration, up to 1 round/level (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "cats-grace": {
    "name": "Cat’s Grace",
@@ -908,7 +964,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "cats-grace-mass": {
    "name": "Cat’s Grace, Mass",
@@ -923,7 +980,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "cause-fear": {
    "name": "Cause Fear",
@@ -942,7 +1000,8 @@
    "targets": "One living creature with 5 or fewer HD",
    "duration": "1d4 rounds or 1 round; see text",
    "save": "Will partial",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "chain-lightning": {
    "name": "Chain Lightning",
@@ -959,6 +1018,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "electricity",
@@ -977,7 +1037,8 @@
    "targets": "Your touched staff",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "chaos-hammer": {
    "name": "Chaos Hammer",
@@ -993,6 +1054,7 @@
    "duration": "Instantaneous (1d6 rounds); see text",
    "save": "Will partial; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -1014,7 +1076,8 @@
    "targets": "One animal",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "charm-monster": {
    "name": "Charm Monster",
@@ -1030,7 +1093,8 @@
    "targets": "One living creature",
    "duration": "One day/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "charm-monster-mass": {
    "name": "Charm Monster, Mass",
@@ -1046,7 +1110,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "One day/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "charm-person": {
    "name": "Charm Person",
@@ -1062,7 +1127,8 @@
    "targets": "One humanoid creature",
    "duration": "1 hour/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "chill-metal": {
    "name": "Chill Metal",
@@ -1077,7 +1143,8 @@
    "targets": "Metal equipment of one creature per two levels, no two of which can be more than 30 ft. apart; or 25 lb. of metal/level, none of which can be more than 30 ft. away from any of the rest",
    "duration": "7 rounds",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "chill-touch": {
    "name": "Chill Touch",
@@ -1091,6 +1158,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial or Will negates; see text",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -1109,7 +1177,8 @@
    "targets": "Several living creatures within a 40-ft.-radius burst",
    "duration": "Instantaneous",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "clairaudience-clairvoyance": {
    "name": "Clairaudience/Clairvoyance",
@@ -1124,7 +1193,8 @@
    "targets": "Magical sensor",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "clenched-fist": {
    "name": "Clenched Fist",
@@ -1141,6 +1211,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "1d8+11",
     "type": "force"
@@ -1160,7 +1231,8 @@
    "targets": "One creature/level in a 20-ft.-radius burst centered on you",
    "duration": "1 round/level (D)",
    "save": "See text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "clone": {
    "name": "Clone",
@@ -1173,7 +1245,8 @@
    "targets": "One clone",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "cloudkill": {
    "name": "Cloudkill",
@@ -1186,7 +1259,8 @@
    "targets": "Cloud spreads in 20-ft. radius, 20 ft. high",
    "duration": "1 min./level",
    "save": "Fortitude partial; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "color-spray": {
    "name": "Color Spray",
@@ -1201,7 +1275,8 @@
    "targets": "Cone-shaped burst",
    "duration": "Instantaneous; see text",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "command": {
    "name": "Command",
@@ -1217,7 +1292,8 @@
    "targets": "One living creature",
    "duration": "1 round",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "command-greater": {
    "name": "Command, Greater",
@@ -1233,7 +1309,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "1 round/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "command-plants": {
    "name": "Command Plants",
@@ -1248,7 +1325,8 @@
    "targets": "Up to 2 HD/level of plant creatures, no two of which can be more than 30 ft. apart",
    "duration": "One day/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "command-undead": {
    "name": "Command Undead",
@@ -1261,7 +1339,8 @@
    "targets": "One undead creature",
    "duration": "One day/level",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "commune": {
    "name": "Commune",
@@ -1274,7 +1353,8 @@
    "targets": "You",
    "duration": "1 round/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "commune-with-nature": {
    "name": "Commune with Nature",
@@ -1289,7 +1369,8 @@
    "targets": "You",
    "duration": "Instantaneous",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "comprehend-languages": {
    "name": "Comprehend Languages",
@@ -1304,7 +1385,8 @@
    "targets": "You",
    "duration": "10 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "cone-of-cold": {
    "name": "Cone of Cold",
@@ -1321,6 +1403,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "cold",
@@ -1343,7 +1426,8 @@
    "targets": "All creatures in a 15-ft. radius burst",
    "duration": "1 round/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "confusion-lesser": {
    "name": "Confusion, Lesser",
@@ -1358,7 +1442,8 @@
    "targets": "One living creature",
    "duration": "1 round",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "consecrate": {
    "name": "Consecrate",
@@ -1373,7 +1458,8 @@
    "targets": "20-ft.-radius emanation",
    "duration": "2 hours/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "contact-other-plane": {
    "name": "Contact Other Plane",
@@ -1386,7 +1472,8 @@
    "targets": "You",
    "duration": "Concentration",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "contagion": {
    "name": "Contagion",
@@ -1404,7 +1491,8 @@
    "targets": "Living creature touched",
    "duration": "Instantaneous",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "contingency": {
    "name": "Contingency",
@@ -1417,7 +1505,8 @@
    "targets": "You",
    "duration": "One day/level (D) or until discharged",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "continual-flame": {
    "name": "Continual Flame",
@@ -1433,7 +1522,8 @@
    "targets": "Object touched",
    "duration": "Permanent",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "control-plants": {
    "name": "Control Plants",
@@ -1447,7 +1537,8 @@
    "targets": "Up to 2 HD/level of plant creatures, no two of which can be more than 30 ft. apart",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "control-undead": {
    "name": "Control Undead",
@@ -1460,7 +1551,8 @@
    "targets": "Up to 2 HD/level of undead creatures, no two of which can be more than 30 ft. apart",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "control-water": {
    "name": "Control Water",
@@ -1478,7 +1570,8 @@
    "targets": "Water in a volume of 10 ft./level by 10 ft./level by 2 ft./level (S)",
    "duration": "10 min./level (D)",
    "save": "None; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "control-weather": {
    "name": "Control Weather",
@@ -1494,7 +1587,8 @@
    "targets": "2-mile-radius circle, centered on you; see text",
    "duration": "4d12 hours; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "control-winds": {
    "name": "Control Winds",
@@ -1510,7 +1604,8 @@
    "targets": "40 ft./level radius cylinder 40 ft. high",
    "duration": "10 min./level",
    "save": "Fortitude negates",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "create-food-and-water": {
    "name": "Create Food and Water",
@@ -1523,7 +1618,8 @@
    "targets": "Food and water to sustain three humans or one horse/level for 24 hours",
    "duration": "24 hours; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "create-greater-undead": {
    "name": "Create Greater Undead",
@@ -1540,7 +1636,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "create-undead": {
    "name": "Create Undead",
@@ -1558,7 +1655,8 @@
    "targets": "One corpse",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "create-water": {
    "name": "Create Water",
@@ -1575,7 +1673,8 @@
    "targets": "Up to 2 gallons of water/level",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "creeping-doom": {
    "name": "Creeping Doom",
@@ -1588,7 +1687,8 @@
    "targets": "One swarm of centipedes per two levels",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "crushing-despair": {
    "name": "Crushing Despair",
@@ -1604,7 +1704,8 @@
    "targets": "Cone-shaped burst",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "crushing-hand": {
    "name": "Crushing Hand",
@@ -1621,6 +1722,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "2d6+12",
     "type": "force"
@@ -1641,6 +1743,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "heal": {
     "dice": "4d8",
     "plus": "level, maximum 20"
@@ -1660,6 +1763,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "heal": {
     "dice": "4d8",
     "plus": "level, maximum 40"
@@ -1682,6 +1786,7 @@
    "duration": "Instantaneous",
    "save": "Will half (harmless); see text",
    "sr": "Yes (harmless); see text",
+   "attack": "none",
    "heal": {
     "dice": "1d8",
     "plus": "level, maximum 5"
@@ -1702,6 +1807,7 @@
    "duration": "Instantaneous",
    "save": "Will half (harmless) or Will half; see text",
    "sr": "Yes (harmless) or Yes; see text",
+   "attack": "none",
    "heal": {
     "dice": "1d8",
     "plus": "level, maximum 25"
@@ -1719,7 +1825,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "cure-moderate-wounds": {
    "name": "Cure Moderate Wounds",
@@ -1738,6 +1845,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "heal": {
     "dice": "2d8",
     "plus": "level, maximum 10"
@@ -1757,6 +1865,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "heal": {
     "dice": "2d8",
     "plus": "level, maximum 30"
@@ -1779,6 +1888,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "heal": {
     "dice": "3d8",
     "plus": "level, maximum 15"
@@ -1797,6 +1907,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "heal": {
     "dice": "3d8",
     "plus": "level, maximum 35"
@@ -1815,7 +1926,8 @@
    "targets": "Flask of water touched",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "melee touch"
   },
   "dancing-lights": {
    "name": "Dancing Lights",
@@ -1831,7 +1943,8 @@
    "targets": "Up to four lights, all within a 10- ft.-radius area",
    "duration": "1 minute (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "darkness": {
    "name": "Darkness",
@@ -1848,7 +1961,8 @@
    "targets": "Object touched",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "darkvision": {
    "name": "Darkvision",
@@ -1862,7 +1976,8 @@
    "targets": "Creature touched",
    "duration": "1 hour/level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "daylight": {
    "name": "Daylight",
@@ -1881,7 +1996,8 @@
    "targets": "Object touched",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "daze": {
    "name": "Daze",
@@ -1897,7 +2013,8 @@
    "targets": "One humanoid creature of 4 HD or less",
    "duration": "1 round",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "daze-monster": {
    "name": "Daze Monster",
@@ -1913,7 +2030,8 @@
    "targets": "One living creature of 6 HD or less",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "death-knell": {
    "name": "Death Knell",
@@ -1930,7 +2048,8 @@
    "targets": "Living creature touched",
    "duration": "Instantaneous/10 minutes per HD of subject; see text",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "death-ward": {
    "name": "Death Ward",
@@ -1946,7 +2065,8 @@
    "targets": "Living creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "deathwatch": {
    "name": "Deathwatch",
@@ -1961,7 +2081,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "10 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "deep-slumber": {
    "name": "Deep Slumber",
@@ -1977,7 +2098,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "deeper-darkness": {
    "name": "Deeper Darkness",
@@ -1992,7 +2114,8 @@
    "targets": "",
    "duration": "One day/level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "delay-poison": {
    "name": "Delay Poison",
@@ -2009,7 +2132,8 @@
    "targets": "Creature touched",
    "duration": "1 hour/level",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "delayed-blast-fireball": {
    "name": "Delayed Blast Fireball",
@@ -2025,6 +2149,7 @@
    "duration": "5 rounds or less; see text",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "fire",
@@ -2045,7 +2170,8 @@
    "targets": "",
    "duration": "",
    "save": "Will partial",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "desecrate": {
    "name": "Desecrate",
@@ -2061,7 +2187,8 @@
    "targets": "20-ft.-radius emanation",
    "duration": "2 hours/level",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "destruction": {
    "name": "Destruction",
@@ -2078,6 +2205,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "10d6",
     "type": "untyped"
@@ -2095,7 +2223,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-chaos": {
    "name": "Detect Chaos",
@@ -2108,7 +2237,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "detect-evil": {
    "name": "Detect Evil",
@@ -2121,7 +2251,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 10 min./ level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-good": {
    "name": "Detect Good",
@@ -2134,7 +2265,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "detect-law": {
    "name": "Detect Law",
@@ -2147,7 +2279,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "detect-magic": {
    "name": "Detect Magic",
@@ -2163,7 +2296,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-poison": {
    "name": "Detect Poison",
@@ -2180,7 +2314,8 @@
    "targets": "",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-scrying": {
    "name": "Detect Scrying",
@@ -2194,7 +2329,8 @@
    "targets": "40-ft.-radius emanation centered on you",
    "duration": "24 hours",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-secret-doors": {
    "name": "Detect Secret Doors",
@@ -2209,7 +2345,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-snares-and-pits": {
    "name": "Detect Snares and Pits",
@@ -2223,7 +2360,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-thoughts": {
    "name": "Detect Thoughts",
@@ -2240,7 +2378,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 1 min./level (D)",
    "save": "Will negates; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "detect-undead": {
    "name": "Detect Undead",
@@ -2255,7 +2394,8 @@
    "targets": "Cone-shaped emanation",
    "duration": "Concentration, up to 1 minute/ level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "dictum": {
    "name": "Dictum",
@@ -2272,7 +2412,8 @@
    "targets": "Nonlawful creatures in a 40-ft.-radius spread centered on you",
    "duration": "Instantaneous",
    "save": "None or Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "dimension-door": {
    "name": "Dimension Door",
@@ -2288,6 +2429,7 @@
    "duration": "Instantaneous",
    "save": "None and Will negates (object)",
    "sr": "No and Yes (object)",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -2305,7 +2447,8 @@
    "targets": "Ray",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "ranged touch"
   },
   "dimensional-lock": {
    "name": "Dimensional Lock",
@@ -2319,7 +2462,8 @@
    "targets": "20-ft.-radius emanation centered on a point in space",
    "duration": "One day/level",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "diminish-plants": {
    "name": "Diminish Plants",
@@ -2333,7 +2477,8 @@
    "targets": "",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "discern-lies": {
    "name": "Discern Lies",
@@ -2347,7 +2492,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "Concentration, up to 1 round/level",
    "save": "Will negates",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "discern-location": {
    "name": "Discern Location",
@@ -2362,7 +2508,8 @@
    "targets": "One creature or object",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "disguise-self": {
    "name": "Disguise Self",
@@ -2377,7 +2524,8 @@
    "targets": "You",
    "duration": "10 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "disintegrate": {
    "name": "Disintegrate",
@@ -2392,6 +2540,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial (object)",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "2d6",
     "type": "untyped",
@@ -2410,7 +2559,8 @@
    "targets": "One extraplanar creature",
    "duration": "Instantaneous",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "dispel-chaos": {
    "name": "Dispel Chaos",
@@ -2427,7 +2577,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "dispel-evil": {
    "name": "Dispel Evil",
@@ -2444,7 +2595,8 @@
    "targets": "You and a touched evil creature from another plane; or you and an enchantment or evil spell on a touched creature or object",
    "duration": "1 round/level or until discharged, whichever comes first",
    "save": "See text",
-   "sr": "See text"
+   "sr": "See text",
+   "attack": "melee touch"
   },
   "dispel-good": {
    "name": "Dispel Good",
@@ -2460,7 +2612,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "dispel-law": {
    "name": "Dispel Law",
@@ -2476,7 +2629,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "dispel-magic": {
    "name": "Dispel Magic",
@@ -2494,7 +2648,8 @@
    "targets": "",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "dispel-magic-greater": {
    "name": "Dispel Magic, Greater",
@@ -2510,7 +2665,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "displacement": {
    "name": "Displacement",
@@ -2524,7 +2680,8 @@
    "targets": "Creature touched",
    "duration": "1 round/level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "disrupt-undead": {
    "name": "Disrupt Undead",
@@ -2538,6 +2695,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -2554,7 +2712,8 @@
    "targets": "One melee weapon",
    "duration": "1 round/level",
    "save": "Will negates (harmless, object); see text",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "divination": {
    "name": "Divination",
@@ -2568,7 +2727,8 @@
    "targets": "You",
    "duration": "Instantaneous",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "divine-favor": {
    "name": "Divine Favor",
@@ -2582,7 +2742,8 @@
    "targets": "You",
    "duration": "1 minute",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "divine-power": {
    "name": "Divine Power",
@@ -2596,7 +2757,8 @@
    "targets": "You",
    "duration": "1 round/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "dominate-animal": {
    "name": "Dominate Animal",
@@ -2612,7 +2774,8 @@
    "targets": "One animal",
    "duration": "1 round/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "dominate-monster": {
    "name": "Dominate Monster",
@@ -2627,7 +2790,8 @@
    "targets": "One creature",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "dominate-person": {
    "name": "Dominate Person",
@@ -2643,7 +2807,8 @@
    "targets": "One humanoid",
    "duration": "One day/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "doom": {
    "name": "Doom",
@@ -2659,7 +2824,8 @@
    "targets": "One living creature",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "dream": {
    "name": "Dream",
@@ -2675,7 +2841,8 @@
    "targets": "One living creature touched",
    "duration": "See text",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "eagles-splendor": {
    "name": "Eagle’s Splendor",
@@ -2691,7 +2858,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "eagles-splendor-mass": {
    "name": "Eagle’s Splendor, Mass",
@@ -2706,7 +2874,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "earthquake": {
    "name": "Earthquake",
@@ -2725,6 +2894,7 @@
    "duration": "1 round",
    "save": "See text",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "8d6",
     "type": "untyped"
@@ -2747,7 +2917,8 @@
    "targets": "Two or more summoned creatures, no two of which can be more than 30 ft. apart",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "endure-elements": {
    "name": "Endure Elements",
@@ -2765,7 +2936,8 @@
    "targets": "Creature touched",
    "duration": "24 hours",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "energy-drain": {
    "name": "Energy Drain",
@@ -2779,7 +2951,8 @@
    "targets": "",
    "duration": "",
    "save": "Fortitude partial; see text for enervation",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "enervation": {
    "name": "Enervation",
@@ -2792,7 +2965,8 @@
    "targets": "Ray of negative energy",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "ranged touch"
   },
   "enlarge-person": {
    "name": "Enlarge Person",
@@ -2806,7 +2980,8 @@
    "targets": "One humanoid creature",
    "duration": "1 min./level (D)",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "enlarge-person-mass": {
    "name": "Enlarge Person, Mass",
@@ -2819,7 +2994,8 @@
    "targets": "One humanoid creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "entangle": {
    "name": "Entangle",
@@ -2834,7 +3010,8 @@
    "targets": "Plants in a 40-ft.-radius spread",
    "duration": "1 min./level (D)",
    "save": "Reflex partial; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "enthrall": {
    "name": "Enthrall",
@@ -2852,7 +3029,8 @@
    "targets": "Any number of creatures",
    "duration": "1 hour or less",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "entropic-shield": {
    "name": "Entropic Shield",
@@ -2866,7 +3044,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "erase": {
    "name": "Erase",
@@ -2880,7 +3059,8 @@
    "targets": "One scroll or two pages",
    "duration": "Instantaneous",
    "save": "See text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "ethereal-jaunt": {
    "name": "Ethereal Jaunt",
@@ -2895,6 +3075,7 @@
    "duration": "1 round/level (D)",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -2912,7 +3093,8 @@
    "targets": "You and one other touched creature per three levels",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "expeditious-retreat": {
    "name": "Expeditious Retreat",
@@ -2926,7 +3108,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "explosive-runes": {
    "name": "Explosive Runes",
@@ -2942,6 +3125,7 @@
    "duration": "Permanent until discharged (D)",
    "save": "See text",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "6d6",
     "type": "force"
@@ -2961,7 +3145,8 @@
    "targets": "One living creature",
    "duration": "1 round per three levels; see text",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "fabricate": {
    "name": "Fabricate",
@@ -2974,7 +3159,8 @@
    "targets": "Up to 10 cu. ft./level; see text",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "faerie-fire": {
    "name": "Faerie Fire",
@@ -2989,7 +3175,8 @@
    "targets": "Creatures and objects within a 5-ft.-radius burst",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "false-life": {
    "name": "False Life",
@@ -3002,7 +3189,8 @@
    "targets": "You",
    "duration": "1 hour/level or until discharged; see text",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "false-vision": {
    "name": "False Vision",
@@ -3017,7 +3205,8 @@
    "targets": "40-ft.-radius emanation",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "fear": {
    "name": "Fear",
@@ -3034,7 +3223,8 @@
    "targets": "Cone-shaped burst",
    "duration": "1 round/level or 1 round; see text",
    "save": "Will partial",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "feather-fall": {
    "name": "Feather Fall",
@@ -3048,7 +3238,8 @@
    "targets": "One Medium or smaller freefalling object or creature/level, no two of which may be more than 20 ft. apart",
    "duration": "Until landing or 1 round/level",
    "save": "Will negates (harmless) or Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "feeblemind": {
    "name": "Feeblemind",
@@ -3063,7 +3254,8 @@
    "targets": "One creature",
    "duration": "Instantaneous",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "find-the-path": {
    "name": "Find the Path",
@@ -3080,7 +3272,8 @@
    "targets": "You or creature touched",
    "duration": "10 min./level",
    "save": "None or Will negates (harmless)",
-   "sr": "No or Yes (harmless)"
+   "sr": "No or Yes (harmless)",
+   "attack": "none"
   },
   "find-traps": {
    "name": "Find Traps",
@@ -3093,7 +3286,8 @@
    "targets": "You",
    "duration": "1 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "finger-of-death": {
    "name": "Finger of Death",
@@ -3110,6 +3304,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "untyped",
@@ -3131,7 +3326,8 @@
    "targets": "Up to four touched acorns or up to eight touched holly berries",
    "duration": "10 min./level or until used",
    "save": "None or Reflex half; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "fire-shield": {
    "name": "Fire Shield",
@@ -3149,6 +3345,7 @@
    "duration": "1 round/level (D)",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped",
@@ -3171,6 +3368,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "fire",
@@ -3193,6 +3391,7 @@
    "duration": "Permanent until discharged (D)",
    "save": "Reflex half; see text",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d4",
     "type": "fire",
@@ -3213,6 +3412,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "fire",
@@ -3234,6 +3434,7 @@
    "duration": "10 min./level",
    "save": "None",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "fire"
@@ -3253,6 +3454,7 @@
    "duration": "1 min./level (D)",
    "save": "None",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d8",
     "type": "fire"
@@ -3275,6 +3477,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "fire",
@@ -3297,6 +3500,7 @@
    "duration": "1 round/level",
    "save": "Reflex negates",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "2d6",
     "type": "fire"
@@ -3317,7 +3521,8 @@
    "targets": "Burst of light",
    "duration": "Instantaneous",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "flesh-to-stone": {
    "name": "Flesh to Stone",
@@ -3330,7 +3535,8 @@
    "targets": "One creature",
    "duration": "Instantaneous",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "fly": {
    "name": "Fly",
@@ -3345,6 +3551,7 @@
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
    "sr": "Yes (harmless)",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -3363,7 +3570,8 @@
    "targets": "3-ft.-diameter disk of force",
    "duration": "1 hour/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "fog-cloud": {
    "name": "Fog Cloud",
@@ -3378,7 +3586,8 @@
    "targets": "Fog spreads in 20-ft. radius, 20 ft. high",
    "duration": "10 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "forbiddance": {
    "name": "Forbiddance",
@@ -3392,6 +3601,7 @@
    "duration": "Permanent",
    "save": "See text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "6d6",
     "type": "untyped"
@@ -3410,7 +3620,8 @@
    "targets": "Barred cage (20-ft. cube) or windowless cell (10-ft. cube)",
    "duration": "2 hours/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "forceful-hand": {
    "name": "Forceful Hand",
@@ -3425,7 +3636,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "foresight": {
    "name": "Foresight",
@@ -3440,7 +3652,8 @@
    "targets": "See text",
    "duration": "10 min./level",
    "save": "None or Will negates (harmless)",
-   "sr": "No or Yes (harmless)"
+   "sr": "No or Yes (harmless)",
+   "attack": "none"
   },
   "foxs-cunning": {
    "name": "Fox’s Cunning",
@@ -3454,7 +3667,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "foxs-cunning-mass": {
    "name": "Fox’s Cunning, Mass",
@@ -3468,7 +3682,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "freedom": {
    "name": "Freedom",
@@ -3481,7 +3696,8 @@
    "targets": "One creature",
    "duration": "Instantaneous",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "freedom-of-movement": {
    "name": "Freedom of Movement",
@@ -3498,7 +3714,8 @@
    "targets": "You or creature touched",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "freezing-sphere": {
    "name": "Freezing Sphere",
@@ -3514,6 +3731,7 @@
    "duration": "Instantaneous or 1 round/level; see text",
    "save": "Reflex half; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "cold",
@@ -3534,7 +3752,8 @@
    "targets": "Willing corporeal creature touched",
    "duration": "2 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "gate": {
    "name": "Gate",
@@ -3548,7 +3767,8 @@
    "targets": "See text",
    "duration": "Instantaneous or concentration (up to 1 round/level); see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "geas-quest": {
    "name": "Geas/Quest",
@@ -3567,6 +3787,7 @@
    "duration": "",
    "save": "None",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "untyped"
@@ -3587,7 +3808,8 @@
    "targets": "One living creature with 7 HD or less",
    "duration": "One day/level or until discharged (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "gentle-repose": {
    "name": "Gentle Repose",
@@ -3601,7 +3823,8 @@
    "targets": "Corpse touched",
    "duration": "One day/level",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "ghost-sound": {
    "name": "Ghost Sound",
@@ -3615,7 +3838,8 @@
    "targets": "Illusory sounds",
    "duration": "1 round/level (D)",
    "save": "Will disbelief (if interacted with)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "ghoul-touch": {
    "name": "Ghoul Touch",
@@ -3628,7 +3852,8 @@
    "targets": "Living humanoid touched",
    "duration": "1d6+2 rounds",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "giant-vermin": {
    "name": "Giant Vermin",
@@ -3642,7 +3867,8 @@
    "targets": "Up to three vermin, no two of which can be more than 30 ft. apart",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "glibness": {
    "name": "Glibness",
@@ -3655,7 +3881,8 @@
    "targets": "You",
    "duration": "10 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "glitterdust": {
    "name": "Glitterdust",
@@ -3669,7 +3896,8 @@
    "targets": "Creatures and objects within 10-ft.-radius spread",
    "duration": "1 round/level",
    "save": "Will negates (blinding only)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "globe-of-invulnerability": {
    "name": "Globe of Invulnerability",
@@ -3682,7 +3910,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "globe-of-invulnerability-lesser": {
    "name": "Globe of Invulnerability, Lesser",
@@ -3695,7 +3924,8 @@
    "targets": "10-ft.-radius spherical emanation, centered on you",
    "duration": "1 round/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "glyph-of-warding": {
    "name": "Glyph of Warding",
@@ -3708,7 +3938,8 @@
    "targets": "",
    "duration": "Permanent until discharged (D)",
    "save": "See text",
-   "sr": "No (object) and Yes; see text"
+   "sr": "No (object) and Yes; see text",
+   "attack": "melee touch"
   },
   "glyph-of-warding-greater": {
    "name": "Glyph of Warding, Greater",
@@ -3722,6 +3953,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "10d8",
     "type": "untyped"
@@ -3738,7 +3970,8 @@
    "targets": "2d4 fresh berries touched",
    "duration": "One day/level",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "good-hope": {
    "name": "Good Hope",
@@ -3753,7 +3986,8 @@
    "targets": "One living creature/level, no two of which may be more than 30 ft. apart",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "grasping-hand": {
    "name": "Grasping Hand",
@@ -3769,7 +4003,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "grease": {
    "name": "Grease",
@@ -3783,7 +4018,8 @@
    "targets": "",
    "duration": "1 round/level (D)",
    "save": "See text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "guards-and-wards": {
    "name": "Guards and Wards",
@@ -3796,7 +4032,8 @@
    "targets": "Up to 200 sq. ft./level (S)",
    "duration": "2 hours/level (D)",
    "save": "See text",
-   "sr": "See text"
+   "sr": "See text",
+   "attack": "none"
   },
   "guidance": {
    "name": "Guidance",
@@ -3810,7 +4047,8 @@
    "targets": "Creature touched",
    "duration": "1 minute or until discharged",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "gust-of-wind": {
    "name": "Gust of Wind",
@@ -3827,6 +4065,7 @@
    "duration": "1 round",
    "save": "Fortitude negates",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d4",
     "type": "untyped"
@@ -3846,7 +4085,8 @@
    "targets": "40-ft. radius emanating from the touched point",
    "duration": "Instantaneous",
    "save": "See text",
-   "sr": "See text"
+   "sr": "See text",
+   "attack": "none"
   },
   "hallucinatory-terrain": {
    "name": "Hallucinatory Terrain",
@@ -3860,7 +4100,8 @@
    "targets": "One 30-ft. cube/level (S)",
    "duration": "2 hours/level (D)",
    "save": "Will disbelief (if interacted with)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "halt-undead": {
    "name": "Halt Undead",
@@ -3873,7 +4114,8 @@
    "targets": "Up to three undead creatures, no two of which can be more than 30 ft. apart",
    "duration": "1 round/level",
    "save": "Will negates (see text)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "harm": {
    "name": "Harm",
@@ -3887,7 +4129,8 @@
    "targets": "Creature touched",
    "duration": "Instantaneous",
    "save": "Will half; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "haste": {
    "name": "Haste",
@@ -3901,7 +4144,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "1 round/level",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "heal": {
    "name": "Heal",
@@ -3916,7 +4160,8 @@
    "targets": "Creature touched",
    "duration": "Instantaneous",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "heal-mass": {
    "name": "Heal, Mass",
@@ -3930,7 +4175,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "heal-mount": {
    "name": "Heal Mount",
@@ -3943,7 +4189,8 @@
    "targets": "Your mount touched",
    "duration": "Instantaneous",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "heat-metal": {
    "name": "Heat Metal",
@@ -3959,7 +4206,8 @@
    "targets": "Metal equipment of one creature per two levels, no two of which can be more than 30 ft. apart; or 25 lb. of metal/level, all of which must be within a 30-ft. circle",
    "duration": "7 rounds",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "helping-hand": {
    "name": "Helping Hand",
@@ -3972,7 +4220,8 @@
    "targets": "Ghostly hand",
    "duration": "1 hour/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "heroes-feast": {
    "name": "Heroes’ Feast",
@@ -3988,7 +4237,8 @@
    "targets": "Feast for one creature/level",
    "duration": "1 hour plus 12 hours; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "heroism": {
    "name": "Heroism",
@@ -4004,7 +4254,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "heroism-greater": {
    "name": "Heroism, Greater",
@@ -4020,7 +4271,8 @@
    "targets": "",
    "duration": "1 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "hide-from-animals": {
    "name": "Hide From Animals",
@@ -4034,7 +4286,8 @@
    "targets": "One creature touched/level",
    "duration": "10 min./level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "hide-from-undead": {
    "name": "Hide From Undead",
@@ -4047,7 +4300,8 @@
    "targets": "One touched creature/level",
    "duration": "10 min./level (D)",
    "save": "Will negates (harmless); see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "hideous-laughter": {
    "name": "Hideous Laughter",
@@ -4063,7 +4317,8 @@
    "targets": "One creature; see text",
    "duration": "1 round/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "hold-animal": {
    "name": "Hold Animal",
@@ -4080,7 +4335,8 @@
    "targets": "One animal",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "hold-monster": {
    "name": "Hold Monster",
@@ -4097,7 +4353,8 @@
    "targets": "One living creature",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "hold-monster-mass": {
    "name": "Hold Monster, Mass",
@@ -4112,7 +4369,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "hold-person": {
    "name": "Hold Person",
@@ -4129,7 +4387,8 @@
    "targets": "One humanoid creature",
    "duration": "1 round/level (D); see text",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "hold-person-mass": {
    "name": "Hold Person, Mass",
@@ -4144,7 +4403,8 @@
    "targets": "One or more humanoid creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "hold-portal": {
    "name": "Hold Portal",
@@ -4157,7 +4417,8 @@
    "targets": "One portal, up to 20 sq. ft./level",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "holy-aura": {
    "name": "Holy Aura",
@@ -4173,7 +4434,8 @@
    "targets": "One creature/level in a 20-ft.-radius burst centered on you",
    "duration": "1 round/level (D)",
    "save": "See text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "holy-smite": {
    "name": "Holy Smite",
@@ -4189,6 +4451,7 @@
    "duration": "Instantaneous (1 round); see text",
    "save": "Will partial; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -4210,6 +4473,7 @@
    "duration": "1 round/level",
    "save": "None",
    "sr": "No",
+   "attack": "melee touch",
    "damage": {
     "dice": "2d6",
     "type": "untyped"
@@ -4230,7 +4494,8 @@
    "targets": "Nongood creatures in a 40-ft.-radius spread centered on you",
    "duration": "Instantaneous",
    "save": "None or Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "horrid-wilting": {
    "name": "Horrid Wilting",
@@ -4245,6 +4510,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped",
@@ -4266,7 +4532,8 @@
    "targets": "Colorful lights in a 10-ft.-radius spread",
    "duration": "Concentration + 2 rounds",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "hypnotism": {
    "name": "Hypnotism",
@@ -4282,7 +4549,8 @@
    "targets": "Several living creatures, no two of which may be more than 30 ft. apart",
    "duration": "2d4 rounds (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "ice-storm": {
    "name": "Ice Storm",
@@ -4300,6 +4568,7 @@
    "duration": "1 full round",
    "save": "None",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "cold"
@@ -4318,7 +4587,8 @@
    "targets": "One touched object",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "illusory-script": {
    "name": "Illusory Script",
@@ -4334,7 +4604,8 @@
    "targets": "One touched object weighing no more than 10 lb.",
    "duration": "One day/level (D)",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "illusory-wall": {
    "name": "Illusory Wall",
@@ -4347,7 +4618,8 @@
    "targets": "Image 1 ft. by 10 ft. by 10 ft.",
    "duration": "Permanent",
    "save": "Will disbelief (if interacted with)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "imbue-with-spell-ability": {
    "name": "Imbue with Spell Ability",
@@ -4361,7 +4633,8 @@
    "targets": "Creature touched; see text",
    "duration": "Permanent until discharged (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "implosion": {
    "name": "Implosion",
@@ -4375,7 +4648,8 @@
    "targets": "One corporeal creature/round",
    "duration": "Concentration (up to 4 rounds)",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "imprisonment": {
    "name": "Imprisonment",
@@ -4388,7 +4662,8 @@
    "targets": "Creature touched",
    "duration": "Instantaneous",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "incendiary-cloud": {
    "name": "Incendiary Cloud",
@@ -4405,6 +4680,7 @@
    "duration": "1 round/level",
    "save": "Reflex half; see text",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "4d6",
     "type": "fire"
@@ -4423,6 +4699,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "4d8",
     "type": "untyped",
@@ -4441,6 +4718,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "4d8",
     "type": "untyped",
@@ -4460,6 +4738,7 @@
    "duration": "Instantaneous",
    "save": "Will half",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -4479,6 +4758,7 @@
    "duration": "Instantaneous",
    "save": "Will half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -4496,7 +4776,8 @@
    "targets": "",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "inflict-moderate-wounds": {
    "name": "Inflict Moderate Wounds",
@@ -4510,6 +4791,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "2d8",
     "type": "untyped",
@@ -4528,6 +4810,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "2d8",
     "type": "untyped",
@@ -4546,6 +4829,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "3d8",
     "type": "untyped",
@@ -4564,6 +4848,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "3d8",
     "type": "untyped",
@@ -4583,7 +4868,8 @@
    "targets": "One living creature",
    "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "insect-plague": {
    "name": "Insect Plague",
@@ -4597,7 +4883,8 @@
    "targets": "One swarm of locusts per three levels, each of which must be adjacent to at least one other swarm",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "instant-summons": {
    "name": "Instant Summons",
@@ -4610,7 +4897,8 @@
    "targets": "One object weighing 10 lb. or less whose longest dimension is 6 ft. or less",
    "duration": "Permanent until discharged",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "interposing-hand": {
    "name": "Interposing Hand",
@@ -4625,7 +4913,8 @@
    "targets": "10-ft. hand",
    "duration": "1 round/level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "invisibility": {
    "name": "Invisibility",
@@ -4640,7 +4929,8 @@
    "targets": "You or a creature or object weighing no more than 100 lb./level",
    "duration": "1 min./level (D)",
    "save": "Will negates (harmless) or Will negates (harmless, object)",
-   "sr": "Yes (harmless) or Yes (harmless, object)"
+   "sr": "Yes (harmless) or Yes (harmless, object)",
+   "attack": "none"
   },
   "invisibility-greater": {
    "name": "Invisibility, Greater",
@@ -4654,7 +4944,8 @@
    "targets": "You or creature touched",
    "duration": "1 round/level (D)",
    "save": "Will negates (harmless)",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "invisibility-mass": {
    "name": "Invisibility, Mass",
@@ -4667,7 +4958,8 @@
    "targets": "Any number of creatures, no two of which can be more than 180 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "invisibility-purge": {
    "name": "Invisibility Purge",
@@ -4680,7 +4972,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "invisibility-sphere": {
    "name": "Invisibility Sphere",
@@ -4694,7 +4987,8 @@
    "targets": "10-ft.-radius emanation around the creature or object touched",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "iron-body": {
    "name": "Iron Body",
@@ -4708,7 +5002,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "ironwood": {
    "name": "Ironwood",
@@ -4721,7 +5016,8 @@
    "targets": "An ironwood object weighing up to 5 lb./level",
    "duration": "One day/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "irresistible-dance": {
    "name": "Irresistible Dance",
@@ -4737,7 +5033,8 @@
    "targets": "Living creature touched",
    "duration": "1d4+1 rounds",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "jump": {
    "name": "Jump",
@@ -4752,7 +5049,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "keen-edge": {
    "name": "Keen Edge",
@@ -4765,7 +5063,8 @@
    "targets": "One weapon or fifty projectiles, all of which must be in contact with each other at the time of casting",
    "duration": "10 min./level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "knock": {
    "name": "Knock",
@@ -4778,7 +5077,8 @@
    "targets": "One door, box, or chest with an area of up to 10 sq. ft./level",
    "duration": "Instantaneous; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "know-direction": {
    "name": "Know Direction",
@@ -4792,7 +5092,8 @@
    "targets": "You",
    "duration": "Instantaneous",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "legend-lore": {
    "name": "Legend Lore",
@@ -4807,7 +5108,8 @@
    "targets": "You",
    "duration": "See text",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "levitate": {
    "name": "Levitate",
@@ -4820,7 +5122,8 @@
    "targets": "You or one willing creature or one object (total weight up to 100 lb./level)",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "light": {
    "name": "Light",
@@ -4838,7 +5141,8 @@
    "targets": "Object touched",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "lightning-bolt": {
    "name": "Lightning Bolt",
@@ -4854,6 +5158,7 @@
    "duration": "Instantaneous",
    "save": "Reflex half",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "electricity",
@@ -4872,7 +5177,8 @@
    "targets": "",
    "duration": "See text",
    "save": "None; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "liveoak": {
    "name": "Liveoak",
@@ -4885,7 +5191,8 @@
    "targets": "Tree touched",
    "duration": "One day/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "locate-creature": {
    "name": "Locate Creature",
@@ -4899,7 +5206,8 @@
    "targets": "",
    "duration": "10 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "locate-object": {
    "name": "Locate Object",
@@ -4915,7 +5223,8 @@
    "targets": "Circle, centered on you, with a radius of 400 ft. + 40 ft./level",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "longstrider": {
    "name": "Longstrider",
@@ -4930,7 +5239,8 @@
    "targets": "You",
    "duration": "1 hour/level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "lullaby": {
    "name": "Lullaby",
@@ -4945,7 +5255,8 @@
    "targets": "Living creatures within a 10-ft.-radius burst",
    "duration": "Concentration + 1 round/level (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "mage-armor": {
    "name": "Mage Armor",
@@ -4960,7 +5271,8 @@
    "targets": "Creature touched",
    "duration": "1 hour/level (D)",
    "save": "Will negates (harmless)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mage-hand": {
    "name": "Mage Hand",
@@ -4974,7 +5286,8 @@
    "targets": "One nonmagical, unattended object weighing up to 5 lb.",
    "duration": "Concentration",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mages-disjunction": {
    "name": "Mage’s Disjunction",
@@ -4988,7 +5301,8 @@
    "targets": "All magical effects and magic items within a 40-ft.-radius burst",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mages-faithful-hound": {
    "name": "Mage’s Faithful Hound",
@@ -5002,6 +5316,7 @@
    "duration": "1 hour/caster level or until discharged, then 1 round/caster level; see text",
    "save": "None",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "2d6+3",
     "type": "untyped"
@@ -5018,7 +5333,8 @@
    "targets": "You",
    "duration": "Instantaneous",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "mages-magnificent-mansion": {
    "name": "Mage’s Magnificent Mansion",
@@ -5031,7 +5347,8 @@
    "targets": "Extradimensional mansion, up to three 10-ft. cubes/level (S)",
    "duration": "2 hours/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mages-private-sanctum": {
    "name": "Mage’s Private Sanctum",
@@ -5044,7 +5361,8 @@
    "targets": "30-ft. cube/level (S)",
    "duration": "24 hours (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mages-sword": {
    "name": "Mage’s Sword",
@@ -5060,6 +5378,7 @@
    "duration": "1 round/level (D)",
    "save": "None",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "4d6+3",
     "type": "force"
@@ -5078,7 +5397,8 @@
    "targets": "One touched object weighing up to 5 lb./level",
    "duration": "One day/level (D)",
    "save": "None; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "magic-circle-against-chaos": {
    "name": "Magic Circle Against Chaos",
@@ -5096,7 +5416,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "magic-circle-against-evil": {
    "name": "Magic Circle Against Evil",
@@ -5114,7 +5435,8 @@
    "targets": "10-ft.-radius emanation from touched creature",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "No; see text"
+   "sr": "No; see text",
+   "attack": "none"
   },
   "magic-circle-against-good": {
    "name": "Magic Circle Against Good",
@@ -5131,7 +5453,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "magic-circle-against-law": {
    "name": "Magic Circle Against Law",
@@ -5148,7 +5471,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "magic-fang": {
    "name": "Magic Fang",
@@ -5162,7 +5486,8 @@
    "targets": "Living creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "magic-fang-greater": {
    "name": "Magic Fang, Greater",
@@ -5176,7 +5501,8 @@
    "targets": "One living creature",
    "duration": "1 hour/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "magic-jar": {
    "name": "Magic Jar",
@@ -5189,7 +5515,8 @@
    "targets": "One creature",
    "duration": "1 hour/level or until you return to your body",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "magic-missile": {
    "name": "Magic Missile",
@@ -5205,6 +5532,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d4+1",
     "type": "force"
@@ -5222,7 +5550,8 @@
    "targets": "One creature or object",
    "duration": "Permanent until discharged",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "magic-stone": {
    "name": "Magic Stone",
@@ -5238,6 +5567,7 @@
    "duration": "30 minutes or until discharged",
    "save": "Will negates (harmless, object)",
    "sr": "Yes (harmless, object)",
+   "attack": "none",
    "damage": {
     "dice": "1d6+1",
     "type": "untyped"
@@ -5256,7 +5586,8 @@
    "targets": "Armor or shield touched",
    "duration": "1 hour/level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "magic-weapon": {
    "name": "Magic Weapon",
@@ -5272,7 +5603,8 @@
    "targets": "Weapon touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "magic-weapon-greater": {
    "name": "Magic Weapon, Greater",
@@ -5287,7 +5619,8 @@
    "targets": "One weapon or fifty projectiles (all of which must be in contact with each other at the time of casting)",
    "duration": "1 hour/level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "major-creation": {
    "name": "Major Creation",
@@ -5300,7 +5633,8 @@
    "targets": "",
    "duration": "See text",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "major-image": {
    "name": "Major Image",
@@ -5314,7 +5648,8 @@
    "targets": "",
    "duration": "Concentration + 3 rounds",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "make-whole": {
    "name": "Make Whole",
@@ -5327,7 +5662,8 @@
    "targets": "One object of up to 10 cu. ft./ level",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "mark-of-justice": {
    "name": "Mark of Justice",
@@ -5341,7 +5677,8 @@
    "targets": "Creature touched",
    "duration": "Permanent; see text",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "maze": {
    "name": "Maze",
@@ -5354,7 +5691,8 @@
    "targets": "One creature",
    "duration": "See text",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "meld-into-stone": {
    "name": "Meld Into Stone",
@@ -5371,6 +5709,7 @@
    "duration": "10 min./level",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "5d6",
     "type": "untyped"
@@ -5390,7 +5729,8 @@
    "targets": "One object of up to 1 lb.",
    "duration": "Instantaneous",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "message": {
    "name": "Message",
@@ -5406,7 +5746,8 @@
    "targets": "One creature/level",
    "duration": "10 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "meteor-swarm": {
    "name": "Meteor Swarm",
@@ -5422,6 +5763,7 @@
    "duration": "Instantaneous",
    "save": "None or Reflex half; see text",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "2d6",
     "type": "fire"
@@ -5439,7 +5781,8 @@
    "targets": "One creature",
    "duration": "24 hours",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "mind-fog": {
    "name": "Mind Fog",
@@ -5455,7 +5798,8 @@
    "targets": "Fog spreads in 20-ft. radius, 20 ft. high",
    "duration": "30 minutes and 2d6 rounds; see text",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "minor-creation": {
    "name": "Minor Creation",
@@ -5468,7 +5812,8 @@
    "targets": "Unattended, nonmagical object of nonliving plant matter, up to 1 cu. ft./level",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "minor-image": {
    "name": "Minor Image",
@@ -5482,7 +5827,8 @@
    "targets": "",
    "duration": "Concentration +2 rounds",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "miracle": {
    "name": "Miracle",
@@ -5496,7 +5842,8 @@
    "targets": "",
    "duration": "See text",
    "save": "See text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "mirage-arcana": {
    "name": "Mirage Arcana",
@@ -5510,7 +5857,8 @@
    "targets": "One 20-ft. cube/level (S)",
    "duration": "Concentration +1 hour/ level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "mirror-image": {
    "name": "Mirror Image",
@@ -5524,7 +5872,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "misdirection": {
    "name": "Misdirection",
@@ -5538,7 +5887,8 @@
    "targets": "One creature or object, up to a 10-ft. cube in size",
    "duration": "1 hour/level",
    "save": "None or Will negates; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mislead": {
    "name": "Mislead",
@@ -5554,7 +5904,8 @@
    "targets": "",
    "duration": "1 round/level (D) and concentration + 3 rounds; see text",
    "save": "None or Will disbelief (if interacted with); see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "mnemonic-enhancer": {
    "name": "Mnemonic Enhancer",
@@ -5567,7 +5918,8 @@
    "targets": "You",
    "duration": "Instantaneous",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "modify-memory": {
    "name": "Modify Memory",
@@ -5582,7 +5934,8 @@
    "targets": "One living creature",
    "duration": "Permanent",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "moment-of-prescience": {
    "name": "Moment of Prescience",
@@ -5596,7 +5949,8 @@
    "targets": "You",
    "duration": "1 hour/level or until discharged",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "mount": {
    "name": "Mount",
@@ -5609,7 +5963,8 @@
    "targets": "One mount",
    "duration": "2 hours/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "move-earth": {
    "name": "Move Earth",
@@ -5625,7 +5980,8 @@
    "targets": "Dirt in an area up to 750 ft. square and up to 10 ft. deep (S)",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "neutralize-poison": {
    "name": "Neutralize Poison",
@@ -5642,7 +5998,8 @@
    "targets": "Creature or object of up to 1 cu. ft./level touched",
    "duration": "10 min./level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "nightmare": {
    "name": "Nightmare",
@@ -5660,6 +6017,7 @@
    "duration": "Instantaneous",
    "save": "Will negates; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d10",
     "type": "untyped"
@@ -5678,7 +6036,8 @@
    "targets": "Creature or object touched",
    "duration": "1 hour/level",
    "save": "Will negates (harmless, object)",
-   "sr": "Yes (harmless, object)"
+   "sr": "Yes (harmless, object)",
+   "attack": "none"
   },
   "obscure-object": {
    "name": "Obscure Object",
@@ -5693,7 +6052,8 @@
    "targets": "One object touched of up to 100 lb./level",
    "duration": "8 hours (D)",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "obscuring-mist": {
    "name": "Obscuring Mist",
@@ -5710,7 +6070,8 @@
    "targets": "Cloud spreads in 20-ft. radius from you, 20 ft. high",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "open-close": {
    "name": "Open/Close",
@@ -5724,7 +6085,8 @@
    "targets": "Object weighing up to 30 lb. or portal that can be opened or closed",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "orders-wrath": {
    "name": "Order’s Wrath",
@@ -5740,6 +6102,7 @@
    "duration": "Instantaneous (1 round); see text",
    "save": "Will partial; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -5758,7 +6121,8 @@
    "targets": "You",
    "duration": "1 hour/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "owls-wisdom": {
    "name": "Owl’s Wisdom",
@@ -5775,7 +6139,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "owls-wisdom-mass": {
    "name": "Owl’s Wisdom, Mass",
@@ -5790,7 +6155,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "passwall": {
    "name": "Passwall",
@@ -5803,7 +6169,8 @@
    "targets": "5 ft. by 8 ft. opening, 10 ft. deep plus 5 ft. deep per three additional levels",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "pass-without-trace": {
    "name": "Pass Without Trace",
@@ -5817,7 +6184,8 @@
    "targets": "One creature/level touched",
    "duration": "1 hour/level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "permanency": {
    "name": "Permanency",
@@ -5830,7 +6198,8 @@
    "targets": "",
    "duration": "Permanent; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "permanent-image": {
    "name": "Permanent Image",
@@ -5844,7 +6213,8 @@
    "targets": "Figment that cannot extend beyond a 20-ft. cube + one 10-ft. cube/level (S)",
    "duration": "Permanent (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "persistent-image": {
    "name": "Persistent Image",
@@ -5858,7 +6228,8 @@
    "targets": "",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "phantasmal-killer": {
    "name": "Phantasmal Killer",
@@ -5875,6 +6246,7 @@
    "duration": "Instantaneous",
    "save": "Will disbelief (if interacted with), then Fortitude partial; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "untyped"
@@ -5892,7 +6264,8 @@
    "targets": "One quasi-real, horselike creature",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "phantom-trap": {
    "name": "Phantom Trap",
@@ -5905,7 +6278,8 @@
    "targets": "Object touched",
    "duration": "Permanent (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "phase-door": {
    "name": "Phase Door",
@@ -5919,7 +6293,8 @@
    "targets": "Ethereal 5 ft. by 8 ft. opening, 10 ft. deep + 5 ft. deep per three levels",
    "duration": "One usage per two levels",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "planar-ally": {
    "name": "Planar Ally",
@@ -5934,7 +6309,8 @@
    "targets": "One or two called elementals or outsiders, totaling no more than 12 HD, which cannot be more than 30 ft. apart when they appear",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "planar-ally-greater": {
    "name": "Planar Ally, Greater",
@@ -5949,7 +6325,8 @@
    "targets": "Up to three called elementals or outsiders, totaling no more than 18 HD, no two of which can be more than 30 ft. apart when they appear.",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "planar-ally-lesser": {
    "name": "Planar Ally, Lesser",
@@ -5964,7 +6341,8 @@
    "targets": "One called elemental or outsider of 6 HD or less",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "planar-binding": {
    "name": "Planar Binding",
@@ -5979,7 +6357,8 @@
    "targets": "Up to three elementals or outsiders, totaling no more than 12 HD, no two of which can be more than 30 ft. apart when they appear",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "planar-binding-greater": {
    "name": "Planar Binding, Greater",
@@ -5994,7 +6373,8 @@
    "targets": "Up to three elementals or outsiders, totaling no more than 18 HD, no two of which can be more than 30 ft. apart when they appear.",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "planar-binding-lesser": {
    "name": "Planar Binding, Lesser",
@@ -6009,7 +6389,8 @@
    "targets": "One elemental or outsider with 6 HD or less",
    "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "No and Yes; see text"
+   "sr": "No and Yes; see text",
+   "attack": "none"
   },
   "plane-shift": {
    "name": "Plane Shift",
@@ -6023,7 +6404,8 @@
    "targets": "Creature touched, or up to eight willing creatures joining hands",
    "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "plant-growth": {
    "name": "Plant Growth",
@@ -6038,7 +6420,8 @@
    "targets": "",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "poison": {
    "name": "Poison",
@@ -6052,7 +6435,8 @@
    "targets": "Living creature touched",
    "duration": "Instantaneous; see text",
    "save": "Fortitude negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "polar-ray": {
    "name": "Polar Ray",
@@ -6068,6 +6452,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "1d6",
     "type": "cold",
@@ -6086,7 +6471,8 @@
    "targets": "Willing living creature touched",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "polymorph-any-object": {
    "name": "Polymorph Any Object",
@@ -6100,7 +6486,8 @@
    "targets": "One creature, or one nonmagical object of up to 100 cu. ft./level",
    "duration": "See text",
    "save": "Fortitude negates (object); see text",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "power-word-blind": {
    "name": "Power Word Blind",
@@ -6116,7 +6503,8 @@
    "targets": "One creature with 200 hp or less",
    "duration": "See text",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "power-word-kill": {
    "name": "Power Word Kill",
@@ -6133,7 +6521,8 @@
    "targets": "One living creature with 100 hp or less",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "power-word-stun": {
    "name": "Power Word Stun",
@@ -6149,7 +6538,8 @@
    "targets": "One creature with 150 hp or less",
    "duration": "See text",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "prayer": {
    "name": "Prayer",
@@ -6165,7 +6555,8 @@
    "targets": "All allies and foes within a 40-ft.-radius burst centered on you",
    "duration": "1 round/level",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "prestidigitation": {
    "name": "Prestidigitation",
@@ -6179,7 +6570,8 @@
    "targets": "",
    "duration": "1 hour",
    "save": "See text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "prismatic-sphere": {
    "name": "Prismatic Sphere",
@@ -6194,7 +6586,8 @@
    "targets": "10-ft.-radius sphere centered on you",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "prismatic-spray": {
    "name": "Prismatic Spray",
@@ -6207,7 +6600,8 @@
    "targets": "Cone-shaped burst",
    "duration": "Instantaneous",
    "save": "See text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "prismatic-wall": {
    "name": "Prismatic Wall",
@@ -6220,7 +6614,8 @@
    "targets": "Wall 4 ft./level wide, 2 ft./level high",
    "duration": "10 min./level (D)",
    "save": "See text",
-   "sr": "See text"
+   "sr": "See text",
+   "attack": "none"
   },
   "produce-flame": {
    "name": "Produce Flame",
@@ -6236,7 +6631,8 @@
    "targets": "Flame in your palm",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "ranged touch"
   },
   "programmed-image": {
    "name": "Programmed Image",
@@ -6250,7 +6646,8 @@
    "targets": "Visual figment that cannot extend beyond a 20-ft. cube + one 10-ft. cube/level (S)",
    "duration": "Permanent until triggered, then 1 round/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "project-image": {
    "name": "Project Image",
@@ -6264,7 +6661,8 @@
    "targets": "One shadow duplicate",
    "duration": "1 round/level (D)",
    "save": "Will disbelief (if interacted with)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "protection-from-arrows": {
    "name": "Protection From Arrows",
@@ -6277,7 +6675,8 @@
    "targets": "Creature touched",
    "duration": "1 hour/level or until discharged",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "protection-from-chaos": {
    "name": "Protection From Chaos",
@@ -6295,7 +6694,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "protection-from-energy": {
    "name": "Protection From Energy",
@@ -6313,7 +6713,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level or until discharged",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "protection-from-evil": {
    "name": "Protection From Evil",
@@ -6331,7 +6732,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level (D)",
    "save": "Will negates (harmless)",
-   "sr": "No; see text"
+   "sr": "No; see text",
+   "attack": "none"
   },
   "protection-from-good": {
    "name": "Protection From Good",
@@ -6348,7 +6750,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "protection-from-law": {
    "name": "Protection From Law",
@@ -6365,7 +6768,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "protection-from-spells": {
    "name": "Protection From Spells",
@@ -6379,7 +6783,8 @@
    "targets": "Up to one creature touched per four levels",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "prying-eyes": {
    "name": "Prying Eyes",
@@ -6392,7 +6797,8 @@
    "targets": "Ten or more levitating eyes",
    "duration": "1 hour/level; see text (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "prying-eyes-greater": {
    "name": "Prying Eyes, Greater",
@@ -6405,7 +6811,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "purify-food-and-drink": {
    "name": "Purify Food and Drink",
@@ -6419,7 +6826,8 @@
    "targets": "1 cu. ft./level of contaminated food and water",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "pyrotechnics": {
    "name": "Pyrotechnics",
@@ -6433,7 +6841,8 @@
    "targets": "One fire source, up to a 20-ft. cube",
    "duration": "1d4+1 rounds, or 1d4+1 rounds after creatures leave the smoke cloud; see text",
    "save": "Will negates or Fortitude negates; see text",
-   "sr": "Yes or No; see text"
+   "sr": "Yes or No; see text",
+   "attack": "none"
   },
   "quench": {
    "name": "Quench",
@@ -6447,6 +6856,7 @@
    "duration": "Instantaneous",
    "save": "None or Will negates (object)",
    "sr": "No or Yes (object)",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped",
@@ -6467,7 +6877,8 @@
    "targets": "One willing living creature per three levels, no two of which may be more than 30 ft. apart",
    "duration": "Concentration + 1 round/level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "rainbow-pattern": {
    "name": "Rainbow Pattern",
@@ -6483,7 +6894,8 @@
    "targets": "Colorful lights with a 20-ft.-radius spread",
    "duration": "Concentration +1 round/ level (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "raise-dead": {
    "name": "Raise Dead",
@@ -6496,7 +6908,8 @@
    "targets": "Dead creature touched",
    "duration": "Instantaneous",
    "save": "None; see text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "melee touch"
   },
   "ray-of-enfeeblement": {
    "name": "Ray of Enfeeblement",
@@ -6509,7 +6922,8 @@
    "targets": "Ray",
    "duration": "1 min./level",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "ranged touch"
   },
   "ray-of-exhaustion": {
    "name": "Ray of Exhaustion",
@@ -6522,7 +6936,8 @@
    "targets": "Ray",
    "duration": "1 min./level",
    "save": "Fortitude partial; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "ranged touch"
   },
   "ray-of-frost": {
    "name": "Ray of Frost",
@@ -6538,6 +6953,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "1d3",
     "type": "cold"
@@ -6559,7 +6975,8 @@
    "targets": "You",
    "duration": "10 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "reduce-animal": {
    "name": "Reduce Animal",
@@ -6573,7 +6990,8 @@
    "targets": "One willing animal of Small, Medium, Large, or Huge size",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "reduce-person": {
    "name": "Reduce Person",
@@ -6586,7 +7004,8 @@
    "targets": "One humanoid creature",
    "duration": "1 min./level (D)",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "reduce-person-mass": {
    "name": "Reduce Person, Mass",
@@ -6599,7 +7018,8 @@
    "targets": "One humanoid creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "refuge": {
    "name": "Refuge",
@@ -6613,7 +7033,8 @@
    "targets": "Object touched",
    "duration": "Permanent until discharged",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "regenerate": {
    "name": "Regenerate",
@@ -6629,6 +7050,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude negates (harmless)",
    "sr": "Yes (harmless)",
+   "attack": "none",
    "heal": {
     "dice": "4d8",
     "plus": "level, maximum 35"
@@ -6645,7 +7067,8 @@
    "targets": "Dead creature touched",
    "duration": "Instantaneous",
    "save": "None; see text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "remove-blindness-deafness": {
    "name": "Remove Blindness/Deafness",
@@ -6659,7 +7082,8 @@
    "targets": "Creature touched",
    "duration": "Instantaneous",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "remove-curse": {
    "name": "Remove Curse",
@@ -6675,7 +7099,8 @@
    "targets": "Creature or item touched",
    "duration": "Instantaneous",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "remove-disease": {
    "name": "Remove Disease",
@@ -6690,7 +7115,8 @@
    "targets": "Creature touched",
    "duration": "Instantaneous",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "remove-fear": {
    "name": "Remove Fear",
@@ -6704,7 +7130,8 @@
    "targets": "One creature plus one additional creature per four levels, no two of which can be more than 30 ft. apart",
    "duration": "10 minutes; see text",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "remove-paralysis": {
    "name": "Remove Paralysis",
@@ -6718,7 +7145,8 @@
    "targets": "Up to four creatures, no two of which can be more than 30 ft. apart",
    "duration": "Instantaneous",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "repel-metal-or-stone": {
    "name": "Repel Metal or Stone",
@@ -6733,7 +7161,8 @@
    "targets": "60-ft. line from you",
    "duration": "1 round/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "repel-vermin": {
    "name": "Repel Vermin",
@@ -6750,6 +7179,7 @@
    "duration": "10 min./level (D)",
    "save": "None or Will negates; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "2d6",
     "type": "untyped"
@@ -6767,7 +7197,8 @@
    "targets": "60-ft. line-shaped emanation from you",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "repulsion": {
    "name": "Repulsion",
@@ -6782,7 +7213,8 @@
    "targets": "Up to 10-ft.-radius/level emanation centered on you",
    "duration": "1 round/level (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "resilient-sphere": {
    "name": "Resilient Sphere",
@@ -6797,7 +7229,8 @@
    "targets": "1-ft.-diameter/level sphere, centered around a creature",
    "duration": "1 min./level (D)",
    "save": "Reflex negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "resistance": {
    "name": "Resistance",
@@ -6814,7 +7247,8 @@
    "targets": "Creature touched",
    "duration": "1 minute",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "resist-energy": {
    "name": "Resist Energy",
@@ -6832,7 +7266,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "restoration": {
    "name": "Restoration",
@@ -6846,7 +7281,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "restoration-greater": {
    "name": "Restoration, Greater",
@@ -6859,7 +7295,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "restoration-lesser": {
    "name": "Restoration, Lesser",
@@ -6874,7 +7311,8 @@
    "targets": "Creature touched",
    "duration": "Instantaneous",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "resurrection": {
    "name": "Resurrection",
@@ -6887,7 +7325,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "reverse-gravity": {
    "name": "Reverse Gravity",
@@ -6901,7 +7340,8 @@
    "targets": "Up to one 10-ft. cube per two levels (S)",
    "duration": "1 round/level (D)",
    "save": "None; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "righteous-might": {
    "name": "Righteous Might",
@@ -6915,7 +7355,8 @@
    "targets": "You",
    "duration": "1 round/level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "rope-trick": {
    "name": "Rope Trick",
@@ -6928,7 +7369,8 @@
    "targets": "One touched piece of rope from 5 ft. to 30 ft. long",
    "duration": "1 hour/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "rusting-grasp": {
    "name": "Rusting Grasp",
@@ -6942,6 +7384,7 @@
    "duration": "See text",
    "save": "None",
    "sr": "No",
+   "attack": "melee touch",
    "damage": {
     "dice": "3d6",
     "type": "untyped"
@@ -6959,7 +7402,8 @@
    "targets": "Creature touched",
    "duration": "1 round/level",
    "save": "Will negates",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "scare": {
    "name": "Scare",
@@ -6976,7 +7420,8 @@
    "targets": "One living creature per three levels, no two of which can be more than 30 ft. apart",
    "duration": "1 round/level or 1 round; see text for cause fear",
    "save": "Will partial",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "scintillating-pattern": {
    "name": "Scintillating Pattern",
@@ -6991,7 +7436,8 @@
    "targets": "Colorful lights in a 20-ft.-radius spread",
    "duration": "Concentration + 2 rounds",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "scorching-ray": {
    "name": "Scorching Ray",
@@ -7007,6 +7453,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "4d6",
     "type": "fire"
@@ -7024,7 +7471,8 @@
    "targets": "30-ft. cube/level (S)",
    "duration": "24 hours",
    "save": "None or Will disbelief (if interacted with); see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "scrying": {
    "name": "Scrying",
@@ -7040,7 +7488,8 @@
    "targets": "Magical sensor",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "scrying-greater": {
    "name": "Scrying, Greater",
@@ -7056,7 +7505,8 @@
    "targets": "",
    "duration": "1 hour/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "sculpt-sound": {
    "name": "Sculpt Sound",
@@ -7069,7 +7519,8 @@
    "targets": "One creature or object/level, no two of which can be more than 30 ft. apart",
    "duration": "1 hour/level (D)",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "searing-light": {
    "name": "Searing Light",
@@ -7084,6 +7535,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "ranged touch",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -7102,7 +7554,8 @@
    "targets": "One chest and up to 1 cu. ft. of goods/caster level",
    "duration": "Sixty days or until discharged",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "secret-page": {
    "name": "Secret Page",
@@ -7116,7 +7569,8 @@
    "targets": "Page touched, up to 3 sq. ft. in size",
    "duration": "Permanent",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "secure-shelter": {
    "name": "Secure Shelter",
@@ -7130,7 +7584,8 @@
    "targets": "20-ft.-square structure",
    "duration": "2 hours/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "see-invisibility": {
    "name": "See Invisibility",
@@ -7144,7 +7599,8 @@
    "targets": "You",
    "duration": "10 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "seeming": {
    "name": "Seeming",
@@ -7158,7 +7614,8 @@
    "targets": "One creature per two levels, no two of which can be more than 30 ft. apart",
    "duration": "12 hours (D)",
    "save": "Will negates or Will disbelief (if interacted with)",
-   "sr": "Yes or No; see text"
+   "sr": "Yes or No; see text",
+   "attack": "none"
   },
   "sending": {
    "name": "Sending",
@@ -7172,7 +7629,8 @@
    "targets": "One creature",
    "duration": "1 round; see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "sepia-snake-sigil": {
    "name": "Sepia Snake Sigil",
@@ -7188,7 +7646,8 @@
    "targets": "One touched book or written work",
    "duration": "Permanent or until discharged; until released or 1d4 days + one day/level; see text",
    "save": "Reflex negates",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "sequester": {
    "name": "Sequester",
@@ -7201,7 +7660,8 @@
    "targets": "One willing creature or object (up to a 2-ft. cube/level) touched",
    "duration": "One day/level (D)",
    "save": "None or Will negates (object)",
-   "sr": "No or Yes (object)"
+   "sr": "No or Yes (object)",
+   "attack": "none"
   },
   "shades": {
    "name": "Shades",
@@ -7214,7 +7674,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "shadow-conjuration": {
    "name": "Shadow Conjuration",
@@ -7228,7 +7689,8 @@
    "targets": "See text",
    "duration": "See text",
    "save": "Will disbelief (if interacted with); varies; see text",
-   "sr": "Yes; see text"
+   "sr": "Yes; see text",
+   "attack": "none"
   },
   "shadow-conjuration-greater": {
    "name": "Shadow Conjuration, Greater",
@@ -7241,7 +7703,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "shadow-evocation": {
    "name": "Shadow Evocation",
@@ -7255,7 +7718,8 @@
    "targets": "See text",
    "duration": "See text",
    "save": "Will disbelief (if interacted with)",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "shadow-evocation-greater": {
    "name": "Shadow Evocation, Greater",
@@ -7268,7 +7732,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "shadow-walk": {
    "name": "Shadow Walk",
@@ -7282,7 +7747,8 @@
    "targets": "Up to one touched creature/ level",
    "duration": "1 hour/level (D)",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "shambler": {
    "name": "Shambler",
@@ -7296,7 +7762,8 @@
    "targets": "Three or more shambling mounds, no two of which can be more than 30 ft. apart; see text",
    "duration": "Seven days or seven months (D); see text",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "shapechange": {
    "name": "Shapechange",
@@ -7311,7 +7778,8 @@
    "targets": "You",
    "duration": "10 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "shatter": {
    "name": "Shatter",
@@ -7331,6 +7799,7 @@
    "duration": "Instantaneous",
    "save": "Will negates (object); Will negates (object) or Fortitude half; see text",
    "sr": "Yes (object)",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "sonic",
@@ -7351,7 +7820,8 @@
    "targets": "You",
    "duration": "1 min./level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "shield-of-faith": {
    "name": "Shield of Faith",
@@ -7364,7 +7834,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "shield-of-law": {
    "name": "Shield of Law",
@@ -7380,7 +7851,8 @@
    "targets": "One creature/level in a 20-ft.-radius burst centered on you",
    "duration": "1 round/level (D)",
    "save": "See text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "shield-other": {
    "name": "Shield Other",
@@ -7395,7 +7867,8 @@
    "targets": "One creature",
    "duration": "1 hour/level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "shillelagh": {
    "name": "Shillelagh",
@@ -7409,6 +7882,7 @@
    "duration": "1 min./level",
    "save": "Will negates (object)",
    "sr": "Yes (object)",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d8",
     "type": "untyped"
@@ -7428,6 +7902,7 @@
    "duration": "Instantaneous",
    "save": "None",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d6",
     "type": "electricity",
@@ -7450,6 +7925,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial or Reflex negates (object); see text",
    "sr": "Yes (object)",
+   "attack": "none",
    "damage": {
     "dice": "5d6",
     "type": "sonic"
@@ -7470,6 +7946,7 @@
    "duration": "",
    "save": "Fortitude partial or Reflex negates (object); see text",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "10d6",
     "type": "sonic"
@@ -7486,7 +7963,8 @@
    "targets": "One touched object of up to 2 cu. ft./level",
    "duration": "One day/level; see text",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "silence": {
    "name": "Silence",
@@ -7500,7 +7978,8 @@
    "targets": "20-ft.-radius emanation centered on a creature, object, or point in space",
    "duration": "1 min./level (D)",
    "save": "Will negates; see text or none (object)",
-   "sr": "Yes; see text or no (object)"
+   "sr": "Yes; see text or no (object)",
+   "attack": "none"
   },
   "silent-image": {
    "name": "Silent Image",
@@ -7514,7 +7993,8 @@
    "targets": "Visual figment that cannot extend beyond four 10-ft. cubes + one 10-ft. cube/level (S)",
    "duration": "Concentration",
    "save": "Will disbelief (if interacted with)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "simulacrum": {
    "name": "Simulacrum",
@@ -7527,7 +8007,8 @@
    "targets": "One duplicate creature",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "slay-living": {
    "name": "Slay Living",
@@ -7544,6 +8025,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "3d6",
     "type": "untyped"
@@ -7563,7 +8045,8 @@
    "targets": "One or more living creatures within a 10-ft.-radius burst",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "sleet-storm": {
    "name": "Sleet Storm",
@@ -7579,7 +8062,8 @@
    "targets": "Cylinder (40-ft. radius, 20 ft. high)",
    "duration": "1 round/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "slow": {
    "name": "Slow",
@@ -7593,7 +8077,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "1 round/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "snare": {
    "name": "Snare",
@@ -7608,6 +8093,7 @@
    "duration": "Until triggered or broken",
    "save": "None",
    "sr": "No",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -7627,7 +8113,8 @@
    "targets": "10-ft. square/level; see text",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "solid-fog": {
    "name": "Solid Fog",
@@ -7640,7 +8127,8 @@
    "targets": "",
    "duration": "1 min./level",
    "save": "",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "song-of-discord": {
    "name": "Song of Discord",
@@ -7656,7 +8144,8 @@
    "targets": "Creatures within a 20-ft.-radius spread",
    "duration": "1 round/level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "soul-bind": {
    "name": "Soul Bind",
@@ -7670,7 +8159,8 @@
    "targets": "Corpse",
    "duration": "Permanent",
    "save": "Will negates",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "sound-burst": {
    "name": "Sound Burst",
@@ -7687,6 +8177,7 @@
    "duration": "Instantaneous",
    "save": "Fortitude partial",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "sonic"
@@ -7705,7 +8196,8 @@
    "targets": "You",
    "duration": "1 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "speak-with-dead": {
    "name": "Speak with Dead",
@@ -7720,7 +8212,8 @@
    "targets": "One dead creature",
    "duration": "1 min./level",
    "save": "Will negates; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "speak-with-plants": {
    "name": "Speak with Plants",
@@ -7735,7 +8228,8 @@
    "targets": "You",
    "duration": "1 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "spectral-hand": {
    "name": "Spectral Hand",
@@ -7748,7 +8242,8 @@
    "targets": "One spectral hand",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "melee touch"
   },
   "spell-immunity": {
    "name": "Spell Immunity",
@@ -7763,7 +8258,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "spell-immunity-greater": {
    "name": "Spell Immunity, Greater",
@@ -7776,7 +8272,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "spell-resistance": {
    "name": "Spell Resistance",
@@ -7791,7 +8288,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "spellstaff": {
    "name": "Spellstaff",
@@ -7804,7 +8302,8 @@
    "targets": "Wooden quarterstaff touched",
    "duration": "Permanent until discharged (D)",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "spell-turning": {
    "name": "Spell Turning",
@@ -7819,7 +8318,8 @@
    "targets": "You",
    "duration": "Until expended or 10 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "spider-climb": {
    "name": "Spider Climb",
@@ -7833,7 +8333,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "spike-growth": {
    "name": "Spike Growth",
@@ -7848,6 +8349,7 @@
    "duration": "1 hour/level (D)",
    "save": "Reflex partial",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d4",
     "type": "untyped"
@@ -7868,6 +8370,7 @@
    "duration": "1 hour/level (D)",
    "save": "Reflex partial",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "untyped"
@@ -7888,6 +8391,7 @@
    "duration": "1 round/level (D)",
    "save": "None",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "force"
@@ -7904,7 +8408,8 @@
    "targets": "Creature touched",
    "duration": "1 hour/level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "status": {
    "name": "Status",
@@ -7917,7 +8422,8 @@
    "targets": "One living creature touched per three levels",
    "duration": "1 hour/level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "stinking-cloud": {
    "name": "Stinking Cloud",
@@ -7930,7 +8436,8 @@
    "targets": "Cloud spreads in 20-ft. radius, 20 ft. high",
    "duration": "1 round/level",
    "save": "Fortitude negates; see text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "stone-shape": {
    "name": "Stone Shape",
@@ -7948,7 +8455,8 @@
    "targets": "Stone or stone object touched, up to 10 cu. ft. + 1 cu. ft./level",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "stoneskin": {
    "name": "Stoneskin",
@@ -7964,7 +8472,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level or until discharged",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "stone-tell": {
    "name": "Stone Tell",
@@ -7977,7 +8486,8 @@
    "targets": "You",
    "duration": "1 min./level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "stone-to-flesh": {
    "name": "Stone to Flesh",
@@ -7990,7 +8500,8 @@
    "targets": "One petrified creature or a cylinder of stone from 1 ft. to 3 ft. in diameter and up to 10 ft. long",
    "duration": "Instantaneous",
    "save": "Fortitude negates (object); see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "storm-of-vengeance": {
    "name": "Storm of Vengeance",
@@ -8005,6 +8516,7 @@
    "duration": "Concentration (maximum 10 rounds) (D)",
    "save": "See text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "acid"
@@ -8025,7 +8537,8 @@
    "targets": "One living creature",
    "duration": "1 hour/level or until completed",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "suggestion-mass": {
    "name": "Suggestion, Mass",
@@ -8042,7 +8555,8 @@
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-instrument": {
    "name": "Summon Instrument",
@@ -8055,7 +8569,8 @@
    "targets": "One summoned handheld musical instrument",
    "duration": "1 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "summon-monster-i": {
    "name": "Summon Monster I",
@@ -8072,7 +8587,8 @@
    "targets": "One summoned creature",
    "duration": "1 round/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "summon-monster-ii": {
    "name": "Summon Monster II",
@@ -8089,7 +8605,8 @@
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-iii": {
    "name": "Summon Monster III",
@@ -8106,7 +8623,8 @@
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-iv": {
    "name": "Summon Monster IV",
@@ -8123,7 +8641,8 @@
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-v": {
    "name": "Summon Monster V",
@@ -8140,7 +8659,8 @@
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-vi": {
    "name": "Summon Monster VI",
@@ -8157,7 +8677,8 @@
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-vii": {
    "name": "Summon Monster VII",
@@ -8173,7 +8694,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-viii": {
    "name": "Summon Monster VIII",
@@ -8189,7 +8711,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-monster-ix": {
    "name": "Summon Monster IX",
@@ -8209,7 +8732,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-i": {
    "name": "Summon Nature’s Ally I",
@@ -8223,7 +8747,8 @@
    "targets": "One summoned creature",
    "duration": "1 round/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "summon-natures-ally-ii": {
    "name": "Summon Nature’s Ally II",
@@ -8237,7 +8762,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-iii": {
    "name": "Summon Nature’s Ally III",
@@ -8253,7 +8779,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-iv": {
    "name": "Summon Nature’s Ally IV",
@@ -8270,7 +8797,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-v": {
    "name": "Summon Nature’s Ally V",
@@ -8285,7 +8813,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-vi": {
    "name": "Summon Nature’s Ally VI",
@@ -8300,7 +8829,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-vii": {
    "name": "Summon Nature’s Ally VII",
@@ -8315,7 +8845,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-viii": {
    "name": "Summon Nature’s Ally VIII",
@@ -8331,7 +8862,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-natures-ally-ix": {
    "name": "Summon Nature’s Ally IX",
@@ -8346,7 +8878,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "summon-swarm": {
    "name": "Summon Swarm",
@@ -8361,7 +8894,8 @@
    "targets": "One swarm of bats, rats, or spiders",
    "duration": "Concentration + 2 rounds",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "sunbeam": {
    "name": "Sunbeam",
@@ -8378,6 +8912,7 @@
    "duration": "1 round/level or until all beams are exhausted",
    "save": "Reflex negates and Reflex half; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "4d6",
     "type": "untyped"
@@ -8399,6 +8934,7 @@
    "duration": "Instantaneous",
    "save": "Reflex partial; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "6d6",
     "type": "untyped"
@@ -8418,7 +8954,8 @@
    "targets": "One symbol",
    "duration": "See text",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "symbol-of-fear": {
    "name": "Symbol of Fear",
@@ -8435,7 +8972,8 @@
    "targets": "",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "symbol-of-insanity": {
    "name": "Symbol of Insanity",
@@ -8451,7 +8989,8 @@
    "targets": "",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "symbol-of-pain": {
    "name": "Symbol of Pain",
@@ -8467,7 +9006,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "symbol-of-persuasion": {
    "name": "Symbol of Persuasion",
@@ -8483,7 +9023,8 @@
    "targets": "",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "symbol-of-sleep": {
    "name": "Symbol of Sleep",
@@ -8499,7 +9040,8 @@
    "targets": "",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "symbol-of-stunning": {
    "name": "Symbol of Stunning",
@@ -8515,7 +9057,8 @@
    "targets": "",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "symbol-of-weakness": {
    "name": "Symbol of Weakness",
@@ -8529,7 +9072,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "sympathetic-vibration": {
    "name": "Sympathetic Vibration",
@@ -8545,6 +9089,7 @@
    "duration": "Up to 1 round/level",
    "save": "None; see text",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "2d10",
     "type": "sonic"
@@ -8564,7 +9109,8 @@
    "targets": "One location (up to a 10-ft. cube/level) or one object",
    "duration": "2 hours/level (D)",
    "save": "Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "telekinesis": {
    "name": "Telekinesis",
@@ -8578,6 +9124,7 @@
    "duration": "Concentration (up to 1 round/ level) or instantaneous; see text",
    "save": "Will negates (object) or None; see text",
    "sr": "Yes (object); see text",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "untyped"
@@ -8596,7 +9143,8 @@
    "targets": "1-ft.-diameter/level sphere, centered around creatures or objects",
    "duration": "1 min./level (D)",
    "save": "Reflex negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "telepathic-bond": {
    "name": "Telepathic Bond",
@@ -8609,7 +9157,8 @@
    "targets": "You plus one willing creature per three levels, no two of which can be more than 30 ft. apart",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "teleport": {
    "name": "Teleport",
@@ -8623,7 +9172,8 @@
    "targets": "You and touched objects or other touched willing creatures",
    "duration": "Instantaneous",
    "save": "None and Will negates (object)",
-   "sr": "No and Yes (object)"
+   "sr": "No and Yes (object)",
+   "attack": "none"
   },
   "teleport-object": {
    "name": "Teleport Object",
@@ -8636,7 +9186,8 @@
    "targets": "One touched object of up to 50 lb./level and 3 cu. ft./level",
    "duration": "",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "teleport-greater": {
    "name": "Teleport, Greater",
@@ -8650,7 +9201,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "teleportation-circle": {
    "name": "Teleportation Circle",
@@ -8663,7 +9215,8 @@
    "targets": "5-ft.-radius circle that teleports those who activate it",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "temporal-stasis": {
    "name": "Temporal Stasis",
@@ -8676,7 +9229,8 @@
    "targets": "Creature touched",
    "duration": "Permanent",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "time-stop": {
    "name": "Time Stop",
@@ -8690,7 +9244,8 @@
    "targets": "You",
    "duration": "1d4+1 rounds (apparent time); see text",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "tiny-hut": {
    "name": "Tiny Hut",
@@ -8706,7 +9261,8 @@
    "targets": "20-ft.-radius sphere centered on your location",
    "duration": "2 hours/level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "tongues": {
    "name": "Tongues",
@@ -8721,7 +9277,8 @@
    "targets": "Creature touched",
    "duration": "10 min./level",
    "save": "Will negates (harmless)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "touch-of-fatigue": {
    "name": "Touch of Fatigue",
@@ -8734,7 +9291,8 @@
    "targets": "Creature touched",
    "duration": "1 round/level",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "touch-of-idiocy": {
    "name": "Touch of Idiocy",
@@ -8749,7 +9307,8 @@
    "targets": "Living creature touched",
    "duration": "10 min./level",
    "save": "No",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "melee touch"
   },
   "transformation": {
    "name": "Transformation",
@@ -8762,7 +9321,8 @@
    "targets": "You",
    "duration": "1 round/level",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "transmute-metal-to-wood": {
    "name": "Transmute Metal to Wood",
@@ -8775,7 +9335,8 @@
    "targets": "All metal objects within a 40-ft.-radius burst",
    "duration": "Instantaneous",
    "save": "None",
-   "sr": "Yes (object; see text)"
+   "sr": "Yes (object; see text)",
+   "attack": "none"
   },
   "transmute-mud-to-rock": {
    "name": "Transmute Mud to Rock",
@@ -8791,7 +9352,8 @@
    "targets": "Up to two 10-ft. cubes/level (S)",
    "duration": "Permanent",
    "save": "See text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "transmute-rock-to-mud": {
    "name": "Transmute Rock to Mud",
@@ -8808,6 +9370,7 @@
    "duration": "Permanent; see text",
    "save": "See text",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "8d6",
     "type": "untyped"
@@ -8824,7 +9387,8 @@
    "targets": "You and touched objects or other touched willing creatures",
    "duration": "1 round",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "trap-the-soul": {
    "name": "Trap the Soul",
@@ -8837,7 +9401,8 @@
    "targets": "One creature",
    "duration": "Permanent; see text",
    "save": "See text",
-   "sr": "Yes; see text"
+   "sr": "Yes; see text",
+   "attack": "none"
   },
   "tree-shape": {
    "name": "Tree Shape",
@@ -8851,7 +9416,8 @@
    "targets": "You",
    "duration": "1 hour/level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "tree-stride": {
    "name": "Tree Stride",
@@ -8865,7 +9431,8 @@
    "targets": "You",
    "duration": "1 hour/level or until expended; see text",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "true-resurrection": {
    "name": "True Resurrection",
@@ -8878,7 +9445,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "true-seeing": {
    "name": "True Seeing",
@@ -8894,7 +9462,8 @@
    "targets": "Creature touched",
    "duration": "1 min./level",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "true-strike": {
    "name": "True Strike",
@@ -8907,7 +9476,8 @@
    "targets": "You",
    "duration": "See text",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "undeath-to-death": {
    "name": "Undeath to Death",
@@ -8921,7 +9491,8 @@
    "targets": "Several undead creatures within a 40-ft.-radius burst",
    "duration": "",
    "save": "Will negates",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "undetectable-alignment": {
    "name": "Undetectable Alignment",
@@ -8936,7 +9507,8 @@
    "targets": "One creature or object",
    "duration": "24 hours",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "unhallow": {
    "name": "Unhallow",
@@ -8952,7 +9524,8 @@
    "targets": "40-ft. radius emanating from the touched point",
    "duration": "Instantaneous",
    "save": "See text",
-   "sr": "See text"
+   "sr": "See text",
+   "attack": "none"
   },
   "unholy-aura": {
    "name": "Unholy Aura",
@@ -8968,7 +9541,8 @@
    "targets": "One creature/level in a 20-ft.-radius burst centered on you",
    "duration": "1 round/level (D)",
    "save": "See text",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "unholy-blight": {
    "name": "Unholy Blight",
@@ -8984,6 +9558,7 @@
    "duration": "Instantaneous (1d4 rounds); see text",
    "save": "Will partial",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d8",
     "type": "untyped",
@@ -9003,7 +9578,8 @@
    "targets": "One invisible, mindless, shapeless servant",
    "duration": "1 hour/level",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "vampiric-touch": {
    "name": "Vampiric Touch",
@@ -9017,6 +9593,7 @@
    "duration": "Instantaneous/1 hour; see text",
    "save": "None",
    "sr": "Yes",
+   "attack": "melee touch",
    "damage": {
     "dice": "1d6",
     "type": "untyped",
@@ -9036,7 +9613,8 @@
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "Concentration + 1 hour/level (D)",
    "save": "Will negates; see text",
-   "sr": "Yes; see text"
+   "sr": "Yes; see text",
+   "attack": "none"
   },
   "ventriloquism": {
    "name": "Ventriloquism",
@@ -9050,7 +9628,8 @@
    "targets": "Intelligible sound, usually speech",
    "duration": "1 min./level (D)",
    "save": "Will disbelief (if interacted with)",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "virtue": {
    "name": "Virtue",
@@ -9065,7 +9644,8 @@
    "targets": "Creature touched",
    "duration": "1 min.",
    "save": "Fortitude negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "vision": {
    "name": "Vision",
@@ -9078,7 +9658,8 @@
    "targets": "",
    "duration": "",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "wail-of-the-banshee": {
    "name": "Wail of the Banshee",
@@ -9095,7 +9676,8 @@
    "targets": "One living creature/level within a 40-ft.-radius spread",
    "duration": "Instantaneous",
    "save": "Fortitude negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "wall-of-fire": {
    "name": "Wall of Fire",
@@ -9113,6 +9695,7 @@
    "duration": "Concentration + 1 round/level",
    "save": "None",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "2d4",
     "type": "fire"
@@ -9131,7 +9714,8 @@
    "targets": "Wall whose area is up to one 10-ft. square/level",
    "duration": "1 round /level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "wall-of-ice": {
    "name": "Wall of Ice",
@@ -9147,6 +9731,7 @@
    "duration": "1 min./level",
    "save": "Reflex negates; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "1d6",
     "type": "cold"
@@ -9164,6 +9749,7 @@
    "duration": "Instantaneous",
    "save": "See text",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "10d6",
     "type": "untyped"
@@ -9185,7 +9771,8 @@
    "targets": "Stone wall whose area is up to one 5-ft. square/level (S)",
    "duration": "Instantaneous",
    "save": "See text",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "wall-of-thorns": {
    "name": "Wall of Thorns",
@@ -9199,7 +9786,8 @@
    "targets": "Wall of thorny brush, up to one 10-ft. cube/level (S)",
    "duration": "10 min./level (D)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "warp-wood": {
    "name": "Warp Wood",
@@ -9212,7 +9800,8 @@
    "targets": "1 Small wooden object/level, all within a 20-ft. radius",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "water-breathing": {
    "name": "Water Breathing",
@@ -9228,7 +9817,8 @@
    "targets": "Living creatures touched",
    "duration": "2 hours/level; see text",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "water-walk": {
    "name": "Water Walk",
@@ -9244,7 +9834,8 @@
    "targets": "One touched creature/level",
    "duration": "10 min./level (D)",
    "save": "Will negates (harmless)",
-   "sr": "Yes (harmless)"
+   "sr": "Yes (harmless)",
+   "attack": "none"
   },
   "waves-of-exhaustion": {
    "name": "Waves of Exhaustion",
@@ -9257,7 +9848,8 @@
    "targets": "Cone-shaped burst",
    "duration": "Instantaneous",
    "save": "No",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "waves-of-fatigue": {
    "name": "Waves of Fatigue",
@@ -9270,7 +9862,8 @@
    "targets": "Cone-shaped burst",
    "duration": "Instantaneous",
    "save": "No",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "web": {
    "name": "Web",
@@ -9284,6 +9877,7 @@
    "duration": "10 min./level (D)",
    "save": "Reflex negates; see text",
    "sr": "No",
+   "attack": "none",
    "damage": {
     "dice": "2d4",
     "type": "fire"
@@ -9304,6 +9898,7 @@
    "duration": "",
    "save": "",
    "sr": "",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "untyped"
@@ -9324,6 +9919,7 @@
    "duration": "1 round/level (D)",
    "save": "Reflex negates; see text",
    "sr": "Yes",
+   "attack": "none",
    "damage": {
     "dice": "3d6",
     "type": "untyped"
@@ -9343,7 +9939,8 @@
    "targets": "10-ft.-radius spread",
    "duration": "No more than 1 hour/level or until discharged (destination is reached)",
    "save": "None",
-   "sr": "No"
+   "sr": "No",
+   "attack": "none"
   },
   "wind-walk": {
    "name": "Wind Walk",
@@ -9359,7 +9956,8 @@
    "targets": "You and one touched creature per three levels",
    "duration": "1 hour/level (D); see text",
    "save": "No and Will negates (harmless)",
-   "sr": "No and Yes (harmless)"
+   "sr": "No and Yes (harmless)",
+   "attack": "none"
   },
   "wind-wall": {
    "name": "Wind Wall",
@@ -9378,7 +9976,8 @@
    "targets": "Wall up to 10 ft./level long and 5 ft./level high (S)",
    "duration": "1 round/level",
    "save": "None; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "wish": {
    "name": "Wish",
@@ -9391,7 +9990,8 @@
    "targets": "",
    "duration": "See text",
    "save": "See text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "wood-shape": {
    "name": "Wood Shape",
@@ -9404,7 +10004,8 @@
    "targets": "One touched piece of wood no larger than 10 cu. ft. + 1 cu. ft./level",
    "duration": "Instantaneous",
    "save": "Will negates (object)",
-   "sr": "Yes (object)"
+   "sr": "Yes (object)",
+   "attack": "none"
   },
   "word-of-chaos": {
    "name": "Word of Chaos",
@@ -9421,7 +10022,8 @@
    "targets": "Nonchaotic creatures in a 40-ft.- radius spread centered on you",
    "duration": "Instantaneous",
    "save": "None or Will negates; see text",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   },
   "word-of-recall": {
    "name": "Word of Recall",
@@ -9435,7 +10037,8 @@
    "targets": "You and touched objects or other willing creatures",
    "duration": "Instantaneous",
    "save": "None or Will negates (harmless, object)",
-   "sr": "No or Yes (harmless, object)"
+   "sr": "No or Yes (harmless, object)",
+   "attack": "none"
   },
   "zone-of-silence": {
    "name": "Zone of Silence",
@@ -9448,7 +10051,8 @@
    "targets": "5-ft.-radius emanation centered on you",
    "duration": "1 hour/level (D)",
    "save": "",
-   "sr": ""
+   "sr": "",
+   "attack": "none"
   },
   "zone-of-truth": {
    "name": "Zone of Truth",
@@ -9464,7 +10068,8 @@
    "targets": "20-ft.-radius emanation",
    "duration": "1 min./level",
    "save": "Will negates",
-   "sr": "Yes"
+   "sr": "Yes",
+   "attack": "none"
   }
  }
 }

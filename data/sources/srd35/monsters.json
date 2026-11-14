@@ -19,13 +19,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -64,7 +66,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -103,13 +106,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d2",
-     "plus": -1
+     "plus": -1,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -1
+     "plus": -1,
+     "bonus": -1
     }
    ],
    "specialAttacks": [
@@ -182,13 +187,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -227,13 +234,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 8
+     "plus": 8,
+     "bonus": 11
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -274,13 +283,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 8
+     "plus": 8,
+     "bonus": 13
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -321,7 +332,8 @@
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 9
+     "plus": 9,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -362,7 +374,8 @@
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -435,13 +448,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d2",
-     "plus": -4
+     "plus": -4,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -4
+     "plus": -4,
+     "bonus": -1
     }
    ],
    "specialAttacks": [],
@@ -480,13 +495,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d2",
-     "plus": 1
+     "plus": 1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -528,7 +545,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -569,7 +587,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -610,7 +629,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -649,7 +669,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -688,7 +709,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d2",
-     "plus": 0
+     "plus": 0,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -727,13 +749,15 @@
      "name": "talons",
      "count": 2,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": -2
     }
    ],
    "specialAttacks": [],
@@ -771,13 +795,15 @@
      "name": "slam",
      "count": 1,
      "dice": "2d6",
-     "plus": 10
+     "plus": 10,
+     "bonus": 16
     },
     {
      "name": "stamps",
      "count": 2,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -818,7 +844,8 @@
      "name": "talons",
      "count": 1,
      "dice": "1d4",
-     "plus": -2
+     "plus": -2,
+     "bonus": 5
     }
    ],
    "specialAttacks": [],
@@ -856,13 +883,15 @@
      "name": "hooves",
      "count": 2,
      "dice": "1d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": 1
+     "plus": 1,
+     "bonus": -1
     }
    ],
    "specialAttacks": [],
@@ -901,7 +930,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -942,13 +972,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 1
+     "plus": 1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -991,13 +1023,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 5
+     "plus": 5,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -1040,7 +1074,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -4
+     "plus": -4,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1078,7 +1113,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [],
@@ -1147,7 +1183,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -4
+     "plus": -4,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1185,7 +1222,8 @@
      "name": "hooves",
      "count": 2,
      "dice": "1d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1224,7 +1262,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 0
     }
    ],
    "specialAttacks": [
@@ -1266,13 +1305,15 @@
      "name": "tentacles",
      "count": 8,
      "dice": "1d4",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -1315,7 +1356,8 @@
      "name": "talons",
      "count": 1,
      "dice": "1d4",
-     "plus": -3
+     "plus": -3,
+     "bonus": 5
     }
    ],
    "specialAttacks": [],
@@ -1353,7 +1395,8 @@
      "name": "hooves",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": -3
     }
    ],
    "specialAttacks": [],
@@ -1392,7 +1435,8 @@
      "name": "hooves",
      "count": 2,
      "dice": "1d3",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -1431,7 +1475,8 @@
      "name": "slam",
      "count": 1,
      "dice": "2d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1471,7 +1516,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -4
+     "plus": -4,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1510,7 +1556,8 @@
      "name": "claws",
      "count": 1,
      "dice": "1d2",
-     "plus": -5
+     "plus": -5,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1548,7 +1595,8 @@
      "name": "gore",
      "count": 1,
      "dice": "2d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -1588,7 +1636,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -1627,7 +1676,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     }
    ],
    "specialAttacks": [],
@@ -1666,7 +1716,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 10
     }
    ],
    "specialAttacks": [],
@@ -1705,7 +1756,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -1746,7 +1798,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -1820,7 +1873,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d2",
-     "plus": -2
+     "plus": -2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -1860,7 +1914,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -1
+     "plus": -1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -1900,7 +1955,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -1940,7 +1996,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -1980,7 +2037,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": -1
     }
    ],
    "specialAttacks": [
@@ -2022,13 +2080,15 @@
      "name": "tentacles",
      "count": 10,
      "dice": "1d6",
-     "plus": 8
+     "plus": 8,
+     "bonus": 15
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -2071,13 +2131,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -2152,7 +2214,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -4
+     "plus": -4,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -2193,7 +2256,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 12
     }
    ],
    "specialAttacks": [],
@@ -2233,7 +2297,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -2274,13 +2339,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": -1
     }
    ],
    "specialAttacks": [
@@ -2321,13 +2388,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 9
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -2378,13 +2447,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 13
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -2435,7 +2506,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -2476,7 +2548,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 25
     }
    ],
    "specialAttacks": [
@@ -2531,7 +2604,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d4",
-     "plus": 12
+     "plus": 12,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -2579,19 +2653,22 @@
      "name": "wings",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -2633,7 +2710,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -2675,7 +2753,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -2783,7 +2862,8 @@
      "name": "morningstar",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 5
     }
    ],
    "specialAttacks": [],
@@ -2822,13 +2902,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 8
+     "plus": 8,
+     "bonus": 16
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -2871,13 +2953,15 @@
      "name": "longsword",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 7
     },
     {
      "name": "hooves",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -2915,7 +2999,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 2
+     "plus": 2,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -2961,25 +3046,29 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 12
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 12
     },
     {
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 12
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -3021,7 +3110,8 @@
      "name": "tentacles",
      "count": 2,
      "dice": "1d3",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -3063,7 +3153,8 @@
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -3109,13 +3200,15 @@
      "name": "tail slap",
      "count": 1,
      "dice": "1d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -3157,7 +3250,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -2
+     "plus": -2,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -3198,7 +3292,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": 6
+     "plus": 6,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -3244,7 +3339,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -3286,7 +3382,8 @@
      "name": "slams",
      "count": 2,
      "dice": "1d6",
-     "plus": 8
+     "plus": 8,
+     "bonus": 17
     }
    ],
    "specialAttacks": [
@@ -3331,13 +3428,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 12
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -3460,13 +3559,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 19
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "2d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 14
     }
    ],
    "specialAttacks": [
@@ -3519,13 +3620,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -3585,19 +3688,22 @@
      "name": "pincers",
      "count": 2,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 20
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 18
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -3660,13 +3766,15 @@
      "name": "bite",
      "count": 1,
      "dice": "4d4",
-     "plus": 5
+     "plus": 5,
+     "bonus": 14
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -3729,19 +3837,22 @@
      "name": "primary longsword",
      "count": 1,
      "dice": "2d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 25
     },
     {
      "name": "longswords",
      "count": 5,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 25
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "4d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 22
     }
    ],
    "specialAttacks": [
@@ -3804,13 +3915,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 20
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 17
     }
    ],
    "specialAttacks": [
@@ -3873,13 +3986,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": -1
+     "plus": -1,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -1
+     "plus": -1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -3938,13 +4053,15 @@
      "name": "claws",
      "count": 4,
      "dice": "2d6",
-     "plus": 10
+     "plus": 10,
+     "bonus": 15
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -3990,7 +4107,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -4054,19 +4172,22 @@
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 15
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 13
     },
     {
      "name": "talons",
      "count": 2,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -4130,7 +4251,8 @@
      "name": "short sword",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -4174,7 +4296,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -4216,7 +4339,8 @@
      "name": "claws",
      "count": 2,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -4280,7 +4404,8 @@
      "name": "glaive",
      "count": 1,
      "dice": "1d10",
-     "plus": 3
+     "plus": 3,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -4343,19 +4468,22 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 14
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 12
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "3d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -4417,7 +4545,8 @@
      "name": "chains",
      "count": 2,
      "dice": "2d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -4472,7 +4601,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 14
     }
    ],
    "specialAttacks": [
@@ -4534,13 +4664,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 13
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -4598,19 +4730,22 @@
      "name": "spiked chain",
      "count": 1,
      "dice": "2d6",
-     "plus": 15
+     "plus": 15,
+     "bonus": 25
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 22
     },
     {
      "name": "tail",
      "count": 1,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 22
     }
    ],
    "specialAttacks": [
@@ -4675,19 +4810,22 @@
      "name": "spear",
      "count": 1,
      "dice": "2d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 20
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 14
     },
     {
      "name": "tail",
      "count": 1,
      "dice": "3d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 14
     }
    ],
    "specialAttacks": [
@@ -4751,7 +4889,8 @@
      "name": "sting",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -4810,7 +4949,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -4868,25 +5008,29 @@
      "name": "claws",
      "count": 2,
      "dice": "2d8",
-     "plus": 13
+     "plus": 13,
+     "bonus": 30
     },
     {
      "name": "wings",
      "count": 2,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 28
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 28
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 28
     }
    ],
    "specialAttacks": [
@@ -4951,7 +5095,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -4997,7 +5142,8 @@
      "name": "claw",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -5040,19 +5186,22 @@
      "name": "talons",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     },
     {
      "name": "foreclaws",
      "count": 2,
      "dice": "1d3",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -5093,7 +5242,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 13
     }
    ],
    "specialAttacks": [],
@@ -5132,19 +5282,22 @@
      "name": "talons",
      "count": 1,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 9
     },
     {
      "name": "foreclaws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -5185,7 +5338,8 @@
      "name": "gore",
      "count": 1,
      "dice": "2d8",
-     "plus": 15
+     "plus": 15,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -5227,7 +5381,8 @@
      "name": "bite",
      "count": 1,
      "dice": "3d6",
-     "plus": 13
+     "plus": 13,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -5269,13 +5424,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -5316,13 +5473,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": -1
     }
    ],
    "specialAttacks": [
@@ -5363,7 +5522,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [],
@@ -5401,13 +5561,15 @@
      "name": "claws",
      "count": 2,
      "dice": "2d4",
-     "plus": 10
+     "plus": 10,
+     "bonus": 19
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -5448,7 +5610,8 @@
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -5489,13 +5652,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 13
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -5538,7 +5703,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -5579,7 +5745,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 9
+     "plus": 9,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -5620,13 +5787,15 @@
      "name": "claws",
      "count": 2,
      "dice": "2d4",
-     "plus": 8
+     "plus": 8,
+     "bonus": 20
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 14
     }
    ],
    "specialAttacks": [
@@ -5669,7 +5838,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -5711,7 +5881,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -5752,13 +5923,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -5799,7 +5972,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -5843,13 +6017,15 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 8
+     "plus": 8,
+     "bonus": 18
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "2d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -5899,13 +6075,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 12
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "2d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -5948,7 +6126,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -5992,7 +6171,8 @@
      "name": "dagger",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -6041,7 +6221,8 @@
      "name": "dwarven waraxe",
      "count": 1,
      "dice": "1d10",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -6082,7 +6263,8 @@
      "name": "warhammer",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -6124,13 +6306,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -6169,7 +6353,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -6211,7 +6396,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -6253,7 +6439,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -6301,7 +6488,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 19
     }
    ],
    "specialAttacks": [
@@ -6349,7 +6537,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 23
     }
    ],
    "specialAttacks": [
@@ -6397,7 +6586,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 27
     }
    ],
    "specialAttacks": [
@@ -6445,7 +6635,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -6488,7 +6679,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -6531,7 +6723,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -6580,7 +6773,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 9
+     "plus": 9,
+     "bonus": 19
     }
    ],
    "specialAttacks": [
@@ -6629,7 +6823,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 10
+     "plus": 10,
+     "bonus": 23
     }
    ],
    "specialAttacks": [
@@ -6678,7 +6873,8 @@
      "name": "slams",
      "count": 1,
      "dice": "2d10",
-     "plus": 11
+     "plus": 11,
+     "bonus": 27
     }
    ],
    "specialAttacks": [
@@ -6727,7 +6923,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -6772,7 +6969,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -6817,7 +7015,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -6868,7 +7067,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 17
     }
    ],
    "specialAttacks": [
@@ -6919,7 +7119,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 22
     }
    ],
    "specialAttacks": [
@@ -6970,7 +7171,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 26
     }
    ],
    "specialAttacks": [
@@ -7021,7 +7223,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -7064,7 +7267,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -7107,7 +7311,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -7156,7 +7361,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 7
+     "plus": 7,
+     "bonus": 17
     }
    ],
    "specialAttacks": [
@@ -7205,7 +7411,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 8
+     "plus": 8,
+     "bonus": 21
     }
    ],
    "specialAttacks": [
@@ -7254,7 +7461,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 9
+     "plus": 9,
+     "bonus": 25
     }
    ],
    "specialAttacks": [
@@ -7303,7 +7511,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -7343,7 +7552,8 @@
      "name": "rapier",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -7386,7 +7596,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -7426,7 +7637,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -7499,7 +7711,8 @@
      "name": "morningstars",
      "count": 2,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 12
     }
    ],
    "specialAttacks": [],
@@ -7538,7 +7751,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -7589,19 +7803,22 @@
      "name": "sting",
      "count": 1,
      "dice": "2d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 7
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 5
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -7654,13 +7871,15 @@
      "name": "sting",
      "count": 1,
      "dice": "2d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -7716,13 +7935,15 @@
      "name": "sting",
      "count": 1,
      "dice": "2d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 15
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -7828,7 +8049,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 21
     }
    ],
    "specialAttacks": [
@@ -7908,7 +8130,8 @@
      "name": "tentacles",
      "count": 4,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -7949,19 +8172,22 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     },
     {
      "name": "gore",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -8008,7 +8234,8 @@
      "name": "slams",
      "count": 2,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -8055,7 +8282,8 @@
      "name": "slams",
      "count": 2,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -8103,7 +8331,8 @@
      "name": "scimitar",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -8205,13 +8434,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 0
     }
    ],
    "specialAttacks": [
@@ -8254,13 +8485,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 5
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -8304,7 +8537,8 @@
      "name": "gargantuan morningstar",
      "count": 1,
      "dice": "4d6",
-     "plus": 18
+     "plus": 18,
+     "bonus": 22
     }
    ],
    "specialAttacks": [
@@ -8348,7 +8582,8 @@
      "name": "greatsword",
      "count": 1,
      "dice": "3d6",
-     "plus": 15
+     "plus": 15,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -8391,7 +8626,8 @@
      "name": "huge greataxe",
      "count": 1,
      "dice": "3d6",
-     "plus": 13
+     "plus": 13,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -8481,7 +8717,8 @@
      "name": "greatclub",
      "count": 1,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 16
     }
    ],
    "specialAttacks": [
@@ -8522,7 +8759,8 @@
      "name": "greatclub",
      "count": 1,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 17
     }
    ],
    "specialAttacks": [
@@ -8564,7 +8802,8 @@
      "name": "greatsword",
      "count": 1,
      "dice": "4d6",
-     "plus": 21
+     "plus": 21,
+     "bonus": 26
     }
    ],
    "specialAttacks": [
@@ -8609,6 +8848,7 @@
      "count": 1,
      "dice": "1d4",
      "plus": 0,
+     "bonus": 4,
      "touch": true
     }
    ],
@@ -8663,13 +8903,15 @@
      "name": "claws",
      "count": 4,
      "dice": "1d4",
-     "plus": 6
+     "plus": 6,
+     "bonus": 12
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -8711,7 +8953,8 @@
      "name": "battleaxe",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -8749,7 +8992,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -8787,7 +9031,8 @@
      "name": "heavy pick",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -8830,7 +9075,8 @@
      "name": "morningstar",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -8868,7 +9114,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 7
+     "plus": 7,
+     "bonus": 14
     }
    ],
    "specialAttacks": [
@@ -8921,7 +9168,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -8972,7 +9220,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 11
+     "plus": 11,
+     "bonus": 23
     }
    ],
    "specialAttacks": [
@@ -9023,7 +9272,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d10",
-     "plus": 9
+     "plus": 9,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -9074,7 +9324,8 @@
      "name": "slams",
      "count": 2,
      "dice": "4d8",
-     "plus": 13
+     "plus": 13,
+     "bonus": 42
     }
    ],
    "specialAttacks": [
@@ -9125,7 +9376,8 @@
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -9168,7 +9420,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -9211,7 +9464,8 @@
      "name": "tentacles",
      "count": 4,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -9258,13 +9512,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 11
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -9307,7 +9563,8 @@
      "name": "battleaxe",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -9347,13 +9604,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 13
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -9406,7 +9665,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -9450,7 +9710,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -9493,7 +9754,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -9533,13 +9795,15 @@
      "name": "club",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 7
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -9612,7 +9876,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -9659,7 +9924,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -9706,13 +9972,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -9752,7 +10020,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -9790,7 +10059,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -1
+     "plus": -1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -9832,7 +10102,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -9873,7 +10144,8 @@
      "name": "bites",
      "count": 5,
      "dice": "1d10",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [],
@@ -9915,7 +10187,8 @@
      "name": "bites",
      "count": 6,
      "dice": "1d10",
-     "plus": 3
+     "plus": 3,
+     "bonus": 8
     }
    ],
    "specialAttacks": [],
@@ -9957,7 +10230,8 @@
      "name": "bites",
      "count": 7,
      "dice": "1d10",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     }
    ],
    "specialAttacks": [],
@@ -9999,7 +10273,8 @@
      "name": "bites",
      "count": 8,
      "dice": "1d10",
-     "plus": 4
+     "plus": 4,
+     "bonus": 11
     }
    ],
    "specialAttacks": [],
@@ -10041,7 +10316,8 @@
      "name": "bites",
      "count": 9,
      "dice": "1d10",
-     "plus": 5
+     "plus": 5,
+     "bonus": 13
     }
    ],
    "specialAttacks": [],
@@ -10083,7 +10359,8 @@
      "name": "bites",
      "count": 10,
      "dice": "1d10",
-     "plus": 5
+     "plus": 5,
+     "bonus": 14
     }
    ],
    "specialAttacks": [],
@@ -10125,7 +10402,8 @@
      "name": "bites",
      "count": 11,
      "dice": "1d10",
-     "plus": 6
+     "plus": 6,
+     "bonus": 16
     }
    ],
    "specialAttacks": [],
@@ -10167,7 +10445,8 @@
      "name": "bites",
      "count": 12,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 17
     }
    ],
    "specialAttacks": [],
@@ -10210,6 +10489,7 @@
      "count": 1,
      "dice": "5d6",
      "plus": 0,
+     "bonus": 11,
      "touch": true
     }
    ],
@@ -10314,7 +10594,8 @@
      "name": "spiked chains",
      "count": 2,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -10368,7 +10649,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     }
    ],
    "specialAttacks": [],
@@ -10409,7 +10691,8 @@
      "name": "tentacles",
      "count": 4,
      "dice": "1d6",
-     "plus": 8
+     "plus": 8,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -10453,7 +10736,8 @@
      "name": "tentacles",
      "count": 4,
      "dice": "1d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -10499,13 +10783,15 @@
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -10548,6 +10834,7 @@
      "count": 1,
      "dice": "1d4",
      "plus": 0,
+     "bonus": 3,
      "touch": true
     }
    ],
@@ -10766,7 +11053,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d3",
-     "plus": -1
+     "plus": -1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -10808,7 +11096,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -10850,7 +11139,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -10892,7 +11182,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -10934,7 +11225,8 @@
      "name": "slam",
      "count": 1,
      "dice": "2d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -10976,7 +11268,8 @@
      "name": "slam",
      "count": 1,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -11018,7 +11311,8 @@
      "name": "slam",
      "count": 1,
      "dice": "4d6",
-     "plus": 13
+     "plus": 13,
+     "bonus": 25
     }
    ],
    "specialAttacks": [
@@ -11060,7 +11354,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -11103,7 +11398,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -11147,13 +11443,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     },
     {
      "name": "slam",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -11213,7 +11511,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 17
     }
    ],
    "specialAttacks": [
@@ -11331,6 +11630,7 @@
      "count": 1,
      "dice": "2d6",
      "plus": 0,
+     "bonus": 9,
      "touch": true
     }
    ],
@@ -11381,6 +11681,7 @@
      "count": 1,
      "dice": "2d8",
      "plus": 0,
+     "bonus": 12,
      "touch": true
     }
    ],
@@ -11431,6 +11732,7 @@
      "count": 1,
      "dice": "2d8",
      "plus": 0,
+     "bonus": 19,
      "touch": true
     }
    ],
@@ -11480,7 +11782,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -11529,13 +11832,15 @@
      "name": "morningstar",
      "count": 1,
      "dice": "3d6",
-     "plus": 8
+     "plus": 8,
+     "bonus": 12
     },
     {
      "name": "and bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -11575,7 +11880,8 @@
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -11638,7 +11944,8 @@
      "name": "warhammer",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -11684,7 +11991,8 @@
      "name": "spear",
      "count": 1,
      "dice": "1d6",
-     "plus": -1
+     "plus": -1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -11723,19 +12031,22 @@
      "name": "tentacles",
      "count": 2,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 28
     },
     {
      "name": "arms",
      "count": 6,
      "dice": "1d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 23
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 23
     }
    ],
    "specialAttacks": [
@@ -11780,13 +12091,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 0
     }
    ],
    "specialAttacks": [
@@ -11828,7 +12141,8 @@
      "name": "touch",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -11870,7 +12184,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -11915,13 +12230,15 @@
      "name": "claw",
      "count": 1,
      "dice": "1d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 19
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -11989,13 +12306,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 8
+     "plus": 8,
+     "bonus": 20
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -12060,13 +12379,15 @@
      "name": "short sword",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 11
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -12115,13 +12436,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 0
     }
    ],
    "specialAttacks": [],
@@ -12159,7 +12482,8 @@
      "name": "longspear",
      "count": 1,
      "dice": "1d8",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -12195,7 +12519,8 @@
      "name": "greataxe",
      "count": 1,
      "dice": "1d12",
-     "plus": 1
+     "plus": 1,
+     "bonus": 6
     }
    ],
    "specialAttacks": [],
@@ -12236,13 +12561,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 9
+     "plus": 9,
+     "bonus": 13
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -12294,19 +12621,22 @@
      "name": "claw",
      "count": 1,
      "dice": "1d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 13
     },
     {
      "name": "greataxe",
      "count": 1,
      "dice": "1d12",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -12357,7 +12687,8 @@
      "name": "battleaxe",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -12399,7 +12730,8 @@
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -12451,13 +12783,15 @@
      "name": "battleaxe",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     },
     {
      "name": "gore",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -12509,7 +12843,8 @@
      "name": "rapier",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -12550,7 +12885,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -12602,13 +12938,15 @@
      "name": "rapier",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": -1
     }
    ],
    "specialAttacks": [
@@ -12660,7 +12998,8 @@
      "name": "glaive",
      "count": 1,
      "dice": "1d10",
-     "plus": 1
+     "plus": 1,
+     "bonus": 6
     }
    ],
    "specialAttacks": [],
@@ -12701,13 +13040,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 11
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -12761,13 +13102,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 11
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -12818,7 +13161,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -12859,7 +13203,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -12911,13 +13256,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 0
     }
    ],
    "specialAttacks": [
@@ -13002,7 +13349,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 16
+     "plus": 16,
+     "bonus": 25
     }
    ],
    "specialAttacks": [
@@ -13054,13 +13402,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 11
+     "plus": 11,
+     "bonus": 24
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -13111,7 +13461,8 @@
      "name": "greatclub",
      "count": 1,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 21
     }
    ],
    "specialAttacks": [
@@ -13156,7 +13507,8 @@
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 22
+     "plus": 22,
+     "bonus": 28
     }
    ],
    "specialAttacks": [
@@ -13208,13 +13560,15 @@
      "name": "greatclub",
      "count": 1,
      "dice": "2d8",
-     "plus": 22
+     "plus": 22,
+     "bonus": 29
     },
     {
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 23
     }
    ],
    "specialAttacks": [
@@ -13267,6 +13621,7 @@
      "count": 1,
      "dice": "1d8",
      "plus": 0,
+     "bonus": 4,
      "touch": true
     }
    ],
@@ -13322,13 +13677,15 @@
      "name": "claws",
      "count": 2,
      "dice": "2d4",
-     "plus": 5
+     "plus": 5,
+     "bonus": 10
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -13370,7 +13727,8 @@
      "name": "shortbow",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -13411,7 +13769,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -13463,7 +13822,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -13515,7 +13875,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 3
+     "plus": 3,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -13617,7 +13978,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -13673,7 +14035,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -13729,7 +14092,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -13781,7 +14145,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 3
+     "plus": 3,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -13833,7 +14198,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -13889,7 +14255,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -13941,7 +14308,8 @@
      "name": "trident",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -13980,7 +14348,8 @@
      "name": "slams",
      "count": 2,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -14025,13 +14394,15 @@
      "name": "greataxe",
      "count": 1,
      "dice": "3d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 9
     },
     {
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -14073,7 +14444,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -14116,7 +14488,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 10
+     "plus": 10,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -14165,7 +14538,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -14219,13 +14593,15 @@
      "name": "sting",
      "count": 1,
      "dice": "2d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -14272,7 +14648,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -14314,7 +14691,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -14356,7 +14734,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -14397,7 +14776,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -14457,13 +14837,15 @@
      "name": "hooves",
      "count": 2,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -14506,13 +14888,15 @@
      "name": "hooves",
      "count": 2,
      "dice": "2d6",
-     "plus": 10
+     "plus": 10,
+     "bonus": 23
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -14555,13 +14939,15 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 21
+     "plus": 21,
+     "bonus": 29
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "2d8",
-     "plus": 11
+     "plus": 11,
+     "bonus": 24
     }
    ],
    "specialAttacks": [
@@ -14623,7 +15009,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d6",
-     "plus": 16
+     "plus": 16,
+     "bonus": 24
     }
    ],
    "specialAttacks": [
@@ -14683,7 +15070,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 17
+     "plus": 17,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -14742,7 +15130,8 @@
      "name": "dagger",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -14795,7 +15184,8 @@
      "name": "greatclub",
      "count": 1,
      "dice": "2d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 8
     }
    ],
    "specialAttacks": [],
@@ -14870,7 +15260,8 @@
      "name": "greatsword",
      "count": 1,
      "dice": "3d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -14915,7 +15306,8 @@
      "name": "slam",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -14959,7 +15351,8 @@
      "name": "slam",
      "count": 1,
      "dice": "3d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 19
     }
    ],
    "specialAttacks": [
@@ -15003,7 +15396,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -15050,7 +15444,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -15098,7 +15493,8 @@
      "name": "slam",
      "count": 1,
      "dice": "2d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -15142,7 +15538,8 @@
      "name": "falchion",
      "count": 1,
      "dice": "2d4",
-     "plus": 4
+     "plus": 4,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -15181,13 +15578,15 @@
      "name": "tentacles",
      "count": 2,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": -2
     }
    ],
    "specialAttacks": [
@@ -15230,13 +15629,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -15274,13 +15675,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -15320,13 +15723,15 @@
      "name": "hooves",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": 2
+     "plus": 2,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -15367,7 +15772,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -15407,7 +15813,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -15445,7 +15852,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d3",
-     "plus": 1
+     "plus": 1,
+     "bonus": 12
     }
    ],
    "specialAttacks": [],
@@ -15488,7 +15896,8 @@
      "name": "longsword",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -15533,7 +15942,8 @@
      "name": "rapier",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -15578,7 +15988,8 @@
      "name": "sting",
      "count": 1,
      "dice": "1d3",
-     "plus": -2
+     "plus": -2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -15624,13 +16035,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 25
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 20
     }
    ],
    "specialAttacks": [
@@ -15672,13 +16085,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -15730,7 +16145,8 @@
      "name": "claws",
      "count": 4,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -15777,13 +16193,15 @@
      "name": "tail slap",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     },
     {
      "name": "claw",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -15828,7 +16246,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -15872,13 +16291,15 @@
      "name": "talons",
      "count": 2,
      "dice": "2d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 21
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 19
     }
    ],
    "specialAttacks": [],
@@ -15916,7 +16337,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -15966,7 +16388,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": 0
+     "plus": 0,
+     "bonus": -2
     }
    ],
    "specialAttacks": [
@@ -16007,13 +16430,15 @@
      "name": "trident",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -16059,13 +16484,15 @@
      "name": "spear",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 6
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -16111,13 +16538,15 @@
      "name": "spear",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 11
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "2d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -16171,7 +16600,8 @@
      "name": "tail slap",
      "count": 1,
      "dice": "2d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -16226,13 +16656,15 @@
      "name": "head butt",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     },
     {
      "name": "dagger",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": -3
     }
    ],
    "specialAttacks": [
@@ -16280,13 +16712,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -16330,6 +16764,7 @@
      "count": 1,
      "dice": "1d6",
      "plus": 0,
+     "bonus": 3,
      "touch": true
     }
    ],
@@ -16375,6 +16810,7 @@
      "count": 1,
      "dice": "1d8",
      "plus": 0,
+     "bonus": 6,
      "touch": true
     }
    ],
@@ -16419,7 +16855,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -16462,7 +16899,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -16509,7 +16947,8 @@
      "name": "slams",
      "count": 2,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 16
     }
    ],
    "specialAttacks": [],
@@ -16555,7 +16994,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -16599,7 +17039,8 @@
      "name": "scimitar",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -16649,7 +17090,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -16699,13 +17141,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 6
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -16755,13 +17199,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -16811,25 +17257,29 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     },
     {
      "name": "gore",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -16879,7 +17329,8 @@
      "name": "morningstars",
      "count": 2,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 10
     }
    ],
    "specialAttacks": [],
@@ -16930,19 +17381,22 @@
      "name": "talons",
      "count": 1,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 9
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -16992,7 +17446,8 @@
      "name": "gargantuan morningstar",
      "count": 1,
      "dice": "4d6",
-     "plus": 18
+     "plus": 18,
+     "bonus": 18
     }
    ],
    "specialAttacks": [],
@@ -17043,25 +17498,29 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 17
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 12
     },
     {
      "name": "wings",
      "count": 2,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 12
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "2d6",
-     "plus": 15
+     "plus": 15,
+     "bonus": 12
     }
    ],
    "specialAttacks": [],
@@ -17112,13 +17571,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 0
     }
    ],
    "specialAttacks": [
@@ -17160,6 +17621,7 @@
      "count": 1,
      "dice": "1d8",
      "plus": 0,
+     "bonus": 6,
      "touch": true
     }
    ],
@@ -17206,7 +17668,8 @@
      "name": "claws",
      "count": 2,
      "dice": "2d4",
-     "plus": 7
+     "plus": 7,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -17250,13 +17713,15 @@
      "name": "gore",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 15
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -17298,7 +17763,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -17341,13 +17807,15 @@
      "name": "bite",
      "count": 1,
      "dice": "1d10",
-     "plus": 5
+     "plus": 5,
+     "bonus": 13
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -17389,13 +17857,15 @@
      "name": "sting",
      "count": 1,
      "dice": "1d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 8
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -17439,7 +17909,8 @@
      "name": "short sword",
      "count": 1,
      "dice": "1d3",
-     "plus": -3
+     "plus": -3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -17490,7 +17961,8 @@
      "name": "short sword",
      "count": 1,
      "dice": "1d4",
-     "plus": -2
+     "plus": -2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -17543,7 +18015,8 @@
      "name": "short sword",
      "count": 1,
      "dice": "1d4",
-     "plus": -2
+     "plus": -2,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -17865,25 +18338,29 @@
      "name": "bite",
      "count": 1,
      "dice": "4d8",
-     "plus": 17
+     "plus": 17,
+     "bonus": 57
     },
     {
      "name": "horns",
      "count": 2,
      "dice": "1d10",
-     "plus": 8
+     "plus": 8,
+     "bonus": 52
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d12",
-     "plus": 8
+     "plus": 8,
+     "bonus": 52
     },
     {
      "name": "tail slap",
      "count": 1,
      "dice": "3d8",
-     "plus": 8
+     "plus": 8,
+     "bonus": 52
     }
    ],
    "specialAttacks": [
@@ -17949,13 +18426,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 9
+     "plus": 9,
+     "bonus": 13
     },
     {
      "name": "tendrils",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -18000,7 +18479,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -18089,13 +18569,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -18142,13 +18624,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 10
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -18192,13 +18676,15 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 20
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -18247,7 +18733,8 @@
      "name": "slams",
      "count": 2,
      "dice": "2d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -18299,7 +18786,8 @@
      "name": "trident",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -18339,19 +18827,22 @@
      "name": "club",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 1
     },
     {
      "name": "claw",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": -1
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": -1
     }
    ],
    "specialAttacks": [
@@ -18391,13 +18882,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 9
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -18441,13 +18934,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 16
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -18495,13 +18990,15 @@
      "name": "horn",
      "count": 1,
      "dice": "1d8",
-     "plus": 8
+     "plus": 8,
+     "bonus": 11
     },
     {
      "name": "hooves",
      "count": 2,
      "dice": "1d4",
-     "plus": 2
+     "plus": 2,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -18550,13 +19047,15 @@
      "name": "horn",
      "count": 1,
      "dice": "1d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 22
     },
     {
      "name": "hooves",
      "count": 2,
      "dice": "1d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 14
     }
    ],
    "specialAttacks": [
@@ -18624,7 +19123,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -18683,7 +19183,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -18725,7 +19226,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -18768,6 +19270,7 @@
      "count": 1,
      "dice": "2d8",
      "plus": 0,
+     "bonus": 16,
      "touch": true
     }
    ],
@@ -18810,7 +19313,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -18856,7 +19360,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 7
     }
    ],
    "specialAttacks": [
@@ -18899,6 +19404,7 @@
      "count": 1,
      "dice": "1d4",
      "plus": 0,
+     "bonus": 5,
      "touch": true
     }
    ],
@@ -18946,6 +19452,7 @@
      "count": 1,
      "dice": "2d6",
      "plus": 0,
+     "bonus": 16,
      "touch": true
     }
    ],
@@ -18992,25 +19499,29 @@
      "name": "sting",
      "count": 1,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 10
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 8
     },
     {
      "name": "wings",
      "count": 2,
      "dice": "1d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 8
     },
     {
      "name": "talons",
      "count": 2,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 8
     }
    ],
    "specialAttacks": [
@@ -19054,7 +19565,8 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -19099,13 +19611,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 2
+     "plus": 2,
+     "bonus": 6
     },
     {
      "name": "claws",
      "count": 3,
      "dice": "1d3",
-     "plus": 1
+     "plus": 1,
+     "bonus": 4
     }
    ],
    "specialAttacks": [],
@@ -19161,13 +19675,15 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 10
     },
     {
      "name": "claws",
      "count": 3,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 8
     }
    ],
    "specialAttacks": [],
@@ -19223,13 +19739,15 @@
      "name": "bite",
      "count": 1,
      "dice": "4d8",
-     "plus": 7
+     "plus": 7,
+     "bonus": 21
     },
     {
      "name": "claws",
      "count": 3,
      "dice": "1d6",
-     "plus": 3
+     "plus": 3,
+     "bonus": 19
     }
    ],
    "specialAttacks": [],
@@ -19285,7 +19803,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -19336,13 +19855,15 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 5
+     "plus": 5,
+     "bonus": 15
     },
     {
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -19385,7 +19906,8 @@
      "name": "spear",
      "count": 1,
      "dice": "1d6",
-     "plus": -1
+     "plus": -1,
+     "bonus": 0
     }
    ],
    "specialAttacks": [],
@@ -19433,7 +19955,8 @@
      "name": "slam",
      "count": 1,
      "dice": "1d6",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [],
@@ -19481,7 +20004,8 @@
      "name": "greatclub",
      "count": 1,
      "dice": "1d10",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [],
@@ -19529,7 +20053,8 @@
      "name": "morningstar",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [],
@@ -19577,7 +20102,8 @@
      "name": "greatclub",
      "count": 1,
      "dice": "2d8",
-     "plus": 9
+     "plus": 9,
+     "bonus": 9
     }
    ],
    "specialAttacks": [],
@@ -19625,7 +20151,8 @@
      "name": "greataxe",
      "count": 1,
      "dice": "3d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 10
     }
    ],
    "specialAttacks": [],
@@ -19673,7 +20200,8 @@
      "name": "slam",
      "count": 1,
      "dice": "2d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 11
     }
    ],
    "specialAttacks": [],
@@ -19721,7 +20249,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 7
+     "plus": 7,
+     "bonus": 16
     }
    ],
    "specialAttacks": [],
@@ -19769,7 +20298,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -19810,7 +20340,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -19852,7 +20383,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -19893,7 +20425,8 @@
      "name": "sting",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -19934,7 +20467,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -19975,7 +20509,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": 1
     }
    ],
    "specialAttacks": [],
@@ -20014,7 +20549,8 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 9
+     "plus": 9,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -20055,13 +20591,15 @@
      "name": "claws",
      "count": 1,
      "dice": "1d8",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     },
     {
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -20102,7 +20640,8 @@
      "name": "sting",
      "count": 1,
      "dice": "1d3",
-     "plus": 6
+     "plus": 6,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -20143,7 +20682,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -5
+     "plus": -5,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -20184,7 +20724,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -3
+     "plus": -3,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -20225,7 +20766,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": -1
+     "plus": -1,
+     "bonus": 2
     }
    ],
    "specialAttacks": [
@@ -20266,7 +20808,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 1
+     "plus": 1,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -20307,7 +20850,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -20348,7 +20892,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 9
+     "plus": 9,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -20389,7 +20934,8 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 12
+     "plus": 12,
+     "bonus": 18
     }
    ],
    "specialAttacks": [
@@ -20430,13 +20976,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d2",
-     "plus": -4
+     "plus": -4,
+     "bonus": 2
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "1d2",
-     "plus": -4
+     "plus": -4,
+     "bonus": -3
     }
    ],
    "specialAttacks": [
@@ -20480,13 +21028,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d3",
-     "plus": -1
+     "plus": -1,
+     "bonus": 1
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "1d3",
-     "plus": -1
+     "plus": -1,
+     "bonus": -4
     }
    ],
    "specialAttacks": [
@@ -20530,13 +21080,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d4",
-     "plus": 1
+     "plus": 1,
+     "bonus": 2
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "1d4",
-     "plus": 0
+     "plus": 0,
+     "bonus": -3
     }
    ],
    "specialAttacks": [
@@ -20580,13 +21132,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d6",
-     "plus": 4
+     "plus": 4,
+     "bonus": 6
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "1d6",
-     "plus": 2
+     "plus": 2,
+     "bonus": 1
     }
    ],
    "specialAttacks": [
@@ -20630,13 +21184,15 @@
      "name": "claws",
      "count": 2,
      "dice": "1d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 11
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "2d4",
-     "plus": 3
+     "plus": 3,
+     "bonus": 6
     }
    ],
    "specialAttacks": [
@@ -20680,13 +21236,15 @@
      "name": "claws",
      "count": 2,
      "dice": "2d6",
-     "plus": 10
+     "plus": 10,
+     "bonus": 21
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "2d6",
-     "plus": 5
+     "plus": 5,
+     "bonus": 16
     }
    ],
    "specialAttacks": [
@@ -20730,13 +21288,15 @@
      "name": "claws",
      "count": 2,
      "dice": "2d8",
-     "plus": 12
+     "plus": 12,
+     "bonus": 34
     },
     {
      "name": "sting",
      "count": 1,
      "dice": "2d8",
-     "plus": 6
+     "plus": 6,
+     "bonus": 29
     }
    ],
    "specialAttacks": [
@@ -20780,7 +21340,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d3",
-     "plus": -4
+     "plus": -4,
+     "bonus": 5
     }
    ],
    "specialAttacks": [
@@ -20823,7 +21384,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d4",
-     "plus": -2
+     "plus": -2,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -20866,7 +21428,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d6",
-     "plus": 0
+     "plus": 0,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -20909,7 +21472,8 @@
      "name": "bite",
      "count": 1,
      "dice": "1d8",
-     "plus": 3
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -20952,7 +21516,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d6",
-     "plus": 6
+     "plus": 6,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -20995,7 +21560,8 @@
      "name": "bite",
      "count": 1,
      "dice": "2d8",
-     "plus": 10
+     "plus": 10,
+     "bonus": 15
     }
    ],
    "specialAttacks": [
@@ -21038,7 +21604,8 @@
      "name": "bite",
      "count": 1,
      "dice": "4d6",
-     "plus": 15
+     "plus": 15,
+     "bonus": 26
     }
    ],
    "specialAttacks": [

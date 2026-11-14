@@ -1,6 +1,7 @@
 import { Deem } from 'deem';
 import type * as ohm from 'ohm-js';
 import type { Amount } from '../lang/parse';
+import { CastingLevel } from './casting-level';
 import { AmountActions, type Context, type DiceNode, type Die, type MeanNode } from './amount-actions';
 export type { Die } from './amount-actions';
 
@@ -27,7 +28,7 @@ export class Amounts {
   // fixed are what they come to (see AmountActions.call). A comparison or another function has no such mean, and is
   // refused rather than guessed at. Deem reads a bare "d6" as a word, so a catalog writes 1d6.
   static mean(amount: Amount | string, context: Context = {}): number {
-    const text = typeof amount === 'string' ? amount : Amounts.text(amount);
+    const text = CastingLevel.expand(typeof amount === 'string' ? amount : Amounts.text(amount));
     const match = Deem.parse(text);
     if (match.failed()) { throw new Error(`Not a number or dice: ${text}`); }
     return (Amounts.semantics()(match) as unknown as MeanNode).mean(context);

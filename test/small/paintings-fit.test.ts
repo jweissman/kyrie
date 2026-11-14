@@ -20,4 +20,9 @@ describe('a painting against the place', () => {
     expect(Fits.fits(at('the fourth level', { underground: true }), 'scene-wheat-field')).toBe(false);
     expect(Fits.fits(at('the undercroft', { underground: true }), 'scene-undercroft-dark')).toBe(true);
   });
+  // The cold playtest (CO-04): the shrine of Danu, "snowy, 7 Frost", painted as a sunlit temple of flowering urns.
+  it('is not a snowy morning\'s if it shows flowers in summer sun', () => {
+    expect(Fits.fits(at('the shrine of Danu', { weather: 'snowy' }), 'scene-temple')).toBe(false);
+    expect(Fits.fits(at('the shrine of Danu', { weather: 'fair' }), 'scene-temple')).toBe(true);
+  });
 });
