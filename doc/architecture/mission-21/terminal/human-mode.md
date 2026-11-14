@@ -168,7 +168,8 @@ The act's meaning has not changed, yet its colour has.
   by a sign, as a crossing is.
 - Meaning survives without colour either way: ⚭ is the sign in both treatments.
 
-The aesthetic line agrees: rose is "moot under TP-03". It will take the page's screenshots of the same green, in both
+The aesthetic line agrees, and calls the camp case the deciding one. The page already took that line for a person
+nearby in CN-07, who gets no rose pip, only a likeness. It will take the page's screenshots of the same green, in both
 treatments, at 1280 × 800 and 820 × 1180. The decision is the lead's and the owner's. Until then the terminal's
 default is unchanged (colour), and the icon treatment is one flag.
 
