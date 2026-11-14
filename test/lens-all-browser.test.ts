@@ -40,7 +40,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a lens unfolded whole', () => {
         }
         if (e) { e.scrollTop = e.scrollHeight; }
         const r = last.getBoundingClientRect();
-        return { scrolls: !!e, inView: r.top >= 0 && r.bottom <= innerHeight, page: document.scrollingElement!.scrollTop };
+        const page = document.scrollingElement!.scrollTop;
+        return { scrolls: !!e, inView: r.top >= 0 && r.bottom <= innerHeight, page };
       });
       expect(reached).toEqual({ scrolls: true, inView: true, page: 0 });
     }, 300000);
