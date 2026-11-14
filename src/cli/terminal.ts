@@ -12,7 +12,7 @@ import { Battle } from '../battle';
 import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
 import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone';
-import { CombatPresenter } from '../ui/combat-presenter';
+import { CombatTelling } from '../ui/combat-telling';
 import { CombatChoices, type ActionChoice } from '../ui/combat-choices';
 import { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
@@ -101,7 +101,7 @@ export class Terminal {
       if (!command) { return null; }
       const events = battle.step(command);
       commands.push(command);
-      events.forEach(e => console.log(CombatPresenter.format(e, battle.state)));
+      CombatTelling.exchanges(events, battle.state).forEach(t => console.log(t.text));
     }
     console.log(`Encounter: ${battle.state.outcome ?? 'active'}`);
     return commands;

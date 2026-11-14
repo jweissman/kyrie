@@ -166,7 +166,8 @@ describe('The Scuttled Barge: caught in Skell\'s yard', () => {
   const warriors = { party: [person('Bran', 'warrior'), { name: 'Bor', raceId: 'dwarf', classId: 'warrior' }, person('Pip', 'thief')] };
 
   it('caught, and fought, and lost: three men with boat-hooks are not a figure of speech', async () => {
-    const j = await start('a', warriors);
+    // (Seeds swapped with the case below: since a foe brought to nothing stays down (CO-05), the dice fall otherwise.)
+    const j = await start('m', warriors);
     await j.play(...caught);
     expect(City.page(j)).toContain('private tarpaulin');
     expect(City.knows(j, 'bg_skell_dived')).toBe(false);
@@ -175,7 +176,7 @@ describe('The Scuttled Barge: caught in Skell\'s yard', () => {
   }, 240000);
 
   it('caught, and fought, and won: the sons fall, and Skell is a man without a crew', async () => {
-    const j = await start('m', warriors);
+    const j = await start('a', warriors);
     await j.play(...caught, '^Attack');
     expect(City.page(j)).toContain('The fight is won');
     expect(j.offers('Pay Skell')).toBe(false);

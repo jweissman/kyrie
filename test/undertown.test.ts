@@ -61,7 +61,9 @@ describe('under the town the company begins in', () => {
     expect([kit.filter(k => k === 'lantern').length, kit.filter(k => k === 'lamp_oil').length]).toEqual([1, 2]);
   }, 120000);
   it('has the dead raised by someone, found out by the opened graves and the chalk, and laid by the candle', async () => {
-    const s = await Town.start(), c = s.campaign;
+    // (A warrior and a cleric: since a foe brought to nothing stays down (CO-05), the dice fall otherwise, and a lone
+    // first-level warrior falls to the dead that turn on the living once their raiser is down.)
+    const s = await Town.start(true), c = s.campaign;
     await Town.take(s, /^Take the shrine porch/, /^Ask .* about the noises/, /^Take the shrine porch/,
       /^Take the lych-gate/);
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__s1_u_dead_robbed'))).toBe(true);

@@ -30,12 +30,15 @@ describe('a world\'s discovery sources, checked as a country joins it', () => {
     // Among 50,000 other things said to be somewhere, eight times the sources take about the same time to check, not
     // eight times as long (read per source, 2,000 sources were a hundred million comparisons). A ratio, not a
     // budget: it holds on a slow machine as on a fast one.
+    // The best of three each: a shared lane's load had moved one timing past the bound with nothing grown.
     const time = (sources: number) => {
       const module = Sources.module(sources, 50000);
       const world = new World(module, { relations: module.initial.map(c => c.call), measures: [] });
-      const t = performance.now();
-      Discovery.validate(module, world);
-      return performance.now() - t;
+      return Math.min(...[0, 1, 2].map(() => {
+        const t = performance.now();
+        Discovery.validate(module, world);
+        return performance.now() - t;
+      }));
     };
     time(250);
     expect(time(2000) / Math.max(time(250), 1)).toBeLessThan(3);
