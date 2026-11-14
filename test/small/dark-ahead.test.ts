@@ -42,8 +42,36 @@ describe('the way into the dark, with nothing to see by', () => {
       Passage shop_door "the chandler's door" is door between store and shop.
       Person nell "Nell" at shop { Role "a chandler". Ancestry human. Peaceable. Pronouns she. Sells candle for 1 coin from 9. }
       Goal false.`);
+    // Been in the chandler's already, doing nothing there: still the way to a light (a monk in the laboratory).
+    for (let n = 0; n < 2; n++) {
+      await t.perform('go(t__shop_door,t__shop)');
+      await t.perform('go(t__shop_door,t__store)');
+    }
     Dark.out(t);
     t.follow('rats');
     expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/chandler/)]);
+  });
+  // In the dark already, the way out is through it: fled to the undercroft with the candle gone, the way up toward
+  // the one the aim names had not been gold (the laboratory).
+  it('leads out through the dark, from the dark', async () => {
+    const t = await Tiny.start(`
+      Place town "Lowmouth" is settlement.
+      Place green "the landing" is room within town at 1, 0 outdoors.
+      Place shop "Mik's salt-house" is room within town at 0, 0 indoors.
+      Place cellar "the cellar" is room within town at 1, 1 underground 1 down.
+      Place under "the undercroft" is room within town at 1, 2 underground 2 down.
+      Passage shop_door "the shop door" is door between green and shop.
+      Passage stair "the stair" is stair between green and cellar.
+      Passage arch "the arch" is passage between cellar and under.
+      Initially Assert unlit(cellar). Initially Assert unlit(under).
+      Company party "You" of 1 at green.
+      Person mik "Mik" at shop { Role "a salter". Ancestry human. Peaceable. Pronouns he. }
+      Objective job when true toward mik "Ask Mik about the rats.".
+      Goal false.`);
+    await t.perform('go(t__stair,t__cellar)');
+    await t.perform('go(t__arch,t__under)');
+    Dark.out(t);
+    t.follow('job');
+    expect(t.gold.map(a => a.label)).toEqual([expect.stringMatching(/cellar/)]);
   });
 });
