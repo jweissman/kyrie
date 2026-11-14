@@ -245,7 +245,7 @@ of the 2,000- and 4,000-room worlds found three causes:
 
 At 4,000 rooms, starting is 35× cheaper and grows linearly, and looking again is about 5× cheaper.
 
-`test/small/working-set` holds this as ratios between 100 and 3,200 rooms (25× the facts), which a loaded lane
+`test/working-set` holds this as ratios between 100 and 6,400 rooms (49× the facts, the better of two rounds), which a loaded lane
 scales alike:
 - starting stays under three times the facts ratio (about ×8 now; about ×126 with the index undone);
 - looking again stays under ×5 (×3.2 now; ×7.4 with the old join order);
