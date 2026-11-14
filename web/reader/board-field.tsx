@@ -47,8 +47,8 @@ export class BoardField {
     const land = region.land!, W = land.width;
     const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name,
       cell: a.y * W + a.x, kind: 'town', visited: a.visited, town: true, state: HexLand.town(land, a) }));
-    const marks = land.marks.map(m => ({ id: m.id, name: m.name, cell: m.cell, visited: m.visited,
-      kind: BoardField.kind(m), state: m.state }));
+    const marks = land.marks.filter(m => HexLand.alone(region, m.id)).map(m => ({ id: m.id, name: m.name,
+      cell: m.cell, visited: m.visited, kind: BoardField.kind(m), state: m.state }));
     return { key: land.cover, width: W, height: land.height, cover: land.cover, rivers: land.rivers, roads: land.roads,
       known: land.known, here: land.here, marks: [...towns, ...marks], face,
       ...region.terrain ? { terrain: region.terrain } : {} };
@@ -79,7 +79,7 @@ export class BoardField {
     const tract = Object.entries(land.goes ?? {}).find(([, goes]) => goes === id && land.tracts)?.[0];
     if (tract !== undefined) { return `hex:${tract}`; }
     const area = region.within[id] ?? id, a = region.areas.find(x => x.id === area);
-    const marked = [id, area].find(x => land.marks.some(m => m.id === x)
+    const marked = [id, area].find(x => land.marks.some(m => m.id === x && HexLand.alone(region, x))
       || region.areas.some(t => t.id === x && t.kind === 'settlement'));
     return marked ?? (a ? `hex:${a.y * land.width + a.x}` : undefined);
   }
