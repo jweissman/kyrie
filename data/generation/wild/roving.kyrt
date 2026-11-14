@@ -21,7 +21,7 @@
     Role "a pedlar with a pack on a frame and a staff, walking the drove-ways between the farms". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful.
   }
   Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
-    says "Someone is coming the other way along the sheep-track: a pedlar, bent under a pack on a frame, who lifts {his} staff to you from a long way off." {
+    says "A pedlar is coming the other way along the sheep-track, bent under a pack on a frame, and lifts {his} staff to you from a long way off." {
     Assert at({r}, ?p). Assert roved({r}).
   }
   Topic {r}_news with {r} "Ask the pedlar what news there is off the roads" when not knows(actor, {site}_found) once {
@@ -63,7 +63,7 @@
   }
   Initially Set encounterXp({r}) to 40.
   Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 10 and able({r})
-    says "Something grey moves at the edge of sight, and is gone, and comes again: two wolves, keeping pace with you a long stone's throw off." {
+    says "Two grey wolves keep pace with you a long stone's throw off, now in sight and now gone." {
     Assert at({r}, ?p). Assert roved({r}).
   }
 >> danger

@@ -40,7 +40,7 @@
   Observe {w}_foot_scene at {w}_foot when true "The bottom of the shaft opens on a gallery cut through rock so hard it rings. Far above, a square of grey that is the lift-head.".
   Observe {w}_dressing_scene at {w}_dressing when true "A long hall where the ore was broken and sorted: stone tables, troughs, hammers rusted to the stone. In a corner, a furnace of fire-brick, cold for a thousand years.".
   Observe {w}_door_scene at {w}_door_room when true "The last gallery ends at a door of iron set into the rock, taller than two men. Three bars as thick as a man's leg lie across it in iron hasps, on this side. The air by it is cold enough to see your breath.".
-  Observe {w}_vein_scene at {w}_vein when true "Beyond the fall the gallery follows a vein of something pale through the rock, glinting where your light touches it.".
+  Observe {w}_vein_scene at {w}_vein when true "Beyond the fall the gallery follows a vein of pale ore through the rock, glinting where your light touches it.".
   Thing {w}_cage "the iron lift-cage" on {w}_shaft {
     State jammed blocking "The lift-cage is somewhere at the bottom of the shaft; its chains are rusted fast on the great wheel.".
     State working "The lift-cage rides the shaft on its chains, and the great wheel is free to wind it up and let it down.".

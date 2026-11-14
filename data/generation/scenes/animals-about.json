@@ -1,0 +1,17 @@
+{
+  "about": "The animals about a settlement, as Community tells them: the dog of the house where travellers sleep, each its own way ({Dog} is how it is spoken of, {inn} the house, {their} its pronoun), and a cat about the place, each her own way and in any weather. An animal is told by what it is, not by a name nobody has said (doc/authoring/narratology.md). Moved out of TypeScript (DN-06).",
+  "innDogs": [
+    "{Dog} lies across the doorstep of {inn} with {their} chin on {their} paws, and watches who comes.",
+    "{Dog} sleeps against the wall of {inn} with one ear up for the door.",
+    "{Dog}, a rough-coated hound, sits by the door of {inn}, thumping {their} tail on the step.",
+    "{Dog} noses along the foot of the wall of {inn}, following a smell from stone to stone."
+  ],
+  "cats": [
+    "A grey cat sits on a wall-top with her eyes half shut and her tail hanging down the stones.",
+    "A tabby cat is washing a paw on a windowsill, and stops to stare at you in the middle of it.",
+    "A black cat picks her way along the top of a fence, setting each foot down with care.",
+    "A ginger cat sits in the middle of the way, and people step round her.",
+    "A white cat sits in a window between two pots of herbs, watching the street.",
+    "A thin brown cat crouches at the foot of a wall, watching a hole in it without a blink."
+  ]
+}

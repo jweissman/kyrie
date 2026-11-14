@@ -21,7 +21,7 @@ Module origin "Gone under" {
   // What is left of her there: found by one who looks, at the door she went in by, where the innkeeper says to look
   // (a lead pays off where it points: "look there, just inside" had sent the cold playtest's searcher in past the
   // door, where nothing was to be found: CO-02).
-  Discovery pin_found "In the dust at the door, where the light gives out, something small catches it: a cloak-pin of twisted copper. Your mother gave it to her the day she left." { Found by searching delving. }
+  Discovery pin_found "In the dust at the door, where the light gives out, a cloak-pin of twisted copper catches it. Your mother gave it to her the day she left." { Found by searching delving. }
   Item pin "your sister's cloak-pin" is cloak_pin at delving hidden until pin_found.
   Objective gone when not carries(party, pin) toward delving "Your sister went into {delving}, out in {where}, and did not come out. Search there for what became of her.".
   // Found, it is said and seen through, as the dead man's map's cross is: the pin taken up had ended the origin with

@@ -8,6 +8,7 @@ import { Foundings, type Founding, type FoundingPlace } from '../founding';
 import type { Region, Settlement } from '../region-writer';
 import folk from '../../../data/generation/scenes/folk.json';
 import trades from '../../../data/generation/scenes/occupations.json';
+import animals from '../../../data/generation/scenes/animals-about.json';
 
 export interface Occupation {
   name: string; background: string; painting: string; everywhere?: boolean; trades?: string[]; terrains?: string[];
@@ -226,23 +227,10 @@ export class Communities {
       b.kin = { to: a.id, as };
     }
   }
-  // How the dog of the house where travellers sleep is about the place; each its own way.
-  // An animal is told by what it is, not by a name nobody has said (doc/authoring/narratology.md: the owner, 7
-  // November, asked how the player would know a cat's name).
-  static readonly innDogs = [
-    '{Dog} lies across the doorstep of {inn} with {their} chin on {their} paws, and watches who comes.',
-    '{Dog} sleeps against the wall of {inn} with one ear up for the door.',
-    '{Dog}, a rough-coated hound, sits by the door of {inn}, thumping {their} tail on the step.',
-    '{Dog} noses along the foot of the wall of {inn}, following a smell from stone to stone.'];
-  // A cat about the place, each her own way (one cat on one wall-top was in every country: the play-structure
-  // investigation's PT-15), in any weather (a cat "in a patch of sun" in the rain: the cold evaluation).
-  static readonly cats = [
-    'A grey cat sits on a wall-top with her eyes half shut and her tail hanging down the stones.',
-    'A tabby cat is washing a paw on a windowsill, and stops to stare at you in the middle of it.',
-    'A black cat picks her way along the top of a fence, setting each foot down with care.',
-    'A ginger cat sits in the middle of the way, and people step round her.',
-    'A white cat sits in a window between two pots of herbs, watching the street.',
-    'A thin brown cat crouches at the foot of a wall, watching a hole in it without a blink.'];
+  // How the dog of the house where travellers sleep is about the place, and a cat about the place, each its own way
+  // (data/generation/scenes/animals-about.json; one cat on one wall-top was in every country: PT-15).
+  static readonly innDogs = animals.innDogs;
+  static readonly cats = animals.cats;
   // The animals about the place: the dog of the inn (or whatever house keeps travellers), always; a household's
   // animal where its work keeps one; a cat here and there.
   private static animals(s: Settlement, residents: Resident[],

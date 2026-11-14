@@ -39,21 +39,21 @@
   }
   Person {t}_anselm "Brother Anselm Tarr" at {t}_shrine {
     Role "the priest's acolyte, who has read everything the shrine owns and wants to know what it leaves out". Ancestry human. Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns he.
-    Greets "A lean young man in the shrine's grey looks up from the lamp he is trimming and does not smile, quite. 'You are not here to pray,' says Brother Anselm Tarr. 'Good. I have run out of things to say to people who are.'".
+    Greets "A lean young man in a grey habit looks up from the lamp he is trimming, unsmiling. 'You are not here to pray,' says Brother Anselm Tarr. 'Good. I have run out of things to say to people who are.'".
     Remarks at {t}_stones_tree "Brother Anselm Tarr touches one of the rags on the old tree, very gently, with two fingers. 'They are not asking for anything,' he says. 'That is what I cannot get over. Every other offering I know of is a bargain.'".
     Remarks at {t}_stones_under "Brother Anselm Tarr stops at the foot of the slab stair and takes his hand from the wall. 'These were somebody's dead,' he says. 'Whoever they were, I will not have it said that I walked through them like a street.'".
     Remarks at {t}_manor_kitchen "Brother Anselm Tarr is given a bowl by the cook before he has said a word, and looks at it as if it were a miracle. 'Mistress Pennick,' he says. 'I have been told you are a heretic.' 'Eat,' says Orla Pennick.".
     Joins "Brother Anselm Tarr banks the lamp, takes the grey cloak off its nail and does not look back at the shrine. 'I shall be back before the oil is,' he says. 'Or I shall write to say why.'".
     Leaves "Brother Anselm Tarr stands a moment with his eyes shut. 'I have to go and be wrong at somebody who can correct me,' he says. 'The shrine. I will keep your coin in it.'" to {t}_shrine.
   }
-  Observe {t}_anselm_seen at {t}_shrine when at({t}_anselm, {t}_shrine) "At the back of the shrine, under the lamp, a young man in the grey of the house is copying a column of figures out of the offering-book with a ruler, tutting.".
+  Observe {t}_anselm_seen at {t}_shrine when at({t}_anselm, {t}_shrine) "Under the lamp at the back, a young acolyte in a grey habit is copying the offering-book's yearly sums onto a slate.".
   Topic {t}_anselm_post with {t}_anselm "Ask Brother Anselm what he is counting" when true once {
     Says "'The offerings,' says {{t}_anselm}. 'By the year. For two hundred years there has been a coin left at the numbered stone on the old road, at the same place and in the same dish, and the number has never once fallen, in plague, in famine, in the war of the heirs. That is not piety. Piety has fashions. It is a *habit*, and I should like to know who taught it.'".
     On discuss { Assert knows(actor, {t}_coin_habit). }
   }
   Entity {t}_coin_habit: fact "The shrine's offering-book shows a coin left at the old numbered post on the road every year for two hundred years, through plague, famine and war: a habit, not a fashion of piety.".
   Person {t}_hesper "Hesper Lowe" at {t}_green {
-    Role "a boat-wright's apprentice with a drawing of a bell, who has never cast one". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
+    Role "a boat-wright's apprentice with a drawing of a bell". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
     Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks at you the way a carpenter looks at timber. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
   }
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
@@ -221,7 +221,7 @@
     On discuss { Assert willing({t}_iv, actor). Set hire({t}_iv) to 0. Retract {t}_iv_stays(party). }
   }
   Observe {t}_iv_stay_seen at {station}_office when {t}_iv_stays(party) and at({t}_iv, {station}_office) "Isaure Venn sits at the stationmaster's desk with her back to the door, copying, in a hand that gets smaller by the hour, with a lantern, three pots of ink, and the look of a person who has been given the key to the house she was born in.".
-  Observe {t}_iv_letter at {t}_taproom when {t}_iv_stays(party) "A letter in a good, small, hurried hand is pinned to the taproom's board, addressed to no one in particular and everyone who went with her: IT IS ALL HERE. DO NOT COME BACK WITHOUT THE WORKS. P.S. SEND PAPER.".
+  Observe {t}_iv_letter at {t}_taproom when {t}_iv_stays(party) "A letter in a good, small, hurried hand is pinned to the taproom's board, addressed to everyone who went with her: IT IS ALL HERE. DO NOT COME BACK WITHOUT THE WORKS. P.S. SEND PAPER.".
 --- isaure plain 1 unless station
   Person {t}_iv "Isaure Venn" at {t}_taproom {
     Role "a scholar of the old script, who has been turned back from the hill twice". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful. Pronouns she.

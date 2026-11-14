@@ -63,7 +63,7 @@
         "manner": "proud",
         "side": "company"
       },
-      "text": "{Actor} [straighten|straightens] from the blow as if it were nothing. It was not nothing."
+      "text": "{Actor} [straighten|straightens] from the blow, hurt and hiding it."
     },
     {
       "id": "hurt.kyr.acerbic.1",
@@ -71,7 +71,7 @@
         "manner": "acerbic",
         "side": "company"
       },
-      "text": "‘Oh, well struck,’ [say|says] {actor} to no one in particular, and [spit|spits] out blood."
+      "text": "‘Oh, well struck,’ [say|says] {actor}, and [spit|spits] out blood."
     },
     {
       "id": "hurt.kyr.compassionate.1",

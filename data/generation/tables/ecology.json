@@ -411,7 +411,7 @@
         },
         {
           "_key": "curlew",
-          "text": "Somewhere out on the moor a curlew calls, and another answers."
+          "text": "Out on the moor a curlew calls, and another answers."
         },
         {
           "_key": "rabbit",
@@ -425,7 +425,7 @@
         },
         {
           "_key": "crow",
-          "text": "Rooks walk the furrows behind nobody, looking for what the plough turned up."
+          "text": "Rooks walk the new-ploughed furrows for grubs."
         },
         {
           "_key": "fox",
@@ -457,7 +457,7 @@
         },
         {
           "_key": "rat",
-          "text": "Rats have been at something just inside."
+          "text": "Rats have gnawed a dead bird just inside."
         }
       ],
       "barrow": [
@@ -507,7 +507,7 @@
         },
         {
           "_key": "hyena",
-          "text": "Something laughed out in the dunes last night; this morning there are prints round the fire."
+          "text": "A laughing cry came out of the dunes last night; this morning there are prints round the fire."
         }
       ]
     }

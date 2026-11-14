@@ -167,7 +167,7 @@
       ],
       "smoky": [
         "smoke",
-        "Smoke hangs in the air, from somewhere."
+        "Smoke hangs in the air, and the wind brings the smell of burning."
       ]
     }
   },
@@ -252,9 +252,9 @@
         "roof": "Rain drums on the shutters."
       },
       "smoky": {
-        "green": "Smoke hangs over the roofs, from somewhere upwind.",
-        "road": "Smoke hangs in the air, from somewhere.",
-        "wild": "Smoke hangs in the air, from somewhere.",
+        "green": "Smoke from a fire upwind hangs over the roofs.",
+        "road": "Smoke hangs in the air, and the wind brings the smell of burning.",
+        "wild": "Smoke hangs in the air, and the wind brings the smell of burning.",
         "roof": ""
       },
       "snowy": {
@@ -270,7 +270,7 @@
         "roof": "The storm shakes the shutters, and the fire gutters in the draught."
       },
       "sunny": {
-        "green": "The sun is warm on the walls, and on the backs of whoever is out in it.",
+        "green": "The sun is warm on the walls.",
         "road": "The sun is warm, and the shadows are short.",
         "wild": "The sun is warm, and the shadows are short.",
         "roof": ""

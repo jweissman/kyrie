@@ -115,7 +115,7 @@
         "moment": "first",
         "manner": "cheerful"
       },
-      "text": "{Actor} looks up and smiles as if you were the best thing to happen all morning. ‘Hello! What can I do?’"
+      "text": "{Actor} looks up and smiles broadly. ‘Hello! What can I do?’"
     },
     {
       "id": "address.first.cheerful.5",
@@ -355,7 +355,7 @@
         "moment": "first",
         "manner": "proud"
       },
-      "text": "{Actor} looks at you as if deciding whether you are worth a whole sentence."
+      "text": "{Actor} looks at you a long moment before speaking."
     },
     {
       "id": "address.again.proud",
@@ -371,7 +371,7 @@
         "moment": "again",
         "manner": "proud"
       },
-      "text": "‘You again,’ [say|says] {actor}, as if granting it."
+      "text": "‘You again,’ [say|says] {actor}, flatly."
     },
     {
       "id": "address.first.acerbic",

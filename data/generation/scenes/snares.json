@@ -17,7 +17,7 @@
       ]
     },
     "tripwire": {
-      "sign": "Something catches the light low across the way: a wire, at the height of an ankle.",
+      "sign": "A wire catches the light low across the way, at the height of an ankle.",
       "seen": "The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.",
       "ways": [
         { "id": "spring", "label": "Hook the wire with the pole and pull, from well back", "needing": "pole", "to": "drawn" },
@@ -54,6 +54,7 @@
       ]
     },
     "enchanted object": {
+      "_literary": "An enchanted thing is told as what it seems, an ordinary thing that hums, until it is understood: its \"something\" and \"whatever\" are what the company does not yet know.",
       "sign": "Something stands in the way that has no business there: an ordinary-looking thing that hums when you come near it.",
       "seen": "The thing is set exactly where anyone going through must knock against it. Whatever is in it is waiting to be knocked over; a pole would do it as well as a passing hip.",
       "ways": [
