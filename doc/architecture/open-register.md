@@ -899,3 +899,18 @@ a three-sentence budget does not catch it. Less text also helps performance at t
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
 | IG-01 | The opening (stab, title, creation, first scene, first acts) as one interaction instrument: focus, selection, preview, commitment, response, continuation. Read as controller inputs; one design language across title, creation and scene; hold-to-commit as the sustained-act ring. Deliverables: an unedited recording from the deployed page, a candid critique, and the smallest intervention prototyped | open | P1 | M21, aesthetic |
+
+## 38. The first fifteen minutes, deepened (the owner, 14 November)
+
+`mission-21/first-fifteen.md`: seven properties the laboratory proves, each by a walk and a spec.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| FF-01 | Time and absence matter: something in the undertown moves on without the company, and a returning player finds it changed and told | open | P1 | M21, playability |
+| FF-02 | Knowledge enables better decisions: a fact learned above opens a better way below, and the walk that knows it fares measurably better | open | P1 | M21, playability |
+| FF-03 | Retreat can be satisfying: going back up keeps what was learned, and a second descent is better prepared | open | P1 | M21, playability, rules (BP-04) |
+| FF-04 | Two materially different solutions genuinely work (force and craft), both paid, and the world remembers which | open | P1 | M21, playability |
+| FF-05 | NPC actions stay legible: every act in the first quarter-hour is announced by something seen first | open | P1 | M21, playability |
+| FF-06 | Consequences create the next undertaking, in the world's own words | open | P1 | M21, playability |
+| FF-07 | A dead character becomes part of the continuing country: the cairn, the pack where they fell, the merchant who remembers, the unfinished job as a lead | open | P1 | M21, playability, lead (engine) |
+
