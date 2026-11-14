@@ -41,7 +41,7 @@
       "seen": [
         "{Name} leans in a dark doorway, watching who passes.",
         "{Name} the {trade} is shuffling a worn pack of cards one-handed.",
-        "{Name} glances at your purse, then at your face, then away, as if neither had interested {them}."
+        "{Name} glances at your purse, then at your face, then away."
       ],
       "talk": [
         "'I'm a {trade},' says {Name}, 'which is a respectable word for what I am.'",

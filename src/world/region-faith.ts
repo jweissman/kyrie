@@ -79,7 +79,7 @@ export class RegionFaith {
   // notes on seeing it, not in the telling of it (doc/authoring/narratology.md).
   static lines(s: Settlement, cult: Cult, at = `${s.id}_shrine`, wayside?: string): string[] {
     const q = JSON.stringify, altar = `${s.id}_altar`, seat = cult.seat.charAt(0).toUpperCase() + cult.seat.slice(1);
-    const text = wayside ? `By the track stands ${wayside}: ${/^[aeiou]/.test(cult.look) ? 'an' : 'a'} ${cult.look} ${cult.form}, small and weathered, with offerings of ${s.trade} before it.`
+    const text = wayside ? `By the track stands ${wayside}, a small weathered ${cult.called}. Offerings of ${s.trade} lie before it.`
       : `${seat}: the ${cult.called} of ${cult.name}, ${cult.title}. ${cult.practice} `
         + `Offerings of ${s.trade} lie before it.`;
     const whose = `The ${cult.called} of ${cult.name} at ${s.name}`;

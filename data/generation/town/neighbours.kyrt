@@ -53,7 +53,7 @@
   }
   Entity {t}_coin_habit: fact "The shrine's offering-book shows a coin left at the old numbered post on the road every year for two hundred years, through plague, famine and war: a habit, not a fashion of piety.".
   Person {t}_hesper "Hesper Lowe" at {t}_green {
-    Role "a boat-wright's apprentice with a drawing of a bell, who has never cast one". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
+    Role "a boat-wright's apprentice with a drawing of a bell". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
     Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks at you the way a carpenter looks at timber. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
   }
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {

@@ -110,7 +110,7 @@
   Observe {t}_manor_boy_after at {t}_manor_kitchen when {t}_boy_well(party) "Wimble is at the table peeling onions with a ferocity that makes the cook raise an eyebrow, and humming nothing at all. When he sees you he gets up and gives you, solemnly, the only thing he has in his pocket, which is a clean pebble.".
   // ---- The road-wood: who owns the timber along the old road?
   Person {t}_reeve "Aldous Fenn" at {t}_green {
-    Role "reeve of the wood-wardens, who regulate who cuts what in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
+    Role "reeve of the wood-wardens, who license the cutting in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
     Greets "Aldous Fenn looks you over with the air of a man sizing up timber. 'You'll be walking out to the Hall, I suppose. Everyone with boots does.'".
   }
   Relation {t}_roadwood_open(group). Relation {t}_roadwood_shared(group). Relation {t}_roadwood_hall(group).

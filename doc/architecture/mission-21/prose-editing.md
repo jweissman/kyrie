@@ -20,8 +20,8 @@ is on the `prose-edit` branch, in the batches `ci/prose-1`, `ci/prose-2`, `ci/pr
   thing, readable on a look.
 - The voice is a sober, particular English, nearer a careful travel writer than fantasy pastiche.
 
-The ratchet started at 1,144 heavy sentences in the first hour (1,141 measured). It now stands at 1,066 of 7,522
-(14.2 %).
+The ratchet started at 1,144 heavy sentences in the first hour (1,141 measured). It now stands at 1,031 of 7,569
+(13.6 %).
 
 ## Before and after
 
@@ -106,33 +106,65 @@ Where the edits went:
 - the shop scenes;
 - the settlement and weather lines;
 - single standing lines in `troubles`, `ties`, `outskirts` and `outskirts-deep`;
-- the posting-house's rooms and the mine's rooms, each told in short sentences;
+- the posting-house's rooms, and the rooms of the four generated dungeons (mine, barrow, waterworks, singing hall),
+  each told in short sentences;
 - the stray "something"s in the voice tables and the fellows.
 
 Spoken replies (named topics) were left nearly whole. They are chosen reading, and their humour is the speakers'.
 
-## What the data cannot fix
+## What TypeScript assembled, and what became of it
 
-These sentences are assembled in TypeScript, so editing the tables cannot reach them.
+These sentences are put together in TypeScript, so editing the tables could not reach them.
 
-- **The wayside shrine.** `RegionFaith.lines` (`src/world/region-faith.ts`) builds "By the track stands {wayside}: a
-  {look} {form}, small and weathered, with offerings of {trade} before it." It still uses Orsino's form word
-  ("obelisk", "mural", "fountain") and look adjective, because no seat is described there. The town shrine's frame is
-  fixed: it takes its name from the seat's tag.
-- **The gardens.** `RegionGrowth.lines` (`src/world/region-growth.ts`) rewrites a plant's " here" as " in the gardens
-  about the green", so a stand written for the wild reads "grows in the gardens about the green in a dense clump".
-  More seriously, its choice of garden plants looks only at the habitat and the rock. Bamboo, cinnamon and amaranth
-  grow in a northern fishing town. That is a coherence fault (climate), not a prose one, and needs a climate or region
-  filter on `planted`.
-- **The crowd roll.** `Narrator` (`src/presentation/narrator.ts:327`) joins everyone present into "Here are A, the
-  reeve of …; B, a boat-wright's apprentice …; and C …", one sentence with five semicolons on Lowmouth's green. The
-  roles read well alone. The chain belongs in People rows (the density audit's §look).
-- **Prose held in TypeScript.** The inn's dogs and the town's cats are string arrays in
-  `src/world/community/community.ts` (`dogs`, `cats`), and the notice line is in `region-undertown.ts`. Their wording
-  is now plain, but they should move to `data/` with the rest.
-- **The shrine's lead sentence.** It is "{seat}: the {called} of {god}, {title}." The Orsino title ("Lord of Nature",
-  "Goddess of Light") is generic pastiche. A god's epithet belongs to the canon's deity entry (`Canon.deities`), not
-  to a title built from its domain.
+- **The shrine's frame** (fixed). `RegionFaith.lines` (`src/world/region-faith.ts`) built "{seat}: the {look} {form}
+  of {god}". That gave "A well-head …: the well-kept fountain of Nodens", a sentence that contradicts itself. Each
+  seat in `faith.json` is now tagged with what it is called (`[water|well-head]`). The thing, the telling and its
+  history take that name, and `test/small/shrine-named` holds it.
+- **The wayside shrine** (fixed). "By the track stands {wayside}: a {look} {form}, small and weathered, with
+  offerings …" now reads "By the track stands the wayside shrine of Nodens, a small weathered well-head. Offerings of
+  salt lie before it."
+- **The crowd roll** (fixed). `Narrator` (`src/presentation/narrator.ts`, `roll`) joined everyone present into "Here
+  are A, the reeve …; B, …; and C …", one sentence with five semicolons on Lowmouth's green. Now each of the first
+  three is a short sentence with what they are, and the rest are named in one more. `test/small/roll-plain` holds it.
+  Lowmouth now reads: "Aldous Fenn, the reeve of the wood-wardens, who license the cutting in the woods round
+  Lowmouth, is here. Hesper Lowe, a boat-wright's apprentice with a drawing of a bell, is here. A drover's boy of
+  fourteen, seen on the hill the morning after the herd crossed it, is here. So are Absalom Gosse, Hepzibah Dimmock
+  and Jem Pudding." Three first-town roles were shortened to suit.
+- **Prose held in TypeScript** (moved). The inn's dogs and the town's cats were string arrays in
+  `src/world/community/community.ts`. They are now `data/generation/scenes/animals-about.json`.
+- **The gardens** (left; CO-18, the lead). `RegionGrowth.lines` (`src/world/region-growth.ts`) rewrites a plant's
+  " here" as " in the gardens about the green". Its choice of garden plants looks only at habitat and rock, so bamboo,
+  cinnamon and amaranth grow in a northern fishing town. That is a coherence fault of climate, not of prose.
+- **The notice by the well** (reworded, still in TS). The line is in `src/world/region-undertown.ts`.
+- **The shrine's title** (left). The lead sentence is "{seat}: the {called} of {god}, {title}." The title ("Lord of
+  Nature", "Goddess of Light") is Orsino's, built from the god's domain. That is generic pastiche, and a god's epithet
+  belongs to the canon's deity entry (`Canon.deities`).
+
+## The pins (attention economy)
+
+Two cheap pins would have caught what this pass fixed. Both read data and are held at honest baselines.
+
+- **`test/small/clause-load`** (existing). It counts the heavy sentences in the first hour's tables. It was held at
+  1,144 and is now 1,031 of 7,569 (13.6 %).
+- **`test/small/empty-words`** (new; `bun scripts/empty-words.ts [--show=…]` is its worklist). It runs three
+  ratchets over the same tables, with speech passed over:
+  - **indeterminate**: narration that names nothing ("whatever", "something", "someone", "nobody in particular").
+    This is the owner's "garlands of whatever is in flower". The baseline is 304.
+  - **similes**: the "as if" / "as though" tic, mostly whimsy tagged onto a plain act ("as though it owed them
+    money"). The baseline is 89, now 85.
+  - **stock**: a sentence of eight words or more said word for word in more than one table. One camp was told alike
+    in every kind of dungeon. The baseline was 10; it is 9 now that each dungeon's camp has its own detail.
+
+  A deliberate exception is declared in the data, not whitelisted in the test. In JSON it is an object with a
+  `"_literary"` reason; the first is snares.json's enchanted object, told as what it seems until it is understood.
+  In Kyr it is a line under a `// literary:` comment.
+
+  "In the grey of the house" is mannered rather than indeterminate, so no word list catches it. That stays an
+  editor's judgment. The pins hold the class that can be measured.
+- **In play**, the playability line's experience matrix (`scripts/experience-matrix.ts`; its baseline is in
+  `terminal/experience.md`) already counts heavy unasked sentences and echoes within five turns. Its c3 baseline was
+  19 heavy in 30 turns. These data pins are the authoring side of the same family, so there is no second play
+  counter.
 
 ## What still reads badly in data, and is left
 
@@ -140,8 +172,8 @@ These sentences are assembled in TypeScript, so editing the tables cannot reach 
   often good. Their weight is length: long compound sentences in observations and greetings. They are quoted by
   journeys and drive aims, so they want an author's pass with the playability line rather than mechanical splitting.
   `undertown.kyrt` (DN-03, the laboratory) was left to that line.
-- **The other generated dungeons** (`deep/waterworks.json`, `barrow.json`, `singing.json`) are heavy in the same way
-  the mine was: specific nouns in four-clause sentences. They want the same two-sentence split.
+- **The dungeons' examinations** (the closer looks and finds in `deep/*.json`) are still long. They are chosen
+  reading, so they were left whole.
 - **The voice tables' greetings** (`data/voice/address.json`) are manner by design ("'Back for more of my wisdom'"). A
   few are winking. Trim them when DN-05 shortens greetings.
 - **The snares and wonders** (`scenes/snares.json`, `scenes/wonders.json`) keep "something" and "whatever" on purpose:
