@@ -25,6 +25,8 @@ export interface Measures {
   // Gate 1's blockers by class (doc/architecture/mission-21/consolidated.md, "Two gates"), and whether the walk
   // carried an intention of its own to a consequence (an aim it followed seen through).
   blockers: Record<Blocker, number>; consequence: boolean;
+  // What the screens showed that the game did not keep (Promises.broken), each the first turn it was found.
+  broken: { turn: number; text: string; at: string }[];
 }
 
 // Gate 1's classes of blocker the runner can see: an act offered that could not be done or was refused (unpursuable),
@@ -102,7 +104,8 @@ export class RunnerWalk {
       retreats: walk.turns.filter(t => t.scene.prose.some(l => /clear of the fight|gets? away/.test(l))).length,
       deadEnds: walk.turns.filter(t => !t.end && !t.offer.primary.length).length, loops: this.loops(walk.chosen),
       aimsSaid: new Set(walk.turns.flatMap(t => t.aim ?? [])).size, lost: this.lost(walk), lostAt: this.lostTurns(walk),
-      ended: !!walk.turns.at(-1)?.end, blockers: this.blockers(walk), consequence: this.consequence(walk) };
+      ended: !!walk.turns.at(-1)?.end, blockers: this.blockers(walk), consequence: this.consequence(walk),
+      broken: this.broken(walk) };
   }
   // Each turn after the first: whether what came of its act told anything not told before; lines said again on any
   // later turn; and the outcomes that restated one.
@@ -128,8 +131,17 @@ export class RunnerWalk {
   private static blockers(walk: Walk): Record<Blocker, number> {
     const error = walk.error ?? '';
     return { 'creation': 0, 'no way forward': walk.turns.filter(t => !t.end && !t.offer.primary.length).length,
-      'unpursuable': this.lost(walk) + Number(/^(not offered|could not be done)/.test(error)),
+      'unpursuable': this.lost(walk) + this.broken(walk).length + Number(/^(not offered|could not be done)/.test(error)),
       'crash': Number(!!error && !/^(not offered|could not be done)/.test(error)), 'hang': 0 };
+  }
+  private static broken(walk: Walk): { turn: number; text: string; at: string }[] {
+    const seen = new Set<string>(), out: { turn: number; text: string; at: string }[] = [];
+    for (const t of walk.turns) {
+      for (const text of t.broken ?? []) {
+        if (!seen.has(text)) { seen.add(text); out.push({ turn: t.turn, text, at: t.scene.lines[0] ?? '' }); }
+      }
+    }
+    return out;
   }
   // An aim followed on one turn, and on a later one gone from those held: seen through (or ended by the world).
   private static consequence(walk: Walk): boolean {
