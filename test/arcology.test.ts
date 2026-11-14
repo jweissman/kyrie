@@ -106,11 +106,16 @@ describe('finding the House', () => {
     const town = p!.bindings.town!, site = p!.bindings.works!;
     const j = await House.start('kahitude');
     await j.play(`>${town}_taproom`);
-    expect(j.offers('Ask about the bend in the old road')).toBe(true);
-    await j.play('Ask about the bend in the old road');
-    expect(House.is(j, 'knows', 'party', 'rumour')).toBe(true);
+    // The keepers have a good deal to tell, so it is asked for as news, one thing at a time (NewsFold; the owner, 15
+    // November): asked after again, it tells the next, until the bend and the hum are both heard.
+    expect(j.offers('for news')).toBe(true);
+    const heard = () => House.is(j, 'knows', 'party', 'rumour') && House.is(j, 'knows', 'party', 'hum_talk');
+    for (let asked = 0; asked < 24 && !heard() && j.offers('for news'); asked++) { await j.play('for news'); }
+    // The last one or two are asked by name again (a person with only a few keeps them).
+    if (!House.is(j, 'knows', 'party', 'hum_talk')) { await j.play('Ask about the hum'); }
+    if (!House.is(j, 'knows', 'party', 'rumour')) { await j.play('Ask about the bend in the old road'); }
     // The hook that names the culvert reveals the hidden way; the one that names the hum does not.
-    await j.play('Ask about the hum');
+    expect(House.is(j, 'knows', 'party', 'rumour')).toBe(true);
     expect(House.is(j, 'knows', 'party', 'hum_talk')).toBe(true);
     const arrived = await j.play(`>${site}`);
     expect(arrived).toMatch(/fallen walls/);

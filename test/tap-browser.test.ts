@@ -40,7 +40,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a tap commits', () => {
 
   it.each([[1280, 800, false], [820, 1180, true]] as const)('at %ix%i (touch: %s)', async (width, height, touch) => {
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height },
-      { site, pointer: touch, query: '?world=kite' });
+      { site, pointer: touch, query: '?world=kite&creation=cards' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     // A card: chosen by one press, at once; nothing on the page held or filling.
     const card = '[data-action="origin"][aria-pressed="false"]';

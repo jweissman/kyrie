@@ -24,7 +24,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place chosen on the map', () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=a1' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    await driver.click('[data-action="origin"][data-id="debt"]');
+    await driver.click('[data-option="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await page.keyboard.press('m');
@@ -47,7 +47,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place chosen on the map', () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=a1' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    await driver.click('[data-action="origin"][data-id="debt"]');
+    await driver.click('[data-option="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await page.keyboard.press('m');
