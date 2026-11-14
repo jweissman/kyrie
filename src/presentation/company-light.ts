@@ -15,7 +15,10 @@ export class CompanyLight {
     const lit = members.some(m => w.relates('brings') && w.test(ModuleWriter.call('brings', m, 'light')))
       || w.related('ownedItem').some(r => members.includes(r.args[1]!) && lights.has(w.one('itemKind', r.args[0]!) ?? ''));
     if (lit) { return {}; }
-    const dark = new Set(screen.exits.map(e => e.destination.id).filter(id => w.test(ModuleWriter.call('unlit', id))));
+    // Only from somewhere lit: in the dark already, the way out is through it (fled to the undercroft with the candle
+    // gone, the way up toward Mik had not been gold: the laboratory's lost turns).
+    const dark = new Set(screen.dark ? [] : screen.exits.map(e => e.destination.id)
+      .filter(id => w.test(ModuleWriter.call('unlit', id))));
     // And who sells a light, where the dark lies ahead: the aim's way goes by them (see Glance.reading).
     // (A kind of the catalog is kept on a shelf; a good of the module's own, sold.)
     const sellers = dark.size ? new Set([...campaign.module.initial.flatMap(c => c.kind === 'set'
