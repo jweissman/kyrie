@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer'; import { CompanyLight } from './company-light';
-import { BarredWays } from './barred-ways';
+import { Threshold } from './threshold';
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
@@ -51,7 +51,7 @@ export class Glance {
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
-    const ways = Promotion.ways(cands, acts, s);
+    const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
     // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
     // has nothing to do with it (the owner, OWN-53: restrained, and only what is truly held).
@@ -63,13 +63,13 @@ export class Glance {
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
     const need = [...this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark),
-      ...BarredWays.said(screen, reading.named)], after = told
+      ...Threshold.barred(screen, reading.named)], after = told
       && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
-      changed: lines.changed, acts, ways, offer: Offers.scene(acts, ways, cands, campaign),
+      changed: lines.changed, acts, ways, offer: Offers.scene(acts, ways, cands, { campaign, out }),
       ...this.aimed(campaign, screen, reading),
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},

@@ -32,10 +32,20 @@ export class Offers {
   static readonly types: Record<Kind, ActType> = { talk: 'talk', attack: 'fight', act: 'act', search: 'search',
     way: 'go', step: 'go', travel: 'journey', light: 'light', wait: 'wait', rest: 'wait', camp: 'wait', eat: 'care',
     tend: 'care', study: 'study', other: 'other' };
-  static scene(acts: Promoted[], ways: string[], cands: Candidate[], campaign?: Campaign): Offer {
+  // out: at the followed aim's place, the ways that leave it (see AimBusiness): with a grave choice there, that choice
+  // is promoted after what is urgent, and the way out, never gilded, after it.
+  static scene(acts: Promoted[], ways: string[], cands: Candidate[],
+    { campaign, out }: { campaign?: Campaign; out?: Set<string> } = {}): Offer {
     const live = [...cands.filter(c => !c.barred), ...this.besides(cands, campaign)];
     const byChoice = new Map(live.map(c => [c.choice, c]));
-    const led = acts.map(a => this.promoted(a, byChoice.get(a.choice)));
+    const graves = out ? live.filter(c => c.marks.some(m => m.kind === 'grave')) : [];
+    const leaves = new Set(graves.length ? acts.filter(a => out!.has(byChoice.get(a.choice)?.exit ?? '')).map(a => a.choice)
+      : []);
+    const promoted = acts.map(a => this.promoted(a, byChoice.get(a.choice))).map(o => leaves.has(o.choice)
+      ? this.ungilded(o) : o);
+    const led = [...promoted.filter(o => !leaves.has(o.choice)), ...graves.map(c => this.candidate(c)),
+      ...promoted.filter(o => leaves.has(o.choice))]
+      .filter((o, i, all) => all.findIndex(x => x.choice === o.choice) === i);
     const shown = new Set(led.map(o => o.choice)), types = new Set(led.map(o => o.type));
     // Then the leading way, then the rest in the scene's order: each of a type the four do not yet hold.
     const order = [...ways.flatMap(w => byChoice.get(w) ?? []), ...[...live].sort((a, b) => a.order - b.order)];
@@ -50,9 +60,13 @@ export class Offers {
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }
-    const primary = [...led, ...fill];
+    const primary = [...led, ...fill].slice(0, this.four);
     return { primary, rest: live.filter(c => !shown.has(c.choice)).sort((a, b) => a.order - b.order)
       .map(c => this.candidate(c)) };
+  }
+  // A way out, offered without the aim's gold.
+  private static ungilded({ continues: _, ...o }: Offered): Offered {
+    return { ...o, aspects: o.aspects.filter(x => x !== 'undertaking') };
   }
   // Every other legal choice of the scene, which the page reaches through its likenesses and lenses rather than as an
   // act (talking to whoever is here, setting a thing down, lighting a torch by day): kept in the rest, by the kind of
@@ -63,7 +77,8 @@ export class Offers {
     const had = new Set(cands.flatMap(c => [c.choice, c.command, ...Object.values(c.leaves ?? {})]));
     return PlayerView.choices(campaign).filter(r => !had.has(r.choice.id))
       .map((r, i) => ({ choice: r.choice.id, command: r.choice.id, label: r.choice.name,
-        kind: this.kind(r.action.schema), whys: [], order: cands.length + i, marks: [] }));
+        kind: this.kind(r.action.schema), whys: [], order: cands.length + i,
+        marks: r.action.grave ? [{ kind: 'grave' as const, said: r.action.grave, ask: true }] : [] }));
   }
   private static kind(schema: string | undefined): Kind {
     const s = schema ?? '';

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { BarredWays } from '../../src/presentation/barred-ways';
+import { Threshold } from '../../src/presentation/threshold';
 import type { ExitRow, Screen } from '../../src/ui/screen-types';
 
 // A way on that only something barred would cross is said with what the company needs: a ranger alone at Ironkeep
@@ -15,16 +15,16 @@ const screen = (exits: ExitRow[], site = true) => ({ place: { id: 'gate' }, exit
 
 describe('a barred way on', () => {
   it('says what crossing it needs, in a site', () => {
-    expect(BarredWays.said(screen([exit({ acts: [heave] as never }), exit({ acts: [go] as never })]), new Set()))
+    expect(Threshold.barred(screen([exit({ acts: [heave] as never }), exit({ acts: [go] as never })]), new Set()))
       .toEqual(['Heave the portcullis up and wedge it: needs brawn']);
-    expect(BarredWays.said(screen([exit({ way: 'a breach in the curtain wall',
+    expect(Threshold.barred(screen([exit({ way: 'a breach in the curtain wall',
       blocked: 'You would need climbing or a coil of rope.' })]), new Set()))
       .toEqual(['A breach in the curtain wall: needs climbing or a coil of rope']);
   });
   it('says nothing of a way open, taken, or out in a town the aim does not name', () => {
-    expect(BarredWays.said(screen([exit({ acts: [heave, go] as never })]), new Set())).toEqual([]);
-    expect(BarredWays.said(screen([exit({ acts: [heave] as never, visited: true })]), new Set())).toEqual([]);
-    expect(BarredWays.said(screen([exit({ acts: [heave] as never })], false), new Set())).toEqual([]);
-    expect(BarredWays.said(screen([exit({ acts: [heave] as never })], false), new Set(['gate']))).toHaveLength(1);
+    expect(Threshold.barred(screen([exit({ acts: [heave, go] as never })]), new Set())).toEqual([]);
+    expect(Threshold.barred(screen([exit({ acts: [heave] as never, visited: true })]), new Set())).toEqual([]);
+    expect(Threshold.barred(screen([exit({ acts: [heave] as never })], false), new Set())).toEqual([]);
+    expect(Threshold.barred(screen([exit({ acts: [heave] as never })], false), new Set(['gate']))).toHaveLength(1);
   });
 });
