@@ -11,8 +11,10 @@ import { Indicator, type Indicated } from '../../../src/presentation/indicator';
 // where it is only perceived, off along a way (faint, not dim: dim is the whole mark lowered, with nothing new). It
 // says in words what it is, for whoever cannot see the colour.
 export class Pip {
+  // Its colour as Indicator gives it, a companion apart: the page draws the companion's icon itself (see View), and
+  // so asks no companion of Indicator, whose way of drawing one has varied by client (TP-03).
   static of(aspects: readonly Aspect[] | undefined, gilded: boolean): Indicated {
-    return Indicator.of({ aspects: aspects ?? [], gilded }, 'icon');
+    return Indicator.of({ aspects: (aspects ?? []).filter(a => a !== 'companionship'), gilded });
   }
   static tone(aspects: readonly Aspect[] | undefined, gilded: boolean): Tone | undefined {
     return Pip.of(aspects, gilded).tone;

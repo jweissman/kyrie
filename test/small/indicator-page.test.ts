@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { Choice } from '../../src/ui/choice-list';
 import type { Aspect, Promoted } from '../../src/presentation/glance-types';
-import { Indicator } from '../../src/presentation/indicator';
+import { Indicator, type Carrying, type Indicated } from '../../src/presentation/indicator';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
@@ -16,13 +16,16 @@ import { WorldStage } from '../../web/reader/stage/world-stage';
 // through several; a companion its icon alone, never a colour (TP-03); nothing held. A row's mark, a likeness's pip,
 // the place's mark and the rail's pips are each the colour Indicator.of gives, so that the page and the terminal can
 // never draw one act two ways.
+// The terminal's own reading, a companion as its icon (TP-03): asked as an icon where Indicator still takes the choice,
+// and where it no longer does (term-3: always an icon), the same.
+const terminal = (c: Carrying) => (Indicator.of as (c: Carrying, companion?: 'icon') => Indicated)(c, 'icon');
 const cases: { aspects: Aspect[]; gilded: boolean }[] = [
   { aspects: ['exploration', 'payoff'], gilded: false }, { aspects: ['wonder', 'knowledge'], gilded: false },
   { aspects: ['companionship', 'knowledge'], gilded: false }, { aspects: ['companionship'], gilded: false },
   { aspects: ['payoff', 'danger'], gilded: false }, { aspects: ['exploration', 'wonder'], gilded: false },
   { aspects: ['danger', 'undertaking'], gilded: true }];
 const expected = (c: typeof cases[number]) => {
-  const tone = Indicator.of({ aspects: c.aspects, gilded: c.gilded }, 'icon').tone;
+  const tone = terminal({ aspects: c.aspects, gilded: c.gilded }).tone;
   return { tone: tone ? `var(--tone-${tone})` : undefined, companion: c.aspects.includes('companionship') };
 };
 const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'person', command: 'ask(wat, well)' };
@@ -69,7 +72,7 @@ describe('the page\'s one indicator', () => {
   });
   it('draws the rail\'s pips in it, and what is perceived that way a companion by the icon', () => {
     for (const c of cases.filter(x => !x.gilded)) {
-      const tone = Indicator.of({ aspects: c.aspects, gilded: false }, 'icon').tone;
+      const tone = terminal({ aspects: c.aspects, gilded: false }).tone;
       const lit = renderToStaticMarkup(createElement(SceneRail.Mark, { app: app([]), part: 'look', glyph: 'look_about',
         words: 'Look', standing: tone ? { lit: tone } : {} }));
       expect([c.aspects, drawn(lit, 'pip').tone]).toEqual([c.aspects, expected(c).tone]);
