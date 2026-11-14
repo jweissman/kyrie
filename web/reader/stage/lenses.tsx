@@ -5,7 +5,6 @@ import { Pip } from './pip';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
 import { Wayfinder, type Way } from './wayfinder';
-import { Emphasis } from '../../../src/presentation/emphasis';
 import { Signs } from '../../../src/presentation/signs';
 
 // The scene's lenses (the owner, 12 November: the cinematic study, made the one resting scene). Go and Look turned on
@@ -16,7 +15,8 @@ import { Signs } from '../../../src/presentation/signs';
 // faint: what is only perceived off along a way (someone who might join you, that way), its pip soft (see Perception).
 // act: the way it goes by, for a way's tile, which goes at a touch (the action system's mark); none for a thing's,
 // which is looked at.
-interface Tile { id: string; name: string; glyph?: string; picture?: string; tone?: string; faint?: boolean; dim?: boolean;
+interface Tile { id: string; name: string; glyph?: string; picture?: string; tone?: string; companion?: boolean;
+  faint?: boolean; dim?: boolean;
   chosen: boolean; pick: () => void; act?: string }
 export class Lenses {
   static Strip({ app }: { app: ReaderApp }) {
@@ -32,7 +32,7 @@ export class Lenses {
             onClick={t.pick}>
             {t.picture ? <span className="lens-face" aria-hidden="true"><img src={t.picture} alt="" decoding="async" /></span>
               : t.glyph && t.glyph !== '·' && <span className="lens-glyph" aria-hidden="true">{t.glyph}</span>}
-            {t.tone && <Pip.View fill={`var(--tone-${t.tone})`} faint={t.faint} />}
+            <Pip.View fill={t.tone && `var(--tone-${t.tone})`} companion={t.companion} faint={t.faint} />
             <span className="lens-name">{Typography.curl(Words.upper(t.name))}</span>
           </button></li>)}
       </ul>
@@ -49,7 +49,8 @@ export class Lenses {
     return Wayfinder.ways(app).map((w): Tile => ({ id: w.c.id, name: GlanceStage.short(w.name),
       glyph: Signs.way(w.whither, !!w.c.disabled),
       ...(w.aim === 'followed' ? { tone: 'gold' } : Wayfinder.tone(app, w) ? { tone: Wayfinder.tone(app, w)! }
-        : sensed(w) ? { tone: Emphasis.tones[sensed(w)!.aspect], faint: true } : {}),
+        : sensed(w) ? { ...Pip.sensed(sensed(w)!.aspect) ? { tone: Pip.sensed(sensed(w)!.aspect)! } : {},
+          companion: sensed(w)!.aspect === 'companionship', faint: true } : {}),
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
       // Touched, a way is gone by, as a likeness touched is spoken to (the owner, 12 November: a place's badge did not
       // go there); its row in Go's list still says what it is first.

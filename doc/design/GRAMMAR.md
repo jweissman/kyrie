@@ -44,6 +44,9 @@ controller of the page's own.
   nothing slides, scrolls or wipes.
 - **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold mark is ceremonial, the
   entry's alone.
+- **One indicator, one colour** (TP-02). An act's mark, a likeness's pip, the place's mark and the rail's pips take
+  the act's chief aspect by one precedence (gold, red, green, blue, violet, silver), never a gradient. A companion is
+  its icon, never a colour (TP-03). The rest is said in hidden words.
 
 ## Choosing
 
@@ -94,6 +97,7 @@ controller of the page's own.
 | The four are the engine's | `test/small/offer-page` |
 | A thing's look in place | `test/small/look-in-place` |
 | Kind words off the page | `test/small/kind-words` |
+| One indicator, one colour | `test/small/indicator-page` |
 | A tap commits | `test/tap-browser` |
 | A foregone fight and the dice | `test/small/foregone-page` |
 | Reading pages | `test/small/reading-pages` |

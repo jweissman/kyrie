@@ -8,7 +8,7 @@ import { GlanceStage } from './glance';
 import { Wayfinder, type Way } from './wayfinder';
 import { WorldStage } from './world-stage';
 import { PlaceStage } from './place-stage';
-import { Emphasis } from '../../../src/presentation/emphasis';
+import { Pip } from './pip';
 import { ChoiceRow } from './choice-row';
 import { Signs } from '../../../src/presentation/signs';
 
@@ -98,7 +98,7 @@ export class Attention {
     const rank = (w: Way) => (w.aim === 'followed' ? 0 : Wayfinder.tone(app, w) ? 1 : sensed(w) ? 2 : idle.has(Wayfinder.to(w)) ? 4 : 3);
     return [...Wayfinder.ways(app)].sort((a, b) => rank(a) - rank(b)).map(w => {
       const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = Signs.way(w.whither, !!w.c.disabled), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
-      const tone = lit ?? (far ? Emphasis.tones[far.aspect] : undefined);
+      const tone = lit ?? Pip.sensed(far?.aspect);
       return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
         note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && !lit ? Signs.sensed(far.aspect) : '', time]
           .filter(Boolean).join(' · ') || undefined,
