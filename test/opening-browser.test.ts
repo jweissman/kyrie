@@ -9,6 +9,7 @@ import { Origins } from '../src/world/origins';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Typography } from '../src/presentation/typography';
 import { MonoBrowser } from './support/mono-browser';
+import { TitlePage } from '../web/reader/title-page';
 import { Identity } from '../src/presentation/identity';
 
 // The opening and the choice of a life (Mission 18's A3 and A6), and the stage held inside the screen (A1). The studio
@@ -40,7 +41,8 @@ class Stage {
         marked: w.getAttribute('aria-current') === 'true', gold: /242, 189, 76/.test(mark) };
     }));
   }
-  // The title's sky as drawn: each layer's light, place and size, and how many of its animations run without end.
+  // The title's sky as drawn: each layer's light, place and size, and how many of its animations run without end; and
+  // the embers going up through it (IG-14), each by its own drift, its name and pace.
   static sky(page: Page) {
     return page.evaluate(() => {
       const layers = [...document.querySelectorAll<HTMLElement>('.title-sky > *')].map(l => {
@@ -52,7 +54,12 @@ class Stage {
         return target instanceof Element && !!target.closest('.title-sky, .ambient')
           && a.effect?.getTiming().iterations === Infinity;
       }).length;
-      return { layers, running };
+      const embers = document.getAnimations().flatMap(a => {
+        const target = (a.effect as KeyframeEffect | null)?.target;
+        return target instanceof Element && target.closest('.motes') && a.effect?.getTiming().iterations === Infinity
+          ? [`${(a as CSSAnimation).animationName} ${String(a.effect.getTiming().duration)}`] : [];
+      });
+      return { layers, running, embers };
     });
   }
   // Where the opening has got to, and where Begin's middle is (laid out though not yet shown).
@@ -91,16 +98,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(await page.locator('[data-action="begin"]').isVisible()).toBe(true);
     const named = [await page.getAttribute('.mark', 'aria-label'), await page.title()];
     expect(named).toEqual([Identity.spoken(), Identity.spoken()]);
-    // The way pointed at is marked at once by its own gold mark, no way moving or changing size to show it (TO-01: no
-    // moving double box, no jumping indicators, no shifting geometry). The sky behind is completely still, whatever the
-    // hand is on (IG-11): nothing in it runs, and its light is the same.
+    // The way pointed at is lit at once, no way moving or changing size to show it (TO-01: no moving double box, no
+    // jumping indicators, no shifting geometry), and in no gold (IG-15: gold is the followed step's). The sky behind
+    // answers nothing the hand does (IG-11): nothing in it runs and its light is the same; the embers go up through
+    // it by their own drift (IG-14), the same before and after.
     const before = await Stage.ways(page, true), sky = await Stage.sky(page);
     await page.hover('[data-action="options"]'); await page.waitForTimeout(400);
     const after = await Stage.ways(page);
-    expect(after.filter(w => w.marked).map(w => [w.way, w.gold])).toEqual([['options', true]]);
-    expect(after.filter(w => !w.marked).every(w => !w.gold)).toBe(true);
+    expect(after.filter(w => w.marked).map(w => w.way)).toEqual(['options']);
+    expect(after.filter(w => w.gold)).toEqual([]);
     expect(after.map(w => w.box)).toEqual(before.map(w => w.box));
-    expect([sky.running, await Stage.sky(page)]).toEqual([0, sky]);
+    expect([sky.running, sky.embers.length, await Stage.sky(page)]).toEqual([0, TitlePage.motes, sky]);
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

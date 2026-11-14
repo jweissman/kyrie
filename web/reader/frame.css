@@ -68,23 +68,22 @@ html, body { overflow: hidden; }
 .title-menu ul { list-style: none; margin: 0; padding: 0; }
 .title-menu ul { display: grid; gap: 6px; }
 /* The ways in are the game's own rows (ChoiceRow's grammar: a mark at the left, the words, a quiet line under them),
-   centred under the name. The one the hand or the keys are on has the reticule at once (IG-09), in gold, its ground
-   warmed a little and its words lit; nothing slides to it and no box moves (the owner, 14 November: "no moving double box, no
-   jumping indicators, no shifting geometry"). Ceremonial gold, the entry's alone. */
+   centred under the name: a row's ground and edge at rest, so that each reads as a choice and not a link (IG-16). The
+   one the hand or the keys are on is lit at once in the row's tint, its words full; pressed, deeper; nothing slides to
+   it and no box moves (the owner, 14 November: "no moving double box, no jumping indicators, no shifting geometry"). */
 .way-in { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: column;
   align-items: center; justify-content: center; width: 100%; min-height: 54px; padding: 9px 40px;
-  color: var(--dim); text-decoration: none; border: 0; border-radius: 10px;
-  -webkit-tap-highlight-color: transparent; }
+  color: rgba(236, 230, 217, .8); text-decoration: none; border: 1px solid var(--choice-edge); border-radius: 10px;
+  background: var(--choice-ground); -webkit-tap-highlight-color: transparent;
+  transition: background var(--quick), border-color var(--quick), color var(--quick); }
 .way-in .row-mark { position: absolute; left: 14px; top: 13px; bottom: 13px; width: 3px; border-radius: 2px;
   background: rgba(236, 230, 217, .16); }
 .way-in .n { font: 500 15px/1.2 var(--do); letter-spacing: .26em; text-transform: uppercase; padding-left: .26em; }
 .way-in .why { font: italic 400 14.5px/1.35 var(--told); color: var(--dim); margin-top: 4px; letter-spacing: 0; }
-.way-in[aria-current="true"] { color: var(--ivory);
-  background: linear-gradient(90deg, rgba(242, 189, 76, .10), rgba(242, 189, 76, .03) 55%, rgba(242, 189, 76, 0));
-  box-shadow: 0 0 34px rgba(242, 189, 76, .07); }
-.way-in[aria-current="true"] { --ret-c: rgba(242, 189, 76, .95); background: var(--reticule),
-  linear-gradient(90deg, rgba(242, 189, 76, .08), rgba(242, 189, 76, .02) 55%, rgba(242, 189, 76, 0)); }
-.way-in[aria-current="true"] .row-mark { background: rgba(242, 189, 76, .55); }
+.way-in[aria-current="true"] { color: var(--ivory); background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+.way-in:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); transition: none; }
+.way-in[aria-current="true"] .row-mark { background: rgba(236, 230, 217, .7); }
 .way-in:focus-visible { outline: none; }
 .way-in:focus-visible:not([aria-current="true"]) { color: var(--ivory); }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
@@ -96,11 +95,19 @@ html, body { overflow: hidden; }
   background: radial-gradient(ellipse 46% 30% at 50% 40%, rgba(242, 189, 76, .10), transparent 70%),
     linear-gradient(180deg, transparent 55%, rgba(10, 11, 14, .65)); }
 /* The sky the title stands under (TitlePage.Sky): the deep of it, one light low on the horizon, and the far ridge with
-   the seven towers on it. It is completely still (IG-11, the owner): no light answering focus, no haze, no drift, no
-   embers. The reticule on the way in is the one sign of focus, and the title's motion is none. */
+   the seven towers on it. It answers nothing the hand does (IG-11): no light following focus, no haze. Its one motion is
+   the embers' own (TitlePage.Motes, IG-14), going up slowly through it as they did before look-7. */
 :is(.title-page, .sky-page) { --glow-x: 50%; --glow-y: 64%; --glow: rgba(242, 189, 76, .20); --glow-2: rgba(176, 120, 60, .10);
   --deep-top: #07080b; --deep-low: #141016; --ridge: #050608; }
 .title-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.motes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.motes i { position: absolute; left: var(--x); bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%;
+  background: var(--gold-bright); box-shadow: 0 0 8px var(--gold); opacity: 0;
+  animation: mote var(--t) linear var(--d) infinite; }
+@keyframes mote { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: .55; }
+  70% { opacity: .3; } 100% { opacity: 0; transform: translate(4vw, -78vh); } }
+.beat-reveal .motes { animation: fade-in 3s 1s var(--ease) both; }
+.beat-dark .motes { opacity: 0; }
 .title-sky > i, .title-sky svg { position: absolute; inset: 0; display: block; }
 .title-sky .sky-deep { background: linear-gradient(180deg, var(--deep-top) 0%, var(--deep-low) 100%); }
 .title-sky .sky-light { inset: -20%; background:
@@ -178,6 +185,7 @@ html, body { overflow: hidden; }
   to { opacity: .82; letter-spacing: .5em; padding-left: .5em; filter: blur(0); } }
 @keyframes ident-out { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .title-page *, .sky-page *, .ident, .shell .ambient { animation: none !important; }
+  .motes { display: none; }
   .title-page, .title-sky * { transition: none !important; } }
 
 /* ---- Creation: the cards and almost nothing else (OWN-14). The whole screen, as the title is: dark, the country's
@@ -273,13 +281,15 @@ html, body { overflow: hidden; }
 .creation .card-name { display: flex; flex-direction: column; justify-content: flex-end; min-height: var(--name-h, auto);
   text-wrap: balance; }
 .creation .card-line { display: block; min-height: var(--line-h, auto); margin-top: 6px; }
-/* One focus mark, the grammar's (IG-02, IG-09): the card the pointer or the keys are on takes the reticule, gold at the
-   entry, at once, and moves nowhere; the chosen card alone is raised. Two states, two kinds of mark, never two outlines. */
+/* The card the pointer or the keys are on is lit in the row's tint at once, and moves nowhere; pressed, deeper; the
+   chosen card alone is edged. Two states, two kinds of mark, never two outlines (IG-02, IG-15). */
 .creation .card { position: relative; }
 .creation .card::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; display: none;
-  --ret-c: rgba(242, 189, 76, .95); --ret-l: 14px; --ret-i: 0px; background: var(--reticule); }
+  border-radius: inherit; background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
 .creation .card:is(:hover, :focus-visible) { outline: none; }
-.creation .card:is(:hover, :focus-visible)::before { display: block; }
+.creation .card:is(:hover, :focus-visible, :active)::before { display: block; }
+.creation .card:active::before { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
 .creation .cards:has(.chosen) .card:not(.chosen) { background: var(--card-quiet);
   border-color: rgba(236, 230, 217, .07); }
 .creation .cards:has(.chosen) .card:not(.chosen) .card-name { color: rgba(236, 230, 217, .8); }
@@ -315,8 +325,10 @@ html, body { overflow: hidden; }
   border-radius: 10px; font: 500 14px/1 var(--do); letter-spacing: .2em; text-transform: uppercase; box-shadow: none; }
 .creation-go .option.go::before { content: ''; position: absolute; left: 14px; top: 12px; bottom: 12px; width: 3px;
   border-radius: 2px; background: rgba(236, 230, 217, .3); }
-.creation-go .option.go:is(:hover, :focus-visible) { --ret-c: rgba(242, 189, 76, .95); background: var(--reticule),
-  linear-gradient(90deg, rgba(242, 189, 76, .1), rgba(242, 189, 76, .02) 60%, rgba(242, 189, 76, 0)); outline: none; }
+.creation-go .option.go:is(:hover, :focus-visible) { outline: none;
+  background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
+  border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+.creation-go .option.go:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
 .spells-choose { display: flex; justify-content: center; margin: 14px 0 0; }
 
 /* A school's or a domain's spells: those cast from the first, under when (at will, first level), a row each with its

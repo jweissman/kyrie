@@ -1,0 +1,98 @@
+/// <reference lib="dom" />
+import { afterAll, beforeAll, describe, it } from 'bun:test';
+import { mkdir, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import type { Page } from 'playwright-core';
+import { SiteBuild } from '../src/cli/site-build';
+import { MonoBrowser } from './support/mono-browser';
+import type { MonoDriver } from './support/mono-driver';
+
+// The buttons at rest, under the hand and pressed (IG-14..16): the title, creation, the scene, talk and the fight at a
+// laptop's 1280 by 800, each state a still. The pointer is drawn into the still where the page gives a cursor image of
+// its own (a screenshot carries no cursor), else named in the corner. Copy to test/zz-buttons.test.ts, run with
+// KYRIE_BROWSER=1 (one browser at a time), delete the copy. BUTTONS_OUT (default /var/tmp/kyrie/m21-look/buttons/now).
+const out = process.env.BUTTONS_OUT ?? '/var/tmp/kyrie/m21-look/buttons/now';
+let at = { x: 0, y: 0 };
+async function move(page: Page, selector: string) {
+  const b = (await page.locator(selector).first().boundingBox())!;
+  at = { x: Math.round(b.x + Math.min(b.width / 2, 60)), y: Math.round(b.y + b.height / 2) };
+  await page.mouse.move(at.x, at.y); await page.waitForTimeout(250);
+}
+async function shot(page: Page, name: string) {
+  await page.evaluate(({ x, y }) => {
+    document.querySelector('#zz-cursor')?.remove();
+    const under = document.elementFromPoint(x, y), cursor = under ? getComputedStyle(under).cursor : '';
+    const m = /url\("?([^")]+)"?\)\s*(\d+)?\s*(\d+)?/.exec(cursor);
+    const mark = document.createElement(m ? 'img' : 'div');
+    mark.id = 'zz-cursor';
+    Object.assign(mark.style, { position: 'fixed', zIndex: '99999', pointerEvents: 'none' });
+    if (m) {
+      (mark as HTMLImageElement).src = m[1]!;
+      Object.assign(mark.style, { left: `${x - Number(m[2] ?? 0)}px`, top: `${y - Number(m[3] ?? 0)}px` });
+    } else {
+      mark.textContent = `cursor: ${cursor || 'auto'}`;
+      Object.assign(mark.style, { left: '8px', top: '8px', font: '12px monospace', color: '#fff', background: '#000a',
+        padding: '2px 6px' });
+    }
+    document.body.append(mark);
+  }, at);
+  await page.waitForTimeout(80);
+  await page.screenshot({ path: join(out, `${name}.png`) });
+  await page.evaluate(() => document.querySelector('#zz-cursor')?.remove());
+}
+// Rest, under the hand, and held down (moved off before release, so nothing is chosen).
+async function states(page: Page, name: string, selector: string, rest = true) {
+  if (rest) { await page.mouse.move(4, 4); await page.waitForTimeout(250); at = { x: 4, y: 4 }; await shot(page, `${name}-0-rest`); }
+  await move(page, selector); await shot(page, `${name}-1-hover`);
+  await page.mouse.down(); await page.waitForTimeout(60); await shot(page, `${name}-2-press`);
+  await page.mouse.move(4, 4); await page.mouse.up(); await page.waitForTimeout(200);
+}
+async function to(page: Page, d: MonoDriver, place: string) {
+  if (await page.locator('.act.opens-go').count()) { await page.click('.opens-go'); await d.settle(); return; }
+  await page.click('.opens-go');
+  const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
+  const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
+  if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+  await page.click(row); await d.settle();
+}
+
+describe.skipIf(!process.env.KYRIE_BROWSER)('the buttons, at rest, under the hand, pressed', () => {
+  let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
+  beforeAll(async () => {
+    site = await mkdtemp(join(tmpdir(), 'kyrie-buttons-')); await mkdir(out, { recursive: true });
+    await SiteBuild.site(site, {});
+    browser = await MonoBrowser.launch();
+  }, 300000);
+  afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
+
+  it('draws each', async () => {
+    const { page, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '' });
+    await page.waitForSelector('.beat-ready', { timeout: 30000 }); await page.waitForTimeout(1500);
+    await states(page, 'a-title', '[data-action="begin"]');
+    await page.goto(page.url().replace(/\?.*$/, '') + '?world=a1');
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); await page.waitForTimeout(800);
+    await states(page, 'b-creation', '.creation .card:not(.chosen) >> nth=1');
+    await states(page, 'b-creation-next', '[data-action="next"]', false);
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 }); await d.settle(); await page.waitForTimeout(1200);
+    await states(page, 'c-scene', '.glance .led li:nth-child(2) [data-act], .glance .led li:nth-child(2) button');
+    await to(page, d, 'region__s2_green');
+    await d.talk();
+    await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'); await d.settle();
+    await page.waitForTimeout(800);
+    await states(page, 'd-talk', '.talk li:nth-child(1) [data-choice], .talk li:nth-child(1) button');
+    await d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
+    await d.away();
+    await to(page, d, 'region__s2_u_store'); await to(page, d, 'region__s2_u_cellar');
+    await d.pick(c => /light|Light/.test(c.label), 'a light');
+    await to(page, d, 'region__s2_u_warren');
+    await d.pick(c => c.id === 'region__s2_u_rats/0:Attack', 'the rats');
+    for (let i = 0; i < 200 && !((await d.inspect()).combat?.ours); i++) { await page.waitForTimeout(30); }
+    await page.waitForTimeout(900);
+    await states(page, 'e-fight', '.fight .hand-menu > button >> nth=1');
+    await page.click('.fight .hand-menu [data-action="attack"]'); await page.waitForTimeout(600);
+    await states(page, 'e-fight-aim', '.fight .foes .fighter.target >> nth=0', false);
+    await page.close();
+  }, 400000);
+});
