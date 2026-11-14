@@ -33,6 +33,17 @@ class Steady {
       scrolled: Math.round(document.scrollingElement?.scrollTop ?? 0),
     }));
   }
+  // What is drawn over again inside a card when it is chosen (a glyph's stroke drawn anew, 0.9 s, every press: the
+  // owner, 15 November, "some weird flickering animation that wasn't timed well"); a border or a glow may turn.
+  // Begun after `since` (the document timeline's time at the press), so a card's own entrance finishing is not counted.
+  static redrawn(page: Page, since: number) {
+    return page.evaluate(at => document.getAnimations().flatMap(a => {
+      const target = (a.effect as KeyframeEffect | null)?.target as Element | null;
+      return a instanceof CSSAnimation && target?.closest('.creation .card') && Number(a.startTime) >= at
+        ? [a.animationName] : [];
+    }), since);
+  }
+  static now(page: Page) { return page.evaluate(() => Number(document.timeline.currentTime)); }
   static async watch(page: Page, ms: number, into: string[]) {
     for (let t = 0; t < ms; t += 150) {
       const m = await Steady.moving(page);
@@ -69,7 +80,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the start holds still', () => {
       const cards = page.locator('.creation .card:not([disabled])'), n = await cards.count();
       if (n > 1) {
         const before = await Steady.cards(page);
-        await (touch ? cards.nth(n - 1).tap() : cards.nth(n - 1).click()); await page.waitForTimeout(700);
+        const pressed = await Steady.now(page);
+        await (touch ? cards.nth(n - 1).tap() : cards.nth(n - 1).click()); await page.waitForTimeout(60);
+        moved.push(...(await Steady.redrawn(page, pressed)).map(name => `step ${step}: ${name} on choosing`));
+        await page.waitForTimeout(640);
         const after = await Steady.cards(page);
         if (JSON.stringify(after) !== JSON.stringify(before)) { shuffled.push(`step ${step}: ${before.join(' ')} → ${after.join(' ')}`); }
       }

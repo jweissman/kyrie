@@ -214,8 +214,6 @@ html, body { overflow: hidden; }
 .creation .cards .card:nth-child(4) { animation-delay: 120ms; } .creation .cards .card:nth-child(5) { animation-delay: 160ms; }
 .creation .cards .card:nth-child(6) { animation-delay: 200ms; } .creation .cards .card:nth-child(7) { animation-delay: 240ms; }
 .creation .cards .card:nth-child(n+8) { animation-delay: 280ms; }
-.creation .card.chosen .glyph path { stroke-dasharray: 1; animation: glyph-draw .9s var(--ease) both; }
-@keyframes glyph-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .creation-inner, .creation .cards .card, .creation .card.chosen .glyph path {
   animation: none !important; } }
 /* Inside the safe zone, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
