@@ -138,9 +138,12 @@ export class RouteCard {
     const town = screen.path.find(p => p.kind === 'settlement')?.name;
     return `Around ${(town ?? screen.place.name).replace(/^The /, 'the ')}`;
   }
-  // Back to where the company stands, whose ways go among them (Go…), the map put away.
+  // Back to where the company stands, the map put away, with its ways open (Go…), which are what go among them: the
+  // card counts the places ("Around Harewater, 25 places") and had only shut the map, a list promised and not shown
+  // (the second blind playtest, BL-05).
   private static explore(app: ReaderApp): void {
     if (app.state.outdoors) { app.outdoor(false); } else { app.back(); }
+    app.explore('go');
   }
   // Inside a town or a site, where setting out leaves it (see MapView.leaving).
   private static inside(screen: Screen): boolean {
