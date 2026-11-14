@@ -6,6 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { Journey } from '../src/session/journey';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
+import { Kept } from './support/kept';
 
 // The Founders' Exchange as an opponent (doc/imbar/10-exchange.md): a Deem-cast organisation whose factor knows what is
 // said at her table and what her carter and hands see, and answers by what she has: a lot got out of the way, a hand
@@ -19,18 +20,26 @@ class Ring {
     const town = (w.report.placements.find(p => p.scenario === 'factors')!.bindings as { town: string }).town;
     return { w, s, j: Journey.of(s), frontier, town };
   }
-  // The Long Man's bronze goes downriver and into the factor's keeping, and the company comes to her table.
+  // The Long Man's bronze goes downriver and into the factor's keeping, and the company comes to her table: made once
+  // in the file for each country and resumed for each case after (see Kept.of), where each case had assembled the
+  // country, gone through its gates and waited the two days again. The wait is told only as it ends (==): what is read
+  // after it is the world it leaves.
   static async lotAtTable(seed: string, terrain: string, extra: string[] = []) {
-    const world = await this.world(seed, terrain, ['longman', ...extra]);
-    const { s, j, frontier, town } = world;
-    await GeneratedWorld.travel(s, 'gate_longman'); await frontier.expand(s.campaign);
-    const c = PlayerView.choices(s.campaign).find(x => /^Take the road on into Merrowdale/.test(x.choice.name))!;
-    await s.leg(c.choice.id);
-    const t0 = s.campaign.state.elapsed;
-    await j.play(`=${t0 + 330}`);
-    await GeneratedWorld.travel(s, `${town}_taproom`);
-    return { ...world, t0 };
+    const name = `exchange ${seed} ${terrain} ${extra.join(' ')}`;
+    const j = await Kept.of(name, async () => {
+      const { s, j, frontier, town } = await this.world(seed, terrain, ['longman', ...extra]);
+      await GeneratedWorld.travel(s, 'gate_longman'); await frontier.expand(s.campaign);
+      const c = PlayerView.choices(s.campaign).find(x => /^Take the road on into Merrowdale/.test(x.choice.name))!;
+      await s.leg(c.choice.id);
+      const t0 = s.campaign.state.elapsed;
+      await j.play(`==${t0 + 330}`);
+      await GeneratedWorld.travel(s, `${town}_taproom`);
+      Ring.made.set(name, { town, t0 });
+      return j;
+    });
+    return { s: j.session, j, frontier: new Frontier(seed, NodeBundleSource.shared), ...Ring.made.get(name)! };
   }
+  private static readonly made = new Map<string, { town: string; t0: number }>();
   static holds(j: Journey, name: string, ...a: string[]) { return j.holds(name, ...a); }
 }
 

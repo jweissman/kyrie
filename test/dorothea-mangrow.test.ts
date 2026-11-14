@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
+import { Kept } from './support/kept';
 
 // Mangrow (the-dorothea/mangrow.kyr): the jungle call, five days south. A heat measure (swelter) climbs in the green, a
 // river fever strikes at four and a collapse carries the company out at eight; the House's bark is shut in a strong-
@@ -30,6 +31,13 @@ const landed = async (j: Journey, netting = false, quint = false) => {
   if (quint) { await j.play('Ask her to come with you'); }
   await j.play('=until at(dorothea__hull, dorothea__mangrow_pier)', '^To the rotting pier');
 };
+// Begun, booked and landed, played once in the file for each way of coming (plain, netted, with Quint) and resumed for
+// each case after (see Kept.of): seven cases had each sailed the same five days south.
+const ashore = (netting = false, quint = false) => Kept.of(`mangrow ashore ${netting} ${quint}`, async () => {
+  const j = await start();
+  await landed(j, netting, quint);
+  return j;
+});
 
 describe('Mangrow: the call, and the way there', () => {
   it('is on the notice-board and in Bascom\'s list, costs sixteen, and is five days of sea', async () => {
@@ -74,8 +82,7 @@ describe('Mangrow: the call, and the way there', () => {
 
 describe('Mangrow: the green', () => {
   it('lets a company who walks in with nothing take the river fever, then be carried out at eight', async () => {
-    const j = await start();
-    await landed(j);
+    const j = await ashore();
     await j.play('^To the outstation yard');
     expect(j.holds(k('fevered'), 'party')).toBe(false);
     await j.play('=+14');
@@ -93,11 +100,9 @@ describe('Mangrow: the green', () => {
   }, 600000);
 
   it('halves the stings under netting, and lets the pier\'s breeze ease them', async () => {
-    const plain = await start();
-    await landed(plain);
+    const plain = await ashore();
     await plain.play('^To the outstation yard', '=+30');
-    const net = await start();
-    await landed(net, true);
+    const net = await ashore(true);
     await net.play('Put on the netting', '^To the outstation yard', '=+30');
     expect(net.holds(k('netted'), 'party')).toBe(true);
     expect(swelter(net)).toBeLessThan(swelter(plain));
@@ -108,8 +113,7 @@ describe('Mangrow: the green', () => {
 
 describe('Mangrow: the strong-room, three ways', () => {
   it('opens to Osk\'s key, when Vail is asked about his moths and Osk is tended; two bales; Quint is the other way to Vail\'s tea', async () => {
-    const j = await start();
-    await landed(j, true);
+    const j = await ashore(true);
     await j.play('Put on the netting', 'Pay Sula Weir three', '^To the creek mouth', "^To Vail's hide");
     expect(j.matches('Carry Vail.s pannikin').length).toBe(0);
     await j.play('Ask Ennis Vail what he is counting', 'Ask Ennis Vail for a pannikin', 'Carry Vail.s pannikin behind the cloth', 'Ask Perrin Osk for the strong-room key');
@@ -122,8 +126,7 @@ describe('Mangrow: the strong-room, three ways', () => {
   }, 900000);
 
   it('has Quint, who knew Vail\'s note on the unequal wings, bring the tea without a coin', async () => {
-    const j = await start();
-    await landed(j, false, true);
+    const j = await ashore(false, true);
     await j.play('Pay Sula Weir three', '^To the creek mouth', "^To Vail's hide");
     await j.play('Ask Odile Quint whether she knows Ennis Vail');
     expect(j.holds(k('vailTrusts'), 'party')).toBe(true);
@@ -132,8 +135,7 @@ describe('Mangrow: the strong-room, three ways', () => {
   }, 900000);
 
   it('lets a coin buy Vail\'s trust, and a thief work the lock, or fail it and pay in stings', async () => {
-    const j = await start();
-    await landed(j);
+    const j = await ashore();
     await j.play('^To the outstation yard');
     j.roll('fail');
     await j.play('Work the strong-room lock free');
@@ -146,21 +148,18 @@ describe('Mangrow: the strong-room, three ways', () => {
     expect(j.holds(k('storeOpen'), 'party')).toBe(true);
     await j.play('^To the strong-room', 'Carry a bale out', 'Carry a second bale out');
     expect(bales(j)).toBe(2);
-    const v = await start();
-    await landed(v);
+    const v = await ashore();
     await v.play('Pay Sula Weir three', '^To the creek mouth', "^To Vail's hide", 'Pay Ennis Vail four');
     expect(v.holds(k('vailTrusts'), 'party')).toBe(true);
   }, 900000);
 
   it('burns through with a torch for one scorched bale, and a ranger cuts a bale of her own at the creek', async () => {
-    const j = await start();
-    await landed(j);
+    const j = await ashore();
     await j.play('^To the outstation yard', 'Burn the fig off the strong-room door', '^To the strong-room');
     expect(j.matches('Carry a second bale').length).toBe(0);
     await j.play('Carry out the one bale the fire spared');
     expect(bales(j)).toBe(1);
-    const r = await start();
-    await landed(r);
+    const r = await ashore();
     await r.play('Pay Sula Weir three', '^To the creek mouth');
     expect(r.page).toContain('White underleaf');
     r.roll('pass');
@@ -185,8 +184,7 @@ describe('Mangrow: home, and left behind', () => {
   }, 300000);
 
   it('leaves a company on the pier when the ketch goes, and the Hesper takes it home for nine', async () => {
-    const j = await start();
-    await landed(j);
+    const j = await ashore();
     await j.play("=until at(dorothea__hull, dorothea__mangrow_roads)");
     expect(j.holds(k('homeward'), k('hull'))).toBe(true);
     await j.play('=+2');

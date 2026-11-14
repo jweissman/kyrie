@@ -42,6 +42,9 @@ export interface Taken {
 //   =until C   wait a while at a time until a condition holds, as the module writes it (complete(reckoner),
 //              not at(party, quay), approach(bowl) >= 1), or the book closes: a week at most
 //   =+N        wait N watches more
+//   ==…        any of these waits told only as it ends: its hours between played by the wait the page last offered,
+//              their pages not built (half a long wait's cost in a drawn country), for a spec that reads the world
+//              after days, not what each hour said (LC-04); the world and what it told are the same, step for step
 //   =21:00     wait until that time comes, or =day 3 21:00 until that time of that day (the first is day 1); and
 //              =sennet day 3 21:00 by the days of a module installed as the company went (see moduleDay)
 //   ~N         wait until watch N by dark and first light (an hour when neither is offered)
@@ -162,6 +165,7 @@ export class Journey {
   }
   async step(step: string): Promise<string> {
     if (step.startsWith('?')) { return this.optional(step.slice(1)); }
+    if (step.startsWith('==')) { return this.quietly(step.slice(1)); }
     if (step.startsWith('=until ')) { return this.untilHolds(step.slice(7)); }
     const named = /^=(?:day (\d+) )?(\d{1,2}):(\d{2})$/.exec(step);
     if (named) { return this.until(Journey.watchAt(this.watch(), named.slice(1)), false); }
@@ -328,14 +332,42 @@ export class Journey {
   }
   private static watchOf(day: number, minutes: number): number { return ((day - 1) * 1440 + minutes - 8 * 60) / 10; }
   private async until(watch: number, long: boolean): Promise<string> {
-    let told = '';
+    let told = '', hour: Offered | undefined;
     while (this.campaign.running && this.watch() < watch) {
+      const here = this.at(this.campaign.playerActor ?? 'party');
+      const between = hour && this.quiet && watch - this.watch() >= 12 ? await this.untold(hour) : undefined;
+      if (between !== undefined) {
+        told += between;
+        if (this.at(this.campaign.playerActor ?? 'party') !== here) { hour = undefined; }
+        continue;
+      }
       const pick = long ? this.find('^Wait › Until dark') ?? this.find('^Wait › Until first light')
         : this.find(watch - this.watch() >= 6 ? '^Wait › An hour' : '^Wait › A while');
       const c = pick ?? this.find('^Wait › An hour');
       if (!c) { throw Journey.unoffered(`Nothing to wait by at watch ${this.watch()}`); }
+      hour = /^Wait › An hour/.test(c.label) ? c : undefined;
       told += await this.perform(c.command, c.label);
     }
+    return told;
+  }
+  // A wait told only as it ends (==): the flag held while it is waited.
+  private quiet = false;
+  private async quietly(step: string): Promise<string> {
+    this.quiet = true;
+    try { return await this.step(step); } finally { this.quiet = false; }
+  }
+  // An hour between, waited by the choice the page last offered for it while the company stands where it was: what it
+  // told kept, its page not built. The rules still take or refuse the command (PlayerView.resolve); an hour that
+  // moves the company, or a wait they refuse, has the next hour told and the page asked again.
+  private async untold(hour: Offered): Promise<string | undefined> {
+    let event: CampaignEvent;
+    try { event = await this.session.leg(hour.command); } catch (error) {
+      if (error instanceof Error && error.message.startsWith('Unavailable command')) { return undefined; }
+      throw error;
+    }
+    const told = ' ' + [...(event.perceptions ?? []).map(p => p.text), event.response ?? ''].join(' ');
+    this.taken.push({ label: hour.label, command: hour.command, told, page: '', event });
+    this.contests(event);
     return told;
   }
   // Waits a while at a time until a condition holds, or the book closes.

@@ -1,8 +1,8 @@
 import { ModuleWriter } from '../src/lang/module-writer';
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { Journey } from '../src/session/journey';
+import type { Journey } from '../src/session/journey';
+import { Kept } from './support/kept';
 import { Placed } from './support/placed';
 import { WorldAssembler } from '../src/world/world-assembler';
 
@@ -12,11 +12,14 @@ import { WorldAssembler } from '../src/world/world-assembler';
 // journey's own path-finding, not a teleport). Nothing is given as a fact or placed.
 const warrior = [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }];
 const ranger = [{ name: 'Wren', raceId: 'human', classId: 'ranger' }];
-const start = async (seed: string, party = warrior) => Journey.of(await DrawnWorld.start(seed, { origin: 'debt', party },
-  NodeBundleSource.shared));
-const sourceOf = async (seed: string) => {
-  const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, {});
-  return [...(w.source as unknown as { files: Map<string, string> }).files.values()].join('\n');
+// Each seed's country is drawn once in the file for each company, and resumed for each case after (see Kept.drawn), and
+// its source read once (LC-04: the cases drew thorn, ember and kahitude three times each, and read each source again).
+const start = async (seed: string, party = warrior) => (await Kept.drawn(seed, { origin: 'debt', party })).journey;
+const sources = new Map<string, Promise<string>>();
+const sourceOf = (seed: string) => {
+  if (!sources.has(seed)) { sources.set(seed, WorldAssembler.assemble(seed, NodeBundleSource.shared, {})
+    .then(w => [...(w.source as unknown as { files: Map<string, string> }).files.values()].join('\n'))); }
+  return sources.get(seed)!;
 };
 const siteOf = (text: string, t: string) => new RegExp(`${t}_tie_(?:token|cairn)[^\\n]* at (w\\d+)`).exec(text)?.[1];
 const shapes = async (seed: string) => {
@@ -59,7 +62,8 @@ describe('the three forms of a tie', () => {
       c.commitWorld(c.world.apply(c.world.related('hostile').filter(r => r.args[1] === c.playerActor)
         .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('hostile', ...r.args) }))));
       expect(holds(j, 'tie_lost', s.t)).toBe(false);
-      const told = await j.play(`=+${wait}`);
+      // Told only as the wait ends (==): what the town shows is read on the green after it, and in what the wait told.
+      const told = await j.play(`==+${wait}`);
       expect(holds(j, 'tie_lost', s.t)).toBe(true);
       expect(holds(j, 'tie_done', s.t)).toBe(false);
       await j.play(`?>${s.t}_green`);

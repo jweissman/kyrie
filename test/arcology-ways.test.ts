@@ -61,7 +61,7 @@ describe('the man in the lift cage, and the shrine’s lamp-chain', () => {
     await j.play('Ride the mended lift up with');
     expect(House.is(j, 'following', 'salvager', 'party')).toBe(true);
     Placed.at(j, `region__${site}`);
-    await j.play('=+1');
+    await j.play('==+1');
     expect(House.is(j, 'state', 'salvager', 'safe_home')).toBe(true);
     Placed.at(j, `region__${town}_shrine`);
     expect(j.offers('Give')).toBe(true);
@@ -97,7 +97,7 @@ describe('the Marshal, and the figure on the green', () => {
     await House.set(j, 'rolled', 'house');
     Placed.at(j, `region__${town}_green`);
     await j.play('=until dark()').catch(() => j.play('Wait › Until dark'));
-    await j.play('=+1');
+    await j.play('==+1');
     expect(House.is(j, 'state', 'counter', 'counting')).toBe(true);
     expect(j.at('counter')).toMatch(/green$/);
     await j.play('Wind the counting figure down with the Marshal’s key');

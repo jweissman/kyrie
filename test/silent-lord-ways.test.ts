@@ -14,7 +14,7 @@ describe('the silent lord: ways in, and what they cost', () => {
   it('shuts its gate at nine: a civil word at the bell opens the wicket, and the porter remembers three crowns', async () => {
     const site = await Keep.site();
     const j = await Keep.start();
-    await j.play('=day 3 22:00');
+    await j.play('==day 3 22:00');
     Placed.at(j, `region__${site}`);
     expect(j.takes('Into the keep by the gate')).toBe(false);
     expect(j.seen()).toContain('bell-rope');
@@ -26,7 +26,7 @@ describe('the silent lord: ways in, and what they cost', () => {
     expect(j.at('party')).toBe(k('gatehouse'));
     // And the same, paid: three crowns through the grating.
     const k2 = await Keep.start();
-    await k2.play('=day 3 22:00');
+    await k2.play('==day 3 22:00');
     Placed.at(k2, `region__${site}`);
     k2.coin(10);
     await k2.play('Slip the porter three crowns');
@@ -38,7 +38,7 @@ describe('the silent lord: ways in, and what they cost', () => {
     // case is the drain's contents, past its rats, a warned fight a lone first-level warrior wins 95 times in 100
     // (94 before only a wound bled). At the first level it had rested on one of those rolls: when a blow for nothing
     // stopped making a rat save against shred, the next roll was a bleed of two at her two hit points.
-    const j = await Keep.at(`region__${await Keep.site()}`, { wait: '=day 4 10:00', level: 2 });
+    const j = await Keep.at(`region__${await Keep.site()}`, { wait: '==day 4 10:00', level: 2 });
     await j.play('Search here');
     expect(Keep.knows(j, 'drain_known')).toBe(true);
     j.give('crowbar');

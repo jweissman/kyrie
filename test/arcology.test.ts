@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'bun:test';
-import { DrawnWorld } from '../src/world/drawn-world';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Placed } from './support/placed';
 import { MapPlay } from './support/map-play';
+import { Kept } from './support/kept';
 
 // The Numbered House (data/situations/arcology, data/scenarios/arcology.scenario.json): a standing scenario, so every
 // first country holds one. These specs play its mechanisms by the page's own labels. A spec sets the company down in
@@ -23,15 +23,21 @@ class House {
     j.assert(rel, ...args.map(x => this.a(x)));
     await j.play('Wait › A while');
   }
-  static async world(seed: string) {
+  static world(seed: string) {
+    if (!House.worlds.has(seed)) { House.worlds.set(seed, House.assembled(seed)); }
+    return House.worlds.get(seed)!;
+  }
+  private static readonly worlds = new Map<string, ReturnType<typeof House.assembled>>();
+  private static async assembled(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'debt', party: [{ name: 'Mira', raceId: 'human', classId: 'warrior' }] });
     const p = w.report.placements.find(x => x.scenario === 'arcology');
     return { w, p, text: [...(w.source as unknown as { files: Map<string, string> }).files.values()].join('\n') };
   }
+  // Drawn once in the file for each seed and calling, and resumed for each case after (see Kept.drawn), and each
+  // country's source read once: six cases had drawn kahitude for a warrior, and as many assembled it again to read it.
   static async start(seed = 'kahitude', cls = 'warrior') {
-    return Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: cls }] }, NodeBundleSource.shared));
+    return (await Kept.drawn(seed, { origin: 'debt', party: [{ name: 'Mira', raceId: 'human', classId: cls }] })).journey;
   }
   static async at(room: string, seed = 'kahitude', cls = 'warrior', lit = true) {
     const j = await this.start(seed, cls);

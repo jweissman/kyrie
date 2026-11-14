@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import { Kept } from './support/kept';
 
 // Wapshott's Peregrine Circus, Phase II: The Crowned Wheel (doc/adventures/wapshotts-circus/phase2.md). Played over
 // the host towns of test/fixtures/circus. The Goose Fair is held on days 10 to 12 and the note is reckoned at ten on
@@ -33,13 +34,20 @@ class Tour {
     return this;
   }
   // To the Fair's reckoning with the company known to the circus and out of the way at the inn; then one outcome.
+  // The fortnight to the reckoning, and each outcome's days after it, are played once in the file and resumed for each
+  // case after (see Kept.of): ten cases had each waited the same twelve days for the same merged circus.
   static async reckoned(outcome: 'paid' | 'torn' | 'merged', seed = 'p2') {
-    const t = await Tour.start(seed);
-    await t.play('=day 1 14:30', '^To Wapshott', 'Talk to Ada', '>host__a_tap', '=day 10 15:00');
-    if (outcome === 'paid') { t.stage(['set', 'fairScore', 'wapshotts', '20'], ['set', 'strongbox', 'wapshotts', '30']); }
-    if (outcome === 'torn') { t.stage(['sleeExposed', 'slee'], ['set', 'strongbox', 'wapshotts', '0']); }
-    await t.play('=day 12 23:00');
-    return t;
+    return new Tour(await Kept.of(`phase II ${seed} reckoned ${outcome}`, async () => {
+      const t = new Tour(await Kept.of(`phase II ${seed} at the reckoning`, async () => {
+        const at = await Tour.start(seed);
+        await at.play('=day 1 14:30', '^To Wapshott', 'Talk to Ada', '>host__a_tap', '=day 10 15:00');
+        return at.j;
+      }));
+      if (outcome === 'paid') { t.stage(['set', 'fairScore', 'wapshotts', '20'], ['set', 'strongbox', 'wapshotts', '30']); }
+      if (outcome === 'torn') { t.stage(['sleeExposed', 'slee'], ['set', 'strongbox', 'wapshotts', '0']); }
+      await t.play('=day 12 23:00');
+      return t.j;
+    }));
   }
 }
 

@@ -15,15 +15,15 @@ describe('the silent lord: consequences that leave the keep', () => {
   it('shuts its gate to a company it has turned on, and opens it again when three days have cooled the household (the hunt is made so here: the fight that would make it is silent-lord-turns-alone)', async () => {
     const site = await Keep.site();
     const j = await Keep.start();
-    await j.play('=day 4 10:00');
+    await j.play('==day 4 10:00');
     Placed.at(j, r(site));
     expect(j.takes('Into the keep by the gate')).toBe(true);
     j.assert('keep__hunted', k('house'));
     await j.play('Wait › A while');
     expect(j.takes('Into the keep by the gate')).toBe(false);
-    await j.play('=day 5 12:00', '=day 6 12:00');
+    await j.play('==day 5 12:00', '==day 6 12:00');
     expect(j.takes('Into the keep by the gate')).toBe(false);
-    await j.play('=day 8 12:00');
+    await j.play('==day 8 12:00');
     expect(Keep.holds(j, 'hunted', k('house'))).toBe(false);
     expect(j.takes('Into the keep by the gate')).toBe(true);
   }, 300000);
@@ -35,7 +35,7 @@ describe('the silent lord: consequences that leave the keep', () => {
   it.skip('has a clerk who forges the lord’s remission for a friend, and sends a rider to the bailiff’s green', async () => {
     const far = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
       .find(x => x.scenario === 'silent-lord')!.bindings.far!;
-    const j = await Keep.at('chancery', { wait: '=day 5 09:00' });
+    const j = await Keep.at('chancery', { wait: '==day 5 09:00' });
     await j.play('Pick through the spoiled sheets', 'Put the spoiled sheets', 'Ask .* to write a remission of the levy');
     expect(Keep.carries(j, 'a remission in the lord.s hand')).toBe(true);
     await j.play('Ask .* about the hay');
@@ -52,7 +52,7 @@ describe('the silent lord: consequences that leave the keep', () => {
     await j.play('Show .* the lord.s remission');
     j.roll();
     expect(Keep.state(j, 'levy_post')).toBe(k('quashed'));
-    await j.play('=day 8 10:00', `>region__${far}_green`);
+    await j.play('==day 8 10:00', `>region__${far}_green`);
     expect(Keep.state(j, 'writ_notice')).toBe(k('posted'));
   }, 600000);
 });

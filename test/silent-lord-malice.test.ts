@@ -15,7 +15,7 @@ describe('the silent lord: malice, at the generated keep', () => {
     await j.play('Wait › A while');
     expect(Keep.knows(j, 'wire_seen')).toBe(true);
     const site = await Keep.site();
-    await j.play('=day 10 23:00');
+    await j.play('==day 10 23:00');
     Placed.at(j, `region__${site}`);
     j.roll('pass');
     await j.play('Have .* lift the wicket');

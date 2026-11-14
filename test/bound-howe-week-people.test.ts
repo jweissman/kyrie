@@ -39,7 +39,7 @@ describe('the people of the camp and the first town', () => {
     const k = await Howe.at('lee');
     k.assert('tolerates', R('foreman'), 'party');
     k.give(R('king_torc_item'));
-    await k.play('=+1').catch(() => '');
+    await k.play('==+1').catch(() => '');
     expect(Howe.holds(k, 'tolerates', R('foreman'), 'party')).toBe(false);
   }, 900000);
 

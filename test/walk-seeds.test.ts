@@ -18,7 +18,7 @@ describe('the Walk, in several countries', () => {
     const drawn = ['creed', 'flashpoint', 'patron_is', 'bound_by', 'leader_kind'].map(r => Walking.drawn(j, r).join());
     expect(drawn.every(d => d.length > 0)).toBe(true);
     expect(Walking.drawn(j, 'stance').length).toBe(4);
-    const first = String(await j.play('=day 2 10:00'));
+    const first = String(await j.play('==day 2 10:00'));
     expect(first).toMatch(/barefoot strangers/);
     expect(Walking.knows(j, 'walk_heard')).toBe(true);
     // And the aim is on the page: someone to find, and the camp is a way on from the green.

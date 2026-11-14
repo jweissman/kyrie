@@ -19,7 +19,7 @@ const carries = (j: Journey, name: string) => j.choices().some(c => new RegExp(`
 const state = (j: Journey, thing: string) => j.campaign.world.one('state', k(thing));
 // A day of the clock, at a place of the keep, with the world waited up to it first (a wait in the gatehouse after dusk
 // is a wait among the night sentries).
-const arrive = async (j: Journey, place: string, wait = '=day 10 09:00') => {
+const arrive = async (j: Journey, place: string, wait = '==day 10 09:00') => {
   await j.play(wait);
   Placed.at(j, k(place));
 };
@@ -52,7 +52,7 @@ describe('the silent lord: where it stands in the world', () => {
     const id = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
       .find(x => x.scenario === 'silent-lord')!.bindings.keep!;
     const j = await start('ranger');
-    await j.play('=day 2 09:00', '>s1_green');
+    await j.play('==day 2 09:00', '>s1_green');
     expect(knows(j, 'levy_called')).toBe(true);
     const done = await MapPlay.reach(j, `region__${id}`);
     expect(done.arrived).toBe(true);
@@ -103,17 +103,17 @@ describe('the silent lord: where it stands in the world', () => {
     await j.play('>keep__chapel', 'Ask .* to tell the hall the truth at the feast');
     expect(holds(j, 'chaplain_ready', k('house'))).toBe(true);
     // The feast: the king’s seal laid before the hall; the chaplain and the castellan tell it.
-    await j.play('>keep__hall', '=day 12 21:10');
+    await j.play('>keep__hall', '==day 12 21:10');
     await j.play('Lay the king.s own writ before the hall');
     expect(holds(j, 'unmasked', k('house'))).toBe(true);
-    await j.play('=day 12 23:30');
+    await j.play('==day 12 23:30');
     expect(holds(j, 'proclaimed', k('house'))).toBe(true);
     expect(holds(j, 'reckoned', k('house'))).toBe(true);
     expect(state(j, 'banner')).toBe(k('regency'));
     // The first town: the levy commuted, and the town’s collection for whoever told the truth.
     // The road home crosses the Fishwater by Elmham, which is in spate the morning after rain (and is then only to be
     // risked, not walked): the company waits at Elmham's green for the river to fall, as a player would.
-    await j.play('=day 13 12:00', '>region__s2_green', '=until not state(region__s3_s2_way_water, region__spate)', '>region__s1_green');
+    await j.play('==day 13 12:00', '>region__s2_green', '=until not state(region__s3_s2_way_water, region__spate)', '>region__s1_green');
     expect(state(j, 'levy_post')).toBe(k('commuted'));
   }, 900000);
 });

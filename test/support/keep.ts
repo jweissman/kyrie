@@ -1,4 +1,3 @@
-import { DrawnWorld } from '../../src/world/drawn-world';
 import { Kept } from './kept';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
@@ -10,9 +9,10 @@ import { Placed } from './placed';
 export class Keep {
   static readonly seed = 'kahitude';
   static id(name: string) { return `keep__${name}`; }
+  // Drawn once in a spec file for each calling, and resumed for each case after (see Kept.drawn).
   static async start(calling = 'warrior', seed = Keep.seed) {
-    return Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
-      party: [{ name: 'Mira', raceId: 'human', classId: calling }] }, NodeBundleSource.shared));
+    return (await Kept.drawn(seed, { origin: 'debt', party: [{ name: 'Mira', raceId: 'human', classId: calling }] }))
+      .journey;
   }
   // The generated site the keep stands on, in a seed.
   static async site(seed = Keep.seed): Promise<string> {
@@ -25,9 +25,11 @@ export class Keep {
     return j.choices().some(c => new RegExp(`^Pack › ${name}`, 'i').test(c.full));
   }
   static state(j: Journey, thing: string) { return j.campaign.world.one('state', Keep.id(thing)); }
+  // The keep's specs read the world a wait leaves, never what each hour of it said: their waits are told only as they
+  // end (==, see Journey), half a long wait's cost (LC-04).
   // The world waited up to a day and hour first (a wait in the gatehouse after dusk is a wait among the night
   // sentries), then the company put down at a place of the keep.
-  static async arrive(j: Journey, place: string, wait = '=day 10 09:00') {
+  static async arrive(j: Journey, place: string, wait = '==day 10 09:00') {
     await j.play(wait);
     Placed.at(j, Keep.id(place));
   }
@@ -39,7 +41,7 @@ export class Keep {
   Promise<Journey> {
     const kept = await Kept.drawn(o.seed ?? Keep.seed, { origin: 'debt', party: [{ name: 'Mira', raceId: 'human',
       classId: o.calling ?? 'warrior', ...o.level ? { level: o.level } : {} }] });
-    const j = await kept.play(o.wait ?? '=day 10 09:00');
+    const j = await kept.play(o.wait ?? '==day 10 09:00');
     Placed.at(j, place.startsWith('region__') ? place : Keep.id(place));
     return j;
   }

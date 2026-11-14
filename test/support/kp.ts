@@ -7,7 +7,13 @@ export const p = (x: string) => ['party', 'hour', 'day', 'watch', 'clock', 'quan
 export class KP {
   constructor(readonly j: Journey) {}
   static async start(seed = 'g1') { return new KP(await Journey.start(city, seed)); }
-  async play(...labels: string[]) { await this.j.play(...labels); return this; }
+  // A spec that reads only what the play leaves (holds, reached), never the pages, has its waits told only as they end
+  // (==, see Journey): a route's six days had been narrated hour by hour.
+  quiet = false;
+  async play(...labels: string[]) {
+    await this.j.play(...labels.map(l => this.quiet && /^=(day |\+|\d)/.test(l) ? `=${l}` : l));
+    return this;
+  }
   holds(name: string, ...args: string[]) { return this.j.holds(p(name), ...args.map(p)); }
   measure(name: string, ...args: string[]) { return this.j.measure(p(name), ...args.map(p)); }
   at(who: string) { return this.j.at(p(who)); }

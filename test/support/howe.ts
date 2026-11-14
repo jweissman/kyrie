@@ -1,6 +1,5 @@
-import { DrawnWorld } from '../../src/world/drawn-world';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
-import { Journey } from '../../src/session/journey';
+import { Kept } from './kept';
 import { Placed } from './placed';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { HoweReading, R, FOUR } from './howe-reading';
@@ -20,9 +19,10 @@ export const TOWN = (part: string) => `region__${PLACED.town}_${part}`;
 // broken; kahitude, a1, thorn and c3 sealed it from within.
 
 export class Howe extends HoweReading {
+  // Drawn once in a spec file for each company and seed, and resumed for each case after (see Kept.drawn): the howe's
+  // specs drew kahitude for the same four in nearly every case.
   static async start(party = FOUR, seed = 'kahitude') {
-    const drawn = party.length > 1 ? { party } : { origin: 'debt', party };
-    return Journey.of(await DrawnWorld.start(seed, drawn, NodeBundleSource.shared));
+    return (await Kept.drawn(seed, party.length > 1 ? { party } : { origin: 'debt', party })).journey;
   }
   static async at(place: string, party = FOUR, seed = 'kahitude') {
     const j = await this.start(party, seed);

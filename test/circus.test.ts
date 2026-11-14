@@ -8,6 +8,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 import { GeneratedWorld } from './support/generated';
+import { Kept } from './support/kept';
 
 // Wapshott's Peregrine Circus (doc/adventures/wapshotts-circus): played by the labels a player sees over a host of
 // three small towns (test/fixtures/circus), and once in a generated country, where every first country keeps it.
@@ -16,9 +17,12 @@ import { GeneratedWorld } from './support/generated';
 const host = 'test/fixtures/circus/circus.campaign.json';
 const c = (id: string) => `circus__${id}`;
 class Circus {
-  static async start(seed = 'c1') { return new Circus(await Journey.start(host, seed)); }
-  constructor(readonly j: Journey) {}
-  async play(...labels: string[]) { await this.j.play(...labels); return this; }
+  // Begun alike, played alike once in the file (see Kept): the cases begin on the same ground and the same tap-room,
+  // and wait the same days, before each goes its own way.
+  static async start(seed = 'c1') { return new Circus(await Kept.start(host, seed)); }
+  constructor(private readonly kept: Kept) {}
+  get j(): Journey { return this.kept.journey; }
+  async play(...labels: string[]) { await this.kept.play(...labels); return this; }
   holds(name: string, ...args: string[]) { return this.j.holds(c(name), ...args.map(a => a === 'party' ? 'party' : c(a))); }
   knows(fact: string) { return this.j.holds('knows', 'party', c(fact)); }
   measure(name: string, ...args: string[]) { return this.j.measure(c(name), ...args.map(a => a === 'party' ? 'party' : c(a))); }
