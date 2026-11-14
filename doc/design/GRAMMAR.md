@@ -35,8 +35,10 @@ controller of the page's own.
   - It is not yet drawn on the map's chosen hex, the rail's icons or the likenesses. The board draws its own selection in
     its own layer, and a reticule there needs drawing in that layer; the rail's marks and the round likenesses are too
     small or round for corners to read, and keep their pressed ring.
-- **Focus answers immediately.** Anything that responds to focus more slowly (the title's sky, a lens's painting, the
-  observatory later) follows it and never holds it up.
+- **Focus answers immediately.** Anything that responds to focus more slowly (a lens's painting, the observatory
+  later) follows it and never holds it up.
+- **The title's motion is none** (IG-11). Its sky is completely still: no light answering focus, no haze, drift or
+  embers. The reticule is the one sign of focus; the studio's mark cuts to the title.
 - **Nothing moves under the hand** (IG-08, IG-12). A press never changes which cards are shown or where: the deck
   is the four and "N more", opened only by the player. A passage between screens is a cut or a short fade in place;
   nothing slides, scrolls or wipes.
@@ -98,4 +100,4 @@ controller of the page's own.
 | The compass | `test/small/compass-stage` |
 | The fight's stable geometry | `test/fight-geometry-browser` |
 | Nothing moves under the hand | `test/steady-start-browser` |
-| The title's immediate focus | `test/opening-browser` |
+| The title's immediate focus, its still sky | `test/opening-browser` |
