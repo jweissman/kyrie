@@ -397,6 +397,9 @@ export class EngineHost {
       ?? screen.title.split(' — ')[0]!;
     const prologue = opening && this.apart ? Prologue.of(campaign, screen, chapter) : undefined;
     const leaf = Narrator.leaf(campaign, screen, this.told, prologue?.opening);
+    // A fight held on its own page is told there, not again over the place; one foregone, fought through as one act
+    // with no page, is told nowhere else (OP-03).
+    if (this.fought && leaf.exchange?.tone === 'fight') { leaf.exchange = { ...leaf.exchange, held: true }; }
     if (prologue && !this.log.length) {
       this.log.push(Prologue.entry(prologue.told, screen));
     }

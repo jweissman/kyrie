@@ -201,7 +201,10 @@ export class Told {
   // looked: the dice shown from the first (a deliberate look already made).
   static Happened({ exchange, said, ready, app, unsaid, looked: shown = false }: { exchange: Exchange; said?: boolean;
     ready?: string; app?: ReaderApp; unsaid?: string[]; looked?: boolean }) {
-    const fought = exchange.tone === 'fight', at = useRef<HTMLElement>(null);
+    // A fight held on its own page is not told over the place again; a foregone one, fought through with no page, is
+    // told here: every line of it had been dropped, and a press on Attack came back to the place with nothing said, as
+    // if it had left (the owner's play of 15 November, OP-03).
+    const fought = exchange.tone === 'fight' && !!exchange.held, at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const left = new Set(unsaid ?? []);
     // The outcome in prose; the dice behind it kept for a deliberate look (ToldLines, the one rule both clients keep:
