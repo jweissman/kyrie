@@ -36,11 +36,11 @@ controller of the page's own.
 
 ## Choosing
 
-- **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice.
+- **A tap chooses.** A click, a tap, or Enter or Space on the focused row: one press, one choice, done at once.
 - **Creation's cards are chosen at a tap, then Continue.** A held card had looked chosen and done nothing (BP-09).
-- **Holding is for sustained acts alone.** A search, a wait, a rest or a camp is held, and says so: a small ring at the
-  act's right, seen at rest, fills round while it is held. Let go early, nothing happens. The keys hold it as the hand
-  does.
+- **Nothing is held, for now.** A search, a wait, a rest or a camp commits at a tap like everything else (IG-07: the
+  hold did nothing at a click). A mark that fills while a costly act is pressed is the design for a future Energy cost,
+  built once, in M22.
 - **A grave act asks once before it is done.** Something that cannot be undone, a way with no coming back or a fight
   is chosen once, then again to do it.
 - **A page with nothing to decide is no act.** The opening's beats and the page after the road meeting go on by
@@ -83,7 +83,7 @@ controller of the page's own.
 | The four are the engine's | `test/small/offer-page` |
 | A thing's look in place | `test/small/look-in-place` |
 | Kind words off the page | `test/small/kind-words` |
-| The tap and the ring | `test/hold-browser` |
+| A tap commits | `test/tap-browser` |
 | A foregone fight and the dice | `test/small/foregone-page` |
 | Reading pages | `test/small/reading-pages` |
 | The compass | `test/small/compass-stage` |
