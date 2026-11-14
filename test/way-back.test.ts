@@ -20,7 +20,10 @@ describe('the way back', () => {
     // adit's padlock offered from inside the adit").
     const start = c.world.one('at', 'party')!;
     GeneratedWorld.put(s, id('_u_adit').replace(/^region__/, ''));
-    expect(PlayerView.choices(c).map(r => r.choice.name).filter(n => /padlock/i.test(n))).toEqual([]);
+    // (Its changes, picking and wrenching it: an ear to the gate from inside is another matter, and listening wants no
+    // light since 15 November.)
+    expect(PlayerView.choices(c).map(r => r.choice.name).filter(n => /padlock/i.test(n) && !/^Listen/.test(n)))
+      .toEqual([]);
     GeneratedWorld.put(s, start.replace(/^region__/, ''));
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('keyholder', 'party', id('_u_adit_lock')) }]));
     await GeneratedWorld.travel(s, id('_u_adit'));

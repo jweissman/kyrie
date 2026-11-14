@@ -57,7 +57,7 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     const t = await Awkward.start(), four = Terminal.led(t.glance, t.screen);
     const k = await Keyed.play(t.session, ['down', 'down', 'down', 'down', 'return', 'down', 'left']);
     expect(k.frames[0]!.menu.rows.map(r => r.id)).toEqual(four);
-    expect(k.frames[0]!.lines).toContain(`  … ${k.frames[0]!.menu.rest!.length} more`);
+    expect(k.frames[0]!.lines).toContain(`   ${k.frames[0]!.menu.rest!.length} more`);
     expect(k.frames[0]!.menu.rest!.length).toBeGreaterThan(10);
     // Unfolded on More, the focus on the first of the rest; folded, on More again.
     expect(k.frames[4]!.focused).toBe(TerminalPicker.more);
@@ -67,16 +67,17 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     // The list never reflows: folded again, the picker is as tall as it was.
     expect(k.frames.at(-1)!.lines.length).toBe(k.frames[0]!.lines.length);
   });
-  it('draws an act that is several things by its one colour, its icon besides, and says all of it on ?', async () => {
+  it('draws an act that is several things by its one colour, and says all of it on ?', async () => {
     const t = await Awkward.start();
     // Followed, the rows are led in a new order and the focus stays on the row it was on: up twice to the aim's.
     const k = await Keyed.play(t.session, ['a', 'return', 'up', 'up', '?']);
     const lines = k.last.lines.join('\n');
     // Followed, the aim's question is gold, said by its sign without colour, and teaches: its icon.
-    expect(lines).toMatch(/^▸✦☺ Ask Osric whether .*… ℹ$/m);
+    // Text only (the owner, 15 November): its colour's mark and its words, no icon beside or after.
+    expect(lines).toMatch(/^▸✦ Ask Osric whether .*…$/m);
     expect(lines).toMatch(/^ {4}your aim, to learn$/m);
-    // The companion's asking, a companion and nothing else: no colour, nor its sign in the pip, but its icon (TP-03).
-    expect(lines).toMatch(/^ {2}☺ Ask Wenna whether she would come along ⚭$/m);
+    // The companion's asking: no colour (TP-03), and in the terminal no icon either; it says so on ?.
+    expect(lines).toMatch(/^ {3}Ask Wenna whether she would come along$/m);
   });
   it('fits every line to a narrow terminal, the long question wrapped where it is focused and cut elsewhere', async () => {
     const t = await Awkward.start();
