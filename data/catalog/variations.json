@@ -55,7 +55,7 @@
     "starving": {
       "axis": "disposition", "word": "starving", "kinds": ["animal"],
       "says": "ribs showing; it will not wait to be sure of you",
-      "attributes": { "strength": -1, "constitution": -2, "dexterity": 1 }, "traits": ["fierce"],
+      "attributes": { "strength": -1, "constitution": -2, "dexterity": 1 }, "traits": ["fierce"], "temperament": "savage",
       "hint": "#habitat == 'snow' || #habitat == 'fells' || #habitat == 'heights'"
     },
     "blighted": {

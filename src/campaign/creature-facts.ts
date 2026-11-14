@@ -82,7 +82,8 @@ export class CreatureFacts {
   // has given no words of its own (and whose meeting with the company it has not scripted in states) speaks in the
   // plain words of its temperament.
   private static temperament(world: World, group: string, members: Creature[]): Change[] {
-    const kinds = new Set(members.map(c => Canon.temperament(c.raceId)));
+    // Of its kind as it is made: a starving rat "will not wait to be sure of you" (BP-04), a rat is wary.
+    const kinds = new Set(members.map(c => Canon.temperament([c.raceId, ...c.variations ?? []].join('/'))));
     const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, words = this.words(world.module);
     const given = world.one('temperament', group);
     // One the place has made peaceable keeps the peace, whatever its kind would do; a tame kind is peaceable anyway.
