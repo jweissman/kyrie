@@ -86,6 +86,30 @@ So at night, in snow or rain, about a third of kinds of place now show no painti
 one. The remedy is paintings of night, winter and weather for those kinds (doc/paintings/commission-list.md), not
 looser rules. It is the owner's call whether this is the right trade before they are painted.
 
+## The second blind playtest (Gate 1, tier 3)
+
+A blind agent played the deployed build (2e603c8a) as a first-time player, in two runs in two countries, judging
+only the page ([history/playtests/blind-agent-2026-11-15](../../history/playtests/blind-agent-2026-11-15/README.md)).
+There was no crash, hang or console error.
+
+Unlike the 13 November tester, it would play again tomorrow. The map now carries a player to their aim, combat no
+longer taxes curiosity, and the best scenes are worth returning to. What would stop it is "sameness and small
+untruths, not friction".
+
+Its findings are registered as §42 (BL-01..11); recurrences were added to the rows they belong to. Two are fixed
+tonight with mutation-checked pins:
+- **The dark told truly:** a company that can make a light is no longer sent to the chandler (BL-07).
+- **The one made armed as creation showed:** a companion's presence no longer drops the protagonist's weapon
+  (BL-06, partly).
+
+**A new P0 for the morning, BL-01:** the Go lens's full list of ways runs off the fixed screen and cannot be
+scrolled, and the inn the rail pointed to was among the ways out of reach. It wants the overflow seen and fixed in
+the page at 1280×800 and 820×1180, with a browser spec.
+
+**What recurs is sameness:** the same opening and the same town skeleton in two countries (CO-03), ancestry and
+star sign never drawn on in play (RI-03), the garnish word for word (BP-02). That is content and authorship, the
+next mission's larger question.
+
 ## The interaction research (for M22)
 
 The investigator's four documents are in [interaction/](interaction/): study, grammar, experiment and
@@ -117,7 +141,8 @@ The worst moment of the first touch is the 10–17 s setting-out wait, which is 
 
 ## What still fails or is open
 
-At the end of the night the register holds one P0 partly open, and 48 P1 rows (29 open, 19 partly). It began the
+At the end of the night the register holds one P0 partly open (DN-06), one P0 newly open (BL-01, from the blind
+playtest), and 48 P1 rows (29 open, 19 partly). It began the
 night with 5 P0 open and 5 partly.
 
 **P0: DN-06, the writing.** The editorial pass has landed (prose-1..6), and its pins hold the measurable part:
