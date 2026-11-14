@@ -15,6 +15,15 @@ describe('a conversation\'s lines', () => {
   const frame = (said: string, ...lines: string[]) => ({ leaf: { exchange: { said, notes: [], tone: 'act',
     lines: lines.map(text => ({ text, kind: 'telling' })) } } }) as unknown as Frame;
   const choice = (id: string) => ({ id, label: '' }) as Choice;
+  // A thing learned in the very words of the aim it took up is said once, as the aim (the second blind playtest,
+  // BL-09: one sentence under "You know now" and again under "Noted, further off").
+  it('says once what was learned in the words of an aim taken up', () => {
+    const text = 'The sister was last seen on the Hollow road.';
+    const f = { leaf: { exchange: { said: 'Ask about the sister', tone: 'act', lines: [], notes: [text], learned: [text],
+      aims: [{ id: 'sister', text }] } } } as unknown as Frame;
+    expect(Conversation.lines(f, choice('ask'), '').map(l => [l.kind, l.text])).toEqual([['you', 'Ask about the sister'],
+      ['aim', text]]);
+  });
   it('keeps the company\'s words over an answer', () => {
     const lines = Conversation.lines(frame('Ask about the child', '‘Three days,’ says Erevan.'), choice('ask'), '');
     expect(lines.map(l => l.kind)).toEqual(['you', 'telling']);

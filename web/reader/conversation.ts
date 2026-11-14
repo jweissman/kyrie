@@ -46,9 +46,12 @@ export class Conversation {
     const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
     // What it took up is said from the aims themselves, each by its id (see Exchange.aims); the narration's notes of
     // them are the terminal's.
-    const aims = exchange?.aims ?? [];
+    // Nor a thing learned in the very words of an aim it took up (the second blind playtest, BL-09: one sentence
+    // under "You know now" and again under "Noted, further off").
+    const aims = exchange?.aims ?? [], aimed = new Set(aims.map(a => a.text));
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
-      ...(exchange?.notes ?? []).filter(text => !aims.length || !Words.aimed.test(text))
+      ...(exchange?.notes ?? []).filter(text => (!aims.length || !Words.aimed.test(text))
+        && !aimed.has(text.replace(Words.noted, '')))
         .map(text => ({ kind: exchange?.learned?.includes(text) ? 'learned' as const
         : Words.aimed.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
         ...Words.label(text) ? { label: Words.label(text) } : {} })),
