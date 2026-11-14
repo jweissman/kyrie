@@ -43,7 +43,12 @@ Module lab "The undercroft at Lowmouth" {
     State torn "The hasp hangs out of the corn-store door by one bolt, the oak split round it.".
   }
   Relation low_u_hasp_noted(entity).
-  Rule low_u_hasp_seen when state(low_u_store_lock, torn) and together(low_merchant, party) and not low_u_hasp_noted(low_u_store_lock) says "{low_merchant} does not look up. 'Somebody tore the hasp out of my corn-store door. I had a key for whoever asked.' A look at your hands, then. 'I'll know them by the splinters.'" { Assert low_u_hasp_noted(low_u_store_lock). }
+  Relation low_u_hasp_found(entity).
+  Rule low_u_hasp_looked when state(low_u_store_lock, torn) and at(party, low_green) and been(party, low_u_store) and not low_u_hasp_found(low_u_store_lock) and not low_u_hasp_noted(low_u_store_lock)
+    says "{low_merchant} is out at the corn-store door, turning the torn hasp over. A look round, and back inside." {
+    Assert low_u_hasp_found(low_u_store_lock).
+  }
+  Rule low_u_hasp_seen when state(low_u_store_lock, torn) and low_u_hasp_found(low_u_store_lock) and together(low_merchant, party) and not low_u_hasp_noted(low_u_store_lock) says "{low_merchant} does not look up. 'Somebody tore the hasp out of my corn-store door. I had a key for whoever asked.' A look at your hands, then. 'I'll know them by the splinters.'" { Assert low_u_hasp_noted(low_u_store_lock). }
   Observe low_u_store_lock_shut near low_u_store_lock of low_u_store_lock when state(low_u_store_lock, locked) "A padlock the size of a fist hangs on the corn-store door, its hasp bolted through the old oak.".
   Place low_u_yard "the churchyard" is room within low at 1, 2 outdoors.
   Passage low_u_yard_gate "the lych-gate" is gate between low_green and low_u_yard.

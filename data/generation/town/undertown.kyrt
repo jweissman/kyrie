@@ -40,7 +40,14 @@
   // Torn out, it is noticed by whoever owns the store, once, when the company is next before them: a cold player tore
   // the hasp out without asking for the key, and was paid for the rats as if nothing had been done (Mission 20, D).
   Relation {t}_u_hasp_noted(entity).
-  Rule {t}_u_hasp_seen when state({t}_u_store_lock, torn) and together({t}_merchant, party) and not {t}_u_hasp_noted({t}_u_store_lock) says "{{t}_merchant} does not look up. 'Somebody tore the hasp out of my corn-store door. I had a key for whoever asked.' A look at your hands, then. 'I'll know them by the splinters.'" { Assert {t}_u_hasp_noted({t}_u_store_lock). }
+  // What the merchant does is seen first (M21's FF-05): out at the door, turning the torn hasp over, before any word of
+  // it to the company.
+  Relation {t}_u_hasp_found(entity).
+  Rule {t}_u_hasp_looked when state({t}_u_store_lock, torn) and at(party, {t}_green) and been(party, {t}_u_store) and not {t}_u_hasp_found({t}_u_store_lock) and not {t}_u_hasp_noted({t}_u_store_lock)
+    says "{{t}_merchant} is out at the corn-store door, turning the torn hasp over. A look round, and back inside." {
+    Assert {t}_u_hasp_found({t}_u_store_lock).
+  }
+  Rule {t}_u_hasp_seen when state({t}_u_store_lock, torn) and {t}_u_hasp_found({t}_u_store_lock) and together({t}_merchant, party) and not {t}_u_hasp_noted({t}_u_store_lock) says "{{t}_merchant} does not look up. 'Somebody tore the hasp out of my corn-store door. I had a key for whoever asked.' A look at your hands, then. 'I'll know them by the splinters.'" { Assert {t}_u_hasp_noted({t}_u_store_lock). }
   Observe {t}_u_store_lock_shut near {t}_u_store_lock of {t}_u_store_lock when state({t}_u_store_lock, locked) "A padlock the size of a fist hangs on the corn-store door, its hasp bolted through the old oak.".
   Place {t}_u_yard "the churchyard" is room within {t} at 1, 2 outdoors.
   Passage {t}_u_yard_gate "the lych-gate" is gate between {t}_green and {t}_u_yard.

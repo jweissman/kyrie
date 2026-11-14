@@ -45,9 +45,12 @@ describe('the rats under the corn-store', () => {
     expect(told).toMatch(/Ratsbane/);
     expect(Lab.holds(j, 'docked', 'store_lock')).toBe(false);
   }, 60000);
-  it('asks for the torn door back, in the merchant\'s words, until it is set back or paid for', async () => {
+  it('asks for the torn door back, in the merchant\'s words, having been seen to find it', async () => {
     const j = await Lab.as('human/warrior/Brann');
-    await j.play('wrench the padlock', "Mik's salt-house");
+    // What Mik does is seen first (FF-05): out at the door with the torn hasp, then the word of it.
+    await j.play('wrench the padlock', 'old corn-store');
+    expect(await j.play('landing at Lowmouth')).toMatch(/turning the torn hasp over/);
+    expect(await j.play("Mik's salt-house")).toMatch(/I'll know them by the splinters/);
     expect(ScreenModel.build(j.campaign).objectives.join(' ')).toMatch(/know you by the splinters/);
   }, 60000);
 });
