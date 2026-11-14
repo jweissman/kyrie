@@ -27,6 +27,22 @@
   --paper-edge: rgba(41, 36, 29, .14);
 }
 :root { --row-neutral: rgba(236, 230, 217, .28); }
+/* The one focus mark, everywhere it can be (IG-09, the owner: "a target reticule"): four corners closing on what the
+   hand or the keys are on, drawn into its own box (nothing moves), quiet, and a shape that means focus without its
+   colour. Its ink is ivory in play, ceremonial gold at the entry (the title, creation). */
+:root { --ret-c: rgba(236, 230, 217, .92); --ret-l: 10px; --ret-w: 1.5px; --ret-i: 4px; }
+/* Declared where it is drawn, so that each place's own ink and reach (--ret-c, --ret-l) are the ones it is drawn with. */
+:is(.choice-row, .way-in, .creation .card, .creation-go .option, .fight .fighter.target)::before,
+:is(.choice-row, .way-in, .creation .card, .creation-go .option, .fight .fighter.target)::after,
+:is(.choice-row, .way-in, .creation .card, .creation-go .option, .fight .fighter.target) {
+  --reticule: linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) top var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) top var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) top var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) top var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) bottom var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) bottom var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) bottom var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) bottom var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat; }
 
 /* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a
    conversation's questions, its leave and Trade, a fight's moves. Its one indicator at the left, its words in sentence
@@ -41,6 +57,8 @@
   transition: background var(--quick), border-color var(--quick), transform var(--quick); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
   background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); outline: none; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel):not(.shut, [disabled], [aria-disabled="true"]) {
+  background: var(--reticule), var(--choice-ground-hot); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:active { transform: none; }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
   cursor: default; transform: none; }
@@ -99,16 +117,6 @@
 :root ul.acts > li { margin: 0; min-width: 0; }
 :root ul.acts.small .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
 
-/* ---- Held acts (see Hold): a small ring at the act's right says it is held, at rest; held, it fills round over the
-   hold's time in the act's own tone or neutral, the act's box unmoved. Still where motion is unwanted. ---- */
-@property --hold-p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-.hold-ring { position: absolute; right: 38px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%;
-  pointer-events: none; box-shadow: inset 0 0 0 1.5px rgba(236, 230, 217, .38);
-  background: conic-gradient(var(--hold-tone, rgba(236, 230, 217, .85)) var(--hold-p), transparent 0); }
-.hold-ring.held { animation: hold-round var(--hold-ms, 850ms) linear forwards; }
-@keyframes hold-round { from { --hold-p: 0%; } to { --hold-p: 100%; } }
-.act-glyph .hold-ring { right: 2px; top: 6px; width: 9px; height: 9px; margin-top: 0; box-shadow: inset 0 0 0 1.2px rgba(236, 230, 217, .45); }
-@media (prefers-reduced-motion: reduce) { .hold-ring.held { animation: none; --hold-p: 100%; } }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0; }
 

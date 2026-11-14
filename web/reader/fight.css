@@ -216,8 +216,12 @@
 .fight > .status .standing + .fight-log-toggle { margin-left: var(--s4); }
 /* Whom to choose: a reticle (an outline, which takes no room) on each who can be, its chance pinned over the card's
    corner, not a line added to it; the rest lowered. Neither gold (the aim's) nor a card made taller. */
-.fight .fighter.target { cursor: pointer; outline: 2px solid var(--accent); outline-offset: 3px; }
-.fight .fighter.target:hover, .fight .fighter.target:focus-within { outline-color: var(--ivory); }
+/* A foe that can be aimed at: the reticule, the one focus mark (IG-09), quiet on each target, full on the one the hand
+   or the keys are on; drawn into the card's own box, nothing moves (CN-06). */
+.fight .fighter.target { cursor: pointer; --ret-c: rgba(236, 230, 217, .45); --ret-l: 14px; }
+.fight .fighter.target::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: var(--reticule); }
+.fight .fighter.target:hover, .fight .fighter.target:focus-within { --ret-c: var(--ivory); --ret-l: 18px; --ret-w: 2px; }
 .fight .fighter .chance { position: absolute; top: 6px; right: 8px; z-index: 3; padding: 2px 6px; font: var(--t-key);
   color: var(--deep); background: var(--accent); border-radius: 3px; pointer-events: none; }
 @media (max-width: 600px) {

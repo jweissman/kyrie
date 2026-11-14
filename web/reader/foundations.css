@@ -128,12 +128,11 @@
   align-items: center; justify-content: center; text-align: center; gap: 8px; padding: 18px 12px 14px; min-height: 118px;
   background: linear-gradient(180deg, var(--lift), var(--raised)); border: 1px solid var(--edge); border-radius: var(--radius);
   color: var(--ivory); -webkit-tap-highlight-color: transparent;
-  transition: border-color var(--quick), box-shadow var(--settle) var(--ease), transform var(--settle) var(--ease); }
-.card:hover, .card:focus-visible { border-color: var(--accent-line); outline: none; transform: translateY(-3px);
+  transition: border-color var(--quick), box-shadow var(--settle) var(--ease); }
+.card:hover, .card:focus-visible { border-color: var(--accent-line); outline: none;
   box-shadow: var(--shadow-lift); }
-.card:active { transform: translateY(-1px); }
 .card.chosen { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--glow-chosen); }
-.card[disabled] { cursor: default; opacity: .38; transform: none; box-shadow: none; }
+.card[disabled] { cursor: default; opacity: .38; box-shadow: none; }
 
 /* ---- Gold corners: a stage's bounds marked, not boxed (the play stage, the opening's words, a chosen card). ---- */
 .cornered::after { content: ''; position: absolute; inset: -1px; pointer-events: none; z-index: 20;

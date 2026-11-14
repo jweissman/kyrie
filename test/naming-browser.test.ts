@@ -25,8 +25,15 @@ class Naming {
     }, null, { timeout: 5000 }).catch(() => undefined);
     await page.waitForTimeout(150);
   }
+  // A new way of presenting is answered when the table is drawn again (the press itself shows at once, before it).
   static async present(page: Page, as: string) {
-    await page.click(`[data-action="presenting"][data-id="${as}"]`);
+    const at = `[data-action="presenting"][data-id="${as}"]`;
+    const anew = await page.getAttribute(at, 'aria-pressed') !== 'true', before = await Naming.options(page);
+    await page.click(at);
+    if (anew) {
+      await page.waitForFunction(was => [...document.querySelectorAll('[data-action="name-option"]')]
+        .map(o => o.textContent).join('|') !== was, before.join('|'), { timeout: 5000 }).catch(() => undefined);
+    }
     await Naming.settle(page);
     return { names: await Naming.options(page), name: await Naming.value(page) };
   }
