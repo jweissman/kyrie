@@ -49,15 +49,24 @@ export class TerminalScene {
     this.told.push({ turned, lines: prose, reference });
     return [...header ? ['', header] : [], ...prose, ...reference];
   }
-  // The aim, by the page's rule, when it has changed (or on a look).
+  // The aim, said once for each change, never by comparing its words: when the glance says it (Glance.aim: on a first
+  // arrival, where no act serves it, when it has changed), when the aim followed has changed (Follow this, or let go),
+  // and on a look. Followed, it is said as followed, even before anything is done: following is the change. It had been
+  // said two and three times over as its words lengthened once it was held (the human mode's assessment).
   private aim(screen: Screen, glanced: string | undefined, whole: boolean): string[] {
-    const aim = AimSaid.of(screen, glanced), text = aim && Typography.plain(aim.text);
-    // Said again when it is followed or let go, as well as when its words change.
-    if (!aim || !this.fresh('aim', `${aim.followed ? 'followed' : 'held'}:${text}`, whole)) { return []; }
+    const followed = screen.aims?.find(a => a.followed), state = followed?.id ?? '';
+    const turned = this.said.aim !== undefined && this.said.aim !== state;
+    this.said.aim = state;
+    if (!whole && !glanced && !turned) { return []; }
     const d = this.depth;
-    if (aim.followed) { return [TerminalColour.paint('gold', TerminalColour.bold(`Following: ${text}`, d), d)]; }
+    if (followed) {
+      return [TerminalColour.paint('gold', TerminalColour.bold(`Following: ${Typography.plain(followed.text)}`, d), d)];
+    }
+    const aim = AimSaid.of(screen, glanced);
+    if (!aim) { return []; }
     const n = (screen.aims ?? []).findIndex(a => a.id === aim.offered) + 1;
-    return [`${TerminalColour.bold(`An aim: ${text}`, d)}${n ? this.o.picked ? ' · a to follow' : ` · follow ${n}` : ''}`];
+    return [`${TerminalColour.bold(`An aim: ${Typography.plain(aim.text)}`, d)}${n ? this.o.picked ? ' · a to follow'
+      : ` · follow ${n}` : ''}`];
   }
   private need(leaf: Leaf, whole: boolean): string[] {
     const need = this.fresh('need', leaf.glance?.need?.join(' · '), whole);

@@ -21,11 +21,13 @@ export class TerminalPickerView {
   }
   private static row(p: TerminalPicker, row: Row, at: { i: number; width: number; shows: Shows }): string[] {
     const { i, width, shows } = at, d = shows.depth, focused = i === p.focus, prev = p.visible[i - 1];
-    const group = row.group && row.group !== prev?.group ? [TerminalColour.dim(`  ${row.group}`, d)] : [];
+    const group = row.group && !row.header && row.group !== prev?.group ? [TerminalColour.dim(`  ${row.group}`, d)] : [];
     const gap = row.info && !prev?.info ? [''] : [];
     const signed = { ...row.signed ?? {}, aspects: row.aspects ?? [] };
     const indicated = TerminalColour.indicated(signed);
-    const pip = row.info || row.id === TerminalPicker.more ? ' ' : TerminalColour.pip(indicated, shows, signed.sensed);
+    const fold = p.opened.has(row.group ?? '') ? '▾' : '▸';
+    const pip = row.header ? fold : row.info || row.id === TerminalPicker.more ? ' '
+      : TerminalColour.pip(indicated, shows, signed.sensed);
     const icons = indicated.icons.map(x => TerminalColour.sign(x, shows.unicode)).join(' ');
     const mark = focused ? (shows.unicode ? '›' : '>') : ' ';
     // The icons after the words' last line: each line is cut or wrapped to leave them room.
@@ -39,7 +41,7 @@ export class TerminalPickerView {
   // where the prism experiment is asked for.
   private static lit(words: string, o: { row: Row; focused: boolean; shows: Shows }): string {
     const { row, focused, shows } = o, d = shows.depth;
-    if (row.info || row.id === TerminalPicker.more || row.shut || row.signed?.idle) {
+    if (row.info || row.header || row.id === TerminalPicker.more || row.shut || row.signed?.idle) {
       return focused ? TerminalColour.bold(words, d) : TerminalColour.dim(words, d);
     }
     const coloured = shows.prism ? TerminalColour.prism(words, row.aspects ?? [], d) : words;
@@ -60,8 +62,9 @@ export class TerminalPickerView {
     const arrows = shows.unicode ? '↑↓ ⏎' : 'j/k enter';
     const more = p.menu.rest?.length ? [p.unfolded ? '← fewer' : '→ more'] : [];
     const grouped = p.visible.some(r => r.group) ? ['[ ] group'] : [];
-    const keys = p.keyed ? [...grouped, ...Object.entries(p.menu.keys ?? {}).map(([k, v]) => `${k} ${v.said}`), 'q leave']
-      : Object.keys(p.menu.keys ?? {}).length ? ['/ keys'] : [...grouped, 'q leave'];
+    // A menu's own keys said where they are few (a fight's f), behind / where they are many (a scene's ten).
+    const own = Object.entries(p.menu.keys ?? {}).map(([k, v]) => `${k} ${v.said}`);
+    const keys = p.keyed || own.length <= 2 ? [...grouped, ...own, 'q leave'] : ['/ keys'];
     const said = [`${arrows} choose`, ...more, '? about', ...p.menu.back ? ['← back'] : [], ...keys];
     return ['', ...TerminalWidth.wrap(said.join(' · '), width)].map(l => TerminalColour.dim(l, shows.depth));
   }
@@ -78,7 +81,7 @@ export class TerminalPickerView {
       if (up) { used += blocks[--from]!.length; }
       if (!down && !up) { break; }
     }
-    return [from ? `  ↑ ${from} more` : '', ...blocks.slice(from, to).flat(),
-      to < blocks.length ? `  ↓ ${blocks.length - to} more` : ''];
+    return [...from ? [`  ↑ ${from} more`] : [], ...blocks.slice(from, to).flat(),
+      ...to < blocks.length ? [`  ↓ ${blocks.length - to} more`] : []];
   }
 }

@@ -239,6 +239,24 @@ columns; and the cellar rats. What follows is what it was like, not what the spe
 - **Journey echoes repeat their own name:** "… Take the road to the road between Mistshaw and Millholm (the road
   between Mistshaw and Millholm)". This is the same in headless.
 
+**Mended since (term-4), in the lead's order.**
+- **The place stays in sight.** The picker is drawn in what is left under what was told since the last choice: at
+  most twenty rows, never fewer than eight. A longer list is a window, paged. On a 24-row terminal the camp keeps its
+  heading and its three lines above the unfolded rest.
+- **One key a blow at the only foe.** With one target the move is made at it, as the page's fight does (FightMoves);
+  the target is asked only where there is a choice. Each move says what it does under it (its description), and a
+  menu's few keys (the fight's `f`) are said in its footer.
+- **The aim once per change.** It is said where the glance says it (Glance.aim), when the aim followed changes, and on
+  a look. Picking an aim leaves no line of its own; "Following: …" says it.
+- **The rest folded by kind of act.** What is done here falls under Offers' act types (Speak, Do, Ways, Light,
+  Wait…), then the journeys under the map's headings, each group folded to one row with its count. Enter or → opens
+  one; ← shuts it. The camp's 117 read as ten rows. They are grouped, never ranked, until Offers ranks them (TP-06).
+- **Talk says what a question does,** from its act's fields: that it teaches, that it bears on an aim, what its note
+  says (a price, a wait).
+- **Saving keeps the game in the engine's one slot** (CheckpointStore's autosave, in `~/.kyrie/slots.json`), and
+  `bin/kyrie resume` with no path takes it up. A path is asked for only with `--save-as`.
+- **No hold key, by design:** the hold is gone everywhere now (IG-07).
+
 **Verdict.** It is now the pleasantest way I know to play Westernesse quickly. The first ten minutes in a1 are good,
 and the picker never got in my way. It is not yet comfortable for an hour. Long arrivals push the place off screen,
 and the town's rest is a list nobody would read. A fight is clerical. The first two are mostly the engine's (scene

@@ -9,6 +9,11 @@ import { TerminalCreation } from '../../src/cli/terminal-creation';
 import { TerminalMenus, type Journeyed } from '../../src/cli/terminal-menus';
 import { TerminalPicker } from '../../src/cli/terminal-picker';
 import { TerminalWidth } from '../../src/cli/terminal-width';
+import { TerminalSlots } from '../../src/cli/terminal-slots';
+import { CheckpointStore } from '../../src/session/checkpoint-store';
+import { rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { TerminalWalk } from '../../src/cli/terminal-walk';
 import { WalkStyle } from '../../src/cli/walk-style';
 import { Creation } from '../../web/engine/creation';
@@ -55,7 +60,8 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(k.frames[0]!.menu.rest!.length).toBeGreaterThan(10);
     // Unfolded on More, the focus on the first of the rest; folded, on More again.
     expect(k.frames[4]!.focused).toBe(TerminalPicker.more);
-    expect(k.frames[5]!.focused).toBe(k.frames[0]!.menu.rest![0]!.id);
+    // The rest by kind of act, each kind folded: the focus on the first kind's own row.
+    expect(k.frames[5]!.focused).toBe(`${TerminalPicker.head}${k.frames[0]!.menu.rest![0]!.group}`);
     expect(k.frames.at(-1)!.focused).toBe(TerminalPicker.more);
     expect(k.frames.at(-1)!.lines.length).toBe(k.frames[0]!.lines.length - 1);
   });
@@ -130,6 +136,18 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(k.last.menu.rows.map(r => r.label)).toContain('Ask Wenna about the mill');
     expect([...k.last.menu.rows, ...k.last.menu.rest ?? []].some(r => /^Set down|^Wait/.test(r.label))).toBe(false);
   });
+  // One foe, one key: the move is made at it, as the page's fight makes it (FightMoves), the target never asked.
+  it('makes a move at the only foe without asking at whom', async () => {
+    const t = await Awkward.start();
+    t.journey.put('party', 't__cellar');
+    const k = await Keyed.play(t.session, Array.from({ length: 40 }, () => 'return'));
+    const asked = k.frames.filter(f => /at whom/.test(f.menu.title ?? ''));
+    const turns = new Set(k.frames.filter(f => /'s turn$/.test(f.menu.title ?? '')).map(f => f.menu));
+    expect(asked.length).toBeGreaterThan(0);
+    expect(asked.every(f => f.menu.rows.length > 1)).toBe(true);
+    // Every turn struck with the first move; the turns at the last rat asked nothing.
+    expect(turns.size).toBeGreaterThan(new Set(asked.map(f => f.menu)).size);
+  });
   it('fights through the same picker: the moves, a target, back to the moves', async () => {
     const t = await Awkward.start();
     t.journey.put('party', 't__cellar');
@@ -141,13 +159,14 @@ describe('the terminal\'s human mode, in the awkward world', () => {
   });
   // A town's rest had been 117 acts, 36 of them journeys in one unranked list: grouped by the map's own kinds, gone
   // through a page or a group at a time, the engine's order kept within each (it ranks no journey yet).
-  it('groups the journeys under the map\'s headings, after what is done here, and pages through them', () => {
+  it('groups what is done here by kind, the journeys under the map\'s headings after it, and pages through them', () => {
     const at = (id: string, journey?: Journeyed) => ({ id, name: id, time: 0, ...journey ? { journey } : {} });
     const listed = [at('travel:b', 'roads'), at('wait'), at('travel:a', 'known'), at('travel:c', 'roads'),
       ...Array.from({ length: 12 }, (_, i) => at(`travel:r${i}`, 'roads')), at('search')];
     const rows = TerminalMenus.grouped(listed);
     expect(rows.map(r => r.id).slice(0, 5)).toEqual(['wait', 'search', 'travel:a', 'travel:b', 'travel:c']);
-    expect(rows.map(r => r.group ?? '').slice(1, 4)).toEqual(['', 'Places you know the way to', 'Where the roads go']);
+    expect(rows.map(r => r.group).slice(0, 4)).toEqual(['Other', 'Other', 'Places you know the way to',
+      'Where the roads go']);
     const picker = new TerminalPicker({ rows });
     picker.press({ ch: ']' });
     expect(picker.focused!.id).toBe('travel:a');
@@ -159,6 +178,32 @@ describe('the terminal\'s human mode, in the awkward world', () => {
     expect(picker.focus).toBe(rows.length - 1);
     picker.press({ ch: '[' });
     expect(picker.focused!.id).toBe('travel:b');
+  });
+  // The town's sixty-odd acts done here: each kind of act (Offers' types) folded under a row of its own, opened one at
+  // a time, and back shuts the group the focus is in before it folds the rest.
+  it('folds the rest by kind of act, each group opened on Enter and shut again on back', async () => {
+    const t = await Awkward.start();
+    const k = await Keyed.play(t.session, ['down', 'down', 'down', 'down', 'return', 'return', 'down', 'left']);
+    const heads = k.frames[5]!.menu.fold ? k.frames[5]!.lines.filter(l => /^[› ] ▸ /.test(l)) : [];
+    expect(heads.length).toBeGreaterThan(2);
+    expect(heads.join(' ')).toMatch(/Speak · \d+/);
+    expect(k.frames[6]!.lines.some(l => / ▾ /.test(l))).toBe(true);
+    expect(k.frames[7]!.focused).not.toMatch(/^…group:/);
+    expect(k.last.focused).toMatch(/^…group:/);
+    expect(k.last.lines.some(l => / ▾ /.test(l))).toBe(false);
+  });
+  it('says what a question does from its act\'s fields: that it teaches', async () => {
+    const t = await Awkward.start();
+    const k = await Keyed.play(t.session, ['t', 'down', 'return']);
+    const ford = k.last.menu.rows.find(r => r.id === 't__osric_ford')!;
+    expect([k.last.menu.title, ford.note]).toEqual(['With Osric', 'teaches']);
+  });
+  it('keeps a game in the engine\'s one slot, a path asked for only with --save-as', async () => {
+    const path = join(tmpdir(), `kyrie-slots-${Bun.hash(String(performance.now())).toString(36)}.json`);
+    const t = await Awkward.start();
+    TerminalSlots.store(path).write(CheckpointStore.autosave, t.session.checkpoint());
+    expect(TerminalSlots.store(path).read(CheckpointStore.autosave).transcript.seed).toBe(t.session.seed);
+    rmSync(path, { force: true });
   });
   it('asks once before an act that cannot be undone, and leaving the game too', () => {
     const picker = new TerminalPicker({ rows: [{ id: 'jump', label: 'Jump into the weir', ask: 'No way back.' }] });
