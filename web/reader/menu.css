@@ -27,6 +27,22 @@
   --paper-edge: rgba(41, 36, 29, .14);
 }
 :root { --row-neutral: rgba(236, 230, 217, .28); }
+/* The one focus mark, everywhere it can be (IG-09, the owner: "a target reticule"): four corners closing on what the
+   hand or the keys are on, drawn into its own box (nothing moves), quiet, and a shape that means focus without its
+   colour. Its ink is ivory in play, ceremonial gold at the entry (the title, creation). */
+:root { --ret-c: rgba(236, 230, 217, .92); --ret-l: 10px; --ret-w: 1.5px; --ret-i: 4px; }
+/* Declared where it is drawn, so that each place's own ink and reach (--ret-c, --ret-l) are the ones it is drawn with. */
+:is(.choice-row, .way-in, .creation .card, .creation-go .option, .fight .fighter.target)::before,
+:is(.choice-row, .way-in, .creation .card, .creation-go .option, .fight .fighter.target)::after,
+:is(.choice-row, .way-in, .creation .card, .creation-go .option, .fight .fighter.target) {
+  --reticule: linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) top var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) top var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) top var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) top var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) bottom var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) left var(--ret-i) bottom var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) bottom var(--ret-i) / var(--ret-l) var(--ret-w) no-repeat,
+    linear-gradient(var(--ret-c), var(--ret-c)) right var(--ret-i) bottom var(--ret-i) / var(--ret-w) var(--ret-l) no-repeat; }
 
 /* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a
    conversation's questions, its leave and Trade, a fight's moves. Its one indicator at the left, its words in sentence
@@ -41,6 +57,8 @@
   transition: background var(--quick), border-color var(--quick), transform var(--quick); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
   background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); outline: none; }
+:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel):not(.shut, [disabled], [aria-disabled="true"]) {
+  background: var(--reticule), var(--choice-ground-hot); }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:active { transform: none; }
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
   cursor: default; transform: none; }

@@ -27,8 +27,14 @@ controller of the page's own.
 
 ## Focus
 
-- **One focus at a time.** The choice the hand or the keys are on is marked at once, in the same frame as the input:
-  a strong mark at the row's left and its words lit. Nothing slides to it. No box moves or changes size to show it.
+- **One focus at a time, by the reticule** (IG-09): four corners close on what the hand or the keys are on, at
+  once, in the same frame as the input, drawn into its own box. Nothing slides to it, no box moves or changes size,
+  and its shape says focus without its colour.
+  - It is drawn on the title's ways, creation's cards and Continue, the scene's, lenses', talk's and the fight's rows,
+    and a foe aimed at.
+  - It is not yet drawn on the map's chosen hex, the rail's icons or the likenesses. The board draws its own selection in
+    its own layer, and a reticule there needs drawing in that layer; the rail's marks and the round likenesses are too
+    small or round for corners to read, and keep their pressed ring.
 - **Focus answers immediately.** Anything that responds to focus more slowly (the title's sky, a lens's painting, the
   observatory later) follows it and never holds it up.
 - **Gold has two uses.** In play it means the aim followed and nothing else. The title's gold mark is ceremonial, the
