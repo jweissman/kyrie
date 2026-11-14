@@ -1,5 +1,5 @@
 {
-  "about": "What a painting may not show of a place, read against what each painting shows (data/paintings/seen.json, its words): a place's own words (its name, the word its kind is named by), its weather, the part of the day, and whether it is under the ground. A painting that shows what the place denies is not chosen for it (src/ui/fits.ts); where none of a kind's paintings fits, none is shown, a dim ground being better than a picture against the words (the owner, 7 November). A rule may forbid unless the painting shows something that answers it (a ruin painted as a ruin). Paintings against the text had come back in every cold round (R9-12, R10-08, R11-09, CP-01).",
+  "about": "What a painting may not show of a place, read against what each painting shows (data/paintings/seen.json: its words, and the light, season and weather it was looked at for, CO-13): a place's own words (its name, the word its kind is named by), its weather, the part of the day, and whether it is under the ground. A painting that shows what the place denies is not chosen for it (src/ui/fits.ts); where none of a kind's paintings fits, none is shown, a dim ground being better than a picture against the words (the owner, 7 November). A rule may forbid unless the painting shows something that answers it (a ruin painted as a ruin). Paintings against the text had come back in every cold round (R9-12, R10-08, R11-09, CP-01).",
   "rules": [
     { "id": "ruined", "place": "\\b(ruin|ruined|ruins|broken|roofless|fallen|burnt|burned|derelict|wrecked|gutted)\\b",
       "forbids": "\\bbanners?\\b|\\bflags?\\b|turreted|castle walls|golden|sunlit|sunny|roses|flowering|bustling|crowd|thriving",
@@ -7,7 +7,7 @@
     { "id": "foul weather", "weather": "storm|rain|snow|sleet|fog|mist|overcast|gale|drizzle|squall",
       "forbids": "sunny|sunlit|golden|bright|haze|blue sky|sunshine" },
     { "id": "winter", "weather": "snow|sleet|frost|ice|freezing",
-      "forbids": "flowering|blossom|roses|summer|lush|harvest|wheat|in leaf|green leaves" },
+      "forbids": "flowering|blossom|roses|summer|spring|autumn|lush|harvest|wheat|in leaf|green leaves" },
     { "id": "evening or night", "daylight": "evening|night",
       "forbids": "sunny|sunlit|noon|midday|sunshine|bright day" },
     { "id": "under the ground", "underground": true,
