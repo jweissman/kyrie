@@ -74,6 +74,9 @@ export class VoiceContext {
   // jovial do: M17-88).
   static readonly moods: Record<string, string> = { worried: 'troubled', fretting: 'troubled', anxious: 'troubled',
     afraid: 'troubled', frightened: 'troubled', scared: 'troubled', desperate: 'troubled', hurt: 'troubled',
+    // Held against their will: no host's welcome from a boy penned among stolen sheep (blind playtest 2, BL-10).
+    penned: 'troubled', chained: 'troubled', bound: 'troubled', tied: 'troubled', captive: 'troubled',
+    shackled: 'troubled', caged: 'troubled',
     grieving: 'grieving', mourning: 'grieving', weeping: 'grieving', angry: 'angry', bitter: 'angry',
     brooding: 'angry' };
   private static mood(campaign: Campaign, actor: string): { mood?: string } {
