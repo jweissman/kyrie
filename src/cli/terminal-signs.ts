@@ -15,8 +15,9 @@ import type { Screen } from '../ui/screen-types';
 // shown, note: the choice's words and its note as the page draws them (ChoiceList: a price said beside the act, not run
 // into its words).
 // far: how many places off along the way what is sensed lies.
+// bearing: a way's bearing in a site said in a word (Signs.bearing: "unexplored", "back").
 export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; far?: number; idle?: true; crosses?: true;
-  asks?: string; shown?: string; note?: string }
+  asks?: string; shown?: string; note?: string; bearing?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
   private readonly idle: Set<string>;
@@ -28,6 +29,10 @@ export class TerminalSigns {
     this.whole = new Set(top.flatMap(c => c.command && !c.children?.length ? [c.command] : []));
     this.idle = new Set(glance?.idle ?? []);
   }
+  private bearing(id: string): { bearing?: string } {
+    const b = Signs.bearing(this.glance, id);
+    return b ? { bearing: b.said } : {};
+  }
   on(id: string): Signed {
     const c = this.choices.get(id), to = TerminalSigns.to(this.screen, id);
     const off = this.glance?.sensed?.find(x => x.to === to), sensed = off?.aspect;
@@ -37,7 +42,7 @@ export class TerminalSigns {
       ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
       ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
       ...c && (c.alone ?? this.whole.has(id)) ? { shown: c.alone ?? c.label } : {},
-      ...c?.note ? { note: c.note } : {} };
+      ...c?.note ? { note: c.note } : {}, ...this.bearing(id) };
   }
   // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way
   // marked so.

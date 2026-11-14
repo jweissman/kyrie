@@ -77,7 +77,8 @@ export class TerminalColour {
   static choice(n: number, label: string, signed: Signed & { aspects?: readonly Aspect[] }, depth: Depth): string {
     const words = Indicator.words(signed.aspects ?? []);
     // What is perceived along a way said in words wherever it is, not only on a way of no colour of its own.
-    const after = [...signed.tags ?? [], ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [],
+    const after = [...signed.bearing ? [signed.bearing] : [], ...signed.tags ?? [],
+      ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [],
       ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
     if (depth === 'none') {
       const held = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;
