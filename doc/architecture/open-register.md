@@ -942,3 +942,15 @@ Scope (the owner's brief), not defects found. Folded into the laboratory: FF-02/
 | TP-07 | The owner, playing the human mode: almost no colour; the focused item's description spliced into the list so the list reflows; no hierarchy between question, choices and keys. A design pass on the one picker: colour verified on, the question a heading, one line per row with a reticule-like focus, the detail in one fixed area (to the right on wide terminals), meaning-coloured icons from the shared table, a dim key rail | open | P1 | M21, terminal |
 | TP-08 | The terminal's second play: "Where to?" from the Lucky Phoenix's taproom did not offer Ironkeep after Eamon told the way, where Mik's shop led with it. Not reproduced on a straight walk (a1, debt, elf thief): walked to the taproom, the shop and the green, each offers the keep, as "a broken keep" until its name is known (Itineraries.destinations, which the terminal's set-outs read). Wants the session's transcript from Eamon's telling; a name told apart from its place ("a broken keep" against "Ironkeep") is the likelier confusion | open | P2 | M21, lead, terminal (transcript) |
 
+## 40. Purposeful exploration (the owner, 15 November)
+
+The generated-world walks' 292 unpursuable turns are mostly walkers inside the very site their aim names, seeing only
+"explore". Gold stays honest. The failure is that exploration lacks purpose. These are defects found, not new scope.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| EX-01 | Sample the 292 turns and class them: navigational confusion, repeated rooms, unreachable aim content, missing investigation acts, genuine lack of interesting content. This is the evidence before any change | open | P1 | M21, playability |
+| EX-02 | Three things told apart in the authoritative projection: known progress on the undertaking (an evidenced next step, gold's alone); the unexplored frontier (a reachable way or line of investigation whose contents are unknown); the known retreat or return (a way back to familiar ground). The frontier is a small directional sign or a contextual word, never a new global colour, and never a claim that the objective lies that way. "Further in" means an unexplored frontier, lateral as well as deeper | open | P1 | M21, playability, lead (review) |
+| EX-03 | The one exception: an aim that asks to explore or survey an area makes exploring it gold progress; an aim to find an unknown thing within an area does not, without evidence | open | P1 | M21, playability |
+| EX-04 | A small regression: a walker entering the aim's site tells unvisited ways from the retreat, pursues an investigation, meets a meaningful clue or obstacle, and makes recognisable progress, with no false certainty | open | P1 | M21, playability |
+
