@@ -68,7 +68,8 @@ export class TerminalMenus {
     // 1 coin", then "1 coin · 3 min" under it).
     const priced = signed.note ? [Typography.plain(signed.note)] : c.time ? [`${c.time} min`] : [];
     const note = [...c.told ?? [], ...priced, ...signed.tags ?? [],
-      ...signed.sensed ? [Signs.sensed(signed.sensed, signed.far)] : [], ...signed.idle ? [Signs.idle] : []];
+      ...Indicator.tells(signed.sensed) ? [Signs.sensed(signed.sensed!, signed.far)] : [],
+      ...signed.idle ? [Signs.idle] : []];
     const about = [
       ...signed.crosses ? [Signs.crossing.said] : [], ...signed.hold ? [Signs.hold.said] : []];
     const icon = Signs.acts[c.journey ? 'journey' : c.type ?? 'other'];

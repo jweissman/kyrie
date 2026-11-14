@@ -18,19 +18,25 @@ type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 // looks closer, and nothing is said that a watcher could not see.
 export class CombatTelling {
   static exchanges(events: CombatEvent[], state: BattleState, said?: ReadonlyMap<string, string>): Telling[] {
-    const groups: { round: number; events: CombatEvent[] }[] = [];
+    return this.since(events, 0, state, said);
+  }
+  // The exchanges begun at or after one event, of the whole fight told: a client telling a fight turn by turn had told
+  // each turn's events as a fight of their own, its barks begun afresh, and a companion said "Damn it" at each miss
+  // (the owner's headless review, 14 November: never the same line twice in one fight).
+  static since(events: CombatEvent[], from: number, state: BattleState, said?: ReadonlyMap<string, string>): Telling[] {
+    const groups: { round: number; at: number; events: CombatEvent[] }[] = [];
     let round = 0;
-    for (const e of events) {
-      if (e.type === 'initiative') { round++; continue; }
-      if (e.type === 'action' || !groups.length) { groups.push({ round: Math.max(1, round), events: [e] }); }
+    events.forEach((e, at) => {
+      if (e.type === 'initiative') { round++; return; }
+      if (e.type === 'action' || !groups.length) { groups.push({ round: Math.max(1, round), at, events: [e] }); }
       else { groups.at(-1)!.events.push(e); }
-    }
+    });
     // What fighters say at the turning points, now and then (see Barks).
     const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
     const barks = new Barks(fighters, fighters.map(f => f.id).join(','), said);
     const told = new CombatTelling(state, CombatTelling.unlasted(events));
-    return groups.map((g, n) => this.tell(CombatTelling.unheld(g.events), g.round, told, barks.of(g.events, n)))
-      .filter(t => t.text);
+    return groups.map((g, n) => ({ g, bark: barks.of(g.events, n) })).filter(({ g }) => g.at >= from)
+      .map(({ g, bark }) => this.tell(CombatTelling.unheld(g.events), g.round, told, bark)).filter(t => t.text);
   }
   // A save held against a condition is not told where the same blow then lays that condition on the same fighter by
   // another way (a venomous bite: its poison's own trigger held, its applied poison not): "shrugs off the poison. …

@@ -78,7 +78,8 @@ export class Terminal {
       if (!command) { return null; }
       const events = battle.step(command);
       commands.push(command);
-      CombatTelling.exchanges(events, battle.state).forEach(t => console.log(t.text));
+      CombatTelling.since(battle.events, battle.events.length - events.length, battle.state)
+        .forEach(t => console.log(t.text));
     }
     console.log(`Encounter: ${battle.state.outcome ?? 'active'}`);
     return commands;
@@ -416,8 +417,7 @@ export class Terminal {
         pressing &&= ours.every(f => f.hp > f.maxHp / 3);
         if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands())); }
         const events = battle.events;
-        CombatTelling.exchanges(events.slice(told.get(battle) ?? events.length), battle.state)
-          .forEach(t => console.log(t.text));
+        CombatTelling.since(events, told.get(battle) ?? events.length, battle.state).forEach(t => console.log(t.text));
         told.set(battle, events.length);
         const command = await Terminal.command(battle.state, battle.legalCommands(), input);
         if (!command) { throw new Error(quitPlay); }

@@ -5,6 +5,7 @@ import { TerminalWalk } from '../../src/cli/terminal-walk';
 import { WalkStyle } from '../../src/cli/walk-style';
 import { TerminalColour } from '../../src/cli/terminal-colour';
 import { Emphasis } from '../../src/presentation/emphasis';
+import { Indicator } from '../../src/presentation/indicator';
 import { PlayerView } from '../../src/presentation/player-view';
 
 // The terminal's colour is the page's: one table of tones (Emphasis) for both, its colours the page's own tokens; an
@@ -37,7 +38,8 @@ describe('the terminal\'s colour', () => {
       .toEqual(['none', 'none']);
     expect(TerminalColour.choice(1, 'Ask', { aspects: ['knowledge'] }, 'true')).toContain('\x1b[38;2;121;174;247m▌');
     expect(TerminalColour.choice(1, 'Ask', {}, 'true')).not.toContain('\x1b[');
-    expect(TerminalColour.choice(1, 'Ask', { aspects: ['knowledge'] }, 'none')).toBe('1. Ask  [to learn]');
+    expect(TerminalColour.choice(1, 'Ask', { aspects: ['knowledge'] }, 'none')).toBe('1. Ask');
+    expect(TerminalColour.choice(1, 'Ask', { aspects: ['exploration', 'danger'] }, 'none')).toBe('1. Ask  [danger]');
   });
   it('has no gold while nothing is followed, and gold on the one next step once the aim is', async () => {
     const t = await Tiny.start(yard);
@@ -57,8 +59,9 @@ describe('the terminal\'s colour', () => {
     // Each choice the terminal leads with is drawn as the page draws the same act (by its command), in the same words.
     const named = new Map(PlayerView.choices(t.campaign).map(r => [r.choice.id, r.choice.name]));
     for (const a of t.look().glance.acts.filter(x => x.aspects.length)) {
-      const words = Emphasis.drawn(a.aspects, !!a.continues).map(x => Emphasis.words[x]).join(', ');
-      expect(after).toContain(`${named.get(a.command ?? a.choice)} · 10 min  [${words}]`);
+      // Only the words of what was chosen or is so (the aim, a danger, a companion); the editorial ones are colour.
+      const words = Indicator.said(a.aspects, !!a.continues).join(', ');
+      expect(after).toContain(`${named.get(a.command ?? a.choice)} · 10 min${words ? `  [${words}]` : '\n'}`);
     }
   });
 });

@@ -35,9 +35,11 @@ describe('the signs both clients draw', () => {
     expect(kept).toEqual([]);
   });
   it('are each drawn by the terminal, in colour and said without it', () => {
-    const row = { tags: [Signs.marks['one-way']], hold: true as const, sensed: 'payoff' as const };
+    const row = { tags: [Signs.marks['one-way']], hold: true as const, sensed: 'danger' as const };
     const plain = TerminalColour.choice(1, 'Search the cellar', row, 'none');
-    expect(plain).toBe(`1. Search the cellar ${Signs.hold.sign} · no way back · to gain, that way`);
+    expect(plain).toBe(`1. Search the cellar ${Signs.hold.sign} · no way back · danger, that way`);
+    // What is only to be gained that way is its colour, not said (the owner's headless review: no editorial words).
+    expect(TerminalColour.choice(1, 'Down the stair', { sensed: 'payoff' }, 'none')).toBe('1. Down the stair');
     // Perceived and not here, its tone faint: the green pip, dimmed.
     expect(TerminalColour.choice(1, 'Down the stair', { sensed: 'payoff' }, 'true'))
       .toStartWith('\x1b[2m\x1b[38;2;95;211;182m▌');
