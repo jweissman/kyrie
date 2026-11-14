@@ -51,8 +51,10 @@ export class FightMoves {
           <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: choose whom, on the field.`)}</p>
           <button type="button" className="move quiet" data-action="unaim" onClick={() => aim()}>Not now <kbd>Esc</kbd></button>
         </div> : shown ? <ul className="panel" aria-label={FightMoves.kinds.find(k => k[0] === panel)?.[1]}>
-          {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button className="move" data={{ choice: c.id }}
-            act={c.id} onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))} events={note(c)} /></li>)}
+          {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button
+            className={`move${c.disabled ? ' unusable' : ''}`} data={{ choice: c.id, disabled: c.disabled ? 'true' : undefined }}
+            act={c.disabled ? undefined : c.id} onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))}
+            {...c.disabled ? { aside: Typography.curl(c.disabled) } : {}} events={note(c)} /></li>)}
         </ul> : null}
         {/* What the move under the hand does, in the one place it is said: never inside its row. */}
         <p className="hand-note">{under?.note ? Typography.curl(`${Words.shown(under.label)}: ${under.note}`) : ''}</p>
@@ -75,7 +77,11 @@ export class FightMoves {
     return choices.flatMap(c => /^more:/.test(c.id) ? c.children ?? [] : [c]);
   }
   // Something to do: at once when it is done to nobody or to one alone; else aimed on the field.
+  // What cannot be done now (a spell with no slot left) is never aimed: it had opened "choose whom, on the field" with
+  // no one to choose and nothing saying why (the second blind playtest, BL-02: Ander's Charm Person, its one slot
+  // spent). Its row says why, and touching it does nothing more.
   static take(app: ReaderApp, c: Choice, aim: (a?: Aiming) => void, open: (p?: string) => void) {
+    if (c.disabled) { return; }
     open();
     if (c.command && !c.children) { app.choose(c); return; }
     const targets = new Map((c.children ?? []).flatMap(t => {
