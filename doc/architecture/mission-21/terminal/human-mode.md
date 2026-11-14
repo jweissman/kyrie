@@ -283,8 +283,10 @@ coin. I followed the aim, asked Eamon, hired Cyril, went across the fen to Ironk
 **Operable: yes, with two snags.**
 - Up from the first row had gone round into the folded rest, and the next Enter unfolded it. Up and down now stop at
   the ends.
-- Escape followed within half a second by another key is read as one key sequence (the terminal's escape timeout).
-  ← goes back at once, and the footer says ←.
+- Escape followed within half a second by another key had been read as one key sequence (readline's escape timeout).
+  A lone Escape is now back once nothing follows it for 50 ms (term-6).
+- A buy row had said its price twice ("Buy a ten-foot pole for Disa · 1 coin" over "1 coin · 3 min"). A row now
+  takes the page's own words and note (ChoiceList): "A ten-foot pole", with "1 coin" under it (term-6).
 
 **Still miserable, and none of it the client's.** These went to the lead.
 - **The followed aim is said again in every new room.** "Following: You owe Mik, salter at Lowmouth 50 coin by
@@ -300,3 +302,129 @@ coin. I followed the aim, asked Eamon, hired Cyril, went across the fen to Ironk
 - **Hiring says its price only in the reply.** "Ask Cyril to join the company" carries no cost; her "6 coin, and my
   keep" was said before it.
 - **`--as` with `--origin herbs` holds no aim.** `a` said "No aim is held."
+
+## The design pass (the owner, 15 November)
+
+The owner played the terminal in VS Code's integrated terminal, which shows true colour: "Terminal play is still
+kind of a mess. There's no colorization, it seems like we're getting action details interspersed with the list."
+
+**Why there was almost no colour.**
+- Colour was not switched off. The depth was detected right (`COLORTERM=truecolor`), and the dim grey the owner saw
+  was SGR 2.
+- But nothing in creation was drawn in colour. Its cards carry no aspects, the picker coloured only an aspect's pip,
+  and the heading and focus were bold alone.
+- The focused row's description was wrapped into the list under it, so the list moved each time the focus did.
+
+**What the pass did, for every picker** (creation, the scene, talk, the map, aims, a fight):
+- **The question is a heading.** It is drawn in the stage's ivory, in bold, over a faint rule. A scene's place name is
+  drawn the same way, with its day and weather dim beside it.
+- **The rows never reflow.** Each row is one line:
+  - the focus mark `▸` in ivory;
+  - a thin `▎` and the row's icon, both in its one meaning tone (`Indicator.of`, gold only where followed);
+  - its words, in the terminal's own ink, or bold ivory when focused, or dim when it cannot be chosen.
+- **Every row has an icon.** An act shows its kind's (`Signs.acts`: ☺ talk, → go, ⇢ journey, ◆ act, ⧗ wait, ⌕ search,
+  ✚ care, ☀ light), a card shows its emblem, an instrument its sign, and a fight move ⚔.
+- **One detail area.** It sits under a faint rule, always three lines tall, padded:
+  - the words in full where the row cut them;
+  - what it costs or risks, what a grave act asks, why it is shut;
+  - its whole on `?`; past three lines, "… ? more".
+  - From 120 columns it stands to the right of the list, beyond a faint `│`.
+- **The rail.** The last line, dim, holds only the keys that apply. A menu's own few keys (a fight's `f`) are said; a
+  scene's ten are behind `/`.
+- **Restraint.** There are three inks: ivory, the terminal's own, and dim (with faint for rules). Beyond those are
+  only the meaning tones, and no boxes.
+- **The scene's prose is broken at its words** to the terminal's width, at most 100 columns, not where the terminal
+  broke it mid-word.
+
+**Creation cards take no tone.** Their emblems carry none in the shared data (`data/paintings/emblems.json`), so the
+icon is drawn in the dim ink. Nothing is coloured only for decoration.
+
+**Held by.** `test/small/terminal-awkward` checks that the picker emits SGR codes at true colour and at 256 colours,
+and none without; that the list is as tall whichever row is in hand; and that the detail stands beside the list at
+140 columns.
+
+**Captures.** The raw files, escape codes and all, are in `mission-21/terminal/captures/` (`cat` one in a terminal
+to see it as the owner would). Below they are shown as plain text, and one before/after pair as the escapes run.
+
+Creation at 80 × 24, before:
+
+```
+Why have you come to Merscfaenn?
+    ⌂ Coming home
+›   ▤ The brothers' errand
+    The brothers of your order have sent you to Lowmouth with a letter for the
+    priest. Your errand is to copy the old writing at Mistlake, which no one
+    has ever copied.
+    ◎ What is owed
+    ⇝ Over the hills
+    3 more
+
+↑↓ ⏎ choose · → more · ? about · q leave
+```
+
+After:
+
+```
+Why have you come to Merscfaenn?
+────────────────────────────────
+  ⌂ Coming home
+▸ ▤ The brothers' errand
+  ◎ What is owed
+  ⇝ Over the hills
+  … 3 more
+────────────────────────────────────────
+    The brothers of your order have sent you to Lowmouth with a letter for the
+    priest. Your errand is to copy the old writing at Mistlake, which no one
+    has ever copied.
+↑↓ ⏎ choose · → more · q leave
+```
+
+The first lines of each, as the escapes run (`cat -v`, tmux's trailing resets left out, the glyphs as they are):
+
+```
+before: ^[[1mWhy have you come to Merscfaenn?^[[0m
+        M-bM-^@M-:   ^[[1mM-bM-^VM-$ The brothers' errand^[[0m
+after:  ^[[1m^[[38;2;236;230;217mWhy have you come to Merscfaenn?^[[0m
+        ^[[38;2;110;106;98m────────────────────────────────
+          ^[[38;2;165;159;148m⌂^[[39m Coming home
+        ^[[38;2;236;230;217m▸^[[39m ^[[38;2;165;159;148m▤^[[39m ^[[1m^[[38;2;236;230;217mThe brothers' errand^[[0m
+```
+
+The camp at Millholm at 80 × 24, after. The pips and icons of the four are silver, silver, blue and blue, each by its
+one meaning:
+
+```
+the camp at Millholm
+────────────────────
+Millholm is half houses and half wagons with their wheels taken off, painted
+saffron and rose and a deep blue. Cook-smoke drifts between them, smelling of
+cumin and charred onion.
+Your brother is sitting on a rail with your father's old spear across his
+knees, watching the road. He is taller by a head than when you went away.
+The grey dog barks twice, for form's sake, then comes to see who you are.
+
+▸▎☺ Ask Osbert what he means to do ⚭
+ ▎⇢ To the road between Mistshaw and Millholm
+ ▎◆ Read the notice on the well-post
+ ▎◆ Make much of the grey dog
+  … 115 more
+────────────────────────────────────────
+
+
+
+↑↓ ⏎ choose · → more · ? about · / keys
+```
+
+At 140 × 45, the rest unfolded and folded by kind, the detail to the right:
+
+```
+ ▎☺ Ask Osbert what he means to do ⚭                                     │     into the next stretch of country
+▸▎⇢ To the road between Mistshaw and Millholm                            │
+ ▎◆ Read the notice on the well-post                                     │
+ ▎◆ Make much of the grey dog                                            │
+  + Speak · 12                                                           │
+  + Do · 27                                                              │
+  + Ways · 25                                                            │
+  …
+↑↓ ⏎ choose · ← fewer · [ ] group · ? about · / keys
+```

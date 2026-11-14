@@ -47,7 +47,7 @@ export class TerminalFight {
     const depth = TerminalColour.depth();
     console.log(`\n${TerminalMenus.fighters(state, depth).join('\n')}`);
     // Each move said by what it does, under it while focused ("choose target" had been all Ensnare said of itself).
-    const rows = choices.map((c, i) => ({ id: String(i), label: c.ability.name,
+    const rows = choices.map((c, i) => ({ id: String(i), label: c.ability.name, icon: c.requiresTarget ? '⚔' : '·',
       note: [c.ability.description, c.ability.cost ? `mana ${c.ability.cost}` : ''].filter(Boolean).join(' · ')
         || c.scope, about: [c.scope] }));
     const actor = state.combatants.find(f => f.id === state.actor)!.name;
@@ -69,7 +69,7 @@ export class TerminalFight {
     const named = choice.commands.map(command => state.combatants.find(f => f.id === command.target)!);
     if (TerminalInput.picks(input)) {
       const picked = await input.pick({ title: `${choice.ability.name}: at whom?`, back: 'back',
-        rows: named.map((t, i) => ({ id: String(i), label: t.name, note: `${t.hp}/${t.maxHp}` })) });
+        rows: named.map((t, i) => ({ id: String(i), label: t.name, icon: '◎', note: `${t.hp}/${t.maxHp}` })) });
       if (!picked) { return null; }
       return 'command' in picked ? 'back' : CombatChoices.target(choice, choice.commands[Number(picked.choice)]!.target);
     }
