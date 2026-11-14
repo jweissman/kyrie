@@ -1,4 +1,4 @@
-import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer';
+import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer'; import { CompanyLight } from './company-light';
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
@@ -61,7 +61,7 @@ export class Glance {
     // Not again beneath "A new aim" that has just said it.
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
-    const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred)), after = told
+    const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark), after = told
       && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
@@ -117,8 +117,10 @@ export class Glance {
   // November).
   // Dark with a light to hand is said as it is, not as a want: "No light" beside "Haze: light a candle" had the player
   // arbitrate between the two (the blind playtest, 13 November).
-  private static need({ expedition: e, dark, party }: Screen, lightable: boolean): string[] {
-    return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...dark ? [lightable ? 'Dark' : 'No light'] : [],
+  // So with the dark ahead, nothing to see it by: why the way down is not led with (see CompanyLight).
+  private static need({ expedition: e, dark, party }: Screen, lightable: boolean, ahead: boolean): string[] {
+    return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [],
+      ...dark ? [lightable ? 'Dark' : 'No light'] : ahead ? ['No light'] : [],
       ...party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
         ...m.hp <= 0 ? ['down'] : m.hp < m.maxHp / 2 ? [`${m.hp} of ${m.maxHp}`] : [],
         ...m.conditions.map(c => c.toLowerCase())].join(', ')}`)];
@@ -151,8 +153,11 @@ export class Glance {
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
+    // With an aim followed and the dark ahead, nothing to see by: whoever sells a light is the aim's way.
+    const light = CompanyLight.of(campaign, screen);
+    const seller = screen.aims?.some(a => a.followed) ? light.sellers : undefined;
     const named = AimRoute.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
-      this.named(campaign), this.addressed(campaign))));
+      new Set([...this.named(campaign), ...seller ?? []]), this.addressed(campaign))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
@@ -184,17 +189,7 @@ export class Glance {
         settled: screen.path.some(p => ['settlement', 'site'].includes(p.kind)),
         open: screen.exits.some(e => !!e.bearing), alone: screen.party.length === 1,
         ...this.bed(campaign, screen, schema),
-        ...this.unlit(campaign) } };
-  }
-  // The kinds of thing that light, when none of the company carries one or has a light going (Affordances.served).
-  private static unlit(campaign: Campaign): { unlit?: Set<string> } {
-    const w = campaign.world, party = campaign.playerActor;
-    if (!party || !w.relates('lightsUp') || !w.relates('ownedItem')) { return {}; }
-    const lights = new Set(w.related('lightsUp').map(r => r.args[0]!));
-    const members = w.related('memberOf').filter(r => r.args[1] === party).map(r => r.args[0]!);
-    const lit = members.some(m => w.relates('brings') && w.test(ModuleWriter.call('brings', m, 'light')))
-      || w.related('ownedItem').some(r => members.includes(r.args[1]!) && lights.has(w.one('itemKind', r.args[0]!) ?? ''));
-    return lit ? {} : { unlit: lights };
+        ...light } };
   }
   // Where a bed is to be had a step from here, in a settlement at night, when no one here offers one: whoever offers
   // lodging, where they are.

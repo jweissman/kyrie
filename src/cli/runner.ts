@@ -10,6 +10,7 @@ import type { Act, Screen } from '../ui/screen-types';
 import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
 import { Undertakings } from '../presentation/undertakings';
+import { Promises } from '../presentation/promises';
 import { TerminalScene, type Turned } from './terminal-scene';
 import { PlayTool } from './play-tool';
 import { TerminalWalk, type Presented } from './terminal-walk';
@@ -28,7 +29,8 @@ export interface Offered { id: string; label: string; aspects: string[]; type: A
 // budget counts it (TerminalWalk).
 export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' | 'fight';
   scene: { lines: string[]; prose: string[] };
-  offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next; end?: true }
+  offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
+  broken?: string[]; end?: true }
 // What pulls once an aim is seen through (Succession): its words, and the act that takes it up, or the aim to follow.
 export interface Next { text: string; act?: string; label?: string; follow?: string }
 // An aim held, as the Notes list it: following one (as Follow this does) takes no time.
@@ -62,7 +64,7 @@ export class Runner {
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
-      ...c.running ? {} : { end: true } };
+      ...Runner.promised(screen), ...c.running ? {} : { end: true } };
   }
   // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.
   private offer(screen: Screen, offer: Offer | undefined): Said['offer'] {
@@ -93,6 +95,11 @@ export class Runner {
   private static next(n: Successor): Next {
     return { text: Typography.plain(n.text), ...n.command ? { act: n.command } : {},
       ...n.label ? { label: Typography.plain(n.label) } : {}, ...n.aim ? { follow: n.aim } : {} };
+  }
+  // What the screen shows and the game does not keep (Promises.broken, CO-15): a Gate 1 blocker, said with the turn.
+  private static promised(screen: Screen): { broken?: string[] } {
+    const broken = Promises.broken(screen);
+    return broken.length ? { broken } : {};
   }
   // Every choice's words, by its id.
   private names(): Map<string, string> {

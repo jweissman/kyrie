@@ -94,6 +94,11 @@ export class TerminalMatrix {
       + `turn ${l.turn}, at ${l.at.replace(/ · .*$/, '') || 'the same place'} after "${l.after}": ${l.aim}`));
     return out.length ? out : ['- none'];
   }
+  static broken(rows: Row[]): string[] {
+    const out = rows.flatMap(r => r.m.broken.map(b => `- ${r.seed} ${r.calling}/${r.background} ${r.origin} ${r.policy}, `
+      + `turn ${b.turn}, at ${b.at.replace(/ · .*$/, '') || 'the same place'}: ${b.text}`));
+    return out.length ? out : ['- none'];
+  }
   static said(rows: Row[]): string[] {
     const n = new Map<string, number>();
     for (const l of rows.flatMap(r => r.m.repeated)) { n.set(l, (n.get(l) ?? 0) + 1); }
@@ -129,6 +134,7 @@ export class TerminalMatrix {
       '## Gate 1, tier 1', '', '| build | worlds | origins | callings | creation | no way forward | unpursuable | crash | hang |',
       '|---|---|---|---|---|---|---|---|---|', this.gate(rows, seeds), '',
       '### Unpursuable turns', '', ...this.lost(rows), '',
+      '### Promises the screens did not keep', '', ...this.broken(rows), '',
       '## Lines said again (in most walks first)', '', ...this.said(rows), '',
       '## Attention repaid with nothing (the first of each label)', '',
       ...emptied.slice(0, 20).map(e => `- ${e.label}: ${e.said.join(' ') || '(nothing said)'}`), ''].join('\n');

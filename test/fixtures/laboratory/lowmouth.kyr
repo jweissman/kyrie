@@ -168,11 +168,11 @@ Module lab "The undercroft at Lowmouth" {
   Objective low_u_rats_job_run when low_u_done(low_u_rats_job) and knows(party, low_u_rats_source) and not low_u_nest_cleared(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_u_nest, low_u_buck by low_u_warren "Clear the nest down the rats' run from {low_u_warren} under {low_u_store}. Deal with the old buck rat that keeps it, or they will be back.".
   Topic low_u_rats_job_paid with low_merchant "Tell {low_merchant} the rats under the corn-store are dead, nest and all" when low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and not low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) once {
     Says "{low_merchant} hears about the drain and the old buck rat with a face that says the grain is the least of it. Ten coin are counted out, and a lantern and two flasks of oil set on the counter beside them. 'That drain goes under half the town,' says {low_merchant}. 'If you're going back down it, go with a light that won't blow out.'".
-    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert low_u_paid(low_u_rats_job). Retract knows(actor, low_u_rats_job). }
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert low_u_paid(low_u_rats_job). Retract knows(actor, low_u_rats_job). Assert grateful(low_merchant, actor). Set low_u_thanked_at(low_merchant) to watch(clock). }
   }
   Topic low_u_rats_job_rest with low_merchant "Tell {low_merchant} the rats' nest in the drain is cleared" when low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) once {
     Says "{low_merchant} hears about the drain and the old buck rat, and counts out the other four coin. A lantern and two flasks of oil go on the counter beside them. 'That drain goes under half the town,' says {low_merchant}. 'If you're going back down it, go with a light that won't blow out.'".
-    On discuss { Increase quantity(actor, gold) by 4. Give lantern to actor. Give 2 lamp_oil to actor. Assert low_u_paid(low_u_rats_job). Retract knows(actor, low_u_rats_job). }
+    On discuss { Increase quantity(actor, gold) by 4. Give lantern to actor. Give 2 lamp_oil to actor. Assert low_u_paid(low_u_rats_job). Retract knows(actor, low_u_rats_job). Assert grateful(low_merchant, actor). Set low_u_thanked_at(low_merchant) to watch(clock). }
   }
   Topic low_u_rats_job_half with low_merchant "Tell {low_merchant} the rats under the corn-store are dead" when low_u_done(low_u_rats_job) and not low_u_nest_cleared(low_u_rats_job) and not low_u_paid(low_u_rats_job) once {
     Says "'Dead,' says {low_merchant}. 'And the rest of them coming up the same way they came, I don't doubt.' Six coin are counted out. 'Find where they come from and clear it. Then you'll have the other four, and the lantern.'".
@@ -189,6 +189,11 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_bait_smelt when low_u_paid(low_u_rats_job) and low_u_baited(low_u_rats) and together(low_merchant, party) and not low_u_bait_told(low_u_rats)
     says "{low_merchant} sniffs at your sleeve. 'Ratsbane. Cheaper than a sword, and no blood on the sacks.'" {
     Assert low_u_bait_told(low_u_rats).
+  }
+  Measure low_u_thanked_at(group).
+  Topic low_u_favour with low_merchant "Ask {low_merchant} how the corn-store is keeping" when grateful(low_merchant, actor) and watch(clock) >= low_u_thanked_at(low_merchant) + 72 once {
+    Says "'Dry and quiet,' says {low_merchant}. 'The grain is going out by the cartload.' A candle and a flask of oil come across the counter. 'No charge. You'll be going down again, I don't doubt.'".
+    On discuss { Give candle to actor. Give lamp_oil to actor. }
   }
   Objective low_u_door_owed when low_u_hasp_noted(low_u_store_lock) and state(low_u_store_lock, torn) and not low_u_docked(low_u_store_lock) toward low_u_store "{low_merchant} will know you by the splinters. Set the corn-store's hasp back, or be docked for the door.".
   Rule low_u_door_mended when low_u_hasp_noted(low_u_store_lock) and state(low_u_store_lock, open) and together(low_merchant, party) and not low_u_mended(low_u_store_lock)
