@@ -35,7 +35,8 @@ describe('a creature brought to nothing', () => {
     expect(hp).toBe(1);
     const rose = events.find(e => e.type === 'revive')!;
     expect(rose).toMatchObject({ detail: 'rises again' });
-    expect(CombatPresenter.format(rose, { combatants: [{ id: rose.actor, name: 'The troll' }] } as never))
+    const id = rose.type === 'revive' ? rose.actor : '';
+    expect(CombatPresenter.format(rose, { combatants: [{ id, name: 'The troll' }] } as never))
       .toBe('The troll rises again.');
   });
 });
