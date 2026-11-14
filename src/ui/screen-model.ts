@@ -16,8 +16,7 @@ import { Illumination } from './illumination'; import { Standing } from './stand
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time';
-import { SeenThrough } from './seen-through';
-import { Calendar } from '../campaign/calendar';
+import { SeenThrough } from './seen-through'; import { Calendar } from '../campaign/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
@@ -113,6 +112,7 @@ export class ScreenModel {
       ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
       ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
+      ...world.measured('hire').map(m => [`hire:${m.call.args[0]}`, m.value] as const),
       // What a dealer pays for a treasure, as the sale is labelled: the dealer's price, not its worth.
       ...world.measured(world.module.measures.some(m => m.name === 'dealerPays') ? 'dealerPays' : 'worth')
         .map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
