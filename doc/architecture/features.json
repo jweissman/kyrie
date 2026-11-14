@@ -35,7 +35,7 @@
     "WM": "consequence", "CP": "adventures", "SP": "startup", "AR": "architecture", "AU": "authoring",
     "PR": "persistence", "TC": "testing", "DC": "docs", "TB": "terminal", "TM": "terminal", "TP": "terminal",
     "TO": "opening", "GT": "planes", "RI": "discovery", "EX": "discovery", "DN": "prose", "IG": "opening",
-    "AX": "architecture", "PF": "testing", "LC": "startup", "CN": "travel", "CF": "spells", "FF": "undertakings", "C": "undertakings", "P": "atlas", "T": "architecture"
+    "AX": "architecture", "PF": "testing", "LC": "startup", "CN": "travel", "CF": "spells", "PV": "undertakings", "FF": "undertakings", "C": "undertakings", "P": "atlas", "T": "architecture"
   },
   "textFirst": ["FH", "AB", "R7", "AI", "C", "OPR", "R9", "R10", "R11", "T24", "PL", "OA", "BP", "CO", "BL", "OP", "HP", "CP", "CN", "FF"],
   "byText": [
@@ -127,6 +127,7 @@
     "HP-04": "company",
     "HP-05": "fight",
     "HP-06": "atlas",
-    "HP-07": "terminal"
+    "HP-07": "terminal",
+    "PV-01": "trade", "PV-02": "company", "PV-03": "world", "PV-04": "company", "PV-05": "fight"
   }
 }

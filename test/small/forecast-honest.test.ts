@@ -10,15 +10,13 @@ import { DangerSense } from '../../src/presentation/danger-sense';
 // seeded fights (about nine in a hundred of noise).
 const cells: [string, number][] = [['mage', 1], ['mage', 2], ['mage', 3], ['mage', 4], ['thief', 2], ['thief', 3],
   ['thief', 4], ['warrior', 4]];
-const ceiling: Record<string, number> = { deadly: 0.4, grave: 0.8 };
-const floor: Record<string, number> = { slight: 0.8, fair: 0.75, hard: 0.35 };
 const rank = ['slight', 'fair', 'hard', 'grave', 'deadly'];
 const seen = cells.map(([calling, rats]) => ({ calling, rats,
   danger: DangerSense.of(Gauntlet.encounter({ calling, foe: 'rat', count: rats }, 'reckon')).danger,
   won: Gauntlet.wins({ calling, foe: 'rat', count: rats }, 24) }));
 describe('the fight forecast, against the fights it forecasts', () => {
   it('calls deadly or grave what is mostly lost, slight or fair what is mostly won', () => {
-    const wrong = seen.filter(s => s.won > (ceiling[s.danger] ?? 1) || s.won < (floor[s.danger] ?? 0))
+    const wrong = seen.filter(s => Gauntlet.contradicts(s.danger, s.won))
       .map(s => `${s.calling} v ${s.rats} rats: said ${s.danger}, won ${Math.round(100 * s.won)}%`);
     expect(wrong).toEqual([]);
   });
