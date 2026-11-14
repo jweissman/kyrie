@@ -1,4 +1,4 @@
-import type { Act } from './screen-types';
+import type { Act, Screen } from './screen-types';
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
 
@@ -7,6 +7,14 @@ import { Canon } from '../canon/canon';
 // dark room had Light prepared and could cast it only from the pack: the play-structure investigation's PT-06).
 export class Illumination {
   static mark(acts: Act[]): Act[] { return acts.map(a => this.gives(a) ? { ...a, light: true } : a); }
+  // Whether the company can make a light where it stands: a light it carries that can be lit, or a spell of light it
+  // can cast. In the dark, a company that can is told only that it is dark, its lighting acts below; one that cannot,
+  // where a light is had (the second blind playtest: "You have no light… a torch or a candle is a coin" was said to a
+  // company carrying a torch, a candle and Light).
+  static kindles(screen: Pick<Screen, 'items' | 'party'>): boolean {
+    return screen.items.some(i => !!i.light && i.acts.some(a => !a.disabled))
+      || screen.party.some(m => m.acts.some(a => !!a.light && !a.disabled));
+  }
   private static gives(a: Act): boolean {
     const command = a.command ?? a.children?.[0]?.command ?? '';
     const technique = /^field_spell\([^,]*,([^,)]*)/.exec(command)?.[1];

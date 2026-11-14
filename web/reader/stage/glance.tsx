@@ -69,7 +69,7 @@ export class GlanceStage {
           {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
           {g.came && <GlanceStage.Came app={app} came={g.came} />}
-          {screen.dark && !g.sight && <p className="dark-note">{Told.unlit}</p>}
+          {screen.dark && !g.sight && <p className="dark-note">{Told.dark(screen)}</p>}
           {g.sight && <p className="sight" data-id={g.sight.id}><Told.Said text={g.sight.text} /></p>}
           <GlanceStage.Life app={app} glance={g} />
           {g.changed.length > 0 && <div className="changed">
@@ -146,7 +146,7 @@ export class GlanceStage {
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
       {g.came && <GlanceStage.Came app={app} came={g.came} />}
-      {screen.dark && <p className="dark-note">{Told.unlit}</p>}
+      {screen.dark && <p className="dark-note">{Told.dark(screen)}</p>}
       {/* A danger before the place's telling: under it, its words had been below the fold (round 4, E 61). */}
       {g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
       {/* A lens on (Go, Look, Wait) has the room: the place by its first paragraph, nothing more of it until the lens

@@ -2,6 +2,8 @@ import { useRef, useState, type ReactNode } from 'react';
 import { AimSaid } from '../../../src/presentation/aim-said';
 import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
+import type { Screen } from '../../../src/ui/screen-types';
+import { Illumination } from '../../../src/ui/illumination';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { ToldLines } from '../../../src/presentation/told-lines';
@@ -24,6 +26,8 @@ export class Told {
   // In the dark with nothing to see by, said with what a light costs and where it is had: a dark room had not said
   // that a light is cheap, nor where it is sold (the authors' AB-05).
   static readonly unlit = 'It is dark here. You have no light to see by. A torch or a candle is a coin at a chandler\u2019s or a general store.';
+  // A company that can make a light is told only that it is dark: its lighting acts are below (Illumination.kindles).
+  static dark(screen: Screen): string { return Illumination.kindles(screen) ? 'It is dark here.' : Told.unlit; }
   // With the journey (journey: false leaves the way here to the facing page, see Told.Travelled), and who and what is
   // here after the place's first paragraph (M17-05: a town's people had been under the whole telling, a scroll away).
   // Its heading (the chapter, the place's name, where and when) is the stage's own head where the stage draws one
@@ -53,7 +57,7 @@ export class Told {
     return <>
       {headed && <Told.Heading frame={frame} app={app} />}
       {recap && (recap.aim || recap.last) && <Told.Recap recap={recap} />}
-      {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">{Told.unlit}</p>}
+      {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">{Told.dark(screen)}</p>}
       {s.pending && !whole && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {journey && <Told.Travelled app={app} />}
       {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}

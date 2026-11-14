@@ -241,13 +241,15 @@ export class ReaderOpening {
   };
   private starting() {
     const s = this.app.state, terrain = this.app.props.query.get('terrain');
-    // One who comes alone sets out with the weapon the page shows them with: theirs, or the one they strike best with.
-    const one = s.setting?.generated && s.party.length === 1 && s.catalog && s.party[0]!;
+    // The one made sets out with the weapon the page shows them with: theirs, or the one they strike best with, whoever
+    // comes with them (the second blind playtest: creation said "A battleaxe in hand" of a dwarf who set out beside a
+    // bard of her origin's with the calling's longsword, the default kept only for one who came alone).
+    const one = s.setting?.generated && s.catalog && s.party[0];
     const calling = one ? s.catalog!.callings.find(c => c.id === one.classId) : undefined;
     const weapon = one && !one.weapon && calling ? CreationRules.best(calling.weapons, one, s.catalog!)?.id : undefined;
     // And with a name, whatever is left in the field.
-    const armed = one ? [{ ...one, name: CreationDefaults.named(one, s.setting), ...weapon ? { weapon } : {} }]
-      : s.party;
+    const armed = one ? [{ ...one, name: CreationDefaults.named(one, s.setting), ...weapon ? { weapon } : {} },
+      ...s.party.slice(1)] : s.party;
     return { campaign: s.campaign, seed: s.seed, party: armed, ...terrain ? { terrain } : {},
       ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} };
   }
