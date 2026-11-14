@@ -7,7 +7,7 @@ rules, and where Kyr cannot express it, the smallest generic missing capability 
 | Pin | The chain | Where it stands |
 |---|---|---|
 | **The Eye** | A mixed party (warrior, rogue, mage) fights a high-danger opponent (a discerner, a dragon) | **pinned** (test/the-eye) |
-| **The Landholder** | Acquire a parcel, commission a change, leave, return, find the change part of the world | expressible today in Kyr; fixture next |
+| **The Landholder** | Acquire a parcel, commission a change, leave, return, find the change part of the world | **pinned** (test/small/landholder): expressed in existing Kyr, nothing missing |
 | **The Alchemist** | Collect three plants, experiment, discover a preparation, reproduce it, use or sell it | a library pattern is missing (recipe knowledge); fixture after it |
 | **The Befriender** | Bond with a recruitable animal, travel together, a consequential event, separate, reunite intact | needs a probe: animals as company, a bond that persists apart |
 | **The Commander** | Recruit a small group, issue an order, resolve a conflict by the rules, keep its consequences | needs design: "issue an order" has no verb |
@@ -61,8 +61,9 @@ eighth "should beat it, though not unhurt" (fair). Held by test/the-eye (a forec
 
 ## Next, one at a time
 
-1. **Landholder fixture** (Kyr only, a tiny world): the cheapest, and it proves the "change becomes part of the world" claim
-   including through save and reload. If it needs anything the kernel lacks, that is the finding.
+1. ~~Landholder fixture~~ **done**: acquire, commission (it takes time), leave, wait, return, and a save and load, all in a tiny Kyr
+   world with nothing hardcoded; the kernel lacked nothing. The one observation: the author invented `deeded`, so a shared
+   ownership relation beside dominion's `holds` (a power's) is a small library pattern worth deciding.
 2. **Alchemist**: the `knowsRecipe` pattern and an experiment fixture.
 3. **Befriender** probe.
 4. **Commander** design question to the owner before anything is built.
