@@ -85,14 +85,17 @@ describe('summoning', () => {
 
 describe('random targets and many actions', () => {
   it('draws a random spell\'s targets once, for its saves and its damage alike', () => {
-    const battle = Field.battle([Field.caster('magic_missile', 5), ...Field.foes(7)], 'missiles');
+    // Lightning Bolt, Orsino's: two foes drawn at random, harmed and then saving against paralysis (Magic Missile, the
+    // SRD's now, strikes one chosen foe).
+    const battle = Field.battle([Field.caster('lightning_bolt', 9), ...Field.foes(7)], 'missiles');
     Field.until(battle, 'caster');
-    const events = Field.cast(battle, 'magic_missile', 'any');
+    const events = Field.cast(battle, 'lightning_bolt', 'any');
     const missiles = events.filter(e => e.type === 'damage' && 'actor' in e && e.actor === 'caster');
     const hit = new Set(missiles.map(e => 'target' in e ? e.target : ''));
-    const saved = new Set(events.filter(e => e.type === 'save').map(e => 'actor' in e ? e.actor : ''));
-    expect(hit.size).toBe(2 + Math.round(5 / 2));
+    const saved = new Set(events.filter(e => e.type === 'save').map(e => 'target' in e ? e.target : ''));
+    expect(hit.size).toBe(2);
     expect([...saved].every(id => hit.has(id) || !id.startsWith('wolf'))).toBe(true);
+    expect(saved.size).toBeGreaterThan(0);
   });
   it('lets an owlbear act twice in its turn, and values it as Orsino does', () => {
     const owlbear = new Content('owl').createCreature('owlbear', { raceId: 'owlbear', level: 3 });

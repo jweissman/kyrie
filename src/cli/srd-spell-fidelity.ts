@@ -4,41 +4,66 @@ import { Amounts } from '../rules/amounts';
 import { Canon } from '../canon/canon';
 import type { Ability } from '../canon/schema';
 import type { Effect } from '../lang/parse';
+import { SpellResolution } from './srd-spell-resolution';
 
 // A catalog spell against its Revised 3.5 SRD entry (data/sources/srd35, the concordance names which), field by
 // field: its level on its tradition's list, its school, its harm's dice (their mean at caster levels 1, 5, 10 and 20)
-// and kind, its save (the score it is made with, and what a success saves), its reach (on itself, on one, on many)
-// and how long what it lays lasts. Each field is exact, differs (both values said), or n/a (neither has one).
+// and kind, its save (the score it is made with, and what a success saves) and that save's difficulty, how it is
+// aimed (an attack, a touch, a ray, or none), what it falls on (itself, one, several, a cone, a burst, a line), and how
+// long what it lays lasts. Each field is exact, converted (by a rule it names), differs (both values said), or n/a.
+// The fields are graded three ways (the reviewer's atlas): structural (level and school), resolution (what is rolled
+// and what it does), and play identity (the behaviours that make it recognisable, proved by a focused test the
+// concordance names; unassessed until one does).
 export type Verdict = 'exact' | 'converted' | 'differs' | 'n/a';
 export interface SrdSpell {
   name: string; school: string; descriptors: string[]; levels: Record<string, number>; range: string; targets: string;
-  duration: string; save: string; sr: string;
+  duration: string; save: string; sr: string; attack?: string;
   damage?: { dice: string; per?: string; max?: string; type: string; plus?: string };
   heal?: { dice: string; plus?: string; max?: string };
 }
 export interface Field { verdict: Verdict; ours: string; theirs: string }
-export const spellFields = ['level', 'school', 'dice', 'type', 'save', 'reach', 'duration'] as const;
-export type SpellRow = { id: string; srd: string } & Record<typeof spellFields[number], Field>;
+export const spellFields = ['level', 'school', 'dice', 'type', 'save', 'dc', 'attack', 'target', 'duration'] as const;
+export type Grade = 'pass' | 'fail' | 'unsupported' | 'unassessed' | 'proved';
+export interface Grades { structural: Grade; resolution: Grade; identity: Grade }
+export type SpellRow = { id: string; srd: string; grades: Grades } & Record<typeof spellFields[number], Field>;
 export class SpellFidelity {
   static readonly spells = srd.spells as unknown as Record<string, SrdSpell>;
   static readonly map = concordance.spells as unknown as Record<string, string>;
+  static readonly identities = (concordance as { identities?: Record<string, string> }).identities ?? {};
+  // A field's departure from the SRD by a rule the concordance names: read as converted, the rule said, not differs.
+  static readonly conversions = (concordance as { conversions?: Record<string, Record<string, string>> })
+    .conversions ?? {};
+  static readonly structural = ['level', 'school'] as const;
+  static readonly resolution = ['dice', 'type', 'save', 'dc', 'attack', 'target', 'duration'] as const;
   static readonly levels = [1, 5, 10, 20];
   static rows(): SpellRow[] {
     return Object.entries(this.map).filter(([id]) => Canon.abilities[id]?.spell).map(([id, key]) => this.row(id, key));
   }
   static row(id: string, key: string, ability: Ability = Canon.abilities[id]!): SpellRow {
-    const s = this.spells[key]!;
-    return { id, srd: key, level: this.level(ability, s), school: this.same(ability.spell!.school ?? '', s.school),
+    const s = this.spells[key]!, level = this.listed(s, ability.spell!.tradition) ?? 1, r = SpellResolution;
+    const fields = { level: this.level(ability, s), school: this.same(ability.spell!.school ?? '', s.school),
       dice: this.dice(ability, s), type: this.type(ability, s), save: this.save(ability, s),
-      reach: this.same(this.reach(ability), this.theirReach(s)),
-      duration: this.same(this.lasts(ability), this.theirs(s)) };
+      dc: this.measured(r.dc(ability, s, level)), attack: this.measured(r.attack(ability, s)),
+      target: this.measured(r.target(id, ability, s)), duration: this.same(this.lasts(ability), this.theirs(s)) };
+    for (const [field, rule] of Object.entries(this.conversions[id] ?? {})) {
+      const f = fields[field as keyof typeof fields];
+      if (f?.verdict === 'differs') { fields[field as keyof typeof fields] = { verdict: 'converted', ours: rule, theirs: f.theirs }; }
+    }
+    return { id, srd: key, ...fields, grades: this.graded(id, ability, fields) };
   }
-  // Faithful in what a spell does when cast (its level, school, harm and save); its reach and how long it lasts are
-  // measured beside them (a fight is short: what the SRD lays for minutes, Westernesse lays for rounds).
-  static readonly core = ['level', 'school', 'dice', 'type', 'save'] as const;
-  static faithful(row: SpellRow, fields: readonly (typeof spellFields[number])[] = SpellFidelity.core): boolean {
-    return fields.every(f => row[f].verdict !== 'differs');
+  private static measured(m: { ours: string; theirs: string }): Field { return this.same(m.ours, m.theirs); }
+  private static passes(f: Record<string, Field>, keys: readonly string[]): boolean {
+    return keys.every(k => f[k]!.verdict !== 'differs');
   }
+  // Its three grades: a grade passes when none of its fields differs; resolution is unsupported where the catalog
+  // says Westernesse cannot execute it; play identity is proved only by a focused test the concordance names.
+  private static graded(id: string, a: Ability, f: Record<typeof spellFields[number], Field>): Grades {
+    return { structural: this.passes(f, this.structural) ? 'pass' : 'fail',
+      resolution: a.unsupported ? 'unsupported' : this.passes(f, this.resolution) ? 'pass' : 'fail',
+      identity: this.identities[id] ? 'proved' : 'unassessed' };
+  }
+  // Faithful in structure and resolution both (play identity is reported beside, proved one entry at a time).
+  static faithful(row: SpellRow): boolean { return row.grades.structural === 'pass' && row.grades.resolution === 'pass'; }
   private static same(ours: string, theirs: string): Field {
     return { verdict: !ours && !theirs ? 'n/a' : ours === theirs ? 'exact' : 'differs', ours, theirs };
   }
@@ -64,7 +89,8 @@ export class SpellFidelity {
     const amount = (e as { amount: { kind: string; expression?: string; value?: number } }).amount;
     const text = amount.kind === 'literal' ? String(amount.value) : amount.expression!;
     try {
-      return String(Amounts.mean(text, { level, bonusSpellDC: 0, hitDice: level, strength: 10, dexterity: 10,
+      return String(Amounts.mean(text, { level, castingLevel: level, bonusSpellDC: 0, hitDice: level, strength: 10,
+        dexterity: 10,
         constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 }));
     } catch { return text; }
   }
@@ -101,14 +127,6 @@ export class SpellFidelity {
       ? { verdict: 'converted', ours: `${kind} ${outcome}`, theirs } : field;
   }
   static readonly plain = ['fortitude', 'reflex', 'will', 'magic'];
-  private static reach(a: Ability): string {
-    const t = a.effects?.find(e => e.kind !== 'cast')?.target ?? '';
-    return t === 'self' ? 'self' : ['enemies', 'allies', 'party', 'all', 'random enemies'].includes(t) ? 'many' : t ? 'one' : '';
-  }
-  private static theirReach(s: SrdSpell): string {
-    if (/^personal/i.test(s.range) || /^you$/i.test(s.targets)) { return 'self'; }
-    return /spread|burst|cone|line|cylinder|emanation|creatures|radius|cloud|up to|or more/i.test(s.targets) ? 'many' : 'one';
-  }
   // How long what it lays lasts: at once, a number of rounds (at caster level 5), or past the fight.
   private static lasts(a: Ability): string {
     const laid = a.effects?.find(e => e.kind === 'apply') as { duration?: number | string } | undefined;

@@ -17,7 +17,7 @@ export class CallingStep {
     return (
       <Card.Deck kind="callings" onward={onward} details={calling && { title: calling.name,
         head: { kind: 'Calling', glyph: calling.id, summary: calling.text },
-        body: <Card.Particulars title="In play" facts={CallingStep.facts(calling, catalog).slice(1)} /> }}>
+        body: <Card.Particulars title="What the calling makes of you" facts={CallingStep.facts(calling, catalog).slice(1)} /> }}>
         {step.cards.map(c => <Card.View key={c.id} name={c.name} line={c.line} text={c.text} glyph={c.id} shut={c.shut}
           chosen={step.chosen === c.id} data={{ choice: `classId:${c.id}` }} onChoose={() => app.opening.choose(step.id, c.id)} />)}
       </Card.Deck>
