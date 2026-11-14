@@ -47,11 +47,91 @@ events show fire riding each landed blow:
 - **Playability is not judged here.** Whether a player meets such a blade in the first hour is content placement,
   not capability.
 
+## The deep mine
+
+`test/small/pin-deep-mine`: a pit-head and a stope under it, joined by a shaft, in the fast lane.
+
+**The journey:** light a torch, go down the shaft, search the stope (a seam is found and a lump of star-iron comes to
+light), take it, climb out. The company is then saved and restored, and goes back down: the ore is still gone and the
+seam still known.
+
+**Findings:**
+- **The kernel and content support it whole:** a shaft, the underground dark, a discovery found by searching, a
+  hidden item, and persistence across a save, all through the player's own acts. It passed on the first try.
+- **Depth is realized eagerly.** A drawn country's deep (src/world/deep) is written out whole when the country is
+  drawn; nothing is made only when reached. The fantasy does not need lazy depth, but cost does. This is the
+  architecture review's AX-07, design for M22.
+- **The ore's kind is borrowed** (`like cell_key worth 20`). A module has no plain "valuable" kind to be like, which
+  is a small gap beside the fiery blade's first.
+
+## The remembered favour
+
+The playability line's `test/small/pin-remembered-favour`:
+- **Expressible, but unreached until now.** `grateful`, the voice's friend bond, timed topics and gifts all existed,
+  but no content made a job's giver grateful.
+- **The undertown now does:** a day after the rats, Mik gives a candle and oil, "No charge".
+- **One generic rule was missing:** gratitude never touched a price. It is fixed as CO-16, where a grateful seller asks
+  a coin less (test/small/thanks-priced).
+
+## The ranger's mount
+
+`test/small/pin-ranger-mount`: a yard, a lane and a far field, a ranger, and a bay gelding named Bran.
+
+**The journey:** "Ask Bran to come with you"; the company goes to the far field and Bran is there with it. "Let Bran
+make his own way"; the company walks back to the yard, waits an hour, and returns: Bran is in the far field, the same
+horse, and can be asked along again.
+
+**Findings:**
+- **Expressible, as an animal that is led:** the escort rules (`lead`, `part_ways`, `acceptsEscort`) give a named,
+  persistent animal that travels with the company and is found where it was left.
+- **Riding is a missing generic capability.** No act mounts or dismounts. A led horse does not change how long a
+  journey takes, what can be carried, or how a fight goes. The smallest failing example: the same yard to the far
+  field, with Bran led and without, takes the same time, and nothing offers "Mount Bran". This needs a design (a
+  `mounted` state, travel time by the mount's pace, a carrying load, dismounting before a narrow way) and is noted for
+  M22. It is not built here.
+
+## Familiar scouting (not expressible: a finding)
+
+**Findings:**
+- **A missing generic capability.** Perception and knowledge belong to the company as a whole: what it notices
+  (`noticed`), what is shown to it (`visibleTo`), and what it knows (`knows(party, …)`). No act sends a companion
+  somewhere apart: `lead`, `part_ways` and `send_off` only follow, release or dismiss. Nothing lets a creature apart
+  learn a fact and bring it back.
+- **The smallest failing example:** a mage with an owl at a gate, and a sentry in the next room unseen. There is no act
+  "send the owl into the next room", and no rule by which what the owl sees becomes `knows(party, sentry_there)`.
+- **What it wants, as a design note for M22:**
+  - a member or companion acting apart, with a place and a perception of its own;
+  - knowledge it gains, passed to the company by an act or on rejoining;
+  - the owner's view, not the familiar's, deciding what is told.
+
+  This is the same capability a scout, a split party or a messenger would use. No fixture is written, since no
+  journey can be.
+
+## The planar gate (partial: a finding)
+
+**Findings:**
+- **What exists:**
+  - the House of Doors, one per world, reached from the first country;
+  - each plane's laws as conditions on whoever is there (`plane_fire`, `plane_air`, … in the catalog);
+  - the canonical ids across lazy install (M18, OWN-31..38).
+- **What is missing** is the threshold as a thing with real prerequisites (a key, a rite, a season), interactions (it
+  can be opened, sealed, guarded or paid), traversal (who may pass, what crossing costs) and consequences (what follows
+  the company back). This is the deferred grand tour (register GT-01..03, M22). No pin is written here.
+
+## Against the owner's rubric (15 November)
+
+| Pin | Rubric | State |
+|---|---|---|
+| Fiery greatsword | equipment, damage composition, visible consequences | **passes** with the catalog's longsword of flames; Kyr cannot make a new magic weapon |
+| Ranger's mount | acquire, travel with, dismount, find again | **partly:** led along and found again; riding and dismounting do not exist |
+| Familiar scouting | perceive what the owner cannot, communicate a discovery | **missing:** no companion acts or perceives apart from the company |
+| Deep dwarven mine | descend, discover, return, revisit; lazy depth optional | **passes**; drawn depth is realized eagerly (AX-07) |
+| Planar gate | prerequisites, interactions, traversal, consequences | **partly:** the House of Doors and the planes' laws exist; the threshold as a thing does not (GT) |
+| Remembered favour | help, leave, return to a changed relationship or opportunity | **passes**, after content made gratitude and a shared rule made it count in trade (CO-16) |
+
 ## Next
 
 - **The remembered favour:** help someone, leave, and return to a changed relationship. It belongs in the
   laboratory; the playability line owns it.
 - **The adventure-density pin** is the laboratory's own question, judged by Gate 1's walks: opportunities reached
   through ordinary decisions, not counted.
-- **The ranger's mount and the deep mine** probe persistence and lazy realization (AX-07). They are candidates for
-  M22.

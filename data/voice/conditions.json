@@ -204,6 +204,194 @@
   "dominated": {
    "begins": "{target} is mastered.",
    "ends": "{target} is free of the mastery."
+  },
+  "fireproof": {
+   "begins": "{target} is warded against fire.",
+   "ends": "The ward against fire on {target} fades."
+  },
+  "acidproof": {
+   "begins": "{target} is warded against acid.",
+   "ends": "The ward against acid on {target} fades."
+  },
+  "waterproof": {
+   "begins": "{target} is warded against the water.",
+   "ends": "The ward against water on {target} fades."
+  },
+  "stormproof": {
+   "begins": "{target} is warded against the storm.",
+   "ends": "The ward against the storm on {target} fades."
+  },
+  "darkproof": {
+   "begins": "{target} is warded against the dark.",
+   "ends": "The ward against the dark on {target} fades."
+  },
+  "lightproof": {
+   "begins": "{target} is warded against the light.",
+   "ends": "The ward against the light on {target} fades."
+  },
+  "mindproof": {
+   "begins": "{target}'s mind is closed to meddling.",
+   "ends": "{target}'s mind opens again."
+  },
+  "mageproof": {
+   "begins": "{target} is warded against spells.",
+   "ends": "The ward against spells on {target} fades."
+  },
+  "soundproof": {
+   "begins": "No sound reaches {target}.",
+   "ends": "{target} can hear again."
+  },
+  "blurred": {
+   "begins": "{target}'s outline blurs.",
+   "ends": "{target} comes back into focus."
+  },
+  "calm": {
+   "begins": "{target} grows calm.",
+   "ends": "{target}'s calm passes."
+  },
+  "chanting": {
+   "begins": "{target} begins to chant.",
+   "ends": "{target}'s chant falls silent."
+  },
+  "praying": {
+   "begins": "{target} prays.",
+   "ends": "{target} finishes praying."
+  },
+  "meditating": {
+   "begins": "{target} goes still and quiet.",
+   "ends": "{target} stirs."
+  },
+  "focus": {
+   "begins": "{target}'s mind narrows to the work.",
+   "ends": "{target}'s focus slips."
+  },
+  "keen": {
+   "begins": "{target}'s senses sharpen.",
+   "ends": "{target}'s senses dull again."
+  },
+  "despair": {
+   "begins": "Despair takes {target}.",
+   "ends": "{target}'s despair lifts."
+  },
+  "doom": {
+   "begins": "A doom settles on {target}.",
+   "ends": "The doom on {target} lifts."
+  },
+  "disabled": {
+   "begins": "{target} is crippled.",
+   "ends": "{target} can move freely again."
+  },
+  "dug_in": {
+   "begins": "{target} digs in.",
+   "ends": "{target} gives ground."
+  },
+  "braced": {
+   "begins": "{target} braces.",
+   "ends": "{target} stands easy."
+  },
+  "enlarged": {
+   "begins": "{target} grows to twice their size.",
+   "ends": "{target} shrinks to their own size."
+  },
+  "engulfed": {
+   "begins": "{target} is engulfed.",
+   "ends": "{target} is free of it."
+  },
+  "false_life": {
+   "begins": "A borrowed life fills {target}.",
+   "ends": "The borrowed life drains out of {target}."
+  },
+  "feebleminded": {
+   "begins": "{target}'s wits leave them.",
+   "ends": "{target}'s wits come back."
+  },
+  "flight": {
+   "begins": "{target} rises into the air.",
+   "ends": "{target} comes down to earth."
+  },
+  "ironskin": {
+   "begins": "{target}'s skin hardens like iron.",
+   "ends": "{target}'s skin softens."
+  },
+  "stoneskin": {
+   "begins": "{target}'s skin hardens to stone.",
+   "ends": "{target}'s skin softens."
+  },
+  "steelskin": {
+   "begins": "{target}'s skin hardens like steel.",
+   "ends": "{target}'s skin softens."
+  },
+  "mazed": {
+   "begins": "{target} is lost in a maze.",
+   "ends": "{target} finds the way out."
+  },
+  "mirror_images": {
+   "begins": "Images of {target} flicker all around.",
+   "ends": "{target}'s images vanish."
+  },
+  "mocked": {
+   "begins": "{target} is stung by mockery.",
+   "ends": "{target} shrugs off the mockery."
+  },
+  "petrified": {
+   "begins": "{target} is stone from head to foot.",
+   "ends": "{target} is flesh again."
+  },
+  "polymorphed": {
+   "begins": "{target} is changed into another shape.",
+   "ends": "{target} is themselves again."
+  },
+  "reckless": {
+   "begins": "{target} throws caution away.",
+   "ends": "{target} steadies."
+  },
+  "riposte": {
+   "begins": "{target} waits for an opening.",
+   "ends": "{target} lets the opening go."
+  },
+  "silence": {
+   "begins": "{target} is struck dumb.",
+   "ends": "{target} can speak again."
+  },
+  "strength": {
+   "begins": "{target} swells with strength.",
+   "ends": "{target}'s strength ebbs."
+  },
+  "vigor": {
+   "begins": "{target} is filled with vigour.",
+   "ends": "{target}'s vigour ebbs."
+  },
+  "warded": {
+   "begins": "A ward shields {target}.",
+   "ends": "The ward on {target} fades."
+  },
+  "fleeing": {
+   "begins": "{target} breaks and flees.",
+   "ends": "{target} stops running."
+  },
+  "truesight": {
+   "begins": "{target} sees things as they are.",
+   "ends": "{target}'s true sight fades."
+  },
+  "second_sight": {
+   "begins": "{target} sees what is hidden.",
+   "ends": "{target}'s second sight fades."
+  },
+  "consecrated": {
+   "begins": "The ground under {target} is made holy.",
+   "ends": "The holiness under {target} fades."
+  },
+  "marked_for_judgment": {
+   "begins": "{target} is marked for judgment.",
+   "ends": "The mark on {target} fades."
+  },
+  "oiled": {
+   "begins": "{target} is slick with oil.",
+   "ends": "{target} is dry of the oil."
+  },
+  "preparing_to_charge": {
+   "begins": "{target} gathers to charge.",
+   "ends": "{target} gives up the charge."
   }
  }
 }

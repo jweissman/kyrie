@@ -113,3 +113,25 @@ The owner: exploratory design thoughts are ways of improving or evaluating the m
 - Rows from playtests and reviews (§33–35) are **defects found**.
 - P0 is kept for what stops ordinary play or makes the game lie; a design preference is P2.
 
+
+## Experience floors (the owner, 15 November)
+
+The fast lane's real purpose is to make continuous experimentation with the actual game affordable. The recurring
+experiential complaints become cheap floors, read from the runner's walks (Gate 1's tier 1), with baselines before
+thresholds:
+- **variety:**
+  - opportunity facets seen;
+  - distinct opportunities;
+  - promoted against buried;
+  - pursued and resolved;
+  - consequential changes;
+  - returns that find something changed;
+- **continuity:** lost turns, the longest held intention, loops;
+- **prose:** clause load and repetition;
+- **identity:** what one calling meets and another does not;
+- **payoff:** a relationship or a discovery that persists on return.
+
+They are counted from the engine's own semantics (Offer aspects, ActType, action metadata), never from colours, and
+never gamed with decoration. A failure is reduced to a fixture, fixed at its root, and re-run; findings are grouped by
+root cause. The baselines and representative transcripts are in `mission-21/terminal/experience.md`. These floors are
+not a substitute for people playing.

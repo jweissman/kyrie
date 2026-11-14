@@ -62,7 +62,14 @@ export class Undertakings {
   }
   // The aims as the page shows them: the one followed first, then as they bear on where the company stands (see
   // Stakes.here); in words, and by id.
-  static shown(campaign: Campaign, held: { id: string; text: string }[], here: string) {
+// The places of the aims held, and of the one followed: what a list of journeys leads with (TP-06: the a1 camp had
+  // offered 36 set-outs by distance alone).
+  static aimed(campaign: Campaign): { followed: string[]; held: string[] } {
+    const held = this.held(campaign), followed = this.followed(campaign, held);
+    return { followed: followed ? this.places(campaign, followed) : [],
+      held: held.flatMap(o => this.places(campaign, o)) };
+  }
+    static shown(campaign: Campaign, held: { id: string; text: string }[], here: string) {
     const followed = this.followed(campaign)?.id, chosen = this.chosen(campaign);
     const defs = new Map((campaign.module.objectives ?? []).map(o => [o.id, o]));
     const ordered = Stakes.here(campaign, held, here)
