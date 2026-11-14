@@ -1,0 +1,116 @@
+/// <reference lib="dom" />
+// The first touch filmed, unedited (doc/architecture/mission-21/first-touch.md): the studio's mark, the title, the
+// composed creation, setting out held, the opening's pages, the first scene and its first acts, as a player meets
+// them. F_W by F_H; F_TAP=1 a touch screen (taps, a held finger), else keys and a mouse; F_RM=1 reduced motion;
+// F_SCALE the video's scale (0.5 keeps it small). Copied to test/ to run, with T_SITE, TOUCH, F_OUT; KYRIE_BROWSER=1.
+import { describe, it } from 'bun:test';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import type { Page } from 'playwright-core';
+import { MonoBrowser } from './support/mono-browser';
+
+const site = process.env.T_SITE ?? '/var/tmp/kyrie/wt-touch/site', touch = process.env.TOUCH ?? 'down';
+const W = Number(process.env.F_W ?? 1280), H = Number(process.env.F_H ?? 800), tap = !!process.env.F_TAP;
+const rm = !!process.env.F_RM, scale = Number(process.env.F_SCALE ?? 0.5);
+const out = process.env.F_OUT ?? `/var/tmp/kyrie/touch/film-${W}x${H}${tap ? '-tap' : ''}${rm ? '-rm' : ''}`;
+const ghost = () => {
+  const g = document.createElement('i');
+  g.style.cssText = 'position:fixed;left:-11px;top:-11px;width:16px;height:16px;margin:3px;border-radius:50%;'
+    + 'border:1.5px solid rgba(236,230,217,.8);box-shadow:0 0 0 1.5px rgba(10,11,14,.55);pointer-events:none;z-index:9999';
+  window.addEventListener('pointermove', e => { if (!g.isConnected) { document.body?.append(g); }
+    g.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; }, true);
+  window.addEventListener('pointerdown', e => { if (!g.isConnected) { document.body?.append(g); }
+    g.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; }, true);
+};
+const log: string[] = [], t0 = Date.now(), note = (s: string) => log.push(`${((Date.now() - t0) / 1000).toFixed(1)}s ${s}`);
+async function centre(page: Page, sel: string) {
+  const b = await page.locator(sel).first().boundingBox({ timeout: 8000 }).catch(() => null);
+  return b ? { x: b.x + b.width / 2, y: b.y + b.height / 2 } : undefined;
+}
+async function press(page: Page, sel: string, ms = 90) {
+  const c = await centre(page, sel); if (!c) { note(`missing ${sel}`); return; }
+  if (tap) {
+    const cdp = await page.context().newCDPSession(page), pt = [{ x: c.x, y: c.y }];
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: pt });
+    await page.waitForTimeout(ms);
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await cdp.detach();
+  } else {
+    await page.mouse.move(c.x, c.y, { steps: 10 }); await page.waitForTimeout(160);
+    await page.mouse.down(); await page.waitForTimeout(ms); await page.mouse.up();
+  }
+}
+async function consider(page: Page, sel: string) {
+  if (tap) { return; }
+  const c = await centre(page, sel); if (c) { await page.mouse.move(c.x, c.y, { steps: 12 }); }
+}
+describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch', () => {
+  it('is filmed', async () => {
+    mkdirSync(out, { recursive: true });
+    const browser = await MonoBrowser.launch();
+    const context = await browser.newContext({ viewport: { width: W, height: H }, hasTouch: tap, isMobile: false,
+      reducedMotion: rm ? 'reduce' : 'no-preference',
+      recordVideo: { dir: out, size: { width: Math.round(W * scale), height: Math.round(H * scale) } } });
+    await context.addInitScript(`(${ghost.toString()})()`);
+    const page = await context.newPage(), pause = (ms: number) => page.waitForTimeout(ms), shot = (n: string) =>
+      page.screenshot({ path: `${out}/${n}.png` });
+    page.on('pageerror', e => log.push(`ERR ${e.message}`));
+    await page.goto(`file://${site}/mono.html?ident&opening&touch=${touch}`); note('load');
+    await page.waitForSelector('.beat-ready, .beat-reveal', { timeout: 30000 }); note('title coming');
+    await page.waitForSelector('.beat-ready', { timeout: 30000 }); note('title ready'); await pause(700);
+    if (!tap) { await page.keyboard.press('ArrowDown'); await pause(600); await page.keyboard.press('ArrowDown'); await pause(600);
+      await page.keyboard.press('ArrowUp'); await pause(500); await page.keyboard.press('ArrowUp'); await pause(600); }
+    await shot('a-title');
+    if (tap) { await press(page, '[data-action="begin"]'); } else { await page.keyboard.press('Enter'); }
+    note('new game');
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); note('creation');
+    if (process.env.F_STOP) {
+      await pause(900); await consider(page, '.composed [data-option] >> nth=1'); await pause(700);
+      await press(page, '.composed [data-option] >> nth=1'); await pause(Math.max(1200, Number(process.env.F_STOP) * 1000 - (Date.now() - t0)));
+      writeFileSync(`${out}/log.txt`, log.join('\n')); await context.close(); await browser.close(); return;
+    }
+    for (let k = 0; k < 10 && !await page.locator('.composed-go').count(); k++) {
+      await pause(900);
+      const step = await page.locator('.composed').getAttribute('data-page'); note(`step ${step}`);
+      const opts = '.composed :is(.composed-row, .composed-card)[data-option]:not([data-option="more"], [data-option="roll"])';
+      if (step === 'sign') {
+        if (tap) { await press(page, `${opts} >> nth=3`, 70); await pause(1200); await shot('b-sign'); }
+        else { for (let a = 0; a < 3; a++) { await page.keyboard.press('ArrowDown'); await pause(1000); }
+          await shot('b-sign'); await page.keyboard.press('Enter'); }
+        continue;
+      }
+      if (!tap) { await consider(page, `${opts} >> nth=2`); await pause(500); await consider(page, `${opts} >> nth=1`); await pause(500); }
+      if (step === 'calling') { await shot('c-calling'); }
+      if (step === 'why') { await shot('c-why'); }
+      await press(page, `${opts} >> nth=1`);
+    }
+    await pause(900); await shot('d-go'); note('go');
+    await press(page, '[data-option="set-out"]', 120); await pause(1100); await shot('d-asked');
+    await press(page, '[data-option="set-out"]', 300); await pause(700);
+    note('hold'); await press(page, '[data-option="set-out"]', 900); note('set out');
+    await page.waitForSelector('[data-mode="prologue"], [data-mode="explore"]', { timeout: 120000 }); note('opening');
+    for (let beat = 0; beat < 8 && await page.locator('[data-mode="prologue"]').count(); beat++) {
+      await pause(2600); if (beat === 0) { await shot('e-prologue'); }
+      if (await page.locator('[data-action="answer"]').count()) { await press(page, '[data-action="answer"] >> nth=0'); }
+      else if (tap) { await press(page, '.stage'); } else { await page.keyboard.press('Enter'); }
+    }
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 }); note('first scene');
+    if (await page.locator('[data-action="enter-hex"]').count()) { await press(page, '[data-action="enter-hex"]'); }
+    await pause(2200); await shot('f-scene');
+    const talk = ':is([data-act$="#talk"], [data-act^="talk_to("])', leave = '[data-act$="#leave"]';
+    for (let i = 0; i < 3; i++) {
+      if (await page.locator(talk).count()) {
+        await consider(page, talk); await pause(500); await press(page, talk); note('talk'); await pause(2200);
+        if (i === 0) { await shot('g-talk'); }
+        const reply = '.talk .replies .choice-row >> nth=0';
+        if (await page.locator(reply).count()) { await press(page, reply); note('reply'); await pause(2400); }
+        if (await page.locator(leave).count()) { await press(page, leave); note('leave'); await pause(1500); }
+      }
+      const wait = '[data-act="company/0:Wait"]';
+      if (await page.locator(wait).count()) { await press(page, wait); await pause(600);
+        await press(page, '[data-act="company/0:Wait/0:A while"]'); note('a while'); await pause(1600); }
+    }
+    writeFileSync(`${out}/log.txt`, log.join('\n'));
+    console.log(log.join('\n'));
+    await context.close(); await browser.close();
+  }, 600000);
+});

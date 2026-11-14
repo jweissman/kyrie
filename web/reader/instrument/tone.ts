@@ -13,7 +13,7 @@ export class Tone {
   static count = 0;
   static play(kind: Knock) {
     const root = typeof document === 'undefined' ? undefined : document.documentElement;
-    if (!root?.dataset.ix || root.dataset.sound === 'off' || typeof AudioContext === 'undefined') { return; }
+    if ((!root?.dataset.ix && !root?.dataset.touch) || root.dataset.sound === 'off' || typeof AudioContext === 'undefined') { return; }
     Tone.count++;
     try { Tone.knock(Tone.shapes[kind]); } catch { /* a page that cannot sound plays on in silence */ }
   }

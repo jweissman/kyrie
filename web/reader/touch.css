@@ -1,0 +1,169 @@
+/* ---- The first touch (Mission 21: doc/architecture/mission-21/first-touch.md; web/reader/instrument/touch.ts):
+   ?touch=down or ?touch=up. Nothing here applies without the address. One row, one height, one line; lit at once by
+   light from its own mark, never by a box; struck the frame it is pressed, its ground swept from the mark across in
+   its own tone; held rows filling as their ring does. Nothing on the press path changes a box's size or place. ---- */
+@property --sweep { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ring { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@keyframes touch-strike { from { --sweep: 0%; } to { --sweep: 100%; } }
+@keyframes touch-fill { from { --ring: 0%; --sweep: 0%; } to { --ring: 100%; --sweep: 100%; } }
+@keyframes touch-drain { from { --ring: var(--hold-from, 0%); --sweep: var(--hold-from, 0%); } to { --ring: 0%; --sweep: 0%; } }
+
+:root[data-touch] { --touch-h: 44px; --touch-lit: 15%; --touch-struck: 30%; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row,
+:root[data-touch] .composed-row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: column; align-items: center;
+  column-gap: var(--s3); height: var(--touch-h); min-height: var(--touch-h); padding: 0 14px 0 22px; overflow: hidden;
+  border-color: transparent; text-wrap: nowrap; white-space: nowrap;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--row-tone) var(--touch-struck), transparent),
+    color-mix(in oklab, var(--row-tone) calc(var(--touch-struck) - 6%), transparent)) no-repeat left / var(--sweep) 100%,
+    var(--choice-ground);
+  transition: background-color 140ms var(--ease), color 140ms var(--ease); }
+/* Its words and aside on one line, the aside quieter and cut short before it would wrap; the key at the right. */
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > :is(.row-label, .row-aside, .note),
+:root[data-touch] .composed-row > :is(.row-label, .row-aside) { grid-row: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > .row-label,
+:root[data-touch] .composed-row > .row-label { grid-column: 1; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > :is(.row-aside, .note),
+:root[data-touch] .composed-row > .row-aside { grid-column: 2; font: var(--t-aside); color: var(--dim); margin: 0; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > :is(.row-key, .row-opens),
+:root[data-touch] .composed-row > .row-key { grid-column: 3; grid-row: 1; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
+  grid-column: 2; grid-row: 1; overflow: hidden; text-overflow: ellipsis; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row:has(> .grave-said) > :is(.row-aside, .about, .note) {
+  display: none; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > .grave-said { color: var(--ivory); }
+
+/* Its mark, a short line at the left, grows to the row's height and brightens when the row is lit; that is the one
+   sign of focus, with the light it throws across the ground. At once in, a moment out. */
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row > .row-mark,
+:root[data-touch] .composed-row > .row-mark { position: absolute; left: 9px; top: 12px; bottom: 12px; width: 3px;
+  border-radius: 3px; background: var(--prism, var(--row-neutral)); transform: scaleY(.62); opacity: .7;
+  transition: transform 140ms var(--ease), opacity 140ms var(--ease); }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row):is(:focus-visible, .sel, [data-considered], [data-struck], [data-taken], [data-holding]) > .row-mark,
+:root:not([data-still])[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row):hover > .row-mark {
+  transform: none; opacity: 1; transition: none; }
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row:is(:focus-visible, .sel),
+:root:not([data-still])[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row:hover,
+:root[data-touch] .composed-row:is([data-considered], :focus-visible) {
+  background-color: color-mix(in oklab, var(--row-tone) var(--touch-lit), transparent); border-color: transparent;
+  outline: none; color: #fff; transition: none; }
+:root[data-touch] .composed-row:focus { outline: none; }
+/* The browser's own pressed state is not the instrument's: struck is. */
+:root[data-touch] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row:active:not([data-struck]) {
+  background-color: color-mix(in oklab, var(--row-tone) var(--touch-lit), transparent); border-color: transparent; }
+
+/* Struck: the frame the press goes down, the ground swept from the mark across in the row's own tone, in a tenth of a
+   second; and kept so while the engine answers (taken). */
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row):is([data-struck], [data-taken]) {
+  --sweep: 100%; animation: touch-strike 110ms cubic-bezier(.2, .9, .3, 1) both; color: #fff; }
+:root[data-touch] .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken], [data-struck]) {
+  opacity: .42; pointer-events: none; transition: opacity 140ms var(--ease) 80ms; }
+
+/* A held row (a grave act, setting out): a small open ring at its right; held, the ring and the ground fill together
+   over the hold; let go early, both drain from where they got to and "hold" is said beside the words. */
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-touch-hold] { -webkit-user-select: none;
+  user-select: none; -webkit-touch-callout: none; padding-right: 44px; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-touch-hold]::before {
+  display: block; content: ''; position: absolute; left: auto; right: 16px; top: 50%; width: 14px; height: 14px;
+  margin-top: -7px; border-radius: 50%; border: 0; transform: none;
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--row-tone) 60%, transparent);
+  background: conic-gradient(var(--row-tone) var(--ring), transparent 0); }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-touch-hold]:has(> .row-key)::before { right: 36px; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-touch-hold]:has(> .row-key) { padding-right: 14px; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-touch-hold]:has(> .row-key) > .row-key { margin-right: 0; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-touch-hold]:has(> .row-key) > :is(.row-aside, .note) {
+  margin-right: 30px; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-holding] {
+  animation: touch-fill var(--hold-ms, 650ms) linear forwards; color: #fff; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-holding]::before {
+  animation: touch-fill var(--hold-ms, 650ms) linear forwards; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-let-go],
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-let-go]::before {
+  animation: touch-drain 240ms var(--ease) forwards; }
+:root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-hint] > .row-label::after {
+  content: ' \00b7  hold'; font: var(--t-aside); color: var(--dim); }
+/* The page's reticle at the hand while a hold lasts (see Reticle), in place of the system's cursor. */
+:root[data-touch]:has([data-holding]) .shell, :root[data-touch]:has([data-holding]) .shell * { cursor: none !important; }
+
+/* The title's ways in, the same instrument: lit by their mark, struck at once. */
+:root[data-touch] .way-in { background-image: linear-gradient(90deg, rgba(236, 230, 217, .22), rgba(236, 230, 217, .08));
+  background-repeat: no-repeat; background-size: var(--sweep) 100%; }
+:root[data-touch] .way-in[data-struck] { --sweep: 100%; animation: touch-strike 110ms cubic-bezier(.2, .9, .3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row, .way-in):is([data-struck], [data-taken]) { animation: none; }
+  :root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-holding],
+  :root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row)[data-holding]::before {
+    animation-timing-function: steps(4, end); }
+  :root[data-touch] :is(.choice-row.choice-row.choice-row, .composed-row) > .row-mark { transition: none; }
+}
+@media (pointer: coarse) { :root[data-touch] { --touch-h: 52px; } }
+
+/* ---- Creation composed (see ComposedCreation): a column of rows at the left of the frame, under the question, its
+   sentence beneath; ancestry and calling as cards in a row; the sky behind the signs. ---- */
+.composed .composed-step { position: absolute; inset: 0; display: flex; align-items: center;
+  padding: calc(var(--safe-t) + 32px) var(--safe-r) var(--safe-b) var(--safe-l); }
+.composed .composed-col { position: relative; z-index: 1; width: min(460px, 100%); display: flex; flex-direction: column;
+  gap: var(--s4); max-height: 100%; }
+.composed .with-cards .composed-col { width: 100%; align-items: center; }
+.composed .ask { margin: 0; text-align: left; font: 400 clamp(28px, 3vw, 40px)/1.15 var(--told); font-style: italic;
+  color: var(--ivory); }
+.composed .with-cards .ask { text-align: center; }
+.composed .composed-rows { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; overscroll-behavior: contain;
+  margin: 0 -4px; padding: 0 4px; }
+.composed-row { all: unset; box-sizing: border-box; position: relative; --row-tone: rgb(236, 230, 217);
+  font: var(--t-choice); color: var(--ivory); cursor: pointer; border-radius: var(--choice-radius);
+  -webkit-tap-highlight-color: transparent; }
+.composed-row:disabled { opacity: .5; cursor: default; }
+.composed-row > .row-key { font: var(--t-key); color: var(--dim); opacity: .7; }
+@media (hover: none) { .composed-row > .row-key { display: none; } }
+/* The one already chosen (come back to): its mark lit in the entry's gold, the rest as they were. */
+.composed-row.chosen > .row-mark { background: var(--accent, #d9b46a); opacity: 1; transform: none; }
+.composed-write { cursor: text; }
+.composed-write > input { all: unset; grid-column: 1 / -1; font: var(--t-choice); color: var(--ivory); width: 100%; }
+.composed-write > input::placeholder { color: var(--dim); }
+.composed .consider { min-height: 3em; margin: 0; font: italic 400 17px/1.5 var(--told); color: var(--ivory); opacity: .88; }
+.composed .with-cards .consider { text-align: center; max-width: 40em; }
+.composed .life { margin: 0; font: italic 400 18px/1.5 var(--told); color: var(--ivory); }
+.composed-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 980px; }
+.composed .composed-card { width: 168px; aspect-ratio: 4 / 5; --card: 168px; }
+.composed-cards:has(.composed-card:nth-child(7)) .composed-card { width: 128px; --card: 128px; }
+.composed .composed-card[data-considered]::before { display: block; }
+.composed .composed-card[data-struck] { box-shadow: 0 0 0 1px var(--ivory), 0 16px 40px rgba(0, 0, 0, .55); }
+@media (orientation: portrait) {
+  .composed .composed-step { align-items: flex-end; padding-bottom: calc(var(--safe-b) + 24px); }
+  .composed .composed-col { width: 100%; }
+}
+
+/* The observatory (see Observatory): the sky full behind the page, its ring turning to the sign considered over most
+   of a second (the rows answer at once), the sign lit and the rest dim; chosen, it flares a moment. */
+.observatory { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.observatory svg { width: 100%; height: 100%; display: block; }
+.obs-far circle { fill: rgba(236, 230, 217, .35); }
+.obs-near circle { fill: rgba(236, 230, 217, .55); }
+.obs-arc { fill: none; stroke: rgba(236, 230, 217, .05); stroke-width: 1; }
+.obs-ring { transform: rotate(var(--turn)); transform-box: view-box; transition: transform 900ms cubic-bezier(.25, .8, .25, 1); }
+.obs-sign { cursor: pointer; }
+.obs-sign .obs-hit { fill: transparent; }
+.obs-sign line { stroke: rgba(236, 230, 217, .16); stroke-width: 1.2; transition: stroke 500ms var(--ease); }
+.obs-sign .obs-star { fill: rgba(236, 230, 217, .38); transition: fill 500ms var(--ease); }
+.obs-sign.chosen line { stroke: color-mix(in oklab, var(--accent, #d9b46a) 45%, transparent); }
+.obs-sign.lit line { stroke: rgba(236, 230, 217, .72); stroke-width: 1.6; }
+.obs-sign.lit .obs-star { fill: #fff; filter: url(#obs-glow); }
+@keyframes obs-flare { 0% { stroke-width: 1.6; } 35% { stroke-width: 3.4; stroke: #fff; } 100% { stroke-width: 2; } }
+.obs-sign.flare line { animation: obs-flare 340ms var(--ease) both; }
+.composed[data-page="sign"] .composed-col { background: radial-gradient(closest-side, rgba(7, 8, 12, .55), transparent); }
+@media (prefers-reduced-motion: reduce) {
+  .obs-ring { transition: opacity 300ms; } .obs-sign line, .obs-sign .obs-star { transition: none; }
+  .obs-sign.flare line { animation: none; }
+}
+.composed-row > .row-key { border: 0; background: none; padding: 0; min-width: 0; }
+.composed .composed-rows.many { --touch-h: 36px; gap: 2px; }
+.composed .composed-card[data-chosen]::after { content: ''; display: block; position: absolute; left: 50%; bottom: 10px;
+  width: 22px; height: 3px; margin-left: -11px; border-radius: 3px; background: var(--accent, #d9b46a); }
+.composed .composed-card[data-considered] { border-color: color-mix(in oklab, var(--ivory) 40%, transparent); }
+.obs-name { fill: rgba(236, 230, 217, 0); font: 600 15px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
+  transition: fill 500ms var(--ease); }
+.obs-sign.lit .obs-name { fill: rgba(236, 230, 217, .78); }
+.composed[data-page="sign"] .composed-rows.many { --touch-h: 32px; }
+.composed[data-page="sign"] .ask { width: max-content; max-width: min(90vw, 760px); }

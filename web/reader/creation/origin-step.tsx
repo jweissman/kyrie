@@ -26,7 +26,7 @@ export class OriginStep {
       </Card.Deck>
     );
   }
-  private static rule(background: string | undefined, catalog: Catalog, pronouns?: string): string {
+  static rule(background: string | undefined, catalog: Catalog, pronouns?: string): string {
     const b = background && catalog.backgrounds.find(x => x.id === background);
     return b ? `Once ${Words.article(BackgroundCatalog.called(b, pronouns).toLowerCase())}` : 'Your own trade';
   }

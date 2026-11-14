@@ -1,0 +1,197 @@
+/// <reference lib="dom" />
+// The first touch's repetition test (doc/architecture/mission-21/first-touch.md): the principal control used over and
+// over on the kite's first town, as the game is (TOUCH unset) or with one treatment (TOUCH=down or up). Each repetition
+// talks to the first person here and takes leave (by the hand, then by the keys, in turn) and waits a while. Then
+// focus over every row (nothing may be sent), and the accidents: a double click, Enter held, two clicks 90 ms apart, a
+// press slid off before release, a press begun in talk and let go in the place. Then, in creation, setting out held:
+// tapped (asks), let go early (nothing), held full (once).
+// Copied to test/zz-touch-repeat-browser.test.ts to run, with T_SITE, TOUCH, T_REPS, T_OUT; KYRIE_BROWSER=1.
+import { describe, it } from 'bun:test';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import type { Page } from 'playwright-core';
+import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
+
+const site = process.env.T_SITE ?? '/var/tmp/kyrie/wt-touch/site', touch = process.env.TOUCH ?? '';
+const reps = Number(process.env.T_REPS ?? 20), out = process.env.T_OUT ?? `/var/tmp/kyrie/touch/repeat-${touch || 'base'}`;
+const dwell = Number(process.env.T_DWELL ?? 90);
+type Probe = { sent: [string, number][]; down: number; ack: number; done: number; box: string; boxAck: string };
+class Hand {
+  static readonly talk = ':is([data-act$="#talk"], [data-act^="talk_to("])';
+  static readonly leave = '[data-act$="#leave"]';
+  static readonly wait = '[data-act="company/0:Wait"]';
+  static readonly awhile = '[data-act="company/0:Wait/0:A while"]';
+  static readonly script = () => {
+    const w = window as unknown as { __t: Probe };
+    w.__t = { sent: [], down: 0, ack: 0, done: 0, box: '', boxAck: '' };
+    const post = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function (this: Worker, m: { request?: { kind: string } }, ...rest: never[]) {
+      if (m?.request) { w.__t.sent.push([m.request.kind, performance.now()]); }
+      return post.call(this, m, ...rest);
+    } as typeof post;
+    const box = () => [...document.querySelectorAll('.choice-row, .composed-row')].map(e => {
+      const r = e.getBoundingClientRect(); return `${Math.round(r.x)},${Math.round(r.y)},${Math.round(r.width)},${Math.round(r.height)}`;
+    }).join(';');
+    const down = () => {
+      w.__t.down = performance.now(); w.__t.ack = 0; w.__t.done = 0; w.__t.box = box();
+      const busy = () => !!document.querySelector('[data-taken], [data-struck], .stage[aria-busy], [data-holding]');
+      let seen = false;
+      const finish = (t: number) => { const b = !!document.querySelector('.stage[aria-busy], [data-taken]'); seen ||= b;
+        if (seen && !b) { w.__t.done = t; return; }
+        if (t - w.__t.down < 5000) { requestAnimationFrame(finish); } };
+      const look = (t: number) => { if (busy()) { w.__t.ack = t; w.__t.boxAck = box(); requestAnimationFrame(finish); return; }
+        if (t - w.__t.down < 3000) { requestAnimationFrame(look); } };
+      requestAnimationFrame(look);
+    };
+    const ghost = document.createElement('i');
+    ghost.style.cssText = 'position:fixed;left:-11px;top:-11px;width:16px;height:16px;margin:3px;border-radius:50%;'
+      + 'border:1.5px solid rgba(236,230,217,.8);box-shadow:0 0 0 1.5px rgba(10,11,14,.55);pointer-events:none;z-index:9999';
+    window.addEventListener('pointermove', e => { if (!ghost.isConnected) { document.body?.append(ghost); }
+      ghost.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; }, true);
+    window.addEventListener('pointerdown', down, true);
+    window.addEventListener('keydown', e => { if (!e.repeat) { down(); } }, true);
+  };
+  static probe(page: Page) { return page.evaluate(() => (window as unknown as { __t: Probe }).__t); }
+  static async sent(page: Page, kinds = ['perform', 'fight', 'travel', 'unbind']) {
+    return (await Hand.probe(page)).sent.filter(([k]) => kinds.includes(k)).length;
+  }
+  static async over(page: Page, selector: string) {
+    const b = (await page.locator(selector).first().boundingBox({ timeout: 5000 }))!;
+    await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 4 });
+    return b;
+  }
+  // A press as a hand makes one: down, a moment, up, over the row.
+  static async press(page: Page, selector: string, ms = dwell) {
+    await Hand.over(page, selector); await page.mouse.down(); await page.waitForTimeout(ms); await page.mouse.up();
+  }
+  static async digit(page: Page, selector: string) {
+    const n = await page.locator(`${selector} .row-key, ${selector} kbd`).first().textContent();
+    await page.keyboard.press(n!.trim());
+  }
+}
+class Run {
+  readonly rows: Record<string, unknown>[] = [];
+  readonly accidents: Record<string, unknown> = {};
+  constructor(readonly page: Page, readonly d: MonoDriver) {}
+  async act(what: string, how: () => Promise<void>) {
+    const page = this.page, before = (await Hand.probe(page)).sent.length, n0 = await Hand.sent(page);
+    await how(); await this.d.settle(); await page.waitForTimeout(140);
+    const p = await Hand.probe(page), first = p.sent.slice(before).find(([k]) => k === 'perform');
+    this.rows.push({ what, sent: (await Hand.sent(page)) - n0, ack: p.ack ? Math.round(p.ack - p.down) : null,
+      command: first ? Math.round(first[1] - p.down) : null, total: p.done ? Math.round(p.done - p.down) : null,
+      moved: p.ack ? p.box !== p.boxAck : null });
+  }
+  async repeat(i: number) {
+    const page = this.page, keys = i % 2 === 1;
+    await this.act(keys ? 'talk (key)' : 'talk (hand)', () => keys ? Hand.digit(page, Hand.talk) : Hand.press(page, Hand.talk));
+    await this.act(keys ? 'leave (key)' : 'leave (hand)', () => keys ? Hand.digit(page, Hand.leave) : Hand.press(page, Hand.leave));
+    await Hand.press(page, Hand.wait); await page.waitForTimeout(150);
+    await this.act('a while (hand)', () => Hand.press(page, Hand.awhile));
+  }
+  async home() {
+    for (let k = 0; k < 6 && !await this.page.locator(Hand.talk).count(); k++) {
+      if (await this.page.locator(Hand.leave).count()) { await Hand.press(this.page, Hand.leave); } else { await this.page.keyboard.press('Escape'); }
+      await this.d.settle(); await this.page.waitForTimeout(200);
+    }
+  }
+  async counted(name: string, how: () => Promise<void>) {
+    const before = await Hand.sent(this.page);
+    try { await how(); } catch (e) { this.accidents[`${name}: failed`] = String(e).slice(0, 120); }
+    await this.page.waitForTimeout(500); await this.d.settle(); await this.page.waitForTimeout(300);
+    this.accidents[name] = (await Hand.sent(this.page)) - before;
+    await this.home();
+  }
+  // Focus and preview only: the hand over every row, the arrows through them. Nothing may be sent or changed.
+  async focusOnly() {
+    const page = this.page, before = await Hand.sent(page), was = JSON.stringify((await this.d.inspect()).choices.map(c => c.id));
+    for (const row of await page.locator('.intentions .choice-row >> visible=true').all()) {
+      const b = await row.boundingBox(); if (b) { await page.mouse.move(b.x + 20, b.y + b.height / 2, { steps: 3 }); await page.waitForTimeout(60); }
+    }
+    for (let k = 0; k < 6; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(60); }
+    await page.keyboard.press('ArrowUp');
+    const now = JSON.stringify((await this.d.inspect()).choices.map(c => c.id));
+    this.accidents['focus: commands sent'] = (await Hand.sent(page)) - before;
+    this.accidents['focus: choices changed'] = was !== now;
+    await page.keyboard.press('Escape');
+  }
+}
+class Creation {
+  // Through the composition by digits, to setting out; then its hold's accidents. Counts 'begin' requests.
+  static async hold(page: Page, acc: Record<string, unknown>) {
+    for (let k = 0; k < 12 && !await page.locator('.composed-go').count(); k++) { await page.keyboard.press('1'); await page.waitForTimeout(450); }
+    const begins = async () => (await Hand.probe(page)).sent.filter(([k]) => k === 'begin' || k === 'set-out').length, row = '[data-option="set-out"]';
+    let b0 = await begins();
+    await Hand.press(page, row, 80); await page.waitForTimeout(400);
+    acc['set out: a tap asks (begins)'] = (await begins()) - b0; acc['set out: asked said'] = await page.locator('.composed .consider').textContent();
+    await page.click('[data-action="back"]'); await page.waitForTimeout(300); await page.keyboard.press('1'); await page.waitForTimeout(400);
+    b0 = await begins();
+    await Hand.press(page, row, 380); await page.waitForTimeout(500);
+    acc['set out: let go at 380 ms (begins)'] = (await begins()) - b0;
+    await page.locator(row).focus();
+    for (let k = 0; k < 4; k++) { await page.keyboard.down('Enter'); await page.waitForTimeout(40); }
+    await page.keyboard.up('Enter'); await page.waitForTimeout(500);
+    acc['set out: Enter let go at 160 ms (begins)'] = (await begins()) - b0;
+    await page.click('[data-action="back"]').catch(() => undefined); await page.waitForTimeout(300); await page.keyboard.press('1');
+    await page.waitForTimeout(400);
+    b0 = await begins();
+    await Hand.press(page, row, 900);
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
+    acc['set out: held full (begins)'] = (await begins()) - b0;
+  }
+}
+
+describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch, over and over', () => {
+  it(`is used ${reps} times (${touch || 'the game as it is'})`, async () => {
+    mkdirSync(out, { recursive: true });
+    const browser = await MonoBrowser.launch();
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 },
+      ...process.env.T_VIDEO ? { recordVideo: { dir: out, size: { width: 640, height: 400 } } } : {} });
+    await context.addInitScript(`(${Hand.script.toString()})()`);
+    const page = await context.newPage(), errors: string[] = [];
+    page.on('pageerror', e => errors.push(String(e)));
+    const d = new MonoDriver(page, false), run = new Run(page, d);
+    await page.goto(`file://${site}/mono.html?world=kite${touch ? `&touch=${touch}` : ''}`);
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    if (touch) { await Creation.hold(page, run.accidents); } else { await page.click('[data-action="start"]'); }
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 }); await d.enter(); await page.waitForTimeout(800);
+    await run.home();
+    for (let i = 0; i < reps; i++) {
+      try { await run.repeat(i); } catch (e) { run.rows.push({ what: `rep ${i} failed`, error: String(e).slice(0, 160) }); }
+      await run.home();
+    }
+    await run.focusOnly(); await run.home();
+    await run.counted('double click on talk', async () => {
+      const r = (await page.locator(Hand.talk).first().boundingBox())!; await page.mouse.dblclick(r.x + r.width / 2, r.y + r.height / 2);
+    });
+    await run.counted('Enter held on talk', async () => {
+      await page.locator(Hand.talk).first().focus();
+      for (let k = 0; k < 10; k++) { await page.keyboard.down('Enter'); await page.waitForTimeout(40); }
+      await page.keyboard.up('Enter');
+    });
+    await run.counted('two clicks 90 ms apart on talk', async () => {
+      const r = (await page.locator(Hand.talk).first().boundingBox())!, x = r.x + r.width / 2, y = r.y + r.height / 2;
+      await page.mouse.click(x, y); await page.waitForTimeout(90); await page.mouse.click(x, y);
+    });
+    await run.counted('pressed on talk, slid off, let go', async () => {
+      const r = await Hand.over(page, Hand.talk); await page.mouse.down();
+      await page.mouse.move(r.x + r.width / 2, r.y - 120, { steps: 6 }); await page.mouse.up();
+    });
+    await run.counted('press begun in talk, let go in the place', async () => {
+      await Hand.press(page, Hand.talk); await d.settle();
+      await Hand.over(page, '.talk .replies li:nth-child(1) .choice-row');
+      await page.mouse.down(); await Hand.digit(page, Hand.leave); await d.settle(); await page.mouse.up();
+    });
+    run.accidents['press begun in talk, let go in the place'] = Number(run.accidents['press begun in talk, let go in the place']) - 2;
+    const rows = run.rows, n = (f: (r: Record<string, unknown>) => boolean) => rows.filter(f).length;
+    const q = (k: string, p: number) => { const v = rows.map(r => r[k] as number | null).filter((a): a is number => a !== null).sort((a, b) => a - b);
+      return v[Math.min(v.length - 1, Math.floor(v.length * p))]; };
+    const hand = rows.filter(r => /hand/.test(String(r.what))), cmd = hand.map(r => r.command as number).filter(x => x !== null).sort((a, b) => a - b);
+    const summary = { touch: touch || 'base', reps, acts: rows.length, duplicates: n(r => (r.sent as number) > 1),
+      missed: n(r => (r.sent as number) < 1), movedWait: n(r => r.what === 'a while (hand)' && !!r.moved),
+      ackMedian: q('ack', .5), ackP95: q('ack', .95), handToCommandMedian: cmd[cmd.length >> 1],
+      totalMedian: q('total', .5), totalP95: q('total', .95), accidents: run.accidents, errors };
+    console.log(JSON.stringify(summary, null, 1));
+    writeFileSync(`${out}/summary.json`, JSON.stringify({ summary, rows }, null, 1));
+    await context.close(); await browser.close();
+  }, 1200000);
+});

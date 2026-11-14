@@ -1,0 +1,50 @@
+/// <reference lib="dom" />
+import { describe, it } from 'bun:test';
+import { MonoBrowser } from './support/mono-browser';
+
+const site = process.env.T_SITE ?? '/var/tmp/kyrie/wt-touch/site', out = process.env.T_OUT ?? '/var/tmp/kyrie/touch/shots';
+const W = Number(process.env.T_W ?? 1280), H = Number(process.env.T_H ?? 800), q = process.env.T_Q ?? '';
+describe.skipIf(!process.env.KYRIE_BROWSER)('review', () => {
+  it('shoots the opening', async () => {
+    const browser = await MonoBrowser.launch();
+    const context = await browser.newContext({ viewport: { width: W, height: H } });
+    const page = await context.newPage(), pause = (ms: number) => page.waitForTimeout(ms);
+    const t0 = Date.now(), log: string[] = [], note = (s: string) => log.push(`${((Date.now() - t0) / 1000).toFixed(1)}s ${s}`);
+    page.on('pageerror', e => log.push('ERR ' + e.message));
+    const press = async (sel: string) => {
+      const b = (await page.locator(sel).first().boundingBox())!;
+      await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 4 }); await page.mouse.down(); await pause(70); await page.mouse.up();
+    };
+    const shot = (n: string) => page.screenshot({ path: `${out}/${W}x${H}-${n}.png` });
+    await page.goto(`file://${site}/mono.html?ident${q}`);
+    for (const t of [400, 1200, 2400, 4000, 6000]) { await pause(t - (Date.now() - t0) > 0 ? t - (Date.now() - t0) : 0); await shot(`t${t}`); }
+    await page.waitForSelector('.beat-ready', { timeout: 30000 }); note('title ready'); await shot('title');
+    await press('[data-action="begin"]'); note('new game');
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); note('creation');
+    for (let step = 0; step < 9; step++) {
+      await pause(500);
+      const id = await page.locator('.creation-body, .composed').first().getAttribute('data-page'); await shot(`create-${step}-${id}`); note(`step ${id}`);
+      if (q.includes('touch')) {
+        if (await page.locator('.composed-go').count()) { break; }
+        const opt = '.composed :is(.composed-row, .composed-card)[data-option]:not([data-option="more"], [data-option="roll"]) >> nth=1';
+        await press(opt); continue;
+      }
+      if (!await page.locator('[data-action="next"]').count()) { break; }
+      await page.click('[data-action="next"]');
+    }
+    if (q.includes('touch')) {
+      const b = (await page.locator('[data-option="set-out"]').boundingBox())!;
+      await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 4 }); await page.mouse.down(); await pause(300); await shot('holding');
+      await pause(500); await page.mouse.up();
+    } else { await page.click('[data-action="start"]'); }
+    note('set out');
+    await page.waitForSelector('[data-mode="prologue"], [data-mode="explore"]', { timeout: 120000 }); note('opening'); await shot('prologue');
+    for (let beat = 0; beat < 8 && await page.locator('[data-mode="prologue"]').count(); beat++) {
+      await pause(1500); await shot(`beat-${beat}`);
+      if (await page.locator('[data-action="answer"]').count()) { await page.keyboard.press('1'); } else { await page.keyboard.press('Enter'); }
+    }
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 }); note('first scene'); await pause(1500); await shot('scene');
+    console.log(log.join('\n'));
+    await context.close(); await browser.close();
+  }, 400000);
+});
