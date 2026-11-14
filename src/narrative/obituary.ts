@@ -9,6 +9,7 @@ import { BandNames } from './band-names';
 import { Provocation } from '../campaign/provocation';
 import { CombatProjection } from '../combat-projection';
 import type { Memorial } from '../world/memorial';
+import { Endings } from '../lang/endings';
 
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Death = Extract<CombatEvent, { type: 'defend' | 'death' | 'skip' | 'random' }>;
@@ -16,6 +17,12 @@ type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 // How it came to this, when no one of the company is left standing: where and when, what began it, who struck the
 // last blow and with what, and how long it went on. Told from the record of what happened, nothing more.
 export class Obituary {
+  // How the story ended, as every telling of it says it (the page's last page, the terminal, the runner): an ending the
+  // world reached, else how the company fell. The terminal and the runner had said only that it had ended, the
+  // barrow-king's minutes still counted over the dead (AB-04).
+  static ending(campaign: Campaign): { title: string; lines: string[]; memorial?: Memorial } {
+    return Endings.reached(campaign.world, campaign.installations) ?? this.of(campaign);
+  }
   static of(campaign: Campaign): { title: string; lines: string[]; memorial?: Memorial } {
     const events = campaign.history, last = [...events].reverse().find(e => e.combat.some(c => c.type === 'death'));
     const party = new Set(campaign.readout.partyIds), names = this.names(campaign);

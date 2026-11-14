@@ -7,6 +7,7 @@ import { CheckpointStore } from '../session/checkpoint-store';
 import { TerminalMenus, type Journeyed } from './terminal-menus';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
+import { Obituary } from '../narrative/obituary';
 import { TerminalSigns, type Signed } from './terminal-signs';
 import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
@@ -298,7 +299,10 @@ export class Terminal {
         if (!await this.act(session, choice, turn, input)) { return; }
       }
       this.scene(session, turn);
-      console.log('The story has ended.');
+      // How it ended, as the page's last page tells it (AB-04: only that it had).
+      const ending = Obituary.ending(session.campaign);
+      console.log(['', TerminalColour.bold(ending.title, TerminalColour.depth()), ...ending.lines, '', 'The story has ended.']
+        .join('\n'));
     } finally { input.close(); }
   }
   // A measure a person reads at, on a wide terminal too.

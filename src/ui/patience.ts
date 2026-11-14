@@ -8,7 +8,8 @@ import { ObservationText } from '../lang/observation-text';
 export class Patience {
   static of(campaign: Campaign, minutes = 0): { warned?: { by: string; left: number; id: string } } {
     const world = campaign.world, company = campaign.playerActor, here = company && world.one('at', company);
-    if (!here || !world.relates('warned')) { return {}; }
+    // None to a company that has fallen: the barrow-king had given a dead warrior ten minutes (AB-04).
+    if (!here || !world.relates('warned') || !campaign.running) { return {}; }
     const by = world.related('warned').map(r => r.args).filter(([g, c]) => c === company && world.one('at', g!) === here)
       .map(([g]) => g!).filter(g => this.standing(world, g)).find(g => world.number(ModuleWriter.call('patience', g))
         > world.number(ModuleWriter.call('watch', 'clock')));

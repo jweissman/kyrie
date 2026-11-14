@@ -20,6 +20,7 @@ import { RunnerLines } from './runner-lines';
 import { RunnerAmid } from './runner-amid';
 import { RunnerPayoff } from './runner-payoff';
 import type { CampaignEvent } from '../campaign/campaign-types';
+import { Obituary } from '../narrative/obituary';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
@@ -32,7 +33,7 @@ export interface Offered { id: string; label: string; aspects: string[]; type: A
 export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' | 'fight';
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
-  amid?: true; broken?: string[]; end?: true;
+  amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
   // Instruments (the experience measures): where the company stands, what the act just done changed beyond time and
   // position, and, come back where a bond was made or a fact learned, how much of it still holds.
   at?: string; changed?: string[]; kept?: { held: number; of: number } }
@@ -71,7 +72,13 @@ export class Runner {
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
-      ...Runner.promised(screen), ...c.running ? {} : { end: true } };
+      ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
+  }
+  // The story's end as the page's last page tells it (AB-04: an agent had been left with an empty offer and no word of
+  // how it came to it).
+  private static ended(c: PlaySession['campaign']): Pick<Said, 'end' | 'ending'> {
+    const { title, lines } = Obituary.ending(c);
+    return { end: true, ending: { title, lines } };
   }
   private instruments(screen: Screen, turned: Turned): Pick<Said, 'at' | 'changed' | 'kept'> {
     const changed = this.told && turned !== 'look' ? RunnerPayoff.changed(this.told.event, this.told.said) : [];
