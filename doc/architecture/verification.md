@@ -70,6 +70,10 @@ assert, and writes the counts the migration is measured by to `doc/architecture/
   runs rather than skips.
 - **reference hour, through the page**: evidence, not a gate (it may fail without failing the run).
 
+**What CI is doing now:** `bun scripts/ci-status.ts` lists each unfinished run's jobs (queued, running, done) and its
+age. A run queued past twenty minutes is waiting on the account's jobs at once, not hung; a job running past
+twenty-five is flagged. A push runs eight shards (the push lane), the whole suite sixteen.
+
 **Nightly on main (08:00 UTC), and on any branch on demand** (`gh workflow run CI --ref <branch>`):
 - **long descents**: `KYRIE_LONG=1`; any skip fails the job.
 - **browser specs 1/2 and 2/2**: every `*-browser` spec; any skip fails the job.
