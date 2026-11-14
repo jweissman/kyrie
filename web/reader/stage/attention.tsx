@@ -98,11 +98,13 @@ export class Attention {
     const rank = (w: Way) => (w.aim === 'followed' ? 0 : Wayfinder.tone(app, w) ? 1 : sensed(w) ? 2 : idle.has(Wayfinder.to(w)) ? 4 : 3);
     return [...Wayfinder.ways(app)].sort((a, b) => rank(a) - rank(b)).map(w => {
       const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = Signs.way(w.whither, !!w.c.disabled), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
-      const tone = lit ?? Pip.sensed(far?.aspect);
+      // A companion perceived that way is said whatever colour the way has of its own (it is an icon, never a tone);
+      // anything else perceived is the faint tone of a way with none (the atlas-perception matrix, M21).
+      const tone = lit ?? Pip.sensed(far?.aspect), kin = far?.aspect === 'companionship';
       return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
-        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && !lit ? Signs.sensed(far.aspect) : '', time]
+        note: [w.c.disabled ? `shut: ${w.c.disabled}` : '', far && (kin || !lit) ? Signs.sensed(far.aspect) : '', time]
           .filter(Boolean).join(' · ') || undefined,
-        ...tone ? { tone } : {}, ...far && !lit ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
+        ...tone ? { tone } : {}, ...far && !lit && !kin ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
     });
   }
 }

@@ -49,8 +49,9 @@ export class Lenses {
     return Wayfinder.ways(app).map((w): Tile => ({ id: w.c.id, name: GlanceStage.short(w.name),
       glyph: Signs.way(w.whither, !!w.c.disabled),
       ...(w.aim === 'followed' ? { tone: 'gold' } : Wayfinder.tone(app, w) ? { tone: Wayfinder.tone(app, w)! }
-        : sensed(w) ? { ...Pip.sensed(sensed(w)!.aspect) ? { tone: Pip.sensed(sensed(w)!.aspect)! } : {},
-          companion: sensed(w)!.aspect === 'companionship', faint: true } : {}),
+        : Pip.sensed(sensed(w)?.aspect) ? { tone: Pip.sensed(sensed(w)!.aspect)!, faint: true } : {}),
+      // A companion perceived that way is its icon, whatever colour the way has of its own (atlas-perception, M21).
+      ...sensed(w)?.aspect === 'companionship' ? { companion: true } : {},
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
       // Touched, a way is gone by, as a likeness touched is spoken to (the owner, 12 November: a place's badge did not
       // go there); its row in Go's list still says what it is first.
