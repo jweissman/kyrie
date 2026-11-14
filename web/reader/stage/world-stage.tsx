@@ -206,16 +206,22 @@ export class WorldStage {
   static wild(screen: Screen): boolean {
     return PlaceStage.kind(screen) === 'wild' && !!screen.region?.land;
   }
-  // The world map, the whole stage: a hex chosen is described beside it, chosen again set out for.
+  // The world map, the whole stage: a hex chosen is described beside it, chosen again set out for. The way there laid
+  // as the journey would go it, as the map's dialog lays it (MapView.courses, asking the engine where the screen has no
+  // plan): this map had been given none, and laid its own shortest way over the land known, or nothing where any of it
+  // lay under the mist; Mistshaw, two and a half hours by the road, had no way drawn before setting out (OPR-03).
   static Board({ app, screen, chosen, choose }: { app: ReaderApp; screen: Screen; chosen?: string;
     choose: (id?: string) => void }) {
     const pick = (id: string) => {
       if (chosen === id) { const go = MapView.way(screen, id).go; if (go && !Act.asks(go)) { app.choose(go); return; } }
       choose(id);
     };
+    const [planned, plan] = useState<Record<string, string[] | null>>({});
+    useEffect(() => { MapView.ask(app, screen, { chosen, planned, plan }); }, [app, screen, chosen, planned]);
     const walking = app.state.walking, bound = BoardField.whither(screen.region!, app.state.frame?.bound?.id);
     return <div className="board-surface"><BoardField.View region={screen.region!} chosen={chosen} choose={pick}
-      bound={bound} face={screen.party[0]?.face?.medium} walking={walking?.way} walked={walking?.done} /></div>;
+      bound={bound} face={screen.party[0]?.face?.medium} walking={walking?.way} walked={walking?.done}
+      courses={MapView.courses(app, screen, { chosen, bound, planned })} /></div>;
   }
   // What the map says of a hex: the one the company stands in (what it is, whether anyone is about, and entering it);
   // a town (entered from here); or anywhere else, as the map's own card says it (what is known of it, the way there).

@@ -155,10 +155,14 @@ export class PrologueStage {
   }
   // Straight on into play, whatever page it is at (Esc): where the opening left the company (see WorldStage.begins).
   static done(app: ReaderApp) {
-    const frame = app.state.frame;
+    const frame = app.state.frame, page = app.state.told ? PrologueStage.page(app) : undefined;
     PrologueStage.paced = false;
+    // Whether the first goal was said: its last page reached with one on it (Esc had gone straight on past it, and
+    // a1's opening had none, and the place under it said none either: BL-04).
+    const said = (page?.kind === 'after' || (page?.kind === 'beat' && page.last))
+      && !!(frame?.screen.objectives[0] ?? app.state.told?.aim);
     // What came of the answer on the road was told on the opening's last page: not again on the place under it.
-    app.setState({ prologue: undefined, told: undefined, opened: app.state.told?.beats ?? [],
+    app.setState({ prologue: undefined, told: undefined, opened: app.state.told?.beats ?? [], goalSaid: said,
       ...frame ? { frame: { ...frame, leaf: { ...frame.leaf, exchange: undefined } } } : {},
       outdoors: !!frame && WorldStage.begins(frame) });
   }

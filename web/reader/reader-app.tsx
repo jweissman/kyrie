@@ -64,6 +64,8 @@ export interface AppState {
   // is told, past the meeting on the road answered in it (see PrologueStage).
   // opened: the opening's beats, when its pages were shown (the first place says neither them nor the first goal again).
   prologue?: number; beat?: number; told?: Leaf['prologue']; opened?: string[];
+  // Whether the opening's last page said the first goal (else the first place says it).
+  goalSaid?: boolean;
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
   leaving?: boolean;
   // Whether the world map is up: the one map, the whole stage. Play begins on it; coming into open country raises it;
