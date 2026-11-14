@@ -23,7 +23,7 @@ export class PlaceMark {
     const idle = frame.leaf.glance?.idle?.includes(frame.screen.place.id);
     const tone = Emphasis.of(facets, false).tone, prism = Emphasis.prism(facets, false);
     const said = [PlaceMark.words[family], ...facets.map(a => Emphasis.words[a])].join(', ');
-    return <span className={`place-mark${idle ? ' dim' : ''}${prism ? ' prism' : ''}`} title={said} aria-label={said}
+    return <span className={`place-mark${idle ? ' dim' : ''}${prism ? ' prism' : ''}`} aria-label={said}
       role="img" style={{ '--pm': prism ?? (tone ? `var(--tone-${tone})` : 'var(--faint)') } as CSSProperties}>
       <i className="pm-accent" aria-hidden="true" /></span>;
   }

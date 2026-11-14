@@ -34,11 +34,12 @@ export class Card {
     const m = /^([^:]{2,32}): (.+)$/.exec(f);
     return m ? <><b>{Typography.curl(m[1]!)}</b> {Typography.curl(m[2]!)}</> : Typography.curl(f);
   }
-  // What the chosen card means by the rules, line by line.
+  // What the chosen card means, line by line, headed in words of the world (BP-08: "In play, by the rules" had been
+  // the first moment the game sounded like a rules application documenting itself).
   static Particulars({ title, facts }: { title?: string; facts: ReactNode[] }) {
     if (!facts.length) { return null; }
     return (
-      <section className="particulars" aria-label={title ? `${title}, by the rules` : 'By the rules'}>
+      <section className="particulars" aria-label={title ?? 'What it means'}>
         {title && <p className="label">{Typography.curl(title)}</p>}
         <ul>{facts.map((f, i) => <li key={i}>{typeof f === 'string' ? Card.fact(f) : f}</li>)}</ul>
       </section>

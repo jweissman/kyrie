@@ -1,6 +1,6 @@
 import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
-import { useRef } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -574,11 +574,11 @@ export class GlanceStage {
             onClick={() => app.setState({ open: draw.open.has(c.id) ? app.state.open.filter(o => o !== c.id)
               : [...app.state.open, c.id] })}
             mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
-            label={Typography.curl(label)} {...note ? { aside: Typography.curl(note) } : {}} />
+            label={Typography.curl(label)} {...note ? { aside: GlanceStage.aside(note) } : {}} />
           : !draw.index.has(c.id) ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
             data={{ action: 'choice', choice: c.id }} act={c.id} onClick={() => app.choose(c)} number={i + 1}
             mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
-            label={Typography.curl(label)} {...note ? { aside: Typography.curl(note) } : {}}
+            label={Typography.curl(label)} {...note ? { aside: GlanceStage.aside(note) } : {}}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
           : <ChoiceRow.Act choice={c} draw={draw} shown={i + 1}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`
@@ -586,12 +586,20 @@ export class GlanceStage {
             mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
             {...mark ? { markLabel: Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x]).join(', ') } : {}}
             label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></>}
-            aside={note && Typography.curl(note)}
+            aside={note && GlanceStage.aside(note)}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />}
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>;
       })}</ol>
     );
+  }
+  // What a row says under its words: what it adds (whom it is done with, what it opens); but what kind of thing it is
+  // ("an aim", "to learn", "worth a look", "for you") is its mark's to say, and said only to a reader of the page (the
+  // blind playtest of 13 November, BP-08: the indicator and the composition carry it; the words had made the scene a
+  // form's labels).
+  static readonly kinds = new Set(['an aim', 'another aim', 'your aim', 'for you', ...Object.values(Emphasis.words)]);
+  static aside(note: string): ReactNode {
+    return GlanceStage.kinds.has(note.toLowerCase()) ? <span className="sr-only">{note}</span> : Typography.curl(note);
   }
   // The words that say a choice is the aim's: said only of the one that carries it on, where the way is shown.
   static readonly aimWords = /^(your aim|toward your aim|where your aim is)$/;

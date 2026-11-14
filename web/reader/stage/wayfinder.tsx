@@ -99,8 +99,8 @@ export class Wayfinder {
     const said = sensed && (sensed.far === 1 ? 'someone who might join you' : 'perhaps someone, farther on');
     if (!crosses && !sensed) { return <span className="wf-marks" />; }
     return <span className="wf-marks">
-      {sensed && <span className="wf-mark sensed" title={said}>
-        <Pip.View fill={`var(--tone-${Emphasis.tones[sensed.aspect]})`} faint /><span className="said">{said}</span></span>}
+      {sensed && <span className="wf-mark sensed">
+        <Pip.View fill={`var(--tone-${Emphasis.tones[sensed.aspect]})`} faint /><span className="said sr-only">{said}</span></span>}
       {crosses && <Glyphs.View id="journey" className="wf-mark journey" label="into the next stretch of country" />}
     </span>;
   }

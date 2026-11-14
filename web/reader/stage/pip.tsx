@@ -17,6 +17,6 @@ export class Pip {
   static View({ fill, faint, label }: { fill?: string; faint?: boolean; label?: string }) {
     if (!fill) { return null; }
     return <i className={`pip${faint ? ' faint' : ''}`} style={{ '--pip': fill } as CSSProperties}
-      {...label ? { role: 'img', 'aria-label': label, title: label } : { 'aria-hidden': true }} />;
+      {...label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true }} />;
   }
 }
