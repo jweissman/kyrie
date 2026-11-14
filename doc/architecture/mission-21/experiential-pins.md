@@ -35,6 +35,7 @@ separately:
 | Perceived ↔ drawn, page = terminal | test/small/atlas-perception | the clients disagreeing on what is perceived and how far |
 | One projection: page = terminal = runner | **test/small/one-projection** (TB-01) | the clients leading with different acts or meanings from one state |
 | A row is called by what it does | **test/small/runner-opener** (PF-02) | a headless row worded as one act and doing another |
+| Every facet kept over authored content | **test/laboratory-promises** | any drawn facet on a thirty-turn laboratory walk its act does not keep |
 
 `RunnerFidelity` takes each act the glance draws with a facet and does it in a fresh copy of the world. An opener is
 judged by the act inside it that the facet is for. It then reads the event's changes by relation:
