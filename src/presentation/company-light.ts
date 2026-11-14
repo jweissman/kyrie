@@ -7,7 +7,8 @@ import type { Screen } from '../ui/screen-types';
 // do anything (a lone ranger whose candle had burned down was led down into the dark cellar and back up, four times:
 // the laboratory's lost turns).
 export class CompanyLight {
-  static of(campaign: Campaign, screen: Screen): { unlit?: Set<string>; dark?: Set<string>; sellers?: Set<string> } {
+  static of(campaign: Campaign, screen: Screen): { unlit?: Set<string>; dark?: Set<string>; sellers?: Set<string>;
+    shops?: Set<string> } {
     const w = campaign.world, party = campaign.playerActor;
     if (!party || !w.relates('lightsUp') || !w.relates('ownedItem')) { return {}; }
     const lights = new Set(w.related('lightsUp').map(r => r.args[0]!));
@@ -24,6 +25,8 @@ export class CompanyLight {
     const sellers = dark.size ? new Set([...campaign.module.initial.flatMap(c => c.kind === 'set'
       && c.call.name === 'shelf' && lights.has(c.call.args[1]!) ? [c.call.args[0]!] : []),
     ...w.relates('sells') ? w.related('sells').filter(r => lights.has(r.args[1]!)).map(r => r.args[0]!) : []]) : undefined;
-    return { unlit: lights, ...dark.size ? { dark } : {}, ...sellers?.size ? { sellers } : {} };
+    // And where they stand, for the ways and the walks about the town to lead there (Affordances).
+    const shops = new Set([...sellers ?? []].flatMap(p => w.one('at', p) ?? []));
+    return { unlit: lights, ...dark.size ? { dark } : {}, ...sellers?.size ? { sellers, shops } : {} };
   }
 }

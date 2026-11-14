@@ -29,9 +29,9 @@ describe('an aim’s target', () => {
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'kahitude', w.source), c = s.campaign;
     const def = (id: string) => c.module.objectives!.find(o => o.id === id)!;
-    // The courier's letter: toward whoever it is for, installed as the town's own merchant.
+    // The courier's letter: toward whoever it is for, installed as the town's own merchant, gone to by their town.
     const carry = Stakes.target(c, def('origin__carry'));
-    expect(carry).toEqual({ subject: 'region__s3_merchant', source: 'authored' });
+    expect(carry).toEqual({ subject: 'region__s3_merchant', routeTo: 'region__s3', source: 'authored' });
     // The first town's rats: done in the cellar, gone to by the corn-store over it (toward cellar by store).
     const rats = Stakes.target(c, def('region__s1_u_rats_job_aim'));
     expect([rats.actionAt, rats.routeTo, rats.source]).toEqual(['region__s1_u_cellar', 'region__s1_u_store', 'authored']);

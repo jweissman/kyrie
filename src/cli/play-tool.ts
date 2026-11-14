@@ -63,7 +63,13 @@ export class PlayTool {
     }
     const one = { name, raceId, classId, ...backgroundId ? { backgroundId } : {} };
     const drawn = { party: [made ?? one], origin: o.origin };
-    return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch)), lead: [] };
+    const session = await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch);
+    // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
+    // nor begun by name: --as herbs on a1 had set out with "No aim is held".
+    if (!session.campaign.module.entities.some(e => e.id.startsWith('origin__'))) {
+      throw new Error(`no ${o.origin} origin in ${o.world}`);
+    }
+    return { journey: Journey.of(session), lead: [] };
   }
   // A kept play's command played again, to where it comes (see Traces).
   // seen: what happened in it is added to (see Happened).

@@ -120,7 +120,12 @@ export class KyrieCli {
       return 0;
     }
     const watch = Stopwatch.forTerminal(options.profile);
-    const started = await PlayTool.start(options, watch);
+    // An origin the world has no premise for is not begun: said as the world's, not thrown (creation never offers it).
+    const started = await PlayTool.start(options, watch).catch((e: unknown) => {
+      if (e instanceof Error && /^no \S+ origin in /.test(e.message)) { return e.message; }
+      throw e;
+    });
+    if (typeof started === 'string') { console.error(`${started}: its premise is not placed there.`); return 1; }
     watch.done();
     await Terminal.play(started.journey.session, { input, profile: options.profile, ...played });
     return 0;
