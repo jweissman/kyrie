@@ -165,8 +165,8 @@
       "sight": "the market cross and the roofs of the stalls",
       "heart": ["the market-place of {name}"],
       "why": ["{name} is where the roads of the country meet, and so where its goods do: whatever is made in the country is bought and sold here at least once.", "{name} holds the country's market: whatever the country makes or needs comes through it."],
-      "scene": ["Stalls stand in rows across the market-place of {name} under awnings faded to the colour of straw, and the cobbles between them are slick with trodden cabbage leaves. The air smells of bread, wet wool and the fish-stall at the corner.", "A stone market cross stands in the middle of the square at {name}, its steps worn into dips, and the houses round it have opened their ground floors as shops. Shutters bang, carts grind on the cobbles, and someone is frying onions."],
-      "life": ["A woman cuts cheese by the slice from a round as big as a cartwheel, and the line for it stretches across the square.", "A man cries the price of eels over the din, his voice cracking on the top note.", "Two merchants spit and shake hands on a bargain beside a cart of fleeces."],
+      "scene": ["Stalls stand in rows across the market-place of {name}, under awnings faded to the colour of straw. The cobbles are slick with trodden leaves. The air smells of new bread and spilt ale.", "A stone market cross stands in the middle of the square at {name}, its steps worn into dips. Shutters bang open along the houses, and carts grind over the cobbles."],
+      "life": ["A baker's boy works through the crowd with a tray of loaves on his head.", "A tinker beats a dent out of a pan, and the ringing carries across the square.", "A carter backs his horse in between the stalls, swearing at it softly."],
       "keep": { "town": "inn", "village": "inn", "hamlet": "alehouse" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
       "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
       "works": ["carter", "baker", "brewer", "tinker"]
