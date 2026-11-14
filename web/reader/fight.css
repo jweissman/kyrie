@@ -202,13 +202,13 @@
 .fight .hand-detail .panel { list-style: none; margin: 0; padding: 0; display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 6px; align-content: start; }
 .fight .hand-detail .panel > li { margin: 0; min-width: 0; }
-:root .fight .hand-detail .panel .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
+:root .fight .hand-detail .panel .choice-row.choice-row { height: 40px; }
 .fight .hand-note { margin: 6px 0 0; min-height: 1.4em; font: var(--t-aside); color: var(--dim); }
 .fight .hand-detail .aiming { display: grid; align-content: start; justify-items: start; gap: var(--s3); }
 .fight .hand-say { margin: 0; font: var(--t-choice); color: var(--ivory); }
-/* The quieter rows at the menu's foot: letting the fight go on, pressing on to its end. */
-:root .fight .hand-menu .quiet-row.choice-row.choice-row { min-height: 38px; padding-top: 6px; padding-bottom: 6px;
-  color: var(--dim); background: none; }
+/* The quieter rows at the menu's foot: letting the fight go on, pressing on to its end; quieter in colour, not smaller
+   (one height in a list: the owner, 15 November). */
+:root .fight .hand-menu .quiet-row.choice-row.choice-row { color: var(--dim); background: none; }
 .fight .hand-menu .row-opens { grid-column: 2; grid-row: 1; color: var(--dim); }
 :root .fight .hand-menu .move.opened.choice-row.choice-row { background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); }
 /* The fight so far, read from the fight's head. */
@@ -229,21 +229,20 @@
   color: var(--deep); background: var(--accent); border-radius: 3px; pointer-events: none; }
 @media (max-width: 600px) {
   .fight .hand { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); column-gap: var(--s3); }
-  :root .fight .hand-menu .choice-row.choice-row { min-height: 38px; padding: 5px 8px 5px 14px; font-size: 14px; }
+  :root .fight .hand-menu .choice-row.choice-row { height: 38px; padding: 0 8px 0 14px; font-size: 14px; }
   :root .fight .hand-detail .panel { grid-template-columns: minmax(0, 1fr); }
-  :root .fight .hand-detail .panel .choice-row.choice-row { min-height: 36px; font-size: 14px; }
+  :root .fight .hand-detail .panel .choice-row.choice-row { height: 36px; font-size: 14px; }
   .fight .hand-note { display: none; }
   /* Who acts in turn is the acting ring's to say on a phone: the chips had taken two rows above the hand. */
   .fight .turn .order { display: none; }
 }
 .fight .fighter .intent-held { visibility: hidden; margin: 8px 0 0; padding-top: 8px; border-top: 1px solid transparent;
   font: 400 13px/1.4 var(--do); }
-/* A short screen (an iPad held level, a small laptop): the hand's rows a little shorter, so its foot (letting the fight
-   go on) stays inside the safe zone (1180 by 820: 21 px past it with the rows at their full height). */
+/* A short screen (an iPad held level, a small laptop): the hand's rows all a little shorter, one height, so its foot
+   (letting the fight go on) stays inside the safe zone (1180 by 820: 21 px past it with the rows at their full height). */
 @media (max-height: 920px) and (min-width: 601px) {
   .fight .hand-menu { gap: 4px; }
-  :root .fight .hand-menu .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
-  :root .fight .hand-menu .quiet-row.choice-row.choice-row { min-height: 34px; padding-top: 4px; padding-bottom: 4px; }
+  :root .fight .hand-menu .choice-row.choice-row { height: 36px; }
 }
 
 /* A foregone fight told by its end (FightStage.Told, BP-01): the column's own place and measure over the place's
