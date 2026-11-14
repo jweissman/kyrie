@@ -50,7 +50,9 @@ export class TerminalMatrix {
     await host.handle({ kind: 'world', seed });
     let state = await host.handle({ kind: 'creation' }) as CreationState;
     for (let i = 0; i < state.steps.length; i++) {
-      const step = state.steps[i]!, want = step.id === 'why' ? origin : step.id === 'calling' ? calling : undefined;
+      // Human, whom every calling is open to: b2's default dwarf offers a warrior or a cleric only, and six of the
+      // seven callings had been made warriors there, the same walk six times over (the experience baseline).
+      const step = state.steps[i]!, want = ({ why: origin, you: 'human', calling } as Record<string, string>)[step.id];
       const value = want && step.cards.some(c => c.id === want && !c.shut) ? want : step.chosen ?? '';
       state = await host.handle({ kind: 'creation', step: step.id, value }) as CreationState;
     }

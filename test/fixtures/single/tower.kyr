@@ -1,0 +1,13 @@
+Module tower "A broken tower, and a chandler down the lane" {
+  Place lane "the lane" is room.
+  Place tower_site "the old tower" is site.
+  Place foot "the foot of the tower" is room within tower_site at 0, 0 outdoors.
+  Place top "the top of the tower" is room within tower_site at 0, 1 outdoors.
+  Passage track "the track up from the lane" is path between lane and foot.
+  Passage stair "the broken stair" is climb between foot and top needing climbing or rope.
+  Company party "You" of 1 at foot.
+  Person nest "Nest" at lane { Role "a chandler". Peaceable. Pronouns she. Sells rope for 2 coin from 3. }
+  Initially Set quantity(party, gold) to 1.
+  Observe foot_scene at foot when true "The tower's stair has fallen away below the door, all but its upper flight.".
+  Goal false.
+}

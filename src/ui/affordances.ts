@@ -323,6 +323,9 @@ export class Affordances {
         ? [r.named.has(dest) || inSite ? 'toward' as const : r.held.has(dest) ? 'own' as const : 'unlooked' as const] : []];
     // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
     // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
+    // Another aim heard of marks no way back: not the retreat, nor a way to somewhere been (out of the undertown to
+    // the landing, back out of a manor to its forecourt), which are said as what they are (PF-03).
+    if (exit.visited || whys.includes('retreat')) { whys.splice(0, whys.length, ...whys.filter(w => w !== 'held')); }
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
     if (!tried && r.opened?.has(this.command(c) ?? '')) { whys.unshift('opened'); }
     // Into a town from its own country: said as entering it, and with what the company perceives of it from here

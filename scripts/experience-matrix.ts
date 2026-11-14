@@ -4,7 +4,7 @@
 // (src/cli/runner-experience.ts), the round's sums, the pairing, and a few short transcripts, written to
 // doc/architecture/mission-21/terminal/experience.md. Baselines first: no thresholds yet. Regenerate with
 //   bun scripts/experience-matrix.ts [--seeds a1,b2,c3] [--turns 30] [--policy curious] [--no-lab] [--out file]
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { Runner } from '../src/cli/runner';
 import { RunnerWalk, type Policy, type Walk } from '../src/cli/runner-walk';
 import { RunnerExperience, type Experience } from '../src/cli/runner-experience';
@@ -16,6 +16,7 @@ interface Row { world: string; origin: string; calling: string; walk: Walk; e: E
 type Counted = Exclude<keyof Experience, 'keys'>;
 
 export class ExperienceMatrix {
+  static readonly mark = '<!-- written by hand from here: kept when the baseline is regenerated -->';
   // One origin a seed, every calling on it.
   static readonly origins: Record<string, string> = { a1: 'order', b2: 'courier', c3: 'wanderer' };
   static readonly columns: [Counted, string][] = [['facets', 'facets'], ['opportunities', 'opps'],
@@ -98,7 +99,9 @@ export class ExperienceMatrix {
     const policy = TerminalMatrix.flag('policy', 'curious') as Policy;
     const out = TerminalMatrix.flag('out', 'doc/architecture/mission-21/terminal/experience.md');
     const rows = await this.walks(seeds, turns, policy, !process.argv.includes('--no-lab'));
-    await writeFile(out, this.report(rows, turns, policy));
+    // What follows the mark is written by hand (the families, the pins, the gaps, EX-01's classes), and kept.
+    const kept = await readFile(out, 'utf8').then(t => t.slice(t.indexOf(this.mark)), () => '');
+    await writeFile(out, `${this.report(rows, turns, policy)}\n${kept.startsWith(this.mark) ? kept : this.mark}\n`);
     console.error(`wrote ${out}`);
   }
 }
