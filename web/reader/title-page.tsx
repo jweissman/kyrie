@@ -4,6 +4,7 @@ import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
+import { Touch } from './instrument/touch';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -30,6 +31,8 @@ export class TitlePage {
     const item = (way: Way) => ({ onMouseEnter: () => activate(way), onFocus: () => activate(way),
       'aria-current': active === way || undefined, 'data-way': way });
     const mark = <i className="row-mark" aria-hidden="true" />;
+    // The first touch (see Touch): the keys are on the first way in as soon as it is offered, not one press away.
+    useEffect(() => { if (beat === 'ready' && Touch.on()) { TitlePage.focus(first); } }, [beat, first]);
     return (
       <div className={`opening title-page beat-${beat}`} data-mode="title">
         <TitlePage.Sky />
@@ -59,6 +62,11 @@ export class TitlePage {
         <Toast.View app={app} />
       </div>
     );
+  }
+  static focus(way: Way) {
+    if (!document.activeElement || document.activeElement === document.body) {
+      document.querySelector<HTMLElement>(`[data-way="${way}"]`)?.focus({ preventScroll: true });
+    }
   }
   // The game's name, a letter at a time from the middle outward (the towers rose so), each out of a blur and a glow;
   // sized by its letters, so that whichever name is asked for (?name=) keeps to one line on a phone. A space between

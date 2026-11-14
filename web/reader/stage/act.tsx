@@ -8,6 +8,7 @@ import { Words } from '../words';
 import { Signs } from '../../../src/presentation/signs';
 import { Grave } from '../../../src/presentation/grave';
 import { Hold } from '../instrument/hold';
+import { Touch } from '../instrument/touch';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
 // menu (data-index), marked when the keys are on it, saying what it opens when it opens something. Its look is the
@@ -39,12 +40,14 @@ export class Act {
     // The interaction research's versions (see Press): the act taken, drawn so while the engine answers; a sustained
     // act held in the hold's version (see Hold).
     const taken = s.pending?.taken === c.id || undefined, held = Hold.holds(c) ? Hold.props(draw.app, c) : {};
+    // The first touch's (see Touch): what is asked before it is done is held to be done, or tapped to be asked.
+    const touchHold = Touch.on() && asks && !c.disabled ? { 'data-touch-hold': 'grave' } : {};
     return (
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-act={c.id} data-index={i}
         data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} onClick={Act.click.bind(null, draw.app)}
-        {...held}>
+        {...held} {...touchHold}>
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
@@ -95,7 +98,7 @@ export class Act {
   }
   private static click(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     const i = Number(e.currentTarget.dataset.index), choice = app.menu.choices[i];
-    if (choice) { app.setState({ cursor: i, keyed: false }); app.choose(choice); }
+    if (choice) { app.setState({ cursor: i, keyed: false }); app.choose(choice, e.currentTarget.dataset.held !== undefined); }
   }
   private static open(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) { app.show(e.currentTarget.dataset.view as View); }
 }

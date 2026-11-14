@@ -16,6 +16,7 @@ import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
 import { Press } from './instrument/press';
 import { Hold } from './instrument/hold';
+import { Touch } from './instrument/touch';
 import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings';
@@ -23,6 +24,7 @@ import { TitlePage } from './title-page';
 import { CampaignPage } from './campaign-page';
 import { CompanyPage } from './company-page';
 import { CreationPage } from './creation/creation-page';
+import { ComposedCreation } from './creation/composed-creation';
 import { LoadingPage } from './loading-page';
 import { PlayPage } from './play-page';
 import { OptionsPage } from './options-page';
@@ -133,7 +135,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     window.addEventListener('keydown', this.keys.press);
     // A press taken once, on the screen it was made on (IG-17, IG-18).
     PressGuard.attach(() => this.state.frame ?? this.state.phase);
-    Press.attach(() => this.state.phase === 'play'); Hold.attach();
+    Press.attach(() => this.state.phase === 'play'); Hold.attach(); Touch.attach();
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
@@ -218,7 +220,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
-  readonly choose = (choice: Choice) => {
+  // held: chosen by a hold (the first touch's, see Touch), which is the asking: it is done at once.
+  readonly choose = (choice: Choice, held = false) => {
     const { frame, pending } = this.state;
     if (pending || choice.disabled || !frame) { return; }
     if (frame.combat?.outcome) { this.onward(); return; }
@@ -231,10 +234,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (book) { this.show(book[1] as View, book[2]); return; }
     // Nothing that cannot be undone is done by a slip: it is said first, and done when chosen again.
     // So is a fight the company could lose, as it reckons it (see Marks).
-    if (Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
+    if (!held && Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
-    if (!Hold.holds(choice)) { Tone.play('commit'); }
+    if (!Hold.holds(choice) && !Touch.on()) { Tone.play('commit'); }
     // The fight's pace (ChoiceList.pace): its own requests.
     if (choice.command === 'fight:auto') { this.auto(); return; }
     if (choice.command === 'fight:through') { this.through(); return; }
@@ -460,7 +463,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       case 'title': return <TitlePage.View app={this} />;
       case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
-      case 'company': return this.state.setting?.generated ? <CreationPage.View app={this} /> : <CompanyPage.View app={this} />;
+      case 'company': return !this.state.setting?.generated ? <CompanyPage.View app={this} />
+        : Touch.on() ? <ComposedCreation.View app={this} /> : <CreationPage.View app={this} />;
       case 'loading': return <LoadingPage.View app={this} />;
       case 'play': return <PlayPage.View app={this} />;
     }
