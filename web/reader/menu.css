@@ -99,15 +99,16 @@
 :root ul.acts > li { margin: 0; min-width: 0; }
 :root ul.acts.small .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
 
-/* ---- Held acts (see Hold): an edge along the act's foot fills over the hold's time, over the act's own box
-   (absolute: nothing moves), in the act's own tone or neutral, never a colour of its own. Under reduced motion it is a
-   still edge, and the act is done on time all the same. ---- */
-.hold-edge { position: absolute; left: 6px; right: 6px; bottom: 3px; height: 2px; border-radius: 1px; pointer-events: none;
-  background: var(--hold-tone, rgba(236, 230, 217, .62)); transform-origin: left center;
-  animation: hold-fill var(--hold-ms, 850ms) linear forwards; }
-@keyframes hold-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@media (prefers-reduced-motion: reduce) { .hold-edge { animation: none; transform: none; opacity: .6; } }
-.card .hold-edge { left: 10px; right: 10px; bottom: 6px; }
+/* ---- Held acts (see Hold): a small ring at the act's right says it is held, at rest; held, it fills round over the
+   hold's time in the act's own tone or neutral, the act's box unmoved. Still where motion is unwanted. ---- */
+@property --hold-p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+.hold-ring { position: absolute; right: 38px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%;
+  pointer-events: none; box-shadow: inset 0 0 0 1.5px rgba(236, 230, 217, .38);
+  background: conic-gradient(var(--hold-tone, rgba(236, 230, 217, .85)) var(--hold-p), transparent 0); }
+.hold-ring.held { animation: hold-round var(--hold-ms, 850ms) linear forwards; }
+@keyframes hold-round { from { --hold-p: 0%; } to { --hold-p: 100%; } }
+.act-glyph .hold-ring { right: 2px; top: 6px; width: 9px; height: 9px; margin-top: 0; box-shadow: inset 0 0 0 1.2px rgba(236, 230, 217, .45); }
+@media (prefers-reduced-motion: reduce) { .hold-ring.held { animation: none; --hold-p: 100%; } }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0; }
 
