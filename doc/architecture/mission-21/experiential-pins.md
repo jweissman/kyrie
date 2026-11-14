@@ -157,6 +157,7 @@ one's why, command and changes.
 | b2 (before → after PF-02) | 5/8 → 8/8 | 3/3 | 8/15 → 11/15 |
 | c3 (before → after PF-02) | 5/8 → 8/8 | 3/3 | 8/15 → 11/15 |
 | laboratory (30 turns; danger 1/1) | 6/6 | — | 15/18 |
+| laboratory after PF-03 (play-15; danger 6/6) | 6/6 | — | 19/20 |
 
 The traces gave three classes:
 1. **The runner's opener (PF-02, fixed).** "To the old corn-store — look at the corn-store padlock" was done by its
@@ -171,3 +172,14 @@ The traces gave three classes:
 The laboratory's three breaks are `held` too: two ways out of the undertown to the landing, and "To the corn-store
 cellar", which is led as a retreat (its best why) and still drawn silver by a `held` beside it. It reproduces PF-03 in
 4 seconds. No payoff was drawn in any walk, so that facet is held by the tiny pin alone so far.
+
+After play-15 (the `held` why never on a way out), the walk goes deeper. Its one break left is the held topic at the
+black candle (play-16). Two refinements to the instrument:
+- **A check is judged apart.** Its promise is its success's, and a copy of the world replays one roll: "Lever the
+  lettered flag up by main force · unlikely" is listed as chance (the act's operator resolves by `check`), not
+  broken.
+- **Danger met includes a hostile's standing toward the company.** Talking a band round is `tolerates` on success and
+  `warned` on failure, kept either way.
+
+**Gap:** the projection carries a check's odds only in its words ("· unlikely"), never typed on the promoted act, so
+a client or pin reads them by the operator, as this one does, or by label.

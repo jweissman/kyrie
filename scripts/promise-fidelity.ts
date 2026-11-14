@@ -47,6 +47,7 @@ export class PromiseFidelity {
       tally[/drawn (\w+)/.exec(b)![1]!]!.broken++;
       broken.push(`${when} at ${at}: ${b}${process.env.TRACE ? `\n    ${read.traces[i]}` : ''}`);
     });
+    for (const c of read.chance) { broken.push(`${when} at ${at}: (chance) ${c}`); }
   }
   static async main(args: string[]) {
     const worlds = (args[0] ?? 'a1,b2,c3').split(','), turns = Number(args[1] ?? 20);
