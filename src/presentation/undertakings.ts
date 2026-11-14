@@ -7,6 +7,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
 import { AimWords } from './aim-words';
+import type { Promoted } from './glance-types';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -110,6 +111,24 @@ export class Undertakings {
     return aims.filter(a => !into.has(a.id)).map(a => {
       const about = aims.filter(b => into.get(b.id) === a.id).map(b => b.text);
       return about.length ? { ...a, about } : a;
+    });
+  }
+  // Of the acts led, each drawn for an aim held and not followed, with which aim that is: the held aim whose places
+  // hold what it is done to or where it goes (the first, where more than one does). A held act had not said whose it
+  // was, so no client nor pin could tell whether it brought that aim on (the lead's ruling on PF-03).
+  static heldFor(campaign: Campaign, screen: Screen, acts: Promoted[]): Promoted[] {
+    if (!acts.some(a => a.why === 'held')) { return acts; }
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+    const places = this.held(campaign).filter(o => o.id !== this.followed(campaign)?.id)
+      .map(o => ({ id: o.id, at: new Set([...this.places(campaign, o), ...Stakes.named(campaign, o),
+        ...Stakes.addresses(campaign, o)]) }));
+    return acts.map(a => {
+      if (a.why !== 'held') { return a; }
+      const to = screen.exits.find(e => e.id === a.exit)?.destination.id ?? a.command?.replace(/^travel:/, '')
+        ?? (a.subject ? w.one('at', a.subject) : undefined) ?? screen.place.id;
+      const line = new Set(Spatial.ancestry(byId, to).map(e => e.id));
+      const aim = places.find(p => [...p.at].some(id => line.has(id)) || (!!a.subject && p.at.has(a.subject)))?.id;
+      return aim ? { ...a, aim } : a;
     });
   }
   // The places an aim is about, by id, most particular first: those its words or condition name; then the outside of
