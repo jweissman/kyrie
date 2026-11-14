@@ -4,7 +4,7 @@ import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { Narrator, type Told } from '../presentation/narrator';
 import type { Lens, Successor } from '../presentation/glance-types';
-import { Offers, type ActType, type Offer, type Offered as Glanced } from '../presentation/offer';
+import { Offers, type ActType, type Bearing, type Offer, type Offered as Glanced } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
 import type { Act, Screen } from '../ui/screen-types';
 import { Typography } from '../presentation/typography';
@@ -24,7 +24,7 @@ import type { CampaignEvent } from '../campaign/campaign-types';
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
 export interface Offered { id: string; label: string; aspects: string[]; type: ActType; minutes?: number;
-  marks: string[] }
+  marks: string[]; bearing?: Bearing }
 // What the runner says on each turn: how it was come to (arriving somewhere, what came of an act, or looked at on
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
 // scene.prose: of its lines, the narration alone (not the heading nor the aim and what is needed), as the scene
@@ -99,7 +99,8 @@ export class Runner {
     const named = o.for && names.get(o.for), id = Runner.way(screen, (named && o.for) || (o.command ?? o.choice));
     const own = !named && /#look$/.test(o.choice) ? names.get(id) : undefined;
     return { id, label: Typography.plain(named || own || o.label), aspects: o.aspects, type: o.type,
-      ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind) };
+      ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind),
+      ...o.bearing ? { bearing: o.bearing } : {} };
   }
   private static doable(screen: Screen, names: Map<string, string>, list: Glanced[]): Offered[] {
     return list.map(o => Runner.choice(screen, names, o)).filter(o => names.has(o.id) || o.id.startsWith('travel:'));
