@@ -22,7 +22,7 @@
     On discuss { Assert {t}_hesper_found(party). Assert {t}_bell_cast(party). Give 10 gold to actor. }
   }
   Rule {t}_hesper_home when {t}_hesper_found(party) and at({t}_hesper, {t}_stones_under) { Retract at({t}_hesper, {t}_stones_under). Assert at({t}_hesper, {t}_green). }
-  Observe {t}_hesper_after at {t}_green when {t}_hesper_found(party) "A girl on a crutch sits on an upturned hull at the sheds, with a mould in her lap, and a look that says she is not to be spoken to about wisdom.".
+  Observe {t}_hesper_after at {t}_green when {t}_hesper_found(party) "A girl on a crutch sits on an upturned hull at the sheds, a bell-mould in her lap.".
   // ---- Escort: an old pilgrim who will walk to the place of his wife's coin whatever anyone says.
   Person {t}_pilgrim "Osmund Pyle" at {t}_taproom {
     Role "an old man with a stick and a bad hip, who means to walk to the place his wife used to leave a coin, and has been told by everyone that he will not get there". Ancestry human. Peaceable. Manner stoic. Pronouns he.
@@ -93,7 +93,7 @@
   }
   Observe {t}_animals_after at {t}_green when {t}_animals_known(party) "The geese have gone back to the pond. Somebody has left a half-dozen hens at the inn's door with a note in a cook's blunt hand: FOR THE TOWN.".
 --- animals tune 1
-  Observe {t}_animals_seen at {t}_green when not {t}_animals_known(party) "At dusk every dog in the town lifts its head and faces the hill, and the geese go silent, and nobody says why.".
+  Observe {t}_animals_seen at {t}_green when not {t}_animals_known(party) "At dusk every dog in the town turns its head toward the hill, and the geese go silent.".
   Thing {t}_draught "the mouth of the old passage" at {t}_manor_cellar {
     State still "The back of the cellar is quiet. The bricks that cover the old way are cold to the hand and do not hum.".
     State heard "With your ear against the old wall you can hear it: a low, even tone, three down and one up, coming up the passage like breath through a flute. It is the draught.".

@@ -12,7 +12,7 @@
     "fell": { "name": "the fellside", "zoned": "the fells of {zone}", "minutes": 70,
       "told": ["Fellside: short turf and scree, the slope going up steeply to a skyline that keeps being further.", "Bare fell, stone walls climbing it in straight lines, a ruined fold, the wind loud.", "High ground, rock breaking through the turf, and below, when you turn, the whole country laid out small."] },
     "peak": { "name": "the heights", "zoned": "the heights of {zone}", "minutes": 120,
-      "told": ["The heights: rock and old snow and nothing growing but lichen, the air thin and the drop on every side.", "A ridge of broken rock, cairned where someone has been before you, the wind knocking you about.", "High crags and a cold tarn in a hollow of them, and the cloud coming over the top like smoke."] }
+      "told": ["The heights: rock and old snow and nothing growing but lichen, the air thin and the drop on every side.", "A ridge of broken rock, cairned by travellers before you, the wind knocking you about.", "High crags and a cold tarn in a hollow of them, and the cloud coming over the top like smoke."] }
   },
   "river": "The {river} runs through it, and has to be waded or gone round.",
   "road": "A road crosses it, the only straight thing in sight.",

@@ -66,7 +66,7 @@
         "ornate",
         "simple",
         "overgrown",
-        "hidden",
+        "lichened",
         "cracked",
         "humble"
       ]
@@ -76,28 +76,28 @@
     "discriminator": "form",
     "groups": {
       "altar": [
-        "[stone]a long stone under a roof of shingles",
-        "[stone]a slab of the old stone, worn hollow in the middle"
+        "[stone|altar]a long stone under a roof of shingles",
+        "[stone|altar]a slab of the old stone, worn hollow in the middle"
       ],
       "statue": [
-        "[stone]a figure of grey stone, taller than a man, its face worn smooth",
-        "[wood]a figure of black wood, rubbed bright at the knees"
+        "[stone|figure]a figure of grey stone, taller than a man, its face worn smooth",
+        "[wood|figure]a figure of black wood, rubbed bright at the knees"
       ],
       "fountain": [
-        "[water]a spring led up into a basin of cut stone",
-        "[water]a well-head with a carved lip, the water close under it"
+        "[water|spring]a spring led up into a basin of cut stone",
+        "[water|well-head]a well-head with a carved lip, the water close under it"
       ],
       "obelisk": [
-        "[stone]a standing stone, squared and cut with lines",
-        "[stone]a pillar of the old stone, leaning a little"
+        "[stone|standing stone]a standing stone, squared and cut with lines",
+        "[stone|pillar]a pillar of the old stone, leaning a little"
       ],
       "mural": [
-        "[wall]a wall painted from end to end, the colours going",
-        "[wall]a painted wall under a deep eave, kept out of the weather"
+        "[wall|painted wall]a wall painted from end to end, the colours going",
+        "[wall|painted wall]a painted wall under a deep eave, kept out of the weather"
       ],
       "relic": [
-        "[relic]a box of bronze on a stone shelf, with something in it",
-        "[relic]a niche in the wall, and in it a hand-bone wrapped in gold thread"
+        "[relic|reliquary]a bronze box on a stone shelf, its lid pierced over a knucklebone",
+        "[relic|relic]a niche in the wall, and in it a hand-bone wrapped in gold thread"
       ]
     }
   },
@@ -105,13 +105,13 @@
     "discriminator": "domain",
     "groups": {
       "life": [
-        "At first light the faithful bring a cup of milk and a heel of bread, and the priest gives them to whoever is hungry."
+        "At first light the faithful leave milk and bread on it, and the priest gives them to the hungry."
       ],
       "light": [
-        "A lamp burns before it day and night; at dusk the priest relights it from the nearest hearth."
+        "A lamp burns before it day and night, lit at dusk from the nearest hearth."
       ],
       "nature": [
-        "Garlands of whatever is in flower hang on it, and are changed when they wilt."
+        "A wreath of ivy hangs on it, cut fresh at each new moon."
       ],
       "war": [
         "Those going out on the road lay their weapons before it, and take them up again blessed."
@@ -129,7 +129,7 @@
         "Quarrels are settled before it on the first day of the week, and the priest writes down what was agreed."
       ],
       "oceans": [
-        "Before a boat goes out a cup of its own bilge-water is poured over the stone."
+        "Before a boat goes out, a cup of its bilge-water is poured over the stone."
       ]
     }
   },

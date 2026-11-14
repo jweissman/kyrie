@@ -110,7 +110,7 @@
   Observe {t}_manor_boy_after at {t}_manor_kitchen when {t}_boy_well(party) "Wimble is at the table peeling onions with a ferocity that makes the cook raise an eyebrow, and humming nothing at all. When he sees you he gets up and gives you, solemnly, the only thing he has in his pocket, which is a clean pebble.".
   // ---- The road-wood: who owns the timber along the old road?
   Person {t}_reeve "Aldous Fenn" at {t}_green {
-    Role "reeve of the wood-wardens, who regulate who cuts what in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
+    Role "reeve of the wood-wardens, who license the cutting in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
     Greets "Aldous Fenn looks you over with the air of a man sizing up timber. 'You'll be walking out to the Hall, I suppose. Everyone with boots does.'".
   }
   Relation {t}_roadwood_open(group). Relation {t}_roadwood_shared(group). Relation {t}_roadwood_hall(group).
@@ -172,9 +172,9 @@
     Says "{{t}_manor_boy} says nothing at all, for a long time, and then begins to hum, and the three notes down and the one up go round the kitchen, and the cook, at the far end of it, puts both hands flat on the table and looks at the wall.".
   }
 --- quarrel oak 2
-  Observe {t}_quarrel_oak at {t}_green when not {t}_roadwood_shared(party) "The boat-sheds are short of oak this year, and every boatwright will tell you why: the Hall has chained the road-wood, and the good timber is behind it.".
+  Observe {t}_quarrel_oak at {t}_green when not {t}_roadwood_shared(party) "The boat-sheds are short of oak this year: the Hall has chained the road-wood, and the good timber is behind it.".
 --- quarrel herd 2
-  Observe {t}_quarrel_herd at {t}_green when not {t}_roadwood_shared(party) "The town herd has been driven twice this month from the verge of the old road by the Hall's keeper, and the swineherd has opinions about it that he is happy to share with anyone who will stand still.".
+  Observe {t}_quarrel_herd at {t}_green when not {t}_roadwood_shared(party) "Twice this month the Hall's keeper has driven the town's pigs off the verge of the old road.".
 --- under revenant 2
   Person {t}_stones_warden "the keeper of the bounds" at {t}_stones_under {
     Role "the long dead of the old stones, whose duty it was to keep the bounds, and who has kept it past reason". Species revenant. Level 2. Temperament wary. Lair {t}_stones_under.

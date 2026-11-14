@@ -4,10 +4,12 @@ import { GenerationSetting } from '../generation-setting';
 import { RegionGeography } from './region-geography';
 import type { Region, Settlement } from './region-writer';
 
-// A settlement's shrine: whose it is, what it is, how it is kept and how it came to be.
+// A settlement's shrine: whose it is, what it is, how it is kept and how it came to be. Its form is Orsino's kind
+// (altar, fountain…); what it is called is what its seat shows ("a well-head with a carved lip" is the well-head of
+// its god, not a fountain), so the name and the sentence before it cannot disagree (DN-06).
 export interface Cult {
-  deity: string; name: string; domain: string; title: string; form: string; look: string; seat: string;
-  practice: string; history: string; offering: number;
+  deity: string; name: string; domain: string; title: string; form: string; called: string; look: string;
+  seat: string; practice: string; history: string; offering: number;
 }
 type Groups = { groups: Record<string, string[]> };
 interface Tables {
@@ -35,7 +37,8 @@ export class RegionFaith {
       country: RegionGeography.country[region.terrain] ?? 'country' };
     const t = this.tables, name = Canon.deities[deity]?.name ?? region.deity;
     const look = this.pick(t.shrineLook.groups.default!, rng), seat = this.pick(t.shrineSeat.groups[form]!, rng);
-    return { deity, domain, form, name, title: this.title(deity, domain, rng), look, seat: this.bare(seat),
+    return { deity, domain, form, called: this.called(seat) ?? form, name, title: this.title(deity, domain, rng), look,
+      seat: this.bare(seat),
       practice: this.pick(t.shrinePractice.groups[domain] ?? [''], rng),
       history: this.fill(this.bare(this.pick(this.agreeing(t.shrineHistory.groups[land ?? 'default'] ?? [''], seat), rng)), named),
       offering: rng.number('1d4+1') };
@@ -46,8 +49,10 @@ export class RegionFaith {
     const made = this.made(seat), fit = histories.filter(h => !this.made(h) || this.made(h) === made);
     return fit.length ? fit : this.tables.shrineHistory.groups.default!.filter(h => !h.startsWith('['));
   }
-  private static made(text: string): string | undefined { return /^\[(\w+)\]/.exec(text)?.[1]; }
-  private static bare(text: string): string { return text.replace(/^\[\w+\]/, ''); }
+  // A seat's tag says what it is made of and, after a bar, what it is called: [water|well-head].
+  private static made(text: string): string | undefined { return /^\[(\w+)(?:\|[^\]]+)?\]/.exec(text)?.[1]; }
+  private static called(text: string): string | undefined { return /^\[\w+\|([^\]]+)\]/.exec(text)?.[1]; }
+  private static bare(text: string): string { return text.replace(/^\[[^\]]+\]/, ''); }
   // The land a settlement stands by, if its roads cross any: the river, the pass, the wood, the mere.
   private static land(region: Region, i: number): string | undefined {
     const id = region.settlements[i]?.id;
@@ -74,13 +79,13 @@ export class RegionFaith {
   // notes on seeing it, not in the telling of it (doc/authoring/narratology.md).
   static lines(s: Settlement, cult: Cult, at = `${s.id}_shrine`, wayside?: string): string[] {
     const q = JSON.stringify, altar = `${s.id}_altar`, seat = cult.seat.charAt(0).toUpperCase() + cult.seat.slice(1);
-    const text = wayside ? `By the track stands ${wayside}: ${/^[aeiou]/.test(cult.look) ? 'an' : 'a'} ${cult.look} ${cult.form}, small and weathered, with offerings of ${s.trade} before it.`
-      : `${seat}: the ${cult.look} ${cult.form} of ${cult.name}, ${cult.title}. ${cult.practice} `
+    const text = wayside ? `By the track stands ${wayside}, a small weathered ${cult.called}. Offerings of ${s.trade} lie before it.`
+      : `${seat}: the ${cult.called} of ${cult.name}, ${cult.title}. ${cult.practice} `
         + `Offerings of ${s.trade} lie before it.`;
-    const whose = `The ${cult.form} of ${cult.name} at ${s.name}`;
+    const whose = `The ${cult.called} of ${cult.name} at ${s.name}`;
     const past = wayside || !cult.history ? '' : /^It /.test(cult.history) ? cult.history.replace(/^It /, `${whose} `)
       : `${whose}: ${cult.history}`;
-    return [`  Thing ${altar} ${q(wayside ?? `the ${cult.form} of ${cult.name}`)} at ${at} is shrine { }`,
+    return [`  Thing ${altar} ${q(wayside ?? `the ${cult.called} of ${cult.name}`)} at ${at} is shrine { }`,
       `  Initially Assert shrineOf(${altar}, faith_${cult.domain}). Initially Set offering(${altar}) to ${cult.offering}.`,
       ...past ? [`  Entity ${s.id}_holy_past: fact ${q(past)}.`] : [],
       `  Observe ${s.id}_holy at ${at} when true ${q(text.replace(/\s+/g, ' ').trim())}${past ? ` teaches ${s.id}_holy_past` : ''}.`];
