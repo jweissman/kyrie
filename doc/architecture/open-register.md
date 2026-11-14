@@ -1,5 +1,12 @@
 # Westernesse: consolidated open register
 
+**Read as tickets and features (15 November).** `bun scripts/register-tickets.ts` places every row on a feature
+(doc/architecture/features.json: what it is, the files it lives in, the specs that guard it) and says which rows are
+live and how ready each is (ready, wants a decision, wants research, unverified). `--feature <id>` lists a feature's
+live rows; `--touching <file>` says which features a changed file could touch and what is live there; `--unmapped`
+lists rows with no feature. A new row must be placeable (its id in `rows`, or its prefix in `byPrefix`):
+test/small/register-tickets fails with the row named.
+
 Compiled 11 November 2026, read-only, from the repository at `/var/tmp/kyrie/wt-m20` (main plus local commits through
 `33cf0777`) and the owner's checkout for the risk review. A draft for the M20 handoff. It is not a disposition. It
 claims nothing beyond what the sources say.
@@ -69,7 +76,7 @@ claims nothing beyond what the sources say.
 | FH-08 | The town's threads not tied (the inn names Seolforfyrd without the hobs) | E4 | Partly fixed (11 Nov) | P1 | M21, playability |
 | FH-09 | Warrior led to wrench off the corn-store hasp whose key Tuck holds; who unlocks the corn-store is hard to find | E6, mem:m19-owner-play-feedback-nov6 | Open (11 Nov) | P2 | M21, playability |
 | FH-10 | Creation: the weapon screen's labels are still open | E30 | Partly fixed (11 Nov) | P2 | M21, aesthetic |
-| FH-11 | Bless picked at creation was not among the prepared spells; Mage Armor could not be cast before a fight | R6-I §17, R3-C top2 | **In part** (11 Nov night): not a fault in preparing: a first-level cleric has one slot, and the first spell chosen fills it (Spellcasting.fill, probed). The spell sheet now says so, and that any other can be prepared in its place with an hour's study under Wait; not seen rendered. Mage Armor cast before a fight (world-side casting into the fight) is M21 | P2 | M21, rules |
+| FH-11 | Bless picked at creation was not among the prepared spells; Mage Armor could not be cast before a fight | R6-I §17, R3-C top2 | **Fixed (15 Nov, OP-05):** it was the fault, not a design: a slot cast only the spell prepared in it, and the first chosen filled it, so a mage's Mage Armor (or a cleric's second prayer) could not be cast though known. Every spell known is now cast from a ready slot of its level or higher (Spellcasting.slotFor; test/small/mage-casts); creation's spell page says so. Open (world-side casting before a fight, from the page): the character sheet's \"Prepared today\" and `prepare_spell` are now vestigial, to decide | P2 | M21, rules |
 | FH-12 | Creation's skills, background and spell choices to be made clear and useful early (amendment 7(2)); a trade's gear and skills never come up (prospector's shovel, dungeon-delver's digging) | amendment 7(2), R6-I §17, R6-J §17 | No completion recorded (11 Nov) | P2 | M21, aesthetic |
 | FH-13 | A caster cannot find how to get spells back; the inn's bed still sits under Trade › Services | E93 (in part), R5-G top2, R5-G top4, R5-H top5 | In part (11 Nov) | P2 | M21, playability |
 | FH-14 | The pack omits lit lights and oil; waiting does not heal and nothing says so; herbs unexplained; rest and food opaque | E18, R1-A top5, REV-14 | Open (11 Nov); REV-14 Partial, unverified since 8 Nov | P2 | M21, aesthetic |

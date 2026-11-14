@@ -37,9 +37,10 @@ export class SpellChoice {
         <p className="how">{Typography.curl(`Choose ${SpellChoice.n(first.count)}, one of them of ${way.of || way.name}. `
           + (left > 0 ? `${Words.upper(SpellChoice.n(left))} more to choose.` : !own ? `None is yet of ${way.of}.`
             : 'Take one back to choose another.'))}</p>
-        {/* Not all are prepared at once (round 6, I: Bless, chosen, was not among the spells prepared). */}
-        {first.count > 1 && <p className="how">{Typography.curl('The first you choose is prepared at the start; the '
-          + 'others are known, and any of them can be prepared in its place with an hour\'s study, under Wait.')}</p>}
+        {/* Every spell chosen can be cast from any ready slot of its level or higher (OP-05: the first chosen had been
+            the only one the slot would cast; round 6, I: Bless, chosen, was not among the spells prepared). */}
+        {first.count > 1 && <p className="how">{Typography.curl('Each spell you choose is known: any of them can be '
+          + 'cast from a ready slot of its level, and a rest makes the slots ready again.')}</p>}
         <ul className="kit-rows">{first.open.map(s => <li key={s.id}>
           <button type="button" className="kit-row" data-nav aria-pressed={chosen.includes(s.id)}
             data-choice={`spell:${s.id}`} onClick={() => toggle(s.id)}>
