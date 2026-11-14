@@ -88,7 +88,45 @@ The worst moment of the first touch is the 10–17 s setting-out wait, which is 
 
 ## What still fails or is open
 
-(Filled in at the end of the night.)
+At the end of the night the register holds one P0 partly open, and 48 P1 rows (29 open, 19 partly). It began the
+night with 5 P0 open and 5 partly.
+
+**P0: DN-06, the writing.** The editorial pass has landed (prose-1..6), and its pins hold the measurable part:
+indeterminate frames 304 → 266, as-if similes 89 → 83, stock sentences 10 → 9, clause load 1144 → 1030. What a
+list cannot catch (mannered phrasing such as "in the grey of the house") is an editor's judgment, and the owner's
+reading at Gate 2.
+
+**P1, grouped by root cause:**
+
+- **The page's own work, the aesthetic line closed.**
+  - Rows: IG-16 (better buttons, partly); TO-01/03/06 (the opening as one passage, with the interaction research);
+    OPR-03 (the route preview before setting out); CO-09 (travel's card and buttons); OA-13 (paintings against
+    state, with CO-13 in hand); R10-01 (combat as a mode of the scene).
+  - M22's scope, as the research recommends.
+- **The terminal onto the host's frames (TB-10).** The terminal travels, follows and fights by the same engine
+  calls, but a journey it sets out on is not held as the page holds it.
+- **The world's content.**
+  - Rows: CO-03 (towns read as one kit); BP-06/07 (distinctive acts dramatized; the first undertown inhabited, not
+    stocked); R11-02 (conversation that can be steered); RI-01/02/03 (a place worth returning to; look, examine,
+    search and explore as distinct acts; the bard's performance); FF-02/04/06; GT-01..03 (the planes).
+  - Authoring as much as engine; not opened tonight, by the owner's "no new large program".
+- **Startup and locality.**
+  - Rows: AX-03 (installs 41 % of a start); AX-04 (a new world about 10 s warm); AX-05 (the screen costs more than
+    the turn); LC-02/03 (the first observation; a wait pays a screen an hour).
+  - All measured tonight. The research names the 10–17 s setting-out wait as the worst moment of the first touch.
+- **Gaps the pins found, registered:**
+  - EX-05: "needs brawn" has no source in the world.
+  - Opportunity density needs the act's subject on the runner's offered act.
+  - A check's odds are carried only in words.
+  - `held` was made typed (Promoted.aim).
+  - The stamps are too coarse for a living country (LC-03).
+
+**For the owner's decision:**
+- IG-19: the tap or hold control, the tone, any hold before Energy; try `?ix=a` and `?ix=b` by hand.
+- TB-02's open surfaces: creation and destinations held to four or not.
+
+**Sample transcripts:** the playability line's walks are in mission-21/terminal/experience.md ("Transcripts"); the
+fidelity walk's traces come from `TRACE=1 bun scripts/promise-fidelity.ts laboratory 30`.
 
 ## Measured, not repaired
 
