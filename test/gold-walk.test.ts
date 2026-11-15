@@ -24,6 +24,7 @@ describe('a walk by the gold', () => {
     Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
     const player = new AutoPlayer('gold', new Draw('kahitude:debt:gold')), led = new Map<string, number>();
     const broken: string[] = [];
+    let ledBefore = true;
     for (let step = 0; step < spec.steps && c.running; step++) {
       const screen = ScreenModel.build(c), acts = Narrator.leaf(c, screen).glance?.acts ?? [];
       const offered = new Set(PlayerView.choices(c).map(r => r.choice.id)), gold = acts.filter(a => a.continues);
@@ -46,7 +47,11 @@ describe('a walk by the gold', () => {
       await AutoplayRun.apply(s, move, player, metrics);
       // Each way the gold led, from where to where, under which aim.
       const to = c.world.one('at', 'party') ?? '';
-      if (move === taken && to !== from) { led.set(`${aim}|${from}>${to}`, (led.get(`${aim}|${from}>${to}`) ?? 0) + 1); }
+      // Only legs the gold led one after another: where there was none between, the walker's own wandering (and the
+      // gold that brought it back from a shop it had gone into) is not a circle of the gold's (the owner, 15 November:
+      // gold absent is no fault, and the debt's gold no longer sells what is worn).
+      if (move === taken && to !== from && ledBefore) { led.set(`${aim}|${from}>${to}`, (led.get(`${aim}|${from}>${to}`) ?? 0) + 1); }
+      ledBefore = move === taken;
     }
     // Led there and straight back, and there again, under one aim: the gold that leads nowhere.
     // Or led to the same place under one aim again and again, the gold gone each time it came there (Seolforfyrd, its

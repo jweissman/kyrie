@@ -15,7 +15,10 @@ interface Seen { mode: string; n: number; rows: string[]; folds: number }
 class Foreground {
   static async seen(page: Page): Promise<Seen> {
     return page.evaluate(() => {
-      const acts = [...document.querySelectorAll('[data-act]')].filter(e => (e as HTMLElement).offsetParent !== null);
+      // The likenesses of who is here are the way of attending to someone (a focus; the talk it opens replaces the
+      // foreground), not acts of the foreground: they are counted apart.
+      const acts = [...document.querySelectorAll('[data-act]')]
+        .filter(e => (e as HTMLElement).offsetParent !== null && !e.closest('.portraits'));
       const words = acts.map(e => (e as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 60));
       return { mode: document.querySelector('[data-mode]')?.getAttribute('data-mode') ?? '', n: acts.length, rows: words,
         folds: acts.filter(e => e.hasAttribute('aria-expanded')).length };
