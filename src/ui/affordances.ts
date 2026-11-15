@@ -176,7 +176,7 @@ export class Affordances {
     const named = owed && r.named.has(s.id), answer = leaves.find(x => x.answer);
     // Led for another aim only where saying something to them would teach the company something not yet asked: the
     // man with the black candle, talked to for it, had given nothing but his acquaintance (PF-03's laboratory walk).
-    const kin = owed && ours && !named, held = owed && !ours && this.new(leaves, r);
+    const kin = owed && ours && !named, fresh_ = owed && !ours ? this.newest(leaves, r) : undefined, held = !!fresh_;
     const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
     // A treasure lying here is what the delve was for: taken up, led with (the vault's rings and moonstone had been
@@ -213,7 +213,7 @@ export class Affordances {
       ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
-      : this.unasked(fresh, r, !!held);
+      : this.unasked(fresh, r, fresh_);
     // The act within that each reason is for, so that the page finds it again inside (see Promotion.inside).
     const kept = (kin || named || held) && asked?.command, take = spoils
       ? leaves.find(c => /^(take_item|take_out)\(/.test(c.command!))?.command : undefined;
@@ -242,17 +242,21 @@ export class Affordances {
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
   // town was shown nothing to do with what it had won: the owner, 31 October).
-  // The first thing not yet asked, and for an aim held, what serves it first.
-  private static unasked(fresh: Choice[], r: Reading, held: boolean): Choice | undefined {
+  // The first thing not yet asked; for an aim held (newest), what serves it, else that act, never merely the first
+  // question unasked, which promised exploration and brought none (a1's Eogan).
+  private static unasked(fresh: Choice[], r: Reading, held?: Choice): Choice | undefined {
     const open = fresh.filter(c => !r.done.has(c.command!));
-    return (held ? open.find(c => r.serves?.has(c.command!)) : undefined) ?? open[0];
+    return held ? open.find(c => r.serves?.has(c.command!)) ?? held : open[0];
   }
   // Something not yet done there for an aim held: a question that teaches what it waits on, or an act on them that is
   // not talk nor trade (the hobs' stolen bell, rung); never merely talking or trading with them, nor a question that
   // teaches it nothing (Taklinn, whom the spiders job names, had been led nineteen turns running for rumours).
-  private static new(leaves: Choice[], r: Reading): boolean {
-    return leaves.some(c => !r.done.has(c.command!) && (r.serves?.has(c.command!) || (!r.speakers.has(c.command!)
-      && !/^(talk_to|take_leave|look_closely|ask|buy_|sell_|take_lodging|work_|pay_)/.test(r.schema.get(c.command!) ?? ''))));
+  // Talk, trade and services: what is done with someone, never an act on them that is new (see newest).
+  private static readonly talkish = new RegExp(['talk_to', 'take_leave', 'look_closely', 'ask', 'buy_', 'sell_', 'take_lodging',
+    'take_healing', 'make_offering', 'learn_', 'train_', 'sing_', 'work_', 'pay_'].map(k => `^${k}`).join('|'));
+  private static newest(leaves: Choice[], r: Reading): Choice | undefined {
+    return leaves.find(c => !r.done.has(c.command!) && (r.serves?.has(c.command!) || (!r.speakers.has(c.command!)
+      && !this.talkish.test(r.schema.get(c.command!) ?? ''))));
   }
   private static served(leaves: Choice[], r: Reading): { why: Why; note: string; choice?: Choice }[] {
     const bed = r.needs.night && r.needs.settled && this.offered(leaves, r, ['take_lodging', 'take_lodging_guest']);
