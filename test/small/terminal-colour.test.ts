@@ -30,6 +30,11 @@ describe('the terminal\'s colour', () => {
     for (const [tone, token] of Object.entries(tokens)) {
       expect([tone, ...Emphasis.rgb[tone as keyof typeof tokens]]).toEqual([tone, ...rgb(hex(token)!)]);
     }
+    // Exactly five semantic tones, in the tokens and in the classes: gold, green, blue, red, violet.
+    const tones = new Set([...css.matchAll(/--tone-([a-z]+):/g)].map(m => m[1]).filter(t => t !== 'glow'));
+    expect([...tones].sort()).toEqual(['blue', 'gold', 'green', 'red', 'violet']);
+    const classes = [...css.matchAll(/\.tone-([a-z]+)\s*\{/g)].map(m => m[1]);
+    expect([...new Set(classes)].sort()).toEqual(['blue', 'gold', 'green', 'red', 'violet']);
     // Five colours and no more (the owner, 15 November): no silver, no coral.
     expect(css).not.toContain('--coral');
     expect(css).not.toContain('--tone-rose');
