@@ -268,7 +268,7 @@
 .plan-drawn { width: 100%; height: auto; max-height: 60vh; overflow: visible; }
 .plan-drawn .trail { fill: none; stroke: var(--ivory); stroke-opacity: .55; stroke-width: 1.6; }
 .plan-drawn .trail.unexplored { stroke-dasharray: 4 5; stroke-opacity: .35; }
-.plan-drawn .trail.blocked, .plan-drawn .trail.guarded { stroke: var(--ember); }
+.plan-drawn .trail.blocked, .plan-drawn .trail.guarded { stroke: var(--ivory); stroke-dasharray: 4 4; opacity: .7; }
 .plan-drawn .spot circle { fill: var(--ivory); stroke: var(--ivory); stroke-width: 1.4; }
 .plan-drawn .spot:not(.been) circle { fill: transparent; }
 .plan-drawn .spot.here circle { fill: var(--accent); stroke: var(--accent); }
@@ -294,7 +294,7 @@
 .town-drawn .cell:not(.been) text { fill: var(--dim); font-style: italic; }
 .town-drawn .cell:not(.been) .wall, .town-drawn .cell:not(.been) .ground { opacity: .7; }
 .town-drawn .cell.door .ground { stroke-dasharray: 2 4; }
-.town-drawn .cell.barred .ground, .town-drawn .cell.barred .wall { stroke: var(--ember); stroke-dasharray: 3 4; }
+.town-drawn .cell.barred .ground, .town-drawn .cell.barred .wall { stroke: var(--ivory); stroke-dasharray: 3 4; opacity: .7; }
 .town-drawn .cell.here .ring { fill: none; stroke: var(--accent); stroke-width: 2.2; }
 .town-drawn .cell.here text { fill: var(--accent); }
 .town-drawn .cell.go { cursor: pointer; }
@@ -370,7 +370,7 @@
 .route-card .rc-facts > div { display: contents; }
 .route-card .rc-facts dt { font: 500 11px/1.9 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
 .route-card .rc-facts dd { margin: 0; font: 400 15px/1.5 var(--do); color: var(--ivory); }
-.route-card .rc-warn { margin: 12px 0 0; padding-left: 10px; border-left: 2px solid var(--ember); font: 400 14px/1.45 var(--do);
+.route-card .rc-warn { margin: 12px 0 0; padding-left: 10px; border-left: 2px solid var(--edge-strong); font: 400 14px/1.45 var(--do);
   color: var(--ivory); }
 .route-card .rc-how { margin: 14px 0 0; font: 400 14.5px/1.5 var(--do); color: var(--dim); }
 .route-card .rc-route { margin: 14px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }

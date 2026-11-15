@@ -77,7 +77,7 @@
 .glance-keys .count { font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: 0; }
 .glance-keys kbd, .act.led-act .key { letter-spacing: 0; }
 .glance .need { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 4px 16px; font: 500 12.5px/1.4 var(--do);
-  letter-spacing: .08em; text-transform: uppercase; color: var(--ember); }
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ivory); opacity: .8; }
 @media (hover: none) { .act.led-act .key, .glance-keys kbd { display: none; } }
 @media (max-height: 960px) and (min-width: 700px) {
   .glance-keys { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
@@ -92,7 +92,9 @@
 
 /* What a choice risks, as a tag on it wherever it is drawn; a way with no coming back says that, not "cannot be
    undone". */
-.mark-tag { font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
+.mark-tag { font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+/* Red is combat (the owner, 15 November): a fight or a trap seen; every other risk is said in neutral words. */
+.mark-tag:is(.mark-fight, .mark-trap) { color: var(--ember); }
 .act.grave:has(> .mark-one-way)::after { content: none; }
 .mark-tag:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--azure); }
 .ways .options > li.aimed .act.way > .n::after { content: 'your aim'; margin-left: 10px; font: 600 10px/1 var(--do);

@@ -24,7 +24,7 @@
 .frame > .flame-candle.low { height: 24%; }
 .frame > .flame.low::before { animation-duration: 2s; }
 .frame > .flame-lantern.low::before, .frame > .flame-conjured.low::before { animation: flicker 2.4s ease-in-out infinite; }
-.frame:has(> .flame.low) [data-id="light"] { color: var(--ember); transition: color var(--settle) var(--ease); }
+.frame:has(> .flame.low) [data-id="light"] { color: var(--ivory); opacity: .7; transition: color var(--settle) var(--ease); }
 @keyframes flicker {
   0%, 100% { opacity: 1; transform: scaleY(1); }
   18% { opacity: .82; transform: scaleY(.97); }

@@ -30,19 +30,18 @@ its word and its icon.
   gains a coral, a rose or a silver tone; test/small/terminal-awkward holds the indicator (one colour, at most two icons;
   exploration and companions never a colour); test/aim-continuation, test/foreground.
 
-## Found, not changed (red is combat; these are not)
+## Then: red is combat
 
-Red (`--ember`) still marks things that are not a fight: the "cannot be undone" line of a grave act (`.grave-said`), the
-`.mark-tag` word, a route's warning (`.rc-warn`), a barred trail on the route plan (`.plan-drawn .trail.blocked`) and a
-barred cell on the town plan (`.town-drawn .cell.barred`), the low flame of the light (`light.css`), `.hex-card .about.danger`.
-Under the rule they are a warning icon and neutral words. Gold is also used for the map's "you are here" accent and the
-route-card's Set out where the aim's destination is the chosen way (that one is correct: the aim's next step).
-
-The map board itself uses glyphs, not colour, for its marks (board-glyphs.ts): consistent with the rule.
+Red (`--ember`) had also marked things that are not a fight; each is now neutral words or a dashed neutral line, and red
+is left to the fight page, a fight or a trap seen (`.mark-fight`, `.mark-trap`) and the hex card's danger line:
+the "cannot be undone" line of a grave act, a route's warning edge, a blocked or guarded trail on the route plan, a
+barred cell on the town plan, the needs line (Hungry, Weary, Dark), the other mark tags (no way back, exposed, night),
+the low flame of the light. Gold is also the route card's Set out where the aim's destination is the chosen way (the
+aim's next step, correct). The map board uses glyphs, not colour, for its marks.
 
 ## Next
 
-1. Retire the red of warnings (above) in favour of an icon and neutral text; the fight stays red.
+1. A warning icon beside the neutral words (an icon where the words are only a line).
 2. A browser census of computed colours: on the first scenes, every coloured pip's tone is one of the five and has an
    aspect word in its label (a cheap spec over `[style*="--pip"]`).
 3. Audit which `Why` reasons give blue: the owner reads blue as *information or investigation*; today it includes a plain
