@@ -50,6 +50,8 @@ export class Sheet {
           {known.length > 0 && <section className="known" data-region="known"><h3>What you know</h3>
             <Sheet.Facts list={known} /></section>}
         </div>}
+        {(screen.deeds?.length ?? 0) > 0 && <section className="deeds" data-region="deeds"><h3>Deeds</h3>
+          <ul>{screen.deeds!.map(d => <li key={d.id}><b>{d.title}</b> {Typography.curl(d.text)}</li>)}</ul></section>}
         {screen.done.length > 0 && <section className="done" data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{Typography.curl(d)}</li>)}</ul></section>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}

@@ -180,6 +180,8 @@ export interface Screen {
   knowledge: { text: string; how: string; kind: 'seen' | 'confirmed' | 'reported' | 'known' }[];
   // What the company has seen through, and when (see SeenThrough).
   done: string[];
+  // What the company has done that the game remembers, once each (see Deeds).
+  deeds?: { id: string; title: string; text: string }[];
   deadlines: string[]; capabilities: string[];
   // The formations the company makes (Orsino's party traits), and what each perk does.
   formations: { name: string; perks: string[] }[];

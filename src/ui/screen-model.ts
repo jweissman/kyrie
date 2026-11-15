@@ -16,7 +16,7 @@ import { Illumination } from './illumination'; import { Standing } from './stand
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time';
-import { SeenThrough } from './seen-through'; import { Calendar } from '../campaign/calendar';
+import { Calendar } from '../campaign/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
@@ -31,6 +31,7 @@ import { Services } from './services'; import { Headings } from './headings'; im
 import { Seats } from '../world/seats'; import { TalkWeight } from '../presentation/talk-weight';
 import { Stakes } from './stakes'; import { Quarters } from './quarters'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
+import { Deeds } from '../presentation/deeds';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
 export class ScreenModel {
@@ -80,7 +81,7 @@ export class ScreenModel {
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
           .map(r => `${r.amount} ${r.name}`) },
-      knowledge: this.knowledge(view), done: SeenThrough.of(campaign),
+      knowledge: this.knowledge(view), ...Deeds.seen(campaign, view),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),
