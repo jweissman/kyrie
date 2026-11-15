@@ -119,9 +119,9 @@ export class MenuModel {
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
     choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)], opened),
       glance && { ...glance, acts: leads },
-      { aimed, overland: new Set([...overland, ...journeys.filter(j => !going.includes(j))].map(c => c.id)) }), destinations: going,
+      { aimed, overland: MenuModel.beyond(overland, journeys, going) }), destinations: going,
     around: about, ...glance ? { sheets, leads, leading } : {},
-    ...country ? { overland: new Set([...overland, ...journeys.filter(j => !going.includes(j))].map(c => c.id)) } : {} };
+    ...country ? { overland: MenuModel.beyond(overland, journeys, going) } : {} };
   }
   // The choice a lead of the glance is drawn as and done by: its own, or, for a way out into the country, going out
   // to it (the keys had counted a lead on the road as none, and every digit at Millholm's camp did nothing).
@@ -138,6 +138,9 @@ export class MenuModel {
   // hex, the next stretch of the wild, the road's next hex, a town further off, is the map's and only the map's, by
   // what the world says of where it goes (Passages.crosses), not by its kind of going (the owner, 3 and 4 November;
   // 9 November: "enforce this as a structural invariant at the action/navigation level").
+  private static beyond(overland: Choice[], journeys: Choice[], going: Choice[]): Set<string> {
+    return new Set([...overland, ...journeys.filter(j => !going.includes(j))].map(c => c.id));
+  }
   // A road at hand into the next stretch of country is one more act of the menu, done as the journey it is (the owner,
   // 15 November: the hex crawl is playable from the action menu alone, and the atlas never needed to leave a place).
   private static roaded(c: Choice, screen: Frame['screen']): Choice {
