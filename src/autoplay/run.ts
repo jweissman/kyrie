@@ -1,3 +1,4 @@
+import { Guidance } from './guidance';
 import { WorldAssembler } from '../world/world-assembler';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { PlaySession, type SessionCheckpoint, type TranscriptStep } from '../session/play-session';
@@ -31,6 +32,8 @@ export interface Metrics {
   fled: number; kinds: Record<string, number>; places: number; countries: number; watches: number; ms: number;
   // Fights lost that the company took on, and those that came to it (on the road, where it arrived, as it waited).
   chosen: number; unchosen: number;
+  // Steps with an aim followed, where the page led with its next step, and where it did not (see Guidance).
+  guided: number; unguided: number;
 }
 export interface RunResult {
   spec: RunSpec; steps: TranscriptStep[]; metrics: Metrics; failure?: Failure; ended: boolean;
@@ -59,6 +62,9 @@ export class AutoplayRun {
     const from = this.watch(s);
     let kept: SessionCheckpoint | undefined = s.checkpoint(), failure: Failure | undefined;
     for (let step = 0; step < spec.steps && c.running && !failure; step++) {
+      if (spec.policy === 'gold') { Guidance.follow(s); }
+      const guided = Guidance.guided(s);
+      if (guided !== undefined) { metrics[guided ? 'guided' : 'unguided']++; }
       const move = player.next(this.situation(s, step, AutoPlayer.paged.includes(spec.policy),
         AutoPlayer.prefers[spec.policy]));
       if (!move) { failure = { kind: 'softlock', message: 'nothing to choose', step }; break; }
@@ -169,6 +175,6 @@ export class AutoplayRun {
   }
   static empty(): Metrics {
     return { steps: 0, commands: 0, travels: 0, arrivals: 0, fights: 0, won: 0, lost: 0, fled: 0, kinds: {}, places: 0,
-      countries: 0, watches: 0, ms: 0, chosen: 0, unchosen: 0 };
+      countries: 0, watches: 0, ms: 0, chosen: 0, unchosen: 0, guided: 0, unguided: 0 };
   }
 }
