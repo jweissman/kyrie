@@ -30,3 +30,21 @@ next; the only gold was an invitation, and "something may have flashed". The cau
 - Honest copy where the aim's route is unknown or blocked (the route card says "No way known", without the aim).
 - Terminal and headless runner offer no `follow:` act (they keep their text command); the page's four lead with it.
 - A cold deployed playtest of the whole chain.
+
+## The governing rule, and how it is held (15 November, late)
+
+*One current focus. One authoritative set of actions. One consistent way to consider and commit an action. One
+authoritative resolution.* Focus → Consider → Press/Hold → Commit → Resolve → Continue.
+
+| Rule | Held by |
+|---|---|
+| Every gameplay control names an action in the observation now | `ReaderApp.observed()` (exposed in `kyrieMono.inspect().observed`) and test/interaction-contract-browser: every `[data-act]` must be observed, and every other executable control must be in the presentation list; a bypass fails the test (it is mutation-checked, a control and a stale act injected). `Census.known` is the ratchet and is empty. |
+| Follow and abandoning are actions | `follow:<aim>` / `follow:` are session commands (PlaySession.perform); the observation offers them (`Screen.aims[].follow`, the glance's act); the worker protocol has no `follow` request; Notes, the page's rows, the terminal and the runner all send the same command. |
+| A stale or absent action is refused | the session refuses a command it does not offer and an aim not held (test/action-identity, page host and session alike). |
+| Focus replaces the foreground | test/riddle-door-browser: attending to the door makes its four words the foreground, once each, by distinct observed identities; the surroundings' acts are gone; nothing is committed; Escape returns attention and the surroundings come back. |
+| The title's rows are concise and exact | test/title-geometry-browser (desk, iPad both ways, with and without a saved game): equal widths, left edges, heights and gaps, centred, no text in the rows beyond the label; the save is a line apart. |
+| The map is an attention; going is the menu's | the map's ENTER is "Put away the map" (`put-away-map`, presentation); the town's entry is its own observed act; roads and journeys are acts of the menu; test/follow-offered-browser covers a journey with gold and one without. |
+
+Still independently implemented: the page's `travel:` and `unbind` requests (one door each, parity-pinned), the map's own
+zoom and selection controls (presentation), and attention itself (map, lens, talk) is client state, not an observation:
+the engine does not yet know the character is looking at the map (PB-17's remaining part).
