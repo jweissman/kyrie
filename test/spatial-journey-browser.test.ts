@@ -97,7 +97,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect((await driver.inspect()).place?.id).not.toMatch(/^region__s2_/);
     expect(await w.page_()).toContain('scale-board');
     expect(await page.locator('.focus .ways-here, .focus .plates').count()).toBe(0);
-    await page.click('[data-action="enter-hex"]');
+    await page.click('[data-action="put-away-map"]');
     expect(await w.page_()).toContain('scale-scene');
     await page.click('[data-action="back-to-map"]');
     expect(await w.page_()).toContain('scale-board');
@@ -106,7 +106,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     await page.click('[data-action="map-place"][data-id="region__s2"]');
     await page.click('.enter-card [data-action="travel"]');
     await driver.settle();
-    await page.click('.enter-card[data-state="arrived"] [data-action="enter-hex"]');
+    await page.click('.enter-card[data-state="arrived"] [data-action="put-away-map"]');
     expect((await driver.inspect()).place?.id).toMatch(/^region__s2_/);
     expect(await w.page_()).toContain('scale-scene');
     expect(await page.evaluate(() => document.scrollingElement!.scrollHeight <= innerHeight + 1)).toBe(true);

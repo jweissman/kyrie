@@ -72,4 +72,24 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('following an aim', () => {
     expect(here.length).toBeGreaterThan(0);
     expect(errors).toEqual([]);
   }, 300000);
+  // A character who perceives no gold can still go: the map's set-out is there, not gold, and travelling by it comes
+  // to a scene with acts to take (the owner, 15 November: gold is never required for ordinary travel).
+  it('travels from the map with no aim followed, the set-out not gold', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, pointer: false,
+      query: '?world=a1&opening' });
+    await Journey.open(page);
+    expect(await page.locator('[data-choice^="follow:"]').count()).toBe(1);
+    await page.keyboard.press('m');
+    await page.waitForSelector('.board-you', { timeout: 30000 });
+    const you = (await page.locator('.board-you').boundingBox())!;
+    await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+    await page.waitForSelector('.rc-go', { timeout: 30000 });
+    expect(await page.locator('.rc-go.aimed').count()).toBe(0);
+    await page.click('.rc-go');
+    await page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
+      .kyrieMono.inspect().pending, null, { timeout: 120000 });
+    await page.waitForTimeout(3000);
+    expect(await page.locator('button:visible').count()).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  }, 300000);
 });

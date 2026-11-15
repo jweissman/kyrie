@@ -239,7 +239,6 @@ export class WorldStage {
     const g = app.state.frame!.leaf.glance, land = screen.region!.land!, name = within?.name ?? screen.place.name;
     const people = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person').length;
     const danger = (app.menu.scene?.subjects ?? []).some(x => x.danger), unplaced = MapView.unplaced(app, screen);
-    const entry = WorldStage.entry(app);
     return (
       <section className="hex-card" data-id={screen.place.id} aria-live="polite">
         <p className="label">Where you are</p>
@@ -252,8 +251,8 @@ export class WorldStage {
           <p className="how">{Typography.curl(unplaced.who)}</p></>}
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
         <WorldStage.Entrance app={app} />
-        <button type="button" className={entry ? 'option quiet' : 'enter'} data-action="enter-hex" onClick={enter}>
-          {entry ? 'Stay out here' : 'Enter'}</button>
+        <button type="button" className="enter" data-action="put-away-map" onClick={enter}>
+          Put away the map</button>
       </section>
     );
   }
@@ -335,9 +334,9 @@ export class WorldStage {
           : <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
             : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
-        {here ? <button type="button" className="enter" data-action="enter-hex" data-act={entry?.c.id}
+        {here ? <button type="button" className="enter" data-action="put-away-map" data-act={entry?.c.id}
           onClick={() => { if (entry) { app.choose(entry.c); } else { app.outdoor(false); } }}>
-          {inside ? `Back to ${where.replace(/^The /, 'the ')}` : `Enter ${Typography.curl(town.name)}`}</button>
+          {entry ? `Enter ${Typography.curl(town.name)}` : 'Put away the map'}</button>
           : go && <button type="button" className="enter travel" data-action="travel" data-act={go.id}
             onClick={() => { app.choose(go); }}>
             Travel to {Typography.curl(town.name)}</button>}

@@ -80,8 +80,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch\'s press', () => {
     await Probe.press(page, setOut, 800);
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     expect(await Probe.sent(page, 'set-out', 'begin')).toBe(1);
-    if (await page.locator('[data-action="enter-hex"]').count()) {
-      await Probe.press(page, '[data-action="enter-hex"]', 60); await Probe.idle(page);
+    if (await page.locator('[data-action="put-away-map"]').count()) {
+      await Probe.press(page, '[data-action="put-away-map"]', 60); await Probe.idle(page);
     }
     // The aim offered to follow is an act among the four: followed, the four are the place's own again.
     if (await page.locator('[data-choice^="follow:"]').count()) {
@@ -114,8 +114,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch\'s press', () => {
     const { context, page, errors } = await Probe.open(browser, site, 'up');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
-    if (await page.locator('[data-action="enter-hex"]').count()) {
-      await Probe.press(page, '[data-action="enter-hex"]', 60); await Probe.idle(page);
+    if (await page.locator('[data-action="put-away-map"]').count()) {
+      await Probe.press(page, '[data-action="put-away-map"]', 60); await Probe.idle(page);
     }
     const before = await Probe.sent(page, 'perform');
     await Probe.press(page, talk, 80, true); await page.waitForTimeout(400);

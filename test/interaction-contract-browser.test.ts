@@ -16,10 +16,9 @@ interface Control { act: string | null; action: string | null; text: string }
 class Census {
   static readonly presentation = new Set(['lens', 'lens-all', 'back', 'back-to-place', 'back-to-map', 'book', 'mode',
     'close', 'more-told', 'journey', 'map-nearer', 'map-further', 'map-here', 'map-place', 'map-unchoose', 'dismiss',
-    'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title']);
-  // The map's ENTER (a way into the hex stood in) is a second door for going in: the map is to become an attention
-  // (PB-17), its entry an act of the menu.
-  static readonly known: string[] = ['enter-hex'];
+    'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title', 'put-away-map']);
+  // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
+  static readonly known: string[] = [];
   static async controls(page: Page): Promise<{ controls: Control[]; observed: string[] }> {
     return page.evaluate(() => {
       const seen = (e: Element) => (e as HTMLElement).offsetParent !== null && !(e as HTMLButtonElement).disabled;

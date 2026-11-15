@@ -40,7 +40,7 @@ class Glancing {
   }
   // Into the hex the company stands in, from the world map: nothing in a hex is done from the map (owner, 4 November).
   static async enter(page: Page, d: MonoDriver) {
-    if (await page.locator('[data-action="enter-hex"]').count()) { await d.click('[data-action="enter-hex"]'); }
+    if (await page.locator('[data-action="put-away-map"]').count()) { await d.click('[data-action="put-away-map"]'); }
   }
   // Each step on the shortest way from one place to another, as the world joins them.
   static async way(from: string, to: string): Promise<string[]> {

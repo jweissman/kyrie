@@ -56,7 +56,7 @@ export class MonoDriver {
   // Into the place the company stands in, from the map, where play has begun on it or open country raised it: what a
   // player does before anything else there.
   async enter() {
-    if (await this.page.locator('[data-action="enter-hex"]').count()) { await this.click('[data-action="enter-hex"]'); }
+    if (await this.page.locator('[data-action="put-away-map"]').count()) { await this.click('[data-action="put-away-map"]'); }
   }
   // The place told whole: at rest it always is (the owner, 5 November, late), so only what is opened over it is put
   // away.
@@ -78,7 +78,7 @@ export class MonoDriver {
     // In a conversation, what is not among the few things salient is under Something else.
     if (!await has(shown) && await has('.more-talk:not([open]) > summary')) { await this.click('.more-talk > summary'); }
     // Out in the wild, on the world map, the hex the company stands in is entered first.
-    if (!await has(shown) && await has('[data-action="enter-hex"]')) { await this.click('[data-action="enter-hex"]'); }
+    if (!await has(shown) && await has('[data-action="put-away-map"]')) { await this.click('[data-action="put-away-map"]'); }
     // An explorer (or an old sheet) up that does not hold it is put away, and the place at rest looked at again.
     if (await has(sheet)) { await this.click(`${sheet} :is(.sheet-shut, [data-action="explore-shut"])`); }
     if (await has(shown)) { await this.click(shown); return; }

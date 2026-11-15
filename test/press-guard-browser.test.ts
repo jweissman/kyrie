@@ -66,8 +66,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a press is taken once, on its own s
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
-    if (await page.locator('[data-action="enter-hex"]').count()) {
-      await page.click('[data-action="enter-hex"]'); await Sent.idle(page);
+    if (await page.locator('[data-action="put-away-map"]').count()) {
+      await page.click('[data-action="put-away-map"]'); await Sent.idle(page);
     }
     // Enter held on the talk: one command, however many times the key repeats. Talked to once and left, the wagoner is
     // talked to again by a row of the place's own; focused, Enter held on it (the repeats had gone on to the

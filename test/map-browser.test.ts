@@ -46,7 +46,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     // stays up over where the company is, and it is entered from there.
     await page.waitForSelector('.enter-card[data-state="arrived"], .world-page.interrupted', { timeout: 30000 });
     expect(await page.locator('.world-page.scale-board').count()).toBe(1);
-    await page.click('[data-action="enter-hex"]');
+    await page.click('[data-action="put-away-map"]');
     const after = await driver.inspect();
     expect([after.mode, after.place?.id !== from]).toEqual(['explore', true]);
     expect(await page.locator('.world-page.scale-scene').count()).toBe(1);
@@ -84,7 +84,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     for (let k = 0; k < 8 && (await driver.inspect()).place?.id !== 'region__edge_north'; k++) {
       await driver.settle();
       if (await page.locator('[data-action="go-on"]').count()) { await driver.click('[data-action="go-on"]'); continue; }
-      if (await page.locator('[data-action="enter-hex"]').count()) { await driver.click('[data-action="enter-hex"]'); }
+      if (await page.locator('[data-action="put-away-map"]').count()) { await driver.click('[data-action="put-away-map"]'); }
       // In the place the meeting is, the journey is gone on with as the page offers it ("Go on to …").
       else { await driver.pick(c => /^Go on to /.test(c.label), 'go on'); }
     }
