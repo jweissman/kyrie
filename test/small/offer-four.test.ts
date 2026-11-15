@@ -23,7 +23,9 @@ describe('the scene\'s offer', () => {
   it('is four of four kinds where there are more, every other kept, the terminal leading with the same four', async () => {
     const t = await Tiny.start(yard), offer = t.glance.offer!;
     expect(offer.primary).toHaveLength(4);
-    expect(new Set(offer.primary.map(o => o.type)).size).toBe(4);
+    // Four different things to do, but for the roads of a crossroads, each of which is one (Offers.roads).
+    const goes = offer.primary.filter(o => o.type === 'go').length;
+    expect(new Set(offer.primary.map(o => o.type)).size).toBe(4 - Math.max(0, goes - 1));
     const legal = new Set(PlayerView.choices(t.campaign).map(r => r.choice.id));
     // The rest keeps what is not among the four, and nothing is offered twice.
     const all = [...offer.primary, ...offer.rest].map(o => o.choice);

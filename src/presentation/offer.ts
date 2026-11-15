@@ -32,6 +32,7 @@ export interface Offer { primary: Offered[]; rest: Offered[] }
 // fight's hand) ranks its own, and is offered the same way (see Offers.ranked).
 export class Offers {
   static readonly four = 4;
+  static readonly roads = 3;
   static readonly types: Record<Kind, ActType> = { talk: 'talk', attack: 'fight', act: 'act', search: 'search',
     way: 'go', step: 'go', travel: 'journey', light: 'light', wait: 'wait', rest: 'wait', camp: 'wait', eat: 'care',
     tend: 'care', study: 'study', other: 'other' };
@@ -64,7 +65,10 @@ export class Offers {
         // The company's own upkeep (gear, preparing spells) with no reason here never fills the four: two of the
         // four at a keep's door had been "Have Cyril prepare Cure Light Wounds in place of Charm Person".
         const upkeep = type === 'other' && !c.whys.length;
-        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep) { continue; }
+        // At a crossroads each road is a different thing to do: up to three go-acts are among the four (the owner,
+        // 15 November: the hex crawl is playable from the menu alone, the roads chosen as acts, never buried).
+        const roads = type === 'go' && ways.includes(c.choice) && [...led, ...fill].filter(o => o.type === 'go').length < this.roads;
+        if (shown.has(c.choice) || (distinct && types.has(type) && !roads) || upkeep) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }

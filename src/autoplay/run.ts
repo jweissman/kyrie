@@ -116,10 +116,13 @@ export class AutoplayRun {
     // A conversation it leads with is opened as the page opens it, by talking to them; what it is led for in it is
     // done there (see Promoted.for), and nothing else said beside it in its place (a bed had been taken four times
     // over by ten in the morning, the innkeeper's first reply).
-    return acts.flatMap(a => a.choice.endsWith('#talk')
+    // Then what the offer's four add (the roads of a crossroads among them): the menu is all a player is given.
+    const added = (glance?.offer?.primary ?? []).filter(o => o.command && !acts.some(a => a.command === o.command))
+      .map(o => o.command!);
+    return [...acts.flatMap(a => a.choice.endsWith('#talk')
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
         `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
-      : a.command ? [a.command] : []);
+      : a.command ? [a.command] : []), ...added];
   }
   // Whether a led act is what a walker prefers: the gold walker goes by the one the glance marks as carrying the aim
   // on (Promoted.continues); the silver by what is worth exploring.
