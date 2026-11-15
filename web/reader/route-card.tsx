@@ -126,6 +126,11 @@ export class RouteCard {
   private static unplanned(screen: Screen, chosen: string, way: Way): string {
     const land = screen.region!.land!;
     if (way.go) { return 'Across the country you can see, the quickest way.'; }
+    // Where the aim followed goes, and no road is known: said so, not left as a gold promise with nothing behind it.
+    const aim = RouteCard.aimed(screen, chosen) ? 'This is where your aim goes. ' : '';
+    return aim + RouteCard.noWay(screen, chosen, way, land);
+  }
+  private static noWay(_screen: Screen, chosen: string, way: Way, land: NonNullable<RegionChart['land']>): string {
     if (way.cell !== undefined && !MapView.walkable(land, Number(way.cell))) { return 'There is no going there on foot.'; }
     // In the company's own hex, by the ways about where it stands, not across the country.
     if (land.marks.some(m => m.id === chosen && m.cell === land.here)) { return 'Close by: its way is from where you are, under Go….'; }

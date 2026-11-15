@@ -44,10 +44,21 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('following an aim', () => {
     await page.waitForSelector('li[data-continues]', { timeout: 30000 });
     expect(await follow.count()).toBe(0);
     expect(await page.locator('.follow-aim').count()).toBe(0);
+    // Gold is steady, never a flash: the same next step is gold at every sample, and a way on is always offered.
+    for (let i = 0; i < 4; i++) {
+      expect(await page.locator('li[data-continues]').count()).toBe(1);
+      await page.waitForTimeout(400);
+    }
     // Taken to the map, the aim's road is the one the set-out is gold on (not cream beside a gold invitation).
     await page.keyboard.press('m');
     await page.waitForSelector('.route-card', { timeout: 30000 });
     expect(await page.locator('.rc-go.aimed').count()).toBe(1);
+    // Set out on it: at the end, the scene is back with acts to take, and the aim's next step still gold or finished.
+    await page.click('.rc-go.aimed');
+    await page.waitForTimeout(8000);
+    // Never inert: some act to take is on the map. (Known gap, register PB-14: stopped on the road by a meeting, the
+    // map offers Enter here but not the aim's own gold Set out to Millholm.)
+    expect(await page.locator('.route-card button').count()).toBeGreaterThan(0);
     expect(errors).toEqual([]);
   }, 300000);
 });
