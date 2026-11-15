@@ -240,9 +240,17 @@ export class ActionFeedbackView {
     const heard = new Set((event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.id.split('@')[0]!));
     return new Set((campaign.module.rules ?? []).filter(r => r.teaches && heard.has(r.id)).map(r => r.teaches!));
   }
+  private static session(event: CampaignEvent, after: PlayerSnapshot, before: PlayerSnapshot): ActionFeedback {
+    return { attempt: event.response ?? event.action, result: event.response ?? '', resources: [], time: '',
+      immediate: [], discoveries: [], rolls: [], observations: [], events: [],
+      available: after.choices.filter(c => !before.choices.some(b => b.id === c.id)).map(c => c.name),
+      unavailable: [] };
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
-    const action = campaign.operator(event.action)!;
+    const action = campaign.operator(event.action);
+    // A command of the session that is no act of the world (an aim chosen to follow): said as it was.
+    if (!action) { return this.session(event, after, before); }
     // A fight told after it names a band's members by the band (see BandNames), not by their numbers in it.
     const called = BandNames.of(campaign);
     const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds, called);

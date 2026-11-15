@@ -29,7 +29,7 @@ describe('a walk by the gold', () => {
       const offered = new Set(PlayerView.choices(c).map(r => r.choice.id)), gold = acts.filter(a => a.continues);
       if (gold.length > 1) { broken.push(`${step}: gold on ${gold.length} acts at ${screen.place.id}`); }
       if (gold[0] && !gold[0].aspects.includes('undertaking')) { broken.push(`${step}: gold not the aim's: ${gold[0].label}`); }
-      for (const a of acts.filter(x => x.command && !x.command.startsWith('travel:') && !offered.has(x.command))) {
+      for (const a of acts.filter(x => x.command && !/^(travel|follow):/.test(x.command) && !offered.has(x.command))) {
         if (!a.for) { broken.push(`${step}: led "${a.label}" not offered (${a.command})`); }
       }
       for (const a of acts.filter(x => x.command?.startsWith('travel:'))) {

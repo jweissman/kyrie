@@ -30,7 +30,9 @@ export class Serve {
       led: (glance?.acts ?? []).map(a => ({ choice: a.choice, ...a.command ? { command: a.command } : {},
         ...a.for ? { for: a.for } : {}, label: a.label, why: a.why, aspects: a.aspects,
         ...a.continues ? { continues: true } : {} })),
-      choices: PlayerView.choices(c).map(r => ({ id: r.choice.id, label: r.choice.name })),
+      // Every choice, and the aim to follow, which the glance offers as an act of the session (HeldActs.follow).
+      choices: [...PlayerView.choices(c).map(r => ({ id: r.choice.id, label: r.choice.name })),
+        ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label }))],
       // What the map may set out for across the country, as the page and the terminal offer it (LandCrossing).
       across: LandCrossing.offers(screen) };
   }

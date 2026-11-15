@@ -45,7 +45,8 @@ describe('the opening, as the page leads it', () => {
     const won = () => c.history.some(e => e.combat.some(x => x.type === 'end' && 'outcome' in x
       && x.outcome === 'fighters'));
     expect(await p.until(() => won() && carried().some(id => !before.has(id)), 50)).toBe(true);
-    expect(p.s.campaign.world.one('at', 'party')).toMatch(/_u_|_ud/);
+    // Down under the town, or, the aim now followed first (HeldActs.follow), at the raiders' ledge: a fight won.
+    expect(p.s.campaign.world.one('at', 'party')).toMatch(/_u_|_ud|raidersHold/);
   }, 300000);
   // Mission 20's reference journey, as far as the page's leads take a lone warrior: out to Seolforfyrd, the parley, the
   // stolen bell rung to send the hobs running, the boy untied, the hold walked through and left, the toll-house's
