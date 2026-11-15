@@ -33,14 +33,26 @@ export class Observatory {
             <filter id="obs-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
+          <linearGradient id="obs-milk" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#8f9bc4" stopOpacity="0" /><stop offset=".5" stopColor="#c7cde6" stopOpacity=".07" />
+            <stop offset="1" stopColor="#8f9bc4" stopOpacity="0" /></linearGradient>
           <rect width="1600" height="1000" fill="url(#obs-haze)" />
-          <g className="obs-far">{Observatory.far.map(([x, y, r], i) => <circle key={i} cx={x} cy={y} r={r} />)}</g>
-          <g className="obs-ring" style={{ '--turn': `${turned.current}deg`, transformOrigin: `${cx}px ${cy}px` } as CSSProperties}>
+          <g className="obs-turned" style={{ '--turn': `${turned.current}deg` } as CSSProperties}>
+            <g className="obs-drift" style={{ transformOrigin: `${cx}px ${cy}px` }}>
+              <g className="obs-far" style={{ transformOrigin: `${cx}px ${cy}px` }}>{Observatory.far.map(([a, d, r], i) =>
+                <circle key={i} r={r} cx={cx + Math.sin(a) * d} cy={cy - Math.cos(a) * d} />)}</g>
+            </g>
+            <g className="obs-band" style={{ transformOrigin: `${cx}px ${cy}px` }}>
+              <circle cx={cx} cy={cy} r={Observatory.r - 160} /></g>
+            <g className="obs-mid" style={{ transformOrigin: `${cx}px ${cy}px` }}>{Observatory.mid.map(([a, d, r], i) =>
+              <circle key={i} r={r} cx={cx + Math.sin(a) * d} cy={cy - Math.cos(a) * d} />)}</g>
+          <g className="obs-ring" style={{ transformOrigin: `${cx}px ${cy}px` }}>
             <circle className="obs-arc" cx={cx} cy={cy} r={Observatory.r} />
             <g className="obs-near">{Observatory.near.map(([a, d, r], i) => <circle key={i} r={r}
               cx={cx + Math.sin(a) * d} cy={cy - Math.cos(a) * d} />)}</g>
             {signs.map((s, i) => <Observatory.Figure key={s.id} sign={s} angle={i * step} lit={s.id === focus}
               chosen={s.id === chosen} flare={s.id === flare} onFocus={onFocus} onChoose={onChoose} />)}
+          </g>
           </g>
         </svg>
       </div>
@@ -66,10 +78,13 @@ export class Observatory {
   }
   // How far below the field's middle its lowest star stands, as a fraction of the field (its name goes beneath).
   static foot(sign: Sign): number { return Math.max(...sign.stars.map(x => x[1] ?? .5)) - .5; }
-  // The far stars, still behind the turning ring; and the near ones on it, turning with the signs (by a fixed rule, the
-  // same every time: [x, y, r] and [angle, distance, r]).
-  static readonly far: [number, number, number][] = Array.from({ length: 150 }, (_, i) =>
-    [(i * 977 + 131) % 1600, (i * 563 + 71) % 1000, i % 11 === 0 ? 1.3 : .7]);
+  // The far stars, which turn a tenth as far as the ring does, and the near ones on it, turning with the signs (by a fixed
+  // rule, the same every time: [angle, distance, r]).
+  static readonly far: [number, number, number][] = Array.from({ length: 340 }, (_, i) =>
+    [(i * 137.508 * Math.PI) / 180, 1060 + ((i * 6151) % 1100), i % 11 === 0 ? 1.2 : .65]);
+  // The middle field, between: a few brighter, which twinkle.
+  static readonly mid: [number, number, number][] = Array.from({ length: 220 }, (_, i) =>
+    [(i * 222.4922 * Math.PI) / 180, 1100 + ((i * 4177) % 1000), i % 7 === 0 ? 1.7 : i % 3 === 0 ? 1.1 : .75]);
   static readonly near: [number, number, number][] = Array.from({ length: 260 }, (_, i) =>
     [(i * 137.508 * Math.PI) / 180, 1180 + ((i * 7919) % 900), i % 9 === 0 ? 1.9 : i % 3 === 0 ? 1.2 : .8]);
 }

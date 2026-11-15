@@ -24,7 +24,7 @@ class Hand {
   static cursor(page: Page) {
     return page.evaluate(({ x, y }) => {
       const under = document.elementFromPoint(x, y), cursor = under ? getComputedStyle(under).cursor : '';
-      return /reticle-(rest|act|press)/.exec(cursor)?.[1] ?? cursor;
+      return /reticle-(rest|act|hold|press)/.exec(cursor)?.[1] ?? cursor;
     }, Hand.at);
   }
   static boxes(page: Page, selector: string) {
@@ -54,7 +54,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('rings the hand, closes over a choice, tightens pressed, and nothing moves', async () => {
+  it('rings the hand, one size over a choice and pressed, and nothing moves', async () => {
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '?creation=cards' });
     await page.waitForSelector('.beat-ready', { timeout: 30000 }); await page.waitForTimeout(600);
     // The title: a ring on the dark; the ways in, each as it was over and pressed; no corners drawn on any.

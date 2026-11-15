@@ -64,3 +64,12 @@ worlds, the baseline report file, intents-realized measures, balance-by-role com
 
 **Status:** catalogue and ratchet done (scripts/intent-catalogue.ts; discovery has no proof; capabilities absent are listed
 in PB-18). Map instrument, put-away act, crossroads road acts, Wander: **not begun** (PB-17).
+
+## Brief D: the sign's sky, the cursor, and card selection (owner, 15 November, evening)
+
+- The sky behind the astrological sign selector needs to feel more realistic, like panning through a real sky.
+- The cursor is awkward: it switches between two sizes on press and release; nothing hints at the long-press, which
+  should slowly fill the reticle's border clockwise.
+- Card selection in general is a mess: the highlighted card is harder to read, and selection feels inverted.
+
+Status: see the register (PB-22) and the commits that close it.

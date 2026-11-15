@@ -27,20 +27,24 @@
   --paper-edge: rgba(41, 36, 29, .14);
 }
 :root { --row-neutral: rgba(236, 230, 217, .28); }
-/* The pointer is the reticle (IG-15, the owner: "target reticule" meant the cursor): a ring wherever the hand is, a little
-   wider over anything that can be chosen, and tightened the moment it is pressed (not filled); always only a circle, never
-   crossed by ticks, and large enough to find (the owner, 15 November: "way too small"; twice the size it was). The system's
-   own cursor stands behind each, and a touch screen has none. A long press fills the reticle from its centre out to the
-   ring (see instrument.css); a click commits at once, as everything does. */
-:root { --cursor-rest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-rest' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='10' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='10' fill='none' stroke='%23ECE6D9' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, auto;
-  --cursor-act: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-act' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='13' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='13' fill='none' stroke='%23ECE6D9' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, pointer;
-  --cursor-press: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-press' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='8' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='8' fill='none' stroke='%23ECE6D9' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, pointer; }
+/* The pointer is the reticle (IG-15, the owner: "target reticule" meant the cursor): a ring wherever the hand is, one size
+   at rest, over anything that can be chosen and when pressed (only its brightness differs: the owner, 15 November: it had
+   switched between two sizes on click and release), always only a circle, never crossed by ticks, and large enough to
+   find. Over what is done by holding, a short bright arc at the top says the ring fills, clockwise from there. The system's
+   own cursor stands behind each, and a touch screen has none. A long press fills the ring's border clockwise (see
+   instrument.css); a click commits at once, as everything does. */
+:root { --cursor-rest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-rest' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%23ECE6D9' stroke-opacity='.8' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, auto;
+  --cursor-act: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-act' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%23ECE6D9' stroke-opacity='1' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, pointer;
+  --cursor-hold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-hold' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%23ECE6D9' stroke-opacity='1' stroke-width='1.8'/%3E%3Cpath d='M22 7A15 15 0 0 1 31.64 10.51' fill='none' stroke='%23ECE6D9' stroke-width='3.6' stroke-linecap='round'/%3E%3C/svg%3E") 22 22, pointer;
+  --cursor-press: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='reticle-press' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%230A0B0E' stroke-opacity='.6' stroke-width='4'/%3E%3Ccircle cx='22' cy='22' r='15' fill='none' stroke='%23ECE6D9' stroke-opacity='1' stroke-width='1.8'/%3E%3C/svg%3E") 22 22, pointer; }
 @media (pointer: fine) {
   .shell, .shell * { cursor: var(--cursor-rest) !important; }
   .shell :is(input[type="text"], input:not([type]), textarea) { cursor: text !important; }
   .shell :is(button, a[href], [role="button"], [data-act], [data-choice], [data-action], .card, .fighter.target, label, summary):not(:disabled, [aria-disabled="true"]),
   .shell :is(button, a[href], [role="button"], [data-act], [data-choice], [data-action], .card, .fighter.target, label, summary):not(:disabled, [aria-disabled="true"]) * {
     cursor: var(--cursor-act) !important; }
+  .shell :is([data-hold], [data-hint]):not(:disabled, [aria-disabled="true"]),
+  .shell :is([data-hold], [data-hint]):not(:disabled, [aria-disabled="true"]) * { cursor: var(--cursor-hold) !important; }
   .shell :is(button, a[href], [role="button"], [data-act], [data-choice], [data-action], .card, .fighter.target, label, summary):not(:disabled, [aria-disabled="true"]):active,
   .shell :is(button, a[href], [role="button"], [data-act], [data-choice], [data-action], .card, .fighter.target, label, summary):not(:disabled, [aria-disabled="true"]):active * {
     cursor: var(--cursor-press) !important; }

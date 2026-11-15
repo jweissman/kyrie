@@ -140,9 +140,24 @@
 .observatory { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .observatory svg { width: 100%; height: 100%; display: block; }
 .obs-far circle { fill: rgba(236, 230, 217, .35); }
+.obs-mid circle { fill: rgba(236, 230, 217, .45); }
 .obs-near circle { fill: rgba(236, 230, 217, .55); }
 .obs-arc { fill: none; stroke: rgba(236, 230, 217, .05); stroke-width: 1; }
-.obs-ring { transform: rotate(var(--turn)); transform-box: view-box; transition: transform 900ms cubic-bezier(.25, .8, .25, 1); }
+/* The sky is panned, not swung: each layer turns the way the ring does by a share of it, the farther the less, so that the
+   stars slide past one another as a camera moves through them (the owner, 15 November), over a second and a half, easing in
+   and out; and the far field drifts of itself, imperceptibly, as a sky does. */
+.obs-far, .obs-mid, .obs-ring, .obs-band { transform: rotate(calc(var(--turn) * var(--k, 1))); transform-box: view-box;
+  transition: transform 1500ms cubic-bezier(.45, 0, .2, 1); }
+.obs-far { --k: .1; } .obs-band { --k: .25; } .obs-mid { --k: .5; } .obs-ring { --k: 1; }
+.obs-drift { transform-box: view-box; animation: obs-drift 1800s linear infinite; }
+@keyframes obs-drift { to { transform: rotate(360deg); } }
+.obs-band ellipse, .obs-band circle { fill: none; stroke: url(#obs-milk); stroke-width: 300; opacity: .55; }
+@keyframes obs-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.obs-mid circle:nth-child(9n) { animation: obs-twinkle 5.5s ease-in-out infinite; }
+.obs-mid circle:nth-child(13n) { animation: obs-twinkle 7.5s ease-in-out -3s infinite; }
+.obs-far circle:nth-child(17n) { animation: obs-twinkle 9s ease-in-out -5s infinite; }
+.observatory::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(5, 6, 9, .55) 70%, rgba(12, 10, 9, .85)); }
 .obs-sign { cursor: pointer; }
 .obs-sign .obs-hit { fill: transparent; }
 .obs-sign line { stroke: rgba(236, 230, 217, .16); stroke-width: 1.2; transition: stroke 500ms var(--ease); }
@@ -154,7 +169,8 @@
 .obs-sign.flare line { animation: obs-flare 340ms var(--ease) both; }
 .composed[data-page="sign"] .composed-col { background: radial-gradient(closest-side, rgba(7, 8, 12, .55), transparent); }
 @media (prefers-reduced-motion: reduce) {
-  .obs-ring { transition: opacity 300ms; } .obs-sign line, .obs-sign .obs-star { transition: none; }
+  .obs-ring, .obs-far, .obs-mid, .obs-band { transition: opacity 300ms; } .obs-drift { animation: none; }
+  .obs-mid circle, .obs-far circle { animation: none !important; } .obs-sign line, .obs-sign .obs-star { transition: none; }
   .obs-sign.flare line { animation: none; }
 }
 .composed-row > .row-key { border: 0; background: none; padding: 0; min-width: 0; }
@@ -162,6 +178,21 @@
 .composed .composed-card[data-chosen]::after { content: ''; display: block; position: absolute; left: 50%; bottom: 10px;
   width: 22px; height: 3px; margin-left: -11px; border-radius: 3px; background: var(--accent, #d9b46a); }
 .composed .composed-card[data-considered] { border-color: color-mix(in oklab, var(--ivory) 40%, transparent); }
+/* Chosen is the strong edge, its words and emblem at full strength and the card's ground unchanged; the others recede in
+   their words and emblems (never in the ground) and return under the hand; the card the hand or the keys are on is a wash
+   beneath its words and a hair of edge, never a paler card (the owner, 15 November: the lit card had read as chosen, its
+   words hard to read, and selection had felt inverted). */
+.composed .composed-card > * { position: relative; z-index: 2; }
+.composed .composed-card::before { z-index: 0; background: color-mix(in oklab, var(--ivory) 5%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ivory) 28%, transparent); }
+.composed .composed-card[data-chosen] { border-color: var(--ivory); background: linear-gradient(180deg, var(--lift), var(--raised));
+  box-shadow: 0 0 0 1.5px var(--ivory), 0 16px 36px rgba(0, 0, 0, .5); }
+.composed .composed-card[data-chosen] :is(.card-name, .glyph) { color: var(--ivory); stroke: var(--ivory); opacity: 1; }
+.composed .composed-card[data-chosen] .card-line { color: var(--ivory); opacity: .85; }
+.composed .composed-cards:has([data-chosen]) .composed-card:not([data-chosen]) :is(.card-name, .card-line, .glyph) {
+  opacity: .6; transition: opacity var(--quick); }
+.composed .composed-cards:has([data-chosen]) .composed-card:not([data-chosen]):is([data-considered], :hover, :focus-visible)
+  :is(.card-name, .card-line, .glyph) { opacity: 1; }
 .obs-name { fill: rgba(236, 230, 217, 0); font: 600 15px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
   transition: fill 500ms var(--ease); }
 .obs-sign.lit .obs-name { fill: rgba(236, 230, 217, .78); }
