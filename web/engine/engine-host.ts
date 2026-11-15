@@ -95,7 +95,6 @@ export class EngineHost {
       case 'plan': return Itineraries.plan(this.session!.campaign, request.destination)?.legs.map(l => l.to) ?? null;
       // A journey given up: it is no longer held, nor shown.
       case 'unbind': this.bound = undefined; return this.frame();
-      case 'follow': return request.aim ? this.command(() => this.perform(`follow:${request.aim}`)) : this.followed();
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       // With the story so far, so that a game opened from the file has its Story page (the review's A24).
@@ -331,13 +330,6 @@ export class EngineHost {
     return frame;
   }
   // The aim the player chose to follow, kept with the game; the page drawn again for it, nothing else done.
-  private followed(): Frame | null {
-    if (!this.session || this.busy !== undefined) { return null; }
-    Undertakings.follow(this.session.campaign);
-    this.screen = ScreenModel.build(this.session.campaign);
-    this.saving();
-    return this.frame();
-  }
   // The game is kept after every command, once its frame has gone to the page, so the page never waits on it.
   private saving() { setTimeout(() => { void this.keep(); }, 0); }
   // What changed is kept after every command; the world it happened in, only when it is new.

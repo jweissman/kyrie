@@ -194,7 +194,9 @@ export interface Screen {
   objectives: string[];
   // Each with the places it is about, by id, and who it names that might know where (by name).
   // about: what is known of the place an aim is about, from the place's own aim folded into it (see Undertakings).
-  aims?: { id: string; text: string; followed?: true; chosen?: true; own?: true; places?: string[]; who?: string[];
+  // follow: the action that follows it, where it is not followed (the command the glance and the Notes offer).
+  aims?: { id: string; text: string; followed?: true; follow?: string; chosen?: true; own?: true; places?: string[];
+    who?: string[];
     about?: string[] }[];
   // What can be said now that pays the company (see Owed): the talk leads with it, marked as the likeness is.
   paying?: string[];

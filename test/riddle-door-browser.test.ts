@@ -45,4 +45,32 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     expect(text).not.toContain('breathes out cold.');
     expect(errors).toEqual([]);
   }, 120000);
+
+  // Focus replaces the actions, never accumulates them (the owner, 15 November): attending to the door makes its words
+  // the foreground, each exactly once, by an identity the observation holds; focusing commits nothing; and putting
+  // attention back brings the surroundings back.
+  it('replaces the foreground with its words, each once, commits nothing, and gives the surroundings back', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+      { site, pointer: true, query: '?campaign=test/fixtures/probes/riddle-door/probe.campaign.json' });
+    await page.waitForSelector('[data-action="start"]');
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    const acts = () => page.evaluate(() => [...document.querySelectorAll('[data-act]')]
+      .filter(e => (e as HTMLElement).offsetParent !== null).map(e => e.getAttribute('data-act')!));
+    const before = await acts(), told = (await driver.inspect()).log.length;
+    expect(before.some(a => /Wait|Make camp|light_item/.test(a))).toBe(true);
+    const opener = await driver.inLens('look', /speak|say|word/i, /door/i);
+    if (await opener.getAttribute('aria-expanded') === 'false') { await opener.click(); await driver.settle(); }
+    const focused = await acts(), observed = (await driver.inspect() as unknown as { observed: string[] }).observed;
+    const words = focused.filter(a => /Press the word/.test(a));
+    expect(words).toHaveLength(4);
+    expect(new Set(focused).size).toBe(focused.length);
+    expect(focused.every(a => observed.includes(a))).toBe(true);
+    expect(focused.some(a => /Wait|Make camp|light_item/.test(a))).toBe(false);
+    expect((await driver.inspect()).log.length).toBe(told);
+    expect(await page.evaluate(() => document.body.innerText)).not.toContain('The door swings open.');
+    await page.keyboard.press('Escape'); await driver.settle();
+    expect((await acts()).some(a => /Wait|Make camp|light_item/.test(a))).toBe(true);
+    expect(errors).toEqual([]);
+  }, 120000);
 });

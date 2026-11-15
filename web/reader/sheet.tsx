@@ -92,6 +92,10 @@ export class Sheet {
   }
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the
   // map's (the owner, 4 November: no setting out from any page but the world map's).
+  // An aim chosen to follow: the action the observation offers for it (Screen.aims[].follow), done as any act is.
+  static take(app: ReaderApp, command?: string) {
+    if (command) { app.choose({ id: command, label: 'Follow this', tone: 'company', command }); }
+  }
   static Aim({ app, aim: { id, text: aim } }: { app: ReaderApp; aim: Held }) {
     const screen = app.state.frame?.screen, held = id === undefined ? undefined : screen?.aims?.find(a => a.id === id);
     const following = !!held?.followed, place = screen && Aims.named(screen, screen.destinations ?? [], aim);
@@ -99,11 +103,12 @@ export class Sheet {
     const about = held?.about ?? [];
     return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}
       {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</span>
-      <span className="aim-acts"><button type="button" className="option follow" data-action="follow"
-        aria-pressed={following} disabled={following || !id} onClick={() => app.follow(id)}>
+      <span className="aim-acts"><button type="button" className="option follow" data-action="follow" data-act={held?.follow}
+        aria-pressed={following} disabled={following || !held?.follow}
+        onClick={() => Sheet.take(app, held?.follow)}>
         {following ? 'Following' : 'Follow this'}</button>
       {place && <button type="button" className="option on-map" data-action="aim-map" data-id={place.id}
-        onClick={() => { if (id) { app.follow(id); } app.chart(Sheet.charted(screen, place.id)); }}>{`${place.name}, on the map`}</button>}
+        onClick={() => { Sheet.take(app, held?.follow); app.chart(Sheet.charted(screen, place.id)); }}>{`${place.name}, on the map`}</button>}
       </span></li>;
   }
   // A place as the map knows it (its mark, its town, or the hex it lies in: see BoardField.whither).

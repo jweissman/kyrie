@@ -83,8 +83,8 @@ html, body { overflow: hidden; }
   background: rgba(236, 230, 217, .16); }
 .way-in .n { font: 500 15px/1.2 var(--do); letter-spacing: .26em; text-transform: uppercase; padding-left: .26em; }
 .way-in { align-items: center; }
-.way-in .why { font: italic 400 14.5px/1.35 var(--told); color: var(--dim); letter-spacing: 0; overflow: hidden;
-  text-overflow: ellipsis; min-width: 0; }
+.title-menu .save-line { position: absolute; left: 0; right: 0; top: 100%; margin: 14px 0 0; text-align: center;
+  font: italic 400 14.5px/1.35 var(--told); color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .way-in[aria-current="true"] { color: var(--ivory); background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
   border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
 .way-in:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); transition: none; }

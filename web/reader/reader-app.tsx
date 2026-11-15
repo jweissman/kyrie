@@ -303,8 +303,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const started = performance.now();
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
-      const aim = /^follow:(.+)$/.exec(choice.command!)?.[1];
-      const next = aim ? await this.engine.request<Frame>({ kind: 'follow', aim }) : journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
+      const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
       await Press.settle(started);
@@ -397,14 +396,6 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
     else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
   };
-  // An aim to follow, or none (the game follows for the player again): said on every page, and kept with the game
-  // (see Followed).
-  // An aim followed by its id (none: the game follows for the player again).
-  follow = (id?: string) => {
-    if (this.state.pending) { return; }
-    void this.engine.request<Frame | null>({ kind: 'follow', ...id ? { aim: id } : {} })
-      .then(frame => { if (frame) { this.setState({ frame }); } }).catch(this.failed);
-  };
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }
     // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page,
@@ -435,6 +426,21 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     });
   };
   readonly dismiss = () => { this.setState({ error: '' }); };
+  // Every action identity in the observation now: what the page may draw a control for, and the host would accept.
+  // A control of gameplay that names none of these bypasses the contract (see test/interaction-contract-browser).
+  observed(): string[] {
+    const ids = new Set<string>(), frame = this.state.frame;
+    const add = (cs: Choice[] = []) => { for (const c of cs) { ids.add(c.id); if (c.command) { ids.add(c.command); } add(c.children); } };
+    add(this.menu.choices); for (const sec of this.menu.sections) { add(sec.choices); }
+    for (const a of frame?.leaf.glance?.acts ?? []) {
+      ids.add(a.choice); if (a.command) { ids.add(a.command); }
+      for (const x of a.inside ?? []) { ids.add(x.command); }
+    }
+    for (const a of frame?.screen.aims ?? []) { if (a.follow) { ids.add(a.follow); } }
+    for (const d of frame?.screen.destinations ?? []) { ids.add(`travel:${d.id}`); }
+    for (const x of frame?.screen.roads ?? []) { ids.add(`travel:${x.id}`); }
+    return [...ids];
+  }
   // Test and automation hook: the same semantic state the page draws.
   inspect() {
     const s = this.state, menu = this.menu, frame = s.frame;
@@ -443,7 +449,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       : Stage.prologue(this) ? 'prologue' : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
         ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
           journal: 'journal', map: 'map', story: 'story' }[s.view];
-    return { mode, place: frame?.screen.place, path: frame?.screen.path,
+    return { mode, observed: this.observed(), place: frame?.screen.place, path: frame?.screen.path,
       attention: s.attention, talk: s.talk,
       sections: menu.sections.map(sec => ({ id: sec.id, title: sec.title, choices: sec.choices.map(MenuModel.shape) })),
       choices: menu.choices.map(MenuModel.shape), selected: s.keyed ? menu.choices[s.cursor]?.id : undefined, trail: s.open,

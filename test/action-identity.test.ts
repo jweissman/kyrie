@@ -46,3 +46,21 @@ describe('one action identity across clients', () => {
     }
   }, 300000);
 });
+
+// An action absent from the observation, or gone stale, is refused by the engine, whoever sends it (the owner, 15
+// November: submitting an absent or stale action must be rejected).
+describe('an absent or stale action', () => {
+  it('is refused by the engine, in the page host and in the session alike', async () => {
+    const { host, terminal } = await Identity.pair();
+    for (const command of ['follow:no-such-aim', 'no_such_act(x)', 'go(nowhere,nowhere)']) {
+      await expect(host.handle({ kind: 'perform', command })).rejects.toThrow();
+      await expect(terminal.leg(command)).rejects.toThrow();
+    }
+    // An aim followed is not offered again; asked again it is simply followed (no change), never a new one invented.
+    const aim = ScreenModel.build(terminal.campaign).aims?.[0]?.follow;
+    if (aim) {
+      await terminal.leg(aim);
+      expect(ScreenModel.build(terminal.campaign).aims?.some(a => a.follow === aim)).toBe(false);
+    }
+  }, 300000);
+});

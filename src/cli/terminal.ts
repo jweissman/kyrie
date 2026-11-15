@@ -25,7 +25,6 @@ import { ScreenModel } from '../ui/screen-model';
 import { Narrator, type Told } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import type { Screen } from '../ui/screen-types';
-import { Undertakings } from '../presentation/undertakings';
 import { SceneModel } from '../ui/scene';
 import { Attending } from '../ui/attention';
 import { LandCrossing } from '../ui/land-crossing';
@@ -273,7 +272,7 @@ export class Terminal {
       await session.leg(`follow:${aims[n].id}`);
       return;
     }
-    if (answer === 'unfollow') { Undertakings.follow(session.campaign); return; }
+    if (answer === 'unfollow') { await session.leg('follow:'); return; }
     aims.forEach((a, i) => console.log(`${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`));
     if (!aims.length) { console.log('No aim is held.'); }
   }

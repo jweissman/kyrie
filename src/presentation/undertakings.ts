@@ -84,7 +84,7 @@ export class Undertakings {
     const ordered = Stakes.here(campaign, held, here)
       .toSorted((a, b) => Number(b.id === followed) - Number(a.id === followed))
       .map(o => ({ o, def: defs.get(o.id) })).map(({ o, def }) => ({ id: o.id, text: FictionalTime.prose(o.text),
-        ...o.id === followed ? { followed: true as const } : {},
+        ...o.id === followed ? { followed: true as const } : { follow: `follow:${o.id}` },
         ...o.id === followed && chosen ? { chosen: true as const } : {},
         ...def && Stakes.own(def) ? { own: true as const } : {},
         ...def ? { places: this.places(campaign, def) } : {}, ...def && this.who(campaign, def).length

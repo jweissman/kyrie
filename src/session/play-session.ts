@@ -170,13 +170,14 @@ export class PlaySession {
   // An aim chosen to follow (the glance offers it as an act: HeldActs.follow): no time passes and no world fact
   // changes, so it is told as a command and kept in the steps, for the browser, the terminal and a replay alike.
   private follow(aim: string): CampaignEvent {
-    const held = Undertakings.held(this.campaign).find(o => o.id === aim);
-    if (!held) { throw new Error(`No aim ${aim} is held`); }
-    Undertakings.follow(this.campaign, aim);
+    // `follow:` alone lets the aim go (none is followed again); else the aim must be one held now (a stale one is
+    // refused).
+    if (aim && !Undertakings.held(this.campaign).some(o => o.id === aim)) { throw new Error(`No aim ${aim} is held`); }
+    Undertakings.follow(this.campaign, aim || undefined);
     this.steps.push({ command: `follow:${aim}`, digest: Digest.of(this.campaign) });
     const text = ScreenModel.build(this.campaign).aims?.find(a => a.id === aim)?.text ?? aim;
     return { action: 'follow', elapsed: 0, changes: [], result: 'success', combat: [],
-      response: `You follow: ${AimSaid.title(text)}.` };
+      response: aim ? `You follow: ${AimSaid.title(text)}.` : 'You follow no aim.' };
   }
   static auto(this: void, battle: Battle): Promise<Command> {
     return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));

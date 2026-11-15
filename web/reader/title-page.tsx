@@ -44,19 +44,20 @@ export class TitlePage {
           <nav className="title-menu" aria-label="Ways in">
             <ul>
               {saved && <li><button type="button" className="way-in" data-nav data-action="continue" onClick={app.opening.carryOn}
-                {...item('continue')}>{mark}<span className="n">Continue</span>
-                <span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span></button></li>}
+                {...item('continue')}>{mark}<span className="n">Continue</span></button></li>}
               <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew}
                 {...item('begin')}>{mark}<span className="n">New game</span></button></li>
               {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
                   hover, not written out beside it: the owner, 15 November). */}
               <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" target="_blank"
                 rel="noopener" title="Opens in a new tab" aria-label="The encyclopedia, opens in a new tab"
-                {...item('encyclopedia')}>{mark}<span className="n" aria-hidden="true">The encyclopedia</span>
-                <span className="why" aria-hidden="true">↗</span></a></li>
+                {...item('encyclopedia')}>{mark}<span className="n" aria-hidden="true">The encyclopedia</span></a></li>
               <li><button type="button" className="way-in" data-nav data-action="options" {...item('options')}
                 onClick={TitlePage.options.bind(null, app)}>{mark}<span className="n">Options</span></button></li>
             </ul>
+            {/* The saved game, said apart: beneath the ways in and out of their geometry (the owner, 15 November: no
+                variable-length text inside the action rows). */}
+            {saved && <p className="save-line" data-id="save">{[saved.where, saved.when].filter(Boolean).join(' · ')}</p>}
           </nav>
           {dev && <TitlePage.Dev app={app} />}
         </main>
