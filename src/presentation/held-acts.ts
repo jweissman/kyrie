@@ -20,6 +20,8 @@ export class HeldActs {
   }
   // The aim to follow is one more act beside the world's, never in place of one (the terminal leads with them).
   static with(acts: Promoted[], pull?: Promoted): Promoted[] {
-    return pull ? [...acts.slice(0, 1), pull, ...acts.slice(1)] : acts;
+    // After what is urgent (tier 0: a danger, an answer), never before it.
+    const at = acts.findIndex(a => a.tier > 0), i = at < 0 ? acts.length : at;
+    return pull ? [...acts.slice(0, i), pull, ...acts.slice(i)] : acts;
   }
 }
