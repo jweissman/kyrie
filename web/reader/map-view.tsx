@@ -16,7 +16,6 @@ import { Typography } from '../../src/presentation/typography';
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Marks } from '../../src/ui/marks';
 import { Words } from './words';
-import { Act } from './stage/act';
 import { RouteCard } from './route-card';
 
 // The map (Mission 18, the owner's correction): the whole screen, the country as an illustrated hex crawl, with as
@@ -37,17 +36,13 @@ export class MapView {
     useEffect(() => { MapView.ask(app, screen, { chosen, planned, plan }); }, [app, screen, chosen, planned]);
     const dialog = useRef<HTMLElement>(null), bound = region && BoardField.whither(region, app.state.frame?.bound?.id);
     // A place chosen by the keys: the way there is the next thing they reach, not the rest of the places on the map.
-    // Touched, a hex or a place is chosen, and its way, how long and when the company would come there are shown with
-    // a set-out; touched again, it is set out for, the way walked on the map as the company goes. A touch had set out
-    // at once (OWN-48), and the owner found it took him where he had not meant to go (4 November).
-    const held = useRef(chosen); held.current = chosen;
+    // Touched, a hex or a place is chosen (a presentation gesture), and its way, how long and when the company would
+    // come there are shown; setting out is the card's own act, committed as every act is, never by touching again (the
+    // owner, 15 November: no double-selection that travels; a touch had set out at once, OWN-48, and then on the second).
     const pick = useCallback((id: string, keys?: boolean) => {
-      const again = held.current === id;
       choose(id);
-      if (keys) { key(n => n + 1); return; }
-      const go = again && region?.land && MapView.way(screen, id).go;
-      if (go && !Act.asks(go)) { app.choose(go); }
-    }, [app, screen, region]);
+      if (keys) { key(n => n + 1); }
+    }, []);
     const forget = useCallback(() => { MapView.forget(dialog.current, choose); }, []);
     useEffect(() => {
       const before = MapView.hold(dialog.current);

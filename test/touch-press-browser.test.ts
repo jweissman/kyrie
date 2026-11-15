@@ -55,7 +55,7 @@ class Probe {
 
 describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch\'s press', () => {
   let site = '', browser: Browser;
-  const talk = ':is([data-act$="#talk"], [data-act^="talk_to("])', wait = '[data-act="company/0:Wait"]';
+  const talk = ':is([data-act$="#talk"], [data-act^="talk_to("])';
   const awhile = '[data-act="company/0:Wait/0:A while"]', setOut = '[data-option="set-out"]';
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-touch-'));
@@ -94,7 +94,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch\'s press', () => {
     await page.keyboard.press('Escape');
     expect(await Probe.sent(page, 'perform')).toBe(before);
     // A wait: taken at the press, and no row moved between the press and its answer.
-    await Probe.press(page, wait, 60); await page.waitForTimeout(200);
+    // The wait is one act of the foreground (a fold in it is the act it leads with), not a menu to open first.
     const was = await Probe.boxes(page);
     await Probe.press(page, awhile, 60);
     expect(await page.locator('[data-struck], [data-taken]').count()).toBeGreaterThan(0);

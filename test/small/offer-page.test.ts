@@ -40,8 +40,10 @@ describe('the page\'s four', () => {
     // Each row does the act offered: its own choice, or the command where the menu has none of its own; a thing's look
     // is the act it leads with, one of the thing's own (the owner, 15 November), as the terminal's is.
     const offered = t.glance.offer!.primary;
+    // A fold is the one act it leads with, one of its own (no compound menu: "Wait a while" waits a while).
     const does = rows.map((r, i) => /#look$/.test(offered[i]!.choice)
-      ? r[1]!.startsWith(offered[i]!.choice.replace(/#look$/, '/')) : r[1] === offered[i]!.choice);
+      ? r[1]!.startsWith(offered[i]!.choice.replace(/#look$/, '/'))
+      : r[1] === offered[i]!.choice || r[1]!.startsWith(`${offered[i]!.choice}/`));
     expect(does).toEqual(offered.map(() => true));
     // And the terminal leads with the same four, by the commands they do.
     expect(Terminal.led(t.glance, t.screen)).toEqual(offered.map(o => o.command ?? o.choice));

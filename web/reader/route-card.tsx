@@ -38,7 +38,7 @@ export class RouteCard {
         </details>}
         {!over && (way.go || nearby.length > 0) && <div className="rc-acts">
           {way.go && <button type="button" className={`act go rc-go${RouteCard.aimed(screen, chosen) ? ' aimed' : ''}`} data-action="set-out" data-act={way.go.id} aria-label={way.go.label}
-            title={way.go.label} onClick={() => app.choose(way.go!)}>Set out</button>}
+            title={way.go.label} onClick={() => app.choose(way.go!)}>{`Travel to ${Words.upper(RouteCard.named(screen.region!, chosen, way).title)}`}</button>}
           {nearby.length > 0 && <button type="button" className="option rc-near" data-action="explore-nearby"
             onClick={() => RouteCard.explore(app)}>{Typography.curl(RouteCard.around(screen))}<span className="rc-span">
               {Words.many(nearby.length, 'place')}</span></button>}

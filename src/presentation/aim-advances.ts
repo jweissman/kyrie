@@ -1,3 +1,4 @@
+import { Carriers } from '../ui/carriers';
 import type { Campaign } from '../campaign/campaign';
 import type { Call, Module, Objective, Operator, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
@@ -31,12 +32,15 @@ export class AimAdvances {
     // foreground only the way out: PL-25); never by what a rule pays for (PL-21). Nor ever by spending (what the debt
     // carries would sell; a ten-foot pole bought is not that).
     const actor = campaign.playerActor ?? 'party';
+    // Never what someone has on or in hand: a debt is not paid by selling the weapon that is to be lived by (the owner,
+    // 15 November: gold is a viable step, not any act that raises the purse).
+    const worn = Carriers.worn(campaign);
     const wanted = AimLeads.sellers(campaign, def).length ? AimLeads.wanted(campaign, def) : new Set<string>();
     // Save a thing bought that someone the aim waits on keeping wants (feverwort for the fevered child: PL-28).
     return new Set(rows.filter(r => !r.action.movement && ((r.action.schema === 'buy_item'
       && wanted.has(r.action.bindings?.form ?? '')) || (!/^buy_/.test(r.action.schema ?? '')
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
-        || (coin && (/^sell_/.test(r.action.schema ?? '') || this.pays(r.action, actor))))))).map(r => r.choice.id));
+        || (coin && !worn.has(r.action.bindings?.ware ?? '') && (/^sell/.test(r.action.schema ?? '') || this.pays(r.action, actor))))))).map(r => r.choice.id));
   }
   // Where what the aim followed waits on lies hidden, to be searched for: the places, while it is still to be found.
   // From anywhere else the way there is the aim's (see Glance.ways): inside Murkweard, the cross at its door still to

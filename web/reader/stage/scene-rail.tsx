@@ -1,5 +1,5 @@
 import type { ReaderApp } from '../reader-app';
-import { Act, type Draw } from './act';
+import type { Draw } from './act';
 import { CompassStage } from './compass-stage';
 import { Explorer } from './explorer';
 import { Glyphs } from '../creation/glyphs';
@@ -26,7 +26,7 @@ type Standing = { lit?: Tone } | { dim: true } | { shut: string } | Record<strin
 export class SceneRail {
   // Whether the scene is drawn first, the rail its touches (?scene=split keeps the bounded stage, and its rows).
   static on(app: ReaderApp): boolean { return app.props?.query?.get('scene') !== 'split'; }
-  static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
+  static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (
       <nav className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
@@ -38,8 +38,11 @@ export class SceneRail {
             under the finger as the Search came and went, and a touch for the Eye opened Go (round 7, both players). */}
         <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
           standing={wait ? {} : { shut: 'nothing to wait for here' }} />
-        {search ? <Act.View choice={search} draw={draw} quiet variant="glyph" className="rail-mark by-glyph">
-          <Glyphs.View id="search" className="rail-glyph" label="Search" /></Act.View>
+        {/* An attention, never a second place to commit: the glass turns the scene to what can be searched and looked at (the
+            Look lens, where the search leads); "Search here" is done by the one foreground, never from the rail (the
+            owner, 15 November: every act through one of the four). */}
+        {search ? <button type="button" className="rail-mark by-glyph" data-action="explore" aria-label="Search: look closely"
+          title="Search: look closely" onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
           : <button type="button" className="rail-mark by-glyph" disabled aria-label="Search: nothing here to search"
             title="Search: nothing here to search"><Glyphs.View id="search" className="rail-glyph" /></button>}
         <span className="rail-gap" aria-hidden="true" />

@@ -1,3 +1,4 @@
+import { Foreground } from '../../../src/presentation/foreground';
 import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
 import { useRef, type ReactNode } from 'react';
@@ -197,11 +198,14 @@ export class GlanceStage {
     // enclosed place the compass stands there instead, the way out and the way on (see CompassStage).
     const compass = CompassStage.of(app), back = compass ? undefined : GlanceStage.back(app, [only?.c, ...drawn]);
     const led = shown.flatMap(a => [a.choice, a.command]);
+    // The rows beside the acts are items of the one foreground of four (see Foreground).
+    const beside = (compass?.out ? 1 : 0) + (compass?.next && !led.includes(compass.next.command) ? 1 : 0) + (back ? 1 : 0);
+    const fitted = Foreground.fit(shown, beside);
     const compassed = !!only && !!compass && [compass.out, compass.next].some(r => r && (r.name === only.name
       || r.command === only.c.command || r.command === only.c.id));
     return <>
       {lens ? <GlanceStage.Lens app={app} draw={draw} lens={lens} />
-        : shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
+        : fitted.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={fitted} top={top} />}
       <p className="openers">
         {compass && <CompassStage.View app={app} draw={draw} drawn={led} />}
         {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
@@ -541,6 +545,12 @@ export class GlanceStage {
   // cluster of them (the owner, 15 November: "compound command clusters" for perceiving; one flat list of acts, composed).
   // The rest of what can be done with the thing is the Look lens's. A look with nothing led stays what it is.
   static acted(a: Promoted, c: Choice): Choice {
+    // A fold in the foreground is the one act it leads with, in its own words (the owner, 15 November: no compound
+    // menus; "Wait a while" waits a while, and the other measures of time are the time lens's).
+    if (c.children?.length && !c.command && !/#look$/.test(c.id)) {
+      const first = Attending.all(c.children).find(k => k.command && !k.children?.length && !k.disabled);
+      return first ? { ...first, label: c.label } : c;
+    }
     if (!/#look$/.test(c.id) || !c.children?.length) { return c; }
     const leaves = Attending.all(c.children).filter(k => k.command && !k.children?.length), want = a.for ?? a.inside?.[0]?.command;
     return leaves.find(k => k.command === want) ?? leaves[0] ?? c;
