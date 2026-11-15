@@ -253,7 +253,7 @@ export class Affordances {
   // teaches it nothing (Taklinn, whom the spiders job names, had been led nineteen turns running for rumours).
   // Talk, trade and services: what is done with someone, never an act on them that is new (see newest).
   private static readonly talkish = new RegExp(['talk_to', 'take_leave', 'look_closely', 'ask', 'buy_', 'sell_', 'take_lodging',
-    'take_healing', 'make_offering', 'learn_', 'train_', 'sing_', 'work_', 'pay_'].map(k => `^${k}`).join('|'));
+    'take_healing', 'make_offering', 'learn_', 'train_', 'sing_', 'work_', 'pay_', 'haggle'].map(k => `^${k}`).join('|'));
   private static newest(leaves: Choice[], r: Reading): Choice | undefined {
     return leaves.find(c => !r.done.has(c.command!) && (r.serves?.has(c.command!) || (!r.speakers.has(c.command!)
       && !this.talkish.test(r.schema.get(c.command!) ?? ''))));

@@ -68,8 +68,9 @@ describe('a purchase the company cannot afford', () => {
     cc.commit(cc.world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'gold'),
       value: { kind: 'number', value: 3 } }]));
     const lantern = ScreenModel.build(c).things.find(t => t.name === 'a lantern')!;
-    const leaf = lantern.acts.flatMap(a => a.children ?? [a])[0]!;
+    // The buying leaf (the haggle, which can be tried without the coin, is the other).
+    const leaf = lantern.acts.flatMap(a => a.children ?? [a]).find(a => !/^Haggle/.test(a.label))!;
     expect([leaf.command, leaf.disabled]).toEqual([undefined, 'It costs 7 coin, and you have 3.']);
-    expect(PlayerView.choices(c).some(x => x.choice.id.includes('lantern'))).toBe(false);
+    expect(PlayerView.choices(c).some(x => x.choice.id.includes('lantern') && !x.choice.id.startsWith('haggle'))).toBe(false);
   }, 120000);
 });
