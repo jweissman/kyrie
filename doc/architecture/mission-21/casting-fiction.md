@@ -79,6 +79,22 @@ So: sleep and kill are conflated; the power is invisible (no canon names it, no 
 and a mage who has never learned Sleep and one who has are offered the same free kill. The firebomb is the better shape (a
 named, spent item) but still skips the item's own resolution.
 
+## What the tiny probe found (15 November night): CF-03, refined
+
+A tiny Kyr world (a mage who knows Sleep, three rats, `Resolve invoke(sleep, caster, rats)`) stops at the compiler:
+"Invalid argument foes in invoke(sleep, caster, foes)". `invoke` is declared `(ability, member, member)`
+(src/campaign/runtime-capabilities.ts:21) and resolved for one target by `FieldUse.perform`, which also refuses any
+ability that is not `safe` in the field (healings, cleansings, wards: 'Unsupported field effect'). So there are two
+separate walls, and the second is by design: **a hostile spell is not a field spell; its ordinary route is the fight.**
+
+That changes the shape of the repair. A band does not need to become a target of the field route. The smallest generic
+capability is an **opening move for a combat resolve**: `Resolve combat(band)` begun with a named caster's cast as its first
+act (a surprise or the initiative), so that Sleep runs through Battle's own cost, save, resistance and event record, its
+aftermath (the sleepers) lives in the fight's state, and "do for them where they lie" is the fight's ordinary blows on
+sleepers (which hit surely). No second route; the authored action supplies only the situation (the rats gathered, unaware).
+The bespoke free kill (`_u_rats_slept`) is then simply removed: a mage without Sleep is not offered one, and one with it
+fights the rats with it.
+
 ## What would make it right (the owner's order, with what each needs)
 
 1. This document, the audit and its ratchet (test/small/casting-audit): **done**.
