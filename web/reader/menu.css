@@ -94,7 +94,8 @@
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
 /* What is truly several things at once: its line a slow gradient through its tones (OKLab), still for less motion. */
 :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
-  animation: prism-drift 9s ease-in-out infinite alternate; }
+  /* Still: a colour that drifts is read as one that blinks (the owner, 15 November: an opportunity's colour persists
+     as long as the opportunity does). */ }
 @media (prefers-reduced-motion: reduce) {
   :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
 /* A row never widens what holds it: its words are cut short instead. */

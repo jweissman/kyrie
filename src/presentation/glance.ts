@@ -1,5 +1,7 @@
 import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer'; import { CompanyLight } from './company-light';
 import { Threshold } from './threshold';
+import { HeldActs, type Host } from './held-acts';
+export type { Host };
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
@@ -12,7 +14,7 @@ import { Itineraries } from '../ui/itinerary';
 import { Headings } from '../ui/headings';
 import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
-import { Marks } from '../ui/marks'; import { SceneModel, type Scene } from '../ui/scene';
+import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
@@ -29,8 +31,6 @@ import type { Told } from './narrator';
 // and what has changed since it was.
 // opened: an opening told why the company came just before, so the first place does not say the aim again (OWN-17).
 export interface Telling { kept: { id: string; text: string }[]; known: boolean; changed: string[]; opened?: boolean }
-// The journey held by the host (see EngineHost.bound), and whether the game was just taken up again.
-export interface Host { bound?: { id: string; name: string; minutes: number }; resumed?: boolean; elapsed?: number }
 
 // A place at a glance (OWN-18, OWN-19): how the company came to it, its one distinctive line, a sign of life now, on a
 // return what has changed, and the few choices that matter now, each with why; the quiet row of ways; and which ways
@@ -91,14 +91,13 @@ export class Glance {
   // The host's part: the journey set out on and not yet come to the end of is gone on with first of what the aims ask
   // ("Go on to Gaudumport"), and the game taken up again opens as a return.
   static held(glance: View, host: Host): View {
-    const bound = host.bound && { choice: `travel:${host.bound.id}`, command: `travel:${host.bound.id}`,
-      label: `Go on to ${host.bound.name}`, why: 'bound' as const, facets: ['here' as const, 'aimed' as const],
-      tier: 1 as const, aspects: ['undertaking' as const], note: 'where you set out for',
-      marks: Marks.journey(host.elapsed ?? 0, host.bound.minutes) ? [Marks.dusk] : [] };
-    const acts = bound ? this.first(glance.acts, bound) : glance.acts;
+    const { bound, pull } = HeldActs.of(host);
+    const lead = bound ?? pull, acts = lead ? this.first(glance.acts, lead) : glance.acts;
+    const offer = bound && glance.offer ? Offers.headed(glance.offer, bound)
+      : pull && glance.offer ? Offers.headed(glance.offer, pull, 'act') : undefined;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,
       ways: glance.ways.filter(id => !acts.some(a => a.choice === id)),
-      ...bound && glance.offer ? { offer: Offers.headed(glance.offer, bound) } : {} };
+      ...offer ? { offer } : {} };
   }
   // The journey held, at the head of what the aim asks, and the rest capped again: three at most, two ways.
   private static first(acts: Promoted[], bound: Promoted): Promoted[] {

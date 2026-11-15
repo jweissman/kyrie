@@ -1,3 +1,4 @@
+import { AimSaid } from '../../src/presentation/aim-said';
 import { Portraits } from '../../src/ui/portraits';
 import { CompanyPortraits } from '../../src/paintings/company-portraits';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
@@ -435,7 +436,10 @@ export class EngineHost {
     // the page is told (coming to it lets it go), and goes on first of what the glance leads with.
     const leaf = this.leaf(), going = this.journeying();
     if (leaf.glance) {
+      const aims = this.screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
       leaf.glance = Likenesses.with(Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
+        ...pull && !aims.some(a => a.followed)
+          ? { follow: { id: pull.id, label: `Follow: ${AimSaid.title(pull.text)}` } } : {},
         ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }));
     }
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),

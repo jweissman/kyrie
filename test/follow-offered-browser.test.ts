@@ -1,0 +1,53 @@
+/// <reference lib="dom" />
+import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import type { Page } from 'playwright-core';
+import { SiteBuild } from '../src/cli/site-build';
+import { MonoBrowser } from './support/mono-browser';
+
+// One action grammar (the owner, 15 November: a stray "Follow this" sent the player to the roadmap, and nothing at the
+// end of it said what to do): an aim held and not followed is offered as an act among the four, never as a button of
+// its own in the prose; chosen, the aim's next step is gold and stays so, and the offer is gone.
+class Journey {
+  static async open(page: Page) {
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('.prologue-page', { timeout: 120000 });
+    await page.keyboard.press('Escape');
+    for (let i = 0; i < 40 && await page.locator('.prologue-page').count(); i++) {
+      const meeting = page.locator('.page-meeting [data-act], .page-meeting button').first();
+      if (await page.locator('.page-meeting').count() && await meeting.count()) { await meeting.click(); }
+      else { await page.keyboard.press('Enter'); }
+      await page.waitForTimeout(700);
+    }
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+  }
+}
+describe.skipIf(!process.env.KYRIE_BROWSER)('following an aim', () => {
+  let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
+  beforeAll(async () => {
+    site = await mkdtemp(join(tmpdir(), 'kyrie-follow-'));
+    await SiteBuild.site(site, {});
+    browser = await MonoBrowser.launch();
+  }, 300000);
+  afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
+  it('is an act among the four, and its next step stays gold once chosen', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, pointer: false,
+      query: '?world=a1&opening' });
+    await Journey.open(page);
+    const follow = page.locator('[data-choice^="follow:"]');
+    expect(await page.locator('.follow-aim').count()).toBe(0);
+    expect(await follow.count()).toBe(1);
+    await follow.click();
+    await page.waitForSelector('li[data-continues]', { timeout: 30000 });
+    expect(await follow.count()).toBe(0);
+    expect(await page.locator('.follow-aim').count()).toBe(0);
+    // Taken to the map, the aim's road is the one the set-out is gold on (not cream beside a gold invitation).
+    await page.keyboard.press('m');
+    await page.waitForSelector('.route-card', { timeout: 30000 });
+    expect(await page.locator('.rc-go.aimed').count()).toBe(1);
+    expect(errors).toEqual([]);
+  }, 300000);
+});

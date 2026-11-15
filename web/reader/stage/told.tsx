@@ -266,7 +266,7 @@ export class Told {
     return <li className="learned aims-many"><span className="label">{near.length === 1 ? near[0]!.now ? 'The aim now'
       : 'A new aim' : near.length ? `${near.length} new aims` : 'Noted'}</span>
       <ul>{near.map(a => <li key={a.id}>{Typography.curl(near.length > 1 ? Told.title(a.text) : a.text)}
-        {app && <Told.Follow app={app} id={a.id} />}</li>)}
+</li>)}
         {far > 0 && <li className="far">{far === 1 ? 'One thing further off, in your notes.'
           : `${far} things further off, in your notes.`}</li>}</ul></li>;
   }
@@ -274,13 +274,6 @@ export class Told {
   // old ways under Millholm go on past the corn-store's cellar"); each is whole in the Book (the owner, 11 November
   // late: two aims had come as a block of their whole paragraphs over the place).
   static title(aim: string): string { return AimSaid.title(aim); }
-  // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
-  // RPG's journal offers to track a quest just taken up (see Undertakings).
-  static Follow({ app, id }: { app: ReaderApp; id: string }) {
-    const held = app.state.frame?.screen.aims?.find(a => a.id === id);
-    return held && !held.followed ? <button type="button" className="follow-aim" data-action="follow"
-      onClick={() => app.follow(id)}>Follow this</button> : null;
-  }
   // Something under way: said at once, in the player's words; a journey says where it goes and how long it is.
   static Working({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {
     const t = pending.travel;

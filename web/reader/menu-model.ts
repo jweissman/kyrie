@@ -114,7 +114,8 @@ export class MenuModel {
       more: this.ids(yours, opened) };
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
-    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance && { ...glance, acts: leads },
+    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)], opened),
+      glance && { ...glance, acts: leads },
       { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), destinations: going,
     around: about, ...glance ? { sheets, leads, leading } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
@@ -221,6 +222,11 @@ export class MenuModel {
   // A journey held (set out on, and not yet come to the end of): going on with it, by the way known from here, and
   // giving it up.
   static readonly unbind = 'unbind';
+  // An aim held and none followed, offered to be followed as any act is (the glance leads with it: Glance.held).
+  static following(frame: Frame): Choice[] {
+    const pull = frame.leaf.glance?.acts.find(a => a.choice.startsWith('follow:'));
+    return pull ? [{ id: pull.choice, label: pull.label, tone: 'company', command: pull.choice }] : [];
+  }
   static onward(bound: Frame['bound']): Choice[] {
     if (!bound) { return []; }
     return [{ id: `travel:${bound.id}`, label: `Go on to ${bound.name}`, tone: 'way', command: `travel:${bound.id}`,

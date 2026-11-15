@@ -119,8 +119,8 @@ export class Offers {
         : /^(go|travel|walk|enter|leave|climb|descend)/.test(s) ? 'way' : 'act';
   }
   // The journey set out on, at the head of the four (see Glance.held): what it put out of the four goes to the rest.
-  static headed(offer: Offer, bound: Promoted): Offer {
-    const head: Offered = { ...this.promoted(bound, undefined), type: 'journey' };
+  static headed(offer: Offer, bound: Promoted, type: ActType = 'journey'): Offer {
+    const head: Offered = { ...this.promoted(bound, undefined), type };
     const all = [head, ...offer.primary.filter(o => o.choice !== bound.choice)];
     return { primary: all.slice(0, this.four),
       rest: [...all.slice(this.four), ...offer.rest.filter(o => o.choice !== bound.choice)] };

@@ -70,11 +70,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
       await p.check('talk');
       await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
-      // The job taken up, followed from the talk by its id: offered on the aim's line, and gone once it is followed.
-      expect(await page.locator('.lines .line.aim .follow-aim').count()).toBe(1);
-      await page.click('.lines .line.aim .follow-aim'); await driver.settle();
-      await page.waitForSelector('.lines .line.aim .follow-aim', { state: 'detached', timeout: 10000 });
       await driver.away();
+      // The job taken up, followed from the notes (a list of what is held); the place's own offer is the scene's.
+      await driver.mode('j');
+      await page.locator('.aim-card [data-action="follow"]:not([disabled])').last().click(); await driver.settle();
+      await driver.mode('j');
       await p.to('region__s2_u_store');
       await p.to('region__s2_u_cellar');
       await driver.pick(c => /light|Light/.test(c.label), 'a light');

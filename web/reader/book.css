@@ -389,6 +389,7 @@
   padding: 13px 20px; text-align: center; font: 600 14px/1 var(--do); letter-spacing: .2em; text-transform: uppercase;
   color: var(--deep); background: var(--accent); border: 1px solid var(--accent); }
 .route-card .rc-acts .rc-go::before { content: none; }
+.route-card .rc-acts .rc-go.aimed { background: var(--gold); border-color: var(--gold); }
 .route-card .rc-acts .rc-go:hover, .route-card .rc-acts .rc-go:focus-visible { filter: brightness(1.06); outline: 2px solid var(--ivory);
   outline-offset: 2px; }
 .route-card .rc-acts .rc-near { all: unset; box-sizing: border-box; cursor: pointer; flex: 1 1 auto; display: flex;

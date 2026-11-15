@@ -136,7 +136,6 @@ export class GlanceStage {
   // (see Told.Happened).
   static Rest({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
     const s = app.state, leaf = s.frame!.leaf, exchange = leaf.exchange, screen = s.frame!.screen;
-    const own = screen.aims?.find(x => x.own);
     // What came of what was just done is told here, a lens on or not: it had been the explorer's pane's to tell (kept),
     // and with the lenses in the scene it was told nowhere (the grave spec's statue broken, and nothing said).
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
@@ -157,9 +156,7 @@ export class GlanceStage {
           first goal on no screen at all, only in the book (the second blind playtest, BL-04). */}
       {g.goal && (!s.opened || !s.goalSaid) && !s.exploring && <p className="first-goal" data-id="goal">
         <span className="label">Your first goal</span>
-        {Typography.curl(Words.upper(g.goal))}
-        {/* Offered to follow where it is said: Follow this had been only in the Notes (round 13, PL-30). */}
-        {own && <Told.Follow app={app} id={own.id} />}</p>}
+        {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
         {g.changed.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}
@@ -494,7 +491,6 @@ export class GlanceStage {
     return (
       <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
         {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(offered ? Told.title(aim) : aim))}
-        {offered && <Told.Follow app={app} id={offered.id} />}
         {/* Not from inside an enclosed place: the compass is the way out there (CN-02). */}
         {place && !CompassStage.of(app) && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
           onClick={() => app.choose(MenuModel.country)}>{`${place.name}, on the map`}</button>}</p>

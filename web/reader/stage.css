@@ -24,9 +24,8 @@
 .place-mark .pm-glyph { width: 16px; height: 16px; fill: none; stroke: var(--ivory); stroke-width: 1.5; opacity: .85; }
 .place-mark .pm-accent { display: block; width: 18px; height: 2px; border-radius: 1px; background: var(--pm);
   opacity: .7; }
-.place-mark.prism .pm-accent { opacity: .9; background-size: 200% 100%; animation: prism-drift 9s ease-in-out infinite alternate; }
+.place-mark.prism .pm-accent { opacity: .9; background-size: 200% 100%; }
 .place-mark.dim { opacity: .4; }
-@media (prefers-reduced-motion: reduce) { .place-mark.prism .pm-accent { animation: none; } }
 .chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
 .place { font: 300 clamp(30px, 3.4vw, 46px)/1.08 var(--do); letter-spacing: .01em; margin: 0 0 10px; text-wrap: balance;
   color: var(--ivory); }

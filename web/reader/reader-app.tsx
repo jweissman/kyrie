@@ -303,7 +303,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const started = performance.now();
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
-      const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
+      const aim = /^follow:(.+)$/.exec(choice.command!)?.[1];
+      const next = aim ? await this.engine.request<Frame>({ kind: 'follow', aim }) : journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
       await Press.settle(started);

@@ -14,9 +14,6 @@ export class NextPull {
     const choice = next.command ? MenuModel.lead(app.menu, next.command) : undefined;
     return <p className="next-pull" data-id="next">
       {Typography.curl(Words.upper(next.text))}{next.at ? <span className="at">{` · ${next.at}`}</span> : null}
-      {next.aim ? <button type="button" className="follow-aim" data-action="follow"
-        onClick={() => app.follow(next.aim)}>Follow this</button>
-        : null}
       {/* What pulls next is a thing to do, a row like every act (CN-04: never a link in the prose). */}
       {!next.aim && choice && <ChoiceRow.Button className="next-act" data={{ action: 'next', choice: choice.id }} act={choice.id}
         onClick={() => app.choose(choice)} label={Typography.curl(next.label ?? choice.label)} />}

@@ -204,8 +204,7 @@ export class TalkStage {
           ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
             className={`line learned ${l.kind}${more ? ' more' : ''}`}>
             {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l) : 'You know now')}</b>}
-            <Told.Said text={l.text} />
-            {app && l.aim && <Told.Follow app={app} id={l.aim} />}</p>
+            <Told.Said text={l.text} /></p>
           : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}><Told.Said text={l.text} /></p>;
     };
     return (

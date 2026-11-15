@@ -37,7 +37,7 @@ export class RouteCard {
           {title !== way.name && <p className="rc-formal">{Typography.curl(Words.upper(way.name))}</p>}
         </details>}
         {!over && (way.go || nearby.length > 0) && <div className="rc-acts">
-          {way.go && <button type="button" className="act go rc-go" data-action="set-out" data-act={way.go.id} aria-label={way.go.label}
+          {way.go && <button type="button" className={`act go rc-go${RouteCard.aimed(screen, chosen) ? ' aimed' : ''}`} data-action="set-out" data-act={way.go.id} aria-label={way.go.label}
             title={way.go.label} onClick={() => app.choose(way.go!)}>Set out</button>}
           {nearby.length > 0 && <button type="button" className="option rc-near" data-action="explore-nearby"
             onClick={() => RouteCard.explore(app)}>{Typography.curl(RouteCard.around(screen))}<span className="rc-span">
@@ -48,6 +48,12 @@ export class RouteCard {
             <path d="M6 6l12 12M18 6L6 18" /></svg></button>}
       </aside>
     );
+  }
+  // Whether the way chosen is where the aim followed goes: its Set out is then the aim's next step, and gold (the
+  // owner, 15 November: one continuous guidance from Follow to the road).
+  static aimed(screen: Screen, chosen: string): boolean {
+    const followed = screen.aims?.find(a => a.followed);
+    return !!followed?.places?.includes(chosen);
   }
   // What the choice is: a journey by known ways, across open country, or no way known; where the company is already.
   static eyebrow(screen: Screen, way: Way): string {
