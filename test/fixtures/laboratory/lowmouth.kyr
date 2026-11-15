@@ -142,8 +142,8 @@ Module lab "The undercroft at Lowmouth" {
     On success { Spend oil_firebomb from actor. Slay low_u_buck. }
     Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
   }
-  Action low_u_rats_slept(actor: group, site: place) "Put the rats in the run to sleep with a mage's charm, and do for them where they lie" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_warren) and able(low_u_rats) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, sleep)).
+  Action low_u_rats_slept(actor: group, site: place) "Put the rats in the run to sleep with the Sleep spell, and do for them where they lie" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_warren) and able(low_u_rats) and memberOf(?m, actor) and awake(?m) and learned(?m, sleep).
     Time 1 minutes.
     On success { Slay low_u_rats. }
     Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were. It is quick after that, and not pleasant. None of them wakes for it.".

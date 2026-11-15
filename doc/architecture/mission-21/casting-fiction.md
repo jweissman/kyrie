@@ -119,3 +119,10 @@ handbook agree).
 Steps 2–7 are an engine change (the band as a target, a projected `sleeping` fact, the event record) and are not begun.
 The cheapest honest next step is step 3 with a tiny Kyr fixture: a tiny world, a mage who knows Sleep, three rats, and
 `Resolve invoke(sleep, caster, rats)`, to see exactly what the kernel needs.
+
+## Step 1 of the owner's order, done for the rats (15 November)
+
+`_u_rats_slept` is offered to a member who has **learned the Sleep spell**, and to no one else (it had been offered to any
+mage, "a mage's charm"); its words say the Sleep spell. A mage without Sleep is not offered it, and meets the rats by the
+other ways the job has (ratsbane, the fight). Still free (no slot spent) and still a Slay: the engine steps (a band as
+the target of the one invocation route, a persistent sleeping state) are the rest, CF-03.
