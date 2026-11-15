@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { Guidance } from '../src/autoplay/guidance';
 import { AutoplayRun, type RunSpec } from '../src/autoplay/run';
 
 // The experiential matrix, a sample of it (the owner, 15 November): a class and an ancestry on a1 by each of the lab's
@@ -16,7 +17,7 @@ describe('the class × ancestry matrix, walked', () => {
       const r = await AutoplayRun.run({ seed: 'a1', origin: 'order', policy, steps: 40,
         protagonist: { name: 'Wenna', raceId, classId } });
       const m = r.metrics;
-      console.log(`matrix a1 ${raceId} ${classId} ${policy}: ${m.commands} commands, guided ${m.guided}/${m.guided + m.unguided}`
+      console.log(`matrix a1 ${raceId} ${classId} ${policy}: ${m.commands} commands, guided ${m.guided}/${m.guided + m.unguided}, A-B-A-B ${Guidance.alternations(r.steps.map(x => x.command))}`
         + ` | again: bun scripts/matrix-walk.ts --classes ${classId} --races ${raceId} --policies ${policy} --steps 40`);
       expect(r.failure).toBeUndefined();
       expect(m.commands).toBeGreaterThanOrEqual(m.steps);

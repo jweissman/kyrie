@@ -113,7 +113,8 @@ export class AutoPlayer {
       // Led in the form the page offers it or as it is done (with the company that does it): the notice on the green,
       // led as notice_read(party, green), had never been read, and the priest had no job to give.
       const o = s.offered.find(x => x.id === led) ?? s.offered.find(x => CompanyRecall.same(x.id, led));
-      if (o) { return this.command(o); }
+      // A look already taken is not taken again: it told what it had (a door looked at ten times).
+      if (o && !(AutoPlayer.kind(o.id) === 'look' && this.tried.has(o.id))) { return this.command(o); }
     }
     return undefined;
   }

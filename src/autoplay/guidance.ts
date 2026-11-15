@@ -20,4 +20,11 @@ export class Guidance {
     if (!Undertakings.followed(c)) { return undefined; }
     return !!Narrator.leaf(c, ScreenModel.build(c)).glance?.acts.some(a => a.continues);
   }
+  // How many times a walk undid its last step and then did it again (A, B, A, B): a promise that loops.
+  static alternations(commands: string[]): number {
+    return commands.filter((c, i) => this.again(commands, i) && c !== commands[i - 1]).length;
+  }
+  private static again(commands: string[], i: number): boolean {
+    return i >= 3 && commands[i] === commands[i - 2] && commands[i - 1] === commands[i - 3];
+  }
 }

@@ -3,6 +3,7 @@
 // one who takes the page's first act (follow), who takes what is worth exploring (silver) and who follows an aim and
 // takes its gold (gold). Each run is the lab's own (invariants every step) and says its guided steps. A failure prints
 // the exact line that makes it again.   bun scripts/matrix-walk.ts [--seed a1] [--steps 60] [--classes ..] [--races ..]
+import { Guidance } from '../src/autoplay/guidance';
 import { AutoplayRun } from '../src/autoplay/run';
 import type { PolicyName } from '../src/autoplay/player';
 
@@ -24,10 +25,11 @@ export class MatrixWalk {
       for (const policy of policies) {
         const raceId = races[i % races.length]!;
         const r = await AutoplayRun.run({ seed, origin: 'order', policy, steps,
-          protagonist: { name: 'Wenna', raceId, classId } });
+          protagonist: { name: 'Wenna', raceId, classId } }).catch(() => undefined);
+        if (!r) { console.log(`${seed} ${raceId} ${classId} ${policy}: not begun`); continue; }
         const m = r.metrics;
         console.log(`${seed} ${raceId} ${classId} ${policy}: ${m.steps} steps, ${m.commands} commands, guided ${m.guided}`
-          + `/${m.guided + m.unguided}, ${(m.ms / 1000).toFixed(1)} s${r.failure ? `  FAILED ${r.failure.kind}: ${r.failure.message}` : ''}`);
+          + `/${m.guided + m.unguided}, A-B-A-B ${Guidance.alternations(r.steps.map(x => x.command))}, ${(m.ms / 1000).toFixed(1)} s${r.failure ? `  FAILED ${r.failure.kind}: ${r.failure.message}` : ''}`);
         if (r.failure) {
           failed++;
           console.log(`  again: bun scripts/matrix-walk.ts --seed ${seed} --classes ${classId} --races ${raceId} --policies ${policy} --steps ${steps}`);
