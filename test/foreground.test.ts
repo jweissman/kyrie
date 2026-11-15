@@ -15,7 +15,7 @@ describe('an opportunity, as meant and as drawn', () => {
   });
   it('is drawn in its chief tone, with a word, and gold only for the aim followed', () => {
     expect(Emphasis.of(['undertaking', 'danger'])).toEqual({ tone: 'gold', also: ['red'] });
-    expect(Emphasis.of(['exploration'])).toEqual({ tone: 'silver', also: [] });
+    expect(Emphasis.of(['exploration'])).toEqual({ also: [] });
     expect(Emphasis.of([])).toEqual({ also: [] });
     expect(Object.entries(Emphasis.tones).filter(([, t]) => t === 'gold').map(([a]) => a)).toEqual(['undertaking']);
     expect(Emphasis.said(['knowledge'])).toBe('to learn');

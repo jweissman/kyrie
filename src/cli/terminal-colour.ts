@@ -68,7 +68,8 @@ export class TerminalColour {
       return a ? this.sign(Indicator.icon(a), unicode) : ' ';
     }
     if (ind.tone) { return this.paint(ind.tone, '▌', depth); }
-    return sensed ? this.dim(this.paint(Emphasis.tones[sensed], '▌', depth), depth) : ' ';
+    const tone = sensed && Emphasis.tones[sensed];
+    return tone ? this.dim(this.paint(tone, '▌', depth), depth) : ' ';
   }
   static sign(icon: Icon, unicode: boolean): string { return unicode ? icon.sign : icon.plain; }
   // A choice drawn for a line-by-line terminal: its pip (or its words, without colour) before its number and words,
@@ -91,7 +92,7 @@ export class TerminalColour {
   // The experiment the brief allows behind a flag alone: a label coloured through the act's first two tones, in true
   // colour (KYRIE_PRISM=1). Never the default: one colour is the grammar.
   static prism(text: string, aspects: readonly Aspect[], depth: Depth): string {
-    const tones = Emphasis.ranked(aspects).slice(0, 2).map(a => Emphasis.rgb[Emphasis.tones[a]]);
+    const tones = Emphasis.ranked(aspects).slice(0, 2).map(a => Emphasis.rgb[Emphasis.tones[a]!]);
     if (depth !== 'true' || tones.length < 2) { return text; }
     const chars = [...text], a = tones[0]!, b = tones[1]!;
     return `${chars.map((ch, i) => this.blend(a, b, chars.length > 1 ? i / (chars.length - 1) : 0) + ch).join('')}\x1b[0m`;

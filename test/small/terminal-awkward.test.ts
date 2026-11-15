@@ -33,7 +33,8 @@ describe('the indicator grammar (TP-02)', () => {
     expect(Indicator.of({ aspects: ['knowledge', 'undertaking', 'danger'] }).tone).toBe('gold');
     expect(Indicator.of({ aspects: ['knowledge', 'undertaking', 'danger'], gilded: false }).tone).toBe('red');
     expect(Indicator.of({ aspects: ['companionship', 'exploration', 'knowledge'] }).aspect).toBe('knowledge');
-    expect(Indicator.of({ aspects: ['companionship', 'exploration'] }).aspect).toBe('exploration');
+    // Somewhere worth a look and a companion are icons, no colour (the owner, 15 November: five colours only).
+    expect(Indicator.of({ aspects: ['companionship', 'exploration'] }).aspect).toBeUndefined();
     const many = Indicator.of({ aspects: ['wonder', 'payoff', 'knowledge', 'danger'], crosses: true, hold: true });
     expect([many.aspect, many.icons.map(i => i.said), many.detail])
       .toEqual(['danger', ['to gain', 'to learn'], ['uncanny', Signs.crossing.said, Signs.hold.said]]);
@@ -44,7 +45,7 @@ describe('the indicator grammar (TP-02)', () => {
   it('draws a companion by its icon alone, the same before and after the aim is followed (a1\'s camp)', () => {
     const before = Indicator.of({ aspects: ['exploration', 'companionship'] });
     const after = Indicator.of({ aspects: ['companionship'] });
-    expect([before.tone, before.icons[0]!.sign]).toEqual(['silver', Signs.emblem('companion')]);
+    expect([before.tone, before.icons[0]!.sign]).toEqual([undefined, Signs.emblem('companion')]);
     expect([after.tone, after.icons[0]!.sign]).toEqual([undefined, Signs.emblem('companion')]);
     expect(Emphasis.precedence).not.toContain('companionship');
     expect(Indicator.words(['companionship', 'knowledge'])).toEqual(['to learn', 'a companion']);

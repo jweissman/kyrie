@@ -27,9 +27,11 @@ export class Indicator {
     const drawn = Emphasis.drawn(c.aspects, c.gilded ?? true), [first, ...rest] = Emphasis.ranked(drawn);
     const off = c.sensed && !this.faint(c, first) ? [{ ...this.icon(c.sensed.aspect),
       said: Signs.sensed(c.sensed.aspect, c.sensed.far) }] : [];
-    const besides: Icon[] = [...drawn.includes('companionship') ? [this.icon('companionship')] : [], ...off,
+    // A companion, and somewhere worth a look, are icons and no colour (TP-03; the owner, 15 November).
+    const iconed = (['companionship', 'exploration'] as const).filter(a => drawn.includes(a)).map(a => this.icon(a));
+    const besides: Icon[] = [...iconed, ...off,
       ...rest.map(a => this.icon(a)), ...c.crosses ? [Signs.crossing] : [], ...c.hold ? [this.hold] : []];
-    return { ...first ? { aspect: first, tone: Emphasis.tones[first] } : {}, icons: besides.slice(0, this.icons),
+    return { ...first ? { aspect: first, tone: Emphasis.tones[first]! } : {}, icons: besides.slice(0, this.icons),
       detail: besides.slice(this.icons).map(i => i.said) };
   }
   // Every aspect drawn, in words, its colour's first and a companion's last: what is said where there is no colour,
@@ -53,7 +55,7 @@ export class Indicator {
   static tells(sensed: Aspect | undefined): boolean { return !!sensed && this.unasked.includes(sensed); }
   // Whether what is perceived along a way is its faint pip: the way has no colour of its own, and it is no companion.
   static faint(c: Carrying, tone = Emphasis.ranked(Emphasis.drawn(c.aspects, c.gilded ?? true))[0]): boolean {
-    return !!c.sensed && !tone && c.sensed.aspect !== 'companionship';
+    return !!c.sensed && !tone && !!Emphasis.tones[c.sensed.aspect];
   }
   static icon(a: Aspect): Icon { return { ...Signs.aspects[a], said: Emphasis.words[a] }; }
 }

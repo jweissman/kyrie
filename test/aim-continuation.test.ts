@@ -27,7 +27,8 @@ describe('the aim\'s continuation', () => {
   });
   it('is drawn in gold only where the way is shown, and otherwise as what else it is', () => {
     expect(Emphasis.of(['undertaking', 'exploration'], true).tone).toBe('gold');
-    expect(Emphasis.of(['undertaking', 'exploration'], false).tone).toBe('silver');
+    // Not drawn as the aim's, and exploration is an icon, no colour (the owner, 15 November): neutral.
+    expect(Emphasis.of(['undertaking', 'exploration'], false).tone).toBeUndefined();
     expect(Emphasis.said(['undertaking'], false)).toBeUndefined();
   });
 });

@@ -84,9 +84,9 @@
 .counter .ware.several { display: flex; border: 1px solid var(--edge); }
 .counter .ware.several .for { min-height: 36px; font-size: 13px; }
 .counter .buys { margin: 8px 0 0; color: var(--dim); font-size: 13.5px; }
-/* Someone who would join you, as they would come. */
+/* Someone who would join you, as they would come: their icon, not a colour (the owner, 15 November). */
 .recruit { margin: 0 0 16px; padding: 12px 14px; border: 1px solid var(--edge-strong);
-  box-shadow: inset 2px 0 0 var(--coral); }
+  box-shadow: inset 2px 0 0 var(--edge-strong); }
 .recruit .summary { margin: 0 0 4px; font: 500 15px var(--do); color: var(--ivory); }
 .recruit .bearing, .recruit .qualities-line, .recruit .skills-line { margin: 4px 0; color: var(--dim); font: 400 14px/1.45 var(--do); }
 

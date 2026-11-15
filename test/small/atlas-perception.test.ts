@@ -31,7 +31,7 @@ describe('the atlas, perceived', () => {
     const t = await Atlas.start('companion', 'yard', { gregarious: true });
     const lane = new TerminalSigns(t.screen, t.glance).on('go(t__g_l,t__lane)');
     const ind = TerminalColour.indicated({ aspects: ['exploration'], ...lane });
-    expect([ind.tone, ind.icons.map(i => i.said)]).toEqual(['silver', [Signs.sensed('companionship', 2)]]);
+    expect([ind.tone, ind.icons.map(i => i.said)]).toEqual([undefined, ['worth a look', Signs.sensed('companionship', 2)]]);
     expect(Signs.sensed('companionship', 2)).toBe('perhaps a companion, farther on');
     expect(Indicator.faint({ sensed: { aspect: 'payoff', far: 1 } })).toBe(true);
   });

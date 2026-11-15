@@ -3,19 +3,19 @@ import type { Choice } from '../ui/choice-list';
 
 // How an opportunity's aspects are drawn (amendment 6, C): the page's one table of them. Meaning is the engine's
 // (see Aspects); this is presentation only, and the only place a colour stands for an aspect. Gold is the aim the
-// player follows and nothing else; silver what is worth exploring; green what is to be gained; blue what is to be
-// learned; red a danger seen; violet the uncanny; rose someone who could join the company (the owner, 11 November).
-// What has none (a need, the way back, an ordinary control) is neutral. Every tone has its word, so that colour is
-// never the only cue.
-export type Tone = 'gold' | 'silver' | 'green' | 'blue' | 'red' | 'violet' | 'rose';
+// player follows and nothing else; green what is to be gained; blue what is to be learned or looked into; red a danger
+// seen (a fight); violet the uncanny (the owner, 15 November: five colours and no more). Everything else (somewhere
+// worth a look, a way out, someone who could join the company, a clue about the age) is an icon and no colour. What has
+// none (a need, the way back, an ordinary control) is neutral. Every aspect has its word, so that colour is never the
+// only cue.
+export type Tone = 'gold' | 'green' | 'blue' | 'red' | 'violet';
 export class Emphasis {
-  static readonly tones: Record<Aspect, Tone> = { undertaking: 'gold', exploration: 'silver', payoff: 'green',
-    knowledge: 'blue', danger: 'red', wonder: 'violet', companionship: 'rose' };
+  static readonly tones: Partial<Record<Aspect, Tone>> = { undertaking: 'gold', payoff: 'green', knowledge: 'blue',
+    danger: 'red', wonder: 'violet' };
   // Each tone as the page's own tokens give it (web/reader/foundations.css, glance.css: --tone-*), for a client with
   // no stylesheet (the terminal's true colour); coral, given in OKLCH, is its sRGB. Held to the tokens by a spec.
   static readonly rgb: Record<Tone, readonly [number, number, number]> = { gold: [242, 189, 76],
-    silver: [215, 219, 228], green: [95, 211, 182], blue: [121, 174, 247], red: [255, 107, 69],
-    violet: [180, 156, 255], rose: [247, 124, 137] };
+    green: [95, 211, 182], blue: [121, 174, 247], red: [255, 107, 69], violet: [180, 156, 255] };
   static readonly words: Record<Aspect, string> = { undertaking: 'your aim', exploration: 'worth a look',
     payoff: 'to gain', knowledge: 'to learn', danger: 'danger', wonder: 'uncanny', companionship: 'a companion' };
   // Which of an act's aspects is its one colour, where it has several (the owner, 14 November: TP-02, one dominant
@@ -25,8 +25,7 @@ export class Emphasis {
   // (the terminal and aesthetic lines, reviewing it together). A companion is no colour at all but its icon (TP-03:
   // in a1's camp a brother drawn silver turned rose once the aim was followed, his meaning unchanged). What an act is
   // besides is said by at most two icons, or in its detail (see Indicator).
-  static readonly precedence: readonly Aspect[] = ['undertaking', 'danger', 'payoff', 'knowledge', 'wonder',
-    'exploration'];
+  static readonly precedence: readonly Aspect[] = ['undertaking', 'danger', 'payoff', 'knowledge', 'wonder'];
   // Its coloured aspects as drawn, in that order: the first is its colour.
   static ranked(aspects: readonly Aspect[] | undefined, gilded = true): Aspect[] {
     const drawn = this.drawn(aspects, gilded);
@@ -39,14 +38,14 @@ export class Emphasis {
   }
   // The tone it is chiefly drawn in, and the quieter cues of its other aspects.
   static of(aspects: readonly Aspect[] | undefined, gilded = true): { tone?: Tone; also: Tone[] } {
-    const [first, ...rest] = this.drawn(aspects, gilded);
-    return { ...first ? { tone: this.tones[first] } : {}, also: rest.map(a => this.tones[a]) };
+    const [first, ...rest] = this.ranked(aspects, gilded);
+    return { ...first ? { tone: this.tones[first]! } : {}, also: rest.flatMap(a => this.tones[a] ?? []) };
   }
   // Several aspects at once (a fight that is the aim's, a find that teaches): a gradient through their tones, mixed in
   // OKLab so that it passes through no muddy middle; none for one. Only the aspects the choice has, as drawn, never a
   // colour for its own sake (the owner, 11 November: a restrained prismatic treatment for what is several things).
   static prism(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
-    const tones = this.drawn(aspects, gilded).map(a => `var(--tone-${this.tones[a]})`);
+    const tones = this.ranked(aspects, gilded).map(a => `var(--tone-${this.tones[a]})`);
     return tones.length > 1 ? `linear-gradient(in oklab 180deg, ${tones.join(', ')})` : undefined;
   }
   // What an act within an opener (a topic in a talk, a taking up in Look…) is, from what the glance leads with that

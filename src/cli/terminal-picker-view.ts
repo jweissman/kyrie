@@ -57,7 +57,7 @@ export class TerminalPickerView {
     const mark = focused ? TerminalColour.ink('ivory', shows.unicode ? '▸' : '>', d) : ' ';
     const faint = !tone && signed.sensed && !ind.icons.length;
     const bar = d === 'none' ? TerminalColour.pip(ind, shows, signed.sensed) : tone ? TerminalColour.paint(tone, '▎', d)
-      : faint ? TerminalColour.dim(TerminalColour.paint(Emphasis.tones[signed.sensed!], '▎', d), d) : ' ';
+      : faint && Emphasis.tones[signed.sensed!] ? TerminalColour.dim(TerminalColour.paint(Emphasis.tones[signed.sensed!]!, '▎', d), d) : ' ';
     // Text only, the owner (15 November): no icon beside an act, nor icons after it; a group's +/− alone. Its
     // meaning is the thin mark's tone, and its words on `?`.
     const icon = row.header ? TerminalColour.ink('dim', p.opened.has(row.group ?? '') ? '−' : '+', d) : '';

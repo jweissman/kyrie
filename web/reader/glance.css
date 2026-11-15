@@ -40,12 +40,10 @@
 /* What it is, in its tone (amendment 6, C; see Emphasis): gold only for the aim followed. The tone is the diamond and
    the words of why; the first led stands out in its own tone, not always in gold. */
 .tone-gold { --tone: var(--gold); --tone-glow: var(--gold-glow); }
-.tone-silver { --tone: #D7DBE4; --tone-glow: rgba(215, 219, 228, .12); }
 .tone-green { --tone: var(--verdigris); --tone-glow: rgba(95, 211, 182, .12); }
 .tone-blue { --tone: var(--azure); --tone-glow: rgba(121, 174, 247, .12); }
 .tone-red { --tone: var(--ember); --tone-glow: var(--ember-glow); }
 .tone-violet { --tone: var(--violet); --tone-glow: rgba(180, 156, 255, .12); }
-.tone-rose { --tone: var(--coral); --tone-glow: rgba(255, 128, 140, .12); }
 /* Colour in one place: the indicator at the left (.prism-bar), and a modest tint of the title; the rest neutral. */
 .act.led-act[class*="tone-"] .n { color: color-mix(in oklab, var(--tone) 28%, var(--ivory)); }
 /* What a mark says in words is not said again as a tag ("a risk" under a fight and how it would go). */
@@ -215,8 +213,8 @@
 .glance-row .act.tile.opens { padding-right: 28px; }
 .glance-row .act.tile.opens::after { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
 /* The tones by name, for a gradient through several (see Emphasis.prism). */
-:root { --tone-gold: var(--gold); --tone-silver: #D7DBE4; --tone-green: var(--verdigris); --tone-blue: var(--azure);
-  --tone-red: var(--ember); --tone-violet: var(--violet); --tone-rose: var(--coral); }
+:root { --tone-gold: var(--gold); --tone-green: var(--verdigris); --tone-blue: var(--azure);
+  --tone-red: var(--ember); --tone-violet: var(--violet); }
 /* What is truly several things at once: its edge a slow gradient through its tones, mixed in OKLab; still where the
    reader asks for less motion. */
 @keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }

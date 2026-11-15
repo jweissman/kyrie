@@ -57,7 +57,6 @@
 .choice-row:has(> .row-mark[style*="tone-green"]) { --row-tone: var(--tone-green); }
 .choice-row:has(> .row-mark[style*="tone-blue"]) { --row-tone: var(--tone-blue); }
 .choice-row:has(> .row-mark[style*="tone-violet"]) { --row-tone: var(--tone-violet); }
-.choice-row:has(> .row-mark[style*="tone-silver"]) { --row-tone: var(--tone-silver); }
 .fight .fighter.target { --row-tone: var(--tone-red); }
 
 /* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a

@@ -25,12 +25,15 @@ const rgb = (h: string) => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 
 describe('the terminal\'s colour', () => {
   it('is the page\'s tokens, tone by tone', () => {
-    const tokens = { gold: 'gold', silver: 'tone-silver', green: 'verdigris', blue: 'azure', red: 'ember',
+    const tokens = { gold: 'gold', green: 'verdigris', blue: 'azure', red: 'ember',
       violet: 'violet' } as const;
     for (const [tone, token] of Object.entries(tokens)) {
       expect([tone, ...Emphasis.rgb[tone as keyof typeof tokens]]).toEqual([tone, ...rgb(hex(token)!)]);
     }
-    expect(css).toContain('--coral: oklch(73% 0.15 15)');
+    // Five colours and no more (the owner, 15 November): no silver, no coral.
+    expect(css).not.toContain('--coral');
+    expect(css).not.toContain('--tone-rose');
+    expect(css).not.toContain('--tone-silver');
   });
   it('draws a tone in its own colour where the terminal has colour, and says it where it has none', () => {
     expect(TerminalColour.depth({ COLORTERM: 'truecolor' }, true)).toBe('true');
