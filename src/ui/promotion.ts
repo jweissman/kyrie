@@ -210,9 +210,10 @@ export class Promotion {
     return { choice: c.id, label: c.alone ?? c.label, ...c.command ? { command: c.command } : {},
       ...c.disabled ? { disabled: c.disabled } : {} };
   }
-  // Each lens's own order: talk first among people; looking and searching first among things; a fight last.
+  // Each lens's own order: talk first among people; looking and searching first among things; the near ways before the
+  // journeys elsewhere among places (a town's green had 45 ways and 27 journeys in no order: PB-03); a fight last.
   private static readonly firsts: Record<Lens, Kind[]> = { people: ['talk'], things: ['study', 'search'],
-    places: ['way', 'step', 'travel'], time: [] };
+    places: ['way', 'step'], time: [] };
   private static first(lens: Lens, c: Candidate): number {
     return this.firsts[lens].includes(c.kind) ? 0 : c.kind === 'attack' ? 2 : 1;
   }
