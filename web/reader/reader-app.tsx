@@ -310,7 +310,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       await Press.settle(started);
       // A journey over the land is walked on the map, wherever it was set out from, to the hex it came to: where it
       // arrived, or where it was stopped; what came of it is told once the company is there.
-      const walked = journey ? JourneyCourse.of(frame, next) : undefined;
+      // Set out on from the scene (a road chosen among the acts), it is no walk on the map: the company comes to its next
+      // place and the scene is there, with nothing else to press (the owner, 15 November: the map is looked at, not
+      // the way travel is done).
+      const fromScene = !!journey && !this.state.outdoors && this.state.view !== 'map';
+      const walked = journey && !fromScene ? JourneyCourse.of(frame, next) : undefined;
       if (walked) { await this.walk(walked); }
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
@@ -330,7 +334,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // A journey across the land (from one hex to another) is told on the map, and come to a town the company is at
         // its gate, not yet in it: entering is the player's. A walk within a town or a site never raises the map (the
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
-        outdoors: walked ? !next.combat : ReaderApp.outdoors(frame, next), walking: undefined,
+        outdoors: fromScene ? false : walked ? !next.combat : ReaderApp.outdoors(frame, next), walking: undefined,
         exploring: keeps ? this.state.exploring : undefined, kept: keeps,
         // Talk is a lens on one place: gone on to another, it is put away (the contact sheet, 12 November: the rats
         // lay dead in the next room's foot, Talk still on).

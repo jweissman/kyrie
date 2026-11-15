@@ -59,6 +59,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('following an aim', () => {
     // Never inert: some control to go on with is on the page, whether the map or the scene. (Known gap, register PB-14:
     // stopped on the road by a meeting, the map offers Enter here but not the aim's own gold Set out to Millholm.)
     expect(await page.locator('button:visible').count()).toBeGreaterThan(0);
+    await page.click('[data-action="back-to-place"]'); await page.waitForTimeout(2500);
+    // Put the map away, and take a road from the ordinary menu: no map opened to go anywhere.
+    const road = page.locator('ol.led [data-act^="exit:"]').first();
+    expect(await road.count()).toBe(1);
+    const here = (await page.locator('h1, .place').first().innerText().catch(() => '')).trim();
+    await road.click();
+    await page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
+      .kyrieMono.inspect().pending, null, { timeout: 120000 });
+    await page.waitForSelector('ol.led li', { timeout: 60000 });
+    expect(await page.locator('ol.led li').count()).toBeGreaterThan(0);
+    expect(here.length).toBeGreaterThan(0);
     expect(errors).toEqual([]);
   }, 300000);
 });
