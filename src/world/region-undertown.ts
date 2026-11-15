@@ -29,7 +29,9 @@ export class RegionUndertown {
     : Record<string, string> {
     return { t, town, brood: company > 1 ? '2' : '1',
       // A pack of the small kind, and a pair of the middling: never one rat called the rats (the owner, 8 November).
-      pack: company > 1 ? '5' : '3', pair: company > 1 ? '3' : '2', runts: company > 1 ? '' : ' Variant runt.',
+      // A lone company's pack is two: three rats killed a lone first-level mage two times in three, the first job's
+      // very fight (the owner, 15 November: "I died"; 33 % won against three, 65 % against two).
+      pack: company > 1 ? '5' : '2', pair: company > 1 ? '3' : '2', runts: company > 1 ? '' : ' Variant runt.',
       // Nor one spider called the spiders (review A's "the spiders in the old workings lies dead").
       spiders: company > 1 ? 'the spiders' : 'the spider', webbed: company > 1
         ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',

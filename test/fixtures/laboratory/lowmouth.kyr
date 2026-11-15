@@ -121,7 +121,7 @@ Module lab "The undercroft at Lowmouth" {
   Observe low_u_gallery_scene at low_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.".
   Observe low_u_store_scene at low_u_store as fixture when true "Sacks are stacked to the rafters, and the place smells of mice. A sack of grain weighs down a trapdoor in the floor, and every wall is gnawed through at its foot.".
   Person low_u_rats "the rats under the corn-store" at low_u_warren {
-    Role "rats, fat and bold, that have eaten their way into the corn-store from below". Species rat. Variant runt. Numbers 3. Level 1. Temperament territorial. Lair low_u_warren.
+    Role "rats, fat and bold, that have eaten their way into the corn-store from below". Species rat. Variant runt. Numbers 2. Level 1. Temperament territorial. Lair low_u_warren.
   }
   Initially Set encounterXp(low_u_rats) to 60.
   Person low_u_buck "the old buck rat" at low_u_nest {
@@ -392,7 +392,7 @@ Module lab "The undercroft at Lowmouth" {
   Initially Assert unlit(low_u_face).
   Observe low_u_face_scene at low_u_face as fixture when true "Where the quarrymen stopped: a face of stone with the pick-marks still on it, and a rotten ladder. In one corner the floor is broken through into somewhere older underneath. Things click and scuttle in the spoil.".
   Person low_u_beetles "the beetles in the spoil" at low_u_face {
-    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers 3. Level 1. Temperament defensive. Lair low_u_face.
+    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers 2. Level 1. Temperament defensive. Lair low_u_face.
   }
   Initially Set encounterXp(low_u_beetles) to 60.
   Discovery low_u_face_tools "Under the ladder is a quarryman's bag, left when the face was given up. In it are his tools, and his wages, never collected." {
