@@ -51,7 +51,8 @@ export class Glance {
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading);
-    const acts = Undertakings.heldFor(campaign, screen, Promotion.pick(cands, s));
+    const acts = HeldActs.with(Undertakings.heldFor(campaign, screen, Promotion.pick(cands, s)),
+      HeldActs.follow(screen));
     const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
     // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
@@ -91,10 +92,9 @@ export class Glance {
   // The host's part: the journey set out on and not yet come to the end of is gone on with first of what the aims ask
   // ("Go on to Gaudumport"), and the game taken up again opens as a return.
   static held(glance: View, host: Host): View {
-    const { bound, pull } = HeldActs.of(host);
-    const acts = bound ? this.first(glance.acts, bound) : HeldActs.with(glance.acts, pull);
-    const offer = bound && glance.offer ? Offers.headed(glance.offer, bound)
-      : pull && glance.offer ? Offers.headed(glance.offer, pull, 'act') : undefined;
+    const { bound } = HeldActs.of(host);
+    const acts = bound ? this.first(glance.acts, bound) : glance.acts;
+    const offer = bound && glance.offer ? Offers.headed(glance.offer, bound) : undefined;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,
       ways: glance.ways.filter(id => !acts.some(a => a.choice === id)),
       ...offer ? { offer } : {} };

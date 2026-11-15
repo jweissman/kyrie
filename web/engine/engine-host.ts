@@ -1,4 +1,3 @@
-import { AimSaid } from '../../src/presentation/aim-said';
 import { Portraits } from '../../src/ui/portraits';
 import { CompanyPortraits } from '../../src/paintings/company-portraits';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
@@ -96,7 +95,7 @@ export class EngineHost {
       case 'plan': return Itineraries.plan(this.session!.campaign, request.destination)?.legs.map(l => l.to) ?? null;
       // A journey given up: it is no longer held, nor shown.
       case 'unbind': this.bound = undefined; return this.frame();
-      case 'follow': return this.followed(request.aim);
+      case 'follow': return request.aim ? this.command(() => this.perform(`follow:${request.aim}`)) : this.followed();
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       // With the story so far, so that a game opened from the file has its Story page (the review's A24).
@@ -175,6 +174,11 @@ export class EngineHost {
   private async perform(command: string, context = this.said(command)): Promise<Frame> {
     const session = this.session, game = this.game;
     if (!session) { throw new Error('No game is under way'); }
+    // An aim chosen to follow is the session's command like any other, but no event of the world to be told of.
+    if (command.startsWith('follow:')) {
+      await session.perform(command); this.told = undefined; this.saving();
+      return this.settled();
+    }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's
     // among them, were fought out with no page at all (Mission 20's fourth round, F 144, 147).
@@ -327,9 +331,9 @@ export class EngineHost {
     return frame;
   }
   // The aim the player chose to follow, kept with the game; the page drawn again for it, nothing else done.
-  private followed(aim?: string): Frame | null {
+  private followed(): Frame | null {
     if (!this.session || this.busy !== undefined) { return null; }
-    Undertakings.follow(this.session.campaign, aim);
+    Undertakings.follow(this.session.campaign);
     this.screen = ScreenModel.build(this.session.campaign);
     this.saving();
     return this.frame();
@@ -436,10 +440,7 @@ export class EngineHost {
     // the page is told (coming to it lets it go), and goes on first of what the glance leads with.
     const leaf = this.leaf(), going = this.journeying();
     if (leaf.glance) {
-      const aims = this.screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
       leaf.glance = Likenesses.with(Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
-        ...pull && !aims.some(a => a.followed)
-          ? { follow: { id: pull.id, label: `Follow: ${AimSaid.title(pull.text)}` } } : {},
         ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }));
     }
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),

@@ -181,6 +181,8 @@ export class Runner {
     // What pulls next is offered too, by its own act.
     const offered = [...o.primary, ...o.rest].map(x => x.id).concat(g?.next?.command ?? []);
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}` }; }
+    // An aim chosen to follow: the session's own command, no event of the world to be told.
+    if (asked.act.startsWith('follow:')) { await this.session.leg(asked.act); return this.said('look'); }
     this.doing = { act: asked.act, before: PlayerView.observe(this.campaign),
       leg: this.session.leg(asked.act, this.fight.controller) };
     return this.went();
@@ -207,10 +209,10 @@ export class Runner {
     return this.said();
   }
   // An aim followed, or none: no world act, no time.
-  private follow(id: string | null): Said | { error: string } {
+  private async follow(id: string | null): Promise<Said | { error: string }> {
     const aims = ScreenModel.build(this.campaign).aims ?? [];
     if (id !== null && !aims.some(a => a.id === id)) { return { error: `no aim: ${id}` }; }
-    Undertakings.follow(this.campaign, id ?? undefined);
+    if (id !== null) { await this.session.leg(`follow:${id}`); } else { Undertakings.follow(this.campaign); }
     return this.said('look');
   }
   // A lens looked through: no world act, no time; its acts as the offer, each as the scene offers it (Offers ranks a

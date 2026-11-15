@@ -137,6 +137,12 @@ export class Terminal {
           targets: [a.command.slice('travel:'.length)], journey: 'onward' });
       }
     }
+    // An aim to follow is an act of the glance like any other, done by the session's own command (HeldActs.follow).
+    for (const a of glance?.acts ?? []) {
+      if (a.command?.startsWith('follow:') && !all.some(c => c.id === a.command)) {
+        all.push({ id: a.command, name: a.label, time: 0, encounter: false, category: 'other', targets: [] });
+      }
+    }
     const signs = new TerminalSigns(screen, glance);
     // What each of the rest is to the company, as the glance's offer says it (Offers.scene): the rest unfolded carries
     // the same indicator as the four (TP-02).
@@ -259,12 +265,12 @@ export class Terminal {
     if (done?.stopped) { console.log(`  ${done.stopped}.`); }
   }
   // The aims held, as the Notes list them, and the one followed; `follow <n>` chooses one, as Follow this does.
-  private static aims(session: PlaySession, answer: string) {
+  private static async aims(session: PlaySession, answer: string) {
     const aims = ScreenModel.build(session.campaign).aims ?? [];
     const n = Number(answer.slice(6).trim()) - 1;
     if (answer.startsWith('follow')) {
       if (!aims[n]) { console.log('Follow which? (see aims)'); return; }
-      Undertakings.follow(session.campaign, aims[n].id);
+      await session.leg(`follow:${aims[n].id}`);
       return;
     }
     if (answer === 'unfollow') { Undertakings.follow(session.campaign); return; }
@@ -372,9 +378,11 @@ export class Terminal {
     if (answer === 'aims' && TerminalInput.picks(input)) {
       return this.aside(session, await this.aim(session, input), all, { turn, input });
     }
-    if (answer === 'aims') { this.aims(session, answer); return true; }
+    if (answer === 'aims') { await this.aims(session, answer); return true; }
     if (/^(follow \d+|unfollow)$/.test(answer)) {
-      this.aims(session, answer); turn.current = undefined; turn.told = undefined; turn.attended = true; return true;
+      await this.aims(session, answer);
+      turn.current = undefined; turn.told = undefined; turn.attended = true;
+      return true;
     }
     if (answer === 'all' || answer === 'more') { console.log('\nAll legal interactions'); this.choices(all); return true; }
     if (answer === 'save' && turn.saveAs) {

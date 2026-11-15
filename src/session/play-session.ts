@@ -1,3 +1,5 @@
+import { ScreenModel } from '../ui/screen-model';
+import { AimSaid } from '../presentation/aim-said';
 import type { CreatureGenerationContext } from '../content';
 import { Costs } from '../costs';
 import { Campaign, type CampaignEvent, type CampaignSave } from '../campaign/campaign';
@@ -109,6 +111,7 @@ export class PlaySession {
       const last = done.legs.at(-1)?.event ?? (held ? this.campaign.history.at(-1) : undefined);
       return last ?? this.perform('wait', controller);
     }
+    if (command.startsWith('follow:')) { return this.perform(command, controller); }
     const to = this.whither(command);
     return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))
       : this.perform(command, controller);
@@ -129,6 +132,7 @@ export class PlaySession {
   }
   async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }
+    if (command.startsWith('follow:')) { return this.follow(command.slice('follow:'.length)); }
     const id = PlayerView.resolve(this.campaign, command);
     const aims = Undertakings.held(this.campaign).map(o => o.id);
     this.busy = true;
@@ -162,6 +166,17 @@ export class PlaySession {
       if (voiced.length) { this.campaign.told(voiced); event.voiced = voiced; }
       return event;
     } finally { this.busy = false; }
+  }
+  // An aim chosen to follow (the glance offers it as an act: HeldActs.follow): no time passes and no world fact
+  // changes, so it is told as a command and kept in the steps, for the browser, the terminal and a replay alike.
+  private follow(aim: string): CampaignEvent {
+    const held = Undertakings.held(this.campaign).find(o => o.id === aim);
+    if (!held) { throw new Error(`No aim ${aim} is held`); }
+    Undertakings.follow(this.campaign, aim);
+    this.steps.push({ command: `follow:${aim}`, digest: Digest.of(this.campaign) });
+    const text = ScreenModel.build(this.campaign).aims?.find(a => a.id === aim)?.text ?? aim;
+    return { action: 'follow', elapsed: 0, changes: [], result: 'success', combat: [],
+      response: `You follow: ${AimSaid.title(text)}.` };
   }
   static auto(this: void, battle: Battle): Promise<Command> {
     return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));

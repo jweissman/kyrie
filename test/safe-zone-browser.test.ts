@@ -109,11 +109,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       // board's tap on the hex takes the town, so the journey is made as automation makes one (kyrieMono.act).
       await page.evaluate(() => (window as unknown as { kyrieMono: { act(c: string, s: string): void } }).kyrieMono
         .act('travel:region__t89', 'Go to the country about Millholm'));
-      await page.waitForSelector('.hex-card .entrance', { timeout: 60000 });
+      // A journey made from the scene comes to the country's scene, its way into the town among the acts (no map card).
+      await page.waitForSelector('ol.led li', { timeout: 60000 });
       await p.check('town-hex');
-      // The way into the town at hand, on the card, by name.
-      expect(await page.locator('.hex-card .entrance').textContent()).toContain('Enter Millholm');
-      await page.click('.hex-card .entrance');
+      const into = page.locator('ol.led li', { hasText: 'Millholm' }).locator('button').first();
+      expect(await into.textContent()).toContain('Millholm');
+      await into.click();
       await driver.settle();
       expect(await p.here()).toMatch(/^region__s2_/);
       await p.check('entered');

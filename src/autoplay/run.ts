@@ -62,7 +62,7 @@ export class AutoplayRun {
     const from = this.watch(s);
     let kept: SessionCheckpoint | undefined = s.checkpoint(), failure: Failure | undefined;
     for (let step = 0; step < spec.steps && c.running && !failure; step++) {
-      if (spec.policy === 'gold') { Guidance.follow(s); }
+      if (spec.policy === 'gold') { await Guidance.follow(s); }
       const guided = Guidance.guided(s);
       if (guided !== undefined) { metrics[guided ? 'guided' : 'unguided']++; }
       const move = player.next(this.situation(s, step, AutoPlayer.paged.includes(spec.policy),

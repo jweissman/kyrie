@@ -8,11 +8,11 @@ import { Undertakings } from '../presentation/undertakings';
 // step with an aim followed and no such act is unguided: a promise out of sight (counted; a baseline to hold).
 export class Guidance {
   // The gold walker takes up the first aim held when none is followed.
-  static follow(s: PlaySession): void {
+  static async follow(s: PlaySession): Promise<void> {
     const c = s.campaign;
     if (Undertakings.followed(c)) { return; }
     const held = Undertakings.held(c)[0];
-    if (held) { Undertakings.follow(c, held.id); }
+    if (held) { await s.leg(`follow:${held.id}`); }
   }
   // Whether the page guides now: true or false where an aim is followed, undefined where none is.
   static guided(s: PlaySession): boolean | undefined {

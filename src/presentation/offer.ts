@@ -123,8 +123,8 @@ export class Offers {
         : /^(go|travel|walk|enter|leave|climb|descend)/.test(s) ? 'way' : 'act';
   }
   // The journey set out on, at the head of the four (see Glance.held): what it put out of the four goes to the rest.
-  static headed(offer: Offer, bound: Promoted, type: ActType = 'journey'): Offer {
-    const head: Offered = { ...this.promoted(bound, undefined), type };
+  static headed(offer: Offer, bound: Promoted): Offer {
+    const head: Offered = { ...this.promoted(bound, undefined), type: 'journey' };
     const all = [head, ...offer.primary.filter(o => o.choice !== bound.choice)];
     return { primary: all.slice(0, this.four),
       rest: [...all.slice(this.four), ...offer.rest.filter(o => o.choice !== bound.choice)] };
@@ -137,7 +137,7 @@ export class Offers {
   private static promoted(a: Promoted, c: Candidate | undefined): Offered {
     return { choice: a.choice, ...a.command ? { command: a.command } : {}, ...a.for ? { for: a.for } : {},
       label: a.label,
-      type: c ? this.types[c.kind] : 'other', aspects: a.aspects, marks: a.marks, ...a.continues ? { continues: true } : {},
+      type: c ? this.types[c.kind] : a.choice.startsWith('follow:') ? 'act' : 'other', aspects: a.aspects, marks: a.marks, ...a.continues ? { continues: true } : {},
       ...c?.minutes ? { minutes: c.minutes } : {} };
   }
   // A choice offered for no reason the place leads with: what it is to the company is its reasons' aspects, the aim's

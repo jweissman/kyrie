@@ -99,7 +99,8 @@ describe('the terminal\'s human mode, in the awkward world', () => {
   it('offers what has changed once an act is done, the focus on the first again', async () => {
     const t = await Awkward.start();
     const before = labels(await Keyed.play(t.session, []));
-    const k = await Keyed.play(t.session, ['down', 'return']);
+    // The aim to follow leads the four (HeldActs.follow); Wenna's asking is the next.
+    const k = await Keyed.play(t.session, ['down', 'down', 'return']);
     expect(k.picked[0]).toEqual({ choice: 't__wenna_come' });
     const after = labels(k);
     expect(before).toContain('Ask Wenna whether she would come along');

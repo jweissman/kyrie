@@ -1,27 +1,34 @@
 import { Marks } from '../ui/marks';
+import type { Screen } from '../ui/screen-types';
+import { AimSaid } from './aim-said';
 import type { Promoted } from './glance-types';
 
-// The journey held by the host (see EngineHost.bound), whether the game was just taken up again, and an aim held with
-// none followed, offered to be followed as any act is (the owner, 15 November: one action grammar, no stray buttons).
-export interface Host { bound?: { id: string; name: string; minutes: number }; resumed?: boolean; elapsed?: number;
-  follow?: { id: string; label: string } }
+// The journey held by the host (see EngineHost.bound), and whether the game was just taken up again.
+export interface Host { bound?: { id: string; name: string; minutes: number }; resumed?: boolean; elapsed?: number }
 
 // The acts the host leads the glance with: the journey set out on, and the aim to follow.
 export class HeldActs {
-  static of(host: Host): { bound?: Promoted; pull?: Promoted } {
+  static of(host: Host): { bound?: Promoted } {
     const bound = host.bound && { choice: `travel:${host.bound.id}`, command: `travel:${host.bound.id}`,
       label: `Go on to ${host.bound.name}`, why: 'bound' as const, facets: ['here' as const, 'aimed' as const],
       tier: 1 as const, aspects: ['undertaking' as const], note: 'where you set out for',
       marks: Marks.journey(host.elapsed ?? 0, host.bound.minutes) ? [Marks.dusk] : [] };
-    const pull = host.follow && { choice: `follow:${host.follow.id}`, command: `follow:${host.follow.id}`,
-      label: host.follow.label, why: 'held' as const, facets: ['here' as const], tier: 1 as const, aspects: [],
-      note: 'to see it through', marks: [] };
-    return { bound, pull };
+    return { bound };
   }
   // The aim to follow is one more act beside the world's, never in place of one (the terminal leads with them).
   static with(acts: Promoted[], pull?: Promoted): Promoted[] {
     // After what is urgent (tier 0: a danger, an answer), never before it.
     const at = acts.findIndex(a => a.tier > 0), i = at < 0 ? acts.length : at;
     return pull ? [...acts.slice(0, i), pull, ...acts.slice(i)] : acts;
+  }
+  // An aim held and none followed, offered to be followed, as any act is (the owner, 15 November: one action grammar,
+  // no stray buttons): the glance's own act, so that every client is offered it and does it the same way (the
+  // session's `follow:<aim>`).
+  static follow(screen: Pick<Screen, 'aims'>): Promoted | undefined {
+    const aims = screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
+    if (!pull || aims.some(a => a.followed)) { return undefined; }
+    const choice = `follow:${pull.id}`;
+    return { choice, command: choice, label: `Follow: ${AimSaid.title(pull.text)}`, why: 'held', aim: pull.id, facets: ['here'], tier: 1,
+      aspects: [], note: 'to see it through', marks: [] };
   }
 }
