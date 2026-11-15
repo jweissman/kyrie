@@ -221,6 +221,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
   // held: chosen by a hold (the first touch's, see Touch), which is the asking: it is done at once.
+  // An aim chosen to follow, by the action the observation offers for it (Screen.aims[].follow), done as any act is;
+  // resolves when it is done.
+  async take(command: string): Promise<void> {
+    if (this.state.pending) { return; }
+    await this.perform({ id: command, label: 'Follow this', tone: 'company', command }, 'Follow this');
+  }
   readonly choose = (choice: Choice, held = false) => {
     const { frame, pending } = this.state;
     if (pending || choice.disabled || !frame) { return; }

@@ -74,7 +74,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       // The job taken up, followed from the notes (a list of what is held); the place's own offer is the scene's.
       await driver.mode('j');
       await page.locator('.aim-card [data-action="follow"]:not([disabled])').last().click(); await driver.settle();
-      await driver.mode('j');
+      // Followed, as any act is done, the page is back at the scene.
       await p.to('region__s2_u_store');
       await p.to('region__s2_u_cellar');
       await driver.pick(c => /light|Light/.test(c.label), 'a light');

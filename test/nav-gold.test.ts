@@ -119,7 +119,7 @@ describe('Go… and the gold, for a player come home', () => {
     const page = Page.at(g), screen = g.screen;
     const town = screen.region!.areas.find(a => a.kind === 'settlement' && a.here)!;
     const card = Page.text(renderToStaticMarkup(createElement(WorldStage.Town, { app: page.app, screen, town })));
-    expect(card).toMatch(/^You are in Brightbridge Averil’s chandlery\. Back to Averil’s chandlery/);
+    expect(card).toMatch(/^You are in Brightbridge Averil’s chandlery\. Put away the map/);
     expect(card).not.toContain('gate');
   }, 60000);
 
