@@ -83,6 +83,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch\'s press', () => {
     if (await page.locator('[data-action="enter-hex"]').count()) {
       await Probe.press(page, '[data-action="enter-hex"]', 60); await Probe.idle(page);
     }
+    // The aim offered to follow is an act among the four: followed, the four are the place's own again.
+    if (await page.locator('[data-choice^="follow:"]').count()) {
+      await page.locator('[data-choice^="follow:"]').click(); await Probe.idle(page);
+    }
     // The hand over every row and the arrows through them: nothing sent.
     let before = await Probe.sent(page, 'perform');
     for (const row of await page.locator('.choice-row >> visible=true').all()) { await row.hover(); }

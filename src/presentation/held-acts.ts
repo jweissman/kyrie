@@ -18,4 +18,8 @@ export class HeldActs {
       note: 'to see it through', marks: [] };
     return { bound, pull };
   }
+  // The aim to follow is one more act beside the world's, never in place of one (the terminal leads with them).
+  static with(acts: Promoted[], pull?: Promoted): Promoted[] {
+    return pull ? [...acts.slice(0, 1), pull, ...acts.slice(1)] : acts;
+  }
 }

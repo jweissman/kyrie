@@ -92,7 +92,7 @@ export class Glance {
   // ("Go on to Gaudumport"), and the game taken up again opens as a return.
   static held(glance: View, host: Host): View {
     const { bound, pull } = HeldActs.of(host);
-    const lead = bound ?? pull, acts = lead ? this.first(glance.acts, lead) : glance.acts;
+    const acts = bound ? this.first(glance.acts, bound) : HeldActs.with(glance.acts, pull);
     const offer = bound && glance.offer ? Offers.headed(glance.offer, bound)
       : pull && glance.offer ? Offers.headed(glance.offer, pull, 'act') : undefined;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,

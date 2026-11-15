@@ -27,7 +27,9 @@ class Pair {
     const screen = frame?.screen ?? ScreenModel.build(session.campaign);
     const glance = frame?.leaf.glance ?? Narrator.leaf(session.campaign, screen, told).glance;
     return { digest: Digest.of(session.campaign), at: screen.place.id,
-      led: (glance?.acts ?? []).map(a => [a.choice, a.why, a.aspects.join('+')]) };
+      // The page's own offer to follow an aim is the host's (Glance.held), not an act of the world.
+      led: (glance?.acts ?? []).filter(a => !a.choice.startsWith('follow:'))
+        .map(a => [a.choice, a.why, a.aspects.join('+')]) };
   }
 }
 

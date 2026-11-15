@@ -89,7 +89,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
     expect(tones.filter(([, own, expected]) => own !== expected)).toEqual([]);
     // One click commits it.
     const told = (await d.inspect()).log.length;
-    await page.locator(`${row}[data-act]:not([aria-expanded])`).first().click(); await d.settle();
+    await page.locator(`${row}[data-act]:not([aria-expanded]):not([data-act^="follow:"])`).first().click(); await d.settle();
     expect((await d.inspect()).log.length).toBeGreaterThan(told);
     expect(errors).toEqual([]);
     await page.close();
