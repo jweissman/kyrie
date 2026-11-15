@@ -216,7 +216,8 @@ export class GlanceStage {
           className="opener opens-posted as-act" mark={ChoiceRow.neutral} markClass="neutral" label={Typography.curl(posted.label)} />}
         {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
           mark="var(--tone-gold)" markLabel="your aim" label={Typography.curl(yours.label)} />}
-        {only && (compassed || (offer && !lens && drawn.some(d => d?.id === only.c.id))) ? null : only ? <Act.View choice={only.c} draw={draw} quiet
+        {/* A lens on is the one menu: no touch beside it, which had drawn the one way twice ("To the camp…" under its own row). */}
+        {only && (lens || compassed || (offer && drawn.some(d => d?.id === only.c.id))) ? null : only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}

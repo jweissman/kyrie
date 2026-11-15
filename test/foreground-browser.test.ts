@@ -11,7 +11,7 @@ import { MonoBrowser } from './support/mono-browser';
 // deployed play met compound menus, a fifth row, duplicate names). The first minutes of an ordinary player's journey,
 // by the page's own rows, with each state counted: the visible items that commit an act are never more than four, none
 // is a fold (aria-expanded), and no two are called the same. A state that breaks it is named, with what was drawn.
-interface Seen { mode: string; n: number; rows: string[]; folds: number }
+interface Seen { mode: string; n: number; rows: string[]; ids: string[]; folds: number }
 class Foreground {
   static async seen(page: Page): Promise<Seen> {
     return page.evaluate(() => {
@@ -21,13 +21,15 @@ class Foreground {
         .filter(e => (e as HTMLElement).offsetParent !== null && !e.closest('.portraits'));
       const words = acts.map(e => (e as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 60));
       return { mode: document.querySelector('[data-mode]')?.getAttribute('data-mode') ?? '', n: acts.length, rows: words,
+        ids: acts.map(e => e.getAttribute('data-act') ?? ''),
         folds: acts.filter(e => e.hasAttribute('aria-expanded')).length };
     });
   }
   static broken(s: Seen): string[] {
     const named = s.rows.filter(Boolean);
     return [...s.n > 4 ? [`${s.n} items`] : [], ...s.folds ? [`${s.folds} folds`] : [],
-      ...new Set(named).size < named.length ? ['a name twice'] : []].map(x => `${x}: ${s.rows.join(' | ')}`);
+      ...new Set(named).size < named.length ? ['a name twice'] : [],
+      ...new Set(s.ids).size < s.ids.length ? ['an act twice'] : []].map(x => `${x}: ${s.rows.join(' | ')}`);
   }
 }
 describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets it', () => {
@@ -44,7 +46,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     const broke: string[] = [];
-    let explored = 0;
+    let explored = 0, lensed = false;
     for (let n = 0; n < 70 && explored < 22; n++) {
       await page.waitForTimeout(900);
       const s = await Foreground.seen(page);
@@ -53,6 +55,18 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
         continue;
       }
       if (s.mode === 'combat') { await page.keyboard.press('1'); continue; }
+      if (s.mode === 'explore' && !lensed) {
+        // Each lens of the rail is one menu in place of the four, never beside them: the one way is not drawn twice.
+        lensed = true;
+        const rail = page.locator('[data-action="explore"]:visible').first();
+        if (await rail.count()) {
+          await rail.click(); await page.waitForTimeout(800);
+          const inLens = await Foreground.seen(page);
+          broke.push(...Foreground.broken(inLens).map(b => `lens: ${b}`));
+          await rail.click().catch(() => undefined); await page.waitForTimeout(600);
+          continue;
+        }
+      }
       if (s.mode === 'explore' || s.mode === 'talk') { explored++; broke.push(...Foreground.broken(s).map(b => `${s.mode}: ${b}`)); }
       // The first row, then now and then another (a talk, a notice, a way), so that more than one road is walked.
       const rows = page.locator('[data-act]:visible'), count = await rows.count();
