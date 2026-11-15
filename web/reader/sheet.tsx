@@ -1,7 +1,9 @@
 import type { Entry, Frame } from '../engine/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
+import { useState } from 'react';
 import { Words } from './words';
+import { StorySearch } from './story-search';
 import { Told } from './stage/told';
 import { Typography } from '../../src/presentation/typography';
 import { CharacterPage } from './character-page';
@@ -128,12 +130,18 @@ export class Sheet {
   }
   // Everything so far, place by place; what was said before is not set down again (the owner, 3 November: the same
   // answer to the same question twice was two entries), only that it was.
-  private static story(entries: Entry[]) {
+  private static story(entries: Entry[]) { return <Sheet.Story entries={entries} />; }
+  static Story({ entries: all }: { entries: Entry[] }) {
+    const [query, ask] = useState(''), entries = StorySearch.filter(all, query);
     let place = '';
     const told = new Set<string>();
     return (
       <article className="story" aria-label="The story so far">
         <h2>The story so far</h2>
+        {/* Searched by the words, as the page's own find; a presentation operation, nothing in the game changes. */}
+        <p className="story-search"><input type="search" value={query} placeholder="Search the story" aria-label="Search the story"
+          data-action="story-search" onChange={e => ask(e.target.value)} />
+          {query && <span className="how">{entries.length === 1 ? '1 entry' : `${entries.length} entries`}</span>}</p>
         {entries.length ? entries.map(e => {
           const chapter = e.place !== place ? <h3 key={`h${e.id}`}>{Words.upper(e.placeName)}</h3> : null;
           place = e.place;
@@ -144,7 +152,7 @@ export class Sheet {
             {e.said && !Words.restates(Words.echo(Words.lastSaid(e.said)), e.lines[0])
               && <p className="you">{Words.echo(Words.lastSaid(e.said))}</p>}
             {again ? <p className="again">The same as before.</p> : fresh.map((l, i) => <p key={i}><Told.Said text={l} /></p>)}</div>;
-        }) : <p className="none">Nothing has happened yet.</p>}
+        }) : <p className="none">{query ? 'Nothing in the story says that.' : 'Nothing has happened yet.'}</p>}
       </article>
     );
   }

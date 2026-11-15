@@ -538,3 +538,7 @@
 .enc-head .enc-apart { font: 400 13px var(--do); color: #7A2E1F; }
 .enc-head .enc-close.option { color: #2B241B; border-color: rgba(43, 36, 27, .35); background: transparent; }
 .enc-page { flex: 1 1 auto; width: 100%; border: 0; }
+.story .story-search { display: flex; align-items: baseline; gap: 12px; margin: 0 0 18px; }
+.story .story-search input { flex: 1 1 auto; max-width: 22em; font: 400 15px/1.3 var(--do); color: var(--ivory); background: var(--choice-ground);
+  border: 1px solid var(--choice-edge); border-radius: 8px; padding: 9px 12px; }
+.story .story-search input:focus-visible { outline: none; border-color: var(--accent); }
