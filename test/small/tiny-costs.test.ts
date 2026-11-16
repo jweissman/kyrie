@@ -10,7 +10,8 @@ describe('a tiny world', () => {
   it('starts without drawing a country or composing a world, and installs only its own module and the canon', async () => {
     const t = await Tiny.start('Place costyard "the cost-yard" is room at 0, 0 outdoors. Company party "You" of 1 at costyard.');
     expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
-    expect(t.costs.install?.ids.sort()).toEqual(['canon', 't']);
+    // (In a lane shared with other specs either may already be installed: what it never installs is anything else.)
+    expect((t.costs.install?.ids ?? []).filter(id => !['canon', 't'].includes(id))).toEqual([]);
     expect(t.costs.creature?.n).toBe(1);
     // (What it reads in bytes is the process's to say, not the world's: in a lane shared with other specs, the kinds
     // they installed key the same texts afresh. scripts/load-costs.ts measures it alone: about 160 KB.)
