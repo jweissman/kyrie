@@ -179,3 +179,6 @@
 .compass-rows .barred { display: block; font-style: italic; }
 .compass-rows .shut { opacity: .62; cursor: default; }
 .compass-done { font: var(--t-aside); font-style: italic; color: rgba(236, 230, 217, .62); }
+/* The map's menu is rows, not a numbered list (a stray "1." stood before Put away the map). */
+.map-menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.map-menu > li { list-style: none; }

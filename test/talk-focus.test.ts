@@ -63,4 +63,9 @@ describe('what is said, as attention holds it', () => {
     const f = TalkFocus.of([said('yes', 'yes', { answer: true }), ...replies], { asked: [] });
     expect([f.answers.length, f.salient.length]).toEqual([1, 2]);
   });
+  // An order to someone who has joined stands on their sheet, never among what is said to them.
+  it('keeps the stay order out of what can be said', () => {
+    const f = TalkFocus.of([said('ask'), { ...said('stay'), does: 'hold_here' }, said('home')], { asked: [] });
+    expect([...f.salient, ...f.more].map(c => c.id)).toEqual(['ask', 'home']);
+  });
 });

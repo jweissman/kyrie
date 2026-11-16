@@ -12,8 +12,13 @@ export class TalkFocus {
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
-  static of(replies: Choice[],
+  // An order given to someone who has joined is not something to say to them: it stands on their sheet (the company's
+  // own acts), and a topic is not displaced by it (the owner's forty-step play, 17 November: "Ask them to stay here"
+  // had taken a conversation's second place).
+  static readonly orders = new Set(['hold_here']);
+  static of(all: Choice[],
     at: { led?: string; marked?: string[]; heard?: string[]; asked: string[]; weighty?: string[]; paying?: string[] }) {
+    const replies = all.filter(c => !TalkFocus.orders.has(c.does ?? ''));
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
     const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
