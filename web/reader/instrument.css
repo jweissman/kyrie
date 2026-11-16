@@ -5,7 +5,7 @@
    cannot be pressed. Only once the answer is slower than a glance (80 ms), so a quick one does not flicker. */
 :root[data-ix] .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken]) {
   opacity: .42; pointer-events: none; transition: opacity 140ms var(--ease) 80ms; }
-:root[data-ix] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-taken] {
+:root[data-ix] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-taken] {
   background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
   border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transition: none; }
 
@@ -21,23 +21,23 @@
 @keyframes ix-fill { from { --hold-p: 0%; } to { --hold-p: 100%; } }
 @keyframes ix-drain { from { --hold-p: var(--hold-from, 0%); } to { --hold-p: 0%; } }
 :root[data-ix="b"] [data-hold] { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hold]::before {
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-hold]::before {
   display: block; content: ''; position: absolute; left: auto; right: 16px; top: 50%; width: 12px; height: 12px;
   margin-top: -6px; border: 0; border-radius: 50%; transform: none;
   box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--row-tone) 55%, transparent);
   background: conic-gradient(var(--row-tone) var(--hold-p), transparent 0); }
-:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hold]:has(> .row-key)::before {
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-hold]:has(> .row-key)::before {
   right: 34px; }
-:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hint]:has(> .row-key)::after {
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-hint]:has(> .row-key)::after {
   right: 56px; }
-:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-holding] {
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-holding] {
   background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
   border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transition: none; }
 :root[data-ix="b"] .choice-row.choice-row.choice-row[data-holding]::before {
   animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
 :root[data-ix="b"] .choice-row.choice-row.choice-row[data-held]::before { --hold-p: 100%; }
 :root[data-ix="b"] .choice-row.choice-row.choice-row[data-let-go]::before { animation: ix-drain 240ms var(--ease) forwards; }
-:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.choice-row[data-hint]::after {
+:root[data-ix="b"] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-hint]::after {
   content: 'Hold'; position: absolute; right: 38px; top: 50%; margin-top: -6px; font: var(--t-label);
   letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); grid-column: auto; }
 
@@ -45,6 +45,7 @@
    border fills clockwise from the top, full when the hold is (the owner, 15 November: not a disc from the centre). */
 :root[data-ix="b"]:is([data-holding], :has(.ix-reticle.held)) .shell,
 :root[data-ix="b"]:is([data-holding], :has(.ix-reticle.held)) .shell * { cursor: none !important; }
+:root:has(.ix-reticle.holding) .shell, :root:has(.ix-reticle.holding) .shell * { cursor: none !important; }
 .ix-reticle { position: fixed; left: 0; top: 0; z-index: 10000; width: 32px; height: 32px; margin: -16px 0 0 -16px;
   pointer-events: none; border-radius: 50%; visibility: hidden;
   background: conic-gradient(#ECE6D9 var(--hold-p, 0%), rgba(236, 230, 217, .22) 0);

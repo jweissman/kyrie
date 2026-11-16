@@ -1,6 +1,7 @@
 import type { RegionChart, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { MapView } from './map-view';
+import { MapMenu } from './map-menu';
 import { HexLand } from './hex-land';
 import { Words } from './words';
 import { Typography } from '../../src/presentation/typography';
@@ -20,7 +21,6 @@ export class RouteCard {
   static View({ app, screen, chosen, clear, over }: { app: ReaderApp; screen: Screen; chosen: string;
     clear?: () => void; over?: boolean }) {
     const region = screen.region!, way = MapView.way(screen, chosen), { title, context } = RouteCard.named(region, chosen, way);
-    const nearby = RouteCard.nearby(region);
     return (
       <aside className={`plan route-card${over ? ' over' : ''}`} aria-label={`The way to ${way.name}`} data-id={chosen}
         aria-live={over ? 'off' : 'polite'}>
@@ -36,13 +36,7 @@ export class RouteCard {
             <span className="rc-span">{Words.span(l.minutes)}</span></li>)}</ol>
           {title !== way.name && <p className="rc-formal">{Typography.curl(Words.upper(way.name))}</p>}
         </details>}
-        {!over && (way.go || nearby.length > 0) && <div className="rc-acts">
-          {way.go && <button type="button" className={`act go rc-go${RouteCard.aimed(screen, chosen) ? ' aimed' : ''}`} data-action="set-out" data-act={way.go.id} aria-label={way.go.label}
-            title={way.go.label} onClick={() => app.choose(way.go!)}>{`Travel to ${Words.upper(RouteCard.named(screen.region!, chosen, way).title)}`}</button>}
-          {nearby.length > 0 && <button type="button" className="option rc-near" data-action="explore-nearby"
-            onClick={() => RouteCard.explore(app)}>{Typography.curl(RouteCard.around(screen))}<span className="rc-span">
-              {Words.many(nearby.length, 'place')}</span></button>}
-        </div>}
+        {!over && <MapMenu.View app={app} screen={screen} chosen={chosen} put={() => RouteCard.put(app)} />}
         {clear && !over && <button type="button" className="unchoose" data-action="map-unchoose"
           aria-label={`Let go of ${way.name}`} onClick={clear}><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" /></svg></button>}
@@ -55,6 +49,8 @@ export class RouteCard {
     const followed = screen.aims?.find(a => a.followed);
     return !!followed?.places?.includes(chosen);
   }
+  // The map put away: back to where the company stands (the open country's map is the scene's, raised over it).
+  static put(app: ReaderApp) { if (app.state.outdoors) { app.outdoor(false); } else { app.back(); } }
   // What the choice is: a journey by known ways, across open country, or no way known; where the company is already.
   static eyebrow(screen: Screen, way: Way): string {
     if (way.here) { return 'Where you are'; }

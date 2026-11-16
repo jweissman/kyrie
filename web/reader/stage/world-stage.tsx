@@ -13,6 +13,7 @@ import { Canon } from '../../../src/canon/canon';
 import type { ReaderApp } from '../reader-app';
 import { BoardField } from '../board-field';
 import { MapView } from '../map-view';
+import { MapMenu } from '../map-menu';
 import { RouteCard } from '../route-card';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
@@ -251,8 +252,7 @@ export class WorldStage {
           <p className="how">{Typography.curl(unplaced.who)}</p></>}
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
         <WorldStage.Entrance app={app} />
-        <button type="button" className="enter" data-action="put-away-map" onClick={enter}>
-          Put away the map</button>
+        <MapMenu.View app={app} screen={screen} put={enter} />
       </section>
     );
   }

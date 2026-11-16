@@ -199,10 +199,12 @@ export class GlanceStage {
     const compass = CompassStage.of(app), back = compass ? undefined : GlanceStage.back(app, [only?.c, ...drawn]);
     const led = shown.flatMap(a => [a.choice, a.command]);
     // The rows beside the acts are items of the one foreground of four (see Foreground).
-    const beside = (compass?.out ? 1 : 0) + (compass?.next && !led.includes(compass.next.command) ? 1 : 0) + (back ? 1 : 0);
-    const fitted = Foreground.fit(shown, beside);
     const compassed = !!only && !!compass && [compass.out, compass.next].some(r => r && (r.name === only.name
       || r.command === only.c.command || r.command === only.c.id));
+    const opened = !!only && !lens && !compassed && !(offer && drawn.some(d => d?.id === only.c.id));
+    const beside = (compass?.out ? 1 : 0) + (compass?.next && !led.includes(compass.next.command) ? 1 : 0) + (back ? 1 : 0)
+      + (opened ? 1 : 0);
+    const fitted = Foreground.fit(shown, beside);
     return <>
       {lens ? <GlanceStage.Lens app={app} draw={draw} lens={lens} />
         : fitted.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={fitted} top={top} />}
@@ -217,7 +219,7 @@ export class GlanceStage {
         {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
           mark="var(--tone-gold)" markLabel="your aim" label={Typography.curl(yours.label)} />}
         {/* A lens on is the one menu: no touch beside it, which had drawn the one way twice ("To the camp…" under its own row). */}
-        {only && (lens || compassed || (offer && drawn.some(d => d?.id === only.c.id))) ? null : only ? <Act.View choice={only.c} draw={draw} quiet
+        {only ? !opened ? null : <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}

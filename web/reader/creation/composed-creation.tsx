@@ -90,8 +90,8 @@ export class ComposedCreation {
       <div className={`composed-step${offer.cards ? ' with-cards' : ''}`}>
         {step.id === 'sign' && <Observatory.View signs={app.state.catalog!.signs} focus={lit} chosen={step.chosen}
           flare={flare} onFocus={look} onChoose={choose} />}
+        <h1 className="ask">{Typography.curl(step.ask)}</h1>
         <div className="composed-col">
-          <h1 className="ask">{Typography.curl(step.ask)}</h1>
           <ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
             consider={consider} choose={choose}
             after={step.id === 'name' && <ComposedCreation.Naming app={app} reroll={reroll} onward={onward} />} />

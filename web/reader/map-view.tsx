@@ -224,7 +224,7 @@ export class MapView {
     const across = mark && land.across?.[mark.id];
     const go: Choice | undefined = inside ? undefined : d ? MapView.leaving(screen, MenuModel.journey(d), here) : here ? undefined : MapView.step(screen, id, cell)
       ?? (mark ? across ? { id: across, label: `Go across country to ${name}`, tone: 'way', command: across } : undefined
-        : MapView.across(land, cell, name));
+        : MapView.across(land, cell, name) ?? (cell !== undefined ? MapView.toward(land, Number(cell), name) : undefined));
     return { cell, name, d, here, go };
   }
   // Set out from inside a town or a site, the map says the company leaves where it is: consulted from a room of a
@@ -262,6 +262,19 @@ export class MapView {
     const id = land.goes?.[n];
     if (!id) { return undefined; }
     return { id: `travel:${id}`, label: `Go across country to ${name}`, tone: 'way', command: `travel:${id}` };
+  }
+  // A hex not yet made out may still be chosen (the owner, 15 November: a cell to travel to even if never been there, and
+  // what is known of it said): the company strikes out toward it, to the known ground nearest it that is nearer than
+  // where it stands, and the country beyond is drawn as it comes to it.
+  private static toward(land: NonNullable<RegionChart['land']>, cell: number, name: string): Choice | undefined {
+    if (!land.tracts || !MapView.walkable(land, cell)) { return undefined; }
+    const W = land.width, at = (n: number) => [n % W + (Math.floor(n / W) % 2 ? .5 : 0), Math.floor(n / W) * .866] as const;
+    const dist = (a: number, b: number) => Math.hypot(at(a)[0] - at(b)[0], at(a)[1] - at(b)[1]);
+    const best = land.known.filter(n => land.goes?.[n] && MapView.walkable(land, n) && n !== land.here)
+      .sort((a, b) => dist(a, cell) - dist(b, cell))[0];
+    const here = land.here ?? best;
+    if (best === undefined || here === undefined || dist(best, cell) >= dist(here, cell)) { return undefined; }
+    return { id: `travel:${land.goes![best]}`, label: `Strike out toward ${name}`, tone: 'way', command: `travel:${land.goes![best]}` };
   }
   // What a hex chosen is gone to as: the stretch of open country on it; on an authored country's land, which has no
   // stretches, the place whose block of the land it lies in, or, between the places its author set (the margin of

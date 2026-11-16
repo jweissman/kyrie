@@ -73,3 +73,24 @@ in PB-18). Map instrument, put-away act, crossroads road acts, Wander: **not beg
 - Card selection in general is a mess: the highlighted card is harder to read, and selection feels inverted.
 
 Status: see the register (PB-22) and the commits that close it.
+
+## Brief E: the sky, the judder, and one page template (owner, 15 November, night)
+
+- The night sky still reads cheaply and suggests no genuine astrophysical environment; it needs a closer look.
+- Some creation pages reflow and judder as you select (e.g. "What did you do before this?").
+- More generally there is no single page template: the layout (where the menu's action items live) should look no
+  different from the resting scene's.
+
+Status: the register (PB-24) and the commits that close it.
+
+## Brief F: gold that is not followed through; the map's travel (owner, 15 November, night)
+
+- Gold is still advertised and the engine does not follow through (a promise of a next step that leads nowhere).
+- Travelling by the map still feels awkward. **Movements that cross hexes must not be advertised in the top four unless the
+  map is what is being looked at**; and a cell may be chosen to travel to **even if never been there** (the map says what
+  is known of it). In general the game feels creaky and impoverished.
+
+This reverses the crossroads-roads-among-the-four decision of the same day: crossing roads belong to the map's own menu
+(the map is a focus whose four are its roads, the chosen cell's travel, and Put away the map).
+
+Status: PB-24 (register).

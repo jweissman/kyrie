@@ -68,68 +68,72 @@
    case, whatever it says of itself beside them on the same line, its key at the right; one line, of one height, and the
    same ground, everywhere (the owner, 15 November: no jagged list where some rows have a subheader of details; a brief
    main action and its details, all on one row). What does not fit is cut short, never wrapped. ---- */
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row {
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row {
   all: unset; box-sizing: border-box; position: relative; display: flex; flex-wrap: nowrap; align-items: center;
   column-gap: var(--s2); width: 100%; max-width: 100%; min-width: 0; height: var(--choice-h); margin: 0; overflow: hidden;
   white-space: nowrap;
   padding: 0 14px 0 22px;
   font: var(--t-choice); letter-spacing: 0; text-transform: none; text-align: left; color: var(--ivory); cursor: pointer;
-  background: var(--choice-ground); border: 1px solid var(--choice-edge); border-radius: var(--choice-radius);
+  background: transparent; border: 1px solid transparent; border-radius: var(--choice-radius);
   text-wrap: balance; -webkit-tap-highlight-color: transparent;
   transition: background var(--quick), border-color var(--quick); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
-  background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); outline: none; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(:hover, :focus-visible, .sel):not(.shut, [disabled], [aria-disabled="true"]) {
-  background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
-  border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
-:root[data-still] :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:hover:not(:active, .sel, :focus-visible, .opened, [aria-expanded="true"], .shut, [disabled], [aria-disabled="true"]) {
-  background: var(--choice-ground); border-color: var(--choice-edge); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:active:not(.shut, [disabled], [aria-disabled="true"]) {
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
+  background: var(--choice-ground-hot); border-color: transparent; outline: none; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(:hover, :focus-visible, .sel):not(.shut, [disabled], [aria-disabled="true"]) {
+  background: color-mix(in oklab, var(--row-tone) 9%, transparent); border-color: transparent; }
+/* Undressed at rest; a light glass on hover, with one brief sheen across it as it arrives (not repeated). */
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:hover:not(.shut, [disabled], [aria-disabled="true"]) {
+  background-image: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .07) 50%, transparent 70%);
+  background-size: 250% 100%; animation: row-sheen 520ms ease-out 1 both; }
+@keyframes row-sheen { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) { :root .choice-row.choice-row:hover { animation: none; } }
+:root[data-still] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:hover:not(:active, .sel, :focus-visible, .opened, [aria-expanded="true"], .shut, [disabled], [aria-disabled="true"]) {
+  background: transparent; border-color: transparent; animation: none; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:active:not(.shut, [disabled], [aria-disabled="true"]) {
   background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
   border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transform: none; transition: none; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
   cursor: default; transform: none; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row::before { display: none; }
 /* Its one indicator: a short rounded line, the tone of what it is; faint and neutral where it is nothing in particular. */
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
   bottom: 11px; width: var(--indicator-w); border-radius: 3px; background: var(--prism); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark[style*="gold"] { box-shadow: var(--glow-step); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark[style*="gold"] { box-shadow: var(--glow-step); }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
 /* What is truly several things at once: its line a slow gradient through its tones (OKLab), still for less motion. */
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
   /* Still: a colour that drifts is read as one that blinks (the owner, 15 November: an opportunity's colour persists
      as long as the opportunity does). */ }
 @media (prefers-reduced-motion: reduce) {
-  :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
+  :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark { animation: none; background-size: 100% 100%; } }
 /* A row never widens what holds it: its words are cut short instead. */
-:root :is(.shell, .world-page, .talk, .fight) :is(li, .led-act):has(> .choice-row) { min-width: 0; max-width: 100%; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) :is(li, .led-act):has(> .choice-row) { min-width: 0; max-width: 100%; }
 /* Asked already: its words lowered, still to be chosen. */
 :root .talk .replies .asked .choice-row.choice-row { color: var(--dim); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark, .why,
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.row-label, .row-aside, .led-mark, .why,
   .about, .grave-said, .mark-tag) { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
   white-space: nowrap !important; display: block; margin: 0; }
 /* Its words keep their room first; what the act says of itself (why it is shut, what it risks, the question asked again
    before it is done) gives way before them. */
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label { flex-shrink: 0; max-width: 100%; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label { flex-shrink: 0; max-width: 100%; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.why, .about, .grave-said, .mark-tag) {
   font: var(--t-aside); color: var(--dim); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label { font: inherit; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label { font: inherit; }
 /* On a phone a way's whole name can be wider than the row ("Into the old stones above Broadholm by the path up the
    hill"): every row of a list is a little taller there, room for its words on two lines, so that no name is cut
    short and the list stays even (the owner, 15 November: one height, never a second line of details). */
 @media (max-width: 600px) {
   :root { --choice-h: 56px; }
-  :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-label {
+  :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-label {
     white-space: normal !important; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
     line-height: 1.25; }
 }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > :is(.row-key, .row-opens) { flex: none; margin-left: auto;
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.row-key, .row-opens) { flex: none; margin-left: auto;
   position: static; min-width: 0; padding: 0; border: 0; background: none; font: var(--t-key); color: var(--dim); opacity: .7; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row:is(.risk, .grave)::after { flex: none; }
-:root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
-@media (hover: none) { :root :is(.shell, .world-page, .talk, .fight) .choice-row.choice-row > .row-key { display: none; } }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(.risk, .grave)::after { flex: none; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row .row-label small { font: var(--t-aside); color: var(--dim); }
+@media (hover: none) { :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-key { display: none; } }
 /* Taking one's leave, quieter than what can be said. */
 :root .talk .dialogue .leave .choice-row.choice-row { color: var(--dim); }
 :root .talk .dialogue .choosing:not(:has(button)) + .leave .choice-row.choice-row { color: var(--ivory); }

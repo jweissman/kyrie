@@ -90,9 +90,9 @@ export class MenuModel {
     // In a town or a site of a drawn country the page keeps to its own ways and those a step away; the journeys
     // across the country are the map's, gone out to by one way (the owner, 31 October: "move all cross-hex travel
     // out of the play environment").
-    const overland: Choice[] = [];
-    const scene = inside ? { ...kept, near: kept.near.map(c => MenuModel.roaded(c, screen)),
-      far: kept.far.map(c => MenuModel.roaded(c, screen)) } : kept;
+    const overland = inside ? [...kept.near, ...kept.far].filter(c => !MenuModel.stays(c, screen)) : [];
+    const scene = inside ? { ...kept, near: kept.near.filter(c => MenuModel.stays(c, screen)),
+      far: kept.far.filter(c => MenuModel.stays(c, screen)) } : kept;
     // Whoever there is to talk to for something is led with among the rest, as well as being on the picture (the owner,
     // 12 November: a taproom had led with two things, and the several with something for the company were only their
     // likenesses). Where the aim's next step stands among them is settled here, once, so that the page and the keys
@@ -104,10 +104,7 @@ export class MenuModel {
       .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
     const leading = new Set(shown.filter(a => talked.has(a.choice)).map(a => a.choice));
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
-    // In a drawn country the journeys the glance leads with are acts of the menu, done as the journeys they are (the
-    // owner, 15 November: no opening the atlas to travel); the rest are the map's.
-    const wanted = new Set(shown.map(a => a.choice)), ledJourneys = journeys.filter(j => wanted.has(j.id));
-    const going = inside ? ledJourneys : journeys, country = !screen.place.underground
+    const going = inside ? [] : journeys, country = !screen.place.underground
       && (overland.length || (inside && journeys.length)) ? MenuModel.country : undefined;
     const about = [...this.around(screen), ...country ? [country] : []];
     const subjects = scene.subjects.flatMap(s => s.choices);
@@ -119,9 +116,9 @@ export class MenuModel {
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
     choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)], opened),
       glance && { ...glance, acts: leads },
-      { aimed, overland: MenuModel.beyond(overland, journeys, going) }), destinations: going,
+      { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), destinations: going,
     around: about, ...glance ? { sheets, leads, leading } : {},
-    ...country ? { overland: MenuModel.beyond(overland, journeys, going) } : {} };
+    ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
   }
   // The choice a lead of the glance is drawn as and done by: its own, or, for a way out into the country, going out
   // to it (the keys had counted a lead on the road as none, and every digit at Millholm's camp did nothing).
@@ -138,14 +135,11 @@ export class MenuModel {
   // hex, the next stretch of the wild, the road's next hex, a town further off, is the map's and only the map's, by
   // what the world says of where it goes (Passages.crosses), not by its kind of going (the owner, 3 and 4 November;
   // 9 November: "enforce this as a structural invariant at the action/navigation level").
-  private static beyond(overland: Choice[], journeys: Choice[], going: Choice[]): Set<string> {
-    return new Set([...overland, ...journeys.filter(j => !going.includes(j))].map(c => c.id));
-  }
-  // A road at hand into the next stretch of country is one more act of the menu, done as the journey it is (the owner,
-  // 15 November: the hex crawl is playable from the action menu alone, and the atlas never needed to leave a place).
-  private static roaded(c: Choice, screen: Frame['screen']): Choice {
+  private static stays(c: Choice, screen: Frame['screen']): boolean {
+    // A journey set out on (travel:) stays only where it is a walk about the town the company is in.
+    if (c.id.startsWith('travel:')) { return (screen.around ?? []).some(d => `travel:${d.id}` === c.id); }
     const exit = screen.exits.find(e => e.id === c.id || c.id.startsWith(`${e.id}/`));
-    return exit?.crosses && c.id === exit.id ? { ...c, command: `travel:${exit.destination.id}` } : c;
+    return !exit || !exit.crosses;
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
   static readonly country: Choice = { id: 'view:map', label: 'Open the world map', tone: 'way', command: 'view:map' };

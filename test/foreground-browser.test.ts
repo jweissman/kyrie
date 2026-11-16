@@ -18,7 +18,7 @@ class Foreground {
       // The likenesses of who is here are the way of attending to someone (a focus; the talk it opens replaces the
       // foreground), not acts of the foreground: they are counted apart.
       const acts = [...document.querySelectorAll('[data-act]')]
-        .filter(e => (e as HTMLElement).offsetParent !== null && !e.closest('.portraits'));
+        .filter(e => (e as HTMLElement).offsetParent !== null && !e.closest('.portraits, details:not([open])'));
       const words = acts.map(e => (e as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 60));
       return { mode: document.querySelector('[data-mode]')?.getAttribute('data-mode') ?? '', n: acts.length, rows: words,
         ids: acts.map(e => e.getAttribute('data-act') ?? ''),
@@ -40,9 +40,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
-  it('holds at four items, with no fold and no name twice, through the first scenes, a talk and a fight', async () => {
+  for (const world of ['a1', 'b2']) {
+  it(`holds at four items, with no fold and no name twice, through the first scenes, a talk and a fight: ${world}`, async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, pointer: true,
-      query: '?world=a1&opening' });
+      query: `?world=${world}&opening` });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     const broke: string[] = [];
@@ -67,6 +68,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
           continue;
         }
       }
+      if (s.mode === 'talk' && Foreground.broken(s).length) {
+        console.log('TALKHTML', JSON.stringify(await page.evaluate(() => [...document.querySelectorAll('[data-act]')].filter(e => (e as HTMLElement).offsetParent !== null && !(e as HTMLElement).innerText.trim()).slice(0, 3).map(e => e.outerHTML.slice(0, 300)))));
+      }
       if (s.mode === 'explore' || s.mode === 'talk') { explored++; broke.push(...Foreground.broken(s).map(b => `${s.mode}: ${b}`)); }
       // The first row, then now and then another (a talk, a notice, a way), so that more than one road is walked.
       const rows = page.locator('[data-act]:visible'), count = await rows.count();
@@ -76,4 +80,5 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
     expect(explored, 'scenes walked').toBeGreaterThan(8);
     expect(errors).toEqual([]);
   }, 400000);
+  }
 });

@@ -204,8 +204,8 @@ html, body { overflow: hidden; }
   animation: none !important; } }
 /* Inside the safe zone, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
    stood 14px from the top; and 12 November: the zone is the outer tenth). */
-.creation-edge { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between;
-  padding: var(--safe-t) var(--safe-r) 0 var(--safe-l);
+.creation-edge { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between;
+  padding: 0 calc(var(--safe-r) + 120px) var(--safe-b) var(--safe-l);
   pointer-events: none; }
 .creation-edge > .quiet-word { pointer-events: auto; }
 .creation-edge .set-out-now { margin-left: auto; }

@@ -63,7 +63,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     await d.away();
     expect(await Rest.count(page, `${carter}.owed`)).toBe(0);
     // The one way on, among the four the engine offers (Glance.offer) or as itself.
-    await d.click(await Rest.count(page, '.act.opens-go') ? '.act.opens-go' : 'ol.led [data-act^="exit:"] >> nth=0');
+    if (!await Rest.count(page, '[data-act^="exit:"]')) { await d.click('.opens-go >> nth=-1'); }
+    await d.click('[data-act^="exit:"] >> nth=0');
     // Everyone in the market-place on the picture under Talk (Kite's has seven), none folded away; no likeness in the
     // telling. Turned on, Talk puts Go's ways away.
     await d.talk();

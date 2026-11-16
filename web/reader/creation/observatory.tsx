@@ -1,5 +1,6 @@
 import { useRef, type CSSProperties } from 'react';
 import type { Catalog } from '../../engine/protocol';
+import { SkyTexture } from './sky-texture';
 
 type Sign = Catalog['signs'][number];
 
@@ -12,7 +13,7 @@ type Sign = Catalog['signs'][number];
 // focus: the sign considered; chosen: the one taken; flare: the one just committed, lit for a moment.
 export class Observatory {
   // The ring's centre and radius in the sky's units (1600 by 1000), and the size of a constellation's field.
-  static readonly cx = 980;
+  static readonly cx = 470;
   static readonly cy = 2050;
   static readonly r = 1640;
   static readonly field = 420;
@@ -22,7 +23,7 @@ export class Observatory {
     // The nearest way round to the sign: the ring never spins the long way past eleven months.
     const want = -at * step, now = turned.current;
     turned.current = now + ((((want - now) % 360) + 540) % 360) - 180;
-    const { cx, cy } = Observatory;
+    const { cx, cy } = Observatory, band = SkyTexture.field(cx, cy);
     return (
       <div className="observatory" aria-hidden="true">
         <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -39,13 +40,16 @@ export class Observatory {
           <rect width="1600" height="1000" fill="url(#obs-haze)" />
           <g className="obs-turned" style={{ '--turn': `${turned.current}deg` } as CSSProperties}>
             <g className="obs-drift" style={{ transformOrigin: `${cx}px ${cy}px` }}>
-              <g className="obs-far" style={{ transformOrigin: `${cx}px ${cy}px` }}>{Observatory.far.map(([a, d, r], i) =>
-                <circle key={i} r={r} cx={cx + Math.sin(a) * d} cy={cy - Math.cos(a) * d} />)}</g>
+              <g className="obs-far" style={{ transformOrigin: `${cx}px ${cy}px` }}>
+                {band && <image href={band} x={cx - 1760} y={cy - 2150} width={SkyTexture.width} height={SkyTexture.height}
+                  preserveAspectRatio="none" />}</g>
             </g>
-            <g className="obs-band" style={{ transformOrigin: `${cx}px ${cy}px` }}>
-              <circle cx={cx} cy={cy} r={Observatory.r - 160} /></g>
+
             <g className="obs-mid" style={{ transformOrigin: `${cx}px ${cy}px` }}>{Observatory.mid.map(([a, d, r], i) =>
-              <circle key={i} r={r} cx={cx + Math.sin(a) * d} cy={cy - Math.cos(a) * d} />)}</g>
+              <g key={i} transform={`translate(${cx + Math.sin(a) * d} ${cy - Math.cos(a) * d})`}>
+                {r > 1.2 && <circle r={r * 3.6} fill={SkyTexture.colour(i + 5)} opacity=".1" />}
+                {r > 1.9 && <path d={`M${-r * 5.5} 0H${r * 5.5}M0 ${-r * 5.5}V${r * 5.5}`} stroke={SkyTexture.colour(i + 5)} strokeWidth=".5" opacity=".4" />}
+                <circle r={r} fill={SkyTexture.colour(i + 5)} /></g>)}</g>
           <g className="obs-ring" style={{ transformOrigin: `${cx}px ${cy}px` }}>
             <circle className="obs-arc" cx={cx} cy={cy} r={Observatory.r} />
             <g className="obs-near">{Observatory.near.map(([a, d, r], i) => <circle key={i} r={r}
@@ -55,6 +59,7 @@ export class Observatory {
           </g>
           </g>
         </svg>
+        <i className="obs-meteor a" /><i className="obs-meteor b" />
       </div>
     );
   }
@@ -80,11 +85,11 @@ export class Observatory {
   static foot(sign: Sign): number { return Math.max(...sign.stars.map(x => x[1] ?? .5)) - .5; }
   // The far stars, which turn a tenth as far as the ring does, and the near ones on it, turning with the signs (by a fixed
   // rule, the same every time: [angle, distance, r]).
-  static readonly far: [number, number, number][] = Array.from({ length: 340 }, (_, i) =>
-    [(i * 137.508 * Math.PI) / 180, 1060 + ((i * 6151) % 1100), i % 11 === 0 ? 1.2 : .65]);
-  // The middle field, between: a few brighter, which twinkle.
-  static readonly mid: [number, number, number][] = Array.from({ length: 220 }, (_, i) =>
-    [(i * 222.4922 * Math.PI) / 180, 1100 + ((i * 4177) % 1000), i % 7 === 0 ? 1.7 : i % 3 === 0 ? 1.1 : .75]);
+  static readonly far: [number, number, number][] = Array.from({ length: 560 }, (_, i) =>
+    [(i * 137.508 * Math.PI) / 180, 1040 + ((i * 6151) % 1160), SkyTexture.size(((i * 7919) % 1000) / 1000, 1.1)]);
+  // The middle field, between: fewer, brighter, with the odd one that stands out.
+  static readonly mid: [number, number, number][] = Array.from({ length: 320 }, (_, i) =>
+    [(i * 222.4922 * Math.PI) / 180, 1090 + ((i * 4177) % 1020), SkyTexture.size(((i * 6007) % 1000) / 1000, 2.2)]);
   static readonly near: [number, number, number][] = Array.from({ length: 260 }, (_, i) =>
     [(i * 137.508 * Math.PI) / 180, 1180 + ((i * 7919) % 900), i % 9 === 0 ? 1.9 : i % 3 === 0 ? 1.2 : .8]);
 }

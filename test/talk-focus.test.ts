@@ -31,8 +31,9 @@ describe('what is said, as attention holds it', () => {
   it('puts first what the page leads them with, keeps what the last answer opened, and last what was asked', () => {
     const heard = replies.filter(c => c.id !== 'tower').map(c => c.id);
     const f = TalkFocus.of(replies, { led: 'spiders_job_ask', heard, asked: ['well'] });
-    // Six fresh topics are a short list, shown whole: what is led first, what the last answer opened in its place.
-    expect(f.salient.map(c => c.id)).toEqual(['quarry', 'mound', 'tower', 'ford', 'weir', 'crowns#beyond']);
+    // Three at most, so that with its leave the talk is four (the owner, 15 November): what is led first, what the last
+    // answer opened in its place; the rest a touch away.
+    expect(f.salient.map(c => c.id)).toEqual(['quarry', 'mound', 'tower']);
     expect(f.opened.has('tower')).toBe(true);
     expect(f.more.at(-1)!.id).toBe('well');
   });
