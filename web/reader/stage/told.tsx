@@ -78,7 +78,9 @@ export class Told {
   // Words as the author set them: curled, and a run marked *so* in italics (Typography.spans), its stars gone; a plain
   // client gives the words alone (Typography.plain).
   static Said({ text }: { text: string }) {
-    return <>{Typography.spans(Typography.curl(text)).map((r, i) => r.stressed ? <em key={i}>{r.text}</em> : r.text)}</>;
+    // (A piece after a stressed word that begins with an apostrophe closes it: *Anselm*'s.)
+    const word = (t: string, i: number) => i > 0 && t.startsWith("'") ? `’${Typography.curl(t.slice(1))}` : Typography.curl(t);
+    return <>{Typography.spans(text).map((r, i) => r.stressed ? <em key={i}>{word(r.text, 0)}</em> : word(r.text, i))}</>;
   }
   // The chapter a place opens (a country come into, a story's chapter), the place's name, and where and when.
   static Heading({ frame, app }: { frame: Frame; app?: ReaderApp }) {

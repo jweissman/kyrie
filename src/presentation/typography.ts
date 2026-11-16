@@ -24,8 +24,10 @@ export class Typography {
   }
   static plain(text: string): string { return text.replace(Typography.stress, '$1'); }
   private static readonly stress = /\*([^*\s](?:[^*]*[^*\s])?)\*/g;
+  // Never a raw asterisk on a page: where a surface does not set stress apart (spans), the marks are dropped and the
+  // word stays (CO-10: "*habit*" in the Story, "*written*" in a companion's talk).
   static curl(text: string): string {
-    return text
+    return Typography.plain(text)
       .replace(/(^|[\s([{—–‘])"/g, '$1“').replace(/"/g, '”')
       .replace(Typography.elided, '$1’')
       .replace(/(^|[\s([{—–“])'/g, '$1‘').replace(/'/g, '’');
