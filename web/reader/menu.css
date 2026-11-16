@@ -94,6 +94,7 @@
   border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transform: none; transition: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
   cursor: default; transform: none; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row::before { display: none; }
 /* Its one indicator: a short rounded line, the tone of what it is; faint and neutral where it is nothing in particular. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
   bottom: 11px; width: var(--indicator-w); border-radius: 3px; background: var(--prism); }
