@@ -11,7 +11,7 @@ import { LensPages } from './support/lens-pages';
 // engine marks them, test/hold-rule); a search, a wait, a look, a talk are touches, and no ring promises a hold on
 // them.
 class Afield {
-  // Out of the town, on the road north: the page's own journey, as the map sets one out (kyrieMono.act), and the time lens.
+  // Out of the town, on the road north: the page's own journey, as the map sets one out (kyrieMono.act).
   static async go(page: import('playwright-core').Page, d: { settle(): Promise<void> }) {
     await page.evaluate(() => (window as unknown as { kyrieMono: { act(c: string, s: string): void } })
       .kyrieMono.act('travel:region__edge_north', 'travel'));
