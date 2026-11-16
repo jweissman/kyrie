@@ -1,5 +1,7 @@
 # Mission 21 → 22: handoff
 
+> **Status (17 November):** parts of this are superseded by the owner's rulings of 16–17 November; see [closeout.md](closeout.md) §2 for what stands.
+
 Written 16 November, for the next stretch of work (the owner's next aims, in their order) and for whoever picks it up.
 M21's own goals are met as far as a lead can show without a person playing: see retrospective.md and
 obligations-review-15-nov-late.md for the measures, and "What is not shown" below for what only a person can say.

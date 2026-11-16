@@ -1,5 +1,7 @@
 # The first touch: a working pass on the entrance and the primary control
 
+> **Status (17 November):** parts of this are superseded by the owner's rulings of 16–17 November; see [closeout.md](closeout.md) §2 for what stands.
+
 This is the owner's 15 November direction for M22 (the entrance to Westernesse, and the act of choosing an intention),
 taken one step further than the interaction research (`interaction/`). It builds on `interaction/study.md`,
 `interaction/grammar.md`, `interaction/experiment.md` and `first-minute/critique.md`, and doesn't repeat them. It is a

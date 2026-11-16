@@ -1,5 +1,7 @@
 # Mission 21: where it stands (14 November 2026)
 
+> **Status (17 November):** parts of this are superseded by the owner's rulings of 16–17 November; see [closeout.md](closeout.md) §2 for what stands.
+
 An honest account against the brief (`brief.md`), written at the owner's request after a human play attempt still broke
 down quickly. It is the record to resume from. The measures can be taken again: `bun scripts/register-state.ts
 [revision]`, `bun scripts/register-held.ts`, `bun scripts/terminal-walks.ts`, and the CI runs. The short verdict: the
