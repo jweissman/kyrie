@@ -59,12 +59,12 @@ export class FightMoves {
     </div>;
   }
   // A kind opened (the owner's ruling 2: attending replaces the foreground, more than four are paged, never unfolded):
-  // its moves in place of the hand's, those that can be done first, four at a time, a row turning the page (no act) and
-  // Back to the hand; what the move under the hand does is said beside it, in the details region.
+  // its moves in place of the hand's, in their order (what cannot be done now among them, saying why), four at a time,
+  // a row turning the page (no act) and Back to the hand; what the move under the hand does is said beside it, in the details region.
   static Kind({ section, take, note, close }: { section: Section; take: (c: Choice) => void; close: () => void;
     note: (c: Choice) => Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
     const [page, turn] = useState(0), all = FightMoves.flat(section.choices);
-    const paged = Paging.of([...all.filter(c => !c.disabled), ...all.filter(c => c.disabled)], 4, page);
+    const paged = Paging.of(all, 4, page);
     return <>
       {paged.shown.map(c => <ChoiceRow.Button key={c.id} className={`move${c.disabled ? ' unusable' : ''}`}
         data={{ action: 'move', choice: c.id, disabled: c.disabled ? 'true' : undefined }} act={c.disabled ? undefined : c.id}

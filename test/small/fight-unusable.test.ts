@@ -38,10 +38,14 @@ describe('a fight\'s unavailable acts', () => {
   it('say why in the page, and are never aimed', () => {
     const sections = ChoiceList.combat(fight(2)), app = { menu: { sections, choices: ChoiceList.all(sections) },
       state: { keyed: false, cursor: 0, open: [] }, choose: () => undefined } as unknown as ReaderApp;
-    const html = renderToStaticMarkup(createElement(FightMoves.View, { app, aim: () => undefined, panel: 'abilities',
-      open: () => undefined }));
-    expect(html).toMatch(/data-choice="unusable:cleave" data-disabled="true"[^>]*>[\s\S]*?again in \d turns?</);
+    // The kind opened in the hand's place, four at a time (ruling 2): drawn here with the cooling cleave on its page.
     const cleave = sections.flatMap(x => x.choices).find(x => x.id === 'unusable:cleave')!;
+    const abilities = sections.find(x => x.id === 'abilities')!, page = { ...abilities, choices: [abilities.choices[0]!, cleave] };
+    expect(renderToStaticMarkup(createElement(FightMoves.View, { app, aim: () => undefined, panel: 'abilities',
+      open: () => undefined }))).toContain('data-action="panel-back"');
+    const html = renderToStaticMarkup(createElement(FightMoves.Kind, { section: page, take: () => undefined,
+      close: () => undefined, note: () => ({}) }));
+    expect(html).toMatch(/data-choice="unusable:cleave" data-disabled="true"[^>]*>[\s\S]*?again in \d turns?</);
     const aimed: unknown[] = [];
     FightMoves.take(app, cleave, a => { aimed.push(a); }, () => undefined);
     expect(aimed).toEqual([]);
