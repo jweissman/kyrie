@@ -68,4 +68,9 @@ describe('what is said, as attention holds it', () => {
     const f = TalkFocus.of([said('ask'), { ...said('stay'), does: 'hold_here' }, said('home')], { asked: [] });
     expect([...f.salient, ...f.more].map(c => c.id)).toEqual(['ask', 'home']);
   });
+  // What is refused stands after what can be taken.
+  it('puts a refused reply after the replies that can be taken', () => {
+    const f = TalkFocus.of([{ ...said('barred'), disabled: 'will not serve you' }, said('ask'), said('home')], { asked: [] });
+    expect([...f.salient, ...f.more].map(c => c.id)).toEqual(['ask', 'home', 'barred']);
+  });
 });

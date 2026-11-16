@@ -22,7 +22,9 @@ export class TalkFocus {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
     const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
-    const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? ''));
+    // What is refused (a try spent, a way barred: "Orsik will not serve you") goes with what was asked: it had held a
+    // conversation's second place beside topics that could be taken (the owner's play, 17 November).
+    const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '') || !!c.disabled);
     const fresh = said.filter(c => !spent.includes(c)), heard = new Set(at.heard ?? []);
     // What pays the company first: someone marked as having something for it says what (see Owed).
     const led = [...fresh.filter(c => TalkFocus.pays(c, at.paying)), ...at.led ? fresh.filter(c => c.command === at.led
