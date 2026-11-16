@@ -38,7 +38,7 @@ real circumstances; the first-hour mage has an intelligible, viable way to take 
 |---|---|
 | 2 | **Done**: lenses are paged four at a time (GlanceStage.Lens, a non-act "More… n of N"); the unfold is gone; the specs and driver turn pages (test/support/lens-pages.ts) |
 | 3 | **Mostly done**: the engine marks only rest and camp (ChoiceList.sustaining); the hold, its ring, its armed second press and an assistive click work for them by default (no `?ix=b`); the idle ring on every press is removed. **Not verified in a browser:** no spec reaches a camp or rest yet (the opening has none; the probe fixtures did not load) |
-| 1 | not begun |
+| 1 | **Done in the page, not browser-checked:** each exchange's roll line is a `<details class="how">` "How it fell", closed by default, reachable by keyboard and reader, not an act (fight-stage.tsx, fight.css); the odds before a choice are words on the card (CB-13). Not yet: the fight log's roll text is still a hover title |
 | 4 | not begun (engine pin exists: test/small/commander) |
 | 5 | not begun |
 | 6 | not begun |

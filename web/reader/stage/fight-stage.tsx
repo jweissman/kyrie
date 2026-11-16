@@ -69,10 +69,11 @@ export class FightStage {
             {combat.moment && <p className="moment">{Typography.curl([combat.reckoned ?? '', combat.moment === 'seen'
               ? 'It has not reached you yet.' : 'It is on you, but not yet round you.'].filter(Boolean).join(' '))}</p>}
             {earlier.map(e => <p key={e.n} className="what earlier">{Typography.curl(e.text)}</p>)}
-            {/* What just happened, and beneath it how it fell (the rolls), on the page and not in a hover (the owner,
-                6 November: no guidance a tooltip alone holds). */}
+            {/* What just happened in prose, and how it fell (the rolls) one deliberate, keyboard- and reader-reachable
+                disclosure away, not in a hover and not an act (the owner, 16 November). */}
             {recent.map(e => <div key={e.n} className="what"><p>{Typography.curl(e.text)}</p>
-              {e.detail && <p className="how">{Typography.curl(e.detail)}</p>}</div>)}
+              {e.detail && <details className="how"><summary>How it fell</summary>
+                <p>{Typography.curl(e.detail)}</p></details>}</div>)}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {combat.outcome && <FightStage.Aftermath app={app} />}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}

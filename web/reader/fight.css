@@ -98,7 +98,13 @@
   background: var(--accent-glow); }
 .fight .beat .what { font-size: 19px; line-height: 1.5; margin: 0 0 .6em; animation: arrive var(--settle) var(--ease) both; }
 .fight .beat .what p { margin: 0; }
-.fight .beat .what .how { font: 400 12.5px/1.45 var(--do); color: var(--faint); margin-top: 2px; }
+.fight .beat .what .how { margin-top: 2px; }
+.fight .beat .what .how > summary { cursor: pointer; list-style: none; font: 400 12px/1.4 var(--do); color: var(--faint);
+  width: max-content; }
+.fight .beat .what .how > summary::-webkit-details-marker { display: none; }
+.fight .beat .what .how > summary:hover, .fight .beat .what .how > summary:focus-visible, .fight .beat .what .how[open] > summary {
+  color: var(--dim); outline: none; }
+.fight .beat .what .how > p { font: 400 12.5px/1.45 var(--do); color: var(--faint); margin: 2px 0 0; }
 .fight .beat .what.earlier { font-size: 15px; color: var(--faint); animation: none; }
 .fight .beat .after { font: 500 14.5px/1.5 var(--do); color: var(--verdigris); }
 .fight .beat .quiet { color: var(--faint); font-style: italic; }
