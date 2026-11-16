@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useRef, type CSSProperties } from 'react';
 import type { Catalog } from '../../engine/protocol';
-import { SkyTexture } from './sky-texture';
+import { SkyCanvas } from './sky-canvas';
 
 type Sign = Catalog['signs'][number];
 
@@ -25,40 +25,19 @@ export class Observatory {
     // The nearest way round to the sign: the ring never spins the long way past eleven months.
     const want = -at * step, now = turned.current;
     turned.current = now + ((((want - now) % 360) + 540) % 360) - 180;
-    const { cx, cy } = Observatory, [, drawn] = useState(0), band = SkyTexture.field(), pan = turned.current * Observatory.pan;
-    useEffect(() => SkyTexture.whenReady(() => { drawn(n => n + 1); }), []);
-    useEffect(() => { void SkyTexture.warm(); }, []);
+    const { cx, cy } = Observatory, pan = turned.current * Observatory.pan;
+    const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
     return (
       <div className="observatory" aria-hidden="true">
+        <SkyCanvas.View pan={pan} still={still} />
         <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
           <defs>
-            <radialGradient id="obs-haze" cx="62%" cy="38%" r="70%">
-              <stop offset="0" stopColor="#1b2134" /><stop offset=".55" stopColor="#0d1019" /><stop offset="1" stopColor="#07080c" />
-            </radialGradient>
-            {band && <pattern id="obs-sky" width={SkyTexture.width} height={SkyTexture.height} patternUnits="userSpaceOnUse"
-              y={-100}><image href={band} width={SkyTexture.width} height={SkyTexture.height} preserveAspectRatio="none" /></pattern>}
             <filter id="obs-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
-          <linearGradient id="obs-milk" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stopColor="#8f9bc4" stopOpacity="0" /><stop offset=".5" stopColor="#c7cde6" stopOpacity=".07" />
-            <stop offset="1" stopColor="#8f9bc4" stopOpacity="0" /></linearGradient>
-          <rect width="1600" height="1000" fill="url(#obs-haze)" />
           <g className="obs-turned" style={{ '--turn': `${turned.current}deg` } as CSSProperties}>
-            <g className="obs-drift" style={{ transformOrigin: `${cx}px ${cy}px` }}>
-              <g className="obs-far" style={{ transform: `translateX(${pan}px)` }}>
-                {band && <rect x={-40000} y={-100} width={80000} height={SkyTexture.height} fill="url(#obs-sky)" />}</g>
-            </g>
-
-            <g className="obs-mid" style={{ transformOrigin: `${cx}px ${cy}px` }}>{Observatory.mid.map(([a, d, r], i) =>
-              <g key={i} transform={`translate(${cx + Math.sin(a) * d} ${cy - Math.cos(a) * d})`}>
-                {r > 1.2 && <circle r={r * 3.6} fill={SkyTexture.colour(i + 5)} opacity=".1" />}
-                {r > 1.9 && <path d={`M${-r * 5.5} 0H${r * 5.5}M0 ${-r * 5.5}V${r * 5.5}`} stroke={SkyTexture.colour(i + 5)} strokeWidth=".5" opacity=".4" />}
-                <circle r={r} fill={SkyTexture.colour(i + 5)} /></g>)}</g>
           <g className="obs-ring" style={{ transformOrigin: `${cx}px ${cy}px` }}>
             <circle className="obs-arc" cx={cx} cy={cy} r={Observatory.r} />
-            <g className="obs-near">{Observatory.near.map(([a, d, r], i) => <circle key={i} r={r}
-              cx={cx + Math.sin(a) * d} cy={cy - Math.cos(a) * d} />)}</g>
             {signs.map((s, i) => <Observatory.Figure key={s.id} sign={s} angle={i * step} lit={s.id === focus}
               chosen={s.id === chosen} flare={s.id === flare} onFocus={onFocus} onChoose={onChoose} />)}
           </g>
@@ -94,17 +73,8 @@ export class Observatory {
   static Link({ from, to, gap }: { from: readonly [number, number]; to: readonly [number, number];
     gap: readonly [number, number] }) {
     const dx = to[0] - from[0], dy = to[1] - from[1], len = Math.hypot(dx, dy) || 1, a = gap[0] + 4, b = gap[1] + 4;
-    return <line x1={from[0] + dx / len * a} y1={from[1] + dy / len * a} x2={to[0] - dx / len * b} y2={to[1] - dy / len * b} />;
+    return <line pathLength="1" x1={from[0] + dx / len * a} y1={from[1] + dy / len * a} x2={to[0] - dx / len * b} y2={to[1] - dy / len * b} />;
   }
   // How far below the field's middle its lowest star stands, as a fraction of the field (its name goes beneath).
   static foot(sign: Sign): number { return Math.max(...sign.stars.map(x => x[1] ?? .5)) - .5; }
-  // The far stars, which turn a tenth as far as the ring does, and the near ones on it, turning with the signs (by a fixed
-  // rule, the same every time: [angle, distance, r]).
-  static readonly far: [number, number, number][] = Array.from({ length: 560 }, (_, i) =>
-    [(i * 137.508 * Math.PI) / 180, 1040 + ((i * 6151) % 1160), SkyTexture.size(((i * 7919) % 1000) / 1000, 1.1)]);
-  // The middle field, between: fewer, brighter, with the odd one that stands out.
-  static readonly mid: [number, number, number][] = Array.from({ length: 320 }, (_, i) =>
-    [(i * 222.4922 * Math.PI) / 180, 1090 + ((i * 4177) % 1020), SkyTexture.size(((i * 6007) % 1000) / 1000, 2.2)]);
-  static readonly near: [number, number, number][] = Array.from({ length: 260 }, (_, i) =>
-    [(i * 137.508 * Math.PI) / 180, 1180 + ((i * 7919) % 900), i % 9 === 0 ? 1.9 : i % 3 === 0 ? 1.2 : .8]);
 }
