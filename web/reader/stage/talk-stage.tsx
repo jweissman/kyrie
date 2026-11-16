@@ -62,10 +62,11 @@ export class TalkStage {
     const drawn = (c: Choice): Aspect[] => spent(c) ? [] : Emphasis.within(acts, c, [
       ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : []]);
 
-    // Numbered in the order they are drawn, before anything is drawn (see TalkStage.n): taking your leave before what
-    // is folded away, so that the numbers shown run without a gap (Bask's 1, 2, 3 and
-    // then 5: the contact sheet, 12 November); each keeps its number as before (R11-01).
-    for (const c of [...focus.answers, ...focus.salient, talk.leave, ...focus.more]) { TalkStage.n(app, TalkStage.key(c)); }
+    // Four acts in view (the owner's ruling 2): taking your leave always, and in the three rows before it any answer
+    // owed, then what can be said and Trade, a page at a time; each row's key is its place, 1 to 4.
+    const trades = wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0;
+    const [page, turn] = useState(0), room = 3 - focus.answers.length, a = focus.answers.length;
+    const paged = TalkFocus.paged([...focus.salient, ...trades ? ['trade' as const] : [], ...focus.more], room, page);
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -81,46 +82,29 @@ export class TalkStage {
                 {/* A question put to the company is answered first, by its answers (Low Water's 5, the Liberty of the
                     Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
                 {focus.answers.length > 0 && <><p className="answering">Your answer</p>
-                  <ol className="replies answers" aria-label="Your answer">{focus.answers
-                    .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} aspects={drawn(c)} gilded={gilded} />)}</ol></>}
-                <TalkStage.Topics draw={draw} name={name!} focus={focus} spent={spent} gilded={gilded}
-                  drawn={drawn} paying={frame.screen.paying} />
-                {/* In the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home with
-                    what would fetch coin: Mission 20). */}
-                {(wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0)
-                  && <TalkStage.ToTrade app={app} aspects={[...new Set(focus.services.flatMap(drawn))]} gilded={gilded} />}
+                  <ol className="replies answers" aria-label="Your answer">{focus.answers.map((c, i) => <TalkStage.Reply
+                    key={c.id} choice={c} draw={draw} number={i + 1} aspects={drawn(c)} gilded={gilded} />)}</ol></>}
+                {/* Trade in the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home
+                    with what would fetch coin: Mission 20). */}
+                <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} turn={() => turn(paged.at + 1)}
+                  again={[...focus.salient, ...focus.more].every(spent)} spent={spent} opened={focus.opened}
+                  gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={<TalkStage.ToTrade app={app}
+                    aspects={[...new Set(focus.services.flatMap(drawn))]} gilded={gilded} />} />
               </>}
             </div>
-            {/* Back from trading stands by the leave, always in view: at the foot of a long counter it had been
-                under the fade, half there (round 5). */}
+            {/* The way out, always in view at the foot (round 5: under the fade at a long counter, half there): Back
+                from trading, which is the way out while trading; else taking your leave, the last of the four. */}
             <ol className="leave replies">
-              {s.trading && <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.trade(false)}
-                mark={ChoiceRow.neutral} markClass="neutral" label="Back" /></li>}
-              <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={TalkStage.n(app, TalkStage.key(talk.leave))}
-                label={talk.leave.label} /></li>
+              {s.trading ? <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.trade(false)}
+                mark={ChoiceRow.neutral} markClass="neutral" label="Back" /></li>
+                : <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={a + paged.shown.length + 1}
+                  label={talk.leave.label} /></li>}
             </ol>
           </div>
         </div>
         <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
       </div>
     );
-  }
-  // What a reply is known by from one answer to the next: what it does, its id being its place in the list.
-  static key(c: Choice): string { return c.command ?? c.id; }
-  // The numbers a fold holds, said as runs: 3–4, 7.
-  static span(numbers: number[]): string {
-    const sorted = [...new Set(numbers)].sort((a, b) => a - b), runs: [number, number][] = [];
-    for (const n of sorted) { const last = runs.at(-1); if (last && n === last[1] + 1) { last[1] = n; } else { runs.push([n, n]); } }
-    return runs.map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`)).join(', ');
-  }
-  // A reply's number in this conversation: the one it was first shown with, or the next not yet given (see
-  // ReaderApp.numbered).
-  static n(app: ReaderApp, id: string): number {
-    const kept = app.numbered.get(id);
-    if (kept !== undefined) { return kept; }
-    const next = Math.max(0, ...app.numbered.values()) + 1;
-    app.numbered.set(id, next);
-    return next;
   }
   // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
   static ungilded(a: Promoted): Promoted {
@@ -132,10 +116,10 @@ export class TalkStage {
   // on to be sold: Mission 20).
   static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
     const bar = Pip.fill(aspects, gilded);
-    // A row like the questions, the width of them all (the owner, 17 November: P0, an action that is not a full-width row).
-    return <ol className="replies to-trade"><li><ChoiceRow.Button className={gilded && aspects.includes('undertaking') ? 'aimed' : ''}
+    // A row like the questions, the width of them all (the owner, 16 November: an action is a full-width row), among them.
+    return <ChoiceRow.Button className={gilded && aspects.includes('undertaking') ? 'aimed' : ''}
       data={{ action: 'trade', aspects: aspects.join(' ') || undefined }} onClick={() => app.trade(true)} label="Trade"
-      {...bar ? { mark: bar, markLabel: Pip.words(aspects, gilded) } : {}} /></li></ol>;
+      {...bar ? { mark: bar, markLabel: Pip.words(aspects, gilded) } : {}} />;
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
@@ -234,20 +218,21 @@ export class TalkStage {
   static Trading({ app, wares, services, buys, short, who, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
     buys: Counter['buys']; short: NonNullable<Counter['short']>; who: string; draw: Draw }) {
     const coin = app.state.frame!.screen.purse.coin, [page, turn] = useState(0), { sales, rest } = TalkFocus.parted(services);
-    const rows = [
-      ...sales.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />),
+    // Each row drawn with its key, its place on the page (1 to 4).
+    const rows: ((n: number) => ReactNode)[] = [
+      ...sales.map(c => (n: number) => <TalkStage.Reply key={c.id} choice={c} draw={draw} number={n} />),
       // What they would buy and cannot pay for now: shut, and why (see TradeModel.short).
-      ...short.map(x => <li key={`short:${x.name}`}><ChoiceRow.Button shut data={{ action: 'unbought' }} onClick={TalkStage.nothing}
+      ...short.map(x => () => <li key={`short:${x.name}`}><ChoiceRow.Button shut data={{ action: 'unbought' }} onClick={TalkStage.nothing}
         label={Typography.curl(`Sell ${x.name.charAt(0).toLowerCase()}${x.name.slice(1)}`)}
         aside={Typography.curl(`${Words.short(who)} has not the coin for it today (${x.pays})`)} /></li>),
       ...wares.flatMap(w => TalkStage.wareRows(w, coin, draw)),
-      ...rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)];
+      ...rest.map(c => (n: number) => <TalkStage.Reply key={c.id} choice={c} draw={draw} number={n} />)];
     const per = 4, pages = Math.max(1, Math.ceil(rows.length / per)), at = page % pages;
     return <section className="trading" aria-label="Trade">
       <p className="label">{`You have ${coin} coin`}</p>
       {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
         .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
-      <ol className="replies">{rows.slice(at * per, at * per + per)}</ol>
+      <ol className="replies">{rows.slice(at * per, at * per + per).map((row, i) => row(i + 1))}</ol>
       {pages > 1 && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-trade' }}
         onClick={() => turn(at + 1)} mark={ChoiceRow.neutral} markClass="neutral"
         label="More to trade…" aside={`${at + 1} of ${pages}`} /></li></ol>}
@@ -256,20 +241,20 @@ export class TalkStage {
   private static nothing(): void { /* a shut row does nothing */ }
   // One thing for sale, as rows: a row where it can be bought, one for each of the company that could take it where it is
   // bought for one of them, a shut one where it cannot be (and why).
-  private static wareRows(w: Ware, coin: number, draw: Draw): ReactNode[] {
+  private static wareRows(w: Ware, coin: number, draw: Draw): ((n: number) => ReactNode)[] {
     const name = Typography.curl(Words.upper(w.name));
     const price = `${w.price} coin · ${w.stock > 0 ? `${w.stock} left` : 'none left'}`;
     if (!w.buy) {
-      return [<li key={w.name}><ChoiceRow.Button shut data={{ action: 'unbought' }} onClick={TalkStage.nothing} label={name}
+      return [() => <li key={w.name}><ChoiceRow.Button shut data={{ action: 'unbought' }} onClick={TalkStage.nothing} label={name}
         aside={price} /></li>];
     }
     const bought = w.buy.children?.length ? w.buy.children : [w.buy];
-    return bought.map(k => {
+    return bought.map(k => (n: number) => {
       const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(k.label)?.[1];
       // Beyond the purse, it is quieter and says nothing more: what the company has is said once, above.
       const dear = /^It costs \d+ coin, and you have \d+\.$/.test(k.disabled ?? '');
       const who = w.buy!.children?.length ? ` ${Typography.curl(k.label)}` : '';
-      return <li key={k.id}><ChoiceRow.Act choice={k} draw={draw} quiet={dear} number={TalkStage.n(draw.app, TalkStage.key(k))}
+      return <li key={k.id}><ChoiceRow.Act choice={k} draw={draw} quiet={dear} number={n}
         label={<>{name}{who}</>} aside={versus ? `${price} · ${versus}` : price} /></li>;
     });
   }
@@ -277,31 +262,30 @@ export class TalkStage {
   // What pays the company is marked green, as the likeness that has something for it is (see Owed), and said so to a
   // reader of the page alone (BP-08: its mark carries it).
   // What it is to the company is the one indicator at its left, as a led act's is (see Pip).
-  // What can be said, three at most with the leave (the owner, 15 November: four items, no fold): when there is more, one
-  // row turns the page, the next topics in place of these, round to the first.
-  static Topics({ draw, name, focus, spent, gilded, drawn, paying }: { draw: Draw; name: string;
-    focus: ReturnType<typeof TalkFocus.of>; spent: (c: Choice) => boolean; gilded: boolean;
-    drawn: (c: Choice) => Aspect[]; paying?: string[] }) {
-    const [page, turn] = useState(0), all = [...focus.salient, ...focus.more], per = 2;
-    const many = all.length > TalkFocus.most, pages = Math.max(1, Math.ceil(all.length / per));
-    const shown = !many ? all : all.slice((page % pages) * per, (page % pages) * per + per);
+  // What can be said, and Trade among it, a page at a time in the rows the leave and any answer leave (see View): when
+  // there is more than fits, a row turns the page (no act), the next in place of these, round to the first.
+  static Topics({ draw, name, paged, first, turn, again, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
+    name: string; paged: ReturnType<typeof TalkFocus.paged<Choice | 'trade'>>; first: number; turn: () => void;
+    again: boolean; spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Aspect[];
+    paying?: string[]; trade: ReactNode }) {
     return <>
       <ol className="replies" aria-label={`What you might say to ${name}`}>
-        {shown.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={spent(c)} fresh={focus.opened.has(c.id)}
-          aspects={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
-      {many && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-talk' }}
-        onClick={() => turn(page + 1)} mark={ChoiceRow.neutral} markClass="neutral"
-        label={all.every(spent) ? 'Ask again…' : 'Something else…'} aside={`${(page % pages) + 1} of ${pages}`} /></li></ol>}
+        {paged.shown.map((c, i) => c === 'trade' ? <li key="trade" className="to-trade">{trade}</li>
+          : <TalkStage.Reply key={c.id} choice={c} draw={draw} number={first + i} asked={spent(c)} fresh={opened.has(c.id)}
+            aspects={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
+      {paged.pages > 1 && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-talk' }}
+        onClick={turn} mark={ChoiceRow.neutral} markClass="neutral"
+        label={again ? 'Ask again…' : 'Something else…'} aside={`${paged.at + 1} of ${paged.pages}`} /></li></ol>}
     </>;
   }
-  static Reply({ choice: c, draw, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
-    asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
+  static Reply({ choice: c, draw, number, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
+    number?: number; asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
     const bar = Pip.fill(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');
     return (
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
         bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
-        <ChoiceRow.Act choice={c} draw={draw} number={TalkStage.n(draw.app, TalkStage.key(c))}
+        <ChoiceRow.Act choice={c} draw={draw} number={number}
           {...bar ? { mark: bar, markLabel: Pip.words(aspects!, gilded) } : {}}
           label={<span className="said">{Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}
             {asked && <small> · asked</small>}{pays && <span className="for-you sr-only">, for you</span>}</span>} />

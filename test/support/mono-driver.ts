@@ -223,7 +223,10 @@ export class MonoDriver {
   // as a player who has read what it risks.
   async pick(test: (c: ChoiceShape) => boolean, what: string) {
     let state = await this.inspect(), index = state.choices.findIndex(test);
-    // What is bought or had for coin is in the trading, opened from the conversation as a player opens it.
+    // What is bought or had for coin is in the trading, opened from the conversation as a player opens it (Trade is
+    // among what can be said, a page at a time).
+    for (let p = 0; p < 12 && index < 0 && !await this.page.locator('[data-action="trade"]').count()
+      && await this.page.locator('[data-action="more-talk"]').count(); p++) { await this.click('[data-action="more-talk"]'); }
     if (index < 0 && (await this.page.locator('[data-action="trade"]').count()) > 0) {
       await this.click('[data-action="trade"]');
       state = await this.inspect(); index = state.choices.findIndex(test);
