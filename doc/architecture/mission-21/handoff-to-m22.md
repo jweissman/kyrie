@@ -57,7 +57,7 @@ an Alchemist (`undiscovered` recipes, `experiment`, making.kyr), a Befriender, a
 Start with: an `Itemkind` declaration (name, slot, what wearing or using it does, how it looks), through Kyr's own grammar
 and the catalogue's table, with the lint and the encyclopedia reading it.
 
-## Design blockers (the owner's to decide)
+## Design blockers (the owner's to decide; the trade-offs written out in decisions-for-owner.md)
 
 1. **BP-03: where the dice show.** The 6 November ruling put the roll beneath the fight's prose, on the page; the register
    now asks for "dice only on a deliberate look". One line of the fight stage (`.how`) decides it.
