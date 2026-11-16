@@ -93,9 +93,12 @@ export class TalkStage {
             </div>
             {/* Back from trading stands by the leave, always in view: at the foot of a long counter it had been
                 under the fade, half there (round 5). */}
-            <p className="leave">{s.trading && <button type="button" className="option quiet" data-action="trade-back"
-              onClick={() => app.trade(false)}>Back</button>}<ChoiceRow.Act choice={talk.leave} draw={draw}
-              number={TalkStage.n(app, TalkStage.key(talk.leave))} label={talk.leave.label} /></p>
+            <ol className="leave replies">
+              {s.trading && <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.trade(false)}
+                mark={ChoiceRow.neutral} markClass="neutral" label="Back" /></li>}
+              <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={TalkStage.n(app, TalkStage.key(talk.leave))}
+                label={talk.leave.label} /></li>
+            </ol>
           </div>
         </div>
         <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
@@ -129,10 +132,10 @@ export class TalkStage {
   // on to be sold: Mission 20).
   static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
     const bar = Pip.fill(aspects, gilded);
-    // A row like the questions, not a boxed capital word (Mission 21's one choice row).
-    return <p className="to-trade"><ChoiceRow.Button className={`option${gilded && aspects.includes('undertaking') ? ' aimed' : ''}`}
+    // A row like the questions, the width of them all (the owner, 17 November: P0, an action that is not a full-width row).
+    return <ol className="replies to-trade"><li><ChoiceRow.Button className={gilded && aspects.includes('undertaking') ? 'aimed' : ''}
       data={{ action: 'trade', aspects: aspects.join(' ') || undefined }} onClick={() => app.trade(true)} label="Trade"
-      {...bar ? { mark: bar, markLabel: Pip.words(aspects, gilded) } : {}} /></p>;
+      {...bar ? { mark: bar, markLabel: Pip.words(aspects, gilded) } : {}} /></li></ol>;
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
@@ -206,41 +209,6 @@ export class TalkStage {
       </div>
     );
   }
-  // What someone who trades has on their side of the counter, whether or not you can afford it: each thing a control
-  // that buys it, with its price and how many are left (what is beyond your purse quieter, the purse said once by the
-  // label: the owner, 5 November, "It costs 10 coin, and you have 8" had stood under each); and what they
-  // will buy, and for how much. The wares had been a run-on line above the replies, and buying a list opened inside
-  // them (the owner's interim report; play 7).
-  static Counter({ wares, buys, coin, draw }: { wares: Ware[]; buys: Counter['buys']; coin: number; draw: Draw }) {
-    if (!wares.length && !buys.length) { return null; }
-    return (
-      <section className="counter" aria-label="For sale">
-        {wares.length > 0 && <><p className="label">For sale<span className="purse">{`you have ${coin} coin`}</span></p>
-          <ul className="wares">{wares.map(w => <li key={w.name}>
-          <TalkStage.Ware ware={w} coin={coin} draw={draw} /></li>)}</ul></>}
-        {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
-          .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
-      </section>
-    );
-  }
-  // One thing for sale: bought at a touch, or, in a company, bought for one of it.
-  static Ware({ ware: w, coin, draw }: { ware: Ware; coin: number; draw: Draw }) {
-    const price = <span className="r">{`${w.price} coin · ${w.stock > 0 ? `${w.stock} left` : 'none left'}`}</span>;
-    const name = <span className="n">{Typography.curl(Words.upper(w.name))}</span>;
-    if (!w.buy) { return <span className={`ware none${w.price > coin ? ' dear' : ''}`}>{name}{price}</span>; }
-    // Numbered, as what can be said is: the replies' numbers follow on from the wares'.
-    if (!w.buy.children?.length) {
-      // Beside what the buyer has on in its place: "worse than your longsword" (see PurchaseCompare).
-      const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(w.buy.label)?.[1];
-      // Beyond the purse, it is quieter and says nothing more: what the company has is said once, by the label.
-      const dear = /^It costs \d+ coin, and you have \d+\.$/.test(w.buy.disabled ?? '');
-      return <Act.View choice={w.buy} draw={draw} className="ware" variant="glyph" quiet={dear} number={TalkStage.n(draw.app, TalkStage.key(w.buy))}>
-        <span className="n"><i>{TalkStage.n(draw.app, TalkStage.key(w.buy))}</i>
-        {Typography.curl(Words.upper(w.name))}</span>{price}{versus && <span className="t">{versus}</span>}</Act.View>;
-    }
-    return <div className="ware several">{name}{price}{w.buy.children.map(k => <Act.View key={k.id} choice={k} draw={draw}
-      className="for">{Typography.curl(k.label)}</Act.View>)}</div>;
-  }
   // Someone who would join you, as they would come: what they are and ask, how they fight, their qualities, skills
   // and what they can do (the cold playtest could not see what a recruit could do until they had joined), as a card
   // of a few lines: in full it had filled the middle of the conversation (the play-structure investigation's PT-12),
@@ -259,27 +227,51 @@ export class TalkStage {
       </section>
     );
   }
-  // What is had of someone for coin or work, apart from what is said: their wares, what they will buy, and their
-  // services (a bed, care, a lesson), with the company's purse once; Back, by the leave, returns to the conversation
-  // (the owner, 5 November: goods had stood among the topics as if they were something to discuss).
+  // What is had of someone for coin or work, apart from what is said (the owner, 17 November: the trade page in the menu's own
+  // rows, four at a time, never a table, a list that unfolds or an act that is two): what they will buy of what the company
+  // carries, what is on their counter (a thing for each of the company that could take it is a row for each), their
+  // services; the purse said once above, and what they buy in a line; Back, by the leave, returns to the conversation.
   static Trading({ app, wares, services, buys, short, who, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
     buys: Counter['buys']; short: NonNullable<Counter['short']>; who: string; draw: Draw }) {
-    const coin = app.state.frame!.screen.purse.coin;
-    // What the company carries that they would buy, first (see TalkFocus.parted).
-    const { sales, rest } = TalkFocus.parted(services);
+    const coin = app.state.frame!.screen.purse.coin, [page, turn] = useState(0), { sales, rest } = TalkFocus.parted(services);
+    const rows = [
+      ...sales.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />),
+      // What they would buy and cannot pay for now: shut, and why (see TradeModel.short).
+      ...short.map(x => <li key={`short:${x.name}`}><ChoiceRow.Button shut data={{ action: 'unbought' }} onClick={TalkStage.nothing}
+        label={Typography.curl(`Sell ${x.name.charAt(0).toLowerCase()}${x.name.slice(1)}`)}
+        aside={Typography.curl(`${Words.short(who)} has not the coin for it today (${x.pays})`)} /></li>),
+      ...wares.flatMap(w => TalkStage.wareRows(w, coin, draw)),
+      ...rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)];
+    const per = 4, pages = Math.max(1, Math.ceil(rows.length / per)), at = page % pages;
     return <section className="trading" aria-label="Trade">
-      {(sales.length > 0 || short.length > 0) && <><p className="label">Yours to sell{wares.length ? ''
-        : <span className="purse">{`you have ${coin} coin`}</span>}</p>
-        <ol className="replies">{sales.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}
-          {/* What they would buy and cannot pay for now: shut, and why (see TradeModel.short). */}
-          {short.map(x => <li key={x.name}><button type="button" className="act" disabled>
-            {Typography.curl(`Sell ${x.name.charAt(0).toLowerCase()}${x.name.slice(1)}`)}<span className="note">
-              {Typography.curl(` · ${Words.short(who)} has not the coin for it today (${x.pays})`)}</span></button></li>)}</ol></>}
-      <TalkStage.Counter wares={wares} buys={buys} coin={coin} draw={draw} />
-      {rest.length > 0 && <><p className="label">Services{wares.length || sales.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
-        <ol className="replies">{rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
-      {!wares.length && !services.length && <p className="label">You have {coin} coin</p>}
+      <p className="label">{`You have ${coin} coin`}</p>
+      {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
+        .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
+      <ol className="replies">{rows.slice(at * per, at * per + per)}</ol>
+      {pages > 1 && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-trade' }}
+        onClick={() => turn(at + 1)} mark={ChoiceRow.neutral} markClass="neutral"
+        label="More to trade…" aside={`${at + 1} of ${pages}`} /></li></ol>}
     </section>;
+  }
+  private static nothing(): void { /* a shut row does nothing */ }
+  // One thing for sale, as rows: a row where it can be bought, one for each of the company that could take it where it is
+  // bought for one of them, a shut one where it cannot be (and why).
+  private static wareRows(w: Ware, coin: number, draw: Draw): ReactNode[] {
+    const name = Typography.curl(Words.upper(w.name));
+    const price = `${w.price} coin · ${w.stock > 0 ? `${w.stock} left` : 'none left'}`;
+    if (!w.buy) {
+      return [<li key={w.name}><ChoiceRow.Button shut data={{ action: 'unbought' }} onClick={TalkStage.nothing} label={name}
+        aside={price} /></li>];
+    }
+    const bought = w.buy.children?.length ? w.buy.children : [w.buy];
+    return bought.map(k => {
+      const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(k.label)?.[1];
+      // Beyond the purse, it is quieter and says nothing more: what the company has is said once, above.
+      const dear = /^It costs \d+ coin, and you have \d+\.$/.test(k.disabled ?? '');
+      const who = w.buy!.children?.length ? ` ${Typography.curl(k.label)}` : '';
+      return <li key={k.id}><ChoiceRow.Act choice={k} draw={draw} quiet={dear} number={TalkStage.n(draw.app, TalkStage.key(k))}
+        label={<>{name}{who}</>} aside={versus ? `${price} · ${versus}` : price} /></li>;
+    });
   }
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
   // What pays the company is marked green, as the likeness that has something for it is (see Owed), and said so to a

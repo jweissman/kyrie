@@ -100,7 +100,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       const d = document.querySelector('.dialogue')!.getBoundingClientRect(), l = document.querySelector('.dialogue .lines')!;
       // Three things to say at most, the rest under Something else (the owner, 5 November: an innkeeper had stood
       // with twenty-five at once).
-      const shown = document.querySelectorAll('.dialogue .choosing > .replies > li').length;
+      const shown = document.querySelectorAll('.dialogue .choosing > .replies:not(.more-talk, .to-trade) > li').length;
       return { foot: innerHeight - d.bottom < 40, said: l.scrollHeight - l.clientHeight <= 1,
         replies: shown > 0 && shown <= 3 && !!document.querySelector('.dialogue .more-talk') };
     });

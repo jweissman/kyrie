@@ -1,0 +1,627 @@
+{
+ "measured": "2026-11-16",
+ "startup": [
+  {
+   "throttle": 1,
+   "paint": {
+    "first-paint": 66
+   },
+   "titleReady": 3542,
+   "titleCls": 0,
+   "holdToCreate": 1333,
+   "creationStepMs": {
+    "median": -76,
+    "max": 288,
+    "n": 7
+   },
+   "creationCls": 0.0005,
+   "holdToFirstScene": 16861,
+   "totalCls": 0.0008,
+   "longTasks": {
+    "n": 9,
+    "ms": 3677,
+    "worst": 2883
+   }
+  },
+  {
+   "throttle": 1,
+   "paint": {
+    "first-paint": 62
+   },
+   "titleReady": 2957,
+   "titleCls": 0,
+   "holdToCreate": 703,
+   "creationStepMs": {
+    "median": -89,
+    "max": 111,
+    "n": 7
+   },
+   "creationCls": 0.0002,
+   "holdToFirstScene": 10765,
+   "totalCls": 0.0004,
+   "longTasks": {
+    "n": 6,
+    "ms": 2897,
+    "worst": 2366
+   }
+  },
+  {
+   "throttle": 4,
+   "paint": {
+    "first-paint": 122
+   },
+   "titleReady": 11276,
+   "titleCls": 0,
+   "holdToCreate": 728,
+   "creationStepMs": {
+    "median": -74,
+    "max": 280,
+    "n": 7
+   },
+   "creationCls": 0.0002,
+   "holdToFirstScene": 9919,
+   "totalCls": 0.0005,
+   "longTasks": {
+    "n": 12,
+    "ms": 11767,
+    "worst": 9425
+   }
+  },
+  {
+   "throttle": 4,
+   "paint": {
+    "first-paint": 130
+   },
+   "titleReady": 11245,
+   "titleCls": 0,
+   "holdToCreate": 742,
+   "creationStepMs": {
+    "median": -74,
+    "max": 583,
+    "n": 7
+   },
+   "creationCls": 0.0002,
+   "holdToFirstScene": 10525,
+   "totalCls": 0.0005,
+   "longTasks": {
+    "n": 15,
+    "ms": 11828,
+    "worst": 9379
+   }
+  }
+ ],
+ "families": {
+  "title way-in (held)": {
+   "rest": {
+    "box": [
+     460,
+     411.9,
+     360,
+     54
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.13)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(0, 0, 0, 0)",
+    "ring": "1",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "hover": {
+    "box": [
+     460,
+     411.9,
+     360,
+     54
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.13)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(0, 0, 0, 0)",
+    "ring": "1",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "focus": {
+    "box": [
+     460,
+     411.9,
+     360,
+     54
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.13)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(0, 0, 0, 0)",
+    "ring": "1",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "holding": {
+    "box": [
+     460,
+     411.9,
+     360,
+     54
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.26)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(0, 0, 0, 0)",
+    "ring": "0",
+    "hint": "",
+    "transition": "0s"
+   },
+   "armed": {
+    "box": [
+     460,
+     411.9,
+     360,
+     54
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.13)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(0, 0, 0, 0)",
+    "ring": "0",
+    "hint": "\"Hold\"",
+    "transition": "0.12s"
+   }
+  },
+  "creation row (held)": {
+   "rest": {
+    "box": [
+     640,
+     201.8,
+     486.4,
+     44
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.15)",
+    "bgImage": "image",
+    "border": "0px rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "1",
+    "hint": "",
+    "transition": "0s"
+   },
+   "hover": {
+    "box": [
+     640,
+     201.8,
+     486.4,
+     44
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.15)",
+    "bgImage": "image",
+    "border": "0px rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "1",
+    "hint": "",
+    "transition": "0s"
+   },
+   "focus": {
+    "box": [
+     640,
+     201.8,
+     486.4,
+     44
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.15)",
+    "bgImage": "image",
+    "border": "0px rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "1",
+    "hint": "",
+    "transition": "0s"
+   },
+   "holding": {
+    "box": [
+     640,
+     201.8,
+     486.4,
+     44
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.15)",
+    "bgImage": "image",
+    "border": "0px rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "0",
+    "hint": "",
+    "transition": "0s"
+   },
+   "armed": {
+    "box": [
+     640,
+     201.8,
+     486.4,
+     44
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.15)",
+    "bgImage": "image",
+    "border": "0px rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "0",
+    "hint": "\"Hold\"",
+    "transition": "0s"
+   }
+  },
+  "creation card (held)": {
+   "rest": {
+    "box": [
+     640,
+     201.8,
+     237.2,
+     148
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "image",
+    "border": "1px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "shadow",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "1",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   },
+   "hover": {
+    "box": [
+     640,
+     201.8,
+     237.2,
+     148
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "image",
+    "border": "1px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "shadow",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "1",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   },
+   "focus": {
+    "box": [
+     640,
+     201.8,
+     237.2,
+     148
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "image",
+    "border": "1px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "shadow",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "1",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   },
+   "holding": {
+    "box": [
+     640,
+     201.8,
+     237.2,
+     148
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "image",
+    "border": "1px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "shadow",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "0",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   },
+   "armed": {
+    "box": [
+     640,
+     201.8,
+     237.2,
+     148
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "image",
+    "border": "1px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "shadow",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "0",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   }
+  },
+  "scene choice row (not pressed)": {
+   "rest": {
+    "box": [
+     642.6,
+     410.8,
+     481.3,
+     46
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   },
+   "hover": {
+    "box": [
+     642.6,
+     410.8,
+     481.3,
+     46
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.09)",
+    "bgImage": "image",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   },
+   "focus": {
+    "box": [
+     642.6,
+     410.8,
+     481.3,
+     46
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.09)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "",
+    "hint": "\"\"",
+    "transition": "0.12s"
+   }
+  },
+  "scene rail mark (not pressed)": {
+   "rest": {
+    "box": [
+     922,
+     673,
+     40,
+     40
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "",
+    "border": "0px rgba(236, 230, 217, 0.82)",
+    "color": "rgba(236, 230, 217, 0.82)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "hover": {
+    "box": [
+     922,
+     673,
+     40,
+     40
+    ],
+    "bg": "rgba(236, 230, 217, 0.05)",
+    "bgImage": "",
+    "border": "0px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "focus": {
+    "box": [
+     922,
+     673,
+     40,
+     40
+    ],
+    "bg": "rgba(236, 230, 217, 0.05)",
+    "bgImage": "",
+    "border": "0px rgb(236, 230, 217)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "",
+    "ring": "",
+    "hint": "",
+    "transition": "0.12s"
+   }
+  },
+  "map menu row (not pressed)": {
+   "rest": {
+    "box": [
+     773,
+     493,
+     358,
+     46
+    ],
+    "bg": "rgba(0, 0, 0, 0)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "hover": {
+    "box": [
+     773,
+     493,
+     358,
+     46
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.09)",
+    "bgImage": "image",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "",
+    "hint": "",
+    "transition": "0.12s"
+   },
+   "focus": {
+    "box": [
+     773,
+     493,
+     358,
+     46
+    ],
+    "bg": "oklab(0.926015 0.00128958 0.018504 / 0.09)",
+    "bgImage": "",
+    "border": "1px rgba(0, 0, 0, 0)",
+    "color": "rgb(236, 230, 217)",
+    "shadow": "",
+    "outline": "",
+    "transform": "",
+    "opacity": "1",
+    "cursor": "url(\"data:image/sv",
+    "markBg": "rgba(236, 230, 217, 0.28)",
+    "ring": "",
+    "hint": "",
+    "transition": "0.12s"
+   }
+  }
+ },
+ "hands": {
+  "pointer: a tap on New game": "title",
+  "pointer: a hold on New game": "create",
+  "pointer: a tap on a card": "stays (armed)",
+  "pointer: a hold on a card": "goes on",
+  "pointer: the digit 1": "sign",
+  "keys: a tap on New game": "title",
+  "keys: a hold on New game": "create",
+  "keys: a tap on a card": "stays (armed)",
+  "keys: a hold on a card": "goes on",
+  "keys: the digit 1": "sign",
+  "touch: a tap on New game": "title",
+  "touch: a hold on New game": "create",
+  "touch: a tap on a card": "stays (armed)",
+  "touch: a hold on a card": "goes on"
+ }
+}

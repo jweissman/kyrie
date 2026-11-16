@@ -77,7 +77,7 @@ export class Hold {
     if (Hold.at || go.busy()) { return; }
     // Let go early, it waits armed a moment: pressed again, it is done (the same for a hand that cannot hold, a touch,
     // the keys), and says so.
-    if (button.dataset.armed !== undefined) {
+    if (button.dataset.armed !== undefined && Hold.arms(button)) {
       delete button.dataset.armed;
       go.commit();
       return;
@@ -111,11 +111,16 @@ export class Hold {
     const got = Math.min(1, (performance.now() - at.started) / Hold.time());
     Hold.clear(at.button);
     at.button.style.setProperty('--hold-from', `${Math.round(got * 100)}%`);
-    at.button.dataset.letGo = ''; at.button.dataset.hint = ''; at.button.dataset.armed = '';
+    at.button.dataset.letGo = ''; at.button.dataset.hint = '';
+    if (Hold.arms(at.button)) { at.button.dataset.armed = ''; }
     window.setTimeout(() => { delete at.button.dataset.letGo; }, 260);
     window.setTimeout(() => { delete at.button.dataset.hint; delete at.button.dataset.armed; }, 3000);
     Reticle.drain(got);
   }
+  // A hand that can hold is asked to: a mouse or a pen let go early has done nothing, and does not leave the choice
+  // half made (the owner, 17 November: it felt committed on release). A finger and the keys, which may not be able to
+  // hold, may tap it armed and tap again (see start).
+  private static arms(button: HTMLElement): boolean { return button.dataset.by === 'touch' || button.dataset.by === 'key'; }
   private static clear(button: HTMLElement) {
     delete button.dataset.holding;
     delete document.documentElement.dataset.holding;

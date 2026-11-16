@@ -25,11 +25,28 @@
 .sheet h3 { font: 500 11px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 30px 0 10px; }
 
 /* ---- The end of a life: dark within dark, the name large, how it came to that. ---- */
-.ending.fallen { max-width: 40rem; margin: 0 auto; padding: clamp(40px, 12vh, 120px) 24px 60px; text-align: center; }
-.ending.fallen .place { font-size: clamp(40px, 6vw, 64px); }
-.ending.fallen .how { font-size: 21px; color: var(--ivory); }
-.ending.fallen p { color: var(--dim); }
-.ending.fallen .acts { margin-top: 30px; justify-content: center; gap: 10px; }
+/* No one is left standing: the character's name large, in the template's place, and what is told in bright words on a dark
+   ground of its own, not grey on a picture; the two acts are the menu's rows. */
+.ending-page { position: absolute; inset: 0; overflow-y: auto; z-index: 3; display: block; padding: 0;
+  background: linear-gradient(180deg, rgba(8, 9, 12, .97), rgba(12, 12, 15, .98)); color: var(--ivory); }
+.ending-head { position: absolute; left: 10%; top: max(72px, 9vh); width: 36%; max-width: 520px; }
+.ending-head .eyebrow { margin: 0 0 14px; font: 600 12px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: rgba(236, 230, 217, .78); }
+.ending-head .who { margin: 0; font: 300 clamp(40px, 5vw, 64px)/1.05 var(--do); color: var(--ivory); }
+.ending-head .what { margin: 14px 0 0; font: italic 400 19px/1.4 var(--told); color: rgba(236, 230, 217, .9); }
+.ending-col { position: absolute; left: 50%; right: 12%; top: max(72px, 9vh); display: grid; gap: 22px; padding-bottom: 60px; }
+.ending-told p { margin: 0 0 10px; font: 400 18px/1.55 var(--told); color: var(--ivory); }
+.ending-told p.how { font-size: 22px; line-height: 1.45; }
+.ending-did h2 { margin: 0 0 8px; font: 600 12px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: rgba(236, 230, 217, .78); }
+.ending-did ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.ending-did li { font: 400 16px/1.45 var(--told); color: rgba(236, 230, 217, .92); }
+.ending-fellows { margin: 0; font: italic 400 16px/1.45 var(--told); color: rgba(236, 230, 217, .88); }
+.ending-menu { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+@media (max-width: 760px) {
+  .ending-head, .ending-col { position: static; width: auto; max-width: none; padding: 0 var(--safe-r) 0 var(--safe-l); }
+  .ending-head { padding-top: 64px; padding-bottom: 20px; }
+}
 
 /* ---- The map: the whole screen, an illustrated hex crawl (Mission 18, the owner's correction). One palette, dusk
    over an old country: the lands in muted earth, water deep, marks in ink with a lit side, ivory names, gold for you

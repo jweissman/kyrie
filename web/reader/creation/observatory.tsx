@@ -1,4 +1,4 @@
-import { useRef, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { Catalog } from '../../engine/protocol';
 import { SkyTexture } from './sky-texture';
 
@@ -25,7 +25,9 @@ export class Observatory {
     // The nearest way round to the sign: the ring never spins the long way past eleven months.
     const want = -at * step, now = turned.current;
     turned.current = now + ((((want - now) % 360) + 540) % 360) - 180;
-    const { cx, cy } = Observatory, band = SkyTexture.field(), pan = turned.current * Observatory.pan;
+    const { cx, cy } = Observatory, [, drawn] = useState(0), band = SkyTexture.field(), pan = turned.current * Observatory.pan;
+    useEffect(() => SkyTexture.whenReady(() => { drawn(n => n + 1); }), []);
+    useEffect(() => { void SkyTexture.warm(); }, []);
     return (
       <div className="observatory" aria-hidden="true">
         <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">

@@ -65,14 +65,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a ring only where a hold matters', 
       await page.mouse.move(at.x + 40, at.y + at.height / 2); await page.mouse.down();
       await page.waitForTimeout(ms); await page.mouse.up();
     };
-    // A tap does nothing but arm it, and no ring is left running.
+    // A mouse let go early has done nothing, and leaves nothing half made (the owner, 17 November), however often.
     const before = await told();
-    await press(60);
+    await press(60); await press(300); await press(60);
     expect(await told()).toBe(before);
-    expect(await held.first().getAttribute('data-armed')).not.toBeNull();
-    // Left alone it disarms; then held, the cursor's ring fills while the hand stays, and the act is done when full.
-    await page.waitForTimeout(3300);
     expect(await held.first().getAttribute('data-armed')).toBeNull();
+    // Held, the cursor's ring fills while the hand stays, and the act is done when it is full.
     await page.mouse.move(at.x + 40, at.y + at.height / 2); await page.mouse.down();
     await page.waitForTimeout(150);
     expect(await page.locator('.ix-reticle.holding').count()).toBe(1);
@@ -82,7 +80,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a ring only where a hold matters', 
     await page.close();
   }, 240000);
 
-  it('is done by a second tap while armed, and by a held key', async () => {
+  it('is not done by two taps of a mouse, however quick or long short of the hold', async () => {
     const { page, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
       { site, pointer: false, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -98,10 +96,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a ring only where a hold matters', 
       await page.mouse.move(at.x + 40, at.y + at.height / 2); await page.mouse.down();
       await page.waitForTimeout(60); await page.mouse.up();
     };
-    await tap();
+    await tap(); await tap(); await tap(); await d.settle();
     expect(await told()).toBe(before);
-    await tap(); await d.settle();
-    expect(await told()).toBeGreaterThan(before);
   }, 240000);
 
   it('is done by a held key, and a key tapped only arms it', async () => {

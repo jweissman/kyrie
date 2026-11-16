@@ -17,6 +17,7 @@ import { MapMenu } from '../map-menu';
 import { RouteCard } from '../route-card';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
+import { ChoiceRow } from './choice-row';
 import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
@@ -289,8 +290,9 @@ export class WorldStage {
       {danger && <p className="about danger">{Typography.curl(risks.length
         ? `Something here is dangerous. Going on: ${risks.join('; ')}.` : 'Something here is dangerous.')}</p>}
       {danger && <p className="about">{WorldStage.flight()}</p>}
-      {on && <p className="go"><button type="button" className="option go-on" data-action="go-on" data-act={on.id}
-        onClick={() => app.choose(on)}>{`Go on to ${bound.name}`}</button></p>}
+      {on && <ol className="led go"><li><ChoiceRow.Button className="go-on" data={{ action: 'go-on' }} act={on.id}
+        onClick={() => app.choose(on)} mark={ChoiceRow.neutral} markClass="neutral"
+        label={`Go on to ${bound.name}`} /></li></ol>}
     </>;
   }
   // The odds of getting away from a fight, as the engine rolls them (vocabulary.json's combat.flee): each try's, and

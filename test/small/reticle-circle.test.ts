@@ -8,7 +8,8 @@ import { readFileSync } from 'node:fs';
 // a hold lasts (instrument.css) is that ring, its border filling clockwise (never a disc from the centre).
 describe('the reticle', () => {
   const css = readFileSync('web/reader/menu.css', 'utf8');
-  const cursors = [...css.matchAll(/--cursor-(rest|act|hold|press): url\("data:image\/svg\+xml,(.*?)"\)/g)]
+  const pattern = /--cursor-(rest|act|hold|press): image-set\(url\("data:image\/svg\+xml,(.*?)"\) 1x,/g;
+  const cursors = [...css.matchAll(pattern)]
     .map(m => ({ name: m[1]!, svg: decodeURIComponent(m[2]!) }));
   it('is a circle at rest, over a choice, over a hold and pressed, and nothing else but the hold\'s one arc', () => {
     expect(cursors.map(c => c.name)).toEqual(['rest', 'act', 'hold', 'press']);
@@ -26,12 +27,19 @@ describe('the reticle', () => {
     expect(new Set(radii).size).toBe(1);
     expect(radii[0]!).toBeGreaterThanOrEqual(14);
   });
-  it('fills its border clockwise while a hold lasts, the page\'s ring the cursor\'s size', () => {
+  // Sharp at every pixel density (the owner, 17 November): each cursor has a second image for a 2x screen, and the
+  // ring the page draws while a hold lasts is a drawing (two circles, the fill a dash round its path).
+  it('is drawn sharp: a 2x cursor beside each, and a ring that is two circles whose fill runs clockwise', () => {
+    const twice = /--cursor-(?:rest|act|hold|press): image-set\(url\("[^"]+"\) 1x, url\("[^"]*width='88'/g;
+    expect([...css.matchAll(twice)].length).toBe(4);
     const ix = readFileSync('web/reader/instrument.css', 'utf8'), ring = /\.ix-reticle \{[^}]*\}/.exec(ix)![0];
-    expect(ring).toContain('conic-gradient');
-    expect(ring).toContain('mask');
-    expect(ring).not.toContain('radial-gradient(circle closest-side, #ECE6D9');
+    expect(ring).not.toContain('conic-gradient');
+    expect(ix).toContain('.rt-fill');
+    expect(ix).toContain('stroke-dashoffset');
+    const reticle = readFileSync('web/reader/instrument/reticle.ts', 'utf8');
+    expect(reticle).toContain('class="rt-fill"');
+    expect(reticle).toContain('pathLength="100"');
     const r = Number(/ r='([\d.]+)'/.exec(cursors[0]!.svg)?.[1]), box = Number(/width: (\d+)px/.exec(ring)![1]);
-    expect(Math.abs(box / 2 - r)).toBeLessThanOrEqual(1.5);
+    expect(Math.abs(box / 2 - r)).toBeLessThanOrEqual(2.5);
   });
 });

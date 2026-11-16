@@ -47,20 +47,24 @@
 :root:is([data-holding], :has(.ix-reticle.held)) .shell * { cursor: none !important; }
 :root:has(.ix-reticle.holding) .shell, :root:has(.ix-reticle.holding) .shell * { cursor: none !important; }
 .ix-reticle { position: fixed; left: 0; top: 0; z-index: 10000; width: 32px; height: 32px; margin: -16px 0 0 -16px;
-  pointer-events: none; border-radius: 50%; visibility: hidden;
-  background: conic-gradient(rgba(236, 230, 217, .95) var(--hold-p, 0%), rgba(236, 230, 217, .12) 0);
-  -webkit-mask: radial-gradient(circle closest-side, transparent calc(100% - 3px), #000 calc(100% - 2.8px));
-  mask: radial-gradient(circle closest-side, transparent calc(100% - 3px), #000 calc(100% - 2.8px));
-  filter: drop-shadow(0 0 1px rgba(10, 11, 14, .5)); }
+  pointer-events: none; visibility: hidden; will-change: transform; }
+.ix-reticle svg { display: block; overflow: visible; filter: drop-shadow(0 0 1px rgba(10, 11, 14, .55)); }
+.ix-reticle .rt-track { fill: none; stroke: rgba(236, 230, 217, .16); stroke-width: 1.5; }
+.ix-reticle .rt-fill { fill: none; stroke: rgb(247, 241, 228); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 100;
+  stroke-dashoffset: 100; transform: rotate(-90deg); transform-origin: 16px 16px; }
 .ix-reticle:is(.holding, .held, .drain) { visibility: visible; }
-.ix-reticle.holding { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
-.ix-reticle.held { --hold-p: 100%; }
-.ix-reticle.drain { animation: ix-drain 240ms var(--ease) forwards; }
+.ix-reticle.holding .rt-fill { animation: rt-fill var(--hold-ms, 520ms) linear forwards; }
+.ix-reticle.held .rt-fill { stroke-dashoffset: 0; }
+.ix-reticle.held svg { animation: rt-done 200ms var(--ease) both; }
+.ix-reticle.drain .rt-fill { animation: rt-drain 240ms var(--ease) forwards; }
+@keyframes rt-fill { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes rt-drain { from { stroke-dashoffset: var(--hold-off, 100); } to { stroke-dashoffset: 100; } }
+@keyframes rt-done { from { transform: scale(1); } to { transform: scale(1.18); opacity: 0; } }
 
 /* Less motion: the rings fill by quarters, and nothing fades in. */
 @media (prefers-reduced-motion: reduce) {
   :root[data-ix="b"] .choice-row.choice-row.choice-row[data-holding]::before,
-  .ix-reticle.holding { animation-timing-function: steps(4, end); }
+  .ix-reticle.holding .rt-fill { animation-timing-function: steps(4, end); }
   :root[data-ix="b"][data-fresh] .stage :is(ol.led, ul.acts, .replies, .lens, .happened) { animation: none; }
 }
 

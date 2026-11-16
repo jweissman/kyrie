@@ -73,16 +73,33 @@ export class SkyTexture {
     if (star.x < reach) { draw({ ...star, x: star.x + this.width }); }
     if (star.x > this.width - reach) { draw({ ...star, x: star.x - this.width }); }
   }
-  static field(): string {
-    if (this.url !== undefined) { return this.url; }
-    if (typeof document === 'undefined') { return ''; }
+  // The tile as an image once it is drawn, else nothing: it is drawn a slice at a time, out of the way of what is on
+  // the page (the owner, 17 November: a hold on a slow device was let go before it was full while the sky was drawn in
+  // one piece; measured at 0.5 s of one task on a laptop, 2.3 s at a quarter of its speed), and the sign's page takes
+  // it when it is there (see Observatory).
+  static field(): string { return this.url ?? ''; }
+  private static readonly waiting = new Set<() => void>();
+  // Told when the tile is ready (at once if it is).
+  static whenReady(tell: () => void): () => void {
+    if (this.url) { tell(); return SkyTexture.nothing; }
+    this.waiting.add(tell);
+    return this.waiting.delete.bind(this.waiting, tell) as () => void;
+  }
+  private static nothing(): void { /* nothing to undo */ }
+  private static later(go: () => void) { setTimeout(go, 0); }
+  private static blobOf(canvas: HTMLCanvasElement, done: (b: Blob | null) => void) { canvas.toBlob(done, 'image/png'); }
+  private static began = false;
+  static async warm(): Promise<void> {
+    if (this.began || typeof document === 'undefined') { return; }
+    this.began = true;
     const canvas = document.createElement('canvas');
     canvas.width = this.width; canvas.height = this.height;
     const g = canvas.getContext('2d');
-    if (!g) { return this.url = ''; }
-    const r = new SkyRng(23);
+    if (!g) { return; }
+    const r = new SkyRng(23), slice = 5000, total = 170000;
     // By tier, as a real sky has them: a few dozen bright, some hundreds of middling, and the rest faint.
-    for (let i = 0; i < 170000; i++) {
+    for (let i = 0; i < total; i++) {
+      if (i % slice === 0) { await new Promise<void>(SkyTexture.later); }
       const x = r.next() * this.width, y = r.next() * this.height;
       if (i > 1200 && r.next() > this.along(x, y)) { continue; }
       const rgb = this.stars[this.mix[(r.next() * 14) | 0]!]!, u = r.next();
@@ -97,6 +114,11 @@ export class SkyTexture {
       this.twice({ x, y, power: 1, rgb, spikes: true }, st => this.jewel(g, st));
     }
     g.globalAlpha = 1;
-    return this.url = canvas.toDataURL('image/png');
+    // Encoded off the main thread's critical path, not as a data URL written in one go.
+    const blob = await new Promise<Blob | null>(SkyTexture.blobOf.bind(null, canvas));
+    if (!blob) { return; }
+    this.url = URL.createObjectURL(blob);
+    for (const tell of this.waiting) { tell(); }
+    this.waiting.clear();
   }
 }

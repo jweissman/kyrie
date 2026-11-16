@@ -2,6 +2,7 @@ import type { Entry, Frame } from '../engine/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { useState } from 'react';
+import { ChoiceRow } from './stage/choice-row';
 import { Words } from './words';
 import { StorySearch } from './story-search';
 import { Told } from './stage/told';
@@ -55,10 +56,12 @@ export class Sheet {
         {screen.done.length > 0 && <section className="done" data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{Typography.curl(d)}</li>)}</ul></section>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
-        <p className="keep">
-          <button type="button" className="option" data-action="export" onClick={app.download}>Download a save file</button>
-          <button type="button" className="option" data-action="title" onClick={app.opening.title}>Back to the title</button>
-        </p>
+        <ol className="led keep" aria-label="Keep, or leave">
+          <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} mark={ChoiceRow.neutral}
+            markClass="neutral" label="Download a save file" /></li>
+          <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} mark={ChoiceRow.neutral}
+            markClass="neutral" label="Back to the title" /></li>
+        </ol>
       </article>
     );
   }
@@ -107,13 +110,14 @@ export class Sheet {
     const about = held?.about ?? [];
     return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}
       {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</span>
-      <span className="aim-acts"><button type="button" className="option follow" data-action="follow" data-act={held?.follow}
-        aria-pressed={following} disabled={following || !held?.follow}
-        onClick={() => { void Sheet.take(app, held?.follow); }}>
-        {following ? 'Following' : 'Follow this'}</button>
-      {place && <button type="button" className="option on-map" data-action="aim-map" data-id={place.id}
-        onClick={() => { void Sheet.take(app, held?.follow).then(() => app.chart(Sheet.charted(screen, place.id))); }}>{`${place.name}, on the map`}</button>}
-      </span></li>;
+      <ol className="led aim-acts">
+        <li><ChoiceRow.Button className="follow" data={{ action: 'follow' }} act={held?.follow} shut={following || !held?.follow}
+          onClick={() => { void Sheet.take(app, held?.follow); }} mark={following ? 'var(--tone-gold)' : ChoiceRow.neutral}
+          markClass={following ? undefined : 'neutral'} label={following ? 'Following' : 'Follow this'} /></li>
+        {place && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} mark={ChoiceRow.neutral}
+          markClass="neutral" label={`${place.name}, on the map`}
+          onClick={() => { void Sheet.take(app, held?.follow).then(() => app.chart(Sheet.charted(screen, place.id))); }} /></li>}
+      </ol></li>;
   }
   // A place as the map knows it (its mark, its town, or the hex it lies in: see BoardField.whither).
   static charted(screen: Screen, id: string): string {

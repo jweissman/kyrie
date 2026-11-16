@@ -9,6 +9,11 @@ export class Reticle {
       Reticle.el = document.createElement('i');
       Reticle.el.className = 'ix-reticle';
       Reticle.el.setAttribute('aria-hidden', 'true');
+      // A drawing, not a picture of one: the ring is two circles (its track and what has filled), sharp at every
+      // size and every pixel density (the owner, 17 November: the cursor was pixellated as it filled).
+      Reticle.el.innerHTML = '<svg viewBox="0 0 32 32" width="32" height="32" shape-rendering="geometricPrecision">'
+        + '<circle class="rt-track" cx="16" cy="16" r="14" />'
+        + '<circle class="rt-fill" cx="16" cy="16" r="14" pathLength="100" /></svg>';
       document.body.append(Reticle.el);
       window.addEventListener('pointermove', (e: PointerEvent) => { Reticle.at(e.clientX, e.clientY); }, true);
     }
@@ -25,11 +30,15 @@ export class Reticle {
   }
   private static at(x: number, y: number, force = false) {
     const el = Reticle.el;
-    if (el && (force || el.classList.contains('holding'))) { el.style.transform = `translate3d(${x}px, ${y}px, 0)`; }
+    // On a whole device pixel, so that the ring's strokes are not smeared across two.
+    const k = window.devicePixelRatio || 1;
+    if (el && (force || el.classList.contains('holding'))) {
+      el.style.transform = `translate3d(${Math.round(x * k) / k}px, ${Math.round(y * k) / k}px, 0)`;
+    }
   }
   static done() { Reticle.end('held', 200); }
   static drain(got: number) {
-    Reticle.el?.style.setProperty('--hold-from', `${Math.round(got * 100)}%`);
+    Reticle.el?.style.setProperty('--hold-off', `${Math.round(100 - got * 100)}`);
     Reticle.end('drain', 260);
   }
   private static end(as: string, ms: number) {

@@ -17,6 +17,7 @@ export class ChoiceRow {
   static readonly cls = 'choice-row';
   // The indicator of a row that is nothing in particular: a faint neutral line (menu.css), not a colour.
   static readonly neutral = 'var(--row-neutral)';
+  private static nothing(): void { /* a shut row says why, and does nothing */ }
   // The inside, the same everywhere; the older classes kept beside the new so that what reads them still finds them.
   static Parts({ mark, markLabel, markClass, label, aside, number, extra }: RowParts) {
     return <>
@@ -41,12 +42,13 @@ export class ChoiceRow {
   // act: the id of the act it does, where it does one (the action system's mark: data-act); none for what only opens
   // or turns attention (a fight's Abilities, a lens).
   // events: what the row tells its page as the hand comes to it (a fight says what a move does, in its own place).
-  static Button({ className, data, onClick, expanded, act, events, ...parts }: RowParts & { className?: string;
+  static Button({ className, data, onClick, expanded, act, events, shut, ...parts }: RowParts & { className?: string;
     data: Record<string, string | undefined>; onClick: (e: MouseEvent<HTMLButtonElement>) => void; expanded?: boolean;
-    act?: string; events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
+    act?: string; shut?: boolean; events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
     const attrs = Object.fromEntries(Object.entries({ ...data, act }).filter(([, v]) => v !== undefined)
       .map(([k, v]) => [`data-${k}`, v]));
-    return <button type="button" className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}`} {...attrs}
-      {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} onClick={onClick}><ChoiceRow.Parts {...parts} /></button>;
+    return <button type="button" className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}${shut ? ' shut' : ''}`} {...attrs}
+      {...shut ? { 'aria-disabled': true } : {}}
+      {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} onClick={shut ? ChoiceRow.nothing : onClick}><ChoiceRow.Parts {...parts} /></button>;
   }
 }

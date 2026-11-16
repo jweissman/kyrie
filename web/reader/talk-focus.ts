@@ -12,16 +12,25 @@ export class TalkFocus {
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
+  // Never a compound act (the owner, 17 November): "Ask › about the mill" is one act, drawn as one simple row with the
+  // words of both, and an act that opens others is none of them but its parts.
+  static simple(replies: Choice[]): Choice[] {
+    return replies.flatMap(c => !c.children?.length ? [c]
+      : TalkFocus.simple(c.children.map(k => ({ ...k, label: TalkFocus.composed(c.label, k.label) }))));
+  }
+  private static composed(parent: string, child: string): string {
+    return /^(for|to|with|of|about|by)\b/i.test(child) ? `${parent} ${child}` : `${parent}: ${child}`;
+  }
   // An order given to someone who has joined is not something to say to them: it stands on their sheet (the company's
   // own acts), and a topic is not displaced by it (the owner's forty-step play, 17 November: "Ask them to stay here"
   // had taken a conversation's second place).
   static readonly orders = new Set(['hold_here']);
   static of(all: Choice[],
     at: { led?: string; marked?: string[]; heard?: string[]; asked: string[]; weighty?: string[]; paying?: string[] }) {
-    const replies = all.filter(c => !TalkFocus.orders.has(c.does ?? ''));
+    const replies = TalkFocus.simple(all).filter(c => !TalkFocus.orders.has(c.does ?? ''));
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
-    const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
+    const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)), at.asked);
     // What is refused (a try spent, a way barred: "Orsik will not serve you") goes with what was asked: it had held a
     // conversation's second place beside topics that could be taken (the owner's play, 17 November).
     const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '') || !!c.disabled);
@@ -66,14 +75,18 @@ export class TalkFocus {
   static weighty(c: Choice, weighty: readonly string[] = []): boolean {
     return c.does === 'recruit' || weighty.includes(c.command ?? '') || !!c.children?.some(k => weighty.includes(k.command ?? ''));
   }
-  // What is told of the countries beyond this one (twenty and more at an inn), one thing to ask about, opened to them.
-  private static beyond(said: Choice[]): Choice[] {
+  // What is told of the countries beyond this one (twenty and more at an inn): one question, "what news is there?",
+  // which is the next thing not yet heard from the table of them, in its order (the owner, 17 November: never a menu
+  // that unfolds, never a compound act; a roll on the table is the act). It is the engine's own act of that topic, said
+  // in other words; what has been heard can be asked again by name, and what has not is for the news to bring.
+  private static beyond(said: Choice[], asked: string[]): Choice[] {
     const far = said.filter(c => /_beyond_told_/.test(c.command ?? c.id));
     if (far.length < 2) { return said; }
-    const at = said.indexOf(far[0]!), near = said.filter(c => !far.includes(c));
-    const group: Choice = { id: `${far[0]!.id}#beyond`, label: 'Ask about the lands beyond', tone: far[0]!.tone,
-      children: far };
-    return [...near.slice(0, at), group, ...near.slice(at)].sort((a, b) => Number(a === group) - Number(b === group));
+    const fresh = far.filter(c => !asked.includes(c.id));
+    const next = fresh[0] ?? far[(far.length - fresh.length) % far.length]!;
+    const news: Choice = { ...next, label: fresh.length ? 'Ask what news there is of the lands beyond'
+      : 'Ask again what news there is of the lands beyond' };
+    return [...said.filter(c => !far.includes(c)), news, ...far.filter(c => c !== next && asked.includes(c.id))];
   }
   // Had of them for coin or work: by what it does, or a group of such (a lesson in each skill).
   private static service(c: Choice): boolean {

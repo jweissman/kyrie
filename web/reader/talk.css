@@ -57,8 +57,7 @@
   border-top: 1px solid var(--edge-strong); padding: 14px 0 18px; }
 .dialogue .answer > .choosing { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding-bottom: 18px;
   mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent); }
-.dialogue .answer > .leave { flex: none; margin: 8px 0 0; display: flex; gap: 10px; }
-.dialogue .leave > .option { flex: none; }
+.dialogue .answer > .leave { flex: none; margin: 8px 0 0; list-style: none; padding: 0; }
 .replies { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
 /* Green, as the likeness marked as having something for you: what pays you to say (see Owed). */
@@ -135,7 +134,7 @@
 .ah-pane .act:has(> .prism-bar) { position: relative; }
 .ah-pane .act > .prism-bar { position: absolute; left: -1px;
   top: -1px; bottom: -1px; width: 3px; background: var(--prism); border-radius: 2px 0 0 2px; }
-.to-trade { margin: 14px 0 0; display: flex; gap: 10px; }
+.to-trade { margin: 14px 0 0; }
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
 .trading .label:first-child { margin-top: 0; }
 .trading .label .purse { color: var(--dim); }

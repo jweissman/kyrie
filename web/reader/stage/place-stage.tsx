@@ -10,6 +10,7 @@ import { MenuModel } from '../menu-model';
 import { Likeness } from '../../../src/paintings/likeness';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
+import { ChoiceRow } from './choice-row';
 import { Stage } from './stage';
 import { Told } from './told';
 import { WaysPane } from './ways-pane';
@@ -290,8 +291,10 @@ export class PlaceStage {
         <p className="next">{Typography.curl([next ? `Next, ${Words.by(next.way, next.to)}: ${Words.span(next.minutes)}.` : '',
           bound.toward ? `As far as ${bound.toward} by the ways you know.` : '',
           bound.legs.length > 1 ? `${Words.upper(Words.span(bound.minutes))} in all.` : ''].filter(Boolean).join(' '))}</p>
-        <p className="go"><Act.View choice={on} draw={draw} className="option go-on">{`Go on to ${bound.name}`}</Act.View>
-          {off && <Act.View choice={off} draw={draw} className="option give-up">Give it up</Act.View>}</p>
+        <ol className="led go">
+          <li><ChoiceRow.Act choice={on} draw={draw} className="go-on" label={`Go on to ${bound.name}`} /></li>
+          {off && <li><ChoiceRow.Act choice={off} draw={draw} className="give-up" label="Give it up" /></li>}
+        </ol>
       </section>
     );
   }

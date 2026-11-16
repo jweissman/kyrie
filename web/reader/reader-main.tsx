@@ -5,6 +5,7 @@ import { Identity } from '../../src/presentation/identity';
 import { Look } from './look';
 import { Press } from './instrument/press';
 import { Touch } from './instrument/touch';
+import { SkyTexture } from './creation/sky-texture';
 
 // Starts the page and exposes the same semantic state it draws to tests and automation.
 class ReaderMain {
@@ -16,6 +17,8 @@ class ReaderMain {
     // The tab's name is the game's (the build writes it into the page too), or the one the address asks for.
     const query = new URLSearchParams(location.search);
     document.title = Identity.spoken(Identity.named(query).game);
+    // The sign's sky is drawn in slices once the title is up, long before it is wanted (see SkyTexture).
+    window.setTimeout(() => { void SkyTexture.warm(); }, 2500);
     // A design experiment, by the address: another face for the controls.
     const face = query.get('face');
     if (face && ReaderMain.faces.includes(face)) { document.documentElement.classList.add(`face-${face}`); }

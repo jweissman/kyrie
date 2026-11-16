@@ -15,15 +15,22 @@ describe('what is said, as attention holds it', () => {
     said('song', undefined, { disabled: 'Needs persuasion', does: 'sing_supper' })];
   // A short list is one flat list (the owner, 15 November: no cluster to open); only a long one keeps a fold.
   it('shows a short list whole, with nothing folded', () => {
-    const f = TalkFocus.of(replies.slice(0, 5), { asked: [] });
+    const f = TalkFocus.of([replies[0]!, replies[1]!, replies[5]!], { asked: [] });
     expect(f.salient.length + f.more.length).toBe(3);
     expect(f.more).toEqual([]);
   });
   it('shows three, folds the rest, and sets trading apart', () => {
     const f = TalkFocus.of(replies, { asked: [] });
     expect(f.salient.map(c => c.id)).toEqual(['well', 'mound', 'tower']);
-    expect(f.more.map(c => c.id)).toEqual(['quarry', 'ford', 'weir', 'crowns#beyond']);
-    expect(f.more[3]!.children!.map(c => c.id)).toEqual(['crowns', 'saltgrave', 'glass']);
+    // The lands beyond are one question, "what news is there?", the next not yet heard; the rest are for it to bring.
+    expect(f.more.map(c => c.id)).toEqual(['quarry', 'ford', 'weir', 'crowns']);
+    expect(f.more[3]!.label).toBe('Ask what news there is of the lands beyond');
+    expect(f.more.some(c => c.children?.length)).toBe(false);
+    // Heard, it is the next of the table, and said again once all are heard.
+    const heard = TalkFocus.of(replies, { asked: ['crowns'] });
+    expect([...heard.salient, ...heard.more].find(c => /news/.test(c.label))!.id).toBe('saltgrave');
+    const all = TalkFocus.of(replies, { asked: ['crowns', 'saltgrave', 'glass'] });
+    expect([...all.salient, ...all.more].find(c => /news/.test(c.label))!.label).toMatch(/^Ask again what news/);
     expect(f.services.map(c => c.id)).toEqual(['bed', 'song']);
   });
   // What the last answer opened is kept among the few, in its written place: put first, it had moved every other
