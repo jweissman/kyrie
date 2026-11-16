@@ -43,7 +43,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place chosen on the map', () => {
   // Its card's "Around Lowmouth, 13 places" is the way back to where the company stands, among them: it had only shut
   // the map, a list promised and none shown (the second blind playtest, BL-05: "Around Harewater, 25 places"). It
   // opens the place's ways (Go…).
-  it('goes back among the places it counts, their ways open', async () => {
+  it('is put away from its own menu, back to the place', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=a1' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -54,16 +54,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place chosen on the map', () => {
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 120000 });
     await page.focus('[data-action="map-place"][data-id="region__z3_edge"]');
     await page.keyboard.press('Enter');
-    expect(await page.textContent('[data-action="explore-nearby"]')).toMatch(/^Around Lowmouth\d+ places$/);
-    await page.click('[data-action="explore-nearby"]');
+    // The map's own menu: the chosen place's travel, the nearest roads, and Put away the map, last.
+    const rows = await page.locator('.map-menu [data-action]').evaluateAll(es => es.map(e => e.getAttribute('data-action')));
+    expect(rows.length).toBeLessThanOrEqual(4);
+    expect(rows.at(-1)).toBe('put-away-map');
+    await page.click('.map-menu [data-action="put-away-map"]');
     await driver.settle();
-    await page.waitForSelector('.glance .lens [data-act]', { timeout: 10000 }).catch(() => undefined);
-    const after = await page.evaluate(() => ({ map: !!document.querySelector('.world-page.scale-board'),
-      ways: [...document.querySelectorAll('.glance .lens [data-act]')].map(e => e.getAttribute('data-act')) }));
-    expect(after.map).toBe(false);
-    expect(after.ways.length).toBeGreaterThan(0);
-    // Each a way: one out of where the company stands (exit:), or a walk to another place of the town (travel:).
-    expect(after.ways.every(a => /^(exit|travel):/.test(a ?? ''))).toBe(true);
+    expect(await page.evaluate(() => !!document.querySelector('.world-page.scale-board'))).toBe(false);
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);

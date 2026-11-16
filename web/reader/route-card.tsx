@@ -133,25 +133,6 @@ export class RouteCard {
     return land.marks.some(m => m.id === chosen && m.state === 'heard')
       ? 'You know no way there yet: go into the country beside it, and the way will show.' : 'You know no way there yet.';
   }
-  // The places in the hex where the company stands that it knows of and is not at: what Explore nearby goes among.
-  static nearby(region: RegionChart): NonNullable<RegionChart['land']>['marks'] {
-    const land = region.land;
-    return land?.here === undefined ? [] : land.marks.filter(m => m.cell === land.here && !m.here && m.state !== 'unknown');
-  }
-  // What the way back to where the company stands is called on the card: around the town or the place it is in, not
-  // "Explore nearby", which beside a place that has no way known had read as the way there (the cold playtest of 14
-  // November, CO-09: "Explore nearby · 31 places" was the town the company was leaving).
-  static around(screen: Screen): string {
-    const town = screen.path.find(p => p.kind === 'settlement')?.name;
-    return `Around ${(town ?? screen.place.name).replace(/^The /, 'the ')}`;
-  }
-  // Back to where the company stands, the map put away, with its ways open (Go…), which are what go among them: the
-  // card counts the places ("Around Harewater, 25 places") and had only shut the map, a list promised and not shown
-  // (the second blind playtest, BL-05).
-  private static explore(app: ReaderApp): void {
-    if (app.state.outdoors) { app.outdoor(false); } else { app.back(); }
-    app.explore('go');
-  }
   // Inside a town or a site, where setting out leaves it (see MapView.leaving).
   private static inside(screen: Screen): boolean {
     return screen.place.kind === 'room' && screen.path.some(p => ['settlement', 'site'].includes(p.kind));

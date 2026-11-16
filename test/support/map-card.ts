@@ -20,11 +20,18 @@ export class MapCard {
   private static all(node: unknown): Element[] {
     if (Array.isArray(node)) { return node.flatMap(n => MapCard.all(n)); }
     if (!node || typeof node !== 'object') { return []; }
-    return [node as Element, ...MapCard.all((node as Element).props.children)];
+    const el = node as Element, shown = MapCard.shown(el);
+    return [el, ...MapCard.all(shown ? shown : el.props.children)];
+  }
+  // A component of the card (the map's menu) as it draws: its function called, for it holds no state of its own.
+  private static shown(el: Element): unknown {
+    return typeof el.type === 'function' ? (el.type as (p: unknown) => unknown)(el.props) : undefined;
   }
   private static text(node: unknown): string {
     if (typeof node === 'string' || typeof node === 'number') { return String(node); }
     if (Array.isArray(node)) { return node.map(n => MapCard.text(n)).join(' '); }
-    return node && typeof node === 'object' ? MapCard.text((node as Element).props.children) : '';
+    if (!node || typeof node !== 'object') { return ''; }
+    const el = node as Element;
+    return MapCard.text(MapCard.shown(el) ?? el.props.children);
   }
 }
