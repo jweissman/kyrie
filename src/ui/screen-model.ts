@@ -382,11 +382,18 @@ export class ScreenModel {
         boons: m.conditions.filter(c => this.boon(c))
           .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),
         abilities: AbilityRows.of(m),
-        attributes: m.attributes ?? {}, acts: ref ? Illumination.mark(grouped.members.get(ref) ?? []) : [],
+        attributes: m.attributes ?? {}, acts: ref ? Illumination.mark([...grouped.members.get(ref) ?? [],
+          ...this.orders(campaign, ref, grouped)]) : [],
         overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });
   }
   // The member as the rules have them, and what a development would change, each with its command if offered.
+  // What can be told to someone who has joined, from their own sheet (stay here): the act is the engine's, offered for
+  // the retainer they joined as, which is not a member of the company's own (see Membership.enlist).
+  private static orders(campaign: Campaign, ref: string, grouped: Grouped): Act[] {
+    const as = campaign.world.related('joinedAs').find(f => f.args[0] === ref)?.args[1];
+    return as ? grouped.targets.get(as) ?? [] : [];
+  }
   private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {
     return CharacterSheets.of(campaign, id, { ...ref ? { ref } : {}, offered: new Set(this.offered(acts)) });
   }

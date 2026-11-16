@@ -84,6 +84,9 @@ export class ChoiceGrouping {
     camp: { slot: 'camp', path: ['Make camp for the night'] },
     part_ways: { slot: 'target', param: 'companion', path: ['Let {them} make {their} own way'] },
     send_off: { slot: 'target', param: 'companion', path: ['Tell {them} not to wait for you'] },
+    // The one order given to whoever has joined (the owner, 16 November: through the companion, as a real act).
+    hold_here: { slot: 'target', param: 'retainer', path: ['Ask {them} to stay here'] },
+    call_on: { slot: 'target', param: 'retainer', path: ['Ask {them} to come on again'] },
     walk: { slot: 'exit', param: 'destination', path: ['Walk'], moves: true },
     cross: { slot: 'exit', param: 'destination', path: ['Go past {defender}'], passage: 'guarded', via: '{defender}' },
     slip_past: { slot: 'exit', param: 'destination', path: ['Slip past {gatekeeper}'], passage: 'guarded', via: '{gatekeeper}' },
