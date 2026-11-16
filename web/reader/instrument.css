@@ -86,3 +86,6 @@
 :is(.way-in, .composed-row, .composed-card)[data-hold]::after { opacity: 0; transition: opacity var(--quick); }
 :is(.way-in, .composed-row, .composed-card)[data-hold]:is([data-considered], :hover, :focus-visible, [aria-current="true"],
   [data-holding], [data-held], [data-let-go], [data-armed])::after { opacity: 1; }
+/* A mouse or a pen holds with the cursor's own ring (Reticle); the row's small ring is for a touch and the keys. */
+[data-hold]:is([data-by="mouse"], [data-by="pen"]):is([data-holding], [data-held], [data-let-go])::after,
+[data-hold]:is([data-by="mouse"], [data-by="pen"]):is([data-holding], [data-held], [data-let-go])::before { opacity: 0; }

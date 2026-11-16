@@ -53,13 +53,15 @@ export class Hold {
   }
   private static down(go: Go, e: PointerEvent<HTMLElement>) {
     if (e.button !== 0) { return; }
+    // Whose hand it is: the pointer's own ring is the cursor's (Reticle), so the row draws none for it.
+    e.currentTarget.dataset.by = e.pointerType;
     Hold.start(e.currentTarget, go);
     if (e.pointerType !== 'touch' && Hold.at) { Reticle.show(e.clientX, e.clientY, Hold.time()); }
   }
   private static keyed(go: Go, e: KeyboardEvent<HTMLElement>) {
     if (e.key !== 'Enter' && e.key !== ' ') { return; }
     e.preventDefault(); e.stopPropagation();
-    if (!e.repeat) { Hold.start(e.currentTarget, go, e.key); }
+    if (!e.repeat) { e.currentTarget.dataset.by = 'key'; Hold.start(e.currentTarget, go, e.key); }
   }
   private static unkeyed(e: KeyboardEvent<HTMLElement>) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); Hold.stop(); }
