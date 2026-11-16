@@ -9,8 +9,9 @@ import { SkyRng } from './sky-rng';
 // sky without it).
 interface Star { x: number; y: number; power: number; rgb: readonly number[]; spikes?: boolean }
 export class SkyTexture {
-  // The textured region, in the sky's units (see Observatory): x from cx-1760 to cx+1760, y from cy-2150 to cy-950.
-  static readonly width = 3520;
+  // One tile of the sky, in the sky's units (see Observatory): it repeats without a seam across, the page pans it, so
+  // that no edge of it is ever in sight and each sign is seen over a different stretch of it.
+  static readonly width = 4800;
   static readonly height = 1200;
   // Spectral colours, hot to cool (r, g, b), and the proportion they are seen (most stars are cool and dim).
   static readonly stars: readonly (readonly [number, number, number])[] = [[170, 195, 255], [200, 218, 255],
@@ -45,27 +46,35 @@ export class SkyTexture {
       g.beginPath(); g.moveTo(x - len, y); g.lineTo(x + len, y); g.moveTo(x, y - len); g.lineTo(x, y + len); g.stroke();
     }
   }
-  // How much the galactic band is at a point of the region: stars are kept in proportion to it, so it is thicker there.
-  private static along(at: { x: number; y: number; cx: number; cy: number }): number {
-    const d = Math.hypot(at.x - at.cx, at.cy - at.y);
-    return Math.exp(-(((d - 1500) / 150) ** 2));
+  // How much the galactic band is at a point of the tile: stars are kept in proportion to it, so it is thicker there.
+  // band wanders across the tile, so that the stretch seen under each sign has the band in its own place.
+  private static along(x: number, y: number): number {
+    const mid = 600 + 260 * Math.sin(x / 760) + 140 * Math.sin(x / 290 + 1);
+    return .22 + .78 * Math.exp(-(((y - mid) / 190) ** 2));
   }
-  static field(cx: number, cy: number): string {
+  // A star is drawn again a tile's width over, where its light would cross the seam.
+  private static twice(star: Star, draw: (s: Star) => void) {
+    const reach = 40;
+    draw(star);
+    if (star.x < reach) { draw({ ...star, x: star.x + this.width }); }
+    if (star.x > this.width - reach) { draw({ ...star, x: star.x - this.width }); }
+  }
+  static field(): string {
     if (this.url !== undefined) { return this.url; }
     if (typeof document === 'undefined') { return ''; }
     const canvas = document.createElement('canvas');
     canvas.width = this.width; canvas.height = this.height;
     const g = canvas.getContext('2d');
     if (!g) { return this.url = ''; }
-    const x0 = cx - 1760, y0 = cy - 2150, r = new SkyRng(23);
+    const r = new SkyRng(23);
     // By tier, as a real sky has them: a few dozen bright, some hundreds of middling, and the rest faint.
-    for (let i = 0; i < 120000; i++) {
+    for (let i = 0; i < 170000; i++) {
       const x = r.next() * this.width, y = r.next() * this.height;
-      if (i > 900 && r.next() > .2 + .8 * this.along({ x: x0 + x, y: y0 + y, cx, cy })) { continue; }
+      if (i > 1200 && r.next() > this.along(x, y)) { continue; }
       const rgb = this.stars[this.mix[(r.next() * 14) | 0]!]!, u = r.next();
-      if (i < 46) { this.bright(g, { x, y, power: .62 + .38 * u, rgb, spikes: true }); }
-      else if (i < 900) { this.bright(g, { x, y, power: .1 + .34 * u ** 2, rgb }); }
-      else { this.splat(g, { x, y, power: .1 + .46 * u ** 3, rgb }); }
+      if (i < 60) { this.twice({ x, y, power: .62 + .38 * u, rgb, spikes: true }, s => this.bright(g, s)); }
+      else if (i < 1200) { this.twice({ x, y, power: .1 + .34 * u ** 2, rgb }, s => this.bright(g, s)); }
+      else { this.twice({ x, y, power: .1 + .46 * u ** 3, rgb }, s => this.splat(g, s)); }
     }
     g.globalAlpha = 1;
     return this.url = canvas.toDataURL('image/png');

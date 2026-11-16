@@ -17,13 +17,15 @@ export class Observatory {
   static readonly cy = 2050;
   static readonly r = 1640;
   static readonly field = 420;
+  // How far the far field slides as the ring turns a degree (a sign is thirty: over a third of what is in sight).
+  static readonly pan = 18;
   static View({ signs, focus, chosen, flare, onFocus, onChoose }: { signs: Sign[]; focus?: string; chosen?: string;
     flare?: string; onFocus: (id: string) => void; onChoose: (id: string) => void }) {
     const turned = useRef(0), at = Math.max(0, signs.findIndex(s => s.id === focus)), step = 360 / Math.max(1, signs.length);
     // The nearest way round to the sign: the ring never spins the long way past eleven months.
     const want = -at * step, now = turned.current;
     turned.current = now + ((((want - now) % 360) + 540) % 360) - 180;
-    const { cx, cy } = Observatory, band = SkyTexture.field(cx, cy);
+    const { cx, cy } = Observatory, band = SkyTexture.field(), pan = turned.current * Observatory.pan;
     return (
       <div className="observatory" aria-hidden="true">
         <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -31,6 +33,8 @@ export class Observatory {
             <radialGradient id="obs-haze" cx="62%" cy="38%" r="70%">
               <stop offset="0" stopColor="#1b2134" /><stop offset=".55" stopColor="#0d1019" /><stop offset="1" stopColor="#07080c" />
             </radialGradient>
+            {band && <pattern id="obs-sky" width={SkyTexture.width} height={SkyTexture.height} patternUnits="userSpaceOnUse"
+              y={-100}><image href={band} width={SkyTexture.width} height={SkyTexture.height} preserveAspectRatio="none" /></pattern>}
             <filter id="obs-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
@@ -40,9 +44,8 @@ export class Observatory {
           <rect width="1600" height="1000" fill="url(#obs-haze)" />
           <g className="obs-turned" style={{ '--turn': `${turned.current}deg` } as CSSProperties}>
             <g className="obs-drift" style={{ transformOrigin: `${cx}px ${cy}px` }}>
-              <g className="obs-far" style={{ transformOrigin: `${cx}px ${cy}px` }}>
-                {band && <image href={band} x={cx - 1760} y={cy - 2150} width={SkyTexture.width} height={SkyTexture.height}
-                  preserveAspectRatio="none" />}</g>
+              <g className="obs-far" style={{ transform: `translateX(${pan}px)` }}>
+                {band && <rect x={-40000} y={-100} width={80000} height={SkyTexture.height} fill="url(#obs-sky)" />}</g>
             </g>
 
             <g className="obs-mid" style={{ transformOrigin: `${cx}px ${cy}px` }}>{Observatory.mid.map(([a, d, r], i) =>

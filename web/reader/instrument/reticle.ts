@@ -14,7 +14,7 @@ export class Reticle {
     }
     return Reticle.el;
   }
-  // Any act's row pressed by a mouse or pen: the cursor's own ring fills round while the press lasts (the commit
+  // Any button or link pressed by a mouse or pen: the cursor's own ring fills round while the press lasts (the commit
   // is still
   // the tap's); let go early, it drains from where it got to.
   static attach() {
@@ -24,7 +24,7 @@ export class Reticle {
   }
   private static pressed(e: PointerEvent) {
     const row = e.pointerType !== 'touch' && e.button === 0
-      && (e.target as Element | null)?.closest?.('.choice-row:not(.shut, [disabled], [aria-disabled="true"])');
+      && (e.target as Element | null)?.closest?.('button:not(:disabled, .shut, [aria-disabled="true"]), a[href]');
     if (row) { Reticle.show(e.clientX, e.clientY, 520); }
   }
   private static released() {

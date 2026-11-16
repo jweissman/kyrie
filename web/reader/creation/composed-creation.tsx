@@ -147,8 +147,8 @@ export class ComposedCreation {
     const go = (_: string, held: boolean) => { if (held || asked) { app.opening.begin(); } else { ask(true); } };
     return (
       <div className="composed-step composed-go">
+        <h1 className="ask">{Typography.curl(name)}</h1>
         <div className="composed-col">
-          <h1 className="ask">{Typography.curl(name)}</h1>
           <p className="life">{Typography.curl(NameStep.life(app).join(' '))}</p>
           <div className="composed-rows" role="menu">
             <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}

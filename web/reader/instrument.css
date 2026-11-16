@@ -48,10 +48,10 @@
 :root:has(.ix-reticle.holding) .shell, :root:has(.ix-reticle.holding) .shell * { cursor: none !important; }
 .ix-reticle { position: fixed; left: 0; top: 0; z-index: 10000; width: 32px; height: 32px; margin: -16px 0 0 -16px;
   pointer-events: none; border-radius: 50%; visibility: hidden;
-  background: conic-gradient(#ECE6D9 var(--hold-p, 0%), rgba(236, 230, 217, .22) 0);
+  background: conic-gradient(rgba(236, 230, 217, .95) var(--hold-p, 0%), rgba(236, 230, 217, .12) 0);
   -webkit-mask: radial-gradient(circle closest-side, transparent calc(100% - 3px), #000 calc(100% - 2.8px));
   mask: radial-gradient(circle closest-side, transparent calc(100% - 3px), #000 calc(100% - 2.8px));
-  filter: drop-shadow(0 0 1.2px rgba(10, 11, 14, .95)); }
+  filter: drop-shadow(0 0 1px rgba(10, 11, 14, .5)); }
 .ix-reticle:is(.holding, .held, .drain) { visibility: visible; }
 .ix-reticle.holding { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
 .ix-reticle.held { --hold-p: 100%; }

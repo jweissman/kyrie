@@ -146,11 +146,12 @@
 /* The sky is panned, not swung: each layer turns the way the ring does by a share of it, the farther the less, so that the
    stars slide past one another as a camera moves through them (the owner, 15 November), over a second and a half, easing in
    and out; and the far field drifts of itself, imperceptibly, as a sky does. */
-.obs-far, .obs-mid, .obs-ring, .obs-band { transform: rotate(calc(var(--turn) * var(--k, 1))); transform-box: view-box;
+.obs-mid, .obs-ring, .obs-band { transform: rotate(calc(var(--turn) * var(--k, 1))); transform-box: view-box;
   transition: transform 1500ms cubic-bezier(.45, 0, .2, 1); }
+.obs-far { transition: transform 1500ms cubic-bezier(.45, 0, .2, 1); }
 .obs-far { --k: .1; } .obs-band { --k: .25; } .obs-mid { --k: .5; } .obs-ring { --k: 1; }
 .obs-drift { transform-box: view-box; animation: obs-drift 420s ease-in-out infinite alternate; }
-@keyframes obs-drift { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+@keyframes obs-drift { from { transform: translateX(-70px); } to { transform: translateX(70px); } }
 @keyframes obs-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
 .obs-mid > g:nth-child(9n) { animation: obs-twinkle 5.5s ease-in-out infinite; }
 .obs-mid > g:nth-child(13n) { animation: obs-twinkle 7.5s ease-in-out -3s infinite; }
