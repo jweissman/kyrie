@@ -83,15 +83,15 @@ describe('Go… and the gold, for a player come home', () => {
     expect(list.get('About Brightbridge')).toEqual(['Edge of town', 'Waterside']);
     // Nothing is marked as an aim the company follows here, so nothing is said beside the list unasked, and Go… is
     // not marked either.
-    // Only the road of the aim followed (the way out over the bridge, which the menu now offers as any road is, Go… no
-    // longer leaving the country's roads to the map): nothing else marked.
-    expect([...list.values()].flat().filter(n => n.endsWith('◆'))).toEqual(['Bridge over the Redwater by Brightbridge ◆']);
-    // The aim's road is what Go… previews, with its set-out (the aim's way is among the acts, not the map's alone).
-    expect(page.preview()).toMatch(/^Your aim The bridge over the Redwater/);
+    // The country's roads are the map's (the owner, 15 November: not among the four, nor in Go… unless the map is
+    // what is looked at), so nothing here is marked.
+    expect([...list.values()].flat().filter(n => n.endsWith('◆'))).toEqual([]);
+    // The aim's road is not previewed in Go… (the map's, and the aim's own Follow among the four).
+    expect(page.preview()).toBe('');
     // Go… is the rail's (amendment 6), not one of the glance's openers, and is not lit as the aim's.
     expect(page.rest()).not.toMatch(/opens-go/);
-    // Lit as the aim's, now that its road is among Go…'s ways (a road out of the town, no longer the map's alone).
-    expect(SceneRail.go(page.app)).toEqual({ lit: 'gold' });
+    // Not lit: the aim's road is the map's, not one of Go…'s ways.
+    expect(SceneRail.go(page.app)).toEqual({});
   }, 60000);
 
   it('goes by a way at one click, to a part of the town at its own open place, which has been', async () => {
