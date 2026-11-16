@@ -20,6 +20,8 @@ Module world_people "Company and intention" {
   // Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has
   // joined it, who goes where it goes and can be talked to on the way.
   Relation willing(group, group). Measure hire(group). Relation travelsWith(group, group).
+  // Someone who joined and was told to wait where they are (see hold_here): theirs to be called on again, for nothing.
+  Relation stayed(group, group).
   // Who someone who has joined now is among the company's members: they answer on the way only while that member is
   // awake (not fallen, not asleep, not laid to rest).
   Relation joinedAs(member, group).
@@ -41,6 +43,22 @@ Module world_people "Company and intention" {
     Resolve enlist(recruit, actor).
     On success { Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site).
       Assert travelsWith(recruit, actor). }
+  }
+  // The one order there is, given to whoever has joined the company: stay here (they wait where they are, and are theirs
+  // again, no longer the company's members: Membership.depart), and come on (they are the company's again, with no hire
+  // to pay twice). What they do meanwhile is their own.
+  Action hold_here(actor: group, retainer: group, site: place) "Ask {retainer} to stay here" {
+    Time 1 minute.
+    Description "They stay where they are, and wait for you.".
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(retainer, actor) and distinct(actor, retainer).
+    On success { Retract travelsWith(retainer, actor). Assert stayed(retainer, actor). }
+  }
+  Action call_on(actor: group, retainer: group, site: place) "Ask {retainer} to come on again" {
+    Time 1 minute.
+    Description "They take their place with you again.".
+    Requires able(actor) and company(actor) and able(retainer) and at(actor, site) and at(retainer, site) and stayed(retainer, actor).
+    Resolve enlist(retainer, actor).
+    On success { Retract stayed(retainer, actor). Assert travelsWith(retainer, actor). Retract at(retainer, site). }
   }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
     Time 1 minute.

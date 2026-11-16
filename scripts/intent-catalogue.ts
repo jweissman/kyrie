@@ -29,7 +29,7 @@ export class IntentCatalogue {
       'burn', 'destroy_source', 'bury_companion', 'raise_quality', 'change_thing'],
     practice: ['learn_skill', 'learn_spell', 'learn_reward', 'train_member', 'take_feat', 'prepare_spell', 'gather',
       'make_remedy', 'make_plain', 'work_keep', 'field_spell'],
-    relationships: ['recruit', 'send_off', 'part_ways', 'pet', 'lead'],
+    relationships: ['recruit', 'send_off', 'part_ways', 'pet', 'lead', 'hold_here', 'call_on'],
     conflict: ['attack', 'assail', 'face_down', 'lie_still', 'risk'],
     reflection: ['wait', 'wait_hour', 'wait_watch', 'wait_for_dark', 'wait_for_light', 'rest', 'rest_unfed', 'camp',
       'take_lodging', 'take_lodging_guest', 'take_healing', 'take_raising', 'take_restoration', 'take_feat_rest'],
@@ -47,7 +47,7 @@ export class IntentCatalogue {
   static readonly pins: Record<Family, string | undefined> = {
     perception: 'test/small/look-in-place.test.ts', discovery: undefined, movement: 'test/follow-offered-browser.test.ts',
     social: 'test/news-asked.test.ts', manipulation: 'test/small/given-remedy.test.ts',
-    practice: 'test/gathered-plates.test.ts', relationships: 'test/small/recruit-priced.test.ts',
+    practice: 'test/gathered-plates.test.ts', relationships: 'test/small/commander.test.ts',
     conflict: 'test/small/mage-casts.test.ts', reflection: 'test/small/quiet-wait.test.ts',
     organization: 'test/small/landholder.test.ts',
   };
