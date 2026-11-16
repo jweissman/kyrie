@@ -40,7 +40,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     // How long by the ways the company knows, and when it would come there, set out as facts (see RouteCard).
     expect(card).toMatch(/TimeAbout \d+ hours?Arrive\d/);
     // Seen is not there: travelled to and come to on the map, still outside it, then entered (the owner, 5 November).
-    await page.click('.enter-card [data-action="travel"]');
+    await page.click('.enter-card .map-menu [data-action="set-out"]');
     await driver.settle();
     // Come to it, or stopped on the way where the map marks it (kite's bridge over the Redwater): either way the map
     // stays up over where the company is, and it is entered from there.

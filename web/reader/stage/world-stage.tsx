@@ -230,7 +230,7 @@ export class WorldStage {
     enter: () => void }) {
     if (id) {
       const town = screen.region?.areas.find(a => a.id === id && a.kind === 'settlement');
-      return town ? <WorldStage.Town app={app} screen={screen} town={town} clear={clear} />
+      return town ? <WorldStage.Town app={app} screen={screen} town={town} />
         : <MapView.Plan app={app} screen={screen} chosen={id} clear={clear} />;
     }
     // Within a town or a site, the hex is the town's or the site's, and entered is back where the company stands.
@@ -311,8 +311,8 @@ export class WorldStage {
   // Already within it, the company is where it stands in it, and goes back there from the card: the map opened from
   // Uarin's forge in Greycastle had said "You stand at its gate" and "Enter Greycastle" (the evidence sessions of 7
   // November). At its gate is the game's first page, or a town just come to across the map.
-  static Town({ app, screen, town, clear }: { app: ReaderApp; screen: Screen;
-    town: NonNullable<Screen['region']>['areas'][number]; clear?: () => void }) {
+  static Town({ app, screen, town }: { app: ReaderApp; screen: Screen;
+    town: NonNullable<Screen['region']>['areas'][number] }) {
     const { d, here, go } = MapView.way(screen, town.id), views = Scenery.views.settlement ?? [];
     const view = views.length ? views[Scenery.hash(town.id) % views.length] : undefined;
     const come = here && app.state.frame?.travel?.arrived;
@@ -334,13 +334,8 @@ export class WorldStage {
           : <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
             : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
-        {here ? <button type="button" className="enter" data-action="put-away-map" data-act={entry?.c.id}
-          onClick={() => { if (entry) { app.choose(entry.c); } else { app.outdoor(false); } }}>
-          {entry ? `Enter ${Typography.curl(town.name)}` : 'Put away the map'}</button>
-          : go && <button type="button" className="enter travel" data-action="travel" data-act={go.id}
-            onClick={() => { app.choose(go); }}>
-            Travel to {Typography.curl(town.name)}</button>}
-        {clear && <button type="button" className="option quiet" data-action="unchoose" onClick={clear}>Back</button>}
+        <MapMenu.View app={app} screen={screen} {...here ? {} : { chosen: town.id }} put={() => app.outdoor(false)}
+          {...entry ? { enter: { c: entry.c, name: Typography.curl(town.name) } } : {}} />
       </section>
     );
   }

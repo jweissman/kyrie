@@ -1,5 +1,6 @@
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
+import type { Choice } from '../../src/ui/choice-list';
 import { MapView } from './map-view';
 import { RouteCard } from './route-card';
 import { ChoiceRow } from './stage/choice-row';
@@ -12,7 +13,8 @@ import { Typography } from '../../src/presentation/typography';
 // it; and Put away the map, the last row always. Choosing a cell on the map is a presentation gesture; each row commits.
 export class MapMenu {
   static readonly four = 4;
-  static View({ app, screen, chosen, put }: { app: ReaderApp; screen: Screen; chosen?: string; put: () => void }) {
+  static View({ app, screen, chosen, put, enter }: { app: ReaderApp; screen: Screen; chosen?: string; put: () => void;
+    enter?: { c: Choice; name: string } }) {
     const land = screen.region?.land, way = chosen && land ? MapView.way(screen, chosen) : undefined, go = way?.go;
     const aimed = !!chosen && RouteCard.aimed(screen, chosen);
     const named = chosen && screen.region ? RouteCard.named(screen.region, chosen, way!).title : undefined;
@@ -20,6 +22,9 @@ export class MapMenu {
       .toSorted((a, b) => a.minutes - b.minutes).slice(0, MapMenu.four - 1 - (go ? 1 : 0));
     return (
       <ol className="led map-menu" aria-label="On the map">
+        {enter && <li><ChoiceRow.Button className="led-act rc-enter" data={{ action: 'enter', choice: enter.c.id }} act={enter.c.id}
+          onClick={() => app.choose(enter.c)} mark={ChoiceRow.neutral} markClass="neutral"
+          label={Typography.curl(`Enter ${enter.name}`)} /></li>}
         {go && <li><ChoiceRow.Button className={`led-act rc-go${aimed ? ' aimed' : ''}`}
           data={{ action: 'set-out', choice: go.id }} act={go.id} onClick={() => app.choose(go)}
           mark={aimed ? 'var(--tone-gold)' : ChoiceRow.neutral} markClass={aimed ? undefined : 'neutral'}

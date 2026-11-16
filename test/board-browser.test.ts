@@ -43,8 +43,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
     await page.keyboard.press('Enter');
     expect(await page.textContent('.enter-card')).toContain('Brockfield');
     // Seen is not there: travelled to, come to its gate on the map, then entered (the owner, 5 November).
-    expect(await page.locator('.enter-card [data-action="put-away-map"]').count()).toBe(0);
-    await page.click('.enter-card [data-action="travel"]');
+    expect(await page.locator('.enter-card .map-menu [data-action="enter"]').count()).toBe(0);
+    await page.click('.enter-card .map-menu [data-action="set-out"]');
     await driver.settle();
     // Come to it, or stopped on the way where the map marks it (kite's bridge over the Redwater): either way the map
     // stays up over where the company is, and it is entered from there.
