@@ -28,7 +28,7 @@ export type Why =
   | 'hungry' | 'hurt' | 'night' | 'exposed'
   // The place: whoever is the life of it, one of its own acts, a sign not seen before, someone with something to ask,
   // something not looked at closely.
-  | 'life' | 'own' | 'sign' | 'asked' | 'unlooked'
+  | 'life' | 'own' | 'sign' | 'asked' | 'unlooked' | 'wonder'
   // What was won, put to use: someone here who buys a treasure the company carries; someone who adds to what it can do
   // (a lesson, a spell) for what it can pay.
   | 'spoils' | 'means'

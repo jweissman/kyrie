@@ -13,6 +13,8 @@ export class Aspects {
     danger: 'danger', warned: 'danger',
     spoils: 'payoff', means: 'payoff', companion: 'companionship',
     sign: 'knowledge', unlooked: 'knowledge', asked: 'knowledge',
+    // A marvel of the place (a standing stone that hums, a spring that sings): the uncanny, violet.
+    wonder: 'wonder',
     // What is worth going to see: a way not taken, further in, the place's own doings, an aim heard of and not
     // followed. Not whoever is the life of the place: being someone here is no opportunity, and a person is drawn by
     // their likeness, neutral, unless there is something to be had of them (the owner, 14 November: CN-07).

@@ -209,7 +209,7 @@ export class Affordances {
       // So with a thing to read that would tell the company something (the eel-wife's notice on Tessary's Landgate
       // board, the adventure's hook, had been only under `all`: M21's playability list, PL-16).
       ...(person ? s.asked && !talked : true) && learned ? ['asked' as const] : [],
-      ...feature && looked ? ['unlooked' as const] : [],
+      ...feature && looked ? ['unlooked' as const] : [], ...this.wonder(s.id, !!person, leaves),
       ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
@@ -361,6 +361,11 @@ export class Affordances {
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
+  }
+  // A marvel of the place (a generated `wonder_…` thing) that can be met: the uncanny, whatever else it is.
+  private static wonder(id: string, person: boolean, leaves: Choice[]): Why[] {
+    const meets = leaves.some(c => c.command && !c.disabled && !/^look_closely/.test(c.command));
+    return !person && meets && /(^|_)wonder_[a-z0-9]/.test(id) ? ['wonder'] : [];
   }
   // The town a way goes into, by name, where the company is not in it already; new, until it has been.
   private static entered(screen: Screen, dest: string): string | undefined {

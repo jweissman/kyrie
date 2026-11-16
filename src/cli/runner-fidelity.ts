@@ -22,6 +22,8 @@ export class RunnerFidelity {
     // (Or its standing toward the company: let be, warned off, coming at it: a band talked round or not.)
     danger: /^[+-] (able|awake|hostile|fighting|engaged|tolerates|warned|assails)\(/,
     exploration: /^\+ (been|knows)\(party, /,
+    // A wonder met is woken (or its power taken up): the thing's own state changes, or what it gives.
+    wonder: /^[+-] (state\(\S*wonder_|strikes\()/,
   };
   // fork: the world as the glance was drawn from it, afresh for each act. as: facets to read an act's commands as
   // drawn with, where a spec would have the drawing wrong.
