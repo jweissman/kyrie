@@ -1,5 +1,9 @@
 # The experiment: two versions of the action control
 
+> **Superseded in part (16 November).** M21 research, written before the owner's rulings: where it differs from
+> `doc/design/GRAMMAR.md` (holds on the title, creation, rest and camp; a mouse let go early does nothing; four items,
+> paged, never unfolded), the grammar wins. See `../../mission-22/orientation.md` §3.
+
 Part 3 of the interaction research. Two competing versions of the principal action control run inside the game, each
 behind an address flag and never the default:
 - **a, the tap:** every act commits at a tap.

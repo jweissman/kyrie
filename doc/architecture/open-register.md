@@ -1114,3 +1114,25 @@ cases, not a feature program (doc/architecture/mission-21/verb-pins.md).
 | PB-25 | The scene's lens is paged, four acts at a time with a "More… n of N" row (not an act), round to the first; the "All N" unfold is gone (the owner, 16 Nov, a ruling: four items in every context). Specs: LensPages in test/support, lens-all-browser rewritten | closed 16 Nov | P2 | M21 |
 | PB-26 | **Retracted (17 Nov): a walker's artefact.** In kite the aim's own place was reached by the map; its card then offers only a road and "Put away the map" (my walker pressed Enter, which does nothing there). Put away, the scene leads with "Follow the ruts over the edge" and Search (checked in a browser). Open question kept: after a journey ends at the aim's place, the card could offer "Enter" for the place stood in (the way it does at a town's gate) | closed | P3 | M21 |
 | PB-27 | The same play in a1: a talk with someone who may come along, after "Ask Ambrose to join the company", the walker's loop "Ask again about home" never advanced (a walker's artefact: the talk offered nothing new; no stuck state in the page) | note | P3 | M21 |
+
+## 51. M22 orientation: the deployed baseline (16 November)
+
+Found by recording the deployed opening and a mage's play on Pages (`e71acf63`): mission-22/orientation.md §2, frames in
+mission-22/baseline/. The unregistered M17–M21 promises the audit found (mission-22/obligations-audit.md §3) are OB-xx.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| OR-01 | The title's lit New game does nothing on a held Enter: it is marked current but not focused (focus only under `?touch`), and during the 3.2 s reveal a key is swallowed as a skip while a hand's press is let through | fixed on m22: focus on the first way at the reveal; Enter or Space on it let through; test/opening-browser "begins at Enter held" | P1 | M22 |
+| OR-02 | The fight's kinds unfold: "Spells ›" / "Other ›" open a grid of up to nine spells beside the four, disabled ones ("beyond your level") among them; Attack is a two-step | open (ruling 2; no compound act) | P1 | M22 step 4 |
+| OR-03 | Talk draws five rows: three topics or two and the pager, Trade, Take your leave; key hints numbered 6, 7, 9 | open (four in the foreground) | P1 | M22 step 4 |
+| OR-04 | The sign page lists twelve rows at once | open (four in the foreground; the observatory is the candidate) | P2 | M22 step 4/6 |
+| OR-05 | Boxed widgets remain: the warren's DANGER card, the map's + − ◎, the calling cards' edges, creation's Back / Set out now words | open (button-discovery.md: about 40) | P2 | M22 step 3 |
+| OR-06 | Rows carry two truncated asides ("the way yo… · The rats … wil…"); the way out prints its whole route ("a hole gnawed… › the trapd") | open (prose economy in rows) | P2 | M22 |
+| OR-07 | A person with no portrait shows a stray outlined circle behind the name (talk, Samwise at Newford) | open | P2 | M22 |
+| OR-08 | Hold on set-out → first page 8.8–10.4 s on a laptop; the engine's `ready` preparation fires only from the old `company` phase, never from composed creation | open (measure first) | P1 | M22 step 6 |
+| OR-09 | Navigation → a usable title 8.9 s by hand, about 12.3 s by the keys (cold, with the studio mark); the script is 5.5 MB compressed, one 1.5 s compile | open | P1 | M22 step 6 |
+| OR-10 | No commit sound by default: `Tone` sounds only under `?ix`/`?touch` | open (design: step 3) | P3 | M22 |
+| OR-11 | Four press mechanisms in `web/reader/instrument/` (Hold live; Press `?ix`, Touch/Gesture `?touch` unadopted experiments; Reticle); per-row onClick commits (124) and three focus models | open (one commit path, one focus) | P1 | M22 step 2 |
+| OB-01 | Register scripts skip §49–§50's three-column tables (13 rows, 8 live); PB-15 twice | open | P2 | M22 step 1 |
+| OB-02 | Five `it.skip` journeys (OA-01..04, silent-lord-turns with AI-02 closed) and five `it.failing` pins (crossing-order AX-07; familiar scouting; atlas-perception ×3) without rows of their own | open | P2 | M22 ∥E |
+| OB-03 | Unregistered promises: Wander; a career rule for the commoner; familiar scouting; focus as engine state and a controller; the owner's preservation asks (middle scale, almanac, tarot, paragon journeys) | open (prospectus, Phase 5) | P3 | M22 |

@@ -1,5 +1,9 @@
 # A common interaction grammar: the proposal
 
+> **Superseded in part (16 November).** M21 research, written before the owner's rulings: where it differs from
+> `doc/design/GRAMMAR.md` (holds on the title, creation, rest and camp; a mouse let go early does nothing; four items,
+> paged, never unfolded), the grammar wins. See `../../mission-22/orientation.md` §3.
+
 Part 2 of the interaction research. This proposal extends `doc/design/GRAMMAR.md` and does not replace it. Everything
 GRAMMAR.md says stands unless a numbered amendment at the end says otherwise. The evidence is in `study.md` and
 `experiment.md`.

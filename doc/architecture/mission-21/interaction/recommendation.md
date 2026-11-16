@@ -1,5 +1,9 @@
 # What M22 should be: a short recommendation
 
+> **Superseded in part (16 November).** M21 research, written before the owner's rulings: where it differs from
+> `doc/design/GRAMMAR.md` (holds on the title, creation, rest and camp; a mouse let go early does nothing; four items,
+> paged, never unfolded), the grammar wins. See `../../mission-22/orientation.md` §3.
+
 The owner's thinking is that M22 should be extraordinarily narrow but maximalist about polish: a magnificent first
 touch, and a deeply satisfying fundamental action. The research supports that focus, with one correction: the first
 touch's worst moment is not a design problem.
