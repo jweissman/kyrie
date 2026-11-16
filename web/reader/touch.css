@@ -165,10 +165,12 @@
   0.4% { opacity: .95; } 3% { opacity: 0; transform: rotate(var(--tilt)) translateX(var(--run)); } }
 .obs-sign { cursor: pointer; }
 .obs-sign .obs-hit { fill: transparent; }
-.obs-sign line { stroke: rgba(236, 230, 217, .16); stroke-width: 1.2; transition: stroke 500ms var(--ease); }
-.obs-sign .obs-star { fill: rgba(236, 230, 217, .38); transition: fill 500ms var(--ease); }
-.obs-sign.chosen line { stroke: color-mix(in oklab, var(--accent, #d9b46a) 45%, transparent); }
-.obs-sign.lit line { stroke: rgba(236, 230, 217, .72); stroke-width: 1.6; }
+.obs-sign line { stroke: transparent; stroke-width: 1.3; stroke-linecap: round; transition: stroke 500ms var(--ease); }
+/* Only the sign in view is drawn as a figure; the others stand as stars, so that nothing else is made of the sky behind the
+   list (the owner, 17 November: the constellations were hard to read). */
+.obs-sign .obs-star { fill: rgba(236, 230, 217, .5); transition: fill 500ms var(--ease); }
+.obs-sign .obs-star.b3 { fill: rgba(246, 240, 226, .8); }
+.obs-sign.lit line { stroke: rgba(236, 230, 217, .8); stroke-width: 1.8; }
 .obs-sign.lit .obs-star { fill: #fff; filter: url(#obs-glow); }
 @keyframes obs-flare { 0% { stroke-width: 1.6; } 35% { stroke-width: 3.4; stroke: #fff; } 100% { stroke-width: 2; } }
 .obs-sign.flare line { animation: obs-flare 340ms var(--ease) both; }

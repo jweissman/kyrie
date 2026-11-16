@@ -82,3 +82,7 @@
 .way-in[data-hint]::before, .composed-row[data-hint]::before { content: 'Hold'; position: absolute; right: 36px; top: 50%;
   margin-top: -6px; font: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); }
 .composed-row[data-hint]:has(> .row-key)::before { right: 66px; }
+/* The ring is there when the hand or the keys are on the choice (or it is held), not on every row at rest. */
+:is(.way-in, .composed-row, .composed-card)[data-hold]::after { opacity: 0; transition: opacity var(--quick); }
+:is(.way-in, .composed-row, .composed-card)[data-hold]:is([data-considered], :hover, :focus-visible, [aria-current="true"],
+  [data-holding], [data-held], [data-let-go], [data-armed])::after { opacity: 1; }

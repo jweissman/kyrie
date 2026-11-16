@@ -46,15 +46,29 @@ export class SkyTexture {
       g.beginPath(); g.moveTo(x - len, y); g.lineTo(x + len, y); g.moveTo(x, y - len); g.lineTo(x, y + len); g.stroke();
     }
   }
+  private static jewel(g: CanvasRenderingContext2D, star: Star) {
+    const { x, y } = star, c = star.rgb.join(','), halo = g.createRadialGradient(x, y, 0, x, y, 34);
+    halo.addColorStop(0, `rgba(${c},.55)`); halo.addColorStop(.12, `rgba(${c},.22)`);
+    halo.addColorStop(.45, `rgba(${c},.06)`); halo.addColorStop(1, `rgba(${c},0)`);
+    g.globalAlpha = 1; g.fillStyle = halo; g.fillRect(x - 34, y - 34, 68, 68);
+    for (const [dx, dy] of [[1, 0], [0, 1]] as const) {
+      const line = g.createLinearGradient(x - dx * 46, y - dy * 46, x + dx * 46, y + dy * 46);
+      line.addColorStop(0, `rgba(${c},0)`); line.addColorStop(.5, `rgba(${c},.5)`);
+      line.addColorStop(1, `rgba(${c},0)`);
+      g.strokeStyle = line; g.lineWidth = .8; g.beginPath();
+      g.moveTo(x - dx * 46, y - dy * 46); g.lineTo(x + dx * 46, y + dy * 46); g.stroke();
+    }
+    this.splat(g, { x, y, power: 1, rgb: [255, 255, 255] });
+  }
   // How much the galactic band is at a point of the tile: stars are kept in proportion to it, so it is thicker there.
   // band wanders across the tile, so that the stretch seen under each sign has the band in its own place.
   private static along(x: number, y: number): number {
     const mid = 600 + 260 * Math.sin(x / 760) + 140 * Math.sin(x / 290 + 1);
-    return .22 + .78 * Math.exp(-(((y - mid) / 190) ** 2));
+    return .14 + .86 * Math.exp(-(((y - mid) / 230) ** 2));
   }
   // A star is drawn again a tile's width over, where its light would cross the seam.
   private static twice(star: Star, draw: (s: Star) => void) {
-    const reach = 40;
+    const reach = 60;
     draw(star);
     if (star.x < reach) { draw({ ...star, x: star.x + this.width }); }
     if (star.x > this.width - reach) { draw({ ...star, x: star.x - this.width }); }
@@ -75,6 +89,12 @@ export class SkyTexture {
       if (i < 60) { this.twice({ x, y, power: .62 + .38 * u, rgb, spikes: true }, s => this.bright(g, s)); }
       else if (i < 1200) { this.twice({ x, y, power: .1 + .34 * u ** 2, rgb }, s => this.bright(g, s)); }
       else { this.twice({ x, y, power: .1 + .46 * u ** 3, rgb }, s => this.splat(g, s)); }
+    }
+    // A few jewels: the stars the eye goes to, each with a wide soft halo and a long fine cross of light, in a
+    // colour of its own (a sky is not only white points: a blue giant, an orange one).
+    for (let i = 0; i < 16; i++) {
+      const x = r.next() * this.width, y = r.next() * this.height, rgb = this.stars[this.mix[(r.next() * 14) | 0]!]!;
+      this.twice({ x, y, power: 1, rgb, spikes: true }, st => this.jewel(g, st));
     }
     g.globalAlpha = 1;
     return this.url = canvas.toDataURL('image/png');

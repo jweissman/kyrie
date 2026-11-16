@@ -16,7 +16,7 @@ export class Observatory {
   static readonly cx = 470;
   static readonly cy = 2050;
   static readonly r = 1640;
-  static readonly field = 420;
+  static readonly field = 440;
   // How far the far field slides as the ring turns a degree (a sign is thirty: over a third of what is in sight).
   static readonly pan = 18;
   static View({ signs, focus, chosen, flare, onFocus, onChoose }: { signs: Sign[]; focus?: string; chosen?: string;
@@ -76,13 +76,23 @@ export class Observatory {
       <g className={cls} data-sign={sign.id} transform={`rotate(${angle} ${cx} ${cy}) translate(${cx} ${cy - r})`}
         onMouseEnter={() => onFocus(sign.id)} onClick={() => onChoose(sign.id)}>
         <circle className="obs-hit" r={field * .62} />
-        {sign.lines.map(([a, b], i) => <line key={i} x1={p(a!)[0]} y1={p(a!)[1]} x2={p(b!)[0]} y2={p(b!)[1]} />)}
+        {sign.lines.map(([a, b], i) => <Observatory.Link key={i} from={p(a!)} to={p(b!)}
+          gap={[Observatory.radius(star(a!)[2]), Observatory.radius(star(b!)[2])]} />)}
         {sign.stars.map((s, i) => <circle key={i} className={`obs-star b${s[2] ?? 1}`} cx={p(i)[0]} cy={p(i)[1]}
-          r={1.6 + (s[2] ?? 1) * 1.6} />)}
+          r={Observatory.radius(s[2])} />)}
         <text className="obs-name" y={Observatory.foot(sign) * field + 46} textAnchor="middle">
           {sign.name.replace(/^the /i, '')}</text>
       </g>
     );
+  }
+  // A star's size by its magnitude (1 faint to 3 bright): plainly different, so that a figure reads by its bright stars.
+  static radius(magnitude = 1): number { return [0, 2.2, 3.8, 5.6][Math.min(3, Math.max(1, magnitude))]!; }
+  // A line of a figure, from star to star but never into them: it stops a little short of each, as a drawn constellation
+  // does, so that the stars stand clear of the figure they make.
+  static Link({ from, to, gap }: { from: readonly [number, number]; to: readonly [number, number];
+    gap: readonly [number, number] }) {
+    const dx = to[0] - from[0], dy = to[1] - from[1], len = Math.hypot(dx, dy) || 1, a = gap[0] + 4, b = gap[1] + 4;
+    return <line x1={from[0] + dx / len * a} y1={from[1] + dy / len * a} x2={to[0] - dx / len * b} y2={to[1] - dy / len * b} />;
   }
   // How far below the field's middle its lowest star stands, as a fraction of the field (its name goes beneath).
   static foot(sign: Sign): number { return Math.max(...sign.stars.map(x => x[1] ?? .5)) - .5; }
