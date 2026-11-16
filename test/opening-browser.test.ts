@@ -83,6 +83,22 @@ class Stage {
       return { left: Math.round(letters[0]!.left), right: Math.round(letters.at(-1)!.right), width: innerWidth };
     });
   }
+  // The keys alone, as a player at a keyboard finds the title: New game is lit, so Enter held begins, whether the title
+  // is still coming up or has come (M22: the reveal swallowed the press, and after it nothing had the keys' focus).
+  static readonly begun = ['reveal: create', 'ready: create'];
+  static async keyed(browser: Awaited<ReturnType<typeof MonoBrowser.launch>>, site: string) {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '?ident' });
+    const begun: string[] = [];
+    for (const beat of ['reveal', 'ready'] as const) {
+      if (begun.length) { await page.reload(); }
+      await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
+      await page.keyboard.down('Enter'); await page.waitForTimeout(800); await page.keyboard.up('Enter');
+      await page.waitForSelector('[data-mode="create"]', { timeout: 20000 }).catch(() => undefined);
+      begun.push(`${beat}: ${await page.getAttribute('[data-mode]', 'data-mode')}`);
+    }
+    await page.close();
+    return errors.length ? [...begun, ...errors] : begun;
+  }
 }
 
 describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a life', () => {
@@ -135,8 +151,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     }
     // Before the ways are there, only the title; a tap on New game only arms it, held it begins (the owner, 16 Nov).
     expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening hold: create']);
-    await page.reload();
-    await page.waitForSelector('.beat-ident', { timeout: 30000 });
+    await page.reload(); await page.waitForSelector('.beat-ident', { timeout: 30000 });
     await page.keyboard.press('Space');
     await page.waitForSelector('.beat-ready', { timeout: 5000 });
     const begin = await Stage.begin(page);
@@ -146,6 +161,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.close();
   }, 240000);
 
+  it('begins at a held Enter', async () => expect(await Stage.keyed(browser, site)).toEqual(Stage.begun), 120000);
   it('shows the names the address asks for, and spares one who asks for less motion the mark', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 390, height: 844 },
       { site, pointer: true, query: '?studio=freehaven&name=Seven%20Lamps' });

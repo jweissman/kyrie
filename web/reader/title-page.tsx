@@ -4,7 +4,6 @@ import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
-import { Touch } from './instrument/touch';
 import { Hold } from './instrument/hold';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
@@ -32,8 +31,9 @@ export class TitlePage {
     const item = (way: Way) => ({ onMouseEnter: () => activate(way), onFocus: () => activate(way),
       'aria-current': active === way || undefined, 'data-way': way });
     const mark = <i className="row-mark" aria-hidden="true" />;
-    // The first touch (see Touch): the keys are on the first way in as soon as it is offered, not one press away.
-    useEffect(() => { if (beat === 'ready' && Touch.on()) { TitlePage.focus(first); } }, [beat, first]);
+    // The keys are on the first way in as soon as it is offered, not one Tab away: New game is lit as the current way,
+    // so Enter held on it begins (M22: a held Enter on the lit row had done nothing).
+    useEffect(() => { if (beat === 'reveal' || beat === 'ready') { TitlePage.focus(first); } }, [beat, first]);
     return (
       <div className={`opening title-page beat-${beat}`} data-mode="title">
         {beat !== 'ident' && <TitlePage.Motes />}
@@ -121,6 +121,9 @@ export class TitlePage {
         if (beat === 'reveal' && e.type === 'pointerdown' && (e.target as Element | null)?.closest?.('.way-in')) {
           go('ready'); return;
         }
+        // And the keys' Enter or Space on the way they are on, as it comes up: that way's press, as a hand's would be.
+        if (beat === 'reveal' && e instanceof KeyboardEvent && (e.key === 'Enter' || e.key === ' ')
+          && document.activeElement?.closest('.way-in')) { go('ready'); return; }
         e.stopImmediatePropagation(); e.preventDefault();
         if (e.type === 'pointerdown') { TitlePage.swallow(); }
         go('ready'); };
