@@ -89,6 +89,9 @@ html, body { overflow: hidden; }
   border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
 .way-in:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); transition: none; }
 .way-in[aria-current="true"] .row-mark { background: rgba(236, 230, 217, .7); }
+/* New game: every opportunity is behind it, the five tones of the atlas in one line (gold, red, blue, green, violet). */
+.way-in[data-action="begin"] .row-mark { background: linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue),
+  var(--tone-green), var(--tone-violet)); opacity: .85; }
 .way-in:focus-visible { outline: none; }
 .way-in:focus-visible:not([aria-current="true"]) { color: var(--ivory); }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));

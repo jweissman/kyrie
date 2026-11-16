@@ -339,7 +339,7 @@ export class Promotion {
   // something to learn, blue, not only something worth a look (the owner, 12 November: a bare link that "clearly gives
   // you a clue").
   private static aspects(c: Candidate, why: Why, whys: Why[]): Aspect[] {
-    const all = Aspects.of([why, ...whys.filter(w => w !== why)], c.marks);
+    const all = Aspects.of([why, ...whys.filter(w => w !== why)], c.marks, c.visited === true);
     return why === 'own' && c.teaches ? ['knowledge', ...all.filter(a => a !== 'exploration' && a !== 'knowledge')] : all;
   }
   // Of an opener, each act within it a reason is for, with the aspects those reasons give it, best first: so that what

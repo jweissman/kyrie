@@ -140,7 +140,7 @@ export class Offers {
   // gold aside (gold is only the followed aim's next step, which is among the acts).
   private static candidate(c: Candidate): Offered {
     return { choice: c.choice, ...c.command ? { command: c.command } : {}, label: c.label, type: this.types[c.kind],
-      aspects: Aspects.of(c.whys, c.marks).filter(a => a !== 'undertaking'), marks: c.marks,
+      aspects: Aspects.of(c.whys, c.marks, c.visited === true).filter(a => a !== 'undertaking'), marks: c.marks,
       ...c.minutes ? { minutes: c.minutes } : {} };
   }
 }
