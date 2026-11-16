@@ -16,7 +16,7 @@ export class RunnerFidelity {
     payoff: /^[+-] (at\(\w+, \w*member_|ownedItem\(|quantity\(party, gold\))/,
     // Or a try at a thing (push, listen): how its working is found out, which the next look answers (pick it, wrench
     // it, it gave).
-    knowledge: /^\+ (knows|tried)\(/,
+    knowledge: /^\+ (knows|tried|toldBy)\(/,
     // (Joining spends the willingness it was asked on, and leaves where they stood: PB-24, Gimgen at the taproom.)
     companionship: /^(\+ (willing|companion|memberOf)\(|- willing\()/,
     // (Or its standing toward the company: let be, warned off, coming at it: a band talked round or not.)
@@ -52,7 +52,9 @@ export class RunnerFidelity {
   // A change to what the act is done to (its command's own arguments): its state, or a try at it.
   private static seen(change: string, act: Promoted): boolean {
     const on = /\((.*)\)/.exec(act.command ?? '')?.[1]?.split(',').map(a => a.trim()) ?? [];
-    return on.some(a => change.startsWith(`+ state(${a},`) || change.startsWith(`+ tried(${a},`));
+    // (Or what it is about: change_thing's argument is the way of changing, the cairn mended is its subject.)
+    return [...on, ...act.subject ? [act.subject] : []].some(a => change.startsWith(`+ state(${a},`) || change.startsWith(`+ tried(${a},`)
+      || change.startsWith(`+ changedBy(${a},`));
   }
   // The act done, and, where it opens onto others, the one within it that the facet is for.
   private static async done(session: PlaySession, act: Promoted, aspect: Aspect): Promise<string[]> {
