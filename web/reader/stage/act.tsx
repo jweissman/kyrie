@@ -37,8 +37,7 @@ export class Act {
       c.risk ? 'risk' : '', c.grave ? 'grave' : '', c.disabled ? 'shut' : '',
       opens ? draw.open.has(c.id) ? 'opened' : 'opens' : ''].filter(Boolean).join(' ');
     const tags = marked && !quiet ? Act.tags(c) : [];
-    // The interaction research's versions (see Press): the act taken, drawn so while the engine answers; a sustained
-    // act held in the hold's version (see Hold).
+    // The act taken, drawn so while the engine answers; a sustained act held (see Hold).
     const taken = s.pending?.taken === c.id || undefined, held = Hold.holds(c) ? Hold.props(draw.app, c) : {};
     // The first touch's (see Touch): what is asked before it is done is held to be done, or tapped to be asked.
     const touchHold = Touch.on() && asks && !c.disabled ? { 'data-touch-hold': 'grave' } : {};

@@ -14,7 +14,6 @@ import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
-import { Press } from './instrument/press';
 import { Hold } from './instrument/hold';
 import { Touch } from './instrument/touch';
 import { Tone } from './instrument/tone';
@@ -89,7 +88,7 @@ export interface AppState {
   // Whether the keys are being used: only then is the choice they are on shown.
   keyed?: boolean;
   // What is under way, as it is said; a journey, by what way (where it is known), and that it is one.
-  // taken: the choice it was, drawn taken while the engine answers (the interaction research's versions: see Press).
+  // taken: the choice it was, drawn taken while the engine answers.
   pending?: { said: string; travel?: Travel; going?: boolean; taken?: string };
   // What the player is attending to (the place, someone spoken with, one thing looked at), what has been said in
   // the conversation under way, and which of its questions have been put already.
@@ -135,7 +134,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     window.addEventListener('keydown', this.keys.press);
     // A press taken once, on the screen it was made on (IG-17, IG-18).
     PressGuard.attach(() => this.state.frame ?? this.state.phase);
-    Press.attach(() => this.state.phase === 'play'); Hold.attach(); Touch.attach();
+    Hold.attach(); Touch.attach();
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
@@ -146,7 +145,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame;
     if (frame && prev.frame !== frame) {
       Timings.painted(frame);
-      PressGuard.changed(); Press.arrived();
+      PressGuard.changed();
       // The keys rest on what the page marks first, not on whatever is drawn first (the owner, 4 November: the first
       // option lit while another was the aim's).
       const top = this.state.keyed ? GlanceStage.top(this) : -1;
@@ -306,13 +305,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame), going = /^travel:/.test(choice.command!);
     const heard = this.menu.talk?.replies.map(c => c.id), was = this.state.attention;
     this.setState({ pending: { said, taken: choice.id, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });
-    const started = performance.now();
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
-      await Press.settle(started);
       // A journey over the land is walked on the map, wherever it was set out from, to the hex it came to: where it
       // arrived, or where it was stopped; what came of it is told once the company is there.
       // Set out on from the scene (a road chosen among the acts), it is no walk on the map: the company comes to its next

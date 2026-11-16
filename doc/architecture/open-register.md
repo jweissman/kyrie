@@ -1132,7 +1132,7 @@ mission-22/baseline/. The unregistered M17–M21 promises the audit found (missi
 | OR-08 | Hold on set-out → first page 8.8–10.4 s on a laptop; the engine's `ready` preparation fires only from the old `company` phase, never from composed creation | open (measure first) | P1 | M22 step 6 |
 | OR-09 | Navigation → a usable title 8.9 s by hand, about 12.3 s by the keys (cold, with the studio mark); the script is 5.5 MB compressed, one 1.5 s compile | open | P1 | M22 step 6 |
 | OR-10 | No commit sound by default: `Tone` sounds only under `?ix`/`?touch` | open (design: step 3) | P3 | M22 |
-| OR-11 | Four press mechanisms in `web/reader/instrument/` (Hold live; Press `?ix`, Touch/Gesture `?touch` unadopted experiments; Reticle); per-row onClick commits (124) and three focus models | open (one commit path, one focus) | P1 | M22 step 2 |
+| OR-11 | Four press mechanisms in `web/reader/instrument/` (Hold live; Press `?ix`, Touch/Gesture `?touch` unadopted experiments; Reticle); per-row onClick commits (124) and three focus models | partly: the `?ix` pipeline (Press) removed, its tone now `?sound=1`; open: `?touch`, one commit path, one focus | P1 | M22 step 2 |
 | OB-01 | Register scripts skip §49–§50's three-column tables (13 rows, 8 live); PB-15 twice | open | P2 | M22 step 1 |
 | OB-02 | Five `it.skip` journeys (OA-01..04, silent-lord-turns with AI-02 closed) and five `it.failing` pins (crossing-order AX-07; familiar scouting; atlas-perception ×3) without rows of their own | open | P2 | M22 ∥E |
 | OB-03 | Unregistered promises: Wander; a career rule for the commoner; familiar scouting; focus as engine state and a controller; the owner's preservation asks (middle scale, almanac, tarot, paragon journeys) | open (prospectus, Phase 5) | P3 | M22 |

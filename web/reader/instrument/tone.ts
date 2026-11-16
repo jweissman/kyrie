@@ -1,7 +1,7 @@
-// One low tone on a commitment (IG-06), for the interaction research's two versions only (see Press): a soft wooden
+// One low tone on a commitment (IG-06), only where the address asks (?sound=1) while M22 tries it: a soft wooden
 // knock rather than a beep, as a piece is set down on a board. Made, not recorded: a falling sine and a quieter
 // partial an octave and a fifth above, through a low pass, gone in a fifth of a second. A held act's is a little lower
-// and longer. Silent where the address asks (&sound=0), and wherever the page cannot sound.
+// and longer. Silent otherwise, and wherever the page cannot sound.
 export type Knock = 'commit' | 'held';
 export class Tone {
   private static context?: AudioContext;
@@ -11,9 +11,12 @@ export class Tone {
   };
   // How many have sounded (for the repetition test: kyrieMono.inspect is the engine's; this is the page's own).
   static count = 0;
+  static set(query: URLSearchParams) {
+    if (query.get('sound') === '1') { document.documentElement.dataset.sound = 'on'; }
+  }
   static play(kind: Knock) {
     const root = typeof document === 'undefined' ? undefined : document.documentElement;
-    if ((!root?.dataset.ix && !root?.dataset.touch) || root.dataset.sound === 'off' || typeof AudioContext === 'undefined') { return; }
+    if (root?.dataset.sound !== 'on' || typeof AudioContext === 'undefined') { return; }
     Tone.count++;
     try { Tone.knock(Tone.shapes[kind]); } catch { /* a page that cannot sound plays on in silence */ }
   }

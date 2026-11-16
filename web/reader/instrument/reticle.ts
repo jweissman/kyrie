@@ -1,4 +1,4 @@
-// The reticle drawn by the page while an act is held (?ix=b, see Hold): the pointer's own ring (menu.css's
+// The reticle drawn by the page while an act is held (see Hold): the pointer's own ring (menu.css's
 // --cursor-press), which a CSS cursor cannot fill, drawn where the pointer is for as long as the hold lasts, the
 // system's cursor hidden meanwhile. It fills round over the hold's time; full, its centre fills and it is gone; let
 // go early, it drains from where it got to. Under reduced motion it fills by quarters (instrument.css).
