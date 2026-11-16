@@ -37,7 +37,8 @@ export class AimAdvances {
     const worn = Carriers.worn(campaign);
     const wanted = AimLeads.sellers(campaign, def).length ? AimLeads.wanted(campaign, def) : new Set<string>();
     // Save a thing bought that someone the aim waits on keeping wants (feverwort for the fevered child: PL-28).
-    return new Set(rows.filter(r => !r.action.movement && ((r.action.schema === 'buy_item'
+    // Nor an order given to one who has joined (stay, come on): what it does to who travels is not the aim's step.
+    return new Set(rows.filter(r => !r.action.movement && !/^(hold_here|call_on)$/.test(r.action.schema ?? '') && ((r.action.schema === 'buy_item'
       && wanted.has(r.action.bindings?.form ?? '')) || (!/^buy_/.test(r.action.schema ?? '')
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
         || (coin && !worn.has(r.action.bindings?.ware ?? '') && (/^sell/.test(r.action.schema ?? '') || this.pays(r.action, actor))))))).map(r => r.choice.id));

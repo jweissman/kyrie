@@ -20,6 +20,8 @@ describe('a commander', () => {
     await t.play('Ask (Hob|him) to join the company');
     const joined = members(t);
     expect(joined).toBe(2);
+    // An order is the player's to give, never what the page leads with (it had been led as the aim's next step).
+    expect((t.leaf.glance?.acts ?? []).some(a => /stay here|come on again/.test(a.label))).toBe(false);
     await t.play('To the lane');
     expect(t.journey.choices().some(c => /Ask (Hob|him) to stay here/.test(c.full))).toBe(true);
     await t.play('Ask (Hob|him) to stay here');

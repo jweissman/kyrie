@@ -21,7 +21,7 @@ Module world_people "Company and intention" {
   // joined it, who goes where it goes and can be talked to on the way.
   Relation willing(group, group). Measure hire(group). Relation travelsWith(group, group).
   // Someone who joined and was told to wait where they are (see hold_here): theirs to be called on again, for nothing.
-  Relation stayed(group, group).
+  Relation waitsHere(group, group).
   // Who someone who has joined now is among the company's members: they answer on the way only while that member is
   // awake (not fallen, not asleep, not laid to rest).
   Relation joinedAs(member, group).
@@ -51,14 +51,14 @@ Module world_people "Company and intention" {
     Time 1 minute.
     Description "They stay where they are, and wait for you.".
     Requires able(actor) and company(actor) and at(actor, site) and travelsWith(retainer, actor) and distinct(actor, retainer).
-    On success { Retract travelsWith(retainer, actor). Assert stayed(retainer, actor). }
+    On success { Retract travelsWith(retainer, actor). Assert waitsHere(retainer, actor). }
   }
   Action call_on(actor: group, retainer: group, site: place) "Ask {retainer} to come on again" {
     Time 1 minute.
     Description "They take their place with you again.".
-    Requires able(actor) and company(actor) and able(retainer) and at(actor, site) and at(retainer, site) and stayed(retainer, actor).
+    Requires able(actor) and company(actor) and able(retainer) and at(actor, site) and at(retainer, site) and waitsHere(retainer, actor).
     Resolve enlist(retainer, actor).
-    On success { Retract stayed(retainer, actor). Assert travelsWith(retainer, actor). Retract at(retainer, site). }
+    On success { Retract waitsHere(retainer, actor). Assert travelsWith(retainer, actor). Retract at(retainer, site). }
   }
   Action lead(actor: group, companion: group, site: place) "Ask {companion} to come with you" {
     Time 1 minute.
