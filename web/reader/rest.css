@@ -331,11 +331,14 @@
 @media (max-width: 899px), (orientation: portrait) {
   /* A card inside the safe margins, standing clear above the rail: what is told and chosen never runs under the rail
      or to the screen's edge (the owner, 11 November). */
-  .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: var(--safe-x); right: var(--safe-x);
-    bottom: calc(var(--safe-b) + 64px);
+  .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; bottom: 0;
     /* Below the place's name and line, never over them (the contact sheet, 12 November: the panel had cut the line). */
-    max-height: calc(100dvh - var(--safe-t) - 96px - var(--safe-b) - 64px);
-    padding-bottom: 14px; border-width: 1px; }
+    max-height: calc(100dvh - var(--safe-t) - 96px);
+    /* A scrim, not a box (the owner, 16 November): the painting stays present and darkens toward its foot, edge to edge,
+       while what is told and chosen stays inside the safe margins and clear above the rail (11 November). */
+    box-sizing: border-box; padding: 56px var(--safe-x) calc(var(--safe-b) + 64px); border: 0; box-shadow: none;
+    backdrop-filter: none; background: linear-gradient(to top, rgba(10, 11, 14, .94) 0, rgba(10, 11, 14, .9) 62%,
+      rgba(10, 11, 14, .55) 84%, rgba(10, 11, 14, 0) 100%); }
   /* Inside the safe zone, with room for a pip standing off its marks (14px had put it past the zone on an upright
      iPad: the five-size walk, 11 November). */
   .scene-rail { bottom: calc(var(--safe-b) + 4px); }
