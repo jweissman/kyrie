@@ -25,7 +25,7 @@ export class ComposedOptions {
     }
     if (step.id === 'sign') {
       const signs = catalog.signs;
-      return { all: true, options: step.cards.map(c => ({ id: c.id, name: c.name.replace(/^the /, 'The '),
+      return { options: step.cards.map(c => ({ id: c.id, name: c.name.replace(/^the /, 'The '),
         aside: signs.find(x => x.id === c.id)?.month ?? '' })), say: (id: string) => signs.find(x => x.id === id)?.line ?? '' };
     }
     if (step.id === 'before') {

@@ -105,16 +105,12 @@ export class ComposedCreation {
     unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
     after?: ReactNode }) {
     const all = offer.options, per = offer.cards ? ComposedCreation.cards : ComposedCreation.folded;
-    // Never more than four cards at once (the owner, 15 November): the rest are a page on, and the pages go round.
-    // Rows fold to four and the rest, once, where there are more than five.
-    const pages = offer.cards ? Math.ceil(all.length / per) : 1;
-    const folds = !offer.all && (offer.cards ? all.length > per : all.length > per + 1 && !more);
-    const page = offer.cards ? more % Math.max(1, pages) : 0;
-    const shown = !folds ? all : offer.cards ? all.slice(page * per, page * per + per) : all.slice(0, per);
-    const last = offer.cards && page === pages - 1;
-    const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: last ? 'The first again'
-      : `${all.length - (page + 1) * per > 0 || !offer.cards ? all.length - shown.length : 0} more`, aside: '' }}
-    onConsider={() => undefined} onChoose={unfold} />];
+    // Never more than four at once, cards or rows (the owner, 15 and 16 November: four in the foreground, the rest a page
+    // on, never unfolded): a row turns the page, and the pages go round.
+    const pages = Math.ceil(all.length / per), folds = !offer.all && all.length > per, page = more % Math.max(1, pages);
+    const shown = !folds ? all : all.slice(page * per, page * per + per);
+    const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
+      aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
     if (offer.cards) {
       return <div className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
         lit={lit === o.id} onConsider={consider} onChoose={choose} />)}{rest}</div>;

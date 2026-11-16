@@ -47,6 +47,9 @@ export class MonoDriver {
     if (!await this.page.locator(selector).count() && await this.page.locator('[data-action="more-cards"]').count()) {
       await this.page.click('[data-action="more-cards"]');
     }
+    // Composed creation pages its rows and cards four at a time (More…, round): turned until the choice is in view.
+    for (let p = 0; p < 6 && !await this.page.locator(selector).count()
+      && await this.page.locator('[data-option="more"]').count(); p++) { await this.page.click('[data-option="more"]'); }
     // An act that is held (a night's rest, a camp) is held as a player holds it: the key down for as long as it takes.
     const held = await this.page.locator(selector).first().getAttribute('data-hold').catch(() => null);
     if (held !== null) {
