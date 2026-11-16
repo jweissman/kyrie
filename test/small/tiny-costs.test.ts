@@ -8,7 +8,7 @@ import { Costs } from '../../src/costs';
 // shared rules and the canon are what it still pays for: a world of one rule has no smaller start yet.
 describe('a tiny world', () => {
   it('starts without drawing a country or composing a world, and installs only its own module and the canon', async () => {
-    const t = await Tiny.start('Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard.');
+    const t = await Tiny.start('Place costyard "the cost-yard" is room at 0, 0 outdoors. Company party "You" of 1 at costyard.');
     expect([t.costs.region, t.costs.world]).toEqual([undefined, undefined]);
     expect(t.costs.install?.ids.sort()).toEqual(['canon', 't']);
     expect(t.costs.creature?.n).toBe(1);
