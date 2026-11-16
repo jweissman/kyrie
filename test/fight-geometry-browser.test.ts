@@ -111,11 +111,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
       moved.push(...Walk.moved(Object.fromEntries(keys.map(k => [k, first[k]!])), b).map(m => `${state}: ${m}`));
     };
     expect(await Walk.column(page)).toBe(true);
-    // A kind opened (the category), and put away.
+    // A kind opened (the category): its moves in place of the hand's, never a list beside it (ruling 2); and put away.
     await page.click('.fight .hand-menu [data-action="panel"] >> nth=0');
-    expect(await page.locator('.fight .hand-detail .panel').count()).toBe(1);
+    expect([await page.locator('.fight .hand-menu [data-action="move"]').count() <= 4,
+      await page.locator('.fight .hand-detail [data-act]').count()]).toEqual([true, 0]);
     seen('a kind opened', await still());
-    await page.click('.fight .hand-menu [data-action="panel"] >> nth=0'); seen('put away', await still());
+    await page.click('.fight .hand-menu [data-action="panel-back"]'); seen('put away', await still());
     // Aiming: Attack, three rats to choose from; the reticle on each (changing target); then not now.
     await page.click('.fight .hand-menu [data-action="attack"]');
     expect(await page.locator('.fight.aiming').count()).toBe(1);
@@ -129,7 +130,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     expect(await Walk.column(page)).toBe(true);
     // A technique chosen from its kind; aimed where it asks whom; the blow struck and answered (damage).
     await page.click('.fight .hand-menu [data-action="panel"] >> nth=0');
-    await page.locator('.fight .hand-detail .panel [data-act]').first().click(); await d.settle();
+    await page.locator('.fight .hand-menu [data-action="move"][data-act]').first().click(); await d.settle();
     if (await page.locator('.fight.aiming').count()) { await page.locator('.fight .fighter.target .pick').first().click(); }
     await ours();
     if ((await d.inspect()).mode === 'combat') { seen('after a technique and the blows', await still(), true); }

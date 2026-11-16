@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, type ButtonHTMLAttributes } from 'react';
 import type { Choice, Section } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act } from './act';
 import { ChoiceRow } from './choice-row';
+import { Paging } from '../paging';
 
 // What the one whose turn it is can do, as a few things to do and not every act the rules allow (the owner, 9
 // November: "something like eighteen action buttons"; Attack had opened a list of names). Across the foot: Attack, and
@@ -33,33 +34,47 @@ export class FightMoves {
     const take = (c: Choice) => FightMoves.take(app, c, aim, open);
     const note = (c: Choice) => ({ onMouseEnter: () => hover(c), onFocus: () => hover(c), onMouseLeave: () => hover(undefined) });
     return <div className={`hand${aiming ? ' aiming' : shown ? ' opened' : ''}`}>
-      <div className="hand-menu" role="toolbar" aria-label="What you can do">
+      <div className="hand-menu" role="toolbar" aria-label={shown ? shown.title : 'What you can do'}>
+        {shown ? <FightMoves.Kind key={shown.id} section={shown} take={take} note={note} close={() => open()} /> : <>
         {attack && <ChoiceRow.Button className={`move main${aiming?.choice.id === attack.id ? ' opened' : ''}`}
           data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} mark="var(--ember)"
           label={FightMoves.attack(attack)} />}
         {FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length).map(([id, label]) =>
-          <ChoiceRow.Button key={id} className={`move kind${panel === id ? ' opened' : ''}`} data={{ action: 'panel', panel: id }}
-            expanded={panel === id} onClick={() => { aim(); open(panel === id ? undefined : id); }} label={label}
-            extra={<span className="row-opens" aria-hidden="true">›</span>} />)}
+          <ChoiceRow.Button key={id} className="move kind" data={{ action: 'panel', panel: id }}
+            onClick={() => { aim(); open(id); }} label={label} />)}
         {/* The fight's pace, the contract's own acts (ChoiceList.pace: fight:auto, and fight:through when as good as
             won): rows of the one menu, quieter, at its foot. */}
         {pace.map(c => <ChoiceRow.Act key={c.id} choice={c} draw={Act.draw(app)} className="move quiet-row"
           label={Typography.curl(Words.shown(c.label))} {...c.id === 'fight:auto' ? { extra: <kbd className="row-key">T</kbd> } : {}} />)}
+        </>}
       </div>
       <div className="hand-detail" aria-live="polite">
         {aiming ? <div className="aiming" role="status">
           <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: choose whom, on the field.`)}</p>
           <button type="button" className="move quiet" data-action="unaim" onClick={() => aim()}>Not now <kbd>Esc</kbd></button>
-        </div> : shown ? <ul className="panel" aria-label={FightMoves.kinds.find(k => k[0] === panel)?.[1]}>
-          {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button
-            className={`move${c.disabled ? ' unusable' : ''}`} data={{ choice: c.id, disabled: c.disabled ? 'true' : undefined }}
-            act={c.disabled ? undefined : c.id} onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))}
-            {...c.disabled ? { aside: Typography.curl(c.disabled) } : {}} events={note(c)} /></li>)}
-        </ul> : null}
+        </div> : null}
         {/* What the move under the hand does, in the one place it is said: never inside its row. */}
         <p className="hand-note">{under?.note ? Typography.curl(`${Words.shown(under.label)}: ${under.note}`) : ''}</p>
       </div>
     </div>;
+  }
+  // A kind opened (the owner's ruling 2: attending replaces the foreground, more than four are paged, never unfolded):
+  // its moves in place of the hand's, those that can be done first, four at a time, a row turning the page (no act) and
+  // Back to the hand; what the move under the hand does is said beside it, in the details region.
+  static Kind({ section, take, note, close }: { section: Section; take: (c: Choice) => void; close: () => void;
+    note: (c: Choice) => Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
+    const [page, turn] = useState(0), all = FightMoves.flat(section.choices);
+    const paged = Paging.of([...all.filter(c => !c.disabled), ...all.filter(c => c.disabled)], 4, page);
+    return <>
+      {paged.shown.map(c => <ChoiceRow.Button key={c.id} className={`move${c.disabled ? ' unusable' : ''}`}
+        data={{ action: 'move', choice: c.id, disabled: c.disabled ? 'true' : undefined }} act={c.disabled ? undefined : c.id}
+        onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))}
+        {...c.disabled ? { aside: Typography.curl(c.disabled) } : {}} events={note(c)} />)}
+      {paged.pages > 1 && <ChoiceRow.Button className="move quiet-row" data={{ action: 'more-moves' }}
+        onClick={() => turn(paged.at + 1)} mark={ChoiceRow.neutral} markClass="neutral"
+        label={`More ${section.title.toLowerCase()}…`} aside={`${paged.at + 1} of ${paged.pages}`} />}
+      <ChoiceRow.Button className="move quiet-row" data={{ action: 'panel-back' }} onClick={close} label="Back" />
+    </>;
   }
   private static attack(c: Choice): string {
     return c.command && !c.children ? Words.shown(c.label).replace(/^Strike/, 'Attack') : 'Attack';

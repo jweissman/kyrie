@@ -13,6 +13,7 @@ import { Moments } from './moments';
 import { Told } from './told';
 import { Wares, type Ware } from '../wares';
 import { TalkFocus } from '../talk-focus';
+import { Paging } from '../paging';
 import { AimNear } from '../aim-near';
 import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
@@ -66,7 +67,7 @@ export class TalkStage {
     // owed, then what can be said and Trade, a page at a time; each row's key is its place, 1 to 4.
     const trades = wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0;
     const [page, turn] = useState(0), room = 3 - focus.answers.length, a = focus.answers.length;
-    const paged = TalkFocus.paged([...focus.salient, ...trades ? ['trade' as const] : [], ...focus.more], room, page);
+    const paged = Paging.of([...focus.salient, ...trades ? ['trade' as const] : [], ...focus.more], room, page);
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -265,7 +266,7 @@ export class TalkStage {
   // What can be said, and Trade among it, a page at a time in the rows the leave and any answer leave (see View): when
   // there is more than fits, a row turns the page (no act), the next in place of these, round to the first.
   static Topics({ draw, name, paged, first, turn, again, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
-    name: string; paged: ReturnType<typeof TalkFocus.paged<Choice | 'trade'>>; first: number; turn: () => void;
+    name: string; paged: ReturnType<typeof Paging.of<Choice | 'trade'>>; first: number; turn: () => void;
     again: boolean; spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Aspect[];
     paying?: string[]; trade: ReactNode }) {
     return <>
