@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ReaderApp } from '../reader-app';
 import type { Choice } from '../../../src/ui/choice-list';
 import { Typography } from '../../../src/presentation/typography';
@@ -24,19 +25,21 @@ export type Lens = 'here' | 'people' | 'things' | 'ways';
 interface Row { id: string; label: string; note?: string; tone?: string; faint?: boolean; glyph?: string;
   pick: () => void; chosen?: boolean; choice?: Choice }
 export class Attention {
-  // At most this many rows in a lens; the rest one quiet touch away ("All ways"), in the same menu.
-  static readonly most = 5;
+  // At most this many rows in a lens (four in every context: the owner, 16 November); the rest on pages, a row that
+  // turns them, never an unfold.
+  static readonly most = 4;
   static lens(app: ReaderApp): Lens {
     const s = app.state;
     return s.exploring === 'go' ? 'ways' : s.exploring === 'look' ? 'things' : s.talking ? 'people' : 'here';
   }
   // The menu a lens shows, in place of the four the place leads with.
-  static Menu({ app, draw, all }: { app: ReaderApp; draw: Draw; all?: boolean }) {
-    const lens = Attention.lens(app);
+  static Menu({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const lens = Attention.lens(app), [page, turn] = useState(0);
     if (lens === 'here') { return null; }
     const rows = lens === 'ways' ? Attention.wayRows(app) : lens === 'people' ? Attention.personRows(app)
       : Attention.thingRows(app);
-    const shown = all || app.state.open.includes('attention:all') ? rows : rows.slice(0, Attention.most);
+    const pages = Math.max(1, Math.ceil(rows.length / Attention.most)), at = page % pages;
+    const shown = rows.slice(at * Attention.most, at * Attention.most + Attention.most);
     const chosen = lens === 'things' ? AtHand.of(app).find(h => h.id === app.state.hovered) : undefined;
     return <ol className={`led attention-menu lens-${lens}`} aria-label={lens}>
       {shown.map(r => <li key={r.id}>
@@ -48,9 +51,8 @@ export class Attention {
           aside={r.note && Typography.curl(r.note)} />
         {r.chosen && chosen && <Attention.Unfolded draw={draw} held={chosen} />}
       </li>)}
-      {rows.length > shown.length && <li><button type="button" className="quiet-word attention-all"
-        data-action="attention-all" onClick={() => app.setState({ open: [...app.state.open, 'attention:all'] })}>
-        {`All ${rows.length} ${lens}`}</button></li>}
+      {pages > 1 && <li><button type="button" className="quiet-word attention-all" data-action="lens-page"
+        data-page={at + 1} data-pages={pages} onClick={() => turn(at + 1)}>{`More ${lens}… ${at + 1} of ${pages}`}</button></li>}
     </ol>;
   }
   // A thing chosen, unfolded under its own row: what more there is to see of it, and what can be done with it.
