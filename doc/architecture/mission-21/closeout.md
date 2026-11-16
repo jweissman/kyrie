@@ -1,8 +1,37 @@
-# Mission 21: closeout and hand-off (17 November 2026)
+# Mission 21: closure and hand-off (16 November 2026)
 
 Written for the owner, from a review of every M22-facing document in this directory against what is on main (`0f59e701`, full
 CI green). Verdicts are **done** (a spec, a measure or a screenshot shows it), **superseded** (a later ruling replaced it),
 **open**, or **unverified**. Nothing here was played through by a person; that is the mission's standing gap.
+
+## 0. Closure statement
+
+M21 is closed **as an engineering phase**, at the owner's instruction of 16 November, so that M22 can begin. It is **not**
+closed as accepted:
+
+- **Player acceptance has not been achieved.** No person and no blind agent has played the current deployed build through its
+  first fifteen minutes. The owner's own plays on 16 November still met breakers. FH-01 ("no person has accepted the first
+  hour") stays open at P0.
+- **The inherited obligations have not been discharged.** `bun scripts/register-state.ts` on this revision reads 541 rows that
+  carry a status column. Of those, 161 are fixed, 30 duplicates, 4 decided, 6 ambitions, 45 deferred, 104 partly and 191 open.
+  Two P0s are live: FH-01, open, and DN-06, the writing, partly. Of the P1s, 42 are open and 37 partly. The register grew about
+  as fast as it was paid down.
+- **The dramatic core was never demonstrated.** No compact expedition has been lived through end to end (OA-12, HP-03). Four
+  journey specs are still skipped because they fail when unskipped (OA-01..04).
+- **What M21 did achieve** is the cheap loop and the means of proof. `check:fast` runs in about 30 s. A push lane takes about
+  9 min and the full suite runs nightly. Tiny worlds start in 70 ms. On the experience side M21 delivered:
+  - four foreground actions everywhere, with paging and no unfolding menus;
+  - one hold mechanism;
+  - the five-colour atlas;
+  - the map's own menu;
+  - a mage who can cast;
+  - a pursuable opening on all of a1's placed origins.
+
+  The owner can now reliably open the title, create a character by holding, set out, follow an aim, and see its one next step
+  in gold. They can also cross roads from the map's menu and talk four topics at a time.
+
+Every open line below is carried by the M22 brief (`doc/architecture/mission-22/brief.md`) or by the register. None is
+dropped here.
 
 ## 1. Against the brief (12 November)
 
@@ -11,7 +40,7 @@ CI green). Verdicts are **done** (a spec, a measure or a screenshot shows it), *
 | A cheap loop | **Done** | `bun run check:fast` about 30 s over 1,470 tests; a push runs the push lane (about 9 min); tiny worlds start in 70 ms; the whole suite is nightly and on demand |
 | A dependable game (15 coherent minutes, unfamiliar player) | **Unverified** | Walkers (a1, b2, c3, d4; gold-following; pseudo-random; 150+ browser steps) found no stuck state, blank row, fifth item, sideways scroll or page error. **No blind agent or person has played the current build on the deployed page**, and four of the owner's own plays in the last day still found breakers (below) |
 | Significantly better presentation | **Partly** | Lantern scene, scrim on a phone, undressed rows, held choices, composed creation, live sky, the map's own menu. Judged by the owner: the sky and the constellations still "not close"; no real iPad or WebKit run |
-| Obligations discharged | **Partly** | 580 register rows: 166 closed, 348 live (267 ready, 71 unverified, 7 research, 3 decisions). The live rows are mostly content, taste and balance; the mechanical ones were worked first |
+| Obligations discharged | **Partly** | register-state: 541 status rows, 161 fixed, 191 open, 104 partly, 45 deferred (register-tickets, which also counts pointer rows, read 580). The live rows are mostly content, taste and balance; the mechanical ones were worked first |
 
 ## 2. The M22-facing documents, reviewed
 
@@ -20,7 +49,7 @@ CI green). Verdicts are **done** (a spec, a measure or a screenshot shows it), *
 | `handoff-to-m22.md` (16 Nov) | Four aims; seven blockers | The blockers were **decided** (owner-rulings-nov16.md) and built; the aims stand (§4). Its "design blockers" section is history |
 | `decisions-for-owner.md` | Seven trade-offs | **Answered**; rulings recorded. Item 7 (prose: name the three rows to fix first) is **still unanswered** |
 | `owner-rulings-nov16.md` | The rulings and their status | Current; its status table is accurate except #5 (the scrim is done for the first scene only) |
-| `button-discovery.md` / `button-data.json` | Measures for the action-button cycle | **Current** (17 Nov); the first work of aim 1 |
+| `button-discovery.md` / `button-data.json` | Measures for the action-button cycle | **Current** (16 Nov); the first work of aim 1 |
 | `first-touch.md` §10 | Inherit commit-on-down for keys/pads/mouse; hold only the irreversible and the entrance; "three seams, then a controller"; commoner calling needs a career rule | **Superseded in part.** The owner has since ruled that cards and title ways in are held, a mouse let go early does nothing, and only a finger or the keys tap-arm. The *seams* (one commit path; creation and the title had their own handlers; openers clicked as DOM) are now one hold mechanism (`Hold.bind`) but the focus model is not unified. The commoner is **open** (needs a rules line) |
 | `consolidated.md` "Deferred to M22" | Planar grand tour (GT-01..03); observatory/instruments page; 3D interactions; energy; tarot/puzzles/devices | **Unchanged**, except the observatory (the sign's sky) which was rebuilt live and is the owner's most-rejected piece |
 | `state.md` (14 Nov) | "Whole suite on every push in under 10 min wall" as M22's target | **Stale and superseded** by the push lane (about 9 min) plus nightly full run, which the owner accepted; keep the nightly green |
@@ -28,7 +57,7 @@ CI green). Verdicts are **done** (a spec, a measure or a screenshot shows it), *
 | `retrospective.md`, `obligations-review-15-nov-late.md` | The ten-point account | Correct as of 15 Nov; superseded for the open list by §3 below |
 | `verb-pins.md`, `casting-fiction.md`, `capstones.md` | Pins and audits | Verb pins **all five done**; casting-fiction CF-03 **not begun**; capstones: crafting now present |
 
-## 3. What landed 16–17 November (since the retrospective)
+## 3. What landed 15–16 November (since the retrospective)
 
 - **Interaction grammar made real:** every foreground is four; lenses, conversations and trade are paged four at a time with a
   non-act pager, never unfolded; the map has its own menu; compound conversation topics are simple rows; the 20-odd

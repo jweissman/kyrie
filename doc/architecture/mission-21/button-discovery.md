@@ -1,4 +1,4 @@
-# The action button: discovery (17 November)
+# The action button: discovery (16 November)
 
 Written for the owner and whoever takes the action-button cycle (aim 1 of the handoff). **Measures, not judgments.** The data
 is test/support/ui-discovery.ts (run `KYRIE_BROWSER=1 bun test/support/ui-discovery.ts`), its output
@@ -76,7 +76,7 @@ What each hand does to a held control (measured; pointer, keys, and a finger by 
 | A hold on a card | goes on | goes on | goes on |
 | The digit 1 on a card | goes on | goes on | n/a |
 
-A mouse or a pen let go early now arms nothing (the owner, 17 November: it felt committed on release); a finger and the keys
+A mouse or a pen let go early now arms nothing (the owner, 16 November: it felt committed on release); a finger and the keys
 may tap a choice armed and tap again, the accessible equivalent of a hold. The row's own small ring is for a finger and the
 keys only; the pointer has the cursor's ring, now two SVG circles (sharp at every density), and each system cursor has a 2×
 image. **Not yet measured:** a screen reader's activation (it commits at once by design), a stylus, a gamepad.
