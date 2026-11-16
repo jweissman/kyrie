@@ -14,34 +14,11 @@ export class Reticle {
     }
     return Reticle.el;
   }
-  // Any button or link pressed by a mouse or pen: the cursor's own ring fills round while the press lasts (the commit
-  // is still
-  // the tap's); let go early, it drains from where it got to.
-  static attach() {
-    window.addEventListener('pointerdown', Reticle.pressed, true);
-    window.addEventListener('pointerup', Reticle.released, true);
-    window.addEventListener('pointercancel', Reticle.released, true);
-  }
-  private static pressed(e: PointerEvent) {
-    const row = e.pointerType !== 'touch' && e.button === 0
-      && (e.target as Element | null)?.closest?.('button:not(:disabled, .shut, [aria-disabled="true"]), a[href]');
-    if (row) { Reticle.show(e.clientX, e.clientY, 520); }
-  }
-  private static released() {
-    const at = Reticle.el;
-    if (at?.classList.contains('holding')) { Reticle.drain(Reticle.got(at)); }
-  }
-  private static got(el: HTMLElement): number {
-    const ms = parseFloat(el.style.getPropertyValue('--hold-ms')) || 520;
-    return Math.min(1, (performance.now() - Reticle.since) / ms);
-  }
-  private static since = 0;
   static show(x: number, y: number, ms: number) {
     const el = Reticle.drawn();
     el.style.setProperty('--hold-ms', `${ms}ms`);
     el.className = 'ix-reticle';
     Reticle.at(x, y, true);
-    Reticle.since = performance.now();
     // Restarted from empty, though the last hold's class was the same.
     void el.offsetWidth;
     el.className = 'ix-reticle holding';

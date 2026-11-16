@@ -16,7 +16,6 @@ import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
 import { Press } from './instrument/press';
 import { Hold } from './instrument/hold';
-import { Reticle } from './instrument/reticle';
 import { Touch } from './instrument/touch';
 import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
@@ -136,7 +135,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     window.addEventListener('keydown', this.keys.press);
     // A press taken once, on the screen it was made on (IG-17, IG-18).
     PressGuard.attach(() => this.state.frame ?? this.state.phase);
-    Press.attach(() => this.state.phase === 'play'); Hold.attach(); Touch.attach(); Reticle.attach();
+    Press.attach(() => this.state.phase === 'play'); Hold.attach(); Touch.attach();
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }

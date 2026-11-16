@@ -41,7 +41,12 @@ export class MonoDriver {
     if (!await this.page.locator(selector).count() && await this.page.locator('[data-action="more-cards"]').count()) {
       await this.page.click('[data-action="more-cards"]');
     }
-    if (this.pointer) {
+    // An act that is held (a night's rest, a camp) is held as a player holds it: the key down for as long as it takes.
+    const held = await this.page.locator(selector).first().getAttribute('data-hold').catch(() => null);
+    if (held !== null) {
+      await this.page.locator(selector).first().focus();
+      await this.page.keyboard.down('Enter'); await this.page.waitForTimeout(700); await this.page.keyboard.up('Enter');
+    } else if (this.pointer) {
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();
       await this.page.tap(selector);
