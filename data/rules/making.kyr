@@ -6,6 +6,9 @@ Module world_making "What a company can make of what it carries" {
   // kinds the catalog has, and it can be made wherever the company has light to work by.
   Kind recipe. Relation takes(recipe, itemkind). Relation takesWith(recipe, itemkind). Relation makes(recipe, itemkind).
   Relation remedy(recipe).
+  // A recipe nobody has worked out yet is `undiscovered`: it cannot be made until the company has found it (`knowsRecipe`),
+  // by trying its two things together (see experiment). Every recipe above is common knowledge, and nothing existing changes.
+  Relation undiscovered(recipe). Relation knowsRecipe(group, recipe).
   Goal false.
   Entity steeped_willow: recipe "willow bark and meadowsweet, steeped".
   Initially Assert takes(steeped_willow, willow_bark). Initially Assert takesWith(steeped_willow, herbs).
@@ -19,6 +22,7 @@ Module world_making "What a company can make of what it carries" {
   Action make_remedy(actor: group, mk_maker: member, mk_recipe: recipe, mk_first: item, mk_first_kind: itemkind, mk_second: item, mk_second_kind: itemkind, mk_made: itemkind) "{mk_maker}: make {mk_made} of {mk_first} and {mk_second}" {
     Description "Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.".
     Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
+      and (not undiscovered(mk_recipe) or knowsRecipe(actor, mk_recipe))
       and remedy(mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind) and makes(mk_recipe, mk_made)
       and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
     Time 6.
@@ -31,10 +35,22 @@ Module world_making "What a company can make of what it carries" {
   Action make_plain(actor: group, mk_maker: member, mk_recipe: recipe, mk_first: item, mk_first_kind: itemkind, mk_second: item, mk_second_kind: itemkind, mk_made: itemkind) "{mk_maker}: make {mk_made} of {mk_first} and {mk_second}" {
     Description "Plain work, quickly done.".
     Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
+      and (not undiscovered(mk_recipe) or knowsRecipe(actor, mk_recipe))
       and not remedy(mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind) and makes(mk_recipe, mk_made)
       and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
     Time 1.
     On success { Spend mk_first_kind from actor. Spend mk_second_kind from actor. Give mk_made to actor. }
     Result "{mk_maker} makes {mk_made} of them.".
+  }
+  Action experiment(actor: group, mk_maker: member, mk_recipe: recipe, mk_first: item, mk_first_kind: itemkind, mk_second: item, mk_second_kind: itemkind) "{mk_maker}: try {mk_first} with {mk_second}" {
+    Description "Two things steeped, ground or bound together to see what they do: the way, if there is one, is learned.".
+    Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
+      and undiscovered(mk_recipe) and not knowsRecipe(actor, mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind)
+      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
+    Time 6.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert knowsRecipe(actor, mk_recipe). }
+    Result "{mk_maker} finds the way of it: it can be made again.".
+    Otherwise "It comes to nothing this time; the two are none the worse for it.".
   }
 }

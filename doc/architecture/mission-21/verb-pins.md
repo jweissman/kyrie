@@ -8,7 +8,7 @@ rules, and where Kyr cannot express it, the smallest generic missing capability 
 |---|---|---|
 | **The Eye** | A mixed party (warrior, rogue, mage) fights a high-danger opponent (a discerner, a dragon) | **pinned** (test/the-eye) |
 | **The Landholder** | Acquire a parcel, commission a change, leave, return, find the change part of the world | **pinned** (test/small/landholder): expressed in existing Kyr, nothing missing |
-| **The Alchemist** | Collect three plants, experiment, discover a preparation, reproduce it, use or sell it | a library pattern is missing (recipe knowledge); fixture after it |
+| **The Alchemist** | Collect three plants, experiment, discover a preparation, reproduce it, use or sell it | **pinned** (test/small/alchemist): `undiscovered` recipes, `knowsRecipe`, `experiment` (making.kyr); existing recipes stay common knowledge |
 | **The Befriender** | Bond with a recruitable animal, travel together, a consequential event, separate, reunite intact | needs a probe: animals as company, a bond that persists apart |
 | **The Commander** | Recruit a small group, issue an order, resolve a conflict by the rules, keep its consequences | needs design: "issue an order" has no verb |
 

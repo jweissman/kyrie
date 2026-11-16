@@ -21,7 +21,7 @@ export class IntentCatalogue {
   // are one capability: see `distinct`.
   static readonly table: Record<Family, string[]> = {
     perception: ['look_closely', 'examine', 'listen', 'read_item', 'appraise', 'appraise_beyond'],
-    discovery: ['search', 'prod', 'pry'],
+    discovery: ['search', 'prod', 'pry', 'experiment'],
     movement: ['go', 'arrive', 'depart', 'slip_past'],
     social: ['talk_to', 'ask', 'tell', 'talk_round', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_item'],
     manipulation: ['take_item', 'take_from', 'take_out', 'put_item', 'put_in', 'give', 'give_back', 'give_valuable',

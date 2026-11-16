@@ -70,9 +70,8 @@ export class Features {
       proof: ['test/buyer-purse.test.ts', 'test/sell-worn.test.ts', 'test/small/haggle.test.ts'] },
     { id: 'equipment', section: 3, name: 'Equipment', priority: 'P0', claim: 'present',
       proof: ['test/small/creation-armed.test.ts'] },
-    { id: 'crafting', section: 3, name: 'Crafting and recipes', priority: 'P1', claim: 'partial',
-      proof: ['test/gathered-plates.test.ts'],
-      gap: 'gather and make from known recipes; no discovery of a recipe by experiment (the Alchemist pin)' },
+    { id: 'crafting', section: 3, name: 'Crafting and recipes', priority: 'P1', claim: 'present',
+      proof: ['test/gathered-plates.test.ts', 'test/small/alchemist.test.ts'] },
     { id: 'enchanting', section: 3, name: 'Enchanting and upgrades', priority: 'P2', claim: 'absent', proof: [],
       gap: 'item traits exist in the catalogue; no act modifies equipment with risk and cost' },
     // 4. World systems
