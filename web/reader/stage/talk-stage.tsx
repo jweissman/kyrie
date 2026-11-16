@@ -83,20 +83,8 @@ export class TalkStage {
                 {focus.answers.length > 0 && <><p className="answering">Your answer</p>
                   <ol className="replies answers" aria-label="Your answer">{focus.answers
                     .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} aspects={drawn(c)} gilded={gilded} />)}</ol></>}
-                <ol className="replies" aria-label={`What you might say to ${name}`}>
-                  {focus.salient.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    fresh={focus.opened.has(c.id)} aspects={drawn(c)} gilded={gilded}
-                    pays={TalkFocus.pays(c, frame.screen.paying)} />)}
-                </ol>
-                {focus.more.length > 0 && <details className="more-talk">
-                  {/* Only what was asked before is not "something else" (round 6, the register's FH-16). */}
-                  {/* With the numbers it holds, so that the numbers shown run without a gap (1, 2, then 5 had read as
-                      something missing) and each keeps what it meant (R11-01): 3 still asks again what 3 asked. */}
-                  <summary>{focus.more.every(spent) ? 'Ask again…' : 'Something else…'}<kbd className="fold-keys">
-                    {TalkStage.span(focus.more.map(c => TalkStage.n(app, TalkStage.key(c))))}</kbd></summary>
-                  <ol className="replies">{focus.more.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    asked={spent(c)} aspects={drawn(c)} gilded={gilded} />)}</ol>
-                </details>}
+                <TalkStage.Topics draw={draw} name={name!} focus={focus} spent={spent} gilded={gilded}
+                  drawn={drawn} paying={frame.screen.paying} />
                 {/* In the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home with
                     what would fetch coin: Mission 20). */}
                 {(wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0)
@@ -297,6 +285,23 @@ export class TalkStage {
   // What pays the company is marked green, as the likeness that has something for it is (see Owed), and said so to a
   // reader of the page alone (BP-08: its mark carries it).
   // What it is to the company is the one indicator at its left, as a led act's is (see Pip).
+  // What can be said, three at most with the leave (the owner, 15 November: four items, no fold): when there is more, one
+  // row turns the page, the next topics in place of these, round to the first.
+  static Topics({ draw, name, focus, spent, gilded, drawn, paying }: { draw: Draw; name: string;
+    focus: ReturnType<typeof TalkFocus.of>; spent: (c: Choice) => boolean; gilded: boolean;
+    drawn: (c: Choice) => Aspect[]; paying?: string[] }) {
+    const [page, turn] = useState(0), all = [...focus.salient, ...focus.more], per = 2;
+    const many = all.length > TalkFocus.most, pages = Math.max(1, Math.ceil(all.length / per));
+    const shown = !many ? all : all.slice((page % pages) * per, (page % pages) * per + per);
+    return <>
+      <ol className="replies" aria-label={`What you might say to ${name}`}>
+        {shown.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={spent(c)} fresh={focus.opened.has(c.id)}
+          aspects={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
+      {many && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-talk' }}
+        onClick={() => turn(page + 1)} mark={ChoiceRow.neutral} markClass="neutral"
+        label={all.every(spent) ? 'Ask again…' : 'Something else…'} aside={`${(page % pages) + 1} of ${pages}`} /></li></ol>}
+    </>;
+  }
   static Reply({ choice: c, draw, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
     asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
     const bar = Pip.fill(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');

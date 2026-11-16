@@ -76,7 +76,9 @@ export class MonoDriver {
     const has = async (s: string) => (await this.page.locator(s).count()) > 0;
     if (await has(raised)) { await this.click(raised); return; }
     // In a conversation, what is not among the few things salient is under Something else.
-    if (!await has(shown) && await has('.more-talk:not([open]) > summary')) { await this.click('.more-talk > summary'); }
+    for (let pages = 0; pages < 12 && !await has(shown) && await has('[data-action="more-talk"]'); pages++) {
+      await this.click('[data-action="more-talk"]');
+    }
     // Out in the wild, on the world map, the hex the company stands in is entered first.
     if (!await has(shown) && await has('[data-action="put-away-map"]')) { await this.click('[data-action="put-away-map"]'); }
     // An explorer (or an old sheet) up that does not hold it is put away, and the place at rest looked at again.
