@@ -17,7 +17,8 @@ export class RunnerFidelity {
     // Or a try at a thing (push, listen): how its working is found out, which the next look answers (pick it, wrench
     // it, it gave).
     knowledge: /^\+ (knows|tried)\(/,
-    companionship: /^\+ (willing|companion|memberOf)\(/,
+    // (Joining spends the willingness it was asked on, and leaves where they stood: PB-24, Gimgen at the taproom.)
+    companionship: /^(\+ (willing|companion|memberOf)\(|- willing\()/,
     // (Or its standing toward the company: let be, warned off, coming at it: a band talked round or not.)
     danger: /^[+-] (able|awake|hostile|fighting|engaged|tolerates|warned|assails)\(/,
     exploration: /^\+ (been|knows)\(party, /,
