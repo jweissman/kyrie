@@ -42,3 +42,12 @@ real circumstances; the first-hour mage has an intelligible, viable way to take 
 | 4 | **Engine and projection done** (test/small/commander): the orders are the engine's acts, grouped to the retainer, offered on the member's sheet (ScreenModel.party → `acts`) and, once left, on the person where they wait (`call_on` only where both stand: no rejoining from afar). The page already draws a member's `acts` in "What can be done" and a person's on their page. **Not browser-checked** (no spec reaches a hired companion on the page); dialogue voicing is not added (it would be a second route) |
 | 5 | **Done for the phone scene** (rest.css): a full-width gradient scrim, no border or box, the text inside the safe margins and above the rail; checked on 390×844 and 820×1180 screenshots (kite opening, a soft painting). **Not checked:** bright or busy paintings, talk and fight panels; the telling is clipped by the fade on a phone where it is long (scrollable) |
 | 6 | **Partly.** Measured (test/small/hireling-viable): alone a first-level mage wins about a quarter of fights against three rats and the forecast says grave; with one hireling of any calling it wins 93–100% and the forecast says fair or hard. The danger is untouched (no class-based weakening). The creation card now says "Spells by study; frail alone". A hireling is recruitable in the opening's inn within the starting purse (the b2 walk recruited at 7 coin). **Not tested end to end:** discover → afford → recruit → journey → survive or retreat as one route on the page, and whether the hireling is findable without luck |
+
+## Amendment (17 November): the title and creation are held
+
+The owner, on playing: "The long-press hold animation should definitely work on the very first page (title). Cards should
+definitely require it." Done: the title's New game and Continue, creation's cards and option rows, and setting out are
+held (Hold.bind: the ring fills, the choice is made when it is full; a tap considers and arms, a second tap, a held key or
+an assistive click does it); a row that only turns a page or rolls again, the Encyclopedia and Options are touches. The
+rows of the title and of creation are undressed like the scene's (no box at rest). The old `?touch=` press pipeline stays
+behind its flag, untouched by held rows (they carry no `data-touch-row`).

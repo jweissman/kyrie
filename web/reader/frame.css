@@ -76,8 +76,8 @@ html, body { overflow: hidden; }
 .way-in { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: row;
   align-items: baseline; justify-content: center; gap: 14px; width: 100%; height: 54px; padding: 0 40px;
   white-space: nowrap; overflow: hidden;
-  color: rgba(236, 230, 217, .8); text-decoration: none; border: 1px solid var(--choice-edge); border-radius: 10px;
-  background: var(--choice-ground); -webkit-tap-highlight-color: transparent;
+  color: rgba(236, 230, 217, .8); text-decoration: none; border: 1px solid transparent; border-radius: 10px;
+  background: transparent; -webkit-tap-highlight-color: transparent;
   transition: background var(--quick), border-color var(--quick), color var(--quick); }
 .way-in .row-mark { position: absolute; left: 14px; top: 13px; bottom: 13px; width: 3px; border-radius: 2px;
   background: rgba(236, 230, 217, .16); }
@@ -86,7 +86,7 @@ html, body { overflow: hidden; }
 .title-menu .save-line { position: absolute; left: 0; right: 0; top: 100%; margin: 14px 0 0; text-align: center;
   font: italic 400 14.5px/1.35 var(--told); color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .way-in[aria-current="true"] { color: var(--ivory); background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
-  border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
+  border-color: transparent; }
 .way-in:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); transition: none; }
 .way-in[aria-current="true"] .row-mark { background: rgba(236, 230, 217, .7); }
 /* New game: every opportunity is behind it, the five tones of the atlas in one line (gold, red, blue, green, violet). */

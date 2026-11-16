@@ -11,6 +11,7 @@ import { Typography } from '../src/presentation/typography';
 import { MonoBrowser } from './support/mono-browser';
 import { TitlePage } from '../web/reader/title-page';
 import { Identity } from '../src/presentation/identity';
+import { MonoDriver } from './support/mono-driver';
 
 // The opening and the choice of a life (Mission 18's A3 and A6), and the stage held inside the screen (A1). The studio
 // mark plays when asked for (automation is otherwise spared it, and so is one who asks for less motion), its name set
@@ -22,6 +23,10 @@ import { Identity } from '../src/presentation/identity';
 // creation and the world map are the whole screen and a place's stage stays inside it, keeping its margins where
 // there is room for them, and the page itself never scrolls.
 class Stage {
+  // Held where the mouse is: down, as long as a hold takes, up.
+  static async held(page: Page, at: { x: number; y: number }) {
+    await page.mouse.move(at.x, at.y); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.up();
+  }
   static bounds(page: Page) {
     return page.evaluate(() => {
       const f = document.querySelector('.frame')!.getBoundingClientRect();
@@ -114,29 +119,28 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.close();
   }, 120000);
 
-  it('lets a tap that skips the mark do nothing else, and one on New game as it comes up begin at once', async () => {
+  it('lets a tap that skips the mark do nothing else, and a hold on New game as it comes up begin', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1024, height: 1366 },
       { site, pointer: true, query: '?ident' });
     const tapped: string[] = [];
-    for (const [beat, how] of [['ident', 'tap'], ['dark', 'tap'], ['reveal', 'tap'], ['reveal', 'click']] as const) {
+    for (const [beat, how] of [['ident', 'tap'], ['dark', 'tap'], ['reveal', 'tap'], ['reveal', 'hold']] as const) {
       if (tapped.length) { await page.reload(); }
       await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
       const begin = await Stage.begin(page);
-      await (how === 'tap' ? page.touchscreen.tap(begin.x, begin.y) : page.mouse.click(begin.x, begin.y));
+      await (how === 'hold' ? Stage.held(page, begin) : page.touchscreen.tap(begin.x, begin.y));
       await page.waitForSelector('.beat-ready, [data-mode="create"]', { timeout: 120000 });
       await page.waitForTimeout(600);
       tapped.push(`${begin.beat === 'ready' ? 'too late' : 'opening'} ${how}: ${
         await page.getAttribute('[data-mode]', 'data-mode')}`);
     }
-    // Before the ways in are there, only the title; on New game as it comes up, the new game (the owner, 6 November).
-    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: create', 'opening click: create']);
+    // Before the ways are there, only the title; a tap on New game only arms it, held it begins (the owner, 16 Nov).
+    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening hold: create']);
     await page.reload();
     await page.waitForSelector('.beat-ident', { timeout: 30000 });
     await page.keyboard.press('Space');
     await page.waitForSelector('.beat-ready', { timeout: 5000 });
-    // Once the ways in are there, a tap on Begin begins.
     const begin = await Stage.begin(page);
-    await page.touchscreen.tap(begin.x, begin.y);
+    await Stage.held(page, begin);
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     expect(errors).toEqual([]);
     await page.close();
@@ -162,7 +166,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
 
   it('begins a life from why you have come, with no likeness of you, and goes on by Continue', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '?creation=cards' });
-    await page.click('[data-action="begin"]');
+    await MonoDriver.hold(page, '[data-action="begin"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     expect(await page.textContent('.ask')).toMatch(/^Why have you come to /);
     expect(await page.locator('[data-page="why"] .card').count()).toBeGreaterThan(2);

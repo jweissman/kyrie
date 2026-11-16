@@ -63,3 +63,22 @@
   .ix-reticle.holding { animation-timing-function: steps(4, end); }
   :root[data-ix="b"][data-fresh] .stage :is(ol.led, ul.acts, .replies, .lens, .happened) { animation: none; }
 }
+
+/* A held choice that is not an act's row (the title's ways in, creation's rows and cards: Hold.bind): the same small open
+   ring at its right (a card's in its corner), filling round while it is held, drained when let go early, with "Hold" said
+   beside it; nothing here promises a hold that a touch would do. */
+:is(.way-in, .composed-row, .composed-card)[data-hold] { position: relative; -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none; }
+:is(.way-in, .composed-row, .composed-card)[data-hold]::after { content: ''; position: absolute; right: 16px; top: 50%;
+  width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; pointer-events: none;
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--row-tone, var(--ivory)) 55%, transparent);
+  background: conic-gradient(var(--row-tone, var(--ivory)) var(--hold-p), transparent 0); }
+.composed-row[data-hold]:has(> .row-key)::after { right: 44px; }
+.composed-card[data-hold]::after { right: 10px; top: 14px; margin-top: 0; }
+:is(.way-in, .composed-row, .composed-card)[data-holding]::after { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
+:is(.way-in, .composed-row, .composed-card)[data-held]::after { --hold-p: 100%; }
+:is(.way-in, .composed-row, .composed-card)[data-let-go]::after { animation: ix-drain 240ms var(--ease) forwards; }
+:is(.way-in, .composed-row, .composed-card)[data-holding] { background: color-mix(in oklab, var(--row-tone, var(--ivory)) var(--tint-press), transparent); }
+.way-in[data-hint]::before, .composed-row[data-hint]::before { content: 'Hold'; position: absolute; right: 36px; top: 50%;
+  margin-top: -6px; font: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); }
+.composed-row[data-hint]:has(> .row-key)::before { right: 66px; }

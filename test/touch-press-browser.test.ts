@@ -73,9 +73,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the first touch\'s press', () => {
     for (let k = 0; k < 12 && !await page.locator('.composed-go').count(); k++) {
       await page.keyboard.press('1'); await page.waitForTimeout(400);
     }
-    await Probe.press(page, setOut, 80); await page.waitForTimeout(300);
-    await page.keyboard.press('Escape'); await page.keyboard.press('1'); await page.waitForTimeout(300);
-    await Probe.press(page, setOut, 330); await page.waitForTimeout(400);
+    // A tap on the held choice only arms it (Hold): nothing is begun; held, or tapped again, it begins.
+    await Probe.press(page, setOut, 80); await page.waitForTimeout(400);
     expect(await Probe.sent(page, 'set-out', 'begin')).toBe(0);
     await Probe.press(page, setOut, 800);
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });

@@ -28,6 +28,12 @@ export class MonoDriver {
     return this.page.evaluate(() =>
       (window as unknown as { kyrieMono: { inspect(): MonoInspection } }).kyrieMono.inspect());
   }
+  // A choice that is held (a card, a way in, a night's rest) is held as a player holds it: the key down as long as
+  // it takes.
+  static async hold(page: Page, selector: string) {
+    await page.locator(selector).first().focus();
+    await page.keyboard.down('Enter'); await page.waitForTimeout(700); await page.keyboard.up('Enter');
+  }
   async key(key: string) { this.presses++; await this.page.keyboard.press(key); await this.settle(); }
   async settle() {
     await this.page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
@@ -44,8 +50,7 @@ export class MonoDriver {
     // An act that is held (a night's rest, a camp) is held as a player holds it: the key down for as long as it takes.
     const held = await this.page.locator(selector).first().getAttribute('data-hold').catch(() => null);
     if (held !== null) {
-      await this.page.locator(selector).first().focus();
-      await this.page.keyboard.down('Enter'); await this.page.waitForTimeout(700); await this.page.keyboard.up('Enter');
+      await MonoDriver.hold(this.page, selector);
     } else if (this.pointer) {
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();

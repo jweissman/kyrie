@@ -16,7 +16,7 @@
   border-color: transparent; text-wrap: nowrap; white-space: nowrap;
   background: linear-gradient(90deg, color-mix(in oklab, var(--row-tone) var(--touch-struck), transparent),
     color-mix(in oklab, var(--row-tone) calc(var(--touch-struck) - 6%), transparent)) no-repeat left / var(--sweep) 100%,
-    var(--choice-ground);
+    transparent;
   transition: background-color 140ms var(--ease), color 140ms var(--ease); }
 /* Its words and aside on one line, the aside quieter and cut short before it would wrap; the key at the right. */
 :root[data-touch] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row > :is(.row-label, .row-aside, .note),

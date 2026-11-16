@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 
 // The pointer is the reticle (IG-15, the owner: "target reticule" meant the mouse cursor), and the buttons answer the
 // hand (IG-16). At a laptop's 1280 by 800 with a mouse: wherever the hand is, the cursor is a ring (twice the size
@@ -64,7 +65,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
     expect([title.over, title.down]).toEqual([['act', title.before], ['press', title.before]]);
     expect(await page.evaluate(() => getComputedStyle(document.querySelector('.way-in')!).getPropertyValue('--reticule')))
       .toBe('');
-    await page.click('[data-action="begin"]');
+    await MonoDriver.hold(page, '[data-action="begin"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); await page.waitForTimeout(700);
     // Creation: a card, over and pressed, every card where it was; one click chooses it.
     const card = '.creation .card[aria-pressed="false"]:not([disabled])';

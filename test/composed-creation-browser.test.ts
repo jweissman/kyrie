@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 
 // Creation as the owner asked for it (15 November, the playback notes): one press is enough to choose, and the page
 // goes on (no Continue, no second click); never more than four cards at once (ancestry and calling page on); no
@@ -30,15 +31,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
       most.push(await page.locator('.composed-cards .card').count());
       if (where === 'sign') { expect(await page.locator('.observatory').count()).toBe(1); }
       expect(await page.locator('button:has-text("Details"), button:has-text("Continue")').count()).toBe(0);
-      await page.click('[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
+      await MonoDriver.hold(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where, { timeout: 5000 });
     }
     expect(seen.length).toBeGreaterThan(4);
     expect(seen.length).toBeLessThanOrEqual(8);
     expect(Math.max(...most)).toBeLessThanOrEqual(4);
     expect(await page.locator('button:has-text("Details")').count()).toBe(0);
-    await page.click('[data-option="set-out"]');
-    await page.click('[data-option="set-out"]');
+    await MonoDriver.hold(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 90000 });
     expect(errors).toEqual([]);
     await page.close();

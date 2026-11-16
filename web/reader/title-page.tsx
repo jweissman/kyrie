@@ -5,6 +5,7 @@ import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
 import { Touch } from './instrument/touch';
+import { Hold } from './instrument/hold';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -43,10 +44,10 @@ export class TitlePage {
           <p className="lede">Vol I: A History of Emprise</p>
           <nav className="title-menu" aria-label="Ways in">
             <ul>
-              {saved && <li><button type="button" className="way-in" data-nav data-action="continue" onClick={app.opening.carryOn}
-                {...item('continue')}>{mark}<span className="n">Continue</span></button></li>}
-              <li><button type="button" className="way-in" data-nav data-action="begin" onClick={app.opening.anew}
-                {...item('begin')}>{mark}<span className="n">New game</span></button></li>
+              {saved && <li><button type="button" className="way-in" data-nav data-action="continue"
+                {...Hold.bind(app.opening.carryOn)} {...item('continue')}>{mark}<span className="n">Continue</span></button></li>}
+              <li><button type="button" className="way-in" data-nav data-action="begin"
+                {...Hold.bind(app.opening.anew)} {...item('begin')}>{mark}<span className="n">New game</span></button></li>
               {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
                   hover, not written out beside it: the owner, 15 November). */}
               <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" target="_blank"

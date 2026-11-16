@@ -122,7 +122,7 @@ export class ComposedCreation {
     return (
       <div className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
         {shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined} chosen={chosen === o.id}
-          lit={lit === o.id} onConsider={consider} onChoose={id => choose(id)} />)}
+          lit={lit === o.id} hold onConsider={consider} onChoose={id => choose(id)} />)}
         {rest}
         {after}
       </div>
@@ -141,10 +141,9 @@ export class ComposedCreation {
   }
   // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).
   static Go({ app }: { app: ReaderApp }) {
-    const [asked, ask] = useState(false);
     useEffect(() => { ComposedCreation.focus(); }, []);
     const name = app.state.party[0]?.name ?? '', country = app.state.setting?.title ?? 'the country';
-    const go = (_: string, held: boolean) => { if (held || asked) { app.opening.begin(); } else { ask(true); } };
+    const go = () => app.opening.begin();
     return (
       <div className="composed-step composed-go">
         <h1 className="ask">{Typography.curl(name)}</h1>
@@ -154,7 +153,7 @@ export class ComposedCreation {
             <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
               hold n={1} lit onConsider={() => undefined} onChoose={go} />
           </div>
-          <p className="consider" aria-live="polite">{asked ? 'Hold to set out, or press it again.' : ''}</p>
+          <p className="consider" aria-live="polite">Hold to set out.</p>
         </div>
       </div>
     );
