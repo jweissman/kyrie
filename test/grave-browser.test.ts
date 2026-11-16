@@ -6,13 +6,13 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { LensPages } from './support/lens-pages';
 
 class Grave {
   // A thing turned to as a player turns to it: the things lens (Look…), its acts unfolded, the thing among them.
   static async touch(page: Page, name: RegExp) {
     await page.click('.opens-look');
-    const all = page.locator('.glance .lens [data-action="lens-all"][aria-expanded="false"]');
-    if (await all.count()) { await all.click(); }
+    await LensPages.seekText(page, name);
     await page.locator('.glance .lens', { hasText: name }).waitFor();
   }
 }

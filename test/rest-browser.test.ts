@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { LensPages } from './support/lens-pages';
 
 // The place at rest and the pack as the owner's own play of 7 November met them, coming home to Broadholm: Look…
 // offers no close look that finds nothing, opens over the picture alone with the telling and the place's touches still
@@ -49,7 +50,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     expect(await page.locator('.glance .lens').innerText()).not.toMatch(/look closely/i);
     expect(await Rest.touchable(page)).toBe(true);
     const shoulder = page.locator('.glance .lens [data-act] >> text=/^Put your shoulder/');
-    if (!await shoulder.count()) { await d.click('.glance .lens [data-action="lens-all"]'); }
+    await LensPages.seek(page, '.glance .lens [data-act]:has-text("Put your shoulder")');
     await shoulder.first().click(); await d.settle();
     // Done, it is not offered again, what came of it is told on the place, and the wagoner is owed.
     expect(await Rest.count(page, '.glance [data-act] >> text=/^Put your shoulder/')).toBe(0);

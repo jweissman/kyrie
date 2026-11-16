@@ -11,6 +11,7 @@ import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 import { Glanced } from './support/glanced';
 import { Pellam } from './support/pellam';
+import { LensPages } from './support/lens-pages';
 
 // A place at a glance on the page (OWN-18, OWN-19): one column under the place's head, at most three things worth
 // doing, no foot of status and acts, no panes side by side, nothing wider or taller than the screen; Look about, Every
@@ -144,7 +145,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     expect(await page.locator(way).innerText()).toMatch(/^to the still water/i);
     await d.key('g');
     const drop = page.locator('.glance .lens-places [data-act*="pool"] >> nth=0');
-    if (!await drop.count()) { await page.click('.glance .lens [data-action="lens-all"]'); }
+    await LensPages.seek(page, '.glance .lens-places [data-act*="pool"]');
     expect(await drop.innerText()).toMatch(/no coming back|no way back/i);
     await d.key('Escape');
     // Taken from the scene, it asks before it is taken, and says why.

@@ -7,6 +7,7 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
+import { LensPages } from './support/lens-pages';
 
 // The spatial journey (doc/history/missions/19/spatial-play.md; the owner, 4 November evening): a world moved
 // through, not a database browsed. In a1 with the default character, on the real runtime: the town as it is painted,
@@ -25,8 +26,7 @@ class Walk {
     if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
     await page.click('.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
-    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
-    if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+    await LensPages.seek(page, row);
     await page.click(row); await this.d.settle();
   }
 
@@ -70,9 +70,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('.scene-surface .scenery img').count()).toBe(1);
     // The way up among the places lens's acts, and the lens put away by its own mark.
     await page.click('.rail-mark.opens-go');
-    const all = page.locator('.glance .lens [data-action="lens-all"][aria-expanded="false"]');
-    if (await all.count()) { await all.click(); }
-    expect(await page.locator('.glance .lens-places [data-act^="exit:region__s2_u_store"]').count()).toBeGreaterThan(0);
+    expect(await LensPages.seek(page, '.glance .lens-places [data-act^="exit:region__s2_u_store"]')).toBe(true);
     await page.click('.rail-mark.opens-go');
     await w.to('region__s2_u_warren');
     await driver.pick(c => c.id === 'region__s2_u_rats/0:Attack', 'the rats');

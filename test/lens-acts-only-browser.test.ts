@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { LensPages } from './support/lens-pages';
 
 // A lens's list is its acts and nothing else (the owner, 15 November: "some text interspersed in the action list; it
 // should basically never be the case; I think it's trying to be a category marker"): unfolded whole, the talk lens had
@@ -28,11 +29,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a lens', () => {
     const stray: string[] = [];
     for (const part of ['go', 'look', 'wait', 'talk']) {
       await page.locator(`.rail-mark.opens-${part}`).first().click(); await driver.settle();
-      const all = page.locator('.glance .lens [data-action="lens-all"][aria-expanded="false"]');
-      if (await all.count()) { await all.click(); await driver.settle(); }
-      stray.push(...(await page.evaluate(() => [...document.querySelectorAll('.glance .do-col *')].filter(e =>
-        !e.children.length && e.textContent?.trim() && !e.closest('[data-act], button'))
-        .map(e => `${e.className}: ${e.textContent!.trim().slice(0, 60)}`))).map(t => `${part}: ${t}`));
+      await LensPages.every(page, async () => {
+        stray.push(...(await page.evaluate(() => [...document.querySelectorAll('.glance .do-col *')].filter(e =>
+          !e.children.length && e.textContent?.trim() && !e.closest('[data-act], button'))
+          .map(e => `${e.className}: ${e.textContent!.trim().slice(0, 60)}`))).map(t => `${part}: ${t}`));
+      });
     }
     expect(stray).toEqual([]);
   }, 300000);

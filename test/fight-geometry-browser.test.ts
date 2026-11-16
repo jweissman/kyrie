@@ -7,6 +7,7 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
+import { LensPages } from './support/lens-pages';
 
 // The fight holds still (CN-06, the owner, 14 November: "Selecting an enemy currently causes its card to expand
 // vertically … switching targets must not reflow the scene"; "the highlighted menu unexpectedly becomes a horizontal
@@ -56,8 +57,7 @@ class Walk {
     if (await page.locator('.act.opens-go').count()) { await page.click('.opens-go'); await this.d.settle(); return; }
     await page.click('.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
-    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
-    if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+    await LensPages.seek(page, row);
     await page.click(row); await this.d.settle();
   }
 

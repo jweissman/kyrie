@@ -1,7 +1,7 @@
 import { Foreground } from '../../../src/presentation/foreground';
 import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
-import { useRef, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -244,8 +244,9 @@ export class GlanceStage {
   }
   // A lens in the scene: the telling stays; the four are the lens's own (Glance.lenses, from the same acts the
   // resting scene's four come from, ranked alike), and the rest of its acts unfold beneath them, in place, at a touch.
+  static readonly per = 4;
   static Lens({ app, draw, lens }: { app: ReaderApp; draw: Draw; lens: Lens }) {
-    const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
+    const lensed = app.state.frame?.leaf.glance?.lenses?.[lens], [page, turn] = useState(0);
     if (!lensed) { return null; }
     // With nothing promoted (the time lens's waits, which no reason ranks), its acts are shown as they stand, in order.
     // An opener among them (a thing's look, with no act of its own) is drawn as what it opens, its leaves (Lensed.leaves),
@@ -266,7 +267,11 @@ export class GlanceStage {
     const promoted = lensed.promoted.filter(p => !opens(p) && !covered(p));
     const opened = lensed.promoted.filter(p => opens(p) && inside(p).length);
     const rest = lensed.rest.flatMap(a => opens(a) ? inside(a) : covered(a) ? [] : [a]);
-    const none = !promoted.length && !opened.length, all = none || app.state.open.includes(`lens:${lens}`);
+    // Never more than four (the owner, 16 November, in every context, lenses too): the four first, then the rest four at a
+    // time in place of them, round to the first. The pager is navigation, not an act: nothing is committed by it.
+    const none = !promoted.length && !opened.length, flat = GlanceStage.grouped(rest).flatMap(g => g.acts);
+    const chunks = Math.ceil(flat.length / GlanceStage.per), pages = none ? Math.max(1, chunks) : 1 + chunks;
+    const at = page % pages, onRest = none || at > 0, more = flat.slice((none ? at : at - 1) * GlanceStage.per).slice(0, GlanceStage.per);
     // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
     // door: Lensed.subjects), said once above them, under its name.
     // Said once, no heading over it (a heading is a category marker in the list: the owner, 15 November), and not
@@ -280,16 +285,15 @@ export class GlanceStage {
     return <div className={`lens lens-${lens}`} data-lens={lens}>
       {seen.map(x => <div key={x.id} className="lens-seen" data-subject={x.id}>
         {x.lines.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
-      <GlanceStage.Acts app={app} draw={draw} acts={promoted} />
+      {!onRest && <GlanceStage.Acts app={app} draw={draw} acts={promoted} />}
       {/* Only the acts, each in words that stand alone: no heading among them (the owner, 15 November: text between
           the acts, a category marker, should never be in the list; "Talk to Wellby" under WELLBY). */}
-      {opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>
+      {!onRest && opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>
         {inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} /></li>)}</ul>)}
-      {rest.length > 0 && !none && <button type="button" className="quiet-word lens-all" data-action="lens-all" aria-expanded={all}
-        onClick={() => app.setState({ open: all ? app.state.open.filter(o => o !== `lens:${lens}`) : [...app.state.open, `lens:${lens}`] })}>
-        {all ? 'Fewer' : `All ${rest.length + promoted.length + opened.flatMap(inside).length}`}</button>}
-      {all && <ul className="acts lens-rest">{GlanceStage.grouped(rest).flatMap(g => g.acts).map(a =>
+      {onRest && <ul className="acts lens-rest">{more.map(a =>
         <li key={a.choice} data-subject={a.subject}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul>}
+      {pages > 1 && <button type="button" className="quiet-word lens-page" data-action="lens-page" data-page={at + 1}
+        data-pages={pages} onClick={() => turn(at + 1)}>{`More… ${at + 1} of ${pages}`}</button>}
     </div>;
   }
   // A lens's rest by what it is done to (LensAct.subject): a thing's or someone's acts together under their name, so

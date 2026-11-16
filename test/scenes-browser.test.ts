@@ -7,6 +7,7 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
+import { LensPages } from './support/lens-pages';
 
 // The game's scenes, each as a player meets it (Mission 21's aesthetic transformation, completion plan §3: designed,
 // built and judged scene by scene, not component by component): resting quiet and crowded, a conversation, waiting,
@@ -49,8 +50,7 @@ class Scenes {
     const { page, d } = this;
     if (!await page.locator('.glance .lens-places').count()) { await d.click('.rail-mark.opens-go'); }
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
-    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
-    if (!await page.locator(row).count() && await page.locator(all).count()) { await d.click(all); }
+    await LensPages.seek(page, row);
     await d.click(row);
   }
 }

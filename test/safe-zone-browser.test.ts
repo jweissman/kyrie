@@ -8,6 +8,7 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 import { SafeZone } from './support/safe-zone';
+import { LensPages } from './support/lens-pages';
 
 // Everything that can be touched stays inside the safe zone the page itself draws (?safe), through the first hour's
 // pages, as a player goes through them: the life chosen, the road in, the town, Go… opened, a talk, the corn-store and
@@ -34,8 +35,7 @@ class Pages {
     if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
     await page.click('.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
-    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
-    if (!await page.locator(row).count() && await page.locator(all).count()) { await page.click(all); }
+    await LensPages.seek(page, row);
     await page.click(row); await this.d.settle();
   }
 

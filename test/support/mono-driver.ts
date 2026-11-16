@@ -1,5 +1,6 @@
 /// <reference lib="dom" />
 import type { Page } from 'playwright-core';
+import { LensPages } from './lens-pages';
 
 export interface ChoiceShape { id: string; label: string; command?: string; children?: number; disabled?: string;
   hold?: 'sustained' }
@@ -174,9 +175,11 @@ export class MonoDriver {
     const lens = { go: 'places', look: 'things', wait: 'time' }[part];
     const has = async (q: string) => (await this.page.locator(q).count()) > 0;
     if (!await has(`.glance .lens[data-lens="${lens}"]`)) { await this.click(`.opens-${part}:not([disabled]) >> nth=-1`); }
-    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
-    if (await has(all)) { await this.click(all); }
     const rows = this.page.locator('.glance .lens [data-act]');
+    for (let turns = 0; turns < 16 && !await rows.filter({ hasText: act }).count(); turns++) {
+      if (!await has(LensPages.pager)) { break; }
+      await this.click(LensPages.pager);
+    }
     const grouped = under ? this.page.locator('.glance .lens .lens-group', { hasText: under }).locator('[data-act]', { hasText: act })
       : rows.filter({ hasText: act });
     const named = rows.filter({ hasText: under ?? act }).filter({ hasText: act });
@@ -191,8 +194,7 @@ export class MonoDriver {
     const dest = id.replace(/^(travel|exit):/, '').split(/[/#]/)[0] ?? '';
     const ways = /^(travel|exit):/.test(id) ? `, [data-act="travel:${dest}"], [data-act^="exit:${dest}"]` : '';
     const row = `.glance .lens :is([data-choice="${id}"], [data-act="${id}"]${ways}) >> nth=0`;
-    const all = '.glance .lens [data-action="lens-all"][aria-expanded="false"]';
-    if (!await has(row) && await has(all)) { await this.click(all); }
+    await LensPages.seek(this.page, row);
     if (!await has(row)) { return false; }
     await this.click(row);
     return true;
@@ -237,9 +239,7 @@ export class MonoDriver {
       if (!await has('.opens-go')) { return false; }
       await this.key('g');
       // The places lens: its rest unfolded where the way is not among its four.
-      if (!await has(`:is([data-pick="${id}"], .lens [data-act="${id}"])`) && await has('.lens [data-action="lens-all"][aria-expanded="false"]')) {
-        await this.click('.lens [data-action="lens-all"]');
-      }
+      await LensPages.seek(this.page, `:is([data-pick="${id}"], .lens [data-act="${id}"])`);
       if (!await has(`:is([data-pick="${id}"], .lens [data-act="${id}"])`)) { await this.key('Escape'); return false; }
     }
     for (let i = 0; i <= state.choices.length && (await this.inspect()).selected !== id; i++) { await this.key('ArrowDown'); }

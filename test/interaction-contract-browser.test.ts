@@ -14,7 +14,7 @@ import { MonoBrowser } from './support/mono-browser';
 // joins them, and to be emptied (it may only shrink).
 interface Control { act: string | null; action: string | null; text: string }
 class Census {
-  static readonly presentation = new Set(['lens', 'lens-all', 'back', 'back-to-place', 'back-to-map', 'book', 'mode',
+  static readonly presentation = new Set(['lens', 'lens-page', 'back', 'back-to-place', 'back-to-map', 'book', 'mode',
     'close', 'more-told', 'journey', 'map-nearer', 'map-further', 'map-here', 'map-place', 'map-unchoose', 'dismiss',
     'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title', 'put-away-map']);
   // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
