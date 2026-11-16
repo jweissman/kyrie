@@ -4,6 +4,23 @@ Written 16 November, for the next stretch of work (the owner's next aims, in the
 M21's own goals are met as far as a lead can show without a person playing: see retrospective.md and
 obligations-review-15-nov-late.md for the measures, and "What is not shown" below for what only a person can say.
 
+## M21's phases, against the brief of 12 November
+
+| Phase | State |
+|---|---|
+| 0: the fast loop, tiny worlds, real-defect pins | **Done** (check:fast about 30 s; Tiny; the pins) |
+| Parallel: aesthetic and playability investigators | **Done as processes** (walkers, promise fidelity, matrix walk, screenshots); no human-calibrated run |
+| 1: discharge obligations (navigation, undertakings, atlas, discoverability, RPG completeness, correctness) | **Partly**: the P0s that blocked ordinary play are closed; the owner's four-item, no-fold, one-action-system rulings now hold across scene, talk and lenses; about 350 register rows live, mostly content, taste and balance |
+| 2: presentation (rest as a place, cinematic, phone) | **Partly**: lantern scene, scrim on the phone, borderless rows, held rest/camp, creation template; the sky and the action button still want the owner's eye |
+| 2: the dramatic core (one compact expedition) | **Open as a demonstration** (OA-12, HP-03): the pieces exist and the first-hour mage now has a measured viable route (a hireling), but no expedition has been lived through |
+| Retrospective and debt accountability | **Done** (retrospective.md, obligations-review, the register) |
+| Acceptance 1 (a cheaper loop) | **Met** |
+| Acceptance 2 (fifteen coherent minutes for an unfamiliar player) | **Unverified**: no blind agent or person on the deployed build |
+| Acceptance 3 (presentation significantly better, tablet and crowded states) | **Partly**: no real iPad or WebKit run |
+| Acceptance 4 (obligations materially discharged) | **Partly** |
+
+The owner's rulings of 16 November are in owner-rulings-nov16.md with each one's state.
+
 ## How to work (what held up)
 
 - **Trunk.** Push small verified increments to main from the worktree (`git push origin m21:main`), after `bun run
