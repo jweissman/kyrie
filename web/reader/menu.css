@@ -157,6 +157,8 @@
 :root :is(.sheet-key, .more-talk > summary, .said-before > summary, .fight-log-toggle .option, .book-head .back-to) {
   font: var(--t-aside); }
 :root .openers .opener:not(.choice-row) { font: var(--t-choice); }
+/* The fold's word stands where the rows' words do (their padding and border), not at the column's edge. */
+:root :is(.more-talk, .said-before) > summary { padding-left: 23px; }
 
 /* ---- A list of acts (Act.List: the place's own, the Wait page's, a thing's, the book's) is a column of rows, never a
    flow of link-like words (CN-04). ---- */
