@@ -122,7 +122,33 @@ The 16 November rulings (and their amendment: the title and creation are held) w
 
 ## 5. The headless baseline
 
-*(Filled in below when the census on current main finishes.)*
+Your census, re-run on current main with the same design (`bun scripts/opportunity-depth.ts --turns 20 --seeds a1,b2,c3
+--replicates 3`: 84 blind walks over every ancestry/calling pair, all eight openings, five temperaments; 19 min). The full
+output is [census/opportunity-depth-2026-11-16.md](census/opportunity-depth-2026-11-16.md). Your 15 November run is the
+"before".
+
+| Facet | Run coverage, 15 Nov → 16 Nov | Distinct per run | Selected per 100 turns | Fresh telling when selected |
+|---|---|---:|---:|---:|
+| undertaking (gold) | 98.8 % → 100 % | 5.93 → 5.65 | 28.2 → 26.7 | 85 % → 88 % |
+| danger (red) | 63.1 % → 58.3 % | 4.75 → 6.26 | 5.9 → 7.0 | 46 % → 42 % |
+| payoff (green) | 32.1 % → 38.1 % | 0.69 → 0.58 | 1.4 → 1.4 | 100 % |
+| knowledge (blue) | 100 % | 13.9 → 13.0 | 22.8 → 21.5 | 100 % → 99 % |
+| wonder (violet) | **0 % → 2.4 %** (2 of 84 runs; never selected) | 0 → 0.02 | 0 | — |
+| exploration (icon) | 100 % | 48.4 → 46.4 | 44.1 → 40.5 | 95 % → 97 % |
+| companionship (icon) | 64.3 % → 61.9 % | 1.23 → 1.11 | 3.1 → 2.9 | 100 % |
+
+What it says:
+- The wonder fix of 16 November made violet possible, not present. It appears in two walks of 84, inside works.
+  - The script's canned sentence "No wonder opportunity was offered in any of the 84 walks" is now false against its own
+    table. It wants its prose computed from the numbers.
+  - Its words "silver" and "rose" predate the colour atlas. Those two are icons now.
+- **Red is spread thinly and half-kept:** fewer than six walks in ten see danger. Of the red acts chosen, 42 % produced fresh
+  telling: the rest were repeats or a fight that told nothing new.
+- **Green stays scarce:** under one distinct payoff a run.
+- **Exploration floods every turn.** It averages about eleven offered exposures a turn, which is the abundance the four in
+  the foreground must select from.
+- These are headless walks: the engine's offers, not a player's experience of them. The sites agent's baseline
+  (sites-brief.md) is where the density of what the world *holds* is measured.
 
 ## 6. Highest-leverage interventions
 
