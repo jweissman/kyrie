@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { ChoiceRow } from './choice-row';
+import { PageFrame } from '../page-frame';
 import { Hold } from '../instrument/hold';
 import type { Meeting } from '../../../src/presentation/prologue';
 import { Scenery } from '../../../src/ui/scenery';
@@ -33,36 +34,34 @@ export class PrologueStage {
     // A page goes on only when the player says so, by its one held Continue (the owner, 16 November: some sign on the
     // screen that input is wanted; nothing goes on by itself, nor at a touch anywhere); a meeting is answered.
     const credit = view && Likeness.credits[view];
-    return (
-      <article className={`prologue-page page-${page.kind}${page.kind === 'beat' && !page.last ? '' : ' last'}`} id="page"
-        data-beat={page.kind === 'beat' ? page.at : page.kind} aria-label="The opening">
-        {view && <figure className="scenery" aria-hidden="true">
-          <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
-            onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
-        <div data-menu className="prologue-body">
-          <p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>
-          {page.kind === 'beat' && <PrologueStage.Beat app={app} at={page.at} last={page.last} />}
-          {page.kind === 'meeting' && <PrologueStage.Meeting app={app} meeting={told.meeting!} />}
-          {page.kind === 'after' && <PrologueStage.After app={app} />}
-        </div>
-        {credit && <p className="credit" aria-hidden="true">{credit}</p>}
-      </article>
-    );
+    return <PageFrame.View kind="opening" body="prologue-body"
+      className={`prologue-page page-${page.kind}${page.kind === 'beat' && !page.last ? '' : ' last'}`}
+      attrs={{ 'data-beat': page.kind === 'beat' ? String(page.at) : page.kind, 'aria-label': 'The opening' }}
+      background={view && <figure className="scenery" aria-hidden="true">
+        <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
+          onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
+      header={<p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>}
+      narrative={page.kind === 'beat' ? <><p key={page.at} className="beat" data-id="beat" aria-live="polite">
+        {told.beats[page.at]}</p>{page.last && <PrologueStage.Onward app={app} />}</>
+        : page.kind === 'meeting' ? <PrologueStage.Met meeting={told.meeting!} /> : <PrologueStage.After app={app} />}
+      menu={PrologueStage.menu(app, page)}
+      over={credit && <p className="credit" aria-hidden="true">{credit}</p>} />;
+  }
+  // The page's one menu: a beat's Continue, a meeting's answers, the way on after it (the first aim said above it).
+  private static menu(app: ReaderApp, page: Page): ReactNode {
+    if (page.kind === 'meeting') { return <PrologueStage.Answers app={app} meeting={app.state.told!.meeting!} />; }
+    if (page.kind === 'beat' && !page.last) {
+      return <PrologueStage.Continue key={`on${page.at}`} action="beat" then={() => PrologueStage.next(app)} />;
+    }
+    return app.state.pending ? undefined : <PrologueStage.Continue action="go-on" then={() => PrologueStage.done(app)} />;
   }
   static page(app: ReaderApp): Page {
     const s = app.state, told = s.told!, n = told.beats.length, at = s.prologue ?? 0;
     if (at < n) { return { kind: 'beat', at, last: at === n - 1 && !told.meeting }; }
     return told.meeting && at === n ? { kind: 'meeting' } : { kind: 'after' };
   }
-  private static Beat({ app, at, last }: { app: ReaderApp; at: number; last: boolean }) {
-    return (<>
-      <p key={at} className="beat" data-id="beat" aria-live="polite">{app.state.told!.beats[at]}</p>
-      {last ? <PrologueStage.Onward app={app} />
-        : <PrologueStage.Continue key={`on${at}`} action="beat" then={() => PrologueStage.next(app)} />}
-    </>);
-  }
   // Whoever is met, in their ring, what is going on, and the answers: the keys' digits are theirs, as in play.
-  private static Meeting({ app, meeting }: { app: ReaderApp; meeting: Meeting }) {
+  private static Met({ meeting }: { meeting: Meeting }) {
     const face = meeting.portrait;
     return (<>
       <figure className="met" data-id="met">
@@ -73,13 +72,15 @@ export class PrologueStage {
         <figcaption className="kicker">{Typography.curl(meeting.name)}</figcaption>
       </figure>
       <p className="beat meeting" data-id="meeting" aria-live="polite">{meeting.text}</p>
-      <ol className="answers acts column" aria-label="What you do">
-        {meeting.choices.map((c, i) => <li key={c.command}>
-          <ChoiceRow.Button className="act" data={{ choice: c.command, action: 'answer' }} act={c.command}
-            onClick={() => PrologueStage.answer(app, c)} label={Typography.curl(c.label)} number={i + 1} />
-        </li>)}
-      </ol>
     </>);
+  }
+  private static Answers({ app, meeting }: { app: ReaderApp; meeting: Meeting }) {
+    return <ol className="answers acts column" aria-label="What you do">
+      {meeting.choices.map((c, i) => <li key={c.command}>
+        <ChoiceRow.Button className="act" data={{ choice: c.command, action: 'answer' }} act={c.command}
+          onClick={() => PrologueStage.answer(app, c)} label={Typography.curl(c.label)} number={i + 1} />
+      </li>)}
+    </ol>;
   }
   // What came of the answer, told as the engine told it, under what was chosen; then the first aim and the way on.
   private static After({ app }: { app: ReaderApp }) {
@@ -96,13 +97,12 @@ export class PrologueStage {
       {!s.pending && <PrologueStage.Onward app={app} />}
     </>);
   }
-  // The first aim, plainly, once; and then on into the place by the page's one Continue.
+  // The first aim, plainly, once, over the page's one Continue into the place.
   private static Onward({ app }: { app: ReaderApp }) {
     const aim = app.state.frame?.screen.objectives[0] ?? app.state.told?.aim;
-    return (<div className="onward" data-id="onward">
-      {aim && <p className="first-aim" data-id="aim"><span className="kicker">Your first goal</span>{Typography.curl(aim)}</p>}
-      <PrologueStage.Continue action="go-on" then={() => PrologueStage.done(app)} />
-    </div>);
+    return aim ? <div className="onward" data-id="onward">
+      <p className="first-aim" data-id="aim"><span className="kicker">Your first goal</span>{Typography.curl(aim)}</p>
+    </div> : null;
   }
   // The one way on from a page of the opening: a row held to be done, as the opening's choices are, the keys on it
   // from the start; a tap says Hold, and nothing goes on by itself (the owner, 16 November).

@@ -183,7 +183,7 @@
 /* The way on comes after the words, and cannot be touched before it is seen. Set after the buttons' own rules, and
    above them: their `all: unset` had undone it, and two Enters or two taps went past a beat unread (the opening's
    critique). The page holds its keys and touches as long (see PrologueStage.next). */
-.prologue-page .beat + .go-on, .prologue-page .beat + .onward, .prologue-page .notes + .onward {
+.prologue-page [data-slot="menu"] > .go-on, .prologue-page .beat + .onward, .prologue-page .notes + .onward {
   animation: appear .8s 1.4s var(--ease) both; }
 @keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; } }
 .prologue-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left));

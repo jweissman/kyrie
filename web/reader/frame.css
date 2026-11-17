@@ -527,3 +527,5 @@ html, body { overflow: hidden; }
 .loading .steps .step-of i { position: absolute; inset: 0 auto 0 0; width: var(--of); background: var(--accent);
   transition: width .6s var(--ease); }
 @media (prefers-reduced-motion: reduce) { .loading .steps li.now { animation: none; } }
+/* The one page's slots (PageFrame) lay nothing out: what is in them is placed by the surface's own rules. */
+.page-frame > .slot, .page-frame .slot { display: contents; }
