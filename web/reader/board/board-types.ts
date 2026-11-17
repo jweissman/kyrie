@@ -4,9 +4,13 @@ import type { Knowing } from '../../../src/ui/screen-types';
 // first opened (see BoardField), so the reader and it share these shapes and nothing else. Each town and place with
 // how much the company knows of it (see Knowing): only heard of, or not made out, it is a sign over the land and no
 // more.
+// tone and companion: what the place is to the company, as its rows say it (see PlaceFacets): one colour, and a
+// companion's icon.
 export interface BoardMark {
   id: string; name: string; cell: number; kind: string; visited: boolean; town?: boolean; state: Knowing;
+  tone?: string; companion?: boolean;
 }
+export type Dress = Record<string, { tone?: string; companion?: boolean }>;
 export interface BoardLand {
   // Which country this is, so that what was known the last time it was opened can be told from what is new.
   key: string;

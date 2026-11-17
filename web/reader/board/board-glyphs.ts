@@ -28,6 +28,9 @@ export class BoardGlyphs {
     const glyph = BoardGlyphs.paths[kind] ?? BoardGlyphs.paths.place!, dy = BoardGlyphs.shift[kind] ?? 0;
     return `<svg viewBox="0 0 16 16" aria-hidden="true"><path transform="translate(0 ${dy})" d="${glyph}"/></svg>`;
   }
+  // Someone who might join, beside a place's sign (not a kind of place): a head and shoulders, as the page's icon is.
+  static readonly companion = '<svg class="board-companion" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.2a2.2 '
+    + '2.2 0 1 1 0 4.4a2.2 2.2 0 0 1 0-4.4zM3.6 13c.4-2.7 2.2-4.2 4.4-4.2s4 1.5 4.4 4.2"/></svg>';
   // The company's own mark: a pin, the same whichever way it is going, for the board does not know which way it faces.
   static readonly pin = '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.6a4.6 4.6 0 0 1 '
     + '4.6 4.6c0 3.3-4.6 8.4-4.6 8.4S3.4 9.5 3.4 6.2A4.6 4.6 0 0 1 8 1.6z'

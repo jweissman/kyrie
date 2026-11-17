@@ -38,6 +38,7 @@ export class BoardLabels {
   town(m: BoardMark, at: Vector3): void {
     // A town only heard of, by the name it was told by, as the told names of places are.
     const el = this.button(m, 'board-town'); el.textContent = m.state === 'heard' ? m.name : m.name.toUpperCase();
+    BoardLabels.dress(el, m);
     this.add({ el, at, cell: m.cell, id: m.id, town: true, w: 0, h: 0, afar: BoardLabels.afar(m) });
   }
   // A place's sign: centred in its ring, the sign of its kind; only heard of, a ring of dashes with the name it was
@@ -49,7 +50,27 @@ export class BoardLabels {
     el.innerHTML = told && !kind ? '<i></i>'
       : `<i>${BoardGlyphs.svg(m.state === 'unknown' && !kind ? 'unknown' : m.kind)}</i>`;
     name.className = 'name'; name.textContent = m.name.replace(/^the /, ''); name.hidden = !told; el.appendChild(name);
+    BoardLabels.dress(el, m);
     this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name, afar: BoardLabels.afar(m), told });
+  }
+  // What the place is to the company (see PlaceFacets), as its rows in the menu say it: its one colour, a pip beside
+  // its name and its sign's ring in that colour, and a companion's icon (the owner, 17 November: a gold act, and no
+  // gold on the map; a town with someone who might join, and nothing on its label).
+  private static dress(el: HTMLElement, m: BoardMark): void {
+    if (!m.tone && !m.companion) { return; }
+    const facets = document.createElement('span');
+    facets.className = 'board-facets'; facets.setAttribute('aria-hidden', 'true');
+    if (m.tone) {
+      el.dataset.tone = m.tone; el.style.setProperty('--mark-tone', `var(--tone-${m.tone})`);
+      facets.insertAdjacentHTML('beforeend', '<b class="board-pip"></b>');
+    }
+    if (m.companion) {
+      el.dataset.companion = '';
+      facets.insertAdjacentHTML('beforeend', BoardGlyphs.companion);
+    }
+    // On a sign's plate, at its shoulder, where no name or card covers it; before a town's name.
+    const plate = el.querySelector('i');
+    if (plate) { plate.appendChild(facets); } else { el.prepend(facets); }
   }
   remember(key: string, marks: BoardMark[]): void {
     const before = BoardLabels.last.get(key), rank = ['unknown', 'heard', 'seen', 'visited'];

@@ -1,7 +1,7 @@
 import type { Courses } from './board/board-types';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { RegionChart } from '../../src/ui/screen-types';
-import type { BoardApi, BoardLand, BoardModule } from './board/board-types';
+import type { BoardApi, BoardLand, BoardModule, Dress } from './board/board-types';
 import { HexLand } from './hex-land';
 import { PageFrame } from './page-frame';
 
@@ -44,12 +44,13 @@ export class BoardField {
   // What the board is given of the region's land: its hexes, rivers and roads, what is known, where you are, and each
   // town and place known of with the sign of its kind and how much is known of it; and the
   // protagonist's face, for your mark.
-  static land(region: RegionChart, face?: string): BoardLand {
+  // dress: what each is to the company (see PlaceFacets), its colour and a companion's icon on its label.
+  static land(region: RegionChart, face?: string, dress: Dress = {}): BoardLand {
     const land = region.land!, W = land.width;
     const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name,
-      cell: a.y * W + a.x, kind: 'town', visited: a.visited, town: true, state: HexLand.town(land, a) }));
+      cell: a.y * W + a.x, kind: 'town', visited: a.visited, town: true, state: HexLand.town(land, a), ...dress[a.id] }));
     const marks = land.marks.filter(m => HexLand.alone(region, m.id)).map(m => ({ id: m.id, name: m.name,
-      cell: m.cell, visited: m.visited, kind: BoardField.kind(m), state: m.state }));
+      cell: m.cell, visited: m.visited, kind: BoardField.kind(m), state: m.state, ...dress[m.id] }));
     return { key: land.cover, width: W, height: land.height, cover: land.cover, rivers: land.rivers, roads: land.roads,
       known: land.known, here: land.here, marks: [...towns, ...marks], face,
       ...region.terrain ? { terrain: region.terrain } : {} };
@@ -66,8 +67,8 @@ export class BoardField {
   }
   // The land as the board is given it, and that land told whole as text: a new frame that leaves the land as it was
   // (anything done with the map open, short of a journey) leaves the board as it is, its view where the player had it.
-  static drawn(region: RegionChart, face?: string): [BoardLand, string] {
-    const land = BoardField.land(region, face);
+  static drawn(region: RegionChart, face?: string, dress?: Dress): [BoardLand, string] {
+    const land = BoardField.land(region, face, dress);
     return [land, JSON.stringify(land)];
   }
   // Where the company is bound, as the maps know it (the board and the flat map have the same places): a town or a
@@ -86,9 +87,9 @@ export class BoardField {
   }
   // The board, given where the company is bound as the maps know it (see whither), and the way a journey went, that
   // your mark walk it, and the page be told when it has.
-  static View({ region, chosen, choose, bound, face, walking, walked, point, courses }: { region: RegionChart;
+  static View({ region, chosen, choose, bound, face, walking, walked, point, courses, dress }: { region: RegionChart;
     chosen?: string; choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: number[];
-    walked?: () => void; point?: (id?: string) => void; courses?: Courses }) {
+    walked?: () => void; point?: (id?: string) => void; courses?: Courses; dress?: Dress }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     // The board as it stood before the land changed under it, kept drawn until the new one is (it had gone black for
     // half a second at a journey's end: M19-58), each in a layer of its own.
@@ -98,7 +99,8 @@ export class BoardField {
     // no drawing at all is given up on.
     const [tries, retry] = useState(0), [ready, readied] = useState(false), able = BoardField.able();
     const fail = useCallback(() => { setTimeout(() => retry(n => n + 1), 400); }, []);
-    const [land, same] = useMemo(() => BoardField.drawn(region, face), [region, face]);
+    const dressed = JSON.stringify(dress ?? {});
+    const [land, same] = useMemo(() => BoardField.drawn(region, face, dress), [region, face, dressed]);
     const now = useRef({ land, chosen, bound, courses });
     pick.current = choose; now.current = { land, chosen, bound, courses };
     useEffect(() => {

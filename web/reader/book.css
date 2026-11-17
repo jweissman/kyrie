@@ -238,6 +238,19 @@
 .board-sign[data-known="heard"] { color: #d6ccb6; gap: 6px; font-size: 14px; }
 .board-sign[data-known="unknown"] { color: #cfc6b4; }
 .board-sign[data-known="unknown"] i { border-color: rgba(207, 198, 180, .6); }
+/* What a place is to you (PlaceFacets), as its row in the map's menu says it (the owner, 17 November: a gold act and
+   no gold on the map): a ring in its one colour outside a sign's plate, which no chosen or pointed ring takes away, and
+   a pip and a companion's icon at the plate's shoulder; before a town's name, its pip and icon, and its rule in that
+   colour. The plate itself is never recoloured. */
+.board-facets { display: inline-flex; align-items: center; gap: 3px; margin-right: 7px; vertical-align: middle; }
+.board-sign i .board-facets { position: absolute; top: -7px; right: -11px; margin: 0; padding: 2px 3px; border-radius: 8px;
+  background: rgba(11, 12, 15, .82); }
+.board-facets .board-pip { width: 7px; height: 7px; border-radius: 50%; background: var(--mark-tone);
+  box-shadow: 0 0 6px var(--mark-tone); }
+.board-sign i .board-facets .board-companion, .board-facets .board-companion { width: 12px; height: 12px; fill: none;
+  stroke: #ece6d9; stroke-width: 1.5; stroke-linecap: round; }
+.board-town[data-tone] { border-bottom: 2px solid color-mix(in oklab, var(--mark-tone) 80%, transparent); }
+.board-sign[data-tone] i { outline: 2px solid var(--mark-tone); outline-offset: 2px; }
 .board-town[data-known="heard"] { font: italic 400 14.5px/1 var(--told); letter-spacing: .02em; color: #d6ccb6;
   border-bottom-style: dashed; border-bottom-color: rgba(236, 230, 217, .35); }
 .board-sign.way i { width: 21px; height: 21px; margin: 0 3px; }

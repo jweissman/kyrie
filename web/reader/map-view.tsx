@@ -9,7 +9,9 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { ReaderApp } from './reader-app';
 import { HexLand } from './hex-land';
 import { BoardField } from './board-field';
-import type { Courses } from './board/board-types';
+import type { Courses, Dress } from './board/board-types';
+import { PlaceFacets } from '../../src/presentation/place-facets';
+import { Pip } from './stage/pip';
 import { MenuModel } from './menu-model';
 import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
@@ -54,7 +56,7 @@ export class MapView {
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
           face={screen.party[0]?.face?.medium} walking={app.state.walking?.way} walked={app.state.walking?.done}
-          point={point} courses={MapView.courses(app, screen, { chosen, bound, planned })} />
+          point={point} courses={MapView.courses(app, screen, { chosen, bound, planned })} dress={MapView.dress(app, screen)} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>
@@ -79,6 +81,15 @@ export class MapView {
     return { chosen: at.chosen === undefined ? undefined : along(MapView.whither(screen, at.chosen)),
       bound: along(app.state.frame?.bound?.id),
       aimed: !!at.bound && Guidance.shown(app) && at.bound === MapView.aimed(app, screen) };
+  }
+  // What each place is to the company, as the map's marks draw it (see PlaceFacets): its one colour, the aim's gold only
+  // where the page shows the way (see Guidance), and a companion's icon.
+  static dress(app: ReaderApp, screen: Screen): Dress {
+    const facets = PlaceFacets.of(screen, app.state.frame?.leaf.glance), gilded = Guidance.shown(app);
+    return Object.fromEntries(Object.entries(facets).map(([id, aspects]) => {
+      const tone = Pip.tone(aspects, gilded);
+      return [id, { ...tone ? { tone } : {}, ...aspects.includes('companionship') ? { companion: true } : {} }];
+    }).filter(([, d]) => Object.keys(d as object).length));
   }
   // Where a choice on the map would set out for: the itinerary's place, else the journey its set-out makes.
   private static whither(screen: Screen, chosen: string): string | undefined {
