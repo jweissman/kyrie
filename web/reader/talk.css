@@ -186,3 +186,10 @@
    menu's place, four and half the next in view, so it is seen that there is more, never paged. */
 .talk .trading .trade-list.scrolls { max-height: calc(var(--choice-h) * 4 + var(--choice-h) / 2); overflow-y: auto;
   overscroll-behavior: contain; scrollbar-width: thin; }
+/* On a phone the sitter's words stand in the band's flow, so that the band grows with them: a long name wrapping
+   beside the rail had been cut by the top edge (OR-48, M22's third review: "Thoradin" cut). */
+@media (max-width: 600px) {
+  .talk .sitter:not(.unpainted) { display: flex; flex-direction: column; justify-content: flex-end; }
+  .talk .sitter:not(.unpainted) .cap { position: relative; left: auto; right: auto; bottom: auto;
+    padding: var(--safe-t) calc(var(--safe-r) + 100px) 18px var(--safe-l); }
+}
