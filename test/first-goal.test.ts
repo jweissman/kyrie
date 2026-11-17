@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame, Member, Setting } from '../web/engine/protocol';
 import { Origins } from '../src/world/origins';
+import { AtlasOrigins } from '../src/world/origin-atlas';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 
 // Every reason for having come that a country holds sets a life going with a first goal, said plainly once at the end
@@ -30,7 +31,9 @@ class Begun {
 
 describe('the first goal of every reason for having come', () => {
   it('is offered in a country that holds them all: eight', async () => {
-    const all = (await Origins.load(NodeBundleSource.shared)).map(o => o.manifest.id);
+    // (The lives a country of the strategic atlas begins are its own: see AtlasOrigins.)
+    const all = (await Origins.load(NodeBundleSource.shared))
+      .filter(o => !AtlasOrigins.binders.includes(o.manifest.binder)).map(o => o.manifest.id);
     expect(all.length).toBe(8);
     expect((await Begun.origins()).sort()).toEqual([...all].sort());
   }, 120000);

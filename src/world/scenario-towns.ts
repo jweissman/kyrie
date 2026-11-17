@@ -40,6 +40,10 @@ export class ScenarioTowns {
     }
     // What goes round the country (a circus, a pedlar) is shared with whatever else is there, and claims nothing.
     if (need === 'largest') { return this.largest(fit.length ? fit : region.settlements).id; }
+    // A settlement a country's atlas names (named:Gatesend): what is set there is the country's own (see
+    // StrategicAtlas.goings).
+    const named = need.startsWith('named:') && region.settlements.find(t => t.name === need.slice(6));
+    if (named) { return named.id; }
     if (need.startsWith('along:')) { return this.along(region, bindings, bindings[need.slice(6)], fit).id; }
     const near = need.startsWith('near:') ? region.sites.find(w => w.id === bindings[need.slice(5)]) : undefined;
     if (near) {
@@ -53,7 +57,7 @@ export class ScenarioTowns {
     claimed.add(town.id);
     return town.id;
   }
-  static readonly forms = ['any', 'largest', 'along:', 'near:', 'toward:'];
+  static readonly forms = ['any', 'largest', 'along:', 'near:', 'toward:', 'named:'];
   static readonly sizes: Record<string, number> = { town: 3, village: 2, hamlet: 1 };
   // The biggest settlement, the first of those as big.
   static largest(towns: Settlement[]): Settlement {

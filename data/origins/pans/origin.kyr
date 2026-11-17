@@ -1,0 +1,17 @@
+Module origin "The salt-pans" {
+  Kind chapter. Entity title: chapter "The salt-pans".
+  Entity party: group "You".
+  Place shop "The salt-house" is room.
+  Entity salter: group "The salter". Entity cold: fact "The pans are going cold". Entity work: fact "Work at the pans".
+  Relation wagePaid(group).
+  // A week's wage owed both ways: the salter owes it, and cannot pay it until the salt is sold.
+  Entity wage: fact "{merchant} owes you a week's wage, eighteen coin. It cannot be paid until the season's salt is sold.".
+  Initially Assert established(wage). Initially Assert knows(party, cold). Initially Assert knows(party, wage).
+  Observe arrival at shop as fixture when watch(clock) < 1 "Grey light through the salt-house door, and your breath smoking. All night you fed the last hearth with barrel-staves and broken crates. It was not enough. By dawn two of the three pans had a skin of salt on them like ice on a pond.".
+  Observe charge at shop as feature when watch(clock) < 2 "{merchant} stands at the door looking up the river toward {fuelvillage}, as {merchant} has every hour since the day before yesterday. 'Two days late,' {merchant} says, without turning. 'Three days cold and the brine goes off. Then the season is lost, and your wage with it.' Then, turning: 'I can't leave the pans. You can.'".
+  Topic wage with salter "Ask {merchant} for your week's wage" when knows(actor, work) and not wagePaid(actor) once {
+    Says "{merchant} looks at the steam going up off the pans. Then {merchant} goes to the strongbox. Eighteen coin, counted out twice. 'A week, and a boat,' {merchant} says. 'I'd not have had either without you.'".
+    On discuss { Increase quantity(actor, gold) by 18. Assert wagePaid(actor). }
+  }
+  Goal false.
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "id": "iscoed-gate",
+  "name": "The last sea-gate",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    },
+    "hamlet": {
+      "settlement": "named:Gatesend"
+    }
+  },
+  "modules": [
+    {
+      "id": "gate",
+      "bundle": "../goings-on/iscoed-gate/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "green": "@town.green",
+        "hamlet": "@hamlet",
+        "hamletgreen": "@hamlet.green"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "fact": "gate.failing",
+      "topic": "the sea-gate at {hamlet} that will not shut",
+      "channels": [
+        "tavern",
+        "temple",
+        "market",
+        "road"
+      ],
+      "opens": false
+    }
+  ]
+}

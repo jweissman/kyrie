@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "green",
+    "shop",
+    "trader",
+    "fuelvillage",
+    "fuelgreen"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "shop": {
+      "type": "place"
+    },
+    "trader": {
+      "type": "group"
+    },
+    "fuelvillage": {
+      "type": "place"
+    },
+    "fuelgreen": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "cold": "cold",
+    "work": "work",
+    "boiling": "boiling"
+  }
+}

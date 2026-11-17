@@ -1,0 +1,33 @@
+Module origin "Your aunt's weir" {
+  Kind chapter. Entity title: chapter "Your aunt's weir".
+  Entity party: group "You".
+  Place hamlet "The hamlet" is settlement. Place hamletgreen "The hamlet's green" is room.
+  Entity reeve: group "The reeve". Entity failing: fact "The sea-gate fails". Entity tide: fact "The spring tide".
+  Relation lifted(group). Relation sold(group). Relation handed(group).
+  Entity lease: fact "The weir at {hamlet} is yours on the reeve's lease. Five coin is owed to the reeve of {town} at the quarter-day, a month off.".
+  Kind lease_kind "Tegwen's lease" is document teaching lease worth 0 weighing 1 described "A strip of parchment, much folded, in the reeve's clerk's hand: the eel-weir at the second bend below the sea-gate, with its stakes, wattles and traps, to Tegwen and her heirs, at five coin the quarter. Under it, in your aunt's careful capitals: TO GO TO MY SISTER'S CHILD.".
+  Kind eel_kind "a creel of eels" is treasure worth 3 weighing 4 described "A wicker creel, wet and heavy and moving.".
+  Item lease_scroll "Tegwen's lease" is lease_kind at hamletgreen.
+  Place weir "Tegwen's eel-weir" is room within hamlet at 2, 1.
+  Passage weir_path "the path down to the weir" is passage between hamletgreen and weir.
+  Person nest "Nest" at hamletgreen { Role "the eel-wife of {hamlet}, who was your aunt's neighbour". Pronouns she. Peaceable. Manner acerbic. }
+  Initially Assert established(lease). Initially Assert knows(party, failing). Initially Assert knows(party, tide).
+  Observe arrival at hamletgreen as fixture when watch(clock) < 1 "Your aunt's door has a wreath of dried rushes on it, and her nets are still on the fence. Below the last houses the fen goes away green and flat. Above the hamlet, where the river meets the sea-bank, stands a squat stone gatehouse. From under it comes a sound you do not remember from when you were a child. It is the sea, running in.".
+  Observe charge at hamletgreen as feature when watch(clock) < 2 "'You'll be Tegwen's,' says the woman at the next door, and looks you over. 'Nest. I kept her weir going since the burying. The traps want lifting every morning or the eels rot in them.' She nods up at the gatehouse. 'And the gate's not shut since the new moon. Spring tide's in six days. When the sea comes over, there's no weir, and no Gatesend either.'".
+  Observe weir_scene at weir when not lifted(party) "A fence of stakes and wattle runs out across the channel in a long V, with a wicker trap at its point. The water through it is running the wrong way: in from the sea, not out.".
+  Observe weir_lifted at weir when lifted(party) "The weir's trap is lifted and set again. The water through the wattles still runs the wrong way.".
+  Rule lease_given when not handed(party) { Give lease_scroll to party. Assert handed(party). }
+  Item creel "a creel of eels" is eel_kind at weir hidden until lifted_once.
+  Entity lifted_once: fact "The weir's trap held a creel of eels this morning.".
+  Action lift_trap(actor: group, site: place) "Lift the weir's trap" {
+    Time 1 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weir) and not lifted(actor) and not dark().
+    Result "Waist-deep in the cold channel, you work the trap loose from its stake and haul it up streaming. Eels, a creelful, black and furious. You set the trap again, as Tegwen taught you a long time ago.".
+    On success { Assert lifted(actor). Assert knows(actor, lifted_once). }
+  }
+  Topic sell_eels with nest "Sell Nest the creel of eels" when holding(actor, eel_kind) and not sold(actor) once {
+    Says "Nest weighs the creel in one hand. 'Three coin, and I take them to Porthalen myself.' She counts it out. 'Tegwen got four. Tegwen didn't let them sit.'".
+    On discuss { Spend eel_kind from actor. Increase quantity(actor, gold) by 3. Assert sold(actor). }
+  }
+  Goal false.
+}

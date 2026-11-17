@@ -97,8 +97,8 @@ export class WorldAssembler {
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const heralds = await this.heralds(base, region, seed), standing = (await this.library(base, this.standing))
       .filter(e => !options.standing || options.standing.includes(e.manifest.id));
-    const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id,
-      rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds, standing });
+    const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id, heralds,
+      rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: StrategicAtlas.exclude(region), standing });
     // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a
     // harbour's at the head of a firth from the sea, let in then).
     region.provinces = await Provinces.regions(Provinces.flood(region, Provinces.situate(region)), base);
@@ -297,13 +297,12 @@ export class WorldAssembler {
         text: `${tie.text.replaceAll('{contact}', `{${carrier}}`).replaceAll('{member}', name)} ${this.heard[tie.channel]}` }];
     });
   }
-  // The heralds of the countries a first region lies beside (see Countries.heralds): scenarios kept out of the
-  // library's draw, one for each distinct scenario a country sends.
+  // The heralds of the countries a first region lies beside (see Countries.heralds), kept out of the library's draw,
+  // one for each scenario a country sends; and an atlas country's own goings-on, held so (StrategicAtlas.goings).
   static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
-    // One herald may go ahead of several countries (the factor who buys old bronze is the same factor to each): placed
-    // once, bound to every country that names it.
-    const heralds = new Set(Countries.heralds(region.terrain, seed).map(({ country }) => country.herald!.scenario));
-    return Promise.all([...heralds].map(s => StoryPeople.entry(base, base.resolve(`data/scenarios/${s}`))));
+    // A herald going ahead of several countries (the factor who buys old bronze) is placed once, bound to each.
+    const sent = new Set(Countries.heralds(region.terrain, seed).map(c => `data/scenarios/${c.country.herald!.scenario}`));
+    return Promise.all([...sent, ...StrategicAtlas.goings(region)].map(s => StoryPeople.entry(base, base.resolve(s))));
   }
   static async library(base: BundleSource, index: string): Promise<Entry[]> {
     const path = base.resolve(index);

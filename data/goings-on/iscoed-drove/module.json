@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "green",
+    "taproom",
+    "keeper"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    },
+    "taproom": {
+      "type": "place"
+    },
+    "keeper": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "held": "held",
+    "road_west": "road_west",
+    "bran": "bran",
+    "owain": "owain",
+    "customs": "customs",
+    "pens": "pens"
+  }
+}

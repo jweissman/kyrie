@@ -1,0 +1,81 @@
+Module pans "The cold pans" {
+  Description "The salt-pans of {town} burn fuel day and night, and Iscoed has no wood to spare. {trader}'s fuel boat from {fuelvillage} is two days late. If the fires under the pans are out three days, the brine spoils and the season's salt with it.".
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place shop "The salt-house" is room.
+  Place green "The green" is room.
+  Place fuelvillage "The fuel village" is settlement.
+  Place fuelgreen "The green at the fuel village" is room.
+  Entity trader: group "The salter".
+  Relation fuelled(group). Relation spoiled(group). Relation hired(group). Relation paid(group). Relation asked(group).
+  Relation carted(group).
+
+  Entity cold: fact "{trader}'s salt-pans at {town} are going cold: the fuel boat from {fuelvillage} is two days late, and the brine spoils if the fires are out three days.".
+  Initially Assert established(cold).
+  Entity boatman: fact "The fuel boat is at {fuelvillage}'s staithe, full: Ianto, its boatman, has broken his arm.".
+  Entity work: fact "{trader} pays a hand three coin a shift to rake salt and keep the fires at the pans.".
+
+  Kind fuel_sack_kind "a sack of charcoal" is gear worth 1 weighing 20 described "A sack of charcoal from the ridge, black to the touch and lighter than it looks, tied at the neck with a twist of reed.".
+  Place boiling "the boiling-house behind the salt-house" is room within town at 5, 5.
+  Passage boiling_door "the door to the boiling-house" is door between shop and boiling.
+  Place staithe "the staithe at {fuelvillage}" is room within fuelvillage at 3, 6.
+  Passage staithe_lane "the lane down to the staithe" is passage between fuelgreen and staithe.
+  Item sacks "two sacks of charcoal" is fuel_sack_kind at staithe.
+
+  Observe cold_sign at green as sign when not fuelled(party) and not spoiled(party) "Over the salt-houses only one chimney is smoking, thin and grey. A salter stands in a doorway looking up the river with his arms folded." teaches cold.
+  Observe boiling_cold at boiling when not fuelled(party) and not spoiled(party) "Three iron pans the size of a cart-floor stand over brick hearths, the brine in them grey and still. Only one hearth is lit, low, fed with broken barrel-staves. A crust of salt is setting on the cold ones like ice.".
+  Observe boiling_hot at boiling when fuelled(party) "All three hearths roar. The brine seethes in the pans and the air is thick with steam and the smell of the sea, and a man with a long wooden rake draws the white salt up onto the boards to drain.".
+  Observe boiling_spoiled at boiling when spoiled(party) "The pans are cold and the brine in them has gone to a brown scum. Two men are tipping it out into the ditch, and nobody is speaking.".
+  Observe staithe_scene at staithe when not fuelled(party) "A flat-bottomed fuel boat lies tied up at the staithe, sacks of charcoal heaped in her waist. On the bank a man sits with his arm strapped across his chest, looking at her.".
+  Observe ianto_says at staithe as sign when not fuelled(party) and not knows(party, boatman) "'Broke it on the windlass, loading her,' Ianto calls up to you, and lifts the strapped arm. 'She's full. I can't pole her down one-handed, and nobody here will take her through the cut.'" teaches boatman.
+  Person ianto "Ianto" at staithe { Role "the fuel boatman of {fuelvillage}, with a broken arm". Pronouns he. Peaceable. Manner grim. }
+
+  Topic trader_cold with trader "Ask {trader} why the pans are cold" when not fuelled(party) and not spoiled(party) once {
+    Says "{trader} wipes salt off both hands. 'No fuel. The boat from {fuelvillage} is two days late and there's not a stick to be had in {town}: the ridge wood is the reeve's and the peat is wet. Three days cold and the brine's spoiled, and the season with it.' A look at your arms. 'If you've a back, I'll pay for it. Get me fuel and there's work here after.'".
+    On discuss { Assert asked(actor). }
+  }
+  Topic ianto_boat with ianto "Ask Ianto about the fuel boat" when not fuelled(party) once {
+    Says "'Broke it on the windlass, loading her,' says Ianto, and nods at the arm. 'She's full. Two sacks would keep his fires a day or two; the whole load, a month. I can't pole her down with one arm, and nobody here will take her through the sluice-cut since the water went wrong.' He looks at you. 'You could carry two. Or pole her, if you've done it.'".
+    On discuss { Assert knows(actor, boatman). }
+  }
+  // Poled down, the whole load comes to the pans; carried, two sacks and a day's walk.
+  Action pole_boat(actor: group, site: place) "Pole Ianto's fuel boat down the cut to {town}" {
+    Speaker ianto. Time 3 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, staithe) and knows(actor, boatman)
+      and not fuelled(actor) and not spoiled(actor) and not carted(actor).
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert carted(actor). Assert at(actor, boiling). }
+    On failure { Assert carted(actor). }
+    Result "The boat is heavy and the cut is half-silted where the sluice has let the sea in, and twice you ground her on the mud and lever her off with the pole. But by the afternoon she noses into {town}'s quay, low in the water, and men come running from the salt-house.".
+    Otherwise "Where the old sluice has let the sea into the cut, the boat goes hard aground on the mud and will not come off. You leave her there, and Ianto shakes his head. Two sacks will still go, carried.".
+  }
+  Action give_sacks(actor: group, site: place) "Give {trader} the charcoal" {
+    Speaker trader. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and holding(actor, fuel_sack_kind) and not fuelled(party) and not spoiled(party).
+    Result "{trader} has the sacks open before they are off your back, and the fires in the boiling-house going within the hour. 'Two days,' {trader} says, 'and the boat after, Ianto or no Ianto.' Eight coin on the boards. 'There's three a shift for you here, whenever you want it.'".
+    On success { Spend fuel_sack_kind from actor. Assert fuelled(actor). Increase quantity(actor, gold) by 8. Assert knows(actor, work). }
+  }
+  Action boat_come(actor: group, site: place) "Tell {trader} the fuel boat is at the quay" {
+    Speaker trader. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and carted(actor) and not fuelled(party) and not spoiled(party).
+    Result "{trader} goes out onto the quay and stands looking at the heaped boat for a long moment. 'The whole load,' {trader} says. 'A month.' Fifteen coin on the boards, slowly. 'There's three a shift for you here, whenever you want it. And I'll remember it.'".
+    On success { Assert fuelled(actor). Assert paid(actor). Increase quantity(actor, gold) by 15. Assert knows(actor, work). }
+  }
+  // An ordinary livelihood: a shift at the pans, paid, once the fires are lit.
+  Action shift(actor: group, site: place) "Work a shift at the pans for {trader}" {
+    Time 8 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, boiling) and fuelled(actor) and not dark().
+    Result "You rake salt until your shoulders burn and feed the hearths until your face does, and at the end of it {trader} counts three coin into your hand without a word.".
+    On success { Increase quantity(actor, gold) by 3. Assert hired(actor). }
+  }
+  Rule spoils when not fuelled(party) and not spoiled(party) and watch(clock) >= 432 says "Word comes up from the waterfront: {trader}'s fires are out, and the brine in the pans has spoiled. There will be no salt from {trader}'s pans this season." {
+    Assert spoiled(party). Assert stale(cold).
+  }
+  Milestone m_fuelled "kept {trader}'s pans burning" worth 100 when fuelled(party).
+  Objective cold_aim when knows(party, cold) and not knows(party, boatman) and not fuelled(party) and not spoiled(party) toward ianto "Find out what has become of {trader}'s fuel boat at {fuelvillage}: the salt-pans at {town} go cold in three days without it.".
+  Objective cold_fetch when knows(party, boatman) and not fuelled(party) and not spoiled(party) and not carted(party) toward ianto by staithe "Bring {trader} fuel from Ianto's boat at {fuelvillage}: pole her down the cut, or carry two sacks.".
+  Objective cold_carry when holding(party, fuel_sack_kind) and not fuelled(party) and not spoiled(party) toward trader by boiling "Take the charcoal to {trader}'s boiling-house at {town}.".
+  Objective cold_told when carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Tell {trader} in the salt-house that the fuel boat is at the quay.".
+  Rule word_old when fuelled(party) and not stale(cold) { Assert stale(cold). }
+  Goal fuelled(party).
+}

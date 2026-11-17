@@ -7,7 +7,9 @@ import type { Region } from './region-writer';
 // worlds the atlas is for. Westernesse's, not the kernel's: a country, a reeve and a salt-tax are this setting's words.
 export interface AtlasCountry {
   id: string; cell: [number, number]; name: string; terrain: string; ancestry?: string; domain?: string;
-  shore?: Side; port?: boolean; arts?: string[]; livelihoods?: Record<string, string>; settlements?: string[];
+  shore?: Side; port?: boolean; arts?: string[]; goings?: string[]; exclude?: string[];
+  livelihoods?: Record<string, string>;
+  settlements?: string[];
   facts: Record<string, string>; neighbours?: Partial<Record<Side, string>>;
 }
 // Each world listed draws the atlas's countries at their cells: the same countries, named and made as the atlas says,
@@ -46,6 +48,13 @@ export class StrategicAtlas {
   static land(region: Region): { shore?: Side; port?: true } {
     return { ...region.shore ? { shore: region.shore } : {}, ...this.byId(region.country)?.port ? { port: true } : {} };
   }
+  // What is going on in the country that is its own (data/scenarios/<id>.scenario.json): placed in it whenever it is
+  // drawn, before anything drawn at random, as a herald is.
+  static goings(region: Region): string[] {
+    return (this.byId(region.country)?.goings ?? []).map(id => `data/scenarios/${id}.scenario.json`);
+  }
+  // The library's goings-on a country of the atlas does not hold: those its own would contradict (a second drover).
+  static exclude(region: Region): string[] { return this.byId(region.country)?.exclude ?? []; }
   // The arts of the makers whose works are in the country, where the atlas says.
   static arts(region: Region): string[] | undefined { return this.byId(region.country)?.arts; }
   // The country named as the atlas names it: its chief settlements (a city of the canon keeps the canon's name).

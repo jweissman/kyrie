@@ -1,0 +1,76 @@
+Module gate "The last sea-gate" {
+  Description "The fen of Iscoed lies lower than the sea, and the Water-Wardens' sea-gates have kept it dry since before there were Rìs. The last of them, at {hamlet}, no longer shuts. At the spring tide the sea will come over into the fen, and {hamlet} and its eel-weirs with it. The reeve at {town} has posted thirty crowns.".
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place green "The green" is room.
+  Place hamlet "The hamlet" is settlement.
+  Place hamletgreen "The hamlet's green" is room.
+  Relation mended(group). Relation flooded(group). Relation claimed(group). Relation tried(group).
+
+  Entity failing: fact "The last of the Water-Wardens' sea-gates, at {hamlet}, no longer shuts: at the spring tide, six days off, the sea will come over into the fen. The reeve at {town} pays thirty crowns to have it mended.".
+  Initially Assert established(failing). Initially Assert established(tide).
+  Entity cut: fact "The pin that held the sea-gate's pawl was sawn through, not worn: someone wanted the gate at {hamlet} to stand open.".
+  Entity tide: fact "The spring tide comes six days from your coming to Iscoed, at the full moon.".
+
+  Kind pawl_kind "the sea-gate's pawl" is gear worth 6 weighing 6 described "A tooth of bronze-shod iron as long as a forearm, curved to fit a ratchet, with a hole through its heel where a pin went. The Water-Wardens' mark, a wave inside a ring, is cut into its face.".
+  Place bank "the sea-bank at {hamlet}" is room within hamlet at 4, 0.
+  Place gatehouse "the Wardens' gatehouse" is room within hamlet at 5, 0.
+  Place well "the gate-well, under the gatehouse" is room within hamlet at 5, 1.
+  Passage bank_path "the path along the sea-bank" is passage between hamletgreen and bank.
+  Passage gate_door "the gatehouse door" is door between bank and gatehouse.
+  Passage well_ladder "the iron ladder down the gate-well" is ladder between gatehouse and well.
+  Initially Assert unlit(well).
+  Item pawl "the sea-gate's pawl" is pawl_kind at well hidden until pawl_found.
+
+  Person reeve "Reeve Annis Talfryn" at green { Role "the reeve of Iscoed, who keeps the march and the sea-gates for the Rì". Pronouns she. Peaceable. Manner grim. }
+  Thing notice "the reeve's notice" at green {
+    State posted "A notice in a clerk's hand is nailed to the post by the well: THE SEA-GATE AT GATESEND IS TO BE MENDED BEFORE THE SPRING TIDE. THIRTY CROWNS OF THE REEVE TO WHOEVER MENDS IT. A. TALFRYN, REEVE.".
+  }
+  Observe notice_read at green as sign when not mended(party) and not flooded(party) and not knows(party, failing) "A notice is nailed to the post by the well, newer than the others, the reeve's seal at its foot." teaches failing.
+  Observe bank_scene at bank when not mended(party) and not flooded(party) "The sea-bank runs straight as a rule between the grey water and the green fen, a man's height above both. Where it meets the river stands a squat stone gatehouse, and from under it, even now at the ebb, the sea runs into the fen with a sound like a mill-race.".
+  Observe bank_mended at bank when mended(party) "The sea-bank runs straight between the grey water and the green fen. Under the gatehouse the water lies still.".
+  Observe bank_flooded at bank when flooded(party) "The fen behind the sea-bank is a sheet of grey water to the ridge, with the roofs of {hamlet} standing out of it and gulls on the ridge-trees.".
+  Observe gatehouse_scene at gatehouse when true "Inside, a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle, and beside it an empty socket. Over the door a wave inside a ring is cut in the lintel.".
+  Observe well_scene at well when true "The iron rungs end in silt. Water stands knee-deep, cold and moving, and the gate's great chain goes down past you into the dark to the sluice below.".
+  Discovery fault_found "The great windlass of the sea-gate at {hamlet} has lost its pawl, the iron tooth that holds it: without it the gate cannot be wound shut and held." {
+    Found by searching gatehouse "The socket beside the ratchet is empty, and its pin-holes are bright. The pawl that should stand in it, the iron tooth that holds the drum, is gone. Whatever held it, it went down: there are fresh scrapes on the slot's edge where something heavy fell.".
+  }
+  Discovery pawl_found "The sea-gate's pawl lies at the bottom of the gate-well, in the silt." {
+    Found by searching well "Your foot finds it before your hands do: under the silt, a curved bar of iron as long as your forearm, bronze-shod, the wardens' wave cut in its face.".
+  }
+  Observe pin_seen at gatehouse as sign when holding(party, pawl_kind) and not knows(party, cut) "Turning the pawl over in the light at the door, you see that the stub of its pin is bright and square: sawn through, not worn." teaches cut.
+
+  Topic reeve_gate with reeve "Ask the reeve about the sea-gate at Gatesend" when not mended(party) and not flooded(party) once {
+    Says "'It will not shut,' says the reeve. 'It has not shut since the new moon. I have written to the Rì's engineers in Dun Rìerdan, and they will come in the summer, with a bill, and the fen will have been sea since the spring.' She looks at you as if measuring rope. 'Six days to the spring tide. Thirty crowns. Nobody in Gatesend will go into the gatehouse now.'".
+    On discuss { Assert knows(actor, failing). Assert knows(actor, tide). }
+  }
+  Action wind_gate(actor: group, site: place) "Set the pawl in its socket and wind the sea-gate shut" {
+    Time 1 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gatehouse) and holding(actor, pawl_kind)
+      and not mended(actor) and not flooded(actor).
+    Resolve check(actor, brawn, dc_fair).
+    On success { Spend pawl_kind from actor. Assert mended(actor). }
+    On failure { Assert tried(actor). }
+    Result "The pawl drops into its socket with a sound like a bell. Then the long work: the windlass bars, a turn and a rest and a turn, the chain coming up wet out of the slot link by link, the pawl clacking over the ratchet. Below, at last, something enormous seats itself in stone, and the mill-race sound stops.".
+    Otherwise "The drum will not come round. You hang on the bar until your arms shake and the chain slips back a link at a time. It wants more weight than yours, or a fresh try.".
+  }
+  Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not claimed(actor) once {
+    Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.'".
+    On discuss { Increase quantity(actor, gold) by 30. Assert claimed(actor). }
+  }
+  Topic reeve_cut with reeve "Show the reeve the pawl's sawn pin" when knows(actor, cut) once {
+    Says "The reeve's face does not change, but she goes very still. 'Sawn,' she says. 'Then someone wants the fen wet, or the gate open. The cut runs under the bank to the sea, and a boat could come and go by it at night with no customs-man the wiser.' She looks toward the waterfront. 'Keep that to yourself until I know who.'".
+  }
+  Rule floods when not mended(party) and not flooded(party) and watch(clock) >= 864 says "The spring tide comes in on the full moon, high and grey, and does not stop at the sea-bank. By morning the fen behind {hamlet} is under water to the ridge." {
+    Assert flooded(party). Assert stale(failing).
+  }
+  Milestone m_mended "shut the last of the Water-Wardens' sea-gates" worth 200 when mended(party).
+  Milestone m_cut "found that the sea-gate's pawl had been sawn loose" worth 50 when knows(party, cut).
+  Objective gate_aim when knows(party, failing) and not knows(party, fault_found) and not knows(party, pawl_found) and not mended(party) and not flooded(party) toward gatehouse by bank "Find out why the sea-gate at {hamlet} will not shut, before the spring tide.".
+  Objective gate_pawl when knows(party, fault_found) and not knows(party, pawl_found) and not mended(party) and not flooded(party) toward well by gatehouse "Find the sea-gate's lost pawl: something heavy went down the gate-well under the gatehouse.".
+  Objective gate_take when knows(party, pawl_found) and not holding(party, pawl_kind) and not mended(party) and not flooded(party) toward well "Bring the sea-gate's pawl up out of the gate-well.".
+  Objective gate_wind when holding(party, pawl_kind) and not mended(party) and not flooded(party) toward gatehouse "Take the pawl to the windlass at {hamlet}, and wind the sea-gate shut.".
+  Objective gate_claim when mended(party) and not claimed(party) toward reeve "Tell the reeve at {town} that the sea-gate shuts.".
+  Rule word_old when mended(party) and not stale(failing) { Assert stale(failing). }
+  Goal mended(party).
+}

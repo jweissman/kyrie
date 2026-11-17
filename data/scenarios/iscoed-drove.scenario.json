@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "id": "iscoed-drove",
+  "name": "The held drove",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    }
+  },
+  "modules": [
+    {
+      "id": "drove",
+      "bundle": "../goings-on/iscoed-drove/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "green": "@town.green",
+        "taproom": "@town.taproom",
+        "keeper": "@town.innkeeper"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "fact": "drove.held",
+      "topic": "the Brynach drover the customs-men hold at {town}",
+      "channels": [
+        "tavern",
+        "market",
+        "road"
+      ],
+      "opens": false
+    }
+  ]
+}

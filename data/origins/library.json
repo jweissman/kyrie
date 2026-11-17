@@ -1,2 +1,2 @@
-{ "origins": ["kin/origin.json", "order/origin.json", "debt/origin.json", "herbs/origin.json", "wanderer/origin.json",
-  "map/origin.json", "lost/origin.json", "courier/origin.json"] }
+{ "origins": ["drove/origin.json", "pans/origin.json", "weir/origin.json", "kin/origin.json", "order/origin.json",
+  "debt/origin.json", "herbs/origin.json", "wanderer/origin.json", "map/origin.json", "lost/origin.json", "courier/origin.json"] }

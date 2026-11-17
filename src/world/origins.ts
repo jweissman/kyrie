@@ -13,6 +13,7 @@ import arrivals from '../../data/origins/wanderer/arrivals.json';
 import { OriginPrologue } from './origin-prologue';
 import { SettlementWriter } from './settlement-writer';
 import { RegionUndertown } from './region-undertown';
+import { AtlasOrigins } from './origin-atlas';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -33,7 +34,8 @@ export interface OriginManifest {
 export interface OriginChoice { id: string; title: string; choice: string; background?: string }
 // What an origin is bound to in one world: the words its text is filled with, the entities it imports (with their
 // types), and where the protagonist begins.
-interface Bound { values: Record<string, string>; imports: Record<string, [string, string]>; start: Start }
+export interface OriginBound { values: Record<string, string>; imports: Record<string, [string, string]>; start: Start }
+type Bound = OriginBound;
 type Start = NonNullable<Company['start']>;
 // The way into a settlement, by its country: its name, the scene of the town coming into sight, and the life going on
 // there as one comes (data/origins/tables.json).
@@ -111,7 +113,9 @@ export class Origins {
     }
     return out;
   }
+  // A country of the strategic atlas begins only its own lives (see AtlasOrigins).
   private static bind(binder: string, region: Region, placements: Placement[]): Bound | undefined {
+    if (region.country) { return AtlasOrigins.bind(binder, region, placements); }
     switch (binder) {
       case 'kin': return this.kin(region, placements);
       case 'debt': return this.debt(region);

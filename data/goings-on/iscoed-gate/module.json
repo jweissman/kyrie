@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "green",
+    "hamlet",
+    "hamletgreen"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    },
+    "hamlet": {
+      "type": "place"
+    },
+    "hamletgreen": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "failing": "failing",
+    "tide": "tide",
+    "reeve": "reeve",
+    "bank": "bank",
+    "gatehouse": "gatehouse"
+  }
+}

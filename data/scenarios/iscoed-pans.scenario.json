@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "id": "iscoed-pans",
+  "name": "The cold pans",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    },
+    "fuelvillage": {
+      "settlement": "along:town"
+    }
+  },
+  "modules": [
+    {
+      "id": "pans",
+      "bundle": "../goings-on/iscoed-pans/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "shop": "@town.shop",
+        "trader": "@town.merchant",
+        "fuelvillage": "@fuelvillage",
+        "fuelgreen": "@fuelvillage.green",
+        "green": "@town.green"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "fact": "pans.cold",
+      "topic": "the cold salt-pans at {town}",
+      "channels": [
+        "tavern",
+        "market"
+      ],
+      "opens": false
+    }
+  ]
+}
