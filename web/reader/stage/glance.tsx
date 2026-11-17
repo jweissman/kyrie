@@ -1,7 +1,7 @@
 import { Foreground } from '../../../src/presentation/foreground';
 import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
-import { useRef, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -136,13 +136,27 @@ export class GlanceStage {
   // cart, and nothing said that it was something to do).
   // The column says when more of it lies below (see Scrolled), and what was just done here is brought into view in it
   // (see Told.Happened).
+  // While an act is under way the telling keeps the height it had, its echo pushing the words down inside it, so
+  // nothing under it moves (M22's third review: the menu had jumped about 32 px as an act was taken, the row sliding
+  // from under the finger).
+  static useHeld(col: RefObject<HTMLDivElement | null>, pending: boolean) {
+    const was = useRef(0);
+    useLayoutEffect(() => {
+      const el = col.current;
+      if (!el) { return; }
+      if (!pending) { el.style.height = ''; el.style.overflow = ''; was.current = el.offsetHeight; return; }
+      if (was.current) { el.style.height = `${was.current}px`; el.style.overflow = 'hidden'; }
+    });
+  }
   static Rest({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
     const s = app.state, leaf = s.frame!.leaf, exchange = leaf.exchange, screen = s.frame!.screen;
     // What came of what was just done is told here, a lens on or not: it had been the explorer's pane's to tell (kept),
     // and with the lenses in the scene it was told nowhere (the grave spec's statue broken, and nothing said).
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
-    const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text)), col = useRef(null);
+    const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text));
+    const col = useRef<HTMLDivElement>(null);
     Scrolled.useCue(col, s.frame);
+    GlanceStage.useHeld(col, !!s.pending);
     return <div className="told-col" data-region="told" ref={col} {...PageFrame.slot('narrative')}>
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
