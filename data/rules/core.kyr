@@ -151,7 +151,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   // Someone who means the company no good where it is: a long wait or a rest is broken off when one arrives.
   Query threatened(a: group) means at(a, ?p) and at(?o, ?p) and able(?o) and distinct(?o, a) and not peaceable(?o)
     and not allied(?o, a) and not tolerates(?o, a).
+  // Waiting mends no one, and says so: only rest does (FH-14: a wait had healed nothing and said nothing of it).
   Action wait(actor: group) "Wait a while" {
+    Description "A few minutes. Waiting mends no wound; rest does.".
     Requires able(actor). Time 1.
   }
   // A company that cannot move (all of it asleep, or held fast) can only lie as it is until it can.
@@ -160,6 +162,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
     Requires company(actor) and not able(actor) and not dead(actor). Time 1.
   }
   Action wait_hour(actor: group) "Wait an hour" {
+    Description "An hour, ready for whatever comes. Waiting mends no wound; rest does.".
     Requires able(actor). Time 6. Interrupted when threatened(actor).
     Result "An hour passes.".
   }
@@ -188,7 +191,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
     Result "The light goes. It is dark.".
   }
   Action wait_watch(actor: group) "Wait and watch" {
-    Description "Until someone comes or goes, or something changes here; or until the day turns.".
+    Description "Until someone comes or goes, or something changes here; or until the day turns. It mends no wound.".
     Requires able(actor). Time untilTurn(clock). Interrupted when threatened(actor). Watchful.
     Result "Nothing comes, and nothing changes. The hours go by.".
   }
