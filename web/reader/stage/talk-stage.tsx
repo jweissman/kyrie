@@ -88,8 +88,7 @@ export class TalkStage {
                     key={c.id} choice={c} draw={draw} number={i + 1} aspects={drawn(c)} gilded={gilded} />)}</ol></>}
                 {/* Trade in the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home
                     with what would fetch coin: Mission 20). */}
-                <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} turn={() => turn(paged.at + 1)}
-                  again={[...focus.salient, ...focus.more].every(spent)} spent={spent} opened={focus.opened}
+                <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} spent={spent} opened={focus.opened}
                   gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={<TalkStage.ToTrade app={app}
                     aspects={[...new Set(focus.services.flatMap(drawn))]} gilded={gilded} />} />
               </>}
@@ -101,6 +100,12 @@ export class TalkStage {
                 mark={ChoiceRow.neutral} markClass="neutral" label="Back" /></li>
                 : <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={a + paged.shown.length + 1}
                   label={talk.leave.label} /></li>}
+              {/* The page turned last, below the acts, which run 1 to 4 without a gap (M22's review: 1, 2, 3, the
+                  pager, 4). */}
+              {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
+                onClick={() => turn(paged.at + 1)} mark={ChoiceRow.neutral} markClass="neutral"
+                label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
+                aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
             </ol>
           </div>
         </div>
@@ -271,20 +276,17 @@ export class TalkStage {
   // What pays the company is marked green, as the likeness that has something for it is (see Owed), and said so to a
   // reader of the page alone (BP-08: its mark carries it).
   // What it is to the company is the one indicator at its left, as a led act's is (see Pip).
-  // What can be said, and Trade among it, a page at a time in the rows the leave and any answer leave (see View): when
-  // there is more than fits, a row turns the page (no act), the next in place of these, round to the first.
-  static Topics({ draw, name, paged, first, turn, again, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
-    name: string; paged: ReturnType<typeof Paging.of<Choice | 'trade'>>; first: number; turn: () => void;
-    again: boolean; spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Aspect[];
+  // What can be said, and Trade among it, a page at a time in the rows the leave and any answer leave (see View); the
+  // row that turns the page (no act) is under the leave.
+  static Topics({ draw, name, paged, first, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
+    name: string; paged: ReturnType<typeof Paging.of<Choice | 'trade'>>; first: number;
+    spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Aspect[];
     paying?: string[]; trade: ReactNode }) {
     return <>
       <ol className="replies" aria-label={`What you might say to ${name}`}>
         {paged.shown.map((c, i) => c === 'trade' ? <li key="trade" className="to-trade">{trade}</li>
           : <TalkStage.Reply key={c.id} choice={c} draw={draw} number={first + i} asked={spent(c)} fresh={opened.has(c.id)}
             aspects={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
-      {paged.pages > 1 && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-talk' }}
-        onClick={turn} mark={ChoiceRow.neutral} markClass="neutral"
-        label={again ? 'Ask again…' : 'Something else…'} aside={`${paged.at + 1} of ${paged.pages}`} /></li></ol>}
     </>;
   }
   static Reply({ choice: c, draw, number, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
