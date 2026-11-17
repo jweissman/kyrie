@@ -101,7 +101,7 @@ export class TalkStage {
               {s.trading ? <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.trade(false)}
                 mark={ChoiceRow.neutral} markClass="neutral" label="Back" /></li>
                 : <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={a + paged.shown.length + 1}
-                  label={talk.leave.label} /></li>}
+                  mark={ChoiceRow.neutral} markClass="neutral" label={talk.leave.label} /></li>}
               {/* The page turned last, below the acts, which run 1 to 4 without a gap (M22's review: 1, 2, 3, the
                   pager, 4). */}
               {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
