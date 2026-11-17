@@ -12,6 +12,7 @@ import tables from '../../data/origins/tables.json';
 import arrivals from '../../data/origins/wanderer/arrivals.json';
 import { OriginPrologue } from './origin-prologue';
 import { SettlementWriter } from './settlement-writer';
+import { RegionUndertown } from './region-undertown';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -277,12 +278,21 @@ export class Origins {
       start, imports: { approach, trouble: [this.fact(met.a.fact, met.p!), 'fact'] } };
   }
   // Come over the hills to no trouble in particular, the first aim is the inn, where work is heard of (the owner, 7
-  // November: every origin leads plainly into its first goal); a town with no inn leaves the road to the player.
+  // November: every origin leads plainly into its first goal); a town with no inn leaves the road to the player. And
+  // at the inn the work is told: its keeper sends the company to the town's notice, and the company knows what is on
+  // it (an aim of each job). Come there, the aim had been seen through on the threshold with nothing said of any work
+  // (thorn's Misthythe, round 9's diagnosis of the owner's OR-60).
   private static unhired(region: Region, s: Settlement, bound: Bound): Bound {
     if (!SettlementWriter.rooms(region, s).taproom) { return { ...bound, values: { ...bound.values, incident: '' } }; }
-    return { ...bound, imports: { ...bound.imports, inn: this.inn(s) }, values: { ...bound.values, incident:
-      '  Objective work when not been(party, inn) toward inn "There is work in {home} for someone who will do what others will '
-      + 'not, and the place to hear of it is {inn}.".' } };
+    const told = RegionUndertown.noticed(region, s), keeper = this.said(s.innkeeper);
+    return { ...bound, imports: { ...bound.imports, inn: this.inn(s),
+      ...told ? { notice: [`region.${s.id}_u_notice`, 'fact'] as [string, string] } : {} }, values: { ...bound.values,
+      incident: '  Objective work when not been(party, inn) toward inn "Go to {inn} and ask after work: there is work in '
+        + '{home} for someone who will do what others will not.".'
+        + (told ? '\n  Entity notice: fact "What the notice on the well-post says".'
+          + `\n  Rule work_told when at(party, inn) and not knows(party, notice) says "‘Work?’ says ${keeper}. ‘The notice on`
+          + ' the well-post has jobs on it, every one of them still wanting a body. Ask after any of them in '
+          + 'here or round the town.’" teaches notice { }' : '') } };
   }
   // A life drawn to one of the makers' lesser works by something of its own there (a dead man's map, a sister who did
   // not come out of it): the nth nearest the first town, or the nearest, begun on the way into that town,

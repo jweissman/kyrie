@@ -37,6 +37,10 @@ export class RegionUndertown {
         ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',
       merchantat: standing.merchant, priestat: standing.priest, innkeeperat: standing.innkeeper };
   }
+  // Whether the town has a notice of its troubles on the green (see notice): one of its troubles says itself there.
+  static noticed(region: Region, s: Settlement): boolean {
+    return KyrTemplates.choose(this.template, `${region.name}:${s.id}:undertown`).some(x => x.said.length > 0);
+  }
   // The notice on the green that gathers what each trouble chosen says of itself; read, an aim for each.
   static notice(t: string, sections: KyrSection[], values: Record<string, string>): string[] {
     const troubles = sections.filter(x => x.said.length), notice = `${t}_u_notice`, q = JSON.stringify;

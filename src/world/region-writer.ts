@@ -198,6 +198,12 @@ export class RegionWriter {
     lines.push(...RegionQuarters.lines(region, lines));
     return lines;
   }
+  // The notice of the troubles of the town the company begins in, for an origin that sends it there (Origins.unhired).
+  private static notice(region: Region, company?: Company): string[] {
+    const t = company?.start?.approach?.settlement ?? /^(s\d+)_/.exec(company?.start?.place ?? '')?.[1];
+    const home = company && (region.settlements.find(s => s.id === t) ?? region.settlements[0]);
+    return home && RegionUndertown.noticed(region, home) ? [`${home.id}_u_notice`] : [];
+  }
   // Who comes into the country, and where: a region beyond the first has no company of its own.
   private static company(region: Region, company: Company | null): string[] {
     const q = JSON.stringify, lines: string[] = [];
@@ -274,7 +280,7 @@ export class RegionWriter {
     ...RegionGates.ids(region),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],
-    ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : []];
+    ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : [], ...this.notice(region, company)];
     // A site's land is the wild country it stands in, or its own stretch of open country.
     const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);
     // A ford, a bridge and a pass are where a road can be held; a road through a wood and the edge of wild country
