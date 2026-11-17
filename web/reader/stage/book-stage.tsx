@@ -22,7 +22,7 @@ export class BookStage {
     const plan = map && !country && PlanView.inside(frame.screen);
     return (
       <div className="book-frame" id="page">
-        <header className="book-head">
+        <header className="book-head" {...PageFrame.slot('header')}>
           {/* The way back to the place, a quiet word with its sign (the shared signs' out), not a boxed button over the
               book (Mission 21's scenes: the Pack's head had read as a web page's bar). */}
           <button type="button" className="quiet-word back-to" data-action="back" onClick={app.back}>
@@ -32,7 +32,7 @@ export class BookStage {
           {plan && <button type="button" className="option to-country" data-action="country"
             onClick={() => toCountry(true)}>The country</button>}
         </header>
-        <div className="book">
+        <div className="book" {...PageFrame.slot('narrative')}>
           <div className="book-page">
             {!map ? <Sheet.View app={app} /> : plan
               ? <PlanView.View screen={frame.screen} /> : <MapView.View app={app} screen={frame.screen} />}

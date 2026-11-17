@@ -94,10 +94,7 @@ export class ActionCensus {
   // The page's own parts, as PageFrame marks them: one header and at most one narrative in view (the owner, 16 November
   // night: "a background, a header, narrative/description block, the four promoted actions, and possibly an icon
   // rail"). Surfaces not yet drawn in the one page's parts are named, with why, and the list only shrinks.
-  static readonly unframed: Record<string, string> = {
-    map: "the map's cards have their own head and telling (OR-38: the map's cards into PageFrame)",
-    book: "the Book's pages are its own (OR-38: the Book into PageFrame)",
-  };
+  static readonly unframed: Record<string, string> = {};
   static framed(page: Page, surface: string): Promise<Pressable[]> {
     if (ActionCensus.unframed[surface.split(':')[0]!]) { return Promise.resolve([]); }
     return page.evaluate(surface => {
