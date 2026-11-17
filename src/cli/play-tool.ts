@@ -3,8 +3,10 @@
 // from the command line; each is printed with what the page told of it. --probe asks the world afterwards: a fact
 // ("knows party season__hour_names") is yes or no, a measure ("#dose season__member_party_1") is its number.
 // --world plays a generated world drawn from its seed instead, for one protagonist (--as race/calling/name) with an
-// origin in it (--origin, a wanderer unless it says). `play scene` and `play character` play an adventure to one of
-// its scenes or people first, in a context its author named (see PlayParts).
+// origin in it (--origin; else where the world gives the life to begin, as the page's creation does: the circumstance
+// for the past named in --as, or the country's first, CreationFlow.circumstance; audit thread 10). `play scene` and
+// `play character` play an adventure to one of its scenes or people first, in a context its author named (see
+// PlayParts).
 //   bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "..."]... [step ...]
 //   bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]
 //   bin/kyrie play scene|character <id> --in <adventure> [--context <name>] [step ...]
@@ -17,6 +19,9 @@ import { Journey } from '../session/journey';
 import { SingleModule } from '../campaign/single-module';
 import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
+import { Creation } from '../../web/engine/creation';
+import { CreationFlow } from '../../web/engine/creation-flow';
+import type { Member } from '../../web/engine/protocol';
 import { PlayParts } from './play-parts';
 import { Traces, type Came } from './traces';
 import type { Happened } from './happened';
@@ -38,7 +43,7 @@ export class PlayTool {
     const part = into && ['scene', 'character'].includes(rest[0] ?? '') ? { kind: rest[0]!, id: rest[1] ?? '', into,
       context: flags.get('context')?.[0] } : undefined;
     return { campaign: world || part ? undefined : rest[0], steps: world ? rest : rest.slice(part ? 2 : 1), world, part,
-      origin: flags.get('origin')?.[0] ?? 'wanderer', as: flags.get('as')?.[0],
+      origin: flags.get('origin')?.[0], as: flags.get('as')?.[0],
       seed: flags.get('seed')?.[0] ?? 'journey', file: flags.get('steps')?.[0], probes: flags.get('probe') ?? [],
       choices: flags.has('choices'), keep: flags.get('keep')?.[0], profile: flags.has('profile'),
       roll: (['pass', 'fail'] as const).find(r => r === flags.get('roll')?.[0]) };
@@ -62,14 +67,24 @@ export class PlayTool {
       return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
     }
     const one = { name, raceId, classId, ...backgroundId ? { backgroundId } : {} };
-    const drawn = { party: [made ?? one], origin: o.origin };
+    const drawn = { party: [made ?? one], origin: o.origin ?? await PlayTool.given(o.world, made ?? one) };
     const session = await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch);
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
     // nor begun by name: --as herbs on a1 had set out with "No aim is held".
     if (!session.campaign.module.entities.some(e => e.id.startsWith('origin__'))) {
-      throw new Error(`no ${o.origin} origin in ${o.world}`);
+      throw new Error(`no ${drawn.origin ?? 'origin'} in ${o.world}`);
     }
     return { journey: Journey.of(session), lead: [] };
+  }
+  // Where the world gives a life to begin, by the engine's own creation flow: the country drawn as the page draws it,
+  // the past named in --as chosen as its kind, and the circumstance it asks for (see CreationFlow.circumstance).
+  static async given(seed: string, member: CreatureGenerationContext): Promise<string | undefined> {
+    const setting = await new Creation().generate(seed), catalog = Creation.catalog();
+    const you = { ...setting.party[0]!, raceId: member.raceId, classId: member.classId, name: member.name } as Member;
+    const flow = new CreationFlow(setting, catalog, you);
+    const kind = catalog.backgrounds.find(b => b.id === member.backgroundId)?.kind;
+    if (kind) { flow.choose('before', kind); }
+    return flow.circumstance();
   }
   // A kept play's command played again, to where it comes (see Traces).
   // seen: what happened in it is added to (see Happened).
