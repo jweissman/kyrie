@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 23 pass in structure
-(level, school), 12 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-11 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 24 pass in structure
+(level, school), 13 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+12 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 44 | school 66 | dice 10 | type 13 | save 31 | dc 10 | attack 104 | target 70 | duration 38 | of 119 |
+| spells, field exact or converted | level 44 | school 67 | dice 10 | type 13 | save 31 | dc 10 | attack 104 | target 71 | duration 39 | of 119 |
 
 ## Creatures, most met first
 
@@ -108,7 +108,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | barkskin | barkskin | S✗ R✗ I– | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | – | ✓ | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ self → burst | ✗ 3 rounds → long |
-| bless | bless | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | – | – | ✓ | ✗ one → burst | ✗ 3 rounds → long |
+| bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → one | ✗ 3 rounds → long |
 | burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | calm_emotions | calm-emotions | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ all → burst | ✗ 3 rounds → long |

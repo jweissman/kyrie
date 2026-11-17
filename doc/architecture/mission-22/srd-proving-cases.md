@@ -543,6 +543,19 @@ the casting level to the cap). Every companion cleric, every hostile healer and 
 Wounds and name no header of their own; the census had read them as lasting "long" with no save. SrdPages.inherit
 now gives such a page the header of the spell it names (107 of 605 records), a commit of its own before this one.
 
+### 17. Bless on the whole company (17 November, later): adapted
+
+Spec: `test/bless` (2 cases; with Orsino's one ally put back, the first fails).
+- The caster and every ally (Kyr's `party`), where Orsino's blessed one ally: the SRD's "the caster and all allies
+  within a 50-ft. burst" (converted: Kyr's field has no distances, so the whole company).
+- First level, Life, and the SRD's school, enchantment, beside its domain (exact).
+- A minute, ten rounds, at every casting level (converted, as Sleep's in case 14; the SRD's is a minute a level).
+- **Kept:** Orsino's blessed, +1 to hit and +1 damage, which Divine Favor and Neptune's Blessing lay too. The SRD's
+  +1 to saves against fear, and no damage, would change those two; a slice of the condition's own.
+- **Where it is met:** a Life cleric draws it at creation as one of its first-level spells, and every hostile Life
+  cleric may prepare it; the preset companion cleric knows it (world-assembler's spells). No draw moves (no level
+  changed); every Bless cast now blesses the whole side for ten rounds.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

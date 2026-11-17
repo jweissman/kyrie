@@ -64,8 +64,8 @@ describe('the SRD fidelity census', () => {
     expect(CreatureFidelity.row('rat').hit).toEqual({ verdict: 'differs', ours: '20%', theirs: '50%' });
     const rows = [...SpellFidelity.rows(), ...CreatureFidelity.rows()];
     // Proved only where the concordance names a focused test: the SRD rat's, and the spells moved by cases 7, 9, 12,
-    // 14, 15 and 16.
-    expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort()).toEqual(['burning_hands',
+    // 14, 15, 16 and 17.
+    expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort()).toEqual(['bless', 'burning_hands',
       'chain_lightning', 'cone_of_cold', 'cure', 'cure_critical', 'cure_moderate', 'cure_serious', 'fireball',
       'lightning_bolt', 'magic_missile', 'rat/cellar', 'sleep']);
     expect(SpellFidelity.row('cloudkill', 'cloudkill').grades).toEqual({ structural: 'fail', resolution: 'fail',

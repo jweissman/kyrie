@@ -380,6 +380,23 @@
         "notes": "The SRD's Cure Critical Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 4d8 and a point a casting level, to 20 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (6; the SRD's 4), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 4d8, the same at every level."
       }
     },
+    "bless": {
+      "name": "Bless",
+      "kind": "spell",
+      "description": "Bless your company, yourself among them: each fights with a divine boon for a minute.",
+      "effects": [
+        { "kind": "apply", "status": "blessed", "duration": 10, "target": "party" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 1, "domain": "life", "school": "enchantment" },
+      "source": {
+        "orsino": "divineSpell:bless",
+        "srd35": "spell:bless",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Bless (doc/architecture/mission-22/srd-proving-cases.md, case 17): the caster and every ally, first level, its school the SRD's enchantment beside its domain. Converted: the whole company, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Kept: Orsino's blessed (+1 to hit and +1 damage; Divine Favor and Neptune's Blessing lay it too), where the SRD's is +1 to hit and to saves against fear. Before, Orsino's one ally for three rounds."
+      }
+    },
     "cone_of_cold": {
       "name": "Cone of Cold",
       "kind": "spell",

@@ -2046,7 +2046,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
@@ -2081,7 +2081,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
@@ -2112,7 +2112,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
@@ -2145,7 +2145,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 

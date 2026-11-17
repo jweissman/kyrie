@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 753,
-    "adapted": 396,
+    "faithful": 752,
+    "adapted": 397,
     "represented": 4,
     "kyr": 567,
     "unsupported": 66,
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 233,
-      "adapted": 19,
+      "faithful": 232,
+      "adapted": 20,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10281,7 +10281,7 @@
   {
    "id": "ability:bless",
    "title": "Bless",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-1"
   },

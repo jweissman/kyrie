@@ -353,7 +353,8 @@
   "cure": "test/cure-wounds.test.ts",
   "cure_moderate": "test/cure-wounds.test.ts",
   "cure_serious": "test/cure-wounds.test.ts",
-  "cure_critical": "test/cure-wounds.test.ts"
+  "cure_critical": "test/cure-wounds.test.ts",
+  "bless": "test/bless.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -386,6 +387,10 @@
   "cure_critical": {
    "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
    "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
+  },
+  "bless": {
+   "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
+   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
   },
   "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"

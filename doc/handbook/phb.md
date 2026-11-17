@@ -7121,11 +7121,13 @@ You gain barkskin for 3 turns. Barkskin: 2 harder to hit. A divine spell of the 
 
 ##### Bless
 
-*Faithful · level 1 divine spell, life domain* · `ability:bless`
+*Adapted · level 1 divine spell, enchantment, life domain* · `ability:bless`
 
-One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
-> Bless an ally, granting them a divine boon.
+> Bless your company, yourself among them: each fights with a divine boon for a minute.
+
+*Adapted: The SRD's Bless (doc/architecture/mission-22/srd-proving-cases.md, case 17): the caster and every ally, first level, its school the SRD's enchantment beside its domain. Converted: the whole company, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Kept: Orsino's blessed (+1 to hit and +1 damage; Divine Favor and Neptune's Blessing lay it too), where the SRD's is +1 to hit and to saves against fear. Before, Orsino's one ally for three rounds.*
 
 ##### Bolt
 
