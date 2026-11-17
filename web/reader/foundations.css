@@ -83,6 +83,9 @@
      title and creation (the country itself, softened and dimmed), and the opening's (the way in, almost whole). One
      treatment for each, so that the country seen at the title is the one seen setting out. */
   --plate-far: blur(22px) saturate(.7) brightness(.42);
+  /* Behind the choice of a life: the country seen, dim and a little soft, never a smear (M22's third review, OR-51:
+     at 22 px it had read as mud, or a painting that had failed to load). */
+  --plate-creating: blur(5px) saturate(.75) brightness(.34);
   --plate-near: blur(2px) saturate(.72) brightness(.46);
   --plate-scene: saturate(.85) brightness(.84);
   /* The stage's frame: gold corners marking its bounds, not a box; and a portrait's ring. */

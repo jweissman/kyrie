@@ -177,7 +177,7 @@ html, body { overflow: hidden; }
 .shell.creating .frame::after { display: none; }
 /* Creation's painting is atmosphere, far and dark, not a picture behind words to be read (the owner, 12 November:
    the character pages need no full painterly ground; their explanations had stood in grey over the raw image). */
-.shell.creating .ambient { filter: var(--plate-far); }
+.shell.creating .ambient { filter: var(--plate-creating); }
 .creation { position: relative; height: var(--frame-h); }
 .creation-body { height: 100%; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column;
   align-items: center; padding: 0 var(--safe-r) 0 var(--safe-l); }
