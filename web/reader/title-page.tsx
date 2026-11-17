@@ -5,6 +5,7 @@ import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
 import { Hold } from './instrument/hold';
+import { createPortal } from 'react-dom';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
 
@@ -30,7 +31,7 @@ export class TitlePage {
     + 'var(--tone-violet))';
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
-    const named = Identity.named(query), beat = TitlePage.useBeat(query.has('ident') || query.has('studio'));
+    const named = Identity.named(query), [beat, skip] = TitlePage.useBeat(query.has('ident') || query.has('studio'));
     const first: Way = saved ? 'continue' : 'begin', [active, activate] = useState<Way>(first);
     // The way the hand or the keys are on, marked at once by the reticule, the one sign of focus; the sky is still.
     const item = (way: Way) => ({ 'data-nav': true, onMouseEnter: () => activate(way), onFocus: () => activate(way),
@@ -65,6 +66,7 @@ export class TitlePage {
         </ul>
       </nav>}
       over={<>{dev && <TitlePage.Dev app={app} />}
+        {beat === 'ident' && <TitlePage.Skip skip={skip} />}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} /></>} />;
   }
@@ -117,21 +119,25 @@ export class TitlePage {
   // skips does nothing else: the ways in are under a finger before they are seen (Begin's row is the menu's width,
   // just below the screen's middle, where a thumb falls), and a touch's click comes after its pointerdown whatever
   // that pointerdown's handler does, so the click is swallowed too (TitlePage.swallow).
-  static useBeat(asked: boolean): Beat {
+  static useBeat(asked: boolean): [Beat, () => void] {
     const [beat, go] = useState<Beat>(() => TitlePage.first(asked));
     useEffect(() => {
       // The page's own mark is the title's to put away: as the mark ends, or at once where it is not being played.
       if (beat !== 'ident' || !TitlePage.early()) { document.getElementById('pre-ident')?.remove(); }
       if (beat === 'ready') { return; }
-      // The mark drawn by the page before the script (SiteBuild.mark) has been playing since the page began: what is
-      // left of it, not the whole again.
-      const left = TitlePage.early() ? Math.max(0, Ident.length - performance.now()) : Ident.length;
+      // The mark drawn by the page before the script (SiteBuild.mark) has been playing since it was first painted:
+      // what is left of it, by its own animation's clock, not the whole again (and never by the page's age: on a slow
+      // or cold load it was painted a second or more after the page began, and the title had cut it short).
+      const left = TitlePage.left();
       const next: Record<Beat, [Beat, number]> = { ident: ['dark', left], dark: ['reveal', 400],
         reveal: ['ready', TitlePage.reveal], ready: ['ready', 0] };
       const [to, after] = next[beat], timer = setTimeout(() => go(to), after);
       // A touch on a way in already coming up (the reveal) is that way, at once (the owner, 6 November: New Game in
       // one click); anything else only brings the ways in.
       const skip = (e: Event) => {
+        // The studio's mark plays whole unless it is skipped on purpose: held at its Skip, or Escape (the owner, 17
+        // November: a stray touch had cut it, or landed on New game).
+        if (beat === 'ident' && !(e instanceof KeyboardEvent && e.key === 'Escape')) { return; }
         if (beat === 'reveal' && e.type === 'pointerdown' && (e.target as Element | null)?.closest?.('.way-in')) {
           go('ready'); return;
         }
@@ -146,7 +152,16 @@ export class TitlePage {
       return () => { clearTimeout(timer); window.removeEventListener('keydown', skip, { capture: true });
         window.removeEventListener('pointerdown', skip, { capture: true }); };
     }, [beat]);
-    return beat;
+    return [beat, () => { TitlePage.swallow(); go('ready'); }];
+  }
+  // Skip, held: a small reticle at the foot of the corner and the word, quiet, done when its ring fills (see Hold), so
+  // that no touch meant for anything else cuts the studio's mark short.
+  // On the page itself, beside the early mark (which is the page's, not the app's: SiteBuild.mark), so that it stands
+  // above it.
+  static Skip({ skip }: { skip: () => void }) {
+    const button = <button type="button" className="skip-mark" data-action="skip" aria-label="Hold to skip"
+      {...Hold.bind(skip)}><i className="skip-ring" aria-hidden="true" /><span>Skip</span></button>;
+    return typeof document === 'undefined' ? button : createPortal(button, document.body);
   }
   // The click that follows a pointerdown which skipped the opening, wherever it lands, is the skip's, however long the
   // press was held: it is eaten if it comes before a moment after the press is let go (or the touch is cancelled), and
@@ -162,6 +177,13 @@ export class TitlePage {
       for (const [type, on] of watch) { window.removeEventListener(type, on, true); }
     };
     for (const [type, on] of watch) { window.addEventListener(type, on, true); }
+  }
+  // How much of the studio's mark is still to play: by the early mark's own animations (the furthest along of them),
+  // the whole where none has started yet, or where there is no early mark.
+  static left(): number {
+    const el = TitlePage.early(), played = el?.getAnimations?.({ subtree: true })
+      .map(a => Number(a.currentTime ?? 0)).reduce((m, t) => Math.max(m, t), 0) ?? 0;
+    return Math.max(0, Ident.length - played);
   }
   // The studio's mark drawn by the page itself before the script, where it is being played (see SiteBuild.mark).
   static early(): HTMLElement | null {

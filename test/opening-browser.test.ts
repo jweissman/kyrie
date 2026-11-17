@@ -154,8 +154,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     }
     // Before the ways are there, only the title; a tap on New game only arms it, held it begins (the owner, 16 Nov).
     expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening hold: create']);
+    // The keys skip the studio's mark by Escape alone (a stray key no more than a stray touch: the owner, 17 November).
     await page.reload(); await page.waitForSelector('.beat-ident', { timeout: 30000 });
-    await page.keyboard.press('Space');
+    await page.keyboard.press('Escape');
     await page.waitForSelector('.beat-ready', { timeout: 5000 });
     const begin = await Stage.begin(page);
     await Stage.held(page, begin);
