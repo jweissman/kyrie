@@ -79,8 +79,6 @@ html, body { overflow: hidden; }
 :root .title-menu .way-in.choice-row.choice-row > .row-label { font: 500 15px/1.2 var(--do); letter-spacing: .26em;
   text-transform: uppercase; padding-left: .26em; }
 :root .title-menu .way-in.choice-row.choice-row:is([data-considered], :focus-visible) { color: var(--ivory); }
-.title-menu .save-line { position: absolute; left: 0; right: 0; top: 100%; margin: 14px 0 0; text-align: center;
-  font: italic 400 14.5px/1.35 var(--told); color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
   margin: 0; font: 400 11.5px var(--do); color: var(--dim); letter-spacing: .04em; }
 .title-page .build { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));

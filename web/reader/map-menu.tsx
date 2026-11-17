@@ -7,6 +7,7 @@ import { ChoiceRow } from './stage/choice-row';
 import { Words } from './words';
 import { Typography } from '../../src/presentation/typography';
 import { PageFrame } from './page-frame';
+import { BoardField } from './board-field';
 import { PlaceFacets } from '../../src/presentation/place-facets';
 import type { Aspect } from '../../src/presentation/glance-types';
 import { Guidance } from './guidance';
@@ -23,6 +24,15 @@ export class MapMenu {
   static gold(screen: Screen, act: string): { mark: string; markClass?: string } {
     return RouteCard.aimed(screen, act.replace(/^travel:/, '')) ? { mark: 'var(--tone-gold)' }
       : { mark: ChoiceRow.neutral, markClass: 'neutral' };
+  }
+  // Put away the map: dull red where what is here means harm (it is what the next page holds), else neutral.
+  static away(danger: boolean): { mark: string; markClass?: string } {
+    return danger ? { mark: 'color-mix(in oklab, var(--tone-red) 70%, transparent)' }
+      : { mark: ChoiceRow.neutral, markClass: 'neutral' };
+  }
+  // A place as the map's board knows it (its mark, its town, its hex: BoardField.whither).
+  static whither(screen: Screen, id: string): string {
+    return screen.region?.land ? BoardField.whither(screen.region, id) ?? id : id;
   }
   // A row's mark: the one colour of what the place is (see PlaceFacets), the aim's gold only where the way is shown.
   static marked(aspects: readonly Aspect[] | undefined, gilded: boolean): { mark: string; markClass?: string } {
@@ -43,20 +53,40 @@ export class MapMenu {
     // Only what the map draws over the country (a town, a place on the land by itself), never a room of the town the
     // company is in: the map is for going across the country, the town's own ways are the scene's.
     const region = screen.region, land = region?.land, here = new Set(screen.path.map(p => p.id));
-    const drawn = (id: string) => !!land && !here.has(region!.within[id] ?? id) && (land.marks.some(m => m.id === id)
-      || region!.areas.some(a => a.id === id && a.kind === 'settlement'));
+    const cell = (id: string) => land?.marks.find(m => m.id === id)?.cell
+      ?? region?.areas.filter(a => a.id === id).map(a => a.y * land!.width + a.x)[0];
+    const drawn = (id: string) => !!land && !here.has(region!.within[id] ?? id)
+      && (land.marks.some(m => m.id === id) || region!.areas.some(a => a.id === id && a.kind === 'settlement'));
     const more = Object.keys(facets).filter(id => !known.some(k => k.id === id) && !here.has(id) && drawn(id))
       .flatMap(id => {
         const way = MapView.way(screen, id);
         return way.go && !way.here ? [{ id, name: way.name, minutes: way.d?.minutes ?? 0, c: way.go }] : [];
       });
+    // What stands on the company's own hex is entered from here, never viewed (a town's country: into the town).
+    const close = (id: string) => !!land && land.here !== undefined && cell(region!.within[id] ?? id) === land.here;
     return [...known, ...more].filter(r => !at.taken.includes(r.c.id) && r.id !== at.chosen)
-      .toSorted((a, b) => rank(a.id) - rank(b.id) || a.minutes - b.minutes);
+      .map(r => ({ ...r, close: close(r.id) }))
+      .toSorted((a, b) => Number(b.close) - Number(a.close) || rank(a.id) - rank(b.id) || a.minutes - b.minutes);
   }
   // onward: a journey stopped here, its way on, first (the hex card had drawn it as a menu of its own, beside this one's
   // road to the same place: the act twice).
-  static View({ app, screen, chosen, put, enter, onward }: { app: ReaderApp; screen: Screen; chosen?: string;
-    put: () => void; enter?: { c: Choice; name: string }; onward?: { c: Choice; name: string } }) {
+  // view: a place chosen on the map (a presentation gesture), where the map can: then each other place is a row that
+  // views it, and only the place viewed is travelled to (the owner, 17 November: "View [city]" for a place not focused,
+  // "Travel to" the one that is).
+  static View({ app, screen, chosen, put, enter, onward, view }: { app: ReaderApp; screen: Screen; chosen?: string;
+    put: () => void; enter?: { c: Choice; name: string }; onward?: { c: Choice; name: string };
+    view?: (id: string) => void }) {
+    // Stopped on the way by something here (a band on the road, a toll, someone met), the map is put away first: its
+    // one row says so, red where it means harm (the owner, 17 November: you must put away the map to deal with what
+    // has stopped you; red if a violent encounter waits).
+    const scene = app.menu.scene, danger = (scene?.subjects ?? []).some(x => x.danger);
+    // Only what means harm holds the map: a beast that might join, met on the way, is gone on from as before.
+    const travel = app.state.frame?.travel, held = !!travel && !travel.arrived && !chosen && danger;
+    if (held) {
+      return <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
+        <li><ChoiceRow.Button className="led-act put-away held" data={{ action: 'put-away-map' }} onClick={put}
+          {...MapMenu.away(danger)} label="Something is here: put away the map" /></li></ol>;
+    }
     const land = screen.region?.land, way = chosen && land ? MapView.way(screen, chosen) : undefined, go = way?.go;
     const aimed = !!chosen && RouteCard.aimed(screen, chosen);
     const named = chosen && screen.region ? RouteCard.named(screen.region, chosen, way!).title : undefined;
@@ -78,13 +108,16 @@ export class MapMenu {
           mark={aimed ? 'var(--tone-gold)' : ChoiceRow.neutral} markClass={aimed ? undefined : 'neutral'}
           label={Typography.curl(`Travel to ${Words.upper(named ?? go.label)}`)}
           aside={way?.d ? `${aimed ? 'your aim · ' : ''}${Words.span(way.d.minutes)}` : 'across the country'} /></li>}
-        {roads.map(r => <li key={r.id}><ChoiceRow.Button className="led-act" data={{ action: 'map-road', choice: r.c.id }}
-          act={r.c.id} onClick={() => app.choose(r.c)} {...MapMenu.marked(facets[r.id], gilded)}
-          label={<>{Typography.curl(`To ${Words.upper(r.name)}`)}{facets[r.id]?.includes('companionship')
+        {roads.map(r => <li key={r.id}><ChoiceRow.Button className="led-act"
+          data={{ action: view && !r.close ? 'map-view' : 'map-road', choice: r.c.id }}
+          {...view && !r.close ? {} : { act: r.c.id }}
+          onClick={() => (view && !r.close ? view(MapMenu.whither(screen, r.id)) : app.choose(r.c))}
+          {...MapMenu.marked(facets[r.id], gilded)}
+          label={<>{Typography.curl(`${r.close ? 'Enter' : view ? 'View' : 'To'} ${Words.upper(r.name)}`)}{facets[r.id]?.includes('companionship')
             && <Glyphs.View id="companion" className="led-icon" label="someone who might join you" />}</>}
           {...r.minutes ? { aside: Words.span(r.minutes) } : {}} /></li>)}
         <li><ChoiceRow.Button className="led-act put-away" data={{ action: 'put-away-map' }} onClick={put}
-          mark={ChoiceRow.neutral} markClass="neutral" label="Put away the map" /></li>
+          {...MapMenu.away(danger)} label="Put away the map" /></li>
       </ol>
     );
   }

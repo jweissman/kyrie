@@ -71,7 +71,7 @@ export class WorldStage {
           <aside className={`focus${panel ? ' scene-panel' : ''}`} aria-label={overworld ? 'On the map' : 'What you are attending to'}>
             {panel && <header className="panel-head" {...PageFrame.slot('header')}><Told.Heading frame={frame} app={app} /></header>}
             {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
-              : overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()}
+              : overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()} see={pick}
               enter={() => app.outdoor(false)} />
               : <>{WorldStage.wild(screen) && <button type="button" className="option quiet back-to-map"
                 data-action="back-to-map" onClick={() => app.outdoor(true)}>Back out to the map</button>}
@@ -231,17 +231,18 @@ export class WorldStage {
   }
   // What the map says of a hex: the one the company stands in (what it is, whether anyone is about, and entering it);
   // a town (entered from here); or anywhere else, as the map's own card says it (what is known of it, the way there).
-  static Hex({ app, screen, id, clear, enter }: { app: ReaderApp; screen: Screen; id?: string; clear: () => void;
-    enter: () => void }) {
+  // see: another place chosen on the map from its menu (View …: see MapMenu).
+  static Hex({ app, screen, id, clear, enter, see }: { app: ReaderApp; screen: Screen; id?: string; clear: () => void;
+    enter: () => void; see?: (id: string) => void }) {
     if (id) {
       const town = screen.region?.areas.find(a => a.id === id && a.kind === 'settlement');
-      return town ? <WorldStage.Town app={app} screen={screen} town={town} />
-        : <MapView.Plan app={app} screen={screen} chosen={id} clear={clear} />;
+      return town ? <WorldStage.Town app={app} screen={screen} town={town} see={see} />
+        : <MapView.Plan app={app} screen={screen} chosen={id} clear={clear} {...see ? { view: see } : {}} />;
     }
     // Within a town or a site, the hex is the town's or the site's, and entered is back where the company stands.
     const within = WorldStage.wild(screen) ? undefined : screen.path.find(p => ['settlement', 'site'].includes(p.kind));
     const town = within && screen.region?.areas.find(a => a.id === within.id && a.kind === 'settlement');
-    if (town) { return <WorldStage.Town app={app} screen={screen} town={town} />; }
+    if (town) { return <WorldStage.Town app={app} screen={screen} town={town} see={see} />; }
     const g = app.state.frame!.leaf.glance, land = screen.region!.land!, name = within?.name ?? screen.place.name;
     const people = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person').length;
     const danger = (app.menu.scene?.subjects ?? []).some(x => x.danger), unplaced = MapView.unplaced(app, screen);
@@ -257,7 +258,7 @@ export class WorldStage {
           <p className="how">{Typography.curl(unplaced.who)}</p></>}
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
         <WorldStage.Entrance app={app} />
-        <MapMenu.View app={app} screen={screen} put={enter} {...WorldStage.onward(app) ?? {}} />
+        <MapMenu.View app={app} screen={screen} put={enter} {...WorldStage.onward(app) ?? {}} {...see ? { view: see } : {}} />
       </section>
     );
   }
@@ -317,8 +318,8 @@ export class WorldStage {
   // Already within it, the company is where it stands in it, and goes back there from the card: the map opened from
   // Uarin's forge in Greycastle had said "You stand at its gate" and "Enter Greycastle" (the evidence sessions of 7
   // November). At its gate is the game's first page, or a town just come to across the map.
-  static Town({ app, screen, town }: { app: ReaderApp; screen: Screen;
-    town: NonNullable<Screen['region']>['areas'][number] }) {
+  static Town({ app, screen, town, see }: { app: ReaderApp; screen: Screen;
+    town: NonNullable<Screen['region']>['areas'][number]; see?: (id: string) => void }) {
     const { d, here, go } = MapView.way(screen, town.id), views = Scenery.views.settlement ?? [];
     const view = views.length ? views[Scenery.hash(town.id) % views.length] : undefined;
     const come = here && app.state.frame?.travel?.arrived;
@@ -342,7 +343,7 @@ export class WorldStage {
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
         <MapMenu.View app={app} screen={screen} {...here ? {} : { chosen: town.id }} put={() => app.outdoor(false)}
           {...entry ? { enter: { c: entry.c, name: Typography.curl(town.name) } } : {}}
-          {...here ? WorldStage.onward(app) ?? {} : {}} />
+          {...here ? WorldStage.onward(app) ?? {} : {}} {...see ? { view: see } : {}} />
       </section>
     );
   }

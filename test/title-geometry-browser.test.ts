@@ -76,8 +76,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       const kept = await Title.boxes(page);
       Title.check(kept, 4);
       await page.screenshot({ path: `/var/tmp/kyrie/title/title-${size.width}.png` });
-      expect(kept.save).toBeDefined();
-      // The rows are the same width and place with or without a save: the save line moves nothing.
+      // The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
+      // November); the rows are the same width and place with or without a save.
+      expect(kept.save).toBeUndefined();
+      expect(await page.getAttribute('[data-action="continue"]', 'aria-label')).toMatch(/^Continue: ./);
       expect(Math.abs(kept.rows[0]!.width - bare.rows[0]!.width)).toBeLessThan(0.6);
       expect(Math.abs(kept.rows[0]!.x - bare.rows[0]!.x)).toBeLessThan(0.6);
     }, 400000);

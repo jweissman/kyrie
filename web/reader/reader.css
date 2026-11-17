@@ -9,6 +9,11 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
+/* A game's page, not a document: nothing on it is selected by a press, so a finger held on a row holds it and never
+   picks out words or opens the system's callout (the owner, 17 November: too much text selectable, at odds with the
+   hold). Only what is written into (a name) is selected and edited as text. */
+html { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+:is(input, textarea, [contenteditable="true"]) { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 body { background: var(--ground); color: var(--ivory); font: 19px/1.6 var(--told); font-kerning: normal;
   text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
 #mono { min-height: 100dvh; }

@@ -60,7 +60,7 @@ export class MapView {
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>
-        <MapView.Plan app={app} screen={screen} chosen={chosen} clear={forget} pointed={pointed} />
+        <MapView.Plan app={app} screen={screen} chosen={chosen} clear={forget} pointed={pointed} view={choose} />
         <button type="button" className="field-shut" data-action="close" aria-label="Back to where you are" onClick={app.back}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
         <Notices.View app={app} map />
@@ -199,8 +199,8 @@ export class MapView {
   // What a hex or a place chosen is, and how to go there: by the way the page plans, leg by leg; or across country.
   // Chosen, it can be let go of again by a touch as well as by Esc. Nothing chosen, what the pointer is over is told
   // the same way, and that a touch sets out for it (the owner, OWN-47).
-  static Plan({ app, screen, chosen: picked, clear, pointed }: { app: ReaderApp; screen: Screen; chosen?: string;
-    clear?: () => void; pointed?: string }) {
+  static Plan({ app, screen, chosen: picked, clear, pointed, view }: { app: ReaderApp; screen: Screen; chosen?: string;
+    clear?: () => void; pointed?: string; view?: (id: string) => void }) {
     const region = screen.region, land = region?.land, chosen = picked ?? pointed, over = !picked;
     if (!chosen || !region || !land) {
       // The aim followed, when the map cannot show where it is: said so, not left out (the product-design review's
@@ -210,7 +210,8 @@ export class MapView {
         <p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(aim)}</p>
         <p className="how">{Typography.curl(MapView.who(screen))}</p></aside> : null;
     }
-    return <RouteCard.View app={app} screen={screen} chosen={chosen} {...clear ? { clear } : {}} over={over} />;
+    return <RouteCard.View app={app} screen={screen} chosen={chosen} {...clear ? { clear } : {}} over={over}
+      {...view ? { view } : {}} />;
   }
   // A hex or a place chosen: what it is called, the way the page plans there, whether you are there already, and how
   // to set out for it, if there is any way to.

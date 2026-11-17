@@ -18,7 +18,8 @@ type Fact = [label: string, value: string];
 // company can do here only where there is something to do. Nothing here plans: the way, its time and the set-out are
 // the map's (see MapView.way), as the journey goes them.
 export class RouteCard {
-  static View({ app, screen, chosen, clear, over }: { app: ReaderApp; screen: Screen; chosen: string;
+  static View({ app, screen, chosen, clear, over, view }: { app: ReaderApp; screen: Screen; chosen: string;
+    view?: (id: string) => void;
     clear?: () => void; over?: boolean }) {
     const region = screen.region!, way = MapView.way(screen, chosen), { title, context } = RouteCard.named(region, chosen, way);
     return (
@@ -36,7 +37,8 @@ export class RouteCard {
             <span className="rc-span">{Words.span(l.minutes)}</span></li>)}</ol>
           {title !== way.name && <p className="rc-formal">{Typography.curl(Words.upper(way.name))}</p>}
         </details>}
-        {!over && <MapMenu.View app={app} screen={screen} chosen={chosen} put={() => RouteCard.put(app)} />}
+        {!over && <MapMenu.View app={app} screen={screen} chosen={chosen} put={() => RouteCard.put(app)}
+          {...view ? { view } : {}} />}
         {clear && !over && <button type="button" className="unchoose" data-action="map-unchoose"
           aria-label={`Let go of ${way.name}`} onClick={clear}><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" /></svg></button>}

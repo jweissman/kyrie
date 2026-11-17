@@ -47,8 +47,11 @@ export class TitlePage {
         <p className="lede">Vol I: A History of Emprise</p></>}
       menu={<nav className="title-menu" aria-label="Ways in">
         <ul>
+          {/* The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
+              November: the line beneath naming the game was strange). */}
           {saved && <li><ChoiceRow.Button className="way-in" data={{ action: 'continue' }} label="Continue"
-            mark={ChoiceRow.neutral} own={{ ...Hold.bind(app.opening.carryOn), ...item('continue') }} /></li>}
+            mark={ChoiceRow.neutral} own={{ ...Hold.bind(app.opening.carryOn), ...item('continue'),
+              ...TitlePage.saved(saved) }} /></li>}
           <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
             mark={TitlePage.every} own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
           {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
@@ -60,13 +63,15 @@ export class TitlePage {
           <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" mark={ChoiceRow.neutral}
             own={item('options')} onClick={TitlePage.options.bind(null, app)} /></li>
         </ul>
-        {/* The saved game, said apart: beneath the ways in and out of their geometry (the owner, 15 November: no
-            variable-length text inside the action rows). */}
-        {saved && <p className="save-line" data-id="save">{[saved.where, saved.when].filter(Boolean).join(' · ')}</p>}
       </nav>}
       over={<>{dev && <TitlePage.Dev app={app} />}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} /></>} />;
+  }
+  // The saved game's place and time, as Continue's title and its name to a reader.
+  static saved(saved: { where?: string; when?: string }): { title?: string; 'aria-label'?: string } {
+    const said = [saved.where, saved.when].filter(Boolean).join(' · ');
+    return said ? { title: said, 'aria-label': `Continue: ${said}` } : {};
   }
   static focus(way: Way) {
     if (!document.activeElement || document.activeElement === document.body) {
