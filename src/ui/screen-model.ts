@@ -88,8 +88,7 @@ export class ScreenModel {
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
       ...Undertakings.shown(campaign, view.objectives ?? [], here), ...Owed.shown(campaign),
       ...TalkWeight.shown(campaign), ...stakes.size ? { aimed: [...stakes] } : {},
-      ...charted,
-      expedition: this.expedition(world, view, items, here),
+      ...charted, expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
       ...Itineraries.shown(campaign, entities, charted.region), ...Quarters.shown(world, entities, here),
@@ -161,7 +160,8 @@ export class ScreenModel {
   // before the story began (where the errand is bound: what the letter says).
   private static knowledge(view: PlayerSnapshot): Screen['knowledge'] {
     return [...view.knowledge].sort((a, b) => (b.at ?? -1) - (a.at ?? -1)).map(k => ({
-      text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
+      text: FictionalTime.prose(k.text), how: [k.source === 'seen' ? 'you saw it' : k.source === 'did' ? 'you did it'
+        : k.source === 'found' ? `from ${k.from ?? 'what you found'}`
         : k.source === 'read' ? `as ${k.from ?? 'what is written'} has it`
         : k.source === 'heard' ? `${k.from ?? 'someone'}${k.from?.includes(', ') ? ',' : ''} told you` : '',
       k.at !== undefined ? FictionalTime.at(k.at) : ''].filter(Boolean).join(', '),

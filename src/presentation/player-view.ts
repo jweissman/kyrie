@@ -61,8 +61,9 @@ export interface PlayerSnapshot {
   items?: { id: string; name: string; description: string; owner: string;
     equipped: boolean; slot?: string; effects: string[] }[];
   holdings: { text: string; value: number }[]; facts: string[];
-  // What the company knows, and how: seen with its own eyes, found in a source, or heard from someone; and when.
-  knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard' | 'read'; from?: string; at?: number;
+  // What the company knows, and how: seen with its own eyes, done by it, found in a source, or heard from someone; and
+  // when.
+  knowledge: { id: string; text: string; source?: 'seen' | 'did' | 'found' | 'heard' | 'read'; from?: string; at?: number;
     // Heard from someone, and since seen or found for itself: a report borne out.
     confirmed?: true }[];
   assumptions: { id: string; text: string }[];

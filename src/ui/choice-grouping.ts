@@ -282,7 +282,7 @@ export class ChoiceGrouping {
   // nothing was learned (M21's playability investigation, PL-03).
   // Who it was learned from, or heard of, or read in: the learning's own record (see WorldConstructs.learnt; reading
   // a notice, `learnedFrom`, had stopped counting as learning when PL-03 began reading the record: PL-16).
-  private static readonly learnt = new Set(['knows', 'toldBy', 'heard', 'learnedFrom', 'readIn']);
+  static readonly learnt = new Set(['knows', 'toldBy', 'heard', 'learnedFrom', 'readIn']);
   static teaches(success: readonly Change[]): boolean {
     const made = new Set(success.filter(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name))
       .flatMap(c => c.call.args));

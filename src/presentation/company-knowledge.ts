@@ -5,6 +5,7 @@ import type { World } from '../lang/world';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { PlayerSnapshot } from './player-view';
 import { VisitedPlaces } from './visited-places';
+import { ChoiceGrouping } from '../ui/choice-grouping';
 
 // What the company knows, and how: seen with its own eyes, found in a source, read, or heard from someone; and when
 // it learned it.
@@ -20,7 +21,7 @@ export class CompanyKnowledge {
       const seen = CompanyKnowledge.holds(world, 'witnessed', actor, e.id),
         read = CompanyKnowledge.holds(world, 'readIn', actor, e.id);
       const by = learned.get(e.id);
-      const own = !seen && !found && !read && !told && by ? this.own(campaign, by.action) : undefined;
+      const own = !seen && !found && !read && !told && by ? this.own(campaign, by.action, e.id) : undefined;
       const source = seen ? 'seen' as const : found ? 'found' as const : read ? 'read' as const : told ? 'heard' as const
         : own?.source;
       const writing = read ? campaign.module.observations?.find(o => o.teaches === e.id && o.aspect === 'reading')?.about
@@ -33,12 +34,17 @@ export class CompanyKnowledge {
         ...from ? { from } : {}, ...by ? { at: by.at } : {} };
     });
   }
-  // What was learnt in play by an act that names no source of its own (no witnessing, no telling written for it): told,
-  // when the act was asking someone, by them; otherwise found by the company itself (the notice on the well-post
-  // read). It had been filed as known before the company set out (NAR-12: notes knowing what nobody said).
-  private static own(campaign: Campaign, action: string): { source: 'heard' | 'seen'; from?: string } {
+  // What was learnt in play by an act that names no source of its own (no witnessing, no telling written for it): the
+  // company's own deed, when the act itself made it so (its record: see ChoiceGrouping.teaches); told, when the act
+  // was asking someone, by them; otherwise found by the company itself (the notice on the well-post read). It had been
+  // filed as known before the company set out (NAR-12: notes knowing what nobody said), and a deed done for someone
+  // as their telling ("the wagoner told you" that you got him out of the ditch: NP-03).
+  private static own(campaign: Campaign, action: string, fact: string)
+    : { source: 'did' | 'heard' | 'seen'; from?: string } {
     const op = campaign.operator(action), speaker = op?.speaker ?? op?.bindings?.informant;
-    return speaker ? { source: 'heard', from: speaker } : { source: 'seen' };
+    const did = (op?.success ?? []).some(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name)
+      && c.call.args.includes(fact));
+    return did ? { source: 'did' } : speaker ? { source: 'heard', from: speaker } : { source: 'seen' };
   }
   // When the company learned each thing it knows, from the log: read once, and then only what the log has added since
   // (a log cut back, by a command undone, is read again).
