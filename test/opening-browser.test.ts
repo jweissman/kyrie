@@ -18,10 +18,10 @@ import { MonoDriver } from './support/mono-driver';
 // beneath it, and any key goes straight to the ways in under the game's name; a tap or a click that skips does only
 // that, though it lands where Begin is about to be; another name asked for by the address is shown instead, and keeps
 // to one line on a phone; the gold mark about the ways in closes on the name of the one pointed at;
-// creation asks first why you have come, shows no likeness of you until it is asked how you present, and goes on by
-// Continue, the chosen card's rules behind Details; and at a desktop's size, a tablet's either way up and a phone's,
-// creation and the world map are the whole screen and a place's stage stays inside it, keeping its margins where
-// there is room for them, and the page itself never scrolls.
+// creation asks first who you are (why you came is the world's to give), shows no likeness of you until it is asked how
+// you present, and goes on by Continue, the chosen card's rules behind Details; and at a desktop's size, a tablet's
+// either way up and a phone's, creation and the world map are the whole screen and a place's stage stays inside it,
+// keeping its margins where there is room for them, and the page itself never scrolls.
 class Stage {
   // Held where the mouse is: down, as long as a hold takes, up.
   static async held(page: Page, at: { x: number; y: number }) {
@@ -183,13 +183,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.close();
   }, 120000);
 
-  it('begins a life from why you have come, with no likeness of you, and goes on by Continue', async () => {
+  // Why you have come is not asked: the world gives it, as where the life begins (the owner, 17 November: diegetic
+  // starting circumstances, not an origin quest picked from a list); creation begins with who you are.
+  it('begins a life with who you are, not why you came, with no likeness of you, and goes on by Continue', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '?creation=cards' });
     await MonoDriver.hold(page, '[data-action="begin"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    expect(await page.textContent('.ask')).toMatch(/^Why have you come to /);
-    expect(await page.locator('[data-page="why"] .card').count()).toBeGreaterThan(2);
-    await page.click('[data-action="next"]');
+    expect(await page.textContent('.ask')).not.toMatch(/^Why have you come/);
+    expect(await page.locator('[data-page="why"]').count()).toBe(0);
     expect(await page.getAttribute('.creation-body', 'data-page')).toBe('you');
     // A country is drawn anew from its own seed, and its first protagonist may be of a people no thief comes of.
     // Who you are is chosen at a tap, then Continue (BP-09: a card that had to be held had seemed to ignore a click).
@@ -219,10 +220,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it.each([[1440, 900, 'kin', false], [390, 844, 'wanderer', true]] as [number, number, string, boolean][])(
     'at %i by %i sets out into the opening of %s, and goes on into the place', async (width, height, origin, touch) => {
       const { page, errors, driver } = await MonoBrowser.page(browser, { width, height }, { site, pointer: touch,
-        query: '?world=kite&opening&creation=cards' });
+        query: `?world=kite&opening&creation=cards&origin=${origin}` });
       if (touch) { await page.emulateMedia({ reducedMotion: 'reduce' }); }
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-      await driver.click(`[data-action="origin"][data-id="${origin}"]`);
+      // The circumstance named by the address (a tester's way in: the world gives it otherwise).
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
       // Each page goes on only by its one held Continue (the owner, 16 November: some sign that input is wanted;

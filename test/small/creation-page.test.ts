@@ -27,10 +27,12 @@ const app = (creation: CreationState) => ({
 const cards = (html: string) => [...html.matchAll(/<button[^>]*class="card[^"]*"[^>]*>/g)].map(m => m[0]);
 
 describe('the engine\'s making, begun', () => {
-  // Set out at once, a life comes by its country's first reason for having come, as the page's own making had it (a
-  // drawn country had begun in its town square, with no origin, once the engine held the making).
-  it('has the country\'s first reason for having come chosen', () => {
-    expect([made().origin, made().steps.find(s => s.id === 'why')?.chosen]).toEqual(['debt', 'debt']);
+  // Set out at once, a life comes by one of its country's circumstances, never none (a drawn country had begun in its
+  // town square, with no origin, once the engine held the making); and the reason is not asked: the world gives it
+  // (the owner, 17 November: diegetic starting circumstances, not an origin quest picked from a list).
+  it('has a circumstance of the country to begin in, and does not ask for one', () => {
+    expect(made().origin).toBe('debt');
+    expect(made().steps.some(s => s.id === 'why')).toBe(false);
   });
 });
 

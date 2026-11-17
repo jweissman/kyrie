@@ -52,7 +52,7 @@ describe('making the protagonist', () => {
   it('is one flow: its steps, its cards, and what a choice settles', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
     // The calling only: its way (a mage's school) is not asked, but the calling's own until chosen in play.
-    expect(ids()).toEqual(['why', 'you', 'sign', 'calling', 'before', 'presenting', 'name']);
+    expect(ids()).toEqual(['you', 'sign', 'calling', 'before', 'presenting', 'name']);
     flow.choose('you', 'elf');
     expect(flow.steps().find(s => s.id === 'calling')!.cards.map(c => c.id)).not.toContain('cleric');
     flow.choose('calling', 'mage');
@@ -75,14 +75,29 @@ describe('making the protagonist', () => {
     expect([flow.member.name, flow.member.pronouns, flow.member.raceId]).toEqual(['Tam', 'she', 'elf']);
   });
   it('is shown in the terminal by its cards, and what is chosen there is what the flow made', async () => {
-    // Answered by what is asked: the second reason for coming, a woman, Aud; the rest as they stand.
+    // Answered by what is asked: a woman, Aud; the rest as they stand. The reason for coming is not asked.
     const said: string[] = [], asked = () => said.findLast(l => l.startsWith('\n')) ?? '';
-    const answer = () => /^\nWhy/.test(asked()) ? '2' : /^\nHow do you present/.test(asked()) ? '1'
-      : /^\nChoose your name/.test(asked()) ? 'Aud' : '';
+    const answer = () => /^\nHow do you present/.test(asked()) ? '1' : /^\nChoose your name/.test(asked()) ? 'Aud' : '';
     const input = { ask: async () => answer(), close: () => undefined } as Asking;
     const made = await new TerminalCreation(input, l => said.push(l)).choose(new EngineHost(() => undefined), 'flow');
-    expect(said).toContain(`\nWhy have you come to ${made.setting.title}?`);
-    expect(made.state.origin).toBe(made.setting.origins![1]!.id);
+    expect(said.some(l => /Why have you come/.test(l))).toBe(false);
+    expect((made.setting.origins ?? []).map(o => o.id)).toContain(made.state.origin ?? '');
     expect([made.state.member.name, made.state.member.pronouns]).toEqual(['Aud', 'she']);
   }, 60000);
+  // Where a life begins is the world's (the owner, 17 November: diegetic starting circumstances): where the player
+  // chose what the life did before, a circumstance of that kind of life; else the country's first; a reason chosen by
+  // hand (a tester's address, ?origin=) stands.
+  it('begins a life in the circumstance of the past chosen, else the country\'s first', () => {
+    const catalog = Creation.catalog(), kind = (id: string) => catalog.backgrounds.find(b => b.id === id)!.kind;
+    const plain = new CreationFlow(setting, catalog);
+    plain.choose('calling', 'mage');
+    expect(plain.circumstance()).toBe('debt');
+    const wandering = new CreationFlow(setting, catalog);
+    wandering.choose('calling', 'warrior');
+    wandering.choose('before', kind('drifter'));
+    expect(wandering.circumstance()).toBe('wanderer');
+    const asked = new CreationFlow(setting, catalog);
+    asked.choose('why', 'wanderer');
+    expect(asked.circumstance()).toBe('wanderer');
+  });
 });

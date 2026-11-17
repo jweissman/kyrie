@@ -49,6 +49,10 @@ export class ReaderOpening {
       app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting,
         party: creation ? [creation.member, ...party.slice(1)] : party, editing: -1,
         origin: creation ? creation.origin : first?.id, named: false, creation });
+      // Where the life begins is the world's (CreationFlow.circumstance); an address may name one (?origin=kin), for a
+      // tester or a spec that must begin in a known circumstance.
+      const named = app.props.query.get('origin');
+      if (creation && named && setting.origins?.some(o => o.id === named)) { await this.chosen('why', named); }
       this.readySoon();
       await this.preview(party);
     // A pick that fails goes back where it came from: the title, or for development (?dev) the list of campaigns (a

@@ -25,7 +25,9 @@ import { Signature } from './signature';
 export class ComposedCreation {
   static readonly folded = 4;
   static View({ app }: { app: ReaderApp }) {
-    const [at, go] = useState<string>('why'), [roll, reroll] = useState(0), [more, turn] = useState(0);
+    // Begun at the engine's first step (the reason for coming is the world's to give, not asked: CreationFlow).
+    const [went, go] = useState<string>(''), [roll, reroll] = useState(0), [more, turn] = useState(0);
+    const at = went || ComposedCreation.ids(app)[0] || 'go';
     const s = app.state;
     useEffect(() => { PressGuard.changed(); turn(0); }, [at]);
     useEffect(() => ComposedCreation.escape(() => {

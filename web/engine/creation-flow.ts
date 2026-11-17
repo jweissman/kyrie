@@ -33,6 +33,11 @@ export class CreationFlow {
   readonly member: Member;
   origin?: string;
   private named = false;
+  // Whether the reason for having come was chosen by hand (a client or a spec that still asks it); else the world
+  // gives it at setting out, as the life's circumstance (see circumstance).
+  private asked = false;
+  // Whether the player chose what the life did before (its kind of life), which the circumstance follows.
+  private past = false;
   // The sign the life was first drawn under: the signs turn from it, and never from the one chosen since.
   private readonly drawnSign?: string;
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
@@ -42,7 +47,24 @@ export class CreationFlow {
     if (signs.length && !this.member.sign) { this.member.sign = signs[drawn % signs.length]!.id; }
     this.drawnSign = this.member.sign;
   }
-  steps(): CreationStep[] { return this.unranked().map(step => ({ ...step, cards: this.ranked(step) })); }
+  // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
+  // "remove the abstract origin-quest selection in favor of diegetic starting circumstances"; see circumstance).
+  steps(): CreationStep[] {
+    return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step) }));
+  }
+  // Where the life begins: the reason chosen by hand where one was; else, where the player chose what the life did
+  // before, a circumstance of that kind of life (one who came over the hills with their trade), drawn among them by
+  // the country and the life so that lives made differently begin differently; else the country's first.
+  circumstance(): string | undefined {
+    const origins = this.setting.origins ?? [];
+    if (this.asked || !origins.length) { return this.origin; }
+    const kind = this.past ? this.kindOf(this.member.backgroundId) : undefined;
+    const own = kind ? origins.filter(o => o.background && this.kindOf(o.background) === kind) : [];
+    if (!own.length) { return origins[0]!.id; }
+    const m = this.member, key = `${this.setting.title}|${m.raceId}|${m.classId}|${m.backgroundId ?? ''}|${m.pronouns ?? ''}`;
+    const n = [...key].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
+    return own[n % own.length]!.id;
+  }
   // A step's cards in the order it leads with them, where it has more than four: of peoples, those of this country
   // (its names are theirs); of kinds of life, those best suited to the calling (as a trade of the kind is chosen);
   // and the rest as the catalog gives them. Never by what is chosen: a card chosen had leapt to the front, and the
@@ -92,10 +114,13 @@ export class CreationFlow {
         names: CreationDefaults.names(m, this.setting) },
     ];
   }
+  private kindOf(background?: string): string | undefined {
+    return this.catalog.backgrounds.find(b => b.id === background)?.kind;
+  }
   // A card chosen at a step (or, at the name, the name written): what it settles, by the page's rules.
   choose(step: CreationChoice, value: string) {
     const m = this.member, was = m.classId, people = m.raceId;
-    if (step === 'why') { this.origin = value; return; }
+    if (step === 'why') { this.origin = value; this.asked = true; return; }
     if (step === 'weapon') { m.weapon = value; return; }
     if (step === 'drawn') { m.name = value; this.named = false; return; }
     if (step === 'spells') { m.spells = value.split(',').filter(Boolean); return; }
@@ -109,7 +134,7 @@ export class CreationFlow {
     }
     if (step === 'sign') { m.sign = value; return; }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
-    else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; }
+    else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }
     CreationDefaults.settle(m, this.catalog, { trade: !this.given(), ...was ? { was } : {} });
     if (!this.named && ((step === 'you' && value !== people) || step === 'presenting')) {

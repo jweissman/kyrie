@@ -22,7 +22,7 @@ export class EngineCreation {
     this.flow = new CreationFlow(setting, Creation.catalog());
     // The first reason for having come is chosen to begin with, as the page's own making had it: set out at once, a
     // life comes by its country's first origin, not by none (a drawn country had begun in its town square, unarrived).
-    if (setting.origins?.[0]) { this.flow.choose('why', setting.origins[0].id); }
+    if (setting.origins?.[0]) { this.flow.origin = setting.origins[0].id; }
     this.at = at;
     return setting;
   }
@@ -41,6 +41,8 @@ export class EngineCreation {
   // longsword, and no start made ready for the page's choices was ever the one set out on (OR-08).
   starting(): Starting {
     const flow = this.made(), at = this.at!, member = structuredClone(flow.member), catalog = flow.catalog;
+    // Where the life begins, as the world gives it (see CreationFlow.circumstance).
+    flow.origin = flow.circumstance();
     const calling = catalog.callings.find(c => c.id === member.classId);
     const weapon = !member.weapon && calling ? CreationRules.best(calling.weapons, member, catalog)?.id : undefined;
     return { campaign: at.campaign, seed: at.seed,
