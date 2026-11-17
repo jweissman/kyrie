@@ -95,7 +95,24 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
      - creation's four idioms (OR-42): ancestry and calling are rows with their emblems, the rail is marks;
      - partly: the title's lit word (OR-44), winter's way in (OR-46), the sitter's late likeness and the opening's
        blank between beats (OR-43).
-   - Not yet recorded and reviewed again after these repairs.
+   - Third review (review-071f20dd.md), recorded after those repairs, blind to both earlier reviews: coherence 5,
+     legibility 4, beauty at rest 6, restraint 5, responsiveness 6.
+
+     | | coherence | legibility | beauty | restraint | responsiveness |
+     |---|---|---|---|---|---|
+     | e729 (first) | 6 | 5 | 7 | 6 | 7 |
+     | 43697c8a (second) | 5 | 5 | 7 | 5 | 6 |
+     | 071f20dd (third) | 5 | 4 | 6 | 5 | 6 |
+
+   - Three reviewers, three worlds, three walks: not a controlled measure. But the trend is plain and is reported as it
+     is. By independent eyes the opening has not become better during M22. The repairs each reviewer prompted were
+     real and are pinned, and each review found the next layer:
+     - after the press-through, a menu that jumps as an act is taken (OR-47);
+     - after the reply pushed off, its first line faded (OR-48, fixed);
+     - creation showing a life before it is chosen (OR-50);
+     - a backdrop that reads as mud, and a town painted in three traditions (OR-51).
+   - The structure the owner asked for is held mechanically. The feel of the first minute is not yet what the brief
+     asks, and the reviews say so.
 2. **A coherent, tested primary interaction across title, creation, exploration, conversation, maps and combat.**
    - Met in structure: the one row, its states, its hold, one menu a page, held by the census, the row geometry pins
      and the hold, opening, talk, fight and map specs.
@@ -131,8 +148,10 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
   - OR-30: words and pictures that disagree;
   - OR-32: creation's empty left half;
   - OR-33: "You know now" on a greeting.
-- **The second review's rest**: the wrong painting before the opening on a phone (OR-43), setting out on a phone
-  (OR-44), a place's own kind in winter (OR-46), the small findings (OR-45).
+- **The reviews' rest**: OR-43 (the wrong painting before the opening on a phone), OR-44 (setting out on a phone),
+  OR-45 and OR-53 (small), OR-46 (a place's own kind in winter), OR-47 (the menu's jump, unpinned), OR-48 (the
+  sitter's name at the top edge), OR-49, OR-50 (a life shown before it is chosen), OR-51 (creation's backdrop; one
+  town in three painting traditions), OR-52 (Continue's own look; holds and bars unexplained).
 - **The sign's turn** sweeps the lit figure under the rows while it turns (seen in stills; by design of the turn, but
   busy).
 - **US-07's rest, GT-01's rest** (drowning, level drain, the outer planes), AR-17 (a province redrawn moves the
@@ -140,7 +159,9 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
 
 ## What should shape the next mission
 
-- **First**, the person: run the first hour with a cold player (FH-01) before more surface.
+- **First**, the person: run the first hour with a cold player (FH-01) before more surface. Three blind reviews of
+  recordings agree with each other more than with the engineering record; a person playing will say which of the
+  reviews' findings matter.
 - **Then**, parting a place into narrative and menu (PageFrame everywhere); careers from resolved deeds (prospectus
   Priority 1), the smallest one first: a deed that one person and one price answer.
 - **Keep the census and the geometry pins as the floor**: they caught regressions that browser specs had passed.
