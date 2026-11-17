@@ -155,7 +155,8 @@ What it says:
 1. **The setting-out wait (9–10 s) and the first seconds (9–12 s to a usable title).**
    - These are the opening's worst moments, and no page design removes them.
    - Measured causes: the 20 MB single script (a 1.5 s compile before anything answers) and a full world composed after the
-     last hold. The warm start in Node is 6.5 s: installs, `structuredClone`, compile (loading-boundaries.md §1).
+     last hold. The warm start in Node is 6.5 s for a replayed seed (installs, `structuredClone`, compile: loading-boundaries.md §1);
+     a new seed's is 10.2–10.7 s, 4.2 s of it parsing the generated text (AX-04).
    - Two levers are already half-built.
      1. **An engine `ready` request** prepares a start while the player reads. It fires only from the old `company` phase,
         never from the default composed creation. Wiring it from the "why" step would hide most of the wait behind

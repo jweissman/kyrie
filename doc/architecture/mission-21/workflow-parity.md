@@ -33,7 +33,8 @@ terminal did not use it.
 Asking "why have you come" needs the country drawn and its scenarios placed, since which reasons are offered depends
 on what was placed where. `{ kind: 'world' }` is about 0.7 s: Deem's region (0.15 s) and the world's composition, with
 8 small texts parsed. No scenario is parsed or instantiated to ask it. The country's Kyr is read in the background
-while the player chooses, and set-out pays the rest (a1: about 6.5 s warm). The tally is `Costs`'
+while the player chooses, and set-out pays the rest (a1: about 6.5 s warm for a replayed seed; a new seed, what a
+player gets, 10.2–10.7 s warm: loading-boundaries.md, corrected 17 Nov). The tally is `Costs`'
 `region 1 · world 1 · parse 8 (70 KB)`, so a regression that drags more in shows.
 
 ## What still decides gameplay in one client only

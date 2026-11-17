@@ -14,7 +14,9 @@ import { Costs, type Tally } from '../../src/costs';
 import type { Screen } from '../../src/ui/screen-types';
 
 // The smallest world a rule can be proved in (Mission 21, Phase 0): one Kyr module written in the spec (see
-// SingleModule), on the shared rules, started in a tenth of a second where a generated country takes seven. Its ids
+// SingleModule), on the shared rules, started in a tenth of a second in a process that has started one (0.22 s warm
+// and 0.53 s cold in a fresh one: it still installs the canon and the shared rules) where a generated country takes
+// seven to ten. Its ids
 // are the module's own under `t__` (a place `yard` is `t__yard`); its company must be `party`. What it plays is the
 // engine's and the page's own: a Journey by the labels a player sees, the glance the page leads with, the screen it is
 // drawn from. A rule proved here needs no Westernesse; what only Westernesse proves (that its generators write what

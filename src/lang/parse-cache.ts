@@ -9,7 +9,8 @@ export class ParseCache {
   private static readonly parsed = new Map<string, Module>();
   // Where a process keeps what it parsed between runs, when it has one.
   static store?: { get(key: string): Module | undefined; set(key: string, module: Module): void };
-  // The module remembered for a key, as it was parsed: each caller takes its own copy of it.
+  // The module remembered for a key, as it was parsed: the one kept, not a copy, so a caller that may change it copies
+  // it first (ModuleParser.parse does).
   static get(key: string): Module | undefined {
     const known = this.parsed.get(key), kept = known ?? this.store?.get(key);
     if (kept) { Costs.note('parse kept', 0, { bytes: key.length }); }

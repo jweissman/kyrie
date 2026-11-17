@@ -9,9 +9,12 @@ export type Stage =
   | 'parse' | 'parse kept'
   // A module bundle loaded and compiled, by its id (the canon, data/imbar, is `canon`).
   | 'install'
-  // Deem: a creature generated; a country drawn; a whole world composed around it.
-  | 'creature' | 'region' | 'world'
-  // A campaign loaded and a session started; a screen built; what is told and led with (the glance).
+  // Deem: a creature generated; a country drawn; a whole world composed around it; a campaign's kits composed into
+  // its modules as it loads (a town's kit against its country: within the campaign's load, AX-09).
+  | 'creature' | 'region' | 'world' | 'kits'
+  // A campaign loaded and a session started; a screen built; what is told and led with (the glance). A session's
+  // start is its campaign's load and the record begun beside it, so the two are nearly one figure: the session's own
+  // share is what it is less the campaign's.
   | 'campaign' | 'session' | 'screen' | 'leaf';
 export interface Cost { n: number; ms: number; bytes: number; ids: string[] }
 export type Tally = Partial<Record<Stage, Cost>>;

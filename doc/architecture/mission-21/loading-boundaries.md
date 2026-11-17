@@ -26,6 +26,10 @@ The import column is the time to load the code it needs.
 | Deem drawing one country, nothing written | 0.37 s | 165 ms | 147 ms | 38 ms | 1 region |
 | **full Westernesse** (a1 drawn, composed, started, first page) | 0.37 s | **15.1 s** | **6.5 s** | 6.2 s | 187 texts kept (4.9 MB); **39 installs, 2.5 s**; 627 creatures (0.2 s); world composition 0.54 s; screen 0.38 s |
 
+**Corrected (17 Nov, AX-09; the architecture review §7.5):** the full start's 6.5 s warm is a *replayed* seed's, every
+generated text's parse kept. A new seed, which is what a player gets, measured 10.2–10.7 s warm (4.2 s of it parsing the
+generated text: AX-04), and a browser after a deploy pays the cold figure.
+
 What this establishes:
 - **Parsing dominates only cold.** In a full start it is 8.6 s of 15.1 s cold, and 0 warm: every text is kept.
 - **Warm, the full world's cost is installation and construction, not parsing.** A CPU profile of one warm start
@@ -62,6 +66,8 @@ Import graphs, by `bun build --metafile` (inputs, and the bytes of `data/` the c
 The edges that do it:
 - **Parsing any Kyr loads the whole catalog.** `module-parser` → `catalog-parser` → `canon/local-catalog` →
   `canon/canon.ts`, which imports 32 catalog JSON files as process-wide statics. So does compiling.
+  **No longer so for parsing (checked 17 Nov, AX-09):** `module-parser.ts`'s graph is 100 inputs and no `data/` at all
+  (`bun build --metafile`); the compiler still loads the catalog (`module-compiler.ts` says so).
 - **A campaign loads Deem and the paintings at import.** `campaign.ts` → `content.ts` → `generation-setting.ts` (Deem
   tables), and `canon-validation.ts` (nine paintings files) runs in `Content.validate`.
 - **A session loaded world generation for two ids.** `session/travel` → `ui/itinerary` → `world/region-writer` and

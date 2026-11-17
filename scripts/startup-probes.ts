@@ -58,12 +58,10 @@ export class StartupProbes {
     this.wrap(CreatureFacts, 'project', 'project');
     this.wrap(Discovery, 'validate', 'discovery');
     this.wrap(RoleRequirements, 'validate', 'roles');
-    const { Composition } = await import('../src/world/compose/composition');
     const { CanonInstall } = await import('../src/campaign/canon-install');
     const { Campaign } = await import('../src/campaign/campaign');
     const { CampaignTick } = await import('../src/campaign/campaign-tick');
     const { ParseCache } = await import('../src/lang/parse-cache');
-    this.wrap(Composition, 'expand', 'kits');
     this.wrap(CanonInstall, 'first', 'canon');
     this.wrap(Campaign.prototype, 'refresh', 'refresh');
     this.wrap(CampaignTick, 'settle', 'settle');

@@ -9,7 +9,8 @@ import type { Module } from './module';
 // eleven seconds, most of it parsing the same shared rules and adventures in every one of a suite's isolated workers).
 // Each text is kept by what it was read with: the grammar and the code that reads it (the language's own sources, and
 // the catalogs a module's kinds are read among), so that any change to the language reads every text afresh. For a
-// process with a file system; the browser parses as it always has.
+// process with a file system; the browser keeps its parses in IndexedDB instead (web/engine/parse-keep.ts), by the
+// build's stamp, so that each deploy reads afresh (AX-09).
 export class ParseStore {
   private constructor(private readonly dir: string, private readonly version: string) {}
   static readonly sources = ['src/lang', 'src/information', 'src/canon', 'data/catalog'];

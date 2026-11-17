@@ -95,9 +95,10 @@ export class PlaySession {
     if (this.busy) { throw new Error('Save only between campaign commands'); }
     return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };
   }
-  // A step of a scripted journey (a spec's, a driver's), taken as a player takes it: a way into the next hex is set
-  // out on from the map, a leg of a journey there (Campaign.travelling), and anything else is done as it is. Never the
-  // page's own path for what the player chooses (see perform), which has no such leave.
+  // A step as a player takes it, for a scripted journey (a spec's, a driver's) and for the terminal, which plays every
+  // choice through it (a 1:1 player of the same system: workflow-parity.md): a way into the next hex is set out on
+  // from the map, a leg of a journey there (Campaign.travelling), and anything else is done as it is. The page's own
+  // path is perform, which has no such leave (the architecture review §7.3: this had said it was never a player's).
   // A journey (travel:place), as the page sets out on one from the map: leg by leg (Travel.go), its last told.
   async leg(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (command.startsWith('travel:')) {
