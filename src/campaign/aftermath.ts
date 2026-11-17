@@ -9,8 +9,24 @@ import type { CombatEvent } from '../model';
 // whether an opponent fled the fight.
 export class Aftermath {
   static record(before: World, after: World, action: Operator, events: CombatEvent[]): World {
-    return this.rout(Exposure.record(before, Witnesses.record(before, after, action, events), action, events),
-      action, events);
+    return this.felled(this.rout(Exposure.record(before, Witnesses.record(before, after, action, events), action,
+      events), action, events), action, events);
+  }
+  // Who brought a band down, kept where a module asks for it (Relation felled(group, group)): the world's record of a
+  // fight the company won to the last of its foes, and never of a band that died by anything else (a Slay, a trap,
+  // another's fight), so that a deed is claimed by the fight that did it, not by a trophy picked up (CR-01, the
+  // hunter's career: "the world's record of what actually happened").
+  static felled(world: World, action: Operator, events: CombatEvent[]): World {
+    const opponent = action.resolve?.name === 'combat' ? action.resolve.args[0] : undefined;
+    const end = events.find(e => e.type === 'end'), company = action.actor;
+    if (!opponent || !company || end?.type !== 'end' || end.outcome !== 'fighters' || end.reason !== 'elimination') {
+      return world;
+    }
+    // Of two: who, and whom (Sallowfield's own felled, of one, is the fallen villager's, and not this).
+    const kept = world.module.relations.filter(r => (r.name === 'felled' || r.name.endsWith('__felled'))
+      && r.types.length === 2);
+    return kept.length ? world.apply(kept.map(r => ({ kind: 'assert' as const, call: ModuleWriter.call(r.name, company,
+      opponent) }))) : world;
   }
   // An opponent that flees is routed: it gives up any blocking stance, so it no longer holds a passage, and what was
   // conditioned on that stance (its description, its growl) ends with it. So is one beaten in a bout, or broken (see

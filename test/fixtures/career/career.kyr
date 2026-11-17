@@ -1,0 +1,71 @@
+  // The hunter's career, its smallest proof (CR-01, doc/architecture/mission-22/career-phase1.md): a village with a
+  // royal proclamation on its post and wolves at its fold, a dragon on the crag above it, and the royal game-warden's
+  // office at Dun Rìerdan down the road. Nothing here is a framework: a posting is a thing read, a commission an aim, a
+  // bounty a rule that arises from what the wolves have done, a deed the world's own record of the fight that did it
+  // (felled, kept by the engine for a module that declares it), and knighthood a fact the court reads.
+  Place ford "the green at Hollow Ford" is room at 0, 0 outdoors.
+  Place fold "the sheepfold below the crag" is room at 1, 0 outdoors.
+  Place crag "the Crag" is room at 2, 0 outdoors.
+  Place stones "the warm stones below the Crag" is room at 1, 1 outdoors.
+  Place office "the royal game-warden's office at Dun Rìerdan" is room at 0, 1 indoors.
+  Passage lane "the fold lane" is path between ford and fold.
+  Passage scree "the scree path" is path between fold and crag.
+  Passage sheep_track "the sheep track" is path between fold and stones.
+  Passage kings_road "the King's Road" is road between ford and office taking 2 hours.
+  Company party "You" of 1 at ford.
+  Relation felled(group, group). Relation posted(entity). Relation claimed(entity). Relation knighted(group).
+  Relation spared(place). Measure lost(place). Measure lastRaid(group).
+
+  // The proclamation: a real lead (the Crag, above Hollow Ford), not a road drawn to the lair.
+  Thing proclamation "the royal proclamation on the post" at ford { }
+  Entity commission: fact "By the Rì's hand: whoever slays Scathe, the dragon of the Crag above Hollow Ford, and brings proof of it to the royal game-warden at Dun Rìerdan, shall be knighted and paid five hundred crowns.".
+  Initially Assert leadsTo(commission, crag).
+  Action read_proclamation(actor: group, site: place) "Read the royal proclamation on the post" {
+    Requires able(actor) and at(actor, site) and at(actor, ford) and not knows(actor, commission).
+    Time 1. On success { Assert knows(actor, commission). }
+    Result "A sheet under the Rì's seal: whoever slays Scathe, the dragon of the Crag above Hollow Ford, and brings proof of it to the royal game-warden at Dun Rìerdan, shall be knighted and paid five hundred crowns.".
+  }
+  Objective dragon when knows(party, commission) and not claimed(commission) toward warden "Slay Scathe, the dragon of the Crag, and bring the proof to the royal game-warden at Dun Rìerdan: knighthood and five hundred crowns.".
+
+  // The dragon: a creature of the world, in its lair, taking what it likes from the fold below it once a day.
+  Person scathe "Scathe" at crag { Role "the dragon of the Crag". Species dragon. Level 2. Temperament territorial. Lair crag. }
+  // Another beast below the Crag: its death is no proof of Scathe's.
+  Person adder "a crag adder" at stones { Role "an adder on the warm stones". Species snake. Level 1. Temperament territorial. Lair stones. }
+  Rule scathe_raids when able(scathe) and day(clock) > lastRaid(scathe) says "Smoke over the Crag at dusk, and a ewe gone from the fold." {
+    Increase lost(fold) by 1. Set lastRaid(scathe) to day(clock).
+  }
+
+  // The trophy, which is the deed's evidence and not its cause: it lies on the crag only once Scathe is felled.
+  Kind scathe_head_kind "Scathe's head" is treasure worth 0 weighing 4 described "A dragon's head, the scales gone dull, the horns notched where they were struck.".
+  Entity head_seen: fact "Scathe's head lies on the Crag where it fell.".
+  Item head "Scathe's head" is scathe_head_kind at crag hidden until head_seen.
+  Rule scathe_felled when felled(party, scathe) and not knows(party, head_seen) says "Scathe lies dead across the Crag." teaches head_seen { }
+
+  // The wolves at the fold: they take a ewe a night, and the reeve's bounty arises from what they have taken.
+  Person wolves "a pair of grey wolves" at fold { Role "two wolves that come to the fold at night". Species wolf. Numbers 2. Level 1. Temperament territorial. Lair fold. }
+  Rule wolves_raid when able(wolves) and not spared(fold) and day(clock) > lastRaid(wolves) says "At first light there is wool on the fold's hurdles, and blood." {
+    Increase lost(fold) by 1. Set lastRaid(wolves) to day(clock).
+  }
+  Person reeve "Odda" at ford { Role "the reeve of Hollow Ford". Ancestry human. Peaceable. Pronouns she. }
+  Entity bounty: fact "The reeve of Hollow Ford pays thirty coin to whoever kills the wolves taking her sheep.".
+  Rule bounty_arises when lost(fold) >= 3 and able(wolves) and not posted(bounty) says "Odda nails a second notice under the proclamation: thirty coin for the wolves at the fold." teaches bounty { Assert posted(bounty). }
+  Objective wolves when knows(party, bounty) and not claimed(bounty) and able(wolves) toward wolves "Kill the wolves taking Hollow Ford's sheep: the reeve pays thirty coin.".
+  Objective wolves_claim when knows(party, bounty) and felled(party, wolves) and not claimed(bounty) toward reeve "Tell Odda the wolves are dead: thirty coin.".
+  Topic claim_wolves with reeve "Tell Odda the wolves at the fold are dead" when knows(actor, bounty) and felled(actor, wolves) and not claimed(bounty) once {
+    Says "Odda walks out to the fold with you and looks a long time at what is left of them. Then she counts thirty coin into your hand.".
+    On discuss { Increase quantity(actor, gold) by 30. Assert claimed(bounty). Assert spared(fold). }
+  }
+  Observe fold_spared at fold when spared(fold) "The hurdles are mended, and the ewes graze up to the foot of the scree.".
+
+  // The royal game-warden, who keeps the register of dangerous quarry and pays for what it records.
+  Person warden "Master Cadell" at office { Role "the royal game-warden, keeper of the register of quarry". Ancestry human. Peaceable. Pronouns he. }
+  Topic claim_dragon with warden "Lay Scathe's head before Master Cadell" when holding(actor, scathe_head_kind) and felled(actor, scathe) and not claimed(commission) once {
+    Says "Cadell turns the head with his stick and writes in the register a long time. 'Scathe of the Crag, slain,' he says, 'by your hand, and the Crown's word kept.' At the Rì's court the next morning you kneel, and stand up a knight, with five hundred crowns.".
+    On discuss { Spend scathe_head_kind from actor. Increase quantity(actor, gold) by 500. Assert claimed(commission). Assert knighted(actor). }
+  }
+  // Knighthood as an identity the court reads: the register opened to a knight, and the reeve's words for one.
+  Topic register with warden "Ask Master Cadell what else the register holds" when knighted(actor) {
+    Says "'For a knight of the Rì's,' says Cadell, and opens the register at a ribbon: 'a wyrm troubling the salt road, and a beast seen near Thornwick. The Crown pays what it records.'".
+  }
+  Observe knight_known at ford when knighted(party) "Odda takes off her hat as you come onto the green, and calls you Sir.".
+  Goal false.
