@@ -55,11 +55,12 @@ Module origin "What is owed" {
       Assert knows(actor, named). Assert knows(actor, found). }
   }
   Rule called_in when owed(loan) > 0 and not called(party) and ((watch(clock) >= 1440 and not extended(party)) or watch(clock) >= 2160) says "Word has gone round {homename}: {creditor} has called in what you owe. Now {creditor} will not deal with you, nor will anyone who wants the custom." {
-    Assert called(party). Assert refusesService(creditor, party).
+    // "Nor will anyone who wants the custom" (OB-08): the keeper, who deals with the creditor, refuses too.
+    Assert called(party). Assert refusesService(creditor, party). Assert refusesService(keeper, party).
   }
   Topic pay_late with creditor "Pay {creditor} what you owe, late" when called(actor) and owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
     Says "{creditor} takes it without a word, and without looking at you. It is paid. It is not forgotten.".
-    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor). Retract refusesService(creditor, actor). }
+    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor). Retract refusesService(creditor, actor). Retract refusesService(keeper, actor). }
   }
   // The debt said where the company can do something about it: first the creditor; once spoken to or left, the inn, where
   // the creditor said work is asked after; with the coin in hand, the creditor again. The aim had led back to the shop

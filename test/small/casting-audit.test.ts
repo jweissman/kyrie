@@ -8,12 +8,13 @@ import { CastingAudit } from '../../scripts/casting-audit';
 // should run the ordinary rules. The debt may shrink and may not grow: a new consequential action gated on a calling
 // alone fails here, and wants a named capability (an ability invoked, or an item held and spent).
 const found = CastingAudit.all();
-const known = ['{t}_u_rats_slept', '{t}_u_brood_spelled'];
+// The rats' sleep now runs the ordinary rules (CF-02: Resolve invoke), so only the brood's fire is left.
+const known = ['{t}_u_brood_spelled'];
 describe('the casting-fiction audit', () => {
   it('finds the consequential actions, each by its means', () => {
-    expect(found.length).toBeGreaterThanOrEqual(14);
+    expect(found.length).toBeGreaterThanOrEqual(13);
     expect(found.find(f => f.name === '{t}_u_nest_burned')).toMatchObject({ means: 'item', cost: ['spend', 'time'] });
-    expect(found.find(f => f.name === '{t}_u_rats_slept')).toMatchObject({ means: 'calling', cost: ['time'] });
+    expect(found.find(f => f.name === '{t}_u_rats_slept')).toBeUndefined();
   });
   it('lets no new action slay or restore on a calling alone', () => {
     const alone = found.filter(f => f.means === 'calling').map(f => f.name);

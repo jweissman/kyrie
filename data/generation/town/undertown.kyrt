@@ -161,16 +161,24 @@
     Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
   }
   // A magician's way with the rats themselves: a sleep laid over the run, and the rats done for where they lie
-  // (Mission 19's Priority Three), for one who would not be bitten. Of one who has learned the Sleep spell, and no
-  // other (the owner's casting-fiction invariant, CF-02: a mage is not offered a power she has not got; the evoker of
-  // round 5 had been offered "a spell of sleep" she never learned).
-  Action {t}_u_rats_slept(actor: group, site: place) "Put the rats in the run to sleep with the Sleep spell, and do for them where they lie" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and able({t}_u_rats) and memberOf(?m, actor) and awake(?m) and learned(?m, sleep).
+  // (Mission 19's Priority Three), for one who would not be bitten. Cast by one who can cast Sleep now, through the one
+  // invocation route (the casting-fiction invariant, CF-02/CF-03: the caster's slot, each rat's save; what resists
+  // or wakes comes at the company), and no one else.
+  Action {t}_u_rats_slept(actor: group, caster: member, site: place) "Have {caster} cast Sleep over the rats in the run" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and able({t}_u_rats) and memberOf(caster, actor) and awake(caster) and canCast(caster, sleep).
     Time 1 minutes.
-    On success { Slay {t}_u_rats. }
-    Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were. It is quick after that, and not pleasant. None of them wakes for it.".
+    Resolve invoke(sleep, caster, {t}_u_rats).
+    On success { Assert {t}_u_rats_lulled({t}_u_rats_job). Assert assails({t}_u_rats, actor). }
+    Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were.".
   }
-  Rule {t}_u_rats_cleared when not able({t}_u_rats) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
+  // Asleep is not dead (CF-02): the sleepers are done for by a deliberate act, and a band only asleep is not cleared.
+  Action {t}_u_rats_done_for(actor: group, site: place) "Do for the sleeping rats where they lie" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and at({t}_u_rats, {t}_u_warren) and not able({t}_u_rats) and not dead({t}_u_rats).
+    Resolve combat({t}_u_rats).
+    Result "It is quick after that, and not pleasant. None of them wakes for it.".
+  }
+  Relation {t}_u_rats_lulled(entity).
+  Rule {t}_u_rats_cleared when (dead({t}_u_rats) or (not able({t}_u_rats) and not {t}_u_rats_lulled({t}_u_rats_job))) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
   Relation {t}_u_nest_cleared(entity).
   Rule {t}_u_nest_ended when not able({t}_u_buck) and not {t}_u_nest_cleared({t}_u_rats_job) { Assert {t}_u_nest_cleared({t}_u_rats_job). }
   Discovery {t}_u_nest_hoard "Under the nest's sacking, what the rats dragged in over the years." {

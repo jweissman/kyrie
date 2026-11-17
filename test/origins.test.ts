@@ -223,6 +223,8 @@ describe('an origin', () => {
       await s.leg(until?.choice.id ?? 'wait_hour');
     }
     expect(s.campaign.world.test(ModuleWriter.call('refusesService', 'region__s1_merchant', 'party'))).toBe(true);
+    // Nor will anyone who wants the custom (OB-08): the keeper the creditor sent the company to refuses as well.
+    expect(s.campaign.world.related('refusesService').filter(r => r.args[1] === 'party').length).toBeGreaterThan(1);
   }, 120000);
   // A debt paid and the copies shown were seen through by no one and worth nothing (the play-structure
   // investigation's PT-04): each is the origin seen through now, and worth experience.
