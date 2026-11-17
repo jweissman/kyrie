@@ -41,7 +41,7 @@ describe('making the protagonist', () => {
     flow.choose('calling', 'mage');
     expect(flow.member.backgroundId).toBe(own('mage'));
     const before = flow.steps().find(s => s.id === 'before')!;
-    expect(before.cards.map(c => c.id)).toContain(before.chosen);
+    expect(before.cards.map(c => c.id)).toContain(before.chosen ?? '');
     const wandering = new CreationFlow(setting, catalog);
     wandering.choose('why', 'wanderer');
     wandering.choose('calling', 'warrior');

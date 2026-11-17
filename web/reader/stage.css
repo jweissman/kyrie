@@ -132,11 +132,12 @@
   padding: clamp(40px, 8vh, 96px) max(20px, env(safe-area-inset-left)) clamp(56px, 12vh, 132px);
   cursor: pointer; overflow: hidden; -webkit-tap-highlight-color: transparent; }
 .prologue-page.last { cursor: default; }
-.prologue-page .scenery { position: absolute; inset: 0; overflow: hidden; }
+.prologue-page .scenery { position: absolute; inset: 0; overflow: hidden; background: var(--ground); }
 /* Held still, and softened a little, with a grain over it: the paintings are small (some 750 by 600), and drawn over a
    whole screen, slowly zoomed, their skies had shown the squares of their compression. */
 .prologue-page .scenery img { height: 100%; object-position: 50% 38%;
-  filter: var(--plate-scene) blur(clamp(.5px, .07vmax, 1.2px)); animation: settle-in 2s var(--ease) both; }
+  filter: var(--plate-scene) blur(clamp(.5px, .07vmax, 1.2px)); opacity: 0; }
+.prologue-page .scenery img.loaded { opacity: 1; animation: settle-in 2s var(--ease) both; }
 .prologue-page .scenery::before { content: ''; position: absolute; inset: 0; z-index: 1; opacity: .09; mix-blend-mode: overlay;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .prologue-page .scenery::after { content: ''; position: absolute; inset: 0;

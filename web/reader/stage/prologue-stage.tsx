@@ -38,7 +38,8 @@ export class PrologueStage {
       className={`prologue-page page-${page.kind}${page.kind === 'beat' && !page.last ? '' : ' last'}`}
       attrs={{ 'data-beat': page.kind === 'beat' ? String(page.at) : page.kind, 'aria-label': 'The opening' }}
       background={view && <figure className="scenery" aria-hidden="true">
-        <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
+        <img src={`paintings/large/${view}.webp`} alt="" decoding="async" ref={PrologueStage.shown}
+          onLoad={e => { e.currentTarget.classList.add('loaded'); }}
           onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
       header={<p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>}
       narrative={page.kind === 'beat' ? <><p key={page.at} className="beat" data-id="beat" aria-live="polite">
@@ -47,6 +48,9 @@ export class PrologueStage {
       menu={PrologueStage.menu(app, page)}
       over={credit && <p className="credit" aria-hidden="true">{credit}</p>} />;
   }
+  // The opening's painting rises once it is had, over the dark, never over what was before it (M22's second review,
+  // OR-43: on a phone the country behind creation had shown, then been replaced); one already had rises at once.
+  static shown(this: void, img: HTMLImageElement | null) { if (img?.complete && img.naturalWidth) { img.classList.add('loaded'); } }
   // The page's one menu: a beat's Continue, a meeting's answers, the way on after it (the first aim said above it).
   private static menu(app: ReaderApp, page: Page): ReactNode {
     if (page.kind === 'meeting') { return <PrologueStage.Answers app={app} meeting={app.state.told!.meeting!} />; }
