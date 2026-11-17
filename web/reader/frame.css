@@ -74,7 +74,10 @@ html, body { overflow: hidden; }
 /* One row each, of one height: the name, and where it has one its detail beside it on the same line, never a second
    line beneath (the owner, 15 November: no jagged list where some rows have a subheader). */
 /* Neutral, whatever its mark: New game's line holds every tone, and none of them is the row's. */
-:root .title-menu .way-in.choice-row.choice-row { justify-content: center; padding: 0 40px; color: rgba(236, 230, 217, .8);
+/* Its words at the left, after its mark, as every menu's rows are (the owner, 17 November: the title wanted a rethink;
+   a mark at the edge and words centred had read as two grammars); the column itself stands centred under the name. */
+:root .title-menu .way-in.choice-row.choice-row { justify-content: flex-start; padding: 0 14px 0 30px;
+  color: rgba(236, 230, 217, .8);
   --row-tone: rgb(236, 230, 217); }
 :root .title-menu .way-in.choice-row.choice-row > .row-label { font: 500 15px/1.2 var(--do); letter-spacing: .26em;
   text-transform: uppercase; padding-left: .26em; }
