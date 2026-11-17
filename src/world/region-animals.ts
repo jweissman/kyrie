@@ -16,10 +16,10 @@ export class RegionAnimals {
   static readonly template = KyrTemplates.parse(text);
   static readonly most = 30;
   static lines(region: Region): string[] {
-    const met = new Set(RegionMeetings.meetings(region).map(m => m.cell)), draw = new Draw(`${region.name}:animals`);
+    const met = new Set(RegionMeetings.meetings(region).map(m => m.cell));
     const standing = new Set(RegionTracts.standing(region).map(s => s.cell));
     const cells = RegionTracts.cells(region).filter(c => !met.has(c) && !standing.has(c));
-    const chosen = draw.shuffle(cells).slice(0, Math.min(this.most, Math.round(cells.length / 8)));
+    const chosen = Draw.ranked(`${region.name}:animals`, cells).slice(0, Math.min(this.most, Math.round(cells.length / 8)));
     const lines = this.template.sections.flatMap(s => s.lines);
     // A kind of country known by its terrain alone (the desert, the snows) is every stretch of it.
     const country = Object.entries(Canon.habitats).filter(([, h]) => !h.covers && h.terrains?.includes(region.terrain))

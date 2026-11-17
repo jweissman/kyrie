@@ -36,6 +36,18 @@ export class Draw {
     }
     return entries.at(-1)![0];
   }
+  // The stretches (or any numbered things) in the order of a draw of each one's own, by key and number, so that one
+  // added to or taken from the list moves no other (AR-17: a province added re-seeded every world's wild, because the
+  // whole list was shuffled). The order of the list given does not matter.
+  static ranked(key: string, list: readonly number[]): number[] {
+    const rank = new Map(list.map(n => [n, Draw.mix(Expressions.seed(`${key}:${n}`))]));
+    return [...list].sort((a, b) => rank.get(a)! - rank.get(b)! || a - b);
+  }
+  // murmur3's finaliser, so that keys alike but for their last characters are ranked far apart.
+  private static mix(h: number): number {
+    h = Math.imul(h ^ (h >>> 16), 0x85ebca6b); h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+    return (h ^ (h >>> 16)) >>> 0;
+  }
   shuffle<T>(list: readonly T[]): T[] {
     const out = [...list];
     for (let i = out.length - 1; i > 0; i--) {

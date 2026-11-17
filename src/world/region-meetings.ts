@@ -36,15 +36,15 @@ export class RegionMeetings {
     const land = RegionGeography.atlas(region).land, cells = this.open(region);
     const roads = new Set(RegionGeography.roads(region).flatMap(r => r.route.cells));
     const towns = region.settlements.flatMap(s => s.cell === undefined ? [] : [s.cell]);
-    const draw = new Draw(`${region.name}:meetings`), chosen: number[] = [];
+    const ranked = Draw.ranked(`${region.name}:meetings`, cells), chosen: number[] = [];
     const most = Math.min(this.most, Math.round(cells.length / 10));
     // At the edge of what each town knows: two or three stretches out from it.
     for (const t of towns) {
-      const edge = draw.shuffle(cells.filter(c => [2, 3].includes(Terrain.distance(land, t, c))));
+      const edge = ranked.filter(c => [2, 3].includes(Terrain.distance(land, t, c)));
       const c = edge.find(e => this.apart(land, chosen, e));
       if (c !== undefined && chosen.length < most) { chosen.push(c); }
     }
-    for (const c of draw.shuffle(cells)) {
+    for (const c of ranked) {
       if (chosen.length >= most) { break; }
       if (this.apart(land, chosen, c)) { chosen.push(c); }
     }

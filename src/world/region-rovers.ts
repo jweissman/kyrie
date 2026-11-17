@@ -23,8 +23,8 @@ export class RegionRovers {
     const land = RegionGeography.atlas(region).land, cells = RegionTracts.cells(region);
     const away = this.away.bind(this, land, [...RegionGeography.roads(region).flatMap(r => r.route.cells),
       ...region.settlements.flatMap(s => s.cell === undefined ? [] : [s.cell])]);
-    const draw = new Draw(`${region.name}:rovers`), homes: number[] = [];
-    for (const c of draw.shuffle(cells)) {
+    const homes: number[] = [];
+    for (const c of Draw.ranked(`${region.name}:rovers`, cells)) {
       if (homes.length >= Math.min(this.most, Math.round(cells.length / 40))) { break; }
       if (homes.every(h => Terrain.distance(land, h, c) > this.range)) { homes.push(c); }
     }
