@@ -1,4 +1,7 @@
 # Westernesse
+[![main CI](https://img.shields.io/github/actions/workflow/status/jweissman/kyrie/ci.yml?branch=main&event=push&label=main%20CI)](https://github.com/jweissman/kyrie/actions/workflows/ci.yml)
+[![nightlies](https://img.shields.io/github/actions/workflow/status/jweissman/kyrie/ci.yml?branch=main&event=schedule&label=nightlies)](https://github.com/jweissman/kyrie/actions/workflows/ci.yml)
+[![page deploys](https://img.shields.io/github/actions/workflow/status/jweissman/kyrie/pages.yml?branch=main&event=workflow_run&label=page%20deploys)](https://github.com/jweissman/kyrie/actions/workflows/pages.yml)
 
 *A History of Emprise.* A literary fantasy RPG set in the world of Imbar, a Seventh Star game. It runs in the
 browser, with a book's look and a persistent world underneath. Someone sets out, alone or with companions found on
