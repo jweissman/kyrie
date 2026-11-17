@@ -79,6 +79,9 @@ export interface AppState {
   // everyone here the picture has no room for; and whether what is told in it is what came of something done there
   // (it stays open over what was done to a thing or a wait, and closes on going anywhere).
   exploring?: Part; kept?: boolean;
+  // What is focused in the lens turned on, outermost first: a thing that did not fit its four, then a run of its acts
+  // alike (a riddle's words): see LensFocus.
+  focused?: string[];
   // A journey made on the map: the way it went, to the hex it came to (the town, or where on the road it was stopped),
   // your mark walking it before what came of it is told, and told when it has (see JourneyCourse).
   walking?: { way: number[]; done: () => void };

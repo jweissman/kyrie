@@ -69,7 +69,7 @@ export class Explorer {
     const inner = Object.keys((lens && app.state.frame?.leaf.glance?.lenses?.[lens]?.leaves) ?? {});
     const ways = [...part === 'look' ? GlanceStage.holders(app, 'things') : [], ...inner];
     app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
-      confirming: undefined,
+      confirming: undefined, focused: undefined,
       open: wait ? [wait, ...inner] : held ? [...new Set([...held.opens, ...ways])] : ways.length ? ways : app.state.open });
   }
   // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way
@@ -98,7 +98,11 @@ export class Explorer {
       if (chosen) { app.choose(chosen); }
       return true;
     }
-    if (key === 'Escape' || key === 'Backspace') { app.explore(); return true; }
+    // Out of a focus first, a level at a time (see LensFocus), then out of the lens.
+    if (key === 'Escape' || key === 'Backspace') {
+      if (app.state.focused?.length) { app.setState({ focused: app.state.focused.slice(0, -1) }); } else { app.explore(); }
+      return true;
+    }
     return /^[1-9]$/.test(key);
   }
   // The touch on the place at rest that opens one, said as it is and marked when what is led with is in it; touched

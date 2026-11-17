@@ -26,14 +26,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The door is on a way off this place: a thing at hand (the things lens), its acts in the lens four at a time,
-    // paged, never unfolded (the owner's ruling 2): every word is found by turning the pages.
-    await driver.inLens('look', /speak|say|word/i, /door/i);
-    for (const word of ['Lute', 'Piano', 'Trumpet']) {
-      expect(await LensPages.seek(page, `.glance .lens [data-action="choice"]:has-text("${word}")`)).toBe(true);
-    }
+    // The door is on a way off this place: a thing at hand (the things lens), whose seven acts do not fit the four, so
+    // it is one row; focused, its words are one row beside its other acts; focused, the four words are the four rows,
+    // all in view at once, never paged (the owner, 17 November: focus on the riddle as an act, then its answers).
+    await page.click('.opens-look:not([disabled]) >> nth=-1'); await driver.settle();
+    await page.click('.glance .lens [data-action="focus"]:has-text("speaking door")'); await page.waitForTimeout(100);
     expect(await page.evaluate(() => document.body.innerText)).toContain('What has keys but can’t open locks?');
-    expect(await LensPages.seek(page, '.glance .lens [data-action="choice"]:has-text("Piano")')).toBe(true);
+    await page.click('.glance .lens [data-action="focus"]:has-text("Press the word")'); await page.waitForTimeout(100);
+    const shown = await page.locator('.glance .lens [data-act]').evaluateAll(es => es.map(e => e.textContent ?? ''));
+    expect(shown.map(t => /“(\w+)”/.exec(t)?.[1])).toEqual(['Lute', 'Piano', 'Trumpet', 'Cello']);
+    expect(await page.locator(LensPages.pager).count()).toBe(0);
     const piano = page.locator('[data-action="choice"]', { hasText: 'Piano' }).first();
     await piano.click();
     await driver.settle();
@@ -73,7 +75,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     expect(words.every(a => observed.includes(a) || /Press the word/.test(a))).toBe(true);
     expect((await driver.inspect()).log.length).toBe(told);
     expect(await page.evaluate(() => document.body.innerText)).not.toContain('The door swings open.');
-    await page.keyboard.press('Escape'); await driver.settle();
+    // Escape goes back out a level at a time (the words, the door), then puts the lens away.
+    for (let i = 0; i < 3 && !(await acts()).some(a => /Wait|Make camp|light_item/.test(a)); i++) {
+      await page.keyboard.press('Escape'); await driver.settle();
+    }
     expect((await acts()).some(a => /Wait|Make camp|light_item/.test(a))).toBe(true);
     expect(errors).toEqual([]);
   }, 120000);

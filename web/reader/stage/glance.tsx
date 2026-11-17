@@ -1,9 +1,9 @@
 import { Foreground } from '../../../src/presentation/foreground';
 import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
-import { useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { useLayoutEffect, useRef, type ReactNode, type RefObject } from 'react';
 import { Glyphs } from '../creation/glyphs';
-import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
+import type { Aspect, Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp } from '../reader-app';
@@ -15,6 +15,7 @@ import { Words } from '../words';
 import { Emphasis } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { Guidance } from '../guidance';
+import { LensFocused } from './lens-focused';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
 import { Moments } from './moments';
@@ -261,7 +262,7 @@ export class GlanceStage {
   // resting scene's four come from, ranked alike), and the rest of its acts unfold beneath them, in place, at a touch.
   static readonly per = 4;
   static Lens({ app, draw, lens }: { app: ReaderApp; draw: Draw; lens: Lens }) {
-    const lensed = app.state.frame?.leaf.glance?.lenses?.[lens], [page, turn] = useState(0);
+    const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return null; }
     // With nothing promoted (the time lens's waits, which no reason ranks), its acts are shown as they stand, in order.
     // An opener among them (a thing's look, with no act of its own) is drawn as what it opens, its leaves (Lensed.leaves),
@@ -282,11 +283,13 @@ export class GlanceStage {
     const promoted = lensed.promoted.filter(p => !opens(p) && !covered(p));
     const opened = lensed.promoted.filter(p => opens(p) && inside(p).length);
     const rest = lensed.rest.flatMap(a => opens(a) ? inside(a) : covered(a) ? [] : [a]);
-    // Never more than four (the owner, 16 November, in every context, lenses too): the four first, then the rest four at a
-    // time in place of them, round to the first. The pager is navigation, not an act: nothing is committed by it.
-    const none = !promoted.length && !opened.length, flat = GlanceStage.grouped(rest).flatMap(g => g.acts);
-    const chunks = Math.ceil(flat.length / GlanceStage.per), pages = none ? Math.max(1, chunks) : 1 + chunks;
-    const at = page % pages, onRest = none || at > 0, more = flat.slice((none ? at : at - 1) * GlanceStage.per).slice(0, GlanceStage.per);
+    // Never more than four (the owner, 16 November, in every context, lenses too): where its acts do not fit, the lens
+    // is drawn by focus, a thing one row and its alike acts one row, never a riddle's words over pages (the owner, 17
+    // November: see LensFocused).
+    const flat = GlanceStage.grouped(rest).flatMap(g => g.acts), all = [...promoted, ...opened.flatMap(inside), ...flat];
+    if (all.length > GlanceStage.per || app.state.focused?.length) {
+      return <LensFocused.View app={app} draw={draw} lens={lens} lensed={lensed} acts={all} />;
+    }
     // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
     // door: Lensed.subjects), said once above them, under its name.
     // Said once, no heading over it (a heading is a category marker in the list: the owner, 15 November), and not
@@ -300,15 +303,13 @@ export class GlanceStage {
     return <div {...PageFrame.slot('menu')} className={`lens lens-${lens}`} data-lens={lens}>
       {seen.map(x => <div key={x.id} className="lens-seen" data-subject={x.id}>
         {x.lines.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
-      {!onRest && <GlanceStage.Acts app={app} draw={draw} acts={promoted} />}
+      <GlanceStage.Acts app={app} draw={draw} acts={promoted} />
       {/* Only the acts, each in words that stand alone: no heading among them (the owner, 15 November: text between
           the acts, a category marker, should never be in the list; "Talk to Wellby" under WELLBY). */}
-      {!onRest && opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>
+      {opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>
         {inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} /></li>)}</ul>)}
-      {onRest && <ul className="acts lens-rest">{more.map(a =>
+      {flat.length > 0 && <ul className="acts lens-rest">{flat.map(a =>
         <li key={a.choice} data-subject={a.subject}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul>}
-      {pages > 1 && <button type="button" className="quiet-word lens-page" data-action="lens-page" data-page={at + 1}
-        data-pages={pages} onClick={() => turn(at + 1)}>{`More… ${at + 1} of ${pages}`}</button>}
     </div>;
   }
   // A lens's rest by what it is done to (LensAct.subject): a thing's or someone's acts together under their name, so
@@ -347,19 +348,22 @@ export class GlanceStage {
     return out;
   }
   // One of a lens's rest: the menu's own choice where it is one (its keys, its mark); else the act as the lens names it.
-  static LensRow({ app, draw, act: a }: { app: ReaderApp; draw: Draw; act: LensAct }) {
-    const c = GlanceStage.choice(app, a.choice);
+  // aspects: what it is, where the lens promoted it (its mark, as the four's are).
+  static LensRow({ app, draw, act: a, aspects }: { app: ReaderApp; draw: Draw; act: LensAct; aspects?: Aspect[] }) {
+    const c = GlanceStage.choice(app, a.choice), fill = Pip.fill(aspects, Guidance.shown(app));
+    const mark = fill ? { mark: fill } : {};
     // What it risks said on it, as the four say theirs (a way with no coming back).
     const [going, how] = Words.going(a.label);
     const risks = [how ?? '', ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
     if (c && draw.index.has(c.id)) {
       // What it opens (the words that can be said at a door) opened beneath it, as under the four.
-      return <><ChoiceRow.Act choice={c} draw={draw} label={Typography.curl(going)} {...risks ? { aside: Typography.curl(risks) } : {}} />
+      return <><ChoiceRow.Act choice={c} draw={draw} label={Typography.curl(going)} {...mark}
+        {...risks ? { aside: Typography.curl(risks) } : {}} />
         <PlaceStage.Opened choice={c} draw={draw} /></>;
     }
     const own: Choice = { id: a.choice, label: a.label, tone: 'way', ...a.command ? { command: a.command } : {},
       ...a.disabled ? { disabled: a.disabled } : {} };
-    return <ChoiceRow.Button className={a.disabled ? 'shut' : ''} data={{ choice: a.choice }} act={a.choice}
+    return <ChoiceRow.Button className={a.disabled ? 'shut' : ''} data={{ choice: a.choice }} act={a.choice} {...mark}
       onClick={() => { if (!a.disabled) { app.choose(c ?? own); } }} label={Typography.curl(a.label)}
       {...a.disabled ? { aside: Typography.curl(a.disabled) } : {}} />;
   }

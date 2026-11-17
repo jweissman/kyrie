@@ -189,10 +189,7 @@ export class MonoDriver {
     const has = async (q: string) => (await this.page.locator(q).count()) > 0;
     if (!await has(`.glance .lens[data-lens="${lens}"]`)) { await this.click(`.opens-${part}:not([disabled]) >> nth=-1`); }
     const rows = this.page.locator('.glance .lens [data-act]');
-    for (let turns = 0; turns < 16 && !await rows.filter({ hasText: act }).count(); turns++) {
-      if (!await has(LensPages.pager)) { break; }
-      await this.click(LensPages.pager);
-    }
+    await LensPages.seek(this.page, () => rows.filter({ hasText: act }));
     const grouped = under ? this.page.locator('.glance .lens .lens-group', { hasText: under }).locator('[data-act]', { hasText: act })
       : rows.filter({ hasText: act });
     const named = rows.filter({ hasText: under ?? act }).filter({ hasText: act });
