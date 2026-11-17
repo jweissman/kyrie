@@ -668,6 +668,96 @@
   "ready": {
    "begins": "{target} stands ready.",
    "ends": "{target} stands easy."
+  },
+  "unlit_law": {
+   "begins": "The Unlit's cold settles on {target}.",
+   "ends": "The Unlit's hold on {target} lifts."
+  },
+  "beacon_law": {
+   "begins": "The beacon's light falls on {target}.",
+   "ends": "{target} passes out of the beacon's light."
+  },
+  "plane_arcadia": {
+   "begins": "Arcadia's spring is all about {target}.",
+   "ends": "Arcadia's spring falls away from {target}."
+  },
+  "plane_cthelll": {
+   "begins": "Cthelll's mist closes round {target}.",
+   "ends": "Cthelll's mist lets {target} go."
+  },
+  "plane_gehenna": {
+   "begins": "Gehenna's heat beats up at {target}.",
+   "ends": "Gehenna's heat falls away from {target}."
+  },
+  "plane_hades": {
+   "begins": "The gloom of Hades settles on {target}.",
+   "ends": "The gloom of Hades lifts from {target}."
+  },
+  "plane_limbo": {
+   "begins": "The sands of Limbo shift beneath {target}.",
+   "ends": "{target} stands on ground that holds still again."
+  },
+  "plane_mechanus": {
+   "begins": "The clockwork of Mechanus ticks all round {target}.",
+   "ends": "The clockwork of Mechanus falls quiet round {target}."
+  },
+  "plane_pandemonium": {
+   "begins": "The winds of Pandemonium howl about {target}.",
+   "ends": "The howling falls away from {target}."
+  },
+  "plane_fire": {
+   "begins": "The Fire's heat takes hold of {target}.",
+   "ends": "The Fire's heat leaves {target}."
+  },
+  "plane_air": {
+   "begins": "{target} hangs in the Air, with no ground beneath.",
+   "ends": "{target} has ground beneath again."
+  },
+  "plane_water": {
+   "begins": "The Water's cold closes over {target}.",
+   "ends": "{target} comes out of the Water's cold."
+  },
+  "plane_earth": {
+   "begins": "Rock closes in on every side of {target}.",
+   "ends": "The rock gives {target} room again."
+  },
+  "plane_positive": {
+   "begins": "The Positive's light runs into {target}.",
+   "ends": "The Positive's light goes out of {target}."
+  },
+  "plane_negative": {
+   "begins": "The Negative's cold dark draws at {target}.",
+   "ends": "The Negative's dark lets {target} go."
+  },
+  "plane_prime_material": {
+   "begins": "{target} stands in the ordinary world.",
+   "ends": "{target} leaves the ordinary world behind."
+  },
+  "plane_ysgard": {
+   "begins": "Ysgard's snow drives at {target}.",
+   "ends": "Ysgard's snow lets up on {target}."
+  },
+  "plane_zephyrus": {
+   "begins": "The thunder of Zephyrus rolls over {target}.",
+   "ends": "The storm of Zephyrus passes from {target}."
+  },
+  "summoning": {
+   "begins": "{target} begins a summoning.",
+   "ends": "{target}'s summoning is done."
+  },
+  "ticking": {
+   "begins": "Something on {target} begins to tick.",
+   "ends": "The ticking on {target} stops."
+  },
+  "warding_glyph": {
+   "begins": "A glyph of warding glows about {target}.",
+   "ends": "The glyph about {target} fades."
+  },
+  "slain": {
+   "ends": "{target} is brought back from death."
+  },
+  "drained": {
+   "ends": "What was drained out of {target} comes back."
   }
  }
 }
