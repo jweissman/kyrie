@@ -5,7 +5,8 @@ import { Fits, type Seen } from '../../src/ui/fits';
 // seen.json): the cold rounds' paintings against the text (R9-12, R10-08, R11-09, CP-01): an intact sunlit castle for
 // a ruined bailey, a sunny courtyard on a stormy evening, a hillside four storeys down. What the place is answers
 // to what is painted, and a ruin painted as a ruin is still a ruin's.
-const at = (name: string, o: { weather?: string; daylight?: string; underground?: boolean; told?: string } = {}): Seen =>
+type At = { weather?: string; daylight?: string; underground?: boolean; told?: string };
+const at = (name: string, o: At = {}): Seen =>
   ({ place: { name, underground: o.underground, description: o.told }, weather: o.weather,
     expedition: { daylight: o.daylight ?? 'day' } });
 describe('a painting against the place', () => {
