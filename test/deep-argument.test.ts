@@ -71,8 +71,16 @@ describe('the walled stair, argued at the shrine', () => {
   it('is won by seeing the grief behind the doctrine and speaking to it; won, the priest tells what is below', async () => {
     const s = await Shrine.start();
     expect(await Shrine.take(s, /^Watch Baern for what goes unsaid/)).toContain('insight check');
-    expect(await Shrine.take(s, /^Speak to Baern of the brother/)).toContain('cannot bear the light of noon');
+    const c = PlayerView.choices(s.campaign).find(x => /^Speak to Baern of the brother/.test(x.choice.name))!;
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
+    const feedback = ActionFeedbackView.read(s.campaign, event, before);
+    const told = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
+      { event, feedback, said: c.choice.name, moved: false }).exchange!;
+    expect(told.lines.map(l => l.text).join(' ')).toContain('cannot bear the light of noon');
     expect(Shrine.test(s, 'knows', 'party', 'region__w9_bane')).toBe(true);
+    // Told in the priest's words, it is not noted again under them word for word (OR-30).
+    expect(feedback.discoveries.join(' ')).toContain('cannot bear the light of noon');
+    expect((told.learned ?? []).filter(l => /light of noon/.test(l))).toEqual([]);
     expect(Shrine.names(s)).toContain('Ask Baern again about the walled stair');
   }, 90000);
   it('is lost for good by a threat: the shrine is shut to the company, and shows it', async () => {

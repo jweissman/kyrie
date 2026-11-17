@@ -447,7 +447,7 @@ export class Narrator {
     // Nor what a new aim says again ("You know now: Clear the rats out of the cellar" over the aim to).
     const aimed = [...feedback.aims ?? [], ...feedback.amended ?? []];
     // What was learned is said apart as well (learned), for the page that sets it apart: it had known it by its words.
-    const learned = [...spoken.length ? [] : feedback.discoveries.filter(d => !said.has(d) && !this.restated(d, aimed))
+    const learned = [...spoken.length ? [] : feedback.discoveries.filter(d => !this.heard(d, said, aimed))
       .map(d => `Noted: ${this.gist(d)}`), ...(feedback.leads ?? []).map(l => `Noted: ${l}`)];
     const borne = (feedback.borne ?? []).map(b => `Borne out: ${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`);
     const notes = [...feedback.resources.map(r => this.resource(r)), ...learned,
@@ -505,13 +505,16 @@ export class Narrator {
     const [, name, a, b] = m, delta = Number(b) - Number(a);
     return `${delta > 0 ? '+' : '−'}${Math.abs(delta)} ${name!.toLowerCase()} (${b} now)`;
   }
+  // Whether what was learned has just been said, if in the middle of a longer line (OR-30: a priest "tells you what the
+  // shrine has always kept of it: what sleeps in the king's grave cannot abide the light of day; …", and "You know
+  // now" said it again word for word), or an aim says it again, in its first words.
+  private static heard(learned: string, said: Set<string>, aims: string[]): boolean {
+    const fact = this.flat(learned), gist = this.gist(learned).replace(/\.$/, '');
+    return [...said].some(l => this.flat(l).includes(fact)) || aims.some(a => a.startsWith(gist));
+  }
+  private static flat(text: string): string { return this.plain(text).toLowerCase().replace(/\s+/g, ' ').replace(/[.!?'"]+$/, ''); }
   // What was learned, as much of it as can be acted on: its first sentence ("The way to the round tower on the
   // Sharpmunt: north from the ford, then..."), or its first part when the sentence runs long, never cut mid-thought.
-  // Whether an aim says what was learned again, in its first words.
-  private static restated(learned: string, aims: string[]): boolean {
-    const gist = this.gist(learned).replace(/\.$/, '');
-    return aims.some(a => a.startsWith(gist));
-  }
   static gist(fact: string): string {
     const sentence = Sentences.first(fact).replace(/\.$/, ''), part = sentence.split(/[;:]\s/)[0]!;
     return this.words(sentence) <= 30 ? sentence : this.words(part) <= 30 ? part
