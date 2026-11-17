@@ -98,8 +98,10 @@ export interface LensAct { choice: string; label: string; command?: string; subj
 // leaves: of each opener among them (a talk, a look, with no command of its own), the acts within it.
 // subjects: of the subjects among them that the scene draws no one for (a thing on a way, the way itself), the name
 // and what is seen of it (its state's words: the riddle cut across the speaking door).
+// aspects: what its four are, together, in the order every client ranks them: all its mark may show, so a mark never
+// says what none of the rows under it is (the owner, 17 November).
 export interface Lensed { promoted: Promoted[]; rest: LensAct[]; leaves?: Record<string, LensAct[]>;
-  subjects?: Record<string, { name: string; seen?: string[] }> }
+  subjects?: Record<string, { name: string; seen?: string[] }>; aspects: Aspect[] }
 // A route the compass gives (see Compass): where it comes to, the ways in order, the time, the command that walks it
 // (travel:<place>, leg by leg; or the one way's own), and what bars it, if anything.
 export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }

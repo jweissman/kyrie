@@ -28,7 +28,10 @@ describe('a companion perceived, on a lane of three', () => {
   it('one place off, as a way to look, never as the act; not two places off; and there, led with', async () => {
     const t = await Tiny.start(lane), world = facts(t);
     expect(t.glance.sensed).toEqual([{ to: 't__taproom', aspect: 'companionship', far: 1 }]);
-    expect(t.glance.acts.some(a => a.aspects.includes('companionship'))).toBe(false);
+    // Only a way there says so (the Go mark's companion is on its row: the owner, 17 November), never an asking.
+    expect(t.glance.acts.filter(a => a.aspects.includes('companionship')).every(a => !!a.exit)).toBe(true);
+    expect(t.glance.lenses!.places.aspects).toContain('companionship');
+    expect(t.glance.lenses!.places.promoted.filter(p => p.aspects.includes('companionship')).every(p => !!p.exit)).toBe(true);
     t.journey.put('party', 't__shop');
     expect(t.look().glance.sensed).toBeUndefined();
     t.journey.put('party', 't__taproom');

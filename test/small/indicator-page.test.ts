@@ -71,17 +71,15 @@ describe('the page\'s one indicator', () => {
       expect([c.aspects, drawn(html, 'pm').tone]).toEqual([c.aspects, expected(c).tone]);
     }
   });
-  it('draws the rail\'s pips in it, and what is perceived that way a companion by the icon', () => {
+  it('draws the rail\'s pips in it, and a companion among its rows by the icon', () => {
     for (const c of cases.filter(x => !x.gilded)) {
       const tone = terminal({ aspects: c.aspects, gilded: false }).tone;
       const lit = renderToStaticMarkup(createElement(SceneRail.Mark, { app: app([]), part: 'look', glyph: 'look_about',
         words: 'Look', standing: tone ? { lit: tone } : {} }));
       expect([c.aspects, drawn(lit, 'pip').tone]).toEqual([c.aspects, expected(c).tone]);
     }
-    for (const aspect of ['companionship', 'knowledge'] as const) {
-      const html = renderToStaticMarkup(createElement(SceneRail.Mark, { app: app([]), part: 'go', glyph: 'go_on',
-        words: 'Go', standing: {}, faint: aspect }));
-      expect([aspect, drawn(html, 'pip')]).toEqual([aspect, expected({ aspects: [aspect], gilded: false })]);
-    }
+    const html = renderToStaticMarkup(createElement(SceneRail.Mark, { app: app([]), part: 'go', glyph: 'go_on',
+      words: 'Go', standing: {}, companion: true }));
+    expect(drawn(html, 'pip')).toEqual(expected({ aspects: ['companionship'], gilded: false }));
   });
 });

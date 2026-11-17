@@ -3,6 +3,8 @@ import type { Scene } from './scene';
 import type { Choice } from './choice-list';
 import { Attending } from './attention';
 import { Aspects } from '../presentation/aspects';
+import { Emphasis } from '../presentation/emphasis';
+import { Indicator } from '../presentation/indicator';
 
 // What a choice is, as far as leading with it goes: talking to someone, an act on someone or something, an attack, a
 // way (a step across the open country apart), a journey about the town, lighting a light, waiting, studying (preparing
@@ -139,7 +141,8 @@ export class Promotion {
       .map(a => this.gilded(this.present(a, marks.get(a.choice) ?? []), at.next));
     const shown = new Set([...led, ...fill.map(a => a.choice)]);
     const out = [...promoted, ...fill], rest = all.filter(a => !shown.has(a.choice));
-    return { promoted: out, rest, ...this.opened([...out, ...rest], at.scene) };
+    const aspects = [...Emphasis.precedence, ...Indicator.iconed].filter(a => out.some(p => p.aspects.includes(a)));
+    return { promoted: out, rest, ...this.opened([...out, ...rest], at.scene), aspects };
   }
   // What is done at a thing on a way (a tripwire, a portcullis, a riddle door's words), not going by it: the things
   // lens's, with the thing as its subject, or the way where it names none (round 13's lens gap, the aesthetic line's

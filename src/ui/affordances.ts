@@ -348,10 +348,13 @@ export class Affordances {
     if (exit.visited || whys.includes('retreat')) { whys.splice(0, whys.length, ...whys.filter(w => w !== 'held')); }
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
     if (!tried && r.opened?.has(this.command(c) ?? '')) { whys.unshift('opened'); }
-    // Into a town from its own country: said as entering it, and with what the company perceives of it from here
-    // (someone who might join), never what it has not (who is within, what they would ask).
+    // Into a town from its own country: said as entering it, never what the company has not perceived of it (who is
+    // within, what they would ask).
     const town = !tried && !exit.crosses ? this.entered(screen, dest) : undefined;
-    if (town) { whys.push('entry', ...r.sensed?.has(dest) ? ['companion' as const] : [], ...this.fresh(exit, whys)); }
+    if (town) { whys.push('entry', ...this.fresh(exit, whys)); }
+    // Any way along which the company perceives someone who might join (see Perception), however far off: the way is
+    // that, as the Go mark says it is (the owner, 17 November: a companion on the mark and on none of its rows).
+    if (!tried && r.sensed?.has(dest)) { whys.push('companion'); }
     const slip = tried && !c.disabled && r.schema.get(c.command ?? '') === 'slip_past' ? r.args.get(c.command!)?.[3] : undefined;
     if (slip) { whys.unshift('danger'); }
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that

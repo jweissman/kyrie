@@ -33,7 +33,10 @@ describe('a companion perceived', () => {
     // And someone at the shrine, since the adventure branch's integration (12 November).
     expect(g.glance.sensed).toEqual([{ to: 'region__s1_shrine', aspect: 'companionship', far: 1 },
       { to: 'region__s1_taproom', aspect: 'companionship', far: 1 }]);
-    expect(g.glance.acts.some(a => a.aspects.includes('companionship'))).toBe(false);
+    // Only a way there says so (the Go mark's companion is on its row: the owner, 17 November), never an asking.
+    expect(g.glance.acts.filter(a => a.aspects.includes('companionship')).every(a => !!a.exit)).toBe(true);
+    expect(g.glance.lenses!.places.aspects).toContain('companionship');
+    expect(g.glance.lenses!.places.promoted.filter(p => p.aspects.includes('companionship')).every(p => !!p.exit)).toBe(true);
     Inn.put(c, 'region__s1_shop');
     expect(Glanced.of(s).glance.sensed).toBeUndefined();
     Inn.put(c, 'region__s1_taproom');

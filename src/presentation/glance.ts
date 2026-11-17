@@ -185,7 +185,7 @@ export class Glance {
       willing: new Set(rows.filter(r => r.action.speaker && (r.action.success ?? []).some(c => c.kind === 'assert'
         && c.call?.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker)).map(r => r.choice.id)),
       named, held, occupied: AimLeads.occupied(campaign, named), companions: Companions.possible(campaign),
-      sensed: new Set(at.sensed.filter(x => x.far === 1).map(x => x.to)), opened: new Set(at.told?.feedback.opened),
+      sensed: new Set(at.sensed.map(x => x.to)), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,
         screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,

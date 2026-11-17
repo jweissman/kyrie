@@ -27,6 +27,8 @@ export interface Carrying { aspects?: readonly Aspect[]; gilded?: boolean; cross
 export class Indicator {
   static readonly icons = 2;
   static readonly hold: Icon = { sign: Signs.hold.sign, plain: '=', said: Signs.hold.said };
+  // The aspects drawn as icons, never a colour.
+  static readonly iconed: readonly Aspect[] = ['companionship', 'exploration'];
   // A companion is always its icon, the first of them, and never the colour (TP-03). What is perceived off along a way
   // is its faint pip where the way has no colour of its own and it is no companion (see faint); else its icon, said by
   // how far off it is: a way drawn silver had lost the companion perceived along it (the atlas characterized).
@@ -35,7 +37,7 @@ export class Indicator {
     const off = c.sensed && !this.faint(c, first) ? [{ ...this.icon(c.sensed.aspect),
       said: Signs.sensed(c.sensed.aspect, c.sensed.far) }] : [];
     // A companion, and somewhere worth a look, are icons and no colour (TP-03; the owner, 15 November).
-    const iconed = (['companionship', 'exploration'] as const).filter(a => drawn.includes(a)).map(a => this.icon(a));
+    const iconed = this.iconed.filter(a => drawn.includes(a)).map(a => this.icon(a));
     const besides: Icon[] = [...iconed, ...off,
       ...rest.map(a => this.icon(a)), ...c.crosses ? [Signs.crossing] : [], ...c.hold ? [this.hold] : []];
     return { ...first ? { aspect: first, tone: Emphasis.tones[first]! } : {}, icons: besides.slice(0, this.icons),

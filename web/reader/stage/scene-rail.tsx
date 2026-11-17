@@ -10,7 +10,6 @@ import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import type { Tone } from '../../../src/presentation/emphasis';
 import { Signs } from '../../../src/presentation/signs';
-import type { Aspect } from '../../../src/presentation/glance-types';
 import { Pip } from './pip';
 import { WorldStage } from './world-stage';
 import { PageFrame } from '../page-frame';
@@ -33,8 +32,9 @@ export class SceneRail {
       <nav {...PageFrame.slot('rail')} className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
         <SceneRail.Talk app={app} />
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
-          faint={SceneRail.sensed(app)} />
-        <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
+          companion={SceneRail.companion(app, 'places')} />
+        <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)}
+          companion={SceneRail.companion(app, 'things')} />
         {/* Each in its own place whether it can be done or not, shut and saying why when not: the rail's marks had moved
             under the finger as the Search came and went, and a touch for the Eye opened Go (round 7, both players). */}
         <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
@@ -98,24 +98,21 @@ export class SceneRail {
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
   }
-  // Its pip (see Pip): lit, of the tone of something here; soft, of the tone of something perceived off along a way
-  // from here (see Perception); none with nothing; and the whole mark lowered (dim) with nothing new.
-  static Mark({ app, part, glyph, words, standing, faint }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
-    glyph: string; words: string; standing: Standing; faint?: Aspect }) {
+  // Its pip (see Pip): lit, of the tone of what its own four rows are (see SceneRail.lit), and a companion's icon
+  // where one of them is someone who might join; none with nothing; and the whole mark lowered (dim) with nothing new.
+  // Never what its rows are not (the owner, 17 November: a companion on Go… and on none of the rows under it).
+  static Mark({ app, part, glyph, words, standing, companion }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
+    glyph: string; words: string; standing: Standing; companion?: boolean }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
-    // What is perceived that way, said as every client says it (Signs): it had said "someone who might join you" of
-    // whatever was perceived.
-    const sensed = faint, tone = Pip.sensed(faint);
     const said = shut ? `${words}: ${shut}` : 'dim' in standing ? `${words}: ${Signs.idle} for now`
-      : sensed ? `${words}: ${Signs.sensed(sensed)}` : words;
+      : companion ? `${words}: ${Signs.sensed('companionship')}` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
-      + `${'dim' in standing ? ' dim' : ''}${faint && !shut && !lit ? ' faint' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
-        data-condition={Pip.condition({ idle: 'dim' in standing })}
+      + `${'dim' in standing ? ' dim' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
+        data-condition={Pip.condition({ idle: 'dim' in standing })} data-tone={lit} data-companion={companion || undefined}
       aria-expanded={app.state.exploring === part} aria-label={said} title={shut ? said : words} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" />
-      {!shut && <Pip.View fill={lit ? `var(--tone-${lit})` : tone ? `var(--tone-${tone})` : undefined} faint={!lit}
-        companion={!lit && faint === 'companionship'} />}
+      {!shut && <Pip.View fill={lit && `var(--tone-${lit})`} companion={companion} />}
     </button>;
   }
   // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way the place leads with; dim where
@@ -123,10 +120,9 @@ export class SceneRail {
   static go(app: ReaderApp): Standing {
     const ways = Wayfinder.ways(app), idle = new Set(app.state.frame?.leaf.glance?.idle ?? []);
     if (!ways.length) { return { shut: 'no way on from here' }; }
-    if (SceneRail.goes(app, ways) && Guidance.shown(app)) { return { lit: 'gold' }; }
-    // Lit by what the place leads with that goes by one of them, in its tone, and that way marked so inside: not by
-    // there being somewhere not yet been, which early on is everywhere, and named no way in the list.
-    const tone = ways.map(w => Wayfinder.tone(app, w)).find(Boolean);
+    // Lit by what its own four rows are, the first of them by the one precedence: not by there being somewhere not yet
+    // been, which early on is everywhere.
+    const tone = SceneRail.lit(app, 'places');
     if (tone) { return { lit: tone }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
@@ -142,16 +138,18 @@ export class SceneRail {
   static look(app: ReaderApp): Standing {
     const hand = AtHand.of(app), glance = app.state.frame?.leaf.glance;
     if (!hand.some(h => h.choices.some(c => !c.disabled))) { return { shut: 'nothing here to look at more closely' }; }
-    if (GlanceStage.serves(app, hand) && Guidance.shown(app)) { return { lit: 'gold' }; }
-    const ids = new Set(hand.flatMap(h => [...h.choices.map(c => c.id), ...h.opens]));
-    const led = glance?.acts.find(a => ids.has(GlanceStage.choice(app, a.choice)?.id ?? '') && a.aspects.length);
-    const tone = led && Pip.tone(led.aspects, false);
+    const tone = SceneRail.lit(app, 'things');
     if (tone) { return { lit: tone }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
   }
-  // What is perceived off along the ways from here: its kind, drawn by its tone or, a companion, its icon (see Pip).
-  static sensed(app: ReaderApp): Aspect | undefined {
-    return app.state.frame?.leaf.glance?.sensed?.[0]?.aspect;
+  // A lens's colour: the first, by the one precedence, of what its four rows are (Lensed.aspects); the aim's gold only
+  // where the page shows the way (see Guidance).
+  static lit(app: ReaderApp, lens: 'places' | 'things'): Tone | undefined {
+    return Pip.tone(app.state.frame?.leaf.glance?.lenses?.[lens]?.aspects, Guidance.shown(app));
+  }
+  // Whether one of a lens's four rows is someone who might join, or the way to them.
+  static companion(app: ReaderApp, lens: 'places' | 'things'): boolean {
+    return !!app.state.frame?.leaf.glance?.lenses?.[lens]?.aspects.includes('companionship');
   }
   // The map, where a journey there is the aim's next step, and the way is shown.
   static mapLit(app: ReaderApp): boolean {
