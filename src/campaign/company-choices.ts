@@ -71,6 +71,7 @@ export class CompanyChoices {
       entry.context = { name: context.name.trim(), raceId: context.raceId,
         classId: Creation.classId(context.classId), level: context.level ?? entry.context.level ?? 1,
         ...(context.gear?.length ? { gear: [...context.gear] } : {}),
+        ...(context.outfit ? { outfit: context.outfit } : {}),
         ...(context.backgroundId ? { backgroundId: context.backgroundId } : {}),
         ...(context.traits ? { traits: [...context.traits] } : {}),
         ...(formations.length ? { formations } : {}),

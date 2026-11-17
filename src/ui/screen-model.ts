@@ -15,7 +15,7 @@ import { Canon } from '../canon/canon'; import { Content } from '../content';
 import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
-import { FictionalTime } from '../campaign/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time'; import { CanonInstall } from '../campaign/canon-install';
 import { Calendar } from '../campaign/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
@@ -80,7 +80,7 @@ export class ScreenModel {
       purse: { coin: view.resources?.find(r => r.id === 'gold')?.amount ?? 0,
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
-          .map(r => `${r.amount} ${r.name}`) },
+          .map(r => `${r.amount} ${r.name}`), ...CanonInstall.currency(campaign.module) },
       knowledge: this.knowledge(view), ...Deeds.seen(campaign, view),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),

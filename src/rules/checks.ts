@@ -39,9 +39,11 @@ export class Checks {
   // What a member adds to the roll: the quality's modifier, as they have it with what they wear; their proficiency
   // where the skill is theirs; and a tool's help, where they have one they can use (see PartyCapabilities.tool):
   // thieves' tools help a thief at a lock, and one who never learnt to pick one not at all.
-  static bonus(c: Creature, skill: string): { modifier: number; stat: Attribute; trained: number; tool: number;
-    using?: string } {
-    const stat = this.qualities[skill] ?? 'wisdom', modifier = Math.floor((ItemCatalog.quality(c, stat) - 10) / 2);
+  // A capability of a campaign's own rests on the quality it names (restsOn, in the world: BX-01's L5), the
+  // catalog's skills on theirs, anything else on wisdom.
+  static bonus(c: Creature, skill: string, rests?: Attribute): { modifier: number; stat: Attribute; trained: number;
+    tool: number; using?: string } {
+    const stat = this.qualities[skill] ?? rests ?? 'wisdom', modifier = Math.floor((ItemCatalog.quality(c, stat) - 10) / 2);
     const trained = PartyCapabilities.skilled(skill, c) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
     const using = PartyCapabilities.tool(skill, c);
     return { modifier, stat, trained, tool: using ? this.toolBonus : 0, ...using ? { using } : {} };
@@ -55,17 +57,25 @@ export class Checks {
     return { stat: b.stat, modifier: b.modifier, trained: b.trained, ...tool };
   }
   // Who makes it: of those standing, the one who adds most.
-  static maker(creatures: Creature[], skill: string): Creature | undefined {
+  static maker(creatures: Creature[], skill: string, rests?: Attribute): Creature | undefined {
     const able = creatures.filter(c => c.state.hp > 0);
-    return able.reduce<Creature | undefined>((best, c) => !best || this.total(c, skill) > this.total(best, skill) ? c
-      : best, undefined);
+    return able.reduce<Creature | undefined>((best, c) => !best
+      || this.total(c, skill, rests) > this.total(best, skill, rests) ? c : best, undefined);
   }
-  static total(c: Creature, skill: string): number { return this.added(this.bonus(c, skill)); }
+  static total(c: Creature, skill: string, rests?: Attribute): number {
+    return this.added(this.bonus(c, skill, rests));
+  }
+  // The quality a capability of the world's own rests on, where it says (Initially Assert restsOn(systems,
+  // intelligence)).
+  static rests(world: { relates(name: string): boolean; one(name: string, arg: string): string | undefined },
+    capability: string): Attribute | undefined {
+    return world.relates('restsOn') ? world.one('restsOn', capability) as Attribute | undefined : undefined;
+  }
   // How it looks before it is tried, to the one who would try it.
-  static odds(creatures: Creature[], skill: string, difficulty: number): Odds {
-    const c = this.maker(creatures, skill);
+  static odds(creatures: Creature[], skill: string, difficulty: number, rests?: Attribute): Odds {
+    const c = this.maker(creatures, skill, rests);
     if (!c) { return 'beyond'; }
-    const add = this.total(c, skill);
+    const add = this.total(c, skill, rests);
     if (1 + add >= difficulty) { return 'sure'; }
     if (20 + add < difficulty) { return 'beyond'; }
     const chance = (21 + add - difficulty) / 20;
@@ -75,11 +85,11 @@ export class Checks {
   // have it come out as it asks (forced: a natural twenty, or a one), whatever the odds: a test of a failed check had
   // been a search over seeds, pinned to the steps before it (Quittance's friction 7, QTC-07).
   static make(creatures: Creature[], at: { skill: string; difficulty: string | number; seed: string; about?: string;
-    forced?: 'pass' | 'fail' }): CombatEvent[] {
-    const skill = this.skill(at.skill), c = this.maker(creatures, skill);
+    forced?: 'pass' | 'fail'; rests?: Attribute }): CombatEvent[] {
+    const skill = this.skill(at.skill), c = this.maker(creatures, skill, at.rests);
     const difficulty = typeof at.difficulty === 'number' ? at.difficulty : this.difficulty(at.difficulty);
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
-    const b = this.bonus(c, skill), add = this.added(b), parts = this.parts(b);
+    const b = this.bonus(c, skill, at.rests), add = this.added(b), parts = this.parts(b);
     if (at.forced) {
       const die = at.forced === 'pass' ? 20 : 1;
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,

@@ -83,8 +83,8 @@ export class Overlays {
   // torch and pole, a thief's tools): those the item catalog has. Whoever sets out on the road carries a light, a
   // candle that weighs nothing (a ranger went down into a pitch-dark barrow with none, and found none to buy: the
   // cold evaluation); a torch too was a load that slowed a companion carrying weight-stones.
-  static classGear(c: { raceId?: string; classId?: string }): string[] {
-    if (!c.classId || (c.raceId && Canon.isBody(c.raceId))) { return []; }
+  static classGear(c: { raceId?: string; classId?: string; outfit?: 'own' }): string[] {
+    if (!c.classId || c.outfit === 'own' || (c.raceId && Canon.isBody(c.raceId))) { return []; }
     const klass = Canon.classes[Canon.resolve('classes', c.classId)];
     const light = klass && klass.adventuring !== false ? ['candle'] : [];
     return [...new Set([...klass?.startingGear ?? [], ...light])].filter(k => Canon.items[k]);
@@ -153,8 +153,8 @@ export class Overlays {
     const module = instance.module;
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => Canon.resolve('items', k));
-      const gear = [...this.of(c.context).map(([, o]) => o.gear ?? []), carried, this.startingCandidates(c.context),
-        this.classGear(c.context)];
+      const gear = c.context.outfit === 'own' ? [carried] : [...this.of(c.context).map(([, o]) => o.gear ?? []),
+        carried, this.startingCandidates(c.context), this.classGear(c.context)];
       for (const kinds of gear) {
         for (const kind of kinds) {
           const id = this.gearId(c.id, kind);

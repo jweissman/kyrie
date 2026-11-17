@@ -1,0 +1,10 @@
+{
+ "about": "The reckoning of days in Imbar (src/campaign/calendar.ts reads it): twelve months of thirty days, three to a season, beginning with the thaw; the sennight's days in the Common tongue's names; and the era the annals count. As data, not code, so that a setting of its own could keep another (BX-01's L3).",
+ "months": [
+  { "name": "Thaw", "season": "spring" }, { "name": "Sowing", "season": "spring" }, { "name": "Blossom", "season": "spring" },
+  { "name": "Greening", "season": "summer" }, { "name": "Midsummer", "season": "summer" }, { "name": "Haysel", "season": "summer" },
+  { "name": "Harvest", "season": "autumn" }, { "name": "Leaffall", "season": "autumn" }, { "name": "Smoke", "season": "autumn" },
+  { "name": "Frost", "season": "winter" }, { "name": "Deepwinter", "season": "winter" }, { "name": "Wolfmoon", "season": "winter" }],
+ "weekdays": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+ "era": "year of the Sun and Moon"
+}

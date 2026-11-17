@@ -1,6 +1,8 @@
 import type { BundleSource } from './bundle-source';
 import { ModuleBundle, type BundleRequest, type CampaignManifest } from './module-bundle';
 import type { Dated } from './campaign-types';
+import type { Module } from '../lang/module';
+import { FictionalTime } from './fictional-time';
 import { ModuleCanon } from './module-canon';
 import { ModuleInstallations } from './module-installations';
 import type { InstalledInstance } from './installed-instance';
@@ -30,7 +32,20 @@ export class CanonInstall {
   // What a campaign's state keeps of its manifest as it begins: its date, its night, and whether it is of a setting
   // of its own (kept, so that no module installed into it later, nor its save, brings the canon in).
   static dated(m: CampaignManifest): Dated {
-    return { calendar: m.calendar, night: m.night, ...m.canon === false ? { canonless: true as const } : {} };
+    const night = m.night === 'none' ? FictionalTime.none : m.night;
+    return { calendar: m.calendar, night, ...m.canon === false ? { canonless: true as const } : {} };
+  }
+  // What a campaign calls itself, and its money where it names its own (a station's credits: BX-01's L4), the shared
+  // currency's word in the world's own text and on its purse.
+  static named(campaign: { module: Module }, m: CampaignManifest) {
+    campaign.module.name = m.name;
+    const gold = m.currency ? campaign.module.entities.find(e => e.id === 'gold') : undefined;
+    if (gold) { gold.name = m.currency!; }
+  }
+  // The word for the company's money, on its purse, where its campaign names its own (see named).
+  static currency(module: Module): { currency?: string } {
+    const word = module.entities.find(e => e.id === 'gold')?.name;
+    return word && word !== 'coin' ? { currency: word } : {};
   }
   // Before a module is installed into a world without the canon: the canon, if the world will take it.
   static async before(host: Host, request: BundleRequest, source: BundleSource): Promise<void> {

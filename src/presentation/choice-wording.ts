@@ -91,6 +91,8 @@ export class ChoiceWording {
   private static odds(campaign: Campaign, check: Call): string | undefined {
     const read = campaign.readout, company = read.creatures.filter(c => read.partyIds.includes(c.id));
     const hard = Checks.known(check.args[2]!, id => campaign.world.number(ModuleWriter.call('toBeat', id)));
-    return hard === undefined ? undefined : this.chances[Checks.odds(company, Checks.skill(check.args[1]!), hard)];
+    const rests = Checks.rests(campaign.world, check.args[1]!);
+    return hard === undefined ? undefined
+      : this.chances[Checks.odds(company, Checks.skill(check.args[1]!), hard, rests)];
   }
 }

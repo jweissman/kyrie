@@ -19,8 +19,11 @@ export class FictionalTime {
   // in Carth's February in the north is dark from five until seven: its friction 1; the Liberty of the Ice's winter
   // fair is dusk at four).
   static readonly night: Night = { falls: 21, lifts: 6 };
-  // Hours a night can keep: it falls in the afternoon or evening and lifts in the small hours or the morning.
-  static keeps(night: Night): boolean {
+  // No night at all, for a campaign that keeps none (a sealed station's: "night": "none", BX-01's L3).
+  static readonly none: Night = { falls: 24, lifts: 0 };
+  // Hours a night can keep: it falls in the afternoon or evening and lifts in the small hours or the morning; or none.
+  static keeps(night: Night | 'none'): boolean {
+    if (night === 'none') { return true; }
     return Number.isInteger(night.falls) && Number.isInteger(night.lifts) && night.falls >= 12 && night.falls <= 23
       && night.lifts >= 0 && night.lifts < 12;
   }
@@ -52,7 +55,7 @@ export class FictionalTime {
   }
   // Watches from this one until dark (nine in the evening), while it is light.
   static untilDark(tick: number, night: Night = this.night): number {
-    if (this.dark(tick, night)) { return 0; }
+    if (this.dark(tick, night) || night.falls >= 24) { return 0; }
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
     return Math.ceil((night.falls * 60 - minutes) / this.minutesPerTick);
   }

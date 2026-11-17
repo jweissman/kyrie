@@ -125,7 +125,7 @@ export class Campaign implements WatchHost {
     // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
     // joined whole checked.
     campaign!.refresh(); ModuleInstallations.check(campaign!.module, campaign!.world);
-    campaign!.compiled.name = manifest.name; return campaign!;
+    CanonInstall.named(campaign!, manifest); return campaign!;
   }
   // checked: the joined whole checked now; everyone: every actor's creature facts projected again, not only the
   // newcomers' (by default, when the whole is checked).

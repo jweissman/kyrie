@@ -33,6 +33,9 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   // The party traits the companion's company forms (a Clerical Synod), recognized when the company is formed.
   formations?: string[];
   spells?: string[]; gear?: string[]; weapon?: string; armor?: string;
+  // Outfitted by its campaign alone ("own"): it carries its gear and nothing its calling would give it (no arms,
+  // armour, torch or candle of the catalog's: BX-01's L2, a warrior's battleaxe on a space station).
+  outfit?: 'own';
   // An NPC prepares a sample of its spells (Orsino's enemy casters) instead of making a player's picks.
   prepared?: boolean;
   // What makes it other than its kind (see CreatureVariants).
@@ -207,8 +210,8 @@ export class Content {
     creature.base.maxMana = creature.state.mana = 0;
     Spellcasting.equip(creature);
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
-    if (!species) { this.equip(creature, chassis, context, randomIdentity); }
-    Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ classId })]);
+    if (!species && context.outfit !== 'own') { this.equip(creature, chassis, context, randomIdentity); }
+    Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ ...context, classId })]);
     CreatureSchema.validate(CreatureVariants.vary(creature, Content.implied(raceId, context)));
     return creature;
   }

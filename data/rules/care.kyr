@@ -9,6 +9,9 @@ Module care "Rest, mending and lessons" {
   Kind quality.
   Entity strength: quality "Strength". Entity dexterity: quality "Dexterity". Entity constitution: quality "Constitution".
   Entity intelligence: quality "Intelligence". Entity wisdom: quality "Wisdom". Entity charisma: quality "Charisma".
+  // What a capability of a campaign's own rests on, where it says (Initially Assert restsOn(systems, intelligence)):
+  // a check of it is made by that quality, as the catalog's skills are by theirs (BX-01's L5).
+  Relation restsOn(capability, quality).
   Relation improvable(member). Relation learnable(member, ability). Relation skillOpen(member, capability).
   // How far a companion has come (their level), for what asks it before it will teach them (a Manual, an order).
   Measure levelOf(member).

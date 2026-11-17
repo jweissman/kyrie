@@ -177,7 +177,8 @@ export interface Screen {
   dark?: boolean;
   exits: ExitRow[]; people: TargetRow[]; things: TargetRow[];
   party: MemberRow[]; items: ItemRow[]; camp: Act[];
-  purse: { coin: number; rations: number; other: string[] };
+  // currency: the word for its money where the campaign names its own (BX-01's L4), else coin.
+  purse: { coin: number; rations: number; other: string[]; currency?: string };
   // What the company knows, newest first, each with how it came to know it ("Agnes told you", "you saw it") and when.
   // What the company knows, and how sure it can be: seen or found for itself, heard and since borne out, or only heard.
   knowledge: { text: string; how: string; kind: 'seen' | 'confirmed' | 'reported' | 'known' }[];

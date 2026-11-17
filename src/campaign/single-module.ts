@@ -13,8 +13,8 @@ import type { CalendarStart } from './calendar';
 // A world of a setting of its own (own) is never given the canon at all (BX-01).
 export class SingleModule {
   static source(text: string, options: { id?: string; party?: CreatureGenerationContext[]; rules?: string[];
-    chart?: LandChart; base?: BundleSource; calendar?: CalendarStart; canon?: string[]; own?: boolean } = {}):
-    { source: BundleSource; campaign: string } {
+    chart?: LandChart; base?: BundleSource; calendar?: CalendarStart; canon?: string[]; own?: boolean;
+    night?: 'none'; currency?: string } = {}): { source: BundleSource; campaign: string } {
     // Its id is the one it declares (Module yard "…" { … }), else t.
     const id = options.id ?? /^\s*(?:\/\/[^\n]*\n\s*)*Module\s+([a-z][a-z0-9_]*)/.exec(text)?.[1] ?? 't';
     const base = options.base ?? NodeBundleSource.shared;
@@ -28,6 +28,7 @@ export class SingleModule {
         ...options.canon ? { canon: options.canon } : {} }),
       [`${dir}/single.campaign.json`]: JSON.stringify({ version: 1, name: 'A world of one module',
         ...options.calendar ? { calendar: options.calendar } : {}, ...options.own ? { canon: false } : {},
+        ...options.night ? { night: options.night } : {}, ...options.currency ? { currency: options.currency } : {},
         modules: [{ id, bundle: 'module.json' }],
         party: options.party ?? [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     return { source, campaign: source.resolve(`${dir}/single.campaign.json`) };

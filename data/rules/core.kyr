@@ -186,7 +186,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   }
   Measure untilDark(clock). Measure untilTurn(clock).
   Action wait_for_dark(actor: group) "Wait until dark" {
-    Requires able(actor) and not dark(). Time untilDark(clock). Interrupted when threatened(actor).
+    Requires able(actor) and not dark() and untilDark(clock) > 0. Time untilDark(clock). Interrupted when threatened(actor).
     Meanwhile sittingOut(actor).
     Result "The light goes. It is dark.".
   }
