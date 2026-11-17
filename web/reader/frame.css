@@ -73,27 +73,14 @@ html, body { overflow: hidden; }
    it and no box moves (the owner, 14 November: "no moving double box, no jumping indicators, no shifting geometry"). */
 /* One row each, of one height: the name, and where it has one its detail beside it on the same line, never a second
    line beneath (the owner, 15 November: no jagged list where some rows have a subheader). */
-.way-in { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: row;
-  align-items: baseline; justify-content: center; gap: 14px; width: 100%; height: var(--choice-h); padding: 0 40px;
-  white-space: nowrap; overflow: hidden;
-  color: rgba(236, 230, 217, .8); text-decoration: none; border: 1px solid transparent; border-radius: 10px;
-  background: transparent; -webkit-tap-highlight-color: transparent;
-  transition: background var(--quick), border-color var(--quick), color var(--quick); }
-.way-in .row-mark { position: absolute; left: 14px; top: 13px; bottom: 13px; width: 3px; border-radius: 2px;
-  background: rgba(236, 230, 217, .16); }
-.way-in .n { font: 500 15px/1.2 var(--do); letter-spacing: .26em; text-transform: uppercase; padding-left: .26em; }
-.way-in { align-items: center; }
+/* Neutral, whatever its mark: New game's line holds every tone, and none of them is the row's. */
+:root .title-menu .way-in.choice-row.choice-row { justify-content: center; padding: 0 40px; color: rgba(236, 230, 217, .8);
+  --row-tone: rgb(236, 230, 217); }
+:root .title-menu .way-in.choice-row.choice-row > .row-label { font: 500 15px/1.2 var(--do); letter-spacing: .26em;
+  text-transform: uppercase; padding-left: .26em; }
+:root .title-menu .way-in.choice-row.choice-row:is([data-considered], :focus-visible) { color: var(--ivory); }
 .title-menu .save-line { position: absolute; left: 0; right: 0; top: 100%; margin: 14px 0 0; text-align: center;
   font: italic 400 14.5px/1.35 var(--told); color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.way-in[aria-current="true"] { color: var(--ivory); background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
-  border-color: transparent; }
-.way-in:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); transition: none; }
-.way-in[aria-current="true"] .row-mark { background: rgba(236, 230, 217, .7); }
-/* New game: every opportunity is behind it, the five tones of the atlas in one line (gold, red, blue, green, violet). */
-.way-in[data-action="begin"] .row-mark { background: linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue),
-  var(--tone-green), var(--tone-violet)); opacity: .85; }
-.way-in:focus-visible { outline: none; }
-.way-in:focus-visible:not([aria-current="true"]) { color: var(--ivory); }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
   margin: 0; font: 400 11.5px var(--do); color: var(--dim); letter-spacing: .04em; }
 .title-page .build { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));

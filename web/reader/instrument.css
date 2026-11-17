@@ -50,29 +50,20 @@
   .ix-reticle.holding .rt-fill { animation-timing-function: steps(4, end); }
 }
 
-/* A held choice that is not an act's row (the title's ways in, creation's rows and cards: Hold.bind): the same small open
-   ring at its right (a card's in its corner), filling round while it is held, drained when let go early, with "Hold" said
-   beside it; nothing here promises a hold that a touch would do. */
-:is(.way-in, .composed-row, .composed-card)[data-hold] { position: relative; -webkit-user-select: none; user-select: none;
-  -webkit-touch-callout: none; }
-:is(.way-in, .composed-row, .composed-card)[data-hold]::after { content: ''; position: absolute; right: 16px; top: 50%;
-  width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; pointer-events: none;
+/* A held card (ancestry, calling: Hold.bind), not a row: the same small open ring in its corner, filling round while
+   it is held, drained when let go early. The ring is the cursor's (the owner, 16 November: the hollow ring was meant for
+   the cursor, never the row): on a card it shows only while a finger or the keys, which have no cursor, hold it. */
+.composed-card[data-hold] { position: relative; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.composed-card[data-hold]::after { content: ''; position: absolute; right: 10px; top: 14px; width: 12px; height: 12px;
+  border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity var(--quick);
   box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--row-tone, var(--ivory)) 55%, transparent);
   background: conic-gradient(var(--row-tone, var(--ivory)) var(--hold-p), transparent 0); }
-.composed-row[data-hold]:has(> .row-key)::after { right: 44px; }
-.composed-card[data-hold]::after { right: 10px; top: 14px; margin-top: 0; }
-:is(.way-in, .composed-row, .composed-card)[data-holding]::after { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
-:is(.way-in, .composed-row, .composed-card)[data-held]::after { --hold-p: 100%; }
-:is(.way-in, .composed-row, .composed-card)[data-let-go]::after { animation: ix-drain 240ms var(--ease) forwards; }
-:is(.way-in, .composed-row, .composed-card)[data-holding] { background: color-mix(in oklab, var(--row-tone, var(--ivory)) var(--tint-press), transparent); }
-.way-in[data-hint]::before, .composed-row[data-hint]::before { content: 'Hold'; position: absolute; right: 36px; top: 50%;
-  margin-top: -6px; font: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); }
-.composed-row[data-hint]:has(> .row-key)::before { right: 66px; }
-/* The ring is the cursor's (the owner, 16 November: the hollow ring was meant for the cursor, never the row): on a row
-   it shows only while a finger or the keys, which have no cursor, hold it; never at rest or lit. */
-:is(.way-in, .composed-row, .composed-card)[data-hold]::after { opacity: 0; transition: opacity var(--quick); }
-:is(.way-in, .composed-row, .composed-card)[data-hold]:is([data-holding], [data-held], [data-let-go])::after {
-  opacity: 1; }
+.composed-card[data-holding]::after { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
+.composed-card[data-held]::after { --hold-p: 100%; }
+.composed-card[data-let-go]::after { animation: ix-drain 240ms var(--ease) forwards; }
+.composed-card[data-holding] { background: color-mix(in oklab, var(--row-tone, var(--ivory)) var(--tint-press), transparent); }
+.composed-card[data-hold]:is([data-holding], [data-held], [data-let-go])::after { opacity: 1; }
+/* A row's (every menu's: ChoiceRow) the same, at its right. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-hold]::before { opacity: 0; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map)
   .choice-row.choice-row.choice-row[data-hold]:is([data-holding], [data-held], [data-let-go])

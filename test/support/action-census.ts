@@ -50,12 +50,25 @@ export class ActionCensus {
         + `(${Math.round(el.getBoundingClientRect().height)} px, not ${h})` }));
     }, { surface, shaped: ActionCensus.shaped });
   }
+  // Rows of the menu not drawn by the one row (ChoiceRow: its class, .choice-row): the same mark, words, aside and key,
+  // whatever the page (the owner, 16 November night: "always render the menu items in the same structured way").
+  static foreign(page: Page, surface: string): Promise<Pressable[]> {
+    return page.evaluate(({ surface, shaped }) => Array.from(document.querySelectorAll(
+      '[data-menu] :is(button, a[href], [data-act], [role="button"])')).filter(el => {
+      const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+      return r.height > 2 && cs.display !== 'none' && cs.visibility !== 'hidden' && !el.matches(shaped)
+        && !el.closest(shaped) && !el.closest('.choice-row') && !el.closest('[aria-hidden="true"]');
+    }).map(el => ({ surface, text: `${((el as HTMLElement).innerText || el.getAttribute('aria-label') || el.tagName)
+      .replace(/\s+/g, ' ').trim().slice(0, 40)} (${el.tagName.toLowerCase()}.${el.className.toString().split(' ')[0]}, `
+      + 'not the one row)' })), { surface, shaped: ActionCensus.shaped });
+  }
   // The opening as a player walks it: the title, each step of a life, setting out, the opening's pages, and the
   // first place, its lenses, someone talked to, the map and the Book: what is stray on each.
   static async walk(page: Page, site: string): Promise<Pressable[]> {
     const found: Pressable[] = [], d = new MonoDriver(page), at = async (s: string) => {
       await page.waitForTimeout(600);
-      found.push(...await ActionCensus.stray(page, s), ...await ActionCensus.uneven(page, s));
+      found.push(...await ActionCensus.stray(page, s), ...await ActionCensus.uneven(page, s),
+        ...await ActionCensus.foreign(page, s));
     };
     await page.goto(`file://${site}/mono.html`); await page.waitForSelector('[data-action="begin"]'); await at('title');
     await page.goto(`file://${site}/mono.html?world=kite&opening`); await page.waitForSelector('[data-mode="create"]');

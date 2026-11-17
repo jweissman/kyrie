@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, CSSProperties, MouseEvent, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, CSSProperties, MouseEvent, ReactNode, Ref } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import { Act, type Draw } from './act';
 
@@ -42,13 +42,29 @@ export class ChoiceRow {
   // act: the id of the act it does, where it does one (the action system's mark: data-act); none for what only opens
   // or turns attention (a fight's Abilities, a lens).
   // events: what the row tells its page as the hand comes to it (a fight says what a move does, in its own place).
-  static Button({ className, data, onClick, expanded, act, events, shut, ...parts }: RowParts & { className?: string;
-    data: Record<string, string | undefined>; onClick: (e: MouseEvent<HTMLButtonElement>) => void; expanded?: boolean;
-    act?: string; shut?: boolean; events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
-    const attrs = Object.fromEntries(Object.entries({ ...data, act }).filter(([, v]) => v !== undefined)
-      .map(([k, v]) => [`data-${k}`, v]));
-    return <button type="button" className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}${shut ? ' shut' : ''}`} {...attrs}
+  // own: the rest of what the row's page gives it (whether it is held to be done, considered, the one chosen before:
+  // Hold.bind's handlers, data-considered, aria-current), spread as given; onClick is then its own or none.
+  static Button({ className, data, onClick, expanded, act, events, shut, own, ref, ...parts }: RowParts & {
+    className?: string; data: Record<string, string | undefined>; onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+    expanded?: boolean; act?: string; shut?: boolean; own?: ButtonHTMLAttributes<HTMLButtonElement> & Record<string, unknown>;
+    ref?: Ref<HTMLButtonElement>;
+    events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
+    return <button ref={ref} type="button" className={ChoiceRow.classes(className, shut)} {...ChoiceRow.data(data, act)}
       {...shut ? { 'aria-disabled': true } : {}}
-      {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} onClick={shut ? ChoiceRow.nothing : onClick}><ChoiceRow.Parts {...parts} /></button>;
+      {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} {...own}
+      {...shut ? { onClick: ChoiceRow.nothing } : onClick ? { onClick } : {}}><ChoiceRow.Parts {...parts} /></button>;
+  }
+  // A row that is a way out of the game (the encyclopedia, in a new tab): a link drawn as the one row.
+  static Link({ className, data, href, own, ...parts }: RowParts & { className?: string;
+    data: Record<string, string | undefined>; href: string; own?: AnchorHTMLAttributes<HTMLAnchorElement> & Record<string, unknown> }) {
+    return <a className={ChoiceRow.classes(className)} href={href} {...ChoiceRow.data(data)} {...own}>
+      <ChoiceRow.Parts {...parts} /></a>;
+  }
+  private static classes(className?: string, shut?: boolean): string {
+    return `${ChoiceRow.cls}${className ? ` ${className}` : ''}${shut ? ' shut' : ''}`;
+  }
+  private static data(data: Record<string, string | undefined>, act?: string): Record<string, string> {
+    return Object.fromEntries(Object.entries({ ...data, act }).filter(([, v]) => v !== undefined)
+      .map(([k, v]) => [`data-${k}`, v!]));
   }
 }

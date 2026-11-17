@@ -12,32 +12,32 @@
    - shut: half light, and nothing it does.
    Nothing on the press path changes a box's size or place (IG-08). ---- */
 :root { --row-hover: 7%; --row-lit: 13%; --row-press: 26%; --row-out: 140ms; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row) {
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row {
   background-color: transparent; border-color: transparent; outline: none; background-image: none; animation: none;
   transition: background-color var(--row-out) var(--ease), color var(--row-out) var(--ease); }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row) > .row-mark {
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row > .row-mark {
   transform: scaleY(.62); opacity: .72; transition: transform var(--row-out) var(--ease), opacity var(--row-out) var(--ease); }
 /* Under the hand (once it has moved since the screen changed: IG-18). */
 :root:not([data-still]) :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  :is(.choice-row.choice-row, .composed-row.composed-row):hover:not(.shut, [disabled], [aria-disabled="true"]) {
+  .choice-row.choice-row:hover:not(.shut, [disabled], [aria-disabled="true"]) {
   background-color: color-mix(in oklab, var(--row-tone) var(--row-hover), transparent); transition: none; }
 /* Where the keys are, or what is considered. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  :is(.choice-row.choice-row, .composed-row.composed-row):is(.sel, :focus-visible, [data-considered]):not(.shut, [disabled], [aria-disabled="true"]) {
+  .choice-row.choice-row:is(.sel, :focus-visible, [data-considered]):not(.shut, [disabled], [aria-disabled="true"]) {
   background-color: color-mix(in oklab, var(--row-tone) var(--row-lit), transparent); color: #fff; transition: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  :is(.choice-row.choice-row, .composed-row.composed-row):is(.sel, :focus-visible, [data-considered], :active, [data-holding], [data-taken]) > .row-mark {
+  .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-holding], [data-taken]) > .row-mark {
   transform: none; opacity: 1; transition: none; background: color-mix(in oklab, var(--row-tone) 88%, white); }
 /* Pressed, held, taken: deeper, at once. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  :is(.choice-row.choice-row, .composed-row.composed-row):is(:active, [data-holding], [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {
+  .choice-row.choice-row:is(:active, [data-holding], [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {
   background-color: color-mix(in oklab, var(--row-tone) var(--row-press), transparent); color: #fff; transition: none; }
 :root .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken]) {
   opacity: .42; pointer-events: none; transition: opacity var(--row-out) var(--ease) 80ms; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  :is(.choice-row.choice-row, .composed-row.composed-row):is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5; cursor: default; }
+  .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5; cursor: default; }
 @media (prefers-reduced-motion: reduce) {
-  :root :is(.choice-row.choice-row, .composed-row.composed-row), :root :is(.choice-row.choice-row, .composed-row.composed-row) > .row-mark {
+  :root .choice-row.choice-row, :root .choice-row.choice-row > .row-mark {
     transition: none; }
 }
 
@@ -45,7 +45,7 @@
    (a row's mark, a pip, a way, the rail, the place's mark); set by data-condition from Indicator.condition. The hue is
    never changed by it. ---- */
 :root { --cond-afar: .45; --cond-idle: .45; --cond-idle-lit: .85; }
-[data-condition="afar"]:is(.pip, .pip-icon), :is(.choice-row, .composed-row)[data-condition="afar"] > .row-mark {
+[data-condition="afar"]:is(.pip, .pip-icon), .choice-row[data-condition="afar"] > .row-mark {
   opacity: var(--cond-afar); }
 :is(.wf-row, .rail-mark, .place-mark, .lens-tile)[data-condition="idle"] { opacity: var(--cond-idle); }
 :is(.wf-row, .rail-mark)[data-condition="idle"]:is(:hover, :focus-visible) { opacity: var(--cond-idle-lit); }
@@ -54,13 +54,13 @@
 /* A held row says it is being held by its ground filling from its mark across, in its tone, for as long as the hold
    lasts, with the cursor's ring: the press itself says whether the choice is a hold, and how far it has got (the owner,
    16 November: a press could not be told from a hold begun). Let go early, it drains. Nothing else marks a held row. */
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row)[data-hold], .way-in[data-hold] {
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold] {
   background-image: linear-gradient(90deg, color-mix(in oklab, var(--row-tone, var(--ivory)) 30%, transparent),
     color-mix(in oklab, var(--row-tone, var(--ivory)) 18%, transparent));
   background-repeat: no-repeat; background-size: var(--hold-p) 100%; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row)[data-hold][data-holding], .way-in[data-hold][data-holding] { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row)[data-hold][data-held], .way-in[data-hold][data-held] { --hold-p: 100%; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row)[data-hold][data-let-go], .way-in[data-hold][data-let-go] { animation: ix-drain 240ms var(--ease) forwards; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-held] { --hold-p: 100%; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-let-go] { animation: ix-drain 240ms var(--ease) forwards; }
 @media (prefers-reduced-motion: reduce) {
-  :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row)[data-hold][data-holding], .way-in[data-hold][data-holding] { animation-timing-function: steps(4, end); }
+  :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] { animation-timing-function: steps(4, end); }
 }

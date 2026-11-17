@@ -1,23 +1,8 @@
-/* ---- Creation's rows (see ComposedRow): one line, one height, its words and aside on it, the aside quieter and cut
-   short before it would wrap, its key at the right; its mark a short line at the left. Their states are the one row's
-   (row.css). ---- */
-/* One height with every menu's row (the owner, 16 November night: a menu's rows had been shorter on one page than another). */
-:root { --composed-h: var(--choice-h); }
-/* Reset first (a button's own look), then the row's layout: the reset after it had undone the grid, height and gap. */
-.composed-row { all: unset; box-sizing: border-box; position: relative; --row-tone: rgb(236, 230, 217);
-  font: var(--t-choice); color: var(--ivory); cursor: pointer; border-radius: var(--choice-radius);
-  -webkit-tap-highlight-color: transparent; }
-.composed-row {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: column; align-items: center;
-  column-gap: var(--s3); height: var(--composed-h); min-height: var(--composed-h); padding: 0 14px 0 22px; overflow: hidden;
-  border-color: transparent; text-wrap: nowrap; white-space: nowrap; }
-.composed-row > :is(.row-label, .row-aside) { grid-row: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-.composed-row > .row-label { grid-column: 1; }
-.composed-row > .row-aside { grid-column: 2; font: var(--t-aside); color: var(--dim); margin: 0; }
-.composed-row > .row-key { grid-column: 3; grid-row: 1; }
-.composed-row > .row-mark { position: absolute; left: 9px; top: 12px; bottom: 12px; width: 3px; border-radius: 3px;
-  background: var(--prism, var(--row-neutral)); }
-.composed-row:focus { outline: none; }
+/* ---- Creation's rows are the one row (ChoiceRow: menu.css and row.css), of every menu's one height; creation gives
+   them nothing of its own but the field a name is written in. ---- */
+.composed-write { cursor: text; }
+.composed-write > input { all: unset; flex: 1 1 auto; min-width: 0; font: var(--t-choice); color: var(--ivory); }
+.composed-write > input::placeholder { color: var(--dim); }
 
 /* ---- Creation composed (see ComposedCreation): a column of rows at the left of the frame, under the question, its
    sentence beneath; ancestry and calling as cards in a row; the sky behind the signs. ---- */
@@ -31,14 +16,6 @@
 .composed .with-cards .ask { text-align: center; }
 .composed .composed-rows { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; overscroll-behavior: contain;
   margin: 0 -4px; padding: 0 4px; }
-.composed-row:disabled { opacity: .5; cursor: default; }
-.composed-row > .row-key { font: var(--t-key); color: var(--dim); opacity: .7; }
-@media (hover: none) { .composed-row > .row-key { display: none; } }
-/* The one already chosen (come back to): its mark lit in the entry's gold, the rest as they were. */
-.composed-row.chosen > .row-mark { background: var(--accent, #d9b46a); opacity: 1; transform: none; }
-.composed-write { cursor: text; }
-.composed-write > input { all: unset; grid-column: 1 / -1; font: var(--t-choice); color: var(--ivory); width: 100%; }
-.composed-write > input::placeholder { color: var(--dim); }
 .composed .consider { min-height: 3em; margin: 0; font: italic 400 17px/1.5 var(--told); color: var(--ivory); opacity: .88; }
 .composed .with-cards .consider { text-align: center; max-width: 40em; }
 .composed .life { margin: 0; font: italic 400 18px/1.5 var(--told); color: var(--ivory); }
@@ -103,7 +80,6 @@
   .obs-mid > g, .obs-far circle, .obs-meteor { animation: none !important; } .obs-sign line, .obs-sign .obs-star { transition: none; }
   .obs-sign.flare line { animation: none; }
 }
-.composed-row > .row-key { border: 0; background: none; padding: 0; min-width: 0; }
 .composed .composed-card[data-chosen]::after { content: ''; display: block; position: absolute; left: 50%; bottom: 10px;
   width: 22px; height: 3px; margin-left: -11px; border-radius: 3px; background: var(--accent, #d9b46a); }
 /* One page template with the resting scene (the owner, 15 November: some pages reflowed and juddered as the choice changed,
@@ -118,10 +94,10 @@
   width: auto; max-width: 520px; max-height: none; align-items: stretch; gap: 14px; }
 .composed .consider { order: -1; height: 5.4em; min-height: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4;
   -webkit-box-orient: vertical; text-align: left; max-width: none; }
-.composed .composed-rows { min-height: calc(var(--composed-h) * 5 + 16px); overflow: visible; margin: 0; padding: 0; }
+.composed .composed-rows { min-height: calc(var(--choice-h) * 5 + 16px); overflow: visible; margin: 0; padding: 0; }
 .composed .composed-rows.many { min-height: 0; }
 .composed .composed-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: none; justify-content: stretch;
-  min-height: calc(148px * 2 + 12px + var(--composed-h) + 12px); align-content: start; }
+  min-height: calc(148px * 2 + 12px + var(--choice-h) + 12px); align-content: start; }
 .composed .composed-cards > .composed-row { grid-column: 1 / -1; }
 .composed .composed-card, .composed-cards:has(.composed-card:nth-child(7)) .composed-card { width: auto; height: 148px;
   aspect-ratio: auto; min-height: 0; padding: 12px 10px; gap: 6px; }

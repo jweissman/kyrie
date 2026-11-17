@@ -5,6 +5,7 @@ import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
 import { Hold } from './instrument/hold';
+import { ChoiceRow } from './stage/choice-row';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -23,14 +24,16 @@ type Way = 'continue' | 'begin' | 'encyclopedia' | 'options';
 // from Options, and the ways in for testing appear only when the address asks (?dev). The names shown are the game's
 // and the studio's (src/presentation/identity.ts).
 export class TitlePage {
+  // New game's mark: every opportunity is behind it, the five tones of the atlas in one line.
+  static readonly every = 'linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue), var(--tone-green), '
+    + 'var(--tone-violet))';
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), beat = TitlePage.useBeat(query.has('ident') || query.has('studio'));
     const first: Way = saved ? 'continue' : 'begin', [active, activate] = useState<Way>(first);
     // The way the hand or the keys are on, marked at once by the reticule, the one sign of focus; the sky is still.
-    const item = (way: Way) => ({ onMouseEnter: () => activate(way), onFocus: () => activate(way),
-      'aria-current': active === way || undefined, 'data-way': way });
-    const mark = <i className="row-mark" aria-hidden="true" />;
+    const item = (way: Way) => ({ 'data-nav': true, onMouseEnter: () => activate(way), onFocus: () => activate(way),
+      'data-considered': active === way || undefined, 'aria-current': active === way || undefined, 'data-way': way });
     // The keys are on the first way in as soon as it is offered, not one Tab away: New game is lit as the current way,
     // so Enter held on it begins (M22: a held Enter on the lit row had done nothing).
     useEffect(() => { if (beat === 'reveal' || beat === 'ready') { TitlePage.focus(first); } }, [beat, first]);
@@ -44,17 +47,18 @@ export class TitlePage {
           <p className="lede">Vol I: A History of Emprise</p>
           <nav data-menu className="title-menu" aria-label="Ways in">
             <ul>
-              {saved && <li><button type="button" className="way-in" data-nav data-action="continue"
-                {...Hold.bind(app.opening.carryOn)} {...item('continue')}>{mark}<span className="n">Continue</span></button></li>}
-              <li><button type="button" className="way-in" data-nav data-action="begin"
-                {...Hold.bind(app.opening.anew)} {...item('begin')}>{mark}<span className="n">New game</span></button></li>
+              {saved && <li><ChoiceRow.Button className="way-in" data={{ action: 'continue' }} label="Continue"
+                mark={ChoiceRow.neutral} own={{ ...Hold.bind(app.opening.carryOn), ...item('continue') }} /></li>}
+              <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
+                mark={TitlePage.every} own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
               {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
                   hover, not written out beside it: the owner, 15 November). */}
-              <li><a className="way-in" data-nav data-action="encyclopedia" href="encyclopedia/index.html" target="_blank"
-                rel="noopener" title="Opens in a new tab" aria-label="The encyclopedia, opens in a new tab"
-                {...item('encyclopedia')}>{mark}<span className="n" aria-hidden="true">The encyclopedia</span></a></li>
-              <li><button type="button" className="way-in" data-nav data-action="options" {...item('options')}
-                onClick={TitlePage.options.bind(null, app)}>{mark}<span className="n">Options</span></button></li>
+              <li><ChoiceRow.Link className="way-in" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
+                label={<span aria-hidden="true">The encyclopedia</span>} mark={ChoiceRow.neutral}
+                own={{ target: '_blank', rel: 'noopener', title: 'Opens in a new tab',
+                  'aria-label': 'The encyclopedia, opens in a new tab', ...item('encyclopedia') }} /></li>
+              <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" mark={ChoiceRow.neutral}
+                own={item('options')} onClick={TitlePage.options.bind(null, app)} /></li>
             </ul>
             {/* The saved game, said apart: beneath the ways in and out of their geometry (the owner, 15 November: no
                 variable-length text inside the action rows). */}

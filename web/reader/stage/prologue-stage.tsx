@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { ChoiceRow } from './choice-row';
 import { Hold } from '../instrument/hold';
@@ -109,9 +109,8 @@ export class PrologueStage {
   static Continue({ action, then }: { action: string; then: () => void }) {
     const ref = useRef<HTMLButtonElement>(null);
     useEffect(() => { ref.current?.focus({ preventScroll: true }); }, []);
-    return <button ref={ref} type="button" className="choice-row go-on" data-action={action} data-nav {...Hold.bind(then)}>
-      <i className="prism-bar row-mark neutral" aria-hidden="true" style={{ '--prism': 'var(--row-neutral)' } as CSSProperties} />
-      <span className="n row-label">Continue</span></button>;
+    return <ChoiceRow.Button ref={ref} className="go-on" data={{ action }} own={{ 'data-nav': true, ...Hold.bind(then) }}
+      mark={ChoiceRow.neutral} label="Continue" />;
   }
   // An answer to the meeting, done as any choice is (and timed so); its page waits on what came of it.
   static answer(app: ReaderApp, choice: Meeting['choices'][number]) {

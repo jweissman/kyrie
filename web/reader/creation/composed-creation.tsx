@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
 import type { CreationStep } from '../../engine/creation-flow';
 import { Typography } from '../../../src/presentation/typography';
 import { PressGuard } from '../press-guard';
 import { ComposedRow } from './composed-row';
+import { ChoiceRow } from '../stage/choice-row';
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { NameStep } from './name-step';
@@ -119,7 +120,8 @@ export class ComposedCreation {
     return <>
       <ComposedRow.View option={{ id: 'roll', name: 'Roll again', aside: 'other names of your people' }}
         onConsider={() => undefined} onChoose={reroll} />
-      <label className="composed-row composed-write"><i className="row-mark" aria-hidden="true" />
+      <label className="choice-row composed-row composed-write"><i className="prism-bar row-mark" aria-hidden="true"
+        style={{ '--prism': ChoiceRow.neutral } as CSSProperties} />
         <input data-field="name" data-nav placeholder="Or write your own" maxLength={40} autoComplete="off" spellCheck={false}
           onKeyDown={e => { if (e.key === 'Enter' && e.currentTarget.value.trim()) { e.preventDefault(); onward(); } }}
           onChange={e => app.opening.edit(0, 'name', e.currentTarget.value)} /></label>
