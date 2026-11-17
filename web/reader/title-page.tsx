@@ -82,7 +82,7 @@ export class TitlePage {
       <h1 className="mark" aria-label={Identity.spoken(name)}
         style={{ '--letters': letters.length } as CSSProperties}>
         {letters.map((c, i) => <span key={i} className={c === ' ' ? 'gap' : undefined}
-          style={{ animationDelay: `${TitlePage.lit + Math.round(Math.abs(i - mid) * 130)}ms` }}>
+          style={{ animationDelay: `${TitlePage.lit + Math.round(Math.abs(i - mid) * TitlePage.spread)}ms` }}>
           {c === ' ' ? '\u00a0' : c}</span>)}
       </h1>
     );
@@ -102,6 +102,9 @@ export class TitlePage {
   static readonly motes = 34;
   // When the name's middle letter begins to be lit, after the black; and how long the whole title takes to come up.
   static readonly lit = 120;
+  // Between one letter's light and the next out from the middle: close enough that the name comes up as a word, never
+  // one blurred letter alone in the dark (M22's second review, OR-44: "a loose R"; it had been 130 ms).
+  static readonly spread = 70;
   static readonly reveal = 3200;
   // Where the opening has got to: the ident once a session (and when the address asks, ?ident or ?studio=), then
   // black, then the title coming up; skipped by any key or touch, and never shown to one who asks for less motion or
