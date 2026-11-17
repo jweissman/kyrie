@@ -5917,6 +5917,16 @@ You are blurred for 3 turns. Blurred: 1 harder to hit, +10 evasion, +2 against m
 
 > You are out of focus, making it harder for enemies to hit you.
 
+##### Burning Hands
+
+*Adapted · level 1 arcane spell, evocation* · `ability:burning_hands`
+
+1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
+
+> A fan of flame leaps from your fingertips, 1d4 for every level you have, to five, on everyone between you and where you aim it, friend or foe; whoever throws themselves clear takes half.
+
+*Adapted: The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; setting things alight. Before, Orsino's second level and 2d6 on every foe, no save.*
+
 ##### Charm Person
 
 *Faithful · level 1 arcane spell, enchantment* · `ability:charm`
@@ -6040,14 +6050,6 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to
 You are augured for 3 turns; you gain sage's insight for 3 turns. Augured: +5 initiative, +2 to every roll, +2 to every save. Sage's Insight: +2 to every roll, +3 to every save, Intelligence +4, spells 2 harder to resist. An arcane spell of the second level. Takes a second-level slot.
 
 > Receive a cryptic omen that grants you augmented perception and insight.
-
-##### Burning Hands
-
-*Faithful · level 2 arcane spell, evocation* · `ability:burning_hands`
-
-2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
-
-> Unleash a cone of fire, dealing 1d6 damage to all enemies in the area.
 
 ##### Chill Blood
 
@@ -6209,6 +6211,16 @@ One enemy is weakened for 3 turns (a Constitution save against 18 + level + the 
 
 *Not playable — effects: No effect Kyr can execute.*
 
+##### Fireball
+
+*Adapted · level 3 arcane spell, evocation* · `ability:fireball`
+
+1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the third level. Takes a third-level slot.
+
+> A bead of fire flies to where you aim it and bursts, 1d6 for every level you have, to ten, on everyone in the place it bursts in, friend or foe; whoever throws themselves clear takes half.
+
+*Adapted: The SRD's Fireball (doc/architecture/mission-22/srd-proving-cases.md, case 12): third level, 1d6 fire a casting level to 10d6 at the tenth (by #castingLevel), a burst (the rules' areas: everyone in the place it bursts in), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; the bead's range and setting things alight. Before, Orsino's fourth level and 6d6, a magic save against 15.*
+
 ##### Fly
 
 *Faithful · level 3 arcane spell, transmutation* · `ability:flight`
@@ -6224,6 +6236,16 @@ One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arca
 2d12 (2–24) cold damage to one enemy (halved if resisted; may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the third level. Takes a third-level slot.
 
 > A bolt of freezing ice shoots from your fingertips.
+
+##### Lightning Bolt
+
+*Adapted · level 3 arcane spell, evocation* · `ability:lightning_bolt`
+
+1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the third level. Takes a third-level slot.
+
+> A stroke of lightning runs from your hand in a line, 1d6 for every level you have, to ten, through the one you aim it at and the first in its way before and beyond, friend or foe; whoever throws themselves clear takes half.
+
+*Adapted: The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Its level the SRD's third since case 12 (Orsino's had been the fourth). Omitted: spell resistance; the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not.*
 
 ##### Major Ward
 
@@ -6339,14 +6361,6 @@ You gain false life for 3 turns. False Life: 10d6 + 2 × level more hit points (
 
 > Grant yourself temporary hit points.
 
-##### Fireball
-
-*Faithful · level 4 arcane spell, evocation* · `ability:fireball`
-
-6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
-
-> Hurl a destructive ball of energy that explodes in a fiery blast.
-
 ##### Foretelling
 
 *Not playable · level 4 arcane spell, divination* · `ability:foretelling`
@@ -6356,16 +6370,6 @@ You gain false life for 3 turns. False Life: 10d6 + 2 × level more hit points (
 *Not playable — status:major_focus: Applies major_focus, which Kyr cannot execute.*
 
 *Not playable — status:major_insight: Applies major_insight, which Kyr cannot execute.*
-
-##### Lightning Bolt
-
-*Adapted · level 4 arcane spell, evocation* · `ability:lightning_bolt`
-
-1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the fourth level. Takes a fourth-level slot.
-
-> A stroke of lightning runs from your hand in a line, 1d6 for every level you have, to ten, through the one you aim it at and the first in its way before and beyond, friend or foe; whoever throws themselves clear takes half.
-
-*Adapted: The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Kept: Orsino's fourth level, until the spell levels' census (moving it to the SRD's third moves every mage's draws at creation). Omitted: spell resistance; the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not.*
 
 ##### Major Image
 

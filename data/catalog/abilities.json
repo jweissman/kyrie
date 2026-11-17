@@ -302,13 +302,73 @@
         }
       ],
       "cost": 1,
-      "spell": { "tradition": "arcane", "level": 4, "school": "evocation" },
+      "spell": { "tradition": "arcane", "level": 3, "school": "evocation" },
       "source": {
         "orsino": "arcaneSpell:lightning_bolt",
         "srd35": "spell:lightning-bolt",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Kept: Orsino's fourth level, until the spell levels' census (moving it to the SRD's third moves every mage's draws at creation). Omitted: spell resistance; the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not."
+        "notes": "The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Its level the SRD's third since case 12 (Orsino's had been the fourth). Omitted: spell resistance; the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not."
+      }
+    },
+    "burning_hands": {
+      "name": "Burning Hands",
+      "kind": "spell",
+      "description": "A fan of flame leaps from your fingertips, 1d4 for every level you have, to five, on everyone between you and where you aim it, friend or foe; whoever throws themselves clear takes half.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "roll(cappedLevel(5), 4)" },
+          "damageType": "fire",
+          "target": "enemies",
+          "save": {
+            "kind": "reflex",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 1, "school": "evocation" },
+      "source": {
+        "orsino": "arcaneSpell:burning_hands",
+        "srd35": "spell:burning-hands",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; setting things alight. Before, Orsino's second level and 2d6 on every foe, no save."
+      }
+    },
+    "fireball": {
+      "name": "Fireball",
+      "kind": "spell",
+      "description": "A bead of fire flies to where you aim it and bursts, 1d6 for every level you have, to ten, on everyone in the place it bursts in, friend or foe; whoever throws themselves clear takes half.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "roll(cappedLevel(10), 6)" },
+          "damageType": "fire",
+          "target": "enemies",
+          "save": {
+            "kind": "reflex",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "13 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 3, "school": "evocation" },
+      "source": {
+        "orsino": "arcaneSpell:fireball",
+        "srd35": "spell:fireball",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Fireball (doc/architecture/mission-22/srd-proving-cases.md, case 12): third level, 1d6 fire a casting level to 10d6 at the tenth (by #castingLevel), a burst (the rules' areas: everyone in the place it bursts in), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; the bead's range and setting things alight. Before, Orsino's fourth level and 6d6, a magic save against 15."
       }
     },
     "conjure_light": {

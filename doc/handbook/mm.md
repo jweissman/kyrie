@@ -449,9 +449,9 @@ Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
 Poison Bite: 1d4 (1–4) poison damage to one enemy (may leave whoever it hurts poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
-Fireball: 6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
+Fireball: 1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the third level. Takes a third-level slot.
 
-Lightning Bolt: 1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the fourth level. Takes a fourth-level slot.
+Lightning Bolt: 1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the third level. Takes a third-level slot.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -2274,7 +2274,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
 Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
 
@@ -2305,7 +2305,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -2334,9 +2334,9 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
-Fireball: 6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
+Fireball: 1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the third level. Takes a third-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -2365,7 +2365,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
 Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it. Again after 3 turns.
 

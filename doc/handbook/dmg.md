@@ -1074,6 +1074,10 @@ Someone who means the company no good where it is: a long wait or a rest is brok
 - Takes: 10 minutes
 - Costs: 1
 
+Waiting mends no one, and says so: only rest does (FH-14: a wait had healed nothing and said nothing of it).
+
+A few minutes. Waiting mends no wound; rest does.
+
 > Needs: able(actor)
 
 > Then: nothing changes
@@ -1101,6 +1105,8 @@ You cannot move. Time passes over you until you can.
 - Shown as: Wait an hour
 - Takes: 60 minutes
 - Costs: 1
+
+An hour, ready for whatever comes. Waiting mends no wound; rest does.
 
 > Needs: able(actor)
 
@@ -1162,7 +1168,7 @@ A company sitting out the hours (until first light, until dark) puts its lights 
 - Takes: the untilTurn of the way
 - Costs: 1
 
-Until someone comes or goes, or something changes here; or until the day turns.
+Until someone comes or goes, or something changes here; or until the day turns. It mends no wound.
 
 > Needs: able(actor)
 
