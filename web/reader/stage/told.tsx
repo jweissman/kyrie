@@ -239,11 +239,22 @@ export class Told {
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {(notes.length > 0 || taken.length > 0) && <ul className="notes">
           {taken.length > 0 && <Told.Aims app={app} aims={taken} />}
-          {notes.map(n => <li key={n} className={Words.noted.test(n) ? 'learned' : undefined}>{Words.noted.test(n)
-            ? <><span className="label">{Words.label(n)}</span>{` ${Typography.curl(n.replace(Words.noted, ''))}`}</>
-            : Typography.curl(n)}</li>)}</ul>}
+          {Told.grouped(notes).map(([label, lines]) => label
+            ? <li key={lines[0]} className="learned"><span className="label">{label}</span>
+              {lines.map((l, i) => <span key={l} className="learned-line">{i ? '' : ' '}{Typography.curl(l)}</span>)}</li>
+            : <li key={lines[0]} className="more-in-book">{Typography.curl(lines[0]!)}</li>)}</ul>}
       </section>
     );
+  }
+  // Notes said under one label each, those of a kind together, a line each (M22's review, OR-32: "Noted", "You know
+  // now", "You know now", "And 5 things more" had read as a bookkeeping stack); what the Book holds besides, quietly.
+  static grouped(notes: string[]): [string | undefined, string[]][] {
+    const out: [string | undefined, string[]][] = [];
+    for (const n of notes) {
+      const label = Words.noted.test(n) ? Words.label(n) : undefined, text = n.replace(Words.noted, ''), last = out.at(-1);
+      if (label && last?.[0] === label) { last[1].push(text); } else { out.push([label, [text]]); }
+    }
+    return out;
   }
   // What came to be known, few enough to read before the choices: every new aim, first, then two things learned, and
   // how many more the Book holds (an arrival had stacked five notes over the choices, pushing them off the screen).
