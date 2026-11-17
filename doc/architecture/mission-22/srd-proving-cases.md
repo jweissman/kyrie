@@ -330,10 +330,11 @@ the long descents and the browser specs were run on the branch `srd-draw` (CI 44
 - **`test/bound-howe-week-people`:** the pay-chest case has the crew suffer the company while it talks to the boy. The
   territorial hands had come at a company that lingered, and the case had passed only because that company won the
   fight its draw gave it. The fight is test/bound-howe's case.
-- **The browser specs:** shard 1 failed on `skeel-browser` (the black dog not on the Strand after the waits), and shard
-  2 ran out of time. The same walk played headless (`Wait › A while` six times, three seeds) meets the dog with the
-  old draw and the new, and the nightly browser lane on main was already red (44045328485: thirty specs failing). Not
-  re-recorded: unverified, said so.
+- **`test/skeel-browser`:** the walk waits at the Slip until the page offers a walk over the sands (low water, when
+  the dog quarters them), at most twelve times, instead of six fixed waits. Arriving on the open Strand the page now
+  led with the map: the walk comes back to the place (`back-to-place`) before reading it, and the dog is there. Run in
+  the browser locally, alone: pass. Played headless, the same walk had met the dog with both draws.
+- **The balance shift** in the Bound Howe's camp is its own row: CB-27.
 
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
