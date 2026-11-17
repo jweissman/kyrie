@@ -74,6 +74,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     expect(await page.textContent('.composed .ask')).toBe('Halloran');
     // Back, and one of the list taken instead.
     await page.keyboard.press('Escape'); await Naming.to(page, 'name');
+    await page.waitForFunction(() => document.querySelectorAll('.composed-list [data-option]').length >= 2);
     const chosen = (await Naming.names(page))[1]!;
     await MonoDriver.hold(page, `.composed-list [data-option="${chosen}"]`);
     await Naming.to(page, 'go');

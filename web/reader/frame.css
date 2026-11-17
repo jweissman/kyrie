@@ -43,7 +43,6 @@ html, body { overflow: hidden; }
 .frame > * { animation: arrive var(--settle) var(--ease) both; }
 @keyframes arrive { from { opacity: 0; } }
 
-
 /* ---- The title: the whole screen, dark; the painting comes up behind the name; the ways in, centred. ---- */
 .title-page { position: relative; height: 100dvh; display: grid; place-items: center; padding: 0 20px; max-width: none;
   min-height: 0; }
@@ -181,22 +180,7 @@ html, body { overflow: hidden; }
    the character pages need no full painterly ground; their explanations had stood in grey over the raw image). */
 .shell.creating .ambient { filter: var(--plate-creating); }
 .creation { position: relative; height: var(--frame-h); }
-.creation-body { height: 100%; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column;
-  align-items: center; padding: 0 var(--safe-r) 0 var(--safe-l); }
-/* Centred in the frame both ways while it fits (the owner: the cards stood high, centred only across), and scrolled
-   from its top when it does not; clear of the quiet words above it. */
-.creation-inner { width: min(100%, 1280px); display: flex; flex-direction: column; align-items: center;
-  margin-block: auto; padding: calc(var(--safe-t) + 40px) 0 var(--safe-b); }
-/* Each page comes up into the light as the last goes (CreationPage keys it by its step), its question first, then its
-   cards one after another; the chosen card's emblem draws itself in gold. Still for one who asks for less motion. */
-.creation-inner { animation: rise .5s var(--ease) both; }
-.creation .cards .card { animation: rise .5s var(--ease) both; }
-.creation .cards .card:nth-child(2) { animation-delay: 40ms; } .creation .cards .card:nth-child(3) { animation-delay: 80ms; }
-.creation .cards .card:nth-child(4) { animation-delay: 120ms; } .creation .cards .card:nth-child(5) { animation-delay: 160ms; }
-.creation .cards .card:nth-child(6) { animation-delay: 200ms; } .creation .cards .card:nth-child(7) { animation-delay: 240ms; }
-.creation .cards .card:nth-child(n+8) { animation-delay: 280ms; }
-@media (prefers-reduced-motion: reduce) { .creation-inner, .creation .cards .card, .creation .card.chosen .glyph path {
-  animation: none !important; } }
+
 /* Inside the safe zone, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
    stood 14px from the top; and 12 November: the zone is the outer tenth). */
 .creation-edge { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between;
@@ -230,206 +214,31 @@ html, body { overflow: hidden; }
 }
 .creation .how { text-align: center; font: 400 14.5px/1.5 var(--do); color: var(--dim); max-width: 46em; margin: 0 auto 14px; }
 
-/* The deck: the cards together and centred, wrapping into rows, every one in sight; the fewer, the larger. Each card
-   its emblem, name and line at the same heights as its neighbours' (the deck gives every name and line the room of its
-   tallest), the emblem large; the others quieter by their ground and edge, their words still easily read. */
-.deck { --card: var(--card-wide); width: 100%; display: flex; flex-direction: column; align-items: center; }
-.creation .cards { --gap: 16px; width: 100%; max-width: calc(var(--row) * var(--card) + (var(--row) - 1) * var(--gap));
-  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--gap); padding: 10px 0 2px; }
-@media (max-width: 1279px) { .deck { --card: var(--card-narrow); } .creation .cards, .creation .first-spells { --row: var(--row-narrow); } }
-/* Many to choose among (seven or more: the schools, the callings) on a landscape screen under 1280 wide: one row of
-   smaller cards, less tall, not two rows of tall ones under which the page ran on past the screen (the owner, 11
-   November: school selection on an iPad scrolled within itself; a choosing page should fit). */
-@media (max-width: 1279px) and (min-width: 900px) and (orientation: landscape) {
-  .deck-many { --card: calc((min(100vw - var(--safe-l) - var(--safe-r), 1180px) - 7 * 12px) / 8); }
-  .creation .deck-many .cards { --row: inherit; --gap: 12px; }
-  /* At least five to six, and as tall as its words: inside the safe zone the cards are narrower, and a name of three
-     lines had pushed its line out of the card (12 November). */
-  .creation .deck-many .card { aspect-ratio: auto; min-height: calc(var(--card) * 6 / 5); padding: 8px 6px; }
-  .deck-many .card-name { letter-spacing: .07em; padding-left: .07em; }
-}
-/* On a wide screen of no great height: the many in square cards, so that two rows of them, what the chosen one gives
-   and Continue all fit (at 1280 by 800 the twelve domains' Continue had covered the "Later:" spells and Details, and
-   "Choose first spells" was cut off at the foot: rounds 10 and 11, R and T). */
-@media (min-width: 1280px) and (max-height: 880px) {
-  .creation .deck-many .card { aspect-ratio: 1; padding: 8px 6px; }
-}
-/* On a tablet held upright: the many in rows of square cards, not tall ones (fourteen backgrounds had run past the foot
-   of an iPad's screen). */
-@media (min-width: 600px) and (orientation: portrait) {
-  .creation .deck-many .card { aspect-ratio: 1; padding: 8px 6px; }
-}
-/* On a phone: four to a row, square, by name and emblem; what the chosen one is, said beneath them (its sentence). */
-@media (max-width: 599px) {
-  .deck-many { --card: calc((100vw - 32px - 3 * 8px) / 4); }
-  .creation .deck-many .cards { --row: 4; --gap: 8px; }
-  .creation .deck-many .card { width: var(--card); aspect-ratio: 1; padding: 6px 3px; }
-  .creation .deck-many .card .card-line { display: none; }
-  .deck-many .card-name { font-size: 9.5px; letter-spacing: .04em; padding-left: .04em; }
-}
-.creation .card { width: min(var(--card, 150px), calc((100% - 20px) / 3)); aspect-ratio: 3 / 4; min-height: 0;
-  container-type: inline-size; gap: 0; padding: 10px 9px; border-radius: 3px;
-  background: var(--card-ground);
-  transition: border-color var(--quick), box-shadow var(--settle) var(--ease), transform var(--settle) var(--ease),
-    background var(--settle) var(--ease), opacity var(--settle) var(--ease); }
-.creation .card .glyph { width: 50cqi; height: 50cqi; margin: 0 0 8cqi; stroke-width: 1.5px; }
-.creation .card-name { display: flex; flex-direction: column; justify-content: flex-end; min-height: var(--name-h, auto);
-  text-wrap: balance; }
-.creation .card-line { display: block; min-height: var(--line-h, auto); margin-top: 6px; }
-/* The card the pointer or the keys are on is lit in the row's tint at once, and moves nowhere; pressed, deeper; the
-   chosen card alone is edged. Two states, two kinds of mark, never two outlines (IG-02, IG-15). */
-.creation .card { position: relative; }
-.creation .card::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0; display: none;
-  border-radius: inherit; background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
 .creation .card:is(:hover, :focus-visible) { outline: none; }
 .creation .card:is(:hover, :focus-visible, :active)::before { display: block; }
-.creation .card:active::before { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
-.creation .card > * { position: relative; z-index: 2; }
+
 /* Chosen is the strong edge on an unchanged ground, its words and emblem at full strength; the others recede in their
    words and emblems, never in the ground, and come back under the hand. Lit by the hand is a wash beneath the words and a
    hair of edge, never a lighter card (the owner, 15 November: the card chosen had been the paler one, hard to read, and
    selection felt inverted). */
 .creation .cards:has(.chosen) .card:not(.chosen) :is(.card-name, .card-line, .glyph) { opacity: .6; transition: opacity var(--quick); }
 .creation .cards:has(.chosen) .card:not(.chosen):is(:hover, :focus-visible) :is(.card-name, .card-line, .glyph) { opacity: 1; }
-.creation .card.chosen { border-color: var(--accent); background: linear-gradient(180deg, var(--lift), var(--raised));
-  box-shadow: 0 0 0 1.5px var(--accent), 0 16px 36px rgba(0, 0, 0, .5); }
-.creation .card.chosen .card-name { color: var(--ivory); }
-.creation .card.chosen .card-line { color: var(--ivory); opacity: .85; }
-.creation .card.chosen::after { display: none; }
-.creation .card[disabled], .creation .cards:has(.chosen) .card[disabled] { opacity: .45; transform: none; }
+
 .card .glyph { width: 48px; height: 48px; flex: none; fill: none; stroke: var(--ivory); stroke-width: 1.6;
   stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--quick); }
 .card.chosen .glyph { stroke: var(--ivory); }
-.card-name { font: 500 13px/1.3 var(--do); letter-spacing: .18em; text-transform: uppercase; padding-left: .18em; }
-.deck-specialties .card-name { font-size: 12.5px; letter-spacing: .12em; padding-left: .12em; }
-.card-line { font: italic 400 14px/1.35 var(--told); color: var(--dim); text-wrap: balance; }
-.card.chosen .card-line { color: var(--ivory); }
-.creation .card-line.card-shut { color: var(--dim); }
-.chosen-lead { min-height: 3em; max-width: 40rem; margin: clamp(16px, 2.6vh, 26px) auto 0; text-align: center;
-  font: var(--type-lead); color: var(--ivory); text-wrap: pretty; }
-.deck-specialties .chosen-lead { min-height: 1.5em; }
-/* The way on, kept in sight at the foot of a page longer than the screen. */
-.creation-go { position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
-  gap: 28px; width: 100%; margin: clamp(10px, 2vh, 20px) 0 0; padding: 10px 0 max(24px, env(safe-area-inset-bottom)); }
-/* No fade beneath it: driven by a scroll timeline that did not follow the page's own scroller, it stayed dark at the
-   page's end (the owner, 11 November: a black gradient at the foot of school selection), and a page that fits needs
-   none. */
-/* Continue is the grammar's row, as the title's New game is (IG-04): its mark at the left, its words, the gold mark when
-   the hand or the keys are on it; not a filled web button. */
-.creation-go .option.go { position: relative; min-width: 12rem; min-height: 48px; padding: 0 28px 0 34px;
-  background: rgba(236, 230, 217, .05); color: var(--ivory); border: 1px solid rgba(236, 230, 217, .16);
-  border-radius: 10px; font: 500 14px/1 var(--do); letter-spacing: .2em; text-transform: uppercase; box-shadow: none; }
-.creation-go .option.go::before { content: ''; position: absolute; left: 14px; top: 12px; bottom: 12px; width: 3px;
-  border-radius: 2px; background: rgba(236, 230, 217, .3); }
+
 .creation-go .option.go:is(:hover, :focus-visible) { outline: none;
   background: color-mix(in oklab, var(--row-tone) var(--tint-hover), transparent);
   border-color: color-mix(in oklab, var(--row-tone) var(--edge-hover), transparent); }
-.creation-go .option.go:active { background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent); }
-.spells-choose { display: flex; justify-content: center; margin: 14px 0 0; }
 
-/* A school's or a domain's spells: those cast from the first, under when (at will, first level), a row each with its
-   emblem, its name and what it does in a line, the names and lines in columns across both; the rest by name in a line
-   beneath. As wide as the cards above, or nearly. */
-.first-spells { width: min(100%, 42rem, max(36rem, calc(var(--row) * var(--card) + (var(--row) - 1) * 16px)));
-  margin: clamp(4px, 1.2vh, 12px) auto 0; display: grid; column-gap: 12px;
-  grid-template-columns: 6.5rem 24px max-content minmax(0, 1fr); }
-.spell-group, .spell-group ul, .first-spell { display: grid; grid-template-columns: subgrid; }
-.spell-group { grid-column: 1 / -1; padding: 3px 0; }
-.spell-group + .spell-group { border-top: 1px solid var(--edge); }
-.spell-when { grid-column: 1; margin: 0 6px 0 0; padding-top: 9px; font: 500 10.5px/1.2 var(--do); letter-spacing: .18em;
-  text-transform: uppercase; color: var(--dim); text-align: right; }
-.spell-group ul { grid-column: 2 / -1; list-style: none; margin: 0; padding: 0; }
-.first-spell { grid-column: 1 / -1; align-items: center; min-height: 30px; }
-.spell-glyph { width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 1.5px; stroke-linecap: round;
-  stroke-linejoin: round; }
-.spell-glyph text { fill: var(--accent); stroke: none; font: 300 20px var(--do); }
-.spell-name, .spell-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.spell-name { font: 500 13.5px/1.3 var(--do); letter-spacing: .04em; color: var(--ivory); padding-right: 4px; }
-.spell-text { font: italic 400 15px/1.35 var(--told); color: var(--dim); }
-.spell-later { grid-column: 1 / -1; margin: 6px 0 0; text-align: center; font: italic 400 14.5px/1.45 var(--told);
-  color: var(--dim); text-wrap: balance; }
-.spell-later:empty { display: none; }
-@media (max-width: 1279px) {
-  .first-spells { grid-template-columns: 24px max-content minmax(0, 1fr); }
-  .spell-when { grid-column: 1 / -1; text-align: left; padding: 8px 0 2px 36px; }
-  .spell-group ul { grid-column: 1 / -1; }
-}
-
-/* What is behind Details: a dark veil over the page, the title centred as the page's question is, the words beneath
-   scrolling downward, Close a quiet word in the corner. */
-.creation-sheet { position: fixed; inset: 0; z-index: 40; display: flex; justify-content: center;
-  /* Opaque: what a choice means is read on a ground of its own, not over the page and its painting (the owner,
-     12 November: explanations in grey over raw images). */
-  padding: clamp(56px, 9vh, 104px) 16px 0; background: var(--ground);
-  animation: arrive var(--settle) var(--ease) both; }
-.sheet-close { position: absolute; top: var(--safe-t); right: var(--safe-r); }
-.sheet-panel { min-width: min(100%, 24rem); max-width: min(100%, 44rem); max-height: 100%; display: flex;
-  flex-direction: column; }
-.sheet-panel h2 { margin: 0 0 clamp(14px, 2.6vh, 26px); font: italic 400 clamp(28px, 3vw, 38px)/1.15 var(--told);
-  text-align: center; color: var(--ivory); text-wrap: balance; }
-.sheet-body { overflow-y: auto; overscroll-behavior: contain; padding: 0 4px 56px; }
-.sheet-body .how { font: 400 14px/1.5 var(--do); color: var(--dim); margin: 0 0 10px; }
-/* Of one thing chosen: its likeness or emblem at the left, what kind of thing, its name and its sentence beside it; a
-   rule under the head, the rules beneath, and Back to the cards at their foot. */
-.sheet-panel.headed { width: min(100%, 44rem); }
-.sheet-head { display: grid; grid-template-columns: auto minmax(0, 1fr); justify-content: stretch; background: none; gap: clamp(16px, 2.6vw, 28px); align-items: center;
-  padding: 0 4px clamp(16px, 2.6vh, 24px); margin: 0 0 clamp(16px, 2.6vh, 24px); border-bottom: 1px solid var(--edge); }
-.sheet-head > div { min-width: 0; width: 100%; }
-.sheet-head .label { margin: 0 0 6px; font: var(--type-kicker); letter-spacing: var(--track-kicker);
-  text-transform: uppercase; color: var(--accent); }
-.sheet-panel .sheet-head h2 { margin: 0; text-align: left; display: flex; align-items: center; gap: 12px; }
-.sheet-summary { margin: 10px 0 0; font: italic 400 17px/1.5 var(--told); color: var(--ivory); }
-.sheet-face { width: clamp(96px, 14vw, 148px); aspect-ratio: 1; object-fit: cover; border: 1px solid var(--accent-line);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, .5); }
-.sheet-glyph { width: clamp(72px, 10vw, 104px); height: clamp(72px, 10vw, 104px); fill: none; stroke: var(--accent);
-  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.sheet-glyph.small { width: 30px; height: 30px; flex: none; stroke-width: 1.4; }
-.sheet-back { margin: clamp(10px, 2vh, 20px) 0 0; display: flex; justify-content: center; }
-@media (max-width: 599px) { .sheet-head { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
-  .sheet-panel .sheet-head h2 { justify-content: center; } }
 .particulars { margin: 0 0 18px; }
 .particulars .label, .spell-rules .label { margin: 0 0 8px; font: var(--type-kicker); letter-spacing: var(--track-kicker);
   text-transform: uppercase; color: var(--accent); }
 .particulars ul, .spell-rules ul { list-style: none; margin: 0; padding: 0; }
 .particulars li { font: 400 15px/1.55 var(--do); color: var(--dim); margin: 0 0 8px; }
 .particulars li b, .spell-rules b { color: var(--ivory); font-weight: 600; }
-.spell-rules { margin: 0 0 18px; }
-.spell-rules li { margin: 0 0 10px; }
-.spell-rules p { margin: 0; font: 400 15px/1.55 var(--do); color: var(--dim); }
-.spell-rules .rule { padding-left: 1.2em; font-size: 13.5px; line-height: 1.5; }
-.spell-rules .rule b { font-weight: 500; color: var(--dim); }
-/* Everything set out with: the parts, each a heading, the words for them kept at the head; long lists by kind, the
-   kind of the one held open. */
-.kit-jump { position: sticky; top: 0; z-index: 2; display: flex; justify-content: center; gap: 26px; margin: 0;
-  background: rgb(10, 11, 14); box-shadow: 0 8px 14px rgb(10, 11, 14); }
-.kit-part { padding: 16px 0 6px; border-top: 1px solid var(--edge); scroll-margin-top: 44px; }
-.kit-part:first-of-type { border-top: 0; }
-.kit-part > h3 { margin: 0 0 12px; font: italic 400 22px/1.2 var(--told); color: var(--ivory); }
-.kit-group { border-top: 1px solid var(--edge); }
-.kit-group > summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 10px; padding: 11px 0;
-  font: 500 12.5px/1.2 var(--do); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
-.kit-group > summary::-webkit-details-marker { display: none; }
-.kit-group > summary::before { content: ''; width: 6px; height: 6px; border: solid var(--faint); border-width: 0 1.5px 1.5px 0;
-  transform: rotate(-45deg); transition: transform var(--quick); align-self: center; }
-.kit-group[open] > summary::before { transform: rotate(45deg); }
-.kit-group > summary:hover, .kit-group[open] > summary { color: var(--ivory); }
-.kit-group summary small { color: var(--dim); font-size: 11px; letter-spacing: .04em; }
-.kit-rows { list-style: none; margin: 0 0 10px; padding: 0; }
-.kit-row { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid;
-  grid-template-columns: 3.4rem minmax(0, 12rem) minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline;
-  padding: 8px 10px; border-radius: 2px; color: var(--ivory); transition: background var(--quick); }
-.kit-row:not(:has(.lead)) { grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) auto; }
-.kit-row:hover, .kit-row:focus-visible { background: var(--lift); outline: none; }
-.kit-row[aria-pressed="true"] { background: var(--accent-glow); box-shadow: inset 2px 0 0 var(--accent); }
-.kit-row .lead { font: 300 20px/1 var(--do); color: var(--ivory); }
-.kit-row[aria-pressed="true"] .lead, .kit-row[aria-pressed="true"] .name { color: var(--accent); }
-/* Chosen, said plainly, not by an edge alone (Mission 20's sixth round, I 13–17: a chosen spell marked only by a faint
-   left border). */
-.kit-row[aria-pressed="true"] .name::before { content: '\2713\00a0'; color: var(--accent); }
-.kit-row .name { font: 500 13.5px/1.3 var(--do); letter-spacing: .04em; }
-.kit-row .what { font: 400 13.5px/1.4 var(--do); color: var(--dim); }
-.kit-row .tag { font: 600 10px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--verdigris); white-space: nowrap; }
+
 /* Qualities: six tiles, the score large in each, the roll and what is added to it beneath; one chosen, then another,
    changes their rolls over. */
 .qualities { list-style: none; margin: 12px auto 18px; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -437,24 +246,13 @@ html, body { overflow: hidden; }
 .qualities > li { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 6px;
   border: 1px solid var(--edge); background: var(--raised); }
 .qualities > li.held { border-color: var(--accent); box-shadow: 0 0 24px rgba(239, 230, 209, .16); }
-.q-name { font: 500 11px/1.2 var(--do); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+
 .qualities .roll { all: unset; box-sizing: border-box; cursor: pointer; width: 64px; height: 64px; display: grid;
   place-items: center; font: 300 34px/1 var(--do); font-variant-numeric: tabular-nums; border: 1px solid var(--edge-strong);
   transition: border-color var(--quick), color var(--quick); }
 .qualities .roll:hover, .qualities .roll:focus-visible { border-color: var(--accent-line); outline: none; }
 .qualities .roll[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
-.q-score { font: 400 12px/1.4 var(--do); color: var(--dim); text-align: center; }
-.kit .again { text-align: center; margin-top: 4px; }
-/* The last page: how you present, in three quiet words; the name, large, written over in place; a table of names
-   beneath it to roll on; the life in a line; then setting out. */
-.naming { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
-.name-field input { display: block; width: min(34rem, 86vw); padding: 6px 0 10px; border: 0; border-bottom: 1px solid var(--edge-strong);
-  font: 300 clamp(40px, 5.6vw, 72px)/1.1 var(--do); letter-spacing: .06em; text-align: center; background: transparent;
-  color: var(--ivory); outline: none; border-radius: 0; text-shadow: 0 2px 30px rgba(0, 0, 0, .6); }
-.name-field input::placeholder { color: var(--faint); }
-.name-field input:hover { border-bottom-color: var(--accent-line); }
-.name-field input:focus { border-bottom-color: var(--accent); }
-.naming .life { font: italic 400 19px/1.55 var(--told); color: var(--dim); text-align: center; max-width: 34em; margin: 14px 0 0; }
+
 /* How you present: three words in one rule-edged row, the chosen gold. The names your people give: up to six at a
    roll, in rows of three tablets of one width, read as a table and not a row of filters; the one you bear edged in
    gold, the one that waits in an emptied name edged faintly; Roll again beneath them, after a small die. */
@@ -466,40 +264,11 @@ html, body { overflow: hidden; }
 .presenting button + button { border-left: 1px solid var(--edge); }
 .presenting button:hover, .presenting button:focus-visible { color: var(--ivory); outline: none; }
 .presenting button[aria-pressed="true"] { color: var(--accent); background: var(--accent-glow); box-shadow: inset 0 -1px 0 var(--accent); }
-.name-table { --cell: 8.75rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 16px 0 0;
-  width: calc(var(--cols, 3) * var(--cell) + (var(--cols, 3) - 1) * 6px); max-width: 100%; }
-.name-option { all: unset; box-sizing: border-box; cursor: pointer; flex: 0 0 var(--cell); padding: 9px 8px; text-align: center;
-  font: 400 16px/1.2 var(--do); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  letter-spacing: .04em; color: var(--ivory); border: 1px solid var(--edge); border-radius: 2px;
-  background: rgba(20, 21, 27, .72); -webkit-tap-highlight-color: transparent;
-  transition: border-color var(--quick), color var(--quick), background var(--quick); }
-.name-option:hover, .name-option:focus-visible { border-color: var(--accent-line); background: rgba(38, 40, 48, .88); outline: none; }
-.name-option.waiting { border-color: var(--accent-line); }
-.name-option[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
-.naming .roll-names { padding: 12px 4px 4px; }
-.naming .roll-names::before { content: ''; display: inline-block; width: 10px; height: 10px; margin: 0 9px 0 0;
-  vertical-align: -1px; border: 1px solid currentColor; border-radius: 2px;
-  background: radial-gradient(circle at 30% 30%, currentColor 1.1px, transparent 1.6px),
-    radial-gradient(circle at 70% 70%, currentColor 1.1px, transparent 1.6px); }
+
 @media (max-width: 560px) {
-  .name-table { --cell: calc((min(34rem, 86vw) - 12px) / 3); }
-  .name-option { padding: 9px 4px; }
-  .creation .cards { --gap: 10px; max-width: none; }
-  .creation .card { padding: 8px 6px; }
-  .card-name { font-size: 11.5px; letter-spacing: .12em; padding-left: .12em; }
-  .card-line { font-size: 12.5px; }
-  .deck-specialties .card-name { font-size: 10.5px; letter-spacing: .06em; padding-left: .06em; }
-  .first-spells { grid-template-columns: 22px minmax(0, 1fr); }
-  .first-spell { grid-template-areas: 'g n' 'g t'; padding: 3px 0; }
-  .spell-glyph { grid-area: g; }
-  .spell-name { grid-area: n; }
-  .spell-text { grid-area: t; white-space: normal; }
-  .spell-when { padding-left: 34px; }
+
   .qualities { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .q-name { letter-spacing: .06em; }
-  .kit-row, .kit-row:not(:has(.lead)) { grid-template-columns: minmax(0, 1fr) auto; }
-  .kit-row .lead { grid-row: span 2; }
-  .kit-row .what { grid-column: 1 / -1; }
+
 }
 
 /* ---- Before play, beside the title and creation: the campaigns, a company formed for an authored campaign, options,
@@ -511,10 +280,7 @@ html, body { overflow: hidden; }
 .frame > .opening.loading { display: grid; place-items: center; text-align: center; }
 .loading h1 { font: 300 clamp(30px, 4vw, 48px)/1.1 var(--do); }
 .loading .stage { height: auto; color: var(--dim); font: italic 400 18px/1.5 var(--told); animation: breathe 1.6s var(--ease) infinite; }
-/* The trades of the kind chosen at "What did you do before this?" (BeforeStep.Trades): a word each, wrapping, the
-   one held in gold. */
-.creation .trades { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; max-width: 64rem;
-  margin: 4px auto 10px; }
+
 .creation .trade { all: unset; box-sizing: border-box; cursor: pointer; padding: 5px 10px; border-radius: 2px;
   font: 400 13px/1.3 var(--do); color: var(--dim); border: 1px solid var(--hair); transition: color var(--quick); }
 .creation .trade:hover, .creation .trade:focus-visible { color: var(--ivory); outline: none; border-color: var(--edge); }
