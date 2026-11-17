@@ -88,7 +88,7 @@ may write them (`test/small/page-slots`): a menu is made by the one page or it i
 - **A press is taken once, on its own screen** (IG-17). A key held down does its act once (the repeats of Enter, Space
   or a digit are dropped), and a press begun on one screen and let go on the next does nothing there.
 - **Holding, only where it matters** (the owner's ruling 3, 16 November, and its amendment):
-  - held: the title's New game and Continue; creation's cards and option rows, and setting out; and the acts the
+  - held: the title's New game and Continue; creation's rows, and setting out; and the acts the
     engine marks sustained (`Choice.hold`: a night's rest, a camp; grave acts with foreseeable consequences are
     candidates). Never decided by the page from a label.
   - not held: a row that only turns a page or rolls again, the Encyclopedia and Options, and every other act.
