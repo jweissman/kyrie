@@ -140,7 +140,7 @@ claims nothing beyond what the sources say.
 | NM-13 | Five new terrains never looked at; frost, desert and steppe terrain kinds | M19-104, OWN-44 | Deferred / open risk, unverified since 8 Nov | P3 | later |
 | NM-14 | The sea: the harbour inland in most worlds, no vessel or sea passage, the Dorothea's calls not islands, voyage as survival | M19-101, M19-102, M19-103, M19-134 | Deferred, unverified since 8 Nov | P2 | later |
 | NM-15 | Interior maps: no vertical convention, no room kinds | NVR-20, NVR-21 | Deferred, unverified since 8 Nov | P3 | later |
-| NM-16 | Transport services (carter, ferry, paid passage) | UNT-116 | Open risk, unverified since 6 Nov | P3 | later, playability |
+| NM-16 | Transport services (carter, ferry, paid passage) | UNT-116 | Open; re-checked 17 Nov, still so: no act carries the company for pay (data/rules and data/generation: the roadstation's dish and the prologue's carter only) | P3 | later, playability |
 
 ## 4. Atlas & perception
 
@@ -293,7 +293,7 @@ claims nothing beyond what the sources say.
 | AR-10 | Party membership has no public lifecycle; two companion systems; preset-party defaults (a trio in WorldAssembler); "Go alone" only in a drawn country; the company cannot divide; a recruit's `at` retracted | ARV-M7, M19-75, M19-105 (remainder), QTC-19, UNT-208, UNT-230, BRF-77, mem:m19-owner-preset-party | Open risk / partial (10 Nov) | P2 | M21, lead |
 | AR-11 | Identity carried in id strings (march-stones, provinces, stretches) | ARV-L2 | Partial, unverified since 8 Nov | P3 | M21, lead |
 | AR-12 | Hidden registries and central edit points (origins, region generators, title list) | ARV-M6 | Open risk, unverified since 8 Nov | P3 | M21, lead |
-| AR-13 | Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped | ARV-M3 | Open risk, unverified since 8 Nov | P3 | M21, lead |
+| AR-13 | Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped | ARV-M3 | Partly; re-checked 17 Nov: a value is escaped to stand in a Kyr string (KyrTemplates.fill); a placeholder with no value is left as written, for Kyr to read as its own reference, so it passes unless Kyr cannot resolve it (not tested); the five mechanisms not re-counted | P3 | M21, lead |
 | AR-14 | Compiler binding-check holes (partial); ability text not equal to execution across the catalog | ARV-A9, ARV-A5, BRF-51 | Partial, unverified since 8 Nov | P3 | M21, lead |
 | AR-15 | Waits are atomic: they do not stop at a warning, arrival or chapter, so a fight is lost inside one wait | M19-239 | Open (10 Nov) | P2 | M21, lead |
 | AR-16 | The setting is coupled into the engine (Imbar's planes, calendar, world shape, encyclopedia) | M19-271, opening-brief backlog | Open (10 Nov) | P3 | later, lead |
@@ -318,7 +318,7 @@ claims nothing beyond what the sources say.
 | AU-11 | Missing authoring tools: `kyrie new table` and `new generator`, `kyrie stats` and `info`, a placement report, a backgrounds lister, a simulate readout, author scaffolding with no engine edits | UNT-120, UNT-122, UNT-205, UNT-223, BRF-56, BRF-57, BRF-60 | Disappeared / open risk, unverified since 6 Nov | P3 | M21, lead |
 | AU-12 | The IF review's holistic Kyr remedies (why/trace, typed transformations, affording observations, occasions, rule phases, one knowledge model, dynamic identity, one transaction per command, proven patterns, scale) | IFR-01..IFR-10 | Deferred, unverified since 8 Nov | P3 | later |
 | AU-13 | Wapshott's Circus needs: a moving place, a shared town, rooms named for their town, a contest of words, places beyond its towns | WPC-01, WPC-06, WPC-18, WPC-X02, WPC-X09 | Deferred / open risk, unverified since 8 Nov | P3 | later |
-| AU-14 | Authorable effects and spell construction (Kyr can teach a spell, not define one) | BRF-81 | Deferred, unverified since 6 Nov | P3 | later |
+| AU-14 | Authorable effects and spell construction (Kyr can teach a spell, not define one) | BRF-81 | Deferred; re-checked 17 Nov, still so: Kyr.ohm declares no ability or spell. An item kind's use effect is now authorable in the effect language (OB-07, test/small/kind-used) | P3 | later |
 | AU-15 | About 200 legacy objectives without `toward` still rely on inference from their words | M19 closure §1, M19-225, opening-brief backlog | Open (10 Nov) | P2 | M21, lead |
 | AU-16 | Calling and ancestry data: a dwarf thief refused only after load; halflings not playable; the Wrong Boat's coin tuned to its shipped party | M19-266, M19-267 | Partial / open (author's decision) (10 Nov) | P3 | later, lead |
 | AU-17 | Not reproduced, kept for re-check: a catalog kind in an Observe; two `says` in one turn; herald aliasing; encyclopedia links; empty conversational leads | M19-189, M19-190, M19-201, M19-215, M19-235 | open (not reproduced; kept for re-check) · was: Not reproduced (8–10 Nov) | P3 | later, lead |
@@ -332,7 +332,7 @@ claims nothing beyond what the sources say.
 | PR-03 | Save size: the downloadable whole game is 22 MB and the raw checkpoint 23.8 MB; one save format and autosave path; a compact save for the terminal | M19-236, E25, ARV-A24, headless rec 4 | Deferred: no obstacle to play measured (10–11 Nov) | P3 | M21 |
 | PR-04 | Determinism asserted, not verified: locale-dependent combat AI, one combat stream, unchecked resume | ARV-H6 | Open risk, unverified since 8 Nov | P2 | M21, lead |
 | PR-05 | Client parity covers no fight | E122 (open part), H §2.9 | Open (11 Nov) | P2 | M21, lead |
-| PR-06 | Saving during a fight | BRF-97 | Unverified since 6 Nov | P3 | later, lead |
+| PR-06 | Saving during a fight | BRF-97 | Open; re-checked 17 Nov, still so: a fight runs within one command, and PlaySession.checkpoint refuses while a command is under way ("Save only between campaign commands") | P3 | later, lead |
 | PR-07 | "Story after a reload shows only what happened since" | E26 | open (not reproduced, 10 Nov) | P3 | later, lead |
 
 ## 14. Testing & CI
@@ -362,8 +362,8 @@ claims nothing beyond what the sources say.
 | DC-04 | Undocumented facts: the country marker is unique across provinces; a topic can charge the purse; Guards; Deem draw order; plant `_gathered` naming | M19-264, M19-202, M19-255 | Open (10 Nov) | P3 | M21, lead |
 | DC-05 | Fixed rows never re-proved after redesigns (PT-09, PRE-03, PT-42, NAV-12, M17's UI rows) | UNT-130 | Open risk, unverified since 6 Nov | P3 | M21, lead |
 | DC-06 | The builder edited twelve authors' adventures with no notice in their own documents; the Parliament of Books' friction never registered | UNT-131, UNT-201 | Open risk, unverified since 6 Nov | P3 | M21, lead |
-| DC-07 | The Living Design Atlas reconciled with the Aesthetic Doctrine, superseded design documents marked; the M15–M17 briefs missing from the repository | BRF-50, findings/briefs.md | Disappeared, unverified since 6 Nov | P3 | later, lead |
-| DC-08 | inherited.md cannot be regenerated from its sources (the closure table is not written by the generator); an uncommitted owner change was said to cure it | findings/index.md §1 | Unverified since 6 Nov | P3 | M22 (history tooling, no effect on play), lead |
+| DC-07 | The Living Design Atlas reconciled with the Aesthetic Doctrine, superseded design documents marked; the M15–M17 briefs missing from the repository | BRF-50, findings/briefs.md | Open; re-checked 17 Nov, still so: doc/design/ATLAS.md does not name the Doctrine, nor marks what it supersedes; doc/history/missions/15–17 hold no brief | P3 | later, lead |
+| DC-08 | inherited.md cannot be regenerated from its sources (the closure table is not written by the generator); an uncommitted owner change was said to cure it | findings/index.md §1 | Open; re-checked 17 Nov, still so: no script writes doc/history/missions/19/inherited.md (grep of scripts/ and src/) | P3 | M22 (history tooling, no effect on play), lead |
 
 ---
 
