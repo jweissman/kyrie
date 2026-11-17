@@ -39,7 +39,9 @@ recording or a headless walk is not that.
   - two menus in view at once.
 - It found 150 stray pressables at first, then 26 foreign rows, then the Notes' many menus; all are now gone.
 - PageFrame (background, header, narrative, menu, rail) draws the title, a life's steps, the opening, a conversation
-  and a fight. A place, the map's cards and the Book are not yet drawn by it (below).
+  and a fight; a place, the map and the Book take their parts' marks from it (PageFrame.slot), and no other file may
+  write a menu's or a rail's mark (test/small/page-slots). The census also fails on a page without exactly one header,
+  with more than one narrative, or with anything in its menu or rail that cannot be pressed where it is drawn.
 
 **Other first-minute repairs.**
 - Creation's rows had been squashed by a regression; a geometry pin now holds them.
@@ -119,9 +121,9 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
 
 ## What remains partial
 
-- **A place, the map's cards and the Book drawn by PageFrame.** A place's telling and its acts are one component
-  (GlanceStage); parting them is the next structural step. Then the census can require every menu to be a PageFrame
-  slot.
+- **A place, the map's cards and the Book drawn by PageFrame's component**, not only marked by it: their compositions
+  are their own (a place's telling and acts are one component, GlanceStage). The structure is held; the code is not
+  yet one component everywhere.
 - **FH-01**: a person playing the first hour and accepting it. Nothing here substitutes for it.
 - **From the first review:**
   - OR-23: the passage's near-black frame between setting out and the first page;
