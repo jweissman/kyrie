@@ -17,17 +17,21 @@ export interface PageParts {
   // A body: where the surface sets its header, narrative and menu in one box of its own (the page's main); hidden while
   // it is not yet to be read (the title under the studio's mark).
   body?: string; hidden?: boolean;
+  // The header standing apart from the body, beside it (a conversation's likeness and name, beside what is said).
+  apart?: boolean;
 }
 export class PageFrame {
-  static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden }: PageParts) {
+  static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden, apart }: PageParts) {
+    const head = header && <div className="slot" data-slot="header">{header}</div>;
     const slots = <>
-      {header && <div className="slot" data-slot="header">{header}</div>}
+      {!apart && head}
       {narrative && <div className="slot" data-slot="narrative">{narrative}</div>}
       {menu && <div className="slot" data-slot="menu" data-menu>{menu}</div>}
     </>;
     return (
       <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind} {...attrs}>
         {background && <div className="slot" data-slot="background">{background}</div>}
+        {apart && head}
         {body ? <main className={body} aria-hidden={hidden || undefined}>{slots}</main> : slots}
         {rail && <div className="slot" data-slot="rail" data-rail>{rail}</div>}
         {over}

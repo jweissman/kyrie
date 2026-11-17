@@ -19,6 +19,7 @@ import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
 import { ChoiceRow } from './choice-row';
+import { PageFrame } from '../page-frame';
 import { Check } from './check';
 import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
 
@@ -69,13 +70,14 @@ export class TalkStage {
     const trades = wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0;
     const [page, turn] = useState(0), room = 3 - focus.answers.length, a = focus.answers.length;
     const paged = Paging.of([...focus.salient, ...trades ? ['trade' as const] : [], ...focus.more], room, page);
+    // No × beside the menu: taking your leave is its last row, and Escape (the owner, 16 November night: every
+    // control of a page in its one menu or its rail).
     return (
-      <div className="talk" id="page">
-        <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
-          <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Sitter>
-        <div className="dialogue">
-          <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />
-          <div data-menu className="answer">
+      <PageFrame.View kind="talk" className="talk" body="dialogue" apart
+        header={<TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
+          <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Sitter>}
+        narrative={<TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />}
+        menu={<div className="answer">
             <div className="choosing">
               {s.trading ? <TalkStage.Trading app={app} wares={wares} services={focus.services} buys={counter?.buys ?? []}
                 short={counter?.short ?? []} who={counter?.name ?? ''}
@@ -107,11 +109,7 @@ export class TalkStage {
                 label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
                 aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
             </ol>
-          </div>
-        </div>
-        {/* No × beside the menu: taking your leave is its last row, and Escape (the owner, 16 November night: every
-            control of a page in its one menu or its rail). */}
-      </div>
+          </div>} />
     );
   }
   // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
