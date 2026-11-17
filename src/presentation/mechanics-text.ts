@@ -134,7 +134,8 @@ export class MechanicsText {
   static save(save: Save, actor?: Record<string, number>): string {
     const outcome = save.success === 'half' ? 'halves it' : 'avoids it';
     const quality = this.quality(save.stat ?? save.kind ?? 'magic');
-    return `${this.an(quality)} save against ${this.amount(save.difficulty, actor)} ${outcome}`;
+    const again = save.again ? ', and is made again on each turn it holds, a success ending it' : '';
+    return `${this.an(quality)} save against ${this.amount(save.difficulty, actor)} ${outcome}${again}`;
   }
   private static an(word: string): string { return `${/^[aeiouAEIOU]/.test(word) ? 'an' : 'a'} ${word}`; }
   static quality(kind: string): string {

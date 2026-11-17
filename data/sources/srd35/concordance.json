@@ -354,7 +354,8 @@
   "cure_moderate": "test/cure-wounds.test.ts",
   "cure_serious": "test/cure-wounds.test.ts",
   "cure_critical": "test/cure-wounds.test.ts",
-  "bless": "test/bless.test.ts"
+  "bless": "test/bless.test.ts",
+  "hold_person": "test/hold-person.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -391,6 +392,9 @@
   "bless": {
    "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+  },
+  "hold_person": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   },
   "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"

@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 752,
-    "adapted": 397,
+    "faithful": 751,
+    "adapted": 398,
     "represented": 4,
     "kyr": 567,
     "unsupported": 66,
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 232,
-      "adapted": 20,
+      "faithful": 231,
+      "adapted": 21,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10428,7 +10428,7 @@
   {
    "id": "ability:hold_person",
    "title": "Hold Person",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"
   },

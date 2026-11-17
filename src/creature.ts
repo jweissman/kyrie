@@ -11,6 +11,8 @@ export type Attributes = Record<Attribute, number>;
 export interface ConditionInstance {
   id: string; remaining: number; source?: string; clock?: 'owner-turn' | 'world-time' | 'until-removed';
   by?: string; tempHp?: number; waits?: boolean;
+  // The save its holder makes again on each turn it loses to it, a success ending it (see ShakingOff).
+  again?: { kind: string; difficulty: number };
 }
 // charges: the uses a charged thing has left (a wand), where it has been used; its kind's charges until then.
 export interface ItemInstance {

@@ -7,7 +7,7 @@ import { Content } from './content';
 import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
-import { Morale } from './rules/morale';
+import { Morale } from './rules/morale'; import { ShakingOff } from './rules/shaking-off';
 import { Tactics } from './tactics';
 import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
 import { ItemCatalog } from './item-catalog';
@@ -416,7 +416,7 @@ export class Battle {
           detail: this.abilities.find(a => a.id === actor.windup!.ability)?.name ?? actor.windup.ability });
         delete actor.windup;
       }
-      this.history.push({ type: 'skip', turn: this.turn, actor: actor.id });
+      ShakingOff.tick(actor, this.context(actor)); this.history.push({ type: 'skip', turn: this.turn, actor: actor.id });
       if (this.turn >= this.maxTurns) { this.finish('draw', 'turn-limit'); return; }
       do {
         this.cursor++;

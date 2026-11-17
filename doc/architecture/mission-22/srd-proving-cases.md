@@ -556,6 +556,25 @@ Spec: `test/bless` (2 cases; with Orsino's one ally put back, the first fails).
   cleric may prepare it; the preset companion cleric knows it (world-assembler's spells). No draw moves (no level
   changed); every Bless cast now blesses the whole side for ten rounds.
 
+### 18. Hold Person, and a hold shaken off (17 November, later): adapted
+
+Spec: `test/hold-person` (2 cases; with the new save taken out, the second fails).
+
+**The mechanic built: shaking off** (src/rules/shaking-off.ts; a save's `again`, a condition's kept `again`).
+- A condition laid by a save marked `again` keeps that save's kind and difficulty on its holder.
+- On each turn its holder loses to it, the holder saves again; a success ends it (told as it ending), and the turn is
+  spent on the effort, as the SRD's full-round save is.
+
+**The spell** (a hand entry over Orsino's):
+- one humanoid (exact), second level, Law, and the SRD's school, enchantment (exact);
+- a Will save to negate (exact), at case 7's difficulty for a second-level spell (converted), and again each turn;
+- five rounds, a fifth-level caster's, at every casting level (the census's caster; the SRD's is a round a level).
+
+Before: Orsino's three rounds against 20 + the caster's level, saved with Strength, once. A held company member now
+has a fair save, and another each turn: a hostile Law cleric's hold is no longer three lost turns almost surely.
+**Dropped:** the paralysis immunities (air affinity, illusory) no longer stop it: it is a Will save, as the SRD's
+mind-affecting hold is. **Omitted:** spell resistance; the held helpless. No draw moves (no level changed).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

@@ -7299,11 +7299,13 @@ Heal one ally for 1d8 + level. A divine spell of the second level. Takes a secon
 
 ##### Hold Person
 
-*Faithful · level 2 divine spell, law domain* · `ability:hold_person`
+*Adapted · level 2 divine spell, enchantment, law domain* · `ability:hold_person`
 
-One enemy is paralyzed for 3 turns (only humanoid creatures; a Strength save against 20 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine spell of the second level. Takes a second-level slot.
+One enemy is paralyzed for 5 turns (only humanoid creatures; a Wisdom save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it, and is made again on each turn it holds, a success ending it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine spell of the second level. Takes a second-level slot.
 
-> Paralyze an enemy for 4 rounds.
+> Hold a person where they stand, unable to move or act; each turn the held one may tear free of it.
+
+*Adapted: The SRD's Hold Person (doc/architecture/mission-22/srd-proving-cases.md, case 18): one humanoid, second level, its school enchantment beside Law, a Will save to negate at case 7's difficulty, and a new save on each turn the held one loses to it, a success ending it (ShakingOff). Converted: five rounds, a fifth-level caster's, at every casting level (the SRD's is a round a level). Omitted: spell resistance; the held helpless. Before, Orsino's three rounds against 20 + the caster's level, saved with Strength, once.*
 
 ##### Holy Wrath
 

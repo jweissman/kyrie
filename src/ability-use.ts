@@ -6,6 +6,7 @@ import { Targeting } from './targeting';
 import { Positions } from './rules/positions';
 import { HitDicePool } from './rules/hit-dice-pool';
 import { Chain } from './rules/chain';
+import { ShakingOff } from './rules/shaking-off';
 import { Volley } from './rules/volley';
 import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
@@ -199,7 +200,7 @@ export class AbilityUse {
     const effectContext = sourceBound && actor && !context.source ? { ...context,
       source: { id: `${actor.id}:${options.ability ?? 'hook'}`, kind: 'ability' as const } } : context;
     const start = context.events.length;
-    Effects.apply(effect, target, amount, effectContext);
+    Effects.apply(effect, target, amount, effectContext); ShakingOff.mark(effect, target, actor, expressions);
     // Orsino's onHeal: the healer's own statuses answer its healing (a healer marked for judgment burns).
     if (effect.kind === 'heal' && actor) { AbilityUse.hooks(actor, 'onHeal', target, context); }
     if (took === 'partial' && effect.kind === 'damage') {

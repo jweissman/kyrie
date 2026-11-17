@@ -36,7 +36,8 @@ type EffectBody =
     amount?: Amount; level?: number }
   | { kind: 'travel'; location: string; target: 'self' };
 // A save names either an attribute (a Kyr attribute save) or an Orsino save category such as breath or will.
-export type Save = { stat?: string; kind?: string; difficulty: Amount; success?: 'negate' | 'half' };
+// again: what it lays is saved against again on each turn its holder loses to it (see ShakingOff).
+export type Save = { stat?: string; kind?: string; difficulty: Amount; success?: 'negate' | 'half'; again?: true };
 // onResist: what a resisted spell save does to this damage. targetTrait: the effect only touches creatures with that
 // trait (Orsino's condition.trait). count: how many distinct living enemies 'random enemies' draws (Orsino's
 // randomEnemies), all of them if there are fewer. hitDice: how many Hit Dice of those it would fall on it falls on,

@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 24 pass in structure
-(level, school), 13 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-12 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 25 pass in structure
+(level, school), 14 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+13 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 44 | school 67 | dice 10 | type 13 | save 31 | dc 10 | attack 104 | target 71 | duration 39 | of 119 |
+| spells, field exact or converted | level 44 | school 68 | dice 10 | type 13 | save 31 | dc 11 | attack 104 | target 71 | duration 40 | of 119 |
 
 ## Creatures, most met first
 
@@ -157,7 +157,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | haste | haste | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
 | heal | heal | S✗ R✗ I– | ✗ 5 → 6 | ✗ · → conjuration | ✗ 19/23/28/38 → · | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | ✓ | ✓ |
 | hold_animal | hold-animal | S✗ R✗ I– | ✗ 0 → 2 | ✗ · → enchantment | – | – | ≈ paralyze negates | ✗ 18 → 15 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
-| hold_person | hold-person | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ≈ paralyze negates | ✗ 23 → 15 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
+| hold_person | hold-person | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
 | holy_wrath | holy-smite | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → evocation | ✗ 10.5/10.5/10.5/10.5 → 0/9/22.5/22.5 | – | ✗ wisdom half → wisdom negates | ✗ 15 → 17 | ✓ | ✓ | ✗ 3 rounds → instant |
 | ice_storm | ice-storm | S✗ R✗ I– | ✗ 6 → 4 | ✓ | ✗ 26/26/26/26 → 10.5/10.5/10.5/10.5 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✓ | ✓ | ✗ instant → long |
 | image | major-image | S✗ RU I– | ✗ 4 → 3 | ✓ | – | – | – | ✗ · → 16 | ✓ | ✗ · → one | ✗ instant → long |
