@@ -108,6 +108,48 @@ or pages by a screenful; the editable field, as now; and, for a kin start, the f
 (`FamilyNames.household(...).you`, or the set-out's party name), so the player sees "Morgran *Strakeln*" before
 setting out, and may write another surname, which the family then takes.
 
-## §8: a protagonist in a household
+## §8: a protagonist in a household (Phase A §8)
 
-The tiny proof follows in its own commit (PA-08).
+**The proof** (`test/household-kept.test.ts`): kite, a dwarf Harbek set out on the kin circumstance. He is generated
+into a household that was there before him: the drover's, at Kite's second town.
+
+- One tradition: **Harbek Torunn**, his mother **Eldeth Torunn**, his brother **Fargrim Torunn**; three given names.
+- Relations that are the world's: `homeOf(party, region__s2)`, `kin(party, drover__wife)`, `kin(party, drover__son)`,
+  `kinship(drover__wife, origin__called_mother)`, `kinship(drover__son, origin__called_brother)` ("your mother",
+  "your brother": how they are spoken of and to), and the shared history, `knows(party, drover__missing)`: the father
+  who went out on the road three days ago, the letter that brought him home.
+- One relation made in play: the brother asked, and joined (the company: Harbek Torunn, Fargrim Torunn).
+- Kept and opened again (`PlaySession.resume` of the checkpoint, through JSON): the same names, the same relations, the
+  same company, and the same canonical game.
+
+**What Kyr already declares.** Persons and groups; relations of any arity among them (`kin(group, group)`,
+`kinship(group, entity)` for what one is called, `homeOf(group, place)`), asserted initially or by rules; facts as
+shared history (`missing`, the father's coat known before his face, `father_known`); rules conditioned on kinship
+(`father_seen` only to his child). An origin module binds a story's cast as the protagonist's own by importing them
+(`wife: drover.wife`). Everything declared is world state, and so kept by a save and replayed by a transcript.
+
+**What Deem generates.** Each cast member's attributes from tables and templates with the placement's context
+(folk, the town, the names taken). With one setting function, `kindred`, a story's casting now names its family
+together from a roster it writes ("she:wife:elder he:son"). Deem itself has no notion that the people it casts are a
+family: the roster is text the setting's function reads, and the generic engine reads only naming.json's words.
+
+**What needs a general composition constraint.** The protagonist is made outside any module (at creation, by the
+page) and the family inside one (the drover's Deem casting, installed later, with a `taken` list that grows as
+modules install). They agree today because both compute the household by one pure function from the same key (the
+town's name and the story) and the protagonist's name, and the family's line never depends on `taken`. That is a
+convention, not a commitment. Three things would make it general:
+
+1. **Identities committed by the assembler.** A household (an id, its members' parts, its line, its tradition) drawn
+   once by WorldAssembler and handed as context to every module that casts or imports a member, and to the party,
+   instead of each recomputing. Today `Origins.protagonist` and `kindred` recompute it.
+2. **Relations among the cast.** Only the party's kinship is declared (`kin(party, x)`). The wife being the son's
+   mother is in no relation: `kin(wife, son)` would be read by Stakes and the compass as one of the company's stakes,
+   because `kin` means "the company's kin". A neutral relation (`parentOf`, `household(group, entity)`) is a rules
+   change that nothing reads yet.
+3. **A household beyond one story.** The drover's family exists only where the drover's story is placed. Communities
+   already keep households (residents who share `household` and `family`, `kin: { to, as }`), but the protagonist
+   cannot be placed in one, and their names come from their own draw, not FamilyNames. Making a community household a
+   place a protagonist can be born into is the next step, and the first that needs genealogy, not before.
+
+Not done, on purpose: no genealogy, no ancestors beyond the father the line is drawn from, no inherited possessions,
+no institutions.
