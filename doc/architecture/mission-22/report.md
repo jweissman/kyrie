@@ -113,6 +113,16 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
      - a backdrop that reads as mud, and a town painted in three traditions (OR-51).
    - The structure the owner asked for is held mechanically. The feel of the first minute is not yet what the brief
      asks, and the reviews say so.
+   - Repaired after the third review:
+     - the conversation's four whole on a phone, and each answer's first words below the record's fade (OR-48,
+       pinned);
+     - creation's corner showing a life only as it is chosen, and a step opening on the page of the choice already
+       made (OR-50, OR-25);
+     - the country behind creation seen, not smeared (OR-51);
+     - the opening's Continue a row like its answers (OR-52);
+     - the menu held still while an act is under way (OR-47, unpinned);
+     - the two browser specs the nightly found failing after M22's changes.
+   - Not reviewed again since.
 2. **A coherent, tested primary interaction across title, creation, exploration, conversation, maps and combat.**
    - Met in structure: the one row, its states, its hold, one menu a page, held by the census, the row geometry pins
      and the hold, opening, talk, fight and map specs.
@@ -129,10 +139,10 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
    - Met in a bounded subset, by executable behaviour: the work above, each with its spec.
    - The opportunity census (census/opportunity-depth-2026-11-16.md) is a baseline, not yet a raised floor.
 6. **A reconciled register and design recommendations.**
-   - The register counts every row: 630 (eight from the second review); 216 fixed, 186 open, 139 partly,
-     46 deferred, 35 duplicate, 7 decided, 1 ambition. At the mission's start it was 615: 193 fixed, 206 open,
-     124 partly.
-   - Register zero was the owner's aim and is not reached: 186 rows are open and 43 are still "unverified" (mostly
+   - The register counts every row: 637 (fifteen from the second and third reviews); 219 fixed, 185 open,
+     145 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition. At the mission's start it was 615: 193 fixed,
+     206 open, 124 partly.
+   - Register zero was the owner's aim and is not reached: 185 rows are open and 33 are still "unverified" (mostly
      deferred ambitions, process rows, or experience rows that need a play, not a grep).
    - The design recommendations are prospectus.md.
 
