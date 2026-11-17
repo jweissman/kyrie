@@ -4,6 +4,7 @@ import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { PlayerView, type PlayerSnapshot } from './player-view';
 import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
+import { Outmatched } from './outmatched';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Predicate } from '../lang/module';
 import { PartyCapabilities } from '../campaign/party-capabilities';
@@ -317,8 +318,10 @@ export class ActionFeedbackView {
         return (a?.amount ?? 0) === (b?.amount ?? 0) ? [] :
           [`${a?.name ?? b?.name}: ${a?.amount ?? 0} → ${b?.amount ?? 0}`];
       });
+    // An aim given whose fight is beyond a company alone is said so by whoever gave it (OR-64; see Outmatched).
+    const warned = Outmatched.warning(campaign, event, taken);
     return { resources, attempt: this.attempt(campaign, event, before),
-      result: FictionalTime.prose(result),
+      result: FictionalTime.prose(warned ? `${result} ${warned}`.trim() : result),
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
