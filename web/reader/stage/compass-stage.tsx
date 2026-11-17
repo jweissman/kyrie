@@ -6,6 +6,7 @@ import type { ReaderApp } from '../reader-app';
 import type { Draw } from './act';
 import { ChoiceRow } from './choice-row';
 import { GlanceStage } from './glance';
+import { PageFrame } from '../page-frame';
 
 // The compass inside an enclosed place (CN-02, CN-03; the owner, 14 November: inside a building the world map had
 // opened, with a confusing Back and no way to the other places about). The engine's (Glance.compass): the way out,
@@ -57,7 +58,7 @@ export class CompassStage {
     const compass = CompassStage.of(app);
     if (!compass) { return null; }
     const on = compass.next && !drawn.includes(compass.next.command) ? compass.next : undefined;
-    return <span data-menu className="compass-rows" data-region="compass">
+    return <span {...PageFrame.slot('menu')} className="compass-rows" data-region="compass">
       {on && <CompassStage.Row app={app} draw={draw} route={on} kind="on" />}
       {compass.out && <CompassStage.Row app={app} draw={draw} route={compass.out} kind="out" />}
       {compass.exhausted && <span className="compass-done">Nothing more is known in here.</span>}

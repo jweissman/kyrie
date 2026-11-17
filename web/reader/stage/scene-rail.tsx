@@ -13,6 +13,7 @@ import { Signs } from '../../../src/presentation/signs';
 import type { Aspect } from '../../../src/presentation/glance-types';
 import { Pip } from './pip';
 import { WorldStage } from './world-stage';
+import { PageFrame } from '../page-frame';
 
 // How a touch on the rail stands now (amendment 6, the owner's notes of 11 November): lit, by the tone of what it has
 // that is new or the aim's; ordinary, with something in it still useful; dim, with nothing new for now (it can still
@@ -29,7 +30,7 @@ export class SceneRail {
   static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (
-      <nav data-rail className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
+      <nav {...PageFrame.slot('rail')} className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
         <SceneRail.Talk app={app} />
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
           faint={SceneRail.sensed(app)} />
@@ -94,7 +95,7 @@ export class SceneRail {
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
         onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /></button>
     </>;
-    return alone ? <nav data-rail className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
+    return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
   }
   // Its pip (see Pip): lit, of the tone of something here; soft, of the tone of something perceived off along a way

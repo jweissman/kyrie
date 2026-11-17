@@ -22,21 +22,27 @@ export interface PageParts {
   // A column inside the body holding the narrative and the menu together (a step of a life: its telling over its rows).
   column?: string;
 }
+export type Slot = 'background' | 'header' | 'narrative' | 'menu' | 'rail';
 export class PageFrame {
+  // What makes an element one of a page's slots: the only way a menu or a rail is marked (test/small/page-slots holds
+  // that nothing else writes the marks), so that what the census counts as the menu is what PageFrame made one.
+  static slot(name: Slot): Record<string, string | boolean> {
+    return { 'data-slot': name, ...name === 'menu' ? { 'data-menu': true } : name === 'rail' ? { 'data-rail': true } : {} };
+  }
   static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden, apart,
     column }: PageParts) {
-    const head = header && <div className="slot" data-slot="header">{header}</div>;
+    const head = header && <div className="slot" {...PageFrame.slot('header')}>{header}</div>;
     const told = <>
-      {narrative && <div className="slot" data-slot="narrative">{narrative}</div>}
-      {menu && <div className="slot" data-slot="menu" data-menu>{menu}</div>}
+      {narrative && <div className="slot" {...PageFrame.slot('narrative')}>{narrative}</div>}
+      {menu && <div className="slot" {...PageFrame.slot('menu')}>{menu}</div>}
     </>;
     const slots = <>{!apart && head}{column ? <div className={column}>{told}</div> : told}</>;
     return (
       <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind} {...attrs}>
-        {background && <div className="slot" data-slot="background">{background}</div>}
+        {background && <div className="slot" {...PageFrame.slot('background')}>{background}</div>}
         {apart && head}
         {body ? <main className={body} aria-hidden={hidden || undefined}>{slots}</main> : slots}
-        {rail && <div className="slot" data-slot="rail" data-rail>{rail}</div>}
+        {rail && <div className="slot" {...PageFrame.slot('rail')}>{rail}</div>}
         {over}
       </article>
     );

@@ -8,6 +8,7 @@ import { Signs } from '../../../src/presentation/signs';
 import { Stage } from './stage';
 import { Act } from './act';
 import { ChoiceRow } from './choice-row';
+import { PageFrame } from '../page-frame';
 
 // What is read rather than lived: notes, the story so far, what the company carries, the company itself, the map.
 // The book opens over the page: its tabs across its head, the one open marked, and the way back to the page first;
@@ -66,7 +67,7 @@ export class BookStage {
           </section>}
           {others.length > 0 && <p className="ending-fellows">
             {Typography.curl(`With you: ${others.map(o => `${o.name}, ${o.line}`).join('; ')}.`)}</p>}
-          <ol data-menu className="led ending-menu" aria-label="What can be done now">
+          <ol {...PageFrame.slot('menu')} className="led ending-menu" aria-label="What can be done now">
             {frame.ending?.memorial && <li><ChoiceRow.Button className="led-act" data={{ action: 'again' }}
               onClick={app.opening.again} mark={ChoiceRow.neutral} markClass="neutral"
               label="Begin again in this country, from its first day" /></li>}

@@ -10,6 +10,7 @@ import { BeforeStep } from './before-step';
 import { Signature } from './signature';
 
 import type { CreationStep, CreationStepId } from '../../engine/creation-flow';
+import { PageFrame } from '../page-frame';
 
 type StepView = (p: { app: ReaderApp; step: CreationStep; onward?: ReactNode }) => ReactNode;
 
@@ -49,7 +50,7 @@ export class CreationPage {
             <step.View app={app} step={step} onward={onward} />
           </div>
         </div>
-        <nav data-rail className="creation-edge" aria-label="The choice of a life">
+        <nav {...PageFrame.slot('rail')} className="creation-edge" aria-label="The choice of a life">
           {back ? <button type="button" className="quiet-word back" data-nav onClick={() => go(back.id)}>Back</button>
             : <button type="button" className="quiet-word another" data-nav data-action="another" onClick={app.opening.anew}>
               Another country</button>}

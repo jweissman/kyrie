@@ -13,6 +13,7 @@ import { Pip } from './pip';
 import { ChoiceRow } from './choice-row';
 import { Signs } from '../../../src/presentation/signs';
 import { Indicator } from '../../../src/presentation/indicator';
+import { PageFrame } from '../page-frame';
 
 // Mission 21's attention composition (?look=attend; proposal.md, composition B). The owner, 12 November: "There
 // shouldn't be separate explore/perceive page: they're just lenses, they should leave the scene intact but more highly
@@ -41,7 +42,7 @@ export class Attention {
     const pages = Math.max(1, Math.ceil(rows.length / Attention.most)), at = page % pages;
     const shown = rows.slice(at * Attention.most, at * Attention.most + Attention.most);
     const chosen = lens === 'things' ? AtHand.of(app).find(h => h.id === app.state.hovered) : undefined;
-    return <ol data-menu className={`led attention-menu lens-${lens}`} aria-label={lens}>
+    return <ol {...PageFrame.slot('menu')} className={`led attention-menu lens-${lens}`} aria-label={lens}>
       {shown.map(r => <li key={r.id}>
         <ChoiceRow.Button className={`led-act attention-row${r.chosen ? ' chosen' : ''}${r.faint ? ' afar' : ''}`}
           data={{ pick: r.id, choice: r.choice && draw.index.has(r.choice.id) ? r.choice.id : undefined,

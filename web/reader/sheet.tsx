@@ -13,6 +13,7 @@ import { Aims } from './aims';
 import { PackGrid } from './pack-grid';
 import { Followed } from './followed';
 import { AimNear } from './aim-near';
+import { PageFrame } from './page-frame';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
@@ -62,7 +63,7 @@ export class Sheet {
         {screen.done.length > 0 && <section className="done" data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{Typography.curl(d)}</li>)}</ul></section>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
-        <ol data-menu className="led keep" aria-label="What can be done">
+        <ol {...PageFrame.slot('menu')} className="led keep" aria-label="What can be done">
           {aim && <Sheet.AimActs app={app} aim={aim} />}
           <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} mark={ChoiceRow.neutral}
             markClass="neutral" label="Download a save file" /></li>

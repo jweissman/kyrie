@@ -3,6 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { RegionChart } from '../../src/ui/screen-types';
 import type { BoardApi, BoardLand, BoardModule } from './board/board-types';
 import { HexLand } from './hex-land';
+import { PageFrame } from './page-frame';
 
 type Land = NonNullable<RegionChart['land']>;
 
@@ -151,7 +152,7 @@ export class BoardField {
     return (
       <div className="field-land board" ref={host} data-board={ready ? 'ready' : 'loading'}
         data-way={courses?.chosen?.length ?? 0}>
-        <div data-rail className="field-tools">
+        <div {...PageFrame.slot('rail')} className="field-tools">
           <button type="button" aria-label="Nearer" data-action="map-nearer" onClick={() => board.current?.zoom(0.8)}>+</button>
           <button type="button" aria-label="Further" data-action="map-further" onClick={() => board.current?.zoom(1.25)}>−</button>
           <button type="button" aria-label="Where you are" data-action="map-here" onClick={() => board.current?.home()}>◎</button>

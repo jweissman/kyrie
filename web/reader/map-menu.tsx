@@ -6,6 +6,7 @@ import { RouteCard } from './route-card';
 import { ChoiceRow } from './stage/choice-row';
 import { Words } from './words';
 import { Typography } from '../../src/presentation/typography';
+import { PageFrame } from './page-frame';
 
 // The map's menu (the owner, 15 November: crossing roads belong to the map, not to the scene's four; the map is a focus
 // whose menu is drawn as the scene's is): at most four rows, in the one grammar. The chosen place's travel, answering where
@@ -24,7 +25,7 @@ export class MapMenu {
     const roads = (screen.destinations ?? []).filter(d => !taken.includes(`travel:${d.id}`) && d.id !== chosen)
       .toSorted((a, b) => a.minutes - b.minutes).slice(0, MapMenu.four - 1 - (go ? 1 : 0) - (onward ? 1 : 0));
     return (
-      <ol data-menu className="led map-menu" aria-label="On the map">
+      <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
         {onward && <li><ChoiceRow.Button className="led-act go-on" data={{ action: 'go-on' }} act={onward.c.id}
           onClick={() => app.choose(onward.c)} mark={ChoiceRow.neutral} markClass="neutral"
           label={Typography.curl(`Go on to ${onward.name}`)} /></li>}
