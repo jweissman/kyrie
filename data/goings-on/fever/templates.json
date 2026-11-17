@@ -10,7 +10,7 @@
     "casting": "=gen(fever_casting)"
   },
   "fever_casting": { "__no_id": true, "mother": "=gen(fever_mother)", "sister": "=gen(fever_sister)" },
-  "fever_mother": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'she:fever_mother')", "raceId": "=#folk" },
-  "fever_sister": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'she:fever_sister')", "raceId": "=#folk",
+  "fever_mother": { "__no_id": true, ">name": "=kindred(defined('taken') ? #taken : nihil, #folk, (defined('townName') ? #townName : '') + ':fever|mother|she:mother:elder she:sister')", "raceId": "=#folk" },
+  "fever_sister": { "__no_id": true, ">name": "=kindred(defined('taken') ? #taken : nihil, #folk, (defined('townName') ? #townName : '') + ':fever|sister|she:mother:elder she:sister')", "raceId": "=#folk",
     "classId": "=lookup(goingsOnCalling, #folk)" }
 }

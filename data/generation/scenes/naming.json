@@ -1,0 +1,88 @@
+{
+  "about": "How each people names its own, beyond the names its settled folk are drawn from (folk.json): a tradition, which says what a family is known by and how one of it is called, and more given names, offered to one whose name is chosen (a protagonist) and given to the members of a family a story casts, apart from one another. A family known by a family name (line: family) shares one of its people's family names (folk.json's family), a wife's or a husband's with the rest; a family known by a parent (line: father) calls each by the given name of their own father. The engine knows only these words: line, said, and the slots of said ({given}, {family}, {father}).",
+  "traditions": {
+    "human": {
+      "line": "family",
+      "said": {
+        "any": "{given} {family}"
+      }
+    },
+    "dwarf": {
+      "line": "family",
+      "said": {
+        "any": "{given} {family}"
+      }
+    },
+    "elf": {
+      "line": "family",
+      "said": {
+        "any": "{given} {family}"
+      }
+    },
+    "gnome": {
+      "line": "family",
+      "said": {
+        "any": "{given} {family}"
+      }
+    },
+    "halfling": {
+      "line": "family",
+      "said": {
+        "any": "{given} {family}"
+      }
+    },
+    "catfolk": {
+      "line": "father",
+      "said": {
+        "she": "{given} daughter of {father}",
+        "he": "{given} son of {father}",
+        "they": "{given} child of {father}"
+      }
+    },
+    "birdfolk": {
+      "line": "father",
+      "said": {
+        "she": "{given} daughter of {father}",
+        "he": "{given} son of {father}",
+        "they": "{given} child of {father}"
+      }
+    }
+  },
+  "more": {
+    "human": {
+      "she": ["Amice", "Alison", "Constance", "Dionis", "Dulcia", "Emeline", "Ermengarde", "Felice", "Godith", "Ide", "Isabel", "Jennet", "Katerine", "Mariot", "Muriel", "Olive", "Parnel", "Rohese", "Sarra", "Wymarc"],
+      "he": ["Adam", "Benet", "Colin", "Drogo", "Everard", "Fulk", "Geoffrey", "Gervase", "Gilbert", "Herward", "Ivo", "Jocelin", "Lovel", "Mauger", "Osmund", "Payn", "Reynold", "Swein", "Walter", "Warin"],
+      "they": ["Alder", "Rush", "Teasel", "Sorrel", "Hazel", "Rowan"]
+    },
+    "dwarf": {
+      "she": ["Artin", "Audhild", "Bardryn", "Dagnal", "Diesa", "Eldeth", "Falkrunn", "Finellen", "Gunnloda", "Gurdis", "Helja", "Hlin", "Kathra", "Kristryd", "Ilde", "Liftrasa", "Mardred", "Riswynn", "Sannl", "Torbera", "Torgga", "Hjordis"],
+      "he": ["Alberich", "Barendd", "Darrak", "Delg", "Einkil", "Fargrim", "Orsik", "Oskar", "Rurik", "Taklinn", "Thoradin", "Tordek", "Traubon", "Travok", "Ulfgar", "Veit", "Bramdur", "Durgan", "Grimnar", "Hakon", "Korgan", "Brokk"],
+      "they": ["Slate", "Basalt", "Garnet", "Shale", "Agate", "Jet"]
+    },
+    "elf": {
+      "she": ["Althaea", "Anastrianna", "Andraste", "Antinua", "Bethrynna", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Meriele", "Quelenna", "Quillathe", "Shanairra", "Shava", "Silaqui", "Theirastra", "Vadania", "Xanaphia", "Ilyrra", "Naelia"],
+      "he": ["Adran", "Aramil", "Arannis", "Aust", "Berrian", "Dayereth", "Enialis", "Galinndan", "Hadarai", "Heian", "Himo", "Immeral", "Mindartis", "Paelias", "Quarion", "Theren", "Tharivol", "Varis", "Halamar", "Aerendil", "Faelor"],
+      "they": ["Elys", "Sael", "Ennis", "Iriel", "Lorin", "Vael"]
+    },
+    "halfling": {
+      "she": ["Amaryllis", "Daisy", "Dora", "Fenella", "Hettie", "Jillian", "Lidda", "Myrtle", "Nedda", "Paela", "Portia", "Rosie", "Shaena", "Tabitha", "Tilly", "Primrose", "Violet", "Winnie", "Ottilie", "Petunia", "Clementine"],
+      "he": ["Ander", "Corrin", "Errich", "Finnan", "Lindal", "Merric", "Reed", "Wendel", "Basil", "Bartholomew", "Barnaby", "Jasper", "Ned", "Ollie", "Tobias", "Wilbur", "Rufus", "Horace", "Clement", "Digby", "Hubert"],
+      "they": ["Thistle", "Burdock", "Sage", "Fennel", "Yarrow", "Nettle"]
+    },
+    "gnome": {
+      "she": ["Breena", "Carlin", "Donella", "Duvamil", "Ella", "Ellywick", "Lilli", "Lorilla", "Mardnab", "Nyx", "Oda", "Orlilla", "Shamil", "Tana", "Waywocket", "Bellabrin", "Pennimint", "Tilwick", "Yebbin", "Minnow", "Dabbin"],
+      "he": ["Alvyn", "Brocc", "Burgell", "Erky", "Frug", "Gerbo", "Gimble", "Kellen", "Namfoodle", "Roondar", "Seebo", "Sindri", "Zook", "Bilbin", "Nackwick", "Tobbin", "Pemble", "Quillon", "Dabble", "Orbo", "Wimbly"],
+      "they": ["Cog", "Tink", "Bobbin", "Whirl", "Fidget", "Sprig"]
+    },
+    "catfolk": {
+      "she": ["Amber", "Dawn", "Ermine", "Fern", "Ivory", "Juniper", "Lynx", "Mallow", "Opal", "Rue", "Sienna", "Tawny", "Umber", "Velvet", "Briar", "Cassia", "Dune", "Ochre", "Thyme", "Vesper"],
+      "he": ["Clay", "Cobalt", "Drift", "Ebon", "Fell", "Grim", "Heath", "Moth", "Russet", "Umbra", "Vale", "Wolfram", "Brindle", "Coal", "Gorse", "Smoke", "Tallow", "Ridge", "Sleet", "Hollow"],
+      "they": ["Echo", "Shade", "Silk", "Frost", "Ripple", "Dapple"]
+    },
+    "birdfolk": {
+      "she": ["Dunlin", "Egret", "Garganey", "Martlet", "Petrel", "Pipit", "Redpoll", "Sanderling", "Stint", "Twite", "Wheatear", "Whimbrel", "Wigeon", "Brambling", "Corella", "Dove", "Finch", "Halcyon", "Ibis", "Oriel"],
+      "he": ["Bittern", "Curlew", "Dotterel", "Fulmar", "Gannet", "Godwit", "Heron", "Jackdaw", "Osprey", "Peregrine", "Thrush", "Turnstone", "Wryneck", "Crake", "Ruff", "Skua", "Eider", "Gyr", "Merganser", "Shrike", "Ouzel"],
+      "they": ["Pinion", "Crest", "Sky", "Wing", "Gust", "Eyas"]
+    }
+  }
+}
