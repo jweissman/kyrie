@@ -381,6 +381,25 @@ evoker or generalist who prepares it. Fireball and Lightning Bolt: a mage from t
 seventh), and hostile casters of that level. The handbook's spell chapter now has Fireball reachable at the third
 spell level (test/handbook names ice_storm for an unreachable one instead).
 
+### 13. The calling kits (17 November, later): proof-slices.md step 7
+
+Spec: `test/small/calling-kits` (3 cases). Before, `Overlays.classGear` kept only the kit kinds the item catalog had,
+so the ranger's rations and the monk's alms bowl were dropped without a word.
+- **Validation:** a calling's `startingGear` names items the catalog has, or the canon refuses to load ("carries
+  unknown item", CanonValidation.classes).
+- **The first inventory** of all seven callings, made by `Content.createCreature` on two seeds, is exactly its kit and
+  the road's candle; arms and armour are drawn from the calling's own tables.
+- **`alms_bowl`:** Orsino's monk starts with one that Orsino's item tables never define. Decided as Kyr's own plain
+  gear (data/catalog/items/gear.json, `kyr: true`, worth 1): the monk owns it and may sell it; it has no use. Not sold
+  anywhere, not in a loot table.
+- **`rations`:** Orsino's is a consumable that heals 1d4. Kyr's rations are already the company's counted good
+  (`Entity rations: good`, data/rules/core.kyr): a meal a day is eaten from them (needs.kyr), a rest wants one
+  (care.kyr), inns sell them, and every company sets out with two. An item of the same name collides with the good
+  (a region refuses a duplicate entity). So the ranger's kit names none apart, its class notes say why, and the
+  ledger's `gear:rations` is `represented`, its healing not kept.
+- **Not imported:** class gold, consumable proficiency (each its own decision, as step 7 says).
+- **Generation:** no shop or loot table draws either kind; only the monk's inventory gains the bowl.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **34 of the merged catalogue's 363 abilities** carry `unsupported`. Orsino's file (data/catalog/orsino/abilities.json)

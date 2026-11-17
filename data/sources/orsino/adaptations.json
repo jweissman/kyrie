@@ -2,6 +2,13 @@
   "about": "Which Kyr definitions represent each Orsino registry entry, and how far. support: represented (typed Kyr equivalent, some mechanics omitted), executable (every source mechanic runs through canonical Kyr systems or has a declared adaptation), play-validated (exercised in real play; evidence is file#text that must appear in that file). Every feature Kyr judges unsupported must be listed under omits or adapts. Checked by test/orsino-registry.test.ts.",
   "records": [
     {
+      "orsino": "gear:rations",
+      "kyr": [],
+      "support": "represented",
+      "fidelity": "adapted",
+      "note": "Orsino's rations (heal 1d4, worth 2) are Kyr's rations, a good the company counts (data/rules/core.kyr: Entity rations: good), not an item a member carries: a meal a day is eaten from it (needs.kyr), a rest wants one (care.kyr), inns sell them, and every company sets out with two (proof-slices.md step 7). Its healing is not kept: a Kyr meal stops hunger, and a rest mends."
+    },
+    {
       "orsino": "background:hunter",
       "kyr": [
         "background:hunter"

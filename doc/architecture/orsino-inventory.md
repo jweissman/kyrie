@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1614 integrated, 174 represented, 745 reference, 118 blocked.
+2651 entries in 79 families: 1614 integrated, 175 represented, 745 reference, 117 blocked.
 
 ## By family
 
@@ -43,7 +43,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | equipment | armor | 15 | 15 | 0 | 0 | 0 | data/catalog/items/armour.json | shops, gear, finds | `test/treasure.test.ts` |
 | equipment | consumable | 28 | 24 | 4 | 0 | 0 | data/catalog/items/consumables.json | shops and finds | `test/treasure.test.ts` `test/shared-item-effects.test.ts` |
 | equipment | equipment | 48 | 45 | 3 | 0 | 0 | data/catalog/items/wonders.json | shops and finds | `test/treasure.test.ts` |
-| equipment | gear | 68 | 66 | 1 | 0 | 1 | data/catalog/items/gear.json | shops, starting gear | `test/treasure.test.ts` |
+| equipment | gear | 68 | 66 | 2 | 0 | 0 | data/catalog/items/gear.json | shops, starting gear | `test/treasure.test.ts` |
 | equipment | gem | 5 | 5 | 0 | 0 | 0 | data/catalog/items/gems.json | stones found in deep sites (src/world/deep/stones.ts) | `test/treasure.test.ts` |
 | equipment | junk | 71 | 71 | 0 | 0 | 0 | data/catalog/items/valuables.json | finds in works | `test/treasure.test.ts` |
 | equipment | treasureTier | 6 | 6 | 0 | 0 | 0 | data/generation/tables/treasure.json (with its loot template, data/generation/templates/treasure.json), drawn by src/world/deep/deep-pacing.ts and a riddle's casket (deep-rooms.ts) | every deep site's rooms, narrowed by what its purpose says its makers and those after them left | `test/deep-treasure.test.ts` |
@@ -210,8 +210,8 @@ For each family with entries not met in play: its blockers, with how many entrie
 
 ### gear
 
-- 1 × Every feature it uses runs in Kyr, but no Kyr definition translates it yet.
 - 1 × field:masterGear.duration: A Kyr torch does not burn down; it is a tool that changes need, not a light that runs out.
+- 1 × Orsino's rations (heal 1d4, worth 2) are Kyr's rations, a good the company counts (data/rules/core.kyr: Entity rations: good), not an item a member carries: a meal a day is eaten from it (needs.kyr), a rest wants one (care.kyr), inns sell them, and every company sets out with two (proof-slices.md step 7). Its healing is not kept: a Kyr meal stops hunger, and a rest mends.
 
 ### legendaryWonderRoll
 

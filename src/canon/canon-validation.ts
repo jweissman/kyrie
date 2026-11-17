@@ -238,6 +238,8 @@ export class CanonValidation {
       }
       for (const w of c.weapons.filter(w => !Canon.items[w]?.weapon)) { this.fail(where, `starts with ${w}, not a weapon`); }
       for (const a of c.armor.filter(a => !Canon.items[a]?.armor)) { this.fail(where, `starts in ${a}, not armour`); }
+      // A calling's kit is items the catalog has (proof-slices.md step 7): none silently dropped at creation.
+      for (const g of (c.startingGear ?? []).filter(g => !Canon.items[g])) { this.fail(where, `carries unknown item ${g}`); }
       if (!Number.isInteger(c.hitDie) || c.hitDie < 1) { this.fail(where, 'needs a hit die'); }
     }
   }

@@ -8,7 +8,7 @@ mechanics omitted), **executable** (every source mechanic runs through canonical
 adaptation), **play-validated** (exercised in recorded play). *Feasible* counts entries whose every rule feature
 Kyr can already execute (faithfully or by documented adaptation); it is not a claim that a Kyr definition exists.
 
-2651 entries in 79 families. 1358 represented or better; 1241 executable or better; 17 play-validated; 2406 feasible.
+2651 entries in 79 families. 1359 represented or better; 1241 executable or better; 17 play-validated; 2406 feasible.
 
 ## By family
 
@@ -41,7 +41,7 @@ Kyr can already execute (faithfully or by documented adaptation); it is not a cl
 | equipment | armor | 15 | 0 | 15 | 0 | 15 |
 | equipment | consumable | 28 | 4 | 22 | 2 | 28 |
 | equipment | equipment | 48 | 3 | 44 | 1 | 45 |
-| equipment | gear | 68 | 1 | 63 | 3 | 53 |
+| equipment | gear | 68 | 2 | 63 | 3 | 53 |
 | equipment | gem | 5 | 0 | 5 | 0 | 5 |
 | equipment | junk | 71 | 0 | 71 | 0 | 71 |
 | equipment | treasureTier | 6 | 0 | 0 | 0 | 6 |
@@ -201,6 +201,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 
 | Orsino entry | Kyr definitions | Support | Fidelity | Note |
 |---|---|---|---|---|
+| `gear:rations` |  | represented | adapted | Orsino's rations (heal 1d4, worth 2) are Kyr's rations, a good the company counts (data/rules/core.kyr: Entity rations: good), not an item a member carries: a meal a day is eaten from it (needs.kyr), a rest wants one (care.kyr), inns sell them, and every company sets out with two (proof-slices.md step 7). Its healing is not kept: a Kyr meal stops hunger, and a rest mends. |
 | `background:hunter` | `background:hunter` | play-validated | adapted | Exact Dex +2, Wis +1, Con +1 and the ranger requirement; 15 gold becomes 2 coin. |
 | `background:medic` | `background:medic` `item:bandages` `item:herbs` | play-validated | adapted | Exact Wis +2, Int +2 and the cleric requirement. Orsino's starting gear names bandages and herbs, which are absent from its own gear catalog; Kyr defines them. |
 | `background:locksmith` | `background:locksmith` | play-validated | adapted | Exact Dex +4, Int +2; 40 gold becomes 4 coin. |

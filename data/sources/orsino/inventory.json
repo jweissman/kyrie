@@ -495,9 +495,9 @@
    "rule": "ledger",
    "counts": {
     "integrated": 66,
-    "represented": 1,
+    "represented": 2,
     "reference": 0,
-    "blocked": 1
+    "blocked": 0
    }
   },
   "gem": {
@@ -10101,10 +10101,10 @@
   },
   {
    "id": "gear:rations",
-   "status": "blocked",
-   "mechanics": "catalogued",
+   "status": "represented",
+   "mechanics": "represented",
    "blockers": [
-    "Every feature it uses runs in Kyr, but no Kyr definition translates it yet."
+    "Orsino's rations (heal 1d4, worth 2) are Kyr's rations, a good the company counts (data/rules/core.kyr: Entity rations: good), not an item a member carries: a meal a day is eaten from it (needs.kyr), a rest wants one (care.kyr), inns sell them, and every company sets out with two (proof-slices.md step 7). Its healing is not kept: a Kyr meal stops hunger, and a rest mends."
    ]
   },
   {

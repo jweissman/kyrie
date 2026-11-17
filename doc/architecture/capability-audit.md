@@ -11,7 +11,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Spells: traditions, slots, durations and unusual magic | 238 faithful, 13 adapted, 4 kyr, 31 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 38 faithful, 5 adapted, 7 represented, 12 not playable |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 72 kyr, 4 not playable, 104 orsino data only |
-| Equipment, treasure and magic items | 344 faithful, 116 adapted, 8 represented, 104 kyr, 7 not playable, 7 orsino data only |
+| Equipment, treasure and magic items | 344 faithful, 116 adapted, 9 represented, 105 kyr, 7 not playable, 6 orsino data only |
 | Environment, world and planar rules | 3 adapted, 7 represented, 281 kyr, 180 orsino data only |
 | Content authoring and generation | 32 kyr |
 
@@ -157,7 +157,7 @@ Handbook sections: `mm:species`, `mm:natural-abilities`, `mm:creature-traits`, `
 
 ## Equipment, treasure and magic items
 
-Entries: 344 faithful, 116 adapted, 8 represented, 104 kyr, 7 not playable, 7 orsino data only.
+Entries: 344 faithful, 116 adapted, 9 represented, 105 kyr, 7 not playable, 6 orsino data only.
 
 **What Orsino defines.** 83 weapons, 15 armours, 68 pieces of gear, 48 magic items, 28 consumables, treasure tiers by depth.
 

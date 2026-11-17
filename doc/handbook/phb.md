@@ -2101,6 +2101,14 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 
 ### Gear, tools, consumables and treasure
 
+#### Alms bowl
+
+*Kyr · gear* · `item:alms_bowl`
+
+- Worth: 1
+
+> A plain wooden bowl, worn smooth at the rim, that a mendicant holds out for what is given.
+
 #### Backpack
 
 *Adapted · gear* · `item:backpack`

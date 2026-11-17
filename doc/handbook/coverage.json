@@ -287,8 +287,8 @@
     "concept": "equipment",
     "total": 68,
     "feasible": 53,
-    "catalogued": 1,
-    "represented": 1,
+    "catalogued": 0,
+    "represented": 2,
     "executable": 63,
     "play-validated": 3
    },
@@ -801,7 +801,7 @@
     "faithful": 759,
     "adapted": 389,
     "represented": 4,
-    "kyr": 566,
+    "kyr": 567,
     "unsupported": 67,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 241,
       "adapted": 84,
       "represented": 0,
-      "kyr": 104,
+      "kyr": 105,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -996,11 +996,11 @@
    "counts": {
     "faithful": 230,
     "adapted": 37,
-    "represented": 27,
+    "represented": 28,
     "kyr": 314,
     "unsupported": 0,
     "unreachable": 0,
-    "data-only": 198
+    "data-only": 197
    },
    "sections": [
     {
@@ -1048,11 +1048,11 @@
      "counts": {
       "faithful": 230,
       "adapted": 37,
-      "represented": 27,
+      "represented": 28,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
-      "data-only": 198
+      "data-only": 197
      }
     }
    ]
@@ -6896,6 +6896,13 @@
    "status": "faithful",
    "book": "phb",
    "section": "equipment/armour"
+  },
+  {
+   "id": "item:alms_bowl",
+   "title": "Alms bowl",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
   },
   {
    "id": "item:backpack",
@@ -18191,7 +18198,7 @@
   {
    "id": "orsino:gear:rations",
    "title": "Rations",
-   "status": "data-only",
+   "status": "represented",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },

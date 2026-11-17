@@ -3468,7 +3468,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 ### Gear
 
-68 in Orsino; 67 held by Kyr.
+68 in Orsino; 68 held by Kyr.
 
 | Name | Worth | Does | In Kyr |
 |---|---|---|---|
@@ -3517,7 +3517,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Pouch | 2 | A small pouch for carrying personal items. | adapted |
 | Quill | 1 | A feather quill for writing or drawing. | faithful |
 | Quiver | 3 | A quiver for holding arrows or bolts. | adapted |
-| Rations | 2 | type heal amount 1d4 | — |
+| Rations | 2 | type heal amount 1d4 | represented |
 | Robe | 4 | A flowing robe for wizards or priests. | faithful |
 | Rope | 1 | A length of sturdy rope for climbing, tying, or securing items. | adapted |
 | Sack | 2 | A large sack for carrying bulky items. | adapted |

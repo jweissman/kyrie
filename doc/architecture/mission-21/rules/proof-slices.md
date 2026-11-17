@@ -76,6 +76,12 @@ seams without concentration, persistent areas, transformation or world magic:
      asks for; creation grants instances; generation and shops decide where replacements are found.
    - Tests enumerate the exact first inventory of all seven callings and fail on any unresolved kind.
    - Do not import class gold or consumable proficiency incidentally: each is its own adaptation decision.
+   - **Done** (17 November, later: mission-22/srd-proving-cases.md case 13, test/small/calling-kits): every kit item
+     id is validated at load (CanonValidation: a calling "carries unknown item"), and the first inventory of all seven
+     callings is enumerated. `alms_bowl` is Kyr's own plain gear (Orsino's kit names it, its tables never define it).
+     `rations` is not an item: Kyr's rations are the company's counted good (data/rules/core.kyr), eaten by the day
+     and wanted by a rest, and every company sets out with two. The ranger's kit names none apart, and the ledger's
+     gear:rations record says so (represented).
 
 ## Do not cross yet
 
