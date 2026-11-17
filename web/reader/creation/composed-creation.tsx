@@ -99,7 +99,11 @@ export class ComposedCreation {
     const all = offer.options, per = ComposedCreation.folded;
     // Never more than four at once, cards or rows (the owner, 15 and 16 November: four in the foreground, the rest a page
     // on, never unfolded): a row turns the page, and the pages go round.
-    const pages = Math.ceil(all.length / per), folds = !offer.all && all.length > per, page = more % Math.max(1, pages);
+    // Opened on the page that holds what is lit (the choice already made, carried from another life), so that what is
+    // told above the rows is of a row in view (M22's third review, OR-25/50: a mage's page had told of Arms, on a page
+    // not shown, with no row lit).
+    const at = all.findIndex(o => o.id === chosen), from = at >= per ? Math.floor(at / per) : 0;
+    const pages = Math.ceil(all.length / per), folds = !offer.all && all.length > per, page = (more + from) % Math.max(1, pages);
     const shown = !folds ? all : all.slice(page * per, page * per + per);
     const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
