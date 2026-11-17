@@ -14,6 +14,11 @@ import { PageFrame } from './page-frame';
 // it; and Put away the map, the last row always. Choosing a cell on the map is a presentation gesture; each row commits.
 export class MapMenu {
   static readonly four = 4;
+  // A journey's mark: the aim's gold where it goes to a place of the followed aim, else the neutral line.
+  static gold(screen: Screen, act: string): { mark: string; markClass?: string } {
+    return RouteCard.aimed(screen, act.replace(/^travel:/, '')) ? { mark: 'var(--tone-gold)' }
+      : { mark: ChoiceRow.neutral, markClass: 'neutral' };
+  }
   // onward: a journey stopped here, its way on, first (the hex card had drawn it as a menu of its own, beside this one's
   // road to the same place: the act twice).
   static View({ app, screen, chosen, put, enter, onward }: { app: ReaderApp; screen: Screen; chosen?: string;
@@ -26,8 +31,9 @@ export class MapMenu {
       .toSorted((a, b) => a.minutes - b.minutes).slice(0, MapMenu.four - 1 - (go ? 1 : 0) - (onward ? 1 : 0));
     return (
       <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
+        {/* The way on in the aim's gold where the journey is the followed aim's (PB-14: it had stayed grey). */}
         {onward && <li><ChoiceRow.Button className="led-act go-on" data={{ action: 'go-on' }} act={onward.c.id}
-          onClick={() => app.choose(onward.c)} mark={ChoiceRow.neutral} markClass="neutral"
+          onClick={() => app.choose(onward.c)} {...MapMenu.gold(screen, onward.c.id)}
           label={Typography.curl(`Go on to ${onward.name}`)} /></li>}
         {enter && <li><ChoiceRow.Button className="led-act rc-enter" data={{ action: 'enter', choice: enter.c.id }} act={enter.c.id}
           onClick={() => app.choose(enter.c)} mark={ChoiceRow.neutral} markClass="neutral"
