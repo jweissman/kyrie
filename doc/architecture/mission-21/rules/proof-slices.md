@@ -58,10 +58,12 @@ seams without concentration, persistent areas, transformation or world magic:
      and immunity; an ally caught in the area; the event trace and the displayed forecast; the exact slot spent.
    - **Done for Cone of Cold** (17 November: mission-22/srd-proving-cases.md case 7, test/cone-of-cold), taken first
      because its level is the SRD's already and moving it moves no draw; its save's difficulty conversion (the SRD's
-     and half the casting level) is the one the rest take. Burning Hands and Fireball each move every mage's draws
-     at creation, and wait for their own census.
+     and half the casting level) is the one the rest take.
    - **The line, with Lightning Bolt** (17 November, later: case 9, test/lightning-bolt): a one-shot line, nothing
      persistent; the bolt's level kept at Orsino's fourth for the same census.
+   - **Done for Burning Hands and Fireball, and Lightning Bolt's level** (17 November, later: case 12,
+     test/burning-hands-fireball), at the SRD's levels once the draw by rank (case 11) moved only the casters who
+     gain or lose a spell.
 6. **The rat as an unplaced SRD variant.** Do not replace `rat`: an explicit `rat/srd`, or a variation named for the
    setting, at first `unplaced`.
    - It gets fixed Hit Dice and HP, scores, an AC conversion, its attack, attack bonus and saves.

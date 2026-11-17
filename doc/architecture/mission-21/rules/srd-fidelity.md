@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 17 pass in structure
-(level, school), 3 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-3 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 20 pass in structure
+(level, school), 5 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+5 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 39 | school 62 | dice 3 | type 12 | save 21 | dc 2 | attack 104 | target 68 | duration 30 | of 119 |
+| spells, field exact or converted | level 42 | school 62 | dice 5 | type 12 | save 23 | dc 4 | attack 104 | target 68 | duration 30 | of 119 |
 
 ## Creatures, most met first
 
@@ -110,7 +110,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ self → burst | ✗ 3 rounds → long |
 | bless | bless | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | – | – | ✓ | ✗ one → burst | ✗ 3 rounds → long |
 | blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → one | ✗ 3 rounds → long |
-| burning_hands | burning-hands | S✗ R✗ I– | ✗ 2 → 1 | ✓ | ✗ 7/7/7/7 → 2.5/12.5/12.5/12.5 | ✓ | ✗ · → dexterity half | ✗ · → 14 | ✓ | ✓ | ✓ |
+| burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | calm_emotions | calm-emotions | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ all → burst | ✗ 3 rounds → long |
 | cause_blindness | blindness-deafness | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 17 → 15 | ✓ | ✓ | ✗ 5 rounds → long |
 | chain_lightning | chain-lightning | S✗ RU I– | ✗ 5 → 6 | ✓ | ✗ · → 3.5/17.5/35/70 | ✗ · → electricity | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ · → one | ✓ |
@@ -147,7 +147,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | false_life | false-life | S✗ R✗ I– | ✗ 4 → 2 | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✓ | ✓ |
 | fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ burst → one | ✓ |
-| fireball | fireball | S✗ R✗ I– | ✗ 4 → 3 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/35 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 16 | ✓ | ✓ | ✓ |
+| fireball | fireball | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
 | flesh_to_stone | flesh-to-stone | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 29 → 19 | ✓ | ✓ | ✗ 10 rounds → instant |
 | flight | fly | S✓ R✗ I– | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → long |
 | foresight | foresight | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✗ one → self | ✗ 3 rounds → long |
@@ -167,7 +167,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | invulnerability | globe-of-invulnerability | S✗ RU I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ 5 rounds → long |
 | knock | knock | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✗ · → several | ✓ |
 | life_drain | vampiric-touch | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → necromancy | ✗ 3.5/3.5/3.5/3.5 → 0/7/17.5/35 | – | ✗ wisdom negates → · | ✗ 15 → · | ✗ none → melee touch | ✓ | ✓ |
-| lightning_bolt | lightning-bolt | S✗ R✓ I✓ | ✗ 4 → 3 | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
+| lightning_bolt | lightning-bolt | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
 | magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
 | major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | ✓ | ✗ instant → long |
 | mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✗ wisdom negates → · | ✗ 34 → · | ✓ | ✗ all → several | ✗ 3 rounds → long |

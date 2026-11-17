@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 761,
-    "adapted": 387,
+    "faithful": 759,
+    "adapted": 389,
     "represented": 4,
     "kyr": 566,
     "unsupported": 67,
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 240,
-      "adapted": 11,
+      "faithful": 238,
+      "adapted": 13,
       "represented": 0,
       "kyr": 4,
       "unsupported": 31,
@@ -997,7 +997,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 27,
-    "kyr": 313,
+    "kyr": 314,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 281,
+      "kyr": 282,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -9285,6 +9285,13 @@
    "section": "magic/spells-arcane/spells-arcane-1"
   },
   {
+   "id": "ability:burning_hands",
+   "title": "Burning Hands",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-1"
+  },
+  {
    "id": "ability:charm",
    "title": "Charm Person",
    "status": "faithful",
@@ -9385,13 +9392,6 @@
   {
    "id": "ability:augury",
    "title": "Augury",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-2"
-  },
-  {
-   "id": "ability:burning_hands",
-   "title": "Burning Hands",
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-2"
@@ -9530,6 +9530,13 @@
    "section": "magic/spells-arcane/spells-arcane-3"
   },
   {
+   "id": "ability:fireball",
+   "title": "Fireball",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-3"
+  },
+  {
    "id": "ability:flight",
    "title": "Fly",
    "status": "faithful",
@@ -9540,6 +9547,13 @@
    "id": "ability:ice_bolt",
    "title": "Ice Bolt",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-3"
+  },
+  {
+   "id": "ability:lightning_bolt",
+   "title": "Lightning Bolt",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-3"
   },
@@ -9642,23 +9656,9 @@
    "section": "magic/spells-arcane/spells-arcane-4"
   },
   {
-   "id": "ability:fireball",
-   "title": "Fireball",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-4"
-  },
-  {
    "id": "ability:foretelling",
    "title": "Foretelling",
    "status": "unsupported",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-4"
-  },
-  {
-   "id": "ability:lightning_bolt",
-   "title": "Lightning Bolt",
-   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-4"
   },
@@ -14204,6 +14204,13 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-canon"
+  },
+  {
+   "id": "rule:care.restsOn",
+   "title": "restsOn",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
   },
   {
    "id": "rule:care.levelOf",

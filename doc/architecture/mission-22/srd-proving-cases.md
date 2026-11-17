@@ -336,6 +336,51 @@ the long descents and the browser specs were run on the branch `srd-draw` (CI 44
   the browser locally, alone: pass. Played headless, the same walk had met the dog with both draws.
 - **The balance shift** in the Bound Howe's camp is its own row: CB-27.
 
+### 12. Burning Hands, Fireball and Lightning Bolt at the SRD's levels (17 November, later): adapted
+
+Proof-slices.md step 5's rest, made a slice of its own by the draw by rank (case 11). Spec:
+`test/burning-hands-fireball` (6 cases).
+
+**The spells** (hand entries over Orsino's, data/catalog/abilities.json):
+- **Burning Hands:** first level (Orsino's second), 1d4 fire a casting level to 5d4 at the fifth (exact), a cone
+  (exact), a Reflex save for half at case 7's difficulty for a first-level spell (converted). Before: 2d6 on every
+  foe, no save.
+- **Fireball:** third level (Orsino's fourth), 1d6 fire a casting level to 10d6 at the tenth (exact), a burst
+  (exact), a Reflex save for half at case 7's difficulty (converted). Before: 6d6, a magic save against 15.
+- **Lightning Bolt** goes to the SRD's third level beside it (case 9 had kept Orsino's fourth), so its structure now
+  passes.
+- Omitted for each: spell resistance; setting things alight; Fireball's range and the bead's flight.
+
+**The tests:** the dice at casting levels 1, 4, 5, 6, 10 and 20 (Burning Hands) and 1, 5, 9, 10, 11 and 20
+(Fireball); the difficulty at a seventh-level caster of 16 (17 and 19); the levels and the evoker's pools; aimed into
+the press, each catches the company's own warrior with the two foes there, each saving by Reflex, the one slot spent;
+a failed save the whole and a success half, over six seeds, and a replay alike; a fire ward (fireproof) through the
+ordinary pipeline; the line said as rolled, and the aim's catch (Positions.caught) the very ones burned.
+`test/area-positions` now casts its fireball from a third-level slot, and its saves are Reflex.
+
+**The census** (scratch: the lead's `pools.ts`, 200 humans for each calling and level, before and after):
+
+| Calling, level | Moved | Before (bh / fb / lb / mm) | After (bh / fb / lb / mm) |
+|---|---|---|---|
+| mage, evoker, 1 | 65 % | .33 / 0 / 0 / .27 | .27 / .21 / .21 / .23 |
+| mage, evoker, 7 | 64 % | .35 / .12 / .05 / .36 | .32 / .26 / .24 / .34 |
+| mage, abjurer, 1 | 17 % | .07 / 0 / 0 / .14 | .15 / 0 / 0 / .13 |
+| mage, abjurer, 7 | 28.5 % | .23 / .11 / .05 / .29 | .27 / .16 / .10 / .27 |
+| mage, school drawn, 1 | 26 % | .09 / 0 / 0 / .17 | .17 / .04 / .04 / .14 |
+| mage, school drawn, 7 | 33.5 % | .23 / .11 / .05 / .30 | .28 / .18 / .13 / .29 |
+| bard, cleric, 1–7 | 0 % | none of the four | none of the four |
+
+- Every caster who moved held or now holds one of the three, or a spell displaced from a level one of them left or
+  joined. A first-level evoker now knows Fireball one time in five; it casts it from the fifth level, when its first
+  third-level slot comes.
+- **The installed casters** of a1 and the six fidelity countries as real play begins them (2,232 classed creatures):
+  one moves, kahitude's s5 traveller. No first hour moves.
+
+**Where they are met.** Burning Hands: a mage of the first level who draws it, and from the first level a hostile
+evoker or generalist who prepares it. Fireball and Lightning Bolt: a mage from the fifth level (no longer the
+seventh), and hostile casters of that level. The handbook's spell chapter now has Fireball reachable at the third
+spell level (test/handbook names ice_storm for an unreachable one instead).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **34 of the merged catalogue's 363 abilities** carry `unsupported`. Orsino's file (data/catalog/orsino/abilities.json)
@@ -384,16 +429,14 @@ be claimed from the catalogue.
   - GT-03: the integration case;
   - CB-05: a difficulty that reads a measure (OB-11);
   - regeneration out of a fight.
-- **By the SRD's numbers in resolution:** Magic Missile, Cone of Cold and Lightning Bolt (srd-fidelity.md). Moving any other spell is
+- **By the SRD's numbers in resolution:** Magic Missile, Cone of Cold, Lightning Bolt, Burning Hands and Fireball (srd-fidelity.md). Moving any other spell is
   a proof slice of its own.
 
 ## What remains of the migration, and why (17 November, later)
 
-- **Burning Hands and Fireball, and Lightning Bolt's level** (proof-slices.md step 5's rest). Stopped by the census
-  in case 10: three mages in four or more would draw other spells. This waits on the lead's decision there. Cone of
-  Cold's DC conversion and `#castingScore` are theirs to reuse.
+- **Burning Hands and Fireball, and Lightning Bolt's level:** done (case 12), by the draw by rank (case 11).
 - **The cascading five** (chain_lightning, bolt, electric_arc, shock_pulse, static_shock). These want `chain`, a
-  new shape after the line (case 9). Stopped with the levels (case 10): every one of them enters a draw.
+  new shape after the line (case 9). Every one of them enters a draw, which since case 11 moves only the casters who gain one.
 - **Spell resistance.** Not rolled anywhere. Proof-slices.md forbids an `sr` field until it rolls, is told and
   changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
 - **The 34 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal

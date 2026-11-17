@@ -35,7 +35,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
     await page.waitForFunction(() => document.querySelector('#ability-fireball:not([hidden])')
       && document.querySelectorAll('article.entry:not([hidden])').length < 10);
     await page.fill('#find', '');
-    await page.uncheck('.chips input[value=faithful]');
+    await page.uncheck('.chips input[value=adapted]');
     await page.waitForFunction(() => document.querySelector('#ability-fireball')!.hasAttribute('hidden'));
     expect(await page.locator('article[data-status=unreachable]:not([hidden])').count()).toBeGreaterThan(0);
     await page.close();

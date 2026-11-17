@@ -345,7 +345,9 @@
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
-  "lightning_bolt": "test/lightning-bolt.test.ts"
+  "lightning_bolt": "test/lightning-bolt.test.ts",
+  "burning_hands": "test/burning-hands-fireball.test.ts",
+  "fireball": "test/burning-hands-fireball.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -355,6 +357,12 @@
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   },
   "lightning_bolt": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "burning_hands": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "fireball": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   }
  }

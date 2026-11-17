@@ -634,7 +634,13 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 23 | 2 | 0 | 2 | 10 |
+| 7 | 24 | 2 | 0 | 2 | 10 |
+
+#### restsOn
+
+*Kyr · relation(capability, quality)* · `rule:care.restsOn`
+
+What a capability of a campaign's own rests on, where it says (Initially Assert restsOn(systems, intelligence)): a check of it is made by that quality, as the catalog's skills are by theirs (BX-01's L5).
 
 #### levelOf
 
@@ -1074,6 +1080,10 @@ Someone who means the company no good where it is: a long wait or a rest is brok
 - Takes: 10 minutes
 - Costs: 1
 
+Waiting mends no one, and says so: only rest does (FH-14: a wait had healed nothing and said nothing of it).
+
+A few minutes. Waiting mends no wound; rest does.
+
 > Needs: able(actor)
 
 > Then: nothing changes
@@ -1101,6 +1111,8 @@ You cannot move. Time passes over you until you can.
 - Shown as: Wait an hour
 - Takes: 60 minutes
 - Costs: 1
+
+An hour, ready for whatever comes. Waiting mends no wound; rest does.
 
 > Needs: able(actor)
 
@@ -1150,7 +1162,7 @@ A company sitting out the hours (until first light, until dark) puts its lights 
 - Takes: the untilDark of the way
 - Costs: 1
 
-> Needs: able(actor); not (dark())
+> Needs: able(actor); not (dark()); untilDark(clock) > 0
 
 > Then: nothing changes
 
@@ -1162,7 +1174,7 @@ A company sitting out the hours (until first light, until dark) puts its lights 
 - Takes: the untilTurn of the way
 - Costs: 1
 
-Until someone comes or goes, or something changes here; or until the day turns.
+Until someone comes or goes, or something changes here; or until the day turns. It mends no wound.
 
 > Needs: able(actor)
 
@@ -1339,6 +1351,8 @@ Go over the whole of the place, a little at a time: the ground, the walls, the b
 - Shown as: Destroy {witness}
 - Takes: 10 minutes
 - Costs: 1
+
+Where nothing reads a search of the place, it finds nothing, and says so: twelve of fourteen searches in the boredom census's walks (a cloth-hall, a bakehouse, a byre) ended on the plain words, twenty minutes gone and nothing said of what came of them (BO-03).
 
 > Needs: able(actor); at(actor, site); at(witness, site); noticeable(witness); intact(witness); destructible(witness)
 
@@ -2552,7 +2566,7 @@ Work at an inn: an evening's fetching and carrying for whoever keeps it, for the
 - Takes: 60 minutes
 - Costs: 1
 
-> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); capable(actor, persuasion); watch(clock) >= singsAgain(actor)
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); capable(actor, performance); watch(clock) >= singsAgain(actor)
 
 > Then: Set singsAgain(actor) to (watch(clock) + 72). Increase quantity(actor, gold) by 5.
 
