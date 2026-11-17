@@ -14,7 +14,9 @@ interface Piece { name: string; text: string; effect?: string; omits?: Record<st
 export interface Trap extends Piece { mechanism: string; sign: string }
 // How a wonder stands in a country (data/generation/scenes/wonders.json): where, what it is called, how it is met,
 // how it looks before anyone meets it, what it does to whoever does, and how it is after.
-interface Met { where: 'wild' | 'within'; name: string; verb: string; seen: string; taken: string; after: string }
+interface Met { where: 'wild' | 'within'; name: string; verb: string; seen: string; taken: string; after: string;
+  // How it is noticed from the place before it (the edge of its wild country, the room before a work's inner way).
+  sign?: string }
 // A fragment of the country's history a wonder carries: the fact it teaches, and how the makers ended, as told.
 export interface Fragment { fact: string; fate: string }
 export type Wonder = [string, Piece & Met];
@@ -49,10 +51,11 @@ export class RegionMarvels {
   // The wild country's wonders: one in each of up to two of its parts, at the heart or the deep of it.
   static lines(region: Region): string[] {
     const atlas = RegionGeography.atlas(region);
-    const deep = atlas.zones.map(z => RegionZones.landmarks(region, z).find(l => /_(heart|deep)$/.test(l.id)))
-      .filter(l => l !== undefined);
+    const deep = atlas.zones.map(z => RegionZones.landmarks(region, z))
+      .map(marks => ({ at: marks.find(l => /_(heart|deep)$/.test(l.id)), edge: marks[0]?.id })).filter(l => l.at);
     const wild = new Draw(`${region.name}:wonders`).shuffle(this.wonders.filter(([, w]) => w.where === 'wild'));
-    return wild.slice(0, Math.min(2, deep.length)).flatMap((w, i) => this.wonder(w, deep[i]!.id));
+    return wild.slice(0, Math.min(2, deep.length))
+      .flatMap((w, i) => this.wonder(w, deep[i]!.at!.id, 'wonder', { near: deep[i]!.edge }));
   }
   // What is in a work past its inner way: a trap on the way, more often than not; and in half the works that have
   // one, a wonder in the room beyond it, no two works of a country the same.
@@ -65,9 +68,13 @@ export class RegionMarvels {
     const within = new Draw(`${region.name}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
     const wonder = beyond && draw.chance(0.5) ? within[at % within.length] : undefined;
     return [...this.trap(region, site, way),
-      ...wonder ? this.wonder(wonder, beyond!, 'wonder', this.fragmentOf(region, site.work?.art)) : []];
+      ...wonder ? this.wonder(wonder, beyond!, 'wonder',
+        { fragment: this.fragmentOf(region, site.work?.art), near: ends[0] }) : []];
   }
-  static wonder([key, w]: Wonder, room: string, prefix = 'wonder', fragment?: Fragment): string[] {
+  // near: the place before it, where it is noticed from (see sign).
+  static wonder([key, w]: Wonder, room: string, prefix = 'wonder', at: { fragment?: Fragment; near?: string } = {})
+    : string[] {
+    const { fragment, near } = at;
     const q = JSON.stringify, id = `${prefix}_${key}`, power = this.runs(w.effect!);
     // How it looks is told with the place, until it is met: a wonder is the first thing anyone would see there. One
     // whose power the game cannot yet bring about (Orsino's arcane symbols, whose focus also gives spell slots) is
@@ -78,9 +85,18 @@ export class RegionMarvels {
       `    State woken ${q(w.after)}.`,
       `    Change meet ${q(`${w.verb} ${w.name}`)} from unwoken to woken.`, '  }',
       `  Observe ${id}_seen at ${room} when state(${id}, unwoken) ${q(w.seen)}.`, ...this.fragment(id, room, fragment),
+      ...near && near !== room && w.sign ? this.sign(id, { near, room }, w.sign) : [],
       ...power ? [`  Relation ${id}_given().`,
         `  Rule ${id}_answers when state(${id}, woken) and not ${id}_given() says ${q(w.taken)} {`,
         `    Assert strikes(${id}_power, party). Assert ${id}_given(). }`] : []];
+  }
+  // How a wonder is noticed from the place before it, until it is met: told there, and known from then as heard of,
+  // its place on the company's map. Nothing had pointed at one, and no unguided walk of the first hour met any (the
+  // boredom census, BO-01: none of 9 in a1).
+  private static sign(id: string, at: { near: string; room: string }, sign: string): string[] {
+    const q = JSON.stringify;
+    return [`  Discovery ${id}_heard ${q(sign)}.`, `  Initially Assert leadsTo(${id}_heard, ${at.room}).`,
+      `  Observe ${id}_sign at ${at.near} when state(${id}, unwoken) ${q(sign)} teaches ${id}_heard.`];
   }
   // Met, a wonder within a work or a deep site shows how its makers ended, once, and the company keeps it (the sites
   // commission, item 3): the fact the great work's inference waits on. A company that never meets it never knows.

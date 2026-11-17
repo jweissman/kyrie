@@ -10,7 +10,8 @@ import { RegionMarvels } from '../../src/world/region-marvels';
 // as RegionWorks.facts writes it.
 const wonder = RegionMarvels.wonders.find(([, w]) => w.where === 'within')!;
 const lines = RegionMarvels.wonder(wonder, 'hall', 'hall_wonder',
-  { fact: 'history_bone_fate', fate: 'The last of them went into the barrows of their own will.' }).join('\n');
+  { fragment: { fact: 'history_bone_fate', fate: 'The last of them went into the barrows of their own will.' } })
+  .join('\n');
 const hall = `
   Place hall "the hall" is room at 0, 0 underground.
   Place great "the great barrow" is room at 5, 0 outdoors.

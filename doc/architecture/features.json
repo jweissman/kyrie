@@ -35,9 +35,9 @@
     "WM": "consequence", "CP": "adventures", "SP": "startup", "AR": "architecture", "AU": "authoring",
     "PR": "persistence", "TC": "testing", "DC": "docs", "TB": "terminal", "TM": "terminal", "TP": "terminal",
     "TO": "opening", "GT": "planes", "RI": "discovery", "EX": "discovery", "DN": "prose", "IG": "opening",
-    "AX": "architecture", "PF": "testing", "LC": "startup", "CN": "travel", "CF": "spells", "SR": "spells", "CR": "undertakings", "BX": "architecture", "PV": "undertakings", "PB": "page-ui", "FF": "undertakings", "C": "undertakings", "P": "atlas", "T": "architecture"
+    "AX": "architecture", "PF": "testing", "LC": "startup", "CN": "travel", "CF": "spells", "SR": "spells", "CR": "undertakings", "BX": "architecture", "BO": "discovery", "PV": "undertakings", "PB": "page-ui", "FF": "undertakings", "C": "undertakings", "P": "atlas", "T": "architecture"
   },
-  "textFirst": ["FH", "AB", "R7", "AI", "C", "OPR", "R9", "R10", "R11", "T24", "PL", "OA", "BP", "CO", "BL", "OP", "HP", "CP", "CN", "FF"],
+  "textFirst": ["BO", "FH", "AB", "R7", "AI", "C", "OPR", "R9", "R10", "R11", "T24", "PL", "OA", "BP", "CO", "BL", "OP", "HP", "CP", "CN", "FF"],
   "byText": [
     ["\\bspells?\\b|\\bslots?\\b|magic missile|\\bmage\\b|\\bcast(ing|s)?\\b|\\bward\\b", "spells"],
     ["\\bfights?\\b|combat|\\brats?\\b|\\bhobs?\\b|\\bfoes?\\b|\\battack|\\bdanger", "fight"],

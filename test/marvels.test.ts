@@ -68,6 +68,22 @@ describe('wonders and traps', () => {
     expect(PlayerView.choices(s.campaign).some(c => c.choice.name.startsWith(how.verb))).toBe(false);
   }, 60000);
 
+  // Noticed before it is met (the boredom census, BO-01: no unguided walk of a1's first hour met one of its nine): at
+  // the edge of its wild country, a wonder deep in it is told of, and known from then as heard of, on the map.
+  it('tells of a wonder deep in the wild at the edge of its wild country, and puts its place on the map', async () => {
+    const s = await Marvels.start(), w = s.campaign.world, wonder = Marvels.things(s, /^region__wonder_[a-z_]+$/)
+      .find(id => /_(deep|heart)$/.test(w.one('at', id) ?? ''))!;
+    const how = met.wonders[wonder.replace('region__wonder_', '') as keyof typeof met.wonders];
+    const room = w.one('at', wonder)!;
+    const sign = s.campaign.module.observations?.find(o => o.id === `${wonder}_sign`);
+    expect(sign?.place).toBeDefined();
+    expect(sign!.place).not.toBe(room);
+    GeneratedWorld.put(s, sign!.place!.replace('region__', ''));
+    await s.leg('wait');
+    expect(ScreenModel.build(s.campaign).knowledge.map(k => k.text)).toContain(how.sign);
+    expect(PlayerView.observe(s.campaign).map.places.some(p => p.id === room && !p.visited)).toBe(true);
+  }, 60000);
+
   it('puts a wonder within a work past its inner way', async () => {
     const s = await Marvels.start(), within = Marvels.things(s, /^region__wonder_[a-z_]+$/)
       .filter(id => met.wonders[id.replace('region__wonder_', '') as keyof typeof met.wonders]?.where === 'within');

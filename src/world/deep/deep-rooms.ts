@@ -94,7 +94,7 @@ export class DeepRooms {
   }
   private static wonder(key: string, room: string, fragment?: Fragment): string[] {
     const found = RegionMarvels.wonders.find(([k]) => k === key);
-    return found ? RegionMarvels.wonder(found, room, `${room}_wonder`, fragment) : [];
+    return found ? RegionMarvels.wonder(found, room, `${room}_wonder`, { fragment }) : [];
   }
   // How the coin left in a room lies there, each room its own way (one purse rotted through in nearly every room
   // of one barrow: the play-structure investigation's PT-15): the author's, in data/generation/deep/hoards.json.

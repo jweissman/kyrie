@@ -77,6 +77,11 @@ Module discovery_rules "Reliable discovery and trusted reports" {
       and (indoors(site) or answers(site, rummaging) or searchedAnywhere()).
     Time 2. Resolve rummage(actor). Interrupted when threatened(actor) or benighted(actor).
     On success { Assert searched(actor, site). }
+    // Where nothing reads a search of the place, it finds nothing, and says so: twelve of fourteen searches in the
+    // boredom census's walks (a cloth-hall, a bakehouse, a byre) ended on the plain words, twenty minutes gone and
+    // nothing said of what came of them (BO-03).
+    Result "You search {site} with care, a little at a time. Nothing is put away or hidden here." when
+      not answers(site, rummaging) and not searchedAnywhere().
     Result "You search {site} with care, a little at a time.".
   }
   Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {

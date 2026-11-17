@@ -90,13 +90,20 @@ export class Journeys {
     const company = campaign.playerActor, world = campaign.world;
     return !!company && world.relates('capable') && world.test(ModuleWriter.call('capable', company, 'light'));
   }
+  // The closest fit not yet said; a looser fit not yet said before a close one said again. Every fit said, only the
+  // setting out is said again (a journey begins somewhere): the land, the dark coming on and the arrival told once
+  // are not told again word for word, five times in a walk of the first hour (the boredom census, BO-02: "For an hour
+  // the path runs under trees" seven times over, the fen's sky six).
+  static line(kind: string, context: Record<string, string>, key: string, used: Set<string>) {
+    const tiers = Voice.tiers(kind, context), pool = tiers.find(t => t.some(l => !used.has(l.id))) ?? tiers[0] ?? [];
+    const line = Editor.choose(pool, key, used);
+    return line && (kind === 'journey-depart' || !used.has(line.id)) ? line : undefined;
+  }
   private static voiced(at: { moment: string; used: Set<string>; values: Record<string, string>; recent?: Set<string> },
     kinds: [string, Record<string, string>][]): Voiced[] {
     const { moment, used, values, recent } = at;
-    // The closest fit not yet said; a looser fit not yet said before a close one said again.
     return kinds.flatMap(([kind, context]) => {
-      const tiers = Voice.tiers(kind, context), pool = tiers.find(t => t.some(l => !used.has(l.id))) ?? tiers[0] ?? [];
-      const line = Editor.choose(pool, `${moment}:${kind}`, used);
+      const line = this.line(kind, context, `${moment}:${kind}`, used);
       if (!line || (kind === 'journey-land' && recent?.has(line.id))) { return []; }
       Editor.said(used, line.id);
       return [{ id: line.id, kind, text: Voice.render(line.text, { values }) }];
