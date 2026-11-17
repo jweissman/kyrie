@@ -202,8 +202,14 @@ html, body { overflow: hidden; }
      Set out now had run under them). */
   padding: 0 calc(var(--safe-r) + 260px) var(--safe-b) var(--safe-l);
   pointer-events: none; }
-.creation-edge > .quiet-word { pointer-events: auto; }
-.creation-edge .set-out-now { margin-left: auto; }
+.creation-edge > :is(.quiet-word, .edge-mark) { pointer-events: auto; }
+.creation-edge .start { margin-left: auto; }
+/* Its marks as the scene's rail draws them: a line glyph in a quiet round, lit under the hand or the keys. */
+.creation-edge .edge-mark { all: unset; box-sizing: border-box; width: 40px; height: 40px; display: grid; place-items: center;
+  border-radius: 50%; cursor: pointer; color: var(--dim); transition: color var(--quick), background var(--quick); }
+.creation-edge .edge-mark:is(:hover, :focus-visible) { color: var(--ivory);
+  background: color-mix(in oklab, var(--ivory) var(--tint-hover), transparent); }
+.creation-edge .edge-mark .rail-glyph { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 /* The life chosen so far, its emblems in a small row in the corner, the likeness last once it is settled. */
 .signature { position: absolute; right: var(--safe-r); bottom: var(--safe-b); margin: 0;
   padding: 0; list-style: none; display: flex; align-items: center; gap: 10px; pointer-events: none; z-index: 2; }

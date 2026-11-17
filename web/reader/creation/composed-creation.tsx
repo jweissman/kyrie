@@ -4,6 +4,7 @@ import type { CreationStep } from '../../engine/creation-flow';
 import { Typography } from '../../../src/presentation/typography';
 import { PressGuard } from '../press-guard';
 import { ComposedRow } from './composed-row';
+import { Glyphs } from './glyphs';
 import { ChoiceRow } from '../stage/choice-row';
 import { PageFrame, type PageParts } from '../page-frame';
 
@@ -37,18 +38,21 @@ export class ComposedCreation {
     const step = i >= 0 ? steps.find(x => x.id === ids[i]) : undefined, next = () => go(ids[i + 1] ?? 'go');
     const back = i >= 0 ? ids[i - 1] : ids.at(-1);
     const frame = { className: 'creation composed', attrs: { 'data-mode': 'create', 'data-page': step?.id ?? 'go' },
+      // The rail is marks, never words (the owner, M21; M22's second review, OR-42: Back, Set out now and Another
+      // country had read as loose links beside the menu), each named on asking.
       rail: <nav className="creation-edge" aria-label="The choice of a life">
-        {back ? <button type="button" className="quiet-word back" data-action="back"
-          onClick={() => go(back)}>Back</button>
-          : <button type="button" className="quiet-word another" data-action="another" onClick={app.opening.anew}>
-            Another country</button>}
-        {step && <button type="button" className="quiet-word set-out-now" data-action="start"
-          onClick={app.opening.begin}>Set out now</button>}
+        {back ? <ComposedCreation.Mark id="back" action="back" label="Back" go={() => go(back)} />
+          : <ComposedCreation.Mark id="another" action="another" label="Another country" go={app.opening.anew} />}
+        {step && <ComposedCreation.Mark id="go_on" action="start" label="Set out now" go={app.opening.begin} />}
       </nav>,
       over: <Signature.View app={app} likeness={!step || step.id === 'name'} /> };
     return step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
       more={more} unfold={() => turn(m => m + 1)} onward={next} frame={frame} />
       : <ComposedCreation.Go key="go" app={app} frame={frame} />;
+  }
+  static Mark({ id, action, label, go }: { id: string; action: string; label: string; go: () => void }) {
+    return <button type="button" className={`rail-mark edge-mark ${action}`} data-action={action} aria-label={label}
+      title={label} onClick={go}><Glyphs.View id={id} className="rail-glyph" /></button>;
   }
   // The flow's steps as the composition asks them, in its order: every one, how you present among them.
   static ids(app: ReaderApp): string[] { return app.opening.steps().map(x => x.id); }
