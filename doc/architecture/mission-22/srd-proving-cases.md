@@ -90,3 +90,34 @@ fight's terms. The cheapest next step is the obligations audit's §6: consume th
 As recorded:
 - Healing works in and out of a fight (test/effects, test/small/tended).
 - Regeneration works in combat only (`src/kind-defenses.ts`).
+
+### 6. The content the proving cases unblocked (16 November, later)
+
+- **CF-02, adapted:** the undertown's rats are slept through case 1's route. "Have {caster} cast Sleep over the rats
+  in the run" requires canCast and resolves `invoke`. Doing for the sleepers is a separate act. The job is cleared on
+  death, never on sleep. It is not yet met in a generated first hour: no starting mage has a third-level slot.
+
+## What stays unsupported (the catalogue as it stands, 16 November)
+
+**36 of the catalogue's 340 abilities** carry `unsupported` (data/catalog/orsino/abilities.json). Kyr refuses to run
+them, and the compiler says so (`ModuleCompiler.unrun`). By cause:
+A spell may have more than one cause.
+- **Cascading damage (5):** chain_lightning, bolt, electric_arc, shock_pulse, static_shock. This wants a `chain`
+  topology, which proof-slices.md orders after `line`, cone and burst.
+- **Statuses Kyr cannot run:** major_insight (4), major_focus (3), invulnerable (2), spellturn (2), disabled (1). These
+  are the divinations, wards and turnings: foresight, foretelling, greater_augury, mind_reading, invulnerability,
+  spellturning, perfect_turning, disable, and their like. Each wants its status's modifiers defined in Canon.
+- **Phantasmal summoning (3):** image, minor_image, weird. This wants an illusory aspect in Summoning.
+- **Item creation (2):** create_poison, goodberry. This wants a use effect that makes an item (OB-07's path).
+- **Targets Kyr does not take (4):** chaos_hammer and detonation (their enemy targets as written), dispel_magic (self,
+  ally or enemy) and zephyrwild (self and allies).
+- **Planar (1):** plane_shift (`effect:planeshift`; GT-02).
+- **World magic and transformations:** maze, time_stop, heteraeos, polymorph, shapechange, shadow_form. Proof-slices.md
+  says not to implement a world spell as a combat effect, nor a transformation as a bundle of temporary modifiers.
+
+**Beyond the unsupported list,** the generated concordance (srd-fidelity.md) grades spells against the SRD. 17 of the
+119 that have an SRD counterpart pass in structure, and 1 (Magic Missile) passes in resolution. The rest run by
+Orsino's numbers.
+
+That is the honest state: they run, and they are adapted, not faithful. Moving a spell to the SRD's numbers is a
+proof slice of its own (met, explained, generation-measured), not a catalogue edit. None was moved in M22.
