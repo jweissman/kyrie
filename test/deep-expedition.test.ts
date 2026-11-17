@@ -69,8 +69,9 @@ describe('a deep site, from the inn', () => {
     expect(names).toContain('Look closely at scattered coins');
     const tried = /^(Prod|Pry at|Hold a flame to|Push and pull at|Listen at) scattered coins/;
     expect(names.filter(n => tried.test(n))).toEqual([]);
-    expect(names).toContain('Prod the arcane glyph with the pole');
-    expect(names.filter(n => /^(Listen at|Hold a flame to) the arcane glyph/.test(n))).toEqual([]);
+    // Called as it is seen until it is understood (CB-19's UNT-109).
+    expect(names).toContain('Prod the shimmering glyph with the pole');
+    expect(names.filter(n => /^(Listen at|Hold a flame to) the (arcane|shimmering) glyph/.test(n))).toEqual([]);
   }, 90000);
   it('meets its goblins with words, at the odds the page tells, and a word that goes badly is answered', async () => {
     const { s } = await Delve.start('warrior');

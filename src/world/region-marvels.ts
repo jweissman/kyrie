@@ -19,7 +19,9 @@ interface Met { where: 'wild' | 'within'; name: string; verb: string; seen: stri
 export interface Fragment { fact: string; fate: string }
 export type Wonder = [string, Piece & Met];
 // How a mechanism is understood and dealt with (data/generation/scenes/snares.json).
-interface Snare { sign: string; seen: string; ways: { id: string; label: string; needing: string; to: string }[] }
+interface Snare {
+  called: string; sign: string; seen: string; ways: { id: string; label: string; needing: string; to: string }[];
+}
 
 // Orsino's wonders and traps in a generated country (data/generation/scenes/orsino-world.json): a wonder or two deep
 // in its wild country, and within some of the makers' works, past their inner ways, things that do what Orsino says
@@ -120,6 +122,8 @@ export class RegionMarvels {
     return [`  Hazard ${site.id}_trap ${q(`the ${t.mechanism}`)} means ${q(t.effect!)}.`,
       `  Discovery ${id}_known ${q(how.seen)}.`,
       `  Thing ${id} ${q(`the ${t.mechanism}`)} on ${way} {`,
+      // Called by what is seen of it until it is known for what it is (UNT-109: "the hidden switch", unfound).
+      `    Known as ${q(how.called)} when not knows(party, ${id}_known).`,
       `    State primed dangerous ${q(how.sign)}.`,
       `    State sprung ${q(`The ${t.mechanism} has gone off, and is spent.`)}.`,
       `    State made_safe ${q(`The ${t.mechanism} is made safe. Whoever goes by now goes by unharmed.`)}.`,

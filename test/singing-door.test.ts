@@ -11,7 +11,7 @@ describe('the door of notes at Gaudumport', () => {
     const s = await DrawnWorld.start('kite', { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }],
       origin: 'kin' }, NodeBundleSource.shared);
     const j = Journey.of(s);
-    await j.play('^To the bridge-foot', '>w1', 'Piano', '>w1_porch', 'Prod it with the pole', 'risk the hidden switch',
+    await j.play('^To the bridge-foot', '>w1', 'Piano', '>w1_porch', 'Prod it with the pole', 'risk the (?:hidden switch|carved wall)',
       '^Wenna: light a torch');
     expect(JSON.stringify(j.screen())).toContain('Needs lore: no one in the company can use it now. Carmine, priestess of Lugh, '
       + 'at the shrine of Lugh, sells a glossary of the old script.');

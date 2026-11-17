@@ -19,7 +19,7 @@ class Expedition {
     'to.the.foot.of.Barzelrehes.by.Muzgkom$', 'track.to.Goldhold$', 'way.in', 'passage.to.the.adit$',
     'Light.a.torch', 'Darkness', 'Take .* out of the stone casket for Wenna', 'gallery to the smithy', 'Collect',
     'gallery to the adit$', 'gallery to the crossing', 'Attack the goblins', 'Gather up the coins',
-    'Collect a Delver', 'Look closely at the arcane glyph', "Hold the pole's end", 'to the old stope',
+    'Collect a Delver', 'Look closely at the (?:arcane glyph|shimmering glyph)', "Hold the pole's end", 'to the old stope',
     'Collect a lump of star-iron', 'Collect a lump of star-iron', 'Collect a lump of star-iron',
     'Search the old stope', 'Light a torch', 'Search the old stope', 'gap behind the rubble',
     'Unstrap the notebook', 'Gather up the coins', 'Collect a coil of rope', 'Collect a torch for Wenna',

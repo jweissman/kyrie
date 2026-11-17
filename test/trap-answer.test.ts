@@ -22,9 +22,10 @@ describe('a trap on the way', () => {
   it('says, risked, that it was not looked at closely, and offers the look beside it', async () => {
     const s = await Switch.start();
     const [risk, look] = Switch.ways(s);
-    expect(look!.label).toBe('To the gallery — look at the hidden switch');
+    // Called by what is seen of it until it is known (CB-19's UNT-109: "the hidden switch" had named it unfound).
+    expect(look!.label).toBe('To the gallery — look at the carved wall');
     expect(look!.children!.map(c => c.command)).toContain('look_closely(p__hall_snare)');
-    expect(risk).toMatchObject({ label: 'To the gallery — risk the hidden switch — Hild goes first',
+    expect(risk).toMatchObject({ label: 'To the gallery — risk the carved wall — Hild goes first',
       note: ChoiceList.unexamined, risk: true });
   }, 60000);
   it('shows a cleric its answer on a closer look, and the way is gone by unharmed', async () => {
@@ -32,6 +33,7 @@ describe('a trap on the way', () => {
     await s.leg('look_closely(p__hall_snare)');
     const ways = Switch.ways(s), worn = ways.find(c => c.command === 'change_thing(p__hall_snare_worn)');
     expect(worn?.label).toMatch(/worn by hands that knew to miss the switch/);
+    expect(PlayerView.choices(s.campaign).some(r => /hidden switch/.test(r.choice.name))).toBe(true);
     expect(ways.find(c => c.risk)?.note ?? '').not.toContain(ChoiceList.unexamined);
     const before = Switch.hp(s);
     await s.leg(worn!.command!);

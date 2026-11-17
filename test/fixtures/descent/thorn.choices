@@ -77,8 +77,8 @@
 ^Rest and recover at the colonnade
 ^Light a torch
 ^Collect a hand mirror for Wenna
-^Look closely at the enchanted object
-^Risk the enchanted object on the way to the pipe gallery; Arlen goes first
+^Look closely at the (?:enchanted object|humming thing)
+^Risk the (?:enchanted object|humming thing) on the way to the pipe gallery; Arlen goes first
 ^Take the conduit to the foot of the stair
 ^Take the gap over the bronze gate
 ^Take the passage to the reading-room
@@ -127,11 +127,11 @@
 ^Tear the bronze plate from the gate
 ^Take the gate of the deep cistern to the landing
 ^Attack the savage cistern-water
-^Look closely at the pressure plate
+^Look closely at the (?:pressure plate|uneven flag)
 ^Lean on the plate with the pole
 ^Take the walkway to the drowned hall
 ^Gather up the coins
-^Look closely at the arcane glyph
+^Look closely at the (?:arcane glyph|shimmering glyph)
 ^Hold the pole's end across the glyph
 ^Take the walkway to the archive|^Take the passage to the archive|^Take .* to the archive
 ^Collect the Wardens' oath-tablet for Yoriel

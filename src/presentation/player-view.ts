@@ -116,7 +116,7 @@ export class PlayerView {
   // (also what the company could do with more coin: CoinReading).
   static offer(campaign: Campaign, offered: readonly Operator[]) { return this.list(campaign, offered); }
   private static list(campaign: Campaign, offered: readonly Operator[]) {
-    const world = campaign.world, unnamed = this.unnamed(world), actor = campaign.playerActor ?? '';
+    const world = campaign.world, unnamed = Masked.unnamed(world), actor = campaign.playerActor ?? '';
     const here = ChoiceWording.here(campaign);
     // Nothing can be done to someone the company does not see.
     const seen = world.module.seen ? offered.filter(a => this.sees(world, actor, a)) : offered;
@@ -125,7 +125,7 @@ export class PlayerView {
       row.choice.time = ActionTime.of(row.action, world);
       // Choices are grounded with every name; a place the company has not learned is said as it is seen, someone known
       // as something while that holds as that (the Book of Faces' BOF-01: "Talk to Tibb" beside "an old man").
-      for (const [name, alias] of unnamed) { row.choice.name = Masked.said(row.choice.name, name, alias); }
+      row.choice.name = Masked.choice(world, row.choice.name, row.action.bindings, unnamed);
       row.choice.name = ChoiceWording.word(campaign, row.action, { name: row.choice.name, ...here ? { here } : {} });
       return row;
     });
@@ -152,11 +152,6 @@ export class PlayerView {
   static aliased(world: Campaign['world'], text: string, knew: Set<string>): string {
     return EntityIndex.of(world.module.entities).aliased.filter(e => !knew.has(e.alias!.until))
       .reduce((t, e) => Masked.said(t, e.name, e.alias!.name), text);
-  }
-  private static unnamed(world: Campaign['world']): Map<string, string> {
-    return new Map([...EntityIndex.of(world.module.entities).aliased, ...world.module.entities.filter(e => e.roles)]
-      .map(e => [e.name, ObservationText.knownAs(world, e) ?? ObservationText.known(world, e)] as const)
-      .filter(([name, called]) => called !== name).sort((a, b) => b[0].length - a[0].length));
   }
   // A choice the page offers, or any action the rules offer now by its id: the page groups and words what it shows, and
   // an action it folded into another (the same done with either of two alike things) is no less legal for that (the

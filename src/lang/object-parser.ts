@@ -48,6 +48,10 @@ export class ObjectParser {
     else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
     else if (part.field === 'holds') { spec.holds = true; }
     else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
+    else if (part.field === 'roles') {
+      const { role, when } = part.value as { role: string; when: Predicate };
+      (spec.known ??= []).push({ name: role, when });
+    }
   }
   // ChangeWhen = "when" Predicate string?: made only while that holds, and what is said of it while it does not.
   static withheld(when: Node): { when: Predicate; why?: string } {

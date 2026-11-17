@@ -40,7 +40,7 @@ Kyr {
             | kwIn ident -- in
             | "nowhere" -- nowhere
   ThingKind = "is" ident
-  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | TriesPart
+  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | TriesPart | PersonKnown
   HoldsPart = "Holds" "."
   TriesPart = "Tries" ident ("," ident)* "."
   StatePart = "State" ident StateFlag* string "."

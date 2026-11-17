@@ -25,7 +25,7 @@ gallery to the crossing
 Attack the goblins
 Gather up the coins
 Collect a Delver
-Look closely at the arcane glyph
+Look closely at the (?:arcane glyph|shimmering glyph)
 Hold the pole's end
 to the old stope
 Collect a lump of star-iron
@@ -106,11 +106,11 @@ cage in the shaft
 Collect a lump of star-iron for Wenna
 Collect a lump of star-iron for Thoradin
 Collect a lump of star-iron for Thoradin
-Look closely at the magical rune
+Look closely at the (?:magical rune|glowing rune)
 Lay the pole's end on the rune
 drift to the haulage way
 Collect a lump of star-iron for Wenna
-Look closely at the enchanted object
+Look closely at the (?:enchanted object|humming thing)
 Knock it over
 passage to the Delvers' hall
 Read the brothers' tablet
@@ -228,13 +228,13 @@ Collect a small star-iron ingot for Veit
 gallery to the haulage way
 passage to the Delvers' hall
 gallery to the long haulage
-Look closely at the pressure plate
+Look closely at the (?:pressure plate|uneven flag)
 Lean on the plate with the pole
 drift to the sealed stair
 Read what is cut in the wall
 Break the wall down
 sealed stair to the foot of the stair
-Look closely at the arcane glyph
+Look closely at the (?:arcane glyph|shimmering glyph)
 Unsay the glyph
 Wait an hour
 Wait an hour
@@ -297,8 +297,8 @@ gallery to the sump gallery
 gallery to the furnace hall
 passage to the deep cut
 rough cut to the breach
-Look closely at the hidden switch
-Prod the hidden switch with the pole
+Look closely at the (?:hidden switch|carved wall)
+Prod the (?:hidden switch|carved wall) with the pole
 Push the switch in with the pole's end, standing clear
 passage to the hollow vault
 Collect a lump of star-iron for Veit

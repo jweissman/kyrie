@@ -59,13 +59,13 @@
 ^Gather up the coins
 ^Unstrap the notebook and read it
 ^Collect a stone flute for Akarn
-^Look closely at the arcane glyph
+^Look closely at the (?:arcane glyph|shimmering glyph)
 ^Unsay the glyph
 ^Take .* to the cantors' rooms
 ^Collect tourmaline pipes for Akarn
 ^Take the crack in the unsung stone to the hall of echoes
 ^Gather up the coins
-^Look closely at the pressure plate
+^Look closely at the (?:pressure plate|uneven flag)
 ^Lean on the plate with the pole
 ^Collect tourmaline pipes for Akarn
 ^Take .* to the chorus
@@ -75,7 +75,7 @@
 ^Equip a ring of minor protection on Wenna
 ^Equip a ring of protection on Akarn
 ^Take the smooth passage to the long hall
-^Look closely at the arcane glyph
+^Look closely at the (?:arcane glyph|shimmering glyph)
 ^Unsay the glyph
 ^Take the passage to the unfinished hall
 ^Collect a dirge bell for Gareth

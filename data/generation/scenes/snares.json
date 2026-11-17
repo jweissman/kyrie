@@ -1,5 +1,5 @@
 {
-  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what is noticed of it in passing (sign), what looking closely at it shows (seen), and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past. Each calling has an answer to some of them and none to all: a thief's trapwork and a pole for what is set by hand, a scholar's lore and a priest's rites for what is written, a warrior's strength for what can be lifted, a ranger's eye for a snare, a monk's stride (the play-structure audit's PT-20: every trap had the same two answers, and a lone mage with neither walked into it).",
+  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what it is called until it is known (called: the carved wall, not the hidden switch before it is found, CB-19), what is noticed of it in passing (sign), what looking closely at it shows (seen), and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past. Each calling has an answer to some of them and none to all: a thief's trapwork and a pole for what is set by hand, a scholar's lore and a priest's rites for what is written, a warrior's strength for what can be lifted, a ranger's eye for a snare, a monk's stride (the play-structure audit's PT-20: every trap had the same two answers, and a lone mage with neither walked into it).",
   "reads": ["lore", "rites", "trapwork", "woodcraft", "insight"],
   "readsAbout": "The skills that read a mechanism on sight, without looking closely: a company with one of these that is also a way of dealing with it is told what it is as soon as it is seen (the product-design review's PD-01: a diviner was told nothing of a humming enchanted object, and died of it). Strength or a pole deals with a thing; it does not tell you what it is.",
   "beyond": "None of you knows how to deal with it as you are: it wants {needs}.",
@@ -7,6 +7,7 @@
   "needs": { "pole": "a ten-foot pole, to set it off from afar", "lore": "someone who knows the old scripts", "trapwork": "a hand for traps", "rites": "a priest's words", "brawn": "a strong back", "climbing": "a long stride and a sure foot", "woodcraft": "a woodsman's eye", "insight": "a shrewd eye for what its makers meant" },
   "mechanisms": {
     "pressure plate": {
+      "called": "the uneven flag",
       "sign": "One flag of the floor across the way is not quite level with the others, and there is no dust in the crack round it.",
       "seen": "One flag of the floor sits a finger's breadth proud of the rest, with no dust in the crack round it. A foot's weight on it would set off whatever it is joined to; so would any weight.",
       "ways": [
@@ -17,6 +18,7 @@
       ]
     },
     "tripwire": {
+      "called": "the wire across the way",
       "sign": "A wire catches the light low across the way, at the height of an ankle.",
       "seen": "The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.",
       "ways": [
@@ -26,6 +28,7 @@
       ]
     },
     "hidden switch": {
+      "called": "the carved wall",
       "sign": "The wall here is carved all over, and the carving is thickest where the way is narrowest.",
       "seen": "Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.",
       "ways": [
@@ -36,6 +39,7 @@
       ]
     },
     "arcane glyph": {
+      "called": "the shimmering glyph",
       "sign": "A glyph is cut in the wall beside the way, and it shimmers faintly, as if it had only just been written.",
       "seen": "The glyph is a word, written to be read by whoever passes it; reading it is what sets it off. Someone who knew the letters could unsay it.",
       "ways": [
@@ -45,6 +49,7 @@
       ]
     },
     "magical rune": {
+      "called": "the glowing rune",
       "sign": "A rune is laid in the floor across the way, its lines lit with a dull glow that comes and goes, slow as breathing.",
       "seen": "The rune is laid in the floor where a foot must cross it. It is waiting for weight, or warmth; it cannot tell the one from the other.",
       "ways": [
@@ -54,6 +59,7 @@
       ]
     },
     "enchanted object": {
+      "called": "the humming thing",
       "_literary": "An enchanted thing is told as what it seems, an ordinary thing that hums, until it is understood: its \"something\" and \"whatever\" are what the company does not yet know.",
       "sign": "Something stands in the way that has no business there: an ordinary-looking thing that hums when you come near it.",
       "seen": "The thing is set exactly where anyone going through must knock against it. Whatever is in it is waiting to be knocked over; a pole would do it as well as a passing hip.",

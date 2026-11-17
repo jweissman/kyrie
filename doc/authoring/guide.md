@@ -301,6 +301,12 @@ shawl" when not knows(party, her_name).` Until it is false the page calls them t
 `Known as "an old man with a pole" when not acquainted(hob, party).` is Hob from his greeting on, whichever way the
 company came to him (`test/fixtures/probes/acquainted`; Quittance's ll 17, where only one topic taught his name).
 
+A thing can be called otherwise the same way: `Known as "the carved wall" when not knows(party, switch_known).` in a
+Thing's block is what the page calls it until that holds no more, in place of its name. A generated work's trap is
+called by what is seen of it until it has been looked at closely ("the carved wall", then "the hidden switch": CB-19),
+and of two things of one name, one understood is called by its name though the other is not
+(`test/fixtures/probes/hidden-switch`, `test/what-it-takes`).
+
 ## 4. Things with states
 
 A thing stands at a place or on a passage, and is in exactly one state at a time. Each state has the description the

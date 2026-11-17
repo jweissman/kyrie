@@ -66,11 +66,13 @@ describe('what it takes, as the page tells it', () => {
   }, 60000);
   it('says where a trap\'s way goes, and once the trap is understood, what it would do to whoever goes first', async () => {
     const s = await Barrow.start();
+    // Called by what is seen of it until it is understood (CB-19's UNT-109), then by what it is.
+    const blind = /^Risk the carved wall on the way to the hall of the bones; Wenna goes first/;
     const risk = /^Risk the hidden switch on the way to the hall of the bones; Wenna goes first/;
     Barrow.put(s, 'w8_halls_stair_foot');
-    expect(Barrow.names(s).find(n => risk.test(n))).toBe(
-      'Risk the hidden switch on the way to the hall of the bones; Wenna goes first');
-    await Barrow.take(s, /^Look closely at the hidden switch$/);
+    expect(Barrow.names(s).find(n => blind.test(n))).toBe(
+      'Risk the carved wall on the way to the hall of the bones; Wenna goes first');
+    await Barrow.take(s, /^Look closely at the carved wall$/);
     expect(Barrow.names(s).find(n => risk.test(n))).toMatch(/goes first · it could kill$/);
     expect(Barrow.wanting(s)).toContain(
       'Push the switch in with the pole\'s end, standing clear: Needs a ten-foot pole, and the company has none.');

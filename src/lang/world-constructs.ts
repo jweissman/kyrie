@@ -18,6 +18,9 @@ export interface ThingSpec {
   hidden?: string; holds?: boolean;
   // Ways of trying it its author offers besides those its look suits (Tries pushing: a bell can be rung).
   tries?: string[];
+  // What it is called while something holds, in place of its name (Known as "the carved wall" until a trap's
+  // mechanism is known: CB-19's UNT-109).
+  known?: { name: string; when: Predicate }[];
 }
 export interface PassageSpec {
   id: string; name: string; sides: [string, string]; oneWay: boolean; hidden?: string; needs?: string[];
@@ -287,7 +290,7 @@ export class WorldConstructs {
     }
   }
   static thing(module: Module, t: ThingSpec) {
-    module.entities.push({ id: t.id, type: t.type, name: t.name });
+    module.entities.push({ id: t.id, type: t.type, name: t.name, ...t.known ? { roles: t.known } : {} });
     // One nowhere is in no place until something puts it somewhere (M19-95).
     if (t.site) { this.assert(module, t.site.anchor, t.id, t.site.id); }
     // One seen from one end of its way bars it from that end only: a toll at the foot of a ladder, and down is free
