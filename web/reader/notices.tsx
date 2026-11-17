@@ -1,12 +1,14 @@
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
+import { Emphasis } from '../../src/presentation/emphasis';
+import { Glyphs } from './creation/glyphs';
 
 // What is said over play rather than in it: that the game can no longer be kept in this browser, the keys when they
 // are asked for, and anything that went wrong. With the map open they are said over the map, which covers the rest.
 export class Notices {
   private static readonly keys: [string, string][] = [['↑ ↓', 'move between choices'], ['Enter', 'do it'],
-    ['1–9', 'do one at once'], ['Esc', 'put away, or go back'], ['L', 'look about: everything here'],
-    ['W', 'every way from here'], ['M', 'the map'], ['J', 'your notes'],
+    ['1–9', 'do one at once'], ['Esc', 'put away, or go back'], ['L', 'look: what is at hand'],
+    ['G', 'go: the ways from here'], ['Z', 'wait'], ['M', 'the map'], ['J', 'your notes'],
     ['I', 'what you carry'], ['C', 'the company'], ['H', 'the story so far'],
     ['T', 'in a fight, let a companion fight on their own']];
   // On the map the keys are the map's own: from place to place on it, and a place chosen and set out for, or let go.
@@ -35,7 +37,20 @@ export class Notices {
       <div className="help" role="dialog" aria-label="Keys">
         <dl>{(map ? Notices.mapKeys : Notices.keys).map(([k, v]) => <div key={k}><dt><kbd>{k}</kbd></dt>
           <dd>{v}</dd></div>)}</dl>
+        <Notices.Marks />
       </div>
     );
+  }
+  // What a row's mark says, from the one table every row is drawn by (Emphasis), said once where it is asked for
+  // (M22's reviews, OR-31 and OR-52: the gold, blue and grey bars unexplained, and the hold never named).
+  static Marks() {
+    const tones = Emphasis.precedence.flatMap(a => Emphasis.tones[a] ? [[a, Emphasis.tones[a]!] as const] : []);
+    return <dl className="marks" aria-label="The marks">
+      {tones.map(([a, tone]) => <div key={a}><dt><i className="mark-swatch" style={{ background: `var(--tone-${tone})` }} />
+        </dt><dd>{Emphasis.words[a]}</dd></div>)}
+      <div><dt><Glyphs.View id="companion" className="mark-icon" /></dt><dd>{Emphasis.words.companionship}</dd></div>
+      <div><dt><i className="mark-swatch neutral" /></dt><dd>nothing in particular</dd></div>
+      <div><dt><i className="mark-swatch hold" /></dt><dd>held until it fills: a night, a camp, setting out</dd></div>
+    </dl>;
   }
 }

@@ -163,6 +163,13 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .help { position: absolute; right: 20px; bottom: 20px; background: var(--paper); border: 1px solid var(--ink); padding: 16px 20px;
   font: 400 14px var(--do); z-index: 9; }
 .help dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; }
+/* The marks, under the keys: each the row's own short line in its tone; the hold its fill half made. */
+.help dl.marks { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--edge); }
+.help .mark-swatch { display: inline-block; width: 3px; height: 16px; border-radius: 2px; vertical-align: middle; }
+.help .mark-swatch.neutral { background: rgba(236, 230, 217, .32); }
+.help .mark-swatch.hold { width: 22px; height: 12px; border-radius: 3px;
+  background: linear-gradient(90deg, rgba(236, 230, 217, .5) 55%, rgba(236, 230, 217, .14) 55%); }
+.help .mark-icon { width: 16px; height: 16px; vertical-align: middle; color: var(--ivory); fill: currentColor; }
 .help div { display: contents; }
 .help dt kbd { font: 500 13px var(--do); color: var(--ink); margin: 0; }
 .help dd { margin: 0; color: var(--grey); }
