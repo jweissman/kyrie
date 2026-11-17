@@ -4,6 +4,9 @@ import unfit from '../../data/paintings/unfit.json';
 import { PaintingConcepts } from './painting-concepts';
 
 // Who a portrait shows, as recorded by looking at it (data/paintings/seen.json, through bun scripts/paintings.ts).
+// What is said of someone a painting is chosen for (see Likeness.of).
+export interface Asked { own?: string; background?: string; profession?: string; role?: string; name?: string;
+  sex?: 'man' | 'woman' }
 export interface Sitter { sex: 'man' | 'woman'; age?: string; station?: string; era: string; face: number }
 // Whom a painting is wanted for: as much as the world knows of them.
 export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string[]; concept?: string; mourning?: boolean;
@@ -92,10 +95,13 @@ export class Likeness {
   // the title they go by (Mother Ysolt is a woman of years). It is a painting of their work, or of someone of their
   // sex and station; where nothing says their station, or no painting is of it, there is none, and they are met in
   // words (Mother Ysolt was a young Samson, an alehouse-keeper a preacher, the inn's dog an auctioneer).
-  static of(at: { own?: string; background?: string; profession?: string; role?: string; name?: string;
-    sex?: 'man' | 'woman'; key?: string; taken?: ReadonlySet<string>; held?: ReadonlySet<string> }):
-    string | undefined {
-    if (at.own && this.ids.has(at.own)) { return at.own; }
+  // The painting of someone's work, where their work has one of its own (a tavernkeeper's), whoever else holds it.
+  static work(at: Asked): string | undefined {
+    const { concept } = this.read(at);
+    return concept && this.sitters.has(concept) && !this.unfit.has(concept) ? concept : undefined;
+  }
+  // What someone's words say: the words themselves, whose they are, and their work.
+  private static read(at: Asked): { words: string[]; kin?: string; concept?: string } {
     // A name that is a description ("the prior", "the woman in black") says what they are as a role does.
     const described = /^the /i.test(at.name ?? '') ? this.words(at.name!) : [];
     const words = [at.profession, at.background, ...this.words(at.role ?? ''), ...described]
@@ -103,10 +109,22 @@ export class Likeness {
     // Whose someone is comes before anything said after it: "a widow whose son went after the raiders" is no raider.
     const k = words.findIndex(w => Object.hasOwn(this.kin, w)), kin = k < 0 ? undefined : words[k]!;
     const concept = words.slice(0, k < 0 ? undefined : k).map(w => this.resolve(w)).find(Boolean);
+    return { words, ...kin ? { kin } : {}, ...concept ? { concept } : {} };
+  }
+  // `sole`: whether their work's own painting is theirs (CO-03): it is one worker's in a world, and every other of
+  // the work is painted by their station, as one whose work has no painting is.
+  static of(at: Asked & { key?: string; taken?: ReadonlySet<string>; held?: ReadonlySet<string>; sole?: boolean }):
+    string | undefined {
+    if (at.own && this.ids.has(at.own)) { return at.own; }
+    const { words, kin, concept: read } = this.read(at);
+    const concept = at.sole === false && read && this.work(at) ? undefined : read;
     // A work whose own painting is not of one person (a priest's is a shrine) is painted in its family's station.
     // A painting refused (data/paintings/unfit.json) lends nothing: not even the station it shows.
-    const own = concept && !this.unfit.has(concept) ? this.stations[concept] : undefined;
-    const station = concept && (own ?? this.families[PaintingConcepts.of(concept).family ?? '']?.[0]);
+    const own = read && !this.unfit.has(read) ? this.stations[read] : undefined;
+    // One of a work whose painting is another's is painted in the work's family's station (the painting's own says
+    // none, as a tavernkeeper's does not).
+    const family = read && this.families[PaintingConcepts.of(read).family ?? '']?.[0];
+    const station = read && (concept === read ? own ?? family : own || family);
     const title = this.titles[(at.name ?? '').split(' ')[0]!.toLowerCase()];
     const sex = at.sex ?? title?.sex ?? (kin && this.kin[kin]);
     const age = words.map(w => this.ages[w]).find(Boolean) ?? title?.age;

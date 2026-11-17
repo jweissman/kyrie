@@ -487,11 +487,9 @@
   Passage {t}_u_face_way "a cut going on past the web" is passage between {t}_u_gallery and {t}_u_face.
   Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_face and {t}_u_undercroft.
   Initially Assert unlit({t}_u_face).
-  Observe {t}_u_face_scene at {t}_u_face as fixture when true "Where the quarrymen stopped: a face of stone with the pick-marks still on it, and a rotten ladder. In one corner the floor is broken through into somewhere older underneath. Things click and scuttle in the spoil.".
-  Person {t}_u_beetles "the beetles in the spoil" at {t}_u_face {
-    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers {pack}. Level 1. Temperament defensive. Lair {t}_u_face.
-  }
-  Initially Set encounterXp({t}_u_beetles) to 60.
+  // Nothing lives at the face (BP-07: fewer, more credible dangers): its beetles had no job and no story, a stocked
+  // fight between the spiders' gallery and the undercroft. The face is the quarrymen's, and what they left.
+  Observe {t}_u_face_scene at {t}_u_face as fixture when true "Where the quarrymen stopped: a face of stone with the pick-marks still on it, and a rotten ladder. In one corner the floor is broken through into somewhere older underneath. Nothing has moved the spoil since they left it.".
   Discovery {t}_u_face_tools "Under the ladder is a quarryman's bag, left when the face was given up. In it are his tools, and his wages, never collected." {
     Found by searching {t}_u_face "A leather bag under the ladder, stiff with age.".
   }

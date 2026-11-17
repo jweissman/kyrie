@@ -81,8 +81,8 @@ export class RegionBorders {
       const directions = s === seat ? '' : ` '${seat.name} is where ${b.way} goes out from,' {${keeper}} adds.`;
       lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about ${about}`)} when not knows(actor, ${id})${fresh} {`,
         `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`) + directions)}.`,
-        `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, s.id,
-          SettlementWriter.standing(region, s, 'innkeeper')));
+        `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, { sid: s.id,
+          place: SettlementWriter.standing(region, s, 'innkeeper'), posted: this.posted(region).includes(s) }));
     }
     return lines;
   }
@@ -113,12 +113,16 @@ export class RegionBorders {
   static remembers(beyond: NonNullable<Region['beyond']>[Border['side']] | undefined): boolean {
     return !!(beyond?.after && beyond.rumour && beyond.heard);
   }
-  // The notice nailed up where travellers are kept in each town, talked of until the news is old, and then talked of
-  // as old news until it comes down.
+  // The notice nailed up where travellers are kept in each town but the first, talked of until the news is old, and
+  // then talked of as old news until it comes down. The first town's notices are its own goings-on (CO-03): the same
+  // neighbour's notice (Merrowdale's) had hung in the first town of every world; there the neighbour is heard of by
+  // asking, as in every town.
+  static posted(region: Region): Region['settlements'] { return region.settlements.slice(1); }
   private static notice(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
     region: Region) {
     const q = JSON.stringify, id = `${b.room}_beyond`, notice = `${b.room}_notice`, after = beyond.after;
-    const at = region.settlements.map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
+    const at = this.posted(region).map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
+    if (!at.length) { return []; }
     return [`  Discovery ${notice} ${q(beyond.notice!.text)} {`, ...at.map(([sid, place]) =>
       `    Source ${notice}_${sid} ${q(beyond.notice!.name)} at ${place} readable by party.`),
     '  }', `  Initially Assert leadsTo(${notice}, ${b.room}).`,
@@ -149,10 +153,10 @@ export class RegionBorders {
   // The company back from a country seen through, told what the road brought down of it before the company says its
   // own part: the report and the company's own history, said apart (a world that remembers). The notice comes down.
   private static back(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
-    sid: string, place: string) {
+    { sid, place, posted }: { sid: string; place: string; posted: boolean }) {
     if (!this.remembers(beyond)) { return []; }
     const q = JSON.stringify, id = `${b.room}_beyond`, keeper = `${sid}_innkeeper`;
-    const notice = beyond.notice ? `${b.room}_notice_${sid}` : undefined;
+    const notice = beyond.notice && posted ? `${b.room}_notice_${sid}` : undefined;
     return this.afters(id, beyond!.after!).flatMap(a => [
       `  Topic ${id}_back_${sid}${a.key} with ${keeper} ${q(`Tell {${keeper}} you have been to ${beyond!.name}`)}`
       + ` when stale(${id})${a.when} once {`,
