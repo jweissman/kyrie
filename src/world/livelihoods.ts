@@ -4,6 +4,7 @@ import { GenerationSetting } from '../generation-setting';
 import type { Atlas } from './land/atlas';
 import type { Seat as Seated } from './land/settling';
 import type { Region, Settlement } from './region-writer';
+import { StrategicAtlas } from './strategic-atlas';
 
 // Where a region's people live and what they live by: a settlement on each seat its atlas found (the first the
 // town), each living by what lies around it.
@@ -30,7 +31,8 @@ export class Livelihoods {
   // woods), and one its neighbours do not already live by when it can.
   private static livelihood(region: Region, seat: Seated, at: { drawn: Settlement; used: Set<string> }):
     Pick<Settlement, 'trade' | 'merchantType'> {
-    const table = this.livelihoods[region.terrain] ?? {};
+    // A country of the strategic atlas lives by its own (see StrategicAtlas).
+    const table = StrategicAtlas.livelihoods(region) ?? this.livelihoods[region.terrain] ?? {};
     // A settlement that lives by the fells digs what the ground there holds (see Geology): the iron, tin or slate in
     // its reach, where there are words for that trade, else what its country's fells are worked for.
     const dug = (seat.dug ?? []).map(m => this.dug[m]).find((t): t is string => !!t);

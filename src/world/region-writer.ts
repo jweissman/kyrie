@@ -35,6 +35,7 @@ import { GeneralStores } from './general-stores';
 import { StoryPeople } from './story-people';
 import { RegionMeetings } from './region-meetings';
 import { ModuleCanon } from '../campaign/module-canon';
+import { StrategicAtlas } from './strategic-atlas';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements as their founding made them (see SettlementWriter), roads between them, and a track out to
 // each site. Every
@@ -82,6 +83,8 @@ export interface Region extends Naming {
   great?: Great; shore?: Side;
   // The city of the canon built in it, if one is: its chief town is the city (see WorldShape.seat).
   seat?: { identity: string; name: string };
+  // The country of the strategic atlas it is, where its world is one of the atlas's (see StrategicAtlas).
+  country?: string;
   // One with no road over into it from here (an authored country entered from another side) is closed, and the
   // folk may know the country it is entered from (way). A sea is closed too: the march toward it is its shore.
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
@@ -190,7 +193,8 @@ export class RegionWriter {
         + ` when been(party, ${w.id}).`),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : [], ...RegionTracts.lines(region),
       // What is met with in the open country, a stretch here and there (the owner's OWN-27).
-      ...RegionMeetings.lines(region), ...RegionAnimals.lines(region), ...RegionRovers.lines(region));
+      ...RegionMeetings.lines(region), ...RegionAnimals.lines(region), ...RegionRovers.lines(region),
+      ...StrategicAtlas.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     // Where its ordinary gear and clothing are bought, kept by people named apart from everyone the country has.
     lines.push(...GeneralStores.lines(region, new Set(StoryPeople.country(region))));

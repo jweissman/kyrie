@@ -21,7 +21,9 @@ export class Settling {
     forest: { town: 1, village: 2, hamlet: 2 }, marsh: { town: 1, village: 2, hamlet: 2 },
     mountain: { town: 1, village: 2, hamlet: 2 }, frost: { town: 1, village: 1, hamlet: 3 } };
   static readonly spacing: Record<SeatSize, number> = { town: 0, village: 5, hamlet: 4 };
-  static make(key: string, terrain: string, land: Land): Seat[] {
+  // port: the town stands on a harbour where the land has one (a country whose chief town is its port: see
+  // StrategicAtlas).
+  static make(key: string, terrain: string, land: Land, port = false): Seat[] {
     const draw = new Draw(`${key}:settling`), scores = land.cover.map((_, c) => this.score(land, c) + draw.next() * 0.6);
     const seats: Seat[] = [], counts = this.counts[terrain] ?? this.counts.forest!;
     let reach: Set<number> | undefined;
@@ -31,6 +33,9 @@ export class Settling {
         const open = scores.map((s, c) => ({ s, c }))
           .filter(({ c }) => this.room(land, seats, c, size) && (!reach || reach.has(c)))
           .sort((a, b) => b.s - a.s || a.c - b.c);
+        const harbour = port && size === 'town'
+          ? open.find(o => o.s >= 0.5 && this.lie(land, o.c).includes('harbour')) : undefined;
+        if (harbour) { open.unshift(harbour); }
         if (!open[0] || open[0].s < 0.5) { break; }
         const dug = this.dug(land, open[0].c);
         seats.push({ cell: open[0].c, size, lie: this.lie(land, open[0].c), ...dug.length ? { dug } : {} });

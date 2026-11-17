@@ -56,9 +56,12 @@ export class Histories {
   // Which makers' works a region holds is its own, by its land; what each people called themselves and how they
   // ended, and the kingdom that came after them, are its world's (drawn from `world`), the same in every region. Its
   // works are not called what works elsewhere in the world already are (`taken`).
-  static make(key: string, terrain: string, atlas: Atlas, at: { world?: string; taken?: string[] } = {}): History {
+  // The makers' arts are drawn by the kind of country, or given (a country of the strategic atlas: see StrategicAtlas).
+  static make(key: string, terrain: string, atlas: Atlas,
+    at: { world?: string; taken?: string[]; arts?: string[] } = {}): History {
     const draw = new Draw(`${key}:history`), names: string[] = [], world = at.world ?? key;
-    const first = this.art(draw, terrain), second = this.art(draw, terrain, first);
+    const first = at.arts?.[0] ?? this.art(draw, terrain);
+    const second = at.arts ? at.arts[1] : this.art(draw, terrain, first);
     const makers = [first, ...second ? [second] : []]
       .map(art => this.makers(art, new Draw(`${world}:history:${art}`), names));
     const successors = this.successors(new Draw(`${world}:history:successors`)), works: Work[] = [];

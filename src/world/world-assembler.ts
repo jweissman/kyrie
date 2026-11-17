@@ -22,7 +22,7 @@ import { Origins } from './origins';
 import type { KitEntry } from './compose/composition';
 import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
-import { WorldGrid } from './world-grid';
+import { WorldGrid } from './world-grid'; import { StrategicAtlas } from './strategic-atlas';
 import { ScenarioWord } from './scenario-word';
 import { Livelihoods } from './livelihoods';
 import { RegionWorks } from './region-works';
@@ -172,8 +172,8 @@ export class WorldAssembler {
     { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.land(seed, at, drawn);
-    const region = { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))),
-      at, beyond: WorldGrid.beyond(seed, at) };
+    const region = { ...StrategicAtlas.named(PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken),
+      RandomStreams.key(own, 'world')))), at, beyond: WorldGrid.beyond(seed, at) };
     // Every country knows what authored country lies beyond it, where one does.
     return { ...region, beyond: Countries.beyond(region, seed, first ?? region.terrain) };
   }
@@ -238,10 +238,10 @@ export class WorldAssembler {
   // where each kind can stand (those that can stand nowhere left out).
   static lay(drawn: Region, seed: string, world = seed, taken: string[] = []): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
-      { tongue: PlaceNames.landTongue(drawn), taken: [drawn.name], ...drawn.shore ? { shore: drawn.shore } : {} });
+      { tongue: PlaceNames.landTongue(drawn), taken: [drawn.name], ...StrategicAtlas.land(drawn) });
     const region = RegionRecruits.distinct(Livelihoods.seat(drawn, atlas, seed), seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
-      { world: RandomStreams.key(world, 'world', 'history'), taken });
+      { world: RandomStreams.key(world, 'world', 'history'), taken, arts: StrategicAtlas.arts(drawn) });
     // The region's sites are its makers' works, where their art put them.
     region.history = history;
     region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,

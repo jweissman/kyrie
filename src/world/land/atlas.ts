@@ -19,8 +19,9 @@ export interface Atlas { land: Land; seats: Seat[]; ways: Way[]; rivers: Water[]
 
 export class Atlases {
   // shore: the side of the land that falls to a great sea, where the world's shape gives one (see WorldShape).
-  static make(key: string, terrain: string, at: { tongue: string; taken: string[]; shore?: Side }): Atlas {
-    const land = Terrain.make(key, terrain, Terrain.size, at.shore), seats = Settling.make(key, terrain, land);
+  static make(key: string, terrain: string,
+    at: { tongue: string; taken: string[]; shore?: Side; port?: boolean }): Atlas {
+    const land = Terrain.make(key, terrain, Terrain.size, at.shore), seats = Settling.make(key, terrain, land, at.port);
     const roads = Roads.make(land, seats), zones = Zones.make(land, seats, roads);
     const names = { key, tongue: at.tongue, taken: at.taken };
     const rivers = land.water.rivers.slice(0, 3).map((r, i) => ({ cells: r.cells, spring: r.spring, fall: r.fall,

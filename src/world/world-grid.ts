@@ -5,6 +5,7 @@ import { Borders, type Side } from './land/borders';
 import { PlaceNames } from './place-names';
 import type { Region } from './region-writer';
 import { WorldShape } from './world-shape';
+import { StrategicAtlas } from './strategic-atlas';
 
 // Where each region of a generated world lies: the first at 0,0, the one beyond its eastern border at 1,0, and so on
 // as far as anyone goes. Each is a module of its own (the first is "region"; the rest are named for where they lie,
@@ -50,7 +51,8 @@ export class WorldGrid {
     let region = this.draws.get(key);
     if (!region) {
       region = this.shaped(new Content(RandomStreams.key(this.seed(seed, x, y), 'world', 'region', ...salt ? [salt] : []))
-        .generate('region', { ...given, ...WorldShape.given(x, y) }) as unknown as Region, [x, y]);
+        .generate('region', { ...given, ...WorldShape.given(x, y), ...StrategicAtlas.given(seed, x, y) }) as unknown as Region,
+        [x, y], seed);
       this.draws.set(key, region);
     }
     return structuredClone(region);
@@ -58,11 +60,12 @@ export class WorldGrid {
   // A country drawn where the world's shape holds its cell: part of the great region there, with its terrain given (a
   // sea's is the kind of country the sea is, which Deem's tables, knowing only land, do not draw), and the side of its
   // land that falls to a great sea, if one does; and the city of the canon built in it, if one is (its chief town).
-  private static shaped(region: Region, [x, y]: [number, number]): Region {
+  private static shaped(region: Region, [x, y]: [number, number], seed: string): Region {
     const great = WorldShape.at(x, y), shore = WorldShape.coast(x, y), seat = WorldShape.seated(x, y);
-    return { ...region, ...great ? { great } : {}, ...great?.kind === 'sea' && great.terrain
+    // A country of the strategic atlas is called and shored as the atlas says (see StrategicAtlas).
+    return StrategicAtlas.shaped({ ...region, ...great ? { great } : {}, ...great?.kind === 'sea' && great.terrain
       ? { terrain: great.terrain } : {}, ...shore ? { shore } : {},
-    ...seat ? { seat: { identity: seat.identity, name: seat.name } } : {} };
+    ...seat ? { seat: { identity: seat.identity, name: seat.name } } : {} }, seed, [x, y]);
   }
   // What the folk of a region call the country beyond each of its borders, and what kind of country it is.
   // A sea is seen from the shore and named, and no road goes over into it.
