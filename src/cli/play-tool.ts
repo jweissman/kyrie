@@ -3,8 +3,8 @@
 // from the command line; each is printed with what the page told of it. --probe asks the world afterwards: a fact
 // ("knows party season__hour_names") is yes or no, a measure ("#dose season__member_party_1") is its number.
 // --world plays a generated world drawn from its seed instead, for one protagonist (--as race/calling/name) with an
-// origin in it (--origin; else where the world gives the life to begin, as the page's creation does: the circumstance
-// for the past named in --as, or the country's first, CreationFlow.circumstance; audit thread 10). `play scene` and
+// origin in it (--origin; else the wanderer where the world has one, and where it has none, where the world gives the
+// life to begin, as the page's creation does: CreationFlow.circumstance; audit thread 10). `play scene` and
 // `play character` play an adventure to one of its scenes or people first, in a context its author named (see
 // PlayParts).
 //   bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "..."]... [step ...]
@@ -80,6 +80,10 @@ export class PlayTool {
   // the past named in --as chosen as its kind, and the circumstance it asks for (see CreationFlow.circumstance).
   static async given(seed: string, member: CreatureGenerationContext): Promise<string | undefined> {
     const setting = await new Creation().generate(seed), catalog = Creation.catalog();
+    // The terminal's own starting point where the world has it, as its tools and recorded walks assume (the wanderer);
+    // a world without one (iscoed: the drove, the pans, the weir) gives its own. That the page and the terminal can
+    // begin differently on one seed stays open (audit thread 10, AR-23).
+    if (setting.origins?.some(o => o.id === 'wanderer')) { return 'wanderer'; }
     const you = { ...setting.party[0]!, raceId: member.raceId, classId: member.classId, name: member.name } as Member;
     const flow = new CreationFlow(setting, catalog, you);
     const kind = catalog.backgrounds.find(b => b.id === member.backgroundId)?.kind;
