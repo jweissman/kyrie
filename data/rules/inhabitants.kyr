@@ -250,6 +250,9 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // was entered, with no say in how. A place says which of its dwellers will come (drawable). The company awaits what
   // it drew out until it is met: once they part, or it can fight no more, the waiting is over.
   Relation drawable(group). Relation awaits(group, group).
+  // What lies in wait in a place, whose sign shows at the mouth of each way to it (the deep sites' ambushes): the page
+  // marks the way red to a company that can see it (OR-12).
+  Relation lurks(group, place).
   Rule awaiting_over when awaits(?c, ?g) and (not together(?c, ?g) or not able(?g)) { Retract awaits(?c, ?g). }
   Action draw_out(actor: group, lurker: group, whence: place, way: passage, site: place) "Draw out what is in {whence}, and wait for it here" {
     Description "Make a noise at the way in, and step back to meet whatever comes, weapons out.".

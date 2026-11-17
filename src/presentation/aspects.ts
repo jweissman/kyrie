@@ -22,12 +22,13 @@ export class Aspects {
   };
   // whys: best first (see Promotion). A fight or a trap the company can see is a danger whatever it is led for, and so
   // is a way with something heard in there (Marks: a band that can be drawn out): the company has perceived it, so the
-  // way says so in red (M22's sites audit: the way into a band was told only in the room's prose, unmarked).
+  // way says so in red (M22's sites audit: the way into a band was told only in the room's prose, unmarked); and so
+  // is a way whose mouth shows that something lies in wait in there, to a company that can see it (Marks: lurks).
   // visited: the place it leads to has been gone to; going further in or onward there is a way, but not a discovery,
   // which an exploration promises (PB-24: "To the great hall", four turns running, brought nothing new).
   static of(whys: Why[], marks: Mark[], visited = false): Aspect[] {
     const seen = [...whys.filter(w => !visited || !['deeper', 'onward'].includes(w)).flatMap(w => this.by[w] ?? []),
-      ...marks.some(m => m.kind === 'fight' || m.kind === 'trap' || m.kind === 'heard') ? ['danger' as const] : []];
+      ...marks.some(m => ['fight', 'trap', 'heard', 'lurks'].includes(m.kind)) ? ['danger' as const] : []];
     return seen.filter((a, i) => seen.indexOf(a) === i);
   }
 }

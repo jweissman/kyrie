@@ -60,6 +60,9 @@ export interface ExitRow {
   scope?: string; via?: string; blocked?: string; visited: boolean; acts: Act[]; way?: string; hazard?: string;
   // What the hazard on it does to whoever goes first, on an average roll.
   harm?: number;
+  // Something lies in wait where it leads, and the company can see the sign of it at the way's mouth (lurks, told only
+  // in the light: DeepSounds' ambush sign; OR-12).
+  lurks?: boolean;
   // A way about the settlement or site the company is in (a lane to the hall, a shaft to the level below), however
   // long it takes: not a way out.
   local?: boolean;

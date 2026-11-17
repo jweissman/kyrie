@@ -15,7 +15,8 @@ export class Signs {
   static readonly shut = '⊘';
   // Each kind of mark as its tag says it.
   static readonly marks: Record<MarkKind, string> = { 'one-way': 'no way back', grave: 'cannot be undone',
-    fight: 'a fight', trap: 'a risk', unlooked: 'not looked at', heard: 'something heard', exposed: 'a cold night',
+    fight: 'a fight', trap: 'a risk', unlooked: 'not looked at', heard: 'something heard', lurks: 'something waits',
+    exposed: 'a cold night',
     warned: 'they will not wait', night: 'after dark' };
   // An act done by holding rather than a touch (a search, a wait, a rest): the page's ring, said or signed.
   static readonly hold = { sign: '⧗', said: 'hold to do it' };

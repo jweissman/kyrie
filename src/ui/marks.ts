@@ -57,6 +57,7 @@ export class Marks {
       marks.push({ kind: 'unlooked', said: 'Not looked at closely yet.' });
     }
     if (exit && c.command && this.heard(exit)) { marks.push({ kind: 'heard', said: 'Something is in there.' }); }
+    if (exit && c.command && exit.lurks) { marks.push({ kind: 'lurks', said: 'Something lies in wait in there.' }); }
     const warned = this.warned(c, s, here);
     if (warned) { marks.push(warned); }
     if (exit && c.command && (c.minutes ?? 0) > 10 && this.journey(here.screen.elapsed, c.minutes!)) {
