@@ -1,4 +1,6 @@
 import { Creation } from './creation';
+import { CreationDefaults } from './creation-defaults';
+import { CreationRules } from '../reader/creation-rules';
 import { CreationFlow, type CreationChoice, type CreationStep } from './creation-flow';
 import type { Starting } from './engine-starts';
 import type { Member, Setting } from './protocol';
@@ -33,10 +35,16 @@ export class EngineCreation {
     this.made().choose(step, value);
     return this.state();
   }
-  // What setting out begins: the country, and the life made, as it stands.
+  // What setting out begins: the country, and the life made, as it stands and as the name page shows it: named (a
+  // name left empty is the first drawn), and with the weapon in hand, theirs or the one they strike best with. The
+  // engine's set-out had carried no weapon, so a warrior shown "A battleaxe in hand" set out with the calling's
+  // longsword, and no start made ready for the page's choices was ever the one set out on (OR-08).
   starting(): Starting {
-    const flow = this.made(), at = this.at!;
-    return { campaign: at.campaign, seed: at.seed, party: [structuredClone(flow.member)],
+    const flow = this.made(), at = this.at!, member = structuredClone(flow.member), catalog = flow.catalog;
+    const calling = catalog.callings.find(c => c.id === member.classId);
+    const weapon = !member.weapon && calling ? CreationRules.best(calling.weapons, member, catalog)?.id : undefined;
+    return { campaign: at.campaign, seed: at.seed,
+      party: [{ ...member, name: CreationDefaults.named(member, flow.setting), ...weapon ? { weapon } : {} }],
       ...at.terrain ? { terrain: at.terrain } : {}, ...flow.origin ? { origin: flow.origin } : {} };
   }
   private made(): CreationFlow {

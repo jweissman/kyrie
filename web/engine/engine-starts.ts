@@ -1,5 +1,6 @@
 import { PlaySession } from '../../src/session/play-session';
 import { Creation } from './creation';
+import { ScreenModel } from '../../src/ui/screen-model';
 import type { Message, Request } from './protocol';
 
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
@@ -19,6 +20,48 @@ export class EngineStarts {
   static key(r: Starting): string {
     return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
   }
+  // A start made ready a moment after the life made was last changed (OR-08): the engine's own making (EngineCreation)
+  // asks for it at each choice, for the start its set-out will ask, so that setting out finds it made or under way.
+  // First the country's texts are read, for the reason chosen (never wasted: what is parsed is kept, whatever is chosen
+  // next); only then the start, whose installing is given up at its next step if the choices change again meanwhile.
+  private soon?: ReturnType<typeof setTimeout>;
+  private warm?: { key: string; done: Promise<unknown> };
+  // Only read: the country just drawn, before any choice is made (what a start made for the life it begins with does
+  // is wasted on the first choice, and a spec that draws a country and sets out on none paid for one).
+  readying(r: Starting, only?: 'read'): void {
+    clearTimeout(this.soon); this.soon = undefined;
+    const key = EngineStarts.key(r), country = EngineStarts.country(r);
+    if (this.ready && this.ready.key !== key) { this.ready = undefined; }
+    if (this.warm?.key !== country) {
+      const before = this.warm?.done ?? Promise.resolve();
+      this.warm = { key: country, done: before.then(() => this.warmed(r)).catch(() => undefined) };
+    }
+    const warm = this.warm.done;
+    if (only) { this.next = undefined; return; }
+    this.soon = setTimeout(() => {
+      this.soon = undefined;
+      void warm.then(() => { if (!this.soon && this.next === key) { this.prepare(r); } });
+    }, EngineStarts.moment);
+    this.next = key;
+  }
+  // The start the last change asked for: a warm finished after another change does not make ready the one before.
+  private next?: string;
+  static readonly moment = 300;
+  // What the country's texts are drawn by: not the life, but the country and the reason for coming.
+  static country(r: Starting): string {
+    return JSON.stringify([r.campaign, r.seed, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
+  }
+  // A turn of the worker's loop first, so that the answer to what asked for it is sent before the reading begins.
+  private async warmed(r: Starting): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 0));
+    if (r.campaign !== Creation.generated) { return; }
+    const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
+      ...r.memorial ? { memorial: r.memorial } : {} };
+    const world = await this.creation.origin(r.campaign, r.seed, r.party, at);
+    await Creation.warm(world.path, world.source);
+  }
+  // Nothing made ready any longer: a new country is being drawn.
+  drop(): void { clearTimeout(this.soon); this.soon = undefined; this.ready = undefined; this.next = undefined; }
   prepare(r: Starting): void {
     const key = EngineStarts.key(r);
     if (this.ready?.key === key) { return; }
@@ -29,6 +72,7 @@ export class EngineStarts {
   // The start Begin asks for: the one made ready for the same choices, what is left of it, or a fresh one.
   async take(r: Starting): Promise<PlaySession> {
     const key = EngineStarts.key(r), ready = this.ready?.key === key ? this.ready.started : undefined;
+    clearTimeout(this.soon); this.soon = undefined; this.next = undefined;
     this.ready = undefined; this.waiting = key;
     try {
       if (ready) { this.said('Placing its people'); }
@@ -50,6 +94,9 @@ export class EngineStarts {
     const session = await PlaySession.start(origin.path, r.seed, origin.source,
       { ...r.origin ? {} : { party: r.party }, step: this.step.bind(this, key, asked) });
     this.phases = { draw: Math.round(drawn - began), place: Math.round(performance.now() - drawn) };
+    // One made ready looks once at where it begins, as the first page will: the first look at a world is 0.4 s, a
+    // second 0.05 s, and looking changes nothing of the game (test/set-out-ready: the checkpoint is a cold start's).
+    if (!asked) { ScreenModel.build(session.campaign); }
     // A generated world keeps what it was drawn for, so that its transcript can be replayed (see DrawnWorld).
     return r.campaign === Creation.generated ? session.drawnFor({ party: r.party, ...at }) : session;
   }

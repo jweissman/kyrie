@@ -157,8 +157,6 @@ export class Creation {
       { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...at.origin ? { origin: at.origin } : {},
         ...at.memorial ? { memorial: at.memorial } : {} });
     const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
-    // While the protagonist is chosen, the country is read: it is the same whoever comes into it.
-    if (!party) { setTimeout(() => void Creation.warm(world.path, world.source), 200); }
     const title = campaign.name, region = world.report.region;
     const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);
     const names = ProtagonistNames.drawn(region, seed);
@@ -167,8 +165,10 @@ export class Creation {
         + 'You come into it alone, for a reason of your own; whoever goes with you, you will meet on the way.' },
       party: [Creation.protagonist(region.ancestry, seed, names)] };
   }
-  // The country first, then what is set in it.
-  private static async warm(path: string, source: BundleSource) {
+  // The country first, then what is set in it. Its texts are the same whoever comes into it for the same reason (only
+  // the campaign's manifest differs, and an origin's own text by the protagonist's name), so they are read while the
+  // life is made (see EngineStarts.readying).
+  static async warm(path: string, source: BundleSource) {
     const campaign = JSON.parse(await source.read(path)) as CampaignManifest;
     const bundles = campaign.modules.flatMap(m => 'bundle' in m ? [String(m.bundle)] : [])
       .sort((a, b) => Number(/\/region\//.test(b)) - Number(/\/region\//.test(a)));

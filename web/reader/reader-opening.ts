@@ -235,8 +235,11 @@ export class ReaderOpening {
     clearTimeout(this.readyTimer);
     this.readyTimer = setTimeout(this.makeReady, 1200);
   }
+  // A life the engine holds is made ready by the engine itself, at each choice, for the start its set-out asks
+  // (EngineStarts.readying): the page's own, for other choices, would only give that one up (OR-08).
   private readonly makeReady = () => {
-    if (this.app.state.phase !== 'company' || !this.app.state.setting?.generated) { return; }
+    const s = this.app.state;
+    if (s.phase !== 'company' || !s.setting?.generated || s.creation) { return; }
     void this.app.engine.request({ kind: 'ready', ...this.starting() }).catch(() => undefined);
   };
   private starting() {

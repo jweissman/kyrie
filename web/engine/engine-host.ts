@@ -12,14 +12,15 @@ import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
-import { EngineCreation } from './engine-creation'; import { Foregone } from '../../src/ui/foregone';
+import { EngineCreation, type CreationState } from './engine-creation';
+import type { CreationChoice } from './creation-flow'; import { Foregone } from '../../src/ui/foregone';
 import { EngineStarts, type Starting } from './engine-starts';
 import { Frontier } from '../../src/world/frontier';
 import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
-import type { Entry, Frame, Leaf, Message, Request, SaveSummary } from './protocol';
+import type { Entry, Frame, Leaf, Message, Request, SaveSummary, Setting } from './protocol';
 import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
@@ -81,9 +82,8 @@ export class EngineHost {
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
       case 'setting': return this.creation.setting(request.campaign);
-      case 'world': return this.made.begun(await this.creation.generate(request.seed, request.terrain),
-        { campaign: Creation.generated, seed: request.seed, ...request.terrain ? { terrain: request.terrain } : {} });
-      case 'creation': return request.step ? this.made.choose(request.step, request.value ?? '') : this.made.state();
+      case 'world': return this.drawn(request.seed, request.terrain);
+      case 'creation': return request.step ? this.chosen(request.step, request.value ?? '') : this.made.state();
       case 'set-out': return this.begin({ ...this.made.starting(), ...request.apart ? { apart: true } : {} });
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
@@ -105,6 +105,20 @@ export class EngineHost {
           log: this.log, ...this.bound ? { bound: this.bound } : {} }) : null;
       case 'story': return this.log;
     }
+  }
+  // A country drawn for a life to be made for, and its texts read while the player reads the first page.
+  private async drawn(seed: string, terrain?: string): Promise<Setting> {
+    this.starts.drop();
+    const setting = this.made.begun(await this.creation.generate(seed, terrain),
+      { campaign: Creation.generated, seed, ...terrain ? { terrain } : {} });
+    this.starts.readying(this.made.starting(), 'read');
+    return setting;
+  }
+  // A choice in the making of a life, and the start it now asks for made ready meanwhile (see EngineStarts.readying).
+  private chosen(step: CreationChoice, value: string): CreationState {
+    const state = this.made.choose(step, value);
+    this.starts.readying(this.made.starting());
+    return state;
   }
   private async begin(r: Starting): Promise<Frame> {
     const game = this.abandon();
