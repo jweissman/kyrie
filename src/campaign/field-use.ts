@@ -15,7 +15,8 @@ import { AbilityUse } from '../ability-use';
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
 import type { CreatureStore } from '../creature-store';
-import type { CombatEvent } from '../model';
+import type { CombatEvent, Fighter } from '../model';
+import type { ArenaAbility } from '../lang/parse';
 import type { Attribute } from '../creature';
 
 export class FieldUse {
@@ -190,11 +191,57 @@ export class FieldUse {
         detail: now ? `${name} is ready` : `${name} will be ready after the next rest` }];
     } finally { lease.release(); }
   }
+  // A healing, a cleansing, a lasting ward; or a raising of the dead as themselves (Raise Dead, Resurrection: not one
+  // that raises them as something else, animate_dead's undead).
   static safe(id: string): boolean {
     const ability = Content.abilities.find(a => a.id === id);
-    return !!ability && ability.effects.every(e => (['heal', 'remove'].includes(e.kind)
-      || (e.kind === 'apply' && Effects.status(e.status).lifetime === 'persistent'))
-      && e.target === 'ally' && !e.save);
+    return !!ability && ability.effects.every(e => ((['heal', 'remove'].includes(e.kind)
+      || (e.kind === 'apply' && Effects.status(e.status).lifetime === 'persistent')) && e.target === 'ally' && !e.save)
+      || (e.kind === 'revive' && e.target === 'dead ally' && !e.traits?.length));
+  }
+  // A spell that takes those it is cast at out of what they were doing (asleep, held), and nothing else: castable at a
+  // band outside a fight (CF-03), where a blow-by-blow effect would end with the moment (see Items.use).
+  static hostile(id: string): boolean {
+    const ability = Content.abilities.find(a => a.id === id);
+    return !!ability?.spell && !!ability.effects.length && ability.effects.every(e => e.kind === 'apply'
+      && /enem/.test(e.target) && !!Content.statuses[e.status] && Effects.skips(e.status));
+  }
+  // A hostile spell cast at a band outside a fight (the casting-fiction invariant, CF-03): by a named caster who knows
+  // it and can cast it now, for the slot it costs in a fight, each of the band saving as in a fight; what it lays on
+  // them lasts as many watches of the world's clock as it would have lasted turns, and wears off as time passes, so a
+  // band put to sleep lies asleep (not able) until it wakes. What it leaves able is the author's to rouse (assails).
+  static cast(store: CreatureStore, options: { ability: string; caster: string; foes: string[]; seed: string }):
+    CombatEvent[] {
+    const ability = Content.abilities.find(a => a.id === options.ability);
+    if (!ability || !this.hostile(ability.id)) { throw new Error('Unsupported field effect'); }
+    const foes = options.foes.filter(id => store.get(id).state.hp > 0);
+    const lease = store.acquire([options.caster, ...foes]);
+    try {
+      const fighters = lease.creatures
+        .map(c => CombatProjection.fighter(c, c.id === options.caster ? 'fighters' : 'goblins'));
+      const actor = this.caster(fighters, options.caster, ability);
+      const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
+        content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
+        retreat: false, location: null };
+      AbilityUse.perform(ability, foes[0]!, new Expressions(options.seed), context);
+      const committed = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
+      for (const c of committed.filter(x => x.id !== options.caster)) {
+        c.state.conditions = c.state.conditions.filter(s => Effects.lasting(s) || Effects.skips(s.id))
+          .map(s => Effects.lasting(s) ? s : { ...s, clock: 'world-time' as const });
+      }
+      lease.commit(committed);
+      return context.events;
+    } finally { lease.release(); }
+  }
+  // One who can use the ability now: up, acting, knowing it (unless a service does it for them), within the level
+  // they can cast at, and not kept from casting.
+  private static caster(fighters: Fighter[], id: string, ability: ArenaAbility, service?: string): Fighter {
+    const actor = fighters.find(f => f.id === id);
+    if (!actor || actor.hp === 0 || actor.statuses.some(s => Effects.skips(s.id))
+      || (!service && !actor.abilities.includes(ability.id))
+      || (ability.spell?.level ?? ability.level ?? 0) > Fighting.maxSpellLevel(actor.level)
+      || (ability.spell && Effects.modifiers(actor).noSpellcasting)) { throw new Error('Caster cannot use this ability'); }
+    return actor;
   }
   static perform(store: CreatureStore, ids: string[], options: {
     ability: string; caster: string; target: string; seed: string; service?: 'recover' | 'reward';
@@ -209,11 +256,7 @@ export class FieldUse {
     try {
       if (options.service === 'recover' && lease.creatures.every(c => c.state.hp === 0)) { return []; }
       const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
-      const actor = fighters.find(f => f.id === options.caster)!;
-      if (!actor || actor.hp === 0 || actor.statuses.some(s => Effects.skips(s.id))
-        || (!options.service && !actor.abilities.includes(ability.id))
-        || (ability.spell?.level ?? ability.level ?? 0) > Fighting.maxSpellLevel(actor.level)
-        || (ability.spell && Effects.modifiers(actor).noSpellcasting)) { throw new Error('Caster cannot use this ability'); }
+      const actor = this.caster(fighters, options.caster, ability, options.service);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[],
         ...(actor.abilitySources?.[ability.id] ? { source: actor.abilitySources[ability.id] } : {}),
         content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),

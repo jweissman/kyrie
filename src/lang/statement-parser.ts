@@ -27,7 +27,10 @@ export class StatementParser {
   static Duration(_time: Node, value: Node, _dot: Node): Field {
     return { field: 'duration', value: ModuleParser.ast(value) };
   }
-  static Resolve(_resolve: Node, call: Node, _dot: Node): Field { return { field: 'resolve', value: ModuleParser.ast(call) }; }
+  // A resolve tried once (`… once.`) is said so on its action, which WorldConstructs.tried latches (CB-05).
+  static Resolve(_resolve: Node, call: Node, once: Node, _dot: Node): Field {
+    return { field: 'resolve', value: ModuleParser.ast(call), ...once.children.length ? { once: true } : {} };
+  }
   static Interruption(_interrupted: Node, _when: Node, predicate: Node, _dot: Node): Field {
     return { field: 'interrupt', value: ModuleParser.ast(predicate) };
   }

@@ -260,7 +260,8 @@ export class ModuleCompiler {
       }
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
-      if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
+      // A runtime capability may take one of several kinds at a place (`invoke`'s target: a member or a group).
+      if (!type || (expected !== 'entity' && type !== 'entity' && !expected?.split('|').includes(type))) {
         // A world event read by name needs naming in the module's manifest canon (M19-175: eight authors met this
         // refusal and it did not say so).
         const canon = !type && /(^|__)befell$/.test(call.name)

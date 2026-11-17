@@ -126,3 +126,27 @@ The cheapest honest next step is step 3 with a tiny Kyr fixture: a tiny world, a
 mage, "a mage's charm"); its words say the Sleep spell. A mage without Sleep is not offered it, and meets the rats by the
 other ways the job has (ratsbane, the fight). Still free (no slot spent) and still a Slay: the engine steps (a band as
 the target of the one invocation route, a persistent sleeping state) are the rest, CF-03.
+
+## Step 3, done (16 November, M22): a band as the target of the one route
+
+`Resolve invoke(ability, caster, band)` takes a group. A hostile spell that takes those it is cast at out of what they
+were doing (asleep, held) runs at the band outside a fight through `FieldUse.cast`, by the fight's own rules:
+- the named caster's slot;
+- each of the band's saves, immunity included;
+- the condition kept on the world's clock, as many watches as turns.
+
+What it leaves:
+- The sleepers are *not able*: the engine's `able` fact, so no second `sleeping` fact for the same state.
+- The ordinary fight is not offered against them.
+- Killing them is a separate act (`Resolve combat(band)` when `not able(band) and not dead(band)`).
+- Resisters and wakers come at the company through the author's `assails`.
+- A save keeps it.
+
+Held by test/small/sleep-band; recorded as a proving case in `../mission-22/srd-proving-cases.md`. Steps 2, 4 and 5
+are met by the same route: the caster bound, the events kept, sleep a persistent state.
+
+What remains is step 6, the content (CF-02):
+- `_u_rats_slept` still slays;
+- its job rule counts a not-able band as cleared;
+- Sleep is a third-level spell in the catalogue, so no starting mage casts it.
+

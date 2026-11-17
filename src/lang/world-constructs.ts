@@ -361,6 +361,17 @@ export class WorldConstructs {
       right: { kind: 'and', left: put, right: { kind: 'not', value: given } } };
     action.success = [...action.success, { kind: 'assert', call: given }];
   }
+  // A try spent whatever came of it (`Resolve check(…) once.`, CB-05): made once with these arguments, success or
+  // failure, the act is not offered again. The latch is a fact of the world (kept in a save), one for each binding of
+  // the act's own parameters, so a persuasion tried on one keeper may still be tried on another.
+  static tried(module: Module, action: Module['actions'][number]) {
+    const parameters = action.parameters ?? [], latch = `tried_${action.id}`;
+    const call = { kind: 'call' as const, name: latch, args: parameters.map(p => p.name) };
+    module.relations.push({ name: latch, types: parameters.map(p => p.type), exclusive: false });
+    action.requires = { kind: 'and', left: action.requires, right: { kind: 'not', value: call } };
+    action.success = [...action.success, { kind: 'assert', call }];
+    action.failure = [...action.failure, { kind: 'assert', call }];
+  }
   static once(module: Module, action: Module['actions'][number]) {
     const latch = `said_${action.id}`;
     module.relations.push({ name: latch, types: [], exclusive: false });

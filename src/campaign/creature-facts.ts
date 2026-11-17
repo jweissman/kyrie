@@ -25,6 +25,7 @@ import { ConditionSense } from '../canon/condition-sense';
 type Entity = Module['entities'][number];
 interface Declared {
   has: Set<string>; measures: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
+  hostile: ArenaAbility[];
   capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; itemIds: Set<string>;
   callings: Map<string, string[]>; ancestries: Map<string, string[]>;
 }
@@ -141,6 +142,7 @@ export class CreatureFacts {
     const declared = Content.abilities.filter(a => abilityIds.has(a.id)), items = entities.filter(e => e.type === 'item');
     const made = { has: new Set(relations.map(r => r.name)), measures: new Set(measures.map(m => m.name)),
       abilityIds, declared, field: declared.filter(a => FieldUse.safe(a.id)),
+      hostile: declared.filter(a => FieldUse.hostile(a.id)),
       capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)),
       kinds: entities.filter(e => e.type === 'itemkind'),
       // Each calling by its class, under every id an installation gave it (canon__calling_mage,
@@ -262,7 +264,9 @@ export class CreatureFacts {
       changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(k.id, c)).map(k => k.id)));
     }
     // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
-    const usable = scope.field.filter(a => ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
+    // And, for the company alone, a spell it could cast at a band outside a fight (CF-03: FieldUse.cast).
+    const usable = (company ? [...scope.field, ...scope.hostile] : scope.field)
+      .filter(a => ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
       && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(LevelDrain.level(c)));
     changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id)),
       ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
@@ -289,7 +293,10 @@ export class CreatureFacts {
   }
   // Whether an ability would do anything for someone: heal a hurt, lift something they have, or lay on something
   // they have not, or renew it once half of it is spent (a lantern topped up before going down).
+  // What would do them good: for the dead, only a raising (a healing does not mend the dead); for the living, a
+  // healing where they are hurt, a cleansing of what they carry, a ward they have not got.
   private static helps(a: ArenaAbility, c: Creature): boolean {
+    if (c.state.conditions.some(s => s.id === Canon.rules.combat.ids.slain)) { return a.effects.some(e => e.kind === 'revive'); }
     return a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
       || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
       || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status && s.remaining * 2 > e.duration)));

@@ -34,9 +34,10 @@ Module care "Rest, mending and lessons" {
   Goal false.
   Action field_spell(actor: group, caster: member, technique: ability, recipient: member, site: place) "Have {caster} use {technique} on {recipient}" {
     Time 2 minutes.
-    Description "A healing, a cleansing or a ward, used between fights, for its usual cost in mana.".
+    Description "A healing, a cleansing or a ward, or a raising of one of the company who has died, used between fights, for its usual cost in mana.".
     Requires able(actor) and at(actor, site) and memberOf(caster, actor) and memberOf(recipient, actor)
-      and fieldUsable(technique) and awake(caster) and awake(recipient) and canCast(caster, technique) and treatable(recipient, technique).
+      and fieldUsable(technique) and awake(caster) and (awake(recipient) or slain(recipient)) and canCast(caster, technique)
+      and treatable(recipient, technique).
     Resolve invoke(technique, caster, recipient).
     Result "{caster} uses {technique} on {recipient}.".
   }

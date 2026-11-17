@@ -55,6 +55,10 @@ export class FieldResolver {
       return FieldUse.study(creatures, call.name, call.args);
     }
     if (call.name === 'invoke') {
+      const band = host.actors.find(a => a.id === call.args[2]);
+      if (band) {
+        return FieldUse.cast(creatures, { ability: call.args[0]!, caster: call.args[1]!, foes: band.members, seed });
+      }
       return FieldUse.perform(creatures, [call.args[1]!, call.args[2]!],
         { ability: call.args[0]!, caster: call.args[1]!, target: call.args[2]!, seed });
     }

@@ -392,12 +392,13 @@ export class ModuleParser {
     }
     const seen = new Set<string>();
     for (const child of parts.children) {
-      const { field, value } = ModuleParser.ast(child) as Field;
+      const { field, value, once } = ModuleParser.ast(child) as Field & { once?: true };
       // Words for a moment may be several, each with its own condition (see ActionParts.told).
       if (field === 'told') { (action.told ??= []).push(value as NonNullable<Operator['told']>[number]); continue; }
       if (seen.has(field)) { throw new Error(`Duplicate ${field} in action ${action.id}`); }
       seen.add(field);
-      Object.assign(action, { [field]: value });
+      // A resolve tried once (`… once.`) is latched on its action: WorldConstructs.tried.
+      Object.assign(action, { [field]: value }, once ? { tried: true } : {});
     }
     return { field: 'action', value: action };
   }

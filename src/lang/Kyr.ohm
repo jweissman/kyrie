@@ -229,7 +229,9 @@ Kyr {
   // Until an hour of the clock, or of a day: "Time until hour 19.", "Time until day 2 hour 6." (WPC-10).
   TimeUntil = TimeDay? "hour" integer
   TimeDay = "day" integer
-  Resolve = "Resolve" Call "."
+  // A try spent whatever comes of it: "Resolve check(actor, persuasion, dc_fair) once." (CB-05).
+  Resolve = "Resolve" Call ResolveOnce? "."
+  ResolveOnce = "once"
   ChangeStatement = Change "."
   Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore | Slay | Bring
   // Whole again: every hit point, no condition, risen if fallen or dead (LUL-01).
