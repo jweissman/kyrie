@@ -23,10 +23,11 @@ export class MapPlay {
     return Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.leg(c) }, destination);
   }
   // Gone on with, as the page's "Go on to" would, past whatever stopped it on the way (a toll, pikes across the road,
-  // nightfall).
+  // nightfall), as long as each going gets somewhere. a1's way to the Black Keep stops seven times since AR-17 moved
+  // the wild (water three times, a danger, a shepherd, the arcology's chain, nightfall): a count, not a rule.
   static async reach(j: Journey, destination: string) {
     let done = await MapPlay.go(j, destination);
-    for (let k = 0; k < 6 && !done.arrived && done.legs.length; k++) { done = await MapPlay.go(j, destination); }
+    for (let k = 0; k < 12 && !done.arrived && done.legs.length; k++) { done = await MapPlay.go(j, destination); }
     return done;
   }
   // What is chosen on the map set out for by its card's button, and gone on with to the end: where it set out for,
