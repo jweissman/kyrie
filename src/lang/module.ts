@@ -183,6 +183,9 @@ export interface LandChart {
   springs?: number[][]; falls?: number[];
   // An authored region's: the cells of each of its stretches of country, settlements and sites (see AuthoredLand).
   blocks?: Record<string, number[]>;
+  // Where along each road its way room stands (its crossing, or its middle: see RegionRoads.room), the cell a company
+  // on the road is at.
+  rooms?: Record<string, number>;
 }
 export interface WorldState {
   relations: Call[];

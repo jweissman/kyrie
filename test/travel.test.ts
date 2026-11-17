@@ -45,18 +45,26 @@ describe('the way into Merrowdale', () => {
     await s.leg(PlayerView.choices(c).find(x => /bailey/.test(x.choice.name))!.choice.id);
     await s.leg(PlayerView.choices(c).find(x => /Wooden Wolf/.test(x.choice.name))!.choice.id);
     expect(names()).toContain('Read a notice from Merrowdale');
-    expect(Itineraries.destinations(c)).toEqual([]);
+    const merrowdale = () => Itineraries.destinations(c).find(d => d.name === 'the way into Merrowdale');
+    expect(merrowdale()).toBeUndefined();
     await s.leg(PlayerView.choices(c).find(x => x.choice.name === 'Ask Fargrim about the forty crowns in Merrowdale')!
       .choice.id);
-    // Known, the way in is somewhere to set out for, by the country's roads.
-    const [to] = Itineraries.destinations(c);
-    expect(to?.name).toBe('the way into Merrowdale');
+    // Known, the way in is somewhere to set out for, across the country as the company reckons it (OR-35).
+    const to = merrowdale();
     expect(to!.legs.length).toBeGreaterThan(1);
-    const done = await Travel.go({ campaign: c, perform: command => s.leg(command) }, to!.id);
-    expect([done.arrived, done.stopped, done.legs.length]).toEqual([true, undefined, to!.legs.length]);
+    // Gone on with past whatever stops it on the way (a pedlar on the sheep-track), each time by the way laid then.
+    let done = await Travel.go({ campaign: c, perform: command => s.leg(command) }, to!.id);
+    const first = done;
+    for (let k = 0; k < 6 && !done.arrived; k++) {
+      const on = merrowdale()!;
+      done = await Travel.go({ campaign: c, perform: command => s.leg(command) }, to!.id);
+      expect(done.legs.map(l => l.command)).toEqual(on.legs.slice(0, done.legs.length)
+        .map(l => expect.stringContaining(`go(${l.passage},`)));
+    }
+    expect(done.arrived).toBe(true);
     // Told as one journey: it sets out once, not on every leg, and the land is not told twice over (the free play
     // read "You set out from …, and the rain sets out with you" on four legs running).
-    const voiced = done.legs.flatMap(l => l.event.voiced ?? []);
+    const voiced = first.legs.flatMap(l => l.event.voiced ?? []);
     expect(voiced.filter(v => v.kind === 'journey-depart').length).toBe(1);
     const land = voiced.filter(v => v.kind === 'journey-land').map(v => v.text);
     expect(new Set(land).size).toBe(land.length);
@@ -83,7 +91,10 @@ describe('the way into Merrowdale', () => {
     const s = await PlaySession.start(w.path, 'wren', w.source);
     await GeneratedWorld.travel(s, 'w1');
     const legs = (ScreenModel.build(s.campaign).destinations ?? []).flatMap(d => d.legs.map(l => l.way));
-    expect([legs.includes('the track to Stonekeep'), legs.some(l => l.includes('{'))]).toEqual([true, false]);
+    expect([legs.length > 0, legs.some(l => l.includes('{'))]).toEqual([true, false]);
+    // The site's own track, where a journey home goes by it, by its name (most now go straight across the country).
+    const track = Itineraries.graph(s.campaign).get('region__w1')?.find(w => w.passage.endsWith('w1_track'));
+    expect(track?.name).toBe('the track to Stonekeep');
   }, 120000);
   // As the world keeps them: dark from nine (a journey's night had fallen at eight: the navigation review).
   it('reckons night as the dark hours, which stop a journey that runs into them', () => {

@@ -13,6 +13,7 @@ import type { RegionChart, Screen } from './screen-types';
 import { SiteScale } from './site-scale';
 import { RegionIds } from '../world/region-ids';
 import { EntityIndex } from '../lang/entity-index';
+import { Overland } from './overland';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
 export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
@@ -24,7 +25,7 @@ export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; 
 // The way to somewhere known, over the ways the company knows: those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways).
 // Every place reached from here, in the order settled, with its nearest way.
-interface Tree { order: string[]; best: Map<string, { minutes: number; legs: Leg[] }> }
+interface Tree { order: string[]; best: Map<string, { minutes: number; legs: Leg[] }>; reach?: Set<string> }
 export class Itineraries {
   // The known ways, from each place; or only those open now, with nothing in the way and nothing to risk (a ford in
   // spate is risked, not taken). Read once for each state of the world and of where the company has been, for every
@@ -40,7 +41,10 @@ export class Itineraries {
       kept = { at, ways: this.chart(campaign).ways(VisitedPlaces.of(campaign, actor)) };
       this.read.set(world, kept);
     }
-    if (roam) { kept.roam ??= this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true); }
+    if (roam) {
+      kept.roam ??= [...this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true),
+        ...Overland.unseen(campaign)];
+    }
     const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
     for (const w of ways) {
       if ((w.status === 'blocked' && !barred) || (clear && w.status !== 'open')) { continue; }
@@ -76,9 +80,40 @@ export class Itineraries {
   // now if there are any (mere's march-stone by the bridge, while both fords are in spate), else by those that ask
   // something of the company on the way; failing that, toward it: to the edge of the wild country it is said to lie
   // in, whose ways on the company does not know.
+  // Toward anywhere on the company's map it knows of, the way is laid across the open country as the company reckons
+  // it (see Overland, roams), the roads it knows taken where they are quicker; where there is none so, by the ways
+  // known.
   static plan(campaign: Campaign, destination: string): Itinerary | undefined {
-    return this.route(campaign, destination, true) ?? this.route(campaign, destination)
+    const roam = this.roams(campaign, destination);
+    return this.by(campaign, destination, roam) ?? (roam ? this.by(campaign, destination, false) : undefined)
       ?? this.toward(campaign, destination);
+  }
+  private static by(campaign: Campaign, destination: string, roam: boolean): Itinerary | undefined {
+    return this.route(campaign, destination, true, roam) ?? this.route(campaign, destination, false, roam);
+  }
+  // Whether a journey to a place is planned across the open country: to one seen (see seen), or to any the company
+  // knows of, by a way it knows to it or into the wild country it lies in, that stands on its country's map. Only
+  // toward one seen had it been: toward the rest a journey went by the roads, and a way into a province nine hexes
+  // off went twenty-three, out east and back (the owner, 16 November: "going very far away from the shortest path and
+  // then coming back"; OR-35).
+  private static roams(campaign: Campaign, destination: string): boolean {
+    if (this.seen(campaign, destination)) { return true; }
+    const here = campaign.world.one('at', campaign.playerActor!);
+    if (!here || !Overland.placed(campaign, destination)) { return false; }
+    const reach = this.reach(campaign, here), byId = this.byId(campaign);
+    // The place itself, or the town or site it is in; not the wild country it lies in (toward a place there only
+    // heard of, the way goes to the edge of that country: see toward).
+    return Spatial.ancestry(byId, destination)
+      .some((e, i) => reach.has(e.id) && (i === 0 || !['region', 'plane', 'wilderness'].includes(e.space!.kind)));
+  }
+  // Every place a known way comes to from here, or someone has told of, and what each lies within.
+  private static reach(campaign: Campaign, here: string): Set<string> {
+    const tree = this.tree(campaign, here, false, false), byId = this.byId(campaign), world = campaign.world;
+    if (tree.reach) { return tree.reach; }
+    const told = world.relates('leadsTo') ? world.related('leadsTo')
+      .filter(r => world.test(ModuleWriter.call('knows', campaign.playerActor!, r.args[0]!))).map(r => r.args[1]!) : [];
+    tree.reach = new Set([...tree.order, ...told].flatMap(id => Spatial.ancestry(byId, id).map(e => e.id)));
+    return tree.reach;
   }
   private static toward(campaign: Campaign, destination: string): Itinerary | undefined {
     const entities = this.byId(campaign);
@@ -91,10 +126,11 @@ export class Itineraries {
     }
     return undefined;
   }
-  private static route(campaign: Campaign, destination: string, clear = false): Itinerary | undefined {
+  private static route(campaign: Campaign, destination: string, clear = false,
+    roam = this.roams(campaign, destination)): Itinerary | undefined {
     const world = campaign.world, here = world.one('at', campaign.playerActor!);
     if (!here || here === destination) { return undefined; }
-    const tree = this.tree(campaign, here, clear, this.seen(campaign, destination)), entities = this.byId(campaign);
+    const tree = this.tree(campaign, here, clear, roam), entities = this.byId(campaign);
     // The first place settled that is the destination or within it: as near as the search came to it.
     const at = tree.order.find(id => this.within(entities, id, destination));
     if (!at) { return undefined; }
@@ -117,20 +153,26 @@ export class Itineraries {
     const best = new Map<string, { minutes: number; legs: Leg[] }>([[here, { minutes: 0, legs: [] }]]);
     const open = [here];
     while (open.length) {
-      open.sort((a, b) => best.get(a)!.minutes - best.get(b)!.minutes);
+      open.sort((a, b) => this.sooner(best.get(a)!, best.get(b)!));
       const at = open.shift()!, so = best.get(at)!;
       order.push(at);
       for (const w of graph.get(at) ?? []) {
-        const minutes = so.minutes + this.minutes(campaign, w.passage);
-        if ((best.get(w.to)?.minutes ?? Infinity) <= minutes) { continue; }
-        best.set(w.to, { minutes, legs: [...so.legs, { passage: w.passage, way: w.name, from: at, to: w.to,
-          minutes: this.minutes(campaign, w.passage) }] });
+        const leg = Overland.minutes(campaign, w), was = best.get(w.to);
+        const next = { minutes: so.minutes + leg, legs: [...so.legs, { passage: w.passage, way: w.name, from: at,
+          to: w.to, minutes: leg }] };
+        if (was && this.sooner(was, next) <= 0) { continue; }
+        best.set(w.to, next);
         if (!open.includes(w.to)) { open.push(w.to); }
       }
     }
     const tree = { order: [...new Set(order)], best };
     kept.set(key, tree);
     return tree;
+  }
+  // Which of two ways is the quicker; of two as quick, the one of fewer legs: across a wood, the way round it by the
+  // open ground had been taken as often as the straight way, as long and two hexes further (OR-35).
+  private static sooner(a: { minutes: number; legs: Leg[] }, b: { minutes: number; legs: Leg[] }): number {
+    return a.minutes - b.minutes || a.legs.length - b.legs.length;
   }
   // Whether the company stands inside a place's site: the ruin behind its door, or a site gone into from it.
   private static inside(byId: Map<string, Entity>,
@@ -264,7 +306,9 @@ export class Itineraries {
   static told(legs: Leg[], name: (id: string) => string): { way: string; to: string; minutes: number }[] {
     const out: { way: string; to: string; minutes: number }[] = [];
     for (const l of legs) {
-      const to = name(l.to), last = out.at(-1);
+      // Water not yet seen, reckoned open country (see Overland.unseen), is no place to be named.
+      const said = name(l.to), to = said === l.to && Overland.reckoned(l.passage) ? Overland.unknown : said;
+      const last = out.at(-1);
       if (last?.way === l.way && last.to === to) { last.minutes += l.minutes; }
       else { out.push({ way: l.way, to, minutes: l.minutes }); }
     }

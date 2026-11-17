@@ -95,7 +95,7 @@ export class RegionTracts {
       for (const c of new Set(r.route.cells)) {
         if (cells.has(c) && !ends.has(c)) {
           lines.push(`  Passage tr${c}_${r.way} ${JSON.stringify(this.off(region, r, c))} is overland between `
-            + `${this.id(c)} and ${r.way} taking 5 minutes.`);
+            + `${this.id(c)} and ${r.way} taking ${Math.max(5, RegionRoads.along(region, r, c))} minutes.`);
         }
       }
     }

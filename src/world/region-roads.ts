@@ -77,6 +77,15 @@ export class RegionRoads {
   private static nearer(road: Road): Road['from'] {
     return this.room(road) > (road.route.cells.length - 1) / 2 ? road.to : road.from;
   }
+  // How long the road takes between a cell it crosses and its way room (its crossing, or its middle), where a company
+  // on the road is: the road walked, as its halves are (see halves). Every stretch along a road had been five minutes
+  // off its way room, and every track from a road had started at its way room wherever it met the road, so a journey
+  // went onto a road and off it hexes away for nothing, and was drawn jumping them (the owner, 16 November: OR-35).
+  static along(region: Region, road: Road, cell: number): number {
+    const land = RegionGeography.atlas(region).land, cells = road.route.cells, room = this.room(road);
+    const i = cells.indexOf(cell), [a, b] = i < room ? [i, room] : [room, i];
+    return Math.round(this.going(land, cells.slice(a + 1, b + 1)) * this.minutesPerHour / 5) * 5;
+  }
   // Where along a road its way room stands: its crossing, or its middle.
   static room(road: Road): number {
     const cells = road.route.cells, at = road.route.crossings[0]?.cell;

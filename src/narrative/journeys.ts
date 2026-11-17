@@ -105,13 +105,22 @@ export class Journeys {
   // Going on from where the last way brought the company, in the same part of the day, it is still on its way, and
   // does not set out again (the M16 free play read "You set out from … and the rain sets out with you" on four legs
   // running).
+  // A step across the open country on the way (off a road into the country it crosses, into a town from its fields)
+  // does not end it: a journey across the country had set out again after every such step (OR-35). A step through a
+  // door or down a stair still does.
   private static going(campaign: Campaign, event: CampaignEvent, from: string, start: number): boolean {
-    const last = campaign.history.filter(e => e.elapsed < event.elapsed).at(-1);
-    const [, , way, , to] = /^go\(([^,]+),([^,]+),([^,]+),([^)]+)\)$/.exec(last?.action ?? '') ?? [];
-    // A journey's leg, not a step out of a door.
-    const came = last?.result === 'success' && to === from
-      && campaign.world.number(ModuleWriter.call('travelTime', way!)) >= 3;
-    return came && FictionalTime.part(last!.elapsed) === FictionalTime.part(start);
+    const before = campaign.history.filter(e => e.elapsed < event.elapsed);
+    for (let i = before.length - 1, at = from; i >= 0; i--) {
+      const last = before[i]!, [, , way, there, to] = /^go\(([^,]+),([^,]+),([^,]+),([^)]+)\)$/.exec(last.action) ?? [];
+      if (last.result !== 'success' || to !== at) { return false; }
+      // A journey's leg, not a step out of a door.
+      if (campaign.world.number(ModuleWriter.call('travelTime', way!)) >= 3) {
+        return FictionalTime.part(last.elapsed) === FictionalTime.part(start);
+      }
+      if (campaign.world.one('passageKind', way!) !== 'way_overland') { return false; }
+      at = there!;
+    }
+    return false;
   }
   // What the way is to walk on: a road (and its bridges, fords and causeways), or a path.
   private static way(campaign: Campaign, way: string): string {

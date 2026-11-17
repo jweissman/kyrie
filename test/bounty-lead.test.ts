@@ -21,8 +21,10 @@ describe('a price on a power', () => {
     await GeneratedWorld.travel(s, c.world.one('at', 'pricePatron__widow')!.replace(/^region__/, ''));
     const offer = PlayerView.choices(c).find(x => /what she is waiting for/.test(x.choice.name))!;
     expect((await s.leg(offer.choice.id)).response).toContain('looking toward a toll-house by the water');
+    // Laid across the country to where she looks, not only as far as the wood it stands in (OR-35; it had been
+    // "toward Thornholt", one leg).
     const hold = Itineraries.destinations(c).find(d => d.name === 'a toll-house by the water')!;
-    expect([hold.toward, hold.legs.length]).toEqual(['Thornholt', 1]);
+    expect([hold.toward, hold.legs.at(-1)?.to]).toEqual([undefined, hold.id]);
   }, 120000);
   // At the hold, the challenge to fight is weighed up before it is taken, as an attack is, and a fight it
   // brings on and loses is told as chosen, not as being set upon (a fresh play took it up unwarned and died).

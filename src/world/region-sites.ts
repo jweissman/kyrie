@@ -151,10 +151,15 @@ export class RegionSites {
   private static start(seat: Seat, region: Region): { from: string; minutes: number } {
     const land = RegionGeography.atlas(region).land, cell = seat.site.cell!;
     const town = { from: `${seat.town.id}_green`, gap: Terrain.distance(land, seat.town.cell!, cell) };
-    const road = RegionGeography.roads(region).map(r => ({ from: r.way,
-      gap: Math.min(...r.route.cells.map(c => Terrain.distance(land, c, cell))) })).sort((a, b) => a.gap - b.gap)[0];
-    const best = road && road.gap < town.gap ? road : town;
-    return { from: best.from, minutes: Math.max(30, Math.round(best.gap * RegionRoads.minutesPerHour / 10) * 10) };
+    const road = RegionGeography.roads(region).map(r => {
+      const meet = r.route.cells
+        .reduce((m, c) => Terrain.distance(land, c, cell) < Terrain.distance(land, m, cell) ? c : m);
+      return { from: r.way, gap: Terrain.distance(land, meet, cell), along: RegionRoads.along(region, r, meet) };
+    }).sort((a, b) => a.gap - b.gap)[0];
+    // From a road, the road walked from its way room to where the track leaves it besides (see RegionRoads.along).
+    const best = road && road.gap < town.gap ? road : { ...town, along: 0 };
+    const track = Math.max(30, Math.round(best.gap * RegionRoads.minutesPerHour / 10) * 10);
+    return { from: best.from, minutes: track + Math.round(best.along / 10) * 10 };
   }
   // Where a site is, as people say it: the wild country it stands in, or which way it lies from the settlement.
   static where(seat: Seat, region: Region): string {

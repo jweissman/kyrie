@@ -6,6 +6,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { PlayerView } from '../presentation/player-view';
 import { Itineraries, type Leg } from '../ui/itinerary';
 import { PassageModel } from '../ui/passage-model';
+import { Overland } from '../ui/overland';
 
 // A journey made: each leg as it was done (its command and what came of it), and why it stopped where it did.
 export interface Journeyed {
@@ -25,37 +26,54 @@ export interface Traveller {
 // hunger, or something staged where it comes; and when it has arrived.
 export class Travel {
   // Makes the journey, leg by leg, and stops where something wants the player.
+  // The way laid when it sets out is the way it goes, as the map drew it: laid again only where its legs run out short
+  // of the place (toward one only heard of, to the edge of its country), and where what lies ahead is seen to be
+  // otherwise than it was reckoned (water where open country was reckoned: see Overland), which stops it, saying so.
+  // Laid again at every leg, the way had wandered between ways as quick, other than the way drawn (OR-35).
   static async go(t: Traveller, destination: string): Promise<Journeyed> {
     const done: Journeyed = { legs: [], arrived: false };
-    for (let guard = 0; guard < 40; guard++) {
-      const plan = Itineraries.plan(t.campaign, destination);
-      if (!plan) {
+    let legs: Leg[] = [];
+    for (let guard = 0; guard < 120; guard++) {
+      const plan = legs.length ? undefined : Itineraries.plan(t.campaign, destination);
+      if (!legs.length && !plan?.legs.length) {
         done.arrived = this.at(t.campaign, destination);
         // Toward a place whose way is not known, as far as the edge of the country it is said to lie in.
         const name = this.named(t.campaign, destination);
         if (!done.arrived) { done.stopped = `You know no way ${name ? `on to ${name}` : 'there'}`; }
         break;
       }
-      const offered = PlayerView.choices(t.campaign), leg = plan.legs[0]!;
-      const choice = offered.find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
-      // A company held where it lies (asleep, stunned) goes nowhere until it can: the map had set out from beside a
-      // trap and come back to where the company lay, saying that the way would not let it by (the owner, 11 November).
-      if (offered.some(c => c.choice.id === 'lie_still')) {
-        done.stopped = 'You cannot move until what holds you passes';
-        break;
-      }
-      if (!choice) { done.stopped = this.barred(t.campaign, leg); break; }
-      // A way that goes one way only is the player's to take, asked about, not the journey's (PT-17).
-      if (this.oneWay(t.campaign, leg)) { done.stopped = `There is no coming back by ${leg.way}`; break; }
-      const before = this.condition(t.campaign);
-      // The leg is the journey's: it may cross into the next hex, as no command of the page's may (Campaign.bounded).
-      const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name));
-      done.legs.push({ command: choice.choice.id, said: choice.choice.name, event });
-      const why = this.interrupted(t.campaign, event, before, leg);
+      if (plan) { legs = [...plan.legs]; }
+      const why = await this.step(t, legs.shift()!, done);
       if (this.at(t.campaign, destination)) { done.arrived = true; break; }
       if (why) { done.stopped = why; break; }
+      if (legs.some(l => Overland.found(t.campaign, l))) {
+        done.stopped = this.unforeseen(t.campaign, destination);
+        break;
+      }
     }
     return done;
+  }
+  // One leg, as the page would take it: why the journey stops there, if it does.
+  private static async step(t: Traveller, leg: Leg, done: Journeyed): Promise<string | undefined> {
+    const offered = PlayerView.choices(t.campaign);
+    const choice = offered.find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
+    // A company held where it lies (asleep, stunned) goes nowhere until it can: the map had set out from beside a
+    // trap and come back to where the company lay, saying that the way would not let it by (the owner, 11 November).
+    if (offered.some(c => c.choice.id === 'lie_still')) { return 'You cannot move until what holds you passes'; }
+    if (!choice) { return this.barred(t.campaign, leg); }
+    // A way that goes one way only is the player's to take, asked about, not the journey's (PT-17).
+    if (this.oneWay(t.campaign, leg)) { return `There is no coming back by ${leg.way}`; }
+    const before = this.condition(t.campaign);
+    // The leg is the journey's: it may cross into the next hex, as no command of the page's may (Campaign.bounded).
+    const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name));
+    done.legs.push({ command: choice.choice.id, said: choice.choice.name, event });
+    return this.interrupted(t.campaign, event, before, leg);
+  }
+  // Water seen across the way ahead, where open country had been reckoned: the way on goes round it, laid again from
+  // here, or there is none known.
+  private static unforeseen(campaign: Campaign, destination: string): string {
+    return Itineraries.plan(campaign, destination)?.legs.length ? 'Water lies across the way ahead: the way on goes round it'
+      : 'Water lies across the way ahead, and you know no way round it';
   }
   // Why a leg cannot simply be taken, in the words of what stands in the way: the river in spate, a rope wanted, a
   // watcher. Before, a ford in spate was said only to "not let you by" (mere, in a newcomer's night).

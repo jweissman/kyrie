@@ -18,7 +18,9 @@ export interface Seen { visited: Set<string>; told: string[]; sighted?: string[]
 // takes over the land. Drawn from the region's chart and what the company has walked, seen and heard, never from
 // anything it has not.
 export class LandModel {
-  constructor(private readonly chart: LandChart, private readonly entities: Map<string, Entity>) {}
+  // ways: the places each is joined to, where they are known (see stands).
+  constructor(private readonly chart: LandChart, private readonly entities: Map<string, Entity>,
+    private readonly ways?: ReadonlyMap<string, readonly string[]>) {}
   // A stretch of a country's open country (see RegionTracts), by its id.
   static readonly tract = /__t\d+$/;
   // How far the eye goes from a stretch looked out from, by its land: from the heights far, from a wood or a fen
@@ -57,8 +59,10 @@ export class LandModel {
     const near = cells.reduce((best, c, i) => this.apart(c, other) < this.apart(cells[best]!, other) ? i : best, 0);
     if (cells[near] !== other) { return { course: [other, cells[near]!], road: false }; }
     if (near !== 0 && near !== cells.length - 1) { return undefined; }
-    const run = near === 0 ? cells : [...cells].reverse();
-    return { course: this.chart.places[r] !== undefined ? run : run.slice(0, Math.ceil(run.length / 2)), road: true };
+    // As far as the way room, where the road has one (its crossing, or its middle), else to its far end.
+    const run = near === 0 ? cells : [...cells].reverse(), room = run.indexOf(this.chart.rooms?.[r] ?? -1);
+    return { course: this.chart.places[r] !== undefined ? run : run.slice(0, room >= 0 ? room + 1
+      : Math.ceil(run.length / 2)), road: true };
   }
   private apart(a: number, b: number): number {
     const w = this.chart.width;
@@ -72,18 +76,10 @@ export class LandModel {
   // not the land about it nor the way to it (the owner's corrections of 2026-10-29: hearsay had drawn the land under
   // every place named and the whole of every road to it). The country's roads are drawn where the land is known.
   land(seen: Seen, ways: WayInfo[], here: string, areas: RegionChart['areas']): Land {
-    const chart = this.chart, visited = seen.visited, known = this.explored(visited, seen.surveys);
-    for (const id of [...visited].filter(v => !LandModel.tract.test(v))) { this.about(id, known); }
+    const chart = this.chart, visited = seen.visited, known = this.known(seen);
     const routed = new Set([...seen.routes ?? [], ...ways.filter(w => visited.has(w.from) && visited.has(w.to))
       .map(w => w.passage)]);
-    const sighted = new Set([...seen.sighted ?? [], ...this.found(visited)]);
-    // Only what the company has stood in or beside, sighted or looked out over is land it knows: a way it was told the
-    // course of (a guide's directions, a country's roads known as from a map) is its route on the map, not the land
-    // along it (the owner, 4 November: too much was revealed by hearing of things).
-    for (const id of sighted) {
-      const at = this.cell(id);
-      if (at !== undefined) { known.add(at); }
-    }
+    const sighted = this.sighting(seen);
     // Heard of: what was told, the far end of a known way from somewhere been (the next town down the road), and the
     // ends of the ways whose course is known (with wayfinding, the country as from a map). A country whose roads its
     // folk know is not therefore on the map whole (the owner, 3 November: the world map started mostly revealed,
@@ -93,9 +89,6 @@ export class LandModel {
     const passages = new Set(ways.map(w => w.passage));
     const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)
       || passages.has(way)));
-    for (const [way, cells] of Object.entries(roads)) {
-      if (visited.has(way)) { for (const c of cells) { known.add(c); } }
-    }
     const placed = this.marks({ visited, sighted, heard }, here), towns = this.towns(areas, known);
     const marks = [...placed, ...this.unmade(new Set([...placed.map(m => m.cell),
       ...Object.keys(towns).map(t => this.chart.places[t])]), known)];
@@ -107,6 +100,37 @@ export class LandModel {
       ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts(), goes: this.goes() };
     const across = LandCrossing.of(land);
     return Object.keys(across).length ? { ...land, across } : land;
+  }
+  // The cells of the land the company knows: what it has stood in or beside, sighted or looked out over, and along
+  // every road it has walked. A way it was told the course of (a guide's directions, a country's roads known as from a
+  // map) is its route on the map, not the land along it (the owner, 4 November: too much was revealed by hearing of
+  // things). What the map draws as known, and what a journey plans over as known (see Overland).
+  known(seen: Pick<Seen, 'visited' | 'sighted' | 'surveys'>): Set<number> {
+    const visited = seen.visited, known = this.explored(visited, seen.surveys);
+    for (const id of [...visited].filter(v => !LandModel.tract.test(v))) { this.about(id, known); }
+    for (const id of this.sighting(seen)) {
+      const at = this.cell(id);
+      if (at !== undefined) { known.add(at); }
+    }
+    for (const [way, cells] of Object.entries(this.chart.roads)) {
+      if (visited.has(way)) { for (const c of cells) { known.add(c); } }
+    }
+    return this.across(known);
+  }
+  // Water is seen across: from its shore, a lake or the sea as far as it goes, two stretches further. A journey that
+  // met a lake had found it a stretch at a time, and turned aside at each (c3, the way to the Works: OR-35).
+  private across(known: Set<number>): Set<number> {
+    let edge = [...known].filter(c => this.water(c));
+    for (let step = 0; step < LandModel.overWater && edge.length; step++) {
+      edge = edge.flatMap(c => this.round(c)).filter(c => this.water(c) && !known.has(c));
+      for (const c of edge) { known.add(c); }
+    }
+    return known;
+  }
+  static readonly overWater = 2;
+  private water(cell: number): boolean { return LandCrossing.water.has(this.chart.cover[cell] ?? '.'); }
+  private sighting(seen: Pick<Seen, 'visited' | 'sighted'>): Set<string> {
+    return new Set([...seen.sighted ?? [], ...this.found(seen.visited)]);
   }
   // The land about a place been to: the six stretches about a settlement, a road's or a wild country's either side
   // of it, an authored area's own stretch. One ring, not three: the rest is found by going there or looking out from
@@ -137,6 +161,20 @@ export class LandModel {
       if (c !== undefined) { this.reveal(c, 1, known); }
     }
     return known;
+  }
+  // Where a place of wild country with no cell of its own stands: by the nearest place joined to it that has one (the
+  // floor of a ruin by the ruin's door), not at the middle of the wild country it lies in. A floor among the rubble
+  // had been marked three hexes off, where its wood is drawn, and the way to it went eight to its ruin's door and
+  // jumped back (the owner, 16 November: "bringing me somewhere completely unrelated"; OR-35).
+  private stands(id: string): number | undefined {
+    if (!this.ways || this.marked(id)?.space?.kind !== 'wilderness') { return undefined; }
+    const seen = new Set([id]);
+    for (let ring = [id], step = 0; ring.length && step < 6; step++) {
+      ring = ring.flatMap(r => this.ways!.get(r) ?? []).filter(n => !seen.has(n) && !!seen.add(n));
+      const at = ring.map(n => this.chart.places[n]).find(c => c !== undefined);
+      if (at !== undefined) { return at; }
+    }
+    return undefined;
   }
   // What stands on a stretch walked is found there, whether or not it could be seen from afar (a cave, a clearing, a
   // ruin), and seen for what it is.
@@ -189,7 +227,8 @@ export class LandModel {
     const lost = !this.chart.blocks && this.chart.places[here] === undefined && !site
       && this.marked(here)?.space?.kind === 'wilderness';
     const road = this.chart.roads[here], c = lost ? undefined
-      : (site ? this.ground(site) : undefined) ?? this.cell(here) ?? road?.[Math.floor(road.length / 2)];
+      : (site ? this.ground(site) : undefined) ?? this.cell(here) ?? this.chart.rooms?.[here]
+        ?? road?.[Math.floor(road.length / 2)];
     return c === undefined ? {} : { here: c };
   }
   // The cell of the country a site stands in: the place on the land outside its door, which bears its name, in the same
@@ -217,7 +256,8 @@ export class LandModel {
       // A stretch of road is marked half way along its road, as the company is when on it: "Your father went out by
       // the bridge over the Nûrrant" had named a bridge the map could not show (the owner's evidence sessions).
       const road = this.chart.roads[e.id];
-      const cell = this.chart.places[e.id] ?? this.cell(e.id) ?? road?.[Math.floor(road.length / 2)];
+      const cell = this.chart.places[e.id] ?? this.stands(e.id) ?? this.cell(e.id)
+        ?? road?.[Math.floor(road.length / 2)];
       if (cell === undefined) { continue; }
       rows.set(e.id, { id: e.id, name: e.name, cell, kind, visited: state === 'visited', here: line.has(e.id), state });
     }
@@ -251,8 +291,9 @@ export class LandModel {
     }));
   }
   // The six cells about a cell, the land set out in hexes, every other row half a cell to the east (as RegionTracts).
-  private round(cell: number): number[] {
-    const { width: W, height: H } = this.chart, x = cell % W, y = Math.floor(cell / W);
+  private round(cell: number): number[] { return LandModel.round(this.chart, cell); }
+  static round(chart: Pick<LandChart, 'width' | 'height'>, cell: number): number[] {
+    const { width: W, height: H } = chart, x = cell % W, y = Math.floor(cell / W);
     const steps = y % 2 ? [[1, 0], [-1, 0], [0, -1], [1, -1], [0, 1], [1, 1]]
       : [[1, 0], [-1, 0], [-1, -1], [0, -1], [-1, 1], [0, 1]];
     return steps.map(([dx, dy]) => [x + dx!, y + dy!]).filter(([a, b]) => a! >= 0 && b! >= 0 && a! < W && b! < H)

@@ -82,10 +82,22 @@ export class JourneyCourse {
       // From whichever end lies nearer where the journey has got to: a way's course is not always written from its
       // first place (the ford's road to Thornhaven's neighbour ran from the town's end, and the walk jumped a hex).
       const c = e.course!, w = region.land!.width;
-      return JourneyCourse.far(c.at(-1)!, last, w) < JourneyCourse.far(c[0]!, last, w) ? [...c].reverse() : c;
+      const run = JourneyCourse.far(c.at(-1)!, last, w) < JourneyCourse.far(c[0]!, last, w) ? [...c].reverse() : c;
+      // A way that leaves a road where it meets it, from wherever on the road the journey had come to: along the road
+      // first (a track to a site from a road's crossing had been drawn jumping the hexes up the road to it).
+      return [...run[0] === last ? [] : JourneyCourse.road(region, from, last, run[0]!) ?? [], ...run];
     }
     const t = JourneyCourse.cell(region, next);
-    return t === undefined ? [] : [t];
+    return t === undefined ? [] : JourneyCourse.road(region, from, last, t) ?? [t];
+  }
+  // Off a road where it crosses a stretch, from where on it the journey had come to: along the road to that stretch,
+  // not straight across to it (the owner, 16 November: a way laid jumping hexes; OR-35).
+  private static road(region: RegionChart, from: string, last: number, to: number): number[] | undefined {
+    const cells = Object.entries(region.land!.roads).find(([id, c]) => (region.within[id] ?? id) === from
+      && c.includes(last) && c.includes(to))?.[1];
+    if (!cells) { return undefined; }
+    const i = cells.indexOf(last), j = cells.indexOf(to);
+    return i <= j ? cells.slice(i + 1, j + 1) : cells.slice(j, i).reverse();
   }
 
   // How far apart two hexes lie on the land, near enough to tell which end of a way is nearer.

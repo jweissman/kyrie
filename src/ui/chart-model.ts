@@ -3,7 +3,7 @@ import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
 import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
-import type { Entity } from '../lang/module';
+import type { Entity, LandChart } from '../lang/module';
 import type { World } from '../lang/world';
 import { PassageModel, type WayInfo } from './passage-model';
 import { LandModel, type Surveys } from './land-model';
@@ -79,8 +79,20 @@ export class ChartModel {
     const known = roam ? Object.values(chart.places)
       : new LandModel(chart, this.entities).explored(visited, this.surveys());
     const tracts = new Set([...known].map(c => `${prefix}${c}`));
+    // Planning toward a place, from each stretch into whatever stands on it too (a town, a site, a march-stone, onto
+    // the road across it): a journey across the country had no way off it into the place it set out for, and went by
+    // the roads round (the owner, 16 November: OR-35).
     return [...[...tracts].filter(t => !visited.has(t) && this.entities.has(t))
-      .flatMap(t => model.ways(t).filter(w => tracts.has(w.to))), ...roam ? this.out(model, tracts) : []];
+      .flatMap(t => model.ways(t).filter(w => tracts.has(w.to) || (roam && this.overland(w)))),
+    ...roam ? this.out(model, tracts) : []];
+  }
+  // The land of the country the company stands in, and the cells of it it knows (see LandModel.known): what a journey
+  // across it plans over as known, and the rest as it is reckoned (see Overland).
+  land(visited: Set<string>): { chart: LandChart; known: Set<number> } | undefined {
+    const home = this.regionOf(this.world.one('at', this.actor));
+    const chart = home ? AuthoredLand.of(this.world.module, home) : undefined;
+    return chart && { chart, known: new LandModel(chart, this.entities)
+      .known({ visited, sighted: this.sighted(), surveys: this.surveys() }) };
   }
   // From wherever stands on the open country (a town's green, a site, a road), the way out into the stretch it stands
   // in, walked or not: the road into a town, or a shop in it, is joined to the country about it by the town (from the
@@ -244,7 +256,7 @@ export class ChartModel {
     const areas = new Map<string, RegionChart['areas'][number]>(), edges = new Map<string, RegionChart['edges'][number]>();
     const place = this.afloat(aboard), here = this.regionalArea(place)?.id, home = this.regionOf(here);
     const chart = home ? AuthoredLand.of(this.world.module, home) : undefined;
-    const land = chart ? new LandModel(chart, this.entities) : undefined;
+    const land = chart ? new LandModel(chart, this.entities, this.joined()) : undefined;
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
     // What the company has been told of (a site named to it, leadsTo) is on its map too, before it has been there.
     const told = this.leads().filter(p => this.regionOf(p) === home);
@@ -275,6 +287,12 @@ export class ChartModel {
       within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
       ...land ? { land: this.glossed(land.land({ visited, told, sighted: this.sighted(), routes: this.routes(),
         surveys: this.surveys() }, ways, place, [...areas.values()])) } : {} } } : {};
+  }
+  // The places each is joined to by a way, for where a place with no cell of its own stands (see LandModel.stands).
+  private joined(): Map<string, string[]> {
+    const out = new Map<string, string[]>();
+    for (const c of this.world.related('connects')) { out.set(c.args[1]!, [...out.get(c.args[1]!) ?? [], c.args[2]!]); }
+    return out;
   }
   // A name is glossed (Westron for "battle gate") once the company knows the place by it: a ruin seen from a tower,
   // known only by its look, is not explained by a name it has not learned.

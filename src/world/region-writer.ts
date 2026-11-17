@@ -302,6 +302,7 @@ export class RegionWriter {
       roads: Object.fromEntries([...roads.map(r => [r.way, r.route.cells]),
         ...atlas.borders.map(b => [RegionBorders.room(b), b.road.cells]),
         ...(region.provinces ?? []).map(p => [Provinces.room(p.country), p.gate.road.cells])]),
+      rooms: Object.fromEntries(roads.map(r => [r.way, r.route.cells[RegionRoads.room(r)]])),
       parts: Object.fromEntries(atlas.zones.flatMap(z => z.parts.map((cells, i) => [RegionZones.room(z, i), cells]))),
       // What each name means, in the tongue it was given in: kept with the chart, not said in the place's description.
       glosses: Object.fromEntries([...region.settlements, ...region.sites].filter(x => x.gloss && x.tongue)

@@ -50,17 +50,18 @@ describe('word that leads somewhere', () => {
     expect(done.arrived || !!done.stopped).toBe(true);
   }, 120000);
 
-  it('sets out toward a place known only by name, as far as the wild country it lies in, and says so', async () => {
+  // As far as the edge of its wild country, until OR-35 (the owner, 16 November: "for country you don't know it should
+  // offer the shortest visible path regardless of obstructions"): on the map where it is said to stand, it is set out
+  // for straight across the country to there.
+  it('sets out for a place in wild country known only by name, across the country to where it is said to stand', async () => {
     const s = await start(), c = s.campaign;
     const deep = c.module.entities.filter(e => /^region__w\d+$/.test(e.id) && /^region__z\d+$/.test(e.space?.parent ?? ''))
-      .find(e => { know(s, `${e.id}_named`); return Itineraries.plan(c, e.id)?.toward; })!;
+      .find(e => { know(s, `${e.id}_named`); return Itineraries.plan(c, e.id); })!;
     const plan = Itineraries.plan(c, deep.id)!;
-    expect(plan.toward).toBe(ObservationText.label(c.world, zone(s, deep.id)));
+    expect([plan.toward, plan.legs.at(-1)?.to]).toEqual([undefined, deep.id]);
     const done = await go(s, deep.id);
-    expect(done.arrived).toBe(false);
-    expect(done.stopped).toBe(`You know no way on to ${deep.name}`);
-    expect(Itineraries.within(new Map(c.module.entities.map(e => [e.id, e])), c.world.one('at', 'party')!,
-      zone(s, deep.id))).toBe(true);
+    expect(done.legs.length).toBeGreaterThan(0);
+    expect(done.stopped ?? '').not.toMatch(/^You know no way/);
   }, 120000);
 
   it('knows the paths of wild country whose lie it knows', async () => {
