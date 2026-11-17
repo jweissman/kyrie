@@ -69,6 +69,17 @@ describe('the planes\' laws and Plane Shift', () => {
     expect((law('positive').modifiers.onTurnEnd ?? []).map(x => x.kind)).toEqual(['heal']);
   });
 
+  // The canon's three planes beyond Orsino's nine (GT-03) are under laws of their own, as the nine are: each is a
+  // spell DC held by whoever fights there.
+  it('puts every outer plane under a law, the Abyss, Nirvana and the Mount of the Exalted among them', async () => {
+    const outer = ['arcadia', 'cthell', 'gehenna', 'hades', 'limbo', 'mechanus', 'pandemonium', 'ysgard', 'zephyrus',
+      'abyss', 'nirvana', 'exalted'];
+    const t = await Tiny.start(world('hall'), { party: [ama], canon: ['imbar', ...outer.map(p => `outer_${p}`)] });
+    const laws = outer.map(p => t.world.one('law', `outer_${p}`));
+    expect(laws.every(l => !!l && Canon.conditions[l]?.law)).toBe(true);
+    expect(laws.slice(-3).map(l => Canon.conditions[l!]!.modifiers.bonusSpellDC)).toEqual([-1, 1, 1]);
+  });
+
   it('burns the company a little each watch it stands in the Fire, and not in Imbar', async () => {
     const fire = await start('inner_fire_threshold'), vale = await start('hall'), before = hp(fire);
     await fire.play('Wait › An hour');
@@ -97,6 +108,8 @@ describe('the planes\' laws and Plane Shift', () => {
     expect(Object.fromEntries(inner.map((p, i) => [p, Math.sign(changed[i]!)])))
       .toEqual({ fire: -1, air: 0, earth: 0, water: -1, positive: 1, negative: -1 });
     expect(await hour('negative', 'protected')).toBe(0);
+    // Death Ward, as the SRD's: the Negative's dark does not touch the warded (case 8).
+    expect(await hour('negative', 'death_ward')).toBe(0);
     expect(await hour('water', 'waterproof')).toBe(0);
   });
 

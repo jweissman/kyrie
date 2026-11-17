@@ -6423,11 +6423,11 @@ On one enemy, one of these, drawn at random: 4d6 (4–24) fire damage to it (hal
 
 *Adapted · level 5 arcane spell, evocation* · `ability:cone_of_cold`
 
-3d12 (3–36) cold damage to everyone between you and where it is aimed, friend or foe (halved if resisted; may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the fifth level. Takes a fifth-level slot.
+1d6 per caster level, to 15d6 cold damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 15 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the fifth level. Takes a fifth-level slot.
 
-> Blast enemies in a cone with intense cold.
+> Cold bursts from your hands in a cone, 1d6 for every level you have, to fifteen, on everyone it catches, friend or foe; whoever throws themselves clear takes half.
 
-*Adapted: Orsino reads the count "=1d6 + floor(#level / 2)" with parseInt, finds no number and touches no one; Kyr evaluates it as written.*
+*Adapted: The SRD's Cone of Cold (doc/architecture/mission-22/srd-proving-cases.md, case 7): fifth level, 1d6 cold a casting level to 15d6 at the fifteenth (by #castingLevel), a cone (the rules' areas: every place from the caster out to where it is aimed, friend or foe), a Reflex save for half. Converted: the save's difficulty is the SRD's 10 + the spell's level + the casting score's modifier, and half the casting level, since a Westernesse save adds the saver's whole level where the SRD's base save adds about half of it (18 for a ninth-level caster of 16 is 22). Omitted: spell resistance, which Westernesse has not yet. Before, Orsino's 3d12 on 1d6 + half the level foes drawn at random, a magic save against 15.*
 
 ##### Disintegrate
 
@@ -7265,7 +7265,7 @@ Every enemy is blinded for 3 turns (a Dexterity save against 15 + level + the ca
 
 *Faithful · level 2 divine spell, life domain* · `ability:death_ward`
 
-One ally gains death ward for 3 turns. Death Ward: +5 against death. A divine spell of the second level. Takes a second-level slot.
+One ally gains death ward for 3 turns. Death Ward: +5 against death, immune to necrotic, immune to drain. A divine spell of the second level. Takes a second-level slot.
 
 > Ward yourself or an ally against death.
 
@@ -9491,11 +9491,13 @@ Cannot act.
 
 ### Death Ward
 
-*Faithful · lasts the fight at most* · `condition:death_ward`
+*Adapted · lasts the fight at most* · `condition:death_ward`
 
-+5 against death.
++5 against death, immune to necrotic, immune to drain.
 
-> Protected from death.
+> Warded against death's own powers: the dark's harm does not touch the warded, and nothing takes a level of them.
+
+*Adapted: The SRD's Death Ward, what it wards (mission-22/srd-proving-cases.md, case 8): immunity to negative energy (Westernesse's necrotic harm, the Negative's law among it: GT-01) and to energy drain (an enervate takes no level, told as an immunity). Kept: Orsino's +5 to the death save at no health. Adapted: Westernesse has no death spells, so the SRD's immunity to them is the death save's bonus. Not changed: the spell (Orsino's second-level divine Death Ward of three turns; the SRD's is fourth level, a minute a level), so it wards a fight, not a watch.*
 
 ### Defending
 
@@ -10321,6 +10323,14 @@ Resists 50% of psychic, immune to charm, immune to insanity, immune to fear, imm
 
 > In harmony with the world and its forces.
 
+### Nirvana
+
+*Kyr · lasts beyond a fight* · `condition:plane_nirvana`
+
+Spells 1 harder to resist.
+
+> The law of Nirvana: a stillness so whole that a working, once made, holds fast.
+
 ### Oathbound
 
 *Faithful · lasts the fight at most* · `condition:oathbound`
@@ -10739,6 +10749,14 @@ Resists 50% of lightning.
 
 > A healing cantrip has done what it can for them since the company last rested: another will not mend them again until a rest, a night, or a healer's care.
 
+### the Abyss
+
+*Kyr · lasts beyond a fight* · `condition:plane_abyss`
+
+Spells -1 harder to resist.
+
+> The law of the Abyss: a drop that has no bottom, where a working frays at its edges as everything else does.
+
 ### the Air
 
 *Kyr · lasts beyond a fight* · `condition:plane_air`
@@ -10762,6 +10780,14 @@ Spells 1 harder to resist.
 Spells -1 harder to resist, takes 1 fire damage each turn.
 
 > The law of the Plane of Fire: heat that burns whoever stands in it, a little at a time, and a working of the will that burns through what would hold it.
+
+### the Mount of the Exalted
+
+*Kyr · lasts beyond a fight* · `condition:plane_exalted`
+
+Spells 1 harder to resist.
+
+> The law of the Mount of the Exalted: a high clear light in which a working is seen through to its end.
 
 ### the Negative
 

@@ -649,8 +649,8 @@
     "feasible": 129,
     "catalogued": 0,
     "represented": 12,
-    "executable": 128,
-    "play-validated": 1
+    "executable": 127,
+    "play-validated": 2
    },
    {
     "family": "surname",
@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 763,
-    "adapted": 385,
+    "faithful": 762,
+    "adapted": 386,
     "represented": 4,
-    "kyr": 563,
+    "kyr": 566,
     "unsupported": 67,
     "unreachable": 4,
     "data-only": 12
@@ -967,10 +967,10 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 127,
-      "adapted": 27,
+      "faithful": 126,
+      "adapted": 28,
       "represented": 0,
-      "kyr": 39,
+      "kyr": 42,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -11968,7 +11968,7 @@
   {
    "id": "condition:death_ward",
    "title": "Death Ward",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -12659,6 +12659,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_nirvana",
+   "title": "Nirvana",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:oathbound",
    "title": "Oathbound",
    "status": "faithful",
@@ -12988,6 +12995,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_abyss",
+   "title": "the Abyss",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:plane_air",
    "title": "the Air",
    "status": "kyr",
@@ -13004,6 +13018,13 @@
   {
    "id": "condition:plane_fire",
    "title": "the Fire",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_exalted",
+   "title": "the Mount of the Exalted",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"

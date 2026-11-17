@@ -62,10 +62,15 @@ export class LevelDrain {
   }
   // Levels taken in a fight: counted on its condition, the body lowered now; a level it could not give, past its first,
   // taken from its life instead, and it falls if that leaves none. What happened, as events.
-  static take(f: Fighter, n: number, at: { turn: number; actor?: { id: string }; source?: { id: string } }):
-    CombatEvent[] {
+  // One warded against death's own powers (Death Ward: immune to `drain`) keeps every level, told as an immunity.
+  static take(f: Fighter, n: number, at: { turn: number; actor?: { id: string }; source?: { id: string } },
+    warded = false): CombatEvent[] {
     if (n <= 0 || f.hp === 0) { return []; }
     const by = at.actor?.id ?? at.source?.id ?? f.id;
+    if (warded) {
+      return [{ type: 'save', turn: at.turn, actor: by, target: f.id, rolled: 0, difficulty: 0, success: true,
+        kind: 'drain', immune: true, against: this.id }];
+    }
     const before = f.level, past = this.lower(f, n), taken = before - f.level;
     const events: CombatEvent[] = [];
     if (taken) {

@@ -56,7 +56,8 @@
     "sleep": "wisdom",
     "bleed": "constitution",
     "reflex": "dexterity",
-    "fortitude": "constitution"
+    "fortitude": "constitution",
+    "drain": "constitution"
   },
   "saveLimit": 3,
   "procedures": {

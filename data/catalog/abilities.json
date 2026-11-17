@@ -251,6 +251,36 @@
         "notes": "The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: spell resistance and Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random."
       }
     },
+    "cone_of_cold": {
+      "name": "Cone of Cold",
+      "kind": "spell",
+      "description": "Cold bursts from your hands in a cone, 1d6 for every level you have, to fifteen, on everyone it catches, friend or foe; whoever throws themselves clear takes half.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "roll(cappedLevel(15), 6)" },
+          "damageType": "cold",
+          "target": "enemies",
+          "save": {
+            "kind": "reflex",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 5, "school": "evocation" },
+      "source": {
+        "orsino": "arcaneSpell:cone_of_cold",
+        "srd35": "spell:cone-of-cold",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Cone of Cold (doc/architecture/mission-22/srd-proving-cases.md, case 7): fifth level, 1d6 cold a casting level to 15d6 at the fifteenth (by #castingLevel), a cone (the rules' areas: every place from the caster out to where it is aimed, friend or foe), a Reflex save for half. Converted: the save's difficulty is the SRD's 10 + the spell's level + the casting score's modifier, and half the casting level, since a Westernesse save adds the saver's whole level where the SRD's base save adds about half of it (18 for a ninth-level caster of 16 is 22). Omitted: spell resistance, which Westernesse has not yet. Before, Orsino's 3d12 on 1d6 + half the level foes drawn at random, a magic save against 15."
+      }
+    },
     "conjure_light": {
       "name": "Light",
       "kind": "spell",

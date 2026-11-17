@@ -56,6 +56,10 @@ seams without concentration, persistent areas, transformation or world magic:
    Lightning Bolt yet: `line` only after cone and burst are right under the new scaling and DC.
    - For each spell, test levels 1, 5, 10 and 20 and each cap boundary; a failed and a successful save; resistance
      and immunity; an ally caught in the area; the event trace and the displayed forecast; the exact slot spent.
+   - **Done for Cone of Cold** (17 November: mission-22/srd-proving-cases.md case 7, test/cone-of-cold), taken first
+     because its level is the SRD's already and moving it moves no draw; its save's difficulty conversion (the SRD's
+     and half the casting level) is the one the rest take. Burning Hands and Fireball each move every mage's draws
+     at creation, and wait for their own census.
 6. **The rat as an unplaced SRD variant.** Do not replace `rat`: an explicit `rat/srd`, or a variation named for the
    setting, at first `unplaced`.
    - It gets fixed Hit Dice and HP, scores, an AC conversion, its attack, attack bonus and saves.

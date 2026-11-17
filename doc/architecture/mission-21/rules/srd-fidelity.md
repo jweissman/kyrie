@@ -6,8 +6,8 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 57 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 17 pass in structure
-(level, school), 1 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-1 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+(level, school), 2 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+2 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 39 | school 62 | dice 1 | type 12 | save 19 | dc 0 | attack 104 | target 67 | duration 29 | of 119 |
+| spells, field exact or converted | level 39 | school 62 | dice 2 | type 12 | save 20 | dc 1 | attack 104 | target 67 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -117,7 +117,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | charm | charm-person | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 19 → 14 | ✓ | ✓ | ✗ 3 rounds → long |
 | cloudkill | cloudkill | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 4.5/4.5/4.5/4.5 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 18 | ✓ | ✓ | ✗ 3 rounds → long |
 | command | command | S✗ R✗ I– | ✗ 5 → 1 | ✗ · → enchantment | – | – | ✓ | ✗ 20 → 14 | ✓ | ✓ | ✗ 2 rounds → 1 rounds |
-| cone_of_cold | cone-of-cold | S✓ R✗ I– | ✓ | ✓ | ✗ 19.5/19.5/19.5/19.5 → 3.5/17.5/35/52.5 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 18 | ✓ | ✓ | ✓ |
+| cone_of_cold | cone-of-cold | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
 | confuse | confusion-lesser | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | ✓ | ✗ 3 rounds → 1 rounds |
 | confusion | confusion | S✗ R✗ I– | ✗ 3 → 4 | ✗ illusion → enchantment | – | – | ✓ | ✗ 25 → 17 | ✓ | ✗ one → burst | ✗ 3 rounds → 5 rounds |
 | conjure_light | light | S✗ R✗ I– | ✗ 1 → 0 | ✓ | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |

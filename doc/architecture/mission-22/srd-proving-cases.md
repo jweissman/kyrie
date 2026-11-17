@@ -119,8 +119,13 @@ Spec: `test/small/planar-laws` (7 cases), a tiny world with the canon (data/imba
 - a matching ward stops the Negative's and the Water's harm;
 - a fight in the Fire burns both sides.
 
-Not done: a law for the Abyss, Nirvana and the Exalted (the canon's three planes beyond Orsino's ten); the integration
-case through a generated world and the House of Doors; a forecast of the laws' harm (DangerSense passes no laws).
+Since (17 November, later): the Abyss (−1), Nirvana (+1) and the Mount of the Exalted (+1) are under laws of their own,
+spell DCs as Orsino's nine are (`plane_abyss`, `plane_nirvana`, `plane_exalted`, Kyr's own; their SRD counterparts'
+alignment traits have no Westernesse rule); the spec holds every outer plane under a law. Death Ward stops the
+Negative's harm (case 8).
+
+Not done: the integration case through a generated world and the House of Doors; a forecast of the laws' harm
+(DangerSense passes no laws).
 
 ### 5. Healing and regeneration
 
@@ -133,6 +138,64 @@ As recorded:
 - **CF-02, adapted:** the undertown's rats are slept through case 1's route. "Have {caster} cast Sleep over the rats
   in the run" requires canCast and resolves `invoke`. Doing for the sleepers is a separate act. The job is cleared on
   death, never on sleep. It is not yet met in a generated first hour: no starting mage has a third-level slot.
+
+### 7. Cone of Cold, by the SRD's numbers (17 November): adapted, the first elemental slice
+
+Proof-slices.md's step 5 (the simple elemental family), taken from its far end. Cone of Cold is the one of the three
+whose level Westernesse already shares with the SRD (fifth), so moving it changes no creation or level-up draw: every
+pool of spells a calling draws from holds the same ids at the same levels. Burning Hands (2 → 1) and Fireball (4 → 3)
+each move every mage's draws at creation, and are slices of their own. Spec: `test/cone-of-cold` (6 cases).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- fifth level, arcane, evocation (exact);
+- 1d6 cold a casting level, to 15d6 at the fifteenth: `roll(cappedLevel(15), 6)` (exact);
+- a cone: the rules' areas (Positions), every place from the caster out to where it is aimed, friend or foe; the
+  company's own warrior in the press is caught with the foes there (exact);
+- a Reflex save for half, each caught saving on their own (exact);
+- the save's difficulty: the SRD's 10 + the spell's level + the casting score's modifier, **and half the casting
+  level** (converted). A Westernesse save adds the saver's whole level, where the SRD's base save adds about half of
+  it; the half-level keeps a peer's chance to save near the SRD's. A ninth-level caster of 16 sets 22 (the SRD's 18);
+  a plane's law moves it (`#bonusSpellDC`). Recorded in the concordance as the row's dc conversion;
+- **`#castingScore`**, new in every actor's context (ActorValues): the score a caster casts with, its calling's (a
+  mage's Intelligence, a cleric's Wisdom, a bard's Charisma), and Charisma for a calling that casts nothing or a kind
+  of no calling, as the SRD's spell-like abilities read it. The handbook says the difficulty in words ("15 + the
+  casting score's modifier + half the caster level + the caster's spell bonus").
+
+**The tests:** the dice at casting levels 1, 5, 10, 14, 15, 16 and 20; the difficulty at three casters and under a
+law; the area catching friend and foe, each saving at the one difficulty, the fifth-level slot spent once; a failed
+save taking the whole and a success half, over six seeds, and a replay alike; a cold ward (waterproof) and a body's
+own guard (the unicorn's flat 10) through the ordinary pipeline; the line said as rolled, and the aim naming whom it
+would catch as the blow falls on them.
+
+**Adapted, against the SRD:** no spell resistance (Westernesse has none). The world's rule for cold holds as for any
+cold harm: a wound of it may leave its holder frozen (a save against 15), which the SRD's spell does not.
+
+**Where it is met.** A mage learns it at the ninth level or after, one choice among the spells of the levels it
+reaches (SpellSelection.grown: thirteen arcane spells of the fifth level); a hostile evoker or generalist of the ninth
+level or more may prepare it (SpellSelection.prepare: an evoker's fifth-level spells are three, chaos_bolt,
+cone_of_cold and disintegrate). No creature, item or authored act names it. In a1 and the six fidelity countries (kite,
+thorn, wren, kahitude, mere, ember) as real play begins them, no installed creature knows it: their casters stand at
+the third level at most. So it changes no first hour; it is met by a long career, or in a deep place's casters.
+**The fidelity census** now grades it in structure, resolution and play identity: 2 spells pass in resolution
+(Magic Missile, Cone of Cold) of the 119 with a counterpart.
+
+### 8. Death Ward, what it wards (17 November): adapted
+
+The SRD's Death Ward makes its holder immune to negative energy and to energy drain. Orsino's gave +5 to the death
+save and nothing else. Specs: `test/death-ward` (2 cases), `test/small/planar-laws` (the Negative, warded).
+- The condition (a hand entry over Orsino's, data/catalog/conditions.json): necrotic harm wholly turned (resistance
+  1), `drain` immunity, and Orsino's +5 to the death save kept.
+- `drain` is a new save kind (vocabulary.json), so that an immunity can name it: an enervate (a wraith's or a
+  vampire's touch) at a warded holder takes no level, and is told as an immunity ("… cannot be drained.").
+- So the Negative's law (1 necrotic a turn, a watch) does nothing to the warded (GT-01's "stopped by death ward").
+- **Not changed:** the spell. It is still Orsino's second-level divine Death Ward of three turns (the SRD's is fourth
+  level, a minute a level), so it wards a fight, not a watch on the Negative's threshold. Moving its level moves
+  every cleric of Life's draws at creation: a slice of its own.
+- **Where it is met:** a cleric of Life draws it at creation about one time in four (the first second-level pick is
+  of Life's four: death_ward, minor_restoration, prayer, resist_fire), and casts it from the third level; hostile
+  clerics of Life may prepare it. In a1 and the six fidelity countries as they begin, no installed creature knows it;
+  the wraith's energy drain is met in five of the seven (thorn, wren, kahitude, mere, ember: one or two wraiths of the
+  third to fifth level, hostile). So a warded company keeps its levels against the drainer it is most likely to meet.
 
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
@@ -153,11 +216,12 @@ A spell may have more than one cause.
   says not to implement a world spell as a combat effect, nor a transformation as a bundle of temporary modifiers.
 
 **Beyond the unsupported list,** the generated concordance (srd-fidelity.md) grades spells against the SRD. 17 of the
-119 that have an SRD counterpart pass in structure, and 1 (Magic Missile) passes in resolution. The rest run by
-Orsino's numbers.
+119 that have an SRD counterpart pass in structure, and 2 (Magic Missile, and since case 7 Cone of Cold) pass in
+resolution. The rest run by Orsino's numbers.
 
 That is the honest state: they run, and they are adapted, not faithful. Moving a spell to the SRD's numbers is a
-proof slice of its own (met, explained, generation-measured), not a catalogue edit. None was moved in M22.
+proof slice of its own (met, explained, generation-measured), not a catalogue edit. Cone of Cold was the
+first moved in M22 (case 7).
 
 ## Closing status (17 November)
 
@@ -168,16 +232,36 @@ be claimed from the catalogue.
   - Sleep at a band outside a fight (case 1);
   - a check's one try (case 2);
   - Raise Dead outside a fight (case 3);
-  - Plane Shift, and the inner planes' laws in and out of a fight (case 4);
-  - healing in and out of a fight (case 5).
+  - Plane Shift, and the inner planes' laws in and out of a fight (case 4), every outer plane under a law;
+  - healing in and out of a fight (case 5);
+  - Cone of Cold by the SRD's numbers (case 7), and Death Ward's wards (case 8).
   All are adapted, not faithful: each names its changes.
 - **Unsupported:** the 34 above, by cause. None is offered, learned or granted, and the compiler refuses an act that
   names one.
 - **Incomplete, by row:**
-  - GT-01: the Water drowning, death ward against the Negative, the Positive's overload, the outer planes' traits;
-  - GT-03: laws for three planes, the integration case;
+  - GT-01: the Water drowning, the Positive's overload, the outer planes' alignment traits, death ward lasting a
+    watch (case 8);
+  - GT-03: the integration case;
   - CB-05: a difficulty that reads a measure (OB-11);
   - regeneration out of a fight.
-- **Faithful by the SRD's numbers:** Magic Missile alone (srd-fidelity.md). Moving any other spell is a proof slice
-  of its own, outside this record.
+- **By the SRD's numbers in resolution:** Magic Missile and Cone of Cold (srd-fidelity.md). Moving any other spell is
+  a proof slice of its own.
+
+## What remains of the migration, and why (17 November, later)
+
+- **Burning Hands and Fireball** (proof-slices.md step 5's rest). Their SRD levels (1, 3) differ from Orsino's (2,
+  4). Moving either changes the pools every mage draws from at creation, so every generated mage's spells and every
+  journey recorded across one move with it. Each wants the census of what moved, and the descents re-run on CI,
+  before it lands. Cone of Cold's DC conversion and `#castingScore` are theirs to reuse.
+- **Lightning Bolt and the cascading five** (chain_lightning, bolt, electric_arc, shock_pulse, static_shock). These
+  want `line`, then `chain`, as new area topologies in Positions: engine work, after cone and burst.
+- **Spell resistance.** Not rolled anywhere. Proof-slices.md forbids an `sr` field until it rolls, is told and
+  changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
+- **The 34 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
+  summoning, item creation, target forms, world magic and transformations), and none may be faked as data.
+- **The creatures.** 1 of 71 passes in resolution (rat/cellar); placed kinds keep Orsino's bodies by the lead's
+  ruling (srd-invariants.md: the ghoul's withdrawal). The challenge table's re-measure at 48 fights a level
+  (CB-21) comes before any placed creature is moved.
+- **DC conversion for every spell with a save.** Case 7's rule (the SRD's and half the casting level) is now the
+  migration's: each spell moved takes it, and its census row says so.
 

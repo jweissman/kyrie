@@ -1,13 +1,14 @@
 Module canon "Imbar and the planes" {
   // ── The outer planes ──────────────────────────────────────────────────────────────────────────────────────────────
-  // Orsino's nine, each under its law (the catalog's plane condition: its spell DC is held by everyone fighting
-  // anywhere in it), and the Abyss, Nirvana and the Mount of the Exalted, which have none. A module puts no law of its
-  // own on them: its laws go on its own places.
+  // Orsino's nine and the Abyss, Nirvana and the Mount of the Exalted (Kyr's own), each under its law (the catalog's
+  // plane condition: its spell DC is held by everyone fighting anywhere in it). A module puts no law of its own on
+  // them: its laws go on its own places.
   Entity plane_arcadia: law "the law of Arcadia". Entity plane_cthelll: law "the law of Cthelll".
   Entity plane_gehenna: law "the law of Gehenna". Entity plane_hades: law "the law of Hades".
   Entity plane_limbo: law "the law of Limbo". Entity plane_mechanus: law "the law of Mechanus".
   Entity plane_pandemonium: law "the law of Pandemonium". Entity plane_ysgard: law "the law of Ysgard".
-  Entity plane_zephyrus: law "the law of Zephyrus".
+  Entity plane_zephyrus: law "the law of Zephyrus". Entity plane_abyss: law "the law of the Abyss".
+  Entity plane_nirvana: law "the law of Nirvana". Entity plane_exalted: law "the law of the Mount of the Exalted".
 
   Place outer_arcadia "Arcadia" is plane.
   Place outer_arcadia_region "Arcadia" is region within outer_arcadia elsewhere.
@@ -77,18 +78,21 @@ Module canon "Imbar and the planes" {
   Place outer_abyss_region "the Abyss" is region within outer_abyss elsewhere.
   Place outer_abyss_land "the threshold of the Abyss" is wilderness within outer_abyss_region at 0, 0 elsewhere.
   Place outer_abyss_threshold "the threshold of the Abyss" is room within outer_abyss_land at 0, 0.
+  Initially Assert law(outer_abyss, plane_abyss).
   Observe outer_abyss_seen at outer_abyss_threshold when true "The edge of a drop that has no bottom, and the edge is under your feet.".
 
   Place outer_nirvana "Nirvana" is plane.
   Place outer_nirvana_region "Nirvana" is region within outer_nirvana elsewhere.
   Place outer_nirvana_land "the threshold of Nirvana" is wilderness within outer_nirvana_region at 0, 0 elsewhere.
   Place outer_nirvana_threshold "the threshold of Nirvana" is room within outer_nirvana_land at 0, 0.
+  Initially Assert law(outer_nirvana, plane_nirvana).
   Observe outer_nirvana_seen at outer_nirvana_threshold when true "A stillness so whole that you can hear your own heart.".
 
   Place outer_exalted "the Mount of the Exalted" is plane.
   Place outer_exalted_region "the Mount of the Exalted" is region within outer_exalted elsewhere.
   Place outer_exalted_land "the foot of the Mount" is wilderness within outer_exalted_region at 0, 0 elsewhere.
   Place outer_exalted_threshold "the foot of the Mount" is room within outer_exalted_land at 0, 0.
+  Initially Assert law(outer_exalted, plane_exalted).
   Observe outer_exalted_seen at outer_exalted_threshold when true "The foot of a mountain in a high clear light, its slope going up into more light than you can look at.".
   // Where Plane Shift sets a company down on each (GT-02): its threshold.
   Initially Assert thresholdOf(outer_arcadia, outer_arcadia_threshold).

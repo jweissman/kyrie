@@ -13,8 +13,8 @@ type Laid = Extract<Effect, { kind: 'apply' }>;
 // each condition it lays does and what save resists it.
 export class SpellLines {
   // A first-level caster of middling qualities, for what a formula comes to without its formula.
-  static readonly actor = { level: 1, strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10,
-    charisma: 10, bonusSpellDC: 0 };
+  static readonly actor = { level: 1, castingLevel: 1, strength: 10, dexterity: 10, constitution: 10, intelligence: 10,
+    wisdom: 10, charisma: 10, castingScore: 10, bonusSpellDC: 0 };
   // What laying a condition does, as a verb with its object ({o}) or the object's possessive ({p}).
   private static readonly verbs: Record<string, string> = {
     minor_warded: 'wards {o} lightly', warded: 'wards {o}', major_warded: 'wards {o} strongly', shielded: 'shields {o}',

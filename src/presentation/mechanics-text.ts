@@ -126,7 +126,7 @@ export class MechanicsText {
   // What each kind of save holds out against, in words; the categories (fortitude, will) are said by their harms.
   static readonly harms: Record<string, string> = { poison: 'poison', disease: 'disease', death: 'death', stun: 'stunning',
     breath: 'breath', bleed: 'bleeding', magic: 'magic', charm: 'charms', fear: 'fear', sleep: 'sleep',
-    insanity: 'madness', paralyze: 'paralysis', reflex: 'what can be dodged' };
+    insanity: 'madness', paralyze: 'paralysis', reflex: 'what can be dodged', drain: 'the draining of levels' };
   // A save by the quality it rests on, as the character sheet says it: "a Wisdom save against 19 avoids it".
   static save(save: Save, actor?: Record<string, number>): string {
     const outcome = save.success === 'half' ? 'halves it' : 'avoids it';
@@ -264,6 +264,12 @@ export class MechanicsText {
     if (/cappedLevel/.test(amount.expression)) {
       return amount.expression.replace(/cappedLevel\((\d+)\)/g, '1 per caster level, to $1');
     }
+    // The SRD's difficulty (Cone of Cold's), where no caster is named: "15 + the casting score's modifier + half the
+    // caster level + the caster's spell bonus".
+    if (actor?.castingScore === undefined && /#casting(Score|Level)/.test(amount.expression)) {
+      return this.spoken.reduce((t, [p, w]) => t.replace(p, w), amount.expression)
+        .replace(/#(\w+)/g, (_, n: string) => this.references[n] ?? n);
+    }
     const result = this.preview.partialEvaluate(amount.expression, actor ?? {});
     if (result.status === 'error' || !result.expression) { return amount.expression; }
     const expression = this.unclamp(result.expression);
@@ -277,6 +283,9 @@ export class MechanicsText {
       && e.args[0]!.kind === 'value' && e.args[0]!.value === 0) { return e.args[1]!; }
     return e;
   }
+  private static readonly spoken: [RegExp, string][] = [
+    [/floor\(\(#castingScore - 10\) \/ 2\)/g, 'the casting score\'s modifier'],
+    [/floor\(#castingLevel \/ 2\)/g, 'half the caster level']];
   static readonly references: Record<string, string> = { bonusSpellDC: 'the caster\'s spell bonus', level: 'level',
     str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma' };
   private static format(e: Expression): string {

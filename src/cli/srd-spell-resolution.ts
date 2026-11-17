@@ -13,7 +13,7 @@ export class SpellResolution {
   static readonly key = 16;
   static caster(level: number): Record<string, number> {
     const at = Math.max(1, 2 * level - 1);
-    return { level: at, castingLevel: at, bonusSpellDC: 0, hitDice: at, strength: 10,
+    return { level: at, castingLevel: at, castingScore: this.key, bonusSpellDC: 0, hitDice: at, strength: 10,
       dexterity: 10, constitution: 10, intelligence: this.key, wisdom: this.key, charisma: this.key };
   }
   // The difficulty of its save, at the census's caster: Orsino's expression (15 + #bonusSpellDC, 14 + #level...)

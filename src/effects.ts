@@ -381,7 +381,7 @@ export class Effects {
         }
         break;
       case 'kill': if (target.hp > 0) { Effects.hp(target, target.hp, context); } break;
-      case 'enervate': context.events.push(...LevelDrain.take(target, rolled, context)); break;
+      case 'enervate': context.events.push(...LevelDrain.take(target, rolled, context, Effects.immune(target, 'drain'))); break;
       case 'apply': Effects.condition(effect, target, context); break;
       case 'remove': {
         // Removing what a creature does not have is not news. A pattern removes every condition it names: by its id,

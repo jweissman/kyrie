@@ -462,6 +462,68 @@
       },
       "law": true
     },
+    "death_ward": {
+      "name": "Death Ward",
+      "description": "Warded against death's own powers: the dark's harm does not touch the warded, and nothing takes a level of them.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "saves": {
+          "death": 5
+        },
+        "resistances": {
+          "necrotic": 1
+        },
+        "immune": [
+          "drain"
+        ]
+      },
+      "source": {
+        "orsino": "status:death_ward",
+        "srd35": "spell:death-ward",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Death Ward, what it wards (mission-22/srd-proving-cases.md, case 8): immunity to negative energy (Westernesse's necrotic harm, the Negative's law among it: GT-01) and to energy drain (an enervate takes no level, told as an immunity). Kept: Orsino's +5 to the death save at no health. Adapted: Westernesse has no death spells, so the SRD's immunity to them is the death save's bonus. Not changed: the spell (Orsino's second-level divine Death Ward of three turns; the SRD's is fourth level, a minute a level), so it wards a fight, not a watch."
+      }
+    },
+    "plane_abyss": {
+      "name": "the Abyss",
+      "description": "The law of the Abyss: a drop that has no bottom, where a working frays at its edges as everything else does.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "bonusSpellDC": -1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A plane of Kyr's own beyond Orsino's nine (law(outer_abyss, plane_abyss), GT-03): its spell DC is held by everyone fighting there, as Pandemonium's chaos holds it lower. The SRD's Abyss is chaotic and evil in its alignment traits, which Westernesse has no rule for."
+      },
+      "law": true
+    },
+    "plane_nirvana": {
+      "name": "Nirvana",
+      "description": "The law of Nirvana: a stillness so whole that a working, once made, holds fast.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "bonusSpellDC": 1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A plane of Kyr's own beyond Orsino's nine (law(outer_nirvana, plane_nirvana), GT-03): its spell DC is held by everyone fighting there, as Mechanus's order holds it higher. Its SRD counterpart's lawful alignment trait has no Westernesse rule."
+      },
+      "law": true
+    },
+    "plane_exalted": {
+      "name": "the Mount of the Exalted",
+      "description": "The law of the Mount of the Exalted: a high clear light in which a working is seen through to its end.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "bonusSpellDC": 1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A plane of Kyr's own beyond Orsino's nine (law(outer_exalted, plane_exalted), GT-03): its spell DC is held by everyone fighting there, as Arcadia's is. The SRD's Mount Celestia is lawful and good in its alignment traits, which Westernesse has no rule for."
+      },
+      "law": true
+    },
     "slain": {
       "name": "Dead",
       "description": "Fallen, and not come round: beyond waking now, and only a raising of the dead will bring them back.",
