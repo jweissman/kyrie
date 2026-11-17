@@ -210,10 +210,38 @@ export class ActionFeedbackView {
     names: Parameters<typeof CombatPresenter.format>[1]): string[] {
     // Without who moved first nor a blow's dice: a flight had been told "Initiative: the third wolf 14, … The third
     // wolf misses Wynn (rolled 5, needed 14)" (the laboratory's matrix: 33 arrivals past six sentences, all retreats).
-    return events.filter(e => e.type !== 'action' && e.type !== 'initiative'
+    const told = events.filter(e => e.type !== 'action' && e.type !== 'initiative'
       && !('amount' in e && e.amount === 0 && e.type !== 'damage')
-      && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
-      .map(e => CombatPresenter.format(e, names, false));
+      && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)));
+    // Out of a fight only: in one, each turn's heat is told as the turn's.
+    return events.some(e => e.type === 'initiative') ? told.map(e => CombatPresenter.format(e, names, false))
+      : this.laws(told, names);
+  }
+  // A place's law felt watch after watch (the Fire's heat, the Positive's mending) is told once for whoever felt it,
+  // in all (a change in the telling, not the rules): an hour in the Fire had told "Ama takes 1 fire damage" six times
+  // over.
+  private static laws(events: CampaignEvent['combat'], names: Parameters<typeof CombatPresenter.format>[1]):
+    string[] {
+    const lines: string[] = [];
+    for (let i = 0; i < events.length; i++) {
+      const e = events[i]!, run = [e];
+      while (this.felt(e, events[i + run.length])) { run.push(events[i + run.length]!); }
+      i += run.length - 1;
+      const last = run.at(-1)!;
+      if (run.length < 2 || (last.type !== 'damage' && last.type !== 'heal')) {
+        lines.push(CombatPresenter.format(e, names, false)); continue;
+      }
+      const sum = run.reduce((n, x) => n + (x.type === 'damage' || x.type === 'heal' ? x.amount : 0), 0);
+      lines.push(CombatPresenter.format({ ...last, amount: sum, rolled: sum }, names, false)
+        .replace(/; roll \d+\)\.$/, ').').replace(/ (damage|HP) \(/, ' $1 in all, a watch at a time ('));
+    }
+    return lines;
+  }
+  // Whether the next event is the same law felt again by the same one, in the same way.
+  private static felt(e: CampaignEvent['combat'][number], next: CampaignEvent['combat'][number] | undefined): boolean {
+    if (!next || (e.type !== 'damage' && e.type !== 'heal') || next.type !== e.type) { return false; }
+    return !!Canon.conditions[e.actor]?.law && next.actor === e.actor && next.target === e.target
+      && next.damageType === e.damageType && !next.stoppedBy;
   }
   // What lasting conditions ran out (a light, a ward): by the event, and the condition's lifetime.
   private static lapsed(event: CampaignEvent, names: Parameters<typeof CombatPresenter.format>[1]):

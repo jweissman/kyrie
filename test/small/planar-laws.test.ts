@@ -79,7 +79,10 @@ describe('the planes\' laws and Plane Shift', () => {
     expect(hp(vale)).toBe(before);
     // It is the ordinary harm, told as the law's.
     expect(burns.every(e => e.type === 'damage' && e.actor === 'plane_fire')).toBe(true);
-    expect(fire.journey.taken.at(-1)!.page).toContain('You take 1 fire damage');
+    // Told once for the hour, in all: it had been "You take 1 fire damage" a line for each watch.
+    const page = fire.journey.taken.at(-1)!.page;
+    expect(page).toContain(`You take ${burns.length} fire damage in all, a watch at a time`);
+    expect(page.match(/fire damage/g)).toHaveLength(1);
   });
 
   it('does on each inner plane what its element does: an hour on each threshold, and an hour warded', async () => {
