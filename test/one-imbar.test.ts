@@ -58,11 +58,11 @@ describe('the realms beyond the Hexagon of Doors', () => {
     expect(c.module.entities.filter(e => e.space?.parent === 'outer_cthell').map(e => e.id).sort())
       .toEqual([C('furnace_city'), 'outer_cthell_region'].sort());
     expect(c.module.entities.filter(e => e.space?.kind === 'plane' && /cthell/i.test(e.name))).toHaveLength(1);
-    // A fight at the Gate of the Bronze Citadel, on Cthelll, is fought under Cthelll's law; on the Mount, which has
-    // none, under none.
+    // A fight at the Gate of the Bronze Citadel, on Cthelll, is fought under Cthelll's law; on the Mount under the
+    // Mount's (GT-03: the canon's three planes beyond Orsino's nine have laws of their own).
     Imbar.put(c, C('cthelll_gate'));
     expect(Environment.laws(c.world, 'party')).toEqual(['plane_cthelll']);
     Imbar.put(c, C('celestia_terrace'));
-    expect(Environment.laws(c.world, 'party')).toEqual([]);
+    expect(Environment.laws(c.world, 'party')).toEqual(['plane_exalted']);
   }, 120000);
 });
