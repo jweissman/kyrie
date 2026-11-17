@@ -1,2 +1,2 @@
-{ "id": "weir", "title": "Your aunt's weir", "binder": "weir", "source": "origin.kyr", "background": "fisherman", "coin": 6,
+{ "id": "weir", "title": "Your aunt's weir", "binder": "weir", "source": "origin.kyr", "kinds": ["water", "healing", "faith", "learning", "stage", "court"], "background": "fisherman", "coin": 6,
   "choice": "Your aunt Tegwen left you her eel-weir at {hamlet}, and its lease from the reeve of {town}. The sea-gate above the hamlet no longer shuts." }

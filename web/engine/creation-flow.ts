@@ -91,7 +91,9 @@ export class CreationFlow {
     const origins = this.setting.origins ?? [];
     if (this.asked || !origins.length) { return this.origin; }
     const kind = this.past ? this.kindOf(this.member.backgroundId) : undefined;
-    const own = kind ? origins.filter(o => o.background && this.kindOf(o.background) === kind) : [];
+    // A life begins so for its own background's kind of past, and for any its manifest names (`kinds`).
+    const own = kind ? origins.filter(o => o.kinds?.includes(kind)
+      || (o.background && this.kindOf(o.background) === kind)) : [];
     if (!own.length) { return origins[0]!.id; }
     const m = this.member, key = `${this.setting.title}|${m.raceId}|${m.classId}|${m.backgroundId ?? ''}|${m.pronouns ?? ''}`;
     const n = [...key].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);

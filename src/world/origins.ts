@@ -23,7 +23,7 @@ import { AtlasOrigins } from './origin-atlas';
 // them. It begins the game where the origin says, and states the relationship as facts the world goes on answering.
 export interface OriginManifest {
   id: string; title: string; binder: string; source: string; choice: string;
-  background?: string; coin?: number; gear?: string[];
+  background?: string; coin?: number; gear?: string[]; kinds?: string[];
   // What is carried in place of the background's trade when another is chosen, so that what the story says the
   // protagonist can do is so (a scribe reads the old script; one who is not carries the brothers' glossary).
   otherwise?: string[];
@@ -32,7 +32,8 @@ export interface OriginManifest {
   experience?: number;
 }
 // An origin as the creation page offers it; with the background it makes the protagonist, if it makes one.
-export interface OriginChoice { id: string; title: string; choice: string; background?: string }
+// kinds: the kinds of past whose lives begin so, beyond its own background's (see CreationFlow.circumstance).
+export interface OriginChoice { id: string; title: string; choice: string; background?: string; kinds?: string[] }
 // What an origin is bound to in one world: the words its text is filled with, the entities it imports (with their
 // types), and where the protagonist begins.
 export interface OriginBound { values: Record<string, string>; imports: Record<string, [string, string]>; start: Start }
@@ -58,7 +59,8 @@ export class Origins {
     return loaded.flatMap(o => {
       const bound = this.bind(o.manifest.binder, region, placements);
       return bound ? [{ id: o.manifest.id, title: o.manifest.title, choice: this.fill(o.manifest.choice, bound.values),
-        ...o.manifest.background ? { background: o.manifest.background } : {} }] : [];
+        ...o.manifest.background ? { background: o.manifest.background } : {},
+        ...o.manifest.kinds ? { kinds: o.manifest.kinds } : {} }] : [];
     });
   }
   // The protagonist as the origin makes them: its background (what they know how to do), which is what its story

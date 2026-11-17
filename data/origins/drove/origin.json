@@ -1,2 +1,2 @@
-{ "id": "drove", "title": "Down the drove road", "binder": "drove", "source": "origin.kyr", "background": "herdsman", "coin": 4,
+{ "id": "drove", "title": "Down the drove road", "binder": "drove", "source": "origin.kyr", "kinds": ["wild", "roads", "arms", "margins"], "background": "herdsman", "coin": 4,
   "choice": "You came down the drove road from Brynach with Bran ap Ifor's cattle. At {town} the customs-men took Bran, and the drove is yours to mind until he is out." }

@@ -1,2 +1,2 @@
-{ "id": "pans", "title": "The salt-pans", "binder": "pans", "source": "origin.kyr", "background": "laborer", "coin": 3,
+{ "id": "pans", "title": "The salt-pans", "binder": "pans", "source": "origin.kyr", "kinds": ["earth", "trade", "mechanisms", "shadows"], "background": "laborer", "coin": 3,
   "choice": "You rake salt at {merchant}'s pans in {town} for three coin a shift. The fuel boat from {fuelvillage} is two days late, and the fires are going out." }

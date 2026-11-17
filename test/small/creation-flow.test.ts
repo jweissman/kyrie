@@ -100,4 +100,22 @@ describe('making the protagonist', () => {
     asked.choose('why', 'wanderer');
     expect(asked.circumstance()).toBe('wanderer');
   });
+  // A life may begin for more kinds of past than its own background's (WD-11: Iscoed's three lives had been matched by
+  // one kind each, so every other past fell to the first): an origin's `kinds` are read as its background's kind is.
+  it('begins a life for any kind of past its origin names, beside its own background\'s', () => {
+    const catalog = Creation.catalog(), kinds = [...new Set(catalog.backgrounds.map(b => b.kind))];
+    const iscoed: Setting = { ...setting, title: 'Iscoed', origins: [
+      { id: 'drove', title: 'Down the drove road', choice: '', background: 'herdsman', kinds: ['wild', 'roads'] },
+      { id: 'pans', title: 'The salt-pans', choice: '', background: 'laborer', kinds: ['earth', 'trade'] }] };
+    const begun = (kind: string) => {
+      const flow = new CreationFlow(iscoed, catalog);
+      flow.choose('calling', 'warrior');
+      flow.choose('before', kind);
+      return flow.circumstance();
+    };
+    expect(kinds).toEqual(expect.arrayContaining(['wild', 'roads', 'earth', 'trade', 'water']));
+    expect([begun('roads'), begun('trade'), begun('earth')]).toEqual(['drove', 'pans', 'pans']);
+    // A kind no life names still begins the country's first.
+    expect(begun('water')).toBe('drove');
+  });
 });

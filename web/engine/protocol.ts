@@ -29,7 +29,7 @@ export interface Setting {
   // A generated country's terrain (forest, marsh, mountain…), which its title page is painted by.
   terrain?: string;
   // In a generated country, the reasons one person might have come into it, as this country holds them.
-  origins?: { id: string; title: string; choice: string; background?: string }[];
+  origins?: { id: string; title: string; choice: string; background?: string; kinds?: string[] }[];
   // In a generated country, the given names a protagonist of each people may have as they present (she, he, they), in
   // the order they are offered: of the people's own names, none a name someone of the country already has (see
   // ProtagonistNames).
