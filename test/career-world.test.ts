@@ -27,6 +27,9 @@ describe('the hunter\'s career in a world', () => {
     await j.play('To the landing');
     expect(World.labels(j).some(l => /royal proclamation/.test(l))).toBe(false);
     await j.play('Read the notice on the well-post');
+    // Not what reading the town's notice opens: there when the company is next on the green.
+    expect(World.labels(j).some(l => /royal proclamation/.test(l))).toBe(false);
+    await j.play('Into the Lucky Phoenix', 'Out to the landing');
     await j.play('Read the royal proclamation under the notices');
     const aims = (PlayerView.observe(j.campaign).objectives ?? []).map(o => o.text);
     expect(aims).toEqual(expect.arrayContaining([expect.stringMatching(/^Ask Mik/),
@@ -50,7 +53,8 @@ describe('the hunter\'s career in a world', () => {
   }, 120000);
   it('keeps the warden in Dun Rìerdan, reached by the road north, and pays the price once', async () => {
     const j = await World.a1(), s = j.session, frontier = new Frontier('a1', NodeBundleSource.shared);
-    await j.play('To the landing', 'Read the notice on the well-post', 'Read the royal proclamation under the notices');
+    await j.play('To the landing', 'Read the notice on the well-post', 'Into the Lucky Phoenix', 'Out to the landing',
+      'Read the royal proclamation under the notices');
     GeneratedWorld.put(s, 'edge_north');
     await frontier.expand(s.campaign);
     expect(s.campaign.installed).toEqual(expect.arrayContaining(['x0ym1', 'careerwarden']));

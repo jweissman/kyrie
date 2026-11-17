@@ -204,7 +204,9 @@ They should one day be reconciled, the adventure's laid over the canon's: regist
 
 **The posting** is on the first town's existing notice.
 - It is a royal proclamation under the town's own notices, never a new board.
-- It is offered only once the town's notice has been read, so it never crowds out the town's jobs.
+- It is offered only when the company is next on the green after reading the town's notice. It is never what
+  reading the jobs opens, so it never crowds them out (`test/decision-frame` holds that reading the notice leads with
+  no new act).
 - To make that possible, the region manifest exports the home notice.
 
 **The dragon.**

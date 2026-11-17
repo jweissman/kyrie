@@ -85,8 +85,12 @@ export class Career {
       `  Entity slain: fact ${q(`${d.name}, the dragon of the high country, slain by your company in a fight.`)}.`,
       `  Entity knighted: fact ${q(`You are a knight of the Rì's, dubbed at the Llys of Dun Rìerdan for slaying ${d.name}.`)}.`,
       `  Entity paid: fact ${q(`The royal game-warden has paid the Rì's price for ${d.name}.`)}.`,
+      // Seen under the notices when the company is next on the green after reading them: never what reading the
+      // town's own jobs opens, which leads with them (test/decision-frame).
+      '  Relation passed(group).',
+      '  Rule passed_by when knows(party, notice) and not at(party, green) and not passed(party) { Assert passed(party). }',
       '  Action read_commission(actor: group, site: place) "Read the royal proclamation under the notices" {',
-      '    Requires able(actor) and at(actor, site) and at(actor, green) and knows(actor, notice)'
+      '    Requires able(actor) and at(actor, site) and at(actor, green) and knows(actor, notice) and passed(actor)'
         + ' and not knows(actor, commission).',
       `    Time 1. On success { Assert knows(actor, commission). }`, `    Result ${q(`Under the town's notices, a sheet `
         + `under the Rì's seal. ${said}`)}.`, '  }',
