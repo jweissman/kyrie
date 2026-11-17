@@ -19,6 +19,7 @@ import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
 import { ChoiceRow } from './choice-row';
+import { Check } from './check';
 import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
@@ -151,7 +152,9 @@ export class TalkStage {
   static Lines({ lines, pending, ready, app }: { lines: TalkLine[]; pending?: string; ready?: string; app?: ReaderApp }) {
     const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
     const aim = useRef<HTMLParagraphElement>(null);
-    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you')), last = lines.map(l => l.kind).lastIndexOf('aim');
+    // What is kept in view whole when it comes: a new aim, or something seen through (the moment had been cut through).
+    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you')), last = lines.map((l, i) => l.kind === 'aim'
+      || Moments.ending.test(l.text) ? i : -1).reduce((a, b) => Math.max(a, b), -1);
     useLayoutEffect(() => {
       end.current?.scrollIntoView({ block: 'nearest' });
       const box = end.current?.parentElement, first = newest.current;
@@ -174,7 +177,9 @@ export class TalkStage {
       // By what the label says, given or not: notes from the engine carry "You know now" as theirs (round 5's three).
       const prior = lines[i - 1], said = (x: TalkLine) => x.label ?? 'You know now';
       const more = l.kind === 'learned' && prior?.kind === 'learned' && said(l) === said(prior);
-      return ended ? <Moments.SeenThrough key={i} ended={ended} ready={ready} />
+      return ended ? <div key={i} ref={i === last && last > from ? aim : undefined}><Moments.SeenThrough ended={ended} ready={ready} /></div>
+        : TalkStage.check.test(l.text) ? <details key={i} className="how"><summary>How it fell</summary>
+          <p>{Typography.curl(l.text)}</p></details>
         : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
         : l.kind === 'learned' || l.kind === 'aim'
           ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
@@ -212,6 +217,9 @@ export class TalkStage {
       </section>
     );
   }
+  // A check's dice, said as what decided it ("Nest makes the persuasion check (d20 17 + charisma 0 = 17 against 13)."),
+  // read as the place's page reads a roll (Check): a disclosure, never a line of what was said (the owner's ruling 1).
+  static readonly check = { test: (text: string): boolean => !!Check.read(text) };
   // What is had of someone for coin or work, apart from what is said (the owner, 17 November: the trade page in the menu's own
   // rows, four at a time, never a table, a list that unfolds or an act that is two): what they will buy of what the company
   // carries, what is on their counter (a thing for each of the company that could take it is a row for each), their

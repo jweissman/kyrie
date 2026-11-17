@@ -65,9 +65,16 @@
 @keyframes breathe { 50% { opacity: .55; } }
 /* Something seen through, or a level gained: a moment set apart in the light. */
 :is(.happened, .lines) .seen-through { margin: 28px 0 10px; padding: 22px 22px 20px; text-align: center;
-  border: 1px solid var(--accent-line); background: radial-gradient(ellipse at 50% 0%, rgba(239, 230, 209, .14), transparent 70%);
+  /* Light, not a box (M22: the bordered card had been cut through by the conversation's edge). */
+  border: 0; background: radial-gradient(ellipse at 50% 0%, rgba(239, 230, 209, .14), transparent 70%);
   animation: moment .9s var(--ease) both; }
 @keyframes moment { from { opacity: 0; transform: scale(.98); box-shadow: 0 0 0 0 var(--accent-glow); } }
+/* A check's dice in a conversation: a quiet disclosure under what came of it, as a fight's How it fell (ruling 1). */
+.lines .how { margin: 4px 0 0; font: 400 12.5px/1.45 var(--do); color: var(--faint); }
+.lines .how > summary { cursor: pointer; list-style: none; }
+.lines .how > summary::-webkit-details-marker { display: none; }
+.lines .how > summary:is(:hover, :focus-visible), .lines .how[open] > summary { color: var(--dim); outline: none; }
+.lines .how > p { margin: 2px 0 0; color: var(--dim); }
 :is(.happened, .lines) .seen-through .kicker { font: 500 11px var(--do); letter-spacing: .26em; text-transform: uppercase;
   color: var(--accent); margin: 0 0 10px; }
 :is(.happened, .lines) .seen-through .what { font: 300 30px/1.15 var(--do); margin: 0 0 12px; }
