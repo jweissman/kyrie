@@ -268,8 +268,9 @@ describe('Low Water, the Auditor: the Hearing, the heart and the stair', () => {
     // Fought, they fight as the company fights, each the double of one of it, and the fight comes to an end, won or
     // lost: whether this company wins is the dice's (one in nine since only a wound triggers a condition, 14 November).
     // It had been held to a seed that won (d3, d4, d5, d7 as the rules changed): a lucky draw is no property of the
-    // place, which is told and can be passed four other ways.
-    const fought = await Bowl.start('d7');
+    // place, which is told and can be passed four other ways. d3 since the cure family heals by the casting level
+    // (srd-proving-cases.md case 16): on d7 the fight was lost before the late double came.
+    const fought = await Bowl.start('d3');
     await fought.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
     await Bowl.untilNight(fought);
     await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait › A while');

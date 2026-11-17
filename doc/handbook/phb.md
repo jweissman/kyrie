@@ -7145,11 +7145,13 @@ One enemy is confused for 3 turns (a Wisdom save against 15 + level + the caster
 
 ##### Cure Light Wounds
 
-*Faithful · level 1 divine spell, life domain* · `ability:cure`
+*Adapted · level 1 divine spell, conjuration, life domain* · `ability:cure`
 
-Heal one ally for 1d8 (1–8). A divine spell of the first level. Takes a first-level slot.
+Heal one ally for 1d8 + 1 per caster level, to 5. A divine spell of the first level. Takes a first-level slot.
 
-> Bind moderate injuries.
+> Bind light wounds: 1d8, and a point for every level you have, to five.
+
+*Adapted: The SRD's Cure Light Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 1d8 and a point a casting level, to 5 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 1d8, the same at every level.*
 
 ##### Dark Bolt
 
@@ -7457,11 +7459,13 @@ End disease on one ally. A divine spell of the third level. Takes a third-level 
 
 ##### Cure Moderate Wounds
 
-*Faithful · level 3 divine spell, life domain* · `ability:cure_moderate`
+*Adapted · level 3 divine spell, conjuration, life domain* · `ability:cure_moderate`
 
-Heal one ally for 2d8 (2–16). A divine spell of the third level. Takes a third-level slot.
+Heal one ally for 2d8 + 1 per caster level, to 10. A divine spell of the third level. Takes a third-level slot.
 
-> Bind moderate injuries.
+> Bind moderate wounds: 2d8, and a point for every level you have, to ten.
+
+*Adapted: The SRD's Cure Moderate Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 2d8 and a point a casting level, to 10 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (3; the SRD's 2), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 2d8, the same at every level.*
 
 ##### Dirge
 
@@ -7563,11 +7567,13 @@ You gain blade barrier for 3 turns. Blade Barrier: against an enemy who strikes 
 
 ##### Cure Serious Wounds
 
-*Faithful · level 4 divine spell, life domain* · `ability:cure_serious`
+*Adapted · level 4 divine spell, conjuration, life domain* · `ability:cure_serious`
 
-Heal one ally for 3d8 (3–24). A divine spell of the fourth level. Takes a fourth-level slot.
+Heal one ally for 3d8 + 1 per caster level, to 15. A divine spell of the fourth level. Takes a fourth-level slot.
 
-> Bind serious injuries.
+> Bind serious wounds: 3d8, and a point for every level you have, to fifteen.
+
+*Adapted: The SRD's Cure Serious Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 3d8 and a point a casting level, to 15 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (4; the SRD's 3), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 3d8, the same at every level.*
 
 ##### Daylight
 
@@ -7777,11 +7783,13 @@ You gain pure strike for 3 turns. Pure Strike: +4 to hit, +4 damage; and on land
 
 ##### Cure Critical Wounds
 
-*Faithful · level 6 divine spell, life domain* · `ability:cure_critical`
+*Adapted · level 6 divine spell, conjuration, life domain* · `ability:cure_critical`
 
-Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth-level slot.
+Heal one ally for 4d8 + 1 per caster level, to 20. A divine spell of the sixth level. Takes a sixth-level slot.
 
-> Bind critical injuries.
+> Bind critical wounds: 4d8, and a point for every level you have, to twenty.
+
+*Adapted: The SRD's Cure Critical Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 4d8 and a point a casting level, to 20 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (6; the SRD's 4), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 4d8, the same at every level.*
 
 ##### Flood
 

@@ -349,7 +349,11 @@
   "burning_hands": "test/burning-hands-fireball.test.ts",
   "fireball": "test/burning-hands-fireball.test.ts",
   "sleep": "test/sleep.test.ts",
-  "chain_lightning": "test/chain-lightning.test.ts"
+  "chain_lightning": "test/chain-lightning.test.ts",
+  "cure": "test/cure-wounds.test.ts",
+  "cure_moderate": "test/cure-wounds.test.ts",
+  "cure_serious": "test/cure-wounds.test.ts",
+  "cure_critical": "test/cure-wounds.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -366,6 +370,22 @@
   },
   "fireball": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "cure": {
+   "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
+   "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
+  },
+  "cure_moderate": {
+   "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
+   "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
+  },
+  "cure_serious": {
+   "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
+   "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
+  },
+  "cure_critical": {
+   "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
+   "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
   },
   "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"

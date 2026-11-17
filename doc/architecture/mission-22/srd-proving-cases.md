@@ -515,6 +515,34 @@ with no SRD counterpart. Orsino's cascade jumps at random and halves again at ea
 by a ratio of its own, but each would enter a draw (shock_pulse is an evocation cantrip every evoker knows): a slice
 of its own, for Orsino's numbers.
 
+### 16. The cure family by the SRD's numbers (17 November, later): adapted
+
+The commonest spell of a first hour, a companion cleric's Cure Light Wounds, had healed 1d8 at every level. Spec:
+`test/cure-wounds` (2 cases; with Orsino's dice put back, a fifth-level cleric heals what a first-level one does and
+the second fails).
+
+**The spells** (hand entries over Orsino's, data/catalog/abilities.json), each on one ally:
+- Cure Light Wounds: 1d8 and a point a casting level, to +5 (exact); the SRD's first level (exact);
+- Cure Moderate Wounds: 2d8, to +10; Serious: 3d8, to +15; Critical: 4d8, to +20 (exact);
+- each the SRD's school, conjuration, beside its domain, Life (exact);
+- the SRD's save is "Will half (harmless)": the living make none, and the save is an undead's against a cure's harm,
+  which Kyr's cure does not do (converted, said in the concordance).
+
+**Kept:** Orsino's levels for Moderate (3; the SRD's 2), Serious (4; 3) and Critical (6; 4). Structure fails for
+the three, said. The preset companions' spells are chosen by level (data/rules' fellows, world-assembler's preset
+cleric: cure, bless, anoint, prayer, minor restoration, cure moderate): moving Moderate to the second level breaks
+the choice, and moves the companion every recorded journey plays with. A slice of its own.
+
+**Omitted:** the harm a cure does the undead (the SRD's touch attack, Will half), spell resistance.
+
+**The census.** No draw moves: no level changed. What moves is every healing by these spells: a first-level cleric's
+Cure Light Wounds heals one more, a fifth-level's five more (test/cure-wounds: the same die, the difference exactly
+the casting level to the cap). Every companion cleric, every hostile healer and the Tend lens heal more.
+
+**The extraction it needed.** The SRD's pages for Moderate, Serious and Critical say they function like Cure Light
+Wounds and name no header of their own; the census had read them as lasting "long" with no save. SrdPages.inherit
+now gives such a page the header of the spell it names (107 of 605 records), a commit of its own before this one.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

@@ -312,6 +312,74 @@
         "notes": "The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Omitted: spell resistance. Orsino's had no effect Kyr could run (its cascade: unsupported)."
       }
     },
+    "cure": {
+      "name": "Cure Light Wounds",
+      "kind": "spell",
+      "description": "Bind light wounds: 1d8, and a point for every level you have, to five.",
+      "effects": [
+        { "kind": "heal", "amount": { "kind": "deem", "expression": "1d8 + cappedLevel(5)" }, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 1, "domain": "life", "school": "conjuration" },
+      "source": {
+        "orsino": "divineSpell:cure",
+        "srd35": "spell:cure-light-wounds",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Cure Light Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 1d8 and a point a casting level, to 5 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 1d8, the same at every level."
+      }
+    },
+    "cure_moderate": {
+      "name": "Cure Moderate Wounds",
+      "kind": "spell",
+      "description": "Bind moderate wounds: 2d8, and a point for every level you have, to ten.",
+      "effects": [
+        { "kind": "heal", "amount": { "kind": "deem", "expression": "2d8 + cappedLevel(10)" }, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 3, "domain": "life", "school": "conjuration" },
+      "source": {
+        "orsino": "divineSpell:cure_moderate",
+        "srd35": "spell:cure-moderate-wounds",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Cure Moderate Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 2d8 and a point a casting level, to 10 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (3; the SRD's 2), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 2d8, the same at every level."
+      }
+    },
+    "cure_serious": {
+      "name": "Cure Serious Wounds",
+      "kind": "spell",
+      "description": "Bind serious wounds: 3d8, and a point for every level you have, to fifteen.",
+      "effects": [
+        { "kind": "heal", "amount": { "kind": "deem", "expression": "3d8 + cappedLevel(15)" }, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 4, "domain": "life", "school": "conjuration" },
+      "source": {
+        "orsino": "divineSpell:cure_serious",
+        "srd35": "spell:cure-serious-wounds",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Cure Serious Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 3d8 and a point a casting level, to 15 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (4; the SRD's 3), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 3d8, the same at every level."
+      }
+    },
+    "cure_critical": {
+      "name": "Cure Critical Wounds",
+      "kind": "spell",
+      "description": "Bind critical wounds: 4d8, and a point for every level you have, to twenty.",
+      "effects": [
+        { "kind": "heal", "amount": { "kind": "deem", "expression": "4d8 + cappedLevel(20)" }, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 6, "domain": "life", "school": "conjuration" },
+      "source": {
+        "orsino": "divineSpell:cure_critical",
+        "srd35": "spell:cure-critical-wounds",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Cure Critical Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 4d8 and a point a casting level, to 20 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (6; the SRD's 4), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 4d8, the same at every level."
+      }
+    },
     "cone_of_cold": {
       "name": "Cone of Cold",
       "kind": "spell",
