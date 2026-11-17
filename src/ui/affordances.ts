@@ -38,6 +38,8 @@ export interface Reading {
   // Who could join the company (see Companions); the places one way off where the company perceives someone who might
   // (see Perception).
   companions?: Set<string>; sensed?: Set<string>;
+  // Someone who would go along, and where, while the aim followed's fight is beyond the company alone (Outmatched).
+  help?: { who: string; at: string };
   // The topics whose answer has the one asked willing to come along (Assert willing(them, …)), by choice id.
   willing?: Set<string>;
   // What the company's last act opened, by command (see ActionFeedback.opened): led first, as what came of it.
@@ -210,7 +212,7 @@ export class Affordances {
       // board, the adventure's hook, had been only under `all`: M21's playability list, PL-16).
       ...(person ? s.asked && !talked : true) && learned ? ['asked' as const] : [],
       ...feature && looked ? ['unlooked' as const] : [], ...this.wonder(s.id, !!person, leaves),
-      ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
+      ...person && joining ? this.joins(s.id, r) : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
       : this.unasked(fresh, r, fresh_);
@@ -355,15 +357,22 @@ export class Affordances {
     // Any way along which the company perceives someone who might join (see Perception), however far off: the way is
     // that, as the Go mark says it is (the owner, 17 November: a companion on the mark and on none of its rows).
     if (!tried && r.sensed?.has(dest)) { whys.push('companion'); }
+    // The way to whoever would go along, where the aim's fight is beyond the company alone (OR-64).
+    if (!tried && r.help && (r.help.at === dest || screen.region?.within[r.help.at] === dest)) { whys.push('help'); }
     const slip = tried && !c.disabled && r.schema.get(c.command ?? '') === 'slip_past' ? r.args.get(c.command!)?.[3] : undefined;
     if (slip) { whys.unshift('danger'); }
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
     return [this.candidate(town ? { ...c, label: `Enter ${town}` } : c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
+        help: 'someone who would go with you',
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
+  }
+  // Someone who could join: a companion, and the help the aim's fight wants (see Outmatched).
+  private static joins(id: string, r: Reading): Why[] {
+    return [...r.companions?.has(id) ? ['companion' as const] : [], ...r.help?.who === id ? ['help' as const] : []];
   }
   // A marvel of the place (a generated `wonder_…` thing) that can be met: the uncanny, whatever else it is.
   private static wonder(id: string, person: boolean, leaves: Choice[]): Why[] {

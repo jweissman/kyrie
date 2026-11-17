@@ -11,7 +11,7 @@ export class Aspects {
     // The aim the player follows: what it names, a way toward it, the journey set out on it, its own people.
     advance: 'undertaking', named: 'undertaking', toward: 'undertaking', about: 'undertaking', bound: 'undertaking', kin: 'undertaking',
     danger: 'danger', warned: 'danger',
-    spoils: 'payoff', means: 'payoff', companion: 'companionship',
+    spoils: 'payoff', means: 'payoff', companion: 'companionship', help: 'companionship',
     sign: 'knowledge', unlooked: 'knowledge', asked: 'knowledge',
     // A marvel of the place (a standing stone that hums, a spring that sings): the uncanny, violet.
     wonder: 'wonder',

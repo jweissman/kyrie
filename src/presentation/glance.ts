@@ -20,6 +20,7 @@ import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead';
 import { Perception } from './perception'; import { Companions } from './companions';
+import { Outmatched } from './outmatched';
 import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
@@ -187,8 +188,8 @@ export class Glance {
       named, held, occupied: AimLeads.occupied(campaign, named), companions: Companions.possible(campaign),
       sensed: new Set(at.sensed.map(x => x.to)), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
-      ...back ? { back } : {}, here, signs: this.signs(campaign,
-        screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,
+      ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
+      pointed: at.pointed, ...Outmatched.reading(campaign, screen),
       done: new Set(commands.filter(c => recall.did(here, c))),
       talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
@@ -196,8 +197,7 @@ export class Glance {
         night: screen.expedition.daylight === 'night',
         settled: screen.path.some(p => ['settlement', 'site'].includes(p.kind)),
         open: screen.exits.some(e => !!e.bearing), alone: screen.party.length === 1,
-        ...this.bed(campaign, screen, schema),
-        ...light } };
+        ...this.bed(campaign, screen, schema), ...light } };
   }
   private static sells(campaign: Campaign, place: string, sellers: Set<string> | undefined): boolean {
     return !!sellers && [...sellers].some(p => campaign.world.one('at', p) === place);

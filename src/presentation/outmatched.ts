@@ -1,6 +1,7 @@
 import voice from '../../data/voice/outmatched.json';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Objective } from '../lang/module';
+import type { Screen } from '../ui/screen-types';
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
@@ -26,6 +27,15 @@ export class Outmatched {
       .map(r => r.args[0]!) : [id]).filter(id => id !== actor && byId.get(id)?.type === 'group'
       && w.test(ModuleWriter.call('able', id)) && !(w.relates('peaceable') && w.test(ModuleWriter.call('peaceable', id))));
     return [...new Set(bands)].find(id => this.beyond.has(DangerSense.reckon(campaign, id)?.danger ?? ''));
+  }
+  // Whoever would go along, and where, while the aim followed leads into a fight the company reckons beyond it alone:
+  // the place then leads with the help as it leads with the aim (OR-64; see Affordances' help).
+  static reading(campaign: Campaign, screen: Screen): { help?: { who: string; at: string } } {
+    const followed = screen.aims?.find(a => a.followed);
+    const o = followed && (campaign.module.objectives ?? []).find(x => x.id === followed.id);
+    const who = o && this.band(campaign, o) ? this.help(campaign) : undefined;
+    const at = who && campaign.world.one('at', who);
+    return who && at ? { help: { who, at } } : {};
   }
   // Someone who could go with the company: of those who could join it, the first.
   static help(campaign: Campaign): string | undefined { return [...Companions.possible(campaign)][0]; }
