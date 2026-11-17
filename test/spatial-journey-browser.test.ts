@@ -102,9 +102,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     // Back to the town from its card on the map: chosen, travelled to, come to, and entered by its large button.
     await page.waitForSelector('[data-action="map-place"][data-id="region__s2"]', { timeout: 120000 });
     await page.click('[data-action="map-place"][data-id="region__s2"]');
-    await page.click('.enter-card [data-action="travel"]');
+    await page.click('.enter-card .map-menu [data-action="set-out"]');
     await driver.settle();
-    await page.click('.enter-card[data-state="arrived"] [data-action="put-away-map"]');
+    await page.waitForSelector('.enter-card[data-state="arrived"]', { timeout: 30000 });
+    await page.click('[data-action="put-away-map"]');
     expect((await driver.inspect()).place?.id).toMatch(/^region__s2_/);
     expect(await w.page_()).toContain('scale-scene');
     expect(await page.evaluate(() => document.scrollingElement!.scrollHeight <= innerHeight + 1)).toBe(true);
