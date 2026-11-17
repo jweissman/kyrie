@@ -18,4 +18,14 @@ export class AimSaid {
   static title(aim: string): string {
     return /^[^,;:.!?]+/.exec(aim)?.[0]?.trim() ?? aim;
   }
+  // An aim as a row's words: its title, cut where a clause joins before the row would cut it mid-word (M22's second
+  // review, OR-45: "Follow: Your father went out by the road between Mistshaw and …").
+  static short(aim: string, room = AimSaid.room): string {
+    const title = AimSaid.title(aim);
+    if (title.length <= room) { return title; }
+    const joints = [...title.matchAll(/ (?:between|with|by|from|to|and|for|at|in|on|under|over|past|toward) /g)]
+      .map(m => m.index!).filter(i => i >= 12 && i <= room);
+    return joints.length ? title.slice(0, joints.at(-1)) : title;
+  }
+  static readonly room = 40;
 }

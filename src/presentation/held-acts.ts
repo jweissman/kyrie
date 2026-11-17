@@ -28,7 +28,7 @@ export class HeldActs {
     const aims = screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
     if (!pull || aims.some(a => a.followed)) { return undefined; }
     const choice = `follow:${pull.id}`;
-    return { choice, command: choice, label: `Follow: ${AimSaid.title(pull.text)}`, why: 'held', aim: pull.id, facets: ['here'], tier: 1,
+    return { choice, command: choice, label: `Follow: ${AimSaid.short(pull.text)}`, why: 'held', aim: pull.id, facets: ['here'], tier: 1,
       aspects: [], note: 'to see it through', marks: [] };
   }
 }
