@@ -14,6 +14,7 @@ import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { Provinces } from './provinces';
 import { StoryPeople } from './story-people';
+import { Career } from './career';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
@@ -114,11 +115,11 @@ export class WorldAssembler {
     // The family an origin makes the protagonist's own are of the protagonist's people: a human mage's brother had
     // been an elf ranger, the town's folk (play 10).
     const family = { own: party[0]!.name, ...origin?.manifest.binder === 'kin' ? { folk: party[0]!.raceId } : {} };
-    this.spread(placements,
-      { library: [...library, ...heralds, ...standing], base, region, contacts, context, files, root, modules,
-        family });
+    this.spread(placements, { library: [...library, ...heralds, ...standing], base, region, contacts, context, files,
+      root, modules, family });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
-    if (told) { modules.push(told.request); }
+    // The origin's module, and the Rì's commission on the notice of the town the company begins in (see Career).
+    modules.push(...told ? [told.request] : [], ...Career.first(seed, region, { root, files, start: told?.start }));
     // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
     if (!told || party.length === 1) {
       this.arrival(region, { size: party.length, contacts, start: told?.start.place }, { files, root, modules });

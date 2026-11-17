@@ -180,3 +180,70 @@ did it, whatever the odds; the commission's own Scathe is the canon's dragon, be
    second honour exists. The page is in the lead's files.
 5. **Rewards against the economy.** The proof's 500 crowns and 30 coin are placeholders. The expedition economy
    (CB-22, SI-07) should set them.
+
+## 5. Phase 2: the career in every generated world (the lead's rulings of 17 November)
+
+**The two Dun Rìerdans stay distinct.** Gosse's Company's own city is untouched, and the career uses the canon's.
+They should one day be reconciled, the adventure's laid over the canon's: register row CR-02.
+
+**The install route chosen: a module written for the country that is drawn, not a kit.**
+- `src/world/career.ts` writes three small modules as plain bundle requests.
+  - **The commission** (`career`) is installed with the first world (`WorldAssembler.built`, beside the origin's
+    module).
+  - **The dragon's lair** (`careerlair`) and **the warden's office** (`careerwarden`) are added by the frontier to
+    the requests of the country they belong to, as it draws that country (`Frontier.career`, over the drawn
+    country's own source).
+- **Why not a kit.** A framework's kits are composed only into the first world as it loads (`Composition.expand`).
+  Countries beyond are drawn later by the frontier and get no kits. Both new modules need the places of their own
+  country, which do not exist until it is drawn.
+- **Why this is the smallest route.** A request beside the country's own is the route origins and arrivals already
+  use, with no change to composition. A world kept from before the commission has no `career` installed, and its
+  countries are drawn as they were.
+- **How the modules join up.** The later modules import the commission's facts by the installation's exports
+  (`career.slain`, `career.knighted`, `career.paid`).
+
+**The posting** is on the first town's existing notice.
+- It is a royal proclamation under the town's own notices, never a new board.
+- It is offered only once the town's notice has been read, so it never crowds out the town's jobs.
+- To make that possible, the region manifest exports the home notice.
+
+**The dragon.**
+- **Where:** the nearest country beyond the first, ring by ring in a fixed order, whose land is mountain and which no
+  sea, authored country or city of the canon holds.
+- **Lair:** the mouth of that country's first old place that is a den of the heights, the fells or a cave.
+- **Name:** drawn from `data/career/career.json` by the seed.
+- **What it does:** it takes from the country about it once a day while it lives (the fixture's ewe-taking, said by its
+  habitat), and its death in a fight the company won teaches the commission's `slain`.
+- **Measured:**
+
+  | world | the dragon | where | its den |
+  |---|---|---|---|
+  | a1 | Old Brennoch | north-west, two rings off | a mine |
+  | kite | Hrasc | west | a mine |
+  | thorn | Hrasc | north-west | a fell tower |
+
+  The choice costs 5–22 ms of land draws at assembly. Checked across eight cells near the first, exactly one holds the
+  lair in each world.
+
+**The warden.**
+- Master Cadell keeps an office off the heart of the canon's city, "under the Tower of the Teulu".
+- Asked, he tells the price.
+- Told the dragon is dead, he pays only on the commission's fact of the deed, and once. Then he knights the company.
+- After that his register is opened to a knight.
+
+**Knighthood where the player already reads.** "You are a knight of the Rì's, dubbed at the Llys of Dun Rìerdan for
+slaying Old Brennoch" is a fact the company knows, so the Notes show it from the engine's own facts.
+- What a page needs for a better place: the fact's id is `career__knighted`. A character sheet could read it as the
+  company's honour, with what it was for: the dragon's name is in the fact, and the deed's fact is `career__slain`.
+- Forms of address, trophies with history and the Record of Deeds stay deferred, as ruled.
+
+**Rewards.** The 500 crowns is a placeholder in `data/career/career.json`, marked with its pointer to CB-22.
+
+**Pinned by `test/career-world`:**
+- the proclamation is found in a1's first town after its own notice, and is an aim;
+- there is one dragon a world, laired in the mountain country (a1, kite, thorn), and its lair parses as Kyr;
+- the warden is reached by the road north as the frontier draws the city's country;
+- the claim is paid once;
+- the knight's fact is in the Notes.
+
+The felled-to-slain path is the phase 1 primitive, held by `test/small/career-proof`.

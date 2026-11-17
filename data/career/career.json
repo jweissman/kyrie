@@ -1,0 +1,10 @@
+{
+ "about": "The hunter's career in a generated world (CR-01, doc/architecture/mission-22/career-phase1.md): the Rì's commission on the first town's notice, the one named dragon of the world (the nearest mountain country beyond the first, its first den of the heights, the fells or a cave), and the royal game-warden at Dun Rìerdan. Read by src/world/career.ts. The rewards are placeholders, to be set against the expedition economy (CB-22, SI-07) before they are trusted.",
+ "names": ["Scathe", "Morgrith", "Cindermaw", "Ostrith", "Vaelgar", "Hrasc", "Ember-in-the-Rock", "Old Brennoch"],
+ "rewards": { "dragon": 500, "placeholder": "CB-22: the expedition economy has not set it" },
+ "raids": {
+  "fells": "Sheep are missing off the high fells, and a scorched patch on the turf where a fold stood.",
+  "heights": "A goat-herd's beasts are gone off the crags, and the rocks are black where they were.",
+  "cave": "Cattle are gone from the cave-mouth pastures, and the grass is burnt in a long track to the hill."
+ }
+}

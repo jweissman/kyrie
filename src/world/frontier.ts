@@ -2,6 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { BundleSource } from '../campaign/bundle-source';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Borders, type Side } from './land/borders';
+import { Career } from './career';
 import { WorldAssembler } from './world-assembler';
 import { ModuleBundle } from '../campaign/module-bundle';
 import { WorldGrid } from './world-grid';
@@ -149,7 +150,17 @@ export class Frontier {
       this.ahead.set(key, drawing);
       drawing.catch(() => { if (this.ahead.get(key) === drawing) { this.ahead.delete(key); } });
     }
-    try { return await drawing; } finally { if (!keep) { this.ahead.clear(); } }
+    try { return this.career(await drawing, installed, at); } finally { if (!keep) { this.ahead.clear(); } }
+  }
+  // The hunter's career, where the world holds its commission (a world kept from before draws as it did): the dragon
+  // in its own country, the warden in the city's (see Career), beside what the country was drawn with.
+  private career(drawn: Awaited<ReturnType<typeof WorldAssembler.beyond>>, installed: Set<string>,
+    at: { x: number; y: number; first: string }): typeof drawn {
+    if (!installed.has(Career.id)) { return drawn; }
+    const rid = WorldGrid.id(at.x, at.y), files: Record<string, string> = {};
+    const more = Career.beyond(this.seed, drawn.region, { ...at, rid, root: `career-${rid}`, files });
+    if (!more.length) { return drawn; }
+    return { ...drawn, requests: [...drawn.requests, ...more], source: new OverlayBundleSource(drawn.source, files) };
   }
   // What the country's herald, if the world placed one in the first region, tells it: each export the country reads,
   // bound to its import of the same name (the company joined the players on the green). A herald the world never
