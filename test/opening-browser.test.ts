@@ -190,29 +190,23 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
 
   // Why you have come is not asked: the world gives it, as where the life begins (the owner, 17 November: diegetic
   // starting circumstances, not an origin quest picked from a list); creation begins with who you are.
-  it('begins a life with who you are, not why you came, with no likeness of you, and goes on by Continue', async () => {
-    const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '?creation=cards' });
+  it('begins a life with who you are, not why you came, with no likeness of you, and goes back and on as the engine keeps it', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '' });
+    const at = () => page.getAttribute('.creation', 'data-page');
     await MonoDriver.hold(page, '[data-action="begin"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     expect(await page.textContent('.ask')).not.toMatch(/^Why have you come/);
-    expect(await page.locator('[data-page="why"]').count()).toBe(0);
-    expect(await page.getAttribute('.creation-body', 'data-page')).toBe('you');
-    // A country is drawn anew from its own seed, and its first protagonist may be of a people no thief comes of.
-    // Who you are is chosen at a tap, then Continue (BP-09: a card that had to be held had seemed to ignore a click).
-    await page.click('[data-choice="raceId:human"]');
-    while (await page.getAttribute('.creation-body', 'data-page') !== 'calling') { await page.click('[data-action="next"]'); }
-    await page.click('[data-choice="classId:thief"]');
-    expect(await page.getAttribute('[data-choice="classId:thief"]', 'aria-pressed')).toBe('true');
-    // The chosen card's sentence is beneath the cards, and its rules behind Details, over the page.
-    expect(await page.textContent('.chosen-lead')).toContain('quick blade');
-    await page.click('[data-action="details"]');
-    expect(await page.textContent('[aria-modal="true"]')).toContain('Hit points');
+    expect(await at()).toBe('you');
+    // A people held is chosen and the page goes on; Escape goes back to it, its choice still marked (PA-04: where the
+    // making stands is the engine's).
+    await MonoDriver.hold(page, '[data-option="human"]');
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'sign');
+    // The life chosen so far gathers in the corner as its emblems; the likeness only once the name is asked.
+    expect(await page.locator('.signature svg').count()).toBeGreaterThan(0);
     await page.keyboard.press('Escape');
-    expect(await page.locator('[aria-modal="true"]').count()).toBe(0);
-    expect(await page.getAttribute('.creation-body', 'data-page')).toBe('calling');
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'you');
+    expect(await page.getAttribute('[data-option="human"]', 'aria-current')).toBe('true');
     expect(await page.locator('.creation img').count()).toBe(0);
-    // The life chosen so far gathers in the corner as its emblems; the likeness only once how you present is asked.
-    expect(await page.locator('.signature svg').count()).toBeGreaterThan(1);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
@@ -225,7 +219,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it.each([[1440, 900, 'kin', false], [390, 844, 'wanderer', true]] as [number, number, string, boolean][])(
     'at %i by %i sets out into the opening of %s, and goes on into the place', async (width, height, origin, touch) => {
       const { page, errors, driver } = await MonoBrowser.page(browser, { width, height }, { site, pointer: touch,
-        query: `?world=kite&opening&creation=cards&origin=${origin}` });
+        query: `?world=kite&opening&origin=${origin}` });
       if (touch) { await page.emulateMedia({ reducedMotion: 'reduce' }); }
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
       // The circumstance named by the address (a tester's way in: the world gives it otherwise).
@@ -277,7 +271,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it.each([[1440, 900], [1180, 820], [820, 1180], [390, 844]])(
     'at %i by %i holds the scene to the screen, the page still', async (width, height) => {
       const { page, errors } = await MonoBrowser.page(browser, { width, height }, { site, pointer: width < 900,
-        query: '?world=kite&creation=cards' });
+        query: '?world=kite' });
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
       const creating = await Stage.bounds(page);
       await page.click('[data-action="start"]');

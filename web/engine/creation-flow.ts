@@ -1,5 +1,8 @@
 import { Rolls } from '../../src/rules/rolls';
 import { CreationDefaults } from './creation-defaults';
+import { BackgroundCatalog } from '../../src/canon/background-catalog';
+import { CreationRules } from '../reader/creation-rules';
+import { Words } from '../reader/words';
 import type { Catalog, Member, Setting } from './protocol';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
@@ -147,6 +150,28 @@ export class CreationFlow {
         roll: 'other names of your people', cards: CreationDefaults.table(m, this.setting, this.rolls)
           .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
+  }
+  // The life chosen, in a few sentences, its way in its noun, as setting out tells it: "An elf abjurer. Before this,
+  // scholarship. A battleaxe in hand." In the words creation showed (M22's review: "abjurer" and "artificer", which no
+  // page had said): the calling as chosen, unless a specialty was chosen too; the kind of life before, as the step
+  // named it, not the trade filled in for it. Why the life came is the world's to give at setting out, not told here.
+  life(): string[] {
+    const catalog = this.catalog, m = this.member, people = catalog.ancestries.find(a => a.id === m.raceId);
+    const calling = catalog.callings.find(c => c.id === m.classId);
+    const special = calling?.specializations.find(t => t.id === m.traits?.[0]);
+    const held = m.weapon ?? (calling && CreationRules.best(calling.weapons, m, catalog)?.id);
+    const weapon = calling?.weapons.find(w => w.id === held);
+    const origin = this.asked ? this.setting.origins?.find(o => o.id === this.origin) : undefined;
+    const was = catalog.backgrounds.find(b => b.id === m.backgroundId);
+    const life = was && catalog.kinds.find(k => k.id === was.kind);
+    const chosen = !!m.traits?.[0] && this.steps().some(x => x.id === 'specialty');
+    const who = [people?.name.toLowerCase(), (chosen && special?.who) || calling?.name.toLowerCase()].filter(Boolean)
+      .join(' ');
+    return [`${Words.upper(who ? Words.article(who) : 'someone')}.`,
+      ...origin ? [`${Words.upper(origin.title.replace(/\.$/, ''))}.`] : [],
+      ...life ? [`Before this, ${life.name.toLowerCase()}.`] : was
+        ? [`Once ${Words.article(BackgroundCatalog.called(was, m.pronouns).toLowerCase())}.`] : [],
+      weapon ? `${Words.upper(Words.article(weapon.name.toLowerCase()))} in hand.` : 'Bare hands.'];
   }
   private kindOf(background?: string): string | undefined {
     return this.catalog.backgrounds.find(b => b.id === background)?.kind;

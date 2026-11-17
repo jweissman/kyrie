@@ -23,21 +23,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
 
   it.each(['wren', 'thorn'])('begins in %s after the creation page has been read, and is taken up again', async seed => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
-      { site, pointer: false, query: `?world=${seed}&creation=cards` });
+      { site, pointer: false, query: `?world=${seed}` });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    // The qualities are six rolls placed by choosing one and then another (the cold playtest could not place them),
-    // behind Details on the last page of creation (OWN-14: creation asks only why, people, calling, way and name).
-    while (await page.locator('[data-action="next"]').count()) { await page.click('[data-action="next"]'); }
-    await page.click('[data-action="details"]');
-    await page.click('[data-step="qualities"]');
-    const roll = (q: string) => page.getAttribute(`[data-quality="${q}"]`, 'data-roll');
-    const [strength, dexterity] = [await roll('strength'), await roll('dexterity')];
-    await page.click('[data-quality="strength"]');
-    await page.click('[data-quality="dexterity"]');
-    expect([await roll('strength'), await roll('dexterity')]).toEqual([dexterity, strength]);
-    // Changed over, neither stays chosen: the page does not ask for another quality to give a roll to.
-    expect(await page.locator('[data-quality][aria-pressed="true"]').count()).toBe(0);
-    await page.keyboard.press('Escape');
     await page.waitForTimeout(3000);
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
@@ -65,7 +52,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
   // and done in a panel over it, inside the screen.
   it('gives a place its painting edge to edge, and its head and what is told over it', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
-      { site, pointer: false, query: "?world=mere&creation=cards" });
+      { site, pointer: false, query: "?world=mere" });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });

@@ -56,7 +56,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
   it('rings the hand, one size over a choice and pressed, and nothing moves', async () => {
-    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '?creation=cards' });
+    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '' });
     await page.waitForSelector('.beat-ready', { timeout: 30000 }); await page.waitForTimeout(600);
     // The title: a ring on the dark; the ways in, each as it was over and pressed; no corners drawn on any.
     Hand.at = { x: 30, y: 400 }; await page.mouse.move(30, 400); await page.waitForTimeout(100);
@@ -67,13 +67,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
       .toBe('');
     await MonoDriver.hold(page, '[data-action="begin"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); await page.waitForTimeout(700);
-    // Creation: a card, over and pressed, every card where it was; one click chooses it.
-    const card = '.creation .card[aria-pressed="false"]:not([disabled])';
-    const id = await page.locator(card).first().getAttribute('data-id');
-    const cards = await Hand.press(page, `.creation .card[data-id="${id}"]`, '.creation .card');
-    expect([cards.over, cards.down]).toEqual([['act', cards.before], ['press', cards.before]]);
-    await page.click(`.creation .card[data-id="${id}"]`);
-    expect(await page.getAttribute(`.creation .card[data-id="${id}"]`, 'aria-pressed')).toBe('true');
+    // Creation: a row, over and pressed, every row where it was.
+    const option = '.composed-rows [data-option]:not(:disabled)';
+    const rowsOf = await Hand.press(page, `${option} >> nth=0`, option);
+    expect([rowsOf.over, rowsOf.down]).toEqual([['act', rowsOf.before], ['press', rowsOf.before]]);
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 }); await d.settle(); await page.waitForTimeout(900);
     // The scene: a row of the four, over and pressed, every row where it was; lit in its own mark's tone.

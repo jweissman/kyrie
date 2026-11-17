@@ -21,7 +21,6 @@ import { Timings } from './timings';
 import { TitlePage } from './title-page';
 import { CampaignPage } from './campaign-page';
 import { CompanyPage } from './company-page';
-import { CreationPage } from './creation/creation-page';
 import { ComposedCreation } from './creation/composed-creation';
 import { LoadingPage } from './loading-page';
 import { PlayPage } from './play-page';
@@ -478,7 +477,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
       case 'company': return !this.state.setting?.generated ? <CompanyPage.View app={this} />
-        : this.props.query.get('creation') === 'cards' ? <CreationPage.View app={this} /> : <ComposedCreation.View app={this} />;
+        : <ComposedCreation.View app={this} />;
       case 'loading': return <LoadingPage.View app={this} />;
       case 'play': return <PlayPage.View app={this} />;
     }

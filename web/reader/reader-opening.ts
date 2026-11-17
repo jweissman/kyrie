@@ -4,7 +4,7 @@ import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
 import { CreationDefaults } from '../engine/creation-defaults';
-import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
+import type { CreationChoice, CreationStep, CreationStepId } from '../engine/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
 import { WorldStage } from './stage/world-stage';
 
@@ -69,36 +69,11 @@ export class ReaderOpening {
     this.app.setState({ party, editing: -1 });
     void this.preview(party);
   }
-  // Making the protagonist as the engine's one flow says it (CreationFlow): its steps, their questions and cards, and
-  // which is chosen; the page shows them and says which was chosen.
-  // Where the engine holds the making (a drawn country), its steps as it gives them; else, for a campaign's own
-  // company, the same flow made here.
-  steps(): CreationStep[] {
-    return this.app.state.creation?.steps ?? this.flow()?.steps() ?? [];
-  }
-  flow(): CreationFlow | undefined {
-    const s = this.app.state;
-    if (!s.setting || !s.catalog || !s.party[0]) { return undefined; }
-    const flow = new CreationFlow(s.setting, s.catalog, s.party[0]);
-    if (s.origin) { flow.origin = s.origin; }
-    return flow;
-  }
-  // A card chosen at a step of the flow. Its rules are the page's as they stand (edit, origin), which the flow's own
-  // choose follows; a kind of life is the trade of it the flow finds best suited to the calling.
-  choose(step: CreationStepId, id: string) {
-    // The engine's making, where it holds it: the choice goes to it, and what it settles comes back.
-    if (this.app.state.creation) { void this.chosen(step, id); return; }
-    if (step === 'why') { this.origin(id); return; }
-    if (step === 'before') {
-      const flow = this.flow();
-      flow?.choose('before', id);
-      if (flow?.member.backgroundId) { this.edit(0, 'backgroundId', flow.member.backgroundId); }
-      return;
-    }
-    const field = ({ you: 'raceId', sign: 'sign', calling: 'classId', presenting: 'pronouns', specialty: 'specialization',
-      name: 'name' } as const)[step];
-    this.edit(0, field, id);
-  }
+  // Making the protagonist as the engine's one flow says it (CreationFlow, held by the engine for a drawn country):
+  // its steps, their questions and cards, and which is chosen; the page shows them and says which was chosen.
+  steps(): CreationStep[] { return this.app.state.creation?.steps ?? []; }
+  // A card chosen at a step of the flow: the choice goes to the engine, and what it settles comes back.
+  choose(step: CreationStepId, id: string) { if (this.app.state.creation) { void this.chosen(step, id); } }
   private async chosen(step: CreationChoice, value: string) {
     const app = this.app;
     this.pressed(step, value);
@@ -140,15 +115,7 @@ export class ReaderOpening {
     if (field !== 'name') { void this.preview(party); }
     this.readySoon();
   }
-  // The spells chosen for a member at first level (see SpellChoice), as they are to be set out with.
-  spells(index: number, ids: string[]) {
-    if (this.app.state.creation && index === 0) { void this.chosen('spells', ids.join(',')); return; }
-    const party = structuredClone(this.app.state.party), member = party[index];
-    if (!member) { return; }
-    member.spells = ids;
-    this.app.setState({ party });
-    void this.preview(party);
-  }
+
   private change(member: Member, field: string, value: string) {
     const catalog = this.app.state.catalog, was = member.classId;
     (member as unknown as Record<string, string>)[field] = value;

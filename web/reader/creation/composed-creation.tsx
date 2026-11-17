@@ -13,7 +13,6 @@ import { PageFrame, type PageParts } from '../page-frame';
 type Frame = Pick<PageParts, 'className' | 'attrs' | 'rail' | 'over'>;
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
-import { NameStep } from './name-step';
 import { Signature } from './signature';
 
 // Creation as one composition in the game's own grammar (the owner, 15 November): every step
@@ -76,7 +75,7 @@ export class ComposedCreation {
       if (leaving.current) { return; }
       leaving.current = true;
       // A card chosen goes on, as the engine has it (a name of the list is drawn, and borne as the list's).
-      const send = () => { if (step.write !== undefined) { NameStep.take(app, id); } else { app.opening.choose(step.id, id); } };
+      const send = () => { if (step.write !== undefined) { app.opening.drawn(id); } else { app.opening.choose(step.id, id); } };
       // The sky lights the sign taken for a moment before the page goes on; nothing else waits.
       const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (step.present === 'sky' && !still) { flared(id); window.setTimeout(send, ComposedCreation.flare); } else { send(); }
@@ -140,7 +139,7 @@ export class ComposedCreation {
     const go = () => app.opening.begin();
     return <PageFrame.View kind="creation" {...frame} body="composed-step composed-go" column="composed-col"
       header={<h1 className="ask">{Typography.curl(name)}</h1>}
-      narrative={<><p className="life">{Typography.curl(NameStep.life(app).join(' '))}</p>
+      narrative={<><p className="life">{Typography.curl((app.state.creation?.life ?? []).join(' '))}</p>
         <p className="consider" aria-live="polite">Hold to set out.</p></>}
       menu={<div className="composed-rows" role="menu">
         <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
