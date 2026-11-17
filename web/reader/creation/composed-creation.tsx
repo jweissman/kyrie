@@ -5,6 +5,11 @@ import { Typography } from '../../../src/presentation/typography';
 import { PressGuard } from '../press-guard';
 import { ComposedRow } from './composed-row';
 import { ChoiceRow } from '../stage/choice-row';
+import { PageFrame, type PageParts } from '../page-frame';
+
+// What every step's page shares: the page's own classes and marks, its rail (back, another country, set out now) and
+// what stands over it (the life so far, signed).
+type Frame = Pick<PageParts, 'className' | 'attrs' | 'rail' | 'over'>;
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { NameStep } from './name-step';
@@ -32,22 +37,19 @@ export class ComposedCreation {
     const steps = app.opening.steps(), ids = ComposedCreation.ids(app), i = ids.indexOf(at);
     const step = i >= 0 ? steps.find(x => x.id === ids[i]) : undefined, next = () => go(ids[i + 1] ?? 'go');
     const back = i >= 0 ? ids[i - 1] : ids.at(-1);
-    return (
-      <div className="creation composed" data-mode="create" data-page={step?.id ?? 'go'}>
-        {step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
-          more={more} unfold={() => turn(m => m + 1)} onward={next} />
-          : <ComposedCreation.Go key="go" app={app} />}
-        <nav data-rail className="creation-edge" aria-label="The choice of a life">
-          {back ? <button type="button" className="quiet-word back" data-action="back"
-            onClick={() => go(back)}>Back</button>
-            : <button type="button" className="quiet-word another" data-action="another" onClick={app.opening.anew}>
-              Another country</button>}
-          {step && <button type="button" className="quiet-word set-out-now" data-action="start"
-            onClick={app.opening.begin}>Set out now</button>}
-        </nav>
-        <Signature.View app={app} likeness={!step || step.id === 'name'} />
-      </div>
-    );
+    const frame = { className: 'creation composed', attrs: { 'data-mode': 'create', 'data-page': step?.id ?? 'go' },
+      rail: <nav className="creation-edge" aria-label="The choice of a life">
+        {back ? <button type="button" className="quiet-word back" data-action="back"
+          onClick={() => go(back)}>Back</button>
+          : <button type="button" className="quiet-word another" data-action="another" onClick={app.opening.anew}>
+            Another country</button>}
+        {step && <button type="button" className="quiet-word set-out-now" data-action="start"
+          onClick={app.opening.begin}>Set out now</button>}
+      </nav>,
+      over: <Signature.View app={app} likeness={!step || step.id === 'name'} /> };
+    return step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
+      more={more} unfold={() => turn(m => m + 1)} onward={next} frame={frame} />
+      : <ComposedCreation.Go key="go" app={app} frame={frame} />;
   }
   // The flow's steps as the composition asks them, in its order: every one, how you present among them.
   static ids(app: ReaderApp): string[] { return app.opening.steps().map(x => x.id); }
@@ -60,8 +62,8 @@ export class ComposedCreation {
     window.addEventListener('keydown', key, true);
     return () => window.removeEventListener('keydown', key, true);
   }
-  static Step({ app, step, roll, reroll, more, unfold, onward }: { app: ReaderApp; step: CreationStep; roll: number;
-    reroll: () => void; more: number; unfold: () => void; onward: () => void }) {
+  static Step({ app, step, roll, reroll, more, unfold, onward, frame }: { app: ReaderApp; step: CreationStep; roll: number;
+    reroll: () => void; more: number; unfold: () => void; onward: () => void; frame: Frame }) {
     // What is lit first: the choice already made where it is among those offered, else the first (M22's review: a mage's
     // "before" step had lit nothing and described Brawn, the warrior's default, which a mage is not offered).
     const offer = ComposedOptions.of(app, step, roll);
@@ -77,19 +79,15 @@ export class ComposedCreation {
       if (step.id === 'sign' && !still) { flared(id); window.setTimeout(onward, ComposedCreation.flare); } else { onward(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
-    return (
-      <div className={`composed-step${offer.cards ? ' with-cards' : ''}`}>
-        {step.id === 'sign' && <Observatory.View signs={app.state.catalog!.signs} focus={lit} chosen={step.chosen}
-          flare={flare} onFocus={look} onChoose={choose} />}
-        <h1 className="ask">{Typography.curl(step.ask)}</h1>
-        <div className="composed-col">
-          <ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
-            consider={consider} choose={choose}
-            after={step.id === 'name' && <ComposedCreation.Naming app={app} reroll={reroll} onward={onward} />} />
-          <p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>
-        </div>
-      </div>
-    );
+    return <PageFrame.View kind="creation" {...frame} body={`composed-step${offer.cards ? ' with-cards' : ''}`}
+      column="composed-col"
+      background={step.id === 'sign' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
+        chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} />}
+      header={<h1 className="ask">{Typography.curl(step.ask)}</h1>}
+      narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
+      menu={<ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
+        consider={consider} choose={choose}
+        after={step.id === 'name' && <ComposedCreation.Naming app={app} reroll={reroll} onward={onward} />} />} />;
   }
   static readonly flare = 340;
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after }: { offer: Offer; more: number;
@@ -103,11 +101,11 @@ export class ComposedCreation {
     const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
     if (offer.cards) {
-      return <div data-menu className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
+      return <div className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
         lit={lit === o.id} onConsider={consider} onChoose={choose} />)}{rest}</div>;
     }
     return (
-      <div data-menu className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
+      <div className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
         {shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined} chosen={chosen === o.id}
           lit={lit === o.id} hold onConsider={consider} onChoose={id => choose(id)} />)}
         {rest}
@@ -128,23 +126,18 @@ export class ComposedCreation {
     </>;
   }
   // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).
-  static Go({ app }: { app: ReaderApp }) {
+  static Go({ app, frame }: { app: ReaderApp; frame: Frame }) {
     useEffect(() => { ComposedCreation.focus(); }, []);
     const name = app.state.party[0]?.name ?? '', country = app.state.setting?.title ?? 'the country';
     const go = () => app.opening.begin();
-    return (
-      <div className="composed-step composed-go">
-        <h1 className="ask">{Typography.curl(name)}</h1>
-        <div className="composed-col">
-          <p className="life">{Typography.curl(NameStep.life(app).join(' '))}</p>
-          <div data-menu className="composed-rows" role="menu">
-            <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
-              hold n={1} lit onConsider={() => undefined} onChoose={go} />
-          </div>
-          <p className="consider" aria-live="polite">Hold to set out.</p>
-        </div>
-      </div>
-    );
+    return <PageFrame.View kind="creation" {...frame} body="composed-step composed-go" column="composed-col"
+      header={<h1 className="ask">{Typography.curl(name)}</h1>}
+      narrative={<><p className="life">{Typography.curl(NameStep.life(app).join(' '))}</p>
+        <p className="consider" aria-live="polite">Hold to set out.</p></>}
+      menu={<div className="composed-rows" role="menu">
+        <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
+          hold n={1} lit onConsider={() => undefined} onChoose={go} />
+      </div>} />;
   }
   // The option already chosen, or the first, in focus as a step comes: the keys are on it at once.
   static focus() {

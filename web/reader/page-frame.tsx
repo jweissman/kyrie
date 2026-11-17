@@ -19,15 +19,18 @@ export interface PageParts {
   body?: string; hidden?: boolean;
   // The header standing apart from the body, beside it (a conversation's likeness and name, beside what is said).
   apart?: boolean;
+  // A column inside the body holding the narrative and the menu together (a step of a life: its telling over its rows).
+  column?: string;
 }
 export class PageFrame {
-  static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden, apart }: PageParts) {
+  static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden, apart,
+    column }: PageParts) {
     const head = header && <div className="slot" data-slot="header">{header}</div>;
-    const slots = <>
-      {!apart && head}
+    const told = <>
       {narrative && <div className="slot" data-slot="narrative">{narrative}</div>}
       {menu && <div className="slot" data-slot="menu" data-menu>{menu}</div>}
     </>;
+    const slots = <>{!apart && head}{column ? <div className={column}>{told}</div> : told}</>;
     return (
       <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind} {...attrs}>
         {background && <div className="slot" data-slot="background">{background}</div>}

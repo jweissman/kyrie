@@ -142,7 +142,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     for (const [beat, how] of [['ident', 'tap'], ['dark', 'tap'], ['reveal', 'tap'], ['reveal', 'hold']] as const) {
       // Watched from the page's first frame, as a player sees it, not from its load: the mark is in the page.
       if (tapped.length) { await page.reload({ waitUntil: 'commit' }); }
-      await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
+      // As the beat is drawn, not at the next look for it: the dark between the mark and the title is 400 ms, and a
+      // look for it by frames had missed it under load.
+      await page.waitForFunction(b => !!document.querySelector(`.beat-${b}`), beat, { polling: 10, timeout: 30000 });
       const begin = await Stage.begin(page);
       await (how === 'hold' ? Stage.held(page, begin) : page.touchscreen.tap(begin.x, begin.y));
       await page.waitForSelector('.beat-ready, [data-mode="create"]', { timeout: 120000 });
