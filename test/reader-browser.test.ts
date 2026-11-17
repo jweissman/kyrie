@@ -144,7 +144,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     await page.waitForSelector('[data-mode="explore"]');
     expect([(await d.inspect()).place?.id, await page.textContent('[data-id="clock"] .at')]).toEqual([place, clock]);
     // Taken up again, the hour is news, and said (the doctrine: said where it is news, not under every act).
-    expect(await page.locator('[data-id="clock"] .hour').count()).toBe(1);
+    expect(await page.locator('[data-id="clock"] .hour:not(.stale)').count()).toBe(1);
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);

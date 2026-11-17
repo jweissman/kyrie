@@ -108,7 +108,10 @@ export class Stage {
         {/* How deep under the ground the company is (the owner, 4 November). */}
         {frame.screen.place.depth && <span className="depth" data-id="depth">
           {frame.screen.place.depth === 1 ? 'One storey down' : Words.upper(`${Words.many(frame.screen.place.depth, 'storey')} down`)}</span>}
-        {Stage.fresh(frame) && <span className="hour">{Stage.when(frame).join(', ')}</span>}
+        {/* Said where it is news; after, it fades where it stood, its room kept, so the heading neither blinks nor
+            moves (M22's third review, OR-53: the weather line appeared and then vanished). */}
+        <span className={`hour${Stage.fresh(frame) ? '' : ' stale'}`} aria-hidden={!Stage.fresh(frame) || undefined}>
+          {Stage.when(frame).join(', ')}</span>
       </p>
     );
   }
