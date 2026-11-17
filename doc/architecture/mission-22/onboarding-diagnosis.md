@@ -92,6 +92,17 @@ said what would earn one.
    is answered with what earns one ("a nest cleared, a debt paid, the dead laid"), then with its fee once it is
    earned. Paid, "Train Wenna in …" is offered. Held by `test/lesson-unlock` (a1).
 
+4. **A job beyond a company alone is said so by whoever gives it** (OR-64, the owner, 17 November afternoon: "way
+   too easy for a starting mage to die").
+   - Reckoned by the company's own danger sense: a1's lone first-level mage reckons the rats hard, the spider grave
+     and the dead deadly; a lone warrior reckons them fair, hard and grave.
+   - An aim given by its speaker whose fight is grave or deadly is answered with the warning: "Eamon looks you over.
+     'Not on your own, you won't. Cyril at the taproom of the Lucky Phoenix is looking for work: take someone with
+     you.'"
+   - Held by `test/outmatched`: the mage is warned of the quarry, the warrior is not.
+   - Not done: the glance leading with that step. The four still gild the way to the quarry; the gild comes from the
+     screen's exits toward the aim and its advances, which are the lead's.
+
 ## Left open
 
 - **The glance never leads with an ordinary act**, and kite's notice of work sits only under a lens: the lead's
