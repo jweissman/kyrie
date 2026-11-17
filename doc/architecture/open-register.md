@@ -1123,9 +1123,9 @@ mission-22/baseline/. The unregistered M17–M21 promises the audit found (missi
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
 | OR-01 | The title's lit New game does nothing on a held Enter: it is marked current but not focused (focus only under `?touch`), and during the 3.2 s reveal a key is swallowed as a skip while a hand's press is let through | fixed on m22: focus on the first way at the reveal; Enter or Space on it let through; test/opening-browser "begins at Enter held" | P1 | M22 |
-| OR-02 | The fight's kinds unfold: "Spells ›" / "Other ›" open a grid of up to nine spells beside the four, disabled ones ("beyond your level") among them; Attack is a two-step | open (ruling 2; no compound act) | P1 | M22 step 4 |
-| OR-03 | Talk draws five rows: three topics or two and the pager, Trade, Take your leave; key hints numbered 6, 7, 9 | open (four in the foreground) | P1 | M22 step 4 |
-| OR-04 | The sign page lists twelve rows at once | open (four in the foreground; the observatory is the candidate) | P2 | M22 step 4/6 |
+| OR-02 | The fight's kinds unfold: "Spells ›" / "Other ›" open a grid of up to nine spells beside the four, disabled ones ("beyond your level") among them; Attack is a two-step | fixed on m22: a kind replaces the hand, as many at a time as the hand has rows, paged, Back beside (fight-moves.tsx; fight-geometry, fight-unusable) | P1 | M22 step 4 |
+| OR-03 | Talk draws five rows: three topics or two and the pager, Trade, Take your leave; key hints numbered 6, 7, 9 | fixed on m22: four acts in view (leave always; answers, topics and Trade paged in three), keys by place (Paging; talk-numbers, frame, press-guard) | P1 | M22 step 4 |
+| OR-04 | The sign page lists twelve rows at once | partly: creation rows and signs page four at a time, never unfolded (composed-creation-browser); open: the name step (four names, Roll again, write your own) | P2 | M22 step 4/6 |
 | OR-05 | Boxed widgets remain: the warren's DANGER card, the map's + − ◎, the calling cards' edges, creation's Back / Set out now words | open (button-discovery.md: about 40) | P2 | M22 step 3 |
 | OR-06 | Rows carry two truncated asides ("the way yo… · The rats … wil…"); the way out prints its whole route ("a hole gnawed… › the trapd") | open (prose economy in rows) | P2 | M22 |
 | OR-07 | A person with no portrait shows a stray outlined circle behind the name (talk, Samwise at Newford) | open | P2 | M22 |
