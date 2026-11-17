@@ -1,10 +1,9 @@
 import { WorldVault } from './world-vault';
 import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
-import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
 import { CreationDefaults } from '../engine/creation-defaults';
-import type { CreationChoice, CreationStep, CreationStepId } from '../engine/creation-flow';
+import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
 import { WorldStage } from './stage/world-stage';
 
@@ -89,9 +88,9 @@ export class ReaderOpening {
       this.readySoon();
     } catch (error) { this.fail(error, 'company'); }
   }
-  // A change to one companion. Changing calling or specialization discards choices that no longer fit; in a drawn
-  // country, what is discarded is taken again as it stands until changed (see CreationDefaults), and a name the
-  // player has not written or chosen is drawn again for a new people, or a new way of presenting.
+  // A change to one companion: the protagonist of a drawn country by the engine's making (which draws a name again
+  // for a new people or way of presenting, and takes again as it stands what a change discards: CreationFlow); an
+  // authored company's companion by the same rules, here.
   edit(index: number, field: string, value: string) {
     // The engine's making, where it holds it: each change goes to it as the choice it is (see CreationChoice).
     const engine = ReaderOpening.choices[field];
@@ -99,44 +98,15 @@ export class ReaderOpening {
       void this.chosen(engine, value);
       return;
     }
-    const party = structuredClone(this.app.state.party), member = party[index], was = member?.classId;
-    if (!member) { return; }
-    const people = member.raceId;
+    // An authored campaign's companion, changed on its company page by creation's own rules (CreationFlow.changed).
+    const party = structuredClone(this.app.state.party), member = party[index], catalog = this.app.state.catalog;
+    if (!member || !catalog) { return; }
     if (field === 'specialization') { member.traits = value ? [value] : []; delete member.spells; }
     else if (field === 'backgroundId' && !value) { delete member.backgroundId; }
-    else { this.change(member, field, value); }
-    const s = this.app.state, drawn = index === 0 && s.setting?.generated && s.catalog;
-    if (drawn) { CreationDefaults.settle(member, s.catalog!, { trade: !this.given(), was }); }
-    if (drawn && !s.named && ((field === 'raceId' && value !== people) || field === 'pronouns')) {
-      member.name = CreationDefaults.names(member, s.setting)[0] ?? member.name;
-    }
-    // A name emptied is no name written: the next people's is drawn again, and the drawn one is set out with.
-    this.app.setState({ party, ...field === 'name' ? { named: !!value.trim() } : {} });
+    else { CreationFlow.changed(member, catalog, field, value); }
+    this.app.setState({ party });
     if (field !== 'name') { void this.preview(party); }
     this.readySoon();
-  }
-
-  private change(member: Member, field: string, value: string) {
-    const catalog = this.app.state.catalog, was = member.classId;
-    (member as unknown as Record<string, string>)[field] = value;
-    // A people takes only the callings open to it: one that is not takes the first that is.
-    const people = catalog?.ancestries.find(a => a.id === member.raceId), open = people?.callings;
-    if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
-    // A way and its spells are the calling's: a new calling, or a people that may not take the way, has none.
-    if (field === 'classId' || member.classId !== was || member.traits?.some(t => people?.forbids.includes(t))) {
-      delete member.traits; delete member.spells;
-    }
-    // A calling's weapons are its own: a new calling's is the one its bearer strikes best with until chosen; and its
-    // rolls are placed where it wants them.
-    if (field === 'classId') { delete member.weapon; this.suit(member); }
-    // A trade is a calling's own: a new calling has none until one is chosen.
-    const trade = catalog?.backgrounds.find(b => b.id === member.backgroundId);
-    if (field === 'classId' && trade?.calling && trade.calling !== member.classId) { delete member.backgroundId; }
-  }
-  // Whether the reason for having come gives a trade of its own (one who comes over the hills brings their own).
-  private given(): boolean {
-    const s = this.app.state;
-    return !!s.setting?.origins?.find(o => o.id === s.origin)?.background;
   }
   // The press shown at once, never waiting on the engine (the grammar: focus and choosing answer in the same frame):
   // the card chosen, the field it names set, two rolls changed over; what the choice settles besides comes back with
@@ -169,45 +139,6 @@ export class ReaderOpening {
   static readonly unmade: CreationChoice[] = ['name', 'drawn', 'back', 'onward', 'roll'];
   static readonly choices: Record<string, CreationChoice> = { raceId: 'you', classId: 'calling', pronouns: 'presenting',
     name: 'name', specialization: 'specialty', backgroundId: 'trade', weapon: 'weapon' };
-  // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,
-  // none until it is chosen, or in a drawn country the calling's own until then (the engine gives the origin's too:
-  // Origins.member).
-  origin(id: string) {
-    const party = structuredClone(this.app.state.party), member = party[0], s = this.app.state;
-    const given = s.setting?.origins?.find(o => o.id === id)?.background;
-    if (member) { if (given) { member.backgroundId = given; } else { delete member.backgroundId; } }
-    if (member && s.setting?.generated && s.catalog) { CreationDefaults.settle(member, s.catalog, { trade: !given }); }
-    this.app.setState({ origin: id, party });
-    this.readySoon();
-  }
-  // Two qualities' rolls changed over, as the player places them.
-  place(a: string, b: string) {
-    if (this.app.state.creation) { void this.chosen('place', `${a}:${b}`); return; }
-    const party = structuredClone(this.app.state.party);
-    const rolled = party[0]?.rolled as Record<string, number> | undefined;
-    if (!rolled || rolled[a] === undefined || rolled[b] === undefined) { return; }
-    [rolled[a], rolled[b]] = [rolled[b]!, rolled[a]!];
-    this.app.setState({ party });
-    this.readySoon();
-  }
-  // Six new rolls of three dice, one on each quality where it falls.
-  reroll() {
-    if (this.app.state.creation) { void this.chosen('reroll', ''); return; }
-    const party = structuredClone(this.app.state.party), member = party[0];
-    if (!member?.rolled) { return; }
-    const die = new Uint8Array(18);
-    crypto.getRandomValues(die);
-    member.rolled = Object.fromEntries(Object.keys(member.rolled).map((q, i) => [q,
-      [0, 1, 2].reduce((sum, k) => sum + 1 + die[i * 3 + k]! % 6, 0)]));
-    this.suit(member);
-    this.app.setState({ party });
-    this.readySoon();
-  }
-  // The rolls placed where the member's calling wants them (see Rolls).
-  private suit(member: Member) {
-    const wants = this.app.state.catalog?.callings.find(c => c.id === member.classId)?.qualities;
-    if (member.rolled && wants) { member.rolled = Rolls.suited(member.rolled as Record<string, number>, wants); }
-  }
   // While the player reads the page, the start is made ready for the choices as they stand, a moment after the last
   // change (see EngineHost.prepare): Begin asking the same takes it up at once.
   private readyTimer?: ReturnType<typeof setTimeout>;

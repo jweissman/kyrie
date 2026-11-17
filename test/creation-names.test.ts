@@ -6,32 +6,22 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ProtagonistNames } from '../src/world/protagonist-names';
 import { Outfitters } from '../src/world/outfitters';
-import { ReaderOpening } from '../web/reader/reader-opening';
+import { EngineCreation } from '../web/engine/engine-creation';
 import { CreationDefaults } from '../web/engine/creation-defaults';
-import type { AppState, ReaderApp } from '../web/reader/reader-app';
-import type { Member, Request, Setting } from '../web/engine/protocol';
+import type { Member, Setting } from '../web/engine/protocol';
 import folk from '../data/generation/scenes/folk.json';
 
-// The page as ReaderOpening sees it: its state, changed as setState would, and an engine that keeps what it was asked.
-class Page {
-  readonly asked: Request[] = [];
-  readonly props = { query: new URLSearchParams() };
-  readonly engine = { request: (r: Request) => { this.asked.push(r); return Promise.resolve(undefined); } };
-  constructor(public state: AppState) {}
-  setState(patch: Partial<AppState>) { this.state = { ...this.state, ...patch }; }
-  static opening(names: NonNullable<Setting['names']>): { page: Page; opening: ReaderOpening } {
+// The engine's making of a life (EngineCreation), for a country of two circumstances: coming home with a trade of
+// one's own (the first, the one the making begins with) or over the hills with none.
+class Making {
+  static of(names: NonNullable<Setting['names']>, home = true): EngineCreation {
     const origins = [{ id: 'kin', title: 'Coming home', choice: 'Home.', background: 'herdsman' },
       { id: 'wanderer', title: 'Over the hills', choice: 'Over the hills.' }];
-    const setting: Setting = { title: 'Thorn', pitch: { heading: '', text: '' }, generated: true, origins, names,
-      party: [Creation.protagonist('human', 'thorn', names)] };
-    const page = new Page({ phase: 'campaigns', catalog: Creation.catalog(), campaign: 'world', seed: 'thorn', party: [],
-      editing: -1, view: 'here', cursor: 0, open: [], member: '', attention: { kind: 'place' }, talk: [], asked: [],
-      stage: '', error: '', help: false, options: {} } as unknown as AppState);
-    page.engine.request = (r: Request) => {
-      page.asked.push(r);
-      return Promise.resolve((r.kind === 'world' ? setting : undefined) as never);
-    };
-    return { page, opening: new ReaderOpening(page as unknown as ReaderApp) };
+    const setting: Setting = { title: 'Thorn', pitch: { heading: '', text: '' }, generated: true,
+      origins: home ? origins : origins.reverse(), names, party: [Creation.protagonist('human', 'thorn', names)] };
+    const made = new EngineCreation();
+    made.begun(setting, { campaign: 'world', seed: 'thorn' });
+    return made;
   }
 }
 const given = folk.given as Record<string, Record<string, string[]>>;
@@ -67,39 +57,36 @@ describe('a protagonist\'s name', () => {
       expect(elf.name).toBe(names.elf![elf.pronouns!]![0]!);
       expect(Creation.protagonist('gnome', 'thorn', names).name).toBe(names.human![elf.pronouns!]![0]!);
     }, 60000);
-  it('is drawn again for a new people or presentation until the player writes one', async () => {
+  it('is drawn again for a new people or presentation until the player writes one', () => {
     const names = { human: few(['Hild', 'Maud'], ['Ralf', 'Odo'], ['Wren']), elf: few(['Birel'], ['Aelar']),
       dwarf: few(['Hulda'], ['Baern']) };
-    const { page, opening } = Page.opening(names), name = () => page.state.party[0]!.name;
-    await opening.pick('world', 'thorn');
-    opening.edit(0, 'pronouns', 'she');
+    const made = Making.of(names), name = () => made.state().member.name;
+    made.choose('presenting', 'she');
     expect(name()).toBe('Hild');
-    opening.edit(0, 'pronouns', 'he');
-    expect([name(), page.state.party[0]!.pronouns]).toEqual(['Ralf', 'he']);
-    opening.edit(0, 'pronouns', 'they');
+    made.choose('presenting', 'he');
+    expect([name(), made.state().member.pronouns]).toEqual(['Ralf', 'he']);
+    made.choose('presenting', 'they');
     expect(name()).toBe('Wren');
-    opening.edit(0, 'raceId', 'elf');
+    made.choose('you', 'elf');
     expect(name()).toBe('Birel');
-    opening.edit(0, 'pronouns', 'he');
+    made.choose('presenting', 'he');
     expect(name()).toBe('Aelar');
     // Written, it is the player's: neither a new way of presenting nor a new people draws again (one taken from the
-    // table is drawn again, as the table is: see the browser's naming test).
-    opening.edit(0, 'raceId', 'human');
-    opening.edit(0, 'name', 'Odo');
-    opening.edit(0, 'pronouns', 'she');
-    opening.edit(0, 'raceId', 'dwarf');
+    // list is drawn again, as the list is: see the browser's naming test).
+    made.choose('you', 'human');
+    made.choose('name', 'Odo');
+    made.choose('presenting', 'she');
+    made.choose('you', 'dwarf');
     expect(name()).toBe('Odo');
     // Emptied, it is no name written: a new people's is drawn again (one letter typed had kept an elf's name on a man).
-    opening.edit(0, 'name', '');
-    opening.edit(0, 'raceId', 'elf');
+    made.choose('name', '');
+    made.choose('you', 'elf');
     expect(name()).toBe('Birel');
-    opening.edit(0, 'raceId', 'human');
+    made.choose('you', 'human');
     expect(name()).toBe('Hild');
     // Written away to nothing, it sets out as the first of the people's names here for how they present.
-    opening.edit(0, 'name', ' {"} ');
-    await opening.setOut();
-    const begun = page.asked.find((r): r is Extract<Request, { kind: 'begin' }> => r.kind === 'begin');
-    expect(begun?.party.map(m => [m.name, m.pronouns])).toEqual([['Hild', 'she']]);
+    made.choose('name', ' {"} ');
+    expect(made.starting().party.map(m => [m.name, m.pronouns])).toEqual([['Hild', 'she']]);
   });
   it('is offered as tables to roll on: no more than six names, each roll all new, in turn, the same each time', () => {
     const name = (n: number) => Array.from({ length: n }, (_, i) => `N${i}`), many = name(14);
@@ -127,36 +114,32 @@ describe('a protagonist\'s name', () => {
 // What creation no longer asks stands in the open until changed (OWN-14): a calling's first way the people may take,
 // with the spells its card shows given as chosen; and for one who brings only their trade, the calling's own.
 describe('a protagonist as it stands until changed', () => {
-  it('takes a way and its spells in the open, and the way the player chooses with its own spells', async () => {
-    const { page, opening } = Page.opening({ human: few(['Hild'], ['Ralf']), elf: few(['Birel'], ['Aelar']),
+  it('takes a way and its spells in the open, and the way the player chooses with its own spells', () => {
+    const made = Making.of({ human: few(['Hild'], ['Ralf']), elf: few(['Birel'], ['Aelar']),
       dwarf: few(['Hulda'], ['Baern']) });
-    const me = (): Member => page.state.party[0]!, ways = page.state.catalog!.callings;
-    await opening.pick('world', 'thorn');
+    const me = (): Member => made.state().member, ways = Creation.catalog().callings;
+    made.choose('calling', 'warrior');
     expect(me().traits).toEqual(['toughness']);
     expect(me().spells).toBeUndefined();
-    opening.edit(0, 'classId', 'mage');
+    made.choose('calling', 'mage');
     expect([me().traits, me().spells]).toEqual([['abjurer'], ways.find(c => c.id === 'mage')!.specializations[0]!.picks]);
-    opening.edit(0, 'specialization', 'necromancer');
+    made.choose('specialty', 'necromancer');
     const necromancer = ways.find(c => c.id === 'mage')!.specializations.find(t => t.id === 'necromancer')!;
     expect(me().spells).toEqual(necromancer.picks!);
     // An elf is no necromancer: the way goes back to the first an elf may take.
-    opening.edit(0, 'raceId', 'elf');
+    made.choose('you', 'elf');
     expect([me().classId, me().traits]).toEqual(['mage', ['abjurer']]);
   });
-  it('gives one who comes over the hills the calling\'s own trade, until they choose another', async () => {
-    const { page, opening } = Page.opening({ human: few(['Hild'], ['Ralf']), elf: few(['Birel'], ['Aelar']),
-      dwarf: few(['Hulda'], ['Baern']) });
-    const trade = () => page.state.party[0]!.backgroundId;
-    await opening.pick('world', 'thorn');
-    expect(trade()).toBe('herdsman');
-    opening.origin('wanderer');
+  it('gives a calling its own trade until another is chosen, and keeps one chosen that any calling may have', () => {
+    const made = Making.of({ human: few(['Hild'], ['Ralf']), elf: few(['Birel'], ['Aelar']),
+      dwarf: few(['Hulda'], ['Baern']) }, false);
+    const trade = () => made.state().member.backgroundId;
+    made.choose('calling', 'warrior');
     expect(trade()).toBe('soldier');
-    opening.edit(0, 'classId', 'mage');
+    made.choose('calling', 'mage');
     expect(trade()).toBe('apprentice');
-    opening.edit(0, 'backgroundId', 'scribe');
-    opening.edit(0, 'classId', 'bard');
+    made.choose('trade', 'scribe');
+    made.choose('calling', 'bard');
     expect(trade()).toBe('scribe');
-    opening.origin('kin');
-    expect(trade()).toBe('herdsman');
   });
 });

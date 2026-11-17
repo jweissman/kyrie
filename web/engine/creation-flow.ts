@@ -227,7 +227,12 @@ export class CreationFlow {
     if (wants) { m.rolled = Rolls.suited(m.rolled as Record<string, number>, wants); }
   }
   private change(field: 'raceId' | 'classId' | 'pronouns', value: string) {
-    const m = this.member, was = m.classId, catalog = this.catalog;
+    CreationFlow.changed(this.member, this.catalog, field, value);
+  }
+  // One field of a member changed, and what follows from it by creation's rules: for the protagonist here, and for an
+  // authored campaign's companions on its company page (the reader keeps no rules of its own: PA-04).
+  static changed(m: Member, catalog: Catalog, field: string, value: string) {
+    const was = m.classId;
     (m as Record<string, unknown>)[field] = value;
     // A people takes only the callings open to it: one that is not takes the first that is.
     const people = catalog.ancestries.find(a => a.id === m.raceId), open = people?.callings;
