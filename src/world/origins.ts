@@ -313,7 +313,8 @@ export class Origins {
   }
   // A letter carried from over the hills to the merchant of the next town on from the first: begun on the way into
   // the first, the next town on the map; and, delivered, the merchant tells of work near there as a creditor squared
-  // does (Origins.after).
+  // does (Origins.after). Its card calls them by their trade there (the herb-wife at Shaykhafar): "the merchant at
+  // Shaykhafar" had been a herb-wife when the letter came to her (the blind playtest of 15 November, BL-06).
   private static courier(region: Region): Bound | undefined {
     const s = region.settlements[0], others = region.settlements.filter(t => t !== s && t.cell !== undefined);
     const dest = s?.cell === undefined ? undefined
@@ -322,7 +323,7 @@ export class Origins {
     const { start, approach } = this.arriving(region, s), after = this.after(region, dest);
     const sender = (tables.senders as string[])[region.name.length % tables.senders.length]!;
     const values = { ...this.approach(region, s), destname: dest.name, merchant: dest.merchant, sender,
-      after: after.said };
+      trade: SettlementWriter.trade(dest).role, after: after.said };
     return { values, start,
       imports: { approach, dest: [`region.${dest.id}`, 'place'], addressee: [`region.${dest.id}_merchant`, 'group'],
         ...after.imports } };

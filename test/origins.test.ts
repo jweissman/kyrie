@@ -9,6 +9,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Origins } from '../src/world/origins';
+import { SettlementWriter } from '../src/world/settlement-writer';
 import type { Change } from '../src/lang/module';
 import type { World } from '../src/lang/world';
 import type { CombatEvent } from '../src/model';
@@ -61,6 +62,10 @@ describe('an origin', () => {
     // The drover's family lives where the drover's story is set: a settlement with an inn to mourn him in.
     const home = w.report.region.settlements.find(t => t.id === w.report.placements.find(p => p.scenario === 'drover')!.bindings.town)!;
     expect(offered[0]!.choice).toContain(`Your father, a drover of ${home.name}`);
+    // The letter's card calls the one it goes to by their trade there, as the town has them: "the merchant at
+    // Shaykhafar" had been a herb-wife (BL-06).
+    const roles = w.report.region.settlements.map(t => `the ${SettlementWriter.trade(t).role} at ${t.name},`);
+    expect(roles.some(r => offered.find(o => o.id === 'courier')!.choice.includes(r))).toBe(true);
   }, 60000);
   // The trade chosen at creation is the one set out with, whatever the origin (the owner, 3 November: an aphorist
   // chosen had set out a trader); an origin's own is its default, for a protagonist who chose none.
