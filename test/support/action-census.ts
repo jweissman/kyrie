@@ -78,6 +78,21 @@ export class ActionCensus {
         + `${(m as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 40)} (one of ${shown.length} menus)` })) : [];
     }, surface);
   }
+  // More than four rows in a menu's view (the owner, 17 November: "I shouldn't see any more than four action items
+  // under any circumstances"): a pager is a row, and counts. The narrow exception is a list that scrolls in the menu's
+  // place ([data-list]: a long counter), counted as one.
+  static crowded(page: Page, surface: string): Promise<Pressable[]> {
+    return page.evaluate(surface => Array.from(document.querySelectorAll('[data-menu]')).filter(m =>
+      !m.parentElement?.closest('[data-menu]') && !m.closest('[aria-hidden="true"]')).flatMap(m => {
+      const rows = Array.from(m.querySelectorAll('.choice-row')).filter(el => {
+        const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+        return r.height > 2 && cs.visibility !== 'hidden' && +cs.opacity >= 0.05 && !el.closest('[data-list]')
+          && r.bottom > 0 && r.top < innerHeight;
+      }), lists = m.querySelectorAll('[data-list]').length, n = rows.length + lists;
+      return n > 4 ? [{ surface, text: `${n} rows: ${rows.map(r => (r as HTMLElement).innerText.replace(/\s+/g, ' ')
+        .trim().slice(0, 18)).join(' | ')}` }] : [];
+    }), surface);
+  }
   // What is in a menu or a rail but cannot be pressed where it is drawn: the point at its middle is another element's,
   // or nothing's (a creation rail's marks had been drawn with pointer-events none, on main for one push).
   static unreachable(page: Page, surface: string): Promise<Pressable[]> {
@@ -114,7 +129,8 @@ export class ActionCensus {
       await page.waitForTimeout(600);
       found.push(...await ActionCensus.stray(page, s), ...await ActionCensus.uneven(page, s),
         ...await ActionCensus.foreign(page, s), ...await ActionCensus.menus(page, s),
-        ...await ActionCensus.unreachable(page, s), ...await ActionCensus.framed(page, s));
+        ...await ActionCensus.unreachable(page, s), ...await ActionCensus.framed(page, s),
+        ...await ActionCensus.crowded(page, s));
     };
     await page.goto(`file://${site}/mono.html`); await page.waitForSelector('[data-action="begin"]'); await at('title');
     await page.goto(`file://${site}/mono.html?world=kite&opening`); await page.waitForSelector('[data-mode="create"]');

@@ -242,7 +242,8 @@
    no gold on the map): a ring in its one colour outside a sign's plate, which no chosen or pointed ring takes away, and
    a pip and a companion's icon at the plate's shoulder; before a town's name, its pip and icon, and its rule in that
    colour. The plate itself is never recoloured. */
-.board-facets { display: inline-flex; align-items: center; gap: 3px; margin-right: 7px; vertical-align: middle; }
+.board-facets { display: inline-flex; align-items: center; gap: 3px; margin-right: 7px; vertical-align: middle;
+  pointer-events: none; }
 .board-sign i .board-facets { position: absolute; top: -7px; right: -11px; margin: 0; padding: 2px 3px; border-radius: 8px;
   background: rgba(11, 12, 15, .82); }
 .board-facets .board-pip { width: 7px; height: 7px; border-radius: 50%; background: var(--mark-tone);

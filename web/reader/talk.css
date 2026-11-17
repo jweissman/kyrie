@@ -164,3 +164,8 @@
 /* Portrait, the sitter's name, part and place are clear of the close (M22's review: the × had stood on the place's
    name on a phone). */
 @media (max-width: 1023px), (orientation: portrait) { .sitter .cap { right: calc(var(--safe-r) + 48px); } }
+
+/* A long counter (the one narrow exception to the four: the owner, 17 November): its rows a list that scrolls in the
+   menu's place, four and half the next in view, so it is seen that there is more, never paged. */
+.talk .trading .trade-list.scrolls { max-height: calc(var(--choice-h) * 4 + var(--choice-h) / 2); overflow-y: auto;
+  overscroll-behavior: contain; scrollbar-width: thin; }

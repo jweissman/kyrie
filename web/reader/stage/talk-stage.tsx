@@ -237,13 +237,14 @@ export class TalkStage {
   // A check's dice, said as what decided it ("Nest makes the persuasion check (d20 17 + charisma 0 = 17 against 13)."),
   // read as the place's page reads a roll (Check): a disclosure, never a line of what was said (the owner's ruling 1).
   static readonly check = { test: (text: string): boolean => !!Check.read(text) };
-  // What is had of someone for coin or work, apart from what is said (the owner, 17 November: the trade page in the menu's own
-  // rows, four at a time, never a table, a list that unfolds or an act that is two): what they will buy of what the company
+  // What is had of someone for coin or work, apart from what is said (the owner, 16 November: the trade page in the menu's
+  // own rows, never a table, a list that unfolds or an act that is two; 17 November: a long counter is the one narrow
+  // exception to the four, a list that scrolls in the menu's place, not pages): what they will buy of what the company
   // carries, what is on their counter (a thing for each of the company that could take it is a row for each), their
   // services; the purse said once above, and what they buy in a line; Back, by the leave, returns to the conversation.
   static Trading({ app, wares, services, buys, short, who, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
     buys: Counter['buys']; short: NonNullable<Counter['short']>; who: string; draw: Draw }) {
-    const coin = app.state.frame!.screen.purse.coin, [page, turn] = useState(0), { sales, rest } = TalkFocus.parted(services);
+    const coin = app.state.frame!.screen.purse.coin, { sales, rest } = TalkFocus.parted(services);
     // Each row drawn with its key, its place on the page (1 to 4).
     const rows: ((n: number) => ReactNode)[] = [
       ...sales.map(c => (n: number) => <TalkStage.Reply key={c.id} choice={c} draw={draw} number={n} />),
@@ -253,15 +254,12 @@ export class TalkStage {
         aside={Typography.curl(`${Words.short(who)} has not the coin for it today (${x.pays})`)} /></li>),
       ...wares.flatMap(w => TalkStage.wareRows(w, coin, draw)),
       ...rest.map(c => (n: number) => <TalkStage.Reply key={c.id} choice={c} draw={draw} number={n} />)];
-    const per = 4, pages = Math.max(1, Math.ceil(rows.length / per)), at = page % pages;
     return <section className="trading" aria-label="Trade">
       <p className="label">{`You have ${coin} coin`}</p>
       {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
         .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
-      <ol className="replies">{rows.slice(at * per, at * per + per).map((row, i) => row(i + 1))}</ol>
-      {pages > 1 && <ol className="replies more-talk"><li><ChoiceRow.Button data={{ action: 'more-trade' }}
-        onClick={() => turn(at + 1)} mark={ChoiceRow.neutral} markClass="neutral"
-        label="More to trade…" aside={`${at + 1} of ${pages}`} /></li></ol>}
+      <ol className={`replies trade-list${rows.length > 4 ? ' scrolls' : ''}`} data-list>
+        {rows.map((row, i) => row(i + 1))}</ol>
     </section>;
   }
   private static nothing(): void { /* a shut row does nothing */ }

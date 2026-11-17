@@ -69,7 +69,7 @@ export class FightMoves {
   static Kind({ section, take, note, close, room, said }: { section: Section; take: (c: Choice) => void; close: () => void;
     note: (c: Choice) => Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'>;
     room: number; said: ReactNode }) {
-    const [page, turn] = useState(0), paged = Paging.of(FightMoves.flat(section.choices), Math.min(4, room), page);
+    const [page, turn] = useState(0), paged = Paging.of(FightMoves.flat(section.choices), Math.min(4, room), page, true);
     return <>
       <div className="hand-menu" role="toolbar" aria-label={section.title}>
         {paged.shown.map(c => <ChoiceRow.Button key={c.id} className={`move${c.disabled ? ' unusable' : ''}`}

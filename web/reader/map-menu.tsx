@@ -40,12 +40,16 @@ export class MapMenu {
     };
     const known = (screen.destinations ?? []).map(d => ({ id: d.id, name: d.name, minutes: d.minutes,
       c: { id: `travel:${d.id}`, label: d.name, tone: 'way' as const, command: `travel:${d.id}`, minutes: d.minutes } }));
-    const more = screen.region?.land ? Object.keys(facets).filter(id => !known.some(k => k.id === id)
-      && !screen.path.some(p => p.id === id) && screen.region!.areas.some(a => a.id === id || a.id === screen.region!.within[id]))
+    // Only what the map draws over the country (a town, a place on the land by itself), never a room of the town the
+    // company is in: the map is for going across the country, the town's own ways are the scene's.
+    const region = screen.region, land = region?.land, here = new Set(screen.path.map(p => p.id));
+    const drawn = (id: string) => !!land && !here.has(region!.within[id] ?? id) && (land.marks.some(m => m.id === id)
+      || region!.areas.some(a => a.id === id && a.kind === 'settlement'));
+    const more = Object.keys(facets).filter(id => !known.some(k => k.id === id) && !here.has(id) && drawn(id))
       .flatMap(id => {
         const way = MapView.way(screen, id);
         return way.go && !way.here ? [{ id, name: way.name, minutes: way.d?.minutes ?? 0, c: way.go }] : [];
-      }) : [];
+      });
     return [...known, ...more].filter(r => !at.taken.includes(r.c.id) && r.id !== at.chosen)
       .toSorted((a, b) => rank(a.id) - rank(b.id) || a.minutes - b.minutes);
   }

@@ -100,7 +100,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
       await p.check('map');
       const you = (await page.locator('.board-you').boundingBox())!;
-      await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+      // The hex below your mark, clear of the card, whose height follows its rows (the click had gone through the card
+      // at 1180 wide once the map's menu had a row more).
+      await page.mouse.click(you.x - 20, you.y + you.height + 72);
       await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
       await p.check('map-chosen');
       await page.click('.plan [data-action="set-out"]');

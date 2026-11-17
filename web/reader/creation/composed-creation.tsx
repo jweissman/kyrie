@@ -96,7 +96,9 @@ export class ComposedCreation {
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after }: { offer: Offer; more: number;
     unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
     after?: ReactNode }) {
-    const all = offer.options, per = ComposedCreation.folded;
+    // Folded, More… is the fourth row (the owner, 17 November: never more than four in view).
+    const all = offer.options, per = !offer.all && all.length > ComposedCreation.folded ? ComposedCreation.folded - 1
+      : ComposedCreation.folded;
     // Never more than four at once, cards or rows (the owner, 15 and 16 November: four in the foreground, the rest a page
     // on, never unfolded): a row turns the page, and the pages go round.
     // Opened on the page that holds what is lit (the choice already made, carried from another life), so that what is
