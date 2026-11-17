@@ -3,22 +3,24 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 
-// The first town's notices are its own (CO-03): a neighbouring country's notice (Merrowdale's forty crowns) had hung
-// in the first town of every world. It hangs in the country's other towns, and in the first the neighbour is heard
-// of by asking, as everywhere.
+// The first town holds one neighbour's notice among its own goings-on (CO-03): every neighbouring country's notice had
+// hung there, the same in every world, Merrowdale's forty crowns first. One, drawn by the country's name, still says
+// a neighbour is there to be found; the rest hang in the country's other towns, and are asked after in the first.
 const notices = async (seed: string) => {
   const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
     { origin: 'wanderer', party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
   const c = (await PlaySession.start(w.path, seed, w.source)).campaign;
-  return { c, posted: c.module.entities.map(e => e.id.match(/_notice_(s\d+)$/)?.[1]).filter(Boolean) };
+  const ids = c.module.entities.map(e => e.id), first = ids.filter(id => /_notice_s1$/.test(id));
+  return { first, elsewhere: ids.filter(id => /_notice_s[2-9]$/.test(id)).length, asked: c.module.actions
+    .filter(a => /_beyond_told_s1$/.test(a.id)).length };
 };
 describe('a neighbour\'s notice', () => {
-  it('hangs in the country\'s other towns, not the first, whose way to the neighbour is still asked after', async () => {
+  it('is one in the first town, the rest in the country\'s other towns, each neighbour asked after in the first', async () => {
     for (const seed of ['a1', 'thorn']) {
-      const { c, posted } = await notices(seed);
-      expect(posted.length).toBeGreaterThan(0);
-      expect(posted).not.toContain('s1');
-      expect(c.module.actions.some(a => /_beyond_told_s1$/.test(a.id))).toBe(true);
+      const { first, elsewhere, asked } = await notices(seed);
+      expect(first.length).toBe(1);
+      expect(elsewhere).toBeGreaterThan(first.length);
+      expect(asked).toBeGreaterThan(1);
     }
   }, 120000);
 });

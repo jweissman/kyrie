@@ -44,7 +44,9 @@ describe('the way into Merrowdale', () => {
     expect(told.length).toBe(w.report.region.settlements.length);
     await s.leg(PlayerView.choices(c).find(x => /bailey/.test(x.choice.name))!.choice.id);
     await s.leg(PlayerView.choices(c).find(x => /Wooden Wolf/.test(x.choice.name))!.choice.id);
-    expect(names()).toContain('Read a notice from Merrowdale');
+    // Its notice hangs in the country's other towns (CO-03: the first town holds one neighbour's, here Ombra's); here
+    // it is asked after.
+    expect(names()).not.toContain('Read a notice from Merrowdale');
     const merrowdale = () => Itineraries.destinations(c).find(d => d.name === 'the way into Merrowdale');
     expect(merrowdale()).toBeUndefined();
     await s.leg(PlayerView.choices(c).find(x => x.choice.name === 'Ask Fargrim about the forty crowns in Merrowdale')!

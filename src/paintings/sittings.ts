@@ -106,15 +106,17 @@ export class Sittings {
     const w = campaign.world, own = w.relates('likeness') ? w.one('likeness', id) : undefined;
     return own ? campaign.module.entities.find(e => e.id === own)?.name ?? own : undefined;
   }
-  // Who of each work with a painting of its own is painted in it (CO-03): one worker in a world, the first by a hash
-  // of the world's seed and their id. The first town's innkeeper had been the tavernkeeper's painting in every world.
+  // Who of each work with a painting of its own is painted in it (CO-03): one worker in a world, the first in the
+  // order the world holds them whom the world's seed favours (a hash of it and their id, one in four), so that it is
+  // not the first town's innkeeper in every world, and those the world comes to hold later (a country drawn beyond
+  // the march) change no one's held before. The first town's innkeeper had been the tavernkeeper's in every world.
   private static sole(campaign: Campaign, ids: string[], creatures: Map<string, Creature>): Map<string, string> {
-    const first = new Map<string, [string, number]>(), seed = campaign.state.seed;
+    const first = new Map<string, string>(), seed = campaign.state.seed;
     for (const id of ids) {
-      const work = Likeness.work(this.asked(campaign, id, creatures)), rank = Sittings.hash(`${seed}\u0000${id}`);
-      if (work && (!first.has(work) || rank < first.get(work)![1])) { first.set(work, [id, rank]); }
+      const work = Likeness.work(this.asked(campaign, id, creatures));
+      if (work && !first.has(work) && Sittings.hash(`${seed}\u0000${id}`) % 4 === 0) { first.set(work, id); }
     }
-    return new Map([...first].map(([work, [id]]) => [id, work]));
+    return new Map([...first].map(([work, id]) => [id, work]));
   }
   private static hash(text: string): number {
     let h = 2166136261;

@@ -6,12 +6,14 @@ import type { Border } from './land/borders';
 import type { Region } from './region-writer';
 import type { After } from './countries';
 import { SettlementWriter } from './settlement-writer';
+import { Provinces } from './provinces';
 
 // The roads out of a region: from the settlement nearest each side, an old road to the edge of the region, marked
 // as the kingdom after the makers marked its bounds, or as the land itself is marked (a cairn on a pass, a beacon on
 // stilts in a fen), no two borders of a country alike (data/generation/scenes/borders.json). The folk know what the
 // country beyond is called and what kind of country it is, and little more; what is there is drawn the first time a
 // company goes on (see Frontier).
+type Beyond = NonNullable<NonNullable<Region['beyond']>[Border['side']]>;
 export class RegionBorders {
   static lines(region: Region): string[] {
     const marks = this.marks(region), borders = RegionGeography.atlas(region).borders ?? [];
@@ -82,7 +84,7 @@ export class RegionBorders {
       lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about ${about}`)} when not knows(actor, ${id})${fresh} {`,
         `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`) + directions)}.`,
         `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, { sid: s.id,
-          place: SettlementWriter.standing(region, s, 'innkeeper'), posted: this.posted(region).includes(s) }));
+          place: SettlementWriter.standing(region, s, 'innkeeper'), posted: this.posted(region, beyond!).includes(s) }));
     }
     return lines;
   }
@@ -113,15 +115,26 @@ export class RegionBorders {
   static remembers(beyond: NonNullable<Region['beyond']>[Border['side']] | undefined): boolean {
     return !!(beyond?.after && beyond.rumour && beyond.heard);
   }
-  // The notice nailed up where travellers are kept in each town but the first, talked of until the news is old, and
-  // then talked of as old news until it comes down. The first town's notices are its own goings-on (CO-03): the same
-  // neighbour's notice (Merrowdale's) had hung in the first town of every world; there the neighbour is heard of by
-  // asking, as in every town.
-  static posted(region: Region): Region['settlements'] { return region.settlements.slice(1); }
+  // The notice nailed up where travellers are kept in each town, talked of until the news is old, and then talked of
+  // as old news until it comes down. In the first town only one neighbour's hangs, drawn by the country's name, beside
+  // the town's own goings-on (CO-03): every neighbour's had hung there, the same five in every world, Merrowdale's
+  // forty crowns first; the rest are heard of there by asking, as in every town.
+  static posted(region: Region, beyond: Pick<Beyond, 'name'>): Region['settlements'] {
+    const provinces = (region.provinces ?? []).map(p => Provinces.country(p.country));
+    const noticed = [...Object.values(region.beyond ?? {}), ...provinces].filter(n => n?.notice)
+      .map(n => n!.name).sort();
+    const first = noticed[RegionBorders.hash(region.name) % Math.max(1, noticed.length)];
+    return beyond.name === first ? region.settlements : region.settlements.slice(1);
+  }
+  private static hash(text: string): number {
+    let h = 2166136261;
+    for (let i = 0; i < text.length; i++) { h = Math.imul(h ^ text.charCodeAt(i), 16777619); }
+    return h >>> 0;
+  }
   private static notice(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
     region: Region) {
     const q = JSON.stringify, id = `${b.room}_beyond`, notice = `${b.room}_notice`, after = beyond.after;
-    const at = this.posted(region).map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
+    const at = this.posted(region, beyond).map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
     if (!at.length) { return []; }
     return [`  Discovery ${notice} ${q(beyond.notice!.text)} {`, ...at.map(([sid, place]) =>
       `    Source ${notice}_${sid} ${q(beyond.notice!.name)} at ${place} readable by party.`),
