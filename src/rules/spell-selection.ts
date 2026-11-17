@@ -24,6 +24,23 @@ export class SpellSelection {
           restricted: restricted.length ? restricted : open };
       }) };
   }
+  // A draw that is each spell's own (srd-proving-cases.md, case 11): every option ranked by a hash of the creature's
+  // seed and the spell's id, and the least taken. A spell's rank is the same whatever else is offered beside it, so a
+  // spell added to a level, or moved out of it, changes only the casters who gain or lose it; a draw by its index in
+  // the sorted list had moved three mages in four whenever one spell came or went.
+  static ranked(key: string): (options: string[]) => string {
+    return SpellSelection.least.bind(SpellSelection, key);
+  }
+  private static least(key: string, options: string[]): string {
+    return options.reduce((best, id) => this.mix(`${key}\u0000${id}`) < this.mix(`${key}\u0000${best}`) ? id : best);
+  }
+  // FNV-1a, then MurmurHash3's finalizer so that near seeds spread.
+  private static mix(text: string): number {
+    let h = 2166136261;
+    for (let i = 0; i < text.length; i++) { h = Math.imul(h ^ text.charCodeAt(i), 16777619); }
+    h = Math.imul(h ^ (h >>> 16), 0x85ebca6b); h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+    return (h ^ (h >>> 16)) >>> 0;
+  }
   // The picks a character makes: given explicitly (validated), or drawn by `pick` from the legal options in order.
   static choose(spec: Trait, chosen: string[] | undefined, pick: (options: string[]) => string, who: string): string[] {
     const plan = this.plan(spec);

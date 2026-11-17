@@ -102,6 +102,8 @@ export class Content {
     return result;
   }
   // One of a list, drawn from this generator's seeded stream (Orsino's NullDriver picks uniformly).
+  // The seed this stream draws by (a creature's spells rank their options by it: SpellSelection.ranked).
+  get key(): string { return this.seed; }
   pick<T>(options: T[]): T {
     if (!options.length) { throw new Error('Nothing to choose from'); }
     const roll = this.runtime.evaluate(`1d${options.length}`) as number;

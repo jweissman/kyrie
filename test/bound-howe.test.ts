@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Howe, R, SITE, TOWN, PLACED, company } from './support/howe';
+import { Howe, R, SITE, TOWN, PLACED, company, levelled } from './support/howe';
 import { Placed } from './support/placed';
 import { ScreenModel } from '../src/ui/screen-model';
 import { MapPlay } from './support/map-play';
@@ -139,8 +139,10 @@ describe('the camp in the lee: a foreman, a crew, a cook, and four ways with the
     }
   }, 300000);
 
-  it('is the camp that can be fought: the crew breaks and the foreman falls to a company of four at level four', async () => {
-    const j = await Howe.at('lee');
+  // At the fifth level: the drawn company of four at the fourth, its casters' spells drawn by rank since case 11 of
+  // srd-proving-cases.md (the cleric without Entangle and Confuse), falls to the crew to a man.
+  it('is the camp that can be fought: the crew breaks and the foreman falls to a company of four at level five', async () => {
+    const j = await Howe.at('lee', levelled(5, 'warrior', 'cleric', 'thief', 'mage'));
     await Howe.torch(j);
     await j.fight('Attack');
     expect(Howe.holds(j, 'dead', R('foreman'))).toBe(true);

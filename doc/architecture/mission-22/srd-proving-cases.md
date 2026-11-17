@@ -289,7 +289,51 @@ Missile; "moved" is the share whose whole list of spells is not what it was.
    SRD's numbers but for their level; the structure grade fails, honestly.
 
 Until one is chosen, Burning Hands and Fireball keep Orsino's numbers, Lightning Bolt its fourth level, and the five
-cascading spells stay unsupported.
+cascading spells stay unsupported. **Chosen (the lead, 17 November): option 2**, built as case 11.
+
+### 11. The spell draw by rank (17 November, later): the lead's option 2, built
+
+**The change.** A drawn caster's spells are now the least of their options, ranked by a hash of its spells stream's
+seed and each spell's id (`SpellSelection.ranked`, used by TraitGrants for every chosen, grown and prepared draw).
+The old draw was an index into a level's sorted list. A spell's rank is the same whatever else is offered beside it.
+So a spell added to a level, or moved out of it, changes only the casters who gain or lose it, and each of them by
+that one spell. Spells a player or an author chooses are untouched. The spells stream is a caster's own (Content's
+`spells` stream), so nothing else it draws moves.
+
+**Spec:** `test/spell-draw` (4 cases; put back the old draw and three fail). A dummy spell is added at a level, and
+every caster made again for evokers, drawn-school mages and Life clerics. Each caster that moved gained the dummy and
+lost at most one spell; the rest are as they were.
+
+**The census** (`/var/tmp/kyrie/srd-scratch/dummy.ts`: 200 humans for each calling and level, before and after a
+dummy first-level evocation):
+
+| Calling, level | Old draw: moved | Old draw: gained it | New draw: moved | New draw: gained it |
+|---|---|---|---|---|
+| mage, evoker, 1 | 78.5 % | 26.5 % | 24.5 % | 24.5 % |
+| mage, evoker, 7 | 95.5 % | 39.5 % | 29 % | 29 % |
+| mage, abjurer, 1 | 68 % | 15 % | 18 % | 18 % |
+| mage, school drawn, 3 | 79.5 % | 25 % | 23.5 % | 23.5 % |
+| mage, school drawn, 7 | 94.5 % | 32 % | 25.5 % | 25.5 % |
+
+**What moved once, and was re-recorded.** The new draw gives every drawn caster other spells once. The full suite,
+the long descents and the browser specs were run on the branch `srd-draw` (CI 44109308782):
+- **the long descents:** passed, nothing re-recorded;
+- **`test/fixtures/traces/wren-tower-climbed.transcript.json`:** its digests (`scripts/redigest-trace`). The same three
+  commands come to the same place, watch and words; the drawn world's casters hold other spells.
+- **`test/tend-here`:** the cleric Dori's drawn spells now hold Cure Light Wounds, so Tend offers it before Cure Minor
+  Wounds.
+- **`test/march-journey`:** the Serewater fellowship's cleric knows Smite from the first. At the second level he learns
+  Bless instead; the rest of the march plays as before.
+- **`test/bound-howe`:** "the camp that can be fought" is now fought by the company of four at the fifth level. At the
+  fourth, its drawn cleric without Entangle and Confuse, the crew downs all four; at the fifth the foreman falls and no
+  one is downed.
+- **`test/bound-howe-week-people`:** the pay-chest case has the crew suffer the company while it talks to the boy. The
+  territorial hands had come at a company that lingered, and the case had passed only because that company won the
+  fight its draw gave it. The fight is test/bound-howe's case.
+- **The browser specs:** shard 1 failed on `skeel-browser` (the black dog not on the Strand after the waits), and shard
+  2 ran out of time. The same walk played headless (`Wait › A while` six times, three seeds) meets the dog with the
+  old draw and the new, and the nightly browser lane on main was already red (44045328485: thirty specs failing). Not
+  re-recorded: unverified, said so.
 
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
