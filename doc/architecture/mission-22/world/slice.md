@@ -101,4 +101,32 @@ map being busier, not as the opening being better.
 - The first town is the province's crossroads: from Porthalen's landing there are 45 ways on, 27 of them ways into
   provinces, and the unguided walkers take them (WD-12, WD-02's measure).
 
-Next: step 3, the sea-gate's lower works, with the tide remembered.
+## Step 3: the sea-gate's lower works, and what the country remembers
+
+Under the gate-well (`data/goings-on/iscoed-gate`, the same module):
+
+- **The sluice gallery.** The gate's chain goes down its middle, and the water runs its length. Two black eels hunt
+  the running water, warn first, and at low water lie stranded on the silt: the ebb is a way past them, not a fight.
+- **The wardens' tide-room.** Its walls are cut with the tide's hours. The wardens' tide-table, read, teaches when the
+  water is lowest (before dawn and before dusk), and their sluice-key hangs under it.
+- **The lower sluice door.** It opens only to the key, and only at low water, when the sea's weight is off it
+  (`opening when` the key is held and the hour is low water). This is the key and its door: the clue and the key are
+  found in one room and open a way in another. `test/features/world/exploration` now pins it on a tiny world.
+- **The smugglers' store.** It is found by searching behind the chain, a ledge rubbed bright by ropes. It holds untaxed
+  salt and a smuggler's tally with a mark against every tenth sack, "which is how a man who cannot write writes
+  clerk". The reeve reads it, and turns the customs clerk out. This is the secret behind the sawn pawl-pin and Mardle's
+  racket on the drove.
+- **The wardens' undercroft.** It has bronze fittings (25 coin each to a dealer at worth), a warden's ring found in
+  the silt (40), and the wardens' words cut on the wall: the sea is not kept out but bargained with, a tide at a time.
+
+**What the country remembers.**
+
+| The gate | At Gatesend | At Porthalen's well |
+|---|---|---|
+| shut | every weir has a trap set in it, and the water runs the right way, out | they talk of the gate shut the night before the spring tide, by someone from outside |
+| left (day 6, the spring tide) | water a foot deep in the lanes, the doors shut, the nets gone | Gatesend's people sleep in the shrine, and the reeve's notice has a line through it |
+
+Held by `test/iscoed-sea-gate`, which goes down, takes the key and slate, finds the store, waits for the ebb and opens
+the door; then lets the tide come, and then shuts the gate, each remembered where it is talked of.
+
+Next: step 4, the capability bought with an expedition's gains.

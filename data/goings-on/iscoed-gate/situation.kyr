@@ -72,5 +72,73 @@ Module gate "The last sea-gate" {
   Objective gate_wind when holding(party, pawl_kind) and not mended(party) and not flooded(party) toward gatehouse "Take the pawl to the windlass at {hamlet}, and wind the sea-gate shut.".
   Objective gate_claim when mended(party) and not gateClaimed(party) toward reeve "Tell the reeve at {town} that the sea-gate shuts.".
   Rule word_old when mended(party) and not stale(failing) { Assert stale(failing). }
+
+  // ── The lower works: under the gate-well, the Water-Wardens' sluice gallery, their tide-room, a store the smugglers
+  // keep behind the chain, and past the lower sluice door the wardens' undercroft. The door opens with the wardens'
+  // sluice-key and only at low water, when the sea's weight is off it; the tide-room has both the key and the table
+  // that says when. The eels in the gallery hunt the running water, and lie stranded on the silt at the ebb.
+  Relation offstage(entity).
+  Place gallery "the sluice gallery" is room within hamlet at 5, 2.
+  Place tideroom "the wardens' tide-room" is room within hamlet at 6, 2.
+  Place store "the smugglers' store, behind the chain" is room within hamlet at 4, 2.
+  Place undercroft "the wardens' undercroft" is room within hamlet at 5, 3.
+  Initially Assert unlit(gallery). Initially Assert unlit(tideroom). Initially Assert unlit(store). Initially Assert unlit(undercroft).
+  Passage well_culvert "the culvert along the chain" is passage between well and gallery taking 10 minutes.
+  Passage tide_arch "a low arch out of the water" is doorway between gallery and tideroom.
+  Passage store_ledge "the ledge behind the chain" is crawl between gallery and store hidden until store_found.
+  Passage lower_door "the lower sluice door" is door between gallery and undercroft opening when holding(party, sluice_key_kind) and ((hour(clock) >= 4 and hour(clock) < 7) or (hour(clock) >= 16 and hour(clock) < 19)) "The lower sluice door is bronze, as high as two men, and it does not move: there is a keyhole in its face the size of a thumb, and the whole weight of the sea behind it.".
+  Kind sluice_key_kind "the wardens' sluice-key" is gear worth 10 weighing 1 described "A key of green bronze as long as your hand, its bow a wave inside a ring, its bit cut in five steps like a stair.".
+  Kind tide_table_kind "the wardens' tide-table" is document teaching tides worth 4 weighing 1 described "A slate as broad as a tray, framed in bronze, ruled into the moon's days. Against each is cut the hour the water stands lowest at the sea-gate: before dawn and before dusk, a little later every day.".
+  Kind ledger_kind "a smuggler's tally" is document teaching ledger worth 0 weighing 1 described "A strip of birch-bark scored in a fisherman's tallies: boats, sacks, and against every tenth sack a mark like a little book, which is how a man who cannot write writes clerk.".
+  Kind bronze_kind "a bronze sluice-fitting" is treasure worth 25 weighing 4 described "A hinge-strap of the Water-Wardens' bronze, green and heavy, cast with the wave in its ring.".
+  Kind wardens_ring_kind "a warden's ring" is treasure worth 40 weighing 0 described "A plain ring of dark bronze, too large for any finger you have, with a wave inside a ring cut into its bezel. Inside the band, in the old script, a single word.".
+  Entity tides: fact "The water stands lowest at the sea-gate before dawn and before dusk: then the lower sluice door has no sea behind it.".
+  Entity ledger: fact "The smugglers who use the sluice-cut pay the customs clerk one sack in ten to look the other way.".
+  Entity wardens_end: fact "The Water-Wardens wrote in their undercroft that the sea is not kept out but bargained with, a tide at a time, for as long as someone keeps the bargain.".
+  Item tide_table "the wardens' tide-table" is tide_table_kind at tideroom.
+  Item sluice_key "the wardens' sluice-key" is sluice_key_kind at tideroom.
+  Kind salt_sack_kind "a sack of untaxed salt" is treasure worth 8 weighing 10 described "A sack of coarse grey sea-salt, tied with tarred cord, and no reeve's brand on it anywhere.".
+  Item salt_sacks "a sack of untaxed salt" is salt_sack_kind at store.
+  Item tally "a smuggler's tally" is ledger_kind at store.
+  Item fitting "a bronze sluice-fitting" is bronze_kind at undercroft.
+  Item ring "a warden's ring" is wardens_ring_kind at undercroft hidden until ring_found.
+
+  Observe gallery_scene at gallery when true "A long vault of dressed stone, the gate's chain going down its middle into a slot full of loud black water. The water runs the length of the gallery toward a bronze door at the far end, and a low arch opens on your right above the flood.".
+  Observe tideroom_scene at tideroom when true "A dry cell above the water, its walls cut with lines and lines of marks: notches, and moons, and against each moon an hour. A slate framed in bronze hangs by the door, and on a peg under it a key.".
+  Observe store_scene at store when true "A dry vault stacked with sacks, new rope, and a lantern with its glass sooted. The sacks are salt, and none of them carries the reeve's brand.".
+  Observe undercroft_scene at undercroft when true "Beyond the door the water has gone out, and the floor is silt and weed between pillars. On the far wall the Water-Wardens cut their words a man's height high, every letter as deep as a finger.".
+  Observe wall_read at undercroft as sign when not knows(party, wardens_end) "The words on the wall are in the old script, and simple enough to make out: the sea is not kept out, it is bargained with, a tide at a time." teaches wardens_end.
+  Discovery store_found "Behind the gate's great chain a ledge runs into the dark, its edge rubbed bright by ropes." {
+    Found by searching gallery "Behind the chain, where nobody would stand, the stone of the ledge is rubbed bright, and a coil of new rope is tied off to a ring. Someone comes here, and not to mend the gate.".
+  }
+  Discovery ring_found "A warden's ring lies in the silt under the carved wall." {
+    Found by searching undercroft "Under the carved wall, where the silt is deepest, your fingers close on a ring.".
+  }
+
+  Person eels "the gallery eels" at gallery {
+    Role "black eels, thick as a wrist and long as a man, that hunt the running water of the gallery". Species eel. Numbers 2. Level 2. Temperament territorial.
+    Warns "The black water by your knees heaves, and something as long as you are slides past and turns.".
+    State hunting "Something long and black turns in the running water.".
+    State stranded "The eels lie on the silt of the gallery floor, thrashing weakly, with the water gone from under them.".
+  }
+  Rule eels_ebb heard at gallery when state(eels, hunting) and ((hour(clock) >= 4 and hour(clock) < 7) or (hour(clock) >= 16 and hour(clock) < 19)) says "The water in the gallery drops all at once, as if a plug were drawn, and two long black eels are left writhing on the silt." { Assert state(eels, stranded). Assert peaceable(eels). }
+  Rule eels_flow when state(eels, stranded) and not ((hour(clock) >= 4 and hour(clock) < 7) or (hour(clock) >= 16 and hour(clock) < 19)) { Assert state(eels, hunting). Retract peaceable(eels). }
+  Initially Assert state(eels, hunting).
+  Milestone m_store "found the smugglers' store behind the sea-gate's chain" worth 60 when knows(party, store_found).
+  Milestone m_undercroft "opened the Water-Wardens' lower sluice door" worth 120 when been(party, undercroft).
+  Objective gate_tides when holding(party, sluice_key_kind) and not been(party, undercroft) and not knows(party, tides) toward tideroom "Find when the water is low at the sea-gate: the wardens' slate in the tide-room says.".
+  Objective gate_door when holding(party, sluice_key_kind) and knows(party, tides) and not been(party, undercroft) toward gallery "Open the lower sluice door with the wardens' key at low water, before dawn or before dusk.".
+  Topic reeve_ledger with reeve "Show the reeve the smuggler's tally" when holding(actor, ledger_kind) once {
+    Says "The reeve turns the bark over twice. 'One in ten,' she says. 'A little book.' She does not need to say whose. 'The customs-house will have a new clerk by the quarter-day. And Gatesend will have its gate kept.' She gives you five crowns for the tally and keeps it.".
+    On discuss { Spend ledger_kind from actor. Increase quantity(actor, gold) by 5. Assert exposed(actor). }
+  }
+  Relation exposed(group).
+
+  // What the country remembers of it: the gate shut or the fen drowned, said where it is talked of, at the well of
+  // Porthalen and on Gatesend's green, for as long as anyone is there to say it.
+  Observe shut_talk at green as sign when mended(party) "At the well they are talking of the sea-gate at Gatesend: shut the night before the spring tide, and by someone from outside.".
+  Observe flood_talk at green as sign when flooded(party) "Gatesend's people are sleeping in the shrine at Porthalen, and the reeve's notice on the well-post has a line through it.".
+  Observe hamlet_shut at hamletgreen as sign when mended(party) "Every weir below the sea-bank has a trap set in it, and the water through them runs the right way: out.".
+  Observe hamlet_flooded at hamletgreen as sign when flooded(party) "Water stands a foot deep in the lanes. The doors are shut and the nets are gone off the fences, and nobody is about.".
   Goal mended(party).
 }
