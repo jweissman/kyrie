@@ -19,6 +19,7 @@ import { RunnerCreation } from './runner-creation';
 import { RunnerLines } from './runner-lines';
 import { RunnerAmid } from './runner-amid';
 import { RunnerPayoff } from './runner-payoff';
+import { RunnerLed } from './runner-led';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
 
@@ -34,6 +35,8 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
   amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
+  // Of the four, those that act on the aim followed's next step (the glance's lead, US-07; see RunnerLed).
+  led?: string[];
   // Instruments (the experience measures): where the company stands, what the act just done changed beyond time and
   // position, and, come back where a bond was made or a fact learned, how much of it still holds.
   at?: string; changed?: string[]; kept?: { held: number; of: number } }
@@ -65,9 +68,10 @@ export class Runner {
   said(turned: Turned = !this.told || this.told.moved ? 'arrive' : 'act'): Said {
     const c = this.campaign, screen = ScreenModel.build(c), leaf = Narrator.leaf(c, screen, this.told);
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
-    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
+    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), offer = this.offer(screen, g?.offer, g?.acts);
+    const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
-      scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer: this.offer(screen, g?.offer, g?.acts),
+      scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},

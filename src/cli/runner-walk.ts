@@ -20,7 +20,8 @@ export interface Measures {
   available: Record<string, number>; promoted: Record<string, number>; selected: Record<string, number>;
   realized: Record<string, number>; types: Record<string, number>; ledTypes: Record<string, number>;
   attention: Attention; fights: number; retreats: number; deadEnds: number; loops: number; aimsSaid: number;
-  // Turns an aim was followed and nothing it was offered led toward it (no gold, nothing pulling next): a blocker.
+  // Turns an aim was followed and nothing it was offered led toward it (no gold, nothing pulling next, none of the
+  // four on its next step): a blocker.
   lost: number; lostAt: { turn: number; aim: string; at: string; after: string }[]; stranded: number; ended: boolean;
   // Gate 1's blockers by class (doc/architecture/mission-21/consolidated.md, "Two gates"), and whether the walk
   // carried an intention of its own to a consequence (an aim it followed seen through).
@@ -170,8 +171,9 @@ export class RunnerWalk {
   static lostIndices(walk: Walk): number[] {
     // Not where a danger stands in front of the company, nor just got away from one: what to do about it (or getting
     // over it) is the next thing, not the aim.
+    // Nor where the four lead with an act on the aim's next step, gold or not (Said.led: the speaking door's words).
     return walk.turns.flatMap((t, i) => t.moment !== 'fight' && !t.end && t.aims?.some(a => a.followed)
-      && !t.next
+      && !t.next && !t.led?.length
       && !t.offer.primary.some(o => o.aspects.includes('danger'))
       && !/^fight:flee:/.test(walk.chosen[i - 1]?.id ?? '')
       && ![...t.offer.primary, ...t.offer.rest].some(o => o.aspects.includes('undertaking')) ? [i] : []);

@@ -9,6 +9,7 @@ import { AimAdvances } from './aim-advances';
 import type { PlayerView } from './player-view';
 import { Undertakings } from './undertakings';
 import type { Screen } from '../ui/screen-types';
+import { AimLeading } from './aim-lead';
 
 // The aim followed is a destination, leads and a route (review-mitigations U1; the lead's ruling, 13 November, PL-13):
 // a place it names, been to already, is the aim's only while something there would now bring about what it waits on,
@@ -60,7 +61,9 @@ export class AimLeads {
   // the company holds says where in it (the lead's ruling, 13 November, PL-23). Not so, the site's unseen rooms are
   // exploration, never the aim's: the debt's gold had walked the hobs' hold room by room into an empty spy-crack. Away
   // from any site there is nothing to hold back.
+  // Where the aim's lead was found further in (hidden, taught, or what bars the way there: US-07's AimLead), it is.
   static within(campaign: Campaign, screen: Screen, named: Set<string>): boolean {
+    if (['hidden', 'taught', 'barred'].includes(AimLeading.of(campaign, screen)?.source ?? '')) { return true; }
     const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world, here = screen.place.id;
     const sites = new Set([here, ...screen.exits.map(e => e.destination.id)]
       .flatMap(id => this.site(byId, id) ?? []));

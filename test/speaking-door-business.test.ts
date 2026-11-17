@@ -24,6 +24,9 @@ describe('the speaking door, its safe tries spent', () => {
     expect(words.length).toBeGreaterThanOrEqual(2);
     expect(words.every(o => o.marks.includes('grave') && !o.aspects.includes('undertaking'))).toBe(true);
     expect(said.offer.primary.filter(o => o.aspects.includes('undertaking'))).toEqual([]);
+    // And the turn is led, not lost: its four act on that step (Said.led), gold or not (US-07).
+    expect(words.every(o => said.led?.includes(o.id))).toBe(true);
+    expect(RunnerWalk.lostIndices(walk)).not.toContain(walk.turns.indexOf(said));
     // Not gold, and still the step: the aim's next step is the door, the old writing beyond it (US-07, PB-16b).
     const c = s.campaign, glance = Narrator.leaf(c, ScreenModel.build(c)).glance!;
     expect(glance.lead).toEqual({ aim: 'origin__errand', source: 'barred', next: ['region__w2_riddle'] });
