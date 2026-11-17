@@ -5,8 +5,9 @@ import { Fits, type Seen } from '../../src/ui/fits';
 // seen.json): the cold rounds' paintings against the text (R9-12, R10-08, R11-09, CP-01): an intact sunlit castle for
 // a ruined bailey, a sunny courtyard on a stormy evening, a hillside four storeys down. What the place is answers
 // to what is painted, and a ruin painted as a ruin is still a ruin's.
-const at = (name: string, o: { weather?: string; daylight?: string; underground?: boolean } = {}): Seen =>
-  ({ place: { name, underground: o.underground }, weather: o.weather, expedition: { daylight: o.daylight ?? 'day' } });
+const at = (name: string, o: { weather?: string; daylight?: string; underground?: boolean; told?: string } = {}): Seen =>
+  ({ place: { name, underground: o.underground, description: o.told }, weather: o.weather,
+    expedition: { daylight: o.daylight ?? 'day' } });
 describe('a painting against the place', () => {
   it('is not a ruin\'s if it shows the place whole, banners flying, in a golden haze', () => {
     expect(Fits.fits(at('the ruined bailey'), 'castle')).toBe(false);
@@ -24,5 +25,17 @@ describe('a painting against the place', () => {
   it('is not a snowy morning\'s if it shows flowers in summer sun', () => {
     expect(Fits.fits(at('the shrine of Danu', { weather: 'snowy' }), 'scene-temple')).toBe(false);
     expect(Fits.fits(at('the shrine of Danu', { weather: 'fair' }), 'scene-temple')).toBe(true);
+  });
+  // M22's second review (OR-30): "A well-head with a carved lip" under a church spire, which stood for the shrine of
+  // Lugh as well. A shrine that is a well-head, a standing stone or a figure in the open is no church or temple.
+  it('is not a church\'s, or a temple\'s, for a shrine told as a well-head or a stone', () => {
+    const well = 'A well-head with a carved lip, the water close under it: the well-head of Coventina, Goddess of Nature.';
+    for (const p of ['chapel', 'abbey', 'scene-temple']) {
+      expect([p, Fits.fits(at('The shrine of Coventina', { told: well }), p)]).toEqual([p, false]);
+      expect([p, Fits.fits(at('The shrine of Lugh', { told: 'A standing stone, squared and cut with lines.' }), p)])
+        .toEqual([p, false]);
+    }
+    expect(Fits.fits(at('The shrine of Coventina'), 'chapel')).toBe(true);
+    expect(Fits.fits(at('The bailey', { told: well }), 'castle')).toBe(true);
   });
 });

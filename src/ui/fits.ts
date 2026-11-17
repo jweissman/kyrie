@@ -7,10 +7,11 @@ import type { Screen } from './screen-types';
 // a hillside (R9-12, R10-08, R11-09, CP-01). The rules are the author's; this only reads them. A painting's words are
 // what it shows and, looked for in each scene painting, its light, season and weather (CO-13: a temple in summer sun
 // whose words said none of that stood for the shrine of Danu under snow).
-interface Rule { id: string; place?: string; weather?: string; daylight?: string; underground?: boolean;
+// told: what the place's own description begins by saying it is (a shrine "A well-head with a carved lip").
+interface Rule { id: string; place?: string; told?: string; weather?: string; daylight?: string; underground?: boolean;
   forbids: string; unless?: string }
 interface Looked { shows?: string; light?: string; season?: string; weather?: string }
-export type Seen = Pick<Screen, 'weather'> & { place: Pick<Screen['place'], 'name' | 'underground'>;
+export type Seen = Pick<Screen, 'weather'> & { place: Pick<Screen['place'], 'name' | 'underground'> & { description?: string };
   expedition?: Pick<Screen['expedition'], 'daylight'> };
 export class Fits {
   private static readonly rules = (table.rules as Rule[]).map(r => ({ ...r, forbidden: new RegExp(r.forbids, 'i'),
@@ -30,6 +31,7 @@ export class Fits {
   // The rules a place stands under now.
   private static applies(r: Rule, screen: Seen, words: string): boolean {
     return (!r.place || new RegExp(r.place, 'i').test(words))
+      && (!r.told || new RegExp(r.told, 'i').test(screen.place.description ?? ''))
       && (!r.weather || new RegExp(r.weather, 'i').test(screen.weather ?? ''))
       && (!r.daylight || new RegExp(r.daylight, 'i').test(screen.expedition?.daylight ?? ''))
       && (r.underground === undefined || r.underground === !!screen.place.underground);
