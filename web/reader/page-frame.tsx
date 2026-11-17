@@ -14,11 +14,12 @@ export interface PageParts {
   over?: ReactNode;
   // The page's own attributes (aria-label, data-beat).
   attrs?: Record<string, string | undefined>;
-  // A body: where the surface sets its header, narrative and menu in one box of its own.
-  body?: string;
+  // A body: where the surface sets its header, narrative and menu in one box of its own (the page's main); hidden while
+  // it is not yet to be read (the title under the studio's mark).
+  body?: string; hidden?: boolean;
 }
 export class PageFrame {
-  static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body }: PageParts) {
+  static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden }: PageParts) {
     const slots = <>
       {header && <div className="slot" data-slot="header">{header}</div>}
       {narrative && <div className="slot" data-slot="narrative">{narrative}</div>}
@@ -27,7 +28,7 @@ export class PageFrame {
     return (
       <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind} {...attrs}>
         {background && <div className="slot" data-slot="background">{background}</div>}
-        {body ? <div className={body}>{slots}</div> : slots}
+        {body ? <main className={body} aria-hidden={hidden || undefined}>{slots}</main> : slots}
         {rail && <div className="slot" data-slot="rail" data-rail>{rail}</div>}
         {over}
       </article>

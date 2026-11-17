@@ -6,6 +6,7 @@ import { Ident } from './ident';
 import { Build } from './build';
 import { Hold } from './instrument/hold';
 import { ChoiceRow } from './stage/choice-row';
+import { PageFrame } from './page-frame';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -37,39 +38,35 @@ export class TitlePage {
     // The keys are on the first way in as soon as it is offered, not one Tab away: New game is lit as the current way,
     // so Enter held on it begins (M22: a held Enter on the lit row had done nothing).
     useEffect(() => { if (beat === 'reveal' || beat === 'ready') { TitlePage.focus(first); } }, [beat, first]);
-    return (
-      <div className={`opening title-page beat-${beat}`} data-mode="title">
-        {beat !== 'ident' && <TitlePage.Motes />}
-        {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}
-        <main className="title-main" aria-hidden={beat === 'ident' || beat === 'dark' || undefined}>
-          <TitlePage.Mark name={named.game} />
-          <p className="horizon" aria-hidden="true"><i /></p>
-          <p className="lede">Vol I: A History of Emprise</p>
-          <nav data-menu className="title-menu" aria-label="Ways in">
-            <ul>
-              {saved && <li><ChoiceRow.Button className="way-in" data={{ action: 'continue' }} label="Continue"
-                mark={ChoiceRow.neutral} own={{ ...Hold.bind(app.opening.carryOn), ...item('continue') }} /></li>}
-              <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
-                mark={TitlePage.every} own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
-              {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
-                  hover, not written out beside it: the owner, 15 November). */}
-              <li><ChoiceRow.Link className="way-in" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
-                label={<span aria-hidden="true">The encyclopedia</span>} mark={ChoiceRow.neutral}
-                own={{ target: '_blank', rel: 'noopener', title: 'Opens in a new tab',
-                  'aria-label': 'The encyclopedia, opens in a new tab', ...item('encyclopedia') }} /></li>
-              <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" mark={ChoiceRow.neutral}
-                own={item('options')} onClick={TitlePage.options.bind(null, app)} /></li>
-            </ul>
-            {/* The saved game, said apart: beneath the ways in and out of their geometry (the owner, 15 November: no
-                variable-length text inside the action rows). */}
-            {saved && <p className="save-line" data-id="save">{[saved.where, saved.when].filter(Boolean).join(' · ')}</p>}
-          </nav>
-          {dev && <TitlePage.Dev app={app} />}
-        </main>
+    return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`} attrs={{ 'data-mode': 'title' }}
+      body="title-main" hidden={beat === 'ident' || beat === 'dark'}
+      background={<>{beat !== 'ident' && <TitlePage.Motes />}
+        {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
+      header={<><TitlePage.Mark name={named.game} />
+        <p className="horizon" aria-hidden="true"><i /></p>
+        <p className="lede">Vol I: A History of Emprise</p></>}
+      menu={<nav className="title-menu" aria-label="Ways in">
+        <ul>
+          {saved && <li><ChoiceRow.Button className="way-in" data={{ action: 'continue' }} label="Continue"
+            mark={ChoiceRow.neutral} own={{ ...Hold.bind(app.opening.carryOn), ...item('continue') }} /></li>}
+          <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
+            mark={TitlePage.every} own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
+          {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
+              hover, not written out beside it: the owner, 15 November). */}
+          <li><ChoiceRow.Link className="way-in" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
+            label={<span aria-hidden="true">The encyclopedia</span>} mark={ChoiceRow.neutral}
+            own={{ target: '_blank', rel: 'noopener', title: 'Opens in a new tab',
+              'aria-label': 'The encyclopedia, opens in a new tab', ...item('encyclopedia') }} /></li>
+          <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" mark={ChoiceRow.neutral}
+            own={item('options')} onClick={TitlePage.options.bind(null, app)} /></li>
+        </ul>
+        {/* The saved game, said apart: beneath the ways in and out of their geometry (the owner, 15 November: no
+            variable-length text inside the action rows). */}
+        {saved && <p className="save-line" data-id="save">{[saved.where, saved.when].filter(Boolean).join(' · ')}</p>}
+      </nav>}
+      over={<>{dev && <TitlePage.Dev app={app} />}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
-        <Toast.View app={app} />
-      </div>
-    );
+        <Toast.View app={app} /></>} />;
   }
   static focus(way: Way) {
     if (!document.activeElement || document.activeElement === document.body) {
