@@ -119,6 +119,11 @@ describe('kite at a glance', () => {
     Kite.drawn(Kite.g, glance);
   });
   it('on the fells leads with their own act, and rows the compass', async () => {
+    // Who goes about the fells has been met already: a danger come to the company leads by rule, and whether one
+    // ranges over t2 is the world's draw (since AR-17 ranked the wild's stretches, a rover's range takes it in).
+    const c = Kite.g.campaign as unknown as { world: { apply(x: unknown[]): unknown }; commit(w: unknown): void };
+    const rovers = Kite.g.campaign.world.related('region__roams').filter(r => r.args[1] === 'region__t2');
+    c.commit(c.world.apply(rovers.map(r => ({ kind: 'assert', call: ModuleWriter.call('region__roved', r.args[0]!) }))));
     let glance = await Kite.g.to('region__t2');
     // The camp only for the company's weariness; come there weary before dawn (as the walks before this one leave it,
     // E126's road times), the company sleeps, and then the fells lead with their own act.
