@@ -44,7 +44,7 @@ describe('the page of making the protagonist', () => {
   });
   it('draws each step\'s deck as the engine gives it: its four first, the rest a word away, the chosen pressed', () => {
     const state = made(), a = app(state);
-    for (const step of CreationPage.steps(a).filter(s => s.cards.length > 0)) {
+    for (const step of CreationPage.steps(a).filter(s => s.cards.length > 0 && s.id !== 'name')) {
       const html = renderToStaticMarkup(createElement(step.View, { app: a, step })), shown = cards(html);
       const folds = step.cards.length > 5;
       expect([step.id, shown.length]).toEqual([step.id, folds ? 4 : step.cards.length]);

@@ -19,11 +19,12 @@ export class TerminalCreation {
   async choose(host: EngineHost, seed: string): Promise<{ state: CreationState; setting: Setting }> {
     const setting = await host.handle({ kind: 'world', seed }) as Setting;
     let state = await host.handle({ kind: 'creation' }) as CreationState;
-    // The steps are read again after each choice: a calling with ways adds a step for its way.
-    for (let i = 0; i < state.steps.length; i++) {
-      const step = state.steps[i]!;
+    // The step asked is the engine's (CreationState.at), read again after each choice: a card chosen goes on, and a
+    // name written is gone on from.
+    for (let step = TerminalCreation.asked(state); step; step = TerminalCreation.asked(state)) {
       const value = step.id === 'name' ? await this.name(step) : (await this.card(step)).id;
       state = await host.handle({ kind: 'creation', step: step.id, value }) as CreationState;
+      if (step.id === 'name') { state = await host.handle({ kind: 'creation', step: 'onward' }) as CreationState; }
     }
     return { state, setting };
   }
@@ -75,6 +76,7 @@ export class TerminalCreation {
       ...chosen ? { focus: chosen } : {} };
   }
   static readonly left = 'The player left before setting out.';
+  static asked(state: CreationState): CreationStep | undefined { return state.steps.find(x => x.id === state.at); }
   private async name(step: CreationStep): Promise<string> {
     const drawn = step.names?.[0] ?? step.chosen ?? '';
     this.say(`\n${Typography.plain(step.ask)}${drawn ? ` (Enter for ${drawn})` : ''}`);

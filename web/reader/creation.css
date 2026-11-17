@@ -6,6 +6,9 @@
   stroke: currentColor; stroke-width: 1.5; opacity: .85; }
 .composed-write > input { all: unset; flex: 1 1 auto; min-width: 0; font: var(--t-choice); color: var(--ivory); }
 .composed-write > input::placeholder { color: var(--dim); }
+/* A list is one of the four, its options close together, two to a line (creation's one dense menu, the engine's
+   hint: a people's names; the owner, 17 November). */
+.composed .composed-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
 
 /* ---- Creation composed (see ComposedCreation): a column of rows at the left of the frame, under the question, its
    sentence beneath; ancestry and calling as rows with their emblems; the sky behind the signs. ---- */

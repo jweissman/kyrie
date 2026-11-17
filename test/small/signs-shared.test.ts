@@ -53,7 +53,7 @@ describe('the signs both clients draw', () => {
       origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
       party: [Creation.protagonist('human', 'flow', names)] };
     const steps = new CreationFlow(setting, Creation.catalog()).steps()
-      .filter(s => s.id !== 'presenting' && s.cards.length);
+      .filter(s => s.id !== 'presenting' && s.id !== 'name' && s.cards.length);
     for (const step of steps) {
       const bare = step.cards.filter(c => !c.emblem || !Emblems.has(c.emblem)).map(c => c.id);
       expect([step.id, bare]).toEqual([step.id, []]);

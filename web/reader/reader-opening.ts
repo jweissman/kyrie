@@ -110,7 +110,7 @@ export class ReaderOpening {
       const party = [member, ...app.state.party.slice(1)];
       app.setState({ creation, party, origin: creation.origin, ...step === 'name' ? { named: !!value.trim() } : {},
         ...step === 'drawn' ? { named: false } : {} });
-      if (step !== 'name' && step !== 'drawn') { void this.preview(party); }
+      if (!ReaderOpening.unmade.includes(step)) { void this.preview(party); }
       this.readySoon();
     } catch (error) { this.fail(error, 'company'); }
   }
@@ -186,11 +186,20 @@ export class ReaderOpening {
       now.rolled = { ...rolled, [a]: rolled[b]!, [b]: rolled[a]! };
     }
     const steps = creation.steps.map(x => x.id === step ? { ...x, chosen: value } : x), why = step === 'why' ? { origin: value } : {};
-    this.app.setState({ creation: { ...creation, steps, ...why }, party: [now, ...s.party.slice(1)], ...why });
+    // Where the making goes, as the engine said it would: a card chosen at the step asked (or a name drawn at the name)
+    // goes on, back goes back; the engine's answer then stands in its place.
+    const on = (step === creation.at && step !== 'name') || (step === 'drawn' && creation.at === 'name') || step === 'onward';
+    const at = step === 'back' ? creation.back ?? creation.at : on ? creation.on : creation.at;
+    this.app.setState({ creation: { ...creation, steps, at, ...why }, party: [now, ...s.party.slice(1)], ...why });
   }
   // A name taken from the table, borne as the table's (see CreationChoice).
   drawn(name: string) { void this.chosen('drawn', name); }
+  // A step back or on, and another hand of a step's options, as the engine keeps them.
+  move(by: 'back' | 'onward') { void this.chosen(by, ''); }
+  roll() { void this.chosen('roll', ''); }
   // Each field the page changes, as the engine's making names the choice.
+  // What leaves the life as it was made: a name (shown as written), and moving about the steps.
+  static readonly unmade: CreationChoice[] = ['name', 'drawn', 'back', 'onward', 'roll'];
   static readonly choices: Record<string, CreationChoice> = { raceId: 'you', classId: 'calling', pronouns: 'presenting',
     name: 'name', specialization: 'specialty', backgroundId: 'trade', weapon: 'weapon' };
   // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,

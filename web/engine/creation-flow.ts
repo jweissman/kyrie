@@ -5,21 +5,35 @@ import type { Catalog, Member, Setting } from './protocol';
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
 // emblem: the id of its emblem (see Emblems), drawn as a line glyph on the page and as its character in text (Signs).
+// aside: the few words a page sets beside its name (a sign's month, a way of presenting's words); say: the sentence it
+// is considered by, where that is not its line (a people's first sentence).
 export interface CreationCard {
   id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
+  aside?: string; say?: string;
 }
+// How a step is best drawn, a hint every client may take or leave (the owner, 17 November: the engine says the
+// question, its options and how they may be shown; no client keeps a page of its own per step): as cards (a people,
+// a calling), as rows, as one dense list (the names of a people, creation's one exception to four in view), or as
+// rows over the sky they are signs of (the observatory).
+export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
 export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
 // thrown again; and the first spells known ("a,b,c").
 // A name taken from the table of names (drawn) is borne but still the table's: a new people or way of presenting draws
 // again over it, as over a name never written.
-export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 'reroll' | 'spells' | 'drawn';
+// back and onward move between the steps (the flow keeps where it stands); roll deals another hand of a step's options
+// (the names of a people).
+export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 'reroll' | 'spells' | 'drawn' | 'back'
+  | 'onward' | 'roll';
 // One step of making the protagonist: its question, its cards, which is chosen, and for the name the names drawn.
 // cards: every card, the four the step leads with first (the owner, 14 November: four promoted on every surface, the
-// rest reachable); a client shows the first four and offers the rest, numbered as they stand.
+// rest reachable); a client shows the first four and offers the rest, numbered as they stand, unless all (every card
+// at once: they are few, or a list). write: a field to write one's own in, by its placeholder; roll: the act that
+// deals another hand of the cards, by its aside.
 export interface CreationStep {
-  id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[];
+  id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
+  all?: boolean; write?: string; roll?: string;
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -40,6 +54,10 @@ export class CreationFlow {
   private past = false;
   // The sign the life was first drawn under: the signs turn from it, and never from the one chosen since.
   private readonly drawnSign?: string;
+  // The step the making stands at ('go': setting out), and the hands of names dealt since the people or the way of
+  // presenting last changed.
+  private at?: CreationStepId | 'go';
+  private rolls = 0;
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
     this.member = structuredClone(member);
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
@@ -52,6 +70,17 @@ export class CreationFlow {
   steps(): CreationStep[] {
     return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step) }));
   }
+  // Where the making stands: the step asked now (the first until another), or setting out.
+  current(): CreationStepId | 'go' {
+    const ids = this.steps().map(x => x.id);
+    return this.at === 'go' || (this.at && ids.includes(this.at)) ? this.at : ids[0] ?? 'go';
+  }
+  // The step a step on, or back (from setting out, the last step); back from the first, none.
+  beside(by: 1 | -1): CreationStepId | 'go' | undefined {
+    const ids: (CreationStepId | 'go')[] = [...this.steps().map(x => x.id), 'go'], i = ids.indexOf(this.current());
+    return ids[Math.min(ids.length - 1, i + by)];
+  }
+  private move(by: 1 | -1) { this.at = this.beside(by) ?? this.at; }
   // Where the life begins: the reason chosen by hand where one was; else, where the player chose what the life did
   // before, a circumstance of that kind of life (one who came over the hills with their trade), drawn among them by
   // the country and the life so that lives made differently begin differently; else the country's first.
@@ -90,28 +119,33 @@ export class CreationFlow {
     const country = this.setting.title || 'this country';
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     return [
-      { id: 'why', ask: `Why have you come to ${country}?`, chosen: this.origin, cards: (this.setting.origins ?? [])
+      { id: 'why', ask: `Why have you come to ${country}?`, present: 'rows', chosen: this.origin, cards: (this.setting.origins ?? [])
         .map(o => ({ id: o.id, name: o.title, line: o.choice, emblem: o.id })) },
-      { id: 'you', ask: 'Choose your ancestry', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id, name: a.name,
-        line: a.line, text: a.text, emblem: a.id })) },
+      { id: 'you', ask: 'Choose your ancestry', present: 'cards', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id,
+        name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a) })) },
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
       // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
-      { id: 'sign', ask: 'Under which stars were you born?', chosen: m.sign, cards: c.signs.map(x => ({ id: x.id,
-        name: x.name, line: `${x.month}: ${x.line}`, emblem: x.id })) },
-      { id: 'calling', ask: 'Choose your calling', chosen: m.classId, cards: c.callings
+      { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', chosen: m.sign, cards: c.signs.map(x => ({
+        id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
+        say: x.line })) },
+      { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
-          text: x.text, emblem: x.id })) },
+          text: x.text, emblem: x.id, ...CreationFlow.said(x) })) },
       // The calling only: its way (a cleric's domain, a mage's school, a warrior's way) is the calling's first until
       // another is chosen later in play (the owner, 14 November: "just select the high-level profession").
       // The kind of life only: the trade within it is the one that best suits the calling, chosen later in play if at
       // all (the owner, 14 November: "just select the high-level category at first, and then later we can backfill").
-      { id: 'before', ask: 'What did you do before this?', chosen: open.find(b => b.id === m.backgroundId)?.kind,
+      { id: 'before', ask: 'What did you do before this?', present: 'rows', chosen: open.find(b => b.id === m.backgroundId)?.kind,
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}` })) },
-      { id: 'presenting', ask: 'How do you present?', chosen: m.pronouns, cards: CreationFlow.presenting
-        .map(([id, name]) => ({ id, name })) },
-      { id: 'name', ask: 'Choose your name', chosen: m.name, cards: [],
-        names: CreationDefaults.names(m, this.setting) },
+      { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true, chosen: m.pronouns,
+        cards: CreationFlow.presenting.map(([id, name, aside]) => ({ id, name, aside,
+          say: 'The words the world will speak of you in.' })) },
+      // The names of your people as one list, a hand of them at a time (creation's one dense menu: the owner, 17
+      // November), another hand dealt on asking, and a field to write your own in.
+      { id: 'name', ask: 'Choose your name', present: 'list', all: true, chosen: m.name, write: 'Or write your own',
+        roll: 'other names of your people', cards: CreationDefaults.table(m, this.setting, this.rolls)
+          .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
   }
   private kindOf(background?: string): string | undefined {
@@ -119,6 +153,14 @@ export class CreationFlow {
   }
   // A card chosen at a step (or, at the name, the name written): what it settles, by the page's rules.
   choose(step: CreationChoice, value: string) {
+    const here = this.current();
+    if (step === 'back' || step === 'onward') { this.move(step === 'back' ? -1 : 1); return; }
+    if (step === 'roll') { this.rolls++; return; }
+    // A card chosen at the step asked goes on to the next; a name being written, or a choice behind Details, does not.
+    if ((step === here && step !== 'name') || (step === 'drawn' && here === 'name')) { this.settled(step, value); this.move(1); return; }
+    this.settled(step, value);
+  }
+  private settled(step: CreationChoice, value: string) {
     const m = this.member, was = m.classId, people = m.raceId;
     if (step === 'why') { this.origin = value; this.asked = true; return; }
     if (step === 'weapon') { m.weapon = value; return; }
@@ -137,6 +179,7 @@ export class CreationFlow {
     else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }
     CreationDefaults.settle(m, this.catalog, { trade: !this.given(), ...was ? { was } : {} });
+    if ((step === 'you' && value !== people) || step === 'presenting') { this.rolls = 0; }
     if (!this.named && ((step === 'you' && value !== people) || step === 'presenting')) {
       m.name = CreationDefaults.names(m, this.setting)[0] ?? m.name;
     }
@@ -194,5 +237,11 @@ export class CreationFlow {
   }
   // Whether the reason for having come gives a trade of its own (one who comes over the hills brings their own).
   private given(): boolean { return !!this.setting.origins?.find(o => o.id === this.origin)?.background; }
-  static readonly presenting = [['she', 'A woman'], ['he', 'A man'], ['they', 'Neither']] as const;
+  static readonly presenting = [['she', 'A woman', 'she, her'], ['he', 'A man', 'he, him'],
+    ['they', 'Neither', 'they, them']] as const;
+  // A people's or a calling's aside and sentence: its line beside it, and the first sentence of its words.
+  private static said(x: { line?: string; text?: string }): Pick<CreationCard, 'aside' | 'say'> {
+    const first = x.text && (/^.+?[.!?](?=\s|$)/.exec(x.text)?.[0] ?? x.text);
+    return { ...x.line ? { aside: x.line } : {}, ...first ? { say: first } : {} };
+  }
 }

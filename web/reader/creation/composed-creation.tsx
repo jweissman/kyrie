@@ -25,30 +25,27 @@ import { Signature } from './signature';
 export class ComposedCreation {
   static readonly folded = 4;
   static View({ app }: { app: ReaderApp }) {
-    // Begun at the engine's first step (the reason for coming is the world's to give, not asked: CreationFlow).
-    const [went, go] = useState<string>(''), [roll, reroll] = useState(0), [more, turn] = useState(0);
-    const at = went || ComposedCreation.ids(app)[0] || 'go';
-    const s = app.state;
+    // The step the engine asks now, and the one before it (CreationState: the flow keeps where the making stands).
+    const s = app.state, [more, turn] = useState(0), at = s.creation?.at ?? 'go', back = s.creation?.back;
     useEffect(() => { PressGuard.changed(); turn(0); }, [at]);
     useEffect(() => ComposedCreation.escape(() => {
-      const ids = ComposedCreation.ids(app), i = ids.indexOf(at), to = i < 0 ? ids.at(-1) : ids[i - 1];
-      if (to) { go(to); return true; }
-      return false;
-    }), [at, app]);
+      if (!app.state.creation?.back) { return false; }
+      app.opening.move('back');
+      return true;
+    }), [app]);
     if (!s.setting || !s.catalog || !s.party[0]) { return null; }
     const steps = app.opening.steps(), ids = ComposedCreation.ids(app), i = ids.indexOf(at);
-    const step = i >= 0 ? steps.find(x => x.id === ids[i]) : undefined, next = () => go(ids[i + 1] ?? 'go');
-    const back = i >= 0 ? ids[i - 1] : ids.at(-1);
+    const step = steps.find(x => x.id === at), next = () => app.opening.move('onward');
     const frame = { className: 'creation composed', attrs: { 'data-mode': 'create', 'data-page': step?.id ?? 'go' },
       // The rail is marks, never words (the owner, M21; M22's second review, OR-42: Back, Set out now and Another
       // country had read as loose links beside the menu), each named on asking.
       rail: <nav className="creation-edge" aria-label="The choice of a life">
-        {back ? <ComposedCreation.Mark id="back" action="back" label="Back" go={() => go(back)} />
+        {back ? <ComposedCreation.Mark id="back" action="back" label="Back" go={() => app.opening.move('back')} />
           : <ComposedCreation.Mark id="another" action="another" label="Another country" go={app.opening.anew} />}
         {step && <ComposedCreation.Mark id="go_on" action="start" label="Set out now" go={app.opening.begin} />}
       </nav>,
-      over: <Signature.View app={app} likeness={!step || step.id === 'name'} passed={step ? ids.slice(0, i) : ids} /> };
-    return step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
+      over: <Signature.View app={app} likeness={!step || step.write !== undefined} passed={step ? ids.slice(0, i) : ids} /> };
+    return step ? <ComposedCreation.Step key={step.id} app={app} step={step}
       more={more} unfold={() => turn(m => m + 1)} onward={next} frame={frame} />
       : <ComposedCreation.Go key="go" app={app} frame={frame} />;
   }
@@ -67,37 +64,38 @@ export class ComposedCreation {
     window.addEventListener('keydown', key, true);
     return () => window.removeEventListener('keydown', key, true);
   }
-  static Step({ app, step, roll, reroll, more, unfold, onward, frame }: { app: ReaderApp; step: CreationStep; roll: number;
-    reroll: () => void; more: number; unfold: () => void; onward: () => void; frame: Frame }) {
+  static Step({ app, step, more, unfold, onward, frame }: { app: ReaderApp; step: CreationStep; more: number;
+    unfold: () => void; onward: () => void; frame: Frame }) {
     // What is lit first: the choice already made where it is among those offered, else the first (M22's review: a mage's
     // "before" step had lit nothing and described Brawn, the warrior's default, which a mage is not offered).
-    const offer = ComposedOptions.of(app, step, roll);
+    const offer = ComposedOptions.of(step);
     const first = (offer.options.some(o => o.id === step.chosen) ? step.chosen : offer.options[0]?.id) ?? '';
     const [lit, consider] = useState(first), [flare, flared] = useState<string>(), leaving = useRef(false);
     useEffect(() => { ComposedCreation.focus(); }, []);
     const choose = (id: string) => {
       if (leaving.current) { return; }
       leaving.current = true;
-      if (step.id === 'name') { NameStep.take(app, id); } else { app.opening.choose(step.id, id); }
+      // A card chosen goes on, as the engine has it (a name of the list is drawn, and borne as the list's).
+      const send = () => { if (step.write !== undefined) { NameStep.take(app, id); } else { app.opening.choose(step.id, id); } };
       // The sky lights the sign taken for a moment before the page goes on; nothing else waits.
       const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (step.id === 'sign' && !still) { flared(id); window.setTimeout(onward, ComposedCreation.flare); } else { onward(); }
+      if (step.present === 'sky' && !still) { flared(id); window.setTimeout(send, ComposedCreation.flare); } else { send(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
     return <PageFrame.View kind="creation" {...frame} body="composed-step"
       column="composed-col"
-      background={step.id === 'sign' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
+      background={step.present === 'sky' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} />}
       header={<h1 className="ask">{Typography.curl(step.ask)}</h1>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
-        consider={consider} choose={choose}
-        after={step.id === 'name' && <ComposedCreation.Naming app={app} reroll={reroll} onward={onward} />} />} />;
+        consider={consider} choose={choose} list={step.present === 'list'}
+        after={<ComposedCreation.Own app={app} step={step} onward={onward} />} />} />;
   }
   static readonly flare = 340;
-  static Options({ offer, more, unfold, chosen, lit, consider, choose, after }: { offer: Offer; more: number;
+  static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list }: { offer: Offer; more: number;
     unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
-    after?: ReactNode }) {
+    after?: ReactNode; list?: boolean }) {
     // Folded, More… is the fourth row (the owner, 17 November: never more than four in view).
     const all = offer.options, per = !offer.all && all.length > ComposedCreation.folded ? ComposedCreation.folded - 1
       : ComposedCreation.folded;
@@ -111,25 +109,28 @@ export class ComposedCreation {
     const shown = !folds ? all : all.slice(page * per, page * per + per);
     const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
+    const rows = shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined}
+      chosen={chosen === o.id} lit={lit === o.id} hold onConsider={consider} onChoose={id => choose(id)} />);
+    // A list is one of the four, its options set close together in it (creation's one dense menu: a people's names).
     return (
-      <div className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
-        {shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined} chosen={chosen === o.id}
-          lit={lit === o.id} hold onConsider={consider} onChoose={id => choose(id)} />)}
+      <div className={`composed-rows${shown.length > 7 && !list ? ' many' : ''}`} role="menu">
+        {list ? <div className="composed-list" data-list>{rows}</div> : rows}
         {rest}
         {after}
       </div>
     );
   }
-  // The name's own rows after the names drawn: another roll of the table, and a name of your own written in place.
-  static Naming({ app, reroll, onward }: { app: ReaderApp; reroll: () => void; onward: () => void }) {
+  // A step's own rows after its options, where the engine offers them: another hand of them, and one of your own
+  // written in place.
+  static Own({ app, step, onward }: { app: ReaderApp; step: CreationStep; onward: () => void }) {
     return <>
-      <ComposedRow.View option={{ id: 'roll', name: 'Roll again', aside: 'other names of your people' }}
-        onConsider={() => undefined} onChoose={reroll} />
-      <label className="choice-row composed-row composed-write"><i className="prism-bar row-mark" aria-hidden="true"
-        style={{ '--prism': ChoiceRow.neutral } as CSSProperties} />
-        <input data-field="name" data-nav placeholder="Or write your own" maxLength={40} autoComplete="off" spellCheck={false}
+      {step.roll !== undefined && <ComposedRow.View option={{ id: 'roll', name: 'Roll again', aside: step.roll }}
+        onConsider={() => undefined} onChoose={() => app.opening.roll()} />}
+      {step.write !== undefined && <label className="choice-row composed-row composed-write">
+        <i className="prism-bar row-mark" aria-hidden="true" style={{ '--prism': ChoiceRow.neutral } as CSSProperties} />
+        <input data-field="name" data-nav placeholder={step.write} maxLength={40} autoComplete="off" spellCheck={false}
           onKeyDown={e => { if (e.key === 'Enter' && e.currentTarget.value.trim()) { e.preventDefault(); onward(); } }}
-          onChange={e => app.opening.edit(0, 'name', e.currentTarget.value)} /></label>
+          onChange={e => app.opening.edit(0, 'name', e.currentTarget.value)} /></label>}
     </>;
   }
   // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).
