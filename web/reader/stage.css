@@ -59,6 +59,8 @@
 .happened .notes, .lines .notes { list-style: none; padding: 0; margin: 10px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }
 .happened .notes li.learned { padding: 2px 0; color: var(--ivory); margin: 6px 0; }
 .happened .notes .label { margin: 0 8px 0 0; display: inline; color: var(--dim); }
+/* What was learned and how a roll fell read over mist as over dark (OR-28: grey dice and teal Noted over mist). */
+.happened :is(.notes, .how > summary, .dice-look) { text-shadow: 0 1px 2px rgba(0, 0, 0, .75); }
 /* Several of a kind under one label: the first beside it, the rest each a line beneath. */
 .happened .notes .learned-line + .learned-line { display: block; margin-top: 2px; }
 .happened .notes .more-in-book { color: var(--dim); font-style: italic; }

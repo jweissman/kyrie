@@ -3,6 +3,10 @@
    game's own (the choice row, the tokens) is in menu.css. ---- */
 /* -- Type roles. -- */
 :root[data-look] .world-page.scale-scene :is(.panel-head, .world-bar) h1.place { font: var(--t-title); letter-spacing: 0; }
+/* The place's name and its line under it read over any painting (OR-28: the thin title over a bright temple on a
+   phone): a close shadow holds the letters' edges, a wide one the ground behind them. */
+:root .world-page.scale-scene :is(.panel-head, .world-bar) :is(h1.place, .when, .chapter) {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .8), 0 0 18px rgba(0, 0, 0, .55); }
 
 
 /* -- A crowd on a phone: two rows of faces at most, their names said to a reader and in the People lens, not under each
