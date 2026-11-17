@@ -40,7 +40,8 @@ export class KitWord {
     if (!own) { return []; }
     const next = squares.filter(s => s !== own)
       .map(s => ({ s, hours: this.ledger.number(KitWord.hours, own, s) }))
-      .sort((a, b) => a.hours - b.hours || a.s.localeCompare(b.s))[0]?.s;
+      // Ties by id in code-unit order, never the locale's (PR-04).
+      .sort((a, b) => a.hours - b.hours || (a.s < b.s ? -1 : a.s > b.s ? 1 : 0))[0]?.s;
     return [own, ...next ? [next] : []]
       .flatMap(s => this.ledger.solve(ModuleParser.predicate('keeper(?keeper, ?square)'), { '?square': s })
         .map(b => ({ keeper: b['?keeper']!, square: s })));

@@ -32,7 +32,8 @@ export class Vantage {
       if (d <= beyond || d > reach || !this.clear(land, from, p.cell, eye)) { return []; }
       const bearing = this.bearing(dx, dy);
       return [{ id: p.id, cell: p.cell, bearing, far: d > this.near, glass: d > this.far, distance: d }];
-    }).sort((a, b) => a.distance - b.distance || a.id.localeCompare(b.id)).slice(0, most);
+    // Ties by id in code-unit order, never the locale's (PR-04).
+    }).sort((a, b) => a.distance - b.distance || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)).slice(0, most);
   }
   // Whether the land between stands below the line from the eye to the top of the place seen.
   private static clear(land: Land, from: number, to: number, eye: number): boolean {
