@@ -71,7 +71,8 @@ then count with the walkers (matrix-walk, promise-fidelity) by atlas colour per 
 
 An item kind comes only from the catalogue (`Give heather to party` needs `heather` there; world-constructs.ts and
 catalog-parser.ts introduce `itemkind` entities from it); a Kyr world cannot define a kind with its own stats, effects or
-look. The 16 November pins show what Kyr already expresses without engine change: a Landholder (deeds, commissions, time),
+look. (Overstated, the M22 audit found: Kyr's `Kind` declares worth, weight, description, a granted skill, a taught thing
+and a worn slot, K1 in test/authorability-probes; what it lacks is a use, figures and a look: register OB-07.) The 16 November pins show what Kyr already expresses without engine change: a Landholder (deeds, commissions, time),
 an Alchemist (`undiscovered` recipes, `experiment`, making.kyr), a Befriender, a Commander (`hold_here`, `call_on`).
 Start with: an `Itemkind` declaration (name, slot, what wearing or using it does, how it looks), through Kyr's own grammar
 and the catalogue's table, with the lint and the encyclopedia reading it.

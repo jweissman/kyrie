@@ -1,6 +1,6 @@
 # Mission 21, consolidated (14 November, late)
 
-> **Status (17 November):** parts of this are superseded by the owner's rulings of 16–17 November; see [closeout.md](closeout.md) §2 for what stands.
+> **Status (16 November):** parts of this are superseded by the owner's rulings of 16 November; see [closeout.md](closeout.md) §2 for what stands.
 
 The owner: fewer coordinated efforts brought to experiential completion, rather than more initiatives reporting
 partial progress; make Westernesse progressively cheaper to improve and unmistakably better to play. This page
