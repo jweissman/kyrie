@@ -291,7 +291,7 @@ export class PlaceStage {
         <p className="next">{Typography.curl([next ? `Next, ${Words.by(next.way, next.to)}: ${Words.span(next.minutes)}.` : '',
           bound.toward ? `As far as ${bound.toward} by the ways you know.` : '',
           bound.legs.length > 1 ? `${Words.upper(Words.span(bound.minutes))} in all.` : ''].filter(Boolean).join(' '))}</p>
-        <ol className="led go">
+        <ol data-menu className="led go">
           <li><ChoiceRow.Act choice={on} draw={draw} className="go-on" label={`Go on to ${bound.name}`} /></li>
           {off && <li><ChoiceRow.Act choice={off} draw={draw} className="give-up" label="Give it up" /></li>}
         </ol>

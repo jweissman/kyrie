@@ -36,7 +36,7 @@ export class ComposedCreation {
         {step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
           more={more} unfold={() => turn(m => m + 1)} onward={next} />
           : <ComposedCreation.Go key="go" app={app} />}
-        <nav className="creation-edge" aria-label="The choice of a life">
+        <nav data-rail className="creation-edge" aria-label="The choice of a life">
           {back ? <button type="button" className="quiet-word back" data-action="back"
             onClick={() => go(back)}>Back</button>
             : <button type="button" className="quiet-word another" data-action="another" onClick={app.opening.anew}>
@@ -102,11 +102,11 @@ export class ComposedCreation {
     const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
     if (offer.cards) {
-      return <div className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
+      return <div data-menu className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
         lit={lit === o.id} onConsider={consider} onChoose={choose} />)}{rest}</div>;
     }
     return (
-      <div className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
+      <div data-menu className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
         {shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined} chosen={chosen === o.id}
           lit={lit === o.id} hold onConsider={consider} onChoose={id => choose(id)} />)}
         {rest}
@@ -135,7 +135,7 @@ export class ComposedCreation {
         <h1 className="ask">{Typography.curl(name)}</h1>
         <div className="composed-col">
           <p className="life">{Typography.curl(NameStep.life(app).join(' '))}</p>
-          <div className="composed-rows" role="menu">
+          <div data-menu className="composed-rows" role="menu">
             <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
               hold n={1} lit onConsider={() => undefined} onChoose={go} />
           </div>

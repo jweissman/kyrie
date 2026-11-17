@@ -49,7 +49,7 @@ export class CreationPage {
             <step.View app={app} step={step} onward={onward} />
           </div>
         </div>
-        <nav className="creation-edge" aria-label="The choice of a life">
+        <nav data-rail className="creation-edge" aria-label="The choice of a life">
           {back ? <button type="button" className="quiet-word back" data-nav onClick={() => go(back.id)}>Back</button>
             : <button type="button" className="quiet-word another" data-nav data-action="another" onClick={app.opening.anew}>
               Another country</button>}

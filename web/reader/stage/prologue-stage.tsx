@@ -39,7 +39,7 @@ export class PrologueStage {
         {view && <figure className="scenery" aria-hidden="true">
           <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
             onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
-        <div className="prologue-body">
+        <div data-menu className="prologue-body">
           <p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>
           {page.kind === 'beat' && <PrologueStage.Beat app={app} at={page.at} last={page.last} />}
           {page.kind === 'meeting' && <PrologueStage.Meeting app={app} meeting={told.meeting!} />}

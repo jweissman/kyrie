@@ -151,7 +151,7 @@ export class BoardField {
     return (
       <div className="field-land board" ref={host} data-board={ready ? 'ready' : 'loading'}
         data-way={courses?.chosen?.length ?? 0}>
-        <div className="field-tools">
+        <div data-rail className="field-tools">
           <button type="button" aria-label="Nearer" data-action="map-nearer" onClick={() => board.current?.zoom(0.8)}>+</button>
           <button type="button" aria-label="Further" data-action="map-further" onClick={() => board.current?.zoom(1.25)}>−</button>
           <button type="button" aria-label="Where you are" data-action="map-here" onClick={() => board.current?.home()}>◎</button>

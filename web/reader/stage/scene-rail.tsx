@@ -29,7 +29,7 @@ export class SceneRail {
   static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (
-      <nav className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
+      <nav data-rail className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
         <SceneRail.Talk app={app} />
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
           faint={SceneRail.sensed(app)} />
@@ -94,7 +94,7 @@ export class SceneRail {
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
         onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /></button>
     </>;
-    return alone ? <nav className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
+    return alone ? <nav data-rail className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
   }
   // Its pip (see Pip): lit, of the tone of something here; soft, of the tone of something perceived off along a way

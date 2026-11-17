@@ -29,6 +29,15 @@ consequence. A field the page lacks is asked of the engine, not inferred.
 **The terminal runs the same workflow** through the same projections. There are no browser-only rules and no
 controller of the page's own.
 
+## One structure for every page
+
+A page is a background, a header, the narrative, the menu of four, and perhaps a rail of icons (the owner, 16 November
+night). Whatever the page (the title, a step of creation, the opening, a place, a conversation, a fight, the map, the
+Book), everything that can be pressed is in its one menu (`[data-menu]`) or its rail (`[data-rail]`); every row of a
+menu is one height (`--choice-h`). What else may be pressed is named, with why, in `test/support/action-census.ts`
+(disclosures, the map's own marks, writing your name), and that list only shrinks. Held by
+`test/action-census-browser`: a button anywhere else fails it, by its words and its page.
+
 ## Focus
 
 - **The pointer is the reticle** (IG-15). Wherever the hand is, the cursor is a small ring; over anything that can be

@@ -57,7 +57,7 @@ export class CompassStage {
     const compass = CompassStage.of(app);
     if (!compass) { return null; }
     const on = compass.next && !drawn.includes(compass.next.command) ? compass.next : undefined;
-    return <span className="compass-rows" data-region="compass">
+    return <span data-menu className="compass-rows" data-region="compass">
       {on && <CompassStage.Row app={app} draw={draw} route={on} kind="on" />}
       {compass.out && <CompassStage.Row app={app} draw={draw} route={compass.out} kind="out" />}
       {compass.exhausted && <span className="compass-done">Nothing more is known in here.</span>}

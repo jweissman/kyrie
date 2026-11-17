@@ -75,7 +75,7 @@ export class TalkStage {
           <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Sitter>
         <div className="dialogue">
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />
-          <div className="answer">
+          <div data-menu className="answer">
             <div className="choosing">
               {s.trading ? <TalkStage.Trading app={app} wares={wares} services={focus.services} buys={counter?.buys ?? []}
                 short={counter?.short ?? []} who={counter?.name ?? ''}
@@ -109,7 +109,8 @@ export class TalkStage {
             </ol>
           </div>
         </div>
-        <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
+        {/* No × beside the menu: taking your leave is its last row, and Escape (the owner, 16 November night: every
+            control of a page in its one menu or its rail). */}
       </div>
     );
   }

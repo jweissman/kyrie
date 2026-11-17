@@ -73,7 +73,7 @@ export class Act {
     marked?: boolean }) {
     const opened = choices.find(c => c.children && draw.open.has(c.id));
     return <>
-      <ul className={`acts ${className ?? ''}`}>{choices.map(c => <li key={c.id}>
+      <ul data-menu className={`acts ${className ?? ''}`}>{choices.map(c => <li key={c.id}>
         <Act.View choice={c} draw={draw} marked={marked} /></li>)}</ul>
       {opened && <ul className="opened-list" aria-label={opened.label}>{opened.children!.map(c => <li key={c.id}>
         <Act.View choice={c} draw={draw} marked={marked} />
@@ -89,7 +89,7 @@ export class Act {
     const sheets: [View, string, string][] = [['company', many ? 'Company' : 'Character', 'c'], ['journal', 'Notes', 'j'],
       ['pack', 'Pack', 'i'], ['story', 'Story', 'h']];
     return (
-      <ul className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
+      <ul data-rail className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
         className="sheet-key" data-action="mode" data-view={view} data-key={key}
         aria-pressed={app.state.view === view}
         onClick={Act.open.bind(null, app)}>{label}<kbd>{key.toUpperCase()}</kbd></button></li>)}</ul>

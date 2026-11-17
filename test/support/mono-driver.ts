@@ -295,9 +295,10 @@ export class MonoDriver {
   }
   // Back out of a list that is open (a conversation, a thing's uses) to everything there is to do.
   async back() {
-    if (!await this.page.locator('[data-action="back"]').count()) { return; }
-    if (this.pointer) { await this.click('[data-action="back"]'); return; }
-    await this.key('Escape');
+    const button = await this.page.locator('[data-action="back"]').count();
+    if (button && this.pointer) { await this.click('[data-action="back"]'); return; }
+    // A conversation has no × (its leave is its last row): Escape turns away from it, as from anything opened.
+    if (button || ['talk', 'examine'].includes((await this.inspect()).mode)) { await this.key('Escape'); }
   }
   // Out of a conversation or a thing looked at, back to the place: taking leave, or turning away.
   async away() {

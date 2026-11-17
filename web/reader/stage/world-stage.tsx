@@ -290,7 +290,7 @@ export class WorldStage {
       {danger && <p className="about danger">{Typography.curl(risks.length
         ? `Something here is dangerous. Going on: ${risks.join('; ')}.` : 'Something here is dangerous.')}</p>}
       {danger && <p className="about">{WorldStage.flight()}</p>}
-      {on && <ol className="led go"><li><ChoiceRow.Button className="go-on" data={{ action: 'go-on' }} act={on.id}
+      {on && <ol data-menu className="led go"><li><ChoiceRow.Button className="go-on" data={{ action: 'go-on' }} act={on.id}
         onClick={() => app.choose(on)} mark={ChoiceRow.neutral} markClass="neutral"
         label={`Go on to ${bound.name}`} /></li></ol>}
     </>;

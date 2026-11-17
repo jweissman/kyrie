@@ -74,7 +74,7 @@ html, body { overflow: hidden; }
 /* One row each, of one height: the name, and where it has one its detail beside it on the same line, never a second
    line beneath (the owner, 15 November: no jagged list where some rows have a subheader). */
 .way-in { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: row;
-  align-items: baseline; justify-content: center; gap: 14px; width: 100%; height: 54px; padding: 0 40px;
+  align-items: baseline; justify-content: center; gap: 14px; width: 100%; height: var(--choice-h); padding: 0 40px;
   white-space: nowrap; overflow: hidden;
   color: rgba(236, 230, 217, .8); text-decoration: none; border: 1px solid transparent; border-radius: 10px;
   background: transparent; -webkit-tap-highlight-color: transparent;

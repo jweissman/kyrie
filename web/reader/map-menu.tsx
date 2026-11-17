@@ -21,7 +21,7 @@ export class MapMenu {
     const roads = (screen.destinations ?? []).filter(d => `travel:${d.id}` !== go?.id && d.id !== chosen)
       .toSorted((a, b) => a.minutes - b.minutes).slice(0, MapMenu.four - 1 - (go ? 1 : 0));
     return (
-      <ol className="led map-menu" aria-label="On the map">
+      <ol data-menu className="led map-menu" aria-label="On the map">
         {enter && <li><ChoiceRow.Button className="led-act rc-enter" data={{ action: 'enter', choice: enter.c.id }} act={enter.c.id}
           onClick={() => app.choose(enter.c)} mark={ChoiceRow.neutral} markClass="neutral"
           label={Typography.curl(`Enter ${enter.name}`)} /></li>}

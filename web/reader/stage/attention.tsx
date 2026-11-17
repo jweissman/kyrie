@@ -41,7 +41,7 @@ export class Attention {
     const pages = Math.max(1, Math.ceil(rows.length / Attention.most)), at = page % pages;
     const shown = rows.slice(at * Attention.most, at * Attention.most + Attention.most);
     const chosen = lens === 'things' ? AtHand.of(app).find(h => h.id === app.state.hovered) : undefined;
-    return <ol className={`led attention-menu lens-${lens}`} aria-label={lens}>
+    return <ol data-menu className={`led attention-menu lens-${lens}`} aria-label={lens}>
       {shown.map(r => <li key={r.id}>
         <ChoiceRow.Button className={`led-act attention-row${r.chosen ? ' chosen' : ''}${r.faint ? ' afar' : ''}`}
           data={{ pick: r.id, choice: r.choice && draw.index.has(r.choice.id) ? r.choice.id : undefined,

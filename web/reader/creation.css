@@ -1,8 +1,8 @@
 /* ---- Creation's rows (see ComposedRow): one line, one height, its words and aside on it, the aside quieter and cut
    short before it would wrap, its key at the right; its mark a short line at the left. Their states are the one row's
    (row.css). ---- */
-:root { --composed-h: 44px; }
-@media (pointer: coarse) { :root { --composed-h: 52px; } }
+/* One height with every menu's row (the owner, 16 November night: a menu's rows had been shorter on one page than another). */
+:root { --composed-h: var(--choice-h); }
 /* Reset first (a button's own look), then the row's layout: the reset after it had undone the grid, height and gap. */
 .composed-row { all: unset; box-sizing: border-box; position: relative; --row-tone: rgb(236, 230, 217);
   font: var(--t-choice); color: var(--ivory); cursor: pointer; border-radius: var(--choice-radius);
@@ -104,7 +104,6 @@
   .obs-sign.flare line { animation: none; }
 }
 .composed-row > .row-key { border: 0; background: none; padding: 0; min-width: 0; }
-.composed .composed-rows.many { --composed-h: 36px; gap: 2px; }
 .composed .composed-card[data-chosen]::after { content: ''; display: block; position: absolute; left: 50%; bottom: 10px;
   width: 22px; height: 3px; margin-left: -11px; border-radius: 3px; background: var(--accent, #d9b46a); }
 /* One page template with the resting scene (the owner, 15 November: some pages reflowed and juddered as the choice changed,
@@ -157,7 +156,6 @@
 .obs-name { fill: rgba(236, 230, 217, 0); font: 600 15px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
   transition: fill 500ms var(--ease); }
 .obs-sign.lit .obs-name { fill: rgba(236, 230, 217, .78); }
-.composed[data-page="sign"] .composed-rows.many { --composed-h: 32px; }
 .composed[data-page="sign"] .ask { width: max-content; max-width: min(90vw, 760px); }
 /* On a phone the sign's question is set as every other step's, not one line wider than the screen (M22's review: the
    question had gone off the page). */

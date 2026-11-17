@@ -56,7 +56,7 @@ export class Sheet {
         {screen.done.length > 0 && <section className="done" data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{Typography.curl(d)}</li>)}</ul></section>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
-        <ol className="led keep" aria-label="Keep, or leave">
+        <ol data-menu className="led keep" aria-label="Keep, or leave">
           <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} mark={ChoiceRow.neutral}
             markClass="neutral" label="Download a save file" /></li>
           <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} mark={ChoiceRow.neutral}
@@ -110,7 +110,7 @@ export class Sheet {
     const about = held?.about ?? [];
     return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}
       {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</span>
-      <ol className="led aim-acts">
+      <ol data-menu className="led aim-acts">
         <li><ChoiceRow.Button className="follow" data={{ action: 'follow' }} act={held?.follow} shut={following || !held?.follow}
           onClick={() => { void Sheet.take(app, held?.follow); }} mark={following ? 'var(--tone-gold)' : ChoiceRow.neutral}
           markClass={following ? undefined : 'neutral'} label={following ? 'Following' : 'Follow this'} /></li>

@@ -282,7 +282,7 @@ export class GlanceStage {
     }));
     const seen = [...new Set(promoted.flatMap(p => p.subject && lensed.subjects?.[p.subject]?.seen ? [p.subject] : []))]
       .map(id => ({ id, lines: lensed.subjects![id]!.seen!.filter(l => !said.has(l)) })).filter(x => x.lines.length);
-    return <div className={`lens lens-${lens}`} data-lens={lens}>
+    return <div data-menu className={`lens lens-${lens}`} data-lens={lens}>
       {seen.map(x => <div key={x.id} className="lens-seen" data-subject={x.id}>
         {x.lines.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
       {!onRest && <GlanceStage.Acts app={app} draw={draw} acts={promoted} />}
@@ -577,7 +577,7 @@ export class GlanceStage {
     }).filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
     return (
-      <ol className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
+      <ol data-menu className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
         // What it is to the company, drawn by the page's one table of tones (see Emphasis), and said in words; the aim's
         // gold and words only on the one choice that carries it on, where the page shows the way (see Guidance).
         const gilded = !!a.continues && Guidance.shown(app), label = GlanceStage.label(app, a, c);

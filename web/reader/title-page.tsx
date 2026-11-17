@@ -42,7 +42,7 @@ export class TitlePage {
           <TitlePage.Mark name={named.game} />
           <p className="horizon" aria-hidden="true"><i /></p>
           <p className="lede">Vol I: A History of Emprise</p>
-          <nav className="title-menu" aria-label="Ways in">
+          <nav data-menu className="title-menu" aria-label="Ways in">
             <ul>
               {saved && <li><button type="button" className="way-in" data-nav data-action="continue"
                 {...Hold.bind(app.opening.carryOn)} {...item('continue')}>{mark}<span className="n">Continue</span></button></li>}
