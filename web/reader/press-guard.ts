@@ -12,12 +12,19 @@ export class PressGuard {
   private static began?: unknown;
   private static rested?: { x: number; y: number };
   private static hand = { x: -1, y: -1 };
+  // How long after a press is let go its click may still come.
+  static readonly linger = 600;
   static attach(screen: () => unknown) {
     window.addEventListener('pointerdown', () => {
       PressGuard.began = screen(); delete document.documentElement.dataset.still;
     }, true);
     // Let go without a click (off what it went down on): the press is over all the same, once a click would have come.
-    window.addEventListener('pointerup', () => { window.setTimeout(() => { PressGuard.began = undefined; }); }, true);
+    // A touch's click comes after the browser's own pause, not at once (M22's second review: a finger held on the
+    // opening's last Continue, lifted over the first scene's rail, opened its Wait lens): it is waited for that long.
+    window.addEventListener('pointerup', () => {
+      const began = PressGuard.began;
+      window.setTimeout(() => { if (PressGuard.began === began) { PressGuard.began = undefined; } }, PressGuard.linger);
+    }, true);
     window.addEventListener('pointermove', (e: PointerEvent) => { PressGuard.moved(e.clientX, e.clientY); }, true);
     window.addEventListener('click', (e: MouseEvent) => { PressGuard.clicked(e, screen()); }, true);
   }

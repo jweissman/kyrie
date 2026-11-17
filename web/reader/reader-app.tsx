@@ -132,7 +132,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override componentDidMount() {
     window.addEventListener('keydown', this.keys.press);
     // A press taken once, on the screen it was made on (IG-17, IG-18).
-    PressGuard.attach(() => this.state.frame ?? this.state.phase);
+    // The screen a press is taken on: the frame, or the phase before one; a page of the opening is a screen of its own
+    // (they share one frame).
+    PressGuard.attach(() => this.state.told && this.state.prologue !== undefined ? `opening:${this.state.prologue}`
+      : this.state.frame ?? this.state.phase);
     Hold.attach();
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
