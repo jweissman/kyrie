@@ -7,6 +7,7 @@ import { Content } from '../content';
 import { ConditionSense } from '../canon/condition-sense';
 import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
+import { HitDicePool } from '../rules/hit-dice-pool';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
@@ -146,8 +147,11 @@ export class CombatModel {
     const odds = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target)) : undefined;
     // An area is aimed at a place, and says whom it would catch there, friend or foe.
     const area = target && Positions.area(ability);
-    const name = area ? `${Positions.where(Positions.zone(target, state.combatants), actor)}: ${Positions
-      .caught(actor, id, area, state.combatants).map(f => f.name).join(', ')}` : target?.name ?? id;
+    // A pool of Hit Dice (Sleep's) names only those it would hold.
+    const pool = ability.effects.find(e => e.hitDice !== undefined);
+    const caught = area ? Positions.caught(actor, id, area, state.combatants) : [];
+    const name = area ? `${Positions.where(Positions.zone(target, state.combatants), actor)}: ${(pool
+      ? HitDicePool.held(pool, caught) : caught).map(f => f.name).join(', ')}` : target?.name ?? id;
     return { id, name, ...against ? { against } : {}, ...odds !== undefined ? { odds } : {} };
   }
   private static name(state: BattleState, id: string): string {

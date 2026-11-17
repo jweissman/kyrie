@@ -251,6 +251,36 @@
         "notes": "The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: spell resistance and Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random."
       }
     },
+    "sleep": {
+      "name": "Sleep",
+      "kind": "spell",
+      "description": "A drowsiness falls on the place you aim it at: of everyone there, friend or foe, the least first, it lays four Hit Dice of them asleep, and none of five or more; whoever shakes it off stays awake, and a blow wakes a sleeper.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "asleep",
+          "duration": 10,
+          "target": "enemies",
+          "hitDice": 4,
+          "save": {
+            "kind": "sleep",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 1, "school": "enchantment" },
+      "source": {
+        "orsino": "arcaneSpell:sleep",
+        "srd35": "spell:sleep",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Sleep (doc/architecture/mission-22/srd-proving-cases.md, case 14): first level, a burst (the rules' areas: everyone in the place it falls on, friend or foe), four Hit Dice of them, fewest first, none of five or more (HitDicePool; a Kyr creature's Hit Dice are its level), a Will save to negate (the sleep save, made with Wisdom, which the undead are proof against), at case 7's difficulty for a first-level spell. A blow that wounds wakes the sleeper (the asleep condition's own). Converted: a minute, ten rounds, at every casting level (Kyr's durations do not grow with the caster: the SRD's is a minute a level); outside a fight, ten watches (FieldUse). Omitted: spell resistance; the sleeper helpless (a blow at one is an ordinary blow); the nearest first among equals (the fight's order). Before, Orsino's third level, every foe, three rounds, against 16 + the caster's level."
+      }
+    },
     "cone_of_cold": {
       "name": "Cone of Cold",
       "kind": "spell",

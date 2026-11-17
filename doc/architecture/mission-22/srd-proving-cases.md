@@ -400,6 +400,74 @@ so the ranger's rations and the monk's alms bowl were dropped without a word.
 - **Not imported:** class gold, consumable proficiency (each its own decision, as step 7 says).
 - **Generation:** no shop or loot table draws either kind; only the monk's inventory gains the bowl.
 
+### 14. Sleep by the SRD's numbers, and a pool of Hit Dice (17 November, later): adapted
+
+The SRD's Sleep is the first-level spell CF-02 waited on: at Orsino's third level no starting mage cast it, so the
+undertown's rats could not be slept in a first hour. Spec: `test/sleep` (6 cases); `test/small/sleep-band` follows it.
+
+**The mechanic built: a pool of Hit Dice** (`HitDicePool`, src/rules/hit-dice-pool.ts; an effect's `hitDice`).
+- Of those an effect would fall on, the fewest Hit Dice first, in the fight's order among equals, as many as the pool
+  holds. It stops at the first it cannot hold, so none of more than the pool is touched. A Kyr creature's Hit Dice are
+  its level.
+- Whoever is proof against the effect's save (the undead against sleep) takes nothing from the pool, and still saves,
+  immune, as before.
+- The fight offers such an ability only where it would hold someone (`HitDicePool.aims`, read by Battle's legal
+  commands): never at a place where all are of five Hit Dice or more.
+- The aim's row names only those it would hold (CombatModel reads the same pool).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- first level, arcane, enchantment (exact);
+- a burst (the rules' areas), everyone in the place it falls on, friend or foe (exact);
+- four Hit Dice of them, fewest first, none of five or more (exact, by the pool);
+- a Will save to negate: the sleep save, made with Wisdom, which immunities read (exact);
+- the difficulty: case 7's conversion, 11 + the casting score's modifier + half the casting level (converted);
+- **the duration: ten rounds, a minute, at every casting level** (converted: Kyr's durations do not grow with the
+  caster; the SRD's is a minute a level). Outside a fight that is ten watches, by FieldUse's rule of as many watches as
+  turns, where the SRD's minute is less than one: recorded as open below.
+
+**The condition** (a hand entry over Orsino's asleep, data/catalog/conditions.json): a blow that wounds a sleeper and
+leaves them standing wakes them (its `onAttacked` hook), as the SRD's does. Every other source of asleep (traps, a
+pixie's or a sprite's Sleep) wakes the same way.
+
+**The tests:** the level, the burst and the pool; the difficulty at three casters; the foes' four held before the
+company's third-level warrior, and a first-level warrior held before a second-level foe; nothing offered against five
+Hit Dice or more; a zombie in the place saving immune and taking nothing from the four; whoever fails asleep and
+whoever saves awake over six seeds, and a sleeper wounded and standing woken; the aim's catch the pool's.
+`test/small/sleep-band` casts it at the run's rats on the seed 'lull' (all three fail the SRD's lower difficulty;
+on its first seed two of three saved), with the enchanter's spells by level (Sleep now first), and waits two hours for
+them to wake (ten watches).
+
+**Omitted:** spell resistance; the sleeper helpless (a blow at one is an ordinary blow); the nearest first among equal
+Hit Dice (the fight's order); waking by a slap or a noise.
+
+**Where it is met.** A first-level mage who draws it (enchanters and drawn-school mages), and every caster of the
+first level or more who prepares it: the undertown's rats can now be slept by a starting mage who knows it (CF-02's
+"not played in a generated first hour"). Innate casters (dryad, nymph, pixie, satyr, sprite, discerner, mind
+destroyer, mouther, ooze) now cast a burst of four Hit Dice: a party of the fifth level or more is proof against it,
+and a creature's innate spell rests twice its level in turns, so a first-level Sleep comes back after two turns
+where the third-level one took six. The census is below.
+
+**The census** (200 humans for each calling and level, before and after; rates of Sleep / Charm / Magic Missile):
+
+| Calling, level | Moved | Before | After |
+|---|---|---|---|
+| mage, enchanter, 1 | 100 % | 1.00 / 1.00 / .12 | .49 / .52 / .12 |
+| mage, enchanter, 7 | 99 % | 1.00 / 1.00 / .27 | .52 / .54 / .27 |
+| mage, evoker, 1 | 10.5 % | 0 / .14 / .23 | .10 / .13 / .23 |
+| mage, evoker, 7 | 19 % | .17 / .24 / .34 | .23 / .21 / .33 |
+| mage, school drawn, 1 | 22.5 % | .14 / .24 / .14 | .17 / .16 / .13 |
+| mage, school drawn, 7 | 27.5 % | .29 / .33 / .29 | .27 / .23 / .28 |
+| bard, 1–7 | 0 % | 0 / 1.00 / 0 | 0 / 1.00 / 0 |
+
+- An enchanter had known Sleep always, as the one third-level enchantment, castable from the fifth level; it now
+  draws it or Charm at the first level, about one in two each, castable at once.
+- **The installed casters** of a1 and the six fidelity countries (2,232 classed creatures): six move, each gaining
+  Sleep and losing nothing. Among them a1's and wren's first-town undertown necromancer (the man with the black
+  candle, `s1_u_raiser`), a hostile caster of the first hour: in a fight he may now lay four Hit Dice of the company
+  asleep, and a blow wakes them. The others: a1's s1_iv and the Bound Howe's scholar, thorn's arcology quill and
+  fellowship warden.
+
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **34 of the merged catalogue's 363 abilities** carry `unsupported`. Orsino's file (data/catalog/orsino/abilities.json)

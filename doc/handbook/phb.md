@@ -6017,6 +6017,16 @@ Drain 1d6 (1–6) health from one enemy (halved if resisted). An arcane spell of
 
 > Drain life energy from an enemy.
 
+##### Sleep
+
+*Adapted · level 1 arcane spell, enchantment* · `ability:sleep`
+
+Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
+
+> A drowsiness falls on the place you aim it at: of everyone there, friend or foe, the least first, it lays four Hit Dice of them asleep, and none of five or more; whoever shakes it off stays awake, and a blow wakes a sleeper.
+
+*Adapted: The SRD's Sleep (doc/architecture/mission-22/srd-proving-cases.md, case 14): first level, a burst (the rules' areas: everyone in the place it falls on, friend or foe), four Hit Dice of them, fewest first, none of five or more (HitDicePool; a Kyr creature's Hit Dice are its level), a Will save to negate (the sleep save, made with Wisdom, which the undead are proof against), at case 7's difficulty for a first-level spell. A blow that wounds wakes the sleeper (the asleep condition's own). Converted: a minute, ten rounds, at every casting level (Kyr's durations do not grow with the caster: the SRD's is a minute a level); outside a fight, ten watches (FieldUse). Omitted: spell resistance; the sleeper helpless (a blow at one is an ordinary blow); the nearest first among equals (the fight's order). Before, Orsino's third level, every foe, three rounds, against 16 + the caster's level.*
+
 ##### Spark
 
 *Faithful · level 1 arcane spell, evocation* · `ability:spark`
@@ -6302,14 +6312,6 @@ You are hidden for 5 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Silence: cannot cast spells. An arcane spell of the third level. Takes a third-level slot.
 
 > Create an area of silence, preventing spellcasting for 3 rounds.
-
-##### Sleep
-
-*Faithful · level 3 arcane spell, enchantment* · `ability:sleep`
-
-Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
-
-> Lull enemies into a magical slumber.
 
 ##### Sound Lance
 
@@ -9243,13 +9245,15 @@ Spells 1 harder to resist.
 
 ### Asleep
 
-*Faithful · lasts the fight at most* · `condition:asleep`
+*Adapted · lasts the fight at most* · `condition:asleep`
 
 - Resisted by: a sleep save
 
 Cannot act.
 
-> In a deep slumber, unaware of surroundings.
+> In a deep slumber, unaware of surroundings, until a blow wakes them.
+
+*Adapted: Orsino's asleep (no actions; its sleep save), and the SRD's Sleep's waking (mission-22/srd-proving-cases.md, case 14): a blow that wounds a sleeper and leaves them standing wakes them (its onAttacked hook, answering harm from another creature). Omitted: the sleeper helpless, and waking by a slap or a noise.*
 
 ### Augured
 

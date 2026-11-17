@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 759,
-    "adapted": 389,
+    "faithful": 757,
+    "adapted": 391,
     "represented": 4,
     "kyr": 567,
     "unsupported": 67,
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 238,
-      "adapted": 13,
+      "faithful": 237,
+      "adapted": 14,
       "represented": 0,
       "kyr": 4,
       "unsupported": 31,
@@ -967,8 +967,8 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 126,
-      "adapted": 28,
+      "faithful": 125,
+      "adapted": 29,
       "represented": 0,
       "kyr": 42,
       "unsupported": 18,
@@ -9369,6 +9369,13 @@
    "section": "magic/spells-arcane/spells-arcane-1"
   },
   {
+   "id": "ability:sleep",
+   "title": "Sleep",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-1"
+  },
+  {
    "id": "ability:spark",
    "title": "Spark",
    "status": "faithful",
@@ -9602,13 +9609,6 @@
   {
    "id": "ability:silence",
    "title": "Silence",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-3"
-  },
-  {
-   "id": "ability:sleep",
-   "title": "Sleep",
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-3"
@@ -11765,7 +11765,7 @@
   {
    "id": "condition:asleep",
    "title": "Asleep",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },

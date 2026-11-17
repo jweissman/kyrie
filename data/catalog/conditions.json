@@ -462,6 +462,27 @@
       },
       "law": true
     },
+    "asleep": {
+      "name": "Asleep",
+      "description": "In a deep slumber, unaware of surroundings, until a blow wakes them.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "noActions": true
+      },
+      "hooks": {
+        "onAttacked": [
+          { "kind": "remove", "status": "asleep", "target": "self" }
+        ]
+      },
+      "saveKind": "sleep",
+      "source": {
+        "orsino": "status:asleep",
+        "srd35": "spell:sleep",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "Orsino's asleep (no actions; its sleep save), and the SRD's Sleep's waking (mission-22/srd-proving-cases.md, case 14): a blow that wounds a sleeper and leaves them standing wakes them (its onAttacked hook, answering harm from another creature). Omitted: the sleeper helpless, and waking by a slap or a noise."
+      }
+    },
     "death_ward": {
       "name": "Death Ward",
       "description": "Warded against death's own powers: the dark's harm does not touch the warded, and nothing takes a level of them.",

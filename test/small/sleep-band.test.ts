@@ -29,11 +29,13 @@ const run = (who: 'rats' | 'dead') => `
     Resolve combat(band).
     Result "It is quick, and not pleasant.".
   }`;
-// An enchanter of the fifth level, who knows Sleep (a third-level spell in the catalogue: srd-fidelity.md), and an
+// An enchanter of the fifth level, who knows Sleep (a first-level spell since srd-proving-cases.md case 14), and an
 // evoker of the same level, who does not.
 const enchanter: CreatureGenerationContext = { name: 'Ysabel', raceId: 'human', classId: 'mage', level: 5,
-  traits: ['enchanter'], spells: ['magic_missile', 'armor', 'charm', 'psionic_blast', 'slow', 'sleep'] };
+  traits: ['enchanter'], spells: ['magic_missile', 'sleep', 'charm', 'psionic_blast', 'slow', 'fireball'] };
 const evoker: CreatureGenerationContext = { name: 'Aud', raceId: 'human', classId: 'mage', level: 5 };
+// The SRD's Sleep (case 14) is saved against at 11 + the casting score's modifier + half the casting level: on the
+// seed 'lull' all three rats fail it (test/sleep holds a save that succeeds, and the four Hit Dice).
 const names = (t: Tiny) => PlayerView.choices(t.campaign).map(r => r.choice.name);
 const band = (t: Tiny) => t.campaign.readout.creatures.filter(c => /^t__band_person/.test(c.id));
 // The fight that falls on the company (Engagement.assault): theirs, not one the company chose.
@@ -47,7 +49,7 @@ describe('Sleep cast over a band outside a fight', () => {
     expect(names(await Tiny.start(run('rats'), { party: [evoker] })).filter(n => /Sleep/.test(n))).toEqual([]);
   });
   it('spends the slot, rolls each save, and lays the band asleep, not dead, until a separate act does for them', async () => {
-    const t = await Tiny.start(run('rats'), { party: [enchanter] }), before = slots(t);
+    const t = await Tiny.start(run('rats'), { party: [enchanter], seed: 'lull' }), before = slots(t);
     await t.play('Have Ysabel cast Sleep over the rats');
     const combat = t.campaign.events.at(-1)!.combat;
     expect(combat.find(e => e.type === 'action')).toMatchObject({ command: { actor: 't__party_1', ability: 'sleep' } });
@@ -67,9 +69,12 @@ describe('Sleep cast over a band outside a fight', () => {
     expect(band(t).every(c => c.state.hp === 0)).toBe(true);
   });
   it('wears off as the world\'s clock runs, and those who wake come at the company', async () => {
-    const t = await Tiny.start(run('rats'), { party: [enchanter] });
+    const t = await Tiny.start(run('rats'), { party: [enchanter], seed: 'lull' });
     await t.play('Have Ysabel cast Sleep over the rats');
     expect(fell(t)).toBe(false);
+    // Ten rounds, ten watches outside a fight (FieldUse: as many watches as turns).
+    await t.play('Wait › An hour');
+    expect(band(t).every(c => c.state.conditions.some(s => s.id === 'asleep'))).toBe(true);
     await t.play('Wait › An hour');
     expect(band(t).some(c => c.state.conditions.some(s => s.id === 'asleep'))).toBe(false);
     expect(fell(t)).toBe(true);

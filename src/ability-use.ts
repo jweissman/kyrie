@@ -4,6 +4,7 @@ import { Spellcasting } from './rules/spellcasting';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Positions } from './rules/positions';
+import { HitDicePool } from './rules/hit-dice-pool';
 import { Volley } from './rules/volley';
 import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
@@ -57,7 +58,8 @@ export class AbilityUse {
       : effect.target === 'random enemy' || effect.target === 'random enemies'
       ? context.drawn ??= AbilityUse.draw(effect, candidates, expressions, context)
       : Targeting.selected(effect.target) ? candidates.filter(f => f.id === targetId) : candidates;
-    return effect.targetTrait ? chosen.filter(f => f.traits?.includes(effect.targetTrait!)) : chosen;
+    const kind = effect.targetTrait;
+    return HitDicePool.held(effect, kind ? chosen.filter(f => f.traits?.includes(kind)) : chosen);
   }
   // Orsino's randomEnemies: distinct living enemies, as many as the count (one for a random enemy), from the seed.
   private static draw(effect: Effect, candidates: Fighter[], expressions: Expressions,

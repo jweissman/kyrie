@@ -1,8 +1,7 @@
 import { Canon } from './canon/canon'; import { Flight } from './rules/flight';
 import { Spellcasting } from './rules/spellcasting';
 import { AttackRoutine } from './attack-routine'; import { AbilityUse } from './ability-use';
-import { CreatureStore, type CreatureLease } from './creature-store';
-import type { Creature } from './creature';
+import { CreatureStore, type CreatureLease } from './creature-store'; import type { Creature } from './creature';
 import { CombatProjection } from './combat-projection';
 import { Content } from './content';
 import { Expressions } from './expressions';
@@ -10,7 +9,7 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
 import { Morale } from './rules/morale';
 import { Tactics } from './tactics';
-import { Quarry } from './quarry'; import { Positions } from './rules/positions';
+import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
 import { ItemCatalog } from './item-catalog';
 import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
@@ -254,7 +253,8 @@ export class Battle {
       // An area is aimed at a place a foe stands in, by the first foe there (see Positions).
       const targets = selected.length ? this.fighters.filter(t => selected.every(effect =>
         this.reachable(effect, actor, kind).some(f => f.id === t.id))) : Positions.aims(actor, this.fighters, ability);
-      return targets.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
+      const aimed = HitDicePool.aims(ability, actor, targets, this.fighters);
+      return aimed.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
     });
     const forced = commands.filter(c => taunters.includes(c.target));
     // One who can do nothing it would (charmed by the only foe there is, and set to charge at it) lets its turn go.

@@ -32,7 +32,7 @@ Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + 
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
@@ -111,7 +111,7 @@ Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + 
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
@@ -149,7 +149,7 @@ Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + 
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
@@ -187,7 +187,7 @@ Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + 
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
@@ -2613,7 +2613,7 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
@@ -2662,7 +2662,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
@@ -2693,7 +2693,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
@@ -2724,7 +2724,7 @@ Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + t
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
@@ -2753,7 +2753,7 @@ Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on a
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
+Sleep: Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Asleep: cannot act; and when attacked, end asleep on whoever has it. An arcane spell of the first level. Takes a first-level slot.
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
