@@ -96,8 +96,9 @@ export class FieldResolver {
     if (call.name === 'realize') { return this.realize(call, host); }
     if (call.name === 'check') {
       const members = host.actors.find(a => a.id === call.args[0])?.members ?? [];
+      const difficulty = Checks.difficulty(call.args[2]!, id => host.world.number(ModuleWriter.call('toBeat', id)));
       return Checks.make(creatures.snapshot.filter(c => members.includes(c.id)),
-        { skill: call.args[1]!, difficulty: call.args[2]!, seed, about: action.id, forced: host.forced });
+        { skill: call.args[1]!, difficulty, seed, about: action.id, forced: host.forced });
     }
     throw new Error(`Unsupported resolver ${call.name}`);
   }

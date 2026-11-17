@@ -18,12 +18,20 @@ export class Checks {
   // on wisdom. A new skill had been written in four shared places, one of them here (Wapshott's Circus, WPC-X03).
   static readonly qualities: Record<string, Attribute> = { perception: 'wisdom', ...Object.fromEntries(
     Object.entries(Canon.skills).flatMap(([id, s]) => s.rests ? [[id, s.rests]] : [])) };
-  // How hard, as Kyr names it (Resolve check(actor, persuasion, dc_hard)): the number to meet or beat.
+  // How hard, as Kyr names it (Resolve check(actor, persuasion, dc_hard)): the number to meet or beat. Or as the world
+  // measures it: a difficulty of a module's own is as hard as its toBeat, which its rules set from what they read (a
+  // debt's size, a keeper's temper: OB-11), read by `measured` where it is made and where its odds are told.
   static readonly difficulties: Record<string, number> = { dc_easy: 10, dc_fair: 13, dc_hard: 16, dc_formidable: 19 };
-  static difficulty(id: string): number {
+  static difficulty(id: string, measured?: (id: string) => number): number {
+    const n = this.known(id, measured);
+    if (n === undefined) { throw new Error(`Unknown difficulty ${id}: none of the four, and no toBeat set for it`); }
+    return n;
+  }
+  // The number, if it is one of the four or has been set.
+  static known(id: string, measured?: (id: string) => number): number | undefined {
     const found = Object.entries(this.difficulties).find(([k]) => id === k || id.endsWith(`__${k}`));
-    if (!found) { throw new Error(`Unknown difficulty ${id}`); }
-    return found[1];
+    const n = found?.[1] ?? measured?.(id) ?? 0;
+    return n >= 1 ? n : undefined;
   }
   static skill(id: string): string { return id.replace(/^.*__/, ''); }
   // What a tool adds: the right one to hand does the work better, and no more (the owner, 7 November).
@@ -66,9 +74,10 @@ export class Checks {
   // The roll turns on who makes it and on what is tried (asking the goblins is not asking their chief). A test may
   // have it come out as it asks (forced: a natural twenty, or a one), whatever the odds: a test of a failed check had
   // been a search over seeds, pinned to the steps before it (Quittance's friction 7, QTC-07).
-  static make(creatures: Creature[], at: { skill: string; difficulty: string; seed: string; about?: string;
+  static make(creatures: Creature[], at: { skill: string; difficulty: string | number; seed: string; about?: string;
     forced?: 'pass' | 'fail' }): CombatEvent[] {
-    const skill = this.skill(at.skill), difficulty = this.difficulty(at.difficulty), c = this.maker(creatures, skill);
+    const skill = this.skill(at.skill), c = this.maker(creatures, skill);
+    const difficulty = typeof at.difficulty === 'number' ? at.difficulty : this.difficulty(at.difficulty);
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
     const b = this.bonus(c, skill), add = this.added(b), parts = this.parts(b);
     if (at.forced) {

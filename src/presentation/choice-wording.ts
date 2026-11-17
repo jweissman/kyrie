@@ -38,7 +38,8 @@ export class ChoiceWording {
     // A check says how it looks to the one who would make it: likely, an even chance, beyond you; and one that cannot
     // be tried again if it fails says so.
     if (resolve?.name === 'check') {
-      name += ` · ${this.odds(campaign, resolve)}${this.final(action, campaign.module) ? ' · one try' : ''}`;
+      const odds = this.odds(campaign, resolve);
+      name += `${odds ? ` · ${odds}` : ''}${this.final(action, campaign.module) ? ' · one try' : ''}`;
     }
     // Risking a hazard says what it would do to whoever goes first, once it is understood.
     const hurt = resolve?.name === 'expose' && action.schema === 'risk' ? this.hurt(campaign, action, resolve) : undefined;
@@ -86,8 +87,10 @@ export class ChoiceWording {
     if (p.kind === 'not' && p.value.kind === 'call') { out.not.add(World.key(p.value)); }
     return out;
   }
-  private static odds(campaign: Campaign, check: Call): string {
+  // None where its difficulty is the module's own and its rules have not yet set it (see Checks.known).
+  private static odds(campaign: Campaign, check: Call): string | undefined {
     const read = campaign.readout, company = read.creatures.filter(c => read.partyIds.includes(c.id));
-    return this.chances[Checks.odds(company, Checks.skill(check.args[1]!), Checks.difficulty(check.args[2]!))];
+    const hard = Checks.known(check.args[2]!, id => campaign.world.number(ModuleWriter.call('toBeat', id)));
+    return hard === undefined ? undefined : this.chances[Checks.odds(company, Checks.skill(check.args[1]!), hard)];
   }
 }
