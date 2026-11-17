@@ -580,7 +580,7 @@ Also kept, without comment: seatOf.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 5 | 0 | 0 | 0 | 0 |
+| 1 | 6 | 0 | 0 | 0 | 1 |
 
 #### identity
 
@@ -605,6 +605,28 @@ Who holds an office (the Rector of the House of Doors).
 *Kyr · relation(fact)* · `rule:world_canon.befell`
 
 A world event (one of the facts of data/imbar) that has befallen: asserted in play, once, and never undone.
+
+#### thresholdOf
+
+*Kyr · relation(place, place)* · `rule:world_canon.thresholdOf`
+
+Where a plane's travellers arrive from elsewhere: its threshold (data/imbar names each plane's).
+
+#### plane shift
+
+*Kyr · action (group, member, place, place, place)* · `rule:world_canon.plane_shift`
+
+- Shown as: Have {caster} cast Plane Shift to {plane}
+- Takes: 10 minutes
+- Costs: 1
+
+Plane Shift cast outside a fight (GT-02): the caster's spell, for its slot, sets the company down on the plane's threshold (the kernel's travel effect, which the engine carries out: Campaign.carry).
+
+A seventh-level working of the arcane that carries the whole company to another plane of existence, to its threshold.
+
+> Needs: able(actor); at(actor, site); memberOf(caster, actor); awake(caster); canCast(caster, plane_shift); thresholdOf(plane, arrival); not (at(actor, arrival))
+
+> Then: nothing changes
 
 ### Rest, mending and lessons
 
@@ -658,9 +680,9 @@ Whoever a rule or an act strikes dead (Slay x): no hit point, slain for good (Co
 - Takes: 10 minutes
 - Costs: 1
 
-A healing, a cleansing or a ward, used between fights, for its usual cost in mana.
+A healing, a cleansing or a ward, or a raising of one of the company who has died, used between fights, for its usual cost in mana.
 
-> Needs: able(actor); at(actor, site); memberOf(caster, actor); memberOf(recipient, actor); fieldUsable(technique); awake(caster); awake(recipient); canCast(caster, technique); treatable(recipient, technique)
+> Needs: able(actor); at(actor, site); memberOf(caster, actor); memberOf(recipient, actor); fieldUsable(technique); awake(caster); awake(recipient)) or (slain(recipient); canCast(caster, technique); treatable(recipient, technique)
 
 > Then: nothing changes
 
@@ -1458,7 +1480,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 25 | 2 | 1 | 21 | 5 |
+| 1 | 26 | 2 | 1 | 21 | 5 |
 
 #### temperament
 
@@ -1806,6 +1828,12 @@ A proud creature names a price for letting you pass; paid, it keeps its word.
 
 What can be heard from the next room can be drawn out of it, and met where the company waits for it, ready: the first blow is the company's (see Environment). The follow-up review met a banshee as a fight the moment its room was entered, with no say in how. A place says which of its dwellers will come (drawable). The company awaits what it drew out until it is met: once they part, or it can fight no more, the waiting is over.
 
+#### lurks
+
+*Kyr · relation(group, place)* · `rule:inhabitants.lurks`
+
+What lies in wait in a place, whose sign shows at the mouth of each way to it (the deep sites' ambushes): the page marks the way red to a company that can see it (OR-12).
+
 #### awaiting_over
 
 *Kyr · rule* · `rule:inhabitants.awaiting_over`
@@ -1834,13 +1862,19 @@ Also kept, without comment: remedy.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 4 | 0 | 0 | 0 | 2 |
+| 1 | 6 | 0 | 0 | 0 | 3 |
 
 #### recipe, takes, takesWith, makes
 
 *Kyr · kind; relation(recipe, itemkind); relation(recipe, itemkind); relation(recipe, itemkind)* · `rule:world_making.recipe`
 
 A way of making one thing of two others one of the company carries (a recipe): willow bark and meadowsweet steeped into a minor potion of healing, dandelion and heather into an antidote, a rag in a flask of lamp oil to throw. What it takes, what it makes, and whether it is a remedy (a mender's work, which can go wrong: the first of what it takes is spoiled) or plain work anyone can do. A recipe is two facts and its entity: add one here, of kinds the catalog has, and it can be made wherever the company has light to work by.
+
+#### undiscovered, knowsRecipe
+
+*Kyr · relation(recipe); relation(group, recipe)* · `rule:world_making.undiscovered`
+
+A recipe nobody has worked out yet is `undiscovered`: it cannot be made until the company has found it (`knowsRecipe`), by trying its two things together (see experiment). Every recipe above is common knowledge, and nothing existing changes.
 
 #### make remedy
 
@@ -1852,7 +1886,7 @@ A way of making one thing of two others one of the company carries (a recipe): w
 
 Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.
 
-> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); remedy(mk_recipe); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (undiscovered(mk_recipe))) or (knowsRecipe(actor, mk_recipe); remedy(mk_recipe); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
 
 > Then: Assert usesUp(actor, mk_first_kind). Assert usesUp(actor, mk_second_kind). Assert handed(mk_made, actor).
 
@@ -1866,9 +1900,23 @@ Steeped, boiled down and strained, the two are one dose that does what both woul
 
 Plain work, quickly done.
 
-> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (remedy(mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (undiscovered(mk_recipe))) or (knowsRecipe(actor, mk_recipe); not (remedy(mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
 
 > Then: Assert usesUp(actor, mk_first_kind). Assert usesUp(actor, mk_second_kind). Assert handed(mk_made, actor).
+
+#### experiment
+
+*Kyr · action (group, member, recipe, item, itemkind, item, itemkind)* · `rule:world_making.experiment`
+
+- Shown as: {mk_maker}: try {mk_first} with {mk_second}
+- Takes: 60 minutes
+- Costs: 1
+
+Two things steeped, ground or bound together to see what they do: the way, if there is one, is learned.
+
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); undiscovered(mk_recipe); not (knowsRecipe(actor, mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
+
+> Then: Assert knowsRecipe(actor, mk_recipe).
 
 ### Food and sleep
 
@@ -2118,7 +2166,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 23 | 3 | 0 | 5 | 6 |
+| 0 | 24 | 3 | 0 | 5 | 8 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -2157,6 +2205,12 @@ What someone is to the one who plays, in the words the page names them by ("your
 *Kyr · relation(group, group); measure(group); relation(group, group)* · `rule:world_people.willing`
 
 Someone who would join the company, once they are willing, for their hire (which may be nothing); and whoever has joined it, who goes where it goes and can be talked to on the way.
+
+#### waitsHere
+
+*Kyr · relation(group, group)* · `rule:world_people.waitsHere`
+
+Someone who joined and was told to wait where they are (see hold_here): theirs to be called on again, for nothing.
 
 #### joinedAs
 
@@ -2203,6 +2257,36 @@ They come with you from now on: they fight beside you, and what they can do, you
 > Needs: able(actor); company(actor); able(recruit); distinct(actor, recruit); at(actor, site); at(recruit, site); willing(recruit, actor); quantity(actor, gold) >= hire(recruit)
 
 > Then: Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site). Assert travelsWith(recruit, actor).
+
+#### hold here
+
+*Kyr · action (group, group, place)* · `rule:world_people.hold_here`
+
+- Shown as: Ask {retainer} to stay here
+- Takes: 10 minutes
+- Costs: 1
+
+The one order there is, given to whoever has joined the company: stay here (they wait where they are, and are theirs again, no longer the company's members: Membership.depart), and come on (they are the company's again, with no hire to pay twice). What they do meanwhile is their own.
+
+They stay where they are, and wait for you.
+
+> Needs: able(actor); company(actor); at(actor, site); travelsWith(retainer, actor); distinct(actor, retainer)
+
+> Then: Retract travelsWith(retainer, actor). Assert waitsHere(retainer, actor).
+
+#### call on
+
+*Kyr · action (group, group, place)* · `rule:world_people.call_on`
+
+- Shown as: Ask {retainer} to come on again
+- Takes: 10 minutes
+- Costs: 1
+
+They take their place with you again.
+
+> Needs: able(actor); company(actor); able(retainer); at(actor, site); at(retainer, site); waitsHere(retainer, actor)
+
+> Then: Retract waitsHere(retainer, actor). Assert travelsWith(retainer, actor). Retract at(retainer, site).
 
 #### lead
 
@@ -2310,7 +2394,7 @@ Nor does a conversation outlast whoever it was with falling, nor their turning o
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 0 | 0 | 0 | 0 | 6 |
+| 0 | 0 | 0 | 0 | 1 | 6 |
 
 #### look closely
 
@@ -2374,6 +2458,16 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 
 > Then: Assert tried(target, pushing).
 
+#### listened_again
+
+*Kyr · rule* · `rule:probing.listened_again`
+
+What was heard at a door holds while the company stays by it; gone from it, the ear is free again, and a return may hear the room changed (the listening pin: once a door, ever, had been the old games' opposite).
+
+> When: tried(?door, listening); company(?c); not (reaches(?c, ?door))
+
+> Then: Retract tried(?door, listening).
+
 #### listen
 
 *Kyr · action (group, entity, place)* · `rule:probing.listen`
@@ -2382,17 +2476,19 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, listening); not (tried(target, listening)); not (undone(target))
+Listening wants no light: an ear to a door in the dark is the oldest way to know what is behind it (the owner, 15 November: hearing passes a shut door; the listening pin).
+
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); suits(target, listening); not (tried(target, listening)); not (undone(target))
 
 > Then: Assert tried(target, listening).
 
 ### Lodging, goods and camping
 
-Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
+Also kept, without comment: offers, serviceOf, sells, thanksPricedItem, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 5 | 3 | 0 | 0 | 9 |
+| 2 | 9 | 3 | 0 | 2 | 11 |
 
 #### onTheHouse
 
@@ -2509,6 +2605,68 @@ An hour's prayer at the shrine, and the price of it. Every level the dead took c
 > Needs: able(actor); able(seller); distinct(actor, seller); at(actor, site); at(seller, site); not (refusesService(seller, actor)); sells(seller, goods); quantity(seller, goods) >= 1; quantity(actor, gold) >= goodsPrice(seller, goods)
 
 > Then: Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods). Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1.
+
+#### haggled
+
+*Kyr · relation(group, good)* · `rule:world_services.haggled`
+
+Haggling (the owner, 15 November: a skill check for a better price). A company may try the price of one ware of one seller once: a good argument takes a coin off it; a poor one, and the seller asks a coin more and will hear no more of it. Never below one coin, and never of a ware the seller has not (the price is the seller's own, as thanks is).
+
+#### haggle
+
+*Kyr · action (group, group, good, place)* · `rule:world_services.haggle`
+
+- Shown as: Haggle with {seller} over the price of {goods}
+- Takes: 10 minutes
+- Costs: 1
+
+Argue for a better price, and be heard or not.
+
+> Needs: able(actor); able(seller); distinct(actor, seller); at(actor, site); at(seller, site); not (refusesService(seller, actor)); sells(seller, goods); quantity(seller, goods) >= 1; goodsPrice(seller, goods) > 1; not (haggled(seller, goods))
+
+> Then: Decrease goodsPrice(seller, goods) by 1. Assert haggled(seller, goods).
+
+#### haggledItem
+
+*Kyr · relation(item)* · `rule:world_services.haggledItem`
+
+The same for a ware that is a thing on a shelf (an item for sale), which is how most of what is sold is sold.
+
+#### haggle item
+
+*Kyr · action (group, item, group, place)* · `rule:world_services.haggle_item`
+
+- Shown as: Haggle with {merchant} over the price of {find}
+- Takes: 10 minutes
+- Costs: 1
+
+Argue for a better price, and be heard or not.
+
+> Needs: able(actor); at(actor, site); at(find, site); forSale(find); soldBy(find, merchant); able(merchant); not (refusesService(merchant, actor)); at(merchant, site); distinct(actor, merchant); price(find) > 1; not (haggledItem(find))
+
+> Then: Decrease price(find) by 1. Assert haggledItem(find).
+
+#### thanksPriced
+
+*Kyr · relation(group, good)* · `rule:world_services.thanksPriced`
+
+A favour remembered in trade: one grateful to a company asks a coin less of it for each of their wares (the remembered-favour pin, CO-16: gratitude had changed words and never a price). Once a ware, and never below one.
+
+#### thanks_priced
+
+*Kyr · rule* · `rule:world_services.thanks_priced`
+
+> When: grateful(?seller, ?company); sells(?seller, ?goods); goodsPrice(?seller, ?goods) > 1; not (thanksPriced(?seller, ?goods))
+
+> Then: Decrease goodsPrice(?seller, ?goods) by 1. Assert thanksPriced(?seller, ?goods).
+
+#### thanks_priced_item
+
+*Kyr · rule* · `rule:world_services.thanks_priced_item`
+
+> When: grateful(?seller, ?company); soldBy(?ware, ?seller); forSale(?ware); price(?ware) > 1; not (thanksPricedItem(?ware))
+
+> Then: Decrease price(?ware) by 1. Assert thanksPricedItem(?ware).
 
 #### unsheltered
 
@@ -3506,7 +3664,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Vigorous | toHit 1 criticalRangeIncrease 2 con 2 tempHp 10 saveVersusAll 1 bonusDamage 1 | faithful |
 | Vital Boost | con 4 tempHp 20 saveVersusAll 2 | faithful |
 | Warded | saveVersusMagic 1 resistFire 0.15 resistCold 0.15 resistLightning 0.15 resistForce 0.5 tempHp =14 + 2 * #level | faithful |
-| Waterproof | resistCold 0.5 | faithful |
+| Waterproof | resistCold 0.5 | adapted |
 | Weakened | str -2 bonusDamage -2 | faithful |
 | Wildheart | toHit 2 bonusDamage 2 con 4 resistPoison 0.5 resistAcid 0.25 immuneDisease true | faithful |
 | Owl's Wisdom | wis 2 saveVersusAll 1 | faithful |

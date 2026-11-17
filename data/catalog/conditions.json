@@ -55,6 +55,22 @@
         "notes": "Exact 50% fire resistance. It persists beyond an encounter for as long as the applying salve or ward says, and one source refreshes rather than stacks."
       }
     },
+    "waterproof": {
+      "name": "Waterproof",
+      "description": "Cold does half its harm.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "resistances": {
+          "cold": 0.5
+        }
+      },
+      "stacking": "source-refresh",
+      "source": {
+        "orsino": "status:waterproof",
+        "fidelity": "adapted",
+        "notes": "Exact 50% cold resistance, as fireproof is to fire. It persists beyond an encounter for as long as the ward that applies it says (the cold ward), and one source refreshes rather than stacks: the Plane of Water's cold is the harm it is laid against (GT-01)."
+      }
+    },
     "wayfarer_guard": {
       "name": "Wayfarer's guard",
       "description": "Veyra watches over the traveller: saves come easier.",

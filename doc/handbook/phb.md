@@ -3289,7 +3289,7 @@ Used: One enemy is oiled for 3 turns (a Dexterity save against 25 avoids it).
 
 - Worth: 100
 
-Used: Apply (1+1d3) dexterity to ally for 6 turns.
+Used: One ally gains dexterity for 6 turns.
 
 > A potent brew that temporarily enhances the drinker's agility and reflexes.
 
@@ -3798,6 +3798,18 @@ Lets its bearer use Fire ward.
 > A copper warding focus. A companion who knows how can raise a ward against fire with it.
 
 *Adapted: Kyr implement that grants the fire ward technique.*
+
+#### Sealskin ward focus
+
+*Adapted · equipment* · `item:cold_ward_focus`
+
+- Worn: focus
+
+Lets its bearer use Cold ward.
+
+> A pebble from the sea-bed sewn into a ring of sealskin. A companion who knows how can raise a ward against cold with it.
+
+*Adapted: Kyr implement that grants the cold ward technique: the ward a company can carry against the Plane of Water's cold (GT-01).*
 
 #### Wardstone
 
@@ -5957,11 +5969,11 @@ You are mage-armored for 20 turns. Mage-Armored: 4 harder to hit, 20 more hit po
 
 *Adapted · level 1 arcane spell, evocation* · `ability:magic_missile`
 
-1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) different enemies, drawn at random (may leave whoever it hurts fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the first level. Takes a first-level slot.
+1d4 + 1 (2–5) force damage to one enemy (may leave whoever it hurts fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the first level. Takes a first-level slot.
 
-> Fire three magical bolts that automatically hit and deal 1d3 damage each (more bolts and damage at higher levels).
+> A dart of force springs from your hand and strikes unerringly, and another for every two levels you have past the first, to five.
 
-*Adapted: Orsino reads the count "2 + round(#level/2)" with parseInt, and always draws 2; Kyr evaluates it as written.*
+*Adapted: The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: spell resistance and Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random.*
 
 ##### Second Sight
 
@@ -6693,13 +6705,13 @@ Every enemy is confused for 3 turns (a Wisdom save against 18 + level + the cast
 
 ##### Plane Shift
 
-*Not playable · level 7 arcane spell, conjuration* · `ability:plane_shift`
+*Adapted · level 7 arcane spell, conjuration* · `ability:plane_shift`
 
-> Transport yourself and your party to another plane of existence.
+Leave the fight. An arcane spell of the seventh level. Takes a seventh-level slot.
 
-*Not playable — effect:planeshift: Effect planeshift is not supported.*
+> Carry yourself and your company to another plane of existence, to its threshold, where doors from elsewhere arrive.
 
-*Not playable — effects: No effect Kyr can execute.*
+*Adapted: GT-02: the kernel's typed travel effect, cast outside a fight by the act the canon offers (Have {caster} cast Plane Shift to {plane}, data/rules/canon.kyr), to the plane's threshold (thresholdOf, data/imbar); the company is set down there (Campaign.carry). Adapted: no forked rod, and the threshold rather than a place of the caster's choosing within the plane; Imbar has no threshold, so it does not carry a company home. In a fight it ends the fight as an escape (Battle: a travel sets the location).*
 
 ##### Spellturning
 
@@ -8253,6 +8265,16 @@ End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one e
 Weapon attack against one enemy, carrying a killing blow on to another. Again after 3 turns.
 
 > Sweeping attack strikes an adjacent enemy if lethal damage is dealt.
+
+### Cold ward
+
+*Adapted · technique* · `ability:cold_ward`
+
+One ally is waterproof for 2 hours. Waterproof: resists 50% of cold.
+
+> Ward a companion against cold for about two hours.
+
+*Adapted: Kyr technique granted by a ward focus, as the fire ward is (GT-01): applies waterproof on the world clock for twelve units, the ward against the Plane of Water's cold.*
 
 ### Confound
 
@@ -10711,6 +10733,12 @@ Resists 50% of lightning.
 
 > Compelled to attack the taunter if able.
 
+### Tended
+
+*Kyr · lasts beyond a fight* · `condition:tended`
+
+> A healing cantrip has done what it can for them since the company last rested: another will not mend them again until a rest, a night, or a healer's care.
+
 ### the Air
 
 *Kyr · lasts beyond a fight* · `condition:plane_air`
@@ -10719,13 +10747,37 @@ Spells -1 harder to resist.
 
 > The law of the Plane of Air: no ground and no stillness, and every spell flung on a wind that is not the caster's.
 
+### the Earth
+
+*Kyr · lasts beyond a fight* · `condition:plane_earth`
+
+Spells 1 harder to resist.
+
+> The law of the Plane of Earth: rock on every side, and a stillness that holds a working fast once it is made.
+
 ### the Fire
 
 *Kyr · lasts beyond a fight* · `condition:plane_fire`
 
-Spells -1 harder to resist.
+Spells -1 harder to resist, takes 1 fire damage each turn.
 
-> The law of the Plane of Fire: heat that leans on every breath, and a working of the will that burns through what would hold it.
+> The law of the Plane of Fire: heat that burns whoever stands in it, a little at a time, and a working of the will that burns through what would hold it.
+
+### the Negative
+
+*Kyr · lasts beyond a fight* · `condition:plane_negative`
+
+Takes 1 necrotic damage each turn.
+
+> The law of the Negative Energy Plane: a cold dark that draws the life out of whoever stands in it.
+
+### the Positive
+
+*Kyr · lasts beyond a fight* · `condition:plane_positive`
+
+Heal 1 each turn.
+
+> The law of the Positive Energy Plane: a light that runs into whoever stands in it like strength, and mends them.
 
 ### The Unlit's law
 
@@ -10734,6 +10786,14 @@ Spells -1 harder to resist.
 +-2 healing, −2 to will saves, resists 50% of fire.
 
 > In the Unlit fire burns small and cold, wounds close slowly, and fear comes easily.
+
+### the Water
+
+*Kyr · lasts beyond a fight* · `condition:plane_water`
+
+Takes 1 cold damage each turn.
+
+> The law of the Plane of Water: no air and no surface, and a cold that works into whoever comes there.
 
 ### Thirst
 
@@ -10843,11 +10903,13 @@ Immune to poison.
 
 ### Waterproof
 
-*Faithful · lasts the fight at most* · `condition:waterproof`
+*Adapted · lasts beyond a fight* · `condition:waterproof`
 
 Resists 50% of cold.
 
-> Resistant to cold damage.
+> Cold does half its harm.
+
+*Adapted: Exact 50% cold resistance, as fireproof is to fire. It persists beyond an encounter for as long as the ward that applies it says (the cold ward), and one source refreshes rather than stacks: the Plane of Water's cold is the harm it is laid against (GT-01).*
 
 ### Wayfarer's guard
 

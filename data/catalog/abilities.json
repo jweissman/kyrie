@@ -47,6 +47,25 @@
         "notes": "Kyr technique granted by a ward focus; applies fireproof on the world clock for twelve units."
       }
     },
+    "cold_ward": {
+      "name": "Cold ward",
+      "kind": "technique",
+      "description": "Ward a companion against cold for about two hours.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "waterproof",
+          "duration": 12,
+          "target": "ally",
+          "clock": "world-time"
+        }
+      ],
+      "source": {
+        "orsino": "status:waterproof",
+        "fidelity": "adapted",
+        "notes": "Kyr technique granted by a ward focus, as the fire ward is (GT-01): applies waterproof on the world clock for twelve units, the ward against the Plane of Water's cold."
+      }
+    },
     "howl": {
       "name": "Howl",
       "kind": "natural",

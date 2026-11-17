@@ -899,6 +899,20 @@
       ]
     },
     {
+      "orsino": "status:waterproof",
+      "kyr": [
+        "condition:waterproof",
+        "ability:cold_ward",
+        "item:cold_ward_focus"
+      ],
+      "support": "play-validated",
+      "fidelity": "adapted",
+      "note": "Exact 50% cold resistance, laid by the cold ward a sealskin focus grants; duration and clock are set by what applies it. The ward against the Plane of Water's cold (GT-01).",
+      "evidence": [
+        "test/small/planar-laws.test.ts#cold_ward_focus"
+      ]
+    },
+    {
       "orsino": "divineSpell:resist_fire",
       "kyr": [
         "ability:resist_fire"

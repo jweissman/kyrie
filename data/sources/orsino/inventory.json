@@ -16735,9 +16735,11 @@
   {
    "id": "status:waterproof",
    "status": "integrated",
-   "mechanics": "executable",
+   "mechanics": "play-validated",
    "kyr": [
-    "condition:waterproof"
+    "condition:waterproof",
+    "ability:cold_ward",
+    "item:cold_ward_focus"
    ]
   },
   {

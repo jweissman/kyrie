@@ -5,6 +5,8 @@ import { Content, type CreatureGenerationContext } from '../../src/content';
 import { PlayerView } from '../../src/presentation/player-view';
 import type { CombatEvent } from '../../src/model';
 import type { CreatureStore } from '../../src/creature-store';
+import { Items } from '../../src/campaign/items';
+import { FieldUse } from '../../src/campaign/field-use';
 
 // The planes in play (GT-01..03; mission-22 brief Phase 4A: "Plane Shift and genuine planar laws, with persistent
 // location and consequences"). An inner plane's law does what its element does, through the ordinary damage pipeline:
@@ -62,8 +64,8 @@ describe('the planes\' laws and Plane Shift', () => {
     const wards = (type: string) => Object.entries(Canon.conditions)
       .filter(([, c]) => (c.modifiers.resistances?.[type] ?? 0) >= 0.5).map(([id]) => id)
       .filter(id => Content.abilities.some(a => a.effects.some(e => e.kind === 'apply' && e.status === id)));
-    // The Water's cold has a ward (waterproof) that nothing in the catalogue yet lays: GT-03's open remainder.
-    expect(harms.map(([, type]) => wards(type).length > 0)).toEqual([true, false, true]);
+    // The Water's cold has its ward too: the cold ward a sealskin focus grants (GT-01; it had none before).
+    expect(harms.map(([, type]) => wards(type).length > 0)).toEqual([true, true, true]);
     expect((law('positive').modifiers.onTurnEnd ?? []).map(x => x.kind)).toEqual(['heal']);
   });
 
@@ -109,6 +111,22 @@ describe('the planes\' laws and Plane Shift', () => {
     const earth = await start('inner_earth_threshold');
     await earth.play('Wait › An hour');
     expect(hp(earth)).toBe(whole);
+  });
+
+  // A ward a company can carry against the Water: the sealskin focus held, its cold ward raised, an hour on the
+  // threshold of Water costs nothing; the focus put down, the ward cannot be raised again.
+  it('is stopped in the Water by the cold ward a sealskin focus grants', async () => {
+    const t = await start('inner_water_threshold'), whole = hp(t), id = 't__party_1';
+    hurt(t, 1, whole - 3);
+    const store = (t.campaign as unknown as { creatures: CreatureStore }).creatures;
+    Items.take(store, id, { id: 'sealskin', definition: 'cold_ward_focus' }); Items.equip(store, id, 'sealskin');
+    FieldUse.perform(store, [id], { ability: 'cold_ward', caster: id, target: id, seed: 'water' });
+    expect(store.get(id).state.conditions.find(c => c.id === 'waterproof')).toMatchObject({ clock: 'world-time' });
+    await t.play('Wait › An hour');
+    expect(hp(t)).toBe(whole - 3);
+    Items.drop(store, id, 'sealskin');
+    expect(() => FieldUse.perform(store, [id], { ability: 'cold_ward', caster: id, target: id, seed: 'again' }))
+      .toThrow('Caster cannot');
   });
 
   it('burns everyone at the end of each turn of a fight fought in the Fire', async () => {

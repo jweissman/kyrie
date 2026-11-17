@@ -2757,7 +2757,7 @@ Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 
-Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) different enemies, drawn at random (may leave whoever it hurts fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the first level. Takes a first-level slot.
+Magic Missile: 1d4 + 1 (2–5) force damage to one enemy (may leave whoever it hurts fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the first level. Takes a first-level slot.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Magic Missile.
 
@@ -3376,6 +3376,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | glass | material | glass | made of glass: clear or green, sharp where it breaks | Constitution +1, Charisma +2, Intelligence +1 | only by an author |
 | platinum | material | platinum | made of platinum: grey-white and very heavy | Constitution +5, Dexterity -4, Strength +2, Charisma +1 | only by an author |
 | barrow | breed | barrow | of the old breed of the barrows: quick, grey and long-nailed, its bite and claws stiffening what they touch | Strength +2, Dexterity +4, Intelligence +3, Wisdom +5, Charisma +7 | only by an author |
+| cellar | breed | cellar | of the cellars and the sewers: small, quick and grey, and there is never only one | Strength -2, Dexterity +5, Constitution +4, Intelligence -1, Wisdom +2, Charisma -1 | only by an author |
 | flesh | material | flesh | stitched together from the dead and bolted at the joints: steel does little to it | Strength +4, Dexterity +2, Constitution -7, Intelligence -8, Wisdom +2, Charisma -7 | only by an author |
 | bronze | material | bronze | made of bronze: brown-gold, dark with handling | Constitution +3, Dexterity -2, Strength +1 | only by an author |
 | black_lineage | lineage | black | its fine scales devour light | Acid lineage, Acid breath | only by an author |
@@ -3784,6 +3785,12 @@ Takes 100% more cold.
 +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 > This creature is attuned to the primal forces of nature, granting it enhanced physical prowess and resilience.
+
+### Rises Again
+
+*Kyr · nature trait* · `trait:rises_again`
+
+> Brought down, it may get up again: it saves against death as the company does, and rises (CO-05: a foe brought to nothing is otherwise dead).
 
 ### Of deep water
 

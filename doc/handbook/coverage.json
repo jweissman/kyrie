@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 764,
-    "adapted": 381,
+    "faithful": 763,
+    "adapted": 385,
     "represented": 4,
-    "kyr": 558,
-    "unsupported": 68,
+    "kyr": 563,
+    "unsupported": 67,
     "unreachable": 4,
     "data-only": 12
    },
@@ -890,7 +890,7 @@
      "title": "Equipment",
      "counts": {
       "faithful": 241,
-      "adapted": 83,
+      "adapted": 84,
       "represented": 0,
       "kyr": 104,
       "unsupported": 7,
@@ -916,10 +916,10 @@
      "title": "Magic",
      "counts": {
       "faithful": 241,
-      "adapted": 9,
+      "adapted": 10,
       "represented": 0,
       "kyr": 4,
-      "unsupported": 32,
+      "unsupported": 31,
       "unreachable": 0,
       "data-only": 0
      }
@@ -929,7 +929,7 @@
      "title": "Techniques",
      "counts": {
       "faithful": 52,
-      "adapted": 3,
+      "adapted": 4,
       "represented": 0,
       "kyr": 5,
       "unsupported": 3,
@@ -967,10 +967,10 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 128,
-      "adapted": 26,
+      "faithful": 127,
+      "adapted": 27,
       "represented": 0,
-      "kyr": 34,
+      "kyr": 39,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -994,10 +994,10 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 231,
-    "adapted": 36,
+    "faithful": 230,
+    "adapted": 37,
     "represented": 27,
-    "kyr": 296,
+    "kyr": 312,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 264,
+      "kyr": 280,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1046,8 +1046,8 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 231,
-      "adapted": 36,
+      "faithful": 230,
+      "adapted": 37,
       "represented": 27,
       "kyr": 0,
       "unsupported": 0,
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 119,
+    "kyr": 120,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1128,7 +1128,7 @@
       "faithful": 26,
       "adapted": 0,
       "represented": 0,
-      "kyr": 8,
+      "kyr": 9,
       "unsupported": 4,
       "unreachable": 0,
       "data-only": 0
@@ -7920,6 +7920,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:cold_ward_focus",
+   "title": "Sealskin ward focus",
+   "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:wardstone",
    "title": "Wardstone",
    "status": "faithful",
@@ -9938,7 +9945,7 @@
   {
    "id": "ability:plane_shift",
    "title": "Plane Shift",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-7"
   },
@@ -11234,6 +11241,13 @@
    "id": "ability:cleave",
    "title": "Cleave",
    "status": "faithful",
+   "book": "phb",
+   "section": "techniques"
+  },
+  {
+   "id": "ability:cold_ward",
+   "title": "Cold ward",
+   "status": "adapted",
    "book": "phb",
    "section": "techniques"
   },
@@ -12967,8 +12981,22 @@
    "section": "conditions"
   },
   {
+   "id": "condition:tended",
+   "title": "Tended",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:plane_air",
    "title": "the Air",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_earth",
+   "title": "the Earth",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"
@@ -12981,8 +13009,29 @@
    "section": "conditions"
   },
   {
+   "id": "condition:plane_negative",
+   "title": "the Negative",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_positive",
+   "title": "the Positive",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:unlit_law",
    "title": "The Unlit's law",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:plane_water",
+   "title": "the Water",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"
@@ -13081,7 +13130,7 @@
   {
    "id": "condition:waterproof",
    "title": "Waterproof",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
@@ -14122,6 +14171,20 @@
    "section": "world-rules/rules-canon"
   },
   {
+   "id": "rule:world_canon.thresholdOf",
+   "title": "thresholdOf",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-canon"
+  },
+  {
+   "id": "rule:world_canon.plane_shift",
+   "title": "plane shift",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-canon"
+  },
+  {
    "id": "rule:care.levelOf",
    "title": "levelOf",
    "status": "kyr",
@@ -15032,6 +15095,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.lurks",
+   "title": "lurks",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.awaiting_over",
    "title": "awaiting_over",
    "status": "kyr",
@@ -15053,6 +15123,13 @@
    "section": "world-rules/rules-making"
   },
   {
+   "id": "rule:world_making.undiscovered",
+   "title": "undiscovered, knowsRecipe",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-making"
+  },
+  {
    "id": "rule:world_making.make_remedy",
    "title": "make remedy",
    "status": "kyr",
@@ -15062,6 +15139,13 @@
   {
    "id": "rule:world_making.make_plain",
    "title": "make plain",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-making"
+  },
+  {
+   "id": "rule:world_making.experiment",
+   "title": "experiment",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-making"
@@ -15312,6 +15396,13 @@
    "section": "world-rules/rules-people"
   },
   {
+   "id": "rule:world_people.waitsHere",
+   "title": "waitsHere",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
    "id": "rule:world_people.joinedAs",
    "title": "joinedAs",
    "status": "kyr",
@@ -15349,6 +15440,20 @@
   {
    "id": "rule:world_people.recruit",
    "title": "recruit",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.hold_here",
+   "title": "hold here",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-people"
+  },
+  {
+   "id": "rule:world_people.call_on",
+   "title": "call on",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-people"
@@ -15459,6 +15564,13 @@
    "section": "world-rules/rules-probing"
   },
   {
+   "id": "rule:probing.listened_again",
+   "title": "listened_again",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-probing"
+  },
+  {
    "id": "rule:probing.listen",
    "title": "listen",
    "status": "kyr",
@@ -15531,6 +15643,55 @@
   {
    "id": "rule:world_services.buy_goods",
    "title": "buy goods",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.haggled",
+   "title": "haggled",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.haggle",
+   "title": "haggle",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.haggledItem",
+   "title": "haggledItem",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.haggle_item",
+   "title": "haggle item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.thanksPriced",
+   "title": "thanksPriced",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.thanks_priced",
+   "title": "thanks_priced",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.thanks_priced_item",
+   "title": "thanks_priced_item",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
@@ -19115,7 +19276,7 @@
   {
    "id": "orsino:status:waterproof",
    "title": "Waterproof",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-status"
   },
@@ -20502,6 +20663,13 @@
    "id": "trait:wild",
    "title": "Wild",
    "status": "faithful",
+   "book": "mm",
+   "section": "creature-traits"
+  },
+  {
+   "id": "trait:rises_again",
+   "title": "Rises Again",
+   "status": "kyr",
    "book": "mm",
    "section": "creature-traits"
   },
