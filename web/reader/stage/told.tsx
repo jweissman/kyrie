@@ -157,7 +157,7 @@ export class Told {
     return <>
       {more && held.map((h, i) => <p key={i} className="held"><Told.Said text={h} /></p>)}
       <button type="button" className="quiet-word more-told" data-action="more-told" aria-expanded={more}
-        onClick={() => open(!more)}>{more ? 'Less' : 'More of the place'}</button>
+        onClick={() => open(!more)}>{more ? 'Less' : 'More of the place…'}</button>
     </>;
   }
   // Whether a line is one the opening's pages told, by its first sentence.
