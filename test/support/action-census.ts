@@ -91,6 +91,25 @@ export class ActionCensus {
     }).map(el => ({ surface, text: `${((el as HTMLElement).innerText || el.getAttribute('aria-label') || el.tagName)
       .replace(/\s+/g, ' ').trim().slice(0, 40)} (not pressable where it is drawn)` })), surface);
   }
+  // The page's own parts, as PageFrame marks them: one header and at most one narrative in view (the owner, 16 November
+  // night: "a background, a header, narrative/description block, the four promoted actions, and possibly an icon
+  // rail"). Surfaces not yet drawn in the one page's parts are named, with why, and the list only shrinks.
+  static readonly unframed: Record<string, string> = {
+    map: "the map's cards have their own head and telling (OR-38: the map's cards into PageFrame)",
+    book: "the Book's pages are its own (OR-38: the Book into PageFrame)",
+  };
+  static framed(page: Page, surface: string): Promise<Pressable[]> {
+    if (ActionCensus.unframed[surface.split(':')[0]!]) { return Promise.resolve([]); }
+    return page.evaluate(surface => {
+      const shown = (slot: string) => Array.from(document.querySelectorAll(`[data-slot="${slot}"]`)).filter(e => {
+        const cs = getComputedStyle(e), r = e.getBoundingClientRect();
+        return !e.closest('[aria-hidden="true"]') && cs.visibility !== 'hidden'
+          && (cs.display === 'contents' ? e.childElementCount > 0 : r.height > 1);
+      }).length;
+      const header = shown('header'), narrative = shown('narrative');
+      return header === 1 && narrative <= 1 ? [] : [{ surface, text: `${header} headers, ${narrative} narratives` }];
+    }, surface);
+  }
   // The opening as a player walks it: the title, each step of a life, setting out, the opening's pages, and the
   // first place, its lenses, someone talked to, the map and the Book: what is stray on each.
   static async walk(page: Page, site: string): Promise<Pressable[]> {
@@ -98,7 +117,7 @@ export class ActionCensus {
       await page.waitForTimeout(600);
       found.push(...await ActionCensus.stray(page, s), ...await ActionCensus.uneven(page, s),
         ...await ActionCensus.foreign(page, s), ...await ActionCensus.menus(page, s),
-        ...await ActionCensus.unreachable(page, s));
+        ...await ActionCensus.unreachable(page, s), ...await ActionCensus.framed(page, s));
     };
     await page.goto(`file://${site}/mono.html`); await page.waitForSelector('[data-action="begin"]'); await at('title');
     await page.goto(`file://${site}/mono.html?world=kite&opening`); await page.waitForSelector('[data-mode="create"]');

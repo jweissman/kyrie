@@ -67,7 +67,7 @@ export class GlanceStage {
     return (
       <div className={`glance arrival-${g.arrival}${GlanceStage.sparse(app, acts, g) ? ' sparse' : ''}`} data-region="glance"
         data-arrival={g.arrival}>
-        {apart ? <GlanceStage.Rest app={app} glance={g} /> : <div className="told-col" data-region="told">
+        {apart ? <GlanceStage.Rest app={app} glance={g} /> : <div className="told-col" data-region="told" {...PageFrame.slot('narrative')}>
           {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
           {g.came && <GlanceStage.Came app={app} came={g.came} />}
@@ -143,7 +143,7 @@ export class GlanceStage {
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text)), col = useRef(null);
     Scrolled.useCue(col, s.frame);
-    return <div className="told-col" data-region="told" ref={col}>
+    return <div className="told-col" data-region="told" ref={col} {...PageFrame.slot('narrative')}>
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
       {g.came && <GlanceStage.Came app={app} came={g.came} />}

@@ -18,6 +18,7 @@ import { RouteCard } from '../route-card';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
+import { PageFrame } from '../page-frame';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
@@ -62,16 +63,16 @@ export class WorldStage {
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
         + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`}
         id="page">
-        {!panel && <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
+        {!panel && <header className="world-bar" {...PageFrame.slot('header')}><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
         <div className="world-body">
-          <section className="surface" aria-label="Where you are">
+          <section className="surface" aria-label="Where you are" {...PageFrame.slot('background')}>
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
               : <><SceneSurface.View screen={screen} />
                 {frame.leaf.glance && SceneRail.talking(app) && <WorldStage.Portraits app={app} draw={draw} />}
                 </>}
           </section>
           <aside className={`focus${panel ? ' scene-panel' : ''}`} aria-label={overworld ? 'On the map' : 'What you are attending to'}>
-            {panel && <header className="panel-head"><Told.Heading frame={frame} app={app} /></header>}
+            {panel && <header className="panel-head" {...PageFrame.slot('header')}><Told.Heading frame={frame} app={app} /></header>}
             {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
               : overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()}
               enter={() => app.outdoor(false)} />
