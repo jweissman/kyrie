@@ -1,0 +1,452 @@
+  [s1_chandlery] Hulda Torunn, chandler: Buy › A coil of rope {buy_item(region__s1_chandler_rope_1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Hulda Torunn is paid, and you take a coil of rope.
+  [s1_taproom] Taklinn, innkeeper: Buy › A torch {buy_item(region__s1_innkeeper_torch_1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Taklinn is paid, and you take a torch.
+  [s1_taproom] Taklinn, innkeeper: Buy › A torch {buy_item(region__s1_innkeeper_torch_2,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Taklinn is paid, and you take a torch.
+  [s1_taproom] Taklinn, innkeeper: Buy › A torch {buy_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Taklinn is paid, and you take a torch.
+approach: at region__w8 hp 12/12 after 17273 ms; FOUGHT ON THE WAY
+  [w8] Pack › A candle › Light {light_item(region__party_1__candle)} hp 12/12->12/12 k+0 it+-1 :: You light a candle.
+* [w8] Ways on: Into the adit mouth by the way in {go(region__w8_in,region__w8_adit_mouth)} hp 12/12->12/12 k+0 it+0 :: A timbered mouth opens in the hillside, the height of a man and the width of a cart. Its lintel is a single oak beam, black with age. The spoil of the old workings spreads below it in a grey fan that the heather has never taken. Cold air comes out of it, stead
+* [w8_adit_mouth] a string of star-iron beads: Take {take_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 2 experience: found a string of star-iron beads.
+* [w8_adit_mouth] The company: Search here {search(region__w8_adit_mouth)} hp 12/12->12/12 k+0 it+0 :: You search the adit mouth with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_adit_mouth] Ways on: To the adit {go(region__w8_adit_mouth__w8_adit_adit,region__w8_adit_adit)} hp 12/12->12/12 k+0 it+0 :: A gallery runs on into the hill, dry and cold, the props on either hand furred with white mould. Somewhere ahead water drips into water. The warlords who came after the Delvers built a gate of squared timbers across the adit and cut slots in the rock beside it
+* [w8_adit_adit] the goblins: Attack {attack(region__w8_adit_adit_dwellers)} hp 12/12->11/12 k+0 it+0 :: Wynn hits the first goblin. The first goblin takes 6 slashing damage. The first goblin falls. Wynn hits the second goblin. The second goblin takes 6 slashing damage. The second goblin falls. Wynn hits the third goblin. The third goblin takes 3 slashing damage.
+   => fight with the goblins: won
+* [w8_adit_adit] a bronze tally-board: Take {take_item(region__w8_adit_adit_find0,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: Wynn gains 2 experience: found a bronze tally-board.
+  [w8_adit_adit] a dagger: Take {take_item(region__w8_adit_adit_dwellers_person__dagger,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: You take a dagger.
+  [w8_adit_adit] leather armor: Take {take_item(region__w8_adit_adit_dwellers_person__leather,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: 
+  [w8_adit_adit] thieves' tools: Take {take_item(region__w8_adit_adit_dwellers_person__thieves_tools,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: 
+  [w8_adit_adit] a candle: Take {take_item(region__w8_adit_adit_dwellers_person__candle,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: You take a candle.
+  [w8_adit_adit] a dagger: Take {take_item(region__w8_adit_adit_dwellers_person_2__dagger,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: You take a dagger.
+  [w8_adit_adit] studded leather armor: Take {take_item(region__w8_adit_adit_dwellers_person_2__studded,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: 
+  [w8_adit_adit] thieves' tools: Take {take_item(region__w8_adit_adit_dwellers_person_2__thieves_tools,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: 
+  [w8_adit_adit] a candle: Take {take_item(region__w8_adit_adit_dwellers_person_2__candle,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: You take a candle.
+  [w8_adit_adit] a dart: Take {take_item(region__w8_adit_adit_dwellers_person_3__dart,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: You take a dart.
+  [w8_adit_adit] studded leather armor: Take {take_item(region__w8_adit_adit_dwellers_person_3__studded,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: What you carry drags at you: you will go at half your pace until you set something down.
+  [w8_adit_adit] thieves' tools: Take {take_item(region__w8_adit_adit_dwellers_person_3__thieves_tools,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: 
+  [w8_adit_adit] a candle: Take {take_item(region__w8_adit_adit_dwellers_person_3__candle,region__member_party_1)} hp 11/12->11/12 k+0 it+1 :: You take a candle.
+  [w8_adit_adit] scattered coins: Examine — Look closely {look_closely(region__w8_adit_adit_coins)} hp 11/12->11/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_adit] Ways on: To the crossing — look at the tripwire › Look closely {look_closely(region__w8_adit_crossing_snare)} hp 11/12->11/12 k+1 it+0 :: You look closely at the tripwire. The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.
+  [w8_adit_adit] The company: Search here {search(region__w8_adit_adit)} hp 11/12->11/12 k+0 it+0 :: You search the adit with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_adit_adit] the words burned into the gate-beam: Read the words on the gate-beam {change_thing(region__w8_adit_adit_after0_doc_read)} hp 11/12->11/12 k+1 it+0 :: BY THE LORD OF AERGODRÍCE THIS WORKING IS HELD. NONE BELOW THE CROSSING. You have read the words burned into the gate-beam.
+* [w8_adit_adit] scattered coins: Gather up the coins {change_thing(region__w8_adit_adit_coins_gather)} hp 11/12->11/12 k+0 it+0 :: Six coin, all told, most of it old and some of it good. The crack between the flagstones is only a crack now.
+  [w8_adit_adit] Ways on: To the crossing — hook the wire with the pole and pull, from well back {change_thing(region__w8_adit_crossing_snare_spring)} hp 11/12->11/12 k+0 it+0 :: The tripwire goes off at the pole’s end: a poison cloud, spent on nothing. The tripwire has been set off from a pole’s length away, and is spent.
+   (heeded a sign: keeping out of the head of the winze)
+* [w8_adit_adit] Ways on: To the crossing {go(region__w8_adit_adit__w8_adit_crossing,region__w8_adit_crossing)} hp 11/12->11/12 k+0 it+0 :: Two galleries cross under a roof cut higher, to turn the tubs. Tools hang on a rack on the wall, rusted into one shape. Chalk marks on the props point each way: a star toward the shaft, an open hand toward the stopes. The tripwire has been set off from a pole’
+  [w8_adit_crossing] Ways on: To the head of the winze — look at the warlords' barricade › Listen at it {listen(region__w8_adit_crossing_after1_bar)} hp 11/12->11/12 k+0 it+0 :: You put an ear to the warlords’ barricade, and hold your breath. There is nothing to hear from it.
+  [w8_adit_crossing] The company: Search here {search(region__w8_adit_crossing)} hp 11/12->11/12 k+0 it+0 :: You search the crossing with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_adit_crossing] Ways on: To the head of the winze — drag the barricade apart {change_thing(region__w8_adit_crossing_after1_bar_drag)} hp 11/12->11/12 k+0 it+0 :: It holds, and holds, and then it does not, all at once, with a crack that anyone near will have heard. The warlords’ barricade lies dragged apart across the gallery.
+  [w8_adit_crossing] Ways on: To the head of the winze — draw out what is in there, and wait for it here {draw_out(region__w8_adit_winze_head)} hp 11/12->11/12 k+0 it+0 :: The goblin chief stands and watches you, and will not have you here for long. The goblin chief will give you 7 minutes, no more.
+* [w8_adit_crossing] the goblin chief, the biggest of the goblins, in a Delver's iron helm too big for him: Attack {attack(region__w8_adit_winze_head_dwellers)} hp 11/12->9/12 k+0 it+0 :: The goblin chief takes 8 slashing damage. The goblin chief falls. The fight is won. Wynn gains 67 experience.
+   => fight with the goblin chief: won
+  [w8_adit_crossing] a spear: Take {take_item(region__w8_adit_winze_head_dwellers_person__spear,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a spear.
+  [w8_adit_crossing] chain mail: Take {take_item(region__w8_adit_winze_head_dwellers_person__chainmail,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: 
+  [w8_adit_crossing] a bedroll: Take {take_item(region__w8_adit_winze_head_dwellers_person__bedroll,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a bedroll.
+  [w8_adit_crossing] firewood: Take {take_item(region__w8_adit_winze_head_dwellers_person__firewood,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: 
+  [w8_adit_crossing] a flask: Take {take_item(region__w8_adit_winze_head_dwellers_person__flask,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a flask.
+  [w8_adit_crossing] a candle: Take {take_item(region__w8_adit_winze_head_dwellers_person__candle,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a candle.
+* [w8_adit_crossing] Ways on: To the old stope {go(region__w8_adit_crossing__w8_adit_stope,region__w8_adit_stope)} hp 9/12->9/12 k+0 it+0 :: A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it. A crystal grows out of the rock here, tall and clear, and hums ver
+  [w8_adit_stope] a lamp: Take {take_item(region__w8_adit_stope_find0,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a lamp.
+* [w8_adit_stope] an oval-cut carnelian: Take {take_item(region__w8_adit_stope_gem0,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: Wynn gains 2 experience: found an oval-cut carnelian.
+  [w8_adit_stope] a coil of rope: Take {take_item(region__w8_adit_stope_rope,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a coil of rope.
+  [w8_adit_stope] a torch: Take {take_item(region__w8_adit_stope_torch,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a torch.
+  [w8_adit_stope] a potion of healing: Take a potion of healing from a rotted pack {take_out(region__w8_adit_stope_left0,region__w8_adit_stope_pack,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a potion of healing from a rotted pack.
+  [w8_adit_stope] a potion of barkskin: Take a potion of barkskin from a rotted pack {take_out(region__w8_adit_stope_left1,region__w8_adit_stope_pack,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: You take a potion of barkskin from a rotted pack.
+* [w8_adit_stope] a lump of star-iron: Take {take_item(region__w8_adit_stope_ore0,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron. Wynn’s candle burns down to nothing. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_adit_stope] The company: Wynn: light a torch {light_item(region__s1_innkeeper_torch_1)} hp 9/12->9/12 k+0 it+-1 :: You light a torch. A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it. A draft moves your light, steadily, toward the 
+* [w8_adit_stope] a lump of star-iron: Take {take_item(region__w8_adit_stope_ore1,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_adit_stope] a lump of star-iron: Take {take_item(region__w8_adit_stope_ore2,region__member_party_1)} hp 9/12->9/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+  [w8_adit_stope] scattered coins: Examine — Look closely {look_closely(region__w8_adit_stope_coins)} hp 9/12->9/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_stope] a damp notebook: Examine — Look closely {look_closely(region__w8_adit_stope_notebook)} hp 9/12->9/12 k+0 it+0 :: You look closely at a damp notebook. Looked at closely, it is just as it seems.
+  [w8_adit_stope] a rotted pack: Examine › Listen at it {listen(region__w8_adit_stope_pack)} hp 9/12->9/12 k+0 it+0 :: You put an ear to a rotted pack, and hold your breath. There is nothing to hear from it.
+  [w8_adit_stope] The company: Search here {search(region__w8_adit_stope)} hp 9/12->9/12 k+1 it+0 :: You search the old stope with care, a little at a time. Where the draft goes: behind the rubble at the end of the stope, a way into the air shaft.
+  [w8_adit_stope] a damp notebook: Unstrap the notebook and read it {change_thing(region__w8_adit_stope_notebook_read)} hp 9/12->9/12 k+1 it+0 :: A damp notebook, the last pages written small to save them. ‘The cage is at the bottom and the wheel will not turn: rusted. Brann says a bar under the axle would free it, if we had brought one. The ladders in the winze are sound as far as we went. Something li
+* [w8_adit_stope] the singing crystal: Touch the singing crystal {change_thing(region__w8_adit_stope_wonder_singing_crystal_meet)} hp 9/12->9/12 k+1 it+0 :: It sings when you touch it, a long high note that stays in you and lifts your heart. Wynn’s blood is up. It shows you, as plainly as a page, how the people who made this place ended. They went too deep. Their last gallery broke into something that was cold and
+* [w8_adit_stope] scattered coins: Gather up the coins {change_thing(region__w8_adit_stope_coins_gather)} hp 9/12->9/12 k+0 it+0 :: Six coin, all told, most of it old and some of it good. The niche is empty but for a ring of green where the coins lay.
+  [w8_adit_stope] a rotted pack: Examine — Prod it with the pole {prod(region__w8_adit_stope_pack)} hp 9/12->9/12 k+0 it+0 :: You prod a rotted pack with the pole, from as far off as it allows. Nothing gives, and nothing answers.
+* [w8_adit_stope] The company: Tend Wynn › Wynn: use a potion of healing {use_item(region__w8_adit_stope_left0,region__member_party_1)} hp 9/12->12/12 k+0 it+-1 :: Wynn recovers 3 HP (12 HP).
+  [w8_adit_stope] a potion of barkskin: Use on › Wynn {use_item(region__w8_adit_stope_left1,region__member_party_1)} hp 12/12->12/12 k+0 it+-1 :: 
+* [w8_adit_stope] Ways on: To the air shaft {go(region__w8_adit_stope__w8_adit_vent,region__w8_adit_vent)} hp 12/12->12/12 k+0 it+0 :: A chimney of rough rock goes straight up out of the gallery roof; daylight shows at the top of it, very small. Iron rungs are set in one side, and the air pours up it the way water goes down a drain. Coins glint in a crack between two flagstones, a row of them
+* [w8_adit_vent] the bats: Attack {attack(region__w8_adit_vent_dwellers)} hp 12/12->12/12 k+0 it+0 :: Wynn hits the first bat. The first bat takes 3 slashing damage. The first bat falls. Wynn hits the second bat. The second bat takes 3 slashing damage. The second bat falls. Wynn hits the fourth bat. The fourth bat takes 1 slashing damage. The fourth bat falls.
+   => fight with the bats: won
+* [w8_adit_vent] The company: Wynn: light a torch {light_item(region__s1_innkeeper_torch_2)} hp 12/12->12/12 k+0 it+-1 :: You light a torch. A chimney of rough rock goes straight up out of the gallery roof; daylight shows at the top of it, very small. Iron rungs are set in one side, and the air pours up it the way water goes down a drain. Coins glint in a crack between two flagst
+  [w8_adit_vent] scattered coins: Examine — Look closely {look_closely(region__w8_adit_vent_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_vent] The company: Search here {search(region__w8_adit_vent)} hp 12/12->12/12 k+0 it+0 :: You search the air shaft with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_adit_vent] scattered coins: Gather up the coins {change_thing(region__w8_adit_vent_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Seven coin, all told, most of it old and some of it good. The crack between the flagstones is only a crack now.
+  (routed to region__w8_adit_shaft_head: at region__w8_adit_shaft_head)
+* [w8_adit_shaft_head] a tattered map: Take {take_item(region__w8_adit_shaft_head_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a tattered map.
+* [w8_adit_shaft_head] an agate cabochon: Take {take_item(region__w8_adit_shaft_head_gem0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 3 experience: found an agate cabochon.
+* [w8_adit_shaft_head] a lump of star-iron: Take {take_item(region__w8_adit_shaft_head_ore0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+  [w8_adit_shaft_head] the stone casket: Examine › Listen at it {listen(region__w8_adit_shaft_head_casket)} hp 12/12->12/12 k+0 it+0 :: You put an ear to the stone casket, and hold your breath. There is nothing to hear from it.
+  [w8_adit_shaft_head] Ways on: To the ore pass — look at the hidden switch › Look closely {look_closely(region__w8_adit_chute_top_snare)} hp 12/12->12/12 k+1 it+0 :: You look closely at the hidden switch. Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.
+  [w8_adit_shaft_head] The company: Search here {search(region__w8_adit_shaft_head)} hp 12/12->12/12 k+0 it+0 :: Your light gives out, and there is no going on with it in the dark. Wynn’s torch gutters out. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_adit_shaft_head] The company: Wynn: light a torch {light_item(region__s1_innkeeper_torch_3)} hp 12/12->12/12 k+0 it+-1 :: You light a torch. The gallery widens into a chamber round the head of a shaft. A winding wheel taller than a man stands over the hole on a frame of oak and bronze. A chain runs from it down into the dark. Whatever hangs on the chain is somewhere below. The wi
+* [w8_adit_shaft_head] the winding wheel: Work the seized wheel free {change_thing(region__w8_adit_shaft_head__w8_haulage_shaft_bottom_wheel_free)} hp 12/12->12/12 k+0 it+0 :: You set your shoulder to it and heave. Wood groans and iron shrieks, and the noise of it goes further than you would like. The winding wheel turns, stiffly, and the chain runs over it; the cage can be wound up and let down.
+* [w8_adit_shaft_head] the stone casket: Examine › Prod it with the pole {prod(region__w8_adit_shaft_head_casket)} hp 12/12->12/12 k+0 it+0 :: You prod the stone casket with the pole, from as far off as it allows. Nothing gives, and nothing answers.
+* [w8_adit_shaft_head] the stone casket: Press the word “Egg” on the casket {region__w8_adit_shaft_head_casket_word0} hp 12/12->12/12 k+0 it+0 :: The word sinks under your finger, and something in the stone turns over; the lid swings up on its pivot. The casket’s lid has turned on a pivot you could not see, and stands open.
+* [w8_adit_shaft_head] a tattered map: Take a tattered map from the stone casket {take_out(region__w8_adit_shaft_head_casket_gift,region__w8_adit_shaft_head_casket,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a tattered map from the stone casket. Wynn’s fire cools.
+  [w8_adit_shaft_head] Ways on: To the ore pass — push the switch in with the pole's end, standing clear {change_thing(region__w8_adit_chute_top_snare_spring)} hp 12/12->12/12 k+0 it+0 :: The hidden switch goes off at the pole’s end: falling rocks, spent on nothing. The hidden switch has been set off from a pole’s length away, and is spent.
+* [w8_adit_shaft_head] Ways on: To the ore pass {go(region__w8_adit_shaft_head__w8_adit_chute_top,region__w8_adit_chute_top)} hp 12/12->12/12 k+0 it+0 :: A funnel of smooth rock opens in the floor: the ore pass, down which the Delvers tipped what they cut to the level below. Its sides are polished by a hundred years of stone going down, too smooth to climb. The hidden switch has been set off from a pole’s lengt
+* [w8_adit_chute_top] a lump of star-iron: Take {take_item(region__w8_adit_chute_top_ore0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_adit_chute_top] a lump of star-iron: Take {take_item(region__w8_adit_chute_top_ore1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_adit_chute_top] The company: Search here {search(region__w8_adit_chute_top)} hp 12/12->12/12 k+0 it+0 :: You search the ore pass with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_adit_chute_top] Ways on: Down to the ore bin by the ore pass, feet first {go(region__w8_adit_chute_top__w8_haulage_chute_foot,region__w8_haulage_chute_foot)} hp 12/12->12/12 k+0 it+0 :: The ore pass ends above a stone bin as big as a room, half full of rubble and ore tipped down from above. A door at the bottom of the bin let the ore out into the tubs. A wire catches the light low across the way, at the height of an ankle. A rotted pouch lies
+* [w8_haulage_chute_foot] a lump of star-iron: Take {take_item(region__w8_haulage_chute_foot_ore0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_haulage_chute_foot] a lump of star-iron: Take {take_item(region__w8_haulage_chute_foot_ore1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_haulage_chute_foot] a lump of star-iron: Take {take_item(region__w8_haulage_chute_foot_ore2,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+  [w8_haulage_chute_foot] scattered coins: Examine — Look closely {look_closely(region__w8_haulage_chute_foot_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_haulage_chute_foot] Ways on: To the shaft bottom — look at the tripwire › Look closely {look_closely(region__w8_haulage_chute_foot_snare)} hp 12/12->12/12 k+1 it+0 :: You look closely at the tripwire. The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.
+  [w8_haulage_chute_foot] The company: Search here {search(region__w8_haulage_chute_foot)} hp 12/12->12/12 k+0 it+0 :: Your light gives out, and there is no going on with it in the dark. Wynn’s torch gutters out. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_haulage_chute_foot] The company: Wynn: light a candle {light_item(region__w8_adit_adit_dwellers_person__candle)} hp 12/12->12/12 k+0 it+-1 :: You light a candle. The ore pass ends above a stone bin as big as a room, half full of rubble and ore tipped down from above. A door at the bottom of the bin let the ore out into the tubs. A wire catches the light low across the way, at the height of an ankle.
+* [w8_haulage_chute_foot] scattered coins: Gather up the coins {change_thing(region__w8_haulage_chute_foot_coins_gather)} hp 12/12->12/12 k+0 it+0 :: 13 coin, all told, most of it old and some of it good. The rotted pouch lies empty under its stone.
+  [w8_haulage_chute_foot] Ways on: To the shaft bottom — hook the wire with the pole and pull, from well back {change_thing(region__w8_haulage_chute_foot_snare_spring)} hp 12/12->12/12 k+0 it+0 :: The tripwire goes off at the pole’s end: an acid spray, spent on nothing. The tripwire has been set off from a pole’s length away, and is spent.
+* [w8_haulage_chute_foot] Ways on: To the shaft bottom {go(region__w8_haulage_shaft_bottom__w8_haulage_chute_foot,region__w8_haulage_shaft_bottom)} hp 12/12->12/12 k+1 it+0 :: The shaft comes down into a stone-lined chamber. Tubs stand in a line on the rails, some still heaped with pale ore that nobody hauled up. A rune is laid in the floor across the way, its lines lit with a dull glow that comes and goes, slow as breathing. The tr
+* [w8_haulage_shaft_bottom] a lump of star-iron: Take {take_item(region__w8_haulage_shaft_bottom_ore0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_haulage_shaft_bottom] a lump of star-iron: Take {take_item(region__w8_haulage_shaft_bottom_ore1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_haulage_shaft_bottom] a lump of star-iron: Take {take_item(region__w8_haulage_shaft_bottom_ore2,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+* [w8_haulage_shaft_bottom] Ways on: To the haulage way — look at the magical rune › Look closely {look_closely(region__w8_haulage_haulage_snare)} hp 12/12->12/12 k+1 it+0 :: You look closely at the magical rune. The rune is laid in the floor where a foot must cross it. It is waiting for weight, or warmth; it cannot tell the one from the other.
+  [w8_haulage_shaft_bottom] The company: Search here {search(region__w8_haulage_shaft_bottom)} hp 12/12->12/12 k+0 it+0 :: You search the shaft bottom with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_haulage_shaft_bottom] Ways on: To the haulage way — lay the pole's end on the rune from as far off as it allows {change_thing(region__w8_haulage_haulage_snare_spring)} hp 12/12->12/12 k+0 it+0 :: The magical rune goes off at the pole’s end: a flame whip, spent on nothing. The magical rune has been set off from a pole’s length away, and is spent.
+* [w8_haulage_shaft_bottom] Ways on: To the haulage way {go(region__w8_haulage_shaft_bottom__w8_haulage_haulage,region__w8_haulage_haulage)} hp 12/12->12/12 k+0 it+0 :: The main road of the level is a broad gallery with a rail down its middle. Refuges are cut in the walls every fifty paces, to step into when the tubs came. The magical rune has been set off from a pole’s length away, and is spent. Something is moving about in 
+* [w8_haulage_haulage] a lump of star-iron: Take {take_item(region__w8_haulage_haulage_ore0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+  [w8_haulage_haulage] The company: Search here {search(region__w8_haulage_haulage)} hp 12/12->12/12 k+0 it+0 :: You search the haulage way with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+   (heeded a sign: keeping out of the shrine of the vein)
+* [w8_haulage_haulage] Ways on: To the Delvers' hall {go(region__w8_haulage_haulage__w8_haulage_hall,region__w8_haulage_hall)} hp 12/12->12/12 k+1 it+0 :: A long hall cut in the rock, with benches of the same rock. At the end a hearth’s smoke-hole goes up into the dark. Names are cut on every wall, hundreds of them, each with a small star beside it. In the end wall of the hall one stretch is boarded over with pl
+* [w8_haulage_hall] the cave hounds: Attack {attack(region__w8_haulage_hall_dwellers)} hp 12/12->12/12 k+0 it+0 :: Wynn hits the first cave hound. The first cave hound takes 12 slashing damage. The first cave hound falls. Wynn hits the second cave hound. The second cave hound takes 9 slashing damage. The second cave hound falls. The fight is won. Wynn gains 322 experience.
+   => fight with the cave hounds: won
+   (declined to draw out: Ways on: To the shrine of the vein — draw out what is in there, and wait for it here)
+  [w8_haulage_hall] scattered coins: Examine — Look closely {look_closely(region__w8_haulage_hall_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_haulage_hall] The company: Search here {search(region__w8_haulage_hall)} hp 12/12->12/12 k+1 it+0 :: You search the Delvers’ hall with care, a little at a time. Behind the planks in the end wall the rock is cut square: a store, boarded over.
+* [w8_haulage_hall] scattered coins: Gather up the coins {change_thing(region__w8_haulage_hall_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Eleven coin, all told, most of it old and some of it good. The cracked pot lies empty against the wall.
+* [w8_haulage_hall] Ways on: To the boarded store {go(region__w8_haulage_hall_cache_way,region__w8_haulage_hall_cache_chamber)} hp 12/12->12/12 k+0 it+0 :: A store cut square into the rock and shelved with timber. Most of the shelves are bare; on the lowest, things have been laid out and covered with sacking. A tally-board hangs from a nail, notched and written on.
+  [w8_haulage_hall_cache_chamber] a dagger: Take {take_item(region__w8_haulage_hall_cache_kept0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a dagger.
+  [w8_haulage_hall_cache_chamber] a coil of rope: Take {take_item(region__w8_haulage_hall_cache_kept1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a coil of rope.
+* [w8_haulage_hall_cache_chamber] a Delver's ring: Take {take_item(region__w8_haulage_hall_cache_kept2,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 5 experience: found a Delver’s ring.
+* [w8_haulage_hall_cache_chamber] a Delver's silver lamp: Take {take_item(region__w8_haulage_hall_cache_kept3,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 6 experience: found a Delver’s silver lamp.
+  [w8_haulage_hall_cache_chamber] The company: Search here {search(region__w8_haulage_hall_cache_chamber)} hp 12/12->12/12 k+0 it+0 :: Your light gives out, and there is no going on with it in the dark. Wynn’s candle burns down to nothing. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_haulage_hall_cache_chamber] The company: Wynn: light a candle {light_item(region__w8_adit_adit_dwellers_person_2__candle)} hp 12/12->12/12 k+0 it+-1 :: You light a candle. A store cut square into the rock and shelved with timber. Most of the shelves are bare; on the lowest, things have been laid out and covered with sacking. A tally-board hangs from a nail, notched and written on.
+* [w8_haulage_hall_cache_chamber] a tally-board: Read the tally-board {change_thing(region__w8_haulage_hall_cache_doc_read)} hp 12/12->12/12 k+0 it+0 :: The notches are the Delvers’ count. The writing over them is Aergodríce’s: ‘Taken into the king’s keeping: the last of the paymaster’s store. To be fetched when the shaft is cleared.’ The shaft was never cleared. You have read the tally-board.
+  (routed to region__w8_adit_race_head: at region__w8_adit_race_head)
+* [w8_adit_race_head] the rats: Attack {attack(region__w8_adit_race_head_dwellers)} hp 12/12->12/12 k+0 it+0 :: Wynn hits the first rat. The first rat takes 2 slashing damage. The first rat falls. Wynn hits the second rat. The second rat takes 2 slashing damage. The second rat falls. The third rat takes 2 slashing damage. The third rat falls. Wynn hits the fourth rat. T
+   => fight with the rats: won
+* [w8_adit_race_head] a small star-iron ingot: Take {take_item(region__w8_adit_race_head_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a small star-iron ingot.
+* [w8_adit_race_head] a marquise-cut ruby: Take {take_item(region__w8_adit_race_head_gem0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 47 experience: found a marquise-cut ruby.
+  [w8_adit_race_head] scattered coins: Examine — Look closely {look_closely(region__w8_adit_race_head_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_race_head] The company: Search here {search(region__w8_adit_race_head)} hp 12/12->12/12 k+0 it+0 :: You search the spring with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_adit_race_head] the bronze gate in the channel: Swing the gate across, and turn the spring down the race {change_thing(region__w8_adit_race_head_gate_open)} hp 12/12->12/12 k+0 it+0 :: Far below, very faint through the rock, something is turning. The gate is swung across the old channel, and the spring goes roaring away down the race into the dark.
+* [w8_adit_race_head] the bronze gate in the channel: Swing the gate back, and let the spring run its own way {change_thing(region__w8_adit_race_head_gate_shut)} hp 12/12->12/12 k+0 it+0 :: The bronze gate stands across the race, and the spring runs on down its own channel and away.
+* [w8_adit_race_head] scattered coins: Gather up the coins {change_thing(region__w8_adit_race_head_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Two coin, all told, most of it old and some of it good. The burst strongbox is empty, and so is the rust around it.
+  (routed to region__w8_adit_forge: at region__w8_adit_forge)
+  [w8_adit_forge] the stone casket: Examine › Listen at it {listen(region__w8_adit_forge_casket)} hp 12/12->12/12 k+0 it+0 :: You put an ear to the stone casket, and hold your breath. There is nothing to hear from it.
+  [w8_adit_forge] scattered coins: Examine — Look closely {look_closely(region__w8_adit_forge_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_forge] The company: Search here {search(region__w8_adit_forge)} hp 12/12->12/12 k+0 it+0 :: Your light gives out, and there is no going on with it in the dark. Wynn’s candle burns down to nothing. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_adit_forge] The company: Wynn: light a candle {light_item(region__w8_adit_adit_dwellers_person_3__candle)} hp 12/12->12/12 k+0 it+-1 :: You light a candle. A side chamber with a hearth cut into the rock and a smoke-hole above it. An anvil stands on a block of oak. Here the Delvers mended their picks; the floor is black with a century of scale. A casket of grey stone stands against the wall, it
+* [w8_adit_forge] the stone casket: Examine — Prod it with the pole {prod(region__w8_adit_forge_casket)} hp 12/12->12/12 k+0 it+0 :: You prod the stone casket with the pole, from as far off as it allows. Nothing gives, and nothing answers.
+* [w8_adit_forge] the stone casket: Press the word “Egg” on the casket {region__w8_adit_forge_casket_word0} hp 12/12->12/12 k+0 it+0 :: The word sinks under your finger, and something in the stone turns over; the lid swings up on its pivot. The casket’s lid has turned on a pivot you could not see, and stands open.
+* [w8_adit_forge] a Delver's ring: Take a Delver's ring from the stone casket {take_out(region__w8_adit_forge_casket_gift,region__w8_adit_forge_casket,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a Delver’s ring from the stone casket. Wynn gains 5 experience: found a Delver’s ring.
+* [w8_adit_forge] scattered coins: Gather up the coins {change_thing(region__w8_adit_forge_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Two coin, all told, most of it old and some of it good. The burst strongbox is empty, and so is the rust around it.
+  (routed to region__w8_haulage_haulage2: at region__w8_haulage_haulage2)
+* [w8_haulage_haulage2] the bone hounds, the Delvers' dogs, still on their watch: Attack {attack(region__w8_haulage_haulage2_dwellers)} hp 12/12->12/12 k+0 it+0 :: The first skeletal hound takes 3 slashing damage. The first skeletal hound falls. Wynn hits the second skeletal hound. The second skeletal hound takes 10 slashing damage. The second skeletal hound falls. The third skeletal hound takes 3 slashing damage. The th
+   => fight with the bone hounds: won
+  [w8_haulage_haulage2] a coil of rope: Take {take_item(region__w8_haulage_haulage2_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a coil of rope.
+* [w8_haulage_haulage2] a lump of star-iron: Take {take_item(region__w8_haulage_haulage2_ore0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 7 experience: found a lump of star-iron.
+  [w8_haulage_haulage2] scattered coins: Examine — Look closely {look_closely(region__w8_haulage_haulage2_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+* [w8_haulage_haulage2] Ways on: To the sealed stair — look at the arcane glyph › Look closely {look_closely(region__w8_haulage_seal_snare)} hp 12/12->12/12 k+1 it+0 :: You look closely at the arcane glyph. The glyph is a word, written to be read by whoever passes it; reading it is what sets it off. Someone who knew the letters could unsay it.
+  [w8_haulage_haulage2] The company: Search here {search(region__w8_haulage_haulage2)} hp 12/12->12/12 k+0 it+0 :: You search the long haulage with care, a little at a time. You have been over the whole of it, and nothing is hidden here. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+* [w8_haulage_haulage2] scattered coins: Gather up the coins {change_thing(region__w8_haulage_haulage2_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Seven coin, all told, most of it old and some of it good. Nothing is left in the dust but the shape of a purse.
+* [w8_haulage_haulage2] Ways on: To the sealed stair — hold the pole's end across the glyph, looking away {change_thing(region__w8_haulage_seal_snare_spring)} hp 12/12->12/12 k+0 it+0 :: The arcane glyph goes off at the pole’s end: a psychic scream, spent on nothing. The arcane glyph has been set off from a pole’s length away, and is spent.
+* [w8_haulage_haulage2] Ways on: To the sealed stair {go(region__w8_haulage_haulage2__w8_haulage_seal,region__w8_haulage_seal)} hp 12/12->12/12 k+0 it+0 :: At the end of the level the haulage way stops. A stair cut in the rock goes down from it, steep, worn hollow by the Delvers’ boots. The air that comes up it is wet. A wall of dressed stone stands across the stair, built in a hurry, its mortar slopped and run. 
+   (pressing the chest's marks in the order seen: the wheel, the lamp, the hammer)
+  [w8_haulage_seal] the paymaster's strong-box: Press down the stamp of the wheel {region__w8_haulage_seal_order_p2(party,region__w8_haulage_seal)} hp 12/12->12/12 k+0 it+0 :: The stamp goes down with a click and stays down.
+  [w8_haulage_seal] the paymaster's strong-box: Press down the stamp of the lamp {region__w8_haulage_seal_order_p1(party,region__w8_haulage_seal)} hp 12/12->12/12 k+0 it+0 :: The stamp goes down with a click and stays down. Wynn’s candle burns down to nothing. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+  [w8_haulage_seal] The company: Press down the stamp of the hammer {region__w8_haulage_seal_order_p0(party,region__w8_haulage_seal)} hp 12/12->12/12 k+0 it+0 :: The stamp goes down with a click and stays down. The last stamp goes down. Bolts slide inside the box, and the lid comes up.
+* [w8_haulage_seal] Ways on: Down to the foot of the stair — look at the wall across the stair — Listen at it {listen(region__w8_haulage_seal__w8_drowned_stair_foot_wall)} hp 12/12->12/12 k+0 it+0 :: You put an ear to the wall across the stair, and hold your breath. There is nothing to hear from it.
+  (routed to region__w8_haulage_stores: at region__w8_haulage_stores)
+* [w8_haulage_stores] The company: Wynn: light a candle {light_item(region__w8_adit_winze_head_dwellers_person__candle)} hp 12/12->12/12 k+0 it+-1 :: You light a candle. Racks and bins line both walls: rope rotted to dust, lamp-oil dried to varnish in its jars. The iron tools are stacked neatly, as if for the next shift. A candle burns in a niche, its flame quite steady, its wax not run at all. There is no 
+* [w8_haulage_stores] a star-iron ingot: Take {take_item(region__w8_haulage_stores_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 15 experience: found a star-iron ingot.
+  [w8_haulage_stores] the stone casket: Examine › Listen at it {listen(region__w8_haulage_stores_casket)} hp 12/12->12/12 k+0 it+0 :: You put an ear to the stone casket, and hold your breath. There is nothing to hear from it.
+  [w8_haulage_stores] The company: Search here {search(region__w8_haulage_stores)} hp 12/12->12/12 k+0 it+0 :: You search the stores with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_haulage_stores] the stone casket: Examine — Prod it with the pole {prod(region__w8_haulage_stores_casket)} hp 12/12->12/12 k+0 it+0 :: You prod the stone casket with the pole, from as far off as it allows. Nothing gives, and nothing answers.
+* [w8_haulage_stores] the stone casket: Press the word “Bottle” on the casket {region__w8_haulage_stores_casket_word1} hp 12/12->12/12 k+0 it+0 :: The word sinks under your finger, and something in the stone turns over; the lid swings up on its pivot. The casket’s lid has turned on a pivot you could not see, and stands open.
+* [w8_haulage_stores] a Delver's silver lamp: Take a Delver's silver lamp from the stone casket {take_out(region__w8_haulage_stores_casket_gift,region__w8_haulage_stores_casket,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a Delver’s silver lamp from the stone casket. Wynn gains 6 experience: found a Delver’s silver lamp.
+* [w8_haulage_stores] the candle: Hold your hands to the candle {change_thing(region__w8_haulage_stores_wonder_eternal_candle_meet)} hp 12/12->12/12 k+0 it+0 :: The flame leans to you, and after it light itself seems a thing that cannot hurt you. You are warded against the light. The candle has gone out, and the wick is cold.
+  (routed to region__w8_haulage_pump: at region__w8_haulage_pump)
+* [w8_haulage_pump] a star-iron ingot: Take {take_item(region__w8_haulage_pump_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 15 experience: found a star-iron ingot.
+* [w8_haulage_pump] an oval-cut citrine: Take {take_item(region__w8_haulage_pump_gem0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 3 experience: found an oval-cut citrine.
+  [w8_haulage_pump] a coil of rope: Take {take_item(region__w8_haulage_pump_rope,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a coil of rope.
+  [w8_haulage_pump] a torch: Take {take_item(region__w8_haulage_pump_torch,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a torch.
+  [w8_haulage_pump] a ring of strength: Take a ring of strength from a rotted pack {take_out(region__w8_haulage_pump_left0,region__w8_haulage_pump_pack,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a ring of strength from a rotted pack.
+  [w8_haulage_pump] an elixir of strength: Take an elixir of strength from a rotted pack {take_out(region__w8_haulage_pump_left1,region__w8_haulage_pump_pack,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take an elixir of strength from a rotted pack.
+  [w8_haulage_pump] scattered coins: Examine — Look closely {look_closely(region__w8_haulage_pump_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_haulage_pump] a damp notebook: Examine — Look closely {look_closely(region__w8_haulage_pump_notebook)} hp 12/12->12/12 k+0 it+0 :: You look closely at a damp notebook. Looked at closely, it is just as it seems.
+  [w8_haulage_pump] a rotted pack: Examine › Listen at it {listen(region__w8_haulage_pump_pack)} hp 12/12->12/12 k+0 it+0 :: You put an ear to a rotted pack, and hold your breath. There is nothing to hear from it.
+  [w8_haulage_pump] The company: Search here {search(region__w8_haulage_pump)} hp 12/12->12/12 k+0 it+0 :: You search the pump-room with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_haulage_pump] a damp notebook: Unstrap the notebook and read it {change_thing(region__w8_haulage_pump_notebook_read)} hp 12/12->12/12 k+1 it+0 :: A damp notebook, the last pages written small. ‘The stair at the end of the haulage is walled up, and there is writing on it nobody can read. Under the pump-room the shaft is full of water. Edda says the wheel was turned by water from above, and that is what t
+* [w8_haulage_pump] the bucket-chain: Knock the pawl home, and set the bucket-chain on the axle {change_thing(region__w8_haulage_pump_chain_engage)} hp 12/12->12/12 k+0 it+0 :: The bucket-chain is set on the axle, and goes round with the wheel.
+* [w8_haulage_pump] scattered coins: Gather up the coins {change_thing(region__w8_haulage_pump_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Ten coin, all told, most of it old and some of it good. Nothing is left in the dust but the shape of a purse.
+  [w8_haulage_pump] a rotted pack: Examine — Prod it with the pole {prod(region__w8_haulage_pump_pack)} hp 12/12->12/12 k+0 it+0 :: You prod a rotted pack with the pole, from as far off as it allows. Nothing gives, and nothing answers.
+  [w8_haulage_pump] an elixir of strength: Use on › Wynn {use_item(region__w8_haulage_pump_left1,region__member_party_1)} hp 12/12->12/12 k+0 it+-1 :: 
+  (routed to region__w8_haulage_winze_foot: at region__w8_haulage_winze_foot)
+* [w8_haulage_winze_foot] the sturdy bear, a bear: Attack {attack(region__w8_haulage_winze_foot_dwellers)} hp 12/12->12/12 k+0 it+0 :: The sturdy bear takes 5 slashing damage. The sturdy bear falls. The fight is won. Wynn gains 167 experience. Wynn’s candle burns down to nothing. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+   => fight with the sturdy bear: won
+* [w8_haulage_winze_foot] The company: Wynn: light a torch {light_item(region__w8_adit_stope_torch)} hp 12/12->12/12 k+0 it+-1 :: You light a torch. The ladders end in a small chamber at the haulage level. A bench is cut in the wall, where the climbers sat to get their breath. A cracked pot lies on its side against the wall, and coins have spilled from it across the floor.
+* [w8_haulage_winze_foot] a Delver's ring: Take {take_item(region__w8_haulage_winze_foot_find0,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: Wynn gains 5 experience: found a Delver’s ring.
+  [w8_haulage_winze_foot] a kusarigama: Take {take_item(region__w8_haulage_winze_foot_find1,region__member_party_1)} hp 12/12->12/12 k+0 it+1 :: You take a kusarigama.
+  [w8_haulage_winze_foot] scattered coins: Examine — Look closely {look_closely(region__w8_haulage_winze_foot_coins)} hp 12/12->12/12 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_haulage_winze_foot] The company: Search here {search(region__w8_haulage_winze_foot)} hp 12/12->12/12 k+0 it+0 :: You search the foot of the winze with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+* [w8_haulage_winze_foot] scattered coins: Gather up the coins {change_thing(region__w8_haulage_winze_foot_coins_gather)} hp 12/12->12/12 k+0 it+0 :: Eight coin, all told, most of it old and some of it good. The cracked pot lies empty against the wall.
+  (no way to region__w8_drowned_stair_foot: No way from region__w8_haulage_winze_foot to region__w8_drowned_stair_foot)
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_adit_stope_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_adit_stope_ore1,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_adit_stope_ore2,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_adit_shaft_head_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_adit_chute_top_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_adit_chute_top_ore1,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_shaft_bottom_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_shaft_bottom_ore1,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_shaft_bottom_ore2,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_haulage_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_haulage2_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_chute_foot_ore0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_chute_foot_ore1,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Eberk, smith: Sell a lump of star-iron {sell(region__w8_haulage_chute_foot_ore2,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk takes a lump of star-iron, and counts out the coin for it.
+  [s1_shop] Eberk, smith: Sell a string of star-iron beads {sell_valuable(region__w8_adit_mouth_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a string of star-iron beads over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a bronze tally-board {sell_valuable(region__w8_adit_adit_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a bronze tally-board over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a Delver's ring {sell_valuable(region__w8_adit_forge_casket_gift,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a Delver’s ring over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell an oval-cut carnelian {sell_valuable(region__w8_adit_stope_gem0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns an oval-cut carnelian over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a small star-iron ingot {sell_valuable(region__w8_adit_race_head_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a small star-iron ingot over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a marquise-cut ruby {sell_valuable(region__w8_adit_race_head_gem0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a marquise-cut ruby over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a tattered map {sell_valuable(region__w8_adit_shaft_head_casket_gift,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a tattered map over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a tattered map {sell_valuable(region__w8_adit_shaft_head_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a tattered map over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell an agate cabochon {sell_valuable(region__w8_adit_shaft_head_gem0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns an agate cabochon over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a star-iron ingot {sell_valuable(region__w8_haulage_pump_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a star-iron ingot over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell an oval-cut citrine {sell_valuable(region__w8_haulage_pump_gem0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns an oval-cut citrine over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a Delver's ring {sell_valuable(region__w8_haulage_winze_foot_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a Delver’s ring over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a Delver's silver lamp {sell_valuable(region__w8_haulage_stores_casket_gift,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a Delver’s silver lamp over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a star-iron ingot {sell_valuable(region__w8_haulage_stores_find0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a star-iron ingot over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a Delver's ring {sell_valuable(region__w8_haulage_hall_cache_kept2,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a Delver’s ring over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a Delver's silver lamp {sell_valuable(region__w8_haulage_hall_cache_kept3,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk turns a Delver’s silver lamp over in the light, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a kusarigama {sell_ware(region__w8_haulage_winze_foot_find1,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks a kusarigama over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a dagger {sell_ware(region__w8_haulage_hall_cache_kept0,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks a dagger over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a dagger {sell_ware(region__w8_adit_adit_dwellers_person__dagger,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks a dagger over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell leather armor {sell_ware(region__w8_adit_adit_dwellers_person__leather,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks leather armor over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a dagger {sell_ware(region__w8_adit_adit_dwellers_person_2__dagger,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks a dagger over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell studded leather armor {sell_ware(region__w8_adit_adit_dwellers_person_2__studded,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks studded leather armor over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell a dart {sell_ware(region__w8_adit_adit_dwellers_person_3__dart,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks a dart over, names a price, and counts out the coin.
+  [s1_shop] Eberk, smith: Sell studded leather armor {sell_ware(region__w8_adit_adit_dwellers_person_3__studded,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks studded leather armor over, names a price, and counts out the coin. You go easier for what you have set down.
+  [s1_shop] Eberk, smith: Sell a spear {sell_ware(region__w8_adit_winze_head_dwellers_person__spear,region__s1_merchant)} hp 12/12->12/12 k+0 it+-1 :: Eberk looks a spear over, names a price, and counts out the coin.
+  (cashed in: +514 coin, now 603)
+{
+ "hire": false,
+ "bold": false,
+ "heeded": [
+  "the head of the winze",
+  "the shrine of the vein"
+ ],
+ "declined": [],
+ "paid": [],
+ "gold": 603,
+ "seed": "b2",
+ "calling": "warrior",
+ "root": "region__w8_site",
+ "ms": 101067,
+ "rooms": 37,
+ "reached": 20,
+ "unreached": [
+  "w8_adit_winze_head",
+  "w8_haulage_shrine",
+  "w8_drowned_stair_foot",
+  "w8_drowned_sump_gallery",
+  "w8_drowned_furnace",
+  "w8_drowned_deep_cut",
+  "w8_drowned_strongroom",
+  "w8_drowned_stope",
+  "w8_drowned_lode",
+  "w8_breach_breach",
+  "w8_breach_vault",
+  "w8_breach_heart",
+  "w8_breach_rift",
+  "w8_adit_beyond",
+  "w8_haulage_beyond",
+  "w8_drowned_beyond",
+  "w8_rivals_packs"
+ ],
+ "acts": 222,
+ "fg": 103,
+ "fights": 7,
+ "won": 7,
+ "fled": 0,
+ "died": false,
+ "traps": 5,
+ "searched": 18,
+ "read": 4,
+ "riddleTries": 3,
+ "wonders": 2,
+ "taken": 54,
+ "hiddenFound": 3,
+ "refused": 0,
+ "withdrawals": 0,
+ "sold": 39,
+ "earned": 514,
+ "spent": 4,
+ "outOfLight": false,
+ "takenKinds": [
+  "star_beads",
+  "bronze_tally",
+  "dagger",
+  "leather",
+  "thieves_tools",
+  "candle",
+  "dagger",
+  "studded",
+  "thieves_tools",
+  "candle",
+  "dart",
+  "studded",
+  "thieves_tools",
+  "candle",
+  "spear",
+  "chainmail",
+  "bedroll",
+  "firewood",
+  "flask",
+  "candle",
+  "lamp",
+  "carnelian_medium_oval_fair",
+  "rope",
+  "torch",
+  "healing_potion",
+  "potion_of_barkskin",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "tattered_map",
+  "agate_medium_cabochon_good",
+  "star_iron",
+  "tattered_map",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "dagger",
+  "rope",
+  "delver_ring",
+  "silver_lamp",
+  "small_ingot",
+  "ruby_medium_marquise_fair",
+  "delver_ring",
+  "rope",
+  "star_iron",
+  "star_ingot",
+  "silver_lamp",
+  "star_ingot",
+  "citrine_medium_oval_good",
+  "rope",
+  "torch",
+  "ring_of_strength",
+  "elixir_of_strength",
+  "delver_ring",
+  "kusarigama"
+ ],
+ "returned": [],
+ "hp": "12/12",
+ "alive": true,
+ "gained": [
+  "rope",
+  "star_beads",
+  "bronze_tally",
+  "dagger",
+  "leather",
+  "thieves_tools",
+  "dagger",
+  "studded",
+  "thieves_tools",
+  "dart",
+  "studded",
+  "thieves_tools",
+  "spear",
+  "chainmail",
+  "bedroll",
+  "firewood",
+  "flask",
+  "lamp",
+  "carnelian_medium_oval_fair",
+  "rope",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "tattered_map",
+  "agate_medium_cabochon_good",
+  "star_iron",
+  "tattered_map",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "dagger",
+  "rope",
+  "delver_ring",
+  "silver_lamp",
+  "small_ingot",
+  "ruby_medium_marquise_fair",
+  "delver_ring",
+  "rope",
+  "star_iron",
+  "star_ingot",
+  "silver_lamp",
+  "star_ingot",
+  "citrine_medium_oval_good",
+  "rope",
+  "torch",
+  "ring_of_strength",
+  "delver_ring",
+  "kusarigama"
+ ],
+ "learned": [
+  "s1_why",
+  "s2_why",
+  "howe__ridge_told",
+  "w8_old",
+  "w8_named",
+  "w8_adit_crossing_snare_known",
+  "history_successors",
+  "w8_adit_vent_found",
+  "w8_adit_stope_journal",
+  "history_deep_fate",
+  "w8_adit_chute_top_snare_known",
+  "w8_haulage_chute_foot_snare_known",
+  "w8_haulage_seal_order_order",
+  "w8_haulage_haulage_snare_known",
+  "w8_haulage_hall_cache_noticed",
+  "w8_haulage_hall_cache_found",
+  "w8_haulage_seal_snare_known",
+  "w8_haulage_pump_journal"
+ ],
+ "goldStart": 89,
+ "soldFor": 514,
+ "keptAtEnd": [
+  "rope",
+  "thieves_tools",
+  "thieves_tools",
+  "thieves_tools",
+  "chainmail",
+  "bedroll",
+  "firewood",
+  "flask",
+  "lamp",
+  "rope",
+  "rope",
+  "rope",
+  "rope",
+  "torch",
+  "ring_of_strength"
+ ]
+}

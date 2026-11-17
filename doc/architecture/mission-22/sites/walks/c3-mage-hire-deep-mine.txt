@@ -1,0 +1,481 @@
+  [s1_chandlery] Nest, chandler: Buy › A coil of rope {buy_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6->6/6 k+0 it+1 :: Nest is paid, and you take a coil of rope.
+  [s1_taproom] Jordan, innkeeper: Buy › A torch {buy_item(region__s1_innkeeper_torch_1,region__member_party_1)} hp 6/6->6/6 k+0 it+1 :: Jordan is paid, and you take a torch.
+  [s1_taproom] Jordan, innkeeper: Buy › A torch {buy_item(region__s1_innkeeper_torch_2,region__member_party_1)} hp 6/6->6/6 k+0 it+1 :: Jordan is paid, and you take a torch.
+  [s1_taproom] Jordan, innkeeper: Buy › A torch {buy_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6->6/6 k+0 it+1 :: Jordan is paid, and you take a torch.
+  [s1_taproom] Lirion, tinker: Talk to Lirion {talk_to(region__s1_traveller)} hp 6/6->6/6 k+0 it+0 :: ‘A stranger!’ says Lirion, pleased. ‘Sit, if you like. Ask, if you like.’
+* [s1_taproom] Lirion, tinker: Ask Lirion whether she would come along {region__s1_traveller_brings} hp 6/6->6/6 k+0 it+0 :: ‘Mending pots. There are more locks than pots in this country, and they pay better.’ Lirion looks you over. ‘If you are going anywhere, I would come along. 6 coin, and my keep.’
+* [s1_taproom] Lirion, tinker: Ask Lirion to join the company {recruit(region__s1_traveller)} hp 6/6->6/6,7/7 k+0 it+4 :: Lirion weighs the coin in one hand, then nods. ‘For that, I’ll go as far as you like. Within reason.’
+  (hire: 2 in the company)
+approach: at region__w8 hp 6/6,7/7 after 10638 ms; 
+  [w8] Pack › A candle › Light {light_item(region__party_1__candle)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Wynn lights a candle.
+* [w8] the marks on the adit's post-stone: Read the marks on the post-stone {change_thing(region__w8_makers_read)} hp 6/6,7/7->6/6,7/7 k+1 it+0 :: The letters are worn shallow, but they are letters you have met before in older books; you read them slowly, under your breath, and they hold together. They followed the veins of a pale ore they called star-iron into the roots of the fells, timbered their gall
+  [w8] Lirion, tinker: Ask Lirion about the towers on the heights {region__w3_hook} hp 6/6,7/7->6/6,7/7 k+2 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8] Lirion, tinker: Ask Lirion about the river {region__w6_hook} hp 6/6,7/7->6/6,7/7 k+2 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8] Lirion, tinker: Ask Lirion about home {region__s1_traveller_home} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8] Lirion, tinker: Ask Lirion about the old metalwork {region__s1_traveller_knows} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8] Lirion, tinker: Ask Lirion what they think of the scholar {region__s1_traveller_rival} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+  [w8] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+  [w8] Lirion, tinker: Ask Lirion about the bronze tablet in their pack {region__s1_th_credential_ask} hp 6/6,7/7->6/6,7/7 k+1 it+0 :: Lirion unwraps a bronze tablet the size of a hand from oiled cloth, and does not give it to you to hold. ‘My grandmother’s,’ they say. ‘She said her grandfather was a post-rider of the old road, and that he was given this to carry to a stage that was not there
+  [w8] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. Lirion: clothing.
+  [w8] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. Wynn: studded leather armor.
+  [w8] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. Lirion: studded leather armor.
+  [w8] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8] a candle: Give to › Wynn {transfer_item(region__s1_traveller_person__candle,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a candle to Wynn. Wynn: a candle.
+  [w8] a candle: Give to › Lirion {transfer_item(region__s1_traveller_person__candle,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a candle to Lirion. Lirion: a candle.
+  [w8] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger.
+  [w8] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. Wynn: clothing.
+  [w8] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_2,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+* [w8] Ways on: Into the adit mouth by the way in {go(region__w8_in,region__w8_adit_mouth)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: A timbered mouth opens in the hillside, the height of a man and the width of a cart. Its lintel is a single oak beam, black with age. The spoil of the old workings spreads below it in a grey fan that the heather has never taken. Cold air comes out of it, stead
+* [w8_adit_mouth] a Delver's pay-token: Take {take_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 2 experience: found a Delver’s pay-token.
+* [w8_adit_mouth] The company: Search here {search(region__w8_adit_mouth)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You search the adit mouth with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_adit_mouth] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8_adit_mouth] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8_adit_mouth] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8_adit_mouth] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8_adit_mouth] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+  [w8_adit_mouth] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8_adit_mouth] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. Lirion: clothing.
+  [w8_adit_mouth] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8_adit_mouth] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_mouth] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_mouth] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_mouth] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_mouth] a Delver's pay-token: Give to › Lirion {transfer_item(region__w8_adit_mouth_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s pay-token to Lirion. Lirion: a Delver’s pay-token.
+  [w8_adit_mouth] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8_adit_mouth] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8_adit_mouth] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. Wynn: studded leather armor.
+  [w8_adit_mouth] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. Lirion: studded leather armor.
+  [w8_adit_mouth] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8_adit_mouth] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8_adit_mouth] a candle: Give to › Wynn {transfer_item(region__s1_traveller_person__candle,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a candle to Wynn. Wynn: a candle.
+  [w8_adit_mouth] a candle: Give to › Lirion {transfer_item(region__s1_traveller_person__candle,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a candle to Lirion. Lirion: a candle.
+  [w8_adit_mouth] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger.
+  [w8_adit_mouth] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. Wynn: clothing.
+  [w8_adit_mouth] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8_adit_mouth] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_mouth] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_mouth] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_2,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_mouth] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_mouth] a Delver's pay-token: Give to › Wynn {transfer_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s pay-token to Wynn. Wynn: a Delver’s pay-token.
+* [w8_adit_mouth] Ways on: To the adit {go(region__w8_adit_mouth__w8_adit_adit,region__w8_adit_adit)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: A gallery runs on into the hill, dry and cold, the props on either hand furred with white mould. Somewhere ahead water drips into water. Coins glint in a crack between two flagstones, a row of them, pushed in edgeways long ago.
+  [w8_adit_adit] scattered coins: Examine — Look closely {look_closely(region__w8_adit_adit_coins)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_adit] The company: Search here {search(region__w8_adit_adit)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You search the adit with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_adit_adit] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8_adit_adit] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8_adit_adit] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8_adit_adit] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8_adit_adit] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+* [w8_adit_adit] scattered coins: Gather up the coins {change_thing(region__w8_adit_adit_coins_gather)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Seven coin, all told, most of it old and some of it good. The crack between the flagstones is only a crack now.
+  [w8_adit_adit] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8_adit_adit] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. Lirion: clothing.
+  [w8_adit_adit] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8_adit_adit] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_adit] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_adit] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_adit] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_adit] a Delver's pay-token: Give to › Lirion {transfer_item(region__w8_adit_mouth_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s pay-token to Lirion. Lirion: a Delver’s pay-token.
+  [w8_adit_adit] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8_adit_adit] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8_adit_adit] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. Wynn: studded leather armor.
+  [w8_adit_adit] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. Lirion: studded leather armor.
+  [w8_adit_adit] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8_adit_adit] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8_adit_adit] a candle: Give to › Wynn {transfer_item(region__s1_traveller_person__candle,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a candle to Wynn. Wynn: a candle.
+  [w8_adit_adit] a candle: Give to › Lirion {transfer_item(region__s1_traveller_person__candle,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a candle to Lirion. Lirion: a candle.
+  [w8_adit_adit] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger.
+  [w8_adit_adit] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. Wynn: clothing.
+  [w8_adit_adit] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8_adit_adit] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_adit] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_adit] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_2,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_adit] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_adit] a Delver's pay-token: Give to › Wynn {transfer_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s pay-token to Wynn. Wynn: a Delver’s pay-token.
+   (heeded a sign: keeping out of the head of the winze)
+* [w8_adit_adit] Ways on: To the crossing {go(region__w8_adit_adit__w8_adit_crossing,region__w8_adit_crossing)} hp 6/6,7/7->6/6,7/7 k+1 it+0 :: Two galleries cross under a roof cut higher, to turn the tubs. Tools hang on a rack on the wall, rusted into one shape. Chalk marks on the props point each way: a star toward the shaft, an open hand toward the stopes. The wall here is carved all over, and the 
+   (declined the goblins: reckoned deadly)
+   (leaving w8_adit_crossing: a declined band is here)
+  [w8_adit_crossing] Ways on: To the air shaft {go(region__w8_adit_vent__w8_adit_crossing,region__w8_adit_vent)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: A chimney of rough rock goes straight up out of the gallery roof; daylight shows at the top of it, very small. Iron rungs are set in one side, and the air pours up it the way water goes down a drain. Coins glint in a crack between two flagstones, a row of them
+* [w8_adit_vent] a small star-iron ingot: Take {take_item(region__w8_adit_vent_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a small star-iron ingot.
+  [w8_adit_vent] scattered coins: Examine — Look closely {look_closely(region__w8_adit_vent_coins)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_vent] The company: Search here {search(region__w8_adit_vent)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You search the air shaft with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_adit_vent] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8_adit_vent] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8_adit_vent] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8_adit_vent] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8_adit_vent] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+* [w8_adit_vent] scattered coins: Gather up the coins {change_thing(region__w8_adit_vent_coins_gather)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Eight coin, all told, most of it old and some of it good. The crack between the flagstones is only a crack now.
+  [w8_adit_vent] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8_adit_vent] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. Lirion: clothing.
+  [w8_adit_vent] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8_adit_vent] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_vent] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_vent] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_vent] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_vent] a Delver's pay-token: Give to › Lirion {transfer_item(region__w8_adit_mouth_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s pay-token to Lirion. Lirion: a Delver’s pay-token.
+  [w8_adit_vent] a small star-iron ingot: Give to › Lirion {transfer_item(region__w8_adit_vent_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a small star-iron ingot to Lirion. Lirion: a small star-iron ingot.
+  [w8_adit_vent] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8_adit_vent] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8_adit_vent] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. Wynn: studded leather armor.
+  [w8_adit_vent] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. Lirion: studded leather armor.
+  [w8_adit_vent] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8_adit_vent] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8_adit_vent] a candle: Give to › Wynn {transfer_item(region__s1_traveller_person__candle,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a candle to Wynn. Wynn: a candle.
+  [w8_adit_vent] a candle: Give to › Lirion {transfer_item(region__s1_traveller_person__candle,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a candle to Lirion. Lirion: a candle.
+  [w8_adit_vent] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger.
+  [w8_adit_vent] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. Wynn: clothing.
+  [w8_adit_vent] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8_adit_vent] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_vent] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_vent] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_2,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_vent] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_vent] a Delver's pay-token: Give to › Wynn {transfer_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s pay-token to Wynn. Wynn: a Delver’s pay-token.
+  [w8_adit_vent] a small star-iron ingot: Give to › Wynn {transfer_item(region__w8_adit_vent_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a small star-iron ingot to Wynn. Wynn: a small star-iron ingot.
+  (routed to region__w8_adit_stope: at region__w8_adit_stope)
+* [w8_adit_stope] The company: Wynn: light a torch {light_item(region__s1_innkeeper_torch_1)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Wynn lights a torch. A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it. A draft moves your light, steadily, toward th
+* [w8_adit_stope] a cloth pouch: Take {take_item(region__w8_adit_stope_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn takes a cloth pouch.
+* [w8_adit_stope] an oval-cut carnelian: Take {take_item(region__w8_adit_stope_gem0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 2 experience: found an oval-cut carnelian.
+* [w8_adit_stope] a lump of star-iron: Take {take_item(region__w8_adit_stope_ore0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+* [w8_adit_stope] a lump of star-iron: Take {take_item(region__w8_adit_stope_ore1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+* [w8_adit_stope] a lump of star-iron: Take {take_item(region__w8_adit_stope_ore2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+  [w8_adit_stope] Ways on: To the crossing — look at the hidden switch › Look closely {look_closely(region__w8_adit_stope_snare)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You look closely at the hidden switch. Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.
+* [w8_adit_stope] The company: Search here {search(region__w8_adit_stope)} hp 6/6,7/7->6/6,7/7 k+1 it+0 :: You search the old stope with care, a little at a time. Where the draft goes: behind the rubble at the end of the stope, a way into the air shaft.
+  [w8_adit_stope] Ways on: To the crossing — read which of the carvings is set in, and keep your hands from it {change_thing(region__w8_adit_stope_snare_read)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense. The hidden switch is made safe. Whoever goes by now goes by unharmed.
+  [w8_adit_stope] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8_adit_stope] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8_adit_stope] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8_adit_stope] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8_adit_stope] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+  [w8_adit_stope] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8_adit_stope] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. Lirion: clothing.
+  [w8_adit_stope] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8_adit_stope] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_stope] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_stope] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. What you carry drags at you: you will go at half your pace until you set something down. Lirion: a torch.
+  [w8_adit_stope] a Delver's pay-token: Give to › Lirion {transfer_item(region__w8_adit_mouth_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s pay-token to Lirion. Lirion: a Delver’s pay-token.
+  [w8_adit_stope] a small star-iron ingot: Give to › Lirion {transfer_item(region__w8_adit_vent_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a small star-iron ingot to Lirion. Lirion: a small star-iron ingot.
+  [w8_adit_stope] a cloth pouch: Give to › Lirion {transfer_item(region__w8_adit_stope_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a cloth pouch to Lirion. Lirion: a cloth pouch.
+  [w8_adit_stope] an oval-cut carnelian: Give to › Lirion {transfer_item(region__w8_adit_stope_gem0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands an oval-cut carnelian to Lirion. Lirion: an oval-cut carnelian.
+  [w8_adit_stope] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8_adit_stope] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8_adit_stope] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. You go easier for what you have set down. Wynn: studded leather armor.
+  [w8_adit_stope] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. What you carry drags at you: you will go at half your pace until you set something down. Lirion: studded leather armor.
+  [w8_adit_stope] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8_adit_stope] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8_adit_stope] a candle: Give to › Wynn {transfer_item(region__s1_traveller_person__candle,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a candle to Wynn. Wynn: a candle.
+  [w8_adit_stope] a candle: Give to › Lirion {transfer_item(region__s1_traveller_person__candle,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a candle to Lirion. Lirion: a candle.
+  [w8_adit_stope] a lump of star-iron: Give to › Wynn {transfer_item(region__w8_adit_stope_ore0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a lump of star-iron to Wynn. Wynn: a lump of star-iron.
+  [w8_adit_stope] a lump of star-iron: Give to › Lirion {transfer_item(region__w8_adit_stope_ore0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a lump of star-iron to Lirion. Lirion: a lump of star-iron.
+  [w8_adit_stope] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger. Wynn’s torch gutters out. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_adit_stope] The company: Lirion: light a torch {light_item(region__s1_innkeeper_torch_2)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Lirion lights a torch. A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it. When the plague came, the town shut its sic
+  [w8_adit_stope] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. You go easier for what you have set down. Wynn: clothing.
+  [w8_adit_stope] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8_adit_stope] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_stope] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_stope] a Delver's pay-token: Give to › Wynn {transfer_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s pay-token to Wynn. Wynn: a Delver’s pay-token.
+  [w8_adit_stope] a small star-iron ingot: Give to › Wynn {transfer_item(region__w8_adit_vent_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a small star-iron ingot to Wynn. Wynn: a small star-iron ingot.
+  [w8_adit_stope] a cloth pouch: Give to › Wynn {transfer_item(region__w8_adit_stope_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a cloth pouch to Wynn. Wynn: a cloth pouch.
+  [w8_adit_stope] an oval-cut carnelian: Give to › Wynn {transfer_item(region__w8_adit_stope_gem0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands an oval-cut carnelian to Wynn. Wynn: an oval-cut carnelian.
+* [w8_adit_stope] Ways on: To a worked-out stope {go(region__w8_adit_stope__w8_adit_stope2,region__w8_adit_stope2)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it. A party camped here not long ago, on the dry floor between the pro
+  [w8_adit_stope2] a lantern: Take {take_item(region__w8_adit_stope2_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn takes a lantern.
+  [w8_adit_stope2] a coil of rope: Take {take_item(region__w8_adit_stope2_rope,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn takes a coil of rope.
+  [w8_adit_stope2] a torch: Take {take_item(region__w8_adit_stope2_torch,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn takes a torch.
+  [w8_adit_stope2] a singing stone: Take a singing stone from a rotted pack {take_out(region__w8_adit_stope2_left0,region__w8_adit_stope2_pack,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn takes a singing stone from a rotted pack.
+  [w8_adit_stope2] a potion of healing: Take a potion of healing from a rotted pack {take_out(region__w8_adit_stope2_left1,region__w8_adit_stope2_pack,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Lirion takes a potion of healing from a rotted pack.
+* [w8_adit_stope2] a lump of star-iron: Take {take_item(region__w8_adit_stope2_ore0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+* [w8_adit_stope2] a lump of star-iron: Take {take_item(region__w8_adit_stope2_ore1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+* [w8_adit_stope2] a lump of star-iron: Take {take_item(region__w8_adit_stope2_ore2,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+  [w8_adit_stope2] scattered coins: Examine — Look closely {look_closely(region__w8_adit_stope2_coins)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You look closely at scattered coins. Looked at closely, it is just as it seems.
+  [w8_adit_stope2] a damp notebook: Examine — Look closely {look_closely(region__w8_adit_stope2_notebook)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You look closely at a damp notebook. Looked at closely, it is just as it seems.
+  [w8_adit_stope2] a rotted pack: Examine — Listen at it {listen(region__w8_adit_stope2_pack)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You put an ear to a rotted pack, and hold your breath. There is nothing to hear from it.
+  [w8_adit_stope2] The company: Search here {search(region__w8_adit_stope2)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You search a worked-out stope with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_adit_stope2] a damp notebook: Unstrap the notebook and read it {change_thing(region__w8_adit_stope2_notebook_read)} hp 6/6,7/7->6/6,7/7 k+1 it+0 :: A damp notebook, the last pages written small to save them. ‘The cage is at the bottom and the wheel will not turn: rusted. Brann says a bar under the axle would free it, if we had brought one. The ladders in the winze are sound as far as we went. Something li
+  [w8_adit_stope2] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8_adit_stope2] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8_adit_stope2] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8_adit_stope2] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8_adit_stope2] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+* [w8_adit_stope2] scattered coins: Gather up the coins {change_thing(region__w8_adit_stope2_coins_gather)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Eight coin, all told, most of it old and some of it good. The crack between the flagstones is only a crack now.
+  [w8_adit_stope2] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8_adit_stope2] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. What you carry drags at you: you will go at half your pace until you set something down. Lirion: clothing.
+  [w8_adit_stope2] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8_adit_stope2] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_stope2] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_stope2] a Delver's pay-token: Give to › Lirion {transfer_item(region__w8_adit_mouth_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s pay-token to Lirion. Lirion: a Delver’s pay-token.
+  [w8_adit_stope2] a small star-iron ingot: Give to › Lirion {transfer_item(region__w8_adit_vent_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a small star-iron ingot to Lirion. Lirion: a small star-iron ingot.
+  [w8_adit_stope2] a cloth pouch: Give to › Lirion {transfer_item(region__w8_adit_stope_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a cloth pouch to Lirion. Lirion: a cloth pouch.
+  [w8_adit_stope2] an oval-cut carnelian: Give to › Lirion {transfer_item(region__w8_adit_stope_gem0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands an oval-cut carnelian to Lirion. Lirion: an oval-cut carnelian. Lirion’s torch gutters out. It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+* [w8_adit_stope2] The company: Lirion: light a candle {light_item(region__s1_traveller_person__candle)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Lirion lights a candle. A long chamber where the vein was taken out from floor to roof. Walls of stacked stone hold up the hanging wall. The pale ore is gone; what is left glitters faintly where your light touches it. A party camped here not long ago, on the d
+  [w8_adit_stope2] a lantern: Give to › Lirion {transfer_item(region__w8_adit_stope2_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a lantern to Lirion. Lirion: a lantern.
+  [w8_adit_stope2] a coil of rope: Give to › Lirion {transfer_item(region__w8_adit_stope2_rope,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_stope2] a torch: Give to › Lirion {transfer_item(region__w8_adit_stope2_torch,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_stope2] a singing stone: Give to › Lirion {transfer_item(region__w8_adit_stope2_left0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a singing stone to Lirion. Lirion: a singing stone.
+  [w8_adit_stope2] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8_adit_stope2] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8_adit_stope2] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. Wynn: studded leather armor.
+  [w8_adit_stope2] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. Lirion: studded leather armor.
+  [w8_adit_stope2] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8_adit_stope2] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8_adit_stope2] a lump of star-iron: Give to › Wynn {transfer_item(region__w8_adit_stope_ore0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a lump of star-iron to Wynn. Wynn: a lump of star-iron.
+  [w8_adit_stope2] a lump of star-iron: Give to › Lirion {transfer_item(region__w8_adit_stope_ore0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a lump of star-iron to Lirion. Lirion: a lump of star-iron.
+  [w8_adit_stope2] a potion of healing: Give to › Wynn {transfer_item(region__w8_adit_stope2_left1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a potion of healing to Wynn. Wynn: a potion of healing.
+  [w8_adit_stope2] a potion of healing: Give to › Lirion {transfer_item(region__w8_adit_stope2_left1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a potion of healing to Lirion. Lirion: a potion of healing.
+  [w8_adit_stope2] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger.
+  [w8_adit_stope2] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. Wynn: clothing.
+  [w8_adit_stope2] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8_adit_stope2] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_stope2] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_stope2] a Delver's pay-token: Give to › Wynn {transfer_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s pay-token to Wynn. Wynn: a Delver’s pay-token.
+  [w8_adit_stope2] a small star-iron ingot: Give to › Wynn {transfer_item(region__w8_adit_vent_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a small star-iron ingot to Wynn. Wynn: a small star-iron ingot.
+  [w8_adit_stope2] a cloth pouch: Give to › Wynn {transfer_item(region__w8_adit_stope_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a cloth pouch to Wynn. Wynn: a cloth pouch.
+  [w8_adit_stope2] an oval-cut carnelian: Give to › Wynn {transfer_item(region__w8_adit_stope_gem0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands an oval-cut carnelian to Wynn. Wynn: an oval-cut carnelian.
+  [w8_adit_stope2] a lantern: Give to › Wynn {transfer_item(region__w8_adit_stope2_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a lantern to Wynn. You go easier for what you have set down. Wynn: a lantern.
+  [w8_adit_stope2] a coil of rope: Give to › Wynn {transfer_item(region__w8_adit_stope2_rope,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_stope2] a torch: Give to › Wynn {transfer_item(region__w8_adit_stope2_torch,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_stope2] a singing stone: Give to › Wynn {transfer_item(region__w8_adit_stope2_left0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a singing stone to Wynn. Wynn: a singing stone.
+  (routed to region__w8_adit_shaft_head: at region__w8_adit_shaft_head)
+* [w8_adit_shaft_head] a Delver's ring: Take {take_item(region__w8_adit_shaft_head_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 5 experience: found a Delver’s ring.
+* [w8_adit_shaft_head] a lump of star-iron: Take {take_item(region__w8_adit_shaft_head_ore0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+  [w8_adit_shaft_head] The company: Search here {search(region__w8_adit_shaft_head)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You search the shaft head with care, a little at a time. You have been over the whole of it, and nothing is hidden here.
+  [w8_adit_shaft_head] Lirion, tinker: Ask Lirion again about the towers on the heights {region__w3_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Moonspire? The old tower in Snowedge,’ says Lirion. ‘The shepherds say they see a light in it some nights, high up, where nobody could get. They will not graze under it.’
+  [w8_adit_shaft_head] Lirion, tinker: Ask Lirion again about the river {region__w6_hook_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘There are lights on the water by Goldenport some nights, in Elmwood,’ says Lirion. ‘Not ghosts. Ghosts do not row.’
+  [w8_adit_shaft_head] Lirion, tinker: Ask Lirion again about home {region__s1_traveller_home_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘Over at Muzgrehes. Dain is there, my oldest friend, and sells from the house door there. The rest went away, or into the ground.’
+  [w8_adit_shaft_head] Lirion, tinker: Ask Lirion again about the old metalwork {region__s1_traveller_knows_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: ‘You see things, mending. There are pots in this country older than the villages: better metal than ours, and marks underneath nobody can read.’ Lirion turns one of your buckles over and over. ‘The Delvers made them, my master said. They followed the veins of 
+  [w8_adit_shaft_head] Lirion, tinker: Ask Lirion again what they think of the scholar {region__s1_traveller_rival_again} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion laughs without malice. ‘Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, a
+* [w8_adit_shaft_head] the cold flame: Pass a hand through the cold flame {change_thing(region__w8_adit_shaft_head_wonder_phantom_flame_meet)} hp 6/6,7/7->6/6,7/7 k+2 it+0 :: It does not burn. After it, you doubt any fire would. Lirion is warded against fire. It shows you, as plainly as a page, how the people who made this place ended. The star-iron gave out, and they turned on one another for what was left; the galleries fell sile
+  [w8_adit_shaft_head] a dagger: Give to › Lirion {transfer_item(region__party_1__dagger,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dagger to Lirion. Lirion: a dagger.
+  [w8_adit_shaft_head] clothing: Give to › Lirion {transfer_item(region__party_1__cloth,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands clothing to Lirion. What you carry drags at you: you will go at half your pace until you set something down. Lirion: clothing.
+  [w8_adit_shaft_head] a spellbook: Give to › Lirion {transfer_item(region__party_1__spellbook,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a spellbook to Lirion. Lirion: a spellbook.
+  [w8_adit_shaft_head] a coil of rope: Give to › Lirion {transfer_item(region__s1_chandler_rope_1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_shaft_head] a torch: Give to › Lirion {transfer_item(region__s1_innkeeper_torch_3,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_shaft_head] a Delver's pay-token: Give to › Lirion {transfer_item(region__w8_adit_mouth_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s pay-token to Lirion. Lirion: a Delver’s pay-token.
+  [w8_adit_shaft_head] a small star-iron ingot: Give to › Lirion {transfer_item(region__w8_adit_vent_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a small star-iron ingot to Lirion. Lirion: a small star-iron ingot.
+  [w8_adit_shaft_head] a cloth pouch: Give to › Lirion {transfer_item(region__w8_adit_stope_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a cloth pouch to Lirion. Lirion: a cloth pouch.
+  [w8_adit_shaft_head] an oval-cut carnelian: Give to › Lirion {transfer_item(region__w8_adit_stope_gem0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands an oval-cut carnelian to Lirion. Lirion: an oval-cut carnelian.
+  [w8_adit_shaft_head] a lantern: Give to › Lirion {transfer_item(region__w8_adit_stope2_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a lantern to Lirion. Lirion: a lantern.
+  [w8_adit_shaft_head] a coil of rope: Give to › Lirion {transfer_item(region__w8_adit_stope2_rope,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a coil of rope to Lirion. Lirion: a coil of rope.
+  [w8_adit_shaft_head] a torch: Give to › Lirion {transfer_item(region__w8_adit_stope2_torch,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a torch to Lirion. Lirion: a torch.
+  [w8_adit_shaft_head] a singing stone: Give to › Lirion {transfer_item(region__w8_adit_stope2_left0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a singing stone to Lirion. Lirion: a singing stone.
+  [w8_adit_shaft_head] a Delver's ring: Give to › Lirion {transfer_item(region__w8_adit_shaft_head_find0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a Delver’s ring to Lirion. Lirion: a Delver’s ring.
+  [w8_adit_shaft_head] a dart: Give to › Wynn {transfer_item(region__s1_traveller_person__dart,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dart to Wynn. Wynn: a dart.
+  [w8_adit_shaft_head] a dart: Give to › Lirion {transfer_item(region__s1_traveller_person__dart,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a dart to Lirion. Lirion: a dart.
+  [w8_adit_shaft_head] studded leather armor: Give to › Wynn {transfer_item(region__s1_traveller_person__studded,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands studded leather armor to Wynn. Wynn: studded leather armor.
+  [w8_adit_shaft_head] studded leather armor: Give to › Lirion {transfer_item(region__s1_traveller_person__studded,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands studded leather armor to Lirion. Lirion: studded leather armor.
+  [w8_adit_shaft_head] thieves' tools: Give to › Wynn {transfer_item(region__s1_traveller_person__thieves_tools,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands thieves’ tools to Wynn. Wynn: thieves’ tools.
+  [w8_adit_shaft_head] thieves' tools: Give to › Lirion {transfer_item(region__s1_traveller_person__thieves_tools,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands thieves’ tools to Lirion. Lirion: thieves’ tools.
+  [w8_adit_shaft_head] a lump of star-iron: Give to › Wynn {transfer_item(region__w8_adit_stope_ore0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a lump of star-iron to Wynn. Wynn: a lump of star-iron.
+  [w8_adit_shaft_head] a lump of star-iron: Give to › Lirion {transfer_item(region__w8_adit_stope_ore0,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a lump of star-iron to Lirion. Lirion: a lump of star-iron.
+  [w8_adit_shaft_head] a potion of healing: Give to › Wynn {transfer_item(region__w8_adit_stope2_left1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a potion of healing to Wynn. Wynn: a potion of healing.
+  [w8_adit_shaft_head] a potion of healing: Give to › Lirion {transfer_item(region__w8_adit_stope2_left1,region__member_s1_traveller_person)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Wynn hands a potion of healing to Lirion. Lirion: a potion of healing.
+  [w8_adit_shaft_head] a dagger: Give to › Wynn {transfer_item(region__party_1__dagger,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a dagger to Wynn. Wynn: a dagger.
+  [w8_adit_shaft_head] clothing: Give to › Wynn {transfer_item(region__party_1__cloth,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands clothing to Wynn. Wynn: clothing.
+  [w8_adit_shaft_head] a spellbook: Give to › Wynn {transfer_item(region__party_1__spellbook,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a spellbook to Wynn. Wynn: a spellbook.
+  [w8_adit_shaft_head] a coil of rope: Give to › Wynn {transfer_item(region__s1_chandler_rope_1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_shaft_head] a torch: Give to › Wynn {transfer_item(region__s1_innkeeper_torch_3,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. Wynn: a torch.
+  [w8_adit_shaft_head] a Delver's pay-token: Give to › Wynn {transfer_item(region__w8_adit_mouth_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s pay-token to Wynn. Wynn: a Delver’s pay-token.
+  [w8_adit_shaft_head] a small star-iron ingot: Give to › Wynn {transfer_item(region__w8_adit_vent_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a small star-iron ingot to Wynn. Wynn: a small star-iron ingot.
+  [w8_adit_shaft_head] a cloth pouch: Give to › Wynn {transfer_item(region__w8_adit_stope_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a cloth pouch to Wynn. Wynn: a cloth pouch.
+  [w8_adit_shaft_head] an oval-cut carnelian: Give to › Wynn {transfer_item(region__w8_adit_stope_gem0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands an oval-cut carnelian to Wynn. Wynn: an oval-cut carnelian.
+  [w8_adit_shaft_head] a lantern: Give to › Wynn {transfer_item(region__w8_adit_stope2_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a lantern to Wynn. Wynn: a lantern.
+  [w8_adit_shaft_head] a coil of rope: Give to › Wynn {transfer_item(region__w8_adit_stope2_rope,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a coil of rope to Wynn. Wynn: a coil of rope.
+  [w8_adit_shaft_head] a torch: Give to › Wynn {transfer_item(region__w8_adit_stope2_torch,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a torch to Wynn. You go easier for what you have set down. Wynn: a torch.
+  [w8_adit_shaft_head] a singing stone: Give to › Wynn {transfer_item(region__w8_adit_stope2_left0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a singing stone to Wynn. Wynn: a singing stone.
+  [w8_adit_shaft_head] a Delver's ring: Give to › Wynn {transfer_item(region__w8_adit_shaft_head_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: Lirion hands a Delver’s ring to Wynn. Wynn: a Delver’s ring.
+* [w8_adit_shaft_head] Ways on: To the ore pass {go(region__w8_adit_shaft_head__w8_adit_chute_top,region__w8_adit_chute_top)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: A funnel of smooth rock opens in the floor: the ore pass, down which the Delvers tipped what they cut to the level below. Its sides are polished by a hundred years of stone going down, too smooth to climb. From the ore bin comes a cold you can feel on your fac
+* [w8_adit_chute_top] a bronze tally-board: Take {take_item(region__w8_adit_chute_top_find0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 2 experience: found a bronze tally-board.
+* [w8_adit_chute_top] a huge rough chrysoberyl: Take {take_item(region__w8_adit_chute_top_gem0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 11 experience: found a huge rough chrysoberyl.
+* [w8_adit_chute_top] a lump of star-iron: Take {take_item(region__w8_adit_chute_top_ore0,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+* [w8_adit_chute_top] a lump of star-iron: Take {take_item(region__w8_adit_chute_top_ore1,region__member_party_1)} hp 6/6,7/7->6/6,7/7 k+0 it+1 :: Wynn and Lirion each gain 7 experience: found a lump of star-iron.
+* [w8_adit_chute_top] the stone casket: Examine — Listen at it {listen(region__w8_adit_chute_top_casket)} hp 6/6,7/7->6/6,7/7 k+0 it+0 :: You put an ear to the stone casket, and hold your breath. There is nothing to hear from it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_stope_ore0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_stope_ore1,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_stope_ore2,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_shaft_head_ore0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_stope2_ore0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_stope2_ore1,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_stope2_ore2,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_chute_top_ore0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+* [s1_shop] Edrick, smith: Sell a lump of star-iron {sell(region__w8_adit_chute_top_ore1,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick takes a lump of star-iron, and counts out the coin for it.
+  [s1_shop] Edrick, smith: Sell a Delver's pay-token {sell_valuable(region__w8_adit_mouth_find0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns a Delver’s pay-token over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell a cloth pouch {sell_valuable(region__w8_adit_stope_find0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns a cloth pouch over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell an oval-cut carnelian {sell_valuable(region__w8_adit_stope_gem0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns an oval-cut carnelian over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell a small star-iron ingot {sell_valuable(region__w8_adit_vent_find0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns a small star-iron ingot over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell a Delver's ring {sell_valuable(region__w8_adit_shaft_head_find0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns a Delver’s ring over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell a bronze tally-board {sell_valuable(region__w8_adit_chute_top_find0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns a bronze tally-board over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell a huge rough chrysoberyl {sell_valuable(region__w8_adit_chute_top_gem0,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick turns a huge rough chrysoberyl over in the light, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell a dart {sell_ware(region__s1_traveller_person__dart,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick looks a dart over, names a price, and counts out the coin.
+  [s1_shop] Edrick, smith: Sell studded leather armor {sell_ware(region__s1_traveller_person__studded,region__s1_merchant)} hp 6/6,7/7->6/6,7/7 k+0 it+-1 :: Edrick looks studded leather armor over, names a price, and counts out the coin.
+  (cashed in: +212 coin, now 246)
+{
+ "hire": true,
+ "bold": false,
+ "heeded": [
+  "the head of the winze"
+ ],
+ "declined": [
+  "the goblins"
+ ],
+ "paid": [
+  "Lirion, tinker: Ask Lirion about home",
+  "Lirion, tinker: Ask Lirion again about home",
+  "Lirion, tinker: Ask Lirion again about home",
+  "Lirion, tinker: Ask Lirion again about home",
+  "Lirion, tinker: Ask Lirion again about home",
+  "Lirion, tinker: Ask Lirion again about home",
+  "Lirion, tinker: Ask Lirion again about home",
+  "Lirion, tinker: Ask Lirion again about home"
+ ],
+ "gold": 246,
+ "seed": "c3",
+ "calling": "mage",
+ "root": "region__w8_site",
+ "ms": 119487,
+ "rooms": 36,
+ "reached": 9,
+ "unreached": [
+  "w8_adit_winze_head",
+  "w8_adit_race_head",
+  "w8_haulage_shaft_bottom",
+  "w8_haulage_haulage",
+  "w8_haulage_hall",
+  "w8_haulage_haulage2",
+  "w8_haulage_seal",
+  "w8_haulage_chute_foot",
+  "w8_haulage_stores",
+  "w8_haulage_pump",
+  "w8_haulage_winze_foot",
+  "w8_drowned_stair_foot",
+  "w8_drowned_sump_gallery",
+  "w8_drowned_furnace",
+  "w8_drowned_deep_cut",
+  "w8_drowned_strongroom",
+  "w8_drowned_lode",
+  "w8_breach_breach",
+  "w8_breach_vault",
+  "w8_breach_heart",
+  "w8_breach_rift",
+  "w8_haulage_hall_cache_chamber",
+  "w8_adit_beyond",
+  "w8_haulage_beyond",
+  "w8_drowned_beyond",
+  "w8_breach_beyond",
+  "w8_rivals_packs"
+ ],
+ "acts": 318,
+ "fg": 43,
+ "fights": 0,
+ "won": 0,
+ "fled": 0,
+ "died": false,
+ "traps": 0,
+ "searched": 6,
+ "read": 3,
+ "riddleTries": 0,
+ "wonders": 1,
+ "taken": 26,
+ "hiddenFound": 4,
+ "refused": 0,
+ "withdrawals": 0,
+ "sold": 18,
+ "earned": 212,
+ "spent": 4,
+ "outOfLight": false,
+ "takenKinds": [
+  "delver_token",
+  "small_ingot",
+  "cloth_pouch",
+  "carnelian_medium_oval_fair",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "lantern",
+  "rope",
+  "torch",
+  "singing_stone",
+  "healing_potion",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "delver_ring",
+  "star_iron",
+  "bronze_tally",
+  "chrysoberyl_huge_rough_flawless",
+  "star_iron",
+  "star_iron"
+ ],
+ "returned": [],
+ "hp": "6/6,7/7",
+ "alive": true,
+ "gained": [
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "star_iron",
+  "dart",
+  "studded",
+  "thieves_tools",
+  "star_iron",
+  "healing_potion",
+  "rope",
+  "torch",
+  "delver_token",
+  "small_ingot",
+  "cloth_pouch",
+  "carnelian_medium_oval_fair",
+  "lantern",
+  "rope",
+  "torch",
+  "singing_stone",
+  "delver_ring",
+  "bronze_tally",
+  "chrysoberyl_huge_rough_flawless",
+  "star_iron",
+  "star_iron"
+ ],
+ "learned": [
+  "s1_why",
+  "w8_old",
+  "w8_named",
+  "w3_named",
+  "w3_found",
+  "w6_named",
+  "w6_found",
+  "history_deep",
+  "s1_th_credential",
+  "w8_adit_stope_snare_known",
+  "w8_adit_vent_found",
+  "w8_adit_stope2_journal",
+  "history_deep_fate",
+  "w7_found"
+ ],
+ "goldStart": 34,
+ "soldFor": 212,
+ "keptAtEnd": [
+  "thieves_tools",
+  "healing_potion",
+  "rope",
+  "torch",
+  "lantern",
+  "rope",
+  "torch",
+  "singing_stone"
+ ]
+}
