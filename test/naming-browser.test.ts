@@ -82,7 +82,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     await MonoDriver.hold(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.mode('c');
-    expect(await page.textContent('.character h2.who')).toBe(chosen);
+    // Called, where the world places them in a family, as it is (PA-03: Bartle of the Sedges).
+    expect(await page.textContent('.character h2.who')).toMatch(new RegExp(`^${chosen}( |$)`));
     expect(await page.getAttribute('.character .head-of .sat', 'src')).toMatch(/-man\.webp$/);
     expect(errors).toEqual([]);
     await page.close();

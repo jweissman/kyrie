@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import naming from '../data/generation/scenes/naming.json';
 import folk from '../data/generation/scenes/folk.json';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
@@ -24,6 +25,8 @@ describe('rows the recheck found still open', () => {
   // own lines say they are, she or he, among their people's given names.
   it('names the people of a story by the pronoun their lines give them', async () => {
     const given = (folk as unknown as { given: Record<string, Record<string, string[]>> }).given;
+    // Their people's names, the deeper ones too (naming.json: a family is named among them, PA-03).
+    const more = naming.more as Record<string, Record<string, string[]>>;
     const named: [string, string, string][] = [];
     for (const seed of ['d4', 'g7', 'a1', 'kite']) {
       const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { origin: 'wanderer',
@@ -33,7 +36,8 @@ describe('rows the recheck found still open', () => {
       for (const e of people) {
         const pronoun = /son$/.test(e.id) ? 'he' : 'she';
         const first = e.name.split(/[ ,]/)[0]!;
-        named.push([e.id, first, Object.values(given).some(g => g[pronoun]!.includes(first)) ? pronoun : '?']);
+        const theirs = (people: string) => [...given[people]![pronoun]!, ...more[people]?.[pronoun] ?? []];
+        named.push([e.id, first, Object.keys(given).some(p => theirs(p).includes(first)) ? pronoun : '?']);
       }
     }
     expect(named.length).toBeGreaterThan(1);
