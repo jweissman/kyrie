@@ -17,6 +17,13 @@ export class Observatory {
   static readonly cy = 2050;
   static readonly r = 1640;
   static readonly field = 440;
+  // What of the sky is in view: all of it on a wide screen, the constellation at the left beside the rows; on a tall
+  // one, a narrow field about the constellation, set low, under the rows (M22's review: on a phone the lit sign had
+  // been off the left of the screen, a single line of it showing).
+  static view(): string {
+    const tall = typeof innerWidth === 'number' && innerHeight > innerWidth * 1.2;
+    return tall ? `${Observatory.cx - 445} -745 890 1650` : '0 0 1600 1000';
+  }
   // How far the far field slides as the ring turns a degree (a sign is thirty: over a third of what is in sight).
   static readonly pan = 18;
   static View({ signs, focus, chosen, flare, onFocus, onChoose }: { signs: Sign[]; focus?: string; chosen?: string;
@@ -30,7 +37,7 @@ export class Observatory {
     return (
       <div className="observatory" aria-hidden="true">
         <SkyCanvas.View pan={pan} still={still} />
-        <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <svg viewBox={Observatory.view()} preserveAspectRatio="xMidYMid slice" focusable="false">
           <defs>
             <filter id="obs-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
