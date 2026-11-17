@@ -85,7 +85,8 @@ export class ComposedCreation {
       column="composed-col"
       background={step.present === 'sky' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} />}
-      header={<h1 className="ask">{Typography.curl(step.ask)}</h1>}
+      header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>
+        <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} /></>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
         consider={consider} choose={choose} list={step.present === 'list'}
@@ -131,6 +132,17 @@ export class ComposedCreation {
           onKeyDown={e => { if (e.key === 'Enter' && e.currentTarget.value.trim()) { e.preventDefault(); onward(); } }}
           onChange={e => app.opening.edit(0, 'name', e.currentTarget.value)} /></label>}
     </>;
+  }
+  // What the reference says of the option considered, beside the question (the owner, 17 November: "hovering over Elf
+  // shows the details for elves in the left main render area"; PA-05): the engine's entry, its facts and its rules (its
+  // sentence is the one said over the four already).
+  static Entry({ card }: { card?: CreationStep['cards'][number] }) {
+    if (!card?.entry) { return null; }
+    return <aside className="creation-entry" data-region="entry" aria-live="polite">
+      <h2>{Typography.curl(card.name)}</h2>
+      <dl>{card.entry.facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{Typography.curl(v)}</dd></div>)}</dl>
+      {card.entry.rules.length > 0 && <ul>{card.entry.rules.map(r => <li key={r}>{Typography.curl(r)}</li>)}</ul>}
+    </aside>;
   }
   // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).
   static Go({ app, frame }: { app: ReaderApp; frame: Frame }) {

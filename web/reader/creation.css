@@ -6,6 +6,18 @@
   stroke: currentColor; stroke-width: 1.5; opacity: .85; }
 .composed-write > input { all: unset; flex: 1 1 auto; min-width: 0; font: var(--t-choice); color: var(--ivory); }
 .composed-write > input::placeholder { color: var(--dim); }
+/* The reference's entry for the option considered, in the room beside the question (PA-05): its words, a few facts, its
+   rules, quiet under the question; on an upright screen, none (the question and the four have the room). */
+.composed .creation-entry { position: absolute; left: 10%; top: calc(max(72px, 9vh) + 84px); width: 34%; max-width: 480px;
+  max-height: calc(100dvh - max(72px, 9vh) - 84px - var(--safe-b)); overflow: hidden; z-index: 1; color: var(--ivory); }
+.composed .creation-entry h2 { margin: 0 0 8px; font: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--accent); }
+.composed .creation-entry dl { margin: 0 0 12px; display: grid; gap: 6px; }
+.composed .creation-entry dl > div { display: grid; grid-template-columns: 7.5em 1fr; gap: 10px; }
+.composed .creation-entry dt { font: 500 12px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
+.composed .creation-entry dd { margin: 0; font: 400 14px/1.5 var(--do); }
+.composed .creation-entry ul { margin: 0; padding: 0 0 0 1.1em; font: 400 14px/1.5 var(--do); color: var(--dim); }
+@media (orientation: portrait), (max-width: 899px) { .composed .creation-entry { display: none; } }
 /* A list is one of the four, its options close together, two to a line (creation's one dense menu, the engine's
    hint: a people's names; the owner, 17 November). */
 .composed .composed-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }

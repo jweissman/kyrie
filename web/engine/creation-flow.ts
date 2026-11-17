@@ -3,6 +3,7 @@ import { CreationDefaults } from './creation-defaults';
 import { BackgroundCatalog } from '../../src/canon/background-catalog';
 import { CreationRules } from '../reader/creation-rules';
 import { Words } from '../reader/words';
+import { CompanyChapters } from '../../src/handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
@@ -10,9 +11,11 @@ import type { Catalog, Member, Setting } from './protocol';
 // emblem: the id of its emblem (see Emblems), drawn as a line glyph on the page and as its character in text (Signs).
 // aside: the few words a page sets beside its name (a sign's month, a way of presenting's words); say: the sentence it
 // is considered by, where that is not its line (a people's first sentence).
+// entry: what the reference says of it (the handbook's own entry: its facts and rules), for a client to set beside the
+// choice as it is considered (the owner, 17 November: "hovering over Elf shows the details for elves"; PA-05).
 export interface CreationCard {
   id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
-  aside?: string; say?: string;
+  aside?: string; say?: string; entry?: { facts: [string, string][]; rules: string[] };
 }
 // How a step is best drawn, a hint every client may take or leave (the owner, 17 November: the engine says the
 // question, its options and how they may be shown; no client keeps a page of its own per step): as cards (a people,
@@ -127,7 +130,8 @@ export class CreationFlow {
       { id: 'why', ask: `Why have you come to ${country}?`, present: 'rows', chosen: this.origin, cards: (this.setting.origins ?? [])
         .map(o => ({ id: o.id, name: o.title, line: o.choice, emblem: o.id })) },
       { id: 'you', ask: 'Choose your ancestry', present: 'cards', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id,
-        name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a) })) },
+        name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
+        ...CreationFlow.entry(`ancestry:${a.id}`) })) },
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
       // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', chosen: m.sign, cards: c.signs.map(x => ({
@@ -135,7 +139,7 @@ export class CreationFlow {
         say: x.line })) },
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
-          text: x.text, emblem: x.id, ...CreationFlow.said(x) })) },
+          text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.entry(`class:${x.id}`) })) },
       // The calling only: its way (a cleric's domain, a mage's school, a warrior's way) is the calling's first until
       // another is chosen later in play (the owner, 14 November: "just select the high-level profession").
       // The kind of life only: the trade within it is the one that best suits the calling, chosen later in play if at
@@ -271,6 +275,15 @@ export class CreationFlow {
   private given(): boolean { return !!this.setting.origins?.find(o => o.id === this.origin)?.background; }
   static readonly presenting = [['she', 'A woman', 'she, her'], ['he', 'A man', 'he, him'],
     ['they', 'Neither', 'they, them']] as const;
+  // A people's or a calling's entry in the reference, as the handbook writes it from the catalog (one source: the
+  // Player's Handbook and the encyclopedia read the same).
+  private static entries?: Map<string, NonNullable<CreationCard['entry']>>;
+  private static entry(id: string): Pick<CreationCard, 'entry'> {
+    const all = [...CompanyChapters.ancestries().entries ?? [], ...CompanyChapters.callings().entries ?? []];
+    CreationFlow.entries ??= new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
+    const found = CreationFlow.entries.get(id);
+    return found ? { entry: found } : {};
+  }
   // A people's or a calling's aside and sentence: its line beside it, and the first sentence of its words.
   private static said(x: { line?: string; text?: string }): Pick<CreationCard, 'aside' | 'say'> {
     const first = x.text && (/^.+?[.!?](?=\s|$)/.exec(x.text)?.[0] ?? x.text);
