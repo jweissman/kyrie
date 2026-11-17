@@ -45,7 +45,7 @@ export class ComposedCreation {
           : <ComposedCreation.Mark id="another" action="another" label="Another country" go={app.opening.anew} />}
         {step && <ComposedCreation.Mark id="go_on" action="start" label="Set out now" go={app.opening.begin} />}
       </nav>,
-      over: <Signature.View app={app} likeness={!step || step.id === 'name'} /> };
+      over: <Signature.View app={app} likeness={!step || step.id === 'name'} passed={step ? ids.slice(0, i) : ids} /> };
     return step ? <ComposedCreation.Step key={step.id} app={app} step={step} roll={roll} reroll={() => reroll(roll + 1)}
       more={more} unfold={() => turn(m => m + 1)} onward={next} frame={frame} />
       : <ComposedCreation.Go key="go" app={app} frame={frame} />;
