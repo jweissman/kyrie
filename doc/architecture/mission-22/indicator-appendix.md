@@ -80,8 +80,9 @@ player knows, then adopted or dropped.
 
 - `heard` on rows. A way toward a place known only by word is drawn as afar. The engine knows the difference (the map
   does). It needs a field on `Promoted`, then the hollow mark.
-- One drawing of the condition across all surfaces. Afar, idle and spent are drawn by four separate rules (`.afar`,
-  `.pip.faint`, the wayfinder's dim, talk's `.asked`). They should all be `data-condition` from `Indicator.condition`,
-  with one value token each. The function exists; the surfaces are not yet moved to it.
+- ~~One drawing of the condition across all surfaces~~ **done** (16 November): rows, pips, ways, the rail, the place's
+  mark, lens tiles and talk's topics carry `data-condition` from `Indicator.condition` (via `Pip.condition`), and every
+  surface reads one value per condition (`row.css`: `--cond-afar`, `--cond-idle`, `--cond-idle-lit`; spent words dim).
+  The old classes (`.afar`, `.faint`, `.dim`, `.asked`) remain for the specs that read them and draw the same token.
 - A census spec. On the first scenes, every coloured pip's tone should be one of the five and agree with its condition
   (colour-atlas.md's "Next" 2).

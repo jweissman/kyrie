@@ -284,7 +284,8 @@ export class TalkStage {
     const bar = Pip.fill(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');
     return (
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
-        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>
+        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}
+        data-condition={Pip.condition({ spent: asked, fresh })}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
         <ChoiceRow.Act choice={c} draw={draw} number={number}
           {...bar ? { mark: bar, markLabel: Pip.words(aspects!, gilded) } : {}}

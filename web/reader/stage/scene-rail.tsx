@@ -109,6 +109,7 @@ export class SceneRail {
       : sensed ? `${words}: ${Signs.sensed(sensed)}` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
       + `${'dim' in standing ? ' dim' : ''}${faint && !shut && !lit ? ' faint' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
+        data-condition={Pip.condition({ idle: 'dim' in standing })}
       aria-expanded={app.state.exploring === part} aria-label={said} title={shut ? said : words} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" />

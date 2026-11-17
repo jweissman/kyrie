@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'bun:test';
 import { Indicator } from '../../src/presentation/indicator';
 import { Aspects } from '../../src/presentation/aspects';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Pip } from '../../web/reader/stage/pip';
 
 // The opportunity indicator's two dimensions (M22, mission-22/indicator-appendix.md): the hue is what kind of
 // opportunity is perceived (gold, red, green, blue, violet; a companion and somewhere worth a look are icons), and the
@@ -37,5 +40,13 @@ describe('the opportunity indicator', () => {
   it('lets novelty add to what is present, never revive what is spent or far', () => {
     expect([Indicator.condition({ fresh: true }).fresh, Indicator.condition({ fresh: true, spent: true }).fresh,
       Indicator.condition({ fresh: true, afar: true }).fresh]).toEqual([true, false, false]);
+  });
+  // The page draws the condition as data-condition from the one derivation, each by its one value (row.css): a pip
+  // perceived off along a way is afar; one here says nothing; a spent topic, a place with nothing new, as named.
+  it('is drawn by the page from the same derivation, marking only what is not present', () => {
+    const pip = (faint: boolean) => renderToStaticMarkup(createElement(Pip.View, { fill: 'var(--tone-red)', faint }));
+    expect([pip(true).includes('data-condition="afar"'), pip(false).includes('data-condition')]).toEqual([true, false]);
+    expect([Pip.condition({ spent: true }), Pip.condition({ idle: true }), Pip.condition({})])
+      .toEqual(['spent', 'idle', undefined]);
   });
 });

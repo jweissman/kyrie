@@ -87,7 +87,7 @@
 .pip-icon { display: inline-block; flex: none; width: 14px; height: 14px; fill: none; stroke: var(--ivory);
   stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: -2px; pointer-events: auto;
   filter: drop-shadow(0 0 2px rgba(10, 11, 14, .9)); }
-.pip-icon.faint { opacity: .55; }
+.pip-icon.faint { opacity: var(--cond-afar); }
 .portraits .portrait > .pip-icon { position: absolute; z-index: 2; top: -2px; left: calc(50% - 29px); }
 .rail-mark > .pip-icon { position: absolute; top: 3px; right: 3px; width: 12px; height: 12px; }
 .rail-mark > .pip + .pip-icon { top: auto; bottom: 3px; }
@@ -271,8 +271,8 @@
 .shell.guide-quiet .corner-keys .corner.icon.led { color: inherit; box-shadow: none; }
 /* Dim: nothing new to give for now (a place left twice with nothing done and nothing since; a question already
    asked). Not shut, not another kind of opportunity: it can be chosen, and is lit again when the world changes. */
-.wf-row.dim { opacity: .5; }
-.wf-row.dim:hover, .wf-row.dim:focus-visible { opacity: .85; }
+.wf-row.dim { opacity: var(--cond-idle); }
+.wf-row.dim:hover, .wf-row.dim:focus-visible { opacity: var(--cond-idle-lit); }
 
 /* ---- The scene's rail and its safe margins (the owner, 11 November: everything that can be touched well inside the
    screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). The margins are the
@@ -322,8 +322,8 @@
 /* Lit: the icon stays neutral, brighter; its small dot alone carries the tone (one indicator). */
 .rail-mark.lit { color: var(--ivory); }
 /* Dim: nothing new for now; it still opens. Shut: nothing in it to do, and its title says why. */
-.rail-mark.dim { opacity: .42; }
-.rail-mark.dim:hover, .rail-mark.dim:focus-visible { opacity: .8; }
+.rail-mark.dim { opacity: var(--cond-idle); }
+.rail-mark.dim:hover, .rail-mark.dim:focus-visible { opacity: var(--cond-idle-lit); }
 .rail-mark[disabled] { opacity: .22; cursor: default; }
 /* The explorer is the panel's own, in the scene first: no box of its own over the place. */
 .shell.scene-full .focus > .explorer { position: static; inset: auto; background: none; border: 0; box-shadow: none;
@@ -373,7 +373,7 @@
    word. Frames, outlines and surfaces round it stay neutral (the owner, 11 November). */
 .pip { display: inline-block; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--pip);
   box-shadow: 0 0 0 2px rgba(10, 11, 14, .85); pointer-events: auto; }
-.pip.faint { width: 7px; height: 7px; opacity: .5; box-shadow: 0 0 0 1px rgba(236, 230, 217, .55), 0 0 0 3px rgba(10, 11, 14, .7); }
+.pip.faint { width: 7px; height: 7px; opacity: var(--cond-afar); box-shadow: 0 0 0 1px rgba(236, 230, 217, .55), 0 0 0 3px rgba(10, 11, 14, .7); }
 .portrait { position: relative; }
 .portraits .portrait > .pip { position: absolute; z-index: 2; top: 1px; left: calc(50% + 15px); }
 .rail-mark > .pip { position: absolute; top: 6px; right: 6px; }
@@ -432,7 +432,7 @@
   background: rgba(10, 11, 14, .55); backdrop-filter: blur(3px); }
 .lens-tile:hover, .lens-tile:focus-visible { background: rgba(236, 230, 217, .12); }
 .lens-tile.chosen { background: rgba(236, 230, 217, .18); }
-.lens-tile.dim { opacity: .5; }
+.lens-tile.dim { opacity: var(--cond-idle); }
 /* A tile with nothing to picture is its name and its pip, a chip: a row of empty circles had said nothing (the
    contact sheet, 12 November: Go's dots, Look's six eyes). */
 .lens-tile.bare { width: auto; max-width: 14rem; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px;

@@ -74,7 +74,7 @@ export class Wayfinder {
       + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id} data-act={w.c.id}
       style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
       // Dim says what it means, once, where it is: never shut, nor far, but nothing new there for now.
-      title={dim ? Wayfinder.idle : undefined}
+      title={dim ? Wayfinder.idle : undefined} data-condition={Pip.condition({ idle: dim })}
       data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1} data-holds={w.holds?.join(' ')}
       onMouseEnter={() => Wayfinder.linger(app, w)} onMouseLeave={() => Wayfinder.passed()}
       onFocus={() => Wayfinder.pick(app, w)}

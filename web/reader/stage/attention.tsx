@@ -44,7 +44,8 @@ export class Attention {
     return <ol className={`led attention-menu lens-${lens}`} aria-label={lens}>
       {shown.map(r => <li key={r.id}>
         <ChoiceRow.Button className={`led-act attention-row${r.chosen ? ' chosen' : ''}${r.faint ? ' afar' : ''}`}
-          data={{ pick: r.id, choice: r.choice && draw.index.has(r.choice.id) ? r.choice.id : undefined }} onClick={r.pick}
+          data={{ pick: r.id, choice: r.choice && draw.index.has(r.choice.id) ? r.choice.id : undefined,
+            condition: Pip.condition({ afar: r.faint }) }} onClick={r.pick}
           {...r.choice ? { act: r.choice.id } : {}}
           {...r.tone ? { mark: `var(--tone-${r.tone})` } : {}}
           label={<>{r.glyph && <span className="row-glyph" aria-hidden="true">{r.glyph}</span>}{Typography.curl(r.label)}</>}

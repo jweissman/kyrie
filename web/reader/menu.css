@@ -85,7 +85,7 @@
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
   bottom: 11px; width: var(--indicator-w); border-radius: 3px; background: var(--prism); }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark[style*="gold"] { box-shadow: var(--glow-step); }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.afar > .row-mark { opacity: .45; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.afar > .row-mark { opacity: var(--cond-afar); }
 /* What is truly several things at once: its line a slow gradient through its tones (OKLab), still for less motion. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.prism > .row-mark { background-size: 100% 300%;
   /* Still: a colour that drifts is read as one that blinks (the owner, 15 November: an opportunity's colour persists

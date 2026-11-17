@@ -25,7 +25,7 @@
 .place-mark .pm-accent { display: block; width: 18px; height: 2px; border-radius: 1px; background: var(--pm);
   opacity: .7; }
 .place-mark.prism .pm-accent { opacity: .9; background-size: 200% 100%; }
-.place-mark.dim { opacity: .4; }
+.place-mark.dim { opacity: var(--cond-idle); }
 .chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
 .place { font: 300 clamp(30px, 3.4vw, 46px)/1.08 var(--do); letter-spacing: .01em; margin: 0 0 10px; text-wrap: balance;
   color: var(--ivory); }

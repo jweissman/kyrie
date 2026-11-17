@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emphasis, type Tone } from '../../../src/presentation/emphasis';
 import { Glyphs } from '../creation/glyphs';
-import { Indicator, type Indicated } from '../../../src/presentation/indicator';
+import { Indicator, type Condition, type Indicated, type Standing } from '../../../src/presentation/indicator';
 
 // The one semantic indicator beside a likeness, a mark of the rail or a way, and at a row's left (the owner, 11
 // November: one canonical indicator, everything round it neutral; 14 November, TP-02): one colour, the act's chief
@@ -29,13 +29,20 @@ export class Pip {
   static words(aspects: readonly Aspect[] | undefined, gilded: boolean): string {
     return Indicator.words(aspects, gilded).join(', ');
   }
+  // How an opportunity stands, for the page's data-condition (indicator-appendix.md): none where it is present, so
+  // that only what is far, heard of, idle or spent is marked, each drawn by its one value (row.css).
+  static condition(s: Standing): Condition | undefined {
+    const c = Indicator.condition(s).condition;
+    return c === 'present' ? undefined : c;
+  }
   // Its pip, and a companion's icon beside it or alone (the words said once, on whichever is drawn first).
   static View({ fill, faint, label, companion }: { fill?: string; faint?: boolean; label?: string;
     companion?: boolean }) {
     if (!fill && !companion) { return null; }
     const said = (first: boolean) => label && first ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true };
     return <>
-      {fill && <i className={`pip${faint ? ' faint' : ''}`} style={{ '--pip': fill } as CSSProperties} {...said(true)} />}
+      {fill && <i className={`pip${faint ? ' faint' : ''}`} data-condition={Pip.condition({ afar: faint })}
+        style={{ '--pip': fill } as CSSProperties} {...said(true)} />}
       {companion && <Glyphs.View id="companion" className={`pip-icon companion${faint ? ' faint' : ''}`}
         {...label && !fill ? { label } : {}} />}
     </>;

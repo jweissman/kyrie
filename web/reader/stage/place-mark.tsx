@@ -24,7 +24,7 @@ export class PlaceMark {
     const idle = frame.leaf.glance?.idle?.includes(frame.screen.place.id);
     // One colour, as every indicator is (see Pip): what it is chiefly, by the one precedence; never through several.
     const fill = Pip.fill(facets, false), said = [PlaceMark.words[family], Pip.words(facets, false)].filter(Boolean).join(', ');
-    return <span className={`place-mark${idle ? ' dim' : ''}`} aria-label={said}
+    return <span className={`place-mark${idle ? ' dim' : ''}`} aria-label={said} data-condition={Pip.condition({ idle })}
       role="img" style={{ '--pm': fill ?? 'var(--faint)' } as CSSProperties}>
       <i className="pm-accent" aria-hidden="true" /></span>;
   }
