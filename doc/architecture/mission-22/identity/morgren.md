@@ -2,12 +2,12 @@
 
 The owner's browser play, 17 November: a dwarf **Morgren** came home to his brother, also **Morgren**; the brother
 had a surname and the protagonist did not; and the name step offered two names a page, about two pages.
-(The name in the data is *Morgran*; the owner wrote it from memory.)
+(The data spells it *Morgran*.)
 
 ## The reproduction
 
-The headless starts the lead tried (a1, kite, thorn, b2) are human countries, or b2, where the drover is not placed
-and so there is no kin start. The defect needs a dwarf country: **wren** (mountain, dwarves). Through the engine's own
+The headless starts first tried (a1, kite, thorn) are human countries, where most dwarf names are free; in b2, on
+main at ab07177d, the drover is not placed in the first country (a kin start there has no drover\_\_son). The defect needs a dwarf country: **wren** (mountain, dwarves). Through the engine's own
 creation and start path, as the page drives it:
 
 ```
@@ -57,7 +57,7 @@ Three things, one root: **no family model**. Each of the drover's family was nam
   son of Clay", "Kestrel daughter of Godwit": the mother by her own father). The engine knows only these words, not
   any people's convention.
 - `FamilyNames.household({ key, people, roster, taken, own })` draws a whole family at once: its line first, **by its
-  key alone** (the town and the story, "Morrow:drover") and the protagonist's name, never by who else lives in the
+  key alone** (the town and the story, "<town name>:drover") and the protagonist's name, never by who else lives in the
   country, so that the world and the story it places the protagonist in always agree on it; then each member's given
   name, of their people and as they present, **none another member's**, and none the country's people have while any
   name of their people is free. Different people may share a name; a family's members may not.
@@ -94,7 +94,13 @@ is not changed, so no country's townsfolk are renamed.
 
 Offered to a protagonist (`ProtagonistNames.drawn`): the folk's names nobody here has, in their order as before (so
 the default name is unchanged wherever one was free), then the deeper names nobody here has, in an order of their own.
-A wren dwarf man is offered 23 names where he had 1; a dwarf in a human country 32 where 10.
+Offered (she / he / they) on main and now:
+
+| seed | dwarf | elf | catfolk | birdfolk | human |
+|---|---|---|---|---|---|
+| wren (dwarf country) | 2/1/4 → 24/17/48 | 10/10/23 → 31/31/71 | 10/8/21 → 30/28/67 | 5/5/13 → 25/26/60 | 40/40/87 → 60/60/133 |
+| thorn | 10/10/23 → 32/32/73 | 10/10/23 → 31/31/71 | 10/10/23 → 30/30/69 | 10/10/23 → 30/31/70 | 29/32/68 → 49/52/114 |
+| a1 | 10/10/23 → 32/32/73 | 10/10/23 → 31/31/71 | 10/10/23 → 30/30/69 | 10/10/23 → 30/31/70 | 31/27/64 → 51/47/110 |
 
 What the page should show (the page is the lead's): the whole list, not six; a dense grid or columns of
 names (two dozen fit at once on a phone at the name step's type size), the folk's first; a roll that shuffles
@@ -102,6 +108,48 @@ or pages by a screenful; the editable field, as now; and, for a kin start, the f
 (`FamilyNames.household(...).you`, or the set-out's party name), so the player sees "Morgran *Strakeln*" before
 setting out, and may write another surname, which the family then takes.
 
-## §8: a protagonist in a household
+## §8: a protagonist in a household (Phase A §8)
 
-See §8 below (added with the proof).
+**The proof** (`test/household-kept.test.ts`): kite, a dwarf Harbek set out on the kin circumstance. He is generated
+into a household that was there before him: the drover's, at Kite's second town.
+
+- One tradition: **Harbek Torunn**, his mother **Eldeth Torunn**, his brother **Fargrim Torunn**; three given names.
+- Relations that are the world's: `homeOf(party, region__s2)`, `kin(party, drover__wife)`, `kin(party, drover__son)`,
+  `kinship(drover__wife, origin__called_mother)`, `kinship(drover__son, origin__called_brother)` ("your mother",
+  "your brother": how they are spoken of and to), and the shared history, `knows(party, drover__missing)`: the father
+  who went out on the road three days ago, the letter that brought him home.
+- One relation made in play: the brother asked, and joined (the company: Harbek Torunn, Fargrim Torunn).
+- Kept and opened again (`PlaySession.resume` of the checkpoint, through JSON): the same names, the same relations, the
+  same company, and the same canonical game.
+
+**What Kyr already declares.** Persons and groups; relations of any arity among them (`kin(group, group)`,
+`kinship(group, entity)` for what one is called, `homeOf(group, place)`), asserted initially or by rules; facts as
+shared history (`missing`, the father's coat known before his face, `father_known`); rules conditioned on kinship
+(`father_seen` only to his child). An origin module binds a story's cast as the protagonist's own by importing them
+(`wife: drover.wife`). Everything declared is world state, and so kept by a save and replayed by a transcript.
+
+**What Deem generates.** Each cast member's attributes from tables and templates with the placement's context
+(folk, the town, the names taken). With one setting function, `kindred`, a story's casting now names its family
+together from a roster it writes ("she:wife:elder he:son"). Deem itself has no notion that the people it casts are a
+family: the roster is text the setting's function reads, and the generic engine reads only naming.json's words.
+
+**What needs a general composition constraint.** The protagonist is made outside any module (at creation, by the
+page) and the family inside one (the drover's Deem casting, installed later, with a `taken` list that grows as
+modules install). They agree today because both compute the household by one pure function from the same key (the
+town's name and the story) and the protagonist's name, and the family's line never depends on `taken`. That is a
+convention, not a commitment. Three things would make it general:
+
+1. **Identities committed by the assembler.** A household (an id, its members' parts, its line, its tradition) drawn
+   once by WorldAssembler and handed as context to every module that casts or imports a member, and to the party,
+   instead of each recomputing. Today `Origins.protagonist` and `kindred` recompute it.
+2. **Relations among the cast.** Only the party's kinship is declared (`kin(party, x)`). The wife being the son's
+   mother is in no relation: `kin(wife, son)` would be read by Stakes and the compass as one of the company's stakes,
+   because `kin` means "the company's kin". A neutral relation (`parentOf`, `household(group, entity)`) is a rules
+   change that nothing reads yet.
+3. **A household beyond one story.** The drover's family exists only where the drover's story is placed. Communities
+   already keep households (residents who share `household` and `family`, `kin: { to, as }`), but the protagonist
+   cannot be placed in one, and their names come from their own draw, not FamilyNames. Making a community household a
+   place a protagonist can be born into is the next step, and the first that needs genealogy, not before.
+
+Not done, on purpose: no genealogy, no ancestors beyond the father the line is drawn from, no inherited possessions,
+no institutions.
