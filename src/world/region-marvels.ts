@@ -15,6 +15,8 @@ export interface Trap extends Piece { mechanism: string; sign: string }
 // How a wonder stands in a country (data/generation/scenes/wonders.json): where, what it is called, how it is met,
 // how it looks before anyone meets it, what it does to whoever does, and how it is after.
 interface Met { where: 'wild' | 'within'; name: string; verb: string; seen: string; taken: string; after: string }
+// A fragment of the country's history a wonder carries: the fact it teaches, and how the makers ended, as told.
+export interface Fragment { fact: string; fate: string }
 export type Wonder = [string, Piece & Met];
 // How a mechanism is understood and dealt with (data/generation/scenes/snares.json).
 interface Snare { sign: string; seen: string; ways: { id: string; label: string; needing: string; to: string }[] }
@@ -60,9 +62,10 @@ export class RegionMarvels {
     const works = region.sites.filter(s => s.work).map(s => s.id), at = works.indexOf(site.id);
     const within = new Draw(`${region.name}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
     const wonder = beyond && draw.chance(0.5) ? within[at % within.length] : undefined;
-    return [...this.trap(region, site, way), ...wonder ? this.wonder(wonder, beyond!) : []];
+    return [...this.trap(region, site, way),
+      ...wonder ? this.wonder(wonder, beyond!, 'wonder', this.fragmentOf(region, site.work?.art)) : []];
   }
-  static wonder([key, w]: Wonder, room: string, prefix = 'wonder'): string[] {
+  static wonder([key, w]: Wonder, room: string, prefix = 'wonder', fragment?: Fragment): string[] {
     const q = JSON.stringify, id = `${prefix}_${key}`, power = this.runs(w.effect!);
     // How it looks is told with the place, until it is met: a wonder is the first thing anyone would see there. One
     // whose power the game cannot yet bring about (Orsino's arcane symbols, whose focus also gives spell slots) is
@@ -72,10 +75,24 @@ export class RegionMarvels {
       `    State unwoken ${q(w.seen)}.`,
       `    State woken ${q(w.after)}.`,
       `    Change meet ${q(`${w.verb} ${w.name}`)} from unwoken to woken.`, '  }',
-      `  Observe ${id}_seen at ${room} when state(${id}, unwoken) ${q(w.seen)}.`,
+      `  Observe ${id}_seen at ${room} when state(${id}, unwoken) ${q(w.seen)}.`, ...this.fragment(id, room, fragment),
       ...power ? [`  Relation ${id}_given().`,
         `  Rule ${id}_answers when state(${id}, woken) and not ${id}_given() says ${q(w.taken)} {`,
         `    Assert strikes(${id}_power, party). Assert ${id}_given(). }`] : []];
+  }
+  // Met, a wonder within a work or a deep site shows how its makers ended, once, and the company keeps it (the sites
+  // commission, item 3): the fact the great work's inference waits on. A company that never meets it never knows.
+  private static fragment(id: string, room: string, f?: Fragment): string[] {
+    if (!f) { return []; }
+    const said = (met as unknown as { fragment: string }).fragment.replace('{fate}', f.fate);
+    return [`  Observe ${id}_fragment at ${room} when state(${id}, woken) and not knows(party, ${f.fact})`
+      + ` ${JSON.stringify(said)} teaches ${f.fact}.`];
+  }
+  // A work's makers' fate, for a wonder within it to carry: only a people of makers the country's history has (the
+  // kingdom's keeps and abbeys were not theirs).
+  static fragmentOf(region: Region, art?: string): Fragment | undefined {
+    const makers = region.history?.makers.find(m => m.art === art);
+    return makers ? { fact: `history_${makers.art}_fate`, fate: makers.fate } : undefined;
   }
   // Whether every condition an effect applies is one the game runs.
   static runs(effect: string): boolean {

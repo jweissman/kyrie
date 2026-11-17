@@ -11,6 +11,7 @@ import { DeepRivals } from './deep-rivals';
 import { DeepSounds } from './deep-sounds';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
+import { RegionMarvels, type Fragment } from '../region-marvels';
 
 // A region's deep site, as Kyr: one of its first makers' works that goes down level after level, written from what
 // it was for (its purpose: data/generation/deep) rather than from a plan's sections. Its levels and rooms where the
@@ -36,7 +37,7 @@ export class DeepSites {
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
       // The earlier party's first camp is found first, from the top; those further down are the same party's again.
-      ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose,
+      ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose, ...this.fragment(region, purpose),
         ...content.find(x => x.special) ? { first: content.find(x => x.special)!.room.id } : {} })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...DeepSounds.listening(layout),
       ...DeepHistory.finds(layout, purpose),
@@ -196,6 +197,11 @@ export class DeepSites {
       `  Kind ${o.kind} ${q(o.item)} is treasure worth ${o.worth ?? 400} weighing ${o.weight ?? 30} described ${q(o.text)}.`,
       ...[...Object.values(purpose.valuables ?? {}).flat(), ...left].map(v =>
         `  Kind ${v.id} ${q(v.name)} is treasure worth ${v.worth} weighing ${v.weight} described ${q(v.text)}.`)];
+  }
+  // What a wonder met in it tells of its makers (RegionMarvels.fragmentOf), where they are the country's.
+  private static fragment(region: Region, purpose: DeepPurpose): { fragment?: Fragment } {
+    const fragment = RegionMarvels.fragmentOf(region, purpose.art);
+    return fragment ? { fragment } : {};
   }
   // A catalog item by its own name: "a lantern".
   static called(id: string): string { return ItemNames.called(Canon.items[id]?.name ?? id.replace(/_/g, ' ')); }

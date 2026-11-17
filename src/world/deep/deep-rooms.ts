@@ -4,7 +4,7 @@ import table from '../../../data/generation/deep/hoards.json';
 import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../item-names';
 import { Draw } from '../land/draw';
-import { RegionMarvels } from '../region-marvels';
+import { RegionMarvels, type Fragment } from '../region-marvels';
 import type { DeepContent, DeepDwellers } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
 import { Counted } from '../../presentation/counted';
@@ -30,14 +30,15 @@ export class DeepRooms {
   static readonly breath: Record<string, string> = { easy: '1d4', medium: '1d6', hard: '2d6', deadly: '4d6' };
   // What a right word pays: the treasure tier, by difficulty (Orsino's riddle loot).
   static readonly paid: Record<string, string> = { easy: 'minor', medium: 'minor', hard: 'major', deadly: 'grand' };
-  static lines(c: DeepContent, at: { site: string; purpose: DeepPurpose; first?: string }): string[] {
+  static lines(c: DeepContent, at: { site: string; purpose: DeepPurpose; first?: string; fragment?: Fragment }):
+    string[] {
     const r = c.room;
     return [...c.dwellers ? this.dwellers(c.dwellers, r.id) : [],
       ...c.dwellers ? this.device(r.id, c.dwellers.level, at.purpose) : [],
       ...c.trap ? RegionMarvels.snare({ id: c.room.id, way: c.trap.way.id, trap: c.trap.trap, under: !c.room.open })
         : [],
       ...c.riddle ? this.casket(r.id, { difficulty: c.riddle, purpose: at.purpose }) : [],
-      ...c.wonder ? this.wonder(c.wonder, r.id) : [],
+      ...c.wonder ? this.wonder(c.wonder, r.id, at.fragment) : [],
       ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),
       ...(c.treasure?.stones ?? []).flatMap((g, n) => [`  Kind ${g.kind} ${this.q(g.name)} like ${g.type}`
         + ` worth ${g.worth} described ${this.q(g.text)}.`, `  Item ${r.id}_gem${n} ${this.q(g.name)} is ${g.kind} at ${r.id}.`]),
@@ -91,9 +92,9 @@ export class DeepRooms {
     ...draw.shuffle([riddle.answer, ...wrong]).flatMap((word, n) => this.section(word === riddle.answer ? 'right' : 'wrong',
       { id, room, word, n: String(n), unit: word.length === 1 ? 'letter' : 'word' }))];
   }
-  private static wonder(key: string, room: string): string[] {
+  private static wonder(key: string, room: string, fragment?: Fragment): string[] {
     const found = RegionMarvels.wonders.find(([k]) => k === key);
-    return found ? RegionMarvels.wonder(found, room, `${room}_wonder`) : [];
+    return found ? RegionMarvels.wonder(found, room, `${room}_wonder`, fragment) : [];
   }
   // How the coin left in a room lies there, each room its own way (one purse rotted through in nearly every room
   // of one barrow: the play-structure investigation's PT-15): the author's, in data/generation/deep/hoards.json.
