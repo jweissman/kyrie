@@ -36,7 +36,20 @@ const green = `
   Objective crypt when true toward dead by yard "Lay the dead under {yard}.".
   Goal false.`;
 
+// An aim that waits on having been somewhere further in (a work's _sought: a1's cistern, down to its spring-head) names
+// only the work; at its door the gold walker had nothing led (PB-16), the door's tries not the aim's step.
+const head = hold.replace(/Observe carving[^\n]*\n\s*Objective writing[^\n]*/,
+  'Objective writing when not been(party, hall) toward porch "Go down into the old hold.".');
+
 describe('the aim followed and its next step', () => {
+  it('is the way on to the place the aim waits on having been in', async () => {
+    const t = await Tiny.start(head);
+    t.follow('writing');
+    await t.play('To the porch of the hold');
+    expect(t.glance.lead).toEqual({ aim: 't__writing', source: 'barred', next: ['t__slab'] });
+    await t.perform('change_thing(t__slab_heave)');
+    expect(t.glance.lead).toEqual({ aim: 't__writing', source: 'beyond', next: ['t__hall'] });
+  });
   it('is what bars the way to what the aim waits on, and then the place beyond', async () => {
     const t = await Tiny.start(hold);
     expect(t.glance.lead).toBeUndefined();

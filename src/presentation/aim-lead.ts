@@ -11,9 +11,9 @@ import { Undertakings } from './undertakings';
 
 // Where the next step of the aim followed was learned (US-07, PD-08): the way its author says it is gone to by, not
 // yet taken (route); what it is toward, not yet come to (toward); at it, where what it waits on is hidden (hidden) or
-// to be learned (taught) further in, or what bars the way there (barred); or nothing further in, its business here
-// (here).
-export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'barred' | 'here';
+// to be learned (taught) or come to (beyond) further in, or what bars the way there (barred); or nothing further in,
+// its business here (here).
+export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'here';
 // The aim followed, and its next step: one record for every reader, heard (the aim), where the step comes from
 // (source) and the step itself (next: the places, people or things it is taken to or done with).
 export interface AimLead { aim: string; source: LeadSource; next: string[] }
@@ -62,7 +62,8 @@ export class AimLeading {
     const byId = EntityIndex.of(campaign.module.entities).byId, here = screen.place.id;
     const sites = new Set([here, ...screen.exits.map(e => e.destination.id)].flatMap(id => this.site(byId, id) ?? []));
     const found = [...AimAdvances.sought(campaign).map(p => ['hidden', p] as const),
-      ...AimAdvances.taughtAt(campaign).map(p => ['taught', p] as const)]
+      ...AimAdvances.taughtAt(campaign).map(p => ['taught', p] as const),
+      ...AimAdvances.unreached(campaign).map(p => ['beyond', p] as const)]
       .filter(([, p]) => p !== here && sites.has(this.site(byId, p) ?? ''));
     const near = found.map(([source, p]) => ({ source, p, way: this.way(campaign, here, p) }))
       .filter(x => x.way.length > 1).toSorted((a, b) => a.way.length - b.way.length)[0];

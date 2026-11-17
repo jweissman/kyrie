@@ -51,6 +51,17 @@ export class AimAdvances {
     if (!def) { return []; }
     return this.hidden(campaign, this.waits(campaign.module, def)).map(c => c.args[1]!);
   }
+  // Where the aim followed waits on the company having been, not yet come to: a1's cistern, sought down to its
+  // spring-head, named only the cistern, and at its door nothing said the way in under the speaking door was the step
+  // (PB-16: the gold walker stood there, its four the door's, unguided).
+  static unreached(campaign: Campaign): string[] {
+    const def = Undertakings.followed(campaign), w = campaign.world;
+    if (!def) { return []; }
+    return this.waits(campaign.module, def).filter(c => c.name === 'been' && c.args.length === 2
+      && !c.args[1]!.startsWith('?')
+      && !w.test(ModuleWriter.call('been', c.args[0]!.startsWith('?') ? 'party' : c.args[0]!, c.args[1]!)))
+      .map(c => c.args[1]!);
+  }
   // A thing the aim waits on that is hidden until something is found is first searched for where it is found: the
   // dead man's box, under the stone at the keep's door, had left the gold to go on into the keep and be lost there
   // (round 9, P).
