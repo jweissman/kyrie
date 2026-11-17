@@ -31,7 +31,10 @@ describe('a companion perceived', () => {
     Inn.put(c, 'region__s1_green');
     let g = Glanced.of(s);
     // And someone at the shrine, since the adventure branch's integration (12 November).
-    expect(g.glance.sensed).toEqual([{ to: 'region__s1_shrine', aspect: 'companionship', far: 1 },
+    // Each with the one perceived nearest along it (Sensed.who, which the way's row names: OR-68).
+    expect(g.glance.sensed?.every(x => !!x.who)).toBe(true);
+    expect(g.glance.sensed?.map(({ who: _, ...x }) => x)).toEqual([
+      { to: 'region__s1_shrine', aspect: 'companionship', far: 1 },
       { to: 'region__s1_taproom', aspect: 'companionship', far: 1 }]);
     // Only a way there says so (the Go mark's companion is on its row: the owner, 17 November), never an asking.
     expect(g.glance.acts.filter(a => a.aspects.includes('companionship')).every(a => !!a.exit)).toBe(true);
@@ -54,7 +57,8 @@ describe('a companion perceived', () => {
     Inn.put(c, 'region__s1_shop');
     expect(Glanced.of(s).glance.sensed).toBeUndefined();
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('capable', 'party', 'gregarious') }]));
-    expect(Glanced.of(s).glance.sensed).toEqual([{ to: 'region__s1_green', aspect: 'companionship', far: 2 }]);
+    expect(Glanced.of(s).glance.sensed?.map(({ who: _, ...x }) => x)).toEqual([
+      { to: 'region__s1_green', aspect: 'companionship', far: 2 }]);
     expect(Inn.facts(c)).toBe(world);
   }, 120000);
 });
