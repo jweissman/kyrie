@@ -6,7 +6,7 @@ import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { Outmatched } from './outmatched';
 import { FictionalTime } from '../campaign/fictional-time';
-import type { Predicate } from '../lang/module';
+import type { Operator, Predicate } from '../lang/module';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Canon } from '../canon/canon';
 import { ObservationText } from '../lang/observation-text';
@@ -356,7 +356,17 @@ export class ActionFeedbackView {
     const kin = Object.values(action.bindings ?? {})
       .map(id => [ObservationText.label(campaign.world, id), Telling.called(campaign, id)] as const)
       .filter(([name, word]) => name !== word);
-    const told = kin.reduce((t, [name, word]) => t.replaceAll(name, word), said);
+    const told = this.own(campaign, action, kin.reduce((t, [name, word]) => t.replaceAll(name, word), said));
     return told === said ? said : `${told.charAt(0).toUpperCase()}${told.slice(1)}`;
+  }
+  // Done by one who came alone, what is done for them is not said to be for them: the one the act is for, bound by
+  // name, is the only one there is (the cold playtest's "You collect a garnet for Hild", Hild being the one
+  // collecting it: CO-10).
+  private static own(campaign: Campaign, action: Operator, said: string): string {
+    const w = campaign.world, actor = campaign.playerActor ?? 'party';
+    const members = w.related('memberOf').filter(r => r.args[1] === actor).map(r => r.args[0]!);
+    const self = members.length === 1 && Object.values(action.bindings ?? {}).includes(members[0]!)
+      ? members[0] : undefined;
+    return self ? said.replace(` for ${ObservationText.label(w, self)}`, '') : said;
   }
 }
