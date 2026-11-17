@@ -1,6 +1,8 @@
 import { LocalObservations } from '../campaign/local-observations';
 import { Sentences } from '../presentation/sentences';
 import { CampaignLint } from './campaign-lint';
+import { ModuleWriter } from '../lang/module-writer';
+import type { Predicate } from '../lang/module';
 
 // What an author would want to know of a campaign and is not told by its play (the Grand Tour's friction X06, X15 and
 // X17): a tame one's own greeting said on arrival, a first place with nothing said of it, a module that gives the
@@ -10,7 +12,7 @@ export class AuthorLint {
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
-    this.nearWay(lint);
+    this.nearWay(lint); this.unheard(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -41,6 +43,28 @@ export class AuthorLint {
         + `away, what it teaches is lost; latch it on not knows(${company}, ${r.teaches}) instead, or ask at(${company}, `
         + `${r.place})`);
     }
+  }
+  // A rule's words with no anchor are heard wherever the company is: one that waits on someone or something being in a
+  // room, and asks nothing of the company, tells what happens there to a company anywhere (NP-02: a judge closing his
+  // ledger at the bakehouse, told in a taproom across the town). Advice: news meant to reach everywhere is meant.
+  static unheard(lint: CampaignLint) {
+    const company = lint.session.campaign.playerActor, byId = new Map(lint.module.entities.map(e => [e.id, e]));
+    for (const r of company ? (lint.module.rules ?? []).filter(x => x.say && !x.place && !x.id.endsWith('_once')) : []) {
+      const calls: { name: string; args: string[] }[] = [];
+      ModuleWriter.conditionCalls(r.when, call => { calls.push(call); return call; });
+      if (calls.some(c => c.args.includes(company!) || c.args.includes('actor'))) { continue; }
+      const held = AuthorLint.held(r.when).find(c => c.name === 'at' && c.args.length === 2
+        && ['group', 'thing', 'scenery'].includes(byId.get(c.args[0]!)?.type ?? '')
+        && byId.get(c.args[1]!)?.space?.kind === 'room');
+      if (!held) { continue; }
+      lint.add('advice', 'unheard', `${r.id} says what happens with ${held.args[0]} at ${held.args[1]}, and is heard `
+        + `wherever the company is: write it at ${held.args[1]} (or near ${held.args[0]}), or heard at it, if not meant`);
+    }
+  }
+  // The calls a condition needs to hold, not under a "not".
+  private static held(p: Predicate): { name: string; args: string[] }[] {
+    if (p.kind === 'call') { return [p]; }
+    return p.kind === 'and' ? [...this.held(p.left), ...this.held(p.right)] : [];
   }
   // A line `near` a thing that stands on a way is never told: a thing on a way is at neither end of it, so nothing is
   // near it there (the Book of Faces' cisterns 5, BOF-26). `Observe … beside <way> from <end>` says it at an end.

@@ -9,7 +9,7 @@ see it in context.
 | To | Write | Notes |
 |---|---|---|
 | Teach a fact when a rule fires | `Rule x when … says "…" teaches fact { }` (`once` before `says` to fire once; `says "…" again "…" then "…"` for words in turn) | A rule may not otherwise change what the company knows. The braces are required, even empty. |
-| Say a rule's words only where it happens | `Rule x heard at place when … says "…" { … }` | Its effects happen wherever the company is; its words are heard only there. `Rule x at place when …` anchors both. Without either, the words are told wherever the company is (M19-126). |
+| Say a rule's words only where it happens | `Rule x heard at place when … says "…" { … }` | Its effects happen wherever the company is; its words are heard only there. `Rule x at place when …` anchors both. Without either, the words are told wherever the company is (M19-126); `kyrie lint` advises (`unheard`) where such a rule waits on someone in a room and asks nothing of the company (NP-02). |
 | Say something only near someone | `Observe x near party when … "…"` (or `near person`) | Told where the company is, when the condition holds. |
 | End the game when the company falls | an ending `when not able(party)` | `able(party)` is the company still standing. |
 | Count time | `watch(clock)` | A watch is ten minutes: 6 an hour, 144 a day. |
