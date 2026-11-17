@@ -194,6 +194,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
     Requires able(actor) and at(actor, site) and at(prey, site) and able(prey) and distinct(actor, prey)
       and not peaceable(actor) and not allied(actor, prey) and not tolerates(actor, prey) and not company(actor).
     On success { Assert assails(actor, prey). }
+    Seen "{actor} closes to attack.".
   }
   Action attack(actor: group, opponent: group, site: place) "Attack {opponent}" {
     Description "Once it starts it goes on until one side is down or runs, and whoever falls may not get up.".

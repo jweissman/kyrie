@@ -405,10 +405,13 @@ export class PlayerView {
         const seen = decision.seen ?? (!!here && (before === here || at.get(decision.actor) === here));
         const act = campaign.operator(decision.action), obstructed = decision.goal === 'obstructed';
         if (!seen || (obstructed && !act?.otherwise)) { continue; }
+        // Told in its author's words or not at all: an act with none had been told by its label, the player's
+        // imperative under whoever did it ("The raiding party: Fall on You", UNT-108, NP-13); what it changed is the
+        // scene's to show.
         const told = obstructed ? act!.otherwise : act?.seen;
+        if (!told) { continue; }
         entries.push({ at: decision.elapsed ?? event.elapsed, kind: 'npc',
-          text: told ? ObservationText.render(told, campaign.world)
-            : `${labels.get(decision.actor) ?? decision.actor}: ${act?.name ?? decision.action}`, detail: [] });
+          text: ObservationText.render(told, campaign.world), detail: [] });
       }
       VisitedPlaces.moves(event.changes, at);
       for (const m of deadlines.filter(m => m.deadline! > previous && m.deadline! <= event.elapsed)) {
