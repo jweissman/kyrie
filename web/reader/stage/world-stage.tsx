@@ -169,10 +169,20 @@ export class WorldStage {
     }
     return x.danger ? 'Means you harm: what can be done is in the scene.' : x.says?.[0] ?? 'Nothing to say to you now.';
   }
+  private static readonly fetching = new Set<string>();
+  static fetched(src: string) {
+    if (WorldStage.fetching.has(src)) { return; }
+    WorldStage.fetching.add(src);
+    const img = new Image(); img.decoding = 'async'; img.src = src;
+  }
   static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string;
     aspects?: Aspect[] } }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
-    const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
+    const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined;
+    // Whoever can be turned to has their large likeness fetched while the scene shows them, so a conversation opens
+    // with them in it (M22's second review, OR-43: the sitter had come a second after the page).
+    useEffect(() => { if (into && x.portrait?.large) { WorldStage.fetched(x.portrait.large); } }, [into, x.portrait?.large]);
+    const face = x.portrait
       ? /(^|\/)(animals|monsters)\//.test(x.portrait.src)
         ? <img className="whole" src={x.portrait.src} alt="" decoding="async" />
         : <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />

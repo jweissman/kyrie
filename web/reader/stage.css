@@ -145,6 +145,9 @@
 .prologue-page .chapter { margin: 0 0 22px; animation: rise 1s .3s var(--ease) both; }
 .prologue-page .beat { margin: 0 0 30px; font: var(--type-prose); color: var(--ivory);
   text-wrap: pretty; text-shadow: 0 1px 16px rgba(0, 0, 0, .7); animation: rise 1.1s .5s var(--ease) both; }
+/* The pages after the first rise at once: the half second's wait had left the page its heading alone between one
+   page's words and the next (M22's second review, OR-43: "a page with only a header and a button blinks"). */
+.prologue-page:not([data-beat="0"]) .beat { animation-delay: 0s; animation-duration: .7s; }
 /* The way on of a beat is no mark at all (the owner, 15 November: "do we need the bright yellow square and hard vertical bar
    as well as Enter to go on? It should just set a timer"): the page goes on by itself once read, and Enter or a touch
    anywhere on it goes on sooner. The button stays, as the page's way on for keys and screen readers, an invisible plate over
