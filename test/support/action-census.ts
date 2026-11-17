@@ -12,8 +12,9 @@ export class ActionCensus {
     ['.more-told', 'a disclosure of more of the place (ruling 1: information, not an act)'],
     ['details.how > summary', 'how a roll fell, a disclosure (ruling 1)'],
     ['.board-labels *', "the map's own marks: places, signs, as the instrument draws them"],
-    ['.surface .portraits [data-act], .portraits [data-act]', 'a likeness on the scene (to be decided: OR-38)'],
-    ['.book-head .quiet-word', "the Book's way back to the place (to be decided: OR-38)"],
+    ['.surface .portraits [data-act], .portraits [data-act]', "a likeness on the scene: the scene's people, who open a "
+      + 'conversation (the settled resting scene, M19; OR-38 decided)'],
+    ['.book-head .quiet-word', "the Book's way back, the header's one way back (OR-38 decided)"],
     ['input[data-field="name"]', 'writing your own name'],
     ['.fight .status .quiet-word', 'the fight so far, a disclosure (ruling 1)'],
   ];
