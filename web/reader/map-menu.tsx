@@ -79,7 +79,7 @@ export class MapMenu {
     // Stopped on the way by something here (a band on the road, a toll, someone met), the map is put away first: its
     // one row says so, red where it means harm (the owner, 17 November: you must put away the map to deal with what
     // has stopped you; red if a violent encounter waits).
-    const scene = app.menu.scene, danger = (scene?.subjects ?? []).some(x => x.danger);
+    const scene = app.menu?.scene, danger = (scene?.subjects ?? []).some(x => x.danger);
     // Only what means harm holds the map: a beast that might join, met on the way, is gone on from as before.
     const travel = app.state.frame?.travel, held = !!travel && !travel.arrived && !chosen && danger;
     if (held) {
@@ -91,7 +91,7 @@ export class MapMenu {
     const aimed = !!chosen && RouteCard.aimed(screen, chosen);
     const named = chosen && screen.region ? RouteCard.named(screen.region, chosen, way!).title : undefined;
     const taken = [go?.id, onward?.c.id];
-    const facets = PlaceFacets.of(screen, app.state.frame?.leaf.glance), gilded = Guidance.shown(app);
+    const facets = PlaceFacets.of(screen, app.state.frame?.leaf?.glance), gilded = Guidance.shown(app);
     const roads = MapMenu.roads(screen, facets, { taken, chosen })
       .slice(0, MapMenu.four - 1 - (go ? 1 : 0) - (onward ? 1 : 0));
     return (
