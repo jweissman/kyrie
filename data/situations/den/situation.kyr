@@ -46,5 +46,8 @@ Module den "A den in the wild" {
     and not laid(beasts) "Something has made its den at {den}.".
   Objective clear when knows(party, rumour) and been(party, den) and not dead(beasts) and not driven(beasts)
     and not laid(beasts) "{beasts} have a den at {den}.".
+  // Dealt with, the word of it is old news: nobody tells of the den as if it stood (as the players' and the quarrel's
+  // word goes stale once settled, E57; WM-04).
+  Rule word_old when (dead(beasts) or driven(beasts) or laid(beasts)) and not stale(rumour) { Assert stale(rumour). }
   Goal dead(beasts) or driven(beasts) or laid(beasts).
 }
