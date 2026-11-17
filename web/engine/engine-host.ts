@@ -24,6 +24,7 @@ import type { Entry, Frame, Leaf, Message, Request, SaveSummary, Setting } from 
 import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
+import { SceneBudget } from '../../src/presentation/scene-budget';
 import { Prologue } from '../../src/presentation/prologue';
 import { Obituary } from '../../src/narrative/obituary';
 import { BandNames } from '../../src/narrative/band-names';
@@ -195,9 +196,10 @@ export class EngineHost {
     // (test/action-identity), which no telling of what came before decides.
     if (command.startsWith('follow:')) {
       const event = await session.perform(command); this.told = undefined; this.saving();
-      const frame = this.settled();
-      return event.response ? { ...frame, leaf: { ...frame.leaf, exchange: { lines: [{ kind: 'telling', text: event.response }],
-        notes: [], tone: 'act' } } } : frame;
+      // And, as any act done where the company stands, the place it already said is held, not told again over it.
+      const frame = this.settled(), g = frame.leaf.glanced;
+      return event.response ? { ...frame, leaf: { ...frame.leaf, ...g ? { glanced: SceneBudget.held(g) } : {},
+        exchange: { lines: [{ kind: 'telling', text: event.response }], notes: [], tone: 'act' } } } : frame;
     }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's

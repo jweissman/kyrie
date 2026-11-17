@@ -40,7 +40,9 @@ export interface Leaf {
   // The place at a glance (SceneBudget: three sentences, typed by what each observation is; Mission 21): what the
   // page and the terminal tell of situation and presence, and what they hold for a deliberate look, whole sentences in
   // the place's order. situation and presence above stay whole, for what reads the place entire.
-  glanced?: { situation: string[]; presence: string[]; held: string[]; unsaid?: string[] };
+  // stayed: what was told is of something done where the company stands, so nothing of the place is told again over
+  // it (its life, its first goal), only held (the owner, 17 November).
+  glanced?: { situation: string[]; presence: string[]; held: string[]; unsaid?: string[]; stayed?: true };
   // The company's instruments of observation, as it may read them now (see Instruments).
   instruments?: import('./instruments').Instrument[];
   // Whether the last command brought the company here from somewhere else, and the way, told as it went.
@@ -136,11 +138,14 @@ export class Narrator {
     // At a glance, three sentences (Mission 21): typed by what each observation is; what came of coming here counts.
     const arrival = told?.moved ? (exchange?.lines ?? []).filter(l => l.kind !== 'roll' && l.kind !== 'fight') : [];
     const budget = SceneBudget.typed(paragraphs, presence, gone, arrival);
+    // Something done where the company stands is told alone: the place, said when the company came, is not said again
+    // over it, only held for a deliberate look (the owner, 17 November: "we shouldn't redescribe something we've
+    // already said"; the telling had grown by the place's three sentences at every act and scrolled). The terminal
+    // has told an act so since TB-05.
+    const glanced = SceneBudget.glanced(budget, !!told && !told.moved && !!exchange
+      && (exchange.lines.length > 0 || exchange.notes.length > 0));
     const leaf = this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
-      situation: [...situation, ...gone], presence, changed: fresh,
-      glanced: { situation: budget.told.filter(t => t.kind !== 'life').map(t => t.text),
-        presence: budget.told.filter(t => t.kind === 'life').map(t => t.text), held: budget.held,
-        ...budget.unsaid ? { unsaid: budget.unsaid } : {} },
+      situation: [...situation, ...gone], presence, changed: fresh, glanced,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {}, ...seen.roll && presence.includes(seen.roll) ? { roll: seen.roll } : {},
     });
@@ -187,7 +192,8 @@ export class Narrator {
       ...leaf.glanced ? { glanced: { situation: leaf.glanced.situation.map(t => Typography.curl(t)),
         presence: leaf.glanced.presence.map(t => Typography.curl(t)),
         held: leaf.glanced.held.map(t => Typography.curl(t)),
-        ...leaf.glanced.unsaid ? { unsaid: leaf.glanced.unsaid.map(t => Typography.curl(t)) } : {} } } : {},
+        ...leaf.glanced.unsaid ? { unsaid: leaf.glanced.unsaid.map(t => Typography.curl(t)) } : {},
+        ...leaf.glanced.stayed ? { stayed: true as const } : {} } } : {},
       presence: leaf.presence.map(t => Typography.curl(t)), changed: leaf.changed.map(t => Typography.curl(t)),
       ...e ? { exchange: { ...e, lines: e.lines.map(l => ({ ...l, text: Typography.curl(l.text) })),
         ...e.said ? { said: Typography.curl(e.said) } : {} } } : {} };

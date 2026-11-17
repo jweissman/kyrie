@@ -1,3 +1,4 @@
+import { News } from './news';
 import type { Entry, Frame } from '../engine/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
@@ -46,6 +47,7 @@ export class Sheet {
     return (
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>
+        <News.Read items={app.state.reading ?? []} />
         <section className="notes-aims">
           <h3>What you mean to do</h3>
           {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} picked={aim && Sheet.key(aim)}

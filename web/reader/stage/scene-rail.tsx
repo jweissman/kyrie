@@ -1,3 +1,4 @@
+import { News } from '../news';
 import type { ReaderApp } from '../reader-app';
 import type { Draw } from './act';
 import { CompassStage } from './compass-stage';
@@ -93,7 +94,8 @@ export class SceneRail {
           onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" />
           {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>}
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
-        onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /></button>
+        onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
+      </button>
     </>;
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;

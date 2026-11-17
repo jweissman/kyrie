@@ -1,3 +1,4 @@
+import { News, type Item } from './news';
 import { MapView } from './map-view';
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
@@ -111,6 +112,8 @@ export interface AppState {
   step?: [number, number];
   // The whole story so far, asked for when the Story is opened (frames carry only its last entries).
   story?: Entry[];
+  // What the Book holds that has not been read there (see News), and what it opened on when last opened.
+  news?: Item[]; reading?: Item[];
   // Whether the last game the engine kept could not be kept in this browser (see ReaderStore.write).
   unkept?: boolean;
   // The thing the last command was done to, from its own page: what came of it is told there, and not under another
@@ -185,7 +188,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;
-      this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
+      const news = [...this.state.news ?? [], ...News.of(message.frame, this.state.news)];
+      this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight, news,
         attention: Conversation.place, talk: [], asked: [], confirming: undefined, charted: undefined,
         outdoors: !!message.frame.screen.region?.land && !combat });
     }
@@ -400,6 +404,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }
+    // The Book's notes opened: what was unread is read there, and the pip goes.
+    if (view === 'journal' && this.state.news?.length) { this.setState({ reading: this.state.news, news: [] }); }
     // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page,
     // and left by entering where the company stands (its card's ENTER). Raised over a town or a building, asking for it
     // again puts it away, as Escape does: a player who pressed Map to close it pressed set-out instead (round 5).

@@ -70,6 +70,8 @@ export class Words {
   static restates(echo: string, line?: string): boolean {
     const [you, verb, ...rest] = this.words(echo), said = this.words(line ?? '');
     if (you !== 'you' || !verb) { return false; }
+    // A wait is told by the time it took ("Time passes."): "You wait a while." over it had said it twice.
+    if (verb === 'wait' && /^(time|a while|an hour) pass/.test(said.join(' '))) { return true; }
     const forms = [verb, this.told[verb] ?? verb].flatMap(v => [v, `${v}s`, `${v}es`, v.replace(/y$/, 'ies')]);
     const at = said.slice(0, 4).findIndex(w => forms.includes(w));
     return at >= 0 && rest.slice(0, 2).every((w, i) => said[at + 1 + i] === w);

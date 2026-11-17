@@ -169,10 +169,10 @@ export class GlanceStage {
           is put away (Mission 21's scenes: the time lens had sat under five paragraphs at an iPad's height). */}
       <Told.Setting app={app} brief={!!s.exploring} />
       <LensFocused.Seen app={app} />
-      {!g.life?.danger && !s.exploring && <GlanceStage.Life app={app} glance={g} />}
+      {!g.life?.danger && !s.exploring && !leaf.glanced?.stayed && <GlanceStage.Life app={app} glance={g} />}
       {/* Said here unless the opening said it: an opening with no aim of its own on its last page (a1's) had left the
           first goal on no screen at all, only in the book (the second blind playtest, BL-04). */}
-      {g.goal && (!s.opened || !s.goalSaid) && !s.exploring && <p className="first-goal" data-id="goal">
+      {g.goal && (!s.opened || !s.goalSaid) && !s.exploring && !leaf.glanced?.stayed && <p className="first-goal" data-id="goal">
         <span className="label">Your first goal</span>
         {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
@@ -554,7 +554,9 @@ export class GlanceStage {
     if (life.danger && subject) { return <GlanceStage.Danger subject={subject} text={life.text} reckoned={reckoned} />; }
     return (
       <p className="life" data-subject={life.subject} data-id={life.id}>
-        <span className="said"><Told.Said text={life.text} /></span>
+        {/* Its first sentence, the one the scene's budget counts (SceneBudget: three in all; the owner, 17 November:
+            an arrival had told eight and scrolled); the rest is the place's, for a deliberate look. */}
+        <span className="said"><Told.Said text={Told.first(life.text)} /></span>
       </p>
     );
   }

@@ -1,3 +1,4 @@
+import type { Leaf } from './narrator';
 import { Sentences } from './sentences';
 
 // What a scene tells at a glance, held to a budget (Mission 21: "a three-sentence initial narration budget, including
@@ -30,6 +31,17 @@ export interface Budgeted {
 interface Split extends BudgetLine { i: number; sentences: string[] }
 interface Tally { keep: Map<number, number>; counted: number; budget: number }
 export class SceneBudget {
+  // The place at a glance, within its budget; or, after something done where the company stands, nothing of it told
+  // again, all of it held (see Leaf.glanced).
+  static glanced(budget: ReturnType<typeof SceneBudget.typed>, stayed: boolean): NonNullable<Leaf['glanced']> {
+    return stayed ? SceneBudget.held({ situation: budget.told.map(t => t.text), presence: [], held: budget.held })
+      : { situation: budget.told.filter(t => t.kind !== 'life').map(t => t.text),
+        presence: budget.told.filter(t => t.kind === 'life').map(t => t.text), held: budget.held,
+        ...budget.unsaid ? { unsaid: budget.unsaid } : {} };
+  }
+  static held(g: NonNullable<Leaf['glanced']>): NonNullable<Leaf['glanced']> {
+    return { situation: [], presence: [], held: [...g.situation, ...g.presence, ...g.held], stayed: true };
+  }
   // The default budget (the owner, 12 November: a test that fails when scenes average more than three sentences).
   static readonly sentences = 3;
   static compose(lines: BudgetLine[], budget = SceneBudget.sentences): Budgeted {

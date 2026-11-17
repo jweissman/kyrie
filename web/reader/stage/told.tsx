@@ -208,11 +208,15 @@ export class Told {
     // if it had left (the owner's play of 15 November, OP-03).
     const fought = exchange.tone === 'fight' && !!exchange.held, at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
+    // The echo of the act is one of the three sentences (ToldLines.sentences) where it is said.
+    const echoed = !!echo && !Words.restates(echo, exchange.lines[0]?.text);
     const left = new Set(unsaid ?? []);
     // The outcome in prose; the dice behind it kept for a deliberate look (ToldLines, the one rule both clients keep:
     // the blind playtest's BP-03, "1 on the die, needing 11" beside a success the prose had made plain).
+    // Over the budget (ToldLines: three sentences), the rest is had by the same look as the dice.
     const [looked, look] = useState(shown), rolled = exchange.lines.some(l => l.kind === 'roll');
-    const lines = ToldLines.said(exchange.lines, looked);
+    const deeper = ToldLines.more(exchange.lines, ToldLines.sentences - (echoed ? 1 : 0));
+    const lines = ToldLines.said(exchange.lines, looked, ToldLines.sentences - (echoed ? 1 : 0));
     const moments = Moments.of(lines.filter(l => !left.has(l.text))), { sights, ended, levels } = moments;
     const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
     // The aims it took up, from the aims themselves, by id: those the company holds (one folded into another is told
@@ -226,23 +230,19 @@ export class Told {
     }
     return (
       <section ref={at} className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
-        {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
+        {echoed && <p className="you">{Typography.curl(echo)}</p>}
         {plain!.map((l, i) => Check.of(l, i)
           ?? <p key={i} className={l.kind}><Told.Said text={l.text} /></p>)}
         {sights.length > 0 && <Panorama.View sights={sights} going={Told.going(app)} choose={app && (c => app.choose(c))}
           onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
         {rest!.map((l, i) => Check.of(l, `r${i}`)
           ?? <p key={`r${i}`} className={l.kind}><Told.Said text={l.text} /></p>)}
-        {rolled && <button type="button" className="quiet-word dice-look" data-action="dice" aria-expanded={looked}
-          onClick={() => look(!looked)}>{looked ? 'Put the dice away' : 'How it fell'}</button>}
+        {deeper && <button type="button" className="quiet-word dice-look" data-action="dice" aria-expanded={looked}
+          onClick={() => look(!looked)}>{looked ? rolled ? 'Put the dice away' : 'Less' : rolled ? 'How it fell'
+            : 'More…'}</button>}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
-        {(notes.length > 0 || taken.length > 0) && <ul className="notes">
-          {taken.length > 0 && <Told.Aims app={app} aims={taken} />}
-          {Told.grouped(notes).map(([label, lines]) => label
-            ? <li key={lines[0]} className="learned"><span className="label">{label}</span>
-              {lines.map((l, i) => <span key={l} className="learned-line">{i ? '' : ' '}{Typography.curl(l)}</span>)}</li>
-            : <li key={lines[0]} className="more-in-book">{Typography.curl(lines[0]!)}</li>)}</ul>}
+        {/* What is known now and the aims taken up are the Book's news, not told here (see News). */}
       </section>
     );
   }
