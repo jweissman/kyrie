@@ -35,8 +35,11 @@ export class ComposedOptions {
       return { all: true, options: step.cards.map(c => ({ id: c.id, name: c.name, aside: ComposedOptions.pronouns[c.id] ?? '' })),
         say: () => 'The words the world will speak of you in.' };
     }
-    const table = CreationDefaults.table(m, s.setting, roll);
+    // Three names of the table at a time (four acts with writing your own; the owner's ruling 2), and Roll again for
+    // others: it brings a new hand of names, no act of its own.
+    const table = CreationDefaults.table(m, s.setting, roll).slice(0, ComposedOptions.names);
     return { all: true, options: table.map(name => ({ id: name, name })), say: () => '' };
   }
+  static readonly names = 3;
   static readonly pronouns: Record<string, string> = { she: 'she, her', he: 'he, him', they: 'they, them' };
 }
