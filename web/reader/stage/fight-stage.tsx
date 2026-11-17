@@ -165,7 +165,7 @@ export class FightStage {
           {!foe && <span className="of">{f.hp} of {f.maxHp}</span>}</p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${band}%` }} /></span>
         <p className="tags"><span className="parts">{FightStage.parts(f, hurt).map(([key, part]) =>
-          <span key={key} className="part">
+          <span key={key} className="part" data-part={key}>
             <span className="sep" aria-hidden="true"> · </span>{part}</span>)}</span></p>
         {/* A foe's intent keeps its line when it has none (after it has acted, or fallen): the card had shrunk under the
             hand as it struck (CN-06: no reflow). */}
