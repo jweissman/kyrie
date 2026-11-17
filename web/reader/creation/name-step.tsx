@@ -71,10 +71,17 @@ export class NameStep {
     const special = calling?.specializations.find(t => t.id === m.traits?.[0]);
     const weapon = calling?.weapons.find(w => w.id === (m.weapon ?? CreationRules.best(calling.weapons, m, catalog)?.id));
     const origin = s.setting?.origins?.find(o => o.id === s.origin), was = catalog.backgrounds.find(b => b.id === m.backgroundId);
-    const who = [people?.name.toLowerCase(), special?.who ?? calling?.name.toLowerCase()].filter(Boolean).join(' ');
+    // In the words creation showed (M22's review: "abjurer" and "artificer", which no page had said): the calling as
+    // chosen, unless a specialty was chosen too; the kind of life before, as the step named it, not the trade the
+    // engine fills in for it.
+    const chosen = !!m.traits?.[0] && !!s.creation?.steps.some(x => x.id === 'specialty');
+    const who = [people?.name.toLowerCase(), (chosen && special?.who) || calling?.name.toLowerCase()].filter(Boolean)
+      .join(' ');
+    const life = was && catalog.kinds.find(k => k.id === was.kind);
     return [`${Words.upper(who ? Words.article(who) : 'someone')}.`,
       ...origin ? [`${Words.upper(origin.title.replace(/\.$/, ''))}.`] : [],
-      ...was ? [`Once ${Words.article(BackgroundCatalog.called(was, m.pronouns).toLowerCase())}.`] : [],
+      ...life ? [`Before this, ${life.name.toLowerCase()}.`] : was
+        ? [`Once ${Words.article(BackgroundCatalog.called(was, m.pronouns).toLowerCase())}.`] : [],
       weapon ? `${Words.upper(Words.article(weapon.name.toLowerCase()))} in hand.` : 'Bare hands.'];
   }
 }
