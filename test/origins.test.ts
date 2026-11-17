@@ -122,7 +122,7 @@ describe('an origin', () => {
     expect(aims()).not.toContain('feverwort you carry');
     for (let h = 0; h < 9; h++) { await s.leg('wait_hour'); }
     expect(c.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(false);
-    expect(aims()).toContain('the herbs are spent');
+    expect(aims()).toContain('Find herbs again for the child');
     expect(aims()).not.toContain('feverwort you carry');
     expect((await Opening.take(s, /^Ask .* how the child is$/)).response).toMatch(/^'It came back,'/);
     await Opening.take(s, /^Give healing herbs/i);
