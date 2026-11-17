@@ -162,6 +162,14 @@
      been cut in half under Take your leave on a phone); the record above has its own scroll and its 5.5em. */
   .talk .dialogue .answer { flex: 0 0 auto; max-height: none; }
 }
+/* On a wide screen the reply takes all the room the rows leave, and the rows stand at the foot, clear of the map and
+   the book, still as a reply grows (OR-49, M22's third review: the reply cut through by the divider at 44% with the
+   foot of the page empty below the rows). */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .talk .dialogue .lines { flex: 1 1 auto; max-height: none; }
+  .talk .dialogue .answer { flex: 0 0 auto; }
+  .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 56px; }
+}
 /* Unpainted, a page in type: the name large, the people's emblem large and faint behind it (the owner, 5 and 7
    November), not an outline floating in an empty column. */
 .sitter.unpainted { justify-content: flex-start; }
