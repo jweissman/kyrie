@@ -96,9 +96,9 @@ export class WorldAssembler {
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const heralds = await this.heralds(base, region, seed), standing = (await this.library(base, this.standing))
-      .filter(e => !options.standing || options.standing.includes(e.manifest.id));
+      .filter(e => (options.standing ?? StrategicAtlas.standing(region) ?? [e.manifest.id]).includes(e.manifest.id));
     const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id, heralds,
-      rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: StrategicAtlas.exclude(region), standing });
+      standing, ...StrategicAtlas.settling(region, options) });
     // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a
     // harbour's at the head of a firth from the sea, let in then).
     region.provinces = await Provinces.regions(Provinces.flood(region, Provinces.situate(region)), base);
@@ -301,7 +301,7 @@ export class WorldAssembler {
   // one for each scenario a country sends; and an atlas country's own goings-on, held so (StrategicAtlas.goings).
   static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
     // A herald going ahead of several countries (the factor who buys old bronze) is placed once, bound to each.
-    const sent = new Set(Countries.heralds(region.terrain, seed).map(c => `data/scenarios/${c.country.herald!.scenario}`));
+    const sent = new Set(Countries.heralds(region, seed).map(c => `data/scenarios/${c.country.herald!.scenario}`));
     return Promise.all([...sent, ...StrategicAtlas.goings(region)].map(s => StoryPeople.entry(base, base.resolve(s))));
   }
   static async library(base: BundleSource, index: string): Promise<Entry[]> {

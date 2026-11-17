@@ -21,7 +21,7 @@ export class Provinces {
     marsh: ['fen', 'meadow'], frost: ['heath', 'fell'], forest: ['wood'], desert: ['heath', 'meadow'] };
   // provinces: those of countries.json, or of another list of countries (as it was before a change: see CountriesTool).
   // Pure: the land is as it was (a harbour's firth is let in by Provinces.flood), so it can be situated again.
-  static situate(region: Region, provinces: Country[] = Countries.provinces): Province[] {
+  static situate(region: Region, provinces: Country[] = Countries.holds(region)): Province[] {
     const atlas = RegionGeography.atlas(region), built = new Set(atlas.ways.flatMap(w => w.cells));
     const taken = [...atlas.borders.map(b => b.cell),
       ...region.sites.flatMap(w => w.cell === undefined ? [] : [w.cell])];

@@ -4,6 +4,7 @@ import type { Region } from './region-writer';
 import { WorldGrid } from './world-grid';
 import { WorldShape } from './world-shape';
 import { PlaceNames } from './place-names';
+import { StrategicAtlas } from './strategic-atlas';
 
 // An authored country a generated world may hold (data/adventures/countries.json): its module, the room the road
 // across the march comes into, an entity only it has, what it is called and what kind of country it is, the side of a
@@ -156,12 +157,17 @@ export class Countries {
   // on its own side): those of them that send one, by the side their road goes out.
   // The authored countries whose heralds the first country holds: those on its first ring, and its provinces (Gate B:
   // one country, every adventure in it), whose news comes to its towns as a ring's does.
-  static heralds(terrain: string, seed: string): { side: Side; country: Country }[] {
-    const plan = this.plan(seed, terrain);
+  static heralds(region: Region, seed: string): { side: Side; country: Country }[] {
+    const terrain = region.terrain, plan = this.plan(seed, terrain);
     return [...Borders.sides.flatMap(side => {
       const c = plan.get(WorldGrid.id(...WorldGrid.next([0, 0], side)));
       return c?.herald && c.side === side ? [{ side, country: c }] : [];
-    }), ...this.provinces.filter(c => c.herald).map(c => ({ side: c.side, country: c }))];
+    }), ...this.holds(region).filter(c => c.herald).map(c => ({ side: c.side, country: c }))];
+  }
+  // The provinces a first country holds: those its atlas names, where it is a country of the strategic atlas.
+  static holds(region: Region): Country[] {
+    const ids = StrategicAtlas.provinces(region);
+    return ids ? this.provinces.filter(c => ids.includes(c.id)) : this.provinces;
   }
   private static told(c: Country): Beyond {
     const seen = c.skyline ? { skyline: c.skyline } : {};

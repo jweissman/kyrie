@@ -33,7 +33,7 @@ describe('the reference start, Iscoed', () => {
       const starts = [drove, pans, weir].map(j => j.screen().place.id);
       expect(new Set(starts).size).toBe(3);
       for (const id of starts) { expect(id).not.toMatch(/_approach$/); }
-      expect(Iscoed.aims(drove)).toMatch(/how many head of Bran's drove/);
+      expect(Iscoed.aims(drove)).toMatch(/Ask Owain how many head came down/);
       expect(Iscoed.aims(pans)).toMatch(/fuel boat/);
       expect(Iscoed.aims(weir)).toMatch(/sea-gate .* will not shut/);
       await drove.play('Wait › A while');
@@ -42,7 +42,7 @@ describe('the reference start, Iscoed', () => {
   it('frees the drover by what the drove itself shows: the four drowned in the rhyne, against the clerk\'s count',
     async () => {
       const j = await Iscoed.begin('drove');
-      await j.play('To the drove pens', 'Ask Owain how many head came down', 'To the Black Rhyne', 'Search');
+      await j.play('Ask Owain how many head came down', 'To the drove pens', 'To the Black Rhyne', 'Search');
       expect(Iscoed.aims(j)).toMatch(/Tell Mardle/);
       await j.play('To the drove pens', 'To the landing', 'To the customs-house', 'Tell Mardle where the four bullocks are');
       expect(j.latest).toMatch(/Let him out/);

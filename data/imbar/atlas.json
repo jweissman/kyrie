@@ -17,6 +17,9 @@
       "settlements": ["Porthalen", "Wrackham", "Edderwick", "Gatesend"],
       "goings": ["iscoed-drove", "iscoed-pans", "iscoed-gate"],
       "exclude": ["drover"],
+      "provinces": ["longman", "tolleth", "tessary", "skerrow", "strewnfield"],
+      "towns": 0,
+      "standing": ["arcology", "bound-howe"],
       "facts": {
         "polity": "the Rì's southern march, kept for the Rì by a reeve at Porthalen",
         "people": "some six thousand: fifteen hundred in Porthalen, the rest in the fen villages and the hamlets on the sea-bank",

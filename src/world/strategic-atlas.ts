@@ -7,7 +7,8 @@ import type { Region } from './region-writer';
 // worlds the atlas is for. Westernesse's, not the kernel's: a country, a reeve and a salt-tax are this setting's words.
 export interface AtlasCountry {
   id: string; cell: [number, number]; name: string; terrain: string; ancestry?: string; domain?: string;
-  shore?: Side; port?: boolean; arts?: string[]; goings?: string[]; exclude?: string[];
+  shore?: Side; port?: boolean; arts?: string[]; goings?: string[]; exclude?: string[]; provinces?: string[];
+  towns?: number; standing?: string[];
   livelihoods?: Record<string, string>;
   settlements?: string[];
   facts: Record<string, string>; neighbours?: Partial<Record<Side, string>>;
@@ -53,6 +54,18 @@ export class StrategicAtlas {
   static goings(region: Region): string[] {
     return (this.byId(region.country)?.goings ?? []).map(id => `data/scenarios/${id}.scenario.json`);
   }
+  // The authored provinces a country of the atlas holds, where it says (Iscoed: those of its fen and firth); every
+  // other country holds them all. And how many of the library's town goings-on it draws besides its own.
+  static provinces(region: Region): string[] | undefined { return this.byId(region.country)?.provinces; }
+  static towns(region: Region): number { return this.byId(region.country)?.towns ?? 2; }
+  // How the first country's scenarios are drawn (WorldAssembler.settle): the rounds of adventures and of towns, and
+  // what is kept out.
+  static settling(region: Region, o: { scenarios?: number; towns?: number }): { rounds: [number, number];
+    exclude: string[]; } {
+    return { rounds: [o.scenarios ?? 3, o.towns ?? this.towns(region)], exclude: this.exclude(region) };
+  }
+  // The standing scenarios it holds of those every first country does (data/scenarios/standing.json), where it says.
+  static standing(region: Region): string[] | undefined { return this.byId(region.country)?.standing; }
   // The library's goings-on a country of the atlas does not hold: those its own would contradict (a second drover).
   static exclude(region: Region): string[] { return this.byId(region.country)?.exclude ?? []; }
   // The arts of the makers whose works are in the country, where the atlas says.
