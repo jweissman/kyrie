@@ -275,5 +275,26 @@
   },
   "rest": ["wardens_hall"],
   "devices": [{"id": "barrier", "label": "a barricade", "role": "a barricade"}],
-  "marks": {"name": "the marks on the lintel", "unread": "Marks are cut along the lintel over the doorway in the old script.", "read": "The marks are the makers' own, cut when the water was first brought here: who made the works, and why.", "label": "Read the marks on the lintel"}
+  "marks": {"name": "the marks on the lintel", "unread": "Marks are cut along the lintel over the doorway in the old script.", "read": "The marks are the makers' own, cut when the water was first brought here: who made the works, and why.", "label": "Read the marks on the lintel"},
+  "cache": {
+    "role": "colonnade",
+    "cue": "Between two of the columns the wall has been made up with newer stone and plastered smooth. The rest is bare dressed blocks.",
+    "searched": "The plaster between the columns sounds hollow under a knuckle, and a thread of cold air comes out at its foot.",
+    "found": "Between two columns of the colonnade, a plastered-up niche closes off a small room.",
+    "mark": "the stamp in the plaster",
+    "markseen": "A seal was pressed into the plaster while it was wet, and words with it.",
+    "readlabel": "Make out the words pressed into the plaster",
+    "lore": "The kingdom's letters, pressed into wet plaster: KEPT AGAINST THE DROUGHT. The plaster round the stamp is thin.",
+    "loreno": "The plaster has cracked across the words, and they do not come together.",
+    "forcelabel": "Break the plaster and the stone behind it",
+    "force": "The plaster comes away in sheets and the stone behind it in lumps; the echo runs down the colonnade and comes back. It takes an hour. Behind is a small room.",
+    "chambername": "the plastered-up room",
+    "chamber": "A small dry room above the water, shelved with stone. Things have been put by on the shelves in order, each where it could be found again.",
+    "way": "the hole in the plaster",
+    "docname": "a stoppered jar",
+    "docshut": "A jar of grey clay stands on the top shelf, its mouth stopped with wax.",
+    "doclabel": "Break the wax and read the scroll inside",
+    "docthe": "the scroll from the jar",
+    "doctext": "In the letters of {kingdom}: 'Put by against the drought, the keepers' stores. Whoever opens this has come in a dry year. Take what you need, and wall it up again.'"
+  }
 }

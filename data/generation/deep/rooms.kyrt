@@ -59,3 +59,44 @@
     Holds.
     State lying "A pack lies against the wall where its owner left it, the straps rotted through.".
   }
+--- cache
+  // A walled-up chamber off a room of the second level, where someone after the makers put by what they meant to come
+  // back for (the sites commission, item 1): its cue is in the room's look ({cue}), told only in the light and only to
+  // whoever is there, and nothing of it is offered until the cue has been seen. Found by searching the room, by reading
+  // the mark cut in the newer stone (lore, a while, and it may not come), or by levering the stones out (strength or a
+  // crowbar, an hour, and it is heard). {id} is the cache's id, {room} the room, {level} its level, {x}, {y} where the
+  // chamber lies on the level's grid; the words are the purpose's own (data/generation/deep/<art>.json, cache).
+  Discovery {id}_noticed "{cue}".
+  Relation {id}_tried().
+  Observe {id}_cue at {room} when not knows(party, {id}_found) "{cue}" teaches {id}_noticed.
+  Discovery {id}_found "{found}" {
+    Found by searching {room} "{searched}".
+  }
+  Thing {id}_mark "{mark}" at {room} hidden until {id}_noticed {
+    State uncut "{markseen}".
+  }
+  Action {id}_read(actor: group, site: place) "{readlabel}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and knows(actor, {id}_noticed) and not knows(actor, {id}_found) and capable(actor, lore) and not {id}_tried().
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, {id}_found). Assert {id}_tried(). }
+    On failure { Assert {id}_tried(). }
+    Result "{lore}".
+    Otherwise "{loreno}".
+  }
+  Action {id}_force(actor: group, site: place) "{forcelabel}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and knows(actor, {id}_noticed) and not knows(actor, {id}_found) and (capable(actor, brawn) or holding(actor, crowbar)).
+    Time 6.
+    On success { Assert knows(actor, {id}_found). }
+    Result "{force}".
+  }
+  Place {id}_chamber "{chambername}" is room within {level} at {x}, {y} underground.
+  Initially Assert unlit({id}_chamber).
+  Observe {id}_chamber_scene at {id}_chamber when true "{chamber}".
+  Passage {id}_way "{way}" is crawl between {room} and {id}_chamber taking 2 minutes hidden until {id}_found.
+  Thing {id}_doc "{docname}" at {id}_chamber {
+    State unread "{docshut}".
+    State read "You have read {docthe}.".
+    Change read "{doclabel}" from unread to read.
+  }
+  Observe {id}_doc_says at {id}_chamber of {id}_doc as reading when state({id}_doc, read) "{doctext}" teaches history_successors.

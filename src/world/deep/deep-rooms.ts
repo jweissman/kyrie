@@ -21,7 +21,7 @@ interface Riddle { question: string; answer: string; kind: string }
 export class DeepRooms {
   static readonly q = JSON.stringify;
   static readonly template = KyrTemplates.parse(text);
-  private static section(group: string, values: Record<string, string>): string[] {
+  static section(group: string, values: Record<string, string>): string[] {
     return KyrTemplates.fill(this.template.sections.filter(t => t.group === group).flatMap(t => t.lines), values);
   }
   static readonly riddles = world.riddles as Record<string, Riddle[]>;

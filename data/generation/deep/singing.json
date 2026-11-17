@@ -242,5 +242,26 @@
   },
   "rest": ["cantors"],
   "devices": [{"id": "antimagic_ward", "label": "a warding stone", "role": "a warding stone"}, {"id": "barrier", "label": "a barricade", "role": "a barricade"}],
-  "marks": {"name": "the marks round the cave's mouth", "unread": "Marks run round the smooth rim of the cave's mouth in the old script.", "read": "The marks are the makers' own, cut when the hall was first sung: who made it, and what they held.", "label": "Read the marks round the mouth"}
+  "marks": {"name": "the marks round the cave's mouth", "unread": "Marks run round the smooth rim of the cave's mouth in the old script.", "read": "The marks are the makers' own, cut when the hall was first sung: who made it, and what they held.", "label": "Read the marks round the mouth"},
+  "cache": {
+    "role": "choir_hall",
+    "cue": "Behind the last row of the choir the wall is not the hall's. It is rough stone, mortared, where the rest was shaped to carry a note.",
+    "searched": "Knocked, the rough stone behind the choir answers hollow, unlike the rest of the hall.",
+    "found": "Behind the choir's last row, a rough wall closes off a small vestry.",
+    "mark": "the words cut in the rough wall",
+    "markseen": "Words are cut into the rough stone in the kingdom's letters, small and uneven.",
+    "readlabel": "Make out the words cut in the rough wall",
+    "lore": "THE HALL'S THINGS, KEPT FROM THE CRACK. Below it, smaller, is a mark where to push. The stone gives under the hand.",
+    "loreno": "The words are cut too small and too badly to follow.",
+    "forcelabel": "Break through the rough wall behind the choir",
+    "force": "The hall carries every blow and gives it back louder. It takes an hour, and there is no doing it quietly. Behind the wall is a vestry.",
+    "chambername": "the walled vestry",
+    "chamber": "A narrow vestry with pegs along one wall. Things have been put by here in a hurry, and covered against the dust.",
+    "way": "the break in the rough wall",
+    "docname": "a cantor's slate",
+    "docshut": "A slate leans against the wall, written over in chalk gone grey.",
+    "doclabel": "Read the cantor's slate",
+    "docthe": "the cantor's slate",
+    "doctext": "In the letters of {kingdom}: 'When the stone began to crack, we took the hall's things in here and walled them away. They are for whoever can sing the hall whole again.' The writing stops there."
+  }
 }

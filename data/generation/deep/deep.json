@@ -935,5 +935,26 @@
     "forge"
   ],
   "devices": [{"id": "bomb", "label": "a blasting charge", "role": "a charge"}],
-  "marks": {"name": "the marks on the adit's post-stone", "unread": "A post-stone stands at the mouth of the workings, cut with marks in the old script.", "read": "The marks are the makers' own, cut when the first seam was opened: who dug here, and what they believed lay below.", "label": "Read the marks on the post-stone"}
+  "marks": {"name": "the marks on the adit's post-stone", "unread": "A post-stone stands at the mouth of the workings, cut with marks in the old script.", "read": "The marks are the makers' own, cut when the first seam was opened: who dug here, and what they believed lay below.", "label": "Read the marks on the post-stone"},
+  "cache": {
+    "role": "hall",
+    "cue": "In the end wall of the hall one stretch is boarded over with planks, nailed tight. The rest of the hall is bare rock.",
+    "searched": "Behind the planks in the end wall the rock is cut square: a store, boarded over.",
+    "found": "Behind the boarded stretch of the hall's end wall, a store-room cut into the rock.",
+    "mark": "the paymaster's mark on the planks",
+    "markseen": "A mark is burned into the middle plank: a pick and a star, the Delvers' paymaster's. A word in later letters runs across it.",
+    "readlabel": "Make out the word burned across the paymaster's mark",
+    "lore": "The pick and star are the Delvers' own; the word across them is the kingdom's: SEALED. The planks are nailed from this side, and the nails are loose.",
+    "loreno": "The word is burned too deep and too black to read.",
+    "forcelabel": "Prise the planks off the end wall",
+    "force": "The nails scream coming out, and the noise goes away down every gallery. Prising the planks off is most of an hour's work. Behind them is a store-room.",
+    "chambername": "the boarded store",
+    "chamber": "A store cut square into the rock and shelved with timber. Most of the shelves are bare; on the lowest, things have been laid out and covered with sacking.",
+    "way": "the gap behind the planks",
+    "docname": "a tally-board",
+    "docshut": "A tally-board hangs from a nail, notched and written on.",
+    "doclabel": "Read the tally-board",
+    "docthe": "the tally-board",
+    "doctext": "The notches are the Delvers' count. The writing over them is {kingdom}'s: 'Taken into the king's keeping: the last of the paymaster's store. To be fetched when the shaft is cleared.' The shaft was never cleared."
+  }
 }

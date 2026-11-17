@@ -239,5 +239,26 @@
   },
   "rest": ["mourners"],
   "devices": [{"id": "bomb", "label": "a ticking charge", "role": "a charge"}, {"id": "phylactery", "label": "a dark vessel", "role": "a phylactery"}],
-  "marks": {"name": "the marks on the kerb-stones", "unread": "Marks run along the kerb-stones of the forecourt in the old script.", "read": "The marks are the makers' own, cut when the mound was raised: who lies within, and what they were.", "label": "Read the marks on the kerb-stones"}
+  "marks": {"name": "the marks on the kerb-stones", "unread": "Marks run along the kerb-stones of the forecourt in the old script.", "read": "The marks are the makers' own, cut when the mound was raised: who lies within, and what they were.", "label": "Read the marks on the kerb-stones"},
+  "cache": {
+    "role": "bone_hall",
+    "cue": "At the far end of the hall the niches stop. The wall there is of smaller stones, laid dry and close, with none of the dead in it.",
+    "searched": "The small stones at the end of the hall are not the barrow's. They are laid against an opening, and a cold draught comes between them.",
+    "found": "At the end of the hall of the bones, a later wall of small stones closes a chamber off.",
+    "mark": "the mark on the small stones",
+    "markseen": "A mark is scratched into one of the small stones: a word in the kingdom's letters, and under it a tally.",
+    "readlabel": "Make out the mark scratched in the small stones",
+    "lore": "It is the kingdom's script, in a hurried hand: KEPT FOR THE RETURN. Under it is a tally of what was kept. The stones beneath are loose to the hand.",
+    "loreno": "The letters are worn past reading.",
+    "forcelabel": "Lever the small stones out of the wall, one by one",
+    "force": "It takes the best part of an hour. Every stone that comes out rings on the floor, and the sound goes down the hall. Behind them is a low chamber.",
+    "chambername": "the walled-up chamber",
+    "chamber": "A low chamber, dry, its floor swept. Along one wall, things have been set out in a row to be counted.",
+    "way": "the gap in the small stones",
+    "docname": "a folded paper under a stone",
+    "docshut": "A folded paper lies under a flat stone, the stone set on it to keep it.",
+    "doclabel": "Unfold the paper and read it",
+    "docthe": "the folded paper",
+    "doctext": "In the letters of {kingdom}: 'This was taken out of the king's hall below when the seal was set again. It is kept for whoever comes back for it. Whoever comes back: the dead are not ours to keep.' No one came back."
+  }
 }

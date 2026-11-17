@@ -9,6 +9,7 @@ import { DeepHistory } from './deep-history';
 import { DeepArgument } from './deep-argument';
 import { DeepRivals } from './deep-rivals';
 import { DeepSounds } from './deep-sounds';
+import { DeepCache } from './deep-cache';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 import { RegionMarvels, type Fragment } from '../region-marvels';
@@ -40,7 +41,7 @@ export class DeepSites {
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose, ...this.fragment(region, purpose),
         ...content.find(x => x.special) ? { first: content.find(x => x.special)!.room.id } : {} })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...DeepSounds.listening(layout),
-      ...DeepHistory.finds(layout, purpose),
+      ...DeepHistory.finds(layout, purpose), ...DeepCache.lines(layout, purpose, { values, key }),
       ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
