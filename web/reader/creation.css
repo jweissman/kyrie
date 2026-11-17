@@ -8,7 +8,7 @@
 .composed-write > input::placeholder { color: var(--dim); }
 
 /* ---- Creation composed (see ComposedCreation): a column of rows at the left of the frame, under the question, its
-   sentence beneath; ancestry and calling as cards in a row; the sky behind the signs. ---- */
+   sentence beneath; ancestry and calling as rows with their emblems; the sky behind the signs. ---- */
 .composed .composed-step { position: absolute; inset: 0; display: flex; align-items: center;
   padding: calc(var(--safe-t) + 32px) var(--safe-r) var(--safe-b) var(--safe-l); }
 .composed .composed-col { position: relative; z-index: 1; width: min(460px, 100%); display: flex; flex-direction: column;
@@ -101,7 +101,8 @@
   font: var(--t-title); font-style: normal; letter-spacing: 0; color: var(--ivory); z-index: 1; }
 .composed .composed-col { position: absolute; left: 50%; right: 12%; top: max(96px, 11.5vh);
   width: auto; max-width: 520px; max-height: none; align-items: stretch; gap: 14px; }
-.composed .consider { order: -1; height: 5.4em; min-height: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4;
+/* Four lines whole at 1.5 (5.4em had cut the fourth in half: OR-45). */
+.composed .consider { order: -1; height: 6em; min-height: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4;
   -webkit-box-orient: vertical; text-align: left; max-width: none; }
 .composed .composed-rows { min-height: calc(var(--choice-h) * 5 + 16px); overflow: visible; margin: 0; padding: 0; }
 .composed .composed-rows.many { min-height: 0; }
@@ -112,13 +113,6 @@
   .composed .composed-col { position: static; padding: 0 var(--safe-r) 0 var(--safe-l);
     max-width: none; }
 }
-/* Chosen is the strong edge, its words and emblem at full strength and the card's ground unchanged; the others recede in
-   their words and emblems (never in the ground) and return under the hand; the card the hand or the keys are on is a wash
-   beneath its words and a hair of edge, never a paler card (the owner, 15 November: the lit card had read as chosen, its
-   words hard to read, and selection had felt inverted). */
-/* The card considered (the hand's, the keys', a touch's) is the one drawn as the choice in hand: a short press on
-   another moves it there (the owner, 16 November: a short press had not seemed to select, the card chosen before keeping
-   the strong edge). What was chosen before, coming back, keeps only its small gold mark. */
 .obs-name { fill: rgba(236, 230, 217, 0); font: 600 15px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
   transition: fill 500ms var(--ease); }
 .obs-sign.lit .obs-name { fill: rgba(236, 230, 217, .78); }
