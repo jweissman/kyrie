@@ -11,6 +11,18 @@ import { MonoDriver } from './support/mono-driver';
 // goes on (no Continue, no second click); never more than four cards at once (ancestry and calling page on); no
 // stray "Details" button; the sign has its sky. Walked from the title to setting out, at a laptop's size and a
 // tablet's.
+class Shape {
+  static rows(page: import('playwright-core').Page) {
+    return page.locator('.composed-rows > .composed-row').evaluateAll(es => es.map(e => {
+      const r = e.getBoundingClientRect(), mark = e.querySelector('.row-mark')?.getBoundingClientRect();
+      const label = e.querySelector('.row-label')?.getBoundingClientRect(), aside = e.querySelector('.row-aside');
+      const words = aside?.textContent ? aside.getBoundingClientRect() : undefined;
+      return { tall: r.height >= 32, marked: !!mark && mark.height >= 8 && mark.width >= 2,
+        apart: !label || !words || words.left - label.right >= 8 };
+    }));
+  }
+}
+
 describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
@@ -30,6 +42,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
       seen.push(where);
       most.push(await page.locator('.composed-cards .card').count());
       if (where === 'sign') { expect(await page.locator('.observatory').count()).toBe(1); }
+      // Each row its own height, its mark drawn, its words and aside apart (the owner, 16 November: creation's rows had
+      // been squashed together, no mark, the aside run into the words, and no spec saw it).
+      for (const r of await Shape.rows(page)) { expect(r).toMatchObject({ tall: true, marked: true, apart: true }); }
       expect(await page.locator('button:has-text("Details"), button:has-text("Continue")').count()).toBe(0);
       await MonoDriver.hold(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where, { timeout: 5000 });
