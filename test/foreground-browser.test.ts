@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 
 // One foreground menu (the owner, 15 November: at most four items, every gameplay action through one of them; the
 // deployed play met compound menus, a fifth row, duplicate names). The first minutes of an ordinary player's journey,
@@ -52,7 +53,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
       await page.waitForTimeout(900);
       const s = await Foreground.seen(page);
       if (s.mode === 'prologue') {
-        if (s.n) { await page.locator('[data-act]:visible').first().click().catch(() => undefined); } else { await page.keyboard.press('Enter'); }
+        // The opening's pages wait on a held Continue; a question on its numbers (GRAMMAR: the input contract).
+        if (await page.locator('[data-action="answer"]').count()) { await page.keyboard.press('1'); continue; }
+        if (await page.locator('.prologue-page .go-on').count()) {
+          await MonoDriver.hold(page, '.prologue-page .go-on').catch(() => undefined);
+        }
         continue;
       }
       if (s.mode === 'combat') { await page.keyboard.press('1'); continue; }
