@@ -13,6 +13,8 @@ export interface ModuleStatus {
   outcome: 'active' | 'success' | 'failure'; outcomes: Record<string, boolean>;
   developments: { id: string; elapsed: number }[];
 }
+// What a campaign's state takes from its manifest as it begins (see CanonInstall.dated).
+export type Dated = Pick<CampaignState, 'calendar' | 'night' | 'canonless'>;
 export interface CampaignState {
   seed: string; world: WorldState; party: Fighter[]; creatures: Creature[];
   partyIds: string[]; inhabitants: Record<string, string[]>; elapsed: number; deadline: number;
@@ -29,6 +31,8 @@ export interface CampaignState {
   // The date the campaign began on, when its manifest gives one (see Calendar), and the hours its night keeps, when
   // they are its own (see FictionalTime.dark).
   calendar?: CalendarStart; night?: Night;
+  // A world of its own setting, into which the canon (data/imbar) is never installed (its manifest's "canon": false).
+  canonless?: true;
   outcome: 'active' | 'success' | 'failure';
   modules?: ModuleStatus[];
   outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];

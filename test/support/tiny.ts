@@ -31,7 +31,7 @@ export class Tiny {
   // The module's body (or a whole `Module t "…" { … }`), the company's members, and any other rules it reads; and the
   // land of its place `region` where it has one drawn by hand, its open country as places t0, t1… (see LandModel).
   static async start(kyr: string, options: { party?: CreatureGenerationContext[]; rules?: string[];
-    seed?: string; chart?: LandChart; calendar?: CalendarStart; canon?: string[] } = {}): Promise<Tiny> {
+    seed?: string; chart?: LandChart; calendar?: CalendarStart; canon?: string[]; own?: boolean } = {}): Promise<Tiny> {
     const mark = Costs.mark(), { source, campaign } = SingleModule.source(kyr, options);
     const session = await PlaySession.start(campaign, options.seed ?? 'tiny', source);
     const tiny = new Tiny(Journey.of(session, true));

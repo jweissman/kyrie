@@ -37,6 +37,8 @@ export interface CampaignManifest {
   // The date it begins on: a day of a month of a year of the Sun and Moon; and the hours of its night, when they are
   // not nine in the evening and six in the morning ("night": { "falls": 17, "lifts": 7 }).
   calendar?: import('./calendar').CalendarStart; night?: import('./fictional-time').Night;
+  // A campaign of a setting of its own, without the canon (data/imbar): see CanonInstall (BX-01).
+  canon?: false;
   // How the campaign's kits were composed into it, when it asks for any.
   composition?: Composed;
 }

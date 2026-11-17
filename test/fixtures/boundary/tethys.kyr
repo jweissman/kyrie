@@ -1,0 +1,50 @@
+  // BX-01's tiny science-fiction expedition (BX-01, doc/architecture/mission-22/boundary-brief.md): an orbital station, a
+  // shuttle run to a planet, its surface and a dead survey outpost, a problem that matters, and a return to report and
+  // trade. Two nested scales (the system and the station or the planet; the planet's surface and the outpost) and one
+  // journey: the platform's own passages, travel and actions. Nothing here names Westernesse's catalog but what the
+  // platform will not run without, and each such thing is a finding in the report.
+  Place system "the Tethys system" is region.
+  Place halcyon "Halcyon Station" is settlement within system.
+  Place dock "Halcyon's docking ring" is room within halcyon at 0, 0 indoors.
+  Place concourse "the station concourse" is room within halcyon at 1, 0 indoors.
+  Place ops "station operations" is room within halcyon at 2, 0 indoors.
+  Place surface "the surface of Tethys IV" is wilderness within system.
+  Place pad "the landing pad on Tethys IV" is room within surface at 0, 0 outdoors.
+  Place outpost "the survey outpost" is site within surface.
+  Place airlock "the outpost airlock" is room within outpost at 0, 0 indoors.
+  Place lab "the outpost laboratory" is room within outpost at 1, 0 indoors.
+  Passage ring "the ring corridor" is path between dock and concourse.
+  Passage lift "the ops lift" is path between concourse and ops.
+  Passage shuttle "the shuttle run to Tethys IV" is road between dock and pad taking 6 hours.
+  Passage approach "the approach to the outpost" is path between pad and airlock.
+  Passage inner "the inner hatch" is door between airlock and lab.
+  Company party "You" of 1 at dock.
+
+  // What the company can do here that no fantasy company can: read a dead machine, and bring it back.
+  Entity systems: capability "Systems".
+  Relation powered(place). Relation reported(group).
+  Entity outpost_dark: fact "The survey outpost on Tethys IV has been silent for nine days.".
+  Entity beacon_found: fact "The outpost's core logged a seismic fault under the colony site before it went dark.".
+  Initially Assert established(outpost_dark). Initially Assert knows(party, outpost_dark).
+  Person chief "Chief Okafor" at ops { Role "the station's operations chief". Ancestry human. Peaceable. Pronouns she. }
+  Person broker "Ilse Varga" at concourse { Role "a data broker". Ancestry human. Peaceable. Pronouns she. }
+  Objective outpost when knows(party, outpost_dark) and not knows(party, beacon_found) toward lab "Find out why the survey outpost on Tethys IV went silent.".
+  Objective report when knows(party, beacon_found) and not reported(party) toward chief "Report the seismic fault to Chief Okafor at station operations.".
+  Observe lab_dark at lab when not powered(lab) "The lab is dark but for the red standby light on the core, and frost on the inside of the glass.".
+  Action restart_core(actor: group, site: place) "Bring the outpost's core back up" {
+    Requires able(actor) and at(actor, site) and at(actor, lab) and not powered(lab).
+    Time 3. Resolve check(actor, mending, dc_fair).
+    On success { Assert powered(lab). Assert knows(actor, beacon_found). }
+    Result "The core hums, and its log scrolls: a seismic fault, opening under the colony site.".
+    Otherwise "The core will not take the restart.".
+  }
+  Topic report_fault with chief "Tell Chief Okafor what the outpost's core logged" when knows(actor, beacon_found) and not reported(actor) once {
+    Says "Okafor reads the log twice. 'We were going to land four hundred people on that,' she says. She authorizes your fee.".
+    On discuss { Assert reported(actor). Increase quantity(actor, gold) by 40. }
+  }
+  Kind core_log_kind "a copy of the outpost's log" is document worth 25 weighing 0 described "A data wafer with the outpost's last nine days on it.".
+  Topic sell_log with broker "Sell Ilse Varga a copy of the outpost's log" when knows(actor, beacon_found) once {
+    Says "Varga pays without haggling, which tells you what it is worth.".
+    On discuss { Increase quantity(actor, gold) by 25. }
+  }
+  Goal false.

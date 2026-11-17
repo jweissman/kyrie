@@ -28,7 +28,7 @@ import { Journey } from './journey'; import { LocalKinds } from '../canon/local-
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
-import type { CampaignState, CampaignSave, CampaignEvent, Restored } from './campaign-types';
+import type { CampaignState, CampaignSave, CampaignEvent, Dated, Restored } from './campaign-types';
 import { Crossing, type ExecutionContext } from './crossing';
 export class Campaign implements WatchHost {
   private compiled: Module;
@@ -44,7 +44,7 @@ export class Campaign implements WatchHost {
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
-  constructor(seed: string, instance: Instance, restored?: Restored, dated?: Pick<CampaignState, 'calendar' | 'night'>) {
+  constructor(seed: string, instance: Instance, restored?: Restored, dated?: Dated) {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
@@ -110,7 +110,7 @@ export class Campaign implements WatchHost {
     LocalKinds.reset(); const manifest = await ModuleBundle.campaign(path, source, seed);
     const party = at.party ?? manifest.party, step = at.step;
     // The canon first, so that what it names is there before any module names it (see CanonInstall).
-    const canon = await CanonInstall.first(seed, source); let campaign: Campaign | undefined;
+    const canon = await CanonInstall.first(seed, source, manifest); let campaign: Campaign | undefined;
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
     for (const [i, request] of manifest.modules.entries()) {
       await step?.(i, manifest.modules.length);
@@ -120,7 +120,7 @@ export class Campaign implements WatchHost {
       if (party) { CompanyChoices.apply(draft, party); }
       EngineDeclarations.declare(draft);
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
-      campaign = new Campaign(seed, first, undefined, { calendar: manifest.calendar, night: manifest.night });
+      campaign = new Campaign(seed, first, undefined, CanonInstall.dated(manifest));
     }
     // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
     // joined whole checked.
