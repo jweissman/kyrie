@@ -224,25 +224,31 @@
    ]
   },
   {
-   "group": "wm13_boar",
+   "group": "wm35_boar",
    "kinds": [
     "boar"
    ]
   },
   {
-   "group": "wm157_boar",
+   "group": "wa145",
    "kinds": [
-    "boar"
+    "curlew"
    ]
   },
   {
-   "group": "wm54_wisp",
+   "group": "wa147",
    "kinds": [
-    "wisp"
+    "curlew"
    ]
   },
   {
-   "group": "wa135",
+   "group": "wa189",
+   "kinds": [
+    "curlew"
+   ]
+  },
+  {
+   "group": "wa238",
    "kinds": [
     "curlew"
    ]
@@ -250,7 +256,6 @@
   {
    "group": "s1_u_rats",
    "kinds": [
-    "rat",
     "rat",
     "rat"
    ]
@@ -290,14 +295,6 @@
    "kinds": [
     "zombie",
     "zombie"
-   ]
-  },
-  {
-   "group": "s1_u_beetles",
-   "kinds": [
-    "beetle",
-    "beetle",
-    "beetle"
    ]
   },
   {
@@ -832,26 +829,27 @@
   "spider/great/cave": 35,
   "zombie": 34,
   "rat": 30,
-  "beetle": 21,
   "hollow_stalker": 18,
   "wolf": 17,
   "spirit": 16,
+  "beetle": 15,
   "bat": 14,
   "hound/cave": 12,
   "hook_claw": 12,
+  "bomb": 12,
   "mummy": 11,
-  "bomb": 11,
   "slump": 10,
+  "boar": 9,
   "person:half_orc": 9,
   "person:goblin": 9,
+  "curlew": 8,
   "hound": 8,
   "phylactery": 8,
   "crocodile": 7,
-  "wisp": 7,
   "hound/skeletal": 7,
   "eel": 7,
-  "curlew": 7,
   "elemental/crystal_element": 7,
+  "wisp": 6,
   "rat/great": 6,
   "centipede/great": 6,
   "ghoul/barrow": 6,
@@ -867,9 +865,7 @@
   "mouther": 6,
   "person:dwarf": 6,
   "frog": 5,
-  "boar": 5,
   "wraith": 5,
-  "grouse": 5,
   "bear": 5,
   "elemental/earth_element": 4,
   "snake": 4,
@@ -884,6 +880,7 @@
   "elemental": 3,
   "centipede": 2,
   "ooze": 2,
+  "grouse": 2,
   "person:gnome": 2,
   "snake/great": 1,
   "dragonfly": 1,

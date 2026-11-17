@@ -6,12 +6,14 @@ import type { Border } from './land/borders';
 import type { Region } from './region-writer';
 import type { After } from './countries';
 import { SettlementWriter } from './settlement-writer';
+import { Provinces } from './provinces';
 
 // The roads out of a region: from the settlement nearest each side, an old road to the edge of the region, marked
 // as the kingdom after the makers marked its bounds, or as the land itself is marked (a cairn on a pass, a beacon on
 // stilts in a fen), no two borders of a country alike (data/generation/scenes/borders.json). The folk know what the
 // country beyond is called and what kind of country it is, and little more; what is there is drawn the first time a
 // company goes on (see Frontier).
+type Beyond = NonNullable<NonNullable<Region['beyond']>[Border['side']]>;
 export class RegionBorders {
   static lines(region: Region): string[] {
     const marks = this.marks(region), borders = RegionGeography.atlas(region).borders ?? [];
@@ -81,8 +83,8 @@ export class RegionBorders {
       const directions = s === seat ? '' : ` '${seat.name} is where ${b.way} goes out from,' {${keeper}} adds.`;
       lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about ${about}`)} when not knows(actor, ${id})${fresh} {`,
         `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`) + directions)}.`,
-        `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, s.id,
-          SettlementWriter.standing(region, s, 'innkeeper')));
+        `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, { sid: s.id,
+          place: SettlementWriter.standing(region, s, 'innkeeper'), posted: this.posted(region, beyond!).includes(s) }));
     }
     return lines;
   }
@@ -114,11 +116,26 @@ export class RegionBorders {
     return !!(beyond?.after && beyond.rumour && beyond.heard);
   }
   // The notice nailed up where travellers are kept in each town, talked of until the news is old, and then talked of
-  // as old news until it comes down.
+  // as old news until it comes down. In the first town only one neighbour's hangs, drawn by the country's name, beside
+  // the town's own goings-on (CO-03): every neighbour's had hung there, the same five in every world, Merrowdale's
+  // forty crowns first; the rest are heard of there by asking, as in every town.
+  static posted(region: Region, beyond: Pick<Beyond, 'name'>): Region['settlements'] {
+    const provinces = (region.provinces ?? []).map(p => Provinces.country(p.country));
+    const noticed = [...Object.values(region.beyond ?? {}), ...provinces].filter(n => n?.notice)
+      .map(n => n!.name).sort();
+    const first = noticed[RegionBorders.hash(region.name) % Math.max(1, noticed.length)];
+    return beyond.name === first ? region.settlements : region.settlements.slice(1);
+  }
+  private static hash(text: string): number {
+    let h = 2166136261;
+    for (let i = 0; i < text.length; i++) { h = Math.imul(h ^ text.charCodeAt(i), 16777619); }
+    return h >>> 0;
+  }
   private static notice(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
     region: Region) {
     const q = JSON.stringify, id = `${b.room}_beyond`, notice = `${b.room}_notice`, after = beyond.after;
-    const at = region.settlements.map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
+    const at = this.posted(region, beyond).map(s => [s.id, SettlementWriter.standing(region, s, 'innkeeper')] as const);
+    if (!at.length) { return []; }
     return [`  Discovery ${notice} ${q(beyond.notice!.text)} {`, ...at.map(([sid, place]) =>
       `    Source ${notice}_${sid} ${q(beyond.notice!.name)} at ${place} readable by party.`),
     '  }', `  Initially Assert leadsTo(${notice}, ${b.room}).`,
@@ -149,10 +166,10 @@ export class RegionBorders {
   // The company back from a country seen through, told what the road brought down of it before the company says its
   // own part: the report and the company's own history, said apart (a world that remembers). The notice comes down.
   private static back(b: { room: string }, beyond: NonNullable<NonNullable<Region['beyond']>[Border['side']]>,
-    sid: string, place: string) {
+    { sid, place, posted }: { sid: string; place: string; posted: boolean }) {
     if (!this.remembers(beyond)) { return []; }
     const q = JSON.stringify, id = `${b.room}_beyond`, keeper = `${sid}_innkeeper`;
-    const notice = beyond.notice ? `${b.room}_notice_${sid}` : undefined;
+    const notice = beyond.notice && posted ? `${b.room}_notice_${sid}` : undefined;
     return this.afters(id, beyond!.after!).flatMap(a => [
       `  Topic ${id}_back_${sid}${a.key} with ${keeper} ${q(`Tell {${keeper}} you have been to ${beyond!.name}`)}`
       + ` when stale(${id})${a.when} once {`,

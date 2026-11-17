@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import { Likeness } from './likeness';
+import { Likeness, type Asked } from './likeness';
 import type { Campaign } from '../campaign/campaign';
 
 type Creature = Campaign['readout']['creatures'][number];
@@ -56,13 +56,15 @@ export class Sittings {
       taken.push(new Set(people.flatMap(id => this.own(campaign, id) ?? [])));
       for (const id of people) { of.set(id, n); }
     });
-    for (const id of campaign.module.entities.map(e => e.id).filter(x => of.has(x))) {
+    const ids = campaign.module.entities.map(e => e.id).filter(x => of.has(x));
+    const sole = this.sole(campaign, ids, creatures);
+    for (const id of ids) {
       const n = of.get(id)!, held = new Set([...given].filter(([, c]) => c !== String(n)).map(([p]) => p));
       // A country drawn beyond the march gives its own people none the world holds already: where none is left,
       // they are met by their emblem (a ship's cook and an eel-man over the march had shared one).
       const beyond = /^x[mp]\d+y[mp]?\d+__/.test(id);
-      const painting = this.fit(campaign, id, beyond ? { taken: new Set([...taken[n]!, ...held]), creatures }
-        : { taken: taken[n]!, held, creatures });
+      const painting = this.fit(campaign, id, beyond ? { taken: new Set([...taken[n]!, ...held]), creatures, sole }
+        : { taken: taken[n]!, held, creatures, sole });
       chosen.set(id, painting);
       if (painting) { taken[n]!.add(painting); if (!given.has(painting)) { given.set(painting, String(n)); } }
     }
@@ -104,9 +106,35 @@ export class Sittings {
     const w = campaign.world, own = w.relates('likeness') ? w.one('likeness', id) : undefined;
     return own ? campaign.module.entities.find(e => e.id === own)?.name ?? own : undefined;
   }
-  private static fit(campaign: Campaign, id: string,
-    at: { taken: Set<string>; held?: Set<string>; creatures?: Map<string, Creature> }): string | undefined {
-    const w = campaign.world, entities = campaign.module.entities, member = this.member(campaign, id, at.creatures);
+  // Who of each work with a painting of its own is painted in it (CO-03): one worker in a world, the first in the
+  // order the world holds them whom the world's seed favours (a hash of it and their id, one in four), so that it is
+  // not the first town's innkeeper in every world, and those the world comes to hold later (a country drawn beyond
+  // the march) change no one's held before. The first town's innkeeper had been the tavernkeeper's in every world.
+  private static sole(campaign: Campaign, ids: string[], creatures: Map<string, Creature>): Map<string, string> {
+    const first = new Map<string, string>(), seed = campaign.state.seed;
+    for (const id of ids) {
+      const work = Likeness.work(this.asked(campaign, id, creatures));
+      if (work && !first.has(work) && Sittings.hash(`${seed}\u0000${id}`) % 4 === 0) { first.set(work, id); }
+    }
+    return new Map([...first].map(([work, id]) => [id, work]));
+  }
+  private static hash(text: string): number {
+    let h = 2166136261;
+    for (let i = 0; i < text.length; i++) { h = Math.imul(h ^ text.charCodeAt(i), 16777619); }
+    return h >>> 0;
+  }
+  private static fit(campaign: Campaign, id: string, at: { taken: Set<string>; held?: Set<string>;
+    creatures?: Map<string, Creature>; sole?: Map<string, string> }): string | undefined {
+    const asked = this.asked(campaign, id, at.creatures);
+    const sole = !at.sole || !Likeness.work(asked) ? undefined : at.sole.has(id);
+    // A generated country's people are keyed by its world too: by id alone, the first town's innkeeper of every world
+    // (region__s1_innkeeper) had been one face, the art-dealer's (CO-03).
+    const key = id.startsWith('region__') ? `${campaign.state.seed}:${id}` : id;
+    return Likeness.of({ ...asked, key, taken: at.taken, ...at.held ? { held: at.held } : {},
+      ...sole !== undefined ? { sole } : {} });
+  }
+  private static asked(campaign: Campaign, id: string, creatures?: Map<string, Creature>): Asked {
+    const w = campaign.world, entities = campaign.module.entities, member = this.member(campaign, id, creatures);
     const [name, ...rest] = entities.find(e => e.id === id)?.name.split(', ') ?? [];
     const kinship = w.relates('kinship') ? w.one('kinship', id) : undefined;
     const role = [rest.join(' '), kinship && entities.find(e => e.id === kinship)?.name].filter(Boolean).join(', ');
@@ -114,8 +142,8 @@ export class Sittings {
     const sex = /pron_he$/.test(pronoun ?? '') ? 'man' as const : /pron_she$/.test(pronoun ?? '') ? 'woman' as const
       : undefined;
     const own = this.own(campaign, id);
-    return Likeness.of({ ...own ? { own } : {}, ...member?.backgroundId ? { background: member.backgroundId } : {},
+    return { ...own ? { own } : {}, ...member?.backgroundId ? { background: member.backgroundId } : {},
       ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {},
-      ...name ? { name } : {}, ...sex ? { sex } : {}, key: id, taken: at.taken, ...at.held ? { held: at.held } : {} });
+      ...name ? { name } : {}, ...sex ? { sex } : {} };
   }
 }

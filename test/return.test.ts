@@ -26,7 +26,8 @@ describe('coming back from Merrowdale', () => {
     expect(c.world.test(ModuleWriter.call('stale', word))).toBe(false);
     await choose(/Give a sack of bell-teeth to the Mower/);
     expect(c.world.test(ModuleWriter.call('stale', word))).toBe(true);
-    GeneratedWorld.put(s, 's1_taproom');
+    // In a town where its notice hangs: the first holds one neighbour's notice only, thorn's the Hollins' (CO-03).
+    GeneratedWorld.put(s, 's2_taproom');
     const seen = await s.leg('wait');
     expect((seen.perceptions ?? []).map(p => p.text).join(' ')).toContain('Nobody talks of the forty crowns now');
     expect(PlayerView.choices(c).some(x => /forty crowns in Merrowdale/.test(x.choice.name))).toBe(false);
