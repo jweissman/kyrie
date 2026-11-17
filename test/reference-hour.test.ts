@@ -18,7 +18,7 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
     await SiteBuild.site(site, {});
     const browser = await MonoBrowser.launch();
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
-      { site, query: '?world=kahitude' });
+      { site, query: '?world=kahitude&origin=debt' });
     const log: string[] = [], seen = new Map<string, number>();
     let n = 0;
     const shot = async (what: string) => {
@@ -26,7 +26,6 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
       await page.screenshot({ path: join(out, `${String(n).padStart(2, '0')}-${what.replace(/\W+/g, '-').slice(0, 40)}.png`) });
     };
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    await d.click('[data-option="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     // The reason the company came, followed as the page offers it: nothing is followed for the player, and gold comes

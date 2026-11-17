@@ -21,10 +21,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place chosen on the map', () => {
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
   it('is laid on the map before setting out, over the mist too', async () => {
-    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
-      { site, pointer: false, query: '?world=a1' });
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+      { site, pointer: false, query: '?world=a1&origin=debt' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    await driver.click('[data-option="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await page.keyboard.press('m');
@@ -45,9 +44,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place chosen on the map', () => {
   // opens the place's ways (Go…).
   it('is put away from its own menu, back to the place', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
-      { site, pointer: false, query: '?world=a1' });
+      { site, pointer: false, query: '?world=a1&origin=debt' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    await driver.click('[data-option="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await page.keyboard.press('m');

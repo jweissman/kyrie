@@ -60,11 +60,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
   // navigation review: the map had gone across country to the hex beside it, or from the road in, nowhere).
   it('chooses a march-stone on the map, shows the road there, and comes to the stone', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
-      { site, pointer: false, query: '?world=kite' });
+      { site, pointer: false, query: '?world=kite&origin=debt' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     // One come in debt, who knows the country's roads as a trader does: a march-stone is on the map only once heard of,
     // or so known (the owner, 3 November: the map had begun with the whole country on it).
-    await driver.click('[data-option="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // Play begins in the town (Mission 20's amendment 1): M raises the map.
