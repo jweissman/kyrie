@@ -155,9 +155,12 @@ export class TalkStage {
   // (round 5: "A new aim" fell below the room for talk, and was seen only in the notes).
   static Lines({ lines, pending, ready, app }: { lines: TalkLine[]; pending?: string; ready?: string; app?: ReaderApp }) {
     const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
-    const aim = useRef<HTMLParagraphElement>(null);
-    // What is kept in view whole when it comes: a new aim, or something seen through (the moment had been cut through).
-    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you')), last = lines.map((l, i) => l.kind === 'aim'
+    const aim = useRef<HTMLParagraphElement>(null), answer = useRef<HTMLParagraphElement>(null);
+    // What is kept in view whole when it comes: a new aim, or something seen through (the moment had been cut through);
+    // but never by scrolling the answer's first words out of view (M22's second review, OR-40: Fox's reply to the
+    // letter had been pushed off the top, "You know now" and "A new aim" whole beneath it).
+    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you'));
+    const replied = lines.findIndex((l, i) => i > from && ['speech', 'telling', 'event'].includes(l.kind)), last = lines.map((l, i) => l.kind === 'aim'
       || Moments.ending.test(l.text) ? i : -1).reduce((a, b) => Math.max(a, b), -1);
     useLayoutEffect(() => {
       end.current?.scrollIntoView({ block: 'nearest' });
@@ -166,7 +169,9 @@ export class TalkStage {
         box.scrollTop -= box.getBoundingClientRect().top - first.getBoundingClientRect().top;
       }
       const below = box && aim.current ? aim.current.getBoundingClientRect().bottom - box.getBoundingClientRect().bottom : 0;
-      if (box && below > 0) { box.scrollTop += below; }
+      const room = box && answer.current ? answer.current.getBoundingClientRect().top - box.getBoundingClientRect().top
+        : Infinity;
+      if (box && below > 0) { box.scrollTop += Math.min(below, Math.max(0, room)); }
       // Where what was said begins above what is in view (an aim kept whole under it), the box says so at its head.
       box?.toggleAttribute('data-above', box.scrollTop > 4);
     }, [lines.length, pending]);
@@ -190,7 +195,8 @@ export class TalkStage {
             className={`line learned ${l.kind}${more ? ' more' : ''}`}>
             {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l) : 'You know now')}</b>}
             <Told.Said text={l.text} /></p>
-          : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}><Told.Said text={l.text} /></p>;
+          : <p key={i} ref={i === from ? newest : i === replied ? answer : undefined} className={`line ${l.kind}`}>
+            <Told.Said text={l.text} /></p>;
     };
     return (
       <div className="lines" aria-live="polite"
