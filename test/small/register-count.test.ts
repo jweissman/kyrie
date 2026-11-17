@@ -17,6 +17,12 @@ describe('the register counts every row', () => {
     expect(lines.filter(id => !state.has(id))).toEqual([]);
     expect(lines.filter(id => !tickets.has(id))).toEqual([]);
   });
+  // One reading, one state model (the planning report's Sprint 0, item 1): every status leads with a state its reader
+  // knows, and none says closed while saying open.
+  it('leads every status with a known state, and closes none that is still open', () => {
+    expect(RegisterState.hygiene(RegisterState.rows(text)).slice(1)).toEqual(['statuses leading with no known state (0): ',
+      'closed, yet saying open (0): ']);
+  });
   it('gives each row an id of its own', () => {
     expect(lines.filter((id, i) => lines.indexOf(id) !== i)).toEqual([]);
   });
@@ -24,7 +30,7 @@ describe('the register counts every row', () => {
     const table = '| id | finding | state |\n|---|---|---|\n| ZZ-01 | a | open |\n| ZZ-01b | a `p | q` rule | fixed |\n'
       + '\n| ZZ-02 | b | closed | P1 | M |';
     expect(RegisterState.rows(table).map(r => [r.id, RegisterState.kind(r.status)]))
-      .toEqual([['ZZ-01', 'open'], ['ZZ-01b', 'fixed']]);
+      .toEqual([['ZZ-01', 'open'], ['ZZ-01b', 'closed']]);
     expect(RegisterTickets.rows(table).map(r => [r.id, r.state, r.pri]))
       .toEqual([['ZZ-01', 'open', ''], ['ZZ-01b', 'closed', '']]);
   });

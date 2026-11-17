@@ -10,7 +10,7 @@ class RegisterHeld {
   static run(args: string[]): number {
     // Fixed as register-state reads a row's own status column (a note's "held by" elsewhere in it is not a status).
     const rows = RegisterState.rows(readFileSync('doc/architecture/open-register.md', 'utf8'));
-    const fixed = rows.filter(r => RegisterState.kind(r.status) === 'fixed').map(r => r.line);
+    const fixed = rows.filter(r => r.state === 'closed').map(r => r.line);
     // A fix to how the work is done (a CI timeout, evidence copied out of scratch) holds no behaviour of the game.
     const process = fixed.filter(r => /a process fix/.test(r)), game = fixed.filter(r => !process.includes(r));
     const held = game.filter(r => this.specs(r).length), bare = game.filter(r => !this.specs(r).length);
