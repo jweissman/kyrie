@@ -139,15 +139,26 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
    - Met in a bounded subset, by executable behaviour: the work above, each with its spec.
    - The opportunity census (census/opportunity-depth-2026-11-16.md) is a baseline, not yet a raised floor.
 6. **A reconciled register and design recommendations.**
-   - The register counts every row: 637 (fifteen from the second and third reviews); 224 fixed, 175 open,
-     150 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition; P1: 121 fixed, 23 open, 61 partly. At the
-     mission's start it was 615: 193 fixed, 206 open, 124 partly.
+   - The register counts every row: 645 (fifteen from the second and third reviews; since round 7, seven from the
+     owner's notes of 17 November, OR-54..60, and one from the SRD work, SR-01); 232 fixed, 173 open, 152 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition; P1: 123 fixed,
+     26 open, 63 partly. At the mission's start it was 615: 193 fixed, 206 open, 124 partly.
    - The last round (7) took the open P1 rows from 33 to 23:
      - the aim's lead into a site room by room (PB-16, EX-03, gold walker a1 2/11 → 4/11 guided turns for a
        warrior);
      - a novice-viability measure: a lone warrior fought to the end dies in 45% of a1's bands, a careful player in
        1–2%; how much danger the first hour should hold is open (CB-01, with BP-07).
-   - Register zero was the owner's aim and is not reached: 175 rows are open and 33 are still "unverified" (mostly
+   - Round 8 closed eight rows and moved seven to partly, each with a spec that fails before or a measure. P1 open
+     is 26, not 23, because the owner's notes of 17 November added four (OR-57..60):
+     - the sign chosen at creation kept on the one made (OR-13);
+     - every condition told in words (CO-10's planes and laws);
+     - the docs and `Costs` agreeing with the code (AX-09: kit composition 4.0 s of a1's warm start);
+     - a check's difficulty read from a measure (OB-11, CB-05);
+     - the courier's card naming the herb-wife it goes to (BL-06);
+     - a clause naming an unnamed place left whole (NP-13);
+     - the open country told eight ways a kind of land, not three (CO-03, R11-06);
+     - the waits saying they mend nothing (FH-14);
+     - PL-17, R10-13 and US-08 held by specs at last.
+   - Register zero was the owner's aim and is not reached: 173 rows are open and 33 are still "unverified" (mostly
      deferred ambitions, process rows, or experience rows that need a play, not a grep).
    - The design recommendations are prospectus.md.
 
