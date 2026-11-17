@@ -128,6 +128,12 @@ export class Told {
   // who and what is about it, what someone here is doing told with them, not again.
   // brief: a lens on (Go, Look, Wait), whose acts want the room: the place by its first paragraph alone, the rest of
   // it there again when the lens is put away.
+  // How many sentences a turn tells here: the budget's three (ToldLines), two on a phone, where three stood over four
+  // rows would scroll (the owner, 17 November: two or three, never scrolling; OR-69).
+  static room(): number {
+    const narrow = typeof matchMedia !== 'undefined' && matchMedia('(max-width: 599px)').matches;
+    return narrow ? ToldLines.sentences - 1 : ToldLines.sentences;
+  }
   static Setting({ app, brief }: { app: ReaderApp; brief?: boolean }) {
     const leaf = app.state.frame!.leaf, subjects = app.menu.scene?.subjects ?? [];
     const beside = new Set(subjects.flatMap(x => PlaceStage.danger(x) ? x.says?.slice(0, 1) ?? []
@@ -143,22 +149,16 @@ export class Told {
     // been told by its first sentence here and again in full under it.
     const life = app.state.frame!.leaf.glance?.life?.text, going = life && Typography.curl(life);
     const presence = glanced.presence.filter(l => !going || !going.includes(Told.first(Typography.curl(l))));
+    const looking = app.state.exploring === 'look';
     return <div className="setting" data-region="setting" data-held={glanced.held.length || undefined}>
-      {(brief ? situation.slice(0, 1) : situation).map((p, i) => <p key={i} className={i ? undefined : 'lead'}>
+      {(brief && !looking || !looking && Told.room() < ToldLines.sentences ? situation.slice(0, 1) : situation).map((p, i) => <p key={i}
+        className={i ? undefined : 'lead'}>
         <Told.Said text={p} /></p>)}
       {!brief && <Told.Presence app={app} lines={presence} subjects={subjects} quiet={false} />}
-      {!brief && <Told.More held={glanced.held} key={app.state.frame!.screen.place.id} />}
+      {/* Looked about (the Look lens), the place whole: what its glance holds back is the perception lens's, never a
+          fold to open (the owner, 17 November: "a raw unfold details prompt … should be forbidden"). */}
+      {looking && glanced.held.map((h, i) => <p key={`h${i}`} className="held"><Told.Said text={h} /></p>)}
     </div>;
-  }
-  // What more the place has to tell than its glance does: a quiet word that unfolds it, in the place's order.
-  static More({ held }: { held: string[] }) {
-    const [more, open] = useState(false);
-    if (!held.length) { return null; }
-    return <>
-      {more && held.map((h, i) => <p key={i} className="held"><Told.Said text={h} /></p>)}
-      <button type="button" className="quiet-word more-told" data-action="more-told" aria-expanded={more}
-        onClick={() => open(!more)}>{more ? 'Less' : 'More of the place…'}</button>
-    </>;
   }
   // Whether a line is one the opening's pages told, by its first sentence.
   static opened(app: ReaderApp): (line: string) => boolean {
@@ -209,14 +209,13 @@ export class Told {
     const fought = exchange.tone === 'fight' && !!exchange.held, at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     // The echo of the act is one of the three sentences (ToldLines.sentences) where it is said.
-    const echoed = !!echo && !Words.restates(echo, exchange.lines[0]?.text);
+    const echoed = !!echo && !Words.restates(echo, exchange.lines[0]?.text), room = Told.room() - (echoed ? 1 : 0);
     const left = new Set(unsaid ?? []);
     // The outcome in prose; the dice behind it kept for a deliberate look (ToldLines, the one rule both clients keep:
     // the blind playtest's BP-03, "1 on the die, needing 11" beside a success the prose had made plain).
     // Over the budget (ToldLines: three sentences), the rest is had by the same look as the dice.
     const [looked, look] = useState(shown), rolled = exchange.lines.some(l => l.kind === 'roll');
-    const deeper = ToldLines.more(exchange.lines, ToldLines.sentences - (echoed ? 1 : 0));
-    const lines = ToldLines.said(exchange.lines, looked, ToldLines.sentences - (echoed ? 1 : 0));
+    const lines = ToldLines.said(exchange.lines, looked, room);
     const moments = Moments.of(lines.filter(l => !left.has(l.text))), { sights, ended, levels } = moments;
     const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
     // The aims it took up, from the aims themselves, by id: those the company holds (one folded into another is told
@@ -237,9 +236,8 @@ export class Told {
           onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
         {rest!.map((l, i) => Check.of(l, `r${i}`)
           ?? <p key={`r${i}`} className={l.kind}><Told.Said text={l.text} /></p>)}
-        {deeper && <button type="button" className="quiet-word dice-look" data-action="dice" aria-expanded={looked}
-          onClick={() => look(!looked)}>{looked ? rolled ? 'Put the dice away' : 'Less' : rolled ? 'How it fell'
-            : 'More…'}</button>}
+        {rolled && <button type="button" className="quiet-word dice-look" data-action="dice" aria-expanded={looked}
+          onClick={() => look(!looked)}>{looked ? 'Put the dice away' : 'How it fell'}</button>}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {/* What is known now and the aims taken up are the Book's news, not told here (see News). */}

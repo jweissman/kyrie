@@ -106,8 +106,8 @@ export class AtHand {
     const leads = new Set((app.menu.leads ?? leaf.glance?.acts ?? []).flatMap(a => [a.choice, a.subject ?? '']));
     const first = (t: Held) => leads.has(t.id) || t.opens.some(id => leads.has(id))
       || t.choices.some(c => leads.has(c.id)) || !!kept.find(x => x.id === t.id)?.stake;
-    // What the place at rest leaves untold is unfolded where it is told ("More of the place": see Told.More), not
-    // again here (Mission 21's budget: it had kept Look open with nothing at hand but the place's own words).
+    // What the place at rest leaves untold is told whole beside this while Look is open (see Told.Setting), not again
+    // here as a thing (Mission 21's budget: it had kept Look open with nothing at hand but the place's own words).
     return [...own, ...AtHand.grown(things.filter(first)), ...AtHand.grown(things.filter(t => !first(t))),
       ...ways];
   }

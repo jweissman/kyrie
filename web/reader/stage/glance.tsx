@@ -167,7 +167,8 @@ export class GlanceStage {
       {g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
       {/* A lens on (Go, Look, Wait) has the room: the place by its first paragraph, nothing more of it until the lens
           is put away (Mission 21's scenes: the time lens had sat under five paragraphs at an iPad's height). */}
-      <Told.Setting app={app} brief={!!s.exploring} />
+      {/* After something done here, the place is held below what came of it, not above (OR-69). */}
+      {(!leaf.glanced?.stayed || s.exploring === 'look') && <Told.Setting app={app} brief={!!s.exploring} />}
       <LensFocused.Seen app={app} />
       {!g.life?.danger && !s.exploring && !leaf.glanced?.stayed && <GlanceStage.Life app={app} glance={g} />}
       {/* Said here unless the opening said it: an opening with no aim of its own on its last page (a1's) had left the

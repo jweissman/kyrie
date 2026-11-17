@@ -336,12 +336,17 @@
     max-height: calc(100dvh - var(--safe-t) - 96px);
     /* A scrim, not a box (the owner, 16 November): the painting stays present and darkens toward its foot, edge to edge,
        while what is told and chosen stays inside the safe margins and clear above the rail (11 November). */
-    box-sizing: border-box; padding: 56px var(--safe-x) calc(var(--safe-b) + 64px); border: 0; box-shadow: none;
+    box-sizing: border-box; padding: 32px var(--safe-x) calc(var(--safe-b) + 64px); border: 0; box-shadow: none;
     backdrop-filter: none; background: linear-gradient(to top, rgba(10, 11, 14, .94) 0, rgba(10, 11, 14, .9) 62%,
       rgba(10, 11, 14, .55) 84%, rgba(10, 11, 14, 0) 100%); }
   /* Inside the safe zone, with room for a pip standing off its marks (14px had put it past the zone on an upright
      iPad: the five-size walk, 11 November). */
   .scene-rail { bottom: calc(var(--safe-b) + 4px); }
+  /* The telling a size smaller where the column is narrow, so that a turn's three sentences stand in view above the
+     four without scrolling (the owner, 17 November: OR-69; at 390 by 844 they had scrolled by 220px). */
+  .shell.scene-full .setting > p, .shell.scene-full .told-col .first-goal { font-size: 14.5px; line-height: 1.5; }
+  .shell.scene-full .setting > p.lead { font-size: 16px; line-height: 1.45; }
+  .shell.scene-full .told-col .life, .shell.scene-full .told-col .happened p { font-size: 14.5px; line-height: 1.5; }
   /* Who is here over the painting under the place's name, not under the sheet (as the phone rule above), inside the
      safe zone on either side; with Talk on, the place's standing telling gives them its room (the panel had covered
      a second row of them); what was just done is still told. Go's and Look's tiles give way to their lists in the panel, which a phone has room for alone. */

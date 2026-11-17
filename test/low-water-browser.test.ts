@@ -38,12 +38,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Low Water in the browser', () => {
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The Rim at rest is told in its first three sentences, and the rest of its telling is a touch away, More of the
-    // place (Mission 21's budget, where nothing had been folded away before): all of it is there to be read.
+    // The Rim at rest is told in its first three sentences, and the rest of its telling is the Look lens's (L, OR-71):
+    // all of it is there to be read.
     await d.enter();
-    const more = page.locator('[data-action="more-told"]');
-    if (await more.count()) { await more.first().click(); await page.waitForTimeout(150); }
+    await page.keyboard.press('l'); await page.waitForTimeout(150);
     expect(await Page_.text(page)).toContain('the ring is mud');
+    await page.keyboard.press('Escape'); await page.waitForTimeout(150);
     await Page_.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you', 'join the company');
     await d.away();
     // The channel head's gauging is done, and the company is at the place again with Isaura to hand: no page of the

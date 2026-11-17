@@ -15,7 +15,7 @@ import { MonoBrowser } from './support/mono-browser';
 interface Control { act: string | null; action: string | null; text: string }
 class Census {
   static readonly presentation = new Set(['lens', 'lens-page', 'back', 'back-to-place', 'back-to-map', 'book', 'mode',
-    'close', 'more-told', 'journey', 'map-nearer', 'map-further', 'map-here', 'map-place', 'map-unchoose', 'dismiss',
+    'close', 'journey', 'map-nearer', 'map-further', 'map-here', 'map-place', 'map-unchoose', 'dismiss',
     'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title', 'put-away-map', 'consider-aim',
     // A place viewed on the map, and a thing or a riddle's words focused in a lens: attention (OR-62, OR-59).
     'map-view', 'focus', 'defocus']);

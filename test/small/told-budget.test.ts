@@ -20,7 +20,9 @@ describe('what a turn tells', () => {
     const lines = [{ text: 'One. Two.', kind: 'telling' as const }, { text: 'Rolled 14.', kind: 'roll' as const },
       { text: 'Three. Four.', kind: 'telling' as const }, { text: 'You take the key.', kind: 'event' as const }];
     expect(ToldLines.said(lines).map(l => l.text)).toEqual(['One. Two.', 'You take the key.']);
-    expect(ToldLines.said(lines, false, 2).map(l => l.text)).toEqual(['One.', 'You take the key.']);
+    expect(ToldLines.said(lines, false, 2).map(l => l.text)).toEqual(['One. Two.', 'You take the key.']);
+    expect(ToldLines.said([{ text: 'A. B. C. D.', kind: 'telling' as const }], false, 1).map(l => l.text))
+      .toEqual(['A. B. C. D.']);
     expect(ToldLines.said(lines, true)).toEqual(lines);
     const said = [{ text: "'Not alone. Take someone with you.'", kind: 'speech' as const }, ...lines];
     expect(ToldLines.said(said).map(l => l.text)).toContain("'Not alone. Take someone with you.'");

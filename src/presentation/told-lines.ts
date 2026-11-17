@@ -7,7 +7,7 @@ import { Sentences } from './sentences';
 // And no more than three sentences of it at once (the owner, 17 November: "new descriptions/narrations should never
 // cost more than 2-3 sentences in any case"; an act's telling had run to five and scrolled): what came of it (an event,
 // a change, a revelation: the key taken, the aim seen through) is always said, and counts first; what is said and
-// described around it fills what room is left, its first sentence at least, the rest whole in the Book's Story. A
+// described around it fills what room is left, its first line whole at least, the rest whole in the Book's Story. A
 // fight's blows are told by its own page and fold (see Moments), and count for nothing here.
 export class ToldLines {
   static readonly sentences = 3;
@@ -19,12 +19,14 @@ export class ToldLines {
     const shown = lines.filter(l => l.kind !== 'roll');
     const counted = shown.filter(l => l.kind !== 'fight' && l.kind !== 'speech' && ToldLines.kept.includes(l.kind))
       .reduce((n, l) => n + Sentences.split(l.text).length, 0);
-    let left = Math.max(1, room - counted);
+    let left = Math.max(1, room - counted), first = true;
     return shown.flatMap(l => {
       if (ToldLines.kept.includes(l.kind)) { return [l]; }
       if (left <= 0) { return []; }
-      const parts = Sentences.split(l.text), kept = parts.slice(0, left);
-      left -= kept.length;
+      // The first line of it whole, however little room: a gauge's reading after a gate wound up is the line's second
+      // sentence (Low Water on a phone had lost it).
+      const parts = Sentences.split(l.text), kept = first ? parts : parts.slice(0, left);
+      left -= kept.length; first = false;
       return [kept.length === parts.length ? l : { ...l, text: kept.join(' ') }];
     });
   }
