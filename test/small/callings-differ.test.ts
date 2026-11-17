@@ -23,5 +23,6 @@ describe('three callings in the laboratory', () => {
     for (const [a, b] of [['warrior', 'thief'], ['warrior', 'mage'], ['thief', 'mage']] as const) {
       expect(apart(a, b) + apart(b, a)).toBeGreaterThanOrEqual(20);
     }
-  });
+    // Three laboratory lives walked thirty turns each: about five seconds here, past bun's default on CI's machines.
+  }, 20000);
 });
