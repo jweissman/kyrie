@@ -44,10 +44,14 @@ describe('the scene\'s offer', () => {
     expect(offer.primary.map(o => o.choice)).toEqual(['pull', 'look', 'lane', 'nap']);
     expect(offer.rest.map(o => o.choice)).toEqual(['ask', 'tell', 'drop', 'pack']);
   });
-  it('offers what there is where there is less, and nothing made up', async () => {
+  // Where there is less, what there is, and nothing made up; one wait among the four while there is anything else to
+  // do, its other lengths the Wait lens's ("Wait" beside "Wait an hour" was one choice told twice: M22's review).
+  it('offers what there is where there is less, nothing made up, and one wait beside the rest', async () => {
     const t = await Tiny.start(`Place loft "the loft" is room at 0, 0. Company party "You" of 1 at loft.`);
     const offer = t.glance.offer!, legal = PlayerView.choices(t.campaign).length;
-    expect(offer.primary.length).toBe(Math.min(4, legal));
+    expect(offer.primary.length).toBeGreaterThan(0);
+    expect(offer.primary.length).toBeLessThanOrEqual(Math.min(4, legal));
     expect(offer.primary.length + offer.rest.length).toBeLessThanOrEqual(legal);
+    expect(offer.primary.filter(o => o.type === 'wait').length).toBe(1);
   });
 });

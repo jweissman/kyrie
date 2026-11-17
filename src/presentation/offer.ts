@@ -54,7 +54,8 @@ export class Offers {
     const shown = new Set(led.map(o => o.choice)), types = new Set(led.map(o => o.type));
     // Then the leading way, then the rest in the scene's order: each of a type the four do not yet hold.
     const order = [...ways.flatMap(w => byChoice.get(w) ?? []), ...[...live].sort((a, b) => a.order - b.order)];
-    const fill: Offered[] = [];
+    const fill: Offered[] = [], waitsOnly = live.filter(c => this.types[c.kind] !== 'other' || c.whys.length)
+      .every(c => this.types[c.kind] === 'wait');
     // Of a kind not yet shown first; and where the scene has fewer than four kinds, the next of any (four waits in a
     // bare loft are four choices, not one).
     for (const distinct of [true, false]) {
@@ -64,7 +65,10 @@ export class Offers {
         // The company's own upkeep (gear, preparing spells) with no reason here never fills the four: two of the
         // four at a keep's door had been "Have Cyril prepare Cure Light Wounds in place of Charm Person".
         const upkeep = type === 'other' && !c.whys.length;
-        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep) { continue; }
+        // A second wait beside the first is the same choice told twice ("Wait", "Wait an hour": M22's review), its
+        // lengths the Wait lens's; only where waiting is all there is to do are the waits the four.
+        const again = !distinct && type === 'wait' && types.has('wait') && !waitsOnly;
+        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }
