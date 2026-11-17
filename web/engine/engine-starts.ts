@@ -76,8 +76,15 @@ export class EngineStarts {
     this.ready = undefined; this.waiting = key;
     try {
       if (ready) { this.said('Placing its people'); }
-      return await (ready?.catch(() => this.start(r, true)) ?? this.start(r, true));
+      return await (ready?.catch(() => this.start(r, true)) ?? this.afresh(r));
     } finally { this.waiting = undefined; }
+  }
+  // A start begun now, once the country's texts being read for the same reason are read: begun beside the reading,
+  // the two had parsed the same texts at once, each as slowly (a set-out at once after the last choice, 9–12 s).
+  private async afresh(r: Starting): Promise<PlaySession> {
+    const warm = this.warm?.key === EngineStarts.country(r) ? this.warm.done : undefined;
+    if (warm) { this.said('Drawing the world'); await warm; }
+    return this.start(r, true);
   }
   said(stage: string, step?: [number, number]): void {
     this.post({ kind: 'progress', stage, ...step ? { step } : {} });
