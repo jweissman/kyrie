@@ -67,6 +67,8 @@ export class EngineHost {
   private fought?: Battle;
   private readonly creation = new Creation(); private readonly made = new EngineCreation();
   private readonly starts = new EngineStarts(this.creation, m => this.post(m));
+  // Idle at last: nothing more begun, and what was under way finished (see EngineStarts.settled).
+  idle(): Promise<void> { return this.starts.settled(); }
   // The command under way, if any, which a checkpoint waits for.
   private working: Promise<unknown> = Promise.resolve();
   // Which game the host plays: one begun or opened is the next. A command that ends after another game has begun

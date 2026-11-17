@@ -60,6 +60,14 @@ export class EngineStarts {
     const world = await this.creation.origin(r.campaign, r.seed, r.party, at);
     await Creation.warm(world.path, world.source);
   }
+  // Nothing more begun, and what is under way finished (the reading, a start made ready): for whatever must know the
+  // engine is idle, as a spec that makes a life and sets out on none (its warming had run on into the next spec and
+  // been counted there: small/dark-need on CI).
+  async settled(): Promise<void> {
+    clearTimeout(this.soon); this.soon = undefined; this.next = undefined;
+    await this.warm?.done;
+    await this.ready?.started.catch(() => undefined);
+  }
   // Nothing made ready any longer: a new country is being drawn.
   drop(): void { clearTimeout(this.soon); this.soon = undefined; this.ready = undefined; this.next = undefined; }
   prepare(r: Starting): void {

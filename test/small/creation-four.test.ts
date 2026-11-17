@@ -35,7 +35,10 @@ describe('creation', () => {
   });
   it('is shown four at a time in the terminal, the rest under more', async () => {
     const said: string[] = [], input = { ask: async () => '', close: () => undefined } as Asking;
-    await new TerminalCreation(input, l => said.push(l)).choose(new EngineHost(() => undefined), 'four');
+    const host = new EngineHost(() => undefined);
+    await new TerminalCreation(input, l => said.push(l)).choose(host, 'four');
+    // What it made ready while choosing finished here, not in the next spec (its costs had been counted there).
+    await host.idle();
     const calling = said.slice(said.indexOf('\nChoose your calling') + 1);
     const shape = calling.slice(0, 5).map(l => /^ {2}(\d)\./.exec(l)?.[1] ?? l.trim().replace(/\d+/, 'n'));
     expect(shape).toEqual(['1', '2', '3', '4', '(n more: more)']);
