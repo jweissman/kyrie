@@ -40,8 +40,11 @@ export class AimLeading {
   private static lead(campaign: Campaign, screen: Screen, def: Objective): AimLead {
     const route = this.route(campaign, screen), named = Stakes.named(campaign, def), aim = def.id;
     if (route) { return route; }
-    if (!this.at(campaign, screen, named)) { return { aim, source: 'toward', next: [...named] }; }
-    return this.within(campaign, screen, def) ?? { aim, source: 'here', next: [screen.place.id] };
+    // Gone in past the place it names, what it waits on further in is still the step, not the way back out to it (a
+    // hold gone into from its porch had led back to the porch).
+    const within = this.within(campaign, screen, def);
+    if (!this.at(campaign, screen, named)) { return within ?? { aim, source: 'toward', next: [...named] }; }
+    return within ?? { aim, source: 'here', next: [screen.place.id] };
   }
   // In the place it is gone to by, at what it is toward, or on the way from the one to the other.
   static there(campaign: Campaign, screen: Screen, t: ResolvedTarget): boolean {

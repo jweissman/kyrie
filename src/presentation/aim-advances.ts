@@ -62,6 +62,8 @@ export class AimAdvances {
       && !w.test(ModuleWriter.call('been', c.args[0]!.startsWith('?') ? 'party' : c.args[0]!, c.args[1]!)))
       .map(c => c.args[1]!);
   }
+  // Both: where the aim followed is gone on to, hidden there or to be come to.
+  static ahead(campaign: Campaign): string[] { return [...this.sought(campaign), ...this.unreached(campaign)]; }
   // A thing the aim waits on that is hidden until something is found is first searched for where it is found: the
   // dead man's box, under the stone at the keep's door, had left the gold to go on into the keep and be lost there
   // (round 9, P).

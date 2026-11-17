@@ -41,7 +41,34 @@ const green = `
 const head = hold.replace(/Observe carving[^\n]*\n\s*Objective writing[^\n]*/,
   'Objective writing when not been(party, hall) toward porch "Go down into the old hold.".');
 
+// An aim to go through a place (EX-03: to explore it, as such): it waits on having been in each of its rooms, and its
+// gold goes room by room, back through the hall from a side room, until it is done.
+const survey = `
+  Place moor "the moor" is wilderness at 0, 0.
+  Place porch "the porch of the hold" is room within moor at 0, 0 outdoors.
+  Place hold "the old hold" is site within moor at 1, 0.
+  Place hall "the carved hall" is room within hold at 1, 0 indoors.
+  Place well "the well-room" is room within hold at 2, 0 indoors.
+  Place store "the store" is room within hold at 1, 1 indoors.
+  Passage arch "the arch" is door between porch and hall.
+  Passage low "the low door" is door between hall and well.
+  Passage side "the side door" is door between hall and store.
+  Company party "You" of 1 at porch.
+  Objective survey when not (been(party, well) and been(party, store)) toward porch "Go through the old hold.".
+  Goal false.`;
+
 describe('the aim followed and its next step', () => {
+  it('goes room by room through a place the aim waits on having been in, and back through the hall', async () => {
+    const t = await Tiny.start(survey);
+    t.follow('survey');
+    const gone: string[] = [];
+    for (let i = 0; i < 6 && t.gold[0]; i++) {
+      gone.push(t.gold[0].label);
+      await t.perform(t.gold[0].command ?? t.gold[0].choice);
+    }
+    expect(gone).toEqual(['Into the old hold', 'To the store', 'To the carved hall', 'To the well-room']);
+    expect(t.glance.lead).toBeUndefined();
+  });
   it('is the way on to the place the aim waits on having been in', async () => {
     const t = await Tiny.start(head);
     t.follow('writing');

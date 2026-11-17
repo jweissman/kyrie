@@ -368,8 +368,10 @@ export class Glance {
   }
   // The first way toward the nearest place where something the aim waits on lies hidden (see AimAdvances.sought), from
   // anywhere but there, by the ways the world joins: a site's way back out included, which is otherwise never led.
+  // Or a place it waits on having been in, by the ways known (a side room of a hold gone into, its well-room still to
+  // come to, had led nowhere: PB-16, EX-03).
   private static sought(campaign: Campaign, screen: Screen): string | undefined {
-    const here = screen.place.id, places = AimAdvances.sought(campaign).filter(p => p !== here);
+    const here = screen.place.id, places = AimAdvances.ahead(campaign).filter(p => p !== here);
     if (!places.length || AimAdvances.sought(campaign).includes(here)) { return undefined; }
     // Breadth first by the known ways, so the nearest is found first.
     const graph = Itineraries.graph(campaign), firsts = new Map<string, string>([[here, '']]);
