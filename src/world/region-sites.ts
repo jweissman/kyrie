@@ -65,7 +65,7 @@ export class RegionSites {
     return RegionGeography.seats(region).flatMap(seat => this.seat(seat, region, !!taken[seat.site.id]));
   }
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
-    const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
+    const q = JSON.stringify, { site } = seat, id = site.id;
     const where = this.where(seat, region), seen = this.look(site, region);
     const great = !!site.work?.great, zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
     const hidden = great || (!claimed && (site.part ?? 0) > 0), tells = hidden || !!zone;
@@ -77,9 +77,7 @@ export class RegionSites {
       // Where the name is cut over the door, the stone says it; elsewhere the place is known for what it is called.
       ...this.cut[site.kind] && !site.work ? [] : [`  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${this.worn(region, site) ? ', as the folk call it' : ''}.`)}.`],
       // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
-      ...site.work ? [] : [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
-        `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${tells ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
-        `    On discuss { Assert knows(actor, ${id}_named).${tells ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
+      ...site.work ? [] : this.asked(seat, region, where, tells)];
     // Every site's way can be learned, told landmark by landmark where it is in wild country; one deep in wild country
     // can also be found by searching where it starts. Told, it is a way the company can set out along (leadsVia).
     const ways = [...zone ? RegionZones.told(region, zone, site.part ?? 0) : [], `${id}_track`];
@@ -95,6 +93,18 @@ export class RegionSites {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${cut}.`)} teaches ${id}_named.`);
     }
     return [...lines, ...this.old(site)];
+  }
+  // The innkeeper asked of a site, and asked again: the same answer, until the company has been there and seen for
+  // itself what the folk say of it (WM-04: a den cleared, "There is always something living in it" was still the
+  // answer, with the way there). Written here, not as the topic's own copy, which knows nothing of the place.
+  private static asked(seat: Seat, region: Region, where: string, tells: boolean): string[] {
+    const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
+    const says = `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${tells
+      ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`;
+    return [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once only {`,
+      says, `    On discuss { Assert knows(actor, ${id}_named).${tells ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }',
+      `  Topic ${id}_asked_again with ${keeper} ${q(`Ask {${keeper}} again about {${id}}`)} when said_${id}_asked() and not been(party, ${id}) {`,
+      says, '  }'];
   }
   // An old place called by its Common meaning (see OldPlaces) has its old name cut on it, in its makers' letters: read
   // there, on arriving, it is learned, and said with the place from then on (T24-20).
