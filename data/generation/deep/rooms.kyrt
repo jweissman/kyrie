@@ -100,3 +100,52 @@
     Change read "{doclabel}" from unread to read.
   }
   Observe {id}_doc_says at {id}_chamber of {id}_doc as reading when state({id}_doc, read) "{doctext}" teaches history_successors.
+--- order
+  // A chest that opens to three of its marks pressed in an order (the sites commission, item 2): the order is shown
+  // elsewhere on the same level ({frieze} in {friezeroom}, the procession, the shifts, the song); each mark is one act
+  // (orderpart, below); a wrong one sets it back, and is heard. Lore reads the order off the chest itself, a try that
+  // takes a while and may fail; force opens it in an hour and breaks what is inside. {id} the chest, {room} its room;
+  // {a}, {b}, {c} its marks as the chest shows them, {first}, {second}, {third} as the frieze does; the words are the
+  // purpose's own (data/generation/deep/<art>.json, order).
+  Measure {id}_n(thing).
+  Relation {id}_tried().
+  Discovery {id}_order "{known}".
+  Thing {id} "{chest}" at {room} {
+    Holds.
+    State sealed closed "{chestseen}".
+    State open "{chestopen}".
+  }
+  Thing {id}_frieze "{frieze}" at {friezeroom} is scenery {
+    State shown "{friezeseen}".
+  }
+  Observe {id}_frieze_read at {friezeroom} when not knows(party, {id}_order) "{friezeseen}" teaches {id}_order.
+  Rule {id}_opens when {id}_n({id}) == 3 and state({id}, sealed) says "{right}" { Retract state({id}, sealed). Assert state({id}, open). }
+  Action {id}_read(actor: group, site: place) "{readlabel}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and capable(actor, lore) and not knows(actor, {id}_order) and not {id}_tried().
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, {id}_order). Assert {id}_tried(). }
+    On failure { Assert {id}_tried(). }
+    Result "{lore}".
+    Otherwise "{loreno}".
+  }
+  Action {id}_force(actor: group, site: place) "{forcelabel}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and (capable(actor, brawn) or holding(actor, crowbar)).
+    Time 6.
+    On success { Retract state({id}, sealed). Assert state({id}, open). Retract inside({id}_gift, {id}). }
+    Result "{force}".
+  }
+--- orderright
+  // The mark that comes next in the order ({k}: how many have gone before it): pressed, it holds down.
+  Action {id}_p{n}(actor: group, site: place) "{press}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and {id}_n({id}) == {k}.
+    Time 1.
+    On success { Increase {id}_n({id}) by 1. }
+    Result "{held}".
+  }
+  Action {id}_q{n}(actor: group, site: place) "{press}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and {id}_n({id}) != {k}.
+    Time 1.
+    On success { Set {id}_n({id}) to 0. }
+    Result "{wrong}".
+  }

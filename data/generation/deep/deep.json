@@ -956,5 +956,29 @@
     "doclabel": "Read the tally-board",
     "docthe": "the tally-board",
     "doctext": "The notches are the Delvers' count. The writing over them is {kingdom}'s: 'Taken into the king's keeping: the last of the paymaster's store. To be fetched when the shaft is cleared.' The shaft was never cleared."
+  },
+  "order": {
+    "marks": [
+      "the pick",
+      "the star",
+      "the lamp",
+      "the hammer",
+      "the wheel"
+    ],
+    "chest": "the paymaster's strong-box",
+    "chestseen": "An iron strong-box is bolted to the floor. Three stamps are set into its lid: {a}, {b} and {c}. Each can be pressed down.",
+    "chestopen": "The strong-box stands open, its lid thrown back.",
+    "frieze": "the shift-board",
+    "friezeseen": "A board on the wall is painted with the shifts, a sign for each. The first shift's sign is {first}. The second's is {second}. The night's is {third}.",
+    "known": "The shift-board in the haulage gives the shifts in order: {first}, then {second}, then {third}.",
+    "press": "Press down the stamp of {part}",
+    "held": "The stamp goes down with a click and stays down.",
+    "wrong": "The stamp goes down, and all three jump back up with a clang. The sound goes away down the galleries.",
+    "right": "The last stamp goes down. Bolts slide inside the box, and the lid comes up.",
+    "readlabel": "Read the paymaster's marks on the box",
+    "lore": "Each stamp has a shift's number cut beside it in the Delvers' count: {first}, then {second}, then {third}.",
+    "loreno": "The numbers by the stamps are rusted over. You cannot read them.",
+    "forcelabel": "Prise the strong-box open by main force",
+    "force": "It takes an hour of the crowbar and the hammer of your boots. The lid tears open, and what was inside is broken."
   }
 }

@@ -260,5 +260,29 @@
     "doclabel": "Unfold the paper and read it",
     "docthe": "the folded paper",
     "doctext": "In the letters of {kingdom}: 'This was taken out of the king's hall below when the seal was set again. It is kept for whoever comes back for it. Whoever comes back: the dead are not ours to keep.' No one came back."
+  },
+  "order": {
+    "marks": [
+      "the owl",
+      "the hare",
+      "the heron",
+      "the stag",
+      "the salmon"
+    ],
+    "chest": "a stone chest with three carved bosses",
+    "chestseen": "A stone chest stands against the wall, its lid one piece with it. Three bosses are carved along its front: {a}, {b} and {c}. Each gives a little under the thumb.",
+    "chestopen": "The stone chest stands open, its lid turned back on a pivot.",
+    "frieze": "the painted frieze",
+    "friezeseen": "A frieze is painted along the wall: the dead carried to their barrow. First, leading the bearers, goes {first}. Among them walks {second}. Last comes {third}.",
+    "known": "The frieze in the halls shows the order of the procession: {first}, then {second}, then {third}.",
+    "press": "Press the boss carved as {part}",
+    "held": "The boss sinks under your thumb and stays down.",
+    "wrong": "The boss sinks, and every boss springs back up with a crack that goes down the halls.",
+    "right": "The last boss sinks. A catch turns over inside the chest, and the lid swings up on its pivot.",
+    "readlabel": "Read the makers' marks on the chest",
+    "lore": "Under each boss is a count in the makers' letters. In that count: {first}, then {second}, then {third}.",
+    "loreno": "The marks under the bosses are worn. You cannot make the count out.",
+    "forcelabel": "Break the chest's lid off by main force",
+    "force": "It takes an hour, and the lid comes off in two pieces. What the chest held is crushed under it."
   }
 }

@@ -10,6 +10,7 @@ import { DeepArgument } from './deep-argument';
 import { DeepRivals } from './deep-rivals';
 import { DeepSounds } from './deep-sounds';
 import { DeepCache } from './deep-cache';
+import { DeepOrder } from './deep-order';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 import { RegionMarvels, type Fragment } from '../region-marvels';
@@ -27,7 +28,7 @@ export class DeepSites {
     at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean; buried?: string }): string[] {
     const { purpose, values } = at, key = `${region.name}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
-    const handled = this.handled(layout);
+    const handled = this.handled(layout), order = DeepOrder.lines(layout, content, { purpose, key });
     // What the kingdom after the makers did with it, and what its fall left there.
     const after = [...purpose.after?.[values.kingdomkind!] ?? [], ...purpose.fallen?.[values.fallen!] ?? []];
     return [`  Measure deepWater(place). Measure deepPumped(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
@@ -41,7 +42,7 @@ export class DeepSites {
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose, ...this.fragment(region, purpose),
         ...content.find(x => x.special) ? { first: content.find(x => x.special)!.room.id } : {} })),
       ...this.ore(purpose, layout), ...this.rest(purpose, layout, content), ...DeepSounds.listening(layout),
-      ...DeepHistory.finds(layout, purpose), ...DeepCache.lines(layout, purpose, { values, key }),
+      ...DeepHistory.finds(layout, purpose), ...DeepCache.lines(layout, purpose, { values, key }), ...order,
       ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
@@ -167,7 +168,7 @@ export class DeepSites {
     const q = this.q, w = values.w!, trade = purpose.hook.trade, ore = purpose.ore;
     const [first, second] = purpose.rumours.map(t => t.replaceAll('{name}', values.name!));
     return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when not knows(actor, ${w}_named) once {`,
-      `    Says ${q(`${first} {${values.keeper}} wipes the counter. 'It is out in ${values.where}. Go in daylight, and take more light than you think.'`)}.`,
+      `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }',
       ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
@@ -179,6 +180,10 @@ export class DeepSites {
       // coin against a 50-coin debt (SI-07, the sites commission's walks).
       ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${Math.max(1, Math.round(ore.worth / 2))}.`] : [],
       ...this.home(purpose, values)];
+  }
+  // Where the innkeeper says it is: out in the country, or under the town ("It is out in under Lowmouth" was said).
+  private static lies(where: string): string {
+    return /^under /.test(where) ? `It is ${where}, below the vault.` : `It is out in ${where}.`;
   }
   // When it is brought home: the innkeeper who told of it hears what the company brought up, and keeps it a night.
   private static home(purpose: DeepPurpose, values: Record<string, string>): string[] {

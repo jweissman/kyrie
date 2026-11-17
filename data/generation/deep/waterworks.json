@@ -296,5 +296,29 @@
     "doclabel": "Break the wax and read the scroll inside",
     "docthe": "the scroll from the jar",
     "doctext": "In the letters of {kingdom}: 'Put by against the drought, the keepers' stores. Whoever opens this has come in a dry year. Take what you need, and wall it up again.'"
+  },
+  "order": {
+    "marks": [
+      "the fish",
+      "the reed",
+      "the moon",
+      "the shell",
+      "the cup"
+    ],
+    "chest": "the keepers' stone box",
+    "chestseen": "A box of grey stone stands in a niche. Its lid is carved with three discs: {a}, {b} and {c}. Each turns a little under the hand.",
+    "chestopen": "The stone box stands open.",
+    "frieze": "the water-carving",
+    "friezeseen": "The course of the water through the year is cut into the wall. Its rising is marked with {first}. The full is marked with {second}. Its fall is marked with {third}.",
+    "known": "The water-carving in the galleries gives the year's water in order: {first}, then {second}, then {third}.",
+    "press": "Turn the disc of {part}",
+    "held": "The disc turns and stays turned.",
+    "wrong": "The disc turns, and all three spin back with a grinding the colonnade carries a long way.",
+    "right": "The last disc turns. The lid lifts a finger's width and slides aside.",
+    "readlabel": "Read the Wardens' marks on the box",
+    "lore": "Each disc carries a month in the Wardens' count: {first}, then {second}, then {third}.",
+    "loreno": "The months on the discs are worn smooth. You cannot read them.",
+    "forcelabel": "Break the stone box open",
+    "force": "It takes an hour to crack the lid. It falls in, and what was inside is broken."
   }
 }

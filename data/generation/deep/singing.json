@@ -263,5 +263,29 @@
     "doclabel": "Read the cantor's slate",
     "docthe": "the cantor's slate",
     "doctext": "In the letters of {kingdom}: 'When the stone began to crack, we took the hall's things in here and walled them away. They are for whoever can sing the hall whole again.' The writing stops there."
+  },
+  "order": {
+    "marks": [
+      "the bell",
+      "the lark",
+      "the reed-pipe",
+      "the harp",
+      "the drum"
+    ],
+    "chest": "the cantors' chest",
+    "chestseen": "A chest of dark wood stands by the wall. Three keys of bone are set in its lid, marked {a}, {b} and {c}.",
+    "chestopen": "The cantors' chest stands open.",
+    "frieze": "the song-board",
+    "friezeseen": "A board on the wall carries the Singers' notes, a sign over each part. The song opens with {first}. It is carried by {second}. It closes with {third}.",
+    "known": "The song-board in the choir gives the parts in order: {first}, then {second}, then {third}.",
+    "press": "Press the bone key marked with {part}",
+    "held": "The key goes down with a note, and stays down.",
+    "wrong": "The key sounds wrong, and all three spring back. The hall carries the sour note everywhere.",
+    "right": "The last key goes down, and the three notes sound together. The lid opens.",
+    "readlabel": "Read the cantors' marks on the keys",
+    "lore": "Each key is marked with its place in a song: {first}, then {second}, then {third}.",
+    "loreno": "The marks on the keys are too small and worn to read.",
+    "forcelabel": "Break the cantors' chest open",
+    "force": "It takes an hour to split the chest. What was inside is broken with it."
   }
 }
