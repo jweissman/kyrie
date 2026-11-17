@@ -5,6 +5,7 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Positions } from './rules/positions';
 import { HitDicePool } from './rules/hit-dice-pool';
+import { Chain } from './rules/chain';
 import { Volley } from './rules/volley';
 import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
@@ -58,8 +59,9 @@ export class AbilityUse {
       : effect.target === 'random enemy' || effect.target === 'random enemies'
       ? context.drawn ??= AbilityUse.draw(effect, candidates, expressions, context)
       : Targeting.selected(effect.target) ? candidates.filter(f => f.id === targetId) : candidates;
-    const kind = effect.targetTrait;
-    return HitDicePool.held(effect, kind ? chosen.filter(f => f.traits?.includes(kind)) : chosen);
+    const kind = effect.targetTrait, chained = actor && effect.chain
+      ? Chain.targets(effect, chosen, { actor, context, expressions }) : chosen;
+    return HitDicePool.held(effect, kind ? chained.filter(f => f.traits?.includes(kind)) : chained);
   }
   // Orsino's randomEnemies: distinct living enemies, as many as the count (one for a random enemy), from the seed.
   private static draw(effect: Effect, candidates: Fighter[], expressions: Expressions,
@@ -177,8 +179,9 @@ export class AbilityUse {
     // A perk can make one ability hit harder (a thieves' guild's backstab).
     const harms = effect.kind === 'damage' || effect.kind === 'drain';
     const harder = actor && options.ability && harms ? Perks.abilityDamage(actor.traits, options.ability) : 1;
-    let amount = 'amount' in effect && effect.kind !== 'summon' ? Math.floor((harms
+    const roll = 'amount' in effect && effect.kind !== 'summon' ? Math.floor((harms
       ? expressions.harm(effect.amount, values) : expressions.amount(effect.amount, values)) * harder) : 0;
+    let amount = Chain.amount(effect, roll, target, context);
     const rolled = amount;
     if (options.resisted && effect.onResist) {
       if (effect.onResist === 'negate') { return false; }

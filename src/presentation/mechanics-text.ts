@@ -108,6 +108,7 @@ export class MechanicsText {
     })();
     const qualifiers = [e.when ? 'when its condition holds' : '', e.targetTrait ? `only ${e.targetTrait} creatures` : '',
       e.hitDice !== undefined ? `${e.hitDice} Hit Dice of them, the fewest first, and none of more` : '',
+      e.chain ? `leaping from them to ${this.amount(e.chain.count, actor)} other foes, each struck once, each taking ${e.chain.ratio === 0.5 ? 'half' : `${e.chain.ratio} of`} what the first took` : '',
       e.save ? this.save(e.save, actor) : '', e.onResist ? `${e.onResist === 'half' ? 'halved' : 'none'} if resisted` : '',
       ...this.triggered(e).map(([id, c]) => `may leave whoever it hurts ${this.conditionName(id)}: ${this.an(this.quality(c.saveKind ?? 'magic'))} `
         + 'save against 15 avoids it')]

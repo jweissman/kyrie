@@ -64,6 +64,8 @@ seams without concentration, persistent areas, transformation or world magic:
    - **Done for Burning Hands and Fireball, and Lightning Bolt's level** (17 November, later: case 12,
      test/burning-hands-fireball), at the SRD's levels once the draw by rank (case 11) moved only the casters who
      gain or lose a spell.
+   - **The chain, with Chain Lightning** (17 November, later: case 15, test/chain-lightning), after the line: a harm
+     that leaps from the one it is aimed at to as many other foes, once each, at a share of the first's.
 6. **The rat as an unplaced SRD variant.** Do not replace `rat`: an explicit `rat/srd`, or a variation named for the
    setting, at first `unplaced`.
    - It gets fixed Hit Dice and HP, scores, an AC conversion, its attack, attack bonus and saves.

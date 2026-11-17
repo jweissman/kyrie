@@ -281,6 +281,37 @@
         "notes": "The SRD's Sleep (doc/architecture/mission-22/srd-proving-cases.md, case 14): first level, a burst (the rules' areas: everyone in the place it falls on, friend or foe), four Hit Dice of them, fewest first, none of five or more (HitDicePool; a Kyr creature's Hit Dice are its level), a Will save to negate (the sleep save, made with Wisdom, which the undead are proof against), at case 7's difficulty for a first-level spell. A blow that wounds wakes the sleeper (the asleep condition's own). Converted: a minute, ten rounds, at every casting level (Kyr's durations do not grow with the caster: the SRD's is a minute a level); outside a fight, ten watches (FieldUse). Omitted: spell resistance; the sleeper helpless (a blow at one is an ordinary blow); the nearest first among equals (the fight's order). Before, Orsino's third level, every foe, three rounds, against 16 + the caster's level."
       }
     },
+    "chain_lightning": {
+      "name": "Chain Lightning",
+      "kind": "spell",
+      "description": "A stroke of lightning leaps from your hand to the foe you aim it at, 1d6 for every level you have, to twenty, and from them to as many other foes as you have levels, each taking half what the first took; whoever throws themselves clear takes half.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "roll(cappedLevel(20), 6)" },
+          "damageType": "electric",
+          "target": "enemy",
+          "chain": { "count": { "kind": "deem", "expression": "cappedLevel(20)" }, "ratio": 0.5 },
+          "save": {
+            "kind": "reflex",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "16 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            },
+            "success": "half"
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 6, "school": "evocation" },
+      "source": {
+        "orsino": "arcaneSpell:chain_lightning",
+        "srd35": "spell:chain-lightning",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Omitted: spell resistance. Orsino's had no effect Kyr could run (its cascade: unsupported)."
+      }
+    },
     "cone_of_cold": {
       "name": "Cone of Cold",
       "kind": "spell",

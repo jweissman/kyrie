@@ -348,7 +348,8 @@
   "lightning_bolt": "test/lightning-bolt.test.ts",
   "burning_hands": "test/burning-hands-fireball.test.ts",
   "fireball": "test/burning-hands-fireball.test.ts",
-  "sleep": "test/sleep.test.ts"
+  "sleep": "test/sleep.test.ts",
+  "chain_lightning": "test/chain-lightning.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -364,6 +365,9 @@
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   },
   "fireball": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   },
   "sleep": {

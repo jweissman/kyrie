@@ -46,12 +46,12 @@ describe('a field nothing reads', () => {
 });
 
 // An ability whose record has nothing Kyr can execute is reference only: in the catalog (the Encyclopedia says what
-// it is), never learned, prepared, granted or offered. Chain Lightning and Goodberry are two of the eleven
-// (Plane Shift left them for the travel effect: GT-02).
+// it is), never learned, prepared, granted or offered. Electric Arc and Goodberry are two of the ten (Plane Shift left
+// them for the travel effect: GT-02; Chain Lightning for the chain, srd-proving-cases.md case 15).
 describe('a reference-only ability', () => {
   const referenceOnly = Object.keys(Canon.abilities).filter(id => CanonRuntime.referenceOnly(id)).sort();
   it('is every ability with no effect but the moves the rules resolve themselves', () => {
-    expect(referenceOnly).toEqual(['chain_lightning', 'create_poison', 'dispel_magic', 'electric_arc', 'goodberry',
+    expect(referenceOnly).toEqual(['create_poison', 'dispel_magic', 'electric_arc', 'goodberry',
       'image', 'minor_image', 'shock_pulse', 'static_shock', 'weird', 'zephyrwild']);
     expect(CanonRuntime.referenceOnly('wait')).toBe(false);
   });
@@ -63,8 +63,8 @@ describe('a reference-only ability', () => {
       if (spell) { expect(Creation.spellbook(spell.tradition, spell.level)).not.toContain(id); }
     }
     const taught = new Content('reference-only').createCreature('m', { raceId: 'human', classId: 'mage',
-      abilities: ['chain_lightning', 'goodberry'] });
-    expect(taught.base.abilities).not.toContain('chain_lightning');
+      abilities: ['electric_arc', 'goodberry'] });
+    expect(taught.base.abilities).not.toContain('electric_arc');
     expect(taught.base.abilities).not.toContain('goodberry');
   });
 });
@@ -72,7 +72,7 @@ describe('a reference-only ability', () => {
 // The ratchet (§14): no playable ability does nothing, and what the catalogs record they cannot run may not grow
 // without this number, and the briefing, being changed with it. Counted after Orsino's generated records and Kyr's
 // hand-written ones are merged, as the canon reads them: the keys of every `unsupported` record.
-const UNSUPPORTED_LEDGER = 100;
+const UNSUPPORTED_LEDGER = 96;
 describe('the ratchet', () => {
   it('has no playable ability that does nothing', () => {
     expect(Content.abilities.filter(a => !a.effects.length && a.id !== 'wait').map(a => a.id)).toEqual([]);

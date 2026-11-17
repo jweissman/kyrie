@@ -39,8 +39,8 @@ export class SpellResolution {
   // What it falls on, as a shape: itself, one, several, a cone, a burst, a line; Westernesse's by its resolved area
   // (its own or the rules' for it) or its target, the SRD's by its target or area line.
   static target(id: string, a: Ability, s: Srd): Measure {
-    const area = CanonRuntime.area(id, a), t = a.effects?.find(e => e.kind !== 'cast')?.target ?? '';
-    const ours = area ?? (t === 'self' ? 'self' : t === 'random enemies' ? 'several'
+    const area = CanonRuntime.area(id, a), first = a.effects?.find(e => e.kind !== 'cast'), t = first?.target ?? '';
+    const ours = area ?? (first?.chain ? 'chain' : t === 'self' ? 'self' : t === 'random enemies' ? 'several'
       : ['enemies', 'allies', 'party', 'all'].includes(t) ? 'all' : t ? 'one' : '');
     return { ours, theirs: this.shape(s) };
   }
@@ -50,6 +50,7 @@ export class SpellResolution {
     if (/cone/.test(t)) { return 'cone'; }
     if (/line/.test(t)) { return 'line'; }
     if (/spread|burst|radius|emanation|cylinder|cloud/.test(t)) { return 'burst'; }
+    if (/primary target/.test(t)) { return 'chain'; }
     return /up to|or more|creatures|rays/.test(t) ? 'several' : 'one';
   }
 }

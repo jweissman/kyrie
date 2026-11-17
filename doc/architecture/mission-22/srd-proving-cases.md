@@ -468,14 +468,61 @@ where the third-level one took six. The census is below.
   fellowship warden.
 
 
+### 15. The chain, and Chain Lightning by the SRD's numbers (17 November, later): adapted
+
+Proof-slices.md orders `chain` after the line (case 9). Orsino's five cascading spells had no effect Kyr could run;
+the SRD's Chain Lightning is the one of them with a counterpart. Spec: `test/chain-lightning` (4 cases; with the chain
+taken out, the first is struck alone and two fail).
+
+**The mechanic built: a chain** (an effect's `chain: { count, ratio }`, src/rules/chain.ts).
+- A harm aimed at one foe strikes them, then leaps to as many other living foes as its count says, each struck once,
+  in the fight's order, never a friend. The SRD's caster chooses the secondary targets; the order chooses here.
+- Each leap takes its share (the SRD's half) of what the first was dealt before its save, rounded down. Each struck
+  saves on their own.
+- It is not an area: nobody it does not name is caught, and it is aimed at a foe as any single-target spell is.
+- The handbook says it ("leaping from them to 1 per caster level, to 20 other foes, each struck once, each taking
+  half what the first took"). The census grades its target `chain` against the SRD's "one primary target, plus one
+  secondary target/level" (SpellResolution).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- sixth level (Orsino's fifth), arcane, evocation (exact);
+- 1d6 electricity a casting level to 20d6 at the twentieth on the first (exact);
+- a leap a casting level, to twenty, each half the first's (exact, by the chain);
+- a Reflex save for half by each, at case 7's difficulty for a sixth-level spell (converted).
+
+Omitted: spell resistance; the secondary targets within 30 feet of the first (Kyr's field has no distances).
+
+**The census** (200 humans for each calling and level, before and after; Chain Lightning's rate):
+
+| Calling, level | Moved | After |
+|---|---|---|
+| mage, evoker, 9 | 0 % | 0 (no sixth-level slot) |
+| mage, evoker, 11 | 5.5 % | .06 |
+| mage, evoker, 12 | 11 % | .11 |
+| mage, evoker, 15 | 15.5 % | .15 |
+| mage, school drawn, 11 / 12 / 15 | 5.5 / 11 / 15 % | .06 / .11 / .15 |
+| mage, abjurer, 11 / 12 / 15 | 5.5 / 10.5 / 15 % | .06 / .10 / .15 |
+
+Every caster who moved is one who gained it, and nobody lost another spell for it (the draw by rank, case 11). Of
+2,232 installed classed creatures in a1 and the six countries, none knows it.
+
+**Where it is met.** A mage of the eleventh level or more, as one of the sixth-level spells it may learn, and a
+hostile evoker or generalist of that level who prepares it. No first hour moves; a long career, or a deep place's
+casters.
+
+**What stays unsupported of the cascading five:** bolt, electric_arc, shock_pulse and static_shock, Orsino's own,
+with no SRD counterpart. Orsino's cascade jumps at random and halves again at each jump; the chain could run them
+by a ratio of its own, but each would enter a draw (shock_pulse is an evocation cantrip every evoker knows): a slice
+of its own, for Orsino's numbers.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
-**34 of the merged catalogue's 363 abilities** carry `unsupported`. Orsino's file (data/catalog/orsino/abilities.json)
+**33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
 marks 36 of its 340, but hand entries replace two: detonation, and Plane Shift (17 November). Kyr refuses to run the
 34, and the compiler says so (`ModuleCompiler.unrun`). By cause:
 A spell may have more than one cause.
-- **Cascading damage (5):** chain_lightning, bolt, electric_arc, shock_pulse, static_shock. This wants a `chain`
-  topology, which proof-slices.md orders after `line`, cone and burst.
+- **Cascading damage (4):** bolt, electric_arc, shock_pulse, static_shock. The chain is built (case 15, Chain
+  Lightning by it); these are Orsino's own, each a draw's change, and wait for a slice of their own.
 - **Statuses Kyr cannot run:** major_insight (4), major_focus (3), invulnerable (2), spellturn (2), disabled (1). These
   are the divinations, wards and turnings: foresight, foretelling, greater_augury, mind_reading, invulnerability,
   spellturning, perfect_turning, disable, and their like. Each wants its status's modifiers defined in Canon.
@@ -522,11 +569,11 @@ be claimed from the catalogue.
 ## What remains of the migration, and why (17 November, later)
 
 - **Burning Hands and Fireball, and Lightning Bolt's level:** done (case 12), by the draw by rank (case 11).
-- **The cascading five** (chain_lightning, bolt, electric_arc, shock_pulse, static_shock). These want `chain`, a
-  new shape after the line (case 9). Every one of them enters a draw, which since case 11 moves only the casters who gain one.
+- **The chain and Chain Lightning:** done (case 15). Orsino's other four cascading spells (bolt, electric_arc,
+  shock_pulse, static_shock) wait: each enters a draw, which since case 11 moves only the casters who gain one.
 - **Spell resistance.** Not rolled anywhere. Proof-slices.md forbids an `sr` field until it rolls, is told and
   changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
-- **The 34 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
+- **The 33 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
   summoning, item creation, target forms, world magic and transformations), and none may be faked as data.
 - **The creatures.** 1 of 71 passes in resolution (rat/cellar); placed kinds keep Orsino's bodies by the lead's
   ruling (srd-invariants.md: the ghoul's withdrawal). The challenge table's re-measure at 48 fights a level

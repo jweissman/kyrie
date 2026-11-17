@@ -6417,16 +6417,6 @@ One ally gains true sight for 3 turns. True Sight: seeing through illusions and 
 
 #### Level 5
 
-##### Chain Lightning
-
-*Not playable · level 5 arcane spell, evocation* · `ability:chain_lightning`
-
-> Strike multiple enemies with lightning.
-
-*Not playable — effect:damage: Cascading damage is not supported.*
-
-*Not playable — effects: No effect Kyr can execute.*
-
 ##### Chaos Bolt
 
 *Faithful · level 5 arcane spell, evocation* · `ability:chaos_bolt`
@@ -6544,6 +6534,16 @@ Call one of: balor, fiend, ifrit, marilith, angel, archon, deva, solar, of level
 > Summon a powerful random monster (demon or celestial) to fight for you.
 
 #### Level 6
+
+##### Chain Lightning
+
+*Adapted · level 6 arcane spell, evocation* · `ability:chain_lightning`
+
+1d6 per caster level, to 20d6 electric damage to one enemy (leaping from them to 1 per caster level, to 20 other foes, each struck once, each taking half what the first took; a Dexterity save against 16 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the sixth level. Takes a sixth-level slot.
+
+> A stroke of lightning leaps from your hand to the foe you aim it at, 1d6 for every level you have, to twenty, and from them to as many other foes as you have levels, each taking half what the first took; whoever throws themselves clear takes half.
+
+*Adapted: The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Omitted: spell resistance. Orsino's had no effect Kyr could run (its cascade: unsupported).*
 
 ##### Control Undead
 

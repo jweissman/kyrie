@@ -799,10 +799,10 @@
    "title": "Player's Handbook",
    "counts": {
     "faithful": 757,
-    "adapted": 391,
+    "adapted": 392,
     "represented": 4,
     "kyr": 567,
-    "unsupported": 67,
+    "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
    },
@@ -916,10 +916,10 @@
      "title": "Magic",
      "counts": {
       "faithful": 237,
-      "adapted": 14,
+      "adapted": 15,
       "represented": 0,
       "kyr": 4,
-      "unsupported": 31,
+      "unsupported": 30,
       "unreachable": 0,
       "data-only": 0
      }
@@ -9698,13 +9698,6 @@
    "section": "magic/spells-arcane/spells-arcane-4"
   },
   {
-   "id": "ability:chain_lightning",
-   "title": "Chain Lightning",
-   "status": "unsupported",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-5"
-  },
-  {
    "id": "ability:chaos_bolt",
    "title": "Chaos Bolt",
    "status": "faithful",
@@ -9801,6 +9794,13 @@
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-5"
+  },
+  {
+   "id": "ability:chain_lightning",
+   "title": "Chain Lightning",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-6"
   },
   {
    "id": "ability:control_undead",
