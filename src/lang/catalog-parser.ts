@@ -11,6 +11,7 @@ type Field = { field: string; value: unknown };
 //   Kind dreg_ox "a little ox of dreg" is treasure worth 2 weighing 1.
 //   Kind bone_knife "a bone knife" like dagger worth 1.
 //   Kind oath_tablet "an oath-tablet" like old_glossary granting oath.
+//   Kind day_tonic "a day tonic" is consumable worth 3 using "Heal (2d4) health to ally.".
 //   Species hall_dog "the hall dog" like cave_hound tame living in hall.
 // Read before anything else the module declares, so its items and people may be of them wherever they are written.
 export class CatalogParser {
@@ -34,6 +35,9 @@ export class CatalogParser {
   // Where it is worn (`Kind dirge_bell "a dirge bell" like holy_symbol worn as charm`): a thing of the module's own an
   // author would have put on, and what it grants granted while it is (see PartyCapabilities).
   static Worn(_w: Node, _as: Node, slot: Node) { return { slot: slot.sourceString }; }
+  // What using one does, in the effect language (`Kind day_tonic "a day tonic" is consumable using "Heal (2d4) health
+  // to ally."`): used up on whoever it is used on, by the shared rules' use_item (OB-07).
+  static Using(_u: Node, effect: Node) { return { use: ModuleParser.ast(effect) as string }; }
   static LocalSpecies(_s: Node, id: Node, name: Node, body: Node): Field {
     return { field: 'localspecies', value: { id: id.sourceString, name: ModuleParser.ast(name) as string,
       ...ModuleParser.ast(body) as object } as LocalSpeciesSpec };
@@ -52,7 +56,7 @@ export class CatalogParser {
     KindBase_is: CatalogParser.KindIs, KindBase_like: CatalogParser.KindLike,
     KindPart_worth: CatalogParser.Worth, KindPart_weighing: CatalogParser.Weighing,
     KindPart_described: CatalogParser.Described, KindPart_granting: CatalogParser.Granting,
-    KindPart_teaching: CatalogParser.Teaching, KindPart_worn: CatalogParser.Worn,
+    KindPart_teaching: CatalogParser.Teaching, KindPart_worn: CatalogParser.Worn, KindPart_using: CatalogParser.Using,
     LocalSpecies: CatalogParser.LocalSpecies,
     SpeciesPart_tame: CatalogParser.Tame, SpeciesPart_temperament: CatalogParser.Temperament,
     SpeciesPart_described: CatalogParser.Described, SpeciesPart_living: CatalogParser.Living,

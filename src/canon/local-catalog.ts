@@ -1,6 +1,7 @@
 import { Canon } from './canon';
 import { ItemCatalog } from '../item-catalog';
 import type { ItemKind, Species } from './schema';
+import { parseAbility } from '../lang/parse';
 
 // What one module declares for itself: kinds of thing and kinds of creature that only it has ("a little ox of dreg",
 // "the hall dog"). While its campaign is the one in play, its kinds join the catalogs under the names it gave them,
@@ -15,7 +16,7 @@ export interface LocalCatalog {
 type Declared = { source?: object };
 export interface LocalKindSpec {
   id: string; name: string; base: { category?: ItemKind['category']; like?: string }; worth?: number; mass?: number;
-  description?: string; grants?: string; teaches?: string; slot?: string;
+  description?: string; grants?: string; teaches?: string; slot?: string; use?: string;
 }
 export interface LocalSpeciesSpec {
   id: string; name: string; like: string; temperament?: string; description?: string; habitats?: string[];
@@ -46,14 +47,23 @@ export class LocalKinds {
     if (spec.slot && !Object.values(Canon.items).some(i => i.slot === spec.slot)) {
       throw new Error(`Kind ${spec.id} is worn as ${spec.slot}, where nothing of the catalog is worn`);
     }
+    if (spec.use) { this.usable(spec, category); }
     const inherited: Partial<ItemKind> = { ...like, ...spec.grants ? { grants: { skill: spec.grants } } : {},
-      ...spec.slot ? { slot: spec.slot } : {} };
+      ...spec.slot ? { slot: spec.slot } : {}, ...spec.use ? { use: spec.use } : {} };
     delete inherited.source;
     // What it grants is in place of what its like is for: Gosse's crown of paste, like the glossary, is no glossary.
     if (spec.grants) { delete inherited.tool; delete inherited.aids; }
     return { ...inherited, name: spec.name, category, description: spec.description ?? like?.description ?? spec.name,
       ...spec.worth !== undefined ? { value: spec.worth } : {}, ...spec.mass !== undefined ? { mass: spec.mass } : {},
       source: { kyr: true, notes: `Declared by the module ${module}.` } } as ItemKind & { mass?: number };
+  }
+  // What using one does is said in the effect language, and read as the module is (a word wrong is the author's to
+  // hear at once, not the player's when it is used); and what is used is used up: a consumable (OB-07).
+  private static usable(spec: LocalKindSpec, category: ItemKind['category']) {
+    if (category !== 'consumable') { throw new Error(`Kind ${spec.id} is using: what is used up is consumable, not ${category}`); }
+    try { parseAbility(spec.id, spec.name, spec.use!); } catch (error) {
+      throw new Error(`Kind ${spec.id} is using "${spec.use}", which the effect language does not read: ${(error as Error).message}`);
+    }
   }
   // A kind of creature like one the bestiary has: its statistics and abilities, with its own name and temperament.
   static species(module: string, spec: LocalSpeciesSpec): Species {

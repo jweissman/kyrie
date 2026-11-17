@@ -1001,6 +1001,14 @@ it is:
   Kind dirge_bell "a dirge bell" like holy_symbol granting knell worn as charm described "A small bell of grey bronze…".
 ```
 
+`using` says what a consumable of the module's own does when it is used, in the effect language the catalogue's
+remedies are written in. It is read as the module loads: an effect it does not read, or a use on a kind that is not
+consumable, is refused then. The shared rules offer it to whoever it would help and use it up (test/small/kind-used):
+
+```text
+  Kind day_tonic "a day tonic" is consumable worth 3 using "Heal (2d4) health to ally.".
+```
+
 A thing only one adventure or one generator uses is declared there, as such a kind, never in the catalog
 (data/catalog/items/), which holds the kinds of thing more than one place uses (the item-catalog spec).
 
