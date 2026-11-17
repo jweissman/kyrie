@@ -60,7 +60,7 @@ export class SettlementWriter {
         ...this.trade(s).scene ? [`  Observe ${s.id}_shop_scene at ${s.id}_shop as fixture when true ${q(this.trade(s).scene!)}.`] : []]
         : [],
       this.keeper(s, f, region),
-      this.priest(s, f, { region, cult }),
+      this.priest(s, f, region),
       this.merchant(s, f, region),
       ...RegionRecruits.traveller(s, i, region, has.taproom ? `${s.id}_taproom` : `${s.id}_green`),
       `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}`
@@ -131,10 +131,10 @@ export class SettlementWriter {
   }
   // Only a town's priest has the learning to call the dead back, and keeps a copy of the old orders' glossary of the
   // old script, for whoever would read the makers' stones.
-  private static priest(s: Settlement, f: Founding, at: { region: Region; cult: Cult }): string {
-    const q = this.q, { region, cult } = at, h = Foundings.table.holy[f.holy];
+  private static priest(s: Settlement, f: Founding, region: Region): string {
+    const q = this.q;
     const where = f.holy === 'wayside' ? `${s.id}_green` : `${s.id}_shrine`;
-    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(this.titled(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }), this.said(s, 'priest', f)))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Offers restoring "a restoration" for 100 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
+    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(this.called(region, s))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Offers restoring "a restoration" for 100 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy: in a shop,
   // or at their own door on the heart.
@@ -178,6 +178,13 @@ export class SettlementWriter {
     const who = ({ she: 'woman', he: 'man', they: 'neither' } as const)[said as 'she' | 'he' | 'they'];
     const [first = '', ...rest] = role.split(' '), form = (forms.forms as Record<string, Record<string, string>>)[first];
     return who && form?.[who] ? [form[who].toLowerCase(), ...rest].join(' ') : role;
+  }
+  // What a town's priest is, as their Role says it, to whoever writes of them before they are met (OR-30: the brothers'
+  // letter was for "the priest of Lugh", and Vance, the priestess of Lugh, read it).
+  static called(region: Region, s: Settlement): string {
+    const i = region.settlements.indexOf(s), f = Foundings.of(region, i), h = Foundings.table.holy[f.holy];
+    return this.titled(Foundings.fill(h.role, { ...this.words(s), cult: RegionFaith.cults(region)[i]!.name }),
+      this.said(s, 'priest', f));
   }
   // A townsperson's people, as a Person says it.
   private static of(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller', region: Region): string {

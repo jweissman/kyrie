@@ -10,7 +10,7 @@ Module quarrel "The boundary stones" {
   Entity priest: group "The priest".
   Relation restored(group). Relation bought(group). Relation offered(group). Relation asked(group).
   Entity feud: fact "The innkeeper and the merchant have not spoken since the boundary stones moved.".
-  Entity priest_knows: fact "The priest knows where the boundary stones stood, and will not say it to the merchant's face.".
+  Entity priest_knows: fact "{priest} knows where the boundary stones stood, and will not say it to {trader}'s face.".
   Initially Assert established(feud).
 
   Place garden "the inn's back garden" is room within town at 1, 2.

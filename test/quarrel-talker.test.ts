@@ -14,7 +14,12 @@ describe('the boundary stones', () => {
       party: [{ name: 'Wynn', raceId: 'human', classId: 'bard' }] }, NodeBundleSource.shared));
     const aim = Glanced.of(j.session).screen.aims?.find(a => /boundary stones/.test(a.text));
     expect(aim?.text).toMatch(/inn's back garden/);
-    await j.play('>region__s1_shrine', 'about the stones', 'round to say where the stones stood');
+    await j.play('>region__s1_shrine', 'about the stones');
+    // What is known is of the priest by name, not "the priest" of a shrine kept by a priestess (OR-30).
+    const knows = Glanced.of(j.session).screen.knowledge.map(k => k.text).find(t => /boundary stones stood/.test(t));
+    expect(knows).toMatch(/ knows where the boundary stones stood, and will not say it to .+'s face/);
+    expect(knows).not.toMatch(/^The priest |the merchant's/);
+    await j.play('round to say where the stones stood');
     const left = Glanced.of(j.session).screen.aims?.filter(a => /boundary stones/.test(a.text)) ?? [];
     expect(left).toEqual([]);
     // And the word of the quarrel is old: nobody tells of it as if it stood (E 79, of the players).
