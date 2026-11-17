@@ -29,13 +29,17 @@ export class Scenery {
   static approach(screen: Screen, country?: string): string | undefined {
     const terrain = screen.region?.terrain?.replace(/^.*__/, '') ?? '';
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
-    const views = this.seasonal(this.approaches[terrain] ?? this.approaches.forest!, season);
+    const own = this.approaches[terrain] ?? this.approaches.forest!;
+    const views = season === 'winter' && !own.some(v => this.winter.has(v)) ? this.winterOpen : this.seasonal(own, season);
     return country && views.includes(country) ? country : views[this.hash(screen.place.id) % views.length];
   }
   // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer); and in
   // winter, where a kind has a winter painting, one of those (a cold country's town in summer is a grey northern bay,
   // in winter its frozen river: a fresh play had a leafy fair for a town of snow-fences and turf roofs).
   static readonly winter = new Set(table.winter);
+  // In winter, the way in through a country whose own paintings are all of leaf: a calm winter's open country instead
+  // (M22's second review, OR-46: "snowy, Deepwinter" over a summer wood after an opening of sheep in leaf).
+  static readonly winterOpen: string[] = table.winterOpen;
   // An author's own painting for a place of theirs, kept before any kind's (data/paintings/scenery.json, places).
   static readonly places: Record<string, string> = table.places;
   // Under a roof (a room of a building, anywhere within a level of a site not said to be open, or a room whose kind

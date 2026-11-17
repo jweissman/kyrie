@@ -35,6 +35,7 @@
     "frost": ["idyll", "wintre"]
   },
   "winter": ["wintre", "ice-cutter", "avalanche", "scene-town-snowbound"],
+  "winterOpen": ["wintre", "ice-cutter"],
   "within": {
     "indoors": ["scene-indoors-plain"],
     "underground": [],

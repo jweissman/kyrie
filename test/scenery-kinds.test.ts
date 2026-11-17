@@ -27,6 +27,14 @@ const under = { underground: true };
 const vaults = ['library', 'cathedral', 'colonnade', 'narthex', 'well', 'grotto'];
 
 describe('the painting of a place', () => {
+  // The way in through a country in winter is a winter's country, even where the country's own paintings are all of
+  // leaf (OR-46: "snowy, Deepwinter" over a summer wood); in summer never a winter painting.
+  it('agrees with the season on the way in', () => {
+    const road: PlaceRef = { id: 'region__w1_road', name: 'the road into Pardaael', kind: 'wild' };
+    const on = (long: string) => ({ ...Scene.of(road, []), date: { short: '', long } }) as Screen;
+    expect(Scenery.winterOpen).toContain(Scenery.approach(on('the 12th of Deepwinter; winter'))!);
+    expect(Scenery.winter.has(Scenery.approach(on('the 25th of Haysel; summer'))!)).toBe(false);
+  });
   it('is of a town\'s rooms by what each is, never a vault of a church or a library', () => {
     const inn: PlaceRef = { id: 'region__s2_inn', name: 'the Ancient Boar', kind: 'building' };
     const taproom = Scene.seen(Scene.room('region__s2_taproom', 'the taproom of the Ancient Boar'), [Scene.town, inn]);
