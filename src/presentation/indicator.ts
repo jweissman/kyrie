@@ -7,6 +7,13 @@ export interface Icon { sign: string; plain: string; said: string }
 // An act's one indicator: its colour (the aspect it is chiefly, by Emphasis.precedence), at most two icons for what it
 // is besides, and whatever else in its detail, in words.
 export interface Indicated { aspect?: Aspect; tone?: Tone; icons: Icon[]; detail: string[] }
+// How an opportunity stands, beside what kind it is (M22, doc/architecture/mission-22/indicator-appendix.md): the hue
+// says the kind; the condition is said by value and shape, never by another hue. From what the engine knows and the
+// company perceives, each a field it already gives: here and seen (present); perceived off along a way and not here
+// (afar: Promoted.afar, Glance.sensed); known only by word, never seen (heard: a map mark's state); a place with
+// nothing new to give for now (idle: Glance.idle); a question put already (spent). Novelty is apart, and only adds.
+export type Condition = 'present' | 'afar' | 'heard' | 'idle' | 'spent';
+export interface Standing { afar?: boolean; heard?: boolean; idle?: boolean; spent?: boolean; fresh?: boolean }
 // What an act carries, as the engine typed it: its aspects (gilded where it is the followed aim's next step), whether
 // it goes over into the next stretch of country, whether it is done by holding, and what is perceived off along it
 // (Glance.sensed: a way's, never an act's).
@@ -56,6 +63,12 @@ export class Indicator {
   // Whether what is perceived along a way is its faint pip: the way has no colour of its own, and it is no companion.
   static faint(c: Carrying, tone = Emphasis.ranked(Emphasis.drawn(c.aspects, c.gilded ?? true))[0]): boolean {
     return !!c.sensed && !tone && !!Emphasis.tones[c.sensed.aspect];
+  }
+  // The condition an opportunity is drawn in: what is spent or idle withdraws first, whatever it is; then what is only
+  // heard of; then what is perceived from here; else it is present. Fresh is said beside, never in place of these.
+  static condition(s: Standing): { condition: Condition; fresh: boolean } {
+    const condition: Condition = s.spent ? 'spent' : s.idle ? 'idle' : s.heard ? 'heard' : s.afar ? 'afar' : 'present';
+    return { condition, fresh: !!s.fresh && condition === 'present' };
   }
   static icon(a: Aspect): Icon { return { ...Signs.aspects[a], said: Emphasis.words[a] }; }
 }
