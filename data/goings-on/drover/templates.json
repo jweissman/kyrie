@@ -10,7 +10,7 @@
     "casting": "=gen(drover_casting)"
   },
   "drover_casting": { "__no_id": true, "wife": "=gen(drover_wife)", "son": "=gen(drover_son)" },
-  "drover_wife": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'she:drover_wife')", "raceId": "=#folk" },
-  "drover_son": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:drover_son')", "raceId": "=#folk",
+  "drover_wife": { "__no_id": true, ">name": "=kindred(defined('taken') ? #taken : nihil, #folk, (defined('townName') ? #townName : '') + ':drover|wife|she:wife:elder he:son', defined('own') ? #own : nihil)", "raceId": "=#folk" },
+  "drover_son": { "__no_id": true, ">name": "=kindred(defined('taken') ? #taken : nihil, #folk, (defined('townName') ? #townName : '') + ':drover|son|she:wife:elder he:son', defined('own') ? #own : nihil)", "raceId": "=#folk",
     "classId": "=lookup(goingsOnCalling, #folk)" }
 }

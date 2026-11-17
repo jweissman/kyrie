@@ -1,3 +1,4 @@
+import { FamilyNames } from './family-names';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleRequest } from '../campaign/module-bundle';
 import type { CreatureGenerationContext } from '../content';
@@ -70,6 +71,19 @@ export class Origins {
     const gear = [...origin.gear ?? [], ...other ? origin.otherwise ?? [] : []];
     return { ...member, ...origin.background && !own ? { backgroundId: origin.background } : {},
       ...gear.length ? { gear: [...member.gear ?? [], ...gear] } : {} };
+  }
+  // The protagonist as the origin makes them (see member), and, placed in a family, called as the family is (see
+  // FamilyNames): Morgran come home to a brother Travok Strakeln is Morgran Strakeln; one written with a family's
+  // name (Morgran Stonehelm) gives the family theirs.
+  static protagonist(origin: OriginManifest, chosen: CreatureGenerationContext,
+    at: { chosen: boolean; region: Region; placements: Placement[] }): CreatureGenerationContext {
+    const { region, placements } = at, member = this.member(origin, chosen, at.chosen);
+    const p = origin.binder === 'kin' ? this.placed(placements, 'drover') : undefined;
+    const town = p && this.home(region, p.bindings.town ?? '');
+    if (!town || !member.name) { return member; }
+    const as = member.pronouns === 'she' || member.pronouns === 'he' ? member.pronouns : 'they';
+    return { ...member, name: FamilyNames.household({ key: `${town.name}:drover`, people: member.raceId ?? 'human',
+      roster: '', own: member.name, as }).you ?? member.name };
   }
   // The origin's module, written against this world, for the campaign to install after the region.
   static write(o: Loaded, at: { region: Region; placements: Placement[]; protagonist: string; root: string;

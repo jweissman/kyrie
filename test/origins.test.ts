@@ -132,7 +132,8 @@ describe('an origin', () => {
   }, 90000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);
-    expect(screen.party.map(m => m.name)).toEqual(['Wenna']);
+    // Of the family come home to, and called as it is (PA-03): Wenna of the Holts.
+    expect(screen.party.map(m => m.name)).toEqual(['Wenna Holt']);
     expect(screen.place.name).toMatch(/^the causeway into /);
     expect(Narrator.leaf(s.campaign, screen).situation.join(' ')).toContain('Your father went out on the road with the cart');
   }, 60000);

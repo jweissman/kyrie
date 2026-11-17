@@ -11,6 +11,7 @@ import { CreationDefaults } from '../web/engine/creation-defaults';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import type { Member, Request, Setting } from '../web/engine/protocol';
 import folk from '../data/generation/scenes/folk.json';
+import naming from '../data/generation/scenes/naming.json';
 
 // The page as ReaderOpening sees it: its state, changed as setState would, and an engine that keeps what it was asked.
 class Page {
@@ -35,6 +36,7 @@ class Page {
   }
 }
 const given = folk.given as Record<string, Record<string, string[]>>;
+const more = naming.more as Record<string, Record<string, string[]>>;
 // Names for a test, each people's as a woman's, a man's and anyone's.
 const few = (she: string[], he: string[], they: string[] = []) => ({ she, he, they: [...they, ...she, ...he] });
 
@@ -50,8 +52,12 @@ describe('a protagonist\'s name', () => {
       expect(Object.keys(names).sort()).toEqual(['birdfolk', 'catfolk', 'dwarf', 'elf', 'human']);
       for (const [people, lists] of Object.entries(names)) {
         const own = given[people]!;
-        const strange = (list: string[], as: string) => list.filter(n => !own[as]!.includes(n));
+        // Their people's names, its folk's first, then the deeper names of naming.json (PA-03: a dwarf in wren's dwarf
+        // country had been offered one).
+        const deeper = more[people]!, ours = (as: string) => [...own[as]!, ...deeper[as]!];
+        const strange = (list: string[], as: string) => list.filter(n => !ours(as).includes(n));
         expect([strange(lists.she, 'she'), strange(lists.he, 'he')]).toEqual([[], []]);
+        expect(lists.he.length).toBeGreaterThanOrEqual(20);
         // One who is neither is offered the names given to anyone first, then every other.
         const anyone = own.they!.filter(n => !taken.has(n)).length;
         expect(lists.they.slice(0, anyone).every(n => own.they!.includes(n))).toBe(true);

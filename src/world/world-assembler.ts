@@ -106,8 +106,8 @@ export class WorldAssembler {
     region.sites = PlaceNames.called(region);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
-    const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.fixture)[0]!, !!options.party)]
-      : options.party ?? this.fixture;
+    const party = origin ? [Origins.protagonist(origin.manifest, (options.party ?? this.fixture)[0]!,
+      { chosen: !!options.party, region, placements })] : options.party ?? this.fixture;
     const contacts = origin ? [] : this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};
@@ -453,7 +453,7 @@ export class WorldAssembler {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
     const taken = StoryPeople.country(region), own = kin?.own ? [kin.own] : [];
     return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {}, taken: [...taken, ...own],
-      ...kin?.folk ? { folk: kin.folk, kin: true } : {} };
+      ...kin?.folk ? { folk: kin.folk, kin: true, ...kin.own ? { own: kin.own } : {} } : {} };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.

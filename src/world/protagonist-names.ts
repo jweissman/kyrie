@@ -3,6 +3,7 @@ import { Outfitters } from './outfitters';
 import { Content } from '../content';
 import type { Region } from './region-writer';
 import folk from '../../data/generation/scenes/folk.json';
+import naming from '../../data/generation/scenes/naming.json';
 
 // The words a protagonist may be spoken of in, as creation offers them: a woman, a man, neither.
 export type Pronouns = 'she' | 'he' | 'they';
@@ -18,20 +19,27 @@ export class ProtagonistNames {
   static drawn(region: Region, seed: string): Record<string, Record<Pronouns, string[]>> {
     const taken = Outfitters.everyone(region);
     const given = folk.given as Record<string, Partial<Record<Pronouns, string[]>>>;
+    const more = naming.more as Record<string, Partial<Record<Pronouns, string[]>>>;
     return Object.fromEntries((Content.playableRaces as string[]).map(people => {
       const own = given[people] ?? given.human!, key = `${seed}:protagonist:name:${people}`;
-      const [she, he, anyone] = this.said.map(as => this.draw(`${key}:${as}`, own[as] ?? [], taken));
-      const rest = this.draw(`${key}:rest`, [...own.she ?? [], ...own.he ?? []], taken);
+      const deeper = more[given[people] ? people : 'human'] ?? {};
+      const [she, he, anyone] = this.said.map(as => this.draw(`${key}:${as}`, [own[as] ?? [], deeper[as] ?? []],
+        taken));
+      const rest = this.draw(`${key}:rest`, [this.both(own), this.both(deeper)], taken);
       return [people, { she: she!, he: he!, they: [...new Set([...anyone!, ...rest])] }];
     }));
   }
+  private static both(of: Partial<Record<Pronouns, string[]>>): string[] { return [...of.she ?? [], ...of.he ?? []]; }
   // How a protagonist presents until the player says otherwise: a woman or a man, drawn for the country.
   static presenting(seed: string): Pronouns {
     return new Draw(`${seed}:protagonist:presents`).pick(['she', 'he']);
   }
-  // Names in an order of their own, none someone of the country has unless all of them are.
-  private static draw(key: string, names: string[], taken: Set<string>): string[] {
-    const free = names.filter(n => !taken.has(n));
-    return new Draw(key).shuffle(free.length ? free : names);
+  // Names in an order of their own, none someone of the country has unless all of them are: the names its folk are
+  // drawn from first, in an order of their own, then the people's other names (naming.json), in theirs; a dwarf in a
+  // dwarf country had been offered one name, Morgran, the only one of ten nobody there had (the owner, 17 November).
+  private static draw(key: string, [names, more]: string[][], taken: Set<string>): string[] {
+    const free = names!.filter(n => !taken.has(n)), deeper = more!.filter(n => !taken.has(n) && !names!.includes(n));
+    if (!free.length && !deeper.length) { return new Draw(key).shuffle(names!); }
+    return [...new Draw(key).shuffle(free), ...new Draw(`${key}:more`).shuffle(deeper)];
   }
 }

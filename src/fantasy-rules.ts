@@ -1,4 +1,5 @@
 import folk from '../data/generation/scenes/folk.json';
+import { FamilyNames } from './world/family-names';
 
 export class FantasyRules {
   private static readonly families = (folk as unknown as { family: Record<string, string[]> }).family;
@@ -39,6 +40,15 @@ export class FantasyRules {
     return free.length ? free[(h >>> 0) % free.length]!
       : FantasyRules.apart(all.length ? all[(h >>> 0) % all.length]! : drawn, taken, ancestry, part);
   }
+  // One of a family a story casts, named with the rest of it (see FamilyNames): who the family is (its town and
+  // story), their part in it and the family's parts ("Lowmouth:drover|son|she:wife:elder he:son"), and the
+  // protagonist's name where they are of it.
+  static kindred(taken: unknown, ancestry: unknown, family: unknown, own?: unknown): string {
+    const [key = '', part = '', roster = ''] = String(family).split('|');
+    const names = FamilyNames.household({ key, people: String(ancestry), roster,
+      taken: Array.isArray(taken) ? taken.map(String) : [], ...typeof own === 'string' && own ? { own } : {} });
+    return names[part] ?? part;
+  }
   static readonly functions = { statMod: FantasyRules.statMod, apart: FantasyRules.apart,
-    another: FantasyRules.another };
+    another: FantasyRules.another, kindred: FantasyRules.kindred };
 }
