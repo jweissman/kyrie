@@ -6,8 +6,8 @@ import { Checks } from '../../src/rules/checks';
 
 // The setting/framework boundary's verified leaks (BX-01, mission-22/boundary-brief.md and the register's row),
 // each the smallest world that shows it: the Tethys expedition, a world of its own setting (no canon). Each is a
-// failing pin (it.failing): it passes the day the leak is repaired, and must then be made an ordinary it. The one
-// repaired this round (a campaign may keep the canon out) is held in boundary-tethys.
+// failing pin (it.failing): it passes the day the leak is repaired, and must then be made an ordinary it. The first
+// repaired (a campaign may keep the canon out) is held in boundary-tethys.
 const kyr = readFileSync(join(import.meta.dir, '../fixtures/boundary/tethys.kyr'), 'utf8');
 const own = () => Tiny.start(kyr, { own: true });
 const labels = (t: Tiny) => t.journey.choices().map(c => c.label);
@@ -50,9 +50,13 @@ describe('the setting/framework boundary, as it leaks', () => {
     expect(t.campaign.events.at(-1)!.combat!.find(e => e.type === 'check')).toMatchObject({ stat: 'intelligence' });
     expect(Checks.qualities.systems).toBeUndefined();
   });
-  // L6: the shared rules carry the canon's names: a world without the canon still holds Plane Shift.
-  it.failing('holds nothing of the canon\'s in a world without it', async () => {
-    const t = await own();
-    expect(t.campaign.module.entities.map(e => e.id).filter(id => /plane/.test(id))).toEqual([]);
+  // L6, repaired: the shared rules carried the canon's names (data/rules/canon.kyr: Plane Shift, the planes'
+  // thresholds, the world events that befall); a world without the canon is played by the shared rules without them.
+  // (The catalog's spell of that name is the catalog's, L1's.)
+  it('holds nothing of the canon\'s in a world without it', async () => {
+    const t = await own(), m = t.campaign.module;
+    expect(m.actions.map(a => a.name).filter(n => /plane/.test(n))).toEqual([]);
+    expect(m.relations.map(r => r.name).filter(n => /^(thresholdOf|befell|seatOf|holdsOffice)$/.test(n))).toEqual([]);
+    expect(m.kinds).not.toContain('identity');
   });
 });

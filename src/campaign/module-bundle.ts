@@ -289,13 +289,15 @@ export class ModuleBundle {
   // Only the named rules are shared (world, elements, devotion): any other file a manifest names among its rules is
   // its own, read as its sources are and named for it (a rules file of its own had declared another module's private
   // relation and written it, and a rule of the same id as another's was dropped unsaid: the architecture review's A7).
-  private static paths(manifest: BundleManifest, path: string, source: BundleSource) {
+  // A world of a setting of its own (canonless: BX-01's L6) is played by the world's rules without the canon's.
+  private static paths(manifest: BundleManifest, path: string, source: BundleSource, canonless = false) {
     const rules = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;
+    const world = canonless ? ModuleBundle.world.filter(r => r !== ModuleCanon.id) : ModuleBundle.world;
     const shared = rules.filter(r => ModuleBundle.ruleNames.includes(r) || r === 'world');
     if (!shared.length) { throw new Error(`${path} names none of the rules a module is played by (world, ...)`); }
     return { situations: [...typeof manifest.source === 'string' ? [manifest.source] : manifest.source,
       ...rules.filter(r => !shared.includes(r))].map(p => source.resolve(p, path)),
-    rules: shared.flatMap(r => r === 'world' ? ModuleBundle.world : [r])
+    rules: shared.flatMap(r => r === 'world' ? world : [r])
       .map(name => source.resolve(`data/rules/${name}.kyr`)) };
   }
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
@@ -305,13 +307,15 @@ export class ModuleBundle {
   }
   private static async loading(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
+    canonless?: boolean;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
     const path = source.resolve(request.bundle);
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
     const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source);
-    const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source);
+    const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source,
+      options.canonless);
     const settled = await Promise.allSettled([...situationPaths, ...rulePaths,
       manifest.generation?.tables, manifest.generation?.templates].map((p, i) => !p ? Promise.resolve('{}')
       : source.read(i < situationPaths.length + rulePaths.length ? p : source.resolve(p, path))));

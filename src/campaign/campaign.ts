@@ -116,7 +116,7 @@ export class Campaign implements WatchHost {
       await step?.(i, manifest.modules.length);
       if (campaign) { await campaign.install(request, source, false); continue; }
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
-        party: party?.length }, source);
+        party: party?.length, canonless: manifest.canon === false }, source);
       if (party) { CompanyChoices.apply(draft, party); }
       EngineDeclarations.declare(draft);
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
@@ -133,8 +133,8 @@ export class Campaign implements WatchHost {
     this.installBoundary();
     if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
     await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
-    const draft = await ModuleBundle.load(request, { seed: this.current.seed, elapsed: this.current.elapsed,
-      installed: this.definition.installations, people: this.compiled.entities }, source);
+    const { seed, elapsed, canonless } = this.current, draft = await ModuleBundle.load(request, { seed, elapsed,
+      installed: this.definition.installations, people: this.compiled.entities, canonless }, source);
     // The catalogs are the process's, and whatever ran while the module was read (another game saving, or reading a
     // country ahead) may have put its own kinds in them: this campaign's go back, and the module's own with them,
     // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
