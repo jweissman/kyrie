@@ -646,7 +646,9 @@ export class GlanceStage {
     const within = a.for ?? a.inside?.[0]?.command ?? a.command;
     const inside = within && within !== c.command
       ? Attending.all(c.children ?? []).find(k => k.command === within)?.label : undefined;
-    const note = a.note ?? inside?.toLowerCase(), said = [label, ...a.marks.map(m => m.said)].join(' ').toLowerCase();
+    // Its first letter lowered as an aside's is, never the names in it ("ask brother anselm": M22's review).
+    const lowered = inside && `${inside.charAt(0).toLowerCase()}${inside.slice(1)}`;
+    const note = a.note ?? lowered, said = [label, ...a.marks.map(m => m.said)].join(' ').toLowerCase();
     return note && !said.includes(note.toLowerCase()) ? note : undefined;
   }
   // The quiet row: the nearest ways the glance rows (across the open country, the compass).
