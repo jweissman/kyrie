@@ -1128,7 +1128,7 @@ mission-22/baseline/. The unregistered M17–M21 promises the audit found (missi
 | OR-04 | The sign page lists twelve rows at once | partly: creation rows and signs page four at a time, never unfolded (composed-creation-browser); open: the name step (four names, Roll again, write your own) | P2 | M22 step 4/6 |
 | OR-05 | Boxed widgets remain: the warren's DANGER card, the map's + − ◎, the calling cards' edges, creation's Back / Set out now words | open (button-discovery.md: about 40) | P2 | M22 step 3 |
 | OR-06 | Rows carry two truncated asides ("the way yo… · The rats … wil…"); the way out prints its whole route ("a hole gnawed… › the trapd") | open (prose economy in rows) | P2 | M22 |
-| OR-07 | A person with no portrait shows a stray outlined circle behind the name (talk, Samwise at Newford) | open | P2 | M22 |
+| OR-07 | A person with no portrait shows a stray outlined circle behind the name (talk, Samwise at Newford) | by design: it is their people's emblem, large and faint behind the name (the owner, 5 November; TalkStage.Sitter); note: the human emblem, a ring, reads as a stray circle at a glance (a drawing to revisit, not a defect) | P3 | M22 |
 | OR-08 | Hold on set-out → first page 8.8–10.4 s on a laptop; the engine's `ready` preparation fires only from the old `company` phase, never from composed creation | open (measure first) | P1 | M22 step 6 |
 | OR-09 | Navigation → a usable title 8.9 s by hand, about 12.3 s by the keys (cold, with the studio mark); the script is 5.5 MB compressed, one 1.5 s compile | open | P1 | M22 step 6 |
 | OR-10 | No commit sound by default: `Tone` sounds only under `?ix`/`?touch` | open (design: step 3) | P3 | M22 |
