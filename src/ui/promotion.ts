@@ -59,7 +59,10 @@ export class Promotion {
     unvisited: [4, 0], way: [4, 1], present: [4, 2],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
-    const eligible = cands.filter(c => !c.barred).map(c => ({ c, whys: this.allowed(c, s) }))
+    // Someone perceived along a way is the places lens's to rank (Go…), not a reason to lead the place with going to
+    // look (the scene's four keep what is here: the notice, the dog's sign); a town entered from its country keeps it.
+    const eligible = cands.filter(c => !c.barred).map(c => ({ c, whys: this.allowed(c, s)
+      .filter(w => w !== 'companion' || !this.way(c) || c.whys.includes('entry')) }))
       .filter(x => x.whys.length).map(x => ({ ...x, best: this.best(x.whys) }));
     // A risk of the place's own (skittles) is led with only when there is nothing else.
     const choices = new Set(eligible.map(x => x.c.choice));
