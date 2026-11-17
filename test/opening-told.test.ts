@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame, Member, Message } from '../web/engine/protocol';
 import { Origins } from '../src/world/origins';
+import { AtlasOrigins } from '../src/world/origin-atlas';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { FictionalTime } from '../src/campaign/fictional-time';
 import { Typography } from '../src/presentation/typography';
@@ -9,13 +10,17 @@ import { Typography } from '../src/presentation/typography';
 // A new game's opening, told apart before the first place where the page asks (the owner's OWN-17): the origin's
 // chapter, why the company came in the origin's own words, then the arrival, naming the town; then the first place,
 // which tells neither again but what is there as the company comes. Every origin there is opens so (Kite holds them
-// all); a campaign whose origin says nothing as it opens (an authored one) has no opening, and a page that does not
-// ask (automation) is told it all in the place, as before.
+// all, and the reference world Iscoed its own three: see AtlasOrigins); a campaign whose origin says nothing as it
+// opens (an authored one) has no opening, and a page that does not ask (automation) is told it all in the place, as
+// before.
 class Opened {
   static readonly party: Member[] = [{ name: 'Aud', raceId: 'human', classId: 'warrior' }];
-  static readonly origins = ['kin', 'order', 'debt', 'herbs', 'wanderer', 'map', 'lost', 'courier'];
+  static readonly origins = ['kin', 'order', 'debt', 'herbs', 'wanderer', 'map', 'lost', 'courier', 'drove', 'pans',
+    'weir'];
+  // The world each begins in: Kite holds the library's eight, Iscoed (the strategic atlas's) its own three.
+  static seed(origin: string): string { return AtlasOrigins.binders.includes(origin) ? 'iscoed' : 'kite'; }
   static async begin(origin: string, apart: boolean, host = new EngineHost(() => undefined)): Promise<Frame> {
-    return await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', party: this.party, origin,
+    return await host.handle({ kind: 'begin', campaign: 'world', seed: this.seed(origin), party: this.party, origin,
       apart }) as Frame;
   }
   // What the origin says in the first moment, as a page sets it.
