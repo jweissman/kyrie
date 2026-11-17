@@ -41,7 +41,7 @@ export class ActionCensus {
   }
   // Rows of the menu not of the one height (the owner, 16 November night: "the heights of the items can't vary from
   // page to page"); a card (ancestry, calling) and a likeness's tile are compositions of their own.
-  static readonly shaped = '.card, .composed-card, .person, .creature, .lens-tile, details.how > summary';
+  static readonly shaped = '.card, .person, .creature, .lens-tile, details.how > summary';
   static uneven(page: Page, surface: string): Promise<Pressable[]> {
     return page.evaluate(({ surface, shaped }) => {
       const h = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--choice-h')) || 46;

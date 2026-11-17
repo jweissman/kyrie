@@ -9,7 +9,8 @@ import { ChoiceRow } from '../stage/choice-row';
 // of one line, its words and a quiet aside on the same line, its number at the right, marked at the left when it is the
 // one already chosen. A press is the choice made and the page gone on (see ComposedCreation); the hand or the keys on
 // it only consider it (onConsider), which the page shows and the engine never hears.
-// A card (ancestry, calling) is the same act drawn larger: its emblem, its name and its line.
+// Ancestry and calling are rows too, their emblem beside the name (the owner, M19: icons beside ancestry and calling
+// names; M22's second review, OR-42: a grid of cards had been a second control with its own focus and hold).
 // What is chosen is chosen by holding (the owner, 16 November: cards "should definitely require it"): the ring fills at
 // the hand and the choice is made when it is full; a tap only considers it and arms it, and a second tap, or an
 // assistive technology's click, does it (see Hold). A row that only turns a page or rolls again is a touch.
@@ -28,7 +29,9 @@ export class ComposedRow {
       ...hold ? ComposedRow.held(option.id, onConsider, () => onChoose(option.id, true))
         : { onClick: () => onChoose(option.id, false) } };
     return <ChoiceRow.Button className={`composed-row${chosen ? ' chosen' : ''}`} data={{ option: option.id }} own={own}
-      mark={chosen ? ComposedRow.before : ChoiceRow.neutral} label={Typography.curl(option.name)}
+      mark={chosen ? ComposedRow.before : ChoiceRow.neutral}
+      label={option.glyph ? <><Glyphs.View id={option.glyph} className="row-glyph" />{Typography.curl(option.name)}</>
+        : Typography.curl(option.name)}
       aside={Typography.curl(option.shut ?? option.aside ?? '')} extra={children} {...n !== undefined ? { number: n } : {}} />;
   }
   // The hand come to a choice that has moved since the page changed: the keys' focus goes with it, so that one choice
@@ -45,18 +48,5 @@ export class ComposedRow {
     const held = Hold.bind(commit);
     return { ...held, onPointerDown: (e: Parameters<typeof held.onPointerDown>[0]) => {
       e.currentTarget.focus({ preventScroll: true }); consider(id); held.onPointerDown(e); } };
-  }
-  static Card({ option, chosen, lit, onConsider, onChoose }: { option: Option; chosen?: boolean; lit?: boolean;
-    onConsider: (id: string) => void; onChoose: (id: string) => void }) {
-    return (
-      <button type="button" className="card composed-card" data-nav data-option={option.id} data-chosen={chosen || undefined}
-        disabled={!!option.shut} aria-current={chosen || undefined} data-considered={lit || undefined}
-        onMouseEnter={e => ComposedRow.hand(e.currentTarget) && onConsider(option.id)} onFocus={() => onConsider(option.id)}
-        {...ComposedRow.held(option.id, onConsider, () => onChoose(option.id))}>
-        {option.glyph && <Glyphs.View id={option.glyph} name={option.name} />}
-        <span className="card-name">{Typography.curl(option.name)}</span>
-        <span className="card-line">{Typography.curl(option.shut ?? option.aside ?? '')}</span>
-      </button>
-    );
   }
 }

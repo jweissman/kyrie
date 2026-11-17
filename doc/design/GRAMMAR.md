@@ -61,9 +61,9 @@ may write them (`test/small/page-slots`): a menu is made by the one page or it i
   to the row's height at full light. Pressed, held or taken, deeper still, at once; while the engine answers, the other
   rows go quiet after 80 ms. Never corners, never movement, never a box that changes size.
 - **Rows are undressed** (the owner, 16 November): no box or edge at rest, on the title, creation, the scene, talk, the
-  map's menu and the fight alike. A row is a choice by its mark and its line. *Not yet: the creation cards, the map's
+  map's menu and the fight alike. A row is a choice by its mark and its line. *Not yet: the map's
   zoom, the Book's tabs, the fight log's toggles and some forty other boxed buttons (button-discovery.md); the title's ways
-  in and creation's cards keep their own compositions, with focus and hover still one look there.*
+  in keep their centred ceremonial type.*
 - **A hand that has not moved lights nothing** (IG-18). The next screen does not light the row under a resting
   pointer: what it rests on was never pointed at. It lights again as soon as the hand moves or presses.
 - **The keys are on a row from the start.** Where a screen marks a row as current (the title's New game, creation's

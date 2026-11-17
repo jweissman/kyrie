@@ -40,7 +40,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
       const where = await page.getAttribute('.creation', 'data-page') ?? '';
       if (where === 'go') { break; }
       seen.push(where);
-      most.push(await page.locator('.composed-cards .card').count());
+      most.push(await page.locator('.composed-rows > [data-option]:not([data-option="more"])').count());
       if (where === 'sign') { expect(await page.locator('.observatory').count()).toBe(1); }
       // Each row its own height, its mark drawn, its words and aside apart (the owner, 16 November: creation's rows had
       // been squashed together, no mark, the aside run into the words, and no spec saw it).

@@ -23,7 +23,6 @@ import { Signature } from './signature';
 // its ring filled, or tapped once to be asked and again to go.
 export class ComposedCreation {
   static readonly folded = 4;
-  static readonly cards = 4;
   static View({ app }: { app: ReaderApp }) {
     const [at, go] = useState<string>('why'), [roll, reroll] = useState(0), [more, turn] = useState(0);
     const s = app.state;
@@ -79,7 +78,7 @@ export class ComposedCreation {
       if (step.id === 'sign' && !still) { flared(id); window.setTimeout(onward, ComposedCreation.flare); } else { onward(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
-    return <PageFrame.View kind="creation" {...frame} body={`composed-step${offer.cards ? ' with-cards' : ''}`}
+    return <PageFrame.View kind="creation" {...frame} body="composed-step"
       column="composed-col"
       background={step.id === 'sign' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} />}
@@ -93,17 +92,13 @@ export class ComposedCreation {
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after }: { offer: Offer; more: number;
     unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
     after?: ReactNode }) {
-    const all = offer.options, per = offer.cards ? ComposedCreation.cards : ComposedCreation.folded;
+    const all = offer.options, per = ComposedCreation.folded;
     // Never more than four at once, cards or rows (the owner, 15 and 16 November: four in the foreground, the rest a page
     // on, never unfolded): a row turns the page, and the pages go round.
     const pages = Math.ceil(all.length / per), folds = !offer.all && all.length > per, page = more % Math.max(1, pages);
     const shown = !folds ? all : all.slice(page * per, page * per + per);
     const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
-    if (offer.cards) {
-      return <div className="composed-cards">{shown.map(o => <ComposedRow.Card key={o.id} option={o} chosen={chosen === o.id}
-        lit={lit === o.id} onConsider={consider} onChoose={choose} />)}{rest}</div>;
-    }
     return (
       <div className={`composed-rows${shown.length > 7 ? ' many' : ''}`} role="menu">
         {shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined} chosen={chosen === o.id}
