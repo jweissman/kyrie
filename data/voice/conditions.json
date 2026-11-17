@@ -741,6 +741,18 @@
    "begins": "The thunder of Zephyrus rolls over {target}.",
    "ends": "The storm of Zephyrus passes from {target}."
   },
+  "plane_abyss": {
+   "begins": "The drop of the Abyss opens under {target}.",
+   "ends": "The Abyss lets go of {target}."
+  },
+  "plane_nirvana": {
+   "begins": "The stillness of Nirvana settles on {target}.",
+   "ends": "The stillness of Nirvana lifts from {target}."
+  },
+  "plane_exalted": {
+   "begins": "The light of the Mount falls on {target}.",
+   "ends": "The light of the Mount leaves {target}."
+  },
   "summoning": {
    "begins": "{target} begins a summoning.",
    "ends": "{target}'s summoning is done."

@@ -842,7 +842,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 22 | 53 | 17 | 5 | 5 | 8 |
+| 22 | 53 | 18 | 5 | 5 | 8 |
 
 #### quarter, inQuarter, heartOf
 
@@ -885,6 +885,12 @@ Something done that a company grows by (Milestone … worth … when …): achie
 *Kyr · kind* · `rule:world_core.difficulty`
 
 What a keeper of the deep fears that only its makers' own bane brings: the Stone-Singers' bell, the Wardens' oath. The ring's two: going down and coming up unhurt, on the wire or off a ladder (tumbling); and holding a house with a voice, an instrument or a face (performance). How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
+
+#### toBeat
+
+*Kyr · measure(difficulty)* · `rule:world_core.toBeat`
+
+Or a difficulty of a module's own, as hard as its rules set it from what they read (a debt's size, a keeper's temper): Set toBeat(owed_ask) to 10 + owed(party).
 
 #### terrainkind, terrain
 
