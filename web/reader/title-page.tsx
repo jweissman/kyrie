@@ -117,7 +117,7 @@ export class TitlePage {
       // The mark drawn by the page before the script (SiteBuild.mark) has been playing since the page began: what is
       // left of it, not the whole again.
       const left = TitlePage.early() ? Math.max(0, Ident.length - performance.now()) : Ident.length;
-      const next: Record<Beat, [Beat, number]> = { ident: ['dark', left], dark: ['reveal', 500],
+      const next: Record<Beat, [Beat, number]> = { ident: ['dark', left], dark: ['reveal', 400],
         reveal: ['ready', TitlePage.reveal], ready: ['ready', 0] };
       const [to, after] = next[beat], timer = setTimeout(() => go(to), after);
       // A touch on a way in already coming up (the reveal) is that way, at once (the owner, 6 November: New Game in

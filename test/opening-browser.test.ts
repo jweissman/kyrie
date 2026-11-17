@@ -140,7 +140,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       { site, pointer: true, query: '?ident' });
     const tapped: string[] = [];
     for (const [beat, how] of [['ident', 'tap'], ['dark', 'tap'], ['reveal', 'tap'], ['reveal', 'hold']] as const) {
-      if (tapped.length) { await page.reload(); }
+      // Watched from the page's first frame, as a player sees it, not from its load: the mark is in the page.
+      if (tapped.length) { await page.reload({ waitUntil: 'commit' }); }
       await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
       const begin = await Stage.begin(page);
       await (how === 'hold' ? Stage.held(page, begin) : page.touchscreen.tap(begin.x, begin.y));

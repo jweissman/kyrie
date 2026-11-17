@@ -150,7 +150,7 @@ html, body { overflow: hidden; }
 @keyframes fade-in { from { opacity: 0; } }
 /* The studio's mark (Ident): its timings are the page's, set on each part; here only how each part arrives. */
 .ident { position: absolute; inset: 0; z-index: 30; display: grid; place-content: center; justify-items: center;
-  gap: clamp(10px, 2.2vh, 20px); background: var(--ground); animation: ident-out 3.7s ease-in-out both; }
+  gap: clamp(10px, 2.2vh, 20px); background: var(--ground); animation: ident-out 2.8s ease-in-out both; }
 /* The mark in the page itself, before the script (SiteBuild.mark): the whole screen, put away where not to be played. */
 #pre-ident { position: fixed; }
 .no-pre-ident #pre-ident { display: none; }

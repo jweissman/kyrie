@@ -12,7 +12,8 @@ export class Ident {
   // When each part begins, in milliseconds from the first frame, and how long the whole mark lasts before it is gone.
   static readonly at = { ground: 100, tower: 300, rise: 85, spire: 520, lamp: 1080, kindle: 140, star: 1540,
     name: 1500 };
-  static readonly length = 3700;
+  // Held a little over a second once whole (the owner, 16 November: startup had seemed to take forever; it was 3.7 s).
+  static readonly length = 2800;
   // How tall a tower's spire stands over its lamp, in the mark's units; the tallest's reaches up to the star's point.
   static readonly spire = 6;
   static View({ studio }: { studio: string }) {
