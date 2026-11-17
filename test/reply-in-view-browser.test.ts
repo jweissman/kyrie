@@ -36,7 +36,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an answer that brings an aim', () =
       // And the four in view whole beneath it: the record gives way, never the menu (a row had been cut in half).
       const choosing = document.querySelector('.dialogue .answer > .choosing')!;
       return { aim: lines.some(l => l.classList.contains('aim')), answered: !!answer,
-        begins: !!answer && answer.getBoundingClientRect().top >= top - 1,
+        // below the fade over what was said before, where there is any above it (talk.css: 48 px)
+        begins: !!answer && answer.getBoundingClientRect().top >= top + (box.scrollTop > 4 ? 47 : -1),
         whole: choosing.scrollHeight - choosing.clientHeight <= 1 };
     });
     expect(seen).toEqual({ aim: true, answered: true, begins: true, whole: true });

@@ -153,6 +153,8 @@ export class TalkStage {
   // What has passed between you, newest last and kept in view; when the newest is longer than there is room for, from
   // its beginning (what you said), not its end; but a new aim it brings is kept in view whole, before its beginning
   // (round 5: "A new aim" fell below the room for talk, and was seen only in the notes).
+  // How deep the fade over what was said before is (talk.css .lines[data-above]).
+  static readonly fade = 48;
   static Lines({ lines, pending, ready, app }: { lines: TalkLine[]; pending?: string; ready?: string; app?: ReaderApp }) {
     const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
     const aim = useRef<HTMLParagraphElement>(null), answer = useRef<HTMLParagraphElement>(null);
@@ -172,6 +174,11 @@ export class TalkStage {
       const room = box && answer.current ? answer.current.getBoundingClientRect().top - box.getBoundingClientRect().top
         : Infinity;
       if (box && below > 0) { box.scrollTop += Math.min(below, Math.max(0, room)); }
+      // The answer's first words below the fade over what was said before (M22's third review: each reply's first line
+      // had been faded as if it had scrolled away).
+      const under = box && answer.current ? TalkStage.fade - (answer.current.getBoundingClientRect().top
+        - box.getBoundingClientRect().top) : 0;
+      if (box && under > 0 && box.scrollTop > 4) { box.scrollTop -= Math.min(box.scrollTop, under); }
       // Where what was said begins above what is in view (an aim kept whole under it), the box says so at its head.
       box?.toggleAttribute('data-above', box.scrollTop > 4);
     }, [lines.length, pending]);
