@@ -73,7 +73,19 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
 1. **An independently reviewed, unedited deployed recording.**
    - First review (review-e729.md) of the deployed opening at e729, scored out of 10: coherence 6, legibility 5, beauty
      at rest 7, restraint 6, responsiveness 7. Its findings became OR-22..34, most since repaired.
-   - Second review: SECOND-REVIEW.
+   - Second review (review-43697c8a.md), of the deployed opening at 43697c8a on desktop and a phone, blind to the
+     first: coherence 5, legibility 5, beauty at rest 7, restraint 5, responsiveness 6.
+   - By that measure the opening is no better than at e729. Coherence, restraint and responsiveness are each one point
+     lower; legibility and beauty are the same.
+   - The two reviews saw different worlds and different walks, so the scores are not a controlled comparison. But
+     neither review says the controls have disappeared, and this one says why:
+     - four control idioms in creation;
+     - a reply that matters pushed off while its bookkeeping stays;
+     - a first act (Follow) that tells nothing;
+     - on the phone, a press that fell through onto the rail (OR-39, fixed since, with a pin);
+     - a season that contradicts its painting.
+   - Its findings are OR-39..46. Item 1 is met as a process (an independently reviewed, unedited deployed recording),
+     not as a verdict: the verdict is that M22's structural unification is not yet felt by someone watching.
 2. **A coherent, tested primary interaction across title, creation, exploration, conversation, maps and combat.**
    - Met in structure: the one row, its states, its hold, one menu a page, held by the census, the row geometry pins
      and the hold, opening, talk, fight and map specs.
@@ -108,6 +120,9 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
   - OR-30: words and pictures that disagree;
   - OR-32: creation's empty left half;
   - OR-33: "You know now" on a greeting.
+- **The second review's findings**: OR-40 (the reply that matters pushed off), OR-41 (Follow tells nothing), OR-42
+  (creation's four idioms and three hold marks), OR-43 (late portrait, blank between beats), OR-44 (keys only after
+  the reveal), OR-46 (season against the painting).
 - **The sign's turn** sweeps the lit figure under the rows while it turns (seen in stills; by design of the turn, but
   busy).
 - **US-07's rest, GT-01's rest** (drowning, level drain, the outer planes) and the 57 unverified rows.
