@@ -184,7 +184,7 @@ export class Content {
       base: { ...scores as Record<Attribute, number>, level, abilities: [], maxHp: 1, maxMana: 0, speed: 0 },
       state: { hp: 1, mana: 0, gold: 0, experience: 0, learnedAbilities: [], conditions: [] } };
     if (context.backgroundId) { creature.backgroundId = context.backgroundId; }
-    if (context.likeness) { creature.likeness = context.likeness; }
+    for (const k of ['likeness', 'sign'] as const) { if (context[k]) { creature[k] = context[k]; } }
     if (context.professionId) { creature.professionId = context.professionId; }
     Overlays.validate({ classId, backgroundId: context.backgroundId, professionId: context.professionId }, id);
     Overlays.apply(creature);

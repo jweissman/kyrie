@@ -32,6 +32,19 @@ describe('the company\'s instruments', () => {
     await mage.play('To the barn');
     expect(sky(mage)).toBeUndefined();
   });
+  // The sign chosen at creation is the one made's, kept on them (OR-13: it had reached no creature, and a world
+  // started under any sign was the same), and the sky names it as theirs when it rises.
+  it('keep the sign the one made was born under, and name it as theirs when it rises', async () => {
+    const born = (sign: string) => Tiny.start(field, { party: [{ name: 'Wat', raceId: 'human', classId: 'mage', sign }],
+      calendar: { year: 1312, month: 6, day: 5 } });
+    const scythe = await born('sign_scythe'), bear = await born('sign_bear');
+    expect(scythe.campaign.readout.creatures.find(c => c.name === 'Wat')!.sign).toBe('sign_scythe');
+    for (const t of [scythe, bear]) { await t.play('Wait › Until dark'); }
+    const said = (t: Tiny) => t.leaf.instruments!.find(i => i.id === 'sky')!.said;
+    expect(said(scythe)).toMatch(/, and the Scythe rising, your own sign\.$/);
+    expect(said(bear)).toMatch(/, and the Scythe rising\.$/);
+    await expect(born('sign_nowhere')).rejects.toThrow(/Unknown sign/);
+  });
   it('count the provisions exactly, and bring them forward as night comes on', async () => {
     const t = await at('warrior'), food = () => t.leaf.instruments!.find(i => i.id === 'provisions')!;
     expect(food().said).toMatch(/^Food for \\d+ days?|^No food/);

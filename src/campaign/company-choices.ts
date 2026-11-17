@@ -1,4 +1,5 @@
 import { Content, type CreatureGenerationContext } from '../content';
+import sky from '../../data/imbar/sky.json';
 import { Likeness } from '../paintings/likeness';
 import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
@@ -59,6 +60,8 @@ export class CompanyChoices {
       }
       // A likeness chosen at creation is a painting of the collection's (see Likeness).
       if (context.likeness && !Likeness.ids.has(context.likeness)) { throw new Error('Unknown likeness'); }
+      // So is a sign one of Imbar's sky's (OR-13: chosen at creation, it had reached no creature).
+      if (context.sign && !sky.signs.some(x => x.id === context.sign)) { throw new Error('Unknown sign'); }
       // Rolls placed at creation are six, one to each quality, each three dice.
       const rolled = context.rolled;
       if (rolled && (Object.keys(rolled).length !== 6
@@ -76,6 +79,7 @@ export class CompanyChoices {
         ...(context.armor ? { armor: context.armor } : {}),
         ...(context.rolled ? { rolled: { ...context.rolled } } : {}),
         ...(context.likeness ? { likeness: context.likeness } : {}),
+        ...(context.sign ? { sign: context.sign } : {}),
         ...(context.pronouns ? { pronouns: context.pronouns } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }

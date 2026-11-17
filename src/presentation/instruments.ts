@@ -37,9 +37,18 @@ export class Instruments {
     // By day there is no moon to read nor stars to name; by night the moon, and the sign to one who knows it.
     const sign = this.reader(campaign) ? sky.signs.find(s => s.month === date.name) : undefined;
     const moon = phases[Math.floor(((date.day - 1) / 30) * phases.length) % phases.length]!;
-    const said = !dark ? 'Daylight.' : `${moon[0]!.toUpperCase()}${moon.slice(1)}${sign ? `, and ${sign.name} rising` : ''}.`;
+    const own = sign && this.born(campaign, sign.id);
+    const said = !dark ? 'Daylight.'
+      : `${moon[0]!.toUpperCase()}${moon.slice(1)}${sign ? `, and ${sign.name} rising${own ? `, ${own}` : ''}` : ''}.`;
     const told = dark && sign ? `${sign.name}: ${sign.line}` : undefined;
     return [{ id: 'sky', ...this.named('sky', told), said, ...dark && sign ? { emblem: sign.id } : {}, relevant: dark }];
+  }
+  // Whose sign it is, of the company's, if one was born under it (chosen at creation: OR-13): one who came alone is
+  // told of their own.
+  private static born(campaign: Campaign, sign: string): string | undefined {
+    const ids = campaign.readout.partyIds;
+    const under = campaign.readout.creatures.find(c => ids.includes(c.id) && c.sign === sign);
+    return !under ? undefined : ids.length === 1 ? 'your own sign' : `${under.name}'s own sign`;
   }
   // Whether anyone of the company reads the stars.
   private static reader(campaign: Campaign): boolean {

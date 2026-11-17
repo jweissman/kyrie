@@ -1,3 +1,4 @@
+import sky from '../data/imbar/sky.json';
 import { ItemCatalog } from './item-catalog';
 import { Canon } from './canon/canon';
 import { DailyUses, type Daily } from './rules/daily-uses';
@@ -24,6 +25,8 @@ export interface Creature {
   traits?: string[]; generation?: { trace: string[] };
   // A painting chosen to be them, by its id in the collection: the protagonist's, chosen at creation.
   likeness?: string;
+  // The sign of Imbar's sky they were born under (data/imbar/sky.json), the protagonist's, chosen at creation.
+  sign?: string;
   // What it is beside its kind (data/catalog/variations.json): old, of iron, of the red lineage; kept as it was made.
   variations?: string[];
   base: Attributes & {
@@ -63,6 +66,15 @@ export class CreatureSchema {
   static readonly attributes: Attribute[] = [
     'strength', 'dexterity', 'intelligence', 'wisdom', 'constitution', 'charisma',
   ];
+  // What was chosen to be them: a likeness, a painting's id; a sign, one of Imbar's sky's.
+  private static marks(creature: Creature) {
+    if (creature.likeness !== undefined && (typeof creature.likeness !== 'string' || !creature.likeness)) {
+      throw new Error(`${creature.id}: a likeness is a painting's id`);
+    }
+    if (creature.sign !== undefined && !sky.signs.some(x => x.id === creature.sign)) {
+      throw new Error(`${creature.id}: a sign is one of Imbar's sky`);
+    }
+  }
   static validate(creature: Creature) {
     if (Object.hasOwn(creature.base, 'scores')) {
       throw new Error('Legacy score/modifier creature data requires migration');
@@ -70,9 +82,7 @@ export class CreatureSchema {
     if (![creature.id, creature.name, creature.raceId].every(v => typeof v === 'string' && v.length)) {
       throw new Error('Creature needs identity, name and kind');
     }
-    if (creature.likeness !== undefined && (typeof creature.likeness !== 'string' || !creature.likeness)) {
-      throw new Error(`${creature.id}: a likeness is a painting's id`);
-    }
+    CreatureSchema.marks(creature);
     if (Canon.isBody(creature.raceId) ? creature.classId !== undefined
       : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Canon.classes[creature.classId]) {
       throw new Error(`${creature.id}: a person has an ancestry and a class; a species creature has no class`);
