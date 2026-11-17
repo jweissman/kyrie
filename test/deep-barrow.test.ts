@@ -109,9 +109,12 @@ describe('a king-barrow from the same generator as the mine', () => {
   // Played in cov13: the robbers' captain "stands its ground", and "it is more than the company can take". One alone
   // is spoken of by name, and to one who has come alone, as you.
   it('speaks of one who is someone, not something, without "it"', async () => {
-    const { s, room } = await Barrow.world('cov13');
-    Barrow.set(s, [{ kind: 'retract', call: ModuleWriter.call('unlit', room('barrow_back_stone')) },
-      { kind: 'assert', call: ModuleWriter.call('at', 'party', room('barrow_back_stone')) }]);
+    const { s } = await Barrow.world('cov13');
+    // Wherever the first level's elite stands (a branch's end since SI-01; the back-stone when this was written).
+    const band = s.campaign.module.entities.find(e => e.type === 'group' && e.name.startsWith('the robbers\' captain'))!;
+    const lair = s.campaign.world.one('at', band.id)!;
+    Barrow.set(s, [{ kind: 'retract', call: ModuleWriter.call('unlit', lair) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', lair) }]);
     const said = await Barrow.take(s, /^Wait a while$/);
     expect(said).toContain('captain stands and watches you, and will not have you here for long');
     const captain = ScreenModel.build(s.campaign).people.find(p => p.name.startsWith('the robbers\' captain'))!;
