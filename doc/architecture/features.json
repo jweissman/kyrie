@@ -58,7 +58,7 @@
     ["\\bsearch|\\blook(ing)? |\\bclue|discover|investigat|\\bfinds?\\b", "discovery"]
   ],
   "rows": {
-    "OR-12": "atlas",
+    "OR-13": "atlas",
     "OR-01": "opening",
     "OR-02": "fight",
     "OR-03": "talk",
@@ -74,6 +74,8 @@
     "OB-01": "docs",
     "OB-02": "testing",
     "OB-03": "docs",
+    "SI-01": "world", "SI-02": "world", "SI-03": "discovery", "SI-04": "discovery", "SI-05": "trade", "SI-06": "discovery",
+    "SI-07": "trade", "SI-08": "scene",
     "FH-01": "opening",
     "AB-01": "fight",
     "AB-02": "fight",

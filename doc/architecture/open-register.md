@@ -1137,4 +1137,20 @@ mission-22/baseline/. The unregistered M17–M21 promises the audit found (missi
 | OB-01 | Register scripts skip §49–§50's three-column tables (13 rows, 8 live); PB-15 twice | open | P2 | M22 step 1 |
 | OB-02 | Five `it.skip` journeys (OA-01..04, silent-lord-turns with AI-02 closed) and five `it.failing` pins (crossing-order AX-07; familiar scouting; atlas-perception ×3) without rows of their own | open | P2 | M22 ∥E |
 | OB-03 | Unregistered promises: Wander; a career rule for the commoner; familiar scouting; focus as engine state and a controller; the owner's preservation asks (middle scale, almanac, tarot, paragon journeys) | open (prospectus, Phase 5) | P3 | M22 |
-| OR-12 | The way into a band is told only in a room's prose: a band heard behind a way (Marks `heard`) drew no colour, and a silent ambush's sign at the mouth of a way marks nothing (the sites audit, mission-22/sites) | partly: a way with something heard in there is red (Aspects.of; small/indicator-condition); open: the ambush's seen sign wants a structured fact from DeepSounds to mark its way (coordinate with the sites work) | P1 | M22 |
+| OR-13 | The way into a band is told only in a room's prose: a band heard behind a way (Marks `heard`) drew no colour, and a silent ambush's sign at the mouth of a way marks nothing (the sites audit, mission-22/sites) | partly: a way with something heard in there is red (Aspects.of; small/indicator-condition); open: the ambush's seen sign wants a structured fact from DeepSounds to mark its way (coordinate with the sites work) | P1 | M22 |
+
+## 52. M22 sites: the substantial early sites (16 November)
+
+Found by the sites commission's Phase A (mission-22/sites/phase-a.md): a census of a1, b2 and c3 from the compiled
+campaign and 41 careful and bold walks through the undertown, the catacombs below it and the deep sites.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| SI-01 | Silent ambushes on the direct route: on level 0 of a deep site an ambush stands on the spine 0.7–1.6 times a site and an elite of level 3–5 0.5–1.1 times; reached by a routed or one-way move (the winze foot, the ore pass), they killed 13 of 21 careful and bold walks | open | P1 | M22 sites |
+| SI-02 | The catacombs under the start town are named "the old dead under …" and typed a barrow whatever their purpose (region-undertown.ts:70): in a1 they are the Delvers' mine, and the innkeeper says "the Delvers' mine at the old dead under Lowmouth" | open | P2 | M22 sites |
+| SI-03 | Searches are empty about half the time ("You have been over the whole of it, and nothing is hidden here"); the promised finds, whose cue is in the scene, are the model | open | P2 | M22 sites |
+| SI-04 | The pole answers every one of the six trap mechanisms (snares.json), flattening the callings' remedies (trapwork, lore, rites, insight, woodcraft) | open (design) | P3 | M22 sites |
+| SI-05 | Chalk, mirror, hammer, manacles and lock are sold and do nothing: no rule reads them (M19 items G11, still) | open | P3 | M22 sites |
+| SI-06 | The country's history is lore-gated (the makers' marks, the seal's words): two callings of seven have lore, the glossary costs 80; no walk learned a makers' fate, so the great work's inference never completed | open | P2 | M22 sites |
+| SI-07 | CB-22 worsened: the home-to-spend ratio is 2.78–4.98 (a1, b2, c3), against 1.07–2.47 on 3 November; a mine's ore is paid at its full worth (deep-sites.ts:176), and one b2 trip netted 600–731 coin against a 50-coin debt | open | P1 | M22 sites |
+| SI-08 | A way into an ambush carries no mark: the sign ("the quiet of something holding its breath", deep-sounds.ts:21-25) is a sentence of the room's prose, and a one-way drop offers no look first | open (interaction grammar: the lead) | P1 | M22 |
