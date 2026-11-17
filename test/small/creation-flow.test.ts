@@ -30,6 +30,25 @@ describe('making the protagonist', () => {
     flow.choose('before', kind);
     expect(flow.member.backgroundId).toBe('prospector');
   });
+  // A life is not shown before it is chosen (M22's reviews, OR-25/OR-50: a mage's "before" page described Brawn, the
+  // starting warrior's past): a past nobody chose follows the calling; none is laid over one the reason for coming
+  // gives.
+  it('takes the new calling\'s own past where none was chosen, and lays none over a reason for coming\'s', () => {
+    const catalog = Creation.catalog(), own = (calling: string) => catalog.callings.find(c => c.id === calling)!.trade;
+    const flow = new CreationFlow(setting, catalog);
+    flow.choose('why', 'debt');
+    flow.choose('calling', 'warrior');
+    flow.choose('calling', 'mage');
+    expect(flow.member.backgroundId).toBe(own('mage'));
+    const before = flow.steps().find(s => s.id === 'before')!;
+    expect(before.cards.map(c => c.id)).toContain(before.chosen);
+    const wandering = new CreationFlow(setting, catalog);
+    wandering.choose('why', 'wanderer');
+    wandering.choose('calling', 'warrior');
+    wandering.choose('calling', 'mage');
+    // The reason for coming brings its own trade (set out with it): no calling's past is laid over it.
+    expect([undefined, 'drifter']).toContain(wandering.member.backgroundId);
+  });
   it('is one flow: its steps, its cards, and what a choice settles', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
     // The calling only: its way (a mage's school) is not asked, but the calling's own until chosen in play.
