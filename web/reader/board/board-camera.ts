@@ -72,11 +72,14 @@ export class BoardCamera {
     t.x -= off.x; t.z -= off.y; this.camera.position.x -= off.x; this.camera.position.z -= off.y;
     return true;
   }
-  // Whether a point on the land is well within the view, and not under anything over it.
+  // Whether a point on the land is well within the view, and not under anything over it: its sign as well as its
+  // point, by the margin a sign is brought out by (see clear; a sign's foot had stood over the top of the card).
   sees(p: Vector2, over: Box[] = []): boolean {
     const v = new Vector3(p.x, 0.4, p.y).project(this.camera);
-    return v.z < 1 && Math.abs(v.x) < 0.82 && Math.abs(v.y) < 0.78 && !BoardCamera.under(v, over, 0.02);
+    return v.z < 1 && Math.abs(v.x) < 0.82 && Math.abs(v.y) < 0.78 && !BoardCamera.under(v, over, BoardCamera.SIGN);
   }
+  // About half a sign, on the view, around the point it stands for.
+  private static readonly SIGN = 0.06;
   // What is chosen brought into view only if it is not in it already: framed together with where you are, the view
   // standing off as far as it must for both to be seen, and no further; and never left under the card that says it
   // (a lone tower heard of, chosen from the Notes, had stood under "You are at Karir": the playtest of 7 November).
@@ -108,10 +111,21 @@ export class BoardCamera {
   private static readonly NAME = 0.25;
   // Where to look so that a point is clear of what covers the view: looking at the target given, unless the point
   // would be under something there; then moved the least way that brings it out beside it (left of a card at the
-  // right, above one along the foot), along the ground as the view is turned.
+  // right, above one along the foot), along the ground as the view is turned. Each step is reckoned as if the view
+  // moved evenly, which it does not from far off, so it is taken again from where it brought the view, a few times.
   private clear(p: Vector2, target: Vector2, far: number, over: Box[]): Vector2 {
-    const at = this.seen(p, target, far), box = BoardCamera.under(at, over, 0.06);
-    if (!box) { return target; }
+    let at = target;
+    for (let i = 0; i < 4; i++) {
+      const next = this.beside(p, at, far, over);
+      if (!next) { break; }
+      at = next;
+    }
+    return at;
+  }
+  // One step of that: where to look instead, or nothing if the point is clear from here.
+  private beside(p: Vector2, target: Vector2, far: number, over: Box[]): Vector2 | undefined {
+    const at = this.seen(p, target, far), box = BoardCamera.under(at, over, BoardCamera.SIGN);
+    if (!box) { return undefined; }
     const m = 0.1, left = box.x0 - m - BoardCamera.NAME;
     const moves = [[left - at.x, 0], [box.x1 + m - at.x, 0], [0, box.y0 - m - at.y], [0, box.y1 + m - at.y]]
       .filter(([dx, dy]) => Math.abs(at.x + dx!) < 0.85 && Math.abs(at.y + dy!) < 0.85)
@@ -124,7 +138,7 @@ export class BoardCamera {
     const a = this.seen(p, target.clone().add(new Vector2(right.x, right.z)), far).sub(at);
     const b = this.seen(p, target.clone().add(new Vector2(ahead.x, ahead.z)), far).sub(at);
     const det = a.x * b.y - a.y * b.x;
-    if (Math.abs(det) < 1e-6) { return target; }
+    if (Math.abs(det) < 1e-6) { return undefined; }
     const s = (dx! * b.y - dy! * b.x) / det, t = (a.x * dy! - a.y * dx!) / det;
     return target.clone().add(new Vector2(right.x * s + ahead.x * t, right.z * s + ahead.z * t));
   }
