@@ -129,4 +129,21 @@ Under the gate-well (`data/goings-on/iscoed-gate`, the same module):
 Held by `test/iscoed-sea-gate`, which goes down, takes the key and slate, finds the store, waits for the ebb and opens
 the door; then lets the tide come, and then shuts the gate, each remembered where it is talked of.
 
-Next: step 4, the capability bought with an expedition's gains.
+## Step 4: what the gains buy
+
+Before, a +500 trip bought only a glossary, a lantern and a hireling (WD-07). Now Gwil Pryce, a boat-wright on
+Porthalen's landing, sells a **fen-boat** for thirty coin. That is exactly the reeve's reward for the shut gate, or ten
+shifts at the pans. Owned, it opens ways no road goes:
+
+- **Down the sluice-cut by water into the smugglers' store.** This is the lower works' other way in, which needs no
+  ladder and no well.
+- **Across the drowned fen to the mere.** The Barrow-Kin's chapel stands there in the water, floored with bones. Its
+  bell, rung, is answered by the sea-gate's chain a mile off, and a bell-coin (30) lies among the bones.
+
+Held by `test/iscoed-fen-boat`. The sea-bank offers neither way before the boat. The reeve's thirty pays for it, coin
+for coin, and then both ways open, the cut into the store and the bell rung.
+
+The salt-licence the orientation proposed is not built. A licence that sells salt dear in Brynach needs a price that
+follows a country's want (WD-04), or a module in Brynach that can read a thing carried from Iscoed's (WD-16).
+
+Next: step 5, the roads north and west.

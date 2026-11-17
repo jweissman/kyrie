@@ -140,5 +140,45 @@ Module gate "The last sea-gate" {
   Observe flood_talk at green as sign when flooded(party) "Gatesend's people are sleeping in the shrine at Porthalen, and the reeve's notice on the well-post has a line through it.".
   Observe hamlet_shut at hamletgreen as sign when mended(party) "Every weir below the sea-bank has a trap set in it, and the water through them runs the right way: out.".
   Observe hamlet_flooded at hamletgreen as sign when flooded(party) "Water stands a foot deep in the lanes. The doors are shut and the nets are gone off the fences, and nobody is about.".
+
+  // ── The fen-boat: what an expedition's gains buy at Porthalen that a company could not do before. A boat-wright on
+  // the landing builds the flat fen-boats the eel-men pole; owned, it takes the company where no road goes: down the
+  // sluice-cut by water into the smugglers' store (the lower works' other way in), and out across the drowned fen to
+  // the drowned mere, where the Barrow-Kin's chapel stands in the water with its bell.
+  Relation boated(group). Relation rung(group).
+  Person wright "Gwil Pryce" at green { Role "a boat-wright on the landing, who builds the flat fen-boats the eel-men pole". Pronouns he. Peaceable. Manner cheerful. }
+  Entity boat_offer: fact "Gwil Pryce, the boat-wright on Porthalen's landing, sells a fen-boat with its pole for thirty coin: it goes where no road does, by the cuts and the meres.".
+  Observe wright_sign at green as sign when not boated(party) and not knows(party, boat_offer) "On the landing a man is caulking the seams of a flat-bottomed boat no longer than a cart, and three more stand finished on trestles with a chalked price on each: thirty." teaches boat_offer.
+  Action buy_boat(actor: group, site: place) "Buy one of Gwil's fen-boats, thirty coin" {
+    Speaker wright. Time 20 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and quantity(actor, gold) >= 30 and not boated(actor).
+    Result "Gwil spits on his palm and shakes on it, and walks you down to the water to show you how she poles: stand at the stern, push off the bottom, never against the bank. 'She'll go anywhere there's a hand of water,' he says. 'The cuts, the meres. The old channel to the drowned mere, if you want to see the bell.'".
+    On success { Decrease quantity(actor, gold) by 30. Assert boated(actor). }
+  }
+  Place sluicecut "the sluice-cut, by water" is room within hamlet at 3, 1.
+  Place mere "the drowned mere" is room within hamlet at 1, 4 outdoors.
+  Place chapel "the drowned chapel in the drowned mere" is room within hamlet at 0, 4.
+  Initially Assert unlit(chapel).
+  Passage bank_cut "the fen-boat, down the sluice-cut" is passage between bank and sluicecut taking 20 minutes opening when boated(party) "There is no way down the sluice-cut but by water, and you have no boat.".
+  Passage cut_store "the water-gate under the ledge" is passage between sluicecut and store opening when boated(party) "".
+  Passage bank_mere "the fen-boat, out across the fen to the drowned mere" is passage between bank and mere taking 1 hours opening when boated(party) "The drowned mere is a mile out across the fen, and there is no road to it, only water.".
+  Passage mere_chapel "the chapel's drowned door" is doorway between mere and chapel.
+  Observe cut_scene at sluicecut when true "A straight cut of black water runs under the sea-bank, its stone sides green to the tide-line. At its end a low water-gate opens under a ledge: the smugglers' way into the sea-gate, and now yours.".
+  Observe mere_scene at mere when true "A round mere of still grey water, wider than Porthalen, with reeds all round it and the sky lying in it. In its middle a chapel stands up out of the water to its window-sills, its little bell-cote leaning.".
+  Observe chapel_scene at chapel when true "Water to the knee, cold and clear over a floor of bones laid in rows like cobbles. On the wall over the altar the Barrow-Kin's dead are painted standing, each with a bell in its hand.".
+  Entity bell_known: fact "In the drowned mere the Barrow-Kin's chapel stands in the water, and its bell rings for the dead whenever the tide turns at the sea-gate.".
+  Thing bell "the chapel's bell" at chapel {
+    State still "A bronze bell hangs from a beam over the water, green, with a rope of rotten hair.".
+    State ringing "The bell is still humming, a long time after.".
+    Change ring "Ring the chapel's bell" from still to ringing.
+  }
+  Rule bell_rung when state(bell, ringing) and not rung(party) says "The note goes out over the mere and does not stop. Across the fen, a mile off, something answers it: the sea-gate's chain, moving in its slot, as if the tide had heard." teaches bell_known { Assert rung(party). }
+  Kind bell_coin_kind "a Barrow-Kin's bell-coin" is treasure worth 30 weighing 0 described "A coin of the old bronze with a bell struck on one face and on the other nothing, worn smooth by a dead hand.".
+  Item bell_coins "a Barrow-Kin's bell-coin" is bell_coin_kind at chapel hidden until coins_found.
+  Discovery coins_found "Among the bones of the chapel floor lies a bell-coin of the Barrow-Kin." {
+    Found by searching chapel "Under the water, between two rows of the bone floor, your fingers find a coin, then the hollow where a hand held it.".
+  }
+  Milestone m_boat "bought a fen-boat and took it out on the drowned mere" worth 80 when been(party, mere).
+  Objective boat_out when boated(party) and not been(party, mere) toward bank "Take the fen-boat out from the sea-bank at Gatesend, across the drowned fen to the drowned mere and its chapel.".
   Goal mended(party).
 }
