@@ -23,7 +23,11 @@ describe('the people of the camp and the first town', () => {
   }, 900000);
 
   it('has a frightened labourer who will give the pay-chest key for his wages, a thief who can pick it, and a foreman who turns on a company that carries off the torc', async () => {
+    // The crew suffers the company to stand in the camp while it talks to the boy: the territorial hands had come at it
+    // as it lingered, and the company had won that fight only by the spells its casters drew (the draw by rank, case
+    // 11 of srd-proving-cases.md, lost it); the camp's fight is test/bound-howe's.
     const j = await Howe.at('lee');
+    j.assert('tolerates', R('crew'), 'party');
     j.coin(20);
     await j.play('Ask .+ what is wrong');
     expect(Howe.holds(j, 'knows', 'party', R('face_thin'))).toBe(true);

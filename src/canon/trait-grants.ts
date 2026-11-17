@@ -4,7 +4,7 @@ import type { Creature } from '../creature';
 import { SpellSelection } from '../rules/spell-selection';
 import { Creation } from '../rules/creation';
 
-interface Chooser { pick<T>(options: T[]): T }
+interface Chooser { pick<T>(options: T[]): T; readonly key?: string }
 // What a creature's chosen traits are and give it. Requirements are checked at creation, so a character can never hold
 // a trait its ancestry, class or level does not allow. A class with specializations (Orsino's traitChoices) takes
 // exactly one; when none is given, one is drawn, as Orsino's autogen does. A feat is bounded by its own requirements.
@@ -59,7 +59,8 @@ export class TraitGrants {
     const traits = (creature.traits ?? []).map(id => Canon.traits[id]!);
     const specialist = traits.find(t => t.spellAccess);
     if (how.spells && !specialist) { throw new Error(`${creature.id}: only a specialist chooses spells`); }
-    const pick = chooser.pick.bind(chooser) as (options: string[]) => string;
+    const pick = chooser.key === undefined ? chooser.pick.bind(chooser) as (options: string[]) => string
+      : SpellSelection.ranked(chooser.key);
     const spells = !specialist ? [] : how.prepared && !how.spells
       ? SpellSelection.prepare(specialist, creature.base.level, pick)
       : SpellSelection.choose(specialist, how.spells, pick, creature.id);

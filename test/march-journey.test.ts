@@ -37,7 +37,8 @@ class Journey {
     'go(march__ridge_track,march__causeway)', 'go(march__causeway_path,march__quay)',
     'go(march__oar_door,march__taproom)', 'take_lodging(march__maud_lodging,march__maud)',
     'raise_quality(march__member_party_1,dexterity)', 'raise_quality(march__member_party_2,strength)',
-    'raise_quality(march__member_party_3,wisdom)', 'learn_spell(march__member_party_3,smite)'];
+    // The cleric knows Smite from the first since the spell draw by rank (srd-proving-cases.md, case 11): Bless.
+    'raise_quality(march__member_party_3,wisdom)', 'learn_spell(march__member_party_3,bless)'];
   static readonly tower = [
     'go(march__oar_door,march__quay)', 'go(march__shrine_door,march__shrine)', 'word__iven_graves',
     'go(march__shrine_door,march__quay)', 'go(march__shop_door,march__shop_floor)',
