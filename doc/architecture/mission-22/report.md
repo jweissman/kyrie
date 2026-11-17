@@ -140,8 +140,8 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
    - The opportunity census (census/opportunity-depth-2026-11-16.md) is a baseline, not yet a raised floor.
 6. **A reconciled register and design recommendations.**
    - The register counts every row: 645 (fifteen from the second and third reviews; since round 7, seven from the
-     owner's notes of 17 November, OR-54..60, and one from the SRD work, SR-01); 232 fixed, 173 open, 152 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition; P1: 123 fixed,
-     26 open, 63 partly. At the mission's start it was 615: 193 fixed, 206 open, 124 partly.
+     owner's notes of 17 November, OR-54..60, and one from the SRD work, SR-01); 232 fixed, 172 open, 153 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition; P1: 123 fixed,
+     25 open, 64 partly. At the mission's start it was 615: 193 fixed, 206 open, 124 partly.
    - The last round (7) took the open P1 rows from 33 to 23:
      - the aim's lead into a site room by room (PB-16, EX-03, gold walker a1 2/11 → 4/11 guided turns for a
        warrior);
@@ -158,7 +158,11 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
      - the open country told eight ways a kind of land, not three (CO-03, R11-06);
      - the waits saying they mend nothing (FH-14);
      - PL-17, R10-13 and US-08 held by specs at last.
-   - Register zero was the owner's aim and is not reached: 173 rows are open and 33 are still "unverified" (mostly
+   - Round 9 took up the owner's OR-60 (play feels shallow; hooks do not onboard): the first hour diagnosed headless
+     in a1, kite and thorn (onboarding-diagnosis.md), and three causes fixed and pinned. Every hook now names its
+     first step; the wanderer is told the town's work at the inn; a lesson says what earns it. Left for the lead's
+     ranking: the four never lead with an ordinary act (0 of a1's 91 first-town places).
+   - Register zero was the owner's aim and is not reached: 172 rows are open and 33 are still "unverified" (mostly
      deferred ambitions, process rows, or experience rows that need a play, not a grep).
    - The design recommendations are prospectus.md.
 

@@ -65,7 +65,7 @@ describe('Go… and the gold, for a player come home', () => {
   it('says the first goal once, on the first page, in so many words', async () => {
     const first = Page.at(g).rest();
     expect(Page.text(/<p class="first-goal"[\s\S]*?<\/p>/.exec(first)?.[0]))
-      .toMatch(/^Your first goal Your father went out/);
+      .toMatch(/^Your first goal Look along .* for your father, who went out/);
     // No dot on what does not serve it.
     expect(first).not.toMatch(/class="opener opens-look led"/);
     await Page.walk(g, 'region__s2_green');
