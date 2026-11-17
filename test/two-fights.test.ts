@@ -13,7 +13,7 @@ import { Narration } from '../src/presentation/narration';
 // A fight the company chose, then one that came at it straight after, told as one: found in cov2's mine, where the
 // company attacked the mud in the haulage way and the Delvers' bone hounds, who had stood their ground, came at it
 // when the mud was down. The page told the hounds falling, and not the mud, nor the thief who fell to it. Here the
-// rats of the smithy, come into the hounds' haulage way, are attacked there, by a thief seasoned enough to see both
+// first level's rats, come into the hounds' haulage way, are attacked there, by a thief seasoned enough to see both
 // fights through (at the first level a rat's bite or two could end her, and whether it did was the dice's).
 describe('two fights in one', () => {
   it('tells the fight the company chose, and the one that came at it after', async () => {
@@ -21,10 +21,13 @@ describe('two fights in one', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'thief', level: 3 }] });
     const s = await PlaySession.start(w.path, 'cov2', w.source), way = 'region__w8_haulage_haulage';
     const hounds = 'region__w8_haulage_haulage_dwellers';
+    // A pack of rats of the first level, wherever the pacing put them (the smithy's, when this was written; a level's
+    // elite keeps to a branch's end now, and the rats are elsewhere on it: SI-01).
+    const rats = s.campaign.module.entities.find(e => /^region__w8_adit_\w+_dwellers$/.test(e.id) && e.name === 'the rats')!.id;
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', way) },
       { kind: 'retract', call: ModuleWriter.call('unlit', way) },
-      { kind: 'assert', call: ModuleWriter.call('at', 'region__w8_adit_forge_dwellers', way) },
+      { kind: 'assert', call: ModuleWriter.call('at', rats, way) },
       // The hounds have warned the company off, and their patience is spent.
       { kind: 'assert', call: ModuleWriter.call('warned', hounds, 'party') },
       { kind: 'set', call: ModuleWriter.call('patience', hounds), value: ModuleWriter.number(0) }]));
