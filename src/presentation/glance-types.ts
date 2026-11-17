@@ -1,4 +1,5 @@
 import type { AfterAct } from './decision-frame';
+import type { AimLead } from './aim-lead';
 
 // A place at a glance (OWN-18, OWN-19): what the page leads with where the company stands, decided by the engine so
 // that the page draws and does not guess. The full telling, every person and every way stay behind "Look about",
@@ -134,6 +135,8 @@ export interface Glance {
   following?: string[];
   // The aim, said when no act serves it, on a first arrival, or when it has changed.
   aim?: string;
+  // The aim followed and its next step, and where that step was learned (US-07): at Mistlake, the speaking door.
+  lead?: AimLead;
   // Each lens's acts (see Lens).
   lenses: Record<Lens, Lensed>;
   // Each subject led with, by its id: the one indicator its likeness is drawn with (see Likenesses).

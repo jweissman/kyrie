@@ -3,6 +3,8 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Runner } from '../src/cli/runner';
 import { RunnerWalk } from '../src/cli/runner-walk';
+import { Narrator } from '../src/presentation/narrator';
+import { ScreenModel } from '../src/ui/screen-model';
 
 // At the place the followed aim names, its grave choices are its business: promoted into the four with their grave
 // mark and no gold, and nothing gilds the way back out (the lead's ruling, 15 November). At Mistlake's speaking door,
@@ -22,5 +24,8 @@ describe('the speaking door, its safe tries spent', () => {
     expect(words.length).toBeGreaterThanOrEqual(2);
     expect(words.every(o => o.marks.includes('grave') && !o.aspects.includes('undertaking'))).toBe(true);
     expect(said.offer.primary.filter(o => o.aspects.includes('undertaking'))).toEqual([]);
+    // Not gold, and still the step: the aim's next step is the door, the old writing beyond it (US-07, PB-16b).
+    const c = s.campaign, glance = Narrator.leaf(c, ScreenModel.build(c)).glance!;
+    expect(glance.lead).toEqual({ aim: 'origin__errand', source: 'barred', next: ['region__w2_riddle'] });
   }, 120000);
 });

@@ -18,7 +18,7 @@ import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
-import { AimRoute } from './aim-route';
+import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead';
 import { Perception } from './perception'; import { Companions } from './companions';
 import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
@@ -134,11 +134,12 @@ export class Glance {
   // aim followed first, and said apart (following), so that the page's "your aim" is that aim's and no other's. In
   // Karir's chandlery, following the crypt, the corn-store of another aim had stood alone as "your aim", the
   // churchyard's walk folded into its quarter (the fresh playtest of 7 November).
-  private static aimed(campaign: Campaign, screen: Screen, r: Reading): Pick<View, 'aimed' | 'following'> {
-    const byId = EntityIndex.of(campaign.module.entities).byId;
+  // And the aim followed's next step, and where it was learned (US-07).
+  private static aimed(campaign: Campaign, screen: Screen, r: Reading): Pick<View, 'aimed' | 'following' | 'lead'> {
+    const byId = EntityIndex.of(campaign.module.entities).byId, lead = AimLeading.of(campaign, screen);
     const following = [...new Set(this.going({ screen, r, byId }, r.named, 'toward'))];
     const aimed = [...new Set([...following, ...this.going({ screen, r, byId }, r.held, 'held')])];
-    return { aimed, ...following.length ? { following } : {} };
+    return { aimed, ...following.length ? { following } : {}, ...lead ? { lead } : {} };
   }
   // The ways and journeys to the places some aims name, and the ways toward them.
   private static going(at: { screen: Screen; r: Reading; byId: Map<string, Entity> }, aims: Set<string>,
