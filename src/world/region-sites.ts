@@ -103,10 +103,11 @@ export class RegionSites {
     const q = JSON.stringify, id = site.id, letters = !!this.cut[site.kind] && !site.work;
     const cut = site.work ? 'Cut deep over the way in, in the makers\' letters'
       : 'Cut in the old stone, in the old letters';
-    // Where its letters are what names it (a barrow's), they are read as its old name once they have named it.
+    // Where its letters are what names it (a barrow's), they are read as its old name once they have named it, without
+    // giving the name again: the letters had been told twice running, cut and then read (BL-09: WĪDBRYCG twice).
     return [`  Discovery ${id}_old ${q(`${site.name}: its makers called it ${site.old}.`)}.`,
       `  Observe ${id}_old_cut at ${id} when ${letters ? `knows(party, ${id}_named) and ` : ''}not knows(party, ${id}_old) `
-        + `${q(letters ? `The letters are its makers' name for it: ${site.old}.` : `${cut}: ${site.old.toUpperCase()}.`)}`
+        + `${q(letters ? 'The letters are its makers\' own name for it.' : `${cut}: ${site.old.toUpperCase()}.`)}`
         + ` teaches ${id}_old.`,
       `  Observe ${id}_old_known at ${id} as feature when knows(party, ${id}_old) ${q(`Its makers called it ${site.old}.`)}.`];
   }

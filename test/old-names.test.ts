@@ -31,6 +31,9 @@ describe('old places in the starting country', () => {
       // Learnable at the place: something there teaches it.
       expect(lines.some(l => new RegExp(`Observe ${site.id}_(old_cut|letters) at ${site.id} .* teaches ${site.id}_old\\.$`)
         .test(l))).toBe(true);
+      // Where the letters are cut over it, the old name is given once: reading them does not say it again (BL-09).
+      const cut = lines.find(l => l.includes(`Observe ${site.id}_letters `)), read = lines.find(l => l.includes(`Observe ${site.id}_old_cut `));
+      if (cut) { expect(read?.toLowerCase()).not.toContain(site.old!.toLowerCase()); }
     }
   });
 });
