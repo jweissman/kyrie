@@ -4,12 +4,12 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import type { CreatureStore } from '../src/creature-store';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { PlayerView } from '../src/presentation/player-view';
 import type { Change } from '../src/lang/module';
 import { Glanced } from './support/glanced';
 import { MenuModel } from '../web/reader/menu-model';
 import { AtHand } from '../web/reader/stage/at-hand';
 import type { ReaderApp } from '../web/reader/reader-app';
-import { ChoiceGrouping } from '../src/ui/choice-grouping';
 
 // The fresh playtest of 7 November came home to Elmford as a dwarf named Harbek, and his brother, who joined him, was
 // Harbek too. The choices offer the two as one ("Collect a coil of rope for Harbek", for the first of them), and the
@@ -69,14 +69,19 @@ describe('what lies in a deep site, with a brother of one\'s own name in the com
     }
     expect(after.get('a potion of barkskin')![0]).toStartWith('take_out(region__w8_halls_well_left0,');
   }, 30000);
-  it('shows a riddle casket\'s gift, to be taken, once the right word opens it', async () => {
-    Reach.enter(s, 'region__w8_halls_kings_door');
-    const casket = 'region__w8_halls_kings_door_casket', module = s.campaign.module;
-    const gift = module.entities.find(e => e.id === `${casket}_gift`)!;
-    const right = module.actions.find(a => a.id.startsWith(`${casket}_word`) && !ChoiceGrouping.hurts(a))!;
+  // The level's chest is an order chest now where it had a riddle casket (the sites commission, item 2): what it holds
+  // is shown, to be taken, once it is opened, as the casket's gift was. Its three marks are pressed as the frieze has
+  // them, by each mark's act that holds it down (the one whose turn it is: DeepOrder's orderright).
+  it('shows an order chest\'s gift, to be taken, once its marks are pressed in their order', async () => {
+    const module = s.campaign.module, chest = module.entities.find(e => /^region__w8_halls_\w+_order$/.test(e.id))!.id;
+    Reach.enter(s, s.campaign.world.one('at', chest)!);
+    const gift = module.entities.find(e => e.id === `${chest}_gift`)!;
     expect(Reach.hand(s).has(gift.name)).toBe(false);
-    await s.leg(right.id);
-    expect(Reach.hand(s).get(gift.name)?.[0]).toStartWith(`take_out(${gift.id},${casket},`);
+    for (let n = 0; n < 3; n++) {
+      const right = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`${chest}_p`))!;
+      await s.leg(right.choice.id);
+    }
+    expect(Reach.hand(s).get(gift.name)?.[0]).toStartWith(`take_out(${gift.id},${chest},`);
   }, 30000);
   it('offers the king\'s crown once the king has fallen', async () => {
     Reach.enter(s, 'region__w8_grave_heart', false);
