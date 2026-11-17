@@ -42,9 +42,9 @@ Module world_services "Lodging, goods and camping" {
   Action sing_supper(actor: group, host: group, service: service, site: place) "Sing for your supper at {host}'s" {
     Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
       and not refusesService(host, actor) and offers(host, service) and serviceOf(service, lodging)
-      and capable(actor, persuasion) and watch(clock) >= singsAgain(actor).
+      and capable(actor, performance) and watch(clock) >= singsAgain(actor).
     Time 6.
-    Resolve check(actor, persuasion, dc_fair).
+    Resolve check(actor, performance, dc_fair).
     On success { Set singsAgain(actor) to watch(clock) + 72. Increase quantity(actor, gold) by 5. }
     On failure { Set singsAgain(actor) to watch(clock) + 72. Increase quantity(actor, gold) by 1. }
     Result "The room goes quiet for you, and then joins in; by the end there are coins on the table, five of them yours.".

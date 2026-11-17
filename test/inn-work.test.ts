@@ -35,6 +35,9 @@ describe('at the inn', () => {
     const s = await Inn.at('bard'), before = Inn.gold(s);
     await s.leg(Inn.find(s, /^Sing for your supper at /)!.choice.id);
     expect([1, 5]).toContain(Inn.gold(s) - before);
+    // A song is a performance, the bard's own skill, not a persuasion (RI-03, from R11-03).
+    expect(s.campaign.events.at(-1)!.combat.filter(e => e.type === 'check').map(e => e.type === 'check' && e.skill))
+      .toEqual(['performance']);
     expect(Inn.find(s, /^Sing for your supper at /)).toBeUndefined();
   }, 120000);
 });
