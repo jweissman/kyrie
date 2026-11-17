@@ -191,11 +191,13 @@ export class EngineHost {
     if (!session) { throw new Error('No game is under way'); }
     // An aim chosen to follow is the session's command like any other, no event of the world, but told in a line: the
     // first act of play had told nothing, the rows only reshuffling and one turning gold (M22's second review, OR-41).
+    // Told on the frame alone, not as an act's telling: what the page leads with is the terminal's and the runner's
+    // (test/action-identity), which no telling of what came before decides.
     if (command.startsWith('follow:')) {
-      const before = PlayerView.observe(session.campaign), event = await session.perform(command);
-      this.told = { event, feedback: ActionFeedbackView.read(session.campaign, event, before), said: '', moved: false };
-      this.saving();
-      return this.settled();
+      const event = await session.perform(command); this.told = undefined; this.saving();
+      const frame = this.settled();
+      return event.response ? { ...frame, leaf: { ...frame.leaf, exchange: { lines: [{ kind: 'telling', text: event.response }],
+        notes: [], tone: 'act' } } } : frame;
     }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's
