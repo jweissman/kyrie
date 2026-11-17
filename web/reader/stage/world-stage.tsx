@@ -17,7 +17,6 @@ import { MapMenu } from '../map-menu';
 import { RouteCard } from '../route-card';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
-import { ChoiceRow } from './choice-row';
 import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
@@ -253,7 +252,7 @@ export class WorldStage {
           <p className="how">{Typography.curl(unplaced.who)}</p></>}
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
         <WorldStage.Entrance app={app} />
-        <MapMenu.View app={app} screen={screen} put={enter} />
+        <MapMenu.View app={app} screen={screen} put={enter} {...WorldStage.onward(app) ?? {}} />
       </section>
     );
   }
@@ -278,22 +277,22 @@ export class WorldStage {
   // the company by unanswered, nightfall), else that something here is dangerous; never a chance the game does not
   // reckon (the owner, 4 November, night: no hidden way out of what is here by the map).
   static Stopped({ app, danger }: { app: ReaderApp; danger: boolean }) {
-    const frame = app.state.frame!, travel = frame.travel, bound = frame.bound;
-    // The journey held, as the page has it, with what it risks; in a town, whose journeys are the map's (see
-    // MenuModel.inside), as the map sets out on it.
-    const on = bound && ((app.menu.destinations ?? []).find(c => c.id === `travel:${bound.id}`)
-      ?? (frame.screen.region?.land ? MapView.way(frame.screen, bound.id).go : undefined));
-    const risks = (on?.marks ?? []).map(m => m.said);
+    const travel = app.state.frame!.travel, risks = (WorldStage.onward(app)?.onward.c.marks ?? []).map(m => m.said);
     return <>
       {travel && !travel.arrived && <p className="about stopped">{Typography.curl(`On the way to ${travel.to}: `
         + `${travel.stopped ?? 'the journey stops here'}.`)}</p>}
       {danger && <p className="about danger">{Typography.curl(risks.length
         ? `Something here is dangerous. Going on: ${risks.join('; ')}.` : 'Something here is dangerous.')}</p>}
       {danger && <p className="about">{WorldStage.flight()}</p>}
-      {on && <ol data-menu className="led go"><li><ChoiceRow.Button className="go-on" data={{ action: 'go-on' }} act={on.id}
-        onClick={() => app.choose(on)} mark={ChoiceRow.neutral} markClass="neutral"
-        label={`Go on to ${bound.name}`} /></li></ol>}
     </>;
+  }
+  // The journey held, as the page has it, with what it risks, its way on the map's menu's first row; in a town, whose
+  // journeys are the map's (see MenuModel.inside), as the map sets out on it.
+  static onward(app: ReaderApp): { onward: { c: Choice; name: string } } | undefined {
+    const frame = app.state.frame!, bound = frame.bound;
+    const c = bound && ((app.menu.destinations ?? []).find(x => x.id === `travel:${bound.id}`)
+      ?? (frame.screen.region?.land ? MapView.way(frame.screen, bound.id).go : undefined));
+    return bound && c ? { onward: { c, name: bound.name } } : undefined;
   }
   // The odds of getting away from a fight, as the engine rolls them (vocabulary.json's combat.flee): each try's, and
   // sure after the last (Effects.apply's flee).
@@ -337,7 +336,8 @@ export class WorldStage {
             : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
         <MapMenu.View app={app} screen={screen} {...here ? {} : { chosen: town.id }} put={() => app.outdoor(false)}
-          {...entry ? { enter: { c: entry.c, name: Typography.curl(town.name) } } : {}} />
+          {...entry ? { enter: { c: entry.c, name: Typography.curl(town.name) } } : {}}
+          {...here ? WorldStage.onward(app) ?? {} : {}} />
       </section>
     );
   }
