@@ -38,6 +38,15 @@ menu is one height (`--choice-h`). What else may be pressed is named, with why, 
 (disclosures, the map's own marks, writing your name), and that list only shrinks. Held by
 `test/action-census-browser`: a button anywhere else fails it, by its words and its page.
 
+The page is one component, `PageFrame` (`web/reader/page-frame.tsx`): its five slots (background, header, narrative,
+menu, rail), plus what stands over the page (a credit, a toast). A slot lays nothing out of its own; the surface's
+stylesheet places what is in it. Every menu row is drawn by `ChoiceRow` (its mark, words, aside and key), wherever it
+is: the title's ways in, creation's rows, the opening's Continue, a conversation's questions, a fight's hand. The census
+also fails on a menu row not drawn by it, and on two menus in view at once (one menu a page: the Notes' aims are
+considered, and the page's one menu acts on the one considered). *Drawn by PageFrame so far: the title, each step of a
+life, the opening's pages, a conversation and a fight. Not yet: a place (its glance's telling and its acts are one
+component, GlanceStage, still to be parted into narrative and menu), the map's cards, the Book.*
+
 ## Focus
 
 - **The pointer is the reticle** (IG-15). Wherever the hand is, the cursor is a small ring; over anything that can be
