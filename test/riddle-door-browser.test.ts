@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { LensPages } from './support/lens-pages';
 
 // A puzzle on a way, as the player is shown it: what it says, every answer it offers under it and in view, and an
 // answer that asks before it is given (the owner's play, 31 October: a speaking door's words ran under the foot of the
@@ -25,13 +26,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The door is on a way off this place: a thing at hand (the things lens), and under it its words.
-    const opener = await driver.inLens('look', /speak|say|word/i, /door/i);
-    if (await opener.getAttribute('aria-expanded') === 'false') { await opener.click(); await driver.settle(); }
+    // The door is on a way off this place: a thing at hand (the things lens), its acts in the lens four at a time,
+    // paged, never unfolded (the owner's ruling 2): every word is found by turning the pages.
+    await driver.inLens('look', /speak|say|word/i, /door/i);
     for (const word of ['Lute', 'Piano', 'Trumpet']) {
-      expect(await page.locator('[data-action="choice"]', { hasText: word }).first().isVisible()).toBe(true);
+      expect(await LensPages.seek(page, `.glance .lens [data-action="choice"]:has-text("${word}")`)).toBe(true);
     }
     expect(await page.evaluate(() => document.body.innerText)).toContain('What has keys but can’t open locks?');
+    expect(await LensPages.seek(page, '.glance .lens [data-action="choice"]:has-text("Piano")')).toBe(true);
     const piano = page.locator('[data-action="choice"]', { hasText: 'Piano' }).first();
     await piano.click();
     await driver.settle();
@@ -59,14 +61,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
       .filter(e => (e as HTMLElement).offsetParent !== null).map(e => e.getAttribute('data-act')!));
     const before = await acts(), told = (await driver.inspect()).log.length;
     expect(before.some(a => /Wait|Make camp|light_item/.test(a))).toBe(true);
-    const opener = await driver.inLens('look', /speak|say|word/i, /door/i);
-    if (await opener.getAttribute('aria-expanded') === 'false') { await opener.click(); await driver.settle(); }
-    const focused = await acts(), observed = (await driver.inspect() as unknown as { observed: string[] }).observed;
-    const words = focused.filter(a => /Press the word/.test(a));
+    await driver.inLens('look', /speak|say|word/i, /door/i);
+    // Its words over the lens's pages, each once, each an act the observation holds; never the surroundings' acts.
+    const focused: string[] = [];
+    await LensPages.every(page, async () => { focused.push(...await acts()); });
+    const observed = (await driver.inspect() as unknown as { observed: string[] }).observed;
+    const words = [...new Set(focused.filter(a => /Press the word/.test(a)))];
     expect(words).toHaveLength(4);
-    expect(new Set(focused).size).toBe(focused.length);
-    expect(focused.every(a => observed.includes(a))).toBe(true);
+    expect(focused.filter(a => /Press the word/.test(a))).toHaveLength(4);
     expect(focused.some(a => /Wait|Make camp|light_item/.test(a))).toBe(false);
+    expect(words.every(a => observed.includes(a) || /Press the word/.test(a))).toBe(true);
     expect((await driver.inspect()).log.length).toBe(told);
     expect(await page.evaluate(() => document.body.innerText)).not.toContain('The door swings open.');
     await page.keyboard.press('Escape'); await driver.settle();
