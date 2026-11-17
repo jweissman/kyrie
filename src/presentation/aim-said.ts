@@ -20,12 +20,21 @@ export class AimSaid {
   }
   // An aim as a row's words: its title, cut where a clause joins before the row would cut it mid-word (M22's second
   // review, OR-45: "Follow: Your father went out by the road between Mistshaw and …").
+  // An aim that says what to do and, last, for whom or what ("Look along the road between Mistshaw and Millholm for
+  // your father") is said by those two, its way between left to the aim itself ("Look for your father"): cut at the
+  // first joint it had read as following a road (the owner, 17 November, OR-72).
   static short(aim: string, room = AimSaid.room): string {
     const title = AimSaid.title(aim);
     if (title.length <= room) { return title; }
-    const joints = [...title.matchAll(/ (?:between|with|by|from|to|and|for|at|in|on|under|over|past|toward) /g)]
+    const sought = / for ((?:your|his|her|their|the|a|an) [^,;]+)$/.exec(title);
+    const verb = title.split(' ')[0]!;
+    if (sought && `${verb} for ${sought[1]}`.length <= room) { return `${verb} for ${sought[1]}`; }
+    const joints = [...title.matchAll(AimSaid.joints)]
       .map(m => m.index!).filter(i => i >= 12 && i <= room);
     return joints.length ? title.slice(0, joints.at(-1)) : title;
   }
   static readonly room = 40;
+  // Where a clause joins: a preposition, or a question's word ("Ask at the customs-house how many head …").
+  static readonly joints =
+    / (?:between|with|by|from|to|and|for|at|in|on|under|over|past|toward|how|what|who|where|whether|why) /g;
 }

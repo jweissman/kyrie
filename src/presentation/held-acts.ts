@@ -28,7 +28,9 @@ export class HeldActs {
     const aims = screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
     if (!pull || aims.some(a => a.followed)) { return undefined; }
     const choice = `follow:${pull.id}`;
-    return { choice, command: choice, label: `Follow: ${AimSaid.short(pull.text)}`, why: 'held', aim: pull.id, facets: ['here'], tier: 1,
-      aspects: [], note: 'to see it through', marks: [] };
+    // Said by the aim's own words, no prefix (OR-72: "Follow: Look along the road between Mistshaw" read as following a
+    // road); what it is, a decision and not an act in the world, is its note.
+    return { choice, command: choice, label: AimSaid.short(pull.text), why: 'held', aim: pull.id, facets: ['here'], tier: 1,
+      aspects: [], note: 'take it up as your aim', marks: [] };
   }
 }

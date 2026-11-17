@@ -11,4 +11,11 @@ describe('an aim as a row says it', () => {
     expect(AimSaid.short('Clear the rats out of the corn-store cellar, under the old corn-store.'))
       .toBe('Clear the rats out of the corn-store cellar');
   });
+  // OR-72: what to do and for whom, the way between left to the aim itself; never cut where it reads as another act.
+  it('says an aim by its verb and what it is for', () => {
+    expect(AimSaid.short('Look along the road between Mistshaw and Millholm for your father, who went out by it.'))
+      .toBe('Look for your father');
+    expect(AimSaid.short('Ask at the customs-house how many head of Bran\'s drove crossed'))
+      .toBe('Ask at the customs-house');
+  });
 });
