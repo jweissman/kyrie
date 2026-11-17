@@ -161,7 +161,7 @@ claims nothing beyond what the sources say.
 | AP-13 | A way into a room where a deadly band was seen carries no danger (no last-seen record) | opportunities gap 6 | Later (11 Nov) | P2 | M21 |
 | AP-14 | Compound opportunities: one subject, several approaches; no authored opportunity naming its approaches | opportunities gap 5, amendment-6 addendum | Later (11 Nov) | P3 | M21 |
 | AP-15 | Presentation reads omniscient truth: a foe's exact HP shown in the dark; perception decided in presentation code | ARV-H5, COR-12 | **Fixed, verified (15 Nov):** a foe's look (hit points, level, how hurt) is not drawn where the company cannot see (ScreenModel.target: `dark`); held by test/small/dark-no-numbers (mutation-checked: lit shows it, unlit does not). What remains of "perception decided in presentation code" is AR-05 | P2 | M21, lead |
-| AP-16 | What each member of the company knows; claims two sources tell differently | UNT-113, IFR-06 | Open risk / deferred, unverified since 6 Nov | P3 | later, lead |
+| AP-16 | What each member of the company knows; claims two sources tell differently | UNT-113, IFR-06 | Open risk / deferred; checked in the rules 17 Nov (round 5), still so: what is known is the company's (knows(group, fact), assumesFalse(group, fact), data/rules/discovery.kyr), not a member's, and a fact has no claim against it but assumesFalse, so two sources cannot tell it differently | P3 | later, lead |
 | AP-17 | Ordinary exploration empty: 70 of 80 stretches round Thornhaven hold nothing; meetings sparse away from the start; the first-steps thread's content; half an hour without a quest finds nothing; POI density never measured | E105 (open part), BRF-07, BRF-43, R1-A top5 | duplicate of RI-01 | P1 | see RI-01 |
 
 ## 5. Narration & prose
