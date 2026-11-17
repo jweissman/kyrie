@@ -198,7 +198,7 @@ Module disputation "The disputation on the green" {
   // play-structure investigation's PT-25); and said so when neither will hear the company.
   Query disputeSettled() means (reasoned(one, oneness) and doubts(one, oneness)) or (reasoned(flow, flux) and doubts(flow, flux)).
   Query shunned() means scorns(one, party) and scorns(flow, party).
-  Objective disputed when knows(party, dispute) and not disputeSettled() and not shunned() "Two philosophers dispute at {green}: the One against the Flow. What the country's own history says could settle it.".
-  Objective disputed_shut when knows(party, dispute) and not disputeSettled() and shunned() "Neither philosopher at {green} will hear you now: you had them argued down without a reason, and it is not forgiven.".
+  Objective disputed when knows(party, dispute) and not disputeSettled() and not shunned() "Hear the two philosophers dispute at {green}, the One against the Flow: what the country's own history says could settle it.".
+  Objective disputed_shut when knows(party, dispute) and not disputeSettled() and shunned() "Leave the philosophers at {green} be: neither will hear you now, for you argued them down without a reason.".
   Goal (reasoned(one, oneness) and doubts(one, oneness)) or (reasoned(flow, flux) and doubts(flow, flux)).
 }

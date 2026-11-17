@@ -58,7 +58,7 @@
   Item {w}_grave "{commonname}" is {common} at {w}_kings.
   // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
   // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
-  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_throne) "The greatest of the dead of {epithet} lies at the heart of {{w}}.".
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_throne) "Find the heart of {{w}}, where the greatest of the dead of {epithet} lies.".
 --- end sealed 1 if fatea
   Thing {w}_lastseal "the stone behind the seat" on {w}_behind {
     State set blocking "The stone behind the seat is cut with a seal, the old script running round it in a ring. There is no groove and no handle: it was set from the other side.".

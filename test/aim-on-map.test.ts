@@ -13,7 +13,7 @@ describe('a place an aim names', () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'kin',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), screen = ScreenModel.build(s.campaign);
-    const said = /^Your father went out by (the bridge.+?) with the cart/;
+    const said = /^Look along (the bridge.+?) for your father/;
     const bridge = said.exec((screen.aims ?? []).find(a => said.test(a.text))!.text)![1]!;
     const marks = (screen.region?.land as { marks: { name: string; state: string; cell?: number }[] }).marks;
     expect(marks.find(m => m.name === bridge)).toMatchObject({ state: 'heard' });

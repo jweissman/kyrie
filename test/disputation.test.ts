@@ -112,7 +112,7 @@ describe('the disputation on the green', () => {
     expect(Green.seen(s).some(t => /The crowd has gone over from Kestrel today/.test(t))).toBe(true);
     // Won for the day, the dispute is not settled, and is still the company's to settle (its PT-25: it had gone
     // from the notes).
-    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('Two philosophers dispute at');
+    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('Hear the two philosophers dispute at');
     await Green.take(s, /^Wait until dark$/);
     await Green.take(s, /^Wait until first light$/);
     expect([Green.holds(s, 'believes', 'flow', 'flux'), s.campaign.world.test(ModuleWriter.call('scorns',

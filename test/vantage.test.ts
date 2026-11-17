@@ -71,8 +71,8 @@ describe('somewhere high', () => {
     expect(lines.filter(l => /^To the /.test(l))).toHaveLength(6);
     expect(lines.at(-1)).toBe('The way down is the stair you came up.');
     // Named, the doorway is somewhere to go into: an aim (the expedition diagnosis, change 1).
-    expect(notes).toEqual(['Noted: Palelake: a square doorway in a hillside in Birchwood', 'Aim: The springs the '
-      + 'country once drank from were held somewhere under Palelake, and nobody has been down to them.']);
+    expect(notes).toEqual(['Noted: Palelake: a square doorway in a hillside in Birchwood', 'Aim: Go down under '
+      + 'Palelake to the springs the country once drank from: nobody has been down to them.']);
     expect(situation.some(p => /^To the /.test(p))).toBe(false);
     // Seen with the way to it, it is somewhere to set out for all the way, not only toward the wood it stands in.
     const ruin = Itineraries.destinations(c).find(d => d.name === 'Palelake')!;

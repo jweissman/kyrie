@@ -103,11 +103,11 @@ Module factors "The factor who buys old bronze" {
     Assert shutOut(party). Assert refusesService(keeper, party).
   }
   Observe shut_out_scene at taproom when shutOut(party) "The taproom is as it was, and nobody in it will serve you. The factor's ledger lies open in the corner, and there is a pen in it, and the pen is dry.".
-  Objective ring when exposed(factor) and not routed(hands) and not shutOut(party) "The Exchange knows it has been named in the taproom.".
+  Objective ring when exposed(factor) and not routed(hands) and not shutOut(party) "Watch for the Exchange's men: it knows it has been named in the taproom.".
   Observe lot_held at taproom when keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "In the corner behind the factor's chair, in a sack with a tin tag, lies a lot of green bronze teeth. The tag says NORTH. The carter will have it on the next fine day." teaches lot_seen.
   Rule lot_seen_known when knows(party, lot_seen) and not lotKnown(party) { Assert lotKnown(party). }
   Discovery lot_seen "A lot of green bronze teeth lies in a sack tagged NORTH in the factor's corner at the inn, waiting for the carter.".
   Observe gone_south at taproom when carterGone(carter) "The corner behind the factor's chair is clear, and the carter's place on the bench is empty.".
-  Objective lot when lotKnown(party) and keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "A lot of bronze teeth from the north is waiting in the factor's corner for the carter.".
+  Objective lot when lotKnown(party) and keeps(factor, ?t) and itemKind(?t, bell_teeth) and not carterGone(carter) "Tell the keeper of the bronze teeth in the factor's corner before the carter takes them north.".
   Goal carterGone(carter).
 }

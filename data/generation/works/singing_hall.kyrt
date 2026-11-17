@@ -43,7 +43,7 @@
   Item {w}_crystal "{richname}" is {rich} at {w}_inner.
   // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
   // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
-  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_inner) "Something sings at the far end of {{w}}, where nobody goes.".
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_inner) "Go to the far end of {{w}}, where nobody goes: something sings there.".
 --- sign choir 1 if greatart
   Observe {w}_choir_heard at {w}_inner as revelation when state({w}_figures, heard) "And the singing comes from somewhere. Moving from figure to figure with your ear to the stone, you find it loudest toward {greatwhere}, where {greatseen} must hold whoever is still singing." teaches {greatfound}.
 --- successors fold 2

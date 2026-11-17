@@ -37,7 +37,7 @@ describe('kite at a glance', () => {
     // (data/origins/prologue.kyrt).
     expect(glance.acts.map(a => [a.choice, a.why])).toEqual([['exit:region__s2_green', 'toward'],
       ['origin__carter#talk', 'life'], ['origin__cart#look', 'own']]);
-    expect(glance.aim).toMatch(/^Your father went out by the bridge/);
+    expect(glance.aim).toMatch(/^Look along the bridge .* for your father/);
     expect(glance.aimed).toContain('exit:region__s2_green');
     Kite.drawn(Kite.g, glance);
   });

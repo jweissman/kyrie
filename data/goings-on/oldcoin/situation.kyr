@@ -48,7 +48,7 @@ Module oldcoin "The stranger who pays in old coin" {
     Says "{scholar} kneels among the white chips and turns them over, one by one, for a long time. 'Somebody knew we were coming,' they say at last, not looking up. There is enough left of the name over the door to read it, and no more.".
     On discuss { Assert read(scholar). Assert knows(actor, named). }
   }
-  Objective escort when asked(scholar) and not read(scholar) "{scholar} wants to be taken to {ruin}.".
-  Objective tithe when knows(party, tithe_told) and not holding(party, old_tithe) "The stones at {ruin} say the old kingdom's tithe was kept under its threshold.".
+  Objective escort when asked(scholar) and not read(scholar) "Take {scholar} to {ruin}, as asked.".
+  Objective tithe when knows(party, tithe_told) and not holding(party, old_tithe) "Look under the threshold at {ruin}: its stones say the old kingdom's tithe was kept there.".
   Goal read(scholar).
 }

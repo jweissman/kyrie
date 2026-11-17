@@ -144,7 +144,7 @@
   }
   Observe {w}_shrine_learned at {w}_shrine of {w}_shrine_bowl as reading when state({w}_shrine_bowl, given) "The offering seems to settle something; the lamp in its bracket gutters and steadies. A cold finger of air touches the back of your neck and goes. Nothing else happens, and you find that you are glad of it." teaches {w}_wayfarer.
   Entity {w}_wayfarer: fact "The way-shrine's figure is of the Lady of Wayfarers, who is waved on, not worshipped: she is every traveller's tired friend, asked only that the road be kind. The folk who leave a coin at the numbered post do so in her name, though few remember it.".
-  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_office) "The Posts kept their papers at {{w}}, in a house of stone beside the old road, and the door of their office has not been opened since the last clerk shut it.".
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_office) "Open the Posts' office at {{w}}, beside the old road: nobody has since the last clerk shut it on their papers.".
 --- entry gated 2 if shape0
   Passage {w}_front "the great gate" is gate between {w} and {w}_gate.
   Thing {w}_gate_leaves "the gate leaves" on {w}_front {
