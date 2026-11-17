@@ -47,19 +47,28 @@ export class RegisterTickets {
   // its id's prefix.
   static rows(register: string, map: Map = this.map()): Row[] {
     const out: Row[] = [];
-    let section = '';
+    let section = '', status = 0, pri = 0;
     for (const line of register.split('\n')) {
-      const heading = /^##\s+\d+\.\s+(.*)$/.exec(line);
+      const heading = /^##\s+(?:§?\d+\.?)\s+(.*)$/.exec(line);
       if (heading) { section = heading[1]!; continue; }
-      const cells = line.startsWith('|') ? line.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()) : [];
-      if (cells.length < 5 || !/^[A-Z][A-Z0-9-]+$/.test(cells[0]!)) { continue; }
-      const [id, what] = [cells[0]!, cells[1]!], status = cells.at(-3)!, pri = cells.at(-2)!;
+      // A table ends at its first line that is not a row; its header names the columns a row is read by (the three-
+      // column tables of §49–50 have a state and no priority: OB-01).
+      if (!line.startsWith('|')) { status = pri = 0; continue; }
+      const cells = line.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      // Counted from the row's end, so a bar inside a row's words (a rule's `|`) does not move its status.
+      if (/^(id|review)$/i.test(cells[0]!)) {
+        [status, pri] = [/^(status|state|mission 20)/i, /^(pri|severity)/i].map(re => cells.findIndex(c => re.test(c)))
+          .map(i => i < 0 ? 0 : i - cells.length) as [number, number];
+        continue;
+      }
+      if (status >= 0 || !/^[A-Z][A-Z0-9-]+[a-z]?$/.test(cells[0]!)) { continue; }
+      const [id, what] = [cells[0]!, cells[1]!], said = cells.at(status) ?? '', weight = pri < 0 ? cells.at(pri) ?? '' : '';
       // The direction review's section holds pointers to rows and documents, not rows of its own (state reference).
       const pointer = /^The creative and technical direction review/.test(section);
-      const { state, loose } = pointer ? { state: 'reference' as State, loose: false } : this.state(status);
+      const { state, loose } = pointer ? { state: 'reference' as State, loose: false } : this.state(said);
       const placed = this.place(id, what, map);
-      out.push({ id, section, what, status, pri: pointer ? '—' : pri, state, loose, ...placed,
-        ...this.live.includes(state) ? { readiness: this.readiness({ what, status, state }) } : {} });
+      out.push({ id, section, what, status: said, pri: pointer ? '—' : weight, state, loose, ...placed,
+        ...this.live.includes(state) ? { readiness: this.readiness({ what, status: said, state }) } : {} });
     }
     return out;
   }

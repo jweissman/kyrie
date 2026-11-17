@@ -41,19 +41,25 @@ export class RegisterState {
     const at = this.kinds.map(([kind, re]) => ({ kind, i: status.search(re) })).filter(k => k.i >= 0);
     return at.sort((a, b) => a.i - b.i)[0]?.kind ?? 'unstated';
   }
-  // Each table's rows, by its header's own columns: the status, and the severity or pri.
+  // A row's id: a prefix, a number, and at most one small letter for a row split from another (PB-16b).
+  static readonly id = /^\| [A-Z][A-Z0-9]*-[0-9A-Z]+[a-z]? \|/;
+  // Each table's rows, by its header's own columns: the status (or state), and the severity or pri. A table ends at
+  // its first line that is not a row, so a row with no header of its own above it is not read by another's columns
+  // (test/small/register-count holds that every id-like line is read).
   static rows(text: string): Row[] {
     const out: Row[] = [];
-    let status = -1, weight = -1;
+    let status = 0, weight = 0;
     for (const line of text.split('\n')) {
       const cells = line.split(' | ').map(c => c.replace(/^\| ?|\s*\|$/g, '').trim());
-      if (/^\| (id|Id|ID) \|/.test(line)) {
-        status = cells.findIndex(c => /^status/i.test(c));
-        weight = cells.findIndex(c => /^(severity|pri)/i.test(c));
+      if (!line.startsWith('|')) { status = weight = 0; continue; }
+      // Counted from the row's end, so a bar inside a row's words does not move its status.
+      if (/^\| id \|/i.test(line)) {
+        [status, weight] = [/^(status|state)/i, /^(severity|pri)/i].map(re => cells.findIndex(c => re.test(c)))
+          .map(i => i < 0 ? 0 : i - cells.length) as [number, number];
         continue;
       }
-      if (!/^\| [A-Z][A-Z0-9]*-[0-9A-Z]+ \|/.test(line) || status < 0) { continue; }
-      out.push({ id: cells[0]!, line, status: cells[status] ?? '', weight: weight >= 0 ? cells[weight] ?? '' : '' });
+      if (!this.id.test(line) || status >= 0) { continue; }
+      out.push({ id: cells[0]!, line, status: cells.at(status) ?? '', weight: weight < 0 ? cells.at(weight) ?? '' : '' });
     }
     return out;
   }

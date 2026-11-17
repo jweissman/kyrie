@@ -169,6 +169,7 @@
     "HP-05": "fight",
     "HP-06": "atlas",
     "HP-07": "terminal",
-    "PV-01": "trade", "PV-02": "company", "PV-03": "world", "PV-04": "company", "PV-05": "fight"
+    "PV-01": "trade", "PV-02": "company", "PV-03": "world", "PV-04": "company", "PV-05": "fight",
+    "BN-01": "terminal", "BN-02": "undertakings", "BN-03": "spells", "BN-04": "undertakings"
   }
 }
