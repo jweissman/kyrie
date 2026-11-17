@@ -172,6 +172,11 @@
 .prologue-page .beat.outcome { margin-bottom: 18px; }
 /* A roll is told as play tells it, small, beside the words it decided. */
 .prologue-page .beat.outcome.roll { font: var(--type-note); color: var(--dim); text-shadow: none; }
+.prologue-page .how { margin: 0 0 16px; font: 400 12.5px/1.45 var(--do); color: var(--faint); }
+.prologue-page .how > summary { cursor: pointer; list-style: none; }
+.prologue-page .how > summary::-webkit-details-marker { display: none; }
+.prologue-page .how > summary:is(:hover, :focus-visible), .prologue-page .how[open] > summary { color: var(--dim); outline: none; }
+.prologue-page .how > p { margin: 2px 0 0; color: var(--dim); }
 .prologue-page .answers .act > .n { flex: 1; }
 .prologue-page .notes { list-style: none; margin: 0 0 26px; padding: 0; font: var(--type-note); color: var(--verdigris); }
 .prologue-page .notes li { margin: 2px 0; }

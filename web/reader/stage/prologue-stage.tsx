@@ -87,7 +87,11 @@ export class PrologueStage {
     return (<>
       {s.pending ? <p className="said waiting">{Typography.curl(s.pending.said)}</p>
         : exchange?.said && <p className="said">{Typography.curl(exchange.said)}</p>}
-      {exchange?.lines.map((l, i) => <p key={i} className={`beat outcome ${l.kind}`}>{l.text}</p>)}
+      {/* A roll is told as what came of it, its dice behind How it fell (ruling 1; M22's review: "Ebba fails the
+          deception check (d20 10 …)" as a line of the opening). */}
+      {exchange?.lines.map((l, i) => l.kind === 'roll'
+        ? <details key={i} className="how"><summary>How it fell</summary><p>{l.text}</p></details>
+        : <p key={i} className={`beat outcome ${l.kind}`}>{l.text}</p>)}
       {exchange?.notes.length ? <ul className="notes">{exchange.notes.map((n, i) => <li key={i}>{n}</li>)}</ul> : null}
       {!s.pending && <PrologueStage.Onward app={app} />}
     </>);
