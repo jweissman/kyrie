@@ -122,7 +122,7 @@ export class Sheet {
   static Aim({ app, aim, picked, pick }: { app: ReaderApp; aim: Held; picked: boolean; pick: (key: string) => void }) {
     const held = Sheet.held(app, aim), about = held?.about ?? [], key = Sheet.key(aim);
     return <li className={`aim-card${held?.followed ? ' followed' : ''}`} data-considered={picked || undefined}>
-      <button type="button" className="aim-pick" aria-pressed={picked} onClick={() => pick(key)}
+      <button type="button" className="aim-pick" data-action="consider-aim" aria-pressed={picked} onClick={() => pick(key)}
         onMouseEnter={() => pick(key)} onFocus={() => pick(key)}>{Typography.curl(aim.text)}
         {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</button></li>;
   }

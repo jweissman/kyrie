@@ -16,7 +16,7 @@ interface Control { act: string | null; action: string | null; text: string }
 class Census {
   static readonly presentation = new Set(['lens', 'lens-page', 'back', 'back-to-place', 'back-to-map', 'book', 'mode',
     'close', 'more-told', 'journey', 'map-nearer', 'map-further', 'map-here', 'map-place', 'map-unchoose', 'dismiss',
-    'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title', 'put-away-map']);
+    'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title', 'put-away-map', 'consider-aim']);
   // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
   static readonly known: string[] = [];
   static async controls(page: Page): Promise<{ controls: Control[]; observed: string[] }> {

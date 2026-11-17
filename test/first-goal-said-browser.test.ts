@@ -22,9 +22,12 @@ class Opening {
       const meeting = page.locator('.page-meeting [data-act], .page-meeting button').first();
       if (await page.locator('.page-meeting').count() && await meeting.count()) { await meeting.click(); }
       else {
-        onward ||= await page.locator('[data-id="onward"] .first-aim').innerText().catch(() => '');
-        // Each page goes on by its held Continue (the owner, 16 November).
+        // Read as it is on screen: the aim comes up after the words, hidden until then (as a reader sees it).
+        const aim = page.locator('[data-id="onward"] .first-aim');
+        if (await aim.count()) { await aim.waitFor({ state: 'visible', timeout: 10000 }).catch(() => undefined); }
+        onward ||= await aim.innerText().catch(() => '');
         const on = page.locator('.prologue-page .go-on');
+        // Each page goes on by its held Continue (the owner, 16 November).
         if (await on.count()) { await MonoDriver.hold(page, '.prologue-page .go-on'); }
       }
       await page.waitForTimeout(700);
