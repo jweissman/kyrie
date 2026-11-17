@@ -6,7 +6,7 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 22 pass in structure
-(level, school), 7 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+(level, school), 8 in resolution (harm, kind, save and its difficulty, aim, target, duration),
 7 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 44 | school 62 | dice 6 | type 13 | save 24 | dc 6 | attack 104 | target 70 | duration 31 | of 119 |
+| spells, field exact or converted | level 44 | school 62 | dice 6 | type 13 | save 27 | dc 6 | attack 104 | target 70 | duration 38 | of 119 |
 
 ## Creatures, most met first
 
@@ -125,11 +125,11 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | control_undead | control-undead | S✗ R✗ I– | ✗ 6 → 7 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ all → several | ✗ 3 rounds → long |
 | create_darkness | darkness | S✗ R✗ I– | ✓ | ✗ · → evocation | – | – | ✗ dexterity negates → · | ✗ 18 → · | ✓ | ✗ all → one | ✗ 3 rounds → long |
 | cure | cure-light-wounds | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 4.5/4.5/4.5/4.5 → 5.5/9.5/9.5/9.5 | – | ✗ · → wisdom half | ✗ · → 14 | ✓ | ✓ | ✓ |
-| cure_critical | cure-critical-wounds | S✗ R✗ I– | ✗ 6 → 4 | ✗ · → conjuration | ✗ 18/18/18/18 → 19/23/28/38 | – | – | – | ✓ | ✓ | ✗ instant → long |
+| cure_critical | cure-critical-wounds | S✗ R✗ I– | ✗ 6 → 4 | ✗ · → conjuration | ✗ 18/18/18/18 → 19/23/28/38 | – | ✗ · → wisdom half | ✗ · → 17 | ✓ | ✓ | ✓ |
 | cure_disease | remove-disease | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✓ |
-| cure_minor | cure-minor-wounds | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 2.5/2.5/2.5/2.5 → · | – | – | – | ✓ | ✓ | ✗ instant → long |
-| cure_moderate | cure-moderate-wounds | S✗ R✗ I– | ✗ 3 → 2 | ✗ · → conjuration | ✗ 9/9/9/9 → 10/14/19/19 | – | – | – | ✓ | ✓ | ✗ instant → long |
-| cure_serious | cure-serious-wounds | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → conjuration | ✗ 13.5/13.5/13.5/13.5 → 14.5/18.5/23.5/28.5 | – | – | – | ✓ | ✓ | ✗ instant → long |
+| cure_minor | cure-minor-wounds | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ · → wisdom half | ✗ · → 13 | ✓ | ✓ | ✓ |
+| cure_moderate | cure-moderate-wounds | S✗ R✗ I– | ✗ 3 → 2 | ✗ · → conjuration | ✗ 9/9/9/9 → 10/14/19/19 | – | ✗ · → wisdom half | ✗ · → 15 | ✓ | ✓ | ✓ |
+| cure_serious | cure-serious-wounds | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → conjuration | ✗ 13.5/13.5/13.5/13.5 → 14.5/18.5/23.5/28.5 | – | ✗ · → wisdom half | ✗ · → 16 | ✓ | ✓ | ✓ |
 | curse | bestow-curse | S✗ R✗ I– | ✗ 0 → 3 | ✗ · → necromancy | – | – | ✓ | ✗ 15 → 16 | ✓ | ✓ | ✗ 3 rounds → long |
 | dancing_lights | dancing-lights | S✗ R✗ I– | ✓ | ✗ illusion → evocation | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | ✗ all → burst | ✗ 3 rounds → long |
 | daylight | daylight | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → evocation | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ wisdom half → · | ✗ 15 → · | ✗ none → melee touch | ✗ all → one | ✗ instant → long |
@@ -140,7 +140,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | divine_favor | divine-favor | S✗ R✗ I– | ✗ 0 → 1 | ✗ · → evocation | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | divine_power | divine-power | S✗ RU I– | ✗ 8 → 4 | ✗ · → evocation | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
 | dominate_person | dominate-person | S✗ R✗ I– | ✓ | ✗ necromancy → enchantment | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✓ | ✗ 10 rounds → long |
-| domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✗ 42 → · | ✓ | ✓ | ✗ 3 rounds → long |
+| domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✓ | ✗ 42 → 22 | ✓ | ✓ | ✗ 3 rounds → long |
 | earthquake | earthquake | S✗ R✗ I– | ✗ 4 → 7 | ✓ | ✗ 13.5/13.5/13.5/13.5 → 28/28/28/28 | – | ✗ wisdom negates → · | ✗ 15 → · | ✓ | ✓ | ✗ 3 rounds → 1 rounds |
 | enlarge | enlarge-person | S✗ R✗ I– | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 14 | ✓ | ✓ | ✗ 3 rounds → long |
 | entangle | entangle | S✗ R✗ I– | ✓ | ✗ · → transmutation | – | – | ✓ | ✗ 16 → 14 | ✓ | ✓ | ✗ 3 rounds → long |
@@ -156,11 +156,11 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | harm | harm | S✗ R✗ I– | ✓ | ✗ · → necromancy | ✗ 23/31/41/61 → · | – | ✓ | ✗ 15 → 19 | ✗ none → melee touch | ✓ | ✓ |
 | haste | haste | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
 | heal | heal | S✗ R✗ I– | ✗ 5 → 6 | ✗ · → conjuration | ✗ 19/23/28/38 → · | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | ✓ | ✓ |
-| hold_animal | hold-animal | S✗ R✗ I– | ✗ 0 → 2 | ✗ · → enchantment | – | – | ✗ strength negates → · | ✗ 18 → · | ✓ | ✓ | ✗ 3 rounds → long |
+| hold_animal | hold-animal | S✗ R✗ I– | ✗ 0 → 2 | ✗ · → enchantment | – | – | ≈ paralyze negates | ✗ 18 → 15 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
 | hold_person | hold-person | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ≈ paralyze negates | ✗ 23 → 15 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
 | holy_wrath | holy-smite | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → evocation | ✗ 10.5/10.5/10.5/10.5 → 0/9/22.5/22.5 | – | ✗ wisdom half → wisdom negates | ✗ 15 → 17 | ✓ | ✓ | ✗ 3 rounds → instant |
 | ice_storm | ice-storm | S✗ R✗ I– | ✗ 6 → 4 | ✓ | ✗ 26/26/26/26 → 10.5/10.5/10.5/10.5 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✓ | ✓ | ✗ instant → long |
-| image | major-image | S✗ RU I– | ✗ 4 → 3 | ✓ | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
+| image | major-image | S✗ RU I– | ✗ 4 → 3 | ✓ | – | – | – | ✗ · → 16 | ✓ | ✗ · → one | ✗ instant → long |
 | implosion | implosion | S✗ R✗ I– | ✓ | ✗ · → evocation | ✗ 35/35/35/35 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 22 | ✓ | ✓ | ✗ instant → long |
 | insanity | insanity | S✗ R✗ I– | ✗ 5 → 7 | ✗ necromancy → enchantment | – | – | ✓ | ✗ 31 → 20 | ✓ | ✓ | ✗ 3 rounds → instant |
 | invisibility | invisibility | S✗ R✗ I– | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ one → self | ✗ 3 rounds → long |
@@ -170,14 +170,14 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | lightning_bolt | lightning-bolt | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
 | magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
 | major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | ✓ | ✗ instant → long |
-| mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✗ wisdom negates → · | ✗ 34 → · | ✓ | ✗ all → several | ✗ 3 rounds → long |
+| mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ all → several | ✗ 3 rounds → long |
 | mass_curse | bane | S✗ R✗ I– | ✗ 3 → 1 | ✗ · → enchantment | – | – | ✓ | ✗ 16 → 14 | ✓ | ✗ all → one | ✗ 3 rounds → long |
-| mass_heal | heal-mass | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → conjuration | ✗ 14.5/18.5/23.5/33.5 → · | – | – | – | ✓ | ✗ all → several | ✗ instant → long |
+| mass_heal | heal-mass | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → conjuration | ✗ 14.5/18.5/23.5/33.5 → · | – | ✗ · → wisdom negates | ✗ · → 22 | ✓ | ✗ all → several | ✓ |
 | maze | maze | S✓ RU I– | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✗ 33 → · | ✓ | ✓ | ✓ |
 | meteor_swarm | meteor-swarm | S✗ R✗ I– | ✗ 7 → 9 | ✓ | ✗ 28/28/28/28 → 7/7/7/7 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✗ several → burst | ✓ |
 | mind_blank | mind-blank | S✗ R✗ I– | ✗ 2 → 8 | ✗ divination → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 21 | ✓ | ✓ | ✗ 10 rounds → long |
 | mind_reading | detect-thoughts | S✗ RU I– | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → cone | ✗ 3 rounds → long |
-| minor_image | minor-image | S✗ RU I– | ✗ 0 → 2 | ✓ | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
+| minor_image | minor-image | S✗ RU I– | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → 15 | ✓ | ✗ · → one | ✗ instant → long |
 | minor_restoration | restoration-lesser | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✓ | ✓ |
 | mirror_image | mirror-image | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | nightmare | nightmare | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✗ 31 → 18 | ✓ | ✓ | ✗ 3 rounds → instant |
@@ -195,7 +195,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | remove_fear | remove-fear | S✗ R✗ I– | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 14 | ✓ | ✓ | ✗ instant → long |
 | resist_fire | resist-energy | S✗ R✗ I– | ✓ | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 15 | ✓ | ✓ | ✗ 3 rounds → long |
 | restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
-| resurrect | resurrection | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✓ | ✗ instant → long |
+| resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✓ | ✓ |
 | shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | shield | shield-of-faith | S✗ R✗ I– | ✗ 2 → 1 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 14 | ✓ | ✓ | ✗ 10 rounds → long |
 | shocking_grasp | shocking-grasp | S✗ R✗ I– | ✗ 2 → 1 | ✓ | ✗ 7/7/7/7 → 3.5/17.5/17.5/17.5 | ✓ | – | – | ✗ none → melee touch | ✓ | ✓ |
@@ -207,12 +207,12 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | stone_to_flesh | stone-to-flesh | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → constitution negates | ✗ · → 19 | ✓ | ✗ one → burst | ✓ |
 | stoneskin | stoneskin | S✗ R✗ I– | ✗ 3 → 5 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✗ self → one | ✗ 3 rounds → long |
 | summon_monster | summon-monster-i | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → 5 rounds |
-| summon_monster_ii | summon-monster-ii | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → long |
-| summon_monster_iii | summon-monster-iii | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → long |
-| summon_monster_iv | summon-monster-iv | S✗ R✗ I– | ✗ 6 → 4 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → long |
-| summon_monster_v | summon-monster-v | S✗ R✗ I– | ✗ 7 → 5 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → long |
-| summon_monster_vi | summon-monster-vi | S✗ R✗ I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → long |
-| summon_monster_vii | summon-monster-vii | S✗ R✗ I– | ✗ 9 → 7 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → long |
+| summon_monster_ii | summon-monster-ii | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_iii | summon-monster-iii | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_iv | summon-monster-iv | S✗ R✗ I– | ✗ 6 → 4 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_v | summon-monster-v | S✗ R✗ I– | ✗ 7 → 5 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_vi | summon-monster-vi | S✗ R✗ I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_vii | summon-monster-vii | S✗ R✗ I– | ✗ 9 → 7 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → 5 rounds |
 | summon_vermin | summon-swarm | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → long |
 | sunburst | sunburst | S✗ R✗ I– | ✗ 5 → 8 | ✗ · → evocation | ✗ 14/14/14/14 → 21/21/21/21 | – | ✗ wisdom half → dexterity negates | ✗ 15 → 21 | ✓ | ✓ | ✓ |
 | symbol_of_insanity | symbol-of-insanity | S✗ R✗ I– | ✓ | ✗ illusion → enchantment | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ all → one | ✗ 3 rounds → long |
@@ -220,4 +220,4 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | time_stop | time-stop | S✗ RU I– | ✗ 8 → 9 | ✓ | – | – | – | – | ✓ | ✓ | ✗ 1 rounds → long |
 | true_sight | true-seeing | S✗ R✗ I– | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | ✓ | ✗ 3 rounds → long |
 | weakness | ray-of-enfeeblement | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | ✗ constitution negates → · | ✗ 15 → · | ✗ none → ranged touch | ✓ | ✗ 3 rounds → long |
-| weird | weird | S✓ RU I– | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | – | ✓ | ✗ · → several | ✗ instant → long |
+| weird | weird | S✓ RU I– | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → 22 | ✓ | ✗ · → several | ✓ |

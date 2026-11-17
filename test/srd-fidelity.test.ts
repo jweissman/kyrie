@@ -39,6 +39,13 @@ describe('the SRD fidelity census', () => {
     const off = { ...listed, spell: { ...listed.spell, level: listed.spell.level + 1 } };
     expect(SpellFidelity.row('fireball', 'fireball', off).level.verdict).toBe('differs');
   });
+  // A page that says its spell "functions like" another names no range, target, duration or save of its own: it takes
+  // the other's (SrdPages.inherit), so Cure Moderate Wounds is instantaneous and saved against as Cure Light Wounds.
+  it('reads a spell that functions like another by the other\'s header, where its own names none', () => {
+    const moderate = SpellFidelity.spells['cure-moderate-wounds']!, light = SpellFidelity.spells['cure-light-wounds']!;
+    expect([moderate.range, moderate.duration, moderate.save]).toEqual([light.range, light.duration, light.save]);
+    expect(SpellFidelity.spells['hold-monster']!.targets).toBe('One living creature');
+  });
   // What the census had not measured (proof-slices.md, step 1): a save's difficulty, how a spell is aimed, what it
   // falls on, a blow's chance to hit, and three grades a row passes or fails.
   it('measures a save\'s difficulty, how a spell is aimed and what it falls on, at the census\'s caster', () => {

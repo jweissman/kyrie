@@ -427,9 +427,9 @@
    "levels": {
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "Personal",
+   "targets": "You",
+   "duration": "1 min./level (D)",
    "save": "",
    "sr": "",
    "attack": "none"
@@ -846,9 +846,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "burning-hands": {
@@ -904,10 +904,10 @@
     "Drd": 5
    },
    "range": "Long (400 ft. + 40 ft./level)",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "targets": "One or more 30-ft.-long vertical lines of lightning",
+   "duration": "1 min./level",
+   "save": "Reflex half",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "5d6",
@@ -978,9 +978,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "Yes",
    "attack": "none"
   },
   "cause-fear": {
@@ -1072,11 +1072,11 @@
     "Drd": 1,
     "Rgr": 1
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One animal",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 hour/level",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "charm-monster": {
@@ -1089,11 +1089,11 @@
     "Brd": 3,
     "Sor/Wiz": 4
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One living creature",
    "duration": "One day/level",
-   "save": "",
-   "sr": "",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "charm-monster-mass": {
@@ -1106,11 +1106,11 @@
     "Brd": 6,
     "Sor/Wiz": 8
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
    "duration": "One day/level",
-   "save": "",
-   "sr": "",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "charm-person": {
@@ -1206,11 +1206,11 @@
     "Sor/Wiz": 8,
     "Strength": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
+   "targets": "10-ft. hand",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "1d8+11",
@@ -1305,11 +1305,11 @@
    "levels": {
     "Clr": 5
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
    "duration": "1 round/level",
-   "save": "",
-   "sr": "",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "command-plants": {
@@ -1632,11 +1632,11 @@
     "Death": 8,
     "Sor/Wiz": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
+   "targets": "One corpse",
+   "duration": "Instantaneous",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "create-undead": {
@@ -1717,11 +1717,11 @@
     "Sor/Wiz": 9,
     "Strength": 9
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
+   "targets": "10-ft. hand",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "2d6+12",
@@ -1738,11 +1738,11 @@
     "Drd": 5,
     "Healing": 4
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half (harmless); see text",
+   "sr": "Yes (harmless); see text",
    "attack": "none",
    "heal": {
     "dice": "4d8",
@@ -1821,11 +1821,11 @@
     "Clr": 0,
     "Drd": 0
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half (harmless); see text",
+   "sr": "Yes (harmless); see text",
    "attack": "none"
   },
   "cure-moderate-wounds": {
@@ -1840,11 +1840,11 @@
     "Pal": 3,
     "Rgr": 3
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half (harmless); see text",
+   "sr": "Yes (harmless); see text",
    "attack": "none",
    "heal": {
     "dice": "2d8",
@@ -1883,11 +1883,11 @@
     "Rgr": 4,
     "Healing": 3
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half (harmless); see text",
+   "sr": "Yes (harmless); see text",
    "attack": "none",
    "heal": {
     "dice": "3d8",
@@ -2028,9 +2028,9 @@
    },
    "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "One living creature of 6 HD or less",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "death-knell": {
@@ -2095,10 +2095,10 @@
     "Sor/Wiz": 3
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "targets": "One or more living creatures within a 10-ft.-radius burst",
+   "duration": "1 min./level",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "deeper-darkness": {
@@ -2110,11 +2110,11 @@
    "levels": {
     "Clr": 3
    },
-   "range": "",
-   "targets": "",
+   "range": "Touch",
+   "targets": "Object touched",
    "duration": "One day/level (D)",
-   "save": "",
-   "sr": "",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "delay-poison": {
@@ -2144,11 +2144,11 @@
    "levels": {
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
+   "range": "Long (400 ft. + 40 ft./level)",
+   "targets": "20-ft.-radius spread",
    "duration": "5 rounds or less; see text",
-   "save": "",
-   "sr": "",
+   "save": "Reflex half",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "1d6",
@@ -2166,9 +2166,9 @@
    "levels": {
     "Sor/Wiz": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "See text",
+   "targets": "One creature",
+   "duration": "1 round; see text",
    "save": "Will partial",
    "sr": "Yes",
    "attack": "none"
@@ -2233,11 +2233,11 @@
    "levels": {
     "Clr": 1
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "60 ft.",
+   "targets": "Cone-shaped emanation",
+   "duration": "Concentration, up to 10 min./ level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "detect-evil": {
@@ -2261,11 +2261,11 @@
    "levels": {
     "Clr": 1
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "60 ft.",
+   "targets": "Cone-shaped emanation",
+   "duration": "Concentration, up to 10 min./ level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "detect-law": {
@@ -2275,11 +2275,11 @@
    "levels": {
     "Clr": 1
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "60 ft.",
+   "targets": "Cone-shaped emanation",
+   "duration": "Concentration, up to 10 min./ level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "detect-magic": {
@@ -2573,11 +2573,11 @@
     "Law": 5,
     "Pal": 4
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "You and a touched evil creature from another plane; or you and an enchantment or evil spell on a touched creature or object",
+   "duration": "1 round/level or until discharged, whichever comes first",
+   "save": "See text",
+   "sr": "See text",
    "attack": "none"
   },
   "dispel-evil": {
@@ -2608,11 +2608,11 @@
     "Clr": 5,
     "Evil": 5
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "You and a touched evil creature from another plane; or you and an enchantment or evil spell on a touched creature or object",
+   "duration": "1 round/level or until discharged, whichever comes first",
+   "save": "See text",
+   "sr": "See text",
    "attack": "none"
   },
   "dispel-law": {
@@ -2625,11 +2625,11 @@
     "Chaos": 5,
     "Clr": 5
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "You and a touched evil creature from another plane; or you and an enchantment or evil spell on a touched creature or object",
+   "duration": "1 round/level or until discharged, whichever comes first",
+   "save": "See text",
+   "sr": "See text",
    "attack": "none"
   },
   "dispel-magic": {
@@ -2661,11 +2661,11 @@
     "Drd": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "Instantaneous",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "displacement": {
@@ -2786,11 +2786,11 @@
    "levels": {
     "Sor/Wiz": 9
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "One day/level",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "dominate-person": {
@@ -2872,9 +2872,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "Yes",
    "attack": "none"
   },
   "earthquake": {
@@ -2947,11 +2947,11 @@
     "Clr": 9,
     "Sor/Wiz": 9
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
+   "targets": "Ray of negative energy",
+   "duration": "Instantaneous",
    "save": "Fortitude partial; see text for enervation",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "enervation": {
@@ -2990,11 +2990,11 @@
    "levels": {
     "Sor/Wiz": 4
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One humanoid creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level (D)",
+   "save": "Fortitude negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "entangle": {
@@ -3632,11 +3632,11 @@
    "levels": {
     "Sor/Wiz": 6
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
+   "targets": "10-ft. hand",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "Yes",
    "attack": "none"
   },
   "foresight": {
@@ -3680,9 +3680,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "Yes",
    "attack": "none"
   },
   "freedom": {
@@ -3948,11 +3948,11 @@
    "levels": {
     "Clr": 6
    },
-   "range": "",
+   "range": "Touch",
    "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "Permanent until discharged (D)",
+   "save": "See text",
+   "sr": "No (object) and Yes; see text",
    "attack": "none",
    "damage": {
     "dice": "10d8",
@@ -3999,11 +3999,11 @@
     "Sor/Wiz": 7,
     "Strength": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
+   "targets": "10-ft. hand",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "Yes",
    "attack": "none"
   },
   "grease": {
@@ -4173,9 +4173,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "Instantaneous",
+   "save": "Will negates (harmless)",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "heal-mount": {
@@ -4267,11 +4267,11 @@
     "Brd": 5,
     "Sor/Wiz": 6
    },
-   "range": "",
-   "targets": "",
+   "range": "Touch",
+   "targets": "Creature touched",
    "duration": "1 min./level",
-   "save": "",
-   "sr": "",
+   "save": "Will negates (harmless)",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "hide-from-animals": {
@@ -4331,11 +4331,11 @@
     "Drd": 2,
     "Rgr": 2
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "One animal",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D); see text",
+   "save": "Will negates; see text",
+   "sr": "Yes",
    "attack": "none"
   },
   "hold-monster": {
@@ -4349,11 +4349,11 @@
     "Law": 6,
     "Sor/Wiz": 5
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "One living creature",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D); see text",
+   "save": "Will negates; see text",
+   "sr": "Yes",
    "attack": "none"
   },
   "hold-monster-mass": {
@@ -4365,11 +4365,11 @@
    "levels": {
     "Sor/Wiz": 9
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D); see text",
+   "save": "Will negates; see text",
+   "sr": "Yes",
    "attack": "none"
   },
   "hold-person": {
@@ -4399,11 +4399,11 @@
    "levels": {
     "Sor/Wiz": 7
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "One or more humanoid creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D); see text",
+   "save": "Will negates; see text",
+   "sr": "Yes",
    "attack": "none"
   },
   "hold-portal": {
@@ -4694,11 +4694,11 @@
     "Clr": 4,
     "Destruction": 4
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "4d8",
@@ -4772,11 +4772,11 @@
    "levels": {
     "Clr": 0
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "inflict-moderate-wounds": {
@@ -4786,11 +4786,11 @@
    "levels": {
     "Clr": 2
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "2d8",
@@ -4824,11 +4824,11 @@
    "levels": {
     "Clr": 3
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "Instantaneous",
+   "save": "Will half",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "3d8",
@@ -4940,11 +4940,11 @@
     "Brd": 4,
     "Sor/Wiz": 4
    },
-   "range": "",
+   "range": "Personal or touch",
    "targets": "You or creature touched",
    "duration": "1 round/level (D)",
    "save": "Will negates (harmless)",
-   "sr": "",
+   "sr": "Yes (harmless) or Yes (harmless, object)",
    "attack": "none"
   },
   "invisibility-mass": {
@@ -4956,9 +4956,9 @@
    },
    "range": "Long (400 ft. + 40 ft./level)",
    "targets": "Any number of creatures, no two of which can be more than 180 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level (D)",
+   "save": "Will negates (harmless) or Will negates (harmless, object)",
+   "sr": "Yes (harmless) or Yes (harmless, object)",
    "attack": "none"
   },
   "invisibility-purge": {
@@ -4983,11 +4983,11 @@
     "Brd": 3,
     "Sor/Wiz": 3
    },
-   "range": "",
+   "range": "Personal or touch",
    "targets": "10-ft.-radius emanation around the creature or object touched",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level (D)",
+   "save": "Will negates (harmless) or Will negates (harmless, object)",
+   "sr": "Yes (harmless) or Yes (harmless, object)",
    "attack": "none"
   },
   "iron-body": {
@@ -5202,11 +5202,11 @@
     "Brd": 4,
     "Sor/Wiz": 4
    },
-   "range": "",
-   "targets": "",
+   "range": "Long (400 ft. + 40 ft./level)",
+   "targets": "Circle, centered on you, with a radius of 400 ft. + 40 ft./level",
    "duration": "10 min./level",
-   "save": "",
-   "sr": "",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "locate-object": {
@@ -5412,11 +5412,11 @@
     "Pal": 3,
     "Sor/Wiz": 3
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "10-ft.-radius emanation from touched creature",
+   "duration": "10 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "No; see text",
    "attack": "none"
   },
   "magic-circle-against-evil": {
@@ -5449,11 +5449,11 @@
     "Evil": 3,
     "Sor/Wiz": 3
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "10-ft.-radius emanation from touched creature",
+   "duration": "10 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "No; see text",
    "attack": "none"
   },
   "magic-circle-against-law": {
@@ -5467,11 +5467,11 @@
     "Clr": 3,
     "Sor/Wiz": 3
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "10-ft.-radius emanation from touched creature",
+   "duration": "10 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "No; see text",
    "attack": "none"
   },
   "magic-fang": {
@@ -5500,8 +5500,8 @@
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One living creature",
    "duration": "1 hour/level",
-   "save": "",
-   "sr": "",
+   "save": "Will negates (harmless)",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "magic-jar": {
@@ -5630,10 +5630,10 @@
     "Sor/Wiz": 5
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
-   "targets": "",
+   "targets": "Unattended, nonmagical object of nonliving plant matter, up to 1 cu. ft./level",
    "duration": "See text",
-   "save": "",
-   "sr": "",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "major-image": {
@@ -5644,11 +5644,11 @@
     "Brd": 3,
     "Sor/Wiz": 3
    },
-   "range": "",
-   "targets": "",
+   "range": "Long (400 ft. + 40 ft./level)",
+   "targets": "Visual figment that cannot extend beyond four 10-ft. cubes + one 10-ft. cube/level (S)",
    "duration": "Concentration + 3 rounds",
-   "save": "",
-   "sr": "",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "No",
    "attack": "none"
   },
   "make-whole": {
@@ -5660,9 +5660,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One object of up to 10 cu. ft./ level",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "Instantaneous",
+   "save": "Will negates (harmless, object)",
+   "sr": "Yes (harmless, object)",
    "attack": "none"
   },
   "mark-of-justice": {
@@ -5823,11 +5823,11 @@
     "Brd": 2,
     "Sor/Wiz": 2
    },
-   "range": "",
-   "targets": "",
+   "range": "Long (400 ft. + 40 ft./level)",
+   "targets": "Visual figment that cannot extend beyond four 10-ft. cubes + one 10-ft. cube/level (S)",
    "duration": "Concentration +2 rounds",
-   "save": "",
-   "sr": "",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "No",
    "attack": "none"
   },
   "miracle": {
@@ -5853,11 +5853,11 @@
     "Brd": 5,
     "Sor/Wiz": 5
    },
-   "range": "",
+   "range": "Long (400 ft. + 40 ft./level)",
    "targets": "One 20-ft. cube/level (S)",
    "duration": "Concentration +1 hour/ level (D)",
-   "save": "",
-   "sr": "",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "No",
    "attack": "none"
   },
   "mirror-image": {
@@ -6153,9 +6153,9 @@
    },
    "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "Yes",
    "attack": "none"
   },
   "passwall": {
@@ -6209,11 +6209,11 @@
     "Brd": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
+   "range": "Long (400 ft. + 40 ft./level)",
    "targets": "Figment that cannot extend beyond a 20-ft. cube + one 10-ft. cube/level (S)",
    "duration": "Permanent (D)",
-   "save": "",
-   "sr": "",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "No",
    "attack": "none"
   },
   "persistent-image": {
@@ -6224,11 +6224,11 @@
     "Brd": 5,
     "Sor/Wiz": 5
    },
-   "range": "",
-   "targets": "",
+   "range": "Long (400 ft. + 40 ft./level)",
+   "targets": "Visual figment that cannot extend beyond four 10-ft. cubes + one 10-ft. cube/level (S)",
    "duration": "1 min./level (D)",
-   "save": "",
-   "sr": "",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "No",
    "attack": "none"
   },
   "phantasmal-killer": {
@@ -6584,9 +6584,9 @@
    },
    "range": "10 ft.",
    "targets": "10-ft.-radius sphere centered on you",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "10 min./level (D)",
+   "save": "See text",
+   "sr": "See text",
    "attack": "none"
   },
   "prismatic-spray": {
@@ -6642,11 +6642,11 @@
     "Brd": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
+   "range": "Long (400 ft. + 40 ft./level)",
    "targets": "Visual figment that cannot extend beyond a 20-ft. cube + one 10-ft. cube/level (S)",
    "duration": "Permanent until triggered, then 1 round/level",
-   "save": "",
-   "sr": "",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "No",
    "attack": "none"
   },
   "project-image": {
@@ -6690,11 +6690,11 @@
     "Pal": 1,
     "Sor/Wiz": 1
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "1 min./level (D)",
+   "save": "Will negates (harmless)",
+   "sr": "No; see text",
    "attack": "none"
   },
   "protection-from-energy": {
@@ -6746,11 +6746,11 @@
     "Evil": 1,
     "Sor/Wiz": 1
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "1 min./level (D)",
+   "save": "Will negates (harmless)",
+   "sr": "No; see text",
    "attack": "none"
   },
   "protection-from-law": {
@@ -6764,11 +6764,11 @@
     "Clr": 1,
     "Sor/Wiz": 1
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "1 min./level (D)",
+   "save": "Will negates (harmless)",
+   "sr": "No; see text",
    "attack": "none"
   },
   "protection-from-spells": {
@@ -6807,11 +6807,11 @@
    "levels": {
     "Sor/Wiz": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "One mile",
+   "targets": "Ten or more levitating eyes",
+   "duration": "1 hour/level; see text (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "purify-food-and-drink": {
@@ -7014,11 +7014,11 @@
    "levels": {
     "Sor/Wiz": 4
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One humanoid creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 min./level (D)",
+   "save": "Fortitude negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "refuge": {
@@ -7321,11 +7321,11 @@
    "levels": {
     "Clr": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Dead creature touched",
+   "duration": "Instantaneous",
+   "save": "None; see text",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "reverse-gravity": {
@@ -7501,11 +7501,11 @@
     "Drd": 7,
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
+   "range": "See text",
+   "targets": "Magical sensor",
    "duration": "1 hour/level",
-   "save": "",
-   "sr": "",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "sculpt-sound": {
@@ -7670,11 +7670,11 @@
    "levels": {
     "Sor/Wiz": 9
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "See text",
+   "targets": "See text",
+   "duration": "See text",
+   "save": "Will disbelief (if interacted with); varies; see text",
+   "sr": "Yes; see text",
    "attack": "none"
   },
   "shadow-conjuration": {
@@ -7699,11 +7699,11 @@
    "levels": {
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "See text",
+   "targets": "See text",
+   "duration": "See text",
+   "save": "Will disbelief (if interacted with); varies; see text",
+   "sr": "Yes; see text",
    "attack": "none"
   },
   "shadow-evocation": {
@@ -7728,11 +7728,11 @@
    "levels": {
     "Sor/Wiz": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "See text",
+   "targets": "See text",
+   "duration": "See text",
+   "save": "Will disbelief (if interacted with)",
+   "sr": "Yes",
    "attack": "none"
   },
   "shadow-walk": {
@@ -7777,8 +7777,8 @@
    "range": "Personal",
    "targets": "You",
    "duration": "10 min./level (D)",
-   "save": "",
-   "sr": "",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "shatter": {
@@ -7942,10 +7942,10 @@
     "Sor/Wiz": 8
    },
    "range": "60 ft.",
-   "targets": "",
-   "duration": "",
+   "targets": "Cone-shaped burst",
+   "duration": "Instantaneous",
    "save": "Fortitude partial or Reflex negates (object); see text",
-   "sr": "",
+   "sr": "Yes (object)",
    "attack": "none",
    "damage": {
     "dice": "10d6",
@@ -8123,10 +8123,10 @@
    "levels": {
     "Sor/Wiz": 4
    },
-   "range": "",
-   "targets": "",
+   "range": "Medium (100 ft. + 10 ft. level)",
+   "targets": "Fog spreads in 20-ft. radius, 20 ft. high",
    "duration": "1 min./level",
-   "save": "",
+   "save": "None",
    "sr": "No",
    "attack": "none"
   },
@@ -8268,11 +8268,11 @@
    "levels": {
     "Clr": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Creature touched",
+   "duration": "10 min./level",
+   "save": "Will negates (harmless)",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "spell-resistance": {
@@ -8553,9 +8553,9 @@
    },
    "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "One creature/level, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 hour/level or until completed",
+   "save": "Will negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "summon-instrument": {
@@ -8601,11 +8601,11 @@
     "Clr": 2,
     "Sor/Wiz": 2
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-iii": {
@@ -8619,11 +8619,11 @@
     "Clr": 3,
     "Sor/Wiz": 3
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-iv": {
@@ -8637,11 +8637,11 @@
     "Clr": 4,
     "Sor/Wiz": 4
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-v": {
@@ -8655,11 +8655,11 @@
     "Clr": 5,
     "Sor/Wiz": 5
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-vi": {
@@ -8673,11 +8673,11 @@
     "Clr": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more summoned creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-vii": {
@@ -8690,11 +8690,11 @@
     "Clr": 7,
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
+   "targets": "One summoned creature",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-viii": {
@@ -8707,11 +8707,11 @@
     "Clr": 8,
     "Sor/Wiz": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
+   "targets": "One summoned creature",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-monster-ix": {
@@ -8728,11 +8728,11 @@
     "Law": 9,
     "Sor/Wiz": 9
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
+   "targets": "One summoned creature",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-i": {
@@ -8758,11 +8758,11 @@
     "Drd": 2,
     "Rgr": 2
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-iii": {
@@ -8775,11 +8775,11 @@
     "Drd": 3,
     "Rgr": 3
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-iv": {
@@ -8793,11 +8793,11 @@
     "Drd": 4,
     "Rgr": 4
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-v": {
@@ -8809,11 +8809,11 @@
    "levels": {
     "Drd": 5
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-vi": {
@@ -8825,11 +8825,11 @@
    "levels": {
     "Drd": 6
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-vii": {
@@ -8841,11 +8841,11 @@
    "levels": {
     "Drd": 7
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-viii": {
@@ -8858,11 +8858,11 @@
     "Animal": 8,
     "Drd": 8
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-natures-ally-ix": {
@@ -8874,11 +8874,11 @@
    "levels": {
     "Drd": 9
    },
-   "range": "",
+   "range": "Close (25 ft. + 5 ft./2 levels)",
    "targets": "One or more creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "1 round/level (D)",
+   "save": "None",
+   "sr": "No",
    "attack": "none"
   },
   "summon-swarm": {
@@ -8968,11 +8968,11 @@
     "Clr": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "symbol-of-insanity": {
@@ -8985,11 +8985,11 @@
     "Clr": 8,
     "Sor/Wiz": 8
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "symbol-of-pain": {
@@ -9002,11 +9002,11 @@
     "Clr": 5,
     "Sor/Wiz": 5
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
+   "save": "Fortitude negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "symbol-of-persuasion": {
@@ -9019,11 +9019,11 @@
     "Clr": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "symbol-of-sleep": {
@@ -9036,11 +9036,11 @@
     "Clr": 5,
     "Sor/Wiz": 5
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "symbol-of-stunning": {
@@ -9053,11 +9053,11 @@
     "Clr": 7,
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "symbol-of-weakness": {
@@ -9068,11 +9068,11 @@
     "Clr": 7,
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "0 ft.; see text",
+   "targets": "One symbol",
+   "duration": "See text",
+   "save": "Fortitude negates",
+   "sr": "Yes",
    "attack": "none"
   },
   "sympathetic-vibration": {
@@ -9184,7 +9184,7 @@
    },
    "range": "Touch",
    "targets": "One touched object of up to 50 lb./level and 3 cu. ft./level",
-   "duration": "",
+   "duration": "Instantaneous",
    "save": "Will negates (object)",
    "sr": "Yes (object)",
    "attack": "none"
@@ -9197,11 +9197,11 @@
     "Sor/Wiz": 7,
     "Travel": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Personal and touch",
+   "targets": "You and touched objects or other touched willing creatures",
+   "duration": "Instantaneous",
+   "save": "None and Will negates (object)",
+   "sr": "No and Yes (object)",
    "attack": "none"
   },
   "teleportation-circle": {
@@ -9441,11 +9441,11 @@
    "levels": {
     "Clr": 9
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "range": "Touch",
+   "targets": "Dead creature touched",
+   "duration": "Instantaneous",
+   "save": "None; see text",
+   "sr": "Yes (harmless)",
    "attack": "none"
   },
   "true-seeing": {
@@ -9487,11 +9487,11 @@
     "Clr": 6,
     "Sor/Wiz": 6
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "Several undead creatures within a 40-ft.-radius burst",
-   "duration": "",
+   "duration": "Instantaneous",
    "save": "Will negates",
-   "sr": "",
+   "sr": "Yes",
    "attack": "none"
   },
   "undetectable-alignment": {
@@ -9654,9 +9654,9 @@
    "levels": {
     "Sor/Wiz": 7
    },
-   "range": "",
-   "targets": "",
-   "duration": "",
+   "range": "Personal",
+   "targets": "You",
+   "duration": "See text",
    "save": "",
    "sr": "",
    "attack": "none"
@@ -9893,11 +9893,11 @@
    "levels": {
     "Sor/Wiz": 9
    },
-   "range": "",
+   "range": "Medium (100 ft. + 10 ft./level)",
    "targets": "Any number of creatures, no two of which can be more than 30 ft. apart",
-   "duration": "",
-   "save": "",
-   "sr": "",
+   "duration": "Instantaneous",
+   "save": "Will disbelief (if interacted with), then Fortitude partial; see text",
+   "sr": "Yes",
    "attack": "none",
    "damage": {
     "dice": "3d6",

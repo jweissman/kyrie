@@ -14,6 +14,8 @@ export interface Monster {
 export interface Spell {
   name: string; school: string; descriptors: string[]; levels: Record<string, number>; range: string;
   targets: string; duration: string; save: string; sr: string;
+  // The spell its page says it functions like, while the pages are read (see SrdPages.inherit).
+  like?: string;
   // How it is aimed, as its text says: an ordinary attack, a touch in melee, a ranged touch (a ray), or none.
   attack: 'none' | 'melee touch' | 'ranged touch' | 'attack';
   damage?: { dice: string; per?: 'level' | 'two levels'; max?: string; type: string; plus?: string };
@@ -117,8 +119,22 @@ export class SrdPages {
         duration: SrdPages.said(ps, 'Duration'), save: SrdPages.said(ps, 'Saving Throw'),
         sr: SrdPages.said(ps, 'Spell Resistance'), attack: 'none' };
       Object.assign(spell, this.harm(body, spell.descriptors), { attack: SrdPages.aimed(body, spell) });
-      return [[id, spell] as [string, Spell]];
+      const like = body.match(/functions like ([a-z’' ]+?)(?:,| except|\.)/i)?.[1];
+      return [[id, like ? { ...spell, like: like.toLowerCase() } : spell] as [string, Spell]];
     });
+  }
+  // A spell whose page says it "functions like" another (Cure Moderate Wounds, Cure Light Wounds) takes that one's
+  // range, targets, duration, save and resistance where its own page names none: its header is the other's.
+  static inherit(spells: [string, Spell][]): [string, Spell][] {
+    const named = new Map(spells.map(([, s]) => [s.name.toLowerCase(), s]));
+    const fields = ['range', 'targets', 'duration', 'save', 'sr'] as const;
+    for (let pass = 0; pass < 4; pass++) {
+      for (const [, s] of spells) {
+        const from = s.like ? named.get(s.like) : undefined;
+        for (const f of fields.filter(f => from && !s[f])) { s[f] = from![f]; }
+      }
+    }
+    return spells.map(([id, { like: _like, ...s }]) => [id, s]);
   }
   // How it is aimed: by the sentences that say a touch attack is made (not one that hits an opening a burst is sent
   // through, as Fireball's bead may), by being a ray, or by being a touch that harms (the SRD's touch spells in
