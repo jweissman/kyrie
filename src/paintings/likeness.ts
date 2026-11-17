@@ -9,7 +9,9 @@ export interface Sitter { sex: 'man' | 'woman'; age?: string; station?: string; 
 export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string[]; concept?: string; mourning?: boolean;
   homely?: boolean;
   // Someone's parent, painted by no young sitter (see Likeness.parents).
-  elder?: boolean }
+  elder?: boolean;
+  // Said in so many words to be young (a lad, a girl), painted as no one grown (see Likeness.youths).
+  youth?: boolean }
 
 // The painting shown beside someone: one of the corpus (data/paintings), chosen by what it shows, not by its file's
 // name. It is not a picture of them; it is a painting of someone who could be: of their sex, their station and, where
@@ -120,7 +122,7 @@ export class Likeness {
     const homely = !concept && !!kin && (this.clauses(at.role ?? '').length === 1 || parent);
     const painted = station ?? 'labouring', wanted: Wanted = { ...sex ? { sex } : {}, ...concept ? { concept } : {},
       ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {},
-      ...parent ? { elder: true } : {} };
+      ...parent ? { elder: true } : {}, ...words.some(w => this.youths.has(w)) ? { youth: true } : {} };
     // Where none of their station is left to them (the country's people hold every grown woman of the working people's
     // paintings), one of the station beside it: a sick child's mother in a middling woman's cap and collar.
     for (const stations of [[painted], ...(this.beside[painted] ?? []).map(s => [s])]) {
@@ -137,7 +139,7 @@ export class Likeness {
   private static fits(id: string, who: Wanted): boolean {
     const sitter = this.sitters.get(id), age = who.age;
     const far = !!sitter?.age && ((!!age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1)
-      || (!!who.elder && sitter.age === 'young'));
+      || (!!who.elder && sitter.age === 'young') || (!!who.youth && sitter.age !== 'young'));
     return (!!who.concept && id === this.resolve(who.concept)) || (!!who.mourning && this.mourning.has(id))
       || (!!who.homely && this.homely.has(id)) || (sitter?.station === who.stations?.[0] && !far);
   }
@@ -157,7 +159,11 @@ export class Likeness {
     grandmother: 'woman', grandfather: 'man', uncle: 'man', aunt: 'woman', nephew: 'man', niece: 'woman' };
   static readonly ages: Record<string, string> = { mother: 'adult', father: 'adult', wife: 'adult', husband: 'adult',
     widow: 'adult', widower: 'adult', grandmother: 'old', grandfather: 'old', elder: 'old', crone: 'old',
-    sister: 'young', brother: 'young', daughter: 'young', son: 'young' };
+    sister: 'young', brother: 'young', daughter: 'young', son: 'young', lad: 'young', boy: 'young', youth: 'young',
+    girl: 'young', lass: 'young' };
+  // Whoever is called a lad or a girl is young and no older: a brother "taller by a head than when you went away" had
+  // been a balding man in a ruff (OR-30), a son being any grown man.
+  static readonly youths = new Set(['lad', 'boy', 'youth', 'girl', 'lass']);
   // Whoever is someone's parent is no younger than a grown child: a drover's son had been an old man, and the mother
   // of one come home after three years a girl cutting a fish (play 10).
   static readonly parents = new Set(['mother', 'father', 'grandmother', 'grandfather']);
@@ -178,10 +184,15 @@ export class Likeness {
   // Ford" is a priest, not a chapel), and in each part the last word is the work ("the old dyke-reeve").
   private static words(role: string): string[] { return this.clauses(role).flatMap(part => part.reverse()); }
   // A role's clauses, each its words: "the drover's wife, who cooks at the inn" is three, "the child's mother" one.
+  // Whose someone is says nothing of what they are, nor whose another is: the drover's son, "a lad who wants to go
+  // after his father", had been painted as a drover and a parent, a grown man, under "taller by a head than when you
+  // went away" (OR-30). Short words are none, but a son's or a lad's.
   private static clauses(role: string): string[][] {
-    return role.toLowerCase().replace(/[^a-z\- ]/g, ' ').split(/\b(?:of|at|in|on|from|by|for|to|with|who|whose|that)\b/)
-      .map(part => part.split(/\s+/).filter(w => w.length > 3)).filter(part => part.length);
+    return role.toLowerCase().replace(/[a-z-]+['’]s\b|\b(?:his|her|their|its)\s+[a-z-]+/g, ' ').replace(/[^a-z\- ]/g, ' ')
+      .split(/\b(?:of|at|in|on|from|by|for|to|with|who|whose|that)\b/)
+      .map(part => part.split(/\s+/).filter(w => w.length > 3 || this.short.has(w))).filter(part => part.length);
   }
+  static readonly short = new Set(['son', 'lad', 'boy']);
   private static hash(text: string): number {
     let h = 2166136261;
     for (let i = 0; i < text.length; i++) { h = Math.imul(h ^ text.charCodeAt(i), 16777619); }

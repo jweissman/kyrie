@@ -12,4 +12,11 @@ describe('a likeness by occupation', () => {
       }
     }
   });
+  // OR-30: the drover's son, "taller by a head than when you went away", had been a balding man in a ruff: painted as
+  // the drover (whose he is) and as a parent (his father, whose another is). A lad is young; the mother is not.
+  it('is of the age the person is, not of whose they are', () => {
+    const age = (role: string, sex: 'man' | 'woman') => Likeness.sitter(Likeness.of({ role, sex, key: role })!)?.age;
+    expect(age('the drover\'s son, a lad who wants to go after his father, your brother', 'man')).toBe('young');
+    expect(age('the drover\'s wife, who cooks at the inn, your mother', 'woman')).not.toBe('young');
+  });
 });

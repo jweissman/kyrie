@@ -19,7 +19,7 @@ Module drover "The drover who did not come home" {
   Topic hedger_oxen with hedger "Ask the hedger what would take two oxen and leave the man" when knows(party, found_cart) once {
     Says "The hedger puts his cup down. 'Wolves would take one and tear it where it fell. Whatever took both took them uphill, alive, and wanted them whole.' He looks at the window. 'There's an old drove road over the tops nobody uses now. My father wouldn't. Ask him why, he'd say: because of what minds it.'".
   }
-  Person son "The drover's son" at green { Role "the drover's son, who wants to go after his father". Pronouns he. Peaceable. }
+  Person son "The drover's son" at green { Role "the drover's son, a lad who wants to go after his father". Pronouns he. Peaceable. }
   // The dog that came home: a real dog, lame in the off forefoot, who lets anyone who is kind to her look at her; and
   // whoever does sees where she has been.
   Person dog "the grey dog" at green { Role "the drover's dog". Species dog. Pronouns she. Peaceable. }
