@@ -1,6 +1,7 @@
 import { useRef, type CSSProperties } from 'react';
 import type { Catalog } from '../../engine/protocol';
 import { SkyCanvas } from './sky-canvas';
+import { SkyTexture } from './sky-texture';
 
 type Sign = Catalog['signs'][number];
 
@@ -18,11 +19,13 @@ export class Observatory {
   static readonly r = 1640;
   static readonly field = 440;
   // What of the sky is in view: all of it on a wide screen, the constellation at the left beside the rows; on a tall
-  // one, a narrow field about the constellation, set low, under the rows (M22's review: on a phone the lit sign had
-  // been off the left of the screen, a single line of it showing).
-  static view(): string {
+  // one, a wider field set by the screen's foot, the constellation drawn whole and smaller, low, under the rows and
+  // above the foot (M22's review: on a phone the lit sign had been off the left of the screen, a single line of it
+  // showing; OR-17: a figure filling its field had then reached up into the rows).
+  static view(): { box: string; align: string } {
     const tall = typeof innerWidth === 'number' && innerHeight > innerWidth * 1.2;
-    return tall ? `${Observatory.cx - 445} -745 890 1650` : '0 0 1600 1000';
+    return tall ? { box: `${Observatory.cx - 594} -1204 1188 2200`, align: 'xMidYMax slice' }
+      : { box: '0 0 1600 1000', align: 'xMidYMid slice' };
   }
   // How far the far field slides as the ring turns a degree (a sign is thirty: over a third of what is in sight).
   static readonly pan = 18;
@@ -34,14 +37,12 @@ export class Observatory {
     turned.current = now + ((((want - now) % 360) + 540) % 360) - 180;
     const { cx, cy } = Observatory, pan = turned.current * Observatory.pan;
     const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const view = Observatory.view();
     return (
       <div className="observatory" aria-hidden="true">
         <SkyCanvas.View pan={pan} still={still} />
-        <svg viewBox={Observatory.view()} preserveAspectRatio="xMidYMid slice" focusable="false">
-          <defs>
-            <filter id="obs-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b" />
-              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-          </defs>
+        <svg viewBox={view.box} preserveAspectRatio={view.align} focusable="false">
+          <Observatory.Defs />
           <g className="obs-turned" style={{ '--turn': `${turned.current}deg` } as CSSProperties}>
           <g className="obs-ring" style={{ transformOrigin: `${cx}px ${cy}px` }}>
             <circle className="obs-arc" cx={cx} cy={cy} r={Observatory.r} />
@@ -54,7 +55,19 @@ export class Observatory {
       </div>
     );
   }
-  // One constellation at its place on the ring, upright at the top of it: its lines, then its stars by brightness.
+  // A halo for each colour a star may be: a soft light of its own tint about it, fading to nothing.
+  static Defs() {
+    return (
+      <defs>
+        {SkyTexture.stars.map((c, t) => <radialGradient key={t} id={`obs-halo-${t}`}>
+          <stop offset="0" stopColor={`rgb(${c.join(',')})`} stopOpacity=".55" />
+          <stop offset=".25" stopColor={`rgb(${c.join(',')})`} stopOpacity=".16" />
+          <stop offset="1" stopColor={`rgb(${c.join(',')})`} stopOpacity="0" /></radialGradient>)}
+      </defs>
+    );
+  }
+  // One constellation at its place on the ring, upright at the top of it, as a star atlas draws one (OR-17): the figure
+  // it is named for engraved faintly about its stars, the lines that join them, then its stars by magnitude and colour.
   static Figure({ sign, angle, lit, chosen, flare, onFocus, onChoose }: { sign: Sign; angle: number; lit: boolean;
     chosen: boolean; flare: boolean; onFocus: (id: string) => void; onChoose: (id: string) => void }) {
     const { cx, cy, r, field } = Observatory, star = (k: number) => sign.stars[k] ?? [0, 0, 1];
@@ -64,17 +77,33 @@ export class Observatory {
       <g className={cls} data-sign={sign.id} transform={`rotate(${angle} ${cx} ${cy}) translate(${cx} ${cy - r})`}
         onMouseEnter={() => onFocus(sign.id)} onClick={() => onChoose(sign.id)}>
         <circle className="obs-hit" r={field * .62} />
+        {sign.figure && <path className="obs-figure" d={sign.figure}
+          transform={`translate(${-field / 2} ${-field / 2}) scale(${field / 100})`} />}
         {sign.lines.map(([a, b], i) => <Observatory.Link key={i} from={p(a!)} to={p(b!)}
           gap={[Observatory.radius(star(a!)[2]), Observatory.radius(star(b!)[2])]} />)}
-        {sign.stars.map((s, i) => <circle key={i} className={`obs-star b${s[2] ?? 1}`} cx={p(i)[0]} cy={p(i)[1]}
-          r={Observatory.radius(s[2])} />)}
+        {sign.stars.map((s, i) => <Observatory.Star key={i} at={p(i)} magnitude={s[2]} tint={s[3]} />)}
         <text className="obs-name" y={Observatory.foot(sign) * field + 46} textAnchor="middle">
           {sign.name.replace(/^the /i, '')}</text>
       </g>
     );
   }
-  // A star's size by its magnitude (1 faint to 3 bright): plainly different, so that a figure reads by its bright stars.
-  static radius(magnitude = 1): number { return [0, 2.2, 3.8, 5.6][Math.min(3, Math.max(1, magnitude))]!; }
+  // A star as an atlas marks one: a disc by its magnitude in its own colour (blue-white to orange, SkyTexture.stars),
+  // the brighter in a halo of that colour, the brightest of a sign with fine tapering rays.
+  static Star({ at, magnitude = 1, tint = 3 }: { at: readonly [number, number]; magnitude?: number; tint?: number }) {
+    const m = Math.min(4, Math.max(1, magnitude)), r = Observatory.radius(m), t = Math.min(6, Math.max(0, tint));
+    const ray = (x: number, y: number) => `M${-x} ${-y}L${y * .09} ${-x * .09}L${x} ${y}L${-y * .09} ${x * .09}Z`;
+    return (
+      <g className={`obs-star b${m}`} transform={`translate(${at[0]} ${at[1]})`}
+        style={{ color: `rgb(${SkyTexture.stars[t]!.join(',')})` }}>
+        {m > 1 && <circle className="obs-halo" r={r * (m + 2)} fill={`url(#obs-halo-${t})`} />}
+        {m > 3 && <path className="obs-rays" d={`${ray(r * 6, 0)}${ray(0, r * 4.2)}`} />}
+        <circle className="obs-core" r={r} />
+      </g>
+    );
+  }
+  // A star's size by its magnitude (1 faint to 4, a sign's brightest): plainly different, so that a figure reads by its
+  // bright stars and the faint ones fill it out.
+  static radius(magnitude = 1): number { return [0, 1.7, 2.7, 3.9, 5.2][Math.min(4, Math.max(1, magnitude))]!; }
   // A line of a figure, from star to star but never into them: it stops a little short of each, as a drawn constellation
   // does, so that the stars stand clear of the figure they make.
   static Link({ from, to, gap }: { from: readonly [number, number]; to: readonly [number, number];

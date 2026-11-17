@@ -65,19 +65,36 @@
 .obs-sign line { stroke: transparent; stroke-width: 1.3; stroke-linecap: round; transition: stroke 500ms var(--ease); }
 /* Only the sign in view is drawn as a figure; the others stand as stars, so that nothing else is made of the sky behind the
    list (the owner, 17 November: the constellations were hard to read). */
-.obs-sign .obs-star { fill: rgba(236, 230, 217, .5); transition: fill 500ms var(--ease); }
-.obs-sign .obs-star.b3 { fill: rgba(246, 240, 226, .8); }
-.obs-sign.lit line { stroke: rgba(236, 230, 217, .8); stroke-width: 1.8; stroke-dasharray: 1; animation: obs-draw 900ms var(--ease) both; }
+.obs-sign .obs-core { fill: currentColor; } .obs-sign .obs-rays { fill: currentColor; opacity: 0; }
+/* The signs not in view are points of the sky behind the list, small and dim; the one in view stands at its magnitudes. */
+.obs-sign .obs-star { opacity: .55; transition: opacity 500ms var(--ease); }
+.obs-sign .obs-star.b1 { opacity: .4; }
+.obs-sign .obs-core { transform: scale(.5); transform-box: fill-box; transform-origin: center; transition: transform 500ms var(--ease); }
+.obs-sign .obs-halo { opacity: 0; transition: opacity 500ms var(--ease); }
+.obs-sign.lit .obs-core { transform: none; }
+.obs-sign.lit .obs-star { opacity: 1; } .obs-sign.lit .obs-star.b1 { opacity: .78; }
+.obs-sign.lit .obs-halo { opacity: 1; } .obs-sign.lit .obs-rays { opacity: .7; }
+/* The figure a sign is named for, engraved about its stars as an atlas draws it: fine, warm and faint, under its lines. */
+.obs-figure { fill: none; stroke: rgba(226, 206, 166, 0); stroke-width: 1; stroke-linejoin: round; stroke-linecap: round;
+  vector-effect: non-scaling-stroke; transition: stroke 900ms var(--ease); }
+.obs-sign.lit .obs-figure { stroke: rgba(226, 206, 166, .36); }
+.obs-sign.lit line { stroke: rgba(214, 222, 240, .5); stroke-width: 1.2; stroke-dasharray: 1;
+  animation: obs-draw 900ms var(--ease) both; }
 @keyframes obs-draw { from { stroke-dashoffset: 1; opacity: .2; } to { stroke-dashoffset: 0; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .obs-sign.lit line { animation: none; } }
-.obs-sign:not(.lit) .obs-star { opacity: .28; }
-.obs-sign.lit .obs-star { fill: #fff; filter: url(#obs-glow); }
 @keyframes obs-flare { 0% { stroke-width: 1.6; } 35% { stroke-width: 3.4; stroke: #fff; } 100% { stroke-width: 2; } }
 .obs-sign.flare line { animation: obs-flare 340ms var(--ease) both; }
+/* On a tall screen the sky is drawn smaller, under the rows (Observatory.view): its name, lines and stars are drawn larger
+   in the sky's units, so that they are the size they are on a wide one. */
+@media (max-aspect-ratio: 5/6) {
+  .observatory .obs-name { font-size: 28px; transform: translateY(14px); } .obs-sign.lit line { stroke-width: 2.6; }
+  .obs-sign .obs-core { transform: scale(.8); } .obs-sign.lit .obs-core { transform: scale(1.6); }
+}
 .composed[data-page="sign"] .composed-col { background: radial-gradient(closest-side, rgba(7, 8, 12, .55), transparent); }
 @media (prefers-reduced-motion: reduce) {
   .obs-ring, .obs-far, .obs-mid, .obs-band { transition: opacity 300ms; } .obs-drift { animation: none; }
-  .obs-mid > g, .obs-far circle, .obs-meteor { animation: none !important; } .obs-sign line, .obs-sign .obs-star { transition: none; }
+  .obs-mid > g, .obs-far circle, .obs-meteor { animation: none !important; } .obs-sign line, .obs-sign .obs-star, .obs-figure,
+    .obs-sign .obs-core, .obs-sign .obs-halo { transition: none; }
   .obs-sign.flare line { animation: none; }
 }
 .composed .composed-card[data-chosen]::after { content: ''; display: block; position: absolute; left: 50%; bottom: 10px;

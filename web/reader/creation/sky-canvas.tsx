@@ -16,6 +16,7 @@ export class SkyCanvas {
   static readonly tile = 6400;
   static readonly height = 1000;
   private static layers?: Layer[];
+  private static haze?: HTMLCanvasElement;
   private static sprites = new Map<string, HTMLCanvasElement>();
 
   // The galactic band across the tile: where the stars are thicker, wandering as the tile goes on.
@@ -61,12 +62,54 @@ export class SkyCanvas {
     return c;
   }
 
+  // The galaxy's own light along the band (OR-17: the sky had been a flat navy): soft clouds of it, cool and a few warm,
+  // parted by darker lanes, drawn once at a sixth of the tile's size and stretched, so that it is only ever soft.
+  private static mist(): HTMLCanvasElement {
+    if (this.haze) { return this.haze; }
+    const k = 6, c = document.createElement('canvas'), g = c.getContext('2d')!, r = new SkyRng(7);
+    c.width = this.tile / k; c.height = this.height / k;
+    // A cloud is one soft sprite, drawn large and shrunk, so that no gradient is dithered at the haze's small size.
+    const puff = (rgb: string) => {
+      const p = document.createElement('canvas'), q = p.getContext('2d')!, n = 128, grad = q.createRadialGradient(64, 64, 0, 64, 64, 64);
+      p.width = p.height = n; grad.addColorStop(0, `rgba(${rgb},1)`); grad.addColorStop(.5, `rgba(${rgb},.35)`);
+      grad.addColorStop(1, `rgba(${rgb},0)`); q.fillStyle = grad; q.fillRect(0, 0, n, n);
+      return p;
+    };
+    const cool = puff('176,194,255'), warm = puff('255,212,168'), dark = puff('0,0,0');
+    const cloud = (x: number, y: number, s: number, a: number, sprite: HTMLCanvasElement) => {
+      g.globalAlpha = a;
+      for (const at of [x - this.tile, x, x + this.tile]) {
+        if (at + s > 0 && at - s < this.tile) { g.drawImage(sprite, (at - s) / k, (y - s) / k, 2 * s / k, 2 * s / k); }
+      }
+    };
+    for (let i = 0; i < 520; i++) {
+      const x = r.next() * this.tile, y = this.band(x) + (r.next() + r.next() + r.next() - 1.5) * 170;
+      cloud(x, y, 50 + r.next() ** 2 * 230, .02 + r.next() * .035, r.next() < .3 ? warm : cool);
+    }
+    g.globalCompositeOperation = 'destination-out';
+    for (let i = 0; i < 140; i++) {
+      const x = r.next() * this.tile;
+      cloud(x, this.band(x) + (r.next() - .5) * 90, 30 + r.next() * 70, .25 + r.next() * .3, dark);
+    }
+    return this.haze = c;
+  }
+
+  // The haze where a layer of the band's depth stands, slid as its stars are: twice, to cover the tile's seam.
+  private static hazeAt(g: CanvasRenderingContext2D, slide: number, frame: { ox: number; oy: number; scale: number; dpr: number }) {
+    const { ox, oy, scale, dpr } = frame, c = this.mist(), base = ((-slide % this.tile) + this.tile) % this.tile - 200;
+    g.globalAlpha = 1; g.imageSmoothingQuality = 'high';
+    for (const at of [base - this.tile, base]) {
+      g.drawImage(c, (ox + at * scale) * dpr, oy * dpr, this.tile * scale * dpr, this.height * scale * dpr);
+    }
+  }
+
   // One frame: every layer at its own share of the pan, the near ones drawn last.
   private static draw(g: CanvasRenderingContext2D, w: number, h: number, dpr: number, pan: number, t: number) {
     g.clearRect(0, 0, w, h);
     const scale = Math.max(w / dpr / 1600, h / dpr / 1000), ox = (w / dpr - 1600 * scale) / 2, oy = (h / dpr - 1000 * scale) / 2;
     for (const layer of this.make()) {
       const slide = pan * (.12 + layer.depth * .88) + t * 2.2 * (.3 + layer.depth);
+      if (layer.depth === .22) { this.hazeAt(g, slide, { ox, oy, scale, dpr }); }
       for (const s of layer.stars) {
         const vx = ((s.x - slide) % this.tile + this.tile) % this.tile - 200;
         if (vx > 1800) { continue; }
