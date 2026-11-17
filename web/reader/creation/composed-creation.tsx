@@ -61,7 +61,10 @@ export class ComposedCreation {
   }
   static Step({ app, step, roll, reroll, more, unfold, onward }: { app: ReaderApp; step: CreationStep; roll: number;
     reroll: () => void; more: number; unfold: () => void; onward: () => void }) {
-    const offer = ComposedOptions.of(app, step, roll), first = step.chosen ?? offer.options[0]?.id ?? '';
+    // What is lit first: the choice already made where it is among those offered, else the first (M22's review: a mage's
+    // "before" step had lit nothing and described Brawn, the warrior's default, which a mage is not offered).
+    const offer = ComposedOptions.of(app, step, roll);
+    const first = (offer.options.some(o => o.id === step.chosen) ? step.chosen : offer.options[0]?.id) ?? '';
     const [lit, consider] = useState(first), [flare, flared] = useState<string>(), leaving = useRef(false);
     useEffect(() => { ComposedCreation.focus(); }, []);
     const choose = (id: string) => {

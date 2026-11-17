@@ -222,6 +222,13 @@ html, body { overflow: hidden; }
   stroke-linejoin: round; opacity: .85; }
 .signature .face { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 1px solid var(--accent-line); }
 .signature .face img { width: 100%; height: 100%; object-fit: cover; }
+/* On a phone the life's emblems stand on their own row above Back and Set out now, which keep to one line (M22's
+   review: Set out now had wrapped to three lines beside them). */
+@media (max-width: 760px) {
+  .creation-edge { padding-right: var(--safe-r); }
+  .creation-edge > .quiet-word { white-space: nowrap; }
+  .signature { bottom: calc(var(--safe-b) + 40px); }
+}
 .creation .how { text-align: center; font: 400 14.5px/1.5 var(--do); color: var(--dim); max-width: 46em; margin: 0 auto 14px; }
 
 /* The deck: the cards together and centred, wrapping into rows, every one in sight; the fewer, the larger. Each card
@@ -516,6 +523,11 @@ html, body { overflow: hidden; }
 /* Setting out, step by step as the engine begins each (M19-49): those done quiet, the one under way lit. */
 .loading .steps { list-style: none; margin: 14px 0 0; padding: 0; display: flex; gap: 18px; justify-content: center;
   font: 400 12.5px/1.4 var(--do); letter-spacing: .06em; color: rgba(236, 230, 217, .32); }
+/* Said only where setting out is long (M22: with the start made ready while the life is chosen it takes a moment, and
+   a checklist for a moment is machinery; a cold one, Set out now at once, still takes seconds and says so). */
+@keyframes steps-late { from { opacity: 0; } to { opacity: 1; } }
+.loading.leaving .steps { opacity: 0; animation: steps-late 400ms var(--ease) 2500ms forwards; }
+@media (prefers-reduced-motion: reduce) { .loading.leaving .steps { animation-duration: 1ms; } }
 .loading .steps li.done { color: rgba(236, 230, 217, .55); }
 .loading .steps li.done::before { content: '✓ '; }
 .loading .steps li.now { color: var(--ivory); position: relative; animation: breathe 2.4s ease-in-out infinite; }

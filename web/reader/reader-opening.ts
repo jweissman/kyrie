@@ -291,7 +291,9 @@ export class ReaderOpening {
       const frame = await request;
       // A game begun opens on its opening, where the engine told one apart; one taken up again, on where it was.
       // Play begins where the company is (see WorldStage.begins).
-      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false,
+      // The loading page's last words are its own: left in the state, they were told again under the first act taken
+      // ("Telling where you are.": M22's review, OR-24).
+      this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false, stage: '',
         outdoors: WorldStage.begins(frame),
         prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
     } catch (error) { this.fail(error, otherwise); }

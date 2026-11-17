@@ -28,10 +28,12 @@ export class Hold {
   }
   // What a held act's button carries (Act.View): its mark, and the hand's and the keys' press and release.
   static props(app: ReaderApp, c: Choice) {
-    return Hold.bind(app.choose.bind(app, c), Hold.pending.bind(null, app));
+    // Asked of the app when the hold is done, not when the row is drawn: a page drawn apart from a running app (a
+    // sheet rendered for its words) has none to bind.
+    return Hold.bind(() => app.choose(c), () => Hold.pending(app));
   }
   private static never(): boolean { return false; }
-  private static pending(app: ReaderApp): boolean { return !!app.state.pending; }
+  private static pending(app: ReaderApp): boolean { return !!app.state?.pending; }
   // Any button's commitment by holding (the owner, 16 November: the title's ways in and creation's cards): the same
   // hold, ring and armed second press, for the hand, a touch, the keys, and an assistive technology's click.
   static bind(commit: () => void, busy: () => boolean = Hold.never) {

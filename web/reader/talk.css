@@ -159,3 +159,6 @@
 .shell.scene-full .sitter.unpainted { background: linear-gradient(180deg, rgba(10, 11, 14, .55), rgba(10, 11, 14, .92)); }
 /* The numbers a fold holds, beside its word (see TalkStage.span). */
 .more-talk > summary .fold-keys { margin-left: 10px; font: var(--t-key); letter-spacing: 0; color: var(--dim); }
+/* Portrait, the sitter's name, part and place are clear of the close (M22's review: the × had stood on the place's
+   name on a phone). */
+@media (max-width: 1023px), (orientation: portrait) { .sitter .cap { right: calc(var(--safe-r) + 48px); } }

@@ -131,7 +131,8 @@
   -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 @media (max-width: 760px) {
   .composed .composed-step { position: absolute; overflow-y: auto; padding: 64px 0 24px; }
-  .composed .ask { position: static; width: auto; max-width: none; padding: 0 var(--safe-r) 12px var(--safe-l); }
+  /* Above the sign's sky, which is drawn over the whole page (a static question had been painted under it). */
+  .composed .ask { position: relative; inset: auto; z-index: 1; width: auto; max-width: none; padding: 0 var(--safe-r) 12px var(--safe-l); }
   .composed .composed-col, .composed .with-cards .composed-col { position: static; padding: 0 var(--safe-r) 0 var(--safe-l);
     max-width: none; }
 }
@@ -158,3 +159,6 @@
 .obs-sign.lit .obs-name { fill: rgba(236, 230, 217, .78); }
 .composed[data-page="sign"] .composed-rows.many { --composed-h: 32px; }
 .composed[data-page="sign"] .ask { width: max-content; max-width: min(90vw, 760px); }
+/* On a phone the sign's question is set as every other step's, not one line wider than the screen (M22's review: the
+   question had gone off the page). */
+@media (max-width: 760px) { .composed[data-page="sign"] .ask { width: auto; max-width: none; } }
