@@ -78,13 +78,27 @@ export class ActionCensus {
         + `${(m as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 40)} (one of ${shown.length} menus)` })) : [];
     }, surface);
   }
+  // What is in a menu or a rail but cannot be pressed where it is drawn: the point at its middle is another element's,
+  // or nothing's (a creation rail's marks had been drawn with pointer-events none, on main for one push).
+  static unreachable(page: Page, surface: string): Promise<Pressable[]> {
+    return page.evaluate(surface => Array.from(document.querySelectorAll(
+      ':is([data-menu], [data-rail]) :is(button, a[href], [data-act])')).filter(el => {
+      const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+      if (r.width < 2 || r.height < 2 || cs.visibility === 'hidden' || +cs.opacity < 0.05 || el.closest('[aria-hidden="true"]')
+        || r.bottom < 0 || r.top > innerHeight || r.right < 0 || r.left > innerWidth) { return false; }
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return !hit || !(hit === el || el.contains(hit));
+    }).map(el => ({ surface, text: `${((el as HTMLElement).innerText || el.getAttribute('aria-label') || el.tagName)
+      .replace(/\s+/g, ' ').trim().slice(0, 40)} (not pressable where it is drawn)` })), surface);
+  }
   // The opening as a player walks it: the title, each step of a life, setting out, the opening's pages, and the
   // first place, its lenses, someone talked to, the map and the Book: what is stray on each.
   static async walk(page: Page, site: string): Promise<Pressable[]> {
     const found: Pressable[] = [], d = new MonoDriver(page), at = async (s: string) => {
       await page.waitForTimeout(600);
       found.push(...await ActionCensus.stray(page, s), ...await ActionCensus.uneven(page, s),
-        ...await ActionCensus.foreign(page, s), ...await ActionCensus.menus(page, s));
+        ...await ActionCensus.foreign(page, s), ...await ActionCensus.menus(page, s),
+        ...await ActionCensus.unreachable(page, s));
     };
     await page.goto(`file://${site}/mono.html`); await page.waitForSelector('[data-action="begin"]'); await at('title');
     await page.goto(`file://${site}/mono.html?world=kite&opening`); await page.waitForSelector('[data-mode="create"]');

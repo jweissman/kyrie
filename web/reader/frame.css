@@ -205,7 +205,8 @@ html, body { overflow: hidden; }
 .creation-edge > :is(.quiet-word, .edge-mark) { pointer-events: auto; }
 .creation-edge .start { margin-left: auto; }
 /* Its marks as the scene's rail draws them: a line glyph in a quiet round, lit under the hand or the keys. */
-.creation-edge .edge-mark { all: unset; box-sizing: border-box; width: 40px; height: 40px; display: grid; place-items: center;
+.creation-edge .edge-mark { all: unset; pointer-events: auto; box-sizing: border-box; width: 40px; height: 40px;
+  display: grid; place-items: center;
   border-radius: 50%; cursor: pointer; color: var(--dim); transition: color var(--quick), background var(--quick); }
 .creation-edge .edge-mark:is(:hover, :focus-visible) { color: var(--ivory);
   background: color-mix(in oklab, var(--ivory) var(--tint-hover), transparent); }
