@@ -33,7 +33,7 @@ class Reading {
   // Whether the last of the company is seen whole above the hand of cards, without scrolling.
   static whole(page: Page) {
     return page.evaluate(() => {
-      const sides = document.querySelector('.fight > .sides')!.getBoundingClientRect();
+      const sides = document.querySelector('.fight .sides')!.getBoundingClientRect();
       return Array.from(document.querySelectorAll('.ours .fighter')).pop()!.getBoundingClientRect().bottom <= sides.bottom;
     });
   }

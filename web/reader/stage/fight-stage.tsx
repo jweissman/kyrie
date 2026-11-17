@@ -7,6 +7,7 @@ import { Words } from '../words';
 import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
 import { Scrolled } from './scrolled';
+import { PageFrame } from '../page-frame';
 import { FightMoves, type Aiming } from './fight-moves';
 import { Act } from './act';
 import { ChoiceRow } from './choice-row';
@@ -46,8 +47,7 @@ export class FightStage {
     // told by its end, in a sentence or two, not shown as a fight page.
     if (combat.outcome && (mark?.first ?? true)) { return <FightStage.Told app={app} log={log} show={show} />; }
     return (
-      <div className={`fight${aiming ? ' aiming' : ''}`} id="page">
-        <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
+      <PageFrame.View kind="fight" className={`fight${aiming ? ' aiming' : ''}`} header={<p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
           <span data-id="place">{Typography.curl(frame.screen.place.name)}</span>
           {/* Said once: in the beat where it is told whole at the start, not again in the head. */}
           {combat.standing && !(first && !recent.length && !frame.opening.some(Boolean)) && <span
@@ -55,8 +55,8 @@ export class FightStage {
             {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}
           {/* The fight so far, a page of the fight's own, read from its head: not a bar across its foot. */}
           <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
-            onClick={() => show(!log)}>{log ? 'What just happened' : 'The fight so far'}</button></p>
-        {(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
+            onClick={() => show(!log)}>{log ? 'What just happened' : 'The fight so far'}</button></p>}
+        narrative={<>{(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
         <div className="sides" ref={sides}>
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} app={app} target={aiming?.targets.get(f.id)} />)}</ul>
@@ -86,11 +86,10 @@ export class FightStage {
           {s.pending && <span className="working"> · {Typography.curl(Words.lastSaid(s.pending.said))}…</span>}</p>
           {!combat.outcome && combat.order.length > 1 && <ol className="order" aria-label="Who acts, in turn">
             {combat.order.map((n, i) => <li key={`${i}:${n}`} className={i ? undefined : 'next'}>
-              {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
-        <div className="moves" ref={moves}>
+              {Typography.curl(Words.upper(n))}</li>)}</ol>}</div></>}
+        menu={<div className="moves" ref={moves}>
           <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} />
-        </div>
-      </div>
+        </div>} />
     );
   }
   // A foregone fight's end, as one act's telling (the blind playtest of 13 November, BP-01: six rounds of a fight the

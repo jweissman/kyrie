@@ -25,7 +25,7 @@ export class FightMoves {
     const sections = app.menu.sections, strike = sections.find(s => s.id === 'strike')?.choices ?? [];
     const onward = sections.find(s => s.id === 'onward')?.choices[0], [under, hover] = useState<Choice>();
     if (onward) {
-      return <div data-menu className="hand ended"><div className="hand-menu" role="toolbar" aria-label="What you can do">
+      return <div className="hand ended"><div className="hand-menu" role="toolbar" aria-label="What you can do">
         <ChoiceRow.Act choice={onward} draw={Act.draw(app)} className="move main"
           label={Typography.curl(onward.alone ?? Words.shown(onward.label))} /></div></div>;
     }
@@ -36,10 +36,10 @@ export class FightMoves {
     const kinds = FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length);
     const said = <p className="hand-note">{under?.note ? Typography.curl(`${Words.shown(under.label)}: ${under.note}`) : ''}</p>;
     if (shown) {
-      return <div data-menu className="hand opened"><FightMoves.Kind key={shown.id} section={shown} take={take} note={note}
+      return <div className="hand opened"><FightMoves.Kind key={shown.id} section={shown} take={take} note={note}
         close={() => open()} room={(attack ? 1 : 0) + kinds.length + pace.length} said={said} /></div>;
     }
-    return <div data-menu className={`hand${aiming ? ' aiming' : ''}`}>
+    return <div className={`hand${aiming ? ' aiming' : ''}`}>
       <div className="hand-menu" role="toolbar" aria-label="What you can do">
         {attack && <ChoiceRow.Button className={`move main${aiming?.choice.id === attack.id ? ' opened' : ''}`}
           data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} mark="var(--ember)"

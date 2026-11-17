@@ -24,12 +24,12 @@ class Walk {
       };
       const out: Record<string, [number, number, number, number]> = {};
       // A card where it stands in the field (its scroll added back): the field scrolling is not the field reflowing.
-      const sides = document.querySelector('.fight > .sides');
+      const sides = document.querySelector('.fight .sides');
       document.querySelectorAll('.fight .fighter').forEach(f => {
         const [x, y, w, h] = box(f);
         out[`card ${(f as HTMLElement).dataset.fighter}`] = [x, y + Math.round(sides?.scrollTop ?? 0), w, h];
       });
-      for (const sel of ['.fight > .sides', '.fight .hand', '.fight .hand-menu', '.fight .hand-detail']) {
+      for (const sel of ['.fight .sides', '.fight .hand', '.fight .hand-menu', '.fight .hand-detail']) {
         const e = document.querySelector(sel);
         if (e) { out[sel] = box(e); }
       }

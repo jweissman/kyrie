@@ -158,7 +158,7 @@
 /* -- The fight on a phone, an experiment: the foes a strip across the top, each its face over its whole name (a
    departure from the owner's left-panel portraits, so never the default). -- */
 @media (max-width: 600px) {
-  :root[data-look] .fight > .sides { grid-template-columns: minmax(0, 1fr); grid-template-areas: "foes" "ours" "beat"; gap: 12px; }
+  :root[data-look] .fight > .slot > .sides { grid-template-columns: minmax(0, 1fr); grid-template-areas: "foes" "ours" "beat"; gap: 12px; }
   :root[data-look] .fight .side.foes { grid-area: foes; display: flex; flex-wrap: wrap; gap: 6px; }
   :root[data-look] .fight .side.foes::before { flex: 0 0 100%; }
   :root[data-look] .fight .side.foes > .fighter { flex: 1 1 0; min-width: 0; }

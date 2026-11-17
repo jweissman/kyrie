@@ -6,29 +6,29 @@
    that is not news, and nothing moves at all for one who asks for less motion. ---- */
 .fight { height: var(--frame-h); display: flex; flex-direction: column; padding: 0;
   background: radial-gradient(ellipse 80% 50% at 50% 40%, rgba(255, 107, 69, .05), transparent 70%); }
-.fight > .status { flex: none; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; margin: 0;
+.fight > .slot > .status { flex: none; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; margin: 0;
   padding: var(--safe-t) var(--safe-r) 14px var(--safe-l); font: 500 11px var(--do);
   letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
-.fight > .status span:first-child { color: var(--ember); }
+.fight > .slot > .status span:first-child { color: var(--ember); }
 /* How the fight stands now, in a word of its danger's colour (M19-78). */
-.fight > .status .standing { margin-left: auto; font-style: italic; color: var(--dim); text-transform: none;
+.fight > .slot > .status .standing { margin-left: auto; font-style: italic; color: var(--dim); text-transform: none;
   letter-spacing: 0; }
-.fight > .status .standing.grave, .fight > .status .standing.deadly { color: var(--ember); }
-.fight > .status .standing.slight { color: var(--faint, var(--dim)); }
+.fight > .slot > .status .standing.grave, .fight > .slot > .status .standing.deadly { color: var(--ember); }
+.fight > .slot > .status .standing.slight { color: var(--faint, var(--dim)); }
 /* On a phone the company's cards have the room: the danger line from a tablet up (on a phone the moment before a fight
    closes still says how it is reckoned). */
-@media (max-width: 600px) { .fight > .status .standing { display: none; } }
+@media (max-width: 600px) { .fight > .slot > .status .standing { display: none; } }
 
-.fight > .status span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
+.fight > .slot > .status span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
   background: var(--ember); transform: rotate(45deg); box-shadow: 0 0 10px var(--ember); }
-.fight > .law { flex: none; margin: 10px var(--safe-r) 0 var(--safe-l); font: 400 14px/1.45 var(--do); color: var(--dim); }
-.fight > .law b { color: var(--violet); font-weight: 600; }
+.fight > .slot > .law { flex: none; margin: 10px var(--safe-r) 0 var(--safe-l); font: 400 14px/1.45 var(--do); color: var(--dim); }
+.fight > .slot > .law b { color: var(--violet); font-weight: 600; }
 /* The sides take what the hand of acts leaves them, and never less than a fifth of the stage: every act is in view
    at a laptop's 1280 by 800 and a tablet's (the fresh playtest of 7 November: Defend, Flee and the firebomb had lain
    under the foot of the hand, with nothing to say so, under a band of empty field). But the company is seen whole, each
    face with its card, wherever that leaves the hand a third of the stage (--held: see Scrolled.useHeld): where the two
    do not both fit, the hand gives way and its fade says it goes on (the reader spec at 1180 by 820 and 390 by 844). */
-.fight > .sides { flex: 1 1 0; overflow-y: auto; display: grid; align-content: start;
+.fight > .slot > .sides { flex: 1 1 0; overflow-y: auto; display: grid; align-content: start;
   min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .55)));
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 clamp(16px, 2.6vw, 36px);
   padding: 20px var(--safe-r) 12px var(--safe-l); }
@@ -110,7 +110,7 @@
 .fight .beat .quiet { color: var(--faint); font-style: italic; }
 .fight-log p { font-size: 15px; color: var(--dim); }
 /* Whose turn, and who follows. */
-.fight > .turn { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+.fight > .slot > .turn { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
   padding: 12px var(--safe-r) 0 var(--safe-l); }
 .fight .turn .now { margin: 0; font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
 .fight .turn .working { color: var(--dim); letter-spacing: .04em; text-transform: none; }
@@ -124,7 +124,7 @@
    card no wider than a long note wraps to (the firebomb's saves had made it a row of its own). */
 /* What can be done keeps its room; the sides give way and scroll (the moves had been cut to 27px of 176 on a phone, and
    "Let them fight this turn" cut in half on a desk: the contact sheet, 12 November). */
-.fight > .moves { flex: none; min-height: 0; overflow-y: visible; padding: 12px var(--safe-r) var(--safe-b) var(--safe-l); }
+.fight > .slot > .moves { flex: none; min-height: 0; overflow-y: visible; padding: 12px var(--safe-r) var(--safe-b) var(--safe-l); }
 .fight .moves section + section { margin-top: 8px; }
 .fight .moves .label { margin: 0 0 8px; }
 @media (orientation: landscape) and (min-width: 561px) {
@@ -133,13 +133,13 @@
   .fight .moves section:has(> .label) > .label { margin: 0; }
 }
 /* More below than is in view: the foot of it fades, so that it is seen to go on (see Scrolled). */
-.fight > :is(.sides, .moves)[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 36px), transparent); }
+.fight > .slot > :is(.sides, .moves)[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 36px), transparent); }
 .fight .moves .cards { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 /* A key to press means nothing to a finger. */
 @media (hover: none) { .fight .auto kbd { display: none; } }
 /* An upright screen: the two sides side by side over what has passed, the hand at the foot. */
 @media (max-width: 1023px), (orientation: portrait) {
-  .fight > .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .fight > .slot > .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .fight .beat { grid-column: 1 / -1; grid-row: 2; padding-top: 14px; }
   .fight .order { margin-left: 0; }
 }
@@ -147,7 +147,7 @@
    is seen whole, each face with its card (at 1180 by 820 the third of three had been cut at the mouth; at 1440 by
    900 too, once each act carried its marks). */
 @media (max-height: 920px) {
-  .fight > .sides { padding-top: 14px;
+  .fight > .slot > .sides { padding-top: 14px;
     min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .48))); }
 }
 @media (max-width: 560px) {
@@ -158,7 +158,7 @@
   .fight .beat { grid-row: 1; padding: 0 0 12px; }
   .fight .beat .what.earlier { display: none; }
   .fight .fighter { padding: 10px 11px; }
-  .fight > .sides { min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .36))); }
+  .fight > .slot > .sides { min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .36))); }
   /* 48px at least: inside the safe zone a card is narrower, and 56 had been more than a third of it (12 November). */
   .fight .fighter.faced { --panel: clamp(48px, 34cqw, 72px); padding: 10px 9px 10px calc(var(--panel) + 9px); }
   .fight .fighter .face.plate { font-size: 24px; }
@@ -219,8 +219,8 @@
 :root .fight .hand-menu .quiet-row.choice-row.choice-row { color: var(--dim); background: none; }
 :root .fight .hand-menu .move.opened.choice-row.choice-row { background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); }
 /* The fight so far, read from the fight's head. */
-.fight > .status .fight-log-toggle { margin-left: auto; padding: 4px 0; }
-.fight > .status .standing + .fight-log-toggle { margin-left: var(--s4); }
+.fight > .slot > .status .fight-log-toggle { margin-left: auto; padding: 4px 0; }
+.fight > .slot > .status .standing + .fight-log-toggle { margin-left: var(--s4); }
 /* Whom to choose: a reticle (an outline, which takes no room) on each who can be, its chance pinned over the card's
    corner, not a line added to it; the rest lowered. Neither gold (the aim's) nor a card made taller. */
 /* A foe that can be aimed at: edged quietly in the danger's own red, and the one the hand or the keys are on lit in its
