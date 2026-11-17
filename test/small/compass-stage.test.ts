@@ -22,13 +22,14 @@ const render = (glance: object, drawn: string[] = []) => {
 };
 
 describe('the compass in the page', () => {
-  it('draws the way on and the way out as rows, their routes beneath, each marked by its act', () => {
+  it('draws the way on and the way out as rows, each with its first way and time, marked by its act', () => {
     const html = render({ enclosed: true, compass });
     expect(html).toContain('data-act="exit:ossuary"');
     expect(html).toContain('data-act="travel:yard"');
     expect(html).toMatch(/compass-on[\s\S]*→[\s\S]*On to the ossuary/);
     expect(html).toMatch(/compass-out[\s\S]*←[\s\S]*Out to the churchyard/);
-    expect(html).toContain('the stair › the crypt door · 4 minutes');
+    // The first way taken and how long the whole is: what one row has room for (M22), never every way half-said.
+    expect([html.includes('the stair · 4 minutes'), html.includes('›')]).toEqual([true, false]);
   });
   it('says what bars the way out, and does no act by it', () => {
     const html = render({ enclosed: true, compass: { exhausted: true, out: { ...compass.out!, command: undefined,

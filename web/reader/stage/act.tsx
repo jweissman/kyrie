@@ -36,6 +36,9 @@ export class Act {
       c.risk ? 'risk' : '', c.grave ? 'grave' : '', c.disabled ? 'shut' : '',
       opens ? draw.open.has(c.id) ? 'opened' : 'opens' : ''].filter(Boolean).join(' ');
     const tags = marked && !quiet ? Act.tags(c) : [];
+    // One aside to a row, never two half-said (M22's baseline: "the way yo… · The rats … wil…"): a risk or what cannot
+    // be undone says so in place of the plain note.
+    const warned = !!c.about && (c.risk || c.grave) && !children && !quiet;
     // The act taken, drawn so while the engine answers; a sustained act held (see Hold).
     const taken = s.pending?.taken === c.id || undefined, held = Hold.holds(c) ? Hold.props(draw.app, c) : {};
     return (
@@ -45,11 +48,11 @@ export class Act {
         aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} onClick={Act.click.bind(null, draw.app)}
         {...held}>
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
-          && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
+          && !warned && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
           {Signs.marks[m.kind]}</span>)}
         {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}
-        {c.about && (c.risk || c.grave) && !children && !quiet && <span className="about">{Typography.curl(c.about)}</span>}
+        {warned && <span className="about">{Typography.curl(c.about!)}</span>}
         {asks && s.confirming === c.id && <span className="grave-said" role="alert">
           {Typography.curl(Act.asked(asks, !!c.grave))}</span>}
       </button>

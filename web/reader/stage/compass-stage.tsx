@@ -24,10 +24,11 @@ export class CompassStage {
     if (!r.command) { return undefined; }
     return GlanceStage.choice(app, r.command) ?? { id: r.command, label, tone: 'way', command: r.command };
   }
-  // The route's line: each way, a chevron between, and how long.
+  // The route's line, what one row has room for: the first way taken, and how long the whole of it is (M22's
+  // baseline: every way of it, chevron by chevron, had run out of the row half-said).
   static line(r: Route): string {
-    const ways = r.ways.map(w => Typography.curl(w)).join(' › ');
-    return r.minutes ? `${ways} · ${CompassStage.minutes(r.minutes)}` : ways;
+    const first = r.ways[0] ? Typography.curl(r.ways[0]) : '';
+    return r.minutes ? [first, CompassStage.minutes(r.minutes)].filter(Boolean).join(' · ') : first;
   }
   static minutes(m: number): string {
     return m < 60 ? `${m} minute${m === 1 ? '' : 's'}` : `${Math.round(m / 6) / 10} hours`.replace(/^1 hours/, 'an hour');
