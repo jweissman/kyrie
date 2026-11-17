@@ -4,7 +4,6 @@ import { ReaderApp } from './reader-app';
 import { Identity } from '../../src/presentation/identity';
 import { Look } from './look';
 import { Tone } from './instrument/tone';
-import { Touch } from './instrument/touch';
 
 // Starts the page and exposes the same semantic state it draws to tests and automation.
 class ReaderMain {
@@ -23,8 +22,6 @@ class ReaderMain {
     Look.set(query.get('look'));
     // The commitment's sound, an address away while M22 tries it (?sound=1; see Tone).
     Tone.set(query);
-    // The first touch's two treatments of the press (see Touch), never the default.
-    Touch.set(query);
     createRoot(root).render(<ReaderApp ref={ReaderMain.app} query={query} />);
     // What automation may do besides look (scripts/journey-browser.ts): set out with a given company, do a command by
     // its id, let a fight go on, and go back from a fight that has ended.

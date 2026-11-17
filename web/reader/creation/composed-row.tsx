@@ -3,7 +3,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Glyphs } from './glyphs';
 import { Hold } from '../instrument/hold';
 
-// One choice of creation drawn in the game's own grammar (the first touch, ?touch: the owner, 15 November: most of
+// One choice of creation drawn in the game's own grammar (the owner, 15 November: most of
 // creation's decisions "should use the normal highlighted action-menu grammar, not their own card interfaces"): a row
 // of one line, its words and a quiet aside on the same line, its number at the right, marked at the left when it is the
 // one already chosen. A press is the choice made and the page gone on (see ComposedCreation); the hand or the keys on
@@ -18,7 +18,7 @@ export class ComposedRow {
     chosen?: boolean; lit?: boolean; onConsider: (id: string) => void; onChoose: (id: string, held: boolean) => void; hold?: boolean;
     children?: ReactNode }) {
     return (
-      <button type="button" className={`composed-row${chosen ? ' chosen' : ''}`} data-nav {...hold ? {} : { 'data-touch-row': '' }}
+      <button type="button" className={`composed-row${chosen ? ' chosen' : ''}`} data-nav
         data-option={option.id} disabled={!!option.shut} aria-current={chosen || undefined}
         data-considered={lit || undefined} onMouseEnter={() => ComposedRow.moved() && onConsider(option.id)}
         onFocus={() => onConsider(option.id)}

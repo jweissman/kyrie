@@ -34,13 +34,16 @@ controller of the page's own.
 - **The pointer is the reticle** (IG-15). Wherever the hand is, the cursor is a small ring; over anything that can be
   chosen, four ticks close it; pressed, it tightens. Where a press is held (below), the cursor's own ring fills while the
   hand is down. Touch has no cursor; the tint below does the work.
-- **What the hand or the keys are on is lit in its own tone**, at once: a tint of its row's mark (the atlas colour,
-  Indicator.of), ivory where it is nothing in particular, gold only for the followed step. Never corners, never
-  movement, never a box that changes size.
+- **What the hand or the keys are on is lit in its own tone**, at once (`web/reader/row.css`, the one definition of a
+  row's states): a tint of its row's mark (the atlas colour, Indicator.of), ivory where it is nothing in particular, gold
+  only for the followed step. **The hand and the keys are told apart** (M22, mission-22/row-study.md): under the hand a
+  light tint and nothing else; where the keys are, or what is considered, a deeper tint, white words and the mark grown
+  to the row's height at full light. Pressed, held or taken, deeper still, at once; while the engine answers, the other
+  rows go quiet after 80 ms. Never corners, never movement, never a box that changes size.
 - **Rows are undressed** (the owner, 16 November): no box or edge at rest, on the title, creation, the scene, talk, the
   map's menu and the fight alike. A row is a choice by its mark and its line. *Not yet: the creation cards, the map's
-  zoom, the Book's tabs, the fight log's toggles and some forty other boxed buttons (button-discovery.md); and hover and
-  the keys' focus look the same (M22 step 3 gives each its own look, and a pressed state).*
+  zoom, the Book's tabs, the fight log's toggles and some forty other boxed buttons (button-discovery.md); the title's ways
+  in and creation's cards keep their own compositions, with focus and hover still one look there.*
 - **A hand that has not moved lights nothing** (IG-18). The next screen does not light the row under a resting
   pointer: what it rests on was never pointed at. It lights again as soon as the hand moves or presses.
 - **The keys are on a row from the start.** Where a screen marks a row as current (the title's New game, creation's

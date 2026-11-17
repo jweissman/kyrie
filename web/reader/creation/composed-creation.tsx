@@ -3,14 +3,13 @@ import type { ReaderApp } from '../reader-app';
 import type { CreationStep } from '../../engine/creation-flow';
 import { Typography } from '../../../src/presentation/typography';
 import { PressGuard } from '../press-guard';
-import { Touch } from '../instrument/touch';
 import { ComposedRow } from './composed-row';
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { NameStep } from './name-step';
 import { Signature } from './signature';
 
-// Creation as one composition in the game's own grammar (the first touch, ?touch; the owner, 15 November): every step
+// Creation as one composition in the game's own grammar (the owner, 15 November): every step
 // is the engine's (CreationFlow: its question, its options in its order, which is chosen), and every step is answered
 // the same way: the hand or the keys consider an option (it is lit, its sentence said, the sky turned to it), and a
 // press chooses it and goes on, as an act in the game does. Ancestry and calling keep their cards; the rest are rows.
@@ -23,8 +22,6 @@ export class ComposedCreation {
     const [at, go] = useState<string>('why'), [roll, reroll] = useState(0), [more, turn] = useState(0);
     const s = app.state;
     useEffect(() => { PressGuard.changed(); turn(0); }, [at]);
-    // Its styling is the touch rows' (touch.css, by the presence of data-touch); the press pipeline is not, and is only ?touch.
-    useEffect(() => ComposedCreation.styled(), []);
     useEffect(() => ComposedCreation.escape(() => {
       const ids = ComposedCreation.ids(app), i = ids.indexOf(at), to = i < 0 ? ids.at(-1) : ids[i - 1];
       if (to) { go(to); return true; }
@@ -51,13 +48,6 @@ export class ComposedCreation {
       </div>
     );
   }
-  // While creation is on screen the root carries data-touch (touch.css styles its rows by the attribute's presence); it is
-  // not 'down' or 'up', so Touch.on() stays false and no press pipeline is attached (that is ?touch, and not the default).
-  static styled(): () => void {
-    const root = document.documentElement, mine = root.dataset.touch === undefined;
-    if (mine) { root.dataset.touch = 'creation'; }
-    return () => { if (mine && root.dataset.touch === 'creation') { delete root.dataset.touch; } };
-  }
   // The flow's steps as the composition asks them, in its order: every one, how you present among them.
   static ids(app: ReaderApp): string[] { return app.opening.steps().map(x => x.id); }
   // Escape goes back a step (and is the keys' alone while it does), unless a sheet is open over the page.
@@ -76,9 +66,6 @@ export class ComposedCreation {
     useEffect(() => { ComposedCreation.focus(); }, []);
     const choose = (id: string) => {
       if (leaving.current) { return; }
-      // A finger has no hover: it considers what is not yet lit, where there is something to consider, and a second
-      // touch on it chooses (as the keys' arrows consider and Enter chooses).
-      if (Touch.touched() && id !== lit && offer.say(id)) { consider(id); Touch.unstrike(); return; }
       leaving.current = true;
       if (step.id === 'name') { NameStep.take(app, id); } else { app.opening.choose(step.id, id); }
       // The sky lights the sign taken for a moment before the page goes on; nothing else waits.

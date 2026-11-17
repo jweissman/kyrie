@@ -1,0 +1,42 @@
+/* ---- The one row's states (M22 step 3; doc/design/GRAMMAR.md, Focus and Choosing): every row the game is played by,
+   the scene's acts, a conversation's, the map's menu, a fight's moves and creation's rows, answers the hand and the keys
+   in one way. Its layout stays its family's (menu.css, creation.css); what it does in each state is said here once.
+   - at rest: undressed; its mark a short line at the left, quiet;
+   - under the hand: a light tint of its tone over the ground, and nothing else;
+   - where the keys are (or what is considered): a deeper tint, the words white, and the mark grown to the row's height
+     in its tone at full light (ivory where it is nothing in particular), so the keys' place is never mistaken for where
+     the hand happens to be (button-discovery.md §3: they had looked the same);
+   - pressed or held: deeper, at once;
+   - taken (the engine answering): kept pressed, and the other rows quiet after a glance (80 ms, so a quick answer does
+     not flicker);
+   - shut: half light, and nothing it does.
+   Nothing on the press path changes a box's size or place (IG-08). ---- */
+:root { --row-hover: 7%; --row-lit: 13%; --row-press: 26%; --row-out: 140ms; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row) {
+  background-color: transparent; border-color: transparent; outline: none; background-image: none; animation: none;
+  transition: background-color var(--row-out) var(--ease), color var(--row-out) var(--ease); }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) :is(.choice-row.choice-row, .composed-row.composed-row) > .row-mark {
+  transform: scaleY(.62); opacity: .72; transition: transform var(--row-out) var(--ease), opacity var(--row-out) var(--ease); }
+/* Under the hand (once it has moved since the screen changed: IG-18). */
+:root:not([data-still]) :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  :is(.choice-row.choice-row, .composed-row.composed-row):hover:not(.shut, [disabled], [aria-disabled="true"]) {
+  background-color: color-mix(in oklab, var(--row-tone) var(--row-hover), transparent); transition: none; }
+/* Where the keys are, or what is considered. */
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  :is(.choice-row.choice-row, .composed-row.composed-row):is(.sel, :focus-visible, [data-considered]):not(.shut, [disabled], [aria-disabled="true"]) {
+  background-color: color-mix(in oklab, var(--row-tone) var(--row-lit), transparent); color: #fff; transition: none; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  :is(.choice-row.choice-row, .composed-row.composed-row):is(.sel, :focus-visible, [data-considered], :active, [data-holding], [data-taken]) > .row-mark {
+  transform: none; opacity: 1; transition: none; background: color-mix(in oklab, var(--row-tone) 88%, white); }
+/* Pressed, held, taken: deeper, at once. */
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  :is(.choice-row.choice-row, .composed-row.composed-row):is(:active, [data-holding], [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {
+  background-color: color-mix(in oklab, var(--row-tone) var(--row-press), transparent); color: #fff; transition: none; }
+:root .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken]) {
+  opacity: .42; pointer-events: none; transition: opacity var(--row-out) var(--ease) 80ms; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  :is(.choice-row.choice-row, .composed-row.composed-row):is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5; cursor: default; }
+@media (prefers-reduced-motion: reduce) {
+  :root :is(.choice-row.choice-row, .composed-row.composed-row), :root :is(.choice-row.choice-row, .composed-row.composed-row) > .row-mark {
+    transition: none; }
+}

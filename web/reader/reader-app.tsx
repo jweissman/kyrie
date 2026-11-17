@@ -15,7 +15,6 @@ import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
 import { Hold } from './instrument/hold';
-import { Touch } from './instrument/touch';
 import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings';
@@ -134,7 +133,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     window.addEventListener('keydown', this.keys.press);
     // A press taken once, on the screen it was made on (IG-17, IG-18).
     PressGuard.attach(() => this.state.frame ?? this.state.phase);
-    Hold.attach(); Touch.attach();
+    Hold.attach();
     ReaderOptions.apply(this.state.options);
     void this.opening.boot();
   }
@@ -219,7 +218,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
-  // held: chosen by a hold (the first touch's, see Touch), which is the asking: it is done at once.
+  // held: chosen by a hold (see Hold), which is the asking: it is done at once.
   // An aim chosen to follow, by the action the observation offers for it (Screen.aims[].follow), done as any act is;
   // resolves when it is done.
   async take(command: string): Promise<void> {
@@ -242,7 +241,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (!held && Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
-    if (!Hold.holds(choice) && !Touch.on()) { Tone.play('commit'); }
+    if (!Hold.holds(choice)) { Tone.play('commit'); }
     // The fight's pace (ChoiceList.pace): its own requests.
     if (choice.command === 'fight:auto') { this.auto(); return; }
     if (choice.command === 'fight:through') { this.through(); return; }

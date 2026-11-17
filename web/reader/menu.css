@@ -77,23 +77,9 @@
   background: transparent; border: 1px solid transparent; border-radius: var(--choice-radius);
   text-wrap: balance; -webkit-tap-highlight-color: transparent;
   transition: background var(--quick), border-color var(--quick); }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(:hover, :focus-visible, .sel, .opened, [aria-expanded="true"]) {
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(.opened, [aria-expanded="true"]) {
   background: var(--choice-ground-hot); border-color: transparent; outline: none; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(:hover, :focus-visible, .sel):not(.shut, [disabled], [aria-disabled="true"]) {
-  background: color-mix(in oklab, var(--row-tone) 9%, transparent); border-color: transparent; }
-/* Undressed at rest; a light glass on hover, with one brief sheen across it as it arrives (not repeated). */
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:hover:not(.shut, [disabled], [aria-disabled="true"]) {
-  background-image: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .07) 50%, transparent 70%);
-  background-size: 250% 100%; animation: row-sheen 520ms ease-out 1 both; }
-@keyframes row-sheen { from { background-position: 100% 0; } to { background-position: 0 0; } }
-@media (prefers-reduced-motion: reduce) { :root .choice-row.choice-row:hover { animation: none; } }
-:root[data-still] :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:hover:not(:active, .sel, :focus-visible, .opened, [aria-expanded="true"], .shut, [disabled], [aria-disabled="true"]) {
-  background: transparent; border-color: transparent; animation: none; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:active:not(.shut, [disabled], [aria-disabled="true"]) {
-  background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
-  border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transform: none; transition: none; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5;
-  cursor: default; transform: none; }
+/* Its states under the hand, the keys and a press are the one row's (row.css). */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row::before { display: none; }
 /* Its one indicator: a short rounded line, the tone of what it is; faint and neutral where it is nothing in particular. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-mark { position: absolute; left: 9px; top: 11px;
