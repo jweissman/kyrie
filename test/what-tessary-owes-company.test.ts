@@ -30,6 +30,15 @@ describe('What Tessary Owes, the thief on the quay', () => {
     await j.play('Pick the lockbox');
     expect(j.holds('hostile', t('slake'), 'party')).toBe(true);
   }, 300000);
+  // Davy's red coat is Nan's to give, later (PL-17: a stray Initially Give had put it in the company's hands at the
+  // Landgate, "You take Davy Teazle's red coat").
+  it('sets out without Davy\'s coat, which hangs in the Teazles\' room till Nan gives it', async () => {
+    const j = await Journey.start(home, 'coat');
+    await j.play('To the Landgate');
+    expect(j.page).not.toMatch(/red coat/);
+    expect(j.holds('at', t('davy_coat'), t('teazle_room'))).toBe(true);
+    expect(j.holds('knows', 'party', t('coat_given'))).toBe(false);
+  }, 300000);
   it('is not offered to a company without a thief, which pays Bettany or is beaten', async () => {
     const j = await Journey.start(home, 'chalk-without', {
       party: [{ name: 'Brann', raceId: 'human', classId: 'warrior' }] });
