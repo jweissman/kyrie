@@ -28,7 +28,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an aim\'s place, on the map from th
     await page.waitForSelector('.world-page.scale-scene', { timeout: 180000 });
     await driver.go('s2_green');
     await driver.mode('j');
-    // The place by the name the Notes give it (the common names renamed the old ones: Gaudumport is now another).
+    // The aim that names it considered (the Notes' one menu acts on the aim the hand is on), then its place by the
+    // name the Notes give it (the common names renamed the old ones: Gaudumport is now another).
+    for (const aim of await page.locator('.aim-card .aim-pick').all()) {
+      await aim.click();
+      if (await page.locator('[data-action="aim-map"][data-id="region__w1"]').count()) { break; }
+    }
     const named = (await page.textContent('[data-action="aim-map"][data-id="region__w1"]'))!.replace(/, on the map$/, '');
     await page.click('[data-action="aim-map"][data-id="region__w1"]');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });

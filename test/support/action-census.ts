@@ -16,6 +16,8 @@ export class ActionCensus {
       + 'conversation (the settled resting scene, M19; OR-38 decided)'],
     ['.book-head .quiet-word', "the Book's way back, the header's one way back (OR-38 decided)"],
     ['input[data-field="name"]', 'writing your own name'],
+    ['.aim-card .aim-pick', 'an aim considered, which the Notes\' one menu acts on (a presentation gesture, as a cell chosen '
+      + 'on the map is)'],
     ['.fight .status .quiet-word', 'the fight so far, a disclosure (ruling 1)'],
   ];
   // Every pressable thing in view on the page as it is now, outside the menu, the rail and what is allowed.
@@ -63,13 +65,26 @@ export class ActionCensus {
       .replace(/\s+/g, ' ').trim().slice(0, 40)} (${el.tagName.toLowerCase()}.${el.className.toString().split(' ')[0]}, `
       + 'not the one row)' })), { surface, shaped: ActionCensus.shaped });
   }
+  // More than one menu in view (the owner, 16 November night: "the four promoted actions", one menu a page): each
+  // visible [data-menu] not inside another, by what it holds.
+  static menus(page: Page, surface: string): Promise<Pressable[]> {
+    return page.evaluate(surface => {
+      const shown = Array.from(document.querySelectorAll('[data-menu]')).filter(m => {
+        const r = m.getBoundingClientRect(), cs = getComputedStyle(m);
+        return !m.parentElement?.closest('[data-menu]') && !m.closest('[aria-hidden="true"]') && cs.visibility !== 'hidden'
+          && (r.height > 2 || cs.display === 'contents') && m.querySelector('button, a[href], [data-act]');
+      });
+      return shown.length > 1 ? shown.map(m => ({ surface, text: `${m.className.toString().split(' ')[0] || m.tagName}: `
+        + `${(m as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 40)} (one of ${shown.length} menus)` })) : [];
+    }, surface);
+  }
   // The opening as a player walks it: the title, each step of a life, setting out, the opening's pages, and the
   // first place, its lenses, someone talked to, the map and the Book: what is stray on each.
   static async walk(page: Page, site: string): Promise<Pressable[]> {
     const found: Pressable[] = [], d = new MonoDriver(page), at = async (s: string) => {
       await page.waitForTimeout(600);
       found.push(...await ActionCensus.stray(page, s), ...await ActionCensus.uneven(page, s),
-        ...await ActionCensus.foreign(page, s));
+        ...await ActionCensus.foreign(page, s), ...await ActionCensus.menus(page, s));
     };
     await page.goto(`file://${site}/mono.html`); await page.waitForSelector('[data-action="begin"]'); await at('title');
     await page.goto(`file://${site}/mono.html?world=kite&opening`); await page.waitForSelector('[data-mode="create"]');

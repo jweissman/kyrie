@@ -22,7 +22,7 @@ interface Held { id?: string; text: string }
 export class Sheet {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
-    const body = s.view === 'journal' ? Sheet.journal(app, frame) : s.view === 'story' ? Sheet.story(Sheet.whole(s.story, frame.entries))
+    const body = s.view === 'journal' ? <Sheet.Journal app={app} frame={frame} /> : s.view === 'story' ? Sheet.story(Sheet.whole(s.story, frame.entries))
       : s.view === 'company' ? <CharacterPage.View app={app} /> : Sheet.pack(app, screen);
     return (
       <section className={`sheet view-${s.view}`} data-region="details" aria-label={s.view}>
@@ -34,15 +34,21 @@ export class Sheet {
   // company could take up, in sight; beside each other, what it has heard of and not yet seen, and what it knows;
   // under them what it has seen through. Nothing folded (Mission 20: both cold players found aims piled up behind a
   // fold and what was done lingering among the leads; the owner's M19 notes asked for no stacks of disclosures).
-  private static journal(app: ReaderApp, frame: Frame) {
+  // One menu (the owner, 16 November night): the aims are what the page tells, one considered at a time by the hand
+  // or the keys, as a step of a life's choices are; the menu does what can be done with it (follow it, see its place on
+  // the map), then keeps or leaves the game. Each aim had carried a menu of its own.
+  static Journal({ app, frame }: { app: ReaderApp; frame: Frame }) {
     const screen = frame.screen, facts = screen.knowledge.filter(k => !screen.objectives.includes(k.text));
     const leads = facts.filter(k => k.kind === 'reported'), known = facts.filter(k => k.kind !== 'reported');
+    const all = Sheet.listed(app), [picked, pick] = useState<string>();
+    const aim = all.find(a => Sheet.key(a) === picked) ?? all[0];
     return (
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>
         <section className="notes-aims">
           <h3>What you mean to do</h3>
-          {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} /> : <p className="none">
+          {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} picked={aim && Sheet.key(aim)}
+            pick={pick} /> : <p className="none">
             {Sheet.idle(screen, facts)}</p>}
         </section>
         {(leads.length > 0 || known.length > 0) && <div className="notes-columns">
@@ -56,7 +62,8 @@ export class Sheet {
         {screen.done.length > 0 && <section className="done" data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{Typography.curl(d)}</li>)}</ul></section>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
-        <ol data-menu className="led keep" aria-label="Keep, or leave">
+        <ol data-menu className="led keep" aria-label="What can be done">
+          {aim && <Sheet.AimActs app={app} aim={aim} />}
           <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} mark={ChoiceRow.neutral}
             markClass="neutral" label="Download a save file" /></li>
           <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} mark={ChoiceRow.neutral}
@@ -83,18 +90,24 @@ export class Sheet {
   // The rest under it by where they are, so that what is to hand reads apart from what is only told of further off: a
   // cold player had about ten aims within minutes of talking to Tuck, as equals (Mission 20's second round). The aims'
   // places hold what they lie in (see Undertakings.places), so a job in the town names the town.
-  static Aims({ app }: { app: ReaderApp }) {
+  static listed(app: ReaderApp): Held[] {
     const screen = app.state.frame!.screen, held: Held[] = screen.aims?.map(a => ({ id: a.id, text: a.text }))
       ?? screen.objectives.map(text => ({ text }));
-    const [first, ...rest] = Sheet.ordered(app, [...screen.deadlines.map(text => ({ text })), ...held]);
+    return Sheet.ordered(app, [...screen.deadlines.map(text => ({ text })), ...held]);
+  }
+  static key(aim: Held): string { return aim.id ?? aim.text; }
+  static Aims({ app, picked, pick }: { app: ReaderApp; picked?: string; pick: (key: string) => void }) {
+    const screen = app.state.frame!.screen, [first, ...rest] = Sheet.listed(app);
+    const card = (aim: Held) => <Sheet.Aim key={Sheet.key(aim)} app={app} aim={aim} picked={picked === Sheet.key(aim)}
+      pick={pick} />;
     const town = AimNear.town(screen), here = rest.filter(o => town && AimNear.near(screen, o.id ? { id: o.id } : o.text));
     const far = rest.filter(o => !here.includes(o));
     return <>
-      <ul className="aims"><Sheet.Aim app={app} aim={first!} /></ul>
+      <ul className="aims">{card(first!)}</ul>
       {here.length > 0 && <div className="aims-more"><h3>{Typography.curl(`To hand in ${town!.name}`)}</h3>
-        <ul className="aims rest">{here.map(o => <Sheet.Aim key={o.id ?? o.text} app={app} aim={o} />)}</ul></div>}
+        <ul className="aims rest">{here.map(card)}</ul></div>}
       {far.length > 0 && <div className="aims-more"><h3>{town ? 'Further off' : 'You could also take up'}</h3>
-        <ul className="aims rest">{far.map(o => <Sheet.Aim key={o.id ?? o.text} app={app} aim={o} />)}</ul></div>}
+        <ul className="aims rest">{far.map(card)}</ul></div>}
     </>;
   }
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the
@@ -103,21 +116,31 @@ export class Sheet {
   static take(app: ReaderApp, command?: string): Promise<void> {
     return command ? app.take(command) : Promise.resolve();
   }
-  static Aim({ app, aim: { id, text: aim } }: { app: ReaderApp; aim: Held }) {
-    const screen = app.state.frame?.screen, held = id === undefined ? undefined : screen?.aims?.find(a => a.id === id);
-    const following = !!held?.followed, place = screen && Aims.named(screen, screen.destinations ?? [], aim);
-    // What is known of the place it is about, from the place's own aim folded into it (see Undertakings.folded).
-    const about = held?.about ?? [];
-    return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}
-      {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</span>
-      <ol data-menu className="led aim-acts">
-        <li><ChoiceRow.Button className="follow" data={{ action: 'follow' }} act={held?.follow} shut={following || !held?.follow}
-          onClick={() => { void Sheet.take(app, held?.follow); }} mark={following ? 'var(--tone-gold)' : ChoiceRow.neutral}
-          markClass={following ? undefined : 'neutral'} label={following ? 'Following' : 'Follow this'} /></li>
-        {place && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} mark={ChoiceRow.neutral}
-          markClass="neutral" label={`${place.name}, on the map`}
-          onClick={() => { void Sheet.take(app, held?.follow).then(() => app.chart(Sheet.charted(screen, place.id))); }} /></li>}
-      </ol></li>;
+  // An aim as the notes tell it, considered by the hand or the keys (the menu acts on it): a presentation gesture, as a
+  // cell chosen on the map is, never an act.
+  static Aim({ app, aim, picked, pick }: { app: ReaderApp; aim: Held; picked: boolean; pick: (key: string) => void }) {
+    const held = Sheet.held(app, aim), about = held?.about ?? [], key = Sheet.key(aim);
+    return <li className={`aim-card${held?.followed ? ' followed' : ''}`} data-considered={picked || undefined}>
+      <button type="button" className="aim-pick" aria-pressed={picked} onClick={() => pick(key)}
+        onMouseEnter={() => pick(key)} onFocus={() => pick(key)}>{Typography.curl(aim.text)}
+        {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</button></li>;
+  }
+  private static held(app: ReaderApp, aim: Held) {
+    return aim.id === undefined ? undefined : app.state.frame?.screen.aims?.find(a => a.id === aim.id);
+  }
+  // What can be done with the aim considered: follow it, and where it names a place the company knows, that place on
+  // the map: going anywhere is the map's (the owner, 4 November: no setting out from any page but the world map's).
+  static AimActs({ app, aim }: { app: ReaderApp; aim: Held }) {
+    const screen = app.state.frame?.screen, held = Sheet.held(app, aim), following = !!held?.followed;
+    const place = screen && Aims.named(screen, screen.destinations ?? [], aim.text);
+    return <>
+      <li><ChoiceRow.Button className="follow" data={{ action: 'follow' }} act={held?.follow} shut={following || !held?.follow}
+        onClick={() => { void Sheet.take(app, held?.follow); }} mark={following ? 'var(--tone-gold)' : ChoiceRow.neutral}
+        markClass={following ? undefined : 'neutral'} label={following ? 'Following' : 'Follow this'} /></li>
+      {place && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} mark={ChoiceRow.neutral}
+        markClass="neutral" label={`${place.name}, on the map`}
+        onClick={() => { void Sheet.take(app, held?.follow).then(() => app.chart(Sheet.charted(screen, place.id))); }} /></li>}
+    </>;
   }
   // A place as the map knows it (its mark, its town, or the hex it lies in: see BoardField.whither).
   static charted(screen: Screen, id: string): string {

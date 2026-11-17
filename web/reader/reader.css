@@ -90,20 +90,26 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   border-left: 3px solid var(--hair); }
 /* Gold only for the aim followed: the first card had been gold whether or not it was followed (round 8, M). */
 .journal .aims .aim-card.followed { border-left-color: var(--gold); }
-.journal .aims .aim-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+/* The aim the menu acts on: considered by the hand or the keys, lit as a considered row is (row.css), nothing moving. */
+.journal .aims .aim-pick { all: unset; flex: 1 1 auto; min-width: 0; cursor: pointer; }
+.journal .aims .aim-card.aim-card[data-considered] { background: color-mix(in oklab, var(--ivory) var(--tint-hover), transparent);
+  border-color: color-mix(in oklab, var(--ivory) 30%, transparent); }
+.journal .aims .aim-card:has(.aim-pick:focus-visible) { outline: 1px solid color-mix(in oklab, var(--ivory) 50%, transparent); }
 /* The rest of what the company could take up, under the aim it follows, smaller and in sight (Mission 20). */
 .book-page:has(.journal) { max-width: 62rem; }
 .journal .aims-more h3 { margin-top: 22px; }
 /* What is known of the place an aim is about, under it, as part of it (see Undertakings.folded). */
 .journal .aims .aim-card .aim-about { display: block; margin-top: 4px; font: italic 400 14.5px/1.45 var(--told); color: var(--dim); }
 .journal .aims.rest .aim-card { padding: 7px 12px; font-size: 15px; border-left-color: var(--hair); background: none; }
-.journal .aims .aim-card .aim-acts .option { padding: 5px 10px; font-size: 10.5px; min-height: 0; }
-.journal .aims .aim-card .option.follow[aria-pressed="true"] { border: 0; padding-left: 0; color: var(--gold); opacity: 1; }
 .journal .notes-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 32px; }
 .journal .notes-columns li, .journal .done li { margin: 0 0 6px; padding: 8px 12px; border: 1px solid var(--hair);
   background: var(--paper); font: 400 15px/1.45 var(--told); }
 .journal .done li { color: var(--grey); background: none; }
-.journal .keep { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+/* The Notes' one menu stays in view at the foot of the page however long the notes run: it acts on the aim considered
+   above it. */
+.journal .keep { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 6px; margin-top: 30px;
+  list-style: none; position: sticky; bottom: 0; z-index: 2;
+  padding: 12px 0; background: linear-gradient(to bottom, transparent, var(--deep, #0a0b0e) 22%); }
 
 /* The head of a book's page: where, and which book. */
 .where { display: flex; flex-wrap: wrap; gap: 4px 0; margin: 0 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--hair);
