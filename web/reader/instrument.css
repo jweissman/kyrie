@@ -13,9 +13,6 @@
   right: 34px; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-hint]:has(> .row-key)::after {
   right: 56px; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row.choice-row[data-holding] {
-  background: color-mix(in oklab, var(--row-tone) var(--tint-press), transparent);
-  border-color: color-mix(in oklab, var(--row-tone) 60%, transparent); transition: none; }
 :root .choice-row.choice-row.choice-row[data-holding]::before {
   animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
 :root .choice-row.choice-row.choice-row[data-held]::before { --hold-p: 100%; }
@@ -36,13 +33,17 @@
 .ix-reticle .rt-fill { fill: none; stroke: rgb(247, 241, 228); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 100;
   stroke-dashoffset: 100; transform: rotate(-90deg); transform-origin: 16px 16px; }
 .ix-reticle:is(.holding, .held, .drain) { visibility: visible; }
+/* Round a finger: larger than the fingertip, so the ring is seen filling beside it, its track plainer. */
+.ix-reticle svg { transform: scale(var(--rt-k, 1)); }
+.ix-reticle.finger { --rt-k: 2.4; }
+.ix-reticle.finger .rt-track { stroke: rgba(236, 230, 217, .34); }
 .ix-reticle.holding .rt-fill { animation: rt-fill var(--hold-ms, 520ms) linear forwards; }
 .ix-reticle.held .rt-fill { stroke-dashoffset: 0; }
 .ix-reticle.held svg { animation: rt-done 200ms var(--ease) both; }
 .ix-reticle.drain .rt-fill { animation: rt-drain 240ms var(--ease) forwards; }
 @keyframes rt-fill { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes rt-drain { from { stroke-dashoffset: var(--hold-off, 100); } to { stroke-dashoffset: 100; } }
-@keyframes rt-done { from { transform: scale(1); } to { transform: scale(1.18); opacity: 0; } }
+@keyframes rt-done { from { transform: scale(var(--rt-k, 1)); } to { transform: scale(calc(var(--rt-k, 1) * 1.18)); opacity: 0; } }
 
 /* Less motion: the rings fill by quarters. */
 @media (prefers-reduced-motion: reduce) {

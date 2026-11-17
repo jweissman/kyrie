@@ -57,10 +57,11 @@ export class Hold {
   }
   private static down(go: Go, e: PointerEvent<HTMLElement>) {
     if (e.button !== 0) { return; }
-    // Whose hand it is: the pointer's own ring is the cursor's (Reticle), so the row draws none for it.
+    // Whose hand it is: the pointer's own ring is the cursor's (Reticle), so the row draws none for it; a finger's is
+    // drawn round the finger, larger than it, so that it is seen (the owner, 17 November: on a phone it was gone).
     e.currentTarget.dataset.by = e.pointerType;
     Hold.start(e.currentTarget, go);
-    if (e.pointerType !== 'touch' && Hold.at) { Reticle.show(e.clientX, e.clientY, Hold.time()); }
+    if (Hold.at) { Reticle.show(e.clientX, e.clientY, Hold.time(), e.pointerType === 'touch'); }
   }
   private static keyed(go: Go, e: KeyboardEvent<HTMLElement>) {
     if (e.key !== 'Enter' && e.key !== ' ') { return; }

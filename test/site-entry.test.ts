@@ -5,7 +5,6 @@ import { PlaySession } from '../src/session/play-session';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList } from '../src/ui/choice-list';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { WaysPane } from '../web/reader/stage/ways-pane';
 
 // The product-design review's PD-04: from outside Lunalac the way in was "Lunalac", the place's own name, and named
 // the site before it was known; a door's act said "toward Out to Lunalac". The way in is said by its own name, and an
@@ -20,6 +19,5 @@ describe('the way into a site from its outside', () => {
     const screen = ScreenModel.build(c), inward = screen.exits.find(e => e.transition === 'enter')!;
     expect(inward.scope).toBeUndefined();
     expect(ChoiceList.wayLabel(inward)).not.toMatch(/Paliduslac/);
-    expect(WaysPane.tile('Out to Lunalac — look at the speaking door', 'Lunalac').r).toBe('toward Lunalac');
   }, 120000);
 });

@@ -23,13 +23,10 @@ import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
 import { Standing } from '../../../src/ui/standing';
-import { LookAbout } from './look-about';
-import { MorePane } from './more-pane';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
 import { Raised } from './raised';
 import { Told } from './told';
-import { WaysPane } from './ways-pane';
 import { Look } from '../look';
 
 // Where the company is, as a world it moves through (the owner, 4 November, evening; spatial-play.md). Across the
@@ -90,9 +87,6 @@ export class WorldStage {
           {resting && !panel && <SceneRail.View app={app} draw={draw} />}
           {(overworld || !frame.leaf.glance) && SceneRail.on(app) && <SceneRail.Books app={app} alone onMap={overworld} />}
         </div>
-        {up === 'look' && <LookAbout.Sheet app={app} draw={draw} />}
-        {up === 'ways' && <WaysPane.Sheet app={app} draw={draw} />}
-        {up === 'more' && <MorePane.Sheet app={app} draw={draw} />}
       </article>
     );
   }

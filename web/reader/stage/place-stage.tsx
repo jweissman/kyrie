@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Choice } from '../../../src/ui/choice-list';
 import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
@@ -6,20 +6,14 @@ import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Scenery } from '../../../src/ui/scenery';
-import { MenuModel } from '../menu-model';
 import { Likeness } from '../../../src/paintings/likeness';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
-import { ChoiceRow } from './choice-row';
 import { Stage } from './stage';
 import { Told } from './told';
-import { WaysPane } from './ways-pane';
 import { GlanceStage } from './glance';
-import { LookAbout } from './look-about';
-import { MorePane } from './more-pane';
 import { Raised } from './raised';
 import { ThingStage } from './thing-stage';
-import { PageFrame } from '../page-frame';
 
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
@@ -48,9 +42,6 @@ export class PlaceStage {
             : <div className="telling"><Told.Place app={app} headed={false} here={<PlaceStage.Here app={app} draw={draw} />} /></div>}
           </div>
         </section>
-        {up === 'look' && <LookAbout.Sheet app={app} draw={draw} />}
-        {up === 'ways' && <WaysPane.Sheet app={app} draw={draw} />}
-        {up === 'more' && <MorePane.Sheet app={app} draw={draw} />}
       </article>
     );
   }
@@ -171,159 +162,10 @@ export class PlaceStage {
     return screen.exits.map(exit => ({ exit, choices: choices.filter(c => c.id === exit.id || c.id.startsWith(`${exit.id}/`)) }))
       .filter(w => w.choices.length);
   }
-  // The ways on, each a choice that says where it goes: about the place first, then the roads out of it, each with
-  // its way and how long, and whether the company has been there (only a road already travelled says so).
-  // Whatever the company's aims name says so (the engine decides it: see Glance.aimed).
-  static Ways({ screen, near, far, draw, around = [], aimed }: { screen: Screen; near: Choice[]; far: Choice[];
-    draw: Draw; around?: Choice[]; aimed: string[] }) {
-    const all = PlaceStage.ways(screen, near).concat(PlaceStage.ways(screen, far)), steps = all.filter(w => w.exit.bearing);
-    const about = PlaceStage.ways(screen, near).filter(w => !w.exit.bearing), out = PlaceStage.ways(screen, far)
-      .filter(w => !w.exit.bearing);
-    const across = far.filter(c => !all.some(w => w.choices.includes(c)));
-    const scope = screen.path.filter(p => p.kind === 'settlement' || p.kind === 'site').at(-1)?.name;
-    // The town's other places all by the same way are said to go by it once, not seven times (play 9).
-    const by = around.length > 1 && around.every(c => c.note && c.note === around[0]!.note) ? around[0]!.note : undefined;
-    return <>
-      <PlaceStage.Compass steps={steps} draw={draw} />
-      {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
-        <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
-        <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}
-          className={[PlaceStage.wide(w.exit.destination.name) ? 'wide' : '',
-            w.choices[0]!.disabled || w.choices.length > 1 ? 'whole' : '',
-            aimed.includes(w.choices[0]!.id) ? 'aimed' : ''].filter(Boolean).join(' ') || undefined}>
-          <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
-            === w.exit.destination.name).length > 1} /></li>)}
-        {by && <li className="way-by">{Typography.curl(Words.upper(by))}</li>}
-        {around.map(c => <li key={c.id} className={[PlaceStage.wide(c.label) ? 'wide' : '',
-          aimed.includes(c.id) ? 'aimed' : ''].filter(Boolean).join(' ') || undefined}>
-          <Act.View choice={c} draw={draw} className="way by" marked>
-          <span className="n">{Typography.curl(Words.upper(c.label))}</span>
-          {c.note && !by && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
-      </nav>}
-      {(out.length > 0 || across.length > 0) && <nav className="ways out" aria-label="Roads out">
-        <p className="label">{about.length ? 'Roads out' : 'Ways on'}</p>
-        <ul className="options">{out.map(w => <li key={w.exit.id} data-exit={w.exit.id}
-          className={aimed.includes(w.choices[0]!.id) ? 'aimed' : undefined}>
-          <PlaceStage.Way way={w} draw={draw} road /></li>)}
-        {across.map(c => <li key={c.id} className={aimed.includes(c.id) ? 'aimed' : undefined}>
-          <Act.View choice={c} draw={draw} className="way" marked /></li>)}</ul>
-      </nav>}
-    </>;
-  }
-  // The six ways across the open country, as the hexes about lie: north-west and north-east, west and east, south-west
-  // and south-east, each with its land and how long it takes (they had each been "among the trees of Pharaiyaar, by
-  // the way across country" in a list of roads).
-  static readonly compass = ['north-west', 'north-east', 'west', 'east', 'south-west', 'south-east'];
-  static Compass({ steps, draw }: { steps: Way[]; draw: Draw }) {
-    if (!steps.length) { return null; }
-    const at = (w: Way) => PlaceStage.compass.indexOf(w.exit.bearing ?? '');
-    return (
-      <nav className="ways across-country" aria-label="Across country">
-        <p className="label">Across country</p>
-        <ul className="compass">{[...steps].sort((a, b) => at(a) - at(b)).map(w => <li key={w.exit.id} data-exit={w.exit.id}
-          data-bearing={w.exit.bearing} style={{ gridColumn: at(w) % 2 + 1 }}>
-          <Act.View choice={w.choices[0]!} draw={draw} className="way stride" marked>
-            <span className="n">{Words.upper(w.exit.bearing!)}</span>
-            <span className="r">{Typography.curl(w.exit.destination.name)}</span>
-            {w.choices[0]!.note && <span className="t">{Typography.curl(w.choices[0]!.note)}</span>}</Act.View></li>)}</ul>
-      </nav>
-    );
-  }
-  // A way, as one choice: where it goes, and beside it by what way, how long and whether you have been; what else can
-  // be done at it (open it first, look at what is on it) beneath.
-  static Way({ way, draw, twin, road }: { way: Way; draw: Draw; twin?: boolean; road?: boolean }) {
-    const [go, ...also] = way.choices, exit = way.exit;
-    // By what way, unless the way is where it goes ("To the bridge over the Reodex, by the bridge over the Reodex"),
-    // and without the place it reaches when that is named already ("by the path", not "by the path into Holenforwest").
-    const to = PlaceStage.to(go!, exit), named = exit.way && to.toLowerCase().includes(exit.way.toLowerCase());
-    const by = [(road || twin) && exit.way && !named ? `by ${PlaceStage.route(exit.way, to)}` : '',
-      road && exit.visited ? 'been' : ''].filter(Boolean).join(' · ');
-    return <>
-      <Act.View choice={go!} draw={draw} className="way" marked>
-        <span className="n">{Typography.curl(Words.upper(to))}</span>
-        {go!.note && <><span className="lead" aria-hidden="true" /><span className="t">{Typography.curl(go!.note)}</span></>}
-        {by && <span className="r">{Typography.curl(by)}</span>}
-      </Act.View>
-      <PlaceStage.Opened choice={go!} draw={draw} />
-      {also.map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
-        : <Act.View key={c.id} choice={c} draw={draw} className="way also" marked>
-          {Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View>)}
-    </>;
-  }
-  // Something in the way and what can be done about it, each its own row under the thing's name: it had opened as a
-  // fold under the way, "…" and then underlined words (play 7, the enchanted object on the long stair).
-  static Hazard({ choice: c, draw }: { choice: Choice; draw: Draw }) {
-    return <>
-      <p className="way-thing">{Typography.curl(PlaceStage.thing(c.label))}</p>
-      {c.children!.map(k => <Fragment key={k.id}><Act.View choice={k} draw={draw} className="way also" marked>
-        {Typography.curl(Words.upper(k.label))}</Act.View><PlaceStage.Opened choice={k} draw={draw} /></Fragment>)}
-    </>;
-  }
-  // Your aim, said quietly at the head of the ways on: the first the notes hold, your own errand before what the
-  // country holds (the owner's interim report: little to say where anything worth doing was, without the notes). It
-  // is said as written: "You mean to / the brothers want …" was no sentence (play 7). Not on the first place after a
-  // new game's opening, which has just said it (opened): "Your father … did not come home" was read on the choice of
-  // a life, in the opening and under the first place, three screens running (the opening's critique).
-  // The aim followed is said as followed, as the glance says it (the owner, 4 November: "Your aim" in one place,
-  // "Following" in another).
-  static Aim({ screen, bound, opened, followed }: { screen: Screen; bound: boolean; opened?: boolean; followed?: string }) {
-    const aim = followed ?? screen.objectives[0];
-    if (!aim || bound || opened) { return null; }
-    return <p className="aim" data-id="aim"><span className="label">{followed ? 'Following' : 'Your aim'}</span>
-      {Typography.curl(Words.upper(aim))}</p>;
-  }
-  // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the
-  // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you
-  // explore from until you come there (the owner's interim report).
-  // A name too long for half a phone's width takes the whole row there ("To the market-place of Karashilgab" had
-  // wrapped over three lines beside another: play 11), and so does a way barred, with why, or with something on it
-  // (a boar across the low path, a hidden switch and a pole to prod it with, had been told in a column a third of the
-  // page wide).
-  static wide(name: string): boolean { return name.length > 22; }
-  static Bound({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const bound = app.state.frame!.bound, going = app.menu.destinations ?? [];
-    const on = bound && going.find(c => c.id === `travel:${bound.id}`), off = going.find(c => c.id === MenuModel.unbind);
-    if (!bound || !on) { return null; }
-    const next = bound.legs[0];
-    return (
-      <section className="bound" aria-label={`Bound for ${bound.name}`} data-id="bound">
-        <p className="label">Bound for</p>
-        <p className="whither">{Typography.curl(Words.upper(bound.name))}</p>
-        <p className="next">{Typography.curl([next ? `Next, ${Words.by(next.way, next.to)}: ${Words.span(next.minutes)}.` : '',
-          bound.toward ? `As far as ${bound.toward} by the ways you know.` : '',
-          bound.legs.length > 1 ? `${Words.upper(Words.span(bound.minutes))} in all.` : ''].filter(Boolean).join(' '))}</p>
-        <ol {...PageFrame.slot('menu')} className="led go">
-          <li><ChoiceRow.Act choice={on} draw={draw} className="go-on" label={`Go on to ${bound.name}`} /></li>
-          {off && <li><ChoiceRow.Act choice={off} draw={draw} className="give-up" label="Give it up" /></li>}
-        </ol>
-      </section>
-    );
-  }
-  // The nearest places you know the way to, further than a step, each a journey to set out on at once; the rest are
-  // on the map. On the way, the journey stops for whatever wants a decision.
-  static Further({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const bound = app.state.frame!.bound;
-    const going = (app.menu.destinations ?? []).filter(c => c.id !== MenuModel.unbind && c.id !== `travel:${bound?.id}`);
-    if (!going.length) { return null; }
-    return (
-      <nav className="ways further" aria-label="Set out for">
-        <p className="label">Set out for</p>
-        <ul className="options">{going.map(c => <li key={c.id} className={PlaceStage.aimed(app).includes(c.id) ? 'aimed' : undefined}>
-          <Act.View choice={c} draw={draw} className="way journey" marked>
-          <span className="n">{Typography.curl(c.label.replace(/^Set out (for|toward) /, ''))}</span>
-          {c.note && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
-      </nav>
-    );
-  }
   // Every way the company's aims name (where a way goes, a walk about the town, a place to set out for), as the engine
   // decides it (see Glance.aimed): the page had matched an aim's words against places' names.
   // The ways of the aim followed: only those are gilded (other aims' ways are not, nor all of them when it has none).
   static aimed(app: ReaderApp): string[] { return app.state.frame?.leaf.glance?.following ?? []; }
-  // Where a way goes, as the choice says it ("Into the Wooden Wolf"), or the place it leads to.
-  private static to(c: Choice, exit: ExitRow): string {
-    const said = c.label.replace(/ — .*$/, '');
-    return /^(To|Into|Out|Up|Down|Back|Across|Over|Through|Along) /.test(said) ? said : exit.destination.name;
-  }
   static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
   // What is at a way, by its own name: the corn-store padlock, not "To the old corn-store — look at the corn-store
   // padlock".

@@ -19,14 +19,15 @@ export class Reticle {
     }
     return Reticle.el;
   }
-  static show(x: number, y: number, ms: number) {
+  static show(x: number, y: number, ms: number, finger = false) {
     const el = Reticle.drawn();
     el.style.setProperty('--hold-ms', `${ms}ms`);
     el.className = 'ix-reticle';
+    el.classList.toggle('finger', finger);
     Reticle.at(x, y, true);
     // Restarted from empty, though the last hold's class was the same.
     void el.offsetWidth;
-    el.className = 'ix-reticle holding';
+    el.classList.add('holding');
   }
   private static at(x: number, y: number, force = false) {
     const el = Reticle.el;
@@ -44,7 +45,7 @@ export class Reticle {
   private static end(as: string, ms: number) {
     const el = Reticle.el;
     if (!el?.classList.contains('holding')) { return; }
-    el.className = `ix-reticle ${as}`;
-    window.setTimeout(() => { if (el.classList.contains(as)) { el.className = 'ix-reticle'; } }, ms);
+    el.classList.remove('holding'); el.classList.add(as);
+    window.setTimeout(() => { if (el.classList.contains(as)) { el.classList.remove(as); } }, ms);
   }
 }

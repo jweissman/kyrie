@@ -15,8 +15,10 @@
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row {
   background-color: transparent; border-color: transparent; outline: none; background-image: none; animation: none;
   transition: background-color var(--row-out) var(--ease), color var(--row-out) var(--ease); }
+/* The mark is one height in every state (the owner, 17 November: it had grown under the hand and a press); only its
+   light changes. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row > .row-mark {
-  transform: scaleY(.62); opacity: .72; transition: transform var(--row-out) var(--ease), opacity var(--row-out) var(--ease); }
+  transform: none; opacity: .72; transition: opacity var(--row-out) var(--ease); }
 /* Under the hand (once it has moved since the screen changed: IG-18). */
 :root:not([data-still]) :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:hover:not(.shut, [disabled], [aria-disabled="true"]) {
@@ -27,7 +29,7 @@
   background-color: color-mix(in oklab, var(--row-tone) var(--row-lit), transparent); color: #fff; transition: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-holding], [data-taken]) > .row-mark {
-  transform: none; opacity: 1; transition: none; background: color-mix(in oklab, var(--row-tone) 88%, white); }
+  opacity: 1; transition: none; background: color-mix(in oklab, var(--row-tone) 88%, white); }
 /* Pressed, held, taken: deeper, at once. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(:active, [data-holding], [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {
@@ -53,15 +55,26 @@
 :root .talk .replies [data-condition="spent"] .choice-row.choice-row { color: var(--dim); }
 
 /* A held row says it is being held by its ground filling from its mark across, in its tone, for as long as the hold
-   lasts, with the cursor's ring: the press itself says whether the choice is a hold, and how far it has got (the owner,
-   16 November: a press could not be told from a hold begun). Let go early, it drains. Nothing else marks a held row. */
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold] {
-  background-image: linear-gradient(90deg, color-mix(in oklab, var(--row-tone, var(--ivory)) 30%, transparent),
-    color-mix(in oklab, var(--row-tone, var(--ivory)) 18%, transparent));
-  background-repeat: no-repeat; background-size: var(--hold-p) 100%; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] { animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-held] { --hold-p: 100%; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-let-go] { animation: ix-drain 240ms var(--ease) forwards; }
+   lasts, with the cursor's ring (a finger's too, drawn round it: Reticle): the press itself says whether the choice is
+   a hold, and how far it has got (the owner, 16 November: a press could not be told from a hold begun). The fill is
+   solid with a bright leading edge over the row's lit ground, so where it has got to is plain and the act is done when
+   it reaches the far end, not before (the owner, 17 November: a fill fading toward its edge over the pressed ground
+   had looked done early). Let go early, it drains. Nothing else marks a held row. */
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  .choice-row.choice-row[data-hold]:is([data-holding], [data-held], [data-let-go]) {
+  background-color: color-mix(in oklab, var(--row-tone, var(--ivory)) var(--row-lit), transparent);
+  background-image: linear-gradient(color-mix(in oklab, var(--row-tone, var(--ivory)) 34%, transparent),
+    color-mix(in oklab, var(--row-tone, var(--ivory)) 34%, transparent)),
+    linear-gradient(color-mix(in oklab, var(--row-tone, var(--ivory)) 80%, white),
+    color-mix(in oklab, var(--row-tone, var(--ivory)) 80%, white));
+  background-repeat: no-repeat; background-size: var(--hold-p) 100%, 2px 100%; background-position: 0 0, var(--hold-p) 0; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] {
+  animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-held] {
+  --hold-p: 100%; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-let-go] {
+  animation: ix-drain 240ms var(--ease) forwards; }
 @media (prefers-reduced-motion: reduce) {
-  :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] { animation-timing-function: steps(4, end); }
+  :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] {
+    animation-timing-function: steps(4, end); }
 }

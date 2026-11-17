@@ -2,7 +2,7 @@ import type { ReaderApp } from './reader-app';
 import type { View } from './menu-model';
 import { Stage } from './stage/stage';
 import { PrologueStage } from './stage/prologue-stage';
-import { Raised, type Sheet } from './stage/raised';
+import { Raised } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
@@ -17,7 +17,6 @@ import { Hold } from './instrument/hold';
 // one in focus.
 export class ReaderKeys {
   static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
-  static readonly sheets: Record<string, Sheet> = { l: 'look', w: 'ways' };
   // At a place at rest: Go… (G, or W for the ways), Look… (L), Wait… (Z, a while).
   static readonly parts: Record<string, Part> = { g: 'go', w: 'go', l: 'look', z: 'wait' };
   constructor(private readonly app: ReaderApp) {}
@@ -57,7 +56,6 @@ export class ReaderKeys {
       const top = among.indexOf(GlanceStage.top(app));
       const cursor = among[s.keyed && at >= 0 ? (at + step + n) % n : step > 0 ? Math.max(0, top) : n - 1]!;
       app.setState({ cursor, hovered: undefined, keyed: true });
-      if (Stage.mode(app) === 'explore') { Raised.follow(app, cursor); }
       return true;
     }
     if (key === 'Enter' || key === ' ') {
@@ -129,11 +127,6 @@ export class ReaderKeys {
     const part = ReaderKeys.parts[key];
     if (part && app.state.frame?.leaf.glance && !app.state.outdoors && Stage.mode(app) === 'explore') {
       app.explore(app.state.exploring === part ? undefined : part);
-      return true;
-    }
-    const sheet = ReaderKeys.sheets[key];
-    if (sheet && app.state.frame && Stage.mode(app) === 'explore') {
-      Raised.toggle(app, sheet);
       return true;
     }
     if (key === '?') { app.setState({ help: !app.state.help }); return true; }
