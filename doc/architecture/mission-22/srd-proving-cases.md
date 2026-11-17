@@ -236,6 +236,61 @@ that proof. Spec: `test/lightning-bolt` (7 cases; with the line taken out of Pos
   storm elementals are met in none of them (srd-fidelity.md's encounters).
 - So no first hour moves. A creature installed later, deeper in a site, is not in this census.
 
+### 10. The spell levels and the chain: stopped by the census (17 November, later), a decision for the lead
+
+Two slices were asked for next:
+- Burning Hands, Fireball and Lightning Bolt at the SRD's levels (1, 3 and 3, from Orsino's 2, 4 and 4);
+- the `chain` shape, with the cascading spells.
+
+Both were measured before anything was changed, and both stop here. Each moves the spells of drawn casters, and so
+the recorded journeys that hold them. The rule was to stop and write up the decision instead of landing it.
+
+**The census** (scratch: `/var/tmp/kyrie/srd-scratch/pools.ts`, `chain-pool.ts`). Each row is 200 humans of a calling
+made at a level through `Content.createCreature`, the ordinary path; their spells drawn by seed, as creation and
+generation draw them. The rates are the share knowing each of Burning Hands, Fireball, Lightning Bolt and Magic
+Missile; "moved" is the share whose whole list of spells is not what it was.
+
+| Calling, level | Moved | Before (bh / fb / lb / mm) | After (bh / fb / lb / mm) |
+|---|---|---|---|
+| mage, evoker, 1 | 96 % | .28 / 0 / 0 / .32 | .23 / .22 / .19 / .23 |
+| mage, evoker, 3 | 98 % | .30 / 0 / 0 / .39 | .34 / .22 / .19 / .31 |
+| mage, evoker, 7 | 100 % | .36 / .03 / .02 / .45 | .39 / .26 / .24 / .39 |
+| mage, abjurer, 1 | 74 % | .08 / 0 / 0 / .19 | .09 / 0 / 0 / .12 |
+| mage, abjurer, 7 | 100 % | .20 / .03 / .02 / .36 | .29 / .05 / .09 / .30 |
+| mage, school drawn, 1 | 77 % | .10 / 0 / 0 / .17 | .14 / .02 / .04 / .15 |
+| mage, school drawn, 7 | 100 % | .21 / .03 / .02 / .33 | .34 / .07 / .12 / .34 |
+| bard, 1–7 | 0 % | none of the four | none of the four |
+
+- **The SRD's levels.** A first-level evoker would know Fireball one time in five, where none does now. Three mages
+  in four or more of every kind come out with other spells. The reason is that creation draws a spell as an index
+  into the sorted list of a level's spells (SpellSelection.choose): one spell more or less in a level moves every
+  draw after it.
+- **The installed casters of a1, kite and thorn** (962 classed creatures as real play begins): none moves. Their
+  casters prepare at most second-level spells, of other schools.
+- **What moves is the player's own mage**, every hireling and companion drawn at creation, and every spec and
+  recorded journey that makes a mage by seed. Examples: mage-play, mage-casts, the obituary and descent journeys with
+  a mage, and the veterans company's Maeve (an evoker of the twelfth level, test/what-tessary-owes).
+- **The chain.** It is not met in play without a spell, and every spell that would use it enters a draw:
+  - shock_pulse, an evocation cantrip, which every evoker knows;
+  - static_shock and bolt, the storm domain's cantrip and first level;
+  - electric_arc at the third level; chain_lightning at the fifth.
+  Chain Lightning alone, made castable, moves 36 % of drawn mages of the ninth level and 77 % of the twelfth (4 % of
+  the twelfth then know it). Maeve is one of them.
+
+**The decision** (for the lead, not taken here):
+1. **Re-record once.** Land the three levels, or the chain, as one deliberate change: re-record the journeys and
+   traces that move, and fight the descents again on CI. It costs a re-record now, and again at every later move of a
+   spell's level or support.
+2. **Decouple the draw first** (recommended). Creation would rank a pool's options by a hash of the seed and each
+   spell's id, and take the first, so a spell added to a pool, or moved out of it, changes only the draws it wins or
+   loses. That is one engine change and one re-record. After it, each spell slice moves only the casters who now know
+   that spell, and the census measures exactly those.
+3. **Keep Orsino's levels** (adapted, said in each entry's notes, as Lightning Bolt does now). The spells run by the
+   SRD's numbers but for their level; the structure grade fails, honestly.
+
+Until one is chosen, Burning Hands and Fireball keep Orsino's numbers, Lightning Bolt its fourth level, and the five
+cascading spells stay unsupported.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **34 of the merged catalogue's 363 abilities** carry `unsupported`. Orsino's file (data/catalog/orsino/abilities.json)
@@ -289,12 +344,11 @@ be claimed from the catalogue.
 
 ## What remains of the migration, and why (17 November, later)
 
-- **Burning Hands and Fireball** (proof-slices.md step 5's rest). Their SRD levels (1, 3) differ from Orsino's (2,
-  4). Moving either changes the pools every mage draws from at creation, so every generated mage's spells and every
-  journey recorded across one move with it. Each wants the census of what moved, and the descents re-run on CI,
-  before it lands. Cone of Cold's DC conversion and `#castingScore` are theirs to reuse.
+- **Burning Hands and Fireball, and Lightning Bolt's level** (proof-slices.md step 5's rest). Stopped by the census
+  in case 10: three mages in four or more would draw other spells. This waits on the lead's decision there. Cone of
+  Cold's DC conversion and `#castingScore` are theirs to reuse.
 - **The cascading five** (chain_lightning, bolt, electric_arc, shock_pulse, static_shock). These want `chain`, a
-  new shape after the line (case 9).
+  new shape after the line (case 9). Stopped with the levels (case 10): every one of them enters a draw.
 - **Spell resistance.** Not rolled anywhere. Proof-slices.md forbids an `sr` field until it rolls, is told and
   changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
 - **The 34 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
