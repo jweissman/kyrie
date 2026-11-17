@@ -139,10 +139,15 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
    - Met in a bounded subset, by executable behaviour: the work above, each with its spec.
    - The opportunity census (census/opportunity-depth-2026-11-16.md) is a baseline, not yet a raised floor.
 6. **A reconciled register and design recommendations.**
-   - The register counts every row: 637 (fifteen from the second and third reviews); 219 fixed, 185 open,
-     145 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition. At the mission's start it was 615: 193 fixed,
-     206 open, 124 partly.
-   - Register zero was the owner's aim and is not reached: 185 rows are open and 33 are still "unverified" (mostly
+   - The register counts every row: 637 (fifteen from the second and third reviews); 224 fixed, 175 open,
+     150 partly, 45 deferred, 35 duplicate, 7 decided, 1 ambition; P1: 121 fixed, 23 open, 61 partly. At the
+     mission's start it was 615: 193 fixed, 206 open, 124 partly.
+   - The last round (7) took the open P1 rows from 33 to 23:
+     - the aim's lead into a site room by room (PB-16, EX-03, gold walker a1 2/11 → 4/11 guided turns for a
+       warrior);
+     - a novice-viability measure: a lone warrior fought to the end dies in 45% of a1's bands, a careful player in
+       1–2%; how much danger the first hour should hold is open (CB-01, with BP-07).
+   - Register zero was the owner's aim and is not reached: 175 rows are open and 33 are still "unverified" (mostly
      deferred ambitions, process rows, or experience rows that need a play, not a grep).
    - The design recommendations are prospectus.md.
 
