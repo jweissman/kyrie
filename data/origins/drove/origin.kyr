@@ -3,7 +3,7 @@ Module origin "Down the drove road" {
   Entity party: group "You".
   Place green "The green" is room.
   Entity bran: group "Bran ap Ifor". Entity owain: group "Owain". Entity held: fact "Bran is held".
-  Relation handed(group).
+  Relation stickHanded(group).
   // What the drove's own count says, in the hand of the one who kept it: a thing to show, not a thing to say.
   Entity tally: fact "Bran's tally-stick has thirty-six notches for the drove, and four more cut through at the Black Rhyne.".
   Kind tally_kind "Bran's tally-stick" is document teaching tally worth 0 weighing 1 described "A hazel stick as long as your forearm, notched along one edge by Bran's knife at every count since Hafod. Forty notches; the last four are cut through, and beside them is scratched a wavy line, which is how Bran writes water.".
@@ -12,6 +12,6 @@ Module origin "Down the drove road" {
   Entity called_cousin: fact "your cousin". Initially Assert kinship(owain, called_cousin).
   Observe arrival at green as fixture when watch(clock) < 1 "Eleven days down from the fells, and the last mile the worst. In the dark the Black Rhyne's bank went out from under the tail of the drove. You heard them in the water. Bran said leave them. Then {town} at first light, salt-houses and masts, the customs-men waiting at the march-stone with their staves. They counted. They took Bran.".
   Observe charge at green as feature when watch(clock) < 2 "Bran went with them without a word, only putting his tally-stick into your hand as they took him. The drove is in the pens behind the customs-house, thirty-six head and nobody's but yours to mind. Owain is with them. He is your cousin, fourteen, and frightened. The customs clerk says four beasts were hidden from the toll.".
-  Rule stick_given when not handed(party) { Give stick to party. Assert handed(party). }
+  Rule stick_given when not stickHanded(party) { Give stick to party. Assert stickHanded(party). }
   Goal false.
 }

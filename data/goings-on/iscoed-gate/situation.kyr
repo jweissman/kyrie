@@ -5,7 +5,7 @@ Module gate "The last sea-gate" {
   Place green "The green" is room.
   Place hamlet "The hamlet" is settlement.
   Place hamletgreen "The hamlet's green" is room.
-  Relation mended(group). Relation flooded(group). Relation claimed(group). Relation tried(group).
+  Relation mended(group). Relation flooded(group). Relation gateClaimed(group). Relation gateTried(group).
 
   Entity failing: fact "The last of the Water-Wardens' sea-gates, at {hamlet}, no longer shuts: at the spring tide, six days off, the sea will come over into the fen. The reeve at {town} pays thirty crowns to have it mended.".
   Initially Assert established(failing). Initially Assert established(tide).
@@ -50,13 +50,13 @@ Module gate "The last sea-gate" {
       and not mended(actor) and not flooded(actor).
     Resolve check(actor, brawn, dc_fair).
     On success { Spend pawl_kind from actor. Assert mended(actor). }
-    On failure { Assert tried(actor). }
+    On failure { Assert gateTried(actor). }
     Result "The pawl drops into its socket with a sound like a bell. Then the long work: the windlass bars, a turn and a rest and a turn, the chain coming up wet out of the slot link by link, the pawl clacking over the ratchet. Below, at last, something enormous seats itself in stone, and the mill-race sound stops.".
     Otherwise "The drum will not come round. You hang on the bar until your arms shake and the chain slips back a link at a time. It wants more weight than yours, or a fresh try.".
   }
-  Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not claimed(actor) once {
+  Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) once {
     Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.'".
-    On discuss { Increase quantity(actor, gold) by 30. Assert claimed(actor). }
+    On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). }
   }
   Topic reeve_cut with reeve "Show the reeve the pawl's sawn pin" when knows(actor, cut) once {
     Says "The reeve's face does not change, but she goes very still. 'Sawn,' she says. 'Then someone wants the fen wet, or the gate open. The cut runs under the bank to the sea, and a boat could come and go by it at night with no customs-man the wiser.' She looks toward the waterfront. 'Keep that to yourself until I know who.'".
@@ -70,7 +70,7 @@ Module gate "The last sea-gate" {
   Objective gate_pawl when knows(party, fault_found) and not knows(party, pawl_found) and not mended(party) and not flooded(party) toward well by gatehouse "Find the sea-gate's lost pawl: something heavy went down the gate-well under the gatehouse.".
   Objective gate_take when knows(party, pawl_found) and not holding(party, pawl_kind) and not mended(party) and not flooded(party) toward well "Bring the sea-gate's pawl up out of the gate-well.".
   Objective gate_wind when holding(party, pawl_kind) and not mended(party) and not flooded(party) toward gatehouse "Take the pawl to the windlass at {hamlet}, and wind the sea-gate shut.".
-  Objective gate_claim when mended(party) and not claimed(party) toward reeve "Tell the reeve at {town} that the sea-gate shuts.".
+  Objective gate_claim when mended(party) and not gateClaimed(party) toward reeve "Tell the reeve at {town} that the sea-gate shuts.".
   Rule word_old when mended(party) and not stale(failing) { Assert stale(failing). }
   Goal mended(party).
 }
