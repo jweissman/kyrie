@@ -100,7 +100,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a ring only where a hold matters', 
     expect(await told()).toBe(before);
   }, 240000);
 
-  it('is done by a held key, and a key tapped only arms it', async () => {
+  it('is done by a held key, and never by keys tapped, however often (the owner, 16 November: nothing armed)', async () => {
     const { page, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
       { site, pointer: false, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -113,12 +113,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a ring only where a hold matters', 
     const held = page.locator('.glance .lens-time [data-hold]'), told = async () => (await d.inspect()).log.length;
     const before = await told();
     await held.first().focus();
-    // A tap of the key arms and does nothing.
-    await page.keyboard.press('Enter');
+    // Taps of the key do nothing, two or three running, and arm nothing.
+    await page.keyboard.press('Enter'); await page.keyboard.press('Enter'); await page.keyboard.press('Enter');
     expect(await told()).toBe(before);
-    expect(await held.first().getAttribute('data-armed')).not.toBeNull();
-    // Left alone it disarms; held down as long as a hold takes, it is done.
-    await page.waitForTimeout(3300);
+    expect(await held.first().getAttribute('data-armed')).toBeNull();
+    // Held down as long as a hold takes, it is done.
     await held.first().focus();
     await page.keyboard.down('Enter'); await page.waitForTimeout(800); await page.keyboard.up('Enter'); await d.settle();
     expect(await told()).toBeGreaterThan(before);

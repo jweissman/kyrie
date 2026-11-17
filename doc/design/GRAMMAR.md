@@ -75,8 +75,9 @@ controller of the page's own.
   - a ring is drawn only on a held row; no ring promises a hold where a tap already acts.
 - **How each hand holds** (`Hold`, 520 ms):
   - the pointer holds until the cursor's ring is full; let go early, it does nothing and leaves nothing half made;
-  - a finger or the keys may also tap once to arm the row and tap again to do it (the accessible equivalent of a
-    hold; never a dexterity-only long press);
+  - nothing arms: a tap on a held row does nothing but say "Hold", however often (the owner, 16 November: once armed,
+    a single click had done it); the accessible way is an assistive technology's activation, done at once;
+  - the row's ground fills from its mark while it is held, so the press itself says it is a hold;
   - a held key commits at full, once;
   - an assistive technology's click (no hand) commits at once.
 - **The input contract**, as built (M22 makes it one commit path for every surface; until then the title and creation
@@ -85,10 +86,9 @@ controller of the page's own.
   | | pointer | finger | keys | assistive click |
   |---|---|---|---|---|
   | tap, an ordinary act | commits on release over the row | commits on release | Enter or Space commits | commits |
-  | tap, a held row | nothing; the ring drains | arms ("Hold"), 3 s | arms, 3 s | commits |
-  | second tap, armed | (never armed) | commits | commits | |
+  | tap, a held row | nothing; the fill drains, "Hold" | nothing; "Hold" | nothing; "Hold" | commits |
   | held to full (520 ms) | commits, once | commits, once | commits, once | |
-  | let go early, or slid off | nothing | arms | arms | |
+  | let go early, or slid off | nothing | nothing | nothing | |
   | a press slid off an ordinary row | nothing | nothing | | |
   | key repeat; a press across a change of screen | | dropped | dropped | |
   | a digit | | | the numbered row, as a tap (held where the row is) | |

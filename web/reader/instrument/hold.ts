@@ -12,7 +12,9 @@ import { Tone } from './tone';
 //   the page draws the reticle for as long as the hold lasts), and the row's own small ring fills with it for a touch
 //   or the keys;
 // - a touch or a hold let go early is answered, never ignored: the ring drains from where it got to, and the row says
-//   "Hold" a moment;
+//   "Hold" a moment; it does nothing else, and arms nothing: a held choice is made only by a hold completed (the owner,
+//   16 November: once armed, a single click had done it, and a press could not be predicted). An assistive
+//   technology's activation, which no hand holds, is the accessible way, done at once;
 // - it is short (520 ms; &hold= sets it), done when full, not on release, and done once, whatever the keys repeat.
 // The act is the engine's choice as a tap would make it: the hold changes how it is taken, never what it does.
 // What a hold does when it is done, and whether the page is busy answering a last one: held by a button of the engine's
@@ -35,7 +37,7 @@ export class Hold {
   private static never(): boolean { return false; }
   private static pending(app: ReaderApp): boolean { return !!app.state?.pending; }
   // Any button's commitment by holding (the owner, 16 November: the title's ways in and creation's cards): the same
-  // hold, ring and armed second press, for the hand, a touch, the keys, and an assistive technology's click.
+  // hold and ring, for the hand, a touch and the keys, and an assistive technology's click done at once.
   static bind(commit: () => void, busy: () => boolean = Hold.never) {
     const go: Go = { commit, busy };
     return { 'data-hold': 'sustained', onPointerDown: Hold.down.bind(null, go), onPointerUp: Hold.stop,
@@ -77,13 +79,6 @@ export class Hold {
   }
   private static start(button: HTMLElement, go: Go, key?: string) {
     if (Hold.at || go.busy()) { return; }
-    // Let go early, it waits armed a moment: pressed again, it is done (the same for a hand that cannot hold, a touch,
-    // the keys), and says so.
-    if (button.dataset.armed !== undefined && Hold.arms(button)) {
-      delete button.dataset.armed;
-      go.commit();
-      return;
-    }
     const ms = Hold.time();
     delete button.dataset.letGo; delete button.dataset.hint;
     button.style.setProperty('--hold-ms', `${ms}ms`);
@@ -114,15 +109,10 @@ export class Hold {
     Hold.clear(at.button);
     at.button.style.setProperty('--hold-from', `${Math.round(got * 100)}%`);
     at.button.dataset.letGo = ''; at.button.dataset.hint = '';
-    if (Hold.arms(at.button)) { at.button.dataset.armed = ''; }
     window.setTimeout(() => { delete at.button.dataset.letGo; }, 260);
-    window.setTimeout(() => { delete at.button.dataset.hint; delete at.button.dataset.armed; }, 3000);
+    window.setTimeout(() => { delete at.button.dataset.hint; }, 3000);
     Reticle.drain(got);
   }
-  // A hand that can hold is asked to: a mouse or a pen let go early has done nothing, and does not leave the choice
-  // half made (the owner, 17 November: it felt committed on release). A finger and the keys, which may not be able to
-  // hold, may tap it armed and tap again (see start).
-  private static arms(button: HTMLElement): boolean { return button.dataset.by === 'touch' || button.dataset.by === 'key'; }
   private static clear(button: HTMLElement) {
     delete button.dataset.holding;
     delete document.documentElement.dataset.holding;
