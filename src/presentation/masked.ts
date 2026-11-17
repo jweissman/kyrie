@@ -28,6 +28,19 @@ export class Masked {
     // Of what it binds, what could be called otherwise and is now called by its name.
     const plain = new Set(Object.values(bindings ?? {}).map(id => byId.get(id))
       .filter(e => (e?.roles || e?.alias) && !unnamed.some(u => u.id === e.id)).map(e => e!.name));
-    return unnamed.reduce((text, u) => plain.has(u.name) ? text : this.said(text, u.name, u.called), name);
+    // And another bound thing's own name is said whole, as it was written: a name the company does not know inside it
+    // is a part of that name (a clause "that the Imprimatur may burn as it judges", put to a parliament before the
+    // Imprimatur was named, had been offered with the building's look in it: UNT-203).
+    const whole = Object.values(bindings ?? {}).map(id => byId.get(id)?.name ?? '')
+      .filter(n => n && !unnamed.some(u => u.name === n) && unnamed.some(u => n !== u.name && n.includes(u.name)));
+    return this.outside(name, whole.sort((a, b) => b.length - a.length), { unnamed, plain });
+  }
+  // The text with each name the company does not know said as it is known, but within the names kept.
+  private static outside(text: string, kept: string[], by: { unnamed: Unnamed[]; plain: Set<string> }): string {
+    const at = kept.map(k => ({ k, i: text.indexOf(k) })).filter(x => x.i >= 0).sort((a, b) => a.i - b.i)[0];
+    if (at) {
+      return `${this.outside(text.slice(0, at.i), [], by)}${at.k}${this.outside(text.slice(at.i + at.k.length), kept, by)}`;
+    }
+    return by.unnamed.reduce((t, u) => by.plain.has(u.name) ? t : this.said(t, u.name, u.called), text);
   }
 }

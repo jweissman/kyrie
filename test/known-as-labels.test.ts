@@ -36,6 +36,34 @@ class Masked {
   }
 }
 
+// A place seen as something until it is named (UNT-203): its look said for it in a label, but not inside another
+// thing's own name, a clause that names it ("that the Imprimatur may burn as it judges" had been put to the parliament
+// as "that a grey building with a lamp over its door may burn as it judges").
+const seenAs = new OverlayBundleSource(NodeBundleSource.shared, {
+  'sa/site.kyr': `Module sa "Seen" { Place field "Field" is wilderness.
+    Entity imp_named: fact "The Imprimatur's name".
+    Place yard "the yard" is room within field at 0, 0. Company party "You" of 1 at yard.
+    Place imprimatur "the Imprimatur" is room within field at 1, 0 seen as "a grey building with a lamp over its door"
+      until imp_named.
+    Passage gate "the gate" is path between yard and imprimatur.
+    Kind motion. Entity sa_burn: motion "that the Imprimatur may burn as it judges".
+    Relation moved(motion).
+    Action put_motion(actor: group, clause: motion, site: place) "Put to the Parliament {clause}" {
+      Requires at(actor, site) and not moved(clause). On success { Assert moved(clause). } Result "It is put.". }
+    Action stare(actor: group, site: place) "Stare at the Imprimatur" { Requires at(actor, site). Result "It stares back.". } }`,
+  'sa/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
+    exports: { party: 'party' } }),
+  'sa.campaign.json': JSON.stringify({ version: 1, name: 'sa', modules: [{ id: 'p', bundle: 'sa/module.json' }],
+    party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
+describe('a place seen as something', () => {
+  it('is said as it is seen in a label, and left whole inside another thing\'s own name', async () => {
+    const s = await PlaySession.start(seenAs.resolve('sa.campaign.json'), 'sa', seenAs);
+    const labels = PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => /Parliament|Stare/.test(n));
+    expect(labels.sort()).toEqual(['Put to the Parliament that the Imprimatur may burn as it judges',
+      'Stare at a grey building with a lamp over its door']);
+  }, 60000);
+});
+
 describe('someone known as something', () => {
   it('is called that in every label and in their own words, until their name is learned', async () => {
     const s = await Masked.start();
