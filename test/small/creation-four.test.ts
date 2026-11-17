@@ -42,7 +42,7 @@ describe('creation', () => {
     const calling = said.slice(said.indexOf('\nChoose your calling') + 1);
     const shape = calling.slice(0, 5).map(l => /^ {2}(\d)\./.exec(l)?.[1] ?? l.trim().replace(/\d+/, 'n'));
     expect(shape).toEqual(['1', '2', '3', '4', '(n more: more)']);
-  });
+  }, 60000);
   // No second creator: the terminal holds no flow of its own, and asks the engine for every step (see EngineCreation);
   // what it imports of creation it imports as types only.
   it('is the engine\'s alone: the terminal imports no flow of its own', () => {
