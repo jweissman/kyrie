@@ -25,8 +25,7 @@ export class SiteBuild {
     if (!result.success) { throw new AggregateError(result.logs, `Browser build failed for ${entry}`); }
     return result.outputs.reduce((sum, o) => sum + o.size, 0);
   }
-  // The engine runs in a worker. It is built first and handed to the page's script as text, so the page can start
-  // it from a blob, which works from file:// as well as from a server.
+  // The engine runs in a worker, from a script of its own beside the page's (see EngineClient and worker()).
   // A build for browser tests also carries the test fixtures, so a test can play one, and an author's preview carries
   // the campaign's own directory; the bundle on disk carries data/ alone.
   static async engine(minify: boolean, dirs: string[] = []): Promise<string> {
@@ -46,26 +45,26 @@ export class SiteBuild {
     build.onLoad({ filter: /bundles\.generated\.json$/ }, () => ({ contents: JSON.stringify(files), loader: 'json' }));
   }
   static async reader(out: string, minify = true, dirs: string[] = []) {
-    const engine = await this.engine(minify, dirs);
+    const engine = SiteBuild.worker(await this.engine(minify, dirs));
+    await writeFile(join(out, 'engine.js'), engine);
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/reader/reader-main.tsx')], target: 'browser',
       format: 'iife', outdir: out, naming: 'mono.js', minify, sourcemap: minify ? 'linked' : 'none',
-      define: { 'process.env.NODE_ENV': '"production"', KYRIE_COMMIT: JSON.stringify(SiteBuild.commit()) },
-      plugins: [{ name: 'engine-source', setup: SiteBuild.embed.bind(SiteBuild, engine) }] });
+      define: { 'process.env.NODE_ENV': '"production"', KYRIE_COMMIT: JSON.stringify(SiteBuild.commit()) } });
     if (!result.success) { throw new AggregateError(result.logs, 'Reader build failed'); }
     const board = await Bun.build({ entrypoints: [join(this.root, 'web/reader/board/board-main.ts')], target: 'browser',
       format: 'iife', outdir: out, naming: 'board.js', minify });
     if (!board.success) { throw new AggregateError(board.logs, 'Board build failed'); }
-    return result.outputs.reduce((sum, o) => sum + o.size, 0);
+    return result.outputs.reduce((sum, o) => sum + o.size, engine.length);
+  }
+  // The engine's script: run where it is a worker's (served, the worker loads it by its address); read in as a script
+  // by a page from file://, it only names its body, which the page starts a worker from (see EngineClient).
+  static worker(engine: string): string {
+    return `self.kyrieEngine=function(){${engine}\n};if(typeof importScripts==="function"){self.kyrieEngine();}\n`;
   }
   // The commit built (CI's, else the checkout's), shown on the title page and in version.json.
   static commit(): string {
     const sha = process.env.GITHUB_SHA ?? Bun.spawnSync(['git', 'rev-parse', 'HEAD'], { cwd: this.root }).stdout.toString();
     return sha.trim().slice(0, 8) || 'local';
-  }
-  static embed(engine: string, build: PluginBuilder) {
-    build.onResolve({ filter: /^kyrie:engine$/ }, () => ({ path: 'kyrie:engine', namespace: 'kyrie' }));
-    build.onLoad({ filter: /.*/, namespace: 'kyrie' },
-      () => ({ contents: `export default ${JSON.stringify(engine)};`, loader: 'js' }));
   }
   static async site(out: string, options: { fixtures?: boolean } = {}) {
     await rm(out, { recursive: true, force: true });
