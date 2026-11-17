@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 
 // The first goal is said on screen once, whatever way the opening is left (the second blind playtest, BL-04: "Your
 // first goal" was in the page's text but drawn on no screen in either run, found only in the book). Read through, the
@@ -22,7 +23,9 @@ class Opening {
       if (await page.locator('.page-meeting').count() && await meeting.count()) { await meeting.click(); }
       else {
         onward ||= await page.locator('[data-id="onward"] .first-aim').innerText().catch(() => '');
-        await page.keyboard.press('Enter');
+        // Each page goes on by its held Continue (the owner, 16 November).
+        const on = page.locator('.prologue-page .go-on');
+        if (await on.count()) { await MonoDriver.hold(page, '.prologue-page .go-on'); }
       }
       await page.waitForTimeout(700);
     }

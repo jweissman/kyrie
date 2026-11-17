@@ -222,45 +222,36 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await driver.click(`[data-action="origin"][data-id="${origin}"]`);
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
-      // Read at once: a beat goes on by itself once read (CN-09: the engine's pages say a beat is no act).
+      // Each page goes on only by its one held Continue (the owner, 16 November: some sign that input is wanted;
+      // nothing by itself, nor at a touch anywhere).
       const first = (await page.textContent('[data-id="beat"]'))!;
       expect(await page.locator('[data-action="book"], .place-foot, .on-pane, [data-action="choice"]').count()).toBe(0);
       expect((await Stage.bounds(page)).margin).toBe(0);
-      expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
-      // Pressed at once, before its way on has appeared, it stays (two Enters had gone past a beat unread).
-      if (!touch) {
-        await page.keyboard.press('Enter');
-        expect(await page.textContent('[data-id="beat"]')).toBe(first);
-        await page.waitForSelector('[data-action="beat"]', { state: 'visible' });
-      }
-      // Where motion is unwanted, the way on is there at once, and held only long enough that one touch is not two.
-      if (touch) { await page.waitForTimeout(400); await driver.click('[data-action="beat"]'); } else { await page.keyboard.press('Enter'); }
+      const on = async (action: string) => {
+        await page.waitForSelector(`[data-action="${action}"]`, { state: 'visible' });
+        await page.waitForTimeout(touch ? 400 : 1500);
+        await driver.click(`[data-action="${action}"]`);
+      };
+      // Pressed, not held, it stays; and left a while, it stays.
+      await page.waitForSelector('[data-action="beat"]', { state: 'visible' });
+      await page.keyboard.press('Enter'); await page.waitForTimeout(touch ? 600 : 2500);
+      expect(await page.textContent('[data-id="beat"]')).toBe(first);
+      await on('beat');
       // The way in names the town the place is in.
       const second = (await page.textContent('[data-id="beat"]'))!, town = (await driver.inspect()).path!
         .find(p => p.kind === 'settlement')!.name;
       expect([second !== first, second.includes(Typography.curl(town))]).toEqual([true, true]);
       const title = (await Origins.load(NodeBundleSource.shared)).find(o => o.manifest.id === origin)!.manifest.title;
       expect(await page.textContent('[data-id="chapter"]')).toBe(Typography.curl(title));
-      // Left to be read, a beat goes on by itself (a line fills under it as it goes): see the after page below.
       // Then whoever is met on the road (the owner, 7 November), with no way on until they are answered, by one of
-      // play's own choices or its digit; then what came of it, the first aim said once, and Go on.
-      if (touch) { await page.waitForTimeout(400); await driver.click('[data-action="beat"]'); } else {
-        await page.waitForSelector('[data-action="beat"]', { state: 'visible' }); await page.keyboard.press('Enter'); }
+      // play's own choices or its digit; then what came of it, the first aim said once, and Continue.
+      await on('beat');
       await page.waitForSelector('[data-id="meeting"]');
       expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
       await page.waitForSelector('[data-action="answer"]', { state: 'visible' });
       if (touch) { await driver.click('li:first-child > [data-action="answer"]'); } else { await page.keyboard.press('1'); }
       await page.waitForSelector('[data-id="aim"]', { timeout: 30000 });
-      // Nothing to decide after it, and so no Go on (CN-09): the page goes on by itself once read, a line filling
-      // under it (still where motion is unwanted), or at a touch before then.
-      expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
-      const reading = page.locator('[data-id="onward"] .reading');
-      expect(Number(await reading.getAttribute('data-ms'))).toBeGreaterThanOrEqual(3500);
-      if (touch) {
-        expect(await reading.evaluate(e => getComputedStyle(e, '::after').animationName)).toBe('none');
-        await page.waitForTimeout(400);
-        await driver.click('[data-id="aim"]');
-      }
+      await on('go-on');
       await page.waitForSelector('[data-mode="explore"]', { timeout: 30000 });
       // The place opens without the chapter, either beat (not even the way in's first sentence) or the aim.
       expect(await page.locator('.world-bar .chapter, [data-id="aim"]').count()).toBe(0);

@@ -144,9 +144,10 @@
    as well as Enter to go on? It should just set a timer"): the page goes on by itself once read, and Enter or a touch
    anywhere on it goes on sooner. The button stays, as the page's way on for keys and screen readers, an invisible plate over
    the page that cannot be touched before the words are seen (see below). */
-.prologue-page .on { all: unset; cursor: pointer; position: absolute; inset: 0; z-index: 1; }
-.prologue-page .on i { display: none; }
 .prologue-page .onward { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+/* The opening's one way on, held (PrologueStage.Continue): under the words, in their middle, a row's width. */
+:root .prologue-page .go-on.choice-row.choice-row { width: min(320px, 100%); margin: 26px auto 0; justify-content: center;
+  padding: 0 22px; }
 .prologue-page .first-aim { margin: 0; max-width: 32rem; font: var(--type-lead); color: var(--ivory); text-wrap: balance;
   text-shadow: 0 1px 16px rgba(0, 0, 0, .7); }
 .prologue-page .first-aim .kicker { display: block; margin: 0 0 6px; }
@@ -177,11 +178,9 @@
 /* The way on comes after the words, and cannot be touched before it is seen. Set after the buttons' own rules, and
    above them: their `all: unset` had undone it, and two Enters or two taps went past a beat unread (the opening's
    critique). The page holds its keys and touches as long (see PrologueStage.next). */
-.prologue-page .beat + .on, .prologue-page .beat + .onward, .prologue-page .notes + .onward {
+.prologue-page .beat + .go-on, .prologue-page .beat + .onward, .prologue-page .notes + .onward {
   animation: appear .8s 1.4s var(--ease) both; }
 @keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; } }
-/* No hint of how the page goes on: it goes on by itself, and a key or a touch goes on sooner. */
-.prologue-page .hint { display: none; }
 .prologue-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left));
   bottom: max(14px, env(safe-area-inset-bottom)); z-index: 1; margin: 0; font: 400 11px/1.4 var(--do); color: var(--faint); }
 @media (prefers-reduced-motion: reduce) { .prologue-page *, .prologue-page .scenery img { animation: none !important; } }

@@ -96,8 +96,10 @@ controller of the page's own.
 
 - **A grave act asks once before it is done.** Something that cannot be undone, a way with no coming back or a fight
   is chosen once, then again to do it.
-- **A page with nothing to decide is no act.** The opening's beats and the page after the road meeting go on by
-  themselves once read (a hairline fills under them), or at a touch or Enter.
+- **A page with nothing to decide goes on by its one held Continue** (the owner, 16 November, superseding CN-09's
+  pages that went on by themselves): the opening's beats and the page after the road meeting each show a single
+  Continue row, held as the opening's choices are; nothing goes on by itself or at a touch anywhere; Escape goes
+  straight on into play.
 
 ## How many, and the rest
 
