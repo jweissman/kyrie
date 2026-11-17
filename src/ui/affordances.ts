@@ -37,7 +37,8 @@ export interface Reading {
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
   // Who could join the company (see Companions); the places one way off where the company perceives someone who might
   // (see Perception).
-  companions?: Set<string>; sensed?: Set<string>;
+  // sensed: each way along which someone who might join is perceived, with the words its row says of them.
+  companions?: Set<string>; sensed?: Map<string, string>;
   // Someone who would go along, and where, while the aim followed's fight is beyond the company alone (Outmatched).
   help?: { who: string; at: string };
   // The topics whose answer has the one asked willing to come along (Assert willing(them, …)), by choice id.
@@ -365,7 +366,7 @@ export class Affordances {
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
     return [this.candidate(town ? { ...c, label: `Enter ${town}` } : c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
-        help: 'someone who would go with you',
+        help: 'someone who would go with you', ...r.sensed?.has(dest) ? { companion: r.sensed.get(dest)! } : {},
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];

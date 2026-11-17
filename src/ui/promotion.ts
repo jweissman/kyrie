@@ -333,7 +333,11 @@ export class Promotion {
     const facets: Facet[] = ['here', ...aimed ? ['aimed' as const] : [],
       ...tiers.has(0) || tiers.has(2) ? ['urgent' as const] : [], ...tiers.has(3) || tiers.has(4) ? ['new' as const] : [],
       ...c.known ? ['known' as const] : []];
-    const note = c.notes?.[why], inside = this.inside(c, [why, ...whys.filter(w => w !== why)]);
+    // A way led with for another reason says too who is perceived along it, so that its icon is borne out by its words
+    // (the owner, 17 November: a lens's companion icon and no one named on its rows).
+    const own = c.notes?.[why], along = why !== 'companion' && this.way(c) ? c.notes?.companion : undefined;
+    const note = own && along ? `${own}, and ${along}` : own ?? along;
+    const inside = this.inside(c, [why, ...whys.filter(w => w !== why)]);
     return { choice: c.choice, ...inside.length ? { inside } : {}, ...c.command ? { command: c.command } : {},
       ...c.for ? { for: c.for } : {},
       ...c.subject ? { subject: c.subject } : {},

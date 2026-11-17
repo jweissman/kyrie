@@ -27,11 +27,17 @@ const facts = (t: Tiny) => JSON.stringify(['willing', 'travelsWith'].map(r => t.
 describe('a companion perceived, on a lane of three', () => {
   it('one place off, as a way to look, never as the act; not two places off; and there, led with', async () => {
     const t = await Tiny.start(lane), world = facts(t);
-    expect(t.glance.sensed).toEqual([{ to: 't__taproom', aspect: 'companionship', far: 1 }]);
+    expect(t.glance.sensed).toEqual([{ to: 't__taproom', aspect: 'companionship', far: 1, who: 't__ysolde' }]);
     // Only a way there says so (the Go mark's companion is on its row: the owner, 17 November), never an asking.
     expect(t.glance.acts.filter(a => a.aspects.includes('companionship')).every(a => !!a.exit)).toBe(true);
     expect(t.glance.lenses!.places.aspects).toContain('companionship');
     expect(t.glance.lenses!.places.promoted.filter(p => p.aspects.includes('companionship')).every(p => !!p.exit)).toBe(true);
+    // And the way's row says who (the owner, 17 November: the lens's companion icon had no one on its rows): someone,
+    // until the company knows her; then Ysolde.
+    const row = () => t.look().glance.lenses!.places.promoted.find(p => p.aspects.includes('companionship'))?.note;
+    expect(row()).toBe('someone who might go with you');
+    t.campaign.commitWorld(t.world.apply([{ kind: 'assert', call: ModuleWriter.call('acquainted', 't__ysolde', 'party') }]));
+    expect(row()).toBe('Ysolde, who might go with you');
     t.journey.put('party', 't__shop');
     expect(t.look().glance.sensed).toBeUndefined();
     t.journey.put('party', 't__taproom');
@@ -44,7 +50,7 @@ describe('a companion perceived, on a lane of three', () => {
     const t = await Tiny.start(lane), world = facts(t);
     t.journey.put('party', 't__shop');
     t.campaign.commitWorld(t.world.apply([{ kind: 'assert', call: ModuleWriter.call('capable', 'party', 'gregarious') }]));
-    expect(t.look().glance.sensed).toEqual([{ to: 't__green', aspect: 'companionship', far: 2 }]);
+    expect(t.look().glance.sensed).toEqual([{ to: 't__green', aspect: 'companionship', far: 2, who: 't__ysolde' }]);
     expect(facts(t)).toBe(world);
   });
 });

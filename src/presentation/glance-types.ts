@@ -168,4 +168,5 @@ export interface Glance {
 export interface Successor { kind: 'consequence' | 'lead'; text: string; at?: string; command?: string; label?: string;
   aim?: string }
 // A kind of opportunity perceived along a way from here, the nearest so many places off (1: where the way comes to).
-export interface Sensed { to: string; aspect: Aspect; far: number }
+// who: the one perceived nearest along it (the first of them), for the way's row to name where the company knows them.
+export interface Sensed { to: string; aspect: Aspect; far: number; who?: string }
