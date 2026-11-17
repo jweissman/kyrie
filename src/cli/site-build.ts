@@ -5,6 +5,9 @@ import type { PluginBuilder } from 'bun';
 import { Handbooks } from '../handbook/handbooks';
 import { HandbookPublisher } from '../handbook/publish';
 import { BuildStamp } from '../session/build-stamp';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Ident } from '../../web/reader/ident';
 import { Identity } from '../presentation/identity';
 
 // Static browser build: classic IIFE scripts plus HTML/CSS with relative URLs, so the site works from file://,
@@ -95,12 +98,25 @@ export class SiteBuild {
   // The page, its title the game's name (src/presentation/identity.ts) and the given script before its end.
   private static async page(out: string, script: string) {
     const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8'))
-      .replace(/<title>[^<]*<\/title>/, `<title>${Identity.spoken()}</title>`).replace('</body>', `${script}</body>`);
+      .replace(/<title>[^<]*<\/title>/, `<title>${Identity.spoken()}</title>`).replace('</body>', `${script}</body>`)
+      .replace('<body>', `<body>${SiteBuild.early}${SiteBuild.mark()}`);
     for (const name of ['index.html', 'mono.html']) { await writeFile(join(out, name), html); }
     for (const sheet of SiteBuild.sheets) { await cp(join(this.root, 'web/reader', sheet), join(out, sheet)); }
     await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
     await cp(join(this.root, 'web/reader/paintings'), join(out, 'paintings'), { recursive: true });
   }
+  // The studio's mark in the page itself, drawn by its stylesheet from the first frame while the script is fetched and
+  // read beneath it (the owner, 16 November: a blank screen, then a long wait, before the mark); the title takes it up
+  // where it has got to (TitlePage.useBeat). Where it is not to be played, a few words of script put it away before
+  // anything is painted: seen already this session, less motion asked for, automation, another studio asked for.
+  static mark(): string {
+    return renderToStaticMarkup(createElement(Ident.View, { studio: Identity.studio }))
+      .replace('<div class="ident"', '<div class="ident" id="pre-ident"');
+  }
+  static readonly early = '<script>(function(){var q=location.search,a=/[?&]ident\\b/.test(q),seen=false;'
+    + 'try{seen=sessionStorage.getItem("kyrie.ident")==="1";}catch(e){}'
+    + 'if(matchMedia("(prefers-reduced-motion: reduce)").matches||/[?&]studio=/.test(q)||(navigator.webdriver&&!a)'
+    + '||(seen&&!a)){document.documentElement.className+=" no-pre-ident";}})();</script>';
   static async serve(out: string, request: Request): Promise<Response> {
     const path = resolve(out, new URL(request.url).pathname.replace(/^\/+/, '') || 'index.html');
     const file = Bun.file(path);

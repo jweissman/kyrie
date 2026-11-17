@@ -6,7 +6,7 @@
 import { Glob } from 'bun';
 import { readFileSync } from 'node:fs';
 
-interface Lanes { push: { under: number; sentinels: Record<string, string> } }
+interface Lanes { push: { under: number; sentinels: Record<string, string>; away?: Record<string, string> } }
 class TestLane {
   static run(args: string[]): number {
     const lane = args.find(a => !a.startsWith('--')) ?? 'push';
@@ -26,6 +26,8 @@ class TestLane {
   }
   private static pushed(spec: string, kept: Record<string, number>, lanes: Lanes): boolean {
     const ms = kept[spec];
+    // Kept off the push lane by name, with the reason (a measure of time that a loaded runner fails): nightly only.
+    if (spec in (lanes.push.away ?? {})) { return false; }
     return spec.startsWith('test/small/') || ms === undefined || ms < lanes.push.under || spec in lanes.push.sentinels;
   }
 }

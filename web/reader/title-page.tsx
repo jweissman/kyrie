@@ -37,7 +37,7 @@ export class TitlePage {
     return (
       <div className={`opening title-page beat-${beat}`} data-mode="title">
         {beat !== 'ident' && <TitlePage.Motes />}
-        {beat === 'ident' && <Ident.View studio={named.studio} />}
+        {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}
         <main className="title-main" aria-hidden={beat === 'ident' || beat === 'dark' || undefined}>
           <TitlePage.Mark name={named.game} />
           <p className="horizon" aria-hidden="true"><i /></p>
@@ -111,8 +111,13 @@ export class TitlePage {
   static useBeat(asked: boolean): Beat {
     const [beat, go] = useState<Beat>(() => TitlePage.first(asked));
     useEffect(() => {
+      // The page's own mark is the title's to put away: as the mark ends, or at once where it is not being played.
+      if (beat !== 'ident' || !TitlePage.early()) { document.getElementById('pre-ident')?.remove(); }
       if (beat === 'ready') { return; }
-      const next: Record<Beat, [Beat, number]> = { ident: ['dark', Ident.length], dark: ['reveal', 500],
+      // The mark drawn by the page before the script (SiteBuild.mark) has been playing since the page began: what is
+      // left of it, not the whole again.
+      const left = TitlePage.early() ? Math.max(0, Ident.length - performance.now()) : Ident.length;
+      const next: Record<Beat, [Beat, number]> = { ident: ['dark', left], dark: ['reveal', 500],
         reveal: ['ready', TitlePage.reveal], ready: ['ready', 0] };
       const [to, after] = next[beat], timer = setTimeout(() => go(to), after);
       // A touch on a way in already coming up (the reveal) is that way, at once (the owner, 6 November: New Game in
@@ -148,6 +153,11 @@ export class TitlePage {
       for (const [type, on] of watch) { window.removeEventListener(type, on, true); }
     };
     for (const [type, on] of watch) { window.addEventListener(type, on, true); }
+  }
+  // The studio's mark drawn by the page itself before the script, where it is being played (see SiteBuild.mark).
+  static early(): HTMLElement | null {
+    const el = typeof document === 'undefined' ? null : document.getElementById('pre-ident');
+    return el && !document.documentElement.classList.contains('no-pre-ident') ? el : null;
   }
   // How long after the press is let go its click may still come, in milliseconds.
   static readonly swallowed = 350;
