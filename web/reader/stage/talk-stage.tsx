@@ -255,7 +255,7 @@ export class TalkStage {
       ...wares.flatMap(w => TalkStage.wareRows(w, coin, draw)),
       ...rest.map(c => (n: number) => <TalkStage.Reply key={c.id} choice={c} draw={draw} number={n} />)];
     return <section className="trading" aria-label="Trade">
-      <p className="label">{`You have ${coin} coin`}</p>
+      <p className="label">{`You have ${coin} ${app.state.frame!.screen.purse.currency ?? 'coin'}`}</p>
       {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
         .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
       <ol className={`replies trade-list${rows.length > 4 ? ' scrolls' : ''}`} data-list>

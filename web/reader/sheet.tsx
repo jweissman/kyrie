@@ -199,7 +199,7 @@ export class Sheet {
       <article className="pack">
         <h2>What you carry</h2>
         <PackGrid.View app={app} screen={screen} />
-        <p className="how">{screen.purse.coin} coin · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
+        <p className="how">{screen.purse.coin} {screen.purse.currency ?? 'coin'} · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
           {screen.purse.other.length > 0 && ` · ${screen.purse.other.join(', ')}`}</p>
         {Sheet.fed(screen) && <p className="how" data-id="fed">{Sheet.fed(screen)}</p>}
       </article>
