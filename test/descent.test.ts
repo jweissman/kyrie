@@ -30,7 +30,9 @@ import type { CreatureStore } from '../src/creature-store';
 // and land took Common names after these were kept, and their choices were renamed with them, Merscheald to Misthythe,
 // Murkstede to Lowmouth, Muntheald to Rainmeet, the Deopex to the Deepwater, Eikwudu to Oakhurst: the world otherwise
 // the same.) (The king-barrow's riddle casket at the king's door became the sites commission's order chest, 16 Nov,
-// d7a68cb3: the word pressed and the idol taken from the casket were dropped from a1's record.)
+// d7a68cb3: the word pressed and the idol taken from the casket were dropped from a1's record.) (Since a road's hexes
+// are timed along it from its way room (OR-35), thorn's toll is kept on another road than the one to Merscstede, the
+// hours from its market being what they are, and the record pays no toll there.)
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);
