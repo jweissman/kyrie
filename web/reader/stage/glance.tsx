@@ -590,7 +590,7 @@ export class GlanceStage {
         // the rest of it stays neutral (the owner, 11 November: colour concentrated, sparing, consistent).
         const tone = Pip.tone(a.aspects, gilded), mark = Pip.fill(a.aspects, gilded);
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
-          data-continues={a.continues || undefined}
+          data-continues={a.continues || undefined} data-condition={Pip.condition({ afar: !!a.afar })}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           {/* One row, as every choice is (see ChoiceRow): its one indicator, neutral where it is nothing in
               particular. */}

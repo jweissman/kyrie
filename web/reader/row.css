@@ -45,7 +45,8 @@
    (a row's mark, a pip, a way, the rail, the place's mark); set by data-condition from Indicator.condition. The hue is
    never changed by it. ---- */
 :root { --cond-afar: .45; --cond-idle: .45; --cond-idle-lit: .85; }
-[data-condition="afar"]:is(.pip, .pip-icon), .choice-row[data-condition="afar"] > .row-mark {
+[data-condition="afar"]:is(.pip, .pip-icon), :is(.choice-row[data-condition="afar"], [data-condition="afar"] > .choice-row)
+  > .row-mark {
   opacity: var(--cond-afar); }
 :is(.wf-row, .rail-mark, .place-mark, .lens-tile)[data-condition="idle"] { opacity: var(--cond-idle); }
 :is(.wf-row, .rail-mark)[data-condition="idle"]:is(:hover, :focus-visible) { opacity: var(--cond-idle-lit); }
