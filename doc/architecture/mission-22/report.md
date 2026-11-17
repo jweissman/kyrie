@@ -1,4 +1,4 @@
-# M22: an honest account (17 November 2026, morning)
+# M22: an honest account (17 November 2026)
 
 Written for the owner. M22's commission (brief.md) asked for extraordinary quality in the first fifteen seconds, the
 opening minute and the act of choosing, with six acceptance items. This says what improved, what is partial, what
@@ -86,6 +86,14 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
      - a season that contradicts its painting.
    - Its findings are OR-39..46. Item 1 is met as a process (an independently reviewed, unedited deployed recording),
      not as a verdict: the verdict is that M22's structural unification is not yet felt by someone watching.
+   - Repaired since, each with a pin that failed before:
+     - the press that fell through (OR-39, test/press-through-browser);
+     - the reply pushed off by its bookkeeping (OR-40, test/reply-in-view-browser);
+     - the silent Follow (OR-41, follow-offered-browser);
+     - creation's four idioms (OR-42): ancestry and calling are rows with their emblems, the rail is marks;
+     - partly: the title's lit word (OR-44), winter's way in (OR-46), the sitter's late likeness and the opening's
+       blank between beats (OR-43).
+   - Not yet recorded and reviewed again after these repairs.
 2. **A coherent, tested primary interaction across title, creation, exploration, conversation, maps and combat.**
    - Met in structure: the one row, its states, its hold, one menu a page, held by the census, the row geometry pins
      and the hold, opening, talk, fight and map specs.
@@ -102,10 +110,11 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
    - Met in a bounded subset, by executable behaviour: the work above, each with its spec.
    - The opportunity census (census/opportunity-depth-2026-11-16.md) is a baseline, not yet a raised floor.
 6. **A reconciled register and design recommendations.**
-   - The register counts every row: 622; 212 fixed, 187 open, 134 partly, 46 deferred, 35 duplicate, 7 decided,
-     1 ambition. At the mission's start it was 615: 193 fixed, 206 open, 124 partly.
-   - Register zero was the owner's aim and is not reached: 187 rows are open and 57 are still "unverified" (mostly
-     experience rows that need a play, not a grep).
+   - The register counts every row: 630 (eight from the second review); 216 fixed, 186 open, 139 partly,
+     46 deferred, 35 duplicate, 7 decided, 1 ambition. At the mission's start it was 615: 193 fixed, 206 open,
+     124 partly.
+   - Register zero was the owner's aim and is not reached: 186 rows are open and 43 are still "unverified" (mostly
+     deferred ambitions, process rows, or experience rows that need a play, not a grep).
    - The design recommendations are prospectus.md.
 
 ## What remains partial
@@ -120,12 +129,12 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
   - OR-30: words and pictures that disagree;
   - OR-32: creation's empty left half;
   - OR-33: "You know now" on a greeting.
-- **The second review's findings**: OR-40 (the reply that matters pushed off), OR-41 (Follow tells nothing), OR-42
-  (creation's four idioms and three hold marks), OR-43 (late portrait, blank between beats), OR-44 (keys only after
-  the reveal), OR-46 (season against the painting).
+- **The second review's rest**: the wrong painting before the opening on a phone (OR-43), setting out on a phone
+  (OR-44), a place's own kind in winter (OR-46), the small findings (OR-45).
 - **The sign's turn** sweeps the lit figure under the rows while it turns (seen in stills; by design of the turn, but
   busy).
-- **US-07's rest, GT-01's rest** (drowning, level drain, the outer planes) and the 57 unverified rows.
+- **US-07's rest, GT-01's rest** (drowning, level drain, the outer planes), AR-17 (a province redrawn moves the
+  wild), WM-04's asked-again copy, and the 43 unverified rows.
 
 ## What should shape the next mission
 
