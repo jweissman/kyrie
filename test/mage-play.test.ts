@@ -86,13 +86,16 @@ describe('a mage in the king-barrow', () => {
     Barrow.put(s, 's1_taproom');
     await Barrow.take(s, /^Ask Tharash whether/);
     await Barrow.take(s, /^Ask Tharash to join the company$/);
-    // Every question put to him once (each can be put again, for the same answer: NAR-03).
+    // Every question put to him once (each can be put again, for the same answer: NAR-03); the Commander's orders
+    // ("Ask Tharash to stay here", "… to come on again") are orders, not questions (OR-21: taken as questions, the
+    // walk left him behind and called him on by turns).
+    const question = /^Ask Tharash (?!again|to stay here|to come on)/;
     for (let n = 0; n < 8; n++) {
-      const ask = PlayerView.choices(s.campaign).find(c => /^Ask Tharash (?!again)/.test(c.choice.name));
+      const ask = PlayerView.choices(s.campaign).find(c => question.test(c.choice.name));
       if (!ask) { break; }
       await s.leg(ask.choice.id);
     }
-    expect(PlayerView.choices(s.campaign).some(c => /^Ask Tharash (?!again)/.test(c.choice.name))).toBe(false);
+    expect(PlayerView.choices(s.campaign).some(c => question.test(c.choice.name))).toBe(false);
     expect(ScreenModel.build(s.campaign).people.filter(p => p.companion).map(p => p.name.split(',')[0])).toEqual(['Tharash']);
   }, 60000);
   // "The elders looks up, and puts their hands still": of many, only what can be said of many.
