@@ -149,7 +149,6 @@ Module lab "The undercroft at Lowmouth" {
     On success { Assert low_u_rats_lulled(low_u_rats_job). Assert assails(low_u_rats, actor). }
     Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were.".
   }
-  // Asleep is not dead (CF-02): the sleepers are done for by a deliberate act, and a band only asleep is not cleared.
   Action low_u_rats_done_for(actor: group, site: place) "Do for the sleeping rats where they lie" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_warren) and at(low_u_rats, low_u_warren) and not able(low_u_rats) and not dead(low_u_rats).
     Resolve combat(low_u_rats).
