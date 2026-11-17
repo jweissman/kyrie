@@ -116,7 +116,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     expect([await page.locator('.fight .hand-menu [data-action="move"]').count() <= 4,
       await page.locator('.fight .hand-detail [data-act]').count()]).toEqual([true, 0]);
     seen('a kind opened', await still());
-    await page.click('.fight .hand-menu [data-action="panel-back"]'); seen('put away', await still());
+    await page.click('.fight [data-action="panel-back"]'); seen('put away', await still());
     // Aiming: Attack, three rats to choose from; the reticle on each (changing target); then not now.
     await page.click('.fight .hand-menu [data-action="attack"]');
     expect(await page.locator('.fight.aiming').count()).toBe(1);
