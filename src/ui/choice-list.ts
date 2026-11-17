@@ -71,12 +71,12 @@ export class ChoiceList {
     return warned ? sections.map(s => ({ ...s, choices: s.choices.map(c => this.marked(c, warned)) })) : sections;
   }
   // What is done toward whoever warns (a blow, a coin, a word) is no wait to them: the spiders' Attack read "will not
-  // wait for it" (play 9).
+  // wait for it" (play 9). The warning stands in place of the plain note, one thing said beside the act, never two
+  // run out of the row half-said (M22's OR-06: "the way yo… · The rats … wil…").
   private static marked(c: Choice, warned: { by: string; left: number; id?: string }): Choice {
     const toward = !!warned.id && new RegExp(`[(,]${warned.id}[,)]`).test(c.command ?? '');
     return c.children ? { ...c, children: c.children.map(k => this.marked(k, warned)) }
-      : c.command && !toward && (c.minutes ?? 0) >= warned.left
-        ? { ...c, note: [c.note, Patience.note(warned.by)].filter(Boolean).join(' · ') } : c;
+      : c.command && !toward && (c.minutes ?? 0) >= warned.left ? { ...c, note: Patience.note(warned.by) } : c;
   }
   // In the dark, whoever carries a light can light it: the first thing anyone would do. The choice is the act that
   // lights it, known by its command, not whichever of the thing's acts comes first (Thrume's B1 set the torch down):

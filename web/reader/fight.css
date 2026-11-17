@@ -177,9 +177,10 @@
 
 /* The foot of a fight: a few things to do, all one size (the owner, 9 November: uneven buttons, eighteen of them), and
    under it, opened, the one kind chosen. Aiming, the bar gives way to a line saying whom to choose, on the field. */
-.fight .moves .move.quiet { cursor: pointer; min-height: 40px; padding: 8px 14px; background: transparent; color: var(--ivory);
-  border: 1px solid var(--edge); font: var(--t-aside); }
-.fight .moves .move.quiet:hover, .fight .moves .move.quiet:focus-visible { border-color: var(--accent-line); outline: none; }
+/* Turning a kind's page, Back and Not now are quiet words beside the moves, not boxes (OR-05): no act, navigation. */
+.fight .moves .move.quiet { cursor: pointer; min-height: 40px; padding: 8px 2px; background: transparent; color: var(--dim);
+  border: 0; font: var(--t-aside); }
+.fight .moves .move.quiet:hover, .fight .moves .move.quiet:focus-visible { color: var(--ivory); outline: none; }
 .fight .fighter .pick { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
 .fight.aiming .fighter:not(.target) { opacity: .55; }
 

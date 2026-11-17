@@ -213,7 +213,8 @@
 .here > div + div, .here > section + div { margin-top: 18px; }
 /* A danger here says so by its label, in ember, and its portrait's pip; the block itself is neutral (the owner, 11
    November: one indicator, no full coloured outlines; the warren's rats had been boxed in red). */
-.threat { margin: 0 0 20px; padding: 14px 16px 16px; border: 1px solid var(--edge); background: rgba(10, 11, 14, .35); }
+/* Undressed, as the rows are (OR-05: a bordered card had sat over the painting): its red label is what says danger. */
+.threat { margin: 0 0 20px; padding: 0; border: 0; background: none; }
 .threat .label { color: var(--ember); }
 .threat .n { font: 500 18px/1.3 var(--do); margin: 0 0 4px; }
 .threat .n .r { font-weight: 400; color: var(--dim); font-size: 14.5px; }
