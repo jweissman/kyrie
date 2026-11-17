@@ -56,8 +56,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Fair Weather in the browser', () =>
     await act(d, '^To the quay');
     expect(await whole(page)).toMatch(/THE SEA TAKES THE FIFTH/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-3-quay.png` }); }
-    await act(d, '^To the Slip', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while');
+    // Waited out at the Slip until the water is off the sands (the page offers a walk over them: the dog quarters the
+    // sands at low water), at most twelve times: six fixed waits had held only for one draw of the world.
+    await act(d, '^To the Slip');
+    const low = async () => (await d.inspect()).choices.some(c => /over the sands/i.test(c.label));
+    for (let w = 0; w < 12 && !await low(); w++) { await act(d, '^Wait', '^A while'); }
+    expect(await low()).toBe(true);
     await act(d, '^To the open Strand');
+    // Come out of the town onto the open sand, the page may lead with the map: the place is a touch back.
+    const back = page.locator('[data-action="back-to-place"]');
+    if (await back.count()) { await back.first().click(); await page.waitForTimeout(300); }
     expect(await whole(page)).toMatch(/black dog|curly dog/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-4-strand.png` }); }
     expect(errors).toEqual([]);
