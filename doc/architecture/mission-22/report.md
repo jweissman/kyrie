@@ -169,6 +169,38 @@ The SRD migration is closed with an explicit unsupported list: 34 of 363 abiliti
      deferred ambitions, process rows, or experience rows that need a play, not a grep).
    - The design recommendations are prospectus.md.
 
+## 17 November, the owner's two sets of notes
+
+The owner played the deployed build twice on 17 November and asked for global rules, not one-off fixes. What each
+became, and its pin:
+
+- **Never more than four rows in view** (OR-56): a row that turns a page is one of the four (Paging); creation's
+  More… and the name step keep to four; Trade is one list that scrolls in the menu's place, the one exception
+  ([data-list]); the old Look/Ways/More drawers, which the keys could raise outdoors with their own buttons, are gone.
+  The census now fails any menu with more than four rows in view, walked title to Book (ActionCensus.crowded).
+- **A riddle is focused, then answered** (OR-59): a thing whose acts do not fit is one row; focused, its alike acts
+  ("Press the word…") one row; focused, the answers are the four (LensFocus; test/riddle-door-browser).
+- **A mark says only what its rows are** (OR-57): a lens's colour and companion icon come from its own four
+  (Lensed.aspects); a companion perceived along a way is on that way's row in Go…, never among the scene's four.
+- **The map shows what each place is** (OR-58, OR-62, OR-63): one reading (PlaceFacets) rings the aim's place in gold
+  on the board and ranks the map's menu, gold first; other places are "View …" (focused on the map), the focused one
+  "Travel to …", one on your own hex "Enter …"; the board's one white ring is the focused hex; a journey stopped where
+  harm waits holds the map to one dull-red row, "Something is here: put away the map".
+- **The hand** (OR-54, OR-55, OR-61): a finger's hold ringed round the finger, the row's fill solid to its end; the
+  row's mark one height in every state; nothing on the page selectable but a name being written.
+- **The title** (OR-65 partly): the saved game's line gone (said by Continue's title and name). The wider rethink is
+  open.
+- **The first hour** (OR-60, OR-64 partly; by the register agent): the first hour diagnosed headless in three worlds
+  (onboarding-diagnosis.md); every hook now names its first step; a lesson says what opens it; the wanderer is told
+  the work; a giver warns a company going alone into a fight it reckons grave ("Not on your own, you won't…"). Open:
+  the glance leading with the help; the four never leading with an ordinary act; the debt's dead end.
+- **The hunter's career** (CR-01, the owner's commission, career-brief.md): phase 1's review and smallest proof (the
+  `felled` deed, a dragon, knighthood read by the world, a game-warden, a bounty that arises over time; four specs),
+  phase 2 (the canon's Dun Rìerdan, a royal proclamation on the first notice, one named dragon per world) in hand.
+- **SRD** (SR-01): Cone of Cold, Death Ward, every outer plane under a law, the `line` area and Lightning Bolt by the
+  SRD's numbers; the spell draw by rank (adding a spell moves only who gains it) on a branch, then the levels.
+- **Kyr's coordinates** (OR-66): what reads them and what could replace them, a decision recorded.
+
 ## What remains partial
 
 - **A place, the map's cards and the Book drawn by PageFrame's component**, not only marked by it: their compositions
