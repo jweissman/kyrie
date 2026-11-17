@@ -7,6 +7,7 @@ import type { DungeonTables } from '../../registry/orsino-world';
 import type { DeepGroup, DeepPurpose } from './deep-purposes';
 import type { DeepLayout, DeepLevel, DeepLink, DeepRoom } from './deep-layout';
 import { Stones, type DeepStone } from './stones';
+import { DeepPlacement } from './deep-placement';
 
 // Who is met in a room: a group of a depth's dwellers, at a level, perhaps with an aspect; an elite is fewer and
 // stronger.
@@ -43,7 +44,7 @@ export class DeepPacing {
     const elites = draw.shuffle(this.groups(purpose.elites ?? purpose.dwellers, level.index));
     // The keeper's rooms are its own: nothing else lives where it does, or where it goes to ground.
     const kept = new Set(['heart', purpose.keeper.refuge]), laid = new Set<string>();
-    return order.map(({ room, way }, i) => {
+    return DeepPlacement.settled(order.map(({ room, way }, i) => {
       const guide = i === 0 ? 'entrance' : sequence[i % sequence.length]!, odds = this.tables.overlays[guide]!;
       const content: DeepContent = { room, guide };
       if (draw.next() < odds.encounter && groups.length && !kept.has(room.role)) {
@@ -57,7 +58,7 @@ export class DeepPacing {
       content.treasure = this.treasure({ purpose, depth: level.index, key: room.id }, odds.treasure, draw);
       if (guide === 'special') { content.special = true; }
       return content;
-    });
+    }), layout, level);
   }
   // The rooms of a level in the order they are reached from where it is entered (the first room a connector from
   // above arrives in, or the first of its spine), each with the way it is first reached by.
