@@ -29,7 +29,8 @@ import type { CreatureStore } from '../src/creature-store';
 // in five, which the record had won by a draw the wound rule turned over.) (The heartland's settlements
 // and land took Common names after these were kept, and their choices were renamed with them, Merscheald to Misthythe,
 // Murkstede to Lowmouth, Muntheald to Rainmeet, the Deopex to the Deepwater, Eikwudu to Oakhurst: the world otherwise
-// the same.)
+// the same.) (The king-barrow's riddle casket at the king's door became the sites commission's order chest, 16 Nov,
+// d7a68cb3: the word pressed and the idol taken from the casket were dropped from a1's record.)
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);
