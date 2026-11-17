@@ -185,4 +185,4 @@ Mutation-checked twice:
    both of which took the start made ready. Its cause is not found. The probe keeps only the last run's traffic,
    so the next measurement should keep the traffic of every run.
 5. **The sign chosen at creation reaches no creature** (`CompanyChoices.apply` drops `sign`). Whether that is
-   intended is not mine to decide; registered as OR-12.
+   intended is not mine to decide; registered as OR-13.
