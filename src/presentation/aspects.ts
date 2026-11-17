@@ -20,12 +20,14 @@ export class Aspects {
     // their likeness, neutral, unless there is something to be had of them (the owner, 14 November: CN-07).
     unvisited: 'exploration', deeper: 'exploration', onward: 'exploration', own: 'exploration', held: 'exploration',
   };
-  // whys: best first (see Promotion). A fight or a trap the company can see is a danger whatever it is led for.
+  // whys: best first (see Promotion). A fight or a trap the company can see is a danger whatever it is led for, and so
+  // is a way with something heard in there (Marks: a band that can be drawn out): the company has perceived it, so the
+  // way says so in red (M22's sites audit: the way into a band was told only in the room's prose, unmarked).
   // visited: the place it leads to has been gone to; going further in or onward there is a way, but not a discovery,
   // which an exploration promises (PB-24: "To the great hall", four turns running, brought nothing new).
   static of(whys: Why[], marks: Mark[], visited = false): Aspect[] {
     const seen = [...whys.filter(w => !visited || !['deeper', 'onward'].includes(w)).flatMap(w => this.by[w] ?? []),
-      ...marks.some(m => m.kind === 'fight' || m.kind === 'trap') ? ['danger' as const] : []];
+      ...marks.some(m => m.kind === 'fight' || m.kind === 'trap' || m.kind === 'heard') ? ['danger' as const] : []];
     return seen.filter((a, i) => seen.indexOf(a) === i);
   }
 }

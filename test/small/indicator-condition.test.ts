@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Indicator } from '../../src/presentation/indicator';
+import { Aspects } from '../../src/presentation/aspects';
 
 // The opportunity indicator's two dimensions (M22, mission-22/indicator-appendix.md): the hue is what kind of
 // opportunity is perceived (gold, red, green, blue, violet; a companion and somewhere worth a look are icons), and the
@@ -16,6 +17,10 @@ describe('the opportunity indicator', () => {
     expect(kind(['companionship'])).toEqual({ tone: undefined, icons: ['a companion'] });
     // Several at once: one hue by precedence, the rest icons (TP-02), never a prism.
     expect(kind(['knowledge', 'danger', 'companionship']).tone).toBe('red');
+  });
+  it('draws red on a way with something heard in there, a perceived danger, and nothing on a way with nothing heard', () => {
+    expect([Aspects.of(['unvisited'], [{ kind: 'heard', said: 'Something is in there.' }]),
+      Aspects.of(['unvisited'], [])]).toEqual([['exploration', 'danger'], ['exploration']]);
   });
   it('draws nothing for what the company does not know: a clue still hidden carries no aspect, so no indicator', () => {
     expect(Indicator.of({})).toEqual({ icons: [], detail: [] });
