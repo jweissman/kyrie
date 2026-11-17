@@ -3,6 +3,7 @@
   "art": "deep",
   "walks": ["the gallery", "the passage", "the drift"],
   "plan": {
+    "buried": "the old workings under {town}",
     "id": "deep_mine",
     "kind": "mine",
     "seen": "a timbered adit in a hillside",

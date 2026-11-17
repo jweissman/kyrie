@@ -67,7 +67,9 @@ export class RegionUndertown {
     if (!purpose || !history) { return []; }
     const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;
     const old = makers.self.name ?? makers.epithet, k = history.successors;
-    const site: Site = { id: w, kind: 'barrow', name: `the old dead under ${s.name}`, hours: 0 };
+    // Called and kinded as what it is: the Delvers' mine under a town had been "the old dead", a barrow (SI-02).
+    const name = (purpose.plan.buried ?? 'the old dead under {town}').replace('{town}', s.name);
+    const site: Site = { id: w, kind: purpose.plan.kind, name, hours: 0 };
     const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: t, x: '1', y: '8', kingdom: k.name,
       kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
       townname: s.name,

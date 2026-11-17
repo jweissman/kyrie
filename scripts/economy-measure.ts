@@ -2,7 +2,8 @@
 // its places hold that a company can carry home (valuables lying or kept in them, at their worth and at what a dealer
 // pays for them), the coin its own jobs, finds and rewards pay outright, against what its towns ask (every ware for
 // sale, by its price) and what they teach (every lesson, by its fee, once each). The ratio that matters is what a
-// company can bring home in coin against what there is to spend it on.
+// company can bring home in coin against what there is to spend it on. A valuable some buyer pays more for by its kind
+// than a dealer does (a mine's ore, at its merchant) is counted at that price, which is what a company is paid (SI-07).
 //   bun scripts/economy-measure.ts [--seeds a1,b2,…] [--out doc/history/missions/18/economy]
 import { writeFileSync } from 'node:fs';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -24,12 +25,23 @@ class EconomyMeasure {
     const wares = world.related('forSale').map(r => r.args[0]!);
     const teachers = [...new Set(world.related('teaches').map(r => r.args[0]!))];
     const paid = this.paid(s.campaign.module.rules ?? [], s.campaign.module.actions);
-    const sold = this.sum(lying, i => this.n(world, 'dealerPays', this.kind(world, i)));
+    const best = this.best(world);
+    const sold = this.sum(lying, i => Math.max(this.n(world, 'dealerPays', this.kind(world, i)),
+      best.get(this.kind(world, i)) ?? 0));
     const stock = this.sum(wares, i => this.n(world, 'price', i));
     const taught = this.sum(teachers, who => this.n(world, 'lessonFee', who) * world.related('teaches', who).length);
     return { seed, valuables: lying.length, worth: this.sum(lying, i => this.n(world, 'worth', this.kind(world, i))),
       sold, paid, wares: wares.length, stock, lessons: teachers.length, taught,
       ratio: Math.round(((sold + paid) / Math.max(1, stock + taught)) * 100) / 100 };
+  }
+  // The most any buyer pays for a kind (pays(buyer, kind)).
+  private static best(world: World): Map<string, number> {
+    const best = new Map<string, number>();
+    for (const m of world.measured('pays')) {
+      const kind = m.call.args[1];
+      if (kind && m.call.args.length === 2) { best.set(kind, Math.max(best.get(kind) ?? 0, m.value)); }
+    }
+    return best;
   }
   private static sum(ids: string[], f: (id: string) => number): number { return ids.reduce((t, id) => t + f(id), 0); }
   private static n(world: World, name: string, ...args: string[]): number {

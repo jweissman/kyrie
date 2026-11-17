@@ -59,7 +59,9 @@ export interface MechanismWords {
 }
 // What a deep site was for, and so how it is laid out, what lives in it, and what lies at the bottom of it.
 export interface DeepPurpose {
-  art: string; plan: { id: string; kind: string; seen: string; names: string[]; ground: string[]; danger: number };
+  // plan.buried: what the town calls it where it lies under a town ({town}): the catacombs are not always a barrow.
+  art: string; plan: { id: string; kind: string; seen: string; names: string[]; ground: string[]; danger: number;
+    buried?: string };
   mechanisms: MechanismWords;
   // What a way between two rooms of a level is called (a gallery, a drift in a mine).
   walks?: string[];

@@ -3,6 +3,7 @@
   "art": "stone",
   "walks": ["the passage", "the curving way", "the smooth passage"],
   "plan": {
+    "buried": "the old halls under {town}",
     "id": "deep_singing",
     "kind": "cave",
     "seen": "a smooth-mouthed cave in a hillside",

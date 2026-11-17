@@ -173,7 +173,9 @@ export class DeepSites {
         // stone", and a cold player went to another: Mission 20's third round, D 104), though not the way there.
         `    On discuss { Assert knows(actor, ${values.w}_named).${purpose.objective.goal ? ` Assert knows(actor, ${values.w}_story).`
           : ''} }`, '  }'] : [],
-      ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${ore.worth}.`] : [],
+      // Half its worth, as a dealer pays for any valuable: at its whole worth one trip down the mine had paid 600
+      // coin against a 50-coin debt (SI-07, the sites commission's walks).
+      ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${Math.max(1, Math.round(ore.worth / 2))}.`] : [],
       ...this.home(purpose, values)];
   }
   // When it is brought home: the innkeeper who told of it hears what the company brought up, and keeps it a night.

@@ -3,6 +3,7 @@
   "art": "bone",
   "walks": ["the passage", "the way through", "the low way"],
   "plan": {
+    "buried": "the old dead under {town}",
     "id": "deep_barrow",
     "kind": "barrow",
     "seen": "a great long mound with a door of stone",

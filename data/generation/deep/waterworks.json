@@ -3,6 +3,7 @@
   "art": "water",
   "walks": ["the walkway", "the passage", "the conduit"],
   "plan": {
+    "buried": "the old cisterns under {town}",
     "id": "deep_waterworks",
     "kind": "cave",
     "seen": "a square doorway in a hillside",
