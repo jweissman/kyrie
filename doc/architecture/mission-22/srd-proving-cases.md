@@ -640,4 +640,17 @@ be claimed from the catalogue.
   (CB-21) comes before any placed creature is moved.
 - **DC conversion for every spell with a save.** Case 7's rule (the SRD's and half the casting level) is now the
   migration's: each spell moved takes it, and its census row says so.
+- **Durations that grow with the caster** (cases 14, 17, 18 convert a minute a level, or a round a level, to a fixed
+  count). An apply effect's duration is a number; a duration by `#castingLevel` is an engine change of its own
+  (Effects.condition, the handbook's words, the census's grading), and with it Death Ward could last a minute a level.
+- **The field's clock** (case 14): a hostile spell cast at a band outside a fight lasts as many watches as it would
+  have lasted turns (FieldUse.cast), so Sleep's ten rounds are ten watches, where the SRD's minute is less than one.
+  The rule is case 1's and Items.use's; changing it moves the undertown's sleepers and wants its own census.
+- **Touch attacks** (Shocking Grasp, Ray of Frost, Acid Arrow and their like: the census's `attack` field). A spell's
+  attack roll against a touch armour class (no body armour) would be a new effect before the harm, its miss ending
+  the spell as a missed blow does; the fight's telling would need to say a touch, not a weapon.
+- **The cure family's levels** (case 16): Moderate, Serious and Critical at the SRD's 2, 3 and 4 wait on the preset
+  companion cleric's spells (world-assembler), which are chosen by level.
+- **Charm Person**: the SRD's numbers would lower its difficulty and lengthen it to the fight, but Orsino's charmed
+  changes allegiance, where the SRD's subject only takes the caster for a friend: a decision before a slice.
 
