@@ -148,7 +148,7 @@
       "talk": ["'I was in the lord's muster when the river burned,' says {Name}. 'Don't ask me about it.' A pause. 'All right. Sit down.'", "'You want to know how to fight?' says {Name}. 'Don't. Next question.'"] },
     "carter": { "name": "carter", "background": "laborer", "painting": "peasant", "foundings": ["crossing", "market"], "knows": ["roads"],
       "seen": ["{Name} is greasing a cart-axle with a rag.", "{Name} is roping down a load of barrels.", "{Name} is backing a cart into a yard, one hand on the horse's bridle.", "{Name} is going round the cart wheel by wheel, a kick and a look at each."],
-      "talk": ["'Every road in the country, I've had a wheel off on,' says {Name}. 'Ask me which. Go on.'", "'The road's all right,' says {Name}. 'It's the people on it. And the weather. And the road.'"] },
+      "talk": ["'Every road in the country, I've had a wheel off on,' says {Name}. 'Most of them twice.'", "'The road's all right,' says {Name}. 'It's the people on it. And the weather. And the road.'"] },
     "ferryman": { "name": "ferry-keeper", "background": "sailor", "painting": "sailor", "foundings": ["crossing"], "water": true, "knows": ["water"],
       "seen": ["{Name} sits on the bank by the crossing with a pole across {their} knees, watching the water.", "{Name} is wading out to fetch back a marker post the river has moved in the night.", "{Name} is bailing out the ferry with a wooden scoop.", "{Name} is counting coins into a leather bag, and then counting them again."],
       "talk": ["'Most days you can walk it,' says {Name}. 'Some days you can't, and those are the days people try.'", "'I've pulled eleven out of that water,' says {Name}. 'Twelve, if you count the bishop, and he'd want you to.'"] },
