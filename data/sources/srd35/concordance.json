@@ -344,13 +344,17 @@
  "identities": {
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",
-  "cone_of_cold": "test/cone-of-cold.test.ts"
+  "cone_of_cold": "test/cone-of-cold.test.ts",
+  "lightning_bolt": "test/lightning-bolt.test.ts"
  },
  "conversions": {
   "magic_missile": {
    "target": "every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md)"
   },
   "cone_of_cold": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "lightning_bolt": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   }
  }

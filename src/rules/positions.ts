@@ -16,10 +16,13 @@ export type Zone = 'press' | Team;
 // one of its foes stands in, and catches whoever stands where it reaches, friend or foe, but never the one who lets it
 // loose (who shapes it about themselves: one reading a scroll of fireball in the press had burned to death): a burst
 // everyone in the place it bursts in; a cone every place from its source out to where it is aimed (the press it is
-// breathed through, the source's own rank-mates beside it spared). A fireball dropped into the press
-// burns the company's own front with the foe's, one thrown over it into their rear catches only those there; a dragon
-// in the press breathing on the company's rear catches all the company, and its own kind beside it. Simple, and the
-// same wherever an area is used: a spell, a breath, a thing carried that casts one.
+// breathed through, the source's own rank-mates beside it spared); a line (a lightning bolt) runs from its source
+// through the one it is aimed at and on to the far end of the field, a narrow thing: it strikes that one, and in each
+// other place it crosses, on the way and beyond, the first who stands there, so a bolt aimed past the company's own
+// front into the press spares it, and one aimed over the press strikes whoever stands first in it. A fireball
+// dropped into the press burns the company's own front with the foe's, one thrown over it into their rear catches
+// only those there; a dragon in the press breathing on the company's rear catches all the company, and its own kind
+// beside it. Simple, and the same wherever an area is used: a spell, a breath, a thing carried that casts one.
 export class Positions {
   static readonly line: readonly Zone[] = ['fighters', 'press', 'goblins'];
   static zone(f: Fighter, fighters: readonly Fighter[]): Zone {
@@ -53,15 +56,30 @@ export class Positions {
   static caught(actor: Fighter, aim: string, area: Area, fighters: readonly Fighter[]): Fighter[] {
     const at = fighters.find(f => f.id === aim);
     if (!at) { return []; }
+    if (area === 'line') { return this.lined(actor, at, fighters); }
     const zones = this.covered(area, this.zone(actor, fighters), this.zone(at, fighters));
     return fighters.filter(f => f.hp > 0 && f.id !== actor.id && zones.includes(this.zone(f, fighters)));
   }
-  // Where an ability that names nobody is aimed: an area at each place a foe it can see stands in, by the first foe
-  // there; anything else at its user.
+  // A line: the one aimed at, and the first standing in each place it crosses from its source (never the source's own
+  // place) out to the far end, past the aim; aimed at one in its own place, it runs on toward its foes' rear.
+  private static lined(actor: Fighter, at: Fighter, fighters: readonly Fighter[]): Fighter[] {
+    const from = this.line.indexOf(this.zone(actor, fighters)), aim = this.zone(at, fighters);
+    const step = Math.sign(this.line.indexOf(aim) - from) || (actor.team === 'fighters' ? 1 : -1);
+    const standing = fighters.filter(f => f.hp > 0 && f.id !== actor.id), struck = new Set([at.id]);
+    for (let i = from + step; i >= 0 && i < this.line.length; i += step) {
+      const first = this.line[i] === aim ? undefined : standing.find(f => this.zone(f, fighters) === this.line[i]);
+      if (first) { struck.add(first.id); }
+    }
+    return standing.filter(f => struck.has(f.id));
+  }
+  // Where an ability that names nobody is aimed: a line at each foe it can see (where it runs depends on whom it is
+  // aimed at); any other area at each place a foe it can see stands in, by the first foe there; anything else at its
+  // user.
   static aims(actor: Fighter, fighters: readonly Fighter[], ability: Pick<ArenaAbility, 'id' | 'effects' | 'area'>):
     Fighter[] {
     if (!this.area(ability)) { return [actor]; }
     const foes = Targeting.candidates('enemy', actor, [...fighters]), seen = new Set<Zone>();
+    if (this.area(ability) === 'line') { return foes; }
     return foes.filter(f => {
       const z = this.zone(f, fighters);
       return !seen.has(z) && !!seen.add(z);

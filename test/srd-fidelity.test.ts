@@ -55,9 +55,10 @@ describe('the SRD fidelity census', () => {
   it('measures a blow\'s chance to hit SRD AC 15, and grades a row in structure, resolution and play identity', () => {
     expect(CreatureFidelity.row('rat').hit).toEqual({ verdict: 'differs', ours: '20%', theirs: '50%' });
     const rows = [...SpellFidelity.rows(), ...CreatureFidelity.rows()];
-    // Proved only where the concordance names a focused test: so far the SRD rat's, Magic Missile's and Cone of Cold's.
+    // Proved only where the concordance names a focused test: the SRD rat's, Magic Missile's, Cone of Cold's and
+    // Lightning Bolt's.
     expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort())
-      .toEqual(['cone_of_cold', 'magic_missile', 'rat/cellar']);
+      .toEqual(['cone_of_cold', 'lightning_bolt', 'magic_missile', 'rat/cellar']);
     expect(SpellFidelity.row('fireball', 'fireball').grades).toEqual({ structural: 'fail', resolution: 'fail',
       identity: 'unassessed' });
     expect(SpellFidelity.row('magic_missile', 'magic-missile').grades.structural).toBe('pass');

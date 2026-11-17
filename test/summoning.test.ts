@@ -8,14 +8,21 @@ import type { Fighter } from '../src/model';
 import type { EffectContext } from '../src/effects';
 import { Expressions } from '../src/expressions';
 import { Summoning } from '../src/summoning';
+import { CanonRuntime } from '../src/canon/canon-runtime';
+import orsino from '../data/catalog/orsino/abilities.json';
+import type { Ability } from '../src/canon/schema';
 
+// Orsino's Lightning Bolt as it was, kept here as a fixture of the random draw: two foes drawn once for its harm and
+// its paralysis alike.
+const drawn = { ...CanonRuntime.ability('drawn_bolt', (orsino.abilities as unknown as Record<string, Ability>).lightning_bolt!),
+  id: 'drawn_bolt' };
 // Orsino's summons, random targets and many-handed monsters as general semantics: a summoner owns what it calls and
 // holds only so many; a random spell draws its targets once; an owlbear acts twice a turn.
 class Field {
   // A caster of a level with the spell known and prepared in a slot of its level.
   static caster(spell: string, level: number, raceId = 'human', classId = 'mage'): Fighter {
     const f = CombatProjection.fighter(new Content(`field-${spell}`).createCreature('caster', { raceId, classId, level }), 'fighters');
-    const tier = Canon.abilities[spell]!.spell?.level ?? 0;
+    const tier = (Canon.abilities[spell] ?? drawn).spell?.level ?? 0;
     if (!f.abilities.includes(spell)) { f.abilities.push(spell); }
     if (tier) { f.prepared![tier - 1]![0] = spell; f.ready![tier - 1]![0] = spell; }
     return f;
@@ -24,7 +31,7 @@ class Field {
     return Array.from({ length: n }, (_, i) => ({ ...new Content('foes').creature('wolf', `wolf-${i}`, 'goblins'), hp: 60, maxHp: 60 }));
   }
   static battle(fighters: Fighter[], seed: string) {
-    return new Battle({ id: 'field', combatants: fighters, abilities: Content.abilities }, seed);
+    return new Battle({ id: 'field', combatants: fighters, abilities: [...Content.abilities, drawn] }, seed);
   }
   // Steps until the caster acts, letting everyone else do what they would.
   static until(battle: Battle, id: string) {
@@ -85,11 +92,11 @@ describe('summoning', () => {
 
 describe('random targets and many actions', () => {
   it('draws a random spell\'s targets once, for its saves and its damage alike', () => {
-    // Lightning Bolt, Orsino's: two foes drawn at random, harmed and then saving against paralysis (Magic Missile, the
-    // SRD's now, strikes one chosen foe).
-    const battle = Field.battle([Field.caster('lightning_bolt', 9), ...Field.foes(7)], 'missiles');
+    // Lightning Bolt, Orsino's (the catalogue's is the SRD's line now): two foes drawn at random, harmed and then
+    // saving against paralysis.
+    const battle = Field.battle([Field.caster(drawn.id, 9), ...Field.foes(7)], 'missiles');
     Field.until(battle, 'caster');
-    const events = Field.cast(battle, 'lightning_bolt', 'any');
+    const events = Field.cast(battle, drawn.id, 'any');
     const missiles = events.filter(e => e.type === 'damage' && 'actor' in e && e.actor === 'caster');
     const hit = new Set(missiles.map(e => 'target' in e ? e.target : ''));
     const saved = new Set(events.filter(e => e.type === 'save').map(e => 'target' in e ? e.target : ''));

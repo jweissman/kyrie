@@ -52,6 +52,7 @@ export class MechanicsText {
   static readonly areas: Record<Area, string> = {
     burst: 'everyone but you where it bursts, friend or foe',
     cone: 'everyone between you and where it is aimed, friend or foe',
+    line: 'the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe',
   };
   static again(cooldown: number): string { return `again after ${cooldown === 1 ? 'a turn' : `${cooldown} turns`}`; }
   // What an ability does besides the blow its card's odds tell, in a few words for the fight card: "it is prone for

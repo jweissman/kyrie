@@ -451,7 +451,7 @@ Poison Bite: 1d4 (1–4) poison damage to one enemy (may leave whoever it hurts 
 
 Fireball: 6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
-Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
+Lightning Bolt: 1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 

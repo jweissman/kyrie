@@ -197,6 +197,45 @@ save and nothing else. Specs: `test/death-ward` (2 cases), `test/small/planar-la
   the wraith's energy drain is met in five of the seven (thorn, wren, kahitude, mere, ember: one or two wraiths of the
   third to fifth level, hostile). So a warded company keeps its levels against the drainer it is most likely to meet.
 
+### 9. The line, and Lightning Bolt by the SRD's numbers (17 November, later): adapted
+
+Proof-slices.md: "`line` only after cone and burst are right under the new scaling and DC". Cone of Cold (case 7) was
+that proof. Spec: `test/lightning-bolt` (7 cases; with the line taken out of Positions, three fail).
+
+**The shape** (Positions, `Area` now `burst | cone | line`):
+- A line runs from where the caster stands, through the one it is aimed at, and on to the far end of the field.
+- It strikes that one, and the first who stands in each other place it crosses, on the way and beyond, friend or foe.
+  The caster's own place is never struck.
+- So it is narrow where a cone is wide:
+  - a bolt aimed past the company's warrior into the press strikes the foe aimed at and the first in their rear,
+    sparing the warrior and the foe beside it;
+  - a bolt aimed over the press, at their archer, strikes whoever stands first in the press, the company's own
+    warrior if he is first.
+- It is aimed at a foe, not a place: where it runs depends on whom (`Positions.aims` offers every foe it can see; a
+  cone or a burst is offered once a place).
+- The handbook says it: "the one it is aimed at, and the first in each place its line crosses before and beyond,
+  friend or foe". The aim's row names whom it would strike (CombatModel reads `Positions.caught`, as for any area).
+
+**The spell** (a hand entry over Orsino's):
+- 1d6 electricity a casting level, to 10d6 at the tenth (exact).
+- The line (exact), and a Reflex save for half each (exact).
+- The save's difficulty: case 7's conversion, for a third-level spell (converted, named in the concordance).
+- **Its level is kept at Orsino's fourth** (structure fails, said so). The SRD's third moves every mage's third-level
+  draw at creation: it goes with Burning Hands and Fireball, and their census.
+- Gone: Orsino's two foes drawn at random and the paralysis on a second save, which the SRD's bolt has not.
+- Omitted: spell resistance; the bolt setting things alight and breaking through what it cannot pass.
+- The random draw that Orsino's bolt had exercised in `test/summoning` is kept there, on Orsino's record as a
+  fixture: no catalogue spell now draws foes at random and saves them against a second effect.
+
+**Where it is met.**
+- A mage of the seventh level or more, as one of the fourth-level spells it may learn.
+- A hostile evoker or generalist of that level, which may prepare it.
+- The chimera's powers, and the air and storm element variations of elementals.
+- The living book, a wonder of the generated works, which teaches it.
+- In a1 and the six fidelity countries as they begin, no installed creature knows it. The chimera and the air and
+  storm elementals are met in none of them (srd-fidelity.md's encounters).
+- So no first hour moves. A creature installed later, deeper in a site, is not in this census.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **34 of the merged catalogue's 363 abilities** carry `unsupported`. Orsino's file (data/catalog/orsino/abilities.json)
@@ -216,8 +255,8 @@ A spell may have more than one cause.
   says not to implement a world spell as a combat effect, nor a transformation as a bundle of temporary modifiers.
 
 **Beyond the unsupported list,** the generated concordance (srd-fidelity.md) grades spells against the SRD. 17 of the
-119 that have an SRD counterpart pass in structure, and 2 (Magic Missile, and since case 7 Cone of Cold) pass in
-resolution. The rest run by Orsino's numbers.
+119 that have an SRD counterpart pass in structure, and 3 (Magic Missile, and since cases 7 and 9 Cone of Cold and
+Lightning Bolt) pass in resolution. The rest run by Orsino's numbers.
 
 That is the honest state: they run, and they are adapted, not faithful. Moving a spell to the SRD's numbers is a
 proof slice of its own (met, explained, generation-measured), not a catalogue edit. Cone of Cold was the
@@ -234,7 +273,8 @@ be claimed from the catalogue.
   - Raise Dead outside a fight (case 3);
   - Plane Shift, and the inner planes' laws in and out of a fight (case 4), every outer plane under a law;
   - healing in and out of a fight (case 5);
-  - Cone of Cold by the SRD's numbers (case 7), and Death Ward's wards (case 8).
+  - Cone of Cold by the SRD's numbers (case 7), and Death Ward's wards (case 8);
+  - the line, and Lightning Bolt by the SRD's numbers but its level (case 9).
   All are adapted, not faithful: each names its changes.
 - **Unsupported:** the 34 above, by cause. None is offered, learned or granted, and the compiler refuses an act that
   names one.
@@ -244,7 +284,7 @@ be claimed from the catalogue.
   - GT-03: the integration case;
   - CB-05: a difficulty that reads a measure (OB-11);
   - regeneration out of a fight.
-- **By the SRD's numbers in resolution:** Magic Missile and Cone of Cold (srd-fidelity.md). Moving any other spell is
+- **By the SRD's numbers in resolution:** Magic Missile, Cone of Cold and Lightning Bolt (srd-fidelity.md). Moving any other spell is
   a proof slice of its own.
 
 ## What remains of the migration, and why (17 November, later)
@@ -253,8 +293,8 @@ be claimed from the catalogue.
   4). Moving either changes the pools every mage draws from at creation, so every generated mage's spells and every
   journey recorded across one move with it. Each wants the census of what moved, and the descents re-run on CI,
   before it lands. Cone of Cold's DC conversion and `#castingScore` are theirs to reuse.
-- **Lightning Bolt and the cascading five** (chain_lightning, bolt, electric_arc, shock_pulse, static_shock). These
-  want `line`, then `chain`, as new area topologies in Positions: engine work, after cone and burst.
+- **The cascading five** (chain_lightning, bolt, electric_arc, shock_pulse, static_shock). These want `chain`, a
+  new shape after the line (case 9).
 - **Spell resistance.** Not rolled anywhere. Proof-slices.md forbids an `sr` field until it rolls, is told and
   changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
 - **The 34 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal

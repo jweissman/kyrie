@@ -1,4 +1,4 @@
-import type { Effect } from '../lang/parse';
+import type { Area, Effect } from '../lang/parse';
 import type { Modifiers } from '../rules/modifiers';
 import type { Defense } from '../rules/defenses';
 export type { Modifiers } from '../rules/modifiers';
@@ -93,7 +93,7 @@ export interface Ability {
   requires?: { status?: string; notStatus?: string; interceptWeapon?: true };
   // How often a day it can be used, until a night's rest; and the shape of what it lets loose, which catches whoever
   // stands where it is aimed (see Positions). Orsino's areas name no shape: the rules' combat.areas give them one.
-  uses?: number; area?: 'burst' | 'cone';
+  uses?: number; area?: Area;
   // What gives its uses a day back (engine-pressure.md, section 5): any rest (as saying nothing does), only a night
   // (an inn's bed, a camp, not a six-hour rest or a healer's hour), or only the first night of a new day.
   recharges?: 'rest' | 'night' | 'day';
@@ -307,7 +307,7 @@ export interface Combat {
   ids: { slain: string; raising: string; roughRest: string; shelteredRest: string; drained: string };
   // Orsino's spells a day for a creature with no calling (Combat.maxSpellSlotsForLevel: 2 + level), which its own
   // powers draw on; and the shapes of the areas the catalog's abilities name none for.
-  castings: { base: number; perLevel: number }; areas: Record<'burst' | 'cone', string[]>;
+  castings: { base: number; perLevel: number }; areas: Record<Area, string[]>;
   // The tags an attack can carry, and what the telling says a defense did (see Defenses).
   defenses: { attackTags: string[]; told: Record<'immune' | 'resisted' | 'reduced' | 'passed' | 'stopped', string> };
 }

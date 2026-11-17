@@ -1,4 +1,4 @@
-import { parseAbility, type Amount, type ArenaAbility } from '../lang/parse';
+import { parseAbility, type Amount, type Area, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
 import { Amounts } from '../rules/amounts';
 import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from './schema';
@@ -39,8 +39,8 @@ export class CanonRuntime {
     return { ...parseAbility(id, a.name, a.effect!), description: a.effect!, ...common };
   }
   // The shape of what it lets loose, its own or the rules' for it (Orsino's areas name none: see Positions).
-  static area(id: string, a: Ability): 'burst' | 'cone' | undefined {
-    return a.area ?? (['burst', 'cone'] as const).find(shape => Canon.rules.combat.areas[shape].includes(id));
+  static area(id: string, a: Ability): Area | undefined {
+    return a.area ?? (['burst', 'cone', 'line'] as const).find(shape => Canon.rules.combat.areas[shape].includes(id));
   }
   // The turns an ability rests after use. Orsino rests every one of its skills that names none for three (Combat.ts:
   // action.cooldown || 3), all but the moves every fighter has (a weapon's blow, waiting, getting away); Kyr had read

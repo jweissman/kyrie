@@ -175,6 +175,9 @@
       }
     },
     "areas": {
+      "line": [
+        "lightning_bolt"
+      ],
       "cone": [
         "breathe_fire",
         "breathe_cold",

@@ -57,7 +57,7 @@ export interface ArenaAbility {
   // The shape of what it lets loose where it is aimed, catching friend and foe alike (see Positions).
   area?: Area;
 }
-export type Area = 'burst' | 'cone';
+export type Area = 'burst' | 'cone' | 'line';
 
 type Ast = Effect | Effect[] | Amount;
 type AstNode = ohm.Node & { ast(): Ast };

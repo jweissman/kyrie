@@ -6359,11 +6359,13 @@ You gain false life for 3 turns. False Life: 10d6 + 2 × level more hit points (
 
 ##### Lightning Bolt
 
-*Faithful · level 4 arcane spell, evocation* · `ability:lightning_bolt`
+*Adapted · level 4 arcane spell, evocation* · `ability:lightning_bolt`
 
-3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
+1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the fourth level. Takes a fourth-level slot.
 
-> Strike random enemies with lightning.
+> A stroke of lightning runs from your hand in a line, 1d6 for every level you have, to ten, through the one you aim it at and the first in its way before and beyond, friend or foe; whoever throws themselves clear takes half.
+
+*Adapted: The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Kept: Orsino's fourth level, until the spell levels' census (moving it to the SRD's third moves every mage's draws at creation). Omitted: spell resistance; the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not.*
 
 ##### Major Image
 
