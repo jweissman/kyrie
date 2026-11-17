@@ -149,7 +149,9 @@
    answer they had had 32 px of 250, one in view (the capture walk, 12 November). */
 @media (max-width: 1023px), (orientation: portrait) {
   .talk .dialogue .lines { flex: 0 1 auto; max-height: none; min-height: 5.5em; }
-  .talk .dialogue .answer { flex: 0 0 auto; max-height: 60%; }
+  /* Room for four rows and the leave above the rail (M22's third recording: capped at 60%, the second of four had
+     been cut in half under Take your leave on a phone); the record above has its own scroll and its 5.5em. */
+  .talk .dialogue .answer { flex: 0 0 auto; max-height: none; }
 }
 /* Unpainted, a page in type: the name large, the people's emblem large and faint behind it (the owner, 5 and 7
    November), not an outline floating in an empty column. */

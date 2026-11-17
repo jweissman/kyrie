@@ -33,10 +33,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an answer that brings an aim', () =
       const you = lines.map(l => l.classList.contains('you')).lastIndexOf(true);
       const answer = lines.slice(you + 1).find(l => /\b(speech|telling|event)\b/.test(l.className));
       const top = box.getBoundingClientRect().top;
+      // And the four in view whole beneath it: the record gives way, never the menu (a row had been cut in half).
+      const choosing = document.querySelector('.dialogue .answer > .choosing')!;
       return { aim: lines.some(l => l.classList.contains('aim')), answered: !!answer,
-        begins: !!answer && answer.getBoundingClientRect().top >= top - 1 };
+        begins: !!answer && answer.getBoundingClientRect().top >= top - 1,
+        whole: choosing.scrollHeight - choosing.clientHeight <= 1 };
     });
-    expect(seen).toEqual({ aim: true, answered: true, begins: true });
+    expect(seen).toEqual({ aim: true, answered: true, begins: true, whole: true });
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);
