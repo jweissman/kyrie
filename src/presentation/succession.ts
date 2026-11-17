@@ -94,8 +94,27 @@ export class Succession {
     const aim = screen.aims?.find(a => !a.followed);
     const larger = SeenThrough.of(campaign).length >= 2 ? this.known(campaign, screen, true) : undefined;
     if (larger) { return larger; }
+    const lesson = this.lesson(campaign, screen);
+    if (lesson) { return lesson; }
     if (aim) { return { kind: 'lead', text: Sentences.first(aim.text), aim: aim.id }; }
     return this.known(campaign, screen, false) ?? this.telling(campaign, screen) ?? this.site(campaign, screen);
+  }
+  // A new verb within reach, once a deed has earned it: a mentor who would teach one of the company now, for a fee it
+  // can pay, before the company has taken any lesson (the progression gap of BX-01: the yard's lessons were never
+  // where an aim led). Set out for where they teach.
+  private static lesson(campaign: Campaign, screen: Screen): Successor | undefined {
+    const w = campaign.world, actor = campaign.playerActor ?? 'party', read = campaign.readout;
+    if (!w.relates('teaches') || !w.relates('canTrain') || read.creatures.some(c => read.partyIds.includes(c.id)
+      && c.state.learnedAbilities.length)) { return undefined; }
+    const purse = w.number(ModuleWriter.call('quantity', actor, 'gold')), open = new Set(w.related('canTrain')
+      .map(r => r.args[1]!));
+    const mentor = w.related('teaches').find(r => open.has(r.args[1]!) && w.number(ModuleWriter.call('lessonFee',
+      r.args[0]!)) <= purse)?.args[0];
+    const place = mentor && w.one('at', mentor);
+    if (!place || place === screen.place.id) { return undefined; }
+    const name = ObservationText.label(w, mentor), there = ObservationText.label(w, place);
+    return { kind: 'lead', text: `${name} would teach you now, at ${there}.`, command: `travel:${place}`,
+      label: `To ${there}` };
   }
   // Where something the company knows leads, not yet been to, the nearest (a site only, where sites is asked).
   private static known(campaign: Campaign, screen: Screen, sites: boolean): Successor | undefined {
