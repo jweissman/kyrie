@@ -1,8 +1,9 @@
 Module world_canon "What every world holds before any adventure is in it, and what can be said of it" {
   // The canon itself is data/imbar: the planes and their thresholds, the College of Dun Rì and its House of Doors,
-  // and the world events an adventure may bring about. This file names only what is said of them, so that whatever
-  // one module says of the canon another can read; it declares nothing and asserts nothing, since the shared rules
-  // are joined again to every module installed, and an event that had befallen would be undone.
+  // and the world events an adventure may bring about. This file names only what is said of them, and the one act that
+  // reaches them (Plane Shift), so that whatever one module says of the canon another can read; it declares nothing
+  // and asserts nothing, since the shared rules are joined again to every module installed, and an event that had
+  // befallen would be undone.
 
   // Something every author may name before anyone has built a place for it: a college, a house, a city, a key, an
   // office. Where an adventure builds a place for one, it says so: the House of Doors is seated in its building.
@@ -15,5 +16,17 @@ Module world_canon "What every world holds before any adventure is in it, and wh
   Relation holdsOffice(group, identity).
   // A world event (one of the facts of data/imbar) that has befallen: asserted in play, once, and never undone.
   Relation befell(fact).
+  // Where a plane's travellers arrive from elsewhere: its threshold (data/imbar names each plane's).
+  Relation thresholdOf(place, place).
+  // Plane Shift cast outside a fight (GT-02): the caster's spell, for its slot, sets the company down on the plane's
+  // threshold (the kernel's travel effect, which the engine carries out: Campaign.carry).
+  Action plane_shift(actor: group, caster: member, plane: place, arrival: place, site: place) "Have {caster} cast Plane Shift to {plane}" {
+    Time 2 minutes.
+    Description "A seventh-level working of the arcane that carries the whole company to another plane of existence, to its threshold.".
+    Requires able(actor) and at(actor, site) and memberOf(caster, actor) and awake(caster)
+      and canCast(caster, plane_shift) and thresholdOf(plane, arrival) and not at(actor, arrival).
+    Resolve invoke(plane_shift, caster, arrival).
+    Result "The world folds shut around the company, and opens on {plane}.".
+  }
   Goal false.
 }

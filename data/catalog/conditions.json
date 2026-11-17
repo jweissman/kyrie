@@ -306,14 +306,21 @@
     },
     "plane_fire": {
       "name": "the Fire",
-      "description": "The law of the Plane of Fire: heat that leans on every breath, and a working of the will that burns through what would hold it.",
+      "description": "The law of the Plane of Fire: heat that burns whoever stands in it, a little at a time, and a working of the will that burns through what would hold it.",
       "lifetime": "persistent",
       "modifiers": {
-        "bonusSpellDC": -1
+        "bonusSpellDC": -1,
+        "onTurnEnd": [
+          {
+            "kind": "damage",
+            "amount": "1",
+            "damageType": "fire"
+          }
+        ]
       },
       "source": {
         "kyr": true,
-        "notes": "An inner plane's law, laid on the plane in the canon (law(inner_fire, plane_fire)), so it holds for every author's places within it: its spell DC is held by everyone fighting there, as Gehenna's is."
+        "notes": "An inner plane's law, laid on the plane in the canon (law(inner_fire, plane_fire)), so it holds for every author's places within it: its spell DC is held by everyone fighting there, as Gehenna's is; and its heat burns (1 fire) at the end of each turn in a fight and each watch out of one (GT-01), through the ordinary damage pipeline, so that a fire ward (fireproof) stops it."
       },
       "law": true
     },
@@ -327,6 +334,75 @@
       "source": {
         "kyr": true,
         "notes": "An inner plane's law, laid on the plane in the canon (law(inner_air, plane_air)), so it holds for every author's places within it: its spell DC is held by everyone fighting there, as Pandemonium's is."
+      },
+      "law": true
+    },
+    "plane_water": {
+      "name": "the Water",
+      "description": "The law of the Plane of Water: no air and no surface, and a cold that works into whoever comes there.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "onTurnEnd": [
+          {
+            "kind": "damage",
+            "amount": "1",
+            "damageType": "cold"
+          }
+        ]
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An inner plane's law (law(inner_water, plane_water)): its cold (1 cold) at the end of each turn in a fight and each watch out of one (GT-01), stopped by a ward against cold (waterproof). Adapted: the SRD's Water drowns whoever cannot breathe it; the engine has no rule for breath, so its harm is its cold."
+      },
+      "law": true
+    },
+    "plane_earth": {
+      "name": "the Earth",
+      "description": "The law of the Plane of Earth: rock on every side, and a stillness that holds a working fast once it is made.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "bonusSpellDC": 1
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An inner plane's law (law(inner_earth, plane_earth)), judged (GT-01): the rock presses but does not wound, so it does no harm by the watch; its stillness holds a spell harder, as Mechanus's order does (+1 spell DC)."
+      },
+      "law": true
+    },
+    "plane_positive": {
+      "name": "the Positive",
+      "description": "The law of the Positive Energy Plane: a light that runs into whoever stands in it like strength, and mends them.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "onTurnEnd": [
+          {
+            "kind": "heal",
+            "amount": "1"
+          }
+        ]
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An inner plane's law (law(inner_positive, plane_positive)): it mends (1 health) at the end of each turn in a fight and each watch out of one (GT-01). Not done: the SRD's overload (hit points past the most, then bursting)."
+      },
+      "law": true
+    },
+    "plane_negative": {
+      "name": "the Negative",
+      "description": "The law of the Negative Energy Plane: a cold dark that draws the life out of whoever stands in it.",
+      "lifetime": "persistent",
+      "modifiers": {
+        "onTurnEnd": [
+          {
+            "kind": "damage",
+            "amount": "1",
+            "damageType": "necrotic"
+          }
+        ]
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An inner plane's law (law(inner_negative, plane_negative)): it drains (1 necrotic) at the end of each turn in a fight and each watch out of one (GT-01), stopped by a ward against the dark (darkproof, protected). Adapted: the SRD's Negative takes levels, stopped by death ward; here it takes health."
       },
       "law": true
     },

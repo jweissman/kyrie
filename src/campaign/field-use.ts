@@ -233,6 +233,32 @@ export class FieldUse {
       return context.events;
     } finally { lease.release(); }
   }
+  // A spell that carries its caster's company and does nothing else (Plane Shift: "Travel to plane"): the company's
+  // to cast outside a fight, to the place its act names (GT-02).
+  static carries(id: string): boolean {
+    const ability = Content.abilities.find(a => a.id === id);
+    return !!ability?.spell && !!ability.effects.length && ability.effects.every(e => e.kind === 'travel');
+  }
+  // Cast for the slot it costs in a fight; its travel event says where the company went (see Campaign.carry).
+  static shift(store: CreatureStore, options: { ability: string; caster: string; destination: string; seed: string }):
+    CombatEvent[] {
+    const found = Content.abilities.find(a => a.id === options.ability);
+    if (!found || !this.carries(found.id)) { throw new Error('Unsupported field effect'); }
+    // "Travel to plane" goes to whichever the act names.
+    const ability = { ...found, effects: found.effects.map(e => e.kind === 'travel'
+      ? { ...e, location: options.destination } : e) };
+    const lease = store.acquire([options.caster]);
+    try {
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const actor = this.caster(fighters, options.caster, ability);
+      const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
+        content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
+        retreat: false, location: null };
+      AbilityUse.perform(ability, options.caster, new Expressions(options.seed), context);
+      lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
+      return context.events;
+    } finally { lease.release(); }
+  }
   // One who can use the ability now: up, acting, knowing it (unless a service does it for them), within the level
   // they can cast at, and not kept from casting.
   private static caster(fighters: Fighter[], id: string, ability: ArenaAbility, service?: string): Fighter {

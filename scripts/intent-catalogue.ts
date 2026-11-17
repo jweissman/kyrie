@@ -22,7 +22,7 @@ export class IntentCatalogue {
   static readonly table: Record<Family, string[]> = {
     perception: ['look_closely', 'examine', 'listen', 'read_item', 'appraise', 'appraise_beyond'],
     discovery: ['search', 'prod', 'pry', 'experiment'],
-    movement: ['go', 'arrive', 'depart', 'slip_past'],
+    movement: ['go', 'arrive', 'depart', 'slip_past', 'plane_shift'],
     social: ['talk_to', 'ask', 'tell', 'talk_round', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_item'],
     manipulation: ['take_item', 'take_from', 'take_out', 'put_item', 'put_in', 'give', 'give_back', 'give_valuable',
       'transfer_item', 'equip_item', 'use_item', 'draw_out', 'light', 'light_item', 'light_lamp', 'douse_light', 'push',

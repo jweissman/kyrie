@@ -1,6 +1,23 @@
 {
   "about": "Abilities: what a creature can choose to do. Orsino skills and spells are generated into data/catalog/orsino/abilities.json; this file holds Kyr's own abilities and adaptations. kind is technique, spell (with tradition, level and school or domain; a spell spends one slot) or natural. effect is written in the Kyr effect language; effects is the typed form.",
   "abilities": {
+    "plane_shift": {
+      "name": "Plane Shift",
+      "kind": "spell",
+      "description": "Carry yourself and your company to another plane of existence, to its threshold, where doors from elsewhere arrive.",
+      "effect": "Travel to plane.",
+      "cost": 1,
+      "spell": {
+        "tradition": "arcane",
+        "level": 7,
+        "school": "conjuration"
+      },
+      "source": {
+        "orsino": "arcaneSpell:plane_shift",
+        "fidelity": "adapted",
+        "notes": "GT-02: the kernel's typed travel effect, cast outside a fight by the act the canon offers (Have {caster} cast Plane Shift to {plane}, data/rules/canon.kyr), to the plane's threshold (thresholdOf, data/imbar); the company is set down there (Campaign.carry). Adapted: no forked rod, and the threshold rather than a place of the caster's choosing within the plane; Imbar has no threshold, so it does not carry a company home. In a fight it ends the fight as an escape (Battle: a travel sets the location)."
+      }
+    },
     "flee": {
       "name": "Flee",
       "kind": "technique",

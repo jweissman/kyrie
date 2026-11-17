@@ -24,8 +24,8 @@ describe('a fighting object', () => {
     }
     expect(battle.events.some(e => e.type === 'action' && e.command.actor === 'turret' && e.command.ability === 'arrow_volley'))
       .toBe(true);
-    // Orsino's ten planes, and the canon's laws of the Fire and the Air.
-    expect(Object.keys(Canon.conditions).filter(id => id.startsWith('plane_')).length).toBe(12);
+    // Orsino's ten planes, and the canon's laws of the six inner planes (GT-01).
+    expect(Object.keys(Canon.conditions).filter(id => id.startsWith('plane_')).length).toBe(16);
     // A company weary for want of sleep fights weary; its foes do not.
     const tired = Battle.encounter(new CreatureStore([content.createCreature('t2', { raceId: 'turret' }, 't2'),
       content.createCreature('h2', { raceId: 'human', classId: 'mage', level: 1 }, 'h2')]),

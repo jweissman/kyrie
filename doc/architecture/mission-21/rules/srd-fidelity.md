@@ -183,7 +183,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | nightmare | nightmare | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✗ 31 → 18 | ✓ | ✓ | ✗ 3 rounds → instant |
 | obscuring_mist | obscuring-mist | S✗ R✗ I– | ✗ 3 → 1 | ✓ | – | – | – | – | ✓ | ✗ self → burst | ✗ 5 rounds → long |
 | paralyzing_touch | ghoul-touch | S✓ R✗ I– | ✓ | ✓ | – | – | ≈ paralyze negates | ✗ 17 → 15 | ✗ none → melee touch | ✓ | ✗ 3 rounds → long |
-| plane_shift | plane-shift | S✓ RU I– | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → several | ✓ |
+| plane_shift | plane-shift | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → several | ✓ |
 | polar_ray | polar-ray | S✗ R✗ I– | ✗ 6 → 8 | ✓ | ✗ 27/27/27/27 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✓ | ✓ |
 | polymorph | polymorph | S✗ RU I– | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✗ 23 → · | ✗ none → melee touch | ✓ | ✗ 5 rounds → long |
 | prayer | prayer | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → enchantment | – | – | – | – | ✓ | ✗ all → burst | ✗ 3 rounds → 5 rounds |

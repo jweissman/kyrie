@@ -10,8 +10,12 @@ Module canon "Imbar and the planes" {
   // Each plane is one region and, in it, a threshold, where doors from elsewhere arrive and an author's own places
   // join it. Its courts, cities and wastes are whatever authors set in it, each a region of its own within the plane.
   // A plane's law is written here, for every author, and holds in every place within it: the Fire's and the Air's so
-  // far (the Grand Tour's Hour Court and its winds); Earth and Water carry none yet.
+  // far (the Grand Tour's Hour Court and its winds), then each of the others (GT-01): the Fire burns, the Water chills,
+  // the Negative drains and the Positive mends whoever stands in them, a little each watch and each turn of a fight;
+  // the Earth and the Air do no harm (data/catalog/conditions.json says what each law is).
   Entity plane_fire: law "the law of the Fire". Entity plane_air: law "the law of the Air".
+  Entity plane_water: law "the law of the Water". Entity plane_earth: law "the law of the Earth".
+  Entity plane_positive: law "the law of the Positive". Entity plane_negative: law "the law of the Negative".
   Place inner_fire "the Plane of Fire" is plane.
   Place inner_fire_region "the Plane of Fire" is region within inner_fire elsewhere.
   Place inner_fire_land "the threshold of Fire" is wilderness within inner_fire_region at 0, 0 elsewhere.
@@ -51,4 +55,11 @@ Module canon "Imbar and the planes" {
   Place inner_negative_threshold "the threshold of the Negative Plane" is room within inner_negative_land at 0, 0.
   Observe inner_negative_seen at inner_negative_threshold when true "Dark on every side, and a cold that draws the warmth out of you.".
   Initially Assert law(inner_fire, plane_fire). Initially Assert law(inner_air, plane_air).
+  Initially Assert law(inner_water, plane_water). Initially Assert law(inner_earth, plane_earth).
+  Initially Assert law(inner_positive, plane_positive). Initially Assert law(inner_negative, plane_negative).
+  // Where a spell that carries the company to a plane (Plane Shift) sets it down: the plane's threshold (GT-02).
+  Initially Assert thresholdOf(inner_fire, inner_fire_threshold). Initially Assert thresholdOf(inner_air, inner_air_threshold).
+  Initially Assert thresholdOf(inner_earth, inner_earth_threshold). Initially Assert thresholdOf(inner_water, inner_water_threshold).
+  Initially Assert thresholdOf(inner_positive, inner_positive_threshold).
+  Initially Assert thresholdOf(inner_negative, inner_negative_threshold).
 }

@@ -18,8 +18,9 @@ export class RuntimeCapabilities {
     { name: 'combat', types: ['group'], exclusive: false },
     { name: 'enlist', types: ['group', 'group'], exclusive: false },
     { name: 'inter', types: ['member'], exclusive: false },
-    // A member's ability on one of the company, or a hostile spell at a band outside a fight (CF-03: FieldUse.cast).
-    { name: 'invoke', types: ['ability', 'member', 'member|group'], exclusive: false },
+    // A member's ability on one of the company, a hostile spell at a band outside a fight (CF-03: FieldUse.cast), or
+    // a spell that carries the company to a place (GT-02: FieldUse.shift).
+    { name: 'invoke', types: ['ability', 'member', 'member|group|place'], exclusive: false },
     { name: 'recover', types: ['group'], exclusive: false },
     { name: 'raise', types: ['member'], exclusive: false },
     { name: 'restore', types: ['member'], exclusive: false },

@@ -46,12 +46,13 @@ describe('a field nothing reads', () => {
 });
 
 // An ability whose record has nothing Kyr can execute is reference only: in the catalog (the Encyclopedia says what
-// it is), never learned, prepared, granted or offered. Chain Lightning and Goodberry are two of the twelve.
+// it is), never learned, prepared, granted or offered. Chain Lightning and Goodberry are two of the eleven
+// (Plane Shift left them for the travel effect: GT-02).
 describe('a reference-only ability', () => {
   const referenceOnly = Object.keys(Canon.abilities).filter(id => CanonRuntime.referenceOnly(id)).sort();
   it('is every ability with no effect but the moves the rules resolve themselves', () => {
     expect(referenceOnly).toEqual(['chain_lightning', 'create_poison', 'dispel_magic', 'electric_arc', 'goodberry',
-      'image', 'minor_image', 'plane_shift', 'shock_pulse', 'static_shock', 'weird', 'zephyrwild']);
+      'image', 'minor_image', 'shock_pulse', 'static_shock', 'weird', 'zephyrwild']);
     expect(CanonRuntime.referenceOnly('wait')).toBe(false);
   });
   it('is not offered in a fight, learned, granted or prepared', () => {

@@ -90,4 +90,17 @@ Module canon "Imbar and the planes" {
   Place outer_exalted_land "the foot of the Mount" is wilderness within outer_exalted_region at 0, 0 elsewhere.
   Place outer_exalted_threshold "the foot of the Mount" is room within outer_exalted_land at 0, 0.
   Observe outer_exalted_seen at outer_exalted_threshold when true "The foot of a mountain in a high clear light, its slope going up into more light than you can look at.".
+  // Where Plane Shift sets a company down on each (GT-02): its threshold.
+  Initially Assert thresholdOf(outer_arcadia, outer_arcadia_threshold).
+  Initially Assert thresholdOf(outer_cthell, outer_cthell_threshold).
+  Initially Assert thresholdOf(outer_gehenna, outer_gehenna_threshold).
+  Initially Assert thresholdOf(outer_hades, outer_hades_threshold).
+  Initially Assert thresholdOf(outer_limbo, outer_limbo_threshold).
+  Initially Assert thresholdOf(outer_mechanus, outer_mechanus_threshold).
+  Initially Assert thresholdOf(outer_pandemonium, outer_pandemonium_threshold).
+  Initially Assert thresholdOf(outer_ysgard, outer_ysgard_threshold).
+  Initially Assert thresholdOf(outer_zephyrus, outer_zephyrus_threshold).
+  Initially Assert thresholdOf(outer_abyss, outer_abyss_threshold).
+  Initially Assert thresholdOf(outer_nirvana, outer_nirvana_threshold).
+  Initially Assert thresholdOf(outer_exalted, outer_exalted_threshold).
 }

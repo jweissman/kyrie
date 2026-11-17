@@ -54,6 +54,10 @@ export class FieldResolver {
     if (['prepare', 'improve', 'endow', 'learn', 'teach', 'feat', 'school'].includes(call.name)) {
       return FieldUse.study(creatures, call.name, call.args);
     }
+    if (call.name === 'invoke' && FieldUse.carries(call.args[0]!)) {
+      const [ability, caster, destination] = call.args as [string, string, string];
+      return FieldUse.shift(creatures, { ability, caster, destination, seed });
+    }
     if (call.name === 'invoke') {
       const band = host.actors.find(a => a.id === call.args[2]);
       if (band) {

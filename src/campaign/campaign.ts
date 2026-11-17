@@ -1,6 +1,6 @@
 import { RandomStreams } from '../random-streams';
 import { CommandResolutions } from './command-resolution';
-import { Aftermath } from './aftermath'; import { FieldUse } from './field-use';
+import { Aftermath } from './aftermath'; import { FieldUse } from './field-use'; import { PlaneLaws } from './plane-laws';
 import { FieldResolver } from './field-resolver';
 import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
@@ -353,7 +353,7 @@ export class Campaign implements WatchHost {
         world: this.world, creatures: this.creatures }, action.resolve)); this.refresh(); return;
     }
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name) && !action.interrupt) {
-      combat.push(...this.field(action));
+      const e = this.field(action); combat.push(...e); PlaneLaws.carry(this.world, this.live, e, w => this.commit(w));
     }
   }
 
@@ -391,9 +391,10 @@ export class Campaign implements WatchHost {
   commitWorld(world: World) { this.commit(world); }
   amend(event: CampaignEvent) { this.log[this.log.length - 1] = structuredClone(event); }
   advanceWatch(combat: CombatEvent[], asleep = false) {
-    this.current.elapsed++;
+    const elapsed = ++this.current.elapsed;
     const scene = { world: this.world, actors: this.live, player: this.playerActor, asleep, seed: this.current.seed };
-    if (FieldUse.advance(this.creatures, this.current.elapsed, combat, scene)) { this.refresh(); }
+    const lawful = !!this.definition && PlaneLaws.watch(this.creatures, combat, { ...scene, elapsed });
+    if (FieldUse.advance(this.creatures, elapsed, combat, scene) || lawful) { this.refresh(); }
     if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current))); }
   }
   settleWatch(combat: CombatEvent[]) {

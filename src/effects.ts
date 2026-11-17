@@ -16,6 +16,7 @@ import type { CombatEvent, Fighter } from './model';
 import { Fighting, type Combatant } from './rules/fighting';
 import { ModifierSet, type Dice, type Modifiers } from './rules/modifiers';
 import { KindDefenses, type Hit } from './kind-defenses';
+import { PlaceLaws } from './rules/place-laws';
 import type { Attribute } from './creature';
 
 export interface EffectContext {
@@ -305,7 +306,8 @@ export class Effects {
     }
     // And of what it wears: a ring of regeneration's mending (the item audit's G5: summed, and never run).
     Effects.periodicOf(actor, actor.equipment?.modifiers?.onTurnEnd ?? [], 'equipment', context);
-    KindDefenses.regenerate(actor, context);
+    // And the laws of the place the fight is fought in (GT-01).
+    KindDefenses.regenerate(actor, context); PlaceLaws.tick(actor, context);
   }
   // Orsino's onTurnEnd hooks of one condition: periodic damage or healing, rolled from the seeded stream.
   static periodic(target: Fighter, id: string, source: string | undefined, context: EffectContext) {
