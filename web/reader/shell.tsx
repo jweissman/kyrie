@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Scenery } from '../../src/ui/scenery';
 import { FictionalTime } from '../../src/campaign/fictional-time';
@@ -12,11 +12,33 @@ import { Guidance } from './guidance';
 // kept (about a fifth of a desktop's width, less on a tablet, none on a phone); the title, the choice of a life in
 // a drawn country (OWN-14: no window frame), the setting out from it, a new game's opening (OWN-17) and the world map
 // (the owner, 5 November: edge to edge, all else over it) break out of it.
+// A painting behind the stage is shown once it has loaded (PA-02: the country's painting had been a CSS background
+// put up the moment it arrived, after its fade had already run on mount, so that creation came up over flat dark and
+// the land snapped in a frame later). Until the wanted one is decoded the last one stands, or nothing; the ambient's
+// own opacity transition then brings the first one up.
+class Plates {
+  static readonly loaded = new Set<string>();
+  static useReady(wanted: string | undefined): string | undefined {
+    const [ready, setReady] = useState(() => wanted && Plates.loaded.has(wanted) ? wanted : undefined);
+    useEffect(() => {
+      if (!wanted || Plates.loaded.has(wanted)) { setReady(wanted); return; }
+      let live = true;
+      const img = new Image();
+      img.src = Plates.url(wanted);
+      const done = () => { Plates.loaded.add(wanted); if (live) { setReady(wanted); } };
+      img.decode().then(done, done);
+      return () => { live = false; };
+    }, [wanted]);
+    return wanted ? ready : undefined;
+  }
+  static url(plate: string): string { return `paintings/large/${plate}.webp`; }
+}
+
 export class Shell {
   static View({ app, children }: { app: ReaderApp; children: ReactNode }) {
-    const s = app.state, plate = Shell.plate(app);
+    const s = app.state, wanted = Shell.plate(app), plate = Plates.useReady(wanted);
     const creating = (s.phase === 'company' || (s.phase === 'loading' && !!s.leaving)) && !!s.setting?.generated;
-    const style = { '--plate': plate ? `url(paintings/large/${plate}.webp)` : 'none' } as CSSProperties;
+    const style = { '--plate': plate ? `url(${Plates.url(plate)})` : 'none' } as CSSProperties;
     // The scene first (the owner's amendment 6, A): the painting over the whole screen and what is told and done in
     // restrained panels over it; ?scene=split keeps the bounded stage it replaced, to compare.
     const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`
@@ -25,7 +47,7 @@ export class Shell {
     return (
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
         onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>
-        <div className="ambient" aria-hidden="true" />
+        <div className={`ambient${plate ? '' : ' unpainted'}`} aria-hidden="true" />
         <div className="frame"><Flame.View app={app} />{children}</div>
         <EncyclopediaOverlay.View app={app} />
         {app.props.query.has('safe') && <div className="safe-zone" data-region="safe-zone" aria-hidden="true" />}

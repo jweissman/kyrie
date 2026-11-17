@@ -110,12 +110,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('plays the studio mark when asked, and a key goes straight to the ways in', async () => {
+  it('plays the studio mark when asked, a stray key passing it by and Escape going straight to the ways in', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 }, { site, query: '?ident' });
     await page.waitForSelector('.ident', { timeout: 30000 });
     expect(await page.textContent('.ident .studio')).toBe(Identity.studio);
     expect(await page.locator('[data-action="begin"]').isVisible()).toBe(false);
+    // A stray key leaves the mark playing (PA-01: it is skipped on purpose only); Escape skips it.
     await page.keyboard.press('Space');
+    await page.waitForTimeout(150);
+    expect(await page.locator('.ident').count()).toBe(1);
+    await page.keyboard.press('Escape');
     await page.waitForSelector('.ident', { state: 'detached', timeout: 5000 });
     expect(await page.locator('[data-action="begin"]').isVisible()).toBe(true);
     const named = [await page.getAttribute('.mark', 'aria-label'), await page.title()];

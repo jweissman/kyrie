@@ -12,6 +12,7 @@ html, body { overflow: hidden; }
 .shell.hour-night { --hour: rgba(70, 96, 170, .18); }
 .ambient { position: absolute; inset: -48px; pointer-events: none; background: var(--plate) center / cover no-repeat;
   filter: var(--plate-far); transform: scale(1.04); transition: opacity 900ms var(--ease); }
+.ambient.unpainted { opacity: 0; transition: none; }
 .ambient::after { content: ''; position: absolute; inset: 0;
   background: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 0%, rgba(10, 11, 14, .55) 55%, var(--ground) 100%),
     linear-gradient(180deg, var(--hour), transparent 55%); }
@@ -114,7 +115,7 @@ html, body { overflow: hidden; }
 /* A passage between screens is a cut, or at most a short fade in place: nothing slides, scrolls or wipes (the owner,
    IG-12: "some weird vertical dissolve that seems to scroll a blank screen out of the way when you start"). The
    country's painting fades in as the choosing begins. */
-.shell.phase-company.creating .ambient { animation: fade-in .4s ease both; }
+.shell.phase-company.creating .ambient:not(.unpainted) { animation: fade-in .4s ease both; }
 /* The studio's mark goes out to the title with no black between them, the sky behind faded in place (IG-12: no wipe). */
 .beat-reveal .build { animation: fade-in 1.2s 2.2s var(--ease) both; }
 .shell:has(.beat-reveal) .ambient { animation: fade-in .5s ease both; }
