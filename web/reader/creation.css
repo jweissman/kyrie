@@ -3,6 +3,10 @@
    (row.css). ---- */
 :root { --composed-h: 44px; }
 @media (pointer: coarse) { :root { --composed-h: 52px; } }
+/* Reset first (a button's own look), then the row's layout: the reset after it had undone the grid, height and gap. */
+.composed-row { all: unset; box-sizing: border-box; position: relative; --row-tone: rgb(236, 230, 217);
+  font: var(--t-choice); color: var(--ivory); cursor: pointer; border-radius: var(--choice-radius);
+  -webkit-tap-highlight-color: transparent; }
 .composed-row {
   display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: column; align-items: center;
   column-gap: var(--s3); height: var(--composed-h); min-height: var(--composed-h); padding: 0 14px 0 22px; overflow: hidden;
@@ -27,9 +31,6 @@
 .composed .with-cards .ask { text-align: center; }
 .composed .composed-rows { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; overscroll-behavior: contain;
   margin: 0 -4px; padding: 0 4px; }
-.composed-row { all: unset; box-sizing: border-box; position: relative; --row-tone: rgb(236, 230, 217);
-  font: var(--t-choice); color: var(--ivory); cursor: pointer; border-radius: var(--choice-radius);
-  -webkit-tap-highlight-color: transparent; }
 .composed-row:disabled { opacity: .5; cursor: default; }
 .composed-row > .row-key { font: var(--t-key); color: var(--dim); opacity: .7; }
 @media (hover: none) { .composed-row > .row-key { display: none; } }
@@ -106,7 +107,6 @@
 .composed .composed-rows.many { --composed-h: 36px; gap: 2px; }
 .composed .composed-card[data-chosen]::after { content: ''; display: block; position: absolute; left: 50%; bottom: 10px;
   width: 22px; height: 3px; margin-left: -11px; border-radius: 3px; background: var(--accent, #d9b46a); }
-.composed .composed-card[data-considered] { border-color: color-mix(in oklab, var(--ivory) 40%, transparent); }
 /* One page template with the resting scene (the owner, 15 November: some pages reflowed and juddered as the choice changed,
    and none looked like the scene): the question stands where a place's name does, top left, in the same face; the telling
    of what is considered and the menu are the right column, top-aligned where the scene's own are; nothing is centred and
@@ -142,14 +142,17 @@
 .composed .composed-card > * { position: relative; z-index: 2; }
 .composed .composed-card::before { z-index: 0; background: color-mix(in oklab, var(--ivory) 5%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ivory) 28%, transparent); }
-.composed .composed-card[data-chosen] { border-color: var(--ivory); background: linear-gradient(180deg, var(--lift), var(--raised));
+/* The card considered (the hand's, the keys', a touch's) is the one drawn as the choice in hand: a short press on
+   another moves it there (the owner, 16 November: a short press had not seemed to select, the card chosen before keeping
+   the strong edge). What was chosen before, coming back, keeps only its small gold mark. */
+.composed .composed-card[data-considered] { border-color: var(--ivory); background: linear-gradient(180deg, var(--lift), var(--raised));
   box-shadow: 0 0 0 1.5px var(--ivory), 0 16px 36px rgba(0, 0, 0, .5); }
-.composed .composed-card[data-chosen] :is(.card-name, .glyph) { color: var(--ivory); stroke: var(--ivory); opacity: 1; }
-.composed .composed-card[data-chosen] .card-line { color: var(--ivory); opacity: .85; }
-.composed .composed-cards:has([data-chosen]) .composed-card:not([data-chosen]) :is(.card-name, .card-line, .glyph) {
+.composed .composed-card[data-considered] :is(.card-name, .glyph) { color: var(--ivory); stroke: var(--ivory); opacity: 1; }
+.composed .composed-card[data-considered] .card-line { color: var(--ivory); opacity: .85; }
+.composed .composed-cards:has([data-considered]) .composed-card:not([data-considered]) :is(.card-name, .card-line, .glyph) {
   opacity: .6; transition: opacity var(--quick); }
-.composed .composed-cards:has([data-chosen]) .composed-card:not([data-chosen]):is([data-considered], :hover, :focus-visible)
-  :is(.card-name, .card-line, .glyph) { opacity: 1; }
+.composed .composed-cards:has([data-considered]) .composed-card:not([data-considered]):is(:hover, :focus-visible)
+  :is(.card-name, .card-line, .glyph) { opacity: .85; }
 .obs-name { fill: rgba(236, 230, 217, 0); font: 600 15px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;
   transition: fill 500ms var(--ease); }
 .obs-sign.lit .obs-name { fill: rgba(236, 230, 217, .78); }

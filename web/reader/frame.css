@@ -208,7 +208,9 @@ html, body { overflow: hidden; }
 /* Inside the safe zone, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
    stood 14px from the top; and 12 November: the zone is the outer tenth). */
 .creation-edge { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between;
-  padding: 0 calc(var(--safe-r) + 120px) var(--safe-b) var(--safe-l);
+  /* Room at the right for the life's emblems as they gather: five and the likeness by the name (the owner, 16 November:
+     Set out now had run under them). */
+  padding: 0 calc(var(--safe-r) + 260px) var(--safe-b) var(--safe-l);
   pointer-events: none; }
 .creation-edge > .quiet-word { pointer-events: auto; }
 .creation-edge .set-out-now { margin-left: auto; }

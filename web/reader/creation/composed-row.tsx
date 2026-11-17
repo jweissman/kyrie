@@ -20,7 +20,7 @@ export class ComposedRow {
     return (
       <button type="button" className={`composed-row${chosen ? ' chosen' : ''}`} data-nav
         data-option={option.id} disabled={!!option.shut} aria-current={chosen || undefined}
-        data-considered={lit || undefined} onMouseEnter={() => ComposedRow.moved() && onConsider(option.id)}
+        data-considered={lit || undefined} onMouseEnter={e => ComposedRow.hand(e.currentTarget) && onConsider(option.id)}
         onFocus={() => onConsider(option.id)}
         {...hold ? ComposedRow.held(option.id, onConsider, () => onChoose(option.id, true))
           : { onClick: () => onChoose(option.id, false) }}>
@@ -32,19 +32,27 @@ export class ComposedRow {
       </button>
     );
   }
+  // The hand come to a choice that has moved since the page changed: the keys' focus goes with it, so that one choice
+  // is lit, never the hand's and the keys' both (the owner, 16 November: two names lit at once on the name page).
+  static hand(el: HTMLElement): boolean {
+    if (!ComposedRow.moved()) { return false; }
+    el.focus({ preventScroll: true });
+    return true;
+  }
   // Whether the hand has moved since the page changed (see PressGuard): a hand at rest considers nothing it is over.
   static moved(): boolean { return document.documentElement.dataset.still === undefined; }
   // The hold that chooses: a press considers it as it goes down (a finger has no hover), the rest is Hold's.
   static held(id: string, consider: (id: string) => void, commit: () => void) {
     const held = Hold.bind(commit);
-    return { ...held, onPointerDown: (e: Parameters<typeof held.onPointerDown>[0]) => { consider(id); held.onPointerDown(e); } };
+    return { ...held, onPointerDown: (e: Parameters<typeof held.onPointerDown>[0]) => {
+      e.currentTarget.focus({ preventScroll: true }); consider(id); held.onPointerDown(e); } };
   }
   static Card({ option, chosen, lit, onConsider, onChoose }: { option: Option; chosen?: boolean; lit?: boolean;
     onConsider: (id: string) => void; onChoose: (id: string) => void }) {
     return (
       <button type="button" className="card composed-card" data-nav data-option={option.id} data-chosen={chosen || undefined}
         disabled={!!option.shut} aria-current={chosen || undefined} data-considered={lit || undefined}
-        onMouseEnter={() => ComposedRow.moved() && onConsider(option.id)} onFocus={() => onConsider(option.id)}
+        onMouseEnter={e => ComposedRow.hand(e.currentTarget) && onConsider(option.id)} onFocus={() => onConsider(option.id)}
         {...ComposedRow.held(option.id, onConsider, () => onChoose(option.id))}>
         {option.glyph && <Glyphs.View id={option.glyph} name={option.name} />}
         <span className="card-name">{Typography.curl(option.name)}</span>
