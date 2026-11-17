@@ -189,9 +189,12 @@ export class EngineHost {
   private async perform(command: string, context = this.said(command)): Promise<Frame> {
     const session = this.session, game = this.game;
     if (!session) { throw new Error('No game is under way'); }
-    // An aim chosen to follow is the session's command like any other, but no event of the world to be told of.
+    // An aim chosen to follow is the session's command like any other, no event of the world, but told in a line: the
+    // first act of play had told nothing, the rows only reshuffling and one turning gold (M22's second review, OR-41).
     if (command.startsWith('follow:')) {
-      await session.perform(command); this.told = undefined; this.saving();
+      const before = PlayerView.observe(session.campaign), event = await session.perform(command);
+      this.told = { event, feedback: ActionFeedbackView.read(session.campaign, event, before), said: '', moved: false };
+      this.saving();
       return this.settled();
     }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();

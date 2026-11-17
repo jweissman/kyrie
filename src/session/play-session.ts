@@ -177,7 +177,7 @@ export class PlaySession {
     this.steps.push({ command: `follow:${aim}`, digest: Digest.of(this.campaign) });
     const text = ScreenModel.build(this.campaign).aims?.find(a => a.id === aim)?.text ?? aim;
     return { action: 'follow', elapsed: 0, changes: [], result: 'success', combat: [],
-      response: aim ? `You follow: ${AimSaid.title(text)}.` : 'You follow no aim.' };
+      response: aim ? `You set your mind to it: ${AimSaid.title(text)}.` : 'You set your mind to nothing in particular.' };
   }
   static auto(this: void, battle: Battle): Promise<Command> {
     return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));

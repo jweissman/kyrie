@@ -44,6 +44,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('following an aim', () => {
     await page.waitForSelector('li[data-continues]', { timeout: 30000 });
     expect(await follow.count()).toBe(0);
     expect(await page.locator('.follow-aim').count()).toBe(0);
+    // Followed, it is told in a line (OR-41: the first act of play had told nothing, the rows only reshuffling).
+    expect(await page.locator('.happened').innerText()).toMatch(/^You set your mind to it: /);
     // Gold is steady, never a flash: the same next step is gold at every sample, and a way on is always offered.
     for (let i = 0; i < 4; i++) {
       expect(await page.locator('li[data-continues]').count()).toBe(1);
