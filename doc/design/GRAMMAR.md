@@ -45,7 +45,9 @@ is: the title's ways in, creation's rows, the opening's Continue, a conversation
 also fails on a menu row not drawn by it, and on two menus in view at once (one menu a page: the Notes' aims are
 considered, and the page's one menu acts on the one considered). *Drawn by PageFrame so far: the title, each step of a
 life, the opening's pages, a conversation and a fight. Not yet: a place (its glance's telling and its acts are one
-component, GlanceStage, still to be parted into narrative and menu), the map's cards, the Book.*
+component, GlanceStage, still to be parted into narrative and menu), the map's cards, the Book.* Wherever a surface
+is not yet drawn by PageFrame, its menu and rail still take their marks from it (`PageFrame.slot`), and no other file
+may write them (`test/small/page-slots`): a menu is made by the one page or it is not a menu.
 
 ## Focus
 
