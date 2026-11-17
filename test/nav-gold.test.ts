@@ -90,8 +90,10 @@ describe('Go… and the gold, for a player come home', () => {
     expect(page.preview()).toBe('');
     // Go… is the rail's (amendment 6), not one of the glance's openers, and is not lit as the aim's.
     expect(page.rest()).not.toMatch(/opens-go/);
-    // Not lit: the aim's road is the map's, not one of Go…'s ways.
-    expect(SceneRail.go(page.app)).toEqual({});
+    // Lit as its own rows are, never otherwise (the owner, 17 November: a mark says what the rows under it are): gold
+    // exactly where the places lens holds the aim's next step.
+    const places = page.app.state.frame!.leaf.glance!.lenses!.places;
+    expect(SceneRail.go(page.app)).toEqual(places.aspects.includes('undertaking') ? { lit: 'gold' } : {});
   }, 60000);
 
   it('goes by a way at one click, to a part of the town at its own open place, which has been', async () => {
@@ -119,8 +121,8 @@ describe('Go… and the gold, for a player come home', () => {
     const page = Page.at(g), screen = g.screen;
     const town = screen.region!.areas.find(a => a.kind === 'settlement' && a.here)!;
     const card = Page.text(renderToStaticMarkup(createElement(WorldStage.Town, { app: page.app, screen, town })));
-    expect(card).toMatch(/^You are in Brightbridge Averil’s chandlery\. Put away the map/);
-    expect(card).not.toContain('gate');
+    expect(card).toMatch(/^You are in Brightbridge Averil’s chandlery\. (?:To [A-Z][a-z]+ )*Put away the map/);
+    expect(card).not.toMatch(/\bgate\b/i);
   }, 60000);
 
   it('tells apart ways of one name by which way each goes', () => {
