@@ -482,6 +482,10 @@
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
   Initially Set encounterXp({t}_u_raiser) to 90.
+  // Spoken to, he has something to say of himself, not only dice to be rolled against him (cold play 6, CL-54's 15).
+  Topic {t}_u_raiser_who with {t}_u_raiser "Ask the man with the black candle who he is" when able({t}_u_raiser) and at({t}_u_raiser, {t}_u_ossuary) once {
+    Says "'A reader,' he says. 'I took a book out of a grave, and it says the dead will answer if they are asked properly.' The flame on the skull does not move. 'I have been asking. They have not said anything I wanted yet.'".
+  }
   // His dead stand with him while the candle burns: a fight with him is with them (the man died to one blow, alone,
   // with his dead looking on: Mission 20's fourth round, F 100–101). Pinching the candle out is still the way past.
   Initially Assert beside({t}_u_dead, {t}_u_raiser).
@@ -539,7 +543,8 @@
   }
   // The book he leaves on the bones, as each ending says, is there to be taken (M19-143: it was told, and Search found
   // nothing): left when he goes, or dropped when he falls.
-  Kind raiser_book "a book of the dead" is gear worth 6 weighing 1 described "A small fat book in a scraped calf binding, copied out by several hands over a long time. It holds rites for the dead. In the margins, in a newer hand, is how they might be called back up. Someone has drawn the chalk ring on the last page and got it wrong.".
+  // A book, read: taken, it had had no Read row (cold play 6, CL-56).
+  Kind raiser_book "a book of the dead" is document teaching {t}_u_dead_read worth 6 weighing 1 described "A small fat book in a scraped calf binding, copied out by several hands over a long time. It holds rites for the dead. In the margins, in a newer hand, is how they might be called back up. Someone has drawn the chalk ring on the last page and got it wrong.".
   Entity {t}_u_book_left: fact "The raiser's book of the dead lies on the bones in the ossuary.".
   Item {t}_u_raiser_book "a book of the dead" is raiser_book at {t}_u_ossuary hidden until {t}_u_book_left.
   Rule {t}_u_book_dropped when ({t}_u_done({t}_u_raiser) or not able({t}_u_raiser)) and at(party, {t}_u_ossuary) and not knows(party, {t}_u_book_left) says "His book lies on the bones." teaches {t}_u_book_left { }
@@ -683,7 +688,7 @@
   // keeper the next to face; and below him the deep site (see RegionUndertown).
   Entity {t}_u_onward: fact "".
   Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
-  Objective {t}_u_floor_sought when been(party, {t}_u_undercroft) and not knows(party, {t}_u_vault_found) toward {t}_u_undercroft "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
+  Objective {t}_u_floor_sought when knows(party, {t}_u_flag_seen) and not knows(party, {t}_u_vault_found) toward {t}_u_undercroft "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
   // Each way down is more than the room its job ends in (the owner, 8 November: a dungeon is more than one or two
@@ -727,7 +732,10 @@
   Observe {t}_u_drain_scene at {t}_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle. The walls are furred with something pale that moves when the light touches it.".
   Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides. Those who dug did not know it was here.".
   // The flag is a sign of its own, so the page says it apart and searching is the act it leads with.
-  Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest.".
+  // Seen, the flag is known: the aim of it had come with being in the undercroft, in the dark, before anything could be
+  // seen there (cold play 6, CL-56).
+  Entity {t}_u_flag_seen: fact "One flag in the undercroft floor is cut with a ring of letters, and does not sit level.".
+  Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest." teaches {t}_u_flag_seen.
   Person {t}_u_crawler "a great centipede" at {t}_u_drain {
     Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
   }

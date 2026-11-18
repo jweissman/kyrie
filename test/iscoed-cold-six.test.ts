@@ -26,4 +26,23 @@ describe('the golden route, after the sixth cold play', () => {
     expect(told).toContain('The keeper of the vault hits Wenna.');
     expect(told).toContain('The fight is lost.');
   }, 240000);
+  // CL-54 and CL-56, by the play's own lines to the book read and the undercroft lit: talk says something and is
+  // one step; the man with the black candle has a question; the dead man's clues make an aim; his book is read; and
+  // the lettered flag is an aim only once it is seen.
+  it('talks in one step, and makes aims of what is found once it is found', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const r = new Runner(journey.session), at: (Said | undefined)[] = [];
+    for (const line of lines.slice(0, 39)) { const s = await r.ask(line); at.push('error' in s ? undefined : s); }
+    const text = (n: number) => at[n - 1]!.scene.lines.join(' '), aims = (n: number) => at[n - 1]!.aims?.map(a => a.text)
+      .join(' ') ?? '';
+    expect(text(10)).not.toContain('someone else');
+    expect(at[9]!.offer.primary[0]!.id).toBe('drove__clerk_short_t');
+    expect(text(18)).toBe('Owain turns to you.');
+    expect(aims(24)).toContain('Find out where Joss Hatherly was the night he drowned.');
+    expect(at[30]!.offer.primary.map(o => o.id)).toContain('region__s1_u_raiser_who');
+    expect(text(34)).toContain('the warding line is left out');
+    expect(aims(38)).not.toContain('lettered');
+    expect(aims(38)).not.toContain('Something is under the floor');
+    expect(aims(39)).toContain('Something is under the floor');
+  }, 240000);
 });

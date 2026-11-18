@@ -18,6 +18,7 @@ export class Telling {
   static readonly priority: Record<string, number> = { turn: 0, feat: 1, join: 1, part: 1, object: 2, pet: 2, greet: 3,
     address: 3, thank: 4, farewell: 4 };
   static readonly most = 3;
+  static readonly turns = '{Actor} turns to you.';
   static readonly authored: Record<string, string> = { join: 'joining', part: 'parting', greet: 'greeting',
     address: 'greeting', farewell: 'farewelling' };
   static tell(campaign: Campaign, event: CampaignEvent): Voiced[] {
@@ -121,7 +122,9 @@ export class Telling {
       if (words && context.moment !== 'first') {
         return { id: `own:${again}`, kind: h.kind, actor, text: Voice.render(this.filled(campaign, words), speaking) };
       }
-      if (own) { return undefined; }
+      // With no words of their own for a return, they turn to the company, and that is said: "Talk to your cousin" had
+      // printed nothing at all (cold play 6, CL-54).
+      if (own) { return { id: 'own-again', kind: h.kind, actor, text: Voice.render(Telling.turns, speaking) }; }
     }
     // Of many, only what can be said of many, and of one nothing said of one of them (see Voice.fits); of a beast,
     // nothing it would have to say (Fair Weather's 4: a dog that followed a second time said "'For a while, then.'").

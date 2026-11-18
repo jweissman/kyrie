@@ -132,6 +132,9 @@
     Change look "Look under the cloth" from covered to seen.
   }
   Observe {t}_dead_learned at {t}_shrine of {t}_dead as reading when state({t}_dead, seen) "He was hit, or fell against something hard, before he went in the water; and he had walked a long way on wet ground." teaches {t}_death_bruise.
+  // What the body and the tablet say is something to find out, as an aim: they had made none (cold play 6, CL-56).
+  Objective {t}_death_aim when knows(party, {t}_death_bruise) and not knows(party, {t}_death_oak_fact) and not {t}_death_told(party) toward {t}_innkeeper "Find out where Joss Hatherly was the night he drowned. He had walked a long way on wet ground.".
+  Objective {t}_death_oak_aim when knows(party, {t}_death_oak_fact) and not {t}_death_told(party) toward {t}_reeve "Tell the reeve what Joss Hatherly's tablet says of the oak cut behind the Hall's chain.".
   Entity {t}_death_bruise: fact "Joss Hatherly, a wood-warden's scaler, was found drowned at the landing with a bruise over one ear and silt in his boots: he had walked from further up the river than the landing.".
   Thing {t}_tally "a wax tablet in a wooden case" at {t}_taproom {
     State shut "A wax tablet in a wooden case lies behind the bar where the innkeeper put it, its wax scratched with strokes in rows, marks beside them in the wardens' hand.".

@@ -224,6 +224,9 @@ Module lab "The undercroft at Lowmouth" {
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
   Initially Set encounterXp(low_u_raiser) to 90.
+  Topic low_u_raiser_who with low_u_raiser "Ask the man with the black candle who he is" when able(low_u_raiser) and at(low_u_raiser, low_u_ossuary) once {
+    Says "'A reader,' he says. 'I took a book out of a grave, and it says the dead will answer if they are asked properly.' The flame on the skull does not move. 'I have been asking. They have not said anything I wanted yet.'".
+  }
   Initially Assert beside(low_u_dead, low_u_raiser).
   Thing low_u_candle "the black candle" at low_u_ossuary {
     State alight "A black candle burns on a skull in the middle of the bone-heaps, with a flame that does not move.".
@@ -266,7 +269,7 @@ Module lab "The undercroft at Lowmouth" {
     Result "You go back the way you came and round, along the foot of the bone-heaps where his candle throws no light. You come up behind him. He hears nothing until the flame is a wisp between your fingers. He turns and sees the dead fall, and runs. He is up the stair and out of Lowmouth before morning. The book he leaves on the bones.".
     Otherwise "A skull rolls off the course under your hand and goes down the heap, knocking. He turns with the candle held high, and the dead turn with him.".
   }
-  Kind raiser_book "a book of the dead" is gear worth 6 weighing 1 described "A small fat book in a scraped calf binding, copied out by several hands over a long time. It holds rites for the dead. In the margins, in a newer hand, is how they might be called back up. Someone has drawn the chalk ring on the last page and got it wrong.".
+  Kind raiser_book "a book of the dead" is document teaching low_u_dead_read worth 6 weighing 1 described "A small fat book in a scraped calf binding, copied out by several hands over a long time. It holds rites for the dead. In the margins, in a newer hand, is how they might be called back up. Someone has drawn the chalk ring on the last page and got it wrong.".
   Entity low_u_book_left: fact "The raiser's book of the dead lies on the bones in the ossuary.".
   Item low_u_raiser_book "a book of the dead" is raiser_book at low_u_ossuary hidden until low_u_book_left.
   Rule low_u_book_dropped when (low_u_done(low_u_raiser) or not able(low_u_raiser)) and at(party, low_u_ossuary) and not knows(party, low_u_book_left) says "His book lies on the bones." teaches low_u_book_left { }
@@ -376,7 +379,7 @@ Module lab "The undercroft at Lowmouth" {
   Passage low_u_drain_way "a culvert going down" is crawl between low_u_warren and low_u_drain.
   Entity low_u_onward: fact "".
   Objective low_u_onward_sought when low_u_done(low_u_onward) and not been(party, low_u_undercroft) "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
-  Objective low_u_floor_sought when been(party, low_u_undercroft) and not knows(party, low_u_vault_found) toward low_u_undercroft "Something is under the floor of {low_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
+  Objective low_u_floor_sought when knows(party, low_u_flag_seen) and not knows(party, low_u_vault_found) toward low_u_undercroft "Something is under the floor of {low_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place low_u_undercroft "the undercroft" is room within low at 1, 5 underground 2 down.
   Passage low_u_drain_mouth "the mouth of the drain" is passage between low_u_drain and low_u_undercroft.
   Place low_u_charnel "the charnel passage" is room within low at 1, 4 underground 2 down.
@@ -410,7 +413,8 @@ Module lab "The undercroft at Lowmouth" {
   Initially Assert restful(low_u_undercroft).
   Observe low_u_drain_scene at low_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle. The walls are furred with something pale that moves when the light touches it.".
   Observe low_u_undercroft_scene at low_u_undercroft as fixture when true "A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides. Those who dug did not know it was here.".
-  Observe low_u_undercroft_flag at low_u_undercroft as sign when not knows(party, low_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest.".
+  Entity low_u_flag_seen: fact "One flag in the undercroft floor is cut with a ring of letters, and does not sit level.".
+  Observe low_u_undercroft_flag at low_u_undercroft as sign when not knows(party, low_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest." teaches low_u_flag_seen.
   Person low_u_crawler "a great centipede" at low_u_drain {
     Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair low_u_drain.
   }

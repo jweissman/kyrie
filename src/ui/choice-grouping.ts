@@ -253,9 +253,13 @@ export class ChoiceGrouping {
     return new Set(rows.filter(r => !this.rules[r.action.schema ?? r.action.id] && this.hurts(r.action)).flatMap(r =>
       Object.entries(r.action.bindings ?? {}).filter(([k]) => k !== 'actor' && k !== 'site').map(([, v]) => v)));
   }
-  // One of the place's own (an authored act), and whether it is done rather than said to someone.
+  // Where under whoever speaks it an act is: a question in talking to them, a deed beside it.
+  private static spoken(action: Operator, name: string): string[] { return action.topic ? ['Talk', name] : [name]; }
+  // One of the place's own (an authored act), and whether it is done rather than said to someone: an act someone
+  // speaks (Speaker) and not a Topic is done, though they speak it (letting a boat through the sea-gate, as its
+  // boatman asks, had been had only by talking to him: CL-54).
   private static owned(action: Operator): { own?: boolean; deed?: boolean } {
-    return /^\w+__\w/.test(action.id) ? { own: true, ...action.speaker ? {} : { deed: true } } : {};
+    return /^\w+__\w/.test(action.id) ? { own: true, ...action.speaker && action.topic ? {} : { deed: true } } : {};
   }
   // A sleep that lasts until morning says when it will end: at seven, or eight hours on, by day.
   // The hour only, or with "tomorrow" if it ends on the next day ("3:00 p.m. on day 2" was said of a camp made in the
@@ -299,7 +303,7 @@ export class ChoiceGrouping {
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}),
       ...(action.answers ? { answer: true } : {}), ...ChoiceGrouping.owned(action) };
-    const schema = action.schema ?? action.id, b = action.bindings ?? {};
+    const schema = action.schema ?? action.id, b = action.bindings ?? {}, by = action.speaker;
     ChoiceGrouping.warn(leaf, action, context);
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
@@ -310,7 +314,7 @@ export class ChoiceGrouping {
       return;
     }
     if (action.searchPlace) { this.insert(out.camp, ['Search this place'], leaf); return; }
-    if (action.speaker) { this.insert(this.slot(out.targets, action.speaker), ['Talk', choice.name], leaf); return; }
+    if (by) { this.insert(this.slot(out.targets, by), this.spoken(action, choice.name), leaf); return; }
     const rule = this.rules[schema];
     if (!rule) { this.fallback(out, row, context, leaf); return; }
     const told = rule.tells && b[rule.tells] ? context.tell?.(b[rule.tells]!) : undefined;
