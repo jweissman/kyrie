@@ -48,7 +48,9 @@ export interface Next { text: string; act?: string; label?: string; follow?: str
 export interface Aim { id: string; text: string; followed?: true }
 // What an agent may send: an act by its id, a lens to look through, the place looked at whole, every choice, or an aim
 // to follow (none, to follow none).
-export type Asked = { act: string } | { lens: Lens } | { look: true } | { more: true } | { follow: string | null };
+// follow: an aim by its id, or by the number the scene says it by ("· follow 1": cold play 2, CL-11).
+export type Asked = { act: string } | { lens: Lens } | { look: true } | { more: true }
+  | { follow: string | number | null };
 
 // A runner for agents playing blind (the owner, 14 November: TB-05): the terminal's own projection (the leaf, the
 // glance, the terminal's scene) as JSON lines, one per turn, and acts taken by their real ids. Nothing of the world is
@@ -228,8 +230,9 @@ export class Runner {
     return this.said();
   }
   // An aim followed, or none: no world act, no time.
-  private async follow(id: string | null): Promise<Said | { error: string }> {
+  private async follow(by: string | number | null): Promise<Said | { error: string }> {
     const aims = ScreenModel.build(this.campaign).aims ?? [];
+    const id = typeof by === 'number' ? aims[by - 1]?.id ?? String(by) : by;
     if (id !== null && !aims.some(a => a.id === id)) { return { error: `no aim: ${id}` }; }
     if (id !== null) { await this.session.leg(`follow:${id}`); } else { Undertakings.follow(this.campaign); }
     return this.said('look');

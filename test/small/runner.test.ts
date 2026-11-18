@@ -53,6 +53,8 @@ describe('the runner', () => {
     // (Eamon's bed, nine nights running: TB-04).
     expect(r.said().offer.primary.map(o => [o.label, o.id])).toContainEqual(['Ask Wat about the weather', 't__weather']);
     expect(await r.ask(JSON.stringify({ follow: 'none' }))).toEqual({ error: 'no aim: none' });
+    // By the number the scene says it by ("· follow 1": cold play 2, CL-11), where there is no such aim, said so.
+    expect(await r.ask(JSON.stringify({ follow: 3 }))).toEqual({ error: 'no aim: 3' });
   });
   it('gives a fight turn by turn, with a way out, as the terminal does', async () => {
     const t = await Tiny.start(`
