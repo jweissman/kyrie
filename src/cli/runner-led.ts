@@ -23,7 +23,9 @@ export class RunnerLed {
     return primary.filter(o => {
       // A way to where it is; a journey to the town or site it lies in.
       const way = ways.get(o.id), far = o.id.startsWith('travel:') ? o.id.slice('travel:'.length) : undefined;
-      return (bound.get(o.id) ?? []).some(id => step.has(id)) || (!!way && step.has(way))
+      // A way is led by where it goes, never by where it leaves: a door of the room the step is in binds that room
+      // too, and following an aim already at its place had led out of it and back (the second cold play, CL-03).
+      return (!way && (bound.get(o.id) ?? []).some(id => step.has(id))) || (!!way && step.has(way))
         || (!!far && [...step].some(id => Itineraries.within(byId, id, far)));
     }).map(o => o.id);
   }

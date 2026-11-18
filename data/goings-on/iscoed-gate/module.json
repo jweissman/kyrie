@@ -12,7 +12,10 @@
     "town",
     "green",
     "hamlet",
-    "hamletgreen"
+    "hamletgreen",
+    "drovedrowned",
+    "forged",
+    "freedword"
   ],
   "roles": {
     "party": {
@@ -29,6 +32,15 @@
     },
     "hamletgreen": {
       "type": "place"
+    },
+    "forged": {
+      "type": "fact"
+    },
+    "freedword": {
+      "type": "fact"
+    },
+    "drovedrowned": {
+      "type": "fact"
     }
   },
   "exports": {

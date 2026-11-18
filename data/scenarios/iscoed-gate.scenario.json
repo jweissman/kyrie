@@ -22,7 +22,10 @@
         "town": "@town",
         "green": "@town.green",
         "hamlet": "@hamlet",
-        "hamletgreen": "@hamlet.green"
+        "hamletgreen": "@hamlet.green",
+        "forged": "drove.altered",
+        "freedword": "drove.road_west",
+        "drovedrowned": "drove.found_drowned"
       }
     }
   ],

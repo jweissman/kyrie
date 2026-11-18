@@ -29,9 +29,12 @@ Module drove "The held drove" {
   Observe mardle_says at customs as sign when not freed(party) and not sent(party) and not knows(party, clerk_count) "'Forty head at the march-stone,' Mardle is saying to the customs-man, with a finger on the tally-book. 'Thirty-six in the pens. Four hidden from the Rì.'" teaches clerk_count.
   Observe pens_scene at pens when not freed(party) and not watered(party) "Thirty-six black bullocks of the fells, rough-coated and restless, crowd the rails, bawling to be watered.".
   Observe pens_watered at pens when not freed(party) and watered(party) "Thirty-six black bullocks of the fells stand quiet at the rails, steaming, their trough full.".
-  Observe owain_water near owain of owain when at(owain, pens) and not freed(party) "Owain is carrying water to them a bucket at a time, in a cloak too big for him.".
-  Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "Owain stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
+  Observe owain_water near owain of owain when at(owain, pens) and not freed(party) "{owain} is carrying water to them a bucket at a time, in a cloak too big for him.".
+  Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "{owain} stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
   Observe pens_after at pens when freed(party) "The pens are churned and empty. The drove has gone on to the sales.".
+  // A sign, for anyone who looks, that something lies in the water to be searched for (CL-04: the search had sat in the
+  // rest at the one place it mattered).
+  Observe rhyne_sign at rhyne as sign when not knows(party, found_drowned) "Where the bank has slumped, something big and dark lies just under the black water, and the smell is worst there.".
   Observe rhyne_scene at rhyne when true "A dyke of black water between steep banks, the far bank slumped into it where the sea came over in the winter. The smell reaches you before the sight does.".
 
   Person clerk "Silas Mardle" at customs { Role "the Rì's customs clerk at Porthalen, who counts every beast that crosses the march". Pronouns he. Peaceable. Manner proud. }
@@ -55,7 +58,7 @@ Module drove "The held drove" {
     On discuss { Assert knows(actor, bran_count). }
   }
   Topic owain_count_t with owain "Ask Owain how many head came down" when not freed(party) once {
-    Says "'Thirty-six,' says the boy at once, and then, because you are listening: 'There were forty at Hafod. At the Black Rhyne the bank went from under the last of them, in the dark. We heard them in the water. Bran said leave them, or we'd lose the rest.' He points with his chin, behind the pens. 'They're still there.'".
+    Says "'Thirty-six,' says {owain} at once, and then, because you are listening: 'There were forty at Hafod. At the Black Rhyne the bank went from under the last of them, in the dark. We heard them in the water. Bran said leave them, or we'd lose the rest.' He points with his chin, behind the pens. 'They're still there.'".
     On discuss { Assert knows(actor, boy_count). }
   }
   Topic keeper_drove with keeper "Ask {keeper} about the drover the customs-men hold" when not freed(party) once {
@@ -76,31 +79,27 @@ Module drove "The held drove" {
     On discuss { Decrease quantity(actor, gold) by 12. Assert freed(actor). Assert fined(actor). Assert knows(actor, road_west). }
   }
   Action show_drowned(actor: group, site: place) "Tell Mardle where the four bullocks are" {
-    Speaker clerk. Time 10 minutes.
+    Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, customs) and knows(actor, found_drowned) and not freed(party) and not sent(party).
     Result "Mardle's mouth thins. 'Beasts in a ditch prove nothing to the Rì's book.' But the customs-man at the door has heard, and goes out to look, and comes back, and says something low. Mardle shuts the book. 'Let him out,' he says. 'And tell the reeve nothing she need be troubled with.'".
     On success { Assert freed(actor). Assert knows(actor, road_west). }
   }
   Action show_altered(actor: group, site: place) "Tell Mardle you saw what is under the forty" {
-    Speaker clerk. Time 10 minutes.
+    Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, customs) and knows(actor, altered) and not freed(party) and not sent(party).
     Result "For a moment Mardle does nothing at all. Then he takes a key from his belt and unlocks the grille himself, and does not look at you while he does it. 'A clerk's slip,' he says to the counter. By evening the whole of the waterfront has heard which clerk, and whose slip.".
     On success { Assert freed(actor). Assert turned(clerk). Assert knows(actor, road_west). }
   }
-  Topic bran_thanks with bran "Ask Bran what he will do now" when freed(party) and not thanked(actor) once {
-    Says "'Sell, drink, go home,' says Bran. 'Up the drove road to Caer Brynach, four days with an empty drove.' He grips your hand like a gate-post. 'Come up the pass. There's work in Brynach for anyone who'll stand by a drover, and the lord pays for a sword: something has been at the cattle on the high pasture. Say Bran ap Ifor sent you.'".
-    On discuss { Assert thanked(actor). Assert knows(actor, road_west). }
-  }
+  // Let out, Bran says his thanks and where he is going himself, at once: the second cold play had him leave without
+  // a word, his thanks behind a question nobody thought to ask (CL-03).
+  Rule bran_thanks when freed(party) and not thanked(party) says "'Sell, drink, go home,' says Bran. 'Up the drove road to Caer Brynach, four days with an empty drove.' He grips your hand like a gate-post. 'Come up the pass. There's work in Brynach for anyone who'll stand by a drover, and the lord pays for a sword: something has been at the cattle on the high pasture. Say Bran ap Ifor sent you.'" teaches road_west { Assert thanked(party). }
+
   Rule bran_out when freed(party) and at(bran, customs) { Assert at(bran, pens). }
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
 
   Milestone m_freed "saw Bran ap Ifor let out of the customs-house" worth 150 when freed(party).
   Milestone m_turned "showed what was under the clerk's forty" worth 100 when turned(clerk).
-  Objective held_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, boy_count) and not knows(party, found_drowned) and not knows(party, altered) toward owain "Ask Owain how many head came down: the customs clerk says four were hidden from the toll.".
-  // The drove is the company's to mind while Bran is held (the drove road's life): watered, it is kept; and Bran is to
-  // be heard behind the grille. Both are said from the first, beside the boy's count.
-  Objective drove_mind when not sent(party) and knows(party, held) and not freed(party) and not watered(party) toward pens "Keep Bran's drove: the bullocks in the pens behind the customs-house have not been watered since the march.".
-  Objective bran_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, bran_count) toward customs "Go to Bran behind the customs-house grille, and hear what he says of the count.".
+  Objective held_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, boy_count) and not knows(party, found_drowned) and not knows(party, altered) toward owain by pens "Ask Owain how many head came down: the customs clerk says four were hidden from the toll.".
   Action water_drove(actor: group, site: place) "Water the drove from the pens' trough" {
     Time 1 hours.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pens) and not watered(actor) and not freed(actor) and not sent(actor).
@@ -108,7 +107,12 @@ Module drove "The held drove" {
     On success { Assert watered(actor). }
   }
   Objective held_rhyne when not sent(party) and knows(party, boy_count) and not knows(party, found_drowned) and not knows(party, altered) and not freed(party) toward rhyne by pens "Search the Black Rhyne behind the pens for the four that went in.".
-  Objective held_proof when not sent(party) and (knows(party, found_drowned) or knows(party, altered)) and not freed(party) toward clerk "Tell Mardle at the customs-house what you found, and have Bran let out.".
+  Objective held_proof when not sent(party) and (knows(party, found_drowned) or knows(party, altered)) and not freed(party) toward customs "Tell Mardle at the customs-house what you found, and have Bran let out.".
+  // The inquiry is the thread followed first; minding the drove and hearing Bran stand beside it (the second cold
+  // play: with the drove first, the search of the rhyne was never led, CL-04).
+  // Bran is to be heard behind the grille, said from the first beside the boy's count; the drove is watered at the
+  // pens, offered there (an aim of its own had taken the thread from the inquiry: CL-04).
+  Objective bran_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, bran_count) toward customs "Go to Bran behind the customs-house grille, and hear what he says of the count.".
   // The clock: four days, and the customs-men send a man who will not pay north to the Judges, and sell his drove.
   Rule sent_north when not freed(party) and not sent(party) and watch(clock) >= 576 says "Word comes along the waterfront: the customs-men have sent Bran ap Ifor north to the Judges in chains, and sold his drove at the sales for the Rì's toll." {
     Assert sent(party). Assert stale(held). Retract at(bran, customs). Assert offstage(bran). Assert at(owain, green).
