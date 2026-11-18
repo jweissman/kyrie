@@ -8,7 +8,6 @@ import { Hold } from './instrument/hold';
 import { createPortal } from 'react-dom';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
-import { Glyphs } from './creation/glyphs';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -30,6 +29,8 @@ export class TitlePage {
   // New game's mark: every opportunity is behind it, the five tones of the atlas in one line.
   static readonly every = 'linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue), var(--tone-green), '
     + 'var(--tone-violet))';
+  // The Encyclopedia's mark: the knowledge blue, as the atlas marks what is learnt (OR-86).
+  static readonly knowing = 'var(--tone-blue)';
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), [beat, skip] = TitlePage.useBeat(query.has('ident') || query.has('studio'));
@@ -57,12 +58,11 @@ export class TitlePage {
           <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
             mark={TitlePage.every} own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
           {/* One thing said: its name (that it opens in a new tab is said to a screen reader, never written out beside
-              it: the owner, 15 November; nor on hover: 18 November, OR-79). Its mark is the book lying open, in the
-              blue of knowledge, at the row's right where a key would be, so the words keep the column (the owner, 18
-              November, OR-80: "the Encyclopedia could have a blue icon"). */}
+              it: the owner, 15 November; nor on hover: 18 November, OR-79). Its mark is the row's own at the left, in
+              the blue of knowledge, the atlas's tone for what is learnt; no icon (the owner, 18 November, OR-86:
+              "there shouldn't be icons for the encyclopedia; I just meant the left atlas-indicator should be blue"). */}
           <li><ChoiceRow.Link className="way-in" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
-            label={<span aria-hidden="true">The encyclopedia</span>} mark={ChoiceRow.neutral}
-            extra={<Glyphs.View id="the_book" className="way-glyph" />}
+            label={<span aria-hidden="true">The encyclopedia</span>} mark={TitlePage.knowing}
             own={{ target: '_blank', rel: 'noopener', 'aria-label': 'The encyclopedia, opens in a new tab',
               ...item('encyclopedia') }} /></li>
           <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" mark={ChoiceRow.neutral}

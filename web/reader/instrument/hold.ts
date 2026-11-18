@@ -23,6 +23,9 @@ interface Go { commit: () => void; busy: () => boolean }
 export class Hold {
   static readonly ms = 520;
   private static at?: { button: HTMLElement; go: Go; timer: number; started: number; key?: string };
+  // The one row that says "Hold" (the owner, 18 November, OR-87: "it should only be active on one thing at a time"):
+  // the last let go early, until the hand, the keys or the focus go to another, or it fades.
+  private static hinted?: { button: HTMLElement; timer: number };
   static holds(c: Choice): boolean { return c.hold === 'sustained' && !c.disabled; }
   static time(): number {
     const set = parseInt(document.documentElement.style.getPropertyValue('--hold-ms'), 10);
@@ -54,6 +57,25 @@ export class Hold {
   // Let go of a key: the hold it began is let go too.
   static attach() {
     window.addEventListener('keyup', (e: globalThis.KeyboardEvent) => { if (Hold.at?.key === e.key) { Hold.stop(); } });
+    window.addEventListener('pointerover', Hold.away, true);
+    window.addEventListener('focusin', Hold.away, true);
+  }
+  // The hand or the focus gone to something else: the row that said "Hold" says it no longer.
+  private static away(e: Event) {
+    const was = Hold.hinted?.button;
+    if (was && !(e.target instanceof Node && was.contains(e.target))) { Hold.unhint(); }
+  }
+  private static hint(button: HTMLElement) {
+    Hold.unhint();
+    button.dataset.hint = '';
+    Hold.hinted = { button, timer: window.setTimeout(Hold.unhint, 3000) };
+  }
+  private static unhint() {
+    const was = Hold.hinted;
+    if (!was) { return; }
+    Hold.hinted = undefined;
+    window.clearTimeout(was.timer);
+    delete was.button.dataset.hint;
   }
   private static down(go: Go, e: PointerEvent<HTMLElement>) {
     if (e.button !== 0) { return; }
@@ -81,7 +103,7 @@ export class Hold {
   private static start(button: HTMLElement, go: Go, key?: string) {
     if (Hold.at || go.busy()) { return; }
     const ms = Hold.time();
-    delete button.dataset.letGo; delete button.dataset.hint;
+    delete button.dataset.letGo; Hold.unhint();
     button.style.setProperty('--hold-ms', `${ms}ms`);
     button.dataset.holding = '';
     document.documentElement.dataset.holding = '';
@@ -109,9 +131,8 @@ export class Hold {
     const got = Math.min(1, (performance.now() - at.started) / Hold.time());
     Hold.clear(at.button);
     at.button.style.setProperty('--hold-from', `${Math.round(got * 100)}%`);
-    at.button.dataset.letGo = ''; at.button.dataset.hint = '';
+    at.button.dataset.letGo = ''; Hold.hint(at.button);
     window.setTimeout(() => { delete at.button.dataset.letGo; }, 260);
-    window.setTimeout(() => { delete at.button.dataset.hint; }, 3000);
     Reticle.drain(got);
   }
   private static clear(button: HTMLElement) {
