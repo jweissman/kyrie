@@ -21,6 +21,9 @@
     // Spoken to once the wheel is out, not as a stranger's: "If it's trouble, I have enough of my own" had greeted
     // whoever had just got him out of the ditch (three cold rounds running: R3-C, R4-E 18, R4-F 19).
     Greets "The wagoner straightens up from the wheel, blowing, and looks at you properly for the first time. 'Well,' he says." when state(cart, righted).
+    // While the wheel is still in the ditch, spoken to, he says what he wants: talking to him then had shown an empty
+    // page in every walk that tried it (PP-07).
+    Greets "The wagoner looks up from the wheel. 'If you're stopping, take the horse's head,' he says. 'If not, go on.'" when state(cart, ditched).
   }
   Observe meeting near carter when not answered(party) "A cart stands canted at the side of the road, one wheel down in the ditch to the hub. The horse is blowing in the shafts, and a sack of meal has burst on the bed. The wagoner is up to his knees in the ditch with his shoulder to the wheel. He looks round when he hears you, and does not ask for help.".
   Thing cart "the cart" at {approach} {
