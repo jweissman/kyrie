@@ -3,6 +3,7 @@ import type { Chapter, Encyclopedia } from './encyclopedia';
 import { HandbookHtml } from './render-html';
 import { Identity } from '../presentation/identity';
 import { Emblems } from '../presentation/emblems';
+import { StatBlock } from './stat-block';
 
 // The Encyclopedia as pages of a book in parchment and ink (see css): a title page of chapters and a search over every
 // entry, and a page for each chapter, its contents beside it, each entry a short article with what it is, what it is
@@ -85,8 +86,8 @@ export class EncyclopediaHtml {
         : '')
       + (e.kind ? `<p class="kind">${EncyclopediaHtml.esc(e.kind)}</p>` : '')
       + (e.text ?? []).map(p => `<p class="text">${EncyclopediaHtml.esc(p)}</p>`).join('')
-      + (e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${EncyclopediaHtml.esc(k)}</dt><dd>${
-        EncyclopediaHtml.esc(v)}</dd>`).join('')}</dl>` : '')
+      + (StatBlock.html(e, EncyclopediaHtml.esc) ?? (e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${
+        EncyclopediaHtml.esc(k)}</dt><dd>${EncyclopediaHtml.esc(v)}</dd>`).join('')}</dl>` : ''))
       + (e.rules?.length ? `<div class="rules"><p class="label">In play</p>${e.rules.map(r => `<p>${
         EncyclopediaHtml.esc(r)}</p>`).join('')}</div>` : '')
       + (see.length ? `<p class="see"><span class="label">See also</span> ${see.join(', ')}</p>` : '') + '</article>';
@@ -174,6 +175,7 @@ h3 { font: 600 19px/1.3 var(--read); margin: 0 0 4px; } h4 { font: 500 13px/1.3 
 .emblem.inline { width: 1.05em; height: 1.05em; margin-right: .25em; vertical-align: -.15em; stroke-width: 1.6; }
 .emblem { width: 26px; height: 26px; flex: none; fill: none; stroke: var(--sepia); stroke-width: 1.4; stroke-linecap: round;
   stroke-linejoin: round; }
+${StatBlock.css('var(--link)')}
 .entry .text { font-style: italic; margin: 8px 0; } .entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
   margin: 8px 0; font: 14px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
 .rules { margin-top: 10px; padding-top: 8px; border-top: 1px dotted var(--rule); font-size: 16px; } .rules p { margin: 4px 0; }

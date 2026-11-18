@@ -19,6 +19,8 @@ export interface Entry {
   kind?: string;
   // Labelled facts, shown as a small table: "Hit die: d8".
   facts?: [string, string][];
+  // What it adds to the six qualities, where it is drawn as a stat block with them (a people: see StatBlock).
+  abilities?: Partial<Record<string, number>>;
   // What it does in play, from its mechanics. Never Orsino's prose when that prose describes rules Kyr does not run.
   rules?: string[];
   // Its description: what it is like, not what it does.

@@ -16,11 +16,12 @@ export class CompanyChapters {
   static ancestries(): Section {
     const entries = Object.entries(Canon.ancestries).map(([id, a]): Entry => ({
       id: `ancestry:${id}`, title: a.name, status: HandbookStatus.of(a), kind: a.playable ? 'playable ancestry' : 'not chosen by players',
-      facts: [['Qualities', HandbookText.attributes(a.attributes)], ...PeopleFacts.of(id),
+      abilities: a.attributes, facts: [...PeopleFacts.of(id),
         ['Callings', a.classes.map(c => Canon.classes[c]?.name ?? c).join(', ')],
         ...a.traits.length ? [['Born with', a.traits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : [],
         ...a.forbiddenTraits?.length ? [['May not take', a.forbiddenTraits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : []],
-      rules: a.traits.flatMap(t => HandbookText.trait(t)), text: [a.description, ...a.appearance ? [a.appearance] : []],
+      rules: a.traits.flatMap(t => HandbookText.trait(t)),
+      text: [a.description, ...[a.appearance, a.society].filter((t): t is string => !!t)],
       notes: HandbookStatus.notes(a),
       refs: [...a.classes.filter(c => Canon.classes[c]?.playable).map(c => `class:${c}`), ...a.traits.map(t => `trait:${t}`)] }));
     return { id: 'ancestries', title: 'Ancestries', intro: ['A companion\'s ancestry adds to their qualities, decides which '

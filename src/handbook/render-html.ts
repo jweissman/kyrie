@@ -3,6 +3,7 @@ import type { Coverage, Placed } from './handbooks';
 import { HandbookStyle } from './style';
 import { CapabilityAudit, type Audit } from './audit';
 import { Identity } from '../presentation/identity';
+import { StatBlock } from './stat-block';
 
 // The books as static pages: a contents column, a search that filters entries and table rows as you type, status
 // filters, and stable anchors (an entry's id) that other pages and the game link to.
@@ -59,8 +60,8 @@ export class HandbookHtml {
       + `<tbody>${rows}</tbody></table></div>`;
   }
   entry(e: Entry): string {
-    const facts = e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${HandbookHtml.esc(k)}</dt><dd>${HandbookHtml.esc(v)}</dd>`)
-      .join('')}</dl>` : '';
+    const facts = StatBlock.html(e, HandbookHtml.esc) ?? (e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${
+      HandbookHtml.esc(k)}</dt><dd>${HandbookHtml.esc(v)}</dd>`).join('')}</dl>` : '');
     const refs = (e.refs ?? []).filter(r => this.index.has(r));
     return `<article id="${HandbookHtml.anchor(e.id)}" class="item entry" data-status="${e.status}">`
       + `<header><h4><a href="#${HandbookHtml.anchor(e.id)}">${HandbookHtml.esc(e.title)}</a></h4>${HandbookHtml.badge(e.status)}`

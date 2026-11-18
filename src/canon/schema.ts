@@ -101,8 +101,9 @@ export interface Ability {
 }
 export interface Ancestry {
   name: string; description: string; nameGroup: string; classes: string[]; playable?: boolean;
-  // How they look, how they are built, and when they are grown and old, in words: the encyclopedia's (OR-83).
-  appearance?: string; build?: string; ages?: string;
+  // How they look, how they live together, how they are built, and when they are grown and old, in words: the
+  // encyclopedia's (OR-83).
+  appearance?: string; society?: string; build?: string; ages?: string;
   attributes: Partial<Record<Attribute, number>>; traits: string[]; forbiddenTraits?: string[];
   techniques?: string[]; feature?: string; source: Source;
 }

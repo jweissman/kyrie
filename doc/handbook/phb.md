@@ -10,7 +10,7 @@ A companion's ancestry adds to their qualities, decides which callings are open 
 
 *Faithful · playable ancestry* · `ancestry:human`
 
-- Qualities: +1 strength, +1 dexterity, +1 constitution, +1 intelligence, +1 wisdom, +1 charisma
+- STR +1 · DEX +1 · CON +1 · INT +1 · WIS +1 · CHA +1
 - Build: Of middling height, five and a half feet or so, and of every build.
 - Ages: Grown at sixteen; old at seventy.
 - Folk of: forest country, marsh country, mountain country, frost country and desert country
@@ -27,11 +27,13 @@ Jack of All Trades: +1 to searching.
 
 > Their skin runs from the pale of the north to the brown of the river country, their hair from flax to black. They age quickly beside elves and dwarves, and there are many of them.
 
+> Humans live in villages and market towns along the rivers and roads, under a lord or a reeve, a town council or a guild. A family holds land or a trade from one generation to the next. Most never go further than the next market; those who do are carters, soldiers and pilgrims. They marry young, quarrel over boundaries, and keep the old feasts.
+
 ### Elf
 
 *Faithful · playable ancestry* · `ancestry:elf`
 
-- Qualities: −1 strength, +2 dexterity, −1 constitution, +1 intelligence, +2 wisdom, +1 charisma
+- STR −1 · DEX +2 · CON −1 · INT +1 · WIS +2 · CHA +1
 - Build: A little taller than humans and lighter: slender, long in the limb.
 - Ages: Grown at a hundred; old at seven hundred.
 - Folk of: forest country and marsh country
@@ -51,11 +53,13 @@ Keen Senses: +4 to searching.
 
 > Pale or nut-brown, with pointed ears, fine features and no beard. Their eyes are large, and often of a colour humans do not have: green-gold, violet, the grey of rain.
 
+> Elves live in small households scattered through the old woods, kin by blood and by long friendship, with no lord but the eldest who will take the trouble. An elf may keep one craft for a century. They are slow to trust the short-lived, and slower to forget a wrong done to a tree.
+
 ### Dwarf
 
 *Faithful · playable ancestry* · `ancestry:dwarf`
 
-- Qualities: +1 strength, −1 dexterity, +2 constitution, +1 intelligence, +2 wisdom, −1 charisma
+- STR +1 · DEX −1 · CON +2 · INT +1 · WIS +2 · CHA −1
 - Build: Four to five feet tall and as heavy as a tall man, broad and thick in the bone.
 - Ages: Grown at fifty; old at three hundred and fifty.
 - Folk of: mountain country, frost country and desert country
@@ -74,11 +78,13 @@ Enduring: +2 hit points each level.
 
 > Weathered skin, deep-set eyes, and beards that women as well as men may wear, braided long. Their hands are hard from stone.
 
+> Dwarves live in holds cut into the hills, by clans, each with its hall, its forge and its dead in the deep rooms. A clan is ruled by its elders and its debts: what a dwarf owes is remembered by the whole hold. They trade iron and stonework with the valleys and rarely sell anything they made themselves.
+
 ### Goblin
 
 *Faithful · not chosen by players* · `ancestry:goblin`
 
-- Qualities: −2 strength, +2 dexterity, −1 constitution, +1 intelligence, −1 wisdom, −2 charisma
+- STR −2 · DEX +2 · CON −1 · INT +1 · WIS −1 · CHA −2
 - Build: Three feet or a little more, thin and quick.
 - Ages: Grown at eight; old at sixty.
 - Callings: Thief, Ranger, Commoner
@@ -90,11 +96,13 @@ Enduring: +2 hit points each level.
 
 > Grey-green or ochre skin, a sharp nose, wide ears that turn toward a sound, and small bright eyes.
 
+> Goblins live in warrens along the river banks, many to a burrow, under whoever is loudest that season. They scavenge, trade and steal, and are paid to do the work nobody else will. Townsfolk keep them at the edge of things and blame them for what goes missing, often rightly.
+
 ### Glimmerkin
 
 *Kyr · not chosen by players* · `ancestry:glimmerkin`
 
-- Qualities: −2 strength, +2 dexterity, +1 intelligence, +1 wisdom, −1 charisma
+- STR −2 · DEX +2 · CON 0 · INT +1 · WIS +1 · CHA −1
 - Build: About three feet tall, slight and soft-footed.
 - Ages: Grown at twenty; old at a hundred and fifty.
 - Callings: Thief, Ranger, Commoner, Mage
@@ -106,11 +114,13 @@ Enduring: +2 hit points each level.
 
 > Pale from a life under the ground, with large dark eyes that catch a lamp's light and throw it back, and long careful fingers.
 
+> Glimmerkin live in the deep caves, in clans that trade lamp-oil, crystal and news between the dwarf holds and the surface. A bargain is a sacred thing to them, and a guest under the ground is safe for three days. Few come up into the light, and those who do keep their eyes shaded.
+
 ### Halfling
 
 *Faithful · not chosen by players* · `ancestry:halfling`
 
-- Qualities: −1 strength, +2 dexterity, −2 constitution, +1 intelligence, −1 wisdom, +1 charisma
+- STR −1 · DEX +2 · CON −2 · INT +1 · WIS −1 · CHA +1
 - Build: About three feet tall, round-faced and solid.
 - Ages: Grown at twenty; old at a hundred and fifty.
 - Lives among others in: forest country, marsh country, mountain country and desert country
@@ -126,11 +136,13 @@ Enduring: +2 hit points each level.
 
 > Curly brown hair, ruddy cheeks, and broad bare feet that seldom need boots. They dress well when they can, and eat often.
 
+> Halflings live in the pastoral country, in villages of low houses dug half into the hillside, with gardens, orchards and long tables. Their mayors are elected and change often. They are hospitable, curious about other folk's business, and wary of anything that might spoil a harvest.
+
 ### Gnome
 
 *Faithful · not chosen by players* · `ancestry:gnome`
 
-- Qualities: −1 strength, +1 dexterity, −1 constitution, +2 intelligence, +1 wisdom
+- STR −1 · DEX +1 · CON −1 · INT +2 · WIS +1 · CHA 0
 - Build: Three feet or a little more, small and wiry.
 - Ages: Grown at forty; old at four hundred.
 - Lives among others in: forest country and mountain country
@@ -145,11 +157,13 @@ Enduring: +2 hit points each level.
 
 > Brown or tan skin, a large nose and quick hands, and hair that goes white early and stands up as it likes.
 
+> Gnomes live among others: in the corners of human towns, near the dwarf holds, wherever there is metal to work and a problem to solve. A gnome workshop is a family, and an apprentice is a child of the house. They love a clever trick, and tell the same jokes for a hundred years.
+
 ### Half-elf
 
 *Faithful · not chosen by players* · `ancestry:half_elf`
 
-- Qualities: +1 dexterity, +1 intelligence, +1 wisdom, +2 charisma
+- STR 0 · DEX +1 · CON 0 · INT +1 · WIS +1 · CHA +2
 - Build: Of human height, a little more slender.
 - Ages: Grown at twenty; old at a hundred and eighty.
 - Lives among others in: forest country and marsh country
@@ -164,11 +178,13 @@ Enduring: +2 hit points each level.
 
 > Their elven parent's pointed ears, smaller, and their human parent's face: taken for either, by those who want to.
 
+> Half-elves have no country of their own. They grow up in a human town or an elven wood, belonging to neither quite, and often leave both. Many become go-betweens: interpreters, traders, envoys. They make friends easily and keep them a long time, outliving the human ones.
+
 ### Half-orc
 
 *Faithful · not chosen by players* · `ancestry:half_orc`
 
-- Qualities: +2 strength, −1 dexterity, +1 constitution, −1 intelligence, +2 wisdom, +1 charisma
+- STR +2 · DEX −1 · CON +1 · INT −1 · WIS +2 · CHA +1
 - Build: Taller and heavier than most humans, six feet and more.
 - Ages: Grown at fourteen; old at seventy-five.
 - Lives among others in: mountain country, frost country and desert country
@@ -185,11 +201,13 @@ Jack of All Trades: +1 to searching.
 
 > Grey-green skin, a heavy brow, and lower teeth that push forward like small tusks. Many carry scars, and not all of them from fighting.
 
+> Half-orcs live where they can: at the edges of human towns, in mining camps and soldiers' quarters, with a mother's or a father's people. They are hired for strength and doubted for their faces. A half-orc who has earned a town's trust has earned it twice.
+
 ### Lizardfolk
 
 *Faithful · not chosen by players* · `ancestry:lizardfolk`
 
-- Qualities: +1 strength, +1 dexterity, +2 constitution, −1 intelligence, −1 wisdom, −1 charisma
+- STR +1 · DEX +1 · CON +2 · INT −1 · WIS −1 · CHA −1
 - Build: Of human height and heavier, with a thick tail.
 - Ages: Grown at fourteen; old at sixty.
 - Lives among others in: marsh country
@@ -204,11 +222,13 @@ Jack of All Trades: +1 to searching.
 
 > Scaled in greens and browns, with a blunt snout and a crest along the skull. They keep still a long time, and then are quick.
 
+> Lizardfolk live in the swamps and along the water's edge, in tribes ruled by their oldest hunters. They waste nothing: a kill is food, tools and clothing. They trade with the dykers and the fishers and keep their bargains, but find warm-blooded grief strange.
+
 ### Catfolk
 
 *Adapted · playable ancestry* · `ancestry:catfolk`
 
-- Qualities: −1 strength, +4 dexterity, −1 constitution, +1 intelligence, +1 wisdom, +1 charisma
+- STR −1 · DEX +4 · CON −1 · INT +1 · WIS +1 · CHA +1
 - Build: Of human height, lean and light.
 - Ages: Grown at fifteen; old at sixty.
 - Lives among others in: forest country and desert country
@@ -224,13 +244,15 @@ Jack of All Trades: +1 to searching.
 
 > Short fur in the colours of a cat's coat, tufted ears, slit eyes, and a long tail that tells more of their mood than their face does.
 
+> Catfolk live in small roving bands that hunt the forest edges and the open country, and come into towns to trade furs and hire out as scouts. Each band follows whoever finds it the most food. They value a good story and a good kill alike, and are restless under a roof.
+
 *Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the thief, the ranger and the bard; Kyr makes it playable (Mission 19: the studio painted catfolk of every calling, assets/pcs/catfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
 ### Sylph
 
 *Faithful · not chosen by players* · `ancestry:sylph`
 
-- Qualities: −2 strength, +3 dexterity, −2 constitution, +2 intelligence, +1 wisdom, +2 charisma
+- STR −2 · DEX +3 · CON −2 · INT +2 · WIS +1 · CHA +2
 - Build: Of human height, slight, and lighter than they look.
 - Ages: Grown at twenty; old at a hundred and fifty.
 - Lives among others in: frost country
@@ -245,11 +267,13 @@ Jack of All Trades: +1 to searching.
 
 > Pale skin with a cast of blue or grey, hair that stirs when there is no wind, and a voice like breath over the mouth of a bottle.
 
+> Sylphs live in the high places, a few to a peak or a windy ridge, and come down rarely. They have no rulers, only friendships. In the lowlands they are taken for spirits, and many let the mistake stand.
+
 ### Undine
 
 *Faithful · not chosen by players* · `ancestry:undine`
 
-- Qualities: −3 strength, −2 dexterity, +2 constitution, +1 intelligence, +3 wisdom, +1 charisma
+- STR −3 · DEX −2 · CON +2 · INT +1 · WIS +3 · CHA +1
 - Build: Of human height.
 - Ages: Grown at twenty; old at a hundred and fifty.
 - Lives among others in: marsh country
@@ -266,11 +290,13 @@ Keen Senses: +4 to searching.
 
 > Skin with a cast of blue or green and cool to the touch, hair the colour of deep water, and a damp look even in summer.
 
+> Undines live near springs, lakes and the sea, a few to a shore, often among human fisherfolk. They keep the water's secrets and the old water-rites. They are calm until the water is fouled, and then they are not calm at all.
+
 ### Birdfolk
 
 *Adapted · playable ancestry* · `ancestry:birdfolk`
 
-- Qualities: −2 strength, +2 dexterity, −1 constitution, +2 intelligence, +1 wisdom, +2 charisma
+- STR −2 · DEX +2 · CON −1 · INT +2 · WIS +1 · CHA +2
 - Build: A little shorter than humans, and light in the bone: they weigh less than a child.
 - Ages: Grown at ten; old at forty.
 - Lives among others in: mountain country and frost country
@@ -286,13 +312,15 @@ Keen Senses: +4 to searching.
 
 > A feathered head with a hooked beak and round keen eyes, and wings folded at the back, with hands at the joint of each wing.
 
+> Birdfolk live in eyries on the cliffs and high crags, in flocks of a few families. They range far for food and news, and know the lie of the land better than anyone. Ground-dwellers seem slow and heavy to them, and their towns airless.
+
 *Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the warrior, the ranger and the mage; Kyr makes it playable (Mission 19: the studio painted birdfolk of every calling, assets/pcs/birdfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
 ### Fae
 
 *Faithful · not chosen by players* · `ancestry:fae`
 
-- Qualities: −2 strength, +2 dexterity, −2 constitution, +2 intelligence, +1 wisdom, +3 charisma
+- STR −2 · DEX +2 · CON −2 · INT +2 · WIS +1 · CHA +3
 - Build: Of no one height: as high as a child, or as a man, as they choose to be seen.
 - Ages: They do not grow old as others do.
 - Lives among others in: forest country
@@ -309,6 +337,8 @@ Faerie Charm: what they cast lasts 1 turn longer.
 > A mystical person bound to the magic of the world, enigmatic and whimsical.
 
 > Too fair, or too strange, to be taken for anyone else for long. Something about them is always the colour of the season.
+
+> The fae keep courts in the deep woods, where the seasons turn as they please. Their rule is old, strange and bound by promises. A fae who walks among mortals does so out of curiosity, exile or a bargain, and keeps the letter of every word given.
 
 ## Callings
 

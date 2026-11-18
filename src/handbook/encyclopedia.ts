@@ -118,7 +118,8 @@ export class Encyclopedia {
     const rules = (e.rules ?? []).filter((_, i) => !e.rulesOf?.[i]
       || (Encyclopedia.shared.get(e.rulesOf[i]!) ?? 0) < 2);
     return { id: e.id, title: e.title, status: e.status, ...e.kind ? { kind: e.kind } : {},
-      ...e.facts?.length ? { facts: e.facts } : {}, ...rules.length ? { rules } : {},
+      ...e.facts?.length ? { facts: e.facts } : {}, ...e.abilities ? { abilities: e.abilities } : {},
+      ...rules.length ? { rules } : {},
       ...e.text?.length ? { text: e.text.filter(p => !this.making.test(p)) } : {}, ...e.refs ? { refs: e.refs } : {},
       ...e.painting ? { painting: e.painting } : {} };
   }

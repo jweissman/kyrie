@@ -1,3 +1,5 @@
+import { StatBlock } from './stat-block';
+
 // The handbooks' look: the game's own inks and faces (a book face for what is read, a terminal face for what is
 // operated), set as a reference to be searched rather than a frame to be played in.
 export class HandbookStyle {
@@ -9,6 +11,7 @@ export class HandbookStyle {
   --mono: "JetBrains Mono", "IBM Plex Mono", "Cascadia Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: dark; }
 * { box-sizing: border-box; }
+${StatBlock.css('var(--rose)')}
 html { font-size: clamp(14px, 0.32vw + 10.4px, 17px); scroll-padding-top: 4rem; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 0.92rem/1.5 var(--mono); -webkit-font-smoothing: antialiased; }
 a { color: var(--amber); text-decoration: none; } a:hover { text-decoration: underline; }

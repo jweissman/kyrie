@@ -1,5 +1,6 @@
 import { HandbookStatus, Statuses, type Book, type Entry, type Section, type Table } from './model';
 import type { Coverage } from './handbooks';
+import { StatBlock } from './stat-block';
 
 // The books as Markdown, kept in the repository so a change to what the game can play shows in review.
 export class HandbookMarkdown {
@@ -20,6 +21,7 @@ export class HandbookMarkdown {
     return [`${'#'.repeat(Math.min(depth, 6))} ${e.title}`, '',
       `*${HandbookStatus.label(e.status)}${e.kind ? ` · ${e.kind}` : ''}* · \`${e.id}\``, '',
       ...e.painting ? [`<img src="../../web/reader/paintings/${e.painting}.webp" alt="" width="128">`, ''] : [],
+      ...StatBlock.line(e) ? [`- ${StatBlock.line(e)}`] : [],
       ...e.facts?.length ? [...e.facts.map(([k, v]) => `- ${k}: ${v}`), ''] : [],
       ...(e.rules ?? []).flatMap(r => [r, '']), ...(e.text ?? []).flatMap(t => [`> ${t}`, '']),
       ...(e.notes ?? []).flatMap(n => [`*${n}*`, ''])];
