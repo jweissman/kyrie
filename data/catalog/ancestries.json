@@ -4,6 +4,9 @@
     "human": {
       "name": "Human",
       "description": "Humans of the settled riverlands: farmers, carters, clerks and soldiers, quick to take up a new trade and to turn a hand to whatever is wanted.",
+      "appearance": "Their skin runs from the pale of the north to the brown of the river country, their hair from flax to black. They age quickly beside elves and dwarves, and there are many of them.",
+      "build": "Of middling height, five and a half feet or so, and of every build.",
+      "ages": "Grown at sixteen; old at seventy.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -38,6 +41,9 @@
     "elf": {
       "name": "Elf",
       "description": "Elves of the frontier woods, long-lived and light on their feet: little escapes their eyes, and magic finds them hard to hold.",
+      "appearance": "Pale or nut-brown, with pointed ears, fine features and no beard. Their eyes are large, and often of a colour humans do not have: green-gold, violet, the grey of rain.",
+      "build": "A little taller than humans and lighter: slender, long in the limb.",
+      "ages": "Grown at a hundred; old at seven hundred.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -73,6 +79,9 @@
     "dwarf": {
       "name": "Dwarf",
       "description": "Dwarves of the frontier hills, slow to anger and slower to die: poison, sickness and hardship take a long time to wear them down.",
+      "appearance": "Weathered skin, deep-set eyes, and beards that women as well as men may wear, braided long. Their hands are hard from stone.",
+      "build": "Four to five feet tall and as heavy as a tall man, broad and thick in the bone.",
+      "ages": "Grown at fifty; old at three hundred and fifty.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -102,6 +111,9 @@
     "goblin": {
       "name": "Goblin",
       "description": "A small, sharp-featured person of the river warrens.",
+      "appearance": "Grey-green or ochre skin, a sharp nose, wide ears that turn toward a sound, and small bright eyes.",
+      "build": "Three feet or a little more, thin and quick.",
+      "ages": "Grown at eight; old at sixty.",
       "nameGroup": "goblin",
       "classes": [
         "thief",
@@ -128,6 +140,9 @@
     "glimmerkin": {
       "name": "Glimmerkin",
       "description": "A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.",
+      "appearance": "Pale from a life under the ground, with large dark eyes that catch a lamp's light and throw it back, and long careful fingers.",
+      "build": "About three feet tall, slight and soft-footed.",
+      "ages": "Grown at twenty; old at a hundred and fifty.",
       "nameGroup": "glimmerkin",
       "classes": [
         "thief",
@@ -154,6 +169,9 @@
     "halfling": {
       "name": "Halfling",
       "description": "A small, nimble person of the pastoral country.",
+      "appearance": "Curly brown hair, ruddy cheeks, and broad bare feet that seldom need boots. They dress well when they can, and eat often.",
+      "build": "About three feet tall, round-faced and solid.",
+      "ages": "Grown at twenty; old at a hundred and fifty.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -183,6 +201,9 @@
     "gnome": {
       "name": "Gnome",
       "description": "A small person, inventive and curious, with a knack for tinkering and illusion.",
+      "appearance": "Brown or tan skin, a large nose and quick hands, and hair that goes white early and stands up as it likes.",
+      "build": "Three feet or a little more, small and wiry.",
+      "ages": "Grown at forty; old at four hundred.",
       "nameGroup": "hero",
       "classes": [
         "thief",
@@ -220,6 +241,9 @@
     "half_elf": {
       "name": "Half-elf",
       "description": "A person of human and elven blood, at home between the two peoples and a bridge between them.",
+      "appearance": "Their elven parent's pointed ears, smaller, and their human parent's face: taken for either, by those who want to.",
+      "build": "Of human height, a little more slender.",
+      "ages": "Grown at twenty; old at a hundred and eighty.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -253,6 +277,9 @@
     "half_orc": {
       "name": "Half-orc",
       "description": "A person of orcish and human blood, strong and hardy, and often met with prejudice among humans.",
+      "appearance": "Grey-green skin, a heavy brow, and lower teeth that push forward like small tusks. Many carry scars, and not all of them from fighting.",
+      "build": "Taller and heavier than most humans, six feet and more.",
+      "ages": "Grown at fourteen; old at seventy-five.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -282,6 +309,9 @@
     "lizardfolk": {
       "name": "Lizardfolk",
       "description": "A reptilian person of the swamps and the water's edge.",
+      "appearance": "Scaled in greens and browns, with a blunt snout and a crest along the skull. They keep still a long time, and then are quick.",
+      "build": "Of human height and heavier, with a thick tail.",
+      "ages": "Grown at fourteen; old at sixty.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -311,6 +341,9 @@
     "catfolk": {
       "name": "Catfolk",
       "description": "An agile, stealthy person with feline traits, often a hunter.",
+      "appearance": "Short fur in the colours of a cat's coat, tufted ears, slit eyes, and a long tail that tells more of their mood than their face does.",
+      "build": "Of human height, lean and light.",
+      "ages": "Grown at fifteen; old at sixty.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -345,6 +378,9 @@
     "sylph": {
       "name": "Sylph",
       "description": "An airy, elusive person of the winds and the high places.",
+      "appearance": "Pale skin with a cast of blue or grey, hair that stirs when there is no wind, and a voice like breath over the mouth of a bottle.",
+      "build": "Of human height, slight, and lighter than they look.",
+      "ages": "Grown at twenty; old at a hundred and fifty.",
       "nameGroup": "hero",
       "classes": [
         "mage",
@@ -373,6 +409,9 @@
     "undine": {
       "name": "Undine",
       "description": "A person of the water, deeply bound to it and its mysteries.",
+      "appearance": "Skin with a cast of blue or green and cool to the touch, hair the colour of deep water, and a damp look even in summer.",
+      "build": "Of human height.",
+      "ages": "Grown at twenty; old at a hundred and fifty.",
       "nameGroup": "hero",
       "classes": [
         "mage",
@@ -401,6 +440,9 @@
     "birdfolk": {
       "name": "Birdfolk",
       "description": "An avian person with keen eyes, who can glide on the wind.",
+      "appearance": "A feathered head with a hooked beak and round keen eyes, and wings folded at the back, with hands at the joint of each wing.",
+      "build": "A little shorter than humans, and light in the bone: they weigh less than a child.",
+      "ages": "Grown at ten; old at forty.",
       "nameGroup": "hero",
       "classes": [
         "warrior",
@@ -435,6 +477,9 @@
     "fae": {
       "name": "Fae",
       "description": "A mystical person bound to the magic of the world, enigmatic and whimsical.",
+      "appearance": "Too fair, or too strange, to be taken for anyone else for long. Something about them is always the colour of the season.",
+      "build": "Of no one height: as high as a child, or as a man, as they choose to be seen.",
+      "ages": "They do not grow old as others do.",
       "nameGroup": "hero",
       "classes": [
         "cleric",

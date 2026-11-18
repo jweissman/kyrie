@@ -2574,7 +2574,7 @@ Work at an inn: an evening's fetching and carrying for whoever keeps it, for the
 
 *Kyr · action (group, group, service, place)* · `rule:world_services.take_healing`
 
-- Shown as: Ask {healer} for {service}
+- Shown as: Ask {healer} for {service}, {fee(service)} coin
 - Takes: 60 minutes
 - Costs: 1
 

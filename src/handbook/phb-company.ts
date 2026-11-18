@@ -6,6 +6,7 @@ import { Formations } from '../rules/formations';
 import { Checks } from '../rules/checks';
 import { HandbookStatus, type Entry, type Section } from './model';
 import { HandbookText } from './text';
+import { PeopleFacts } from './phb-peoples';
 import { CanonValidation } from '../canon/canon-validation';
 import type { ItemKind } from '../canon/schema';
 
@@ -15,10 +16,12 @@ export class CompanyChapters {
   static ancestries(): Section {
     const entries = Object.entries(Canon.ancestries).map(([id, a]): Entry => ({
       id: `ancestry:${id}`, title: a.name, status: HandbookStatus.of(a), kind: a.playable ? 'playable ancestry' : 'not chosen by players',
-      facts: [['Qualities', HandbookText.attributes(a.attributes)], ['Callings', a.classes.map(c => Canon.classes[c]?.name ?? c).join(', ')],
+      facts: [['Qualities', HandbookText.attributes(a.attributes)], ...PeopleFacts.of(id),
+        ['Callings', a.classes.map(c => Canon.classes[c]?.name ?? c).join(', ')],
         ...a.traits.length ? [['Born with', a.traits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : [],
         ...a.forbiddenTraits?.length ? [['May not take', a.forbiddenTraits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : []],
-      rules: a.traits.flatMap(t => HandbookText.trait(t)), text: [a.description], notes: HandbookStatus.notes(a),
+      rules: a.traits.flatMap(t => HandbookText.trait(t)), text: [a.description, ...a.appearance ? [a.appearance] : []],
+      notes: HandbookStatus.notes(a),
       refs: [...a.classes.filter(c => Canon.classes[c]?.playable).map(c => `class:${c}`), ...a.traits.map(t => `trait:${t}`)] }));
     return { id: 'ancestries', title: 'Ancestries', intro: ['A companion\'s ancestry adds to their qualities, decides which '
       + 'callings are open to them, and gives the traits they are born with.'], entries };
@@ -28,12 +31,13 @@ export class CompanyChapters {
       id: `class:${id}`, title: c.name, status: HandbookStatus.of(c), kind: c.spellcasting ? `calling; casts with ${c.spellcasting.attribute}` : 'calling',
       facts: [['Hit die', `d${c.hitDie}`], ['Qualities', HandbookText.attributes(c.attributes)], ['Gold', `${c.gold}`],
         ['Weapons', HandbookText.proficiency(c.proficiencies.weapons)], ['Armour', HandbookText.proficiency(c.proficiencies.armor)],
+        ...c.startingGear?.length ? [['Carries from the start', c.startingGear.map(g => Canon.items[g]?.name ?? g).join(', ')] as [string, string]] : [],
         ...c.skills?.length ? [['Skills', c.skills.map(s => Canon.skills[s]?.name ?? s).join(', ')] as [string, string]] : [],
         ...c.specializations?.length ? [['Specializations', c.specializations.map(s => Canon.traits[s]?.name ?? s).join(', ')] as [string, string]] : [],
         ...c.features?.length ? [['Later', c.features.map(f => `${f.level}: ${[...(f.abilities ?? []).map(a => HandbookText.ability(a)),
           ...(f.traits ?? []).map(t => Canon.traits[t]?.name ?? t)].join(', ')}`).join('; ')] as [string, string]] : []],
       rules: [...c.practice ? [c.practice] : [], ...c.abilities.map(a => `Begins knowing ${HandbookText.ability(a)}.`)],
-      text: [c.description], notes: HandbookStatus.notes(c),
+      text: [c.description, ...c.life ? [c.life] : []], notes: HandbookStatus.notes(c),
       refs: [...c.abilities.map(a => `ability:${a}`), ...(c.specializations ?? []).map(s => `trait:${s}`),
         ...(c.features ?? []).flatMap(f => [...(f.abilities ?? []).map(a => `ability:${a}`), ...(f.traits ?? []).map(t => `trait:${t}`)])] }));
     const specializations = Object.entries(Canon.traits).filter(([, t]) => t.category === 'specialization')

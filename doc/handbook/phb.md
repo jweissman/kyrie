@@ -11,6 +11,11 @@ A companion's ancestry adds to their qualities, decides which callings are open 
 *Faithful · playable ancestry* · `ancestry:human`
 
 - Qualities: +1 strength, +1 dexterity, +1 constitution, +1 intelligence, +1 wisdom, +1 charisma
+- Build: Of middling height, five and a half feet or so, and of every build.
+- Ages: Grown at sixteen; old at seventy.
+- Folk of: forest country, marsh country, mountain country, frost country and desert country
+- Tongue: Common; Westron in what the old kingdom named
+- Names: Agnes, Alys, Annis, Alfric, Aldred, Ambrose, Ash, Wren, Robin
 - Callings: Warrior, Mage, Thief, Cleric, Bard, Ranger, Monk, Commoner
 - Born with: Humanoid Traits, Fast Learner, Jack of All Trades
 
@@ -20,11 +25,18 @@ Jack of All Trades: +1 to searching.
 
 > Humans of the settled riverlands: farmers, carters, clerks and soldiers, quick to take up a new trade and to turn a hand to whatever is wanted.
 
+> Their skin runs from the pale of the north to the brown of the river country, their hair from flax to black. They age quickly beside elves and dwarves, and there are many of them.
+
 ### Elf
 
 *Faithful · playable ancestry* · `ancestry:elf`
 
 - Qualities: −1 strength, +2 dexterity, −1 constitution, +1 intelligence, +2 wisdom, +1 charisma
+- Build: A little taller than humans and lighter: slender, long in the limb.
+- Ages: Grown at a hundred; old at seven hundred.
+- Folk of: forest country and marsh country
+- Tongue: Quenya
+- Names: Adrie, Birel, Caelynn, Aelar, Beiro, Carric, Ara, Lia, Rolen
 - Callings: Warrior, Thief, Ranger, Bard, Mage, Commoner
 - Born with: Humanoid Traits, Graceful, Keen Senses
 - May not take: Necromancy Specialist
@@ -37,11 +49,18 @@ Keen Senses: +4 to searching.
 
 > Elves of the frontier woods, long-lived and light on their feet: little escapes their eyes, and magic finds them hard to hold.
 
+> Pale or nut-brown, with pointed ears, fine features and no beard. Their eyes are large, and often of a colour humans do not have: green-gold, violet, the grey of rain.
+
 ### Dwarf
 
 *Faithful · playable ancestry* · `ancestry:dwarf`
 
 - Qualities: +1 strength, −1 dexterity, +2 constitution, +1 intelligence, +2 wisdom, −1 charisma
+- Build: Four to five feet tall and as heavy as a tall man, broad and thick in the bone.
+- Ages: Grown at fifty; old at three hundred and fifty.
+- Folk of: mountain country, frost country and desert country
+- Tongue: Khuzdul
+- Names: Brannoc, Dagny, Eldis, Adrik, Baern, Brottor, Flint, Cobble, Tarn
 - Callings: Warrior, Cleric, Commoner
 - Born with: Humanoid Traits, Stout Constitution, Enduring
 
@@ -53,11 +72,15 @@ Enduring: +2 hit points each level.
 
 > Dwarves of the frontier hills, slow to anger and slower to die: poison, sickness and hardship take a long time to wear them down.
 
+> Weathered skin, deep-set eyes, and beards that women as well as men may wear, braided long. Their hands are hard from stone.
+
 ### Goblin
 
 *Faithful · not chosen by players* · `ancestry:goblin`
 
 - Qualities: −2 strength, +2 dexterity, −1 constitution, +1 intelligence, −1 wisdom, −2 charisma
+- Build: Three feet or a little more, thin and quick.
+- Ages: Grown at eight; old at sixty.
 - Callings: Thief, Ranger, Commoner
 - Born with: Humanoid Traits
 
@@ -65,11 +88,15 @@ Enduring: +2 hit points each level.
 
 > A small, sharp-featured person of the river warrens.
 
+> Grey-green or ochre skin, a sharp nose, wide ears that turn toward a sound, and small bright eyes.
+
 ### Glimmerkin
 
 *Kyr · not chosen by players* · `ancestry:glimmerkin`
 
 - Qualities: −2 strength, +2 dexterity, +1 intelligence, +1 wisdom, −1 charisma
+- Build: About three feet tall, slight and soft-footed.
+- Ages: Grown at twenty; old at a hundred and fifty.
 - Callings: Thief, Ranger, Commoner, Mage
 - Born with: Humanoid Traits
 
@@ -77,11 +104,17 @@ Enduring: +2 hit points each level.
 
 > A small, soft-footed person of the deep caves, with eyes that shine like a cat's in lamplight and a trader's patience.
 
+> Pale from a life under the ground, with large dark eyes that catch a lamp's light and throw it back, and long careful fingers.
+
 ### Halfling
 
 *Faithful · not chosen by players* · `ancestry:halfling`
 
 - Qualities: −1 strength, +2 dexterity, −2 constitution, +1 intelligence, −1 wisdom, +1 charisma
+- Build: About three feet tall, round-faced and solid.
+- Ages: Grown at twenty; old at a hundred and fifty.
+- Lives among others in: forest country, marsh country, mountain country and desert country
+- Names: Andry, Bree, Callie, Alton, Cade, Eldon, Bramble, Clover, Tansy
 - Callings: Warrior, Thief, Bard, Commoner
 - Born with: Humanoid Traits, Small and Quick, Not How I Remember It
 
@@ -91,11 +124,17 @@ Enduring: +2 hit points each level.
 
 > A small, nimble person of the pastoral country.
 
+> Curly brown hair, ruddy cheeks, and broad bare feet that seldom need boots. They dress well when they can, and eat often.
+
 ### Gnome
 
 *Faithful · not chosen by players* · `ancestry:gnome`
 
 - Qualities: −1 strength, +1 dexterity, −1 constitution, +2 intelligence, +1 wisdom
+- Build: Three feet or a little more, small and wiry.
+- Ages: Grown at forty; old at four hundred.
+- Lives among others in: forest country and mountain country
+- Names: Bimpnottin, Caramip, Ellyjobell, Alston, Boddynock, Dimble, Pip, Tock, Quill
 - Callings: Thief, Bard, Mage, Commoner
 - Born with: Humanoid Traits, Tinker, Inquisitive Mind
 - May not take: Necromancy Specialist, Abjuration Specialist, Conjuration Specialist, Divination Specialist, Enchantment Specialist, Evocation Specialist
@@ -104,11 +143,16 @@ Enduring: +2 hit points each level.
 
 > A small person, inventive and curious, with a knack for tinkering and illusion.
 
+> Brown or tan skin, a large nose and quick hands, and hair that goes white early and stands up as it likes.
+
 ### Half-elf
 
 *Faithful · not chosen by players* · `ancestry:half_elf`
 
 - Qualities: +1 dexterity, +1 intelligence, +1 wisdom, +2 charisma
+- Build: Of human height, a little more slender.
+- Ages: Grown at twenty; old at a hundred and eighty.
+- Lives among others in: forest country and marsh country
 - Callings: Warrior, Mage, Thief, Cleric, Bard, Ranger, Monk, Commoner
 - Born with: Humanoid Traits, Graceful, Fast Learner
 
@@ -118,11 +162,16 @@ Enduring: +2 hit points each level.
 
 > A person of human and elven blood, at home between the two peoples and a bridge between them.
 
+> Their elven parent's pointed ears, smaller, and their human parent's face: taken for either, by those who want to.
+
 ### Half-orc
 
 *Faithful · not chosen by players* · `ancestry:half_orc`
 
 - Qualities: +2 strength, −1 dexterity, +1 constitution, −1 intelligence, +2 wisdom, +1 charisma
+- Build: Taller and heavier than most humans, six feet and more.
+- Ages: Grown at fourteen; old at seventy-five.
+- Lives among others in: mountain country, frost country and desert country
 - Callings: Warrior, Thief, Ranger, Commoner
 - Born with: Humanoid Traits, Jack of All Trades, Berserker Rage
 
@@ -134,11 +183,16 @@ Jack of All Trades: +1 to searching.
 
 > A person of orcish and human blood, strong and hardy, and often met with prejudice among humans.
 
+> Grey-green skin, a heavy brow, and lower teeth that push forward like small tusks. Many carry scars, and not all of them from fighting.
+
 ### Lizardfolk
 
 *Faithful · not chosen by players* · `ancestry:lizardfolk`
 
 - Qualities: +1 strength, +1 dexterity, +2 constitution, −1 intelligence, −1 wisdom, −1 charisma
+- Build: Of human height and heavier, with a thick tail.
+- Ages: Grown at fourteen; old at sixty.
+- Lives among others in: marsh country
 - Callings: Warrior, Ranger, Thief, Commoner
 - Born with: Humanoid Traits, Small and Quick, Inquisitive Mind
 
@@ -148,11 +202,17 @@ Jack of All Trades: +1 to searching.
 
 > A reptilian person of the swamps and the water's edge.
 
+> Scaled in greens and browns, with a blunt snout and a crest along the skull. They keep still a long time, and then are quick.
+
 ### Catfolk
 
 *Adapted · playable ancestry* · `ancestry:catfolk`
 
 - Qualities: −1 strength, +4 dexterity, −1 constitution, +1 intelligence, +1 wisdom, +1 charisma
+- Build: Of human height, lean and light.
+- Ages: Grown at fifteen; old at sixty.
+- Lives among others in: forest country and desert country
+- Names: Ember, Haze, Luna, Ash, Cinder, Dusk, Ginger, Jinx, Misty
 - Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk, Commoner
 - Born with: Humanoid Traits, Graceful, Not How I Remember It
 
@@ -162,6 +222,8 @@ Jack of All Trades: +1 to searching.
 
 > An agile, stealthy person with feline traits, often a hunter.
 
+> Short fur in the colours of a cat's coat, tufted ears, slit eyes, and a long tail that tells more of their mood than their face does.
+
 *Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the thief, the ranger and the bard; Kyr makes it playable (Mission 19: the studio painted catfolk of every calling, assets/pcs/catfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
 ### Sylph
@@ -169,6 +231,9 @@ Jack of All Trades: +1 to searching.
 *Faithful · not chosen by players* · `ancestry:sylph`
 
 - Qualities: −2 strength, +3 dexterity, −2 constitution, +2 intelligence, +1 wisdom, +2 charisma
+- Build: Of human height, slight, and lighter than they look.
+- Ages: Grown at twenty; old at a hundred and fifty.
+- Lives among others in: frost country
 - Callings: Mage, Cleric, Commoner
 - Born with: Humanoid Traits, Tinker, Ethereal Form
 
@@ -178,11 +243,16 @@ Jack of All Trades: +1 to searching.
 
 > An airy, elusive person of the winds and the high places.
 
+> Pale skin with a cast of blue or grey, hair that stirs when there is no wind, and a voice like breath over the mouth of a bottle.
+
 ### Undine
 
 *Faithful · not chosen by players* · `ancestry:undine`
 
 - Qualities: −3 strength, −2 dexterity, +2 constitution, +1 intelligence, +3 wisdom, +1 charisma
+- Build: Of human height.
+- Ages: Grown at twenty; old at a hundred and fifty.
+- Lives among others in: marsh country
 - Callings: Mage, Cleric, Commoner
 - Born with: Humanoid Traits, Keen Senses, Stout Constitution
 
@@ -194,11 +264,17 @@ Keen Senses: +4 to searching.
 
 > A person of the water, deeply bound to it and its mysteries.
 
+> Skin with a cast of blue or green and cool to the touch, hair the colour of deep water, and a damp look even in summer.
+
 ### Birdfolk
 
 *Adapted · playable ancestry* · `ancestry:birdfolk`
 
 - Qualities: −2 strength, +2 dexterity, −1 constitution, +2 intelligence, +1 wisdom, +2 charisma
+- Build: A little shorter than humans, and light in the bone: they weigh less than a child.
+- Ages: Grown at ten; old at forty.
+- Lives among others in: mountain country and frost country
+- Names: Aquila, Iris, Kestrel, Orion, Soren, Quill, Plume, Swift, Piper
 - Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk, Commoner
 - Born with: Humanoid Traits, Graceful, Inquisitive Mind
 
@@ -208,6 +284,8 @@ Keen Senses: +4 to searching.
 
 > An avian person with keen eyes, who can glide on the wind.
 
+> A feathered head with a hooked beak and round keen eyes, and wings folded at the back, with hands at the joint of each wing.
+
 *Adapted: Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race and opens it to the warrior, the ranger and the mage; Kyr makes it playable (Mission 19: the studio painted birdfolk of every calling, assets/pcs/birdfolk*.png) and opens it to every calling, as a human's. Its people also live in generated regions and may be met and recruited there.*
 
 ### Fae
@@ -215,6 +293,9 @@ Keen Senses: +4 to searching.
 *Faithful · not chosen by players* · `ancestry:fae`
 
 - Qualities: −2 strength, +2 dexterity, −2 constitution, +2 intelligence, +1 wisdom, +3 charisma
+- Build: Of no one height: as high as a child, or as a man, as they choose to be seen.
+- Ages: They do not grow old as others do.
+- Lives among others in: forest country
 - Callings: Cleric, Thief, Bard, Mage, Commoner
 - Born with: Humanoid Traits, Ethereal Form, Faerie Charm
 - May not take: Deathspeaker, Warbringer, Necromancy Specialist, Abjuration Specialist, Conjuration Specialist, Divination Specialist, Evocation Specialist
@@ -226,6 +307,8 @@ Keen Senses: +4 to searching.
 Faerie Charm: what they cast lasts 1 turn longer.
 
 > A mystical person bound to the magic of the world, enigmatic and whimsical.
+
+> Too fair, or too strange, to be taken for anyone else for long. Something about them is always the colour of the season.
 
 ## Callings
 
@@ -240,6 +323,7 @@ A calling is what a companion does in a fight and on the road: their hit die, th
 - Gold: 10
 - Weapons: all
 - Armour: all
+- Carries from the start: Torch, Ten-foot pole
 - Skills: Brawn, Intimidation
 - Specializations: Toughness, Bravery, Strong Willed
 - Later: 3: Dig In; 7: Rapid Strike; 9: Weapon master; 13: Veteran; 17: Unbroken
@@ -268,6 +352,8 @@ Begins knowing Sweeping Strike.
 
 > Warriors are skilled combatants, excelling in melee and ranged combat with a variety of weapons and armor.
 
+> Most warriors learned the trade in a lord's levy, a town's watch or a caravan's guard; some learned it alone, in a hard place. They are hired by the day or by the season. In a company, a warrior is the one the others stand behind.
+
 ### Mage
 
 *Adapted · calling; casts with intelligence* · `class:mage`
@@ -277,6 +363,7 @@ Begins knowing Sweeping Strike.
 - Gold: 50
 - Weapons: blade, staff, dart, sling (light)
 - Armour: cloth (light)
+- Carries from the start: Spellbook
 - Skills: Lore
 - Specializations: Abjuration Specialist, Conjuration Specialist, Divination Specialist, Enchantment Specialist, Evocation Specialist, Illusion Specialist, Necromancy Specialist, Transmutation Specialist
 
@@ -287,6 +374,8 @@ Begins knowing Defend.
 Begins knowing Light.
 
 > Mages are masters of arcane magic, wielding powerful spells to manipulate the forces of the world.
+
+> A mage learns from a master, or from the books a master left, over years of copying, reading and failing. Most villages have none; a city has a few, each of a school. People ask them for small things, and fear them for large ones.
 
 *Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18.*
 
@@ -299,6 +388,7 @@ Begins knowing Light.
 - Gold: 20
 - Weapons: blade, bow, crossbow, dart, sling (light, medium)
 - Armour: leather (light)
+- Carries from the start: Thieves' tools
 - Skills: Lockwork, Trapwork, Stealth, Deception
 - Later: 3: Hide; 7: Slippery; 11: Rapid Strike; 13: Killing eye; 17: Veteran
 
@@ -320,6 +410,8 @@ Begins knowing Deactivate Device (not playable).
 
 > Thieves are stealthy and cunning, adept at sneaking, lockpicking, and dealing precise strikes.
 
+> A thief learns from another thief, in a city's alleys or a market's crowd: locks, pockets, how to walk unseen. Not every thief steals. The same hands open a sealed door for a reeve as for a burglar.
+
 ### Cleric
 
 *Adapted · calling; casts with wisdom* · `class:cleric`
@@ -329,6 +421,7 @@ Begins knowing Deactivate Device (not playable).
 - Gold: 15
 - Weapons: flail, mace, light_warhammer, staff, club (light, medium, heavy)
 - Armour: cloth, leather, metal (light, medium)
+- Carries from the start: Holy symbol
 - Skills: Mending, Rites of the dead, Insight
 - Specializations: Vitalist, Deathspeaker, Lightbringer, Shadowmancer, Oathkeeper, Wildcaller, Chaotician, Warbringer, Oceanist, Cherubist, Stormcaller, Veneficium
 
@@ -337,6 +430,8 @@ Prayers of the god they are sworn to, as that god's domain is: some heal and pro
 Begins knowing Defend.
 
 > Clerics are divine spellcasters who draw power from their faith to heal allies and smite foes.
+
+> A cleric serves a god at a shrine or a temple, trained by its priests to pray, to heal and to keep the rites. The folk of a village bring them their sick, their dead and their quarrels.
 
 *Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Kyr adds the mending skill for its deterministic world actions. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18.*
 
@@ -349,6 +444,7 @@ Begins knowing Defend.
 - Gold: 25
 - Weapons: blade, bow, crossbow, staff, light_mace (light)
 - Armour: leather, cloth (light)
+- Carries from the start: Musical instrument
 - Skills: Lore, Persuasion, Performance
 - Later: 9: Major Inspire
 
@@ -368,6 +464,8 @@ Begins knowing Riposte.
 
 > Bards are charismatic performers who inspire allies and confound enemies through music and magic.
 
+> A bard learns songs, stories and instruments on the road, from other bards and from the rooms that listen. They carry the news from town to town. A good one is welcome at any inn, and is paid in supper.
+
 *Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices. Orsino gives a caster one pool of slots (mage 6 + level + twice the Intelligence modifier; cleric 4 + level + the Wisdom modifier; bard 3 + level + the Charisma modifier) that any spell up to level ceil(level / 2) spends. Kyr keeps old-school slots by spell level, prepared at rest, reaching the same spell levels as Orsino: a sixth-level spell at 11, a ninth at 17. Bards lag, as in Orsino's smaller pool, and reach seventh-level spells at 18.*
 
 ### Ranger
@@ -379,6 +477,7 @@ Begins knowing Riposte.
 - Gold: 30
 - Weapons: blade, bow, crossbow, polearm (light, medium)
 - Armour: all
+- Carries from the start: Bedroll, Firewood, Flask
 - Skills: Woodcraft
 - Later: 3: Hide; 7: Arrow Volley; 10: Weapon master; 13: Rapid Fire; 17: Veteran
 
@@ -396,6 +495,8 @@ Begins knowing Ensnare.
 
 > Rangers are skilled hunters and trackers, proficient with bows and survival in the wilderness.
 
+> A ranger learns the wild from a forester, a hunter or a warden of the marches: tracks, weather, the ways through. They guide travellers, hunt for the table, and keep watch on the edges of the settled land.
+
 ### Monk
 
 *Faithful · calling* · `class:monk`
@@ -405,6 +506,7 @@ Begins knowing Ensnare.
 - Gold: 10
 - Weapons: unarmed
 - Armour: cloth (light)
+- Carries from the start: Robe, Alms bowl, Needle and thread
 - Skills: Climbing, Mending, Insight, Tumbling
 - Specializations: Wisdom, Compassionate Heart, Disciplined Mind
 - Later: 3: Fleet; 7: Rapid Strike; 11: Diamond body; 13: Veteran; 17: Unbroken
@@ -424,6 +526,8 @@ Begins knowing Dodge.
 Begins knowing Second Wind.
 
 > Monks are disciplined martial artists who harness their inner energy to perform extraordinary feats.
+
+> A monk is trained in a house of their order, by hard discipline, to fight with empty hands and to master the body. They leave the house to wander, to serve, or because they were sent.
 
 ### Specializations
 

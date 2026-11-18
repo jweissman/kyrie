@@ -4,6 +4,7 @@
     "warrior": {
       "name": "Warrior",
       "description": "Warriors are skilled combatants, excelling in melee and ranged combat with a variety of weapons and armor.",
+      "life": "Most warriors learned the trade in a lord's levy, a town's watch or a caravan's guard; some learned it alone, in a hard place. They are hired by the day or by the season. In a company, a warrior is the one the others stand behind.",
       "hitDie": 12,
       "attributes": {
         "strength": 2,
@@ -116,6 +117,7 @@
     "mage": {
       "name": "Mage",
       "description": "Mages are masters of arcane magic, wielding powerful spells to manipulate the forces of the world.",
+      "life": "A mage learns from a master, or from the books a master left, over years of copying, reading and failing. Most villages have none; a city has a few, each of a school. People ask them for small things, and fear them for large ones.",
       "hitDie": 4,
       "rank": "rear",
       "attributes": {
@@ -352,6 +354,7 @@
     "thief": {
       "name": "Thief",
       "description": "Thieves are stealthy and cunning, adept at sneaking, lockpicking, and dealing precise strikes.",
+      "life": "A thief learns from another thief, in a city's alleys or a market's crowd: locks, pockets, how to walk unseen. Not every thief steals. The same hands open a sealed door for a reeve as for a burglar.",
       "hitDie": 6,
       "attributes": {
         "strength": -1,
@@ -473,6 +476,7 @@
     "cleric": {
       "name": "Cleric",
       "description": "Clerics are divine spellcasters who draw power from their faith to heal allies and smite foes.",
+      "life": "A cleric serves a god at a shrine or a temple, trained by its priests to pray, to heal and to keep the rites. The folk of a village bring them their sick, their dead and their quarrels.",
       "hitDie": 8,
       "attributes": {
         "strength": 1,
@@ -729,6 +733,7 @@
     "bard": {
       "name": "Bard",
       "description": "Bards are charismatic performers who inspire allies and confound enemies through music and magic.",
+      "life": "A bard learns songs, stories and instruments on the road, from other bards and from the rooms that listen. They carry the news from town to town. A good one is welcome at any inn, and is paid in supper.",
       "hitDie": 6,
       "attributes": {
         "dexterity": 1,
@@ -954,6 +959,7 @@
     "ranger": {
       "name": "Ranger",
       "description": "Rangers are skilled hunters and trackers, proficient with bows and survival in the wilderness.",
+      "life": "A ranger learns the wild from a forester, a hunter or a warden of the marches: tracks, weather, the ways through. They guide travellers, hunt for the table, and keep watch on the edges of the settled land.",
       "hitDie": 10,
       "attributes": {
         "strength": 1,
@@ -1072,6 +1078,7 @@
     "monk": {
       "name": "Monk",
       "description": "Monks are disciplined martial artists who harness their inner energy to perform extraordinary feats.",
+      "life": "A monk is trained in a house of their order, by hard discipline, to fight with empty hands and to master the body. They leave the house to wander, to serve, or because they were sent.",
       "hitDie": 8,
       "attributes": {
         "strength": 1,
@@ -1186,6 +1193,7 @@
     "commoner": {
       "name": "Commoner",
       "description": "Untrained work, travel, and basic self-defense.",
+      "life": "Most people are commoners: farmers, carters, servants, apprentices. They have no training to fight or to cast, but they know a trade and their own country, and the world is mostly made of them.",
       "hitDie": 4,
       "attributes": {},
       "gold": 0,

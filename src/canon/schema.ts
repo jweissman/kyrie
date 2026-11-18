@@ -101,6 +101,8 @@ export interface Ability {
 }
 export interface Ancestry {
   name: string; description: string; nameGroup: string; classes: string[]; playable?: boolean;
+  // How they look, how they are built, and when they are grown and old, in words: the encyclopedia's (OR-83).
+  appearance?: string; build?: string; ages?: string;
   attributes: Partial<Record<Attribute, number>>; traits: string[]; forbiddenTraits?: string[];
   techniques?: string[]; feature?: string; source: Source;
 }
@@ -182,6 +184,8 @@ export interface Species {
 }
 export interface Proficiencies { all?: true; kinds?: string[]; weights?: string[] }
 export interface CharacterClass {
+  // What the calling is in the world: who learns it where, and what folk make of it (the encyclopedia's, OR-83).
+  life?: string;
   name: string; description: string; hitDie: number; attributes: Partial<Record<Attribute, number>>; gold: number;
   abilities: string[]; playable?: boolean; adventuring?: false; skills?: string[];
   // The skills the calling can take up with a level's development, beyond those it starts with: what a warrior or
