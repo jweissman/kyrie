@@ -37,7 +37,8 @@ describe('the reference start, Iscoed', () => {
       expect(Iscoed.aims(pans)).toMatch(/fuel boat/);
       expect(Iscoed.aims(weir)).toMatch(/sea-gate .* will not shut/);
       await drove.play('Wait › A while');
-      for (const aim of [/how many head came down/, /fuel boat/, /sea-gate/]) { expect(Iscoed.aims(drove)).toMatch(aim); }
+      const held = Iscoed.aims(drove);
+      for (const aim of [/how many head came down/, /fuel boat/, /sea-gate/]) { expect(held).toMatch(aim); }
     }, 180000);
   it('frees the drover by what the drove itself shows: the four drowned in the rhyne, against the clerk\'s count',
     async () => {
