@@ -19,16 +19,18 @@ import { Discovery } from '../information/discovery';
 import { EngineOwned } from '../lang/engine-owned';
 
 export class ModuleInstallations {
-  // Actors another installation declared take up the goals and actions this one gives them.
+  // Actors another installation declared take up the goals and actions this one gives them: each so extended a new
+  // actor, the rest as they were (never changed after they are joined: every actor of the world had been copied
+  // whole at every install, compile-once-plan.md step 3).
   private static extended(actors: CampaignActor[], extensions: NonNullable<CampaignDefinition['extensions']>) {
-    const out = structuredClone(actors);
+    const out = [...actors];
     for (const e of extensions) {
-      const actor = out.find(a => a.id === e.actor);
+      const i = out.findIndex(a => a.id === e.actor), actor = out[i];
       if (!actor || actor.player) { throw new Error(`An extended pursuit needs an installed person: ${e.actor}`); }
       if (e.goals.some(g => actor.goals.some(o => o.id === g.id))) { throw new Error(`Duplicate pursuit for ${e.actor}`); }
-      actor.goals.push(...structuredClone(e.goals));
-      actor.actions.push(...e.actions.filter(id => !actor.actions.includes(id)));
-      actor.horizon = Math.max(actor.horizon, e.horizon ?? 0);
+      out[i] = { ...actor, goals: [...actor.goals, ...structuredClone(e.goals)],
+        actions: [...actor.actions, ...e.actions.filter(id => !actor.actions.includes(id))],
+        horizon: Math.max(actor.horizon, e.horizon ?? 0) };
     }
     return out;
   }

@@ -85,7 +85,9 @@ export class ModuleAssembly {
       goal.when = p.when; goal.target = p.target;
     }
     Discovery.validate(instance.module, new World(instance.module, instance.world), manifest.imports);
-    definition.schemas = structuredClone(instance.module.actions);
+    // Its schemas are its actions: the installation names each afresh (ModuleNamespace.action), and nothing between
+    // reads them but to check them.
+    definition.schemas = instance.module.actions;
     this.readOnly(instance, definition);
     return { ...instance, campaign: definition };
   }

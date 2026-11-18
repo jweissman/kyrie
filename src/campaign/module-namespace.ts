@@ -51,8 +51,10 @@ export class ModuleNamespace {
       default: return structuredClone(p);
     }
   }
+  // Its own copy all through: its call and value are made afresh, and a change has nothing else that is not a word or
+  // a flag (ClockShift then sets its call and value on the copy).
   private change(change: Change, bound: string[] = []): Change {
-    const next = { ...structuredClone(change), call: this.call(change.call, bound) };
+    const next = { ...change, call: this.call(change.call, bound) };
     if ('value' in next) { next.value = this.value(next.value, bound); }
     return next;
   }
@@ -60,7 +62,11 @@ export class ModuleNamespace {
     const parameters = action.parameters?.map(p => ({ ...p, type: this.kinds[p.type] ?? p.type }));
     const bound = parameters?.map(p => p.name) ?? [];
     const shared = this.rules.actions.some(a => a.id === action.id);
-    return { ...structuredClone(action), id: shared ? action.id : `${this.bindings.id}__${action.id}`,
+    // Its own object, everything it names made afresh; what else it holds (its bindings, its hour) is shared with
+    // the compiled schema, which no one changes after: ClockShift sets an action's parts on the action, copying
+    // what it moves, and the campaign never changes an operator (see Campaign.fork). A deep copy here had been the
+    // largest copy of an install (compile-once-plan.md step 3).
+    return { ...action, id: shared ? action.id : `${this.bindings.id}__${action.id}`,
       name: this.text(action.name, bound),
       ...(action.report ? { report: this.text(action.report, bound) } : {}),
       ...(action.otherwise ? { otherwise: this.text(action.otherwise, bound) } : {}),
