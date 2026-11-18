@@ -2,7 +2,6 @@ import type { Frame } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from './words';
-import { Pip } from './stage/pip';
 
 // What the company has come to know, and the aims it has taken up, kept for the Book rather than told over the place
 // (the owner, 17 November: "true system level info (details about new aims) like the toasts … could go in a 'news'
@@ -23,12 +22,13 @@ export class News {
         ...Words.aimed.test(n) ? { aim: true as const } : {} }));
     return [...aims, ...notes].filter(i => !seen.has(i.text) && (seen.add(i.text), true));
   }
-  // The pip the Book's mark carries while anything is unread.
+  // What the Book's mark carries while anything is unread: how many, in ivory, never a pip of the Atlas's tones. What
+  // is written down is no opportunity to act (the owner's trust contracts, 18 November, D: the Book's blue or violet
+  // pip had read as a promise like the lenses' beside it).
   static Pip({ app }: { app: ReaderApp }) {
     const news = app.state.news ?? [];
     if (!news.length) { return null; }
-    const tone = news.some(i => i.aim) ? 'violet' : 'blue';
-    return <Pip.View fill={`var(--tone-${tone})`} label={`${news.length} new in your book`} />;
+    return <span className="unread" role="img" aria-label={`${news.length} new in your book`}>{news.length}</span>;
   }
   // At the head of the Book's notes: what came since it was last read.
   static Read({ items }: { items: readonly Item[] }) {

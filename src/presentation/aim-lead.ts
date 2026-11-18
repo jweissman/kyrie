@@ -8,12 +8,13 @@ import { Stakes } from '../ui/stakes';
 import type { ResolvedTarget } from '../ui/objective-target';
 import { AimAdvances } from './aim-advances';
 import { Undertakings } from './undertakings';
+import { CompanyRecall } from './company-recall';
 
 // Where the next step of the aim followed was learned (US-07, PD-08): the way its author says it is gone to by, not
 // yet taken (route); what it is toward, not yet come to (toward); at it, where what it waits on is hidden (hidden) or
 // to be learned (taught) or come to (beyond) further in, or what bars the way there (barred); or nothing further in,
 // its business here (here).
-export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'here';
+export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'deeper' | 'here';
 // The aim followed, and its next step: one record for every reader, heard (the aim), where the step comes from
 // (source) and the step itself (next: the places, people or things it is taken to or done with).
 export interface AimLead { aim: string; source: LeadSource; next: string[] }
@@ -43,8 +44,40 @@ export class AimLeading {
     // Gone in past the place it names, what it waits on further in is still the step, not the way back out to it (a
     // hold gone into from its porch had led back to the porch).
     const within = this.within(campaign, screen, def);
-    if (!this.at(campaign, screen, named)) { return within ?? { aim, source: 'toward', next: [...named] }; }
-    return within ?? { aim, source: 'here', next: [screen.place.id] };
+    if (!this.at(campaign, screen, named) && !this.entered(campaign, screen, named)) {
+      return within ?? { aim, source: 'toward', next: [...named] };
+    }
+    return within ?? this.deeper(campaign, screen, named, aim) ?? { aim, source: 'here', next: [screen.place.id] };
+  }
+  // Inside a site gone into from a place the aim names (Ironkeep's gate-passage, from the room before its gate): on
+  // the aim's ground still, never led back out to the mouth (the gold had gone in and straight out again).
+  private static entered(campaign: Campaign, screen: Screen, named: Set<string>): boolean {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const site = this.siteOf(byId, screen.place.id), joins = this.joins(campaign);
+    return !!site && [...named].some(n => (joins.get(n) ?? []).some(p => this.siteOf(byId, p) === site));
+  }
+  private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
+    return Spatial.ancestry(byId, id).find(x => x.space?.kind === 'site')?.id;
+  }
+  // At the mouth of a site the aim names whole (Ironkeep, "what is in such places could pay it"), or in it, with
+  // nothing known inside that it waits on: the rooms not yet been to (the owner's trust contracts, B: the gold had
+  // said "Set out for Ironkeep" and gone out at its gate, saying nothing).
+  private static deeper(campaign: Campaign, screen: Screen, named: Set<string>, aim: string): AimLead | undefined {
+    // The aim names the site, or its mouth (a1's Ironkeep is named by the room before its gate): the way in is to a
+    // room within a site, from a place the aim names.
+    const byId = EntityIndex.of(campaign.module.entities).byId, recall = CompanyRecall.of(campaign);
+    const here = this.siteOf(byId, screen.place.id), inward = screen.exits.filter(e => {
+      const site = this.siteOf(byId, e.destination.id);
+      const ours = !!site && (named.has(site) || named.has(screen.place.id) || site === here);
+      return ours && !recall.been(e.destination.id);
+    });
+    // Nothing it waits on is known to lie within, so the rooms are exploration, never gold (the lead's ruling of 13
+    // November, PL-23: the debt's gold had walked the hobs' hold into an empty spy-crack); the lead says so, a frontier
+    // the page names (AimContinuity), its next the way in, or what bars it (Ironkeep's portcullis).
+    const into = inward.find(e => !this.barred(e)), shut = inward.find(e => this.barred(e));
+    const bar = shut && (this.bar(campaign, screen.place.id, shut.destination.id) ?? this.done(shut.acts)[0]);
+    const next = into?.destination.id ?? bar;
+    return next ? { aim, source: 'deeper', next: [next] } : undefined;
   }
   // In the place it is gone to by, at what it is toward, or on the way from the one to the other.
   static there(campaign: Campaign, screen: Screen, t: ResolvedTarget): boolean {

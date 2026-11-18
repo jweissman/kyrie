@@ -10,6 +10,7 @@ import { Pastime } from './pastime';
 import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import type { Tone } from '../../../src/presentation/emphasis';
+import type { Aspect } from '../../../src/presentation/glance-types';
 import { Signs } from '../../../src/presentation/signs';
 import { Pip } from './pip';
 import { WorldStage } from './world-stage';
@@ -81,8 +82,10 @@ export class SceneRail {
   static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
     const marks = <>
       {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
-        aria-label="The map: back to where you are" onClick={() => app.outdoor(false)}>
-        <Glyphs.View id="the_map" className="rail-glyph" /></button>
+        aria-label="The map: back to where you are" data-tone={SceneRail.here(app)} onClick={() => app.outdoor(false)}>
+        <Glyphs.View id="the_map" className="rail-glyph" />
+        {SceneRail.here(app) && <Pip.View fill={`var(--tone-${SceneRail.here(app)})`}
+          label={`Where you are: ${Pip.words(SceneRail.local(app), Guidance.shown(app))}`} />}</button>
         : CompassStage.of(app) ? <button type="button" className={`rail-mark opens-compass${SceneRail.mapLit(app) ? ' lit' : ''}`}
           data-action="compass" data-key="m" aria-label="The compass: the way out, and the ways in here" aria-pressed={app.state.exploring === 'go'}
           onClick={() => Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go')}>
@@ -148,6 +151,14 @@ export class SceneRail {
     return Wayfinder.ways(app).some(w => Wayfinder.bears(app, w).companion);
   }
   // The map, where a journey there is the aim's next step, and the way is shown.
+  // Back from the map, the scene it returns to: its pip the tone of what that scene leads with here (its four, less
+  // the journeys the map itself is for), never inferred apart from it (the owner's trust contracts, 18 November, C:
+  // "Put away the map" had been blank beside a place with something to do).
+  static local(app: ReaderApp): Aspect[] {
+    const acts = app.state.frame?.leaf.glance?.acts ?? [];
+    return [...new Set(acts.filter(a => !a.choice.startsWith('travel:')).flatMap(a => a.aspects))];
+  }
+  static here(app: ReaderApp): Tone | undefined { return Pip.tone(SceneRail.local(app), Guidance.shown(app)); }
   static mapLit(app: ReaderApp): boolean {
     return Guidance.shown(app) && !!app.state.frame?.leaf.glance?.acts.some(a => a.continues && a.choice.startsWith('travel:')
       && !(app.state.frame?.screen.around ?? []).some(d => `travel:${d.id}` === a.choice));

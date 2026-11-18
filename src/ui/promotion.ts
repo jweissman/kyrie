@@ -328,6 +328,13 @@ export class Promotion {
   private static rank(w: Why): number { const [tier, n] = this.tiers[w]; return tier * 10 + n; }
   private static way(c: Candidate): boolean { return ['way', 'travel', 'step'].includes(c.kind); }
   // What it is led with for, and what of it is pressing, aimed, new or only known.
+  // A candidate led with as the aim's step, where the lead says it is and nothing promoted was (see AimContinuity).
+  static gild(c: Candidate): Promoted { return this.promoted(c, 'advance', ['advance', ...c.whys]); }
+  // Whether it may be led with at all here, for any reason (see allowed): a way into the dark with nothing to see by
+  // may not, whatever the aim (test/small/dark-ahead).
+  static eligible(c: Candidate, s: Situation): boolean {
+    return this.allowed({ ...c, whys: [...c.whys, 'advance'] }, s).length > 0;
+  }
   private static promoted(c: Candidate, why: Why, whys: Why[]): Promoted {
     const tiers = new Set(whys.map(w => this.tiers[w][0]));
     // Further into a site is not the aim's (see Glance.inward).

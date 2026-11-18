@@ -5,23 +5,20 @@ export type { Host };
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
 import type { WayInfo } from '../ui/passage-model';
-import { Spatial } from '../spatial';
-import { ModuleWriter } from '../lang/module-writer';
+import { Spatial } from '../spatial'; import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Affordances, type Reading } from '../ui/affordances';
 import { Attending } from '../ui/attention';
-import { Itineraries } from '../ui/itinerary';
-import { Headings } from '../ui/headings';
+import { Itineraries } from '../ui/itinerary'; import { Headings } from '../ui/headings';
 import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
-import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead';
+import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
 import { Perception } from './perception'; import { Companions } from './companions';
-import { Outmatched } from './outmatched';
-import { CompanyRecall } from './company-recall';
+import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
@@ -52,31 +49,28 @@ export class Glance {
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading);
-    const acts = HeldActs.with(Undertakings.heldFor(campaign, screen, Promotion.pick(cands, s)),
-      HeldActs.follow(screen));
+    const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(cands, s), cands,
+      s });
+    const acts = HeldActs.with(Undertakings.heldFor(campaign, screen, picked), HeldActs.follow(screen));
     const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
-    // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
-    // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
-    // has nothing to do with it (the owner, OWN-53: restrained, and only what is truly held).
+    // The aim this place is about, if one is; said on coming somewhere new, at the opening and on resuming, and when
+    // the aims have changed, not on every page (the owner, OWN-53: restrained, and only what is truly held).
     const turned = !!told?.feedback.aims?.length || !!told?.feedback.amended?.length;
-    // A new aim just taken up is the one said (the vault under the undercroft, found, not the father's errand again);
-    // otherwise the aim followed (see Undertakings).
+    // A new aim just taken up is the one said; otherwise the aim followed (see Undertakings).
     const aim = told?.feedback.aims?.at(-1) ?? screen.aims?.find(a => a.followed)?.text ?? screen.objectives[0];
-    // Not again beneath "A new aim" that has just said it.
-    // Coming somewhere new is an occasion only where the aim followed bears on it: it had been said again at every new
-    // room on the way (a landing, a taproom, a keep and its gate-passage: the terminal line's second play).
+    // Not again beneath "A new aim" that has just said it. Coming somewhere new is an occasion only where the aim
+    // followed bears on it: it had been said at every new room on the way (the terminal line's second play).
     const bearing = arrival === 'first' && Undertakings.bears(campaign, screen, here);
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'resume'].includes(arrival) || bearing || turned);
     const need = [...this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark),
       ...Threshold.barred(screen, reading.named, campaign)],
       after = told && this.after(campaign, told, { screen, acts, scene });
-    // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
-    // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
+    // The first page says the company's own errand as its first goal, once, followed or not (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
     return { arrival, ...GlanceLines.said(lines), acts, ways,
       offer: Offers.scene(acts, ways, cands, { campaign, out, screen }),
-      ...this.aimed(campaign, screen, reading), ...Threshold.leads(campaign, screen, reading.named),
+      ...this.aimed(campaign, screen, reading, continuance), ...Threshold.leads(campaign, screen, reading.named),
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
@@ -137,11 +131,13 @@ export class Glance {
   // Karir's chandlery, following the crypt, the corn-store of another aim had stood alone as "your aim", the
   // churchyard's walk folded into its quarter (the fresh playtest of 7 November).
   // And the aim followed's next step, and where it was learned (US-07).
-  private static aimed(campaign: Campaign, screen: Screen, r: Reading): Pick<View, 'aimed' | 'following' | 'lead'> {
+  private static aimed(campaign: Campaign, screen: Screen, r: Reading, continuance?: View['continuance']):
+    Pick<View, 'aimed' | 'following' | 'lead' | 'continuance'> {
     const byId = EntityIndex.of(campaign.module.entities).byId, lead = AimLeading.of(campaign, screen);
     const following = [...new Set(this.going({ screen, r, byId }, r.named, 'toward'))];
     const aimed = [...new Set([...following, ...this.going({ screen, r, byId }, r.held, 'held')])];
-    return { aimed, ...following.length ? { following } : {}, ...lead ? { lead } : {} };
+    return { aimed, ...following.length ? { following } : {}, ...lead ? { lead } : {},
+      ...continuance ? { continuance } : {} };
   }
   // The ways and journeys to the places some aims name, and the ways toward them.
   private static going(at: { screen: Screen; r: Reading; byId: Map<string, Entity> }, aims: Set<string>,

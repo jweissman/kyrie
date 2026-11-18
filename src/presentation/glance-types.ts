@@ -1,4 +1,5 @@
 import type { AfterAct } from './decision-frame';
+import type { Continuance } from './aim-continuity';
 import type { AimLead } from './aim-lead';
 
 // A place at a glance (OWN-18, OWN-19): what the page leads with where the company stands, decided by the engine so
@@ -147,6 +148,8 @@ export interface Glance {
   aim?: string;
   // The aim followed and its next step, and where that step was learned (US-07): at Mistlake, the speaking door.
   lead?: AimLead;
+  // How the aim followed goes on from here: its step gold, led with, or what stands said (see AimContinuity).
+  continuance?: Continuance;
   // Each lens's acts (see Lens).
   lenses: Record<Lens, Lensed>;
   // Each subject led with, by its id: the one indicator its likeness is drawn with (see Likenesses).

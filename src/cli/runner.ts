@@ -2,6 +2,7 @@ import { appendFile } from 'node:fs/promises';
 import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
+import type { Continuance } from '../presentation/aim-continuity';
 import { Narrator, type Exchange, type Leaf, type Told } from '../presentation/narrator';
 import type { Lens, Promoted, Successor } from '../presentation/glance-types';
 import { Offers, type ActType, type Bearing, type Offered as Glanced } from '../presentation/offer';
@@ -37,6 +38,8 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
   amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
+  // How the aim followed goes on from here (Glance.continuance): its step, or what stands, in words, never nothing.
+  going?: { kind: string; act?: string; said?: string };
   // What the company has to spend, every turn (cold play 2, CL-06: no turn had said what was in the purse).
   purse?: { coin: number; rations: number };
   // Who goes with the one who plays, each by their calling and how hurt: a hireling's calling had been met first in a
@@ -94,9 +97,13 @@ export class Runner {
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.story ? { story: a.story.title } : {},
         ...a.followed ? { followed: true as const } : {} })) } : {},
-      ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
+      ...g?.need?.length ? { need: g.need } : {}, ...g?.continuance ? { going: Runner.going(g.continuance) } : {},
+      ...g?.next ? { next: Runner.next(g.next) } : {},
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
+  }
+  private static going(c: Continuance): NonNullable<Said['going']> {
+    return { kind: c.kind, ...'witness' in c ? { act: c.witness } : {}, ...c.said ? { said: c.said } : {} };
   }
   private static company(screen: Screen): Pick<Said, 'company' | 'you'> {
     const [you, ...rest] = (screen.party ?? []).map(m => `${m.name}, ${m.line}, ${m.hp} of ${m.maxHp}`);
