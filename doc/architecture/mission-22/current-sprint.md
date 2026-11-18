@@ -9,7 +9,7 @@ against 6.5), then by the beat map below.
 | ID | Kind | Why in this sprint | Acceptance | Owner | State |
 |---|---|---|---|---|---|
 | S2-1 | Investigation (E2) | Sprint 1's fixes must be measured, not assumed | Cold play 6 (the drove life, the representative character) at the revision after the 18 November landings; report in cold/, defects registered | lead (an agent plays) | to start |
-| S2-2 | Investigation (E2) | The plan's first step: know the route before changing it | A beat map of the golden route for both characters (offers, acts, telling, aims, resources, harm, persistent facts against the eight beats) | lead | to start |
+| S2-2 | Investigation (E2) | The plan's first step: know the route before changing it | A beat map of the golden route for both characters (offers, acts, telling, aims, resources, harm, persistent facts against the eight beats) | lead | done (18 Nov): beat-map.md (scripts/beat-map.ts): the mage's route meets seven beats, the warrior's five; both lack the return (8), the warrior's preparation changes nothing (3); order: S2-5, S2-4, S2-3 by CL-45 |
 | S2-3 | Defect (E2) | FH-05, HP-01, HP-02: aims before desire | A new aim only once its desire is met or work sought; the beat map's aim count before and after | lead | to start |
 | S2-4 | Story (E2) | One preparation that changes the odds (beat 3) | One ordinary act (asking, buying, recruiting, learning) measurably changes the expedition, for both characters | lead | to start |
 | S2-5 | Story (E2) | Beats 7–8, partly met | A decision changes a person, place or opportunity; the return is a changed reception; pinned through save and resume | lead | to start |
