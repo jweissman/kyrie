@@ -10,7 +10,7 @@ import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
 import { Telling, type Voiced } from '../narrative/telling';
-import { Barks } from '../narrative/barks';
+import { Barks } from '../narrative/barks'; import { RuleWords } from '../narrative/rule-words';
 import { CombatTelling } from '../ui/combat-telling';
 import type { Memorial } from '../world/memorial';
 import { Crossing } from '../campaign/crossing';
@@ -161,15 +161,17 @@ export class PlaySession {
       // What comes of the command after it (the country beyond drawn and installed), and what the company is told of
       // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
       // the command, and nothing of it is kept (Mission 15's independent audit, F3).
-      let voiced: Voiced[];
+      let voiced: Voiced[], words: ReturnType<typeof RuleWords.tell>;
       try {
         if (this.expander) { await this.expander.expand(this.campaign); }
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
-        voiced = [...barked, ...Telling.tell(this.campaign, event)];
+        words = RuleWords.tell(this.campaign, event);
+        voiced = [...barked, ...words.told, ...Telling.tell(this.campaign, event)];
       } catch (error) { this.campaign.undo(); throw error; }
       Undertakings.after(this.campaign, aims);
       this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
-      if (voiced.length) { this.campaign.told(voiced); event.voiced = voiced; }
+      if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); event.voiced = voiced; }
+      if (words.unsaid.length) { event.unsaid = words.unsaid; }
       return event;
     } finally { this.busy = false; }
   }

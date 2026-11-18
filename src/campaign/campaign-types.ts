@@ -73,4 +73,6 @@ export interface CampaignEvent {
   // What the company was told of what happened, in the voice tables' words (see Telling), and what fighters said in
   // its fights (kind bark: see Barks): which line, of what.
   voiced?: { id: string; kind: string; actor?: string; text: string }[];
+  // The world's words heard and held back, as told lately: which perceptions (see RuleWords).
+  unsaid?: string[];
 }

@@ -13,6 +13,7 @@ import { Canon } from '../canon/canon';
 import { ObservationText } from '../lang/observation-text';
 import { Itineraries } from '../ui/itinerary';
 import { Telling } from '../narrative/telling'; import { Days } from '../narrative/days';
+import { RuleWords } from '../narrative/rule-words';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -320,7 +321,7 @@ export class ActionFeedbackView {
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && action.schema !== 'search' && !learned.length && !changed.length
-      && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
+      && !combat.length && !RuleWords.said(event).length;
     const nothing = quiet ? ` ${ActionFeedbackView.nothing[action.schema ?? ''] ?? 'Nothing comes of it.'}` : '';
     // Who came at the company is told between the fights, not before the first.
     // A wait's first light or dark is told as the voice tables told it this time (see Days).
@@ -352,7 +353,8 @@ export class ActionFeedbackView {
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
       ...amended.length ? { amended } : {}, ...taken.length ? { taken } : {}, ...this.borne(campaign, before, after),
-      events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
+      // Not the world's words held back as told lately (see RuleWords).
+      events: RuleWords.said(event).map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?
         after.choices.filter(c => !old.has(c.id)).map(c => c.name) : [],

@@ -91,7 +91,11 @@ export class WatchLoop {
           return { npc, happenings, interrupted: Journey.told(host.world, journey.leg), turned: true };
         }
       }
-      why = watch && Interruption.check(watch, host.world, player!, happenings);
+      // What is said in its last watch does not break it off: it has run its course, and what was said is told among
+      // what happened (the bell on the east point at first light had been a wait's whole answer, every morning:
+      // BO-09). A light given out or someone come still does; and a watchful one waits for just what is said.
+      const said = tick === watches - 1 && !action.watchful ? happenings.slice(0, watch?.heard) : happenings;
+      why = watch && Interruption.check(watch, host.world, player!, said);
     }
     const interrupted = watch && why ? Interruption.told(watch, why, host.tickState.current.elapsed) : undefined;
     // A warning stops what the company was doing when it was given, and nothing after.

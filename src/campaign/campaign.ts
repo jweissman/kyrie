@@ -1,9 +1,8 @@
 import { RandomStreams } from '../random-streams';
 import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath'; import { FieldUse } from './field-use'; import { PlaneLaws } from './plane-laws';
-import { FieldResolver } from './field-resolver';
 import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
-import { CompanyChoices } from './company-choices';
+import { CompanyChoices } from './company-choices'; import { FieldResolver } from './field-resolver';
 import { Perceptions } from './perceptions'; import { Costs } from '../costs';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
@@ -199,7 +198,9 @@ export class Campaign implements WatchHost {
   private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters')); }
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // What the company was told of the last command, kept with it (see Telling): what it has heard is not said again.
-  told(voiced: NonNullable<CampaignEvent['voiced']>) { const last = this.log.at(-1); if (last) { last.voiced = voiced; } }
+  // And what the world said that was held back as told lately (see RuleWords).
+  told(voiced: NonNullable<CampaignEvent['voiced']>, unsaid: string[] = []) {
+    Object.assign(this.log.at(-1) ?? {}, { voiced }, unsaid.length ? { unsaid } : {}); }
   // The world as last committed (see CommittedWorld): its facts are written into the state only when it is read whole.
   private committed = new CommittedWorld();
   private commit(world: World) { this.committed.commit(this.current, this.module, world); }

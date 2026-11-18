@@ -9,6 +9,7 @@ import { PassageModel } from '../ui/passage-model';
 import { Overland } from '../ui/overland';
 import { ScreenModel } from '../ui/screen-model';
 import { Narrator } from '../presentation/narrator';
+import { RuleWords } from '../narrative/rule-words';
 
 // A journey made: each leg as it was done (its command and what came of it), and why it stopped where it did.
 // passed: what came on a leg that asked nothing of the player and so did not stop it, in the words a stop would
@@ -170,7 +171,8 @@ export class Travel {
     // (mere's newcomer walked on past it, and so ran the lord's toll, having been told only "There is danger here").
     // A word from whoever goes with the company (a fellow's remark on coming to a fold) does not stop it: play 11's
     // journey stopped at a shieling for "'Summer huts,' says Taklinn", and said so as "Summer huts,’ says Taklinn".
-    const said = event.perceptions?.find(p => p.kind === 'event' && !this.aside(campaign, p.id))?.text;
+    // Not what the world says that was held back as told lately (see RuleWords).
+    const said = RuleWords.said(event).find(p => !this.aside(campaign, p.id))?.text;
     const staged = campaign.world.relates('staged') && campaign.world.related('staged').some(r => r.args[0] === here)
       && this.fresh(campaign, event);
     const why = said ? this.gist(said) || 'Something is said to you here' : staged ? 'Something is going on here' : undefined;

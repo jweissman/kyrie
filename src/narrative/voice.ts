@@ -32,8 +32,9 @@ export class Voice {
   static readonly tables: VoiceTable[] = [join, part, greet, pet, turn, thank, combat, journey, address, farewell,
     feat, day] as VoiceTable[];
   // What is told in a place of its own, not among the lines told after a command: a fight's barks with its blows (see
-  // CombatTelling.barks), the day's turn as what a wait came to (see Days), a journey as it goes (see Journeys).
-  static apart(kind: string): boolean { return kind === 'bark' || /^(day|journey)-/.test(kind); }
+  // CombatTelling.barks), the day's turn as what a wait came to (see Days), a journey as it goes (see Journeys), the
+  // world's own words as it said them (see RuleWords).
+  static apart(kind: string): boolean { return kind === 'bark' || kind === 'rule' || /^(day|journey)-/.test(kind); }
   private static readonly byKind = new Map(Voice.tables.flatMap(t => t.kinds.map(k => [k, t] as const)));
   static table(kind: string): VoiceTable | undefined { return this.byKind.get(kind); }
   // The lines of a kind that fit a moment: every key a line names must be one of the moment's values for it; a line
