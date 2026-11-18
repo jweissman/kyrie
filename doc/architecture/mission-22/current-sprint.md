@@ -14,6 +14,7 @@ against 6.5), then by the beat map below.
 | S2-4 | Story (E2) | One preparation that changes the odds (beat 3) | One ordinary act (asking, buying, recruiting, learning) measurably changes the expedition, for both characters | lead | to start |
 | S2-5 | Story (E2) | Beats 7–8, partly met | A decision changes a person, place or opportunity; the return is a changed reception; pinned through save and resume | lead | partly (18 Nov): the drove life's return: the drove sold with Bran (coin), the landing answers (the keeper, a loaf), Bran's road west as the next desire (test/drove-return). Open: the save-and-resume pin; the weir life's return; Bran's road as an aim the map leads |
 | S2-6 | Defect (E2) | CB-01, CB-03: the alternate character's viability | The mage's route viable by preparation, avoidance or help, a warning naming help that can be had | lead | to start |
+| S2-7 | Story (E2) | The owner's structural critique (18 Nov): the route's scenarios are situations, not stories | Story sheets (ST-01) for the four Iscoed scenarios; the held drove (ST-02) and the sea-gate (ST-03) rebuilt from theirs: a moving actor, an opposing claim, a collision, a choice with a cost, an aftermath; the handoff between them (ST-04) | lead | begun (18 Nov): story-sheets.md, the held drove's sheet |
 
 Stop rule (the plan's): no generalized career, faction, crafting or quest system to mend a missing beat. Running
 beside it: one SRD slice at a time (SR-01); the maturity track steadily, one step at a time (the owner, 18 November:
