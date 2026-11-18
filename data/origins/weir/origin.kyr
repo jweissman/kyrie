@@ -30,6 +30,14 @@ Module origin "Your aunt's weir" {
     Says "Nest weighs the creel in one hand. 'Three coin, and I take them to Porthalen myself.' She counts it out. 'Tegwen got four. Tegwen didn't let them sit.'".
     On discuss { Spend eel_kind from actor. Increase quantity(actor, gold) by 3. Assert sold(actor). }
   }
+  // Before anything is done she has something to say of what she spoke of, the gate and the weir: spoken to, she had
+  // said "Lost?" and had nothing more (cold play 5, CL-36's 7).
+  Topic nest_gate with nest "Ask Nest what is wrong with the sea-gate" when not knows(actor, cut) and not knows(actor, shut) once {
+    Says "'Wrong?' Nest jerks her chin at the gatehouse. 'It comes down on the ebb like it always did. Then the flood lifts it again, like a door with no latch on it. The Rì's engineers come in the summer.' She spits. 'The spring tide comes in six days.'".
+  }
+  Topic nest_weir with nest "Ask Nest about Tegwen's weir" when not sold(actor) once {
+    Says "'Lift the trap every morning, down the path past her door,' says Nest. 'I'll take what's in it to {town} for you. Three coin a creel. Tegwen got four.'".
+  }
   // Nest answers what the company finds and does at the gate (cold play 5's 7 and 8: she had nothing to say of the
   // sawn pin, and "Still here. I suppose that's something." to the one who had shut it).
   Topic nest_pin with nest "Tell Nest the pawl's pin was sawn through" when knows(actor, cut) once {

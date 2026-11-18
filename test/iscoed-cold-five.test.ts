@@ -88,4 +88,17 @@ describe('the drove road, after the fourth cold play', () => {
       + 'where they came from.');
     expect(aims.join(' ')).not.toContain('Clear the rats out of');
   }, 180000);
+  // CL-36's 7: Nest, who had told of the gate, had nothing to say before anything was done; and its 29, the cook had
+  // no word of the press key the steward sent the company to her for, before her cellar was seen to.
+  it('has Nest say what she spoke of, and the cook what the press key waits on', async () => {
+    const { s, ask, journey } = await play('elf/mage/Ilse/scholar', []);
+    expect(s.at).toBe('region__s4_green');
+    const nest = await ask('talk_to(origin__nest)');
+    const asks = labels(nest);
+    expect(asks).toContain('Ask Nest what is wrong with the sea-gate');
+    expect(asks).toContain('Ask Nest about Tegwen\'s weir');
+    expect(text(await ask('origin__nest_gate'))).toContain('like a door with no latch on it');
+    const cook = journey.session.campaign.module.actions.find(a => a.id === 'region__s4_manor_cook_key_first');
+    expect(cook?.speaker).toBe('region__s4_manor_cook');
+  }, 180000);
 });

@@ -65,6 +65,11 @@
       Assert {t}_manor_amends(party). }
   }
   Entity {t}_manor_key_told: fact "The cook knows where the old press key is kept: on a nail behind the dresser, where she hung it when the steward lost it.".
+  // Sent to her by the steward before the cellar is seen to, she says what the key waits on: she had had no word of it
+  // (cold play 5, CL-36's 29).
+  Topic {t}_manor_cook_key_first with {t}_manor_cook "Ask {{t}_manor_cook} about the muniment press" when {t}_roadwood_open(party) and not {t}_manor_ratsdone(party) once {
+    Says "'The press.' {{t}_manor_cook} does not stop cutting. 'I might know where a key is. I also have rats in my cellar.' She looks at you, once, sideways.".
+  }
   Topic {t}_manor_cook_key with {t}_manor_cook "Ask {{t}_manor_cook} about the muniment press" when {t}_manor_ratsdone(party) once {
     Says "'The press? The steward has not had the key in forty years and she knows it, and she would sooner be dead than ask me.' {{t}_manor_cook} reaches behind the dresser without looking and takes down a black iron key on a loop of string. 'It was there when I came. Nobody has asked.'".
     On discuss { Assert knows(actor, {t}_manor_key_told). }
