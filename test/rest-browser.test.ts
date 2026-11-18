@@ -60,7 +60,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     await d.click(`${carter} .portrait`);
     expect(await page.locator('.sitter .n').innerText()).toBe('The wagoner');
     expect(await page.locator('.dialogue .leave .act').evaluate(e => getComputedStyle(e).borderTopStyle)).toBe('solid');
-    await d.click('.replies .act >> text=/Let him thank you/');
+    await d.click(".replies .act >> text=/Hear the wagoner's thanks/");
     await d.away();
     expect(await Rest.count(page, `${carter}.owed`)).toBe(0);
     // The one way on, among the four the engine offers (Glance.offer) or as itself.

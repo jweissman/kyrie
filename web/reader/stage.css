@@ -29,7 +29,9 @@
   opacity: .7; }
 .place-mark.prism .pm-accent { opacity: .9; background-size: 200% 100%; }
 .place-mark.dim { opacity: var(--cond-idle); }
-.chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+/* A heading is no promise: gold is the followed aim's alone, and its next step (the owner, 17 November: the Colour
+   Atlas's contract; "Coming home" and "Your first goal" had been drawn in the aim's gold). */
+.chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--dim); margin: 0 0 8px; }
 .place { font: 300 clamp(30px, 3.4vw, 46px)/1.08 var(--do); letter-spacing: .01em; margin: 0 0 10px; text-wrap: balance;
   color: var(--ivory); }
 .dark-note { font: italic 400 19px/1.5 var(--told); color: var(--dim); }
@@ -46,7 +48,7 @@
 .journey p, .travelled p { font-style: italic; color: var(--dim); }
 /* What has just happened, in its own words, under what the company did. */
 .happened { margin: 0 0 24px; }
-.happened .you { font: 500 12.5px/1.4 var(--do); letter-spacing: .08em; color: var(--accent); margin: 0 0 8px; }
+.happened .you { font: 500 12.5px/1.4 var(--do); letter-spacing: .08em; color: var(--dim); margin: 0 0 8px; }
 .happened .you::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 9px 1px 1px;
   background: var(--accent); transform: rotate(45deg); }
 .happened .speech { font-size: 20px; line-height: 1.55; }
@@ -179,12 +181,14 @@
 .prologue-page .answers .act { width: 100%; background: rgba(25, 27, 33, .82); backdrop-filter: blur(6px); }
 .prologue-page .answers kbd { margin-left: auto; }
 .prologue-page .said { margin: 0 0 14px; font: var(--type-control); letter-spacing: .04em; color: var(--dim); }
-.prologue-page .said::before { content: '\25C6'; margin-right: 10px; color: var(--accent); font-size: 9px; vertical-align: 2px; }
+.prologue-page .said::before { content: '\25C6'; margin-right: 10px; color: var(--faint); font-size: 9px; vertical-align: 2px; }
 .prologue-page .said.waiting { animation: breathe 1.6s var(--ease) infinite; }
 .prologue-page .beat.outcome { margin-bottom: 18px; }
 /* A roll is told as play tells it, small, beside the words it decided. */
 .prologue-page .beat.outcome.roll { font: var(--type-note); color: var(--dim); text-shadow: none; }
-.prologue-page .how { margin: 0 0 16px; font: 400 12.5px/1.45 var(--do); color: var(--faint); }
+.prologue-page .how { margin: -8px 0 16px; font: 400 12.5px/1.45 var(--do); color: var(--faint); }
+/* The dice behind what was told, a small die to look at, not a line that reads as something to do. */
+.prologue-page .how > summary { display: inline-block; font-size: 18px; line-height: 1; padding: 4px; }
 .prologue-page .how > summary { cursor: pointer; list-style: none; }
 .prologue-page .how > summary::-webkit-details-marker { display: none; }
 .prologue-page .how > summary:is(:hover, :focus-visible), .prologue-page .how[open] > summary { color: var(--dim); outline: none; }

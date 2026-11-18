@@ -1,3 +1,4 @@
+import { Headings } from '../ui/headings';
 import type { Candidate, Kind } from '../ui/promotion';
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
@@ -78,8 +79,26 @@ export class Offers {
     // A site, or under the ground (a town's undertown is one too).
     const site = !!screen && (screen.path.some(p => p.kind === 'site') || !!screen.place.underground);
     const at = { site, ...out ? { out } : {} };
-    return { primary: primary.map(o => this.borne(o, byChoice.get(o.choice), at)),
-      rest: rest.map(o => this.borne(o, byChoice.get(o.choice), at)) };
+    const ctx = { twice: this.twice([...primary, ...rest]), byChoice, at,
+      ...screen && campaign ? { land: { screen, campaign } } : {} };
+    return { primary: primary.map(o => this.told(o, ctx)), rest: rest.map(o => this.told(o, ctx)) };
+  }
+  // Two ways worded alike are told apart by which way each lies ("Take the way across country to the woods of
+  // Greenwood, north-east"): a cold player had met three such ways out of one stretch of wild country and could not
+  // choose between them (CL-01; a census of three worlds found 28 labels said twice in one offer).
+  private static told(o: Offered, c: { twice: Set<string>; byChoice: Map<string, Candidate>;
+    at: { site: boolean; out?: Set<string> }; land?: { screen: Screen; campaign: Campaign } }): Offered {
+    return this.borne(this.borneWay(o, c.twice.has(o.label) ? c.land : undefined), c.byChoice.get(o.choice), c.at);
+  }
+  private static twice(all: Offered[]): Set<string> {
+    const labels = all.map(o => o.label);
+    return new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
+  }
+  // A way said with which way it lies, where another is worded as it is (see twice).
+  private static borneWay(o: Offered, at?: { screen: Screen; campaign: Campaign }): Offered {
+    const to = at ? /^go\([^,]+,([^)]+)\)$/.exec(o.choice)?.[1] : undefined;
+    const bearing = to && at ? Headings.bearing(at.campaign.module, at.screen.path, at.screen.place.id, to) : undefined;
+    return bearing ? { ...o, label: `${o.label}, ${bearing}` } : o;
   }
   // In a site, a way's bearing, typed for every client to say as a small sign or a word (EX-02): the frontier, a way
   // not yet taken whose contents are not known (further in, or along); the retreat, the way the company came or out

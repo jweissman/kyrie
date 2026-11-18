@@ -27,7 +27,7 @@
 .told-col .life { font-size: 15px; }
 .told-col .first-goal { margin: .2em 0 .8em; font: 400 15.5px/1.5 var(--told); color: var(--ivory); }
 .told-col .first-goal .label { display: block; margin-bottom: 2px; font: 500 11px/1.4 var(--do); letter-spacing: .2em;
-  text-transform: uppercase; color: var(--accent); }
+  text-transform: uppercase; color: var(--dim); }
 .told-col .next-pull { margin: .6em 0 .8em; font: 400 15px/1.5 var(--told); color: var(--ivory); }
 .told-col .next-pull .at { color: var(--dim); }
 .told-col .came { margin: 0 0 .7em; font: italic 400 15px/1.5 var(--told); color: var(--dim); }

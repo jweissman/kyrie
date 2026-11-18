@@ -16,7 +16,7 @@ class Road {
     return { host, f };
   }
   static knows(f: Frame): string[] { return f.screen.knowledge.map(k => k.text); }
-  static lifts(f: Frame): boolean { return f.leaf.prologue!.meeting!.choices.some(c => /Lift a sack/.test(c.label)); }
+  static lifts(f: Frame): boolean { return f.leaf.prologue!.meeting!.choices.some(c => /Steal a sack/.test(c.label)); }
   static held(f: Frame): string { return `${f.screen.purse.coin}:${f.screen.purse.rations}:${f.screen.items.length}`; }
 }
 

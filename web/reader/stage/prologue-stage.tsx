@@ -41,7 +41,7 @@ export class PrologueStage {
         <img src={`paintings/large/${view}.webp`} alt="" decoding="async" ref={PrologueStage.shown}
           onLoad={e => { e.currentTarget.classList.add('loaded'); }}
           onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
-      header={<p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>}
+      header={page.kind !== 'after' && <p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>}
       narrative={page.kind === 'beat' ? <><p key={page.at} className="beat" data-id="beat" aria-live="polite">
         {told.beats[page.at]}</p>{page.last && <PrologueStage.Onward app={app} />}</>
         : page.kind === 'meeting' ? <PrologueStage.Met meeting={told.meeting!} /> : <PrologueStage.After app={app} />}
@@ -89,15 +89,16 @@ export class PrologueStage {
   // What came of the answer, told as the engine told it, under what was chosen; then the first aim and the way on.
   private static After({ app }: { app: ReaderApp }) {
     const s = app.state, exchange = s.pending ? undefined : s.frame?.leaf.exchange;
+    // One account of what was done (the owner, 17 November, D): the act's own telling, not what was chosen said again
+    // over it, nor the state it left told after it (the cart square on the road, after the telling of its coming out of
+    // the ditch); its dice a small die to look at; what is known now the Book's news (News), not a line here.
+    const lines = exchange?.lines ?? [], told = lines.some(l => l.kind === 'telling' || l.kind === 'speech');
+    const said = lines.filter(l => l.kind !== 'roll' && !(told && l.kind === 'change')), rolls = lines.filter(l => l.kind === 'roll');
     return (<>
-      {s.pending ? <p className="said waiting">{Typography.curl(s.pending.said)}</p>
-        : exchange?.said && <p className="said">{Typography.curl(exchange.said)}</p>}
-      {/* A roll is told as what came of it, its dice behind How it fell (ruling 1; M22's review: "Ebba fails the
-          deception check (d20 10 …)" as a line of the opening). */}
-      {exchange?.lines.map((l, i) => l.kind === 'roll'
-        ? <details key={i} className="how"><summary>How it fell</summary><p>{l.text}</p></details>
-        : <p key={i} className={`beat outcome ${l.kind}`}>{l.text}</p>)}
-      {exchange?.notes.length ? <ul className="notes">{exchange.notes.map((n, i) => <li key={i}>{n}</li>)}</ul> : null}
+      {s.pending && <p className="said waiting">{Typography.curl(s.pending.said)}</p>}
+      {said.map((l, i) => <p key={i} className={`beat outcome ${l.kind}`}>{l.text}</p>)}
+      {rolls.length > 0 && <details className="how"><summary aria-label="How it fell" title="How it fell">⚄</summary>
+        {rolls.map((l, i) => <p key={i}>{l.text}</p>)}</details>}
       {!s.pending && <PrologueStage.Onward app={app} />}
     </>);
   }

@@ -7,7 +7,7 @@ import { Treasure } from './treasure';
 // Who has something for the company now (the owner, 7 November: the wagoner got out of the ditch would pay two coin
 // to be told so, and nothing showed it; "a payoff waiting is invisible"): someone with a thing to be said to them,
 // open now, that pays the company: coin or goods it counts, or a thing of worth put in its hands. Only what the world
-// would do if it were said, never a guess from its words ("Tell the wagoner you cannot stop" is no one's payment);
+// would do if it were said, never a guess from its words ("Walk on", said to the wagoner, is no one's payment);
 // and not the tools of an errand (the key to a quarry an innkeeper hands over with the job is no reward).
 export class Owed {
   static of(campaign: Campaign): Set<string> {

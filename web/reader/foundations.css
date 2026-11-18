@@ -98,7 +98,7 @@
 @media (prefers-reduced-motion: reduce) { :root { --quick: 0ms; --settle: 0ms; --slow: 0ms; } }
 
 /* ---- The small gold capitals that say what kind of thing follows: a chapter, "Why you came", "You are at". ---- */
-.kicker { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--gold);
+.kicker { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--dim);
   margin: 0 0 8px; }
 
 /* ---- Controls beyond choices: an option is a key pressed (Back, Continue, Set out, Go on, Enter); the primary one,

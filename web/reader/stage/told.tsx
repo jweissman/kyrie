@@ -208,8 +208,10 @@ export class Told {
     // if it had left (the owner's play of 15 November, OP-03).
     const fought = exchange.tone === 'fight' && !!exchange.held, at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
-    // The echo of the act is one of the three sentences (ToldLines.sentences) where it is said.
-    const echoed = !!echo && !Words.restates(echo, exchange.lines[0]?.text), room = Told.room() - (echoed ? 1 : 0);
+    // The act said again only where nothing else tells it (the owner, 17 November, D: "a restatement of the chosen
+    // action" over its own telling); said, it is one of the three sentences (ToldLines.sentences).
+    const telling = exchange.lines.some(l => l.kind !== 'roll' && l.kind !== 'fight');
+    const echoed = !!echo && !telling && !Words.restates(echo, exchange.lines[0]?.text), room = Told.room() - (echoed ? 1 : 0);
     const left = new Set(unsaid ?? []);
     // The outcome in prose; the dice behind it kept for a deliberate look (ToldLines, the one rule both clients keep:
     // the blind playtest's BP-03, "1 on the die, needing 11" beside a success the prose had made plain).

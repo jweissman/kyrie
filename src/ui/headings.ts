@@ -19,6 +19,11 @@ export class Headings {
       return { ...e, bearing: Vantage.bearing(b[0] - a[0], b[1] - a[1]) };
     });
   }
+  // Which way one stretch of open country lies from where the company stands, if both are on the land (see of).
+  static bearing(module: Module, path: PlaceRef[], here: string, to: string): string | undefined {
+    const way = { id: to, destination: { id: to } } as unknown as ExitRow;
+    return Headings.of(module, path, here, [way])[0]?.bearing;
+  }
   // The step across the open country that goes nearest toward a place, when the company knows no way to it: from the
   // edge of what it knows, into the wild country the place is said to lie in (REV-08: a company whose aim lay beyond
   // the known roads was led back and forth between edges, and never on into the wild). None where no step brings it
