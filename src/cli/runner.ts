@@ -86,13 +86,18 @@ export class Runner {
   // Whom the company is talking with: turned to (talk:<id>), talked to, or asked something; until it does anything
   // else or goes elsewhere (the page's Conversation attention).
   private with?: string;
+  // The turn as it stands, built once until anything is done: its screen, its glance and its choices' words (OR-91:
+  // the screen had been built up to five times a turn, most of an act's time). Kept while the world it was built of
+  // is the world (a world changed is a new one: an act, or a change made from outside, as a spec's coin).
+  private now?: { world: object; screen: Screen; glance?: { of: Leaf['glance'] }; names?: Map<string, string> };
   constructor(readonly session: PlaySession) {}
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
   get scenes(): Presented[] { return this.scene.told.map(t => ({ ...t, sentences: TerminalWalk.count(t.lines) })); }
   private get campaign() { return this.session.campaign; }
   // The turn as it stands: arriving (the first, and after a move), or what came of the last act.
   said(turned: Turned = !this.told || this.told.moved ? 'arrive' : 'act'): Said {
-    const c = this.campaign, screen = ScreenModel.build(c), leaf = this.scene.leaf(c, screen, this.told);
+    const c = this.campaign, now = this.standing, screen = now.screen, leaf = this.scene.leaf(c, screen, this.told);
+    now.glance = { of: leaf.glance };
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), { offer } = this.offer(screen, g);
     const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
@@ -147,13 +152,22 @@ export class Runner {
   }
   // Every choice's words, by its id.
   private names(): Map<string, string> {
-    return new Map(PlayerView.choices(this.campaign).map(r => [r.choice.id, r.choice.name]));
+    return this.standing.names ??= new Map(PlayerView.choices(this.campaign).map(r => [r.choice.id, r.choice.name]));
+  }
+  private get standing(): NonNullable<Runner['now']> {
+    const world = this.campaign.world;
+    if (this.now?.world !== world) { this.now = { world, screen: ScreenModel.build(this.campaign) }; }
+    return this.now;
+  }
+  private glanced(): Leaf['glance'] {
+    const now = this.standing;
+    return (now.glance ??= { of: Narrator.leaf(this.campaign, now.screen, this.told).glance }).of;
   }
   // What came of the last act as the narrator types it (someone's words, the telling, an event, a change), for the
   // journey reader's step inspector (src/cli/journey-capture.ts); none on arriving at the start.
   exchange(): Exchange | undefined {
     const c = this.campaign;
-    return this.told && Narrator.leaf(c, ScreenModel.build(c), this.told).exchange;
+    return this.told && Narrator.leaf(c, this.standing.screen, this.told).exchange;
   }
   // A line from an agent, answered by what the turn then says, or an error.
   async ask(line: string): Promise<Said | { error: string }> {
@@ -168,8 +182,7 @@ export class Runner {
       return this.fight.choose(asked.act) ? this.went()
         : { error: `not offered in the fight: ${asked.act}${this.fight.whose(asked.act)}` };
     }
-    const screen = ScreenModel.build(this.campaign);
-    const g = Narrator.leaf(this.campaign, screen, this.told).glance, { offer: o, under } = this.offer(screen, g);
+    const screen = this.standing.screen, g = this.glanced(), { offer: o, under } = this.offer(screen, g);
     // What pulls next is offered too, by its own act.
     // And what is under each person's talk, offered as it is on the page (see RunnerTalks), and under an opener.
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
@@ -180,13 +193,18 @@ export class Runner {
     if (opener) { return this.opened(opener, screen); }
     if (asked.act.startsWith('talk:')) { this.with = asked.act.slice(5); return this.said('look'); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
-    if (asked.act.startsWith('follow:')) { await this.session.leg(asked.act); return this.said('look'); }
+    if (asked.act.startsWith('follow:')) { this.now = undefined; await this.session.leg(asked.act); return this.said('look'); }
     const talking = /^talk_to\(([^)]+)\)$/.exec(asked.act)?.[1]
       ?? RunnerTalks.whose(screen, [...o.primary, ...under]).get(asked.act);
     this.doing = { act: asked.act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
-      label: this.names().get(asked.act), leg: this.session.leg(asked.act, this.fight.controller),
+      label: this.names().get(asked.act), leg: this.lead(asked.act),
       ...talking ? { with: talking } : {} };
     return this.went();
+  }
+  // An act set going: what stood before it is let go.
+  private lead(act: string): Promise<CampaignEvent> {
+    this.now = undefined;
+    return this.session.leg(act, this.fight.controller);
   }
   // The act going on: its next turn of a fight, if one began, else what came of it.
   private async went(): Promise<Said | { error: string }> {
@@ -209,6 +227,7 @@ export class Runner {
     const moved = before.location?.id !== this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
     const feedback = this.fight.closed(ActionFeedbackView.read(this.campaign, event, before));
     this.told = { event, feedback, said: doing.act, moved };
+    this.now = undefined;
     this.with = moved ? undefined : doing.with;
     if (before.location?.id) { this.payoff.note(before.location.id, RunnerPayoff.changed(event, doing.act)); }
     this.n++;
@@ -216,23 +235,24 @@ export class Runner {
   }
   // An aim followed, or none: no world act, no time.
   private async follow(by: string | number | null): Promise<Said | { error: string }> {
-    const aims = ScreenModel.build(this.campaign).aims ?? [];
+    const aims = this.standing.screen.aims ?? [];
     const id = typeof by === 'number' ? aims[by - 1]?.id ?? String(by) : by;
     if (id !== null && !aims.some(a => a.id === id)) { return { error: `no aim: ${id}` }; }
+    this.now = undefined;
     if (id !== null) { await this.session.leg(`follow:${id}`); } else { Undertakings.follow(this.campaign); }
     return this.said('look');
   }
   // A lens looked through: no world act, no time; its acts as the offer, each as the scene offers it (Offers ranks a
   // lens as it ranks any surface of its own).
   private lensed(lens: Lens): Said | { error: string } {
-    const c = this.campaign, screen = ScreenModel.build(c), g = Narrator.leaf(c, screen, this.told).glance;
+    const screen = this.standing.screen, g = this.glanced();
     if (!g?.lenses[lens]) { return { error: `no lens: ${String(lens)}` }; }
     return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
       offer: RunnerOffer.lensed(screen, g, this.names(), lens) };
   }
   // An opener opened: its rows, the four first, where the company stands; nothing led nor gilded but as they are.
   private opened(opener: Offered, screen: Screen): Said {
-    const rows = opener.opens ?? [], c = this.campaign, g = Narrator.leaf(c, screen, this.told).glance;
+    const rows = opener.opens ?? [], g = this.glanced();
     return { turn: this.n, moment: 'inspect', scene: { lines: [`${opener.label}:`], prose: [] }, at: screen.place.id,
       offer: { primary: rows.slice(0, 4), rest: rows.slice(4) }, ...Runner.aims(screen),
       ...g?.continuance ? { going: Runner.going(g.continuance) } : {} };
