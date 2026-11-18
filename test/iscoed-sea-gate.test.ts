@@ -39,6 +39,15 @@ describe('the sea-gate at Gatesend', () => {
     expect(Gate.told(j)).toMatch(/sleeping in the shrine at Porthalen/);
     expect((j.screen().aims ?? []).map(a => a.text).join(' ')).not.toMatch(/sea-gate/);
   }, 180000);
+  it('comes round for one without the arms for it, at low water, to the pawl and the wardens\' slate', async () => {
+    const j = Journey.of(await DrawnWorld.start('iscoed', { origin: 'weir',
+      party: [{ name: 'Wenna', raceId: 'elf', classId: 'mage' }] }, NodeBundleSource.shared));
+    await j.play('To the sea-bank', 'To the Wardens\' gatehouse', 'Search', 'To the gate-well', 'Wenna: cast Light', 'Search',
+      'the sea-gate\'s pawl: Take', 'To the sluice gallery', 'To the wardens\' tide-room', 'the wardens\' tide-table: Take',
+      'the wardens\' tide-table: Read', 'To the sluice gallery', 'To the gate-well', 'To the Wardens\' gatehouse', '=16:10',
+      'Wind the sea-gate shut at low water');
+    expect(j.latest).toMatch(/the drum comes round as easily as a well-winch/);
+  }, 180000);
   it('is remembered shut where it was shut, by Gatesend and by the town', async () => {
     const j = await Gate.begin();
     await j.play('To the sea-bank', 'To the Wardens\' gatehouse', 'Search', 'Pack › A torch › Light', 'To the gate-well',

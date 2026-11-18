@@ -27,7 +27,8 @@ Module drove "The held drove" {
   Observe customs_scene at customs when not freed(party) "A long counter, a strongbox chained to the wall, and a window barred like a gaol's. Through a grille at the back a big man in a drover's cloak sits on a bench with his hands between his knees.".
   Observe customs_after at customs when freed(party) "A long counter and a strongbox chained to the wall. The grille at the back stands open on an empty bench.".
   Observe mardle_says at customs as sign when not freed(party) and not sent(party) and not knows(party, clerk_count) "'Forty head at the march-stone,' Mardle is saying to the customs-man, with a finger on the tally-book. 'Thirty-six in the pens. Four hidden from the Rì.'" teaches clerk_count.
-  Observe pens_scene at pens when not freed(party) "Thirty-six black bullocks of the fells, rough-coated and restless, crowd the rails, bawling to be watered.".
+  Observe pens_scene at pens when not freed(party) and not watered(party) "Thirty-six black bullocks of the fells, rough-coated and restless, crowd the rails, bawling to be watered.".
+  Observe pens_watered at pens when not freed(party) and watered(party) "Thirty-six black bullocks of the fells stand quiet at the rails, steaming, their trough full.".
   Observe owain_water near owain of owain when at(owain, pens) and not freed(party) "Owain is carrying water to them a bucket at a time, in a cloak too big for him.".
   Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "Owain stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
   Observe pens_after at pens when freed(party) "The pens are churned and empty. The drove has gone on to the sales.".
@@ -45,7 +46,7 @@ Module drove "The held drove" {
     Found by searching rhyne "Down where the bank has slumped, under the black water, something big and dark: a bullock, and another beyond it, four in all, the brand of a Brynach drove burnt into each flank. They have been there days.".
   }
 
-  Topic clerk_count_t with clerk "Ask Mardle how many head crossed" when not freed(party) and not sent(party) once {
+  Topic clerk_count_t with clerk "Ask Mardle how many head crossed" when not knows(actor, found_drowned) and not freed(party) and not sent(party) once {
     Says "Mardle turns the tally-book so you can see it, and lays a finger on the line. 'Forty head at the march-stone. I counted them myself, at dawn. Thirty-six in the pens. The Rì's law is the Rì's law: four hidden beasts, a fine of twelve crowns, or the man stays where he is.'".
     On discuss { Assert knows(actor, clerk_count). }
   }
@@ -63,7 +64,7 @@ Module drove "The held drove" {
   Action read_book(actor: group, site: place) "Look over Mardle's shoulder at the tally-book" {
     Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, customs) and knows(actor, clerk_count)
-      and not knows(actor, altered) and not freed(actor) and not sent(actor) and not counted(actor).
+      and not knows(actor, altered) and not knows(actor, found_drowned) and not freed(actor) and not sent(actor) and not counted(actor).
     Resolve check(actor, insight, dc_fair).
     On success { Assert knows(actor, altered). Assert counted(actor). }
     On failure { Assert counted(actor). }

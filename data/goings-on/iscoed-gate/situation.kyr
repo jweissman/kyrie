@@ -54,6 +54,16 @@ Module gate "The last sea-gate" {
     Result "The pawl drops into its socket with a sound like a bell. Then the long work: the windlass bars, a turn and a rest and a turn, the chain coming up wet out of the slot link by link, the pawl clacking over the ratchet. Below, at last, something enormous seats itself in stone, and the mill-race sound stops.".
     Otherwise "The drum will not come round. You hang on the bar until your arms shake and the chain slips back a link at a time. It wants more weight than yours, or a fresh try.".
   }
+  // The wardens' own way, for one without the arms for it: at low water the sea is off the gate, and it comes round
+  // to anyone who knows the hour (the tide-table) and holds the pawl, as it came round for the wardens.
+  Action wind_at_ebb(actor: group, site: place) "Wind the sea-gate shut at low water, as the wardens' slate says" {
+    Time 30 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gatehouse) and holding(actor, pawl_kind)
+      and knows(actor, tides) and not mended(actor) and not flooded(actor)
+      and ((hour(clock) >= 4 and hour(clock) < 7) or (hour(clock) >= 16 and hour(clock) < 19)).
+    Result "With the sea gone out from under it, the drum comes round as easily as a well-winch. The pawl drops in with a sound like a bell, and clacks over the ratchet tooth by tooth, and below, something enormous seats itself in stone. The mill-race sound stops.".
+    On success { Spend pawl_kind from actor. Assert mended(actor). }
+  }
   Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) once {
     Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.'".
     On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). Give tally_case to actor. Assert knows(actor, road_north). }
