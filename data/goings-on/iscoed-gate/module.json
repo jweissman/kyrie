@@ -15,7 +15,9 @@
     "hamletgreen",
     "drovedrowned",
     "forged",
-    "freedword"
+    "freedword",
+    "clerkgone",
+    "clerkkept"
   ],
   "roles": {
     "party": {
@@ -40,6 +42,12 @@
       "type": "fact"
     },
     "drovedrowned": {
+      "type": "fact"
+    },
+    "clerkgone": {
+      "type": "fact"
+    },
+    "clerkkept": {
       "type": "fact"
     }
   },

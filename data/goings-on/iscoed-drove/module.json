@@ -39,6 +39,8 @@
     "customs": "customs",
     "pens": "pens",
     "found_drowned": "found_drowned",
-    "altered": "altered"
+    "altered": "altered",
+    "mardle_shown": "mardle_shown",
+    "mardle_paid": "mardle_paid"
   }
 }

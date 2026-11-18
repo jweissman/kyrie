@@ -94,7 +94,10 @@ Module drove "The held drove" {
   }
   Topic pay_fine with clerk "Pay Mardle the twelve crowns, and have Bran let out" when not freed(party) and not sent(party) and quantity(actor, gold) >= 12 once {
     Says "Mardle counts the coins twice and writes in the book. The grille opens. Bran comes out stooping, straightens, and looks at Mardle a long moment before he looks at you. 'He'll do it to the next drove,' he says.".
-    On discuss { Decrease quantity(actor, gold) by 12. Assert freed(actor). Assert fined(actor). Assert knows(actor, road_west). }
+    On discuss {
+      Decrease quantity(actor, gold) by 12. Assert freed(actor). Assert fined(actor). Assert knows(actor, road_west).
+      Assert knows(actor, mardle_paid).
+    }
   }
   Action show_drowned(actor: group, site: place) "Tell Mardle where the four bullocks are" {
     Time 10 minutes.
@@ -106,7 +109,9 @@ Module drove "The held drove" {
     Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, customs) and knows(actor, altered) and not freed(party) and not sent(party).
     Result "For a moment Mardle does nothing at all. Then he takes a key from his belt and unlocks the grille himself, and does not look at you while he does it. 'A clerk's slip,' he says to the counter. By evening the whole of the waterfront has heard which clerk, and whose slip.".
-    On success { Assert freed(actor). Assert turned(clerk). Assert knows(actor, road_west). }
+    On success {
+      Assert freed(actor). Assert turned(clerk). Assert knows(actor, road_west). Assert knows(actor, mardle_shown).
+    }
   }
   // Let out, Bran says his thanks and where he is going himself, at once: the second cold play had him leave without
   // a word, his thanks behind a question nobody thought to ask (CL-03).
@@ -124,6 +129,10 @@ Module drove "The held drove" {
     Result "Eighteen bullocks through the lanes to the sale-yard, Owain at the back with a stick. Bran says nothing of the other eighteen. He pays you out of what they bring: two coin. 'It should have been four,' he says." when halved(actor).
     On success { Assert sold(actor). }
   }
+  // How Bran was got out, as a fact the sea-gate reads (ST-04: the smugglers pay Mardle one sack in ten): shown up, he
+  // can protect nobody; paid off, he is at the counter still, and warns his friends the company is about.
+  Entity mardle_shown: fact "Mardle the customs clerk was shown up at his own counter, and is gone from {town}.".
+  Entity mardle_paid: fact "Mardle the customs clerk was paid his twelve crowns, and keeps the counter at {town}.".
   Rule share_whole when sold(party) and not halved(party) and not paid(party) { Assert paid(party). Increase quantity(party, gold) by 4. }
   Rule share_half when sold(party) and halved(party) and not paid(party) { Assert paid(party). Increase quantity(party, gold) by 2. }
   // Mardle sells the drove himself, on a clock of his own (the owner's structural critique, 18 November, ST-02: a

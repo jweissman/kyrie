@@ -77,6 +77,7 @@ Module gate "The last sea-gate" {
   // What the drove's inquiry found, for the reeve to hear (data/goings-on/iscoed-drove): Mardle told the company to
   // trouble her with nothing, and she had no word to say of it (the second cold play, CL-03).
   Entity drovedrowned: fact "The drowned four". Entity forged: fact "The count written over". Entity freedword: fact "Bran out".
+  Entity clerkgone: fact "Mardle shown up". Entity clerkkept: fact "Mardle paid off".
   Relation mardleTold(group).
   Topic reeve_mardle with reeve "Tell the reeve how Mardle counts the droves" when knows(actor, freedword) and (knows(actor, drovedrowned) or knows(actor, forged)) and not mardleTold(actor) once {
     Says "The reeve hears it out without a word. 'Third drove this year,' she says at last. 'I had wondered why the Brynach men stopped selling here.' She writes something on her tablet and underlines it. 'He keeps the Rì's book, and I keep the Rì's march. I will have the book off him by the quarter-day.'".
@@ -222,11 +223,12 @@ Module gate "The last sea-gate" {
   // ST-03: the smugglers had acted nowhere in the six days): Ifan Rhys, an eel-man of the hamlet whose family has run
   // the sluice-cut since before the Wardens shut it, and who takes the reeve's gate for the Rì's toll by another name.
   Relation prowled(group). Relation cursed(group). Relation boatCome(group). Relation letThrough(group).
-  Relation turnedBack(group). Relation ifanHeard(group). Relation ifanMet(group).
+  Relation turnedBack(group). Relation ifanHeard(group). Relation ifanMet(group). Relation ifanAsked(group). Relation ifanSaid(group).
   Person ifan "Ifan Rhys" at hamletgreen { Role "an eel-man of {hamlet}, mending a trap at his door". Pronouns he.
     Peaceable. Manner acerbic. }
   Topic ifan_gate with ifan "Ask Ifan about the sea-gate" when not mended(party) and not flooded(party) once {
     Says "'Open a month,' says Ifan, and does not look up from the trap. 'The eels come up with the sea. Best run since my father's time.' He pulls a withy tight with his teeth. 'Not everyone wants it shut, whatever the reeve's paper says.'".
+    On discuss { Assert ifanAsked(actor). }
   }
   Topic ifan_claim with ifan "Ask Ifan who wanted the gate open" when knows(actor, cut) once {
     Says "Ifan puts the trap down. 'The Wardens shut that cut on my grandfather, and the reeve keeps it shut for the Rì, and every sack that comes up it pays the Rì or the clerk at {town} or nobody.' He looks at the gatehouse. 'Shut it, and my children eat what the toll leaves. Leave it a tide, and they eat. You choose, since you're choosing.'".
@@ -234,6 +236,11 @@ Module gate "The last sea-gate" {
   }
   // Ifan's clock, three beats before the tide (the critique's clock test: warning, deterioration, crisis).
   Rule prowling when not mended(party) and not flooded(party) and not prowled(party) and watch(clock) >= 288 says "Word from {hamlet}: someone was in the Wardens' gatehouse in the night. The ratchet ring is greased, and wet boot-prints go to the well." { Assert prowled(party). }
+  // How Bran was got out reaches the gate (ST-04): with Mardle gone the smugglers have lost the one they paid, and are at
+  // the gatehouse a day sooner; with Mardle paid, he has sent Ifan word the company is coming.
+  Rule prowling_early when knows(party, clerkgone) and not mended(party) and not flooded(party) and not prowled(party) and watch(clock) >= 144 says "Word from {hamlet}: someone was in the Wardens' gatehouse in the night, and not careful about it. The ratchet ring is greased, the floor is wet to the well, and a pry-bar has been left by the windlass." { Assert prowled(party). }
+  Rule ifan_warned when knows(party, clerkkept) and ifanAsked(party) and not ifanSaid(party) says "'The clerk at {town} sent word you'd be along,' Ifan adds, still not looking up. 'Said you were the paying kind.'" { Assert ifanSaid(party). }
+  Rule ifan_unpaid when knows(party, clerkgone) and ifanHeard(party) and not ifanSaid(party) says "'And Mardle's gone,' says Ifan. 'There was a man at the customs-house who could be talked to. You saw to that. So now it is the gate, or it is nothing.'" { Assert ifanSaid(party). }
   Rule cursing when not mended(party) and not flooded(party) and prowled(party) and not cursed(party) and watch(clock) >= 576 says "The eel-men of {hamlet} will not go near the gatehouse now. Someone has told them a drowned warden walks the sea-bank at night, and Ifan Rhys tells it loudest." { Assert cursed(party). }
   Rule boat_comes when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. He looks up at you through the slot in the floor and does not call out." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). }
   Action let_through(actor: group, site: place) "Wind the gate up a tide's height and let Ifan's boat through" {

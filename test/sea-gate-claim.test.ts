@@ -27,4 +27,17 @@ describe('the last sea-gate, shut', () => {
     expect(c.world.test(ModuleWriter.call('gate__turnedBack', 'party'))).toBe(true);
     expect(c.world.test(ModuleWriter.call('gate__mended', 'party'))).toBe(true);
   }, 240000);
+  // ST-04: how Bran was got out reaches the gate. With Mardle shown up the smugglers have lost the man they paid, and
+  // are at the gatehouse a day sooner (the second morning, not the third).
+  it('hears of the gatehouse prowled a day sooner once Mardle is shown up', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const r = new Runner(journey.session), c = journey.session.campaign;
+    c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'drove__mardle_shown') }]));
+    const told: string[] = [];
+    for (let i = 0; i < 30 && !c.world.test(ModuleWriter.call('gate__prowled', 'party')); i++) {
+      const wait = offered(r.said()).find(o => /^Wait an hour/.test(o.label))!;
+      told.push(...said(await r.ask(JSON.stringify({ act: wait.id }))).scene.lines);
+    }
+    expect(told.join(' ')).toContain('a pry-bar has been left by the windlass');
+  }, 240000);
 });

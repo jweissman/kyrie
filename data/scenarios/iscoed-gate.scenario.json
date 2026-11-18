@@ -25,7 +25,9 @@
         "hamletgreen": "@hamlet.green",
         "forged": "drove.altered",
         "freedword": "drove.road_west",
-        "drovedrowned": "drove.found_drowned"
+        "drovedrowned": "drove.found_drowned",
+        "clerkgone": "drove.mardle_shown",
+        "clerkkept": "drove.mardle_paid"
       }
     }
   ],
