@@ -54,12 +54,18 @@ export class AimContinuity {
     if (grave) {
       return { acts, continuance: { kind: 'led', witness: grave.choice, said: `${grave.label}: your aim's way, at a risk.` } };
     }
-    return { acts, continuance: { kind: 'frontier', said: this.frontier(campaign, lead) } };
+    // Something can be done to the bar, but none of it is the step yet (the speaking door's words, a guess until its
+    // letters are read): never "nothing here opens it".
+    const tried = PlayerView.choices(campaign).some(r => Object.entries(r.action.bindings ?? {})
+      .some(([k, v]) => k !== 'actor' && lead.next.includes(v)));
+    return { acts, continuance: { kind: 'frontier', said: this.frontier(campaign, lead, tried) } };
   }
   // What stands, where nothing offered acts on the step.
-  private static frontier(campaign: Campaign, lead: AimLead): string {
+  private static frontier(campaign: Campaign, lead: AimLead, tried: boolean): string {
     const bar = lead.next[0]!, name = EntityIndex.of(campaign.module.entities).byId.get(bar)?.name ?? bar;
-    if (lead.source === 'barred') { return `${this.upper(name)} bars the way, and nothing here opens it yet.`; }
+    if (lead.source === 'barred') {
+      return `${this.upper(name)} bars the way, and ${tried ? 'what opens it is still to be worked out' : 'nothing here opens it yet'}.`;
+    }
     return 'Nothing here bears on your aim now: what it waits on is still to be found.';
   }
   private static deeper(campaign: Campaign, screen: Screen): string {
@@ -75,11 +81,14 @@ export class AimContinuity {
     if (!lead.next.length) { return []; }
     const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
     const step = new Set([...lead.next, ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
+    // Where the step is what bars the way, an act whose site is the bar acts on it too (the speaking door's words).
+    const skip = lead.source === 'barred' ? ['actor'] : ['actor', 'site'];
     const bound = new Map(PlayerView.choices(campaign).map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
-      .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
+      .filter(([k]) => !skip.includes(k)).map(([, v]) => v)]));
     const ways = new Map(screen.exits.map(e => [e.id, e.destination.id]));
     return cands.filter(c => {
-      const id = c.command ?? c.choice, way = c.exit ? ways.get(c.exit) : undefined;
+      // A way by where it goes; an act at a way (a look at the door on it) by what it is done to.
+      const id = c.command ?? c.choice, way = c.exit && c.kind === 'way' ? ways.get(c.exit) : undefined;
       const far = c.choice.startsWith('travel:') ? c.choice.slice('travel:'.length) : undefined;
       return (!way && !far && (bound.get(id) ?? []).some(x => step.has(x))) || (!!way && step.has(way))
         || (!!far && [...step].some(x => Itineraries.within(byId, x, far)));

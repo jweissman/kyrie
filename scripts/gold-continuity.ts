@@ -13,8 +13,9 @@ interface Lapse { world: string; turn: number; took: string; at: string; aim?: s
 export class GoldContinuity {
   static gold(s: Said): Offered | undefined {
     const all = [...s.offer.primary, ...s.offer.rest];
-    return all.find(o => s.led?.includes(o.id)) ?? s.offer.primary.find(o => o.aspects.includes('undertaking'))
-      ?? all.find(o => o.aspects.includes('undertaking'));
+    // Gold first; what is only led on the step (a riddle's words at the speaking door: led, never gold, PB-16b) after.
+    return s.offer.primary.find(o => o.aspects.includes('undertaking')) ?? all.find(o => o.aspects.includes('undertaking'))
+      ?? all.find(o => s.led?.includes(o.id));
   }
   static said(x: Said | { error: string }): Said { if ('error' in x) { throw new Error(x.error); } return x; }
   // The first aim held taken up where none is followed, as a player would from the Notes.
@@ -23,11 +24,14 @@ export class GoldContinuity {
     return s.aims?.some(a => a.followed) || !first ? s : this.said(await r.ask(JSON.stringify({ follow: first.id })));
   }
   static async walk(spec: string, turns: number): Promise<{ lapses: Lapse[]; taken: number; ended: string }> {
-    const [world, origin, race, calling] = spec.split('/');
-    const args = ['--world', world!, '--as', `${race ?? 'human'}/${calling ?? 'warrior'}/Wenna`, ...origin ? ['--origin', origin] : []];
+    const [world, origin, race, calling, past] = spec.split('/');
+    const as = `${race || 'human'}/${calling || 'warrior'}/Wenna${past ? `/${past}` : ''}`;
+    const args = ['--world', world!, '--as', as, ...origin ? ['--origin', origin] : []];
     const { journey } = await PlayTool.start(PlayTool.parse(args));
     const r = new Runner(journey.session), lapses: Lapse[] = [];
     let s = r.said(), taken = 0;
+    // A loop: the same gold taken at the same place a third time (cold play 5: forecourt and kitchen, round and round).
+    const seen = new Map<string, number>();
     s = await this.followed(r, s);
     for (let t = 0; t < turns; t++) {
       if (s.end) { return { lapses, taken, ended: 'the end' }; }
@@ -36,6 +40,13 @@ export class GoldContinuity {
       if (!g && s.going?.kind === 'frontier') { return { lapses, taken, ended: `frontier at ${s.at}: ${s.going.said}` }; }
       if (!g) { return { lapses, taken, ended: `no gold at ${s.at} (aim ${s.aims?.find(a => a.followed)?.text ?? 'none'})` }; }
       if (process.env.GOLD_TRACE) { console.log(`  · ${s.at}: ${g.label} [${s.going?.kind ?? "-"}]`); }
+      const key = `${s.at}|${g.id}`, times = (seen.get(key) ?? 0) + 1;
+      seen.set(key, times);
+      if (times >= 3) {
+        lapses.push({ world: spec, turn: t, took: `LOOP ${g.id} (${g.label})`, at: s.at ?? '?',
+          aim: s.aims?.find(a => a.followed)?.text, lead: s.going ? `${s.going.kind}` : 'none' });
+        return { lapses, taken, ended: `loop at ${s.at}` };
+      }
       const next = await r.ask(JSON.stringify({ act: g.id }));
       if ('error' in next) { return { lapses, taken, ended: `refused ${g.id}: ${next.error}` }; }
       taken++;
