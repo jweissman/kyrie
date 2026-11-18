@@ -42,7 +42,6 @@ export class GoldContinuity {
         return { lapses, taken, ended: `frontier at ${s.at}: ${s.going.said}` };
       }
       if (!g) { return { lapses, taken, ended: `no gold at ${s.at} (aim ${s.aims?.find(a => a.followed)?.text ?? 'none'})` }; }
-      if (process.env.GOLD_TRACE) { console.log(`  · ${s.at}: ${g.label} [${s.going?.kind ?? "-"}]`); }
       const key = `${s.at}|${g.id}`, times = (seen.get(key) ?? 0) + 1;
       seen.set(key, times);
       if (times >= 3) {
@@ -50,7 +49,10 @@ export class GoldContinuity {
           aim: s.aims?.find(a => a.followed)?.text, lead: s.going ? `${s.going.kind}` : 'none' });
         return { lapses, taken, ended: `loop at ${s.at}` };
       }
-      const next = await r.ask(JSON.stringify({ act: g.id }));
+      const t0 = performance.now(), next = await r.ask(JSON.stringify({ act: g.id }));
+      if (process.env.GOLD_TRACE) {
+        console.log(`  · ${s.at}: ${g.label} [${s.going?.kind ?? '-'}] ${Math.round(performance.now() - t0)} ms`);
+      }
       if ('error' in next) { return { lapses, taken, ended: `refused ${g.id}: ${next.error}` }; }
       taken++;
       // A lapse: gold taken, an aim still followed, and no gold after it.
