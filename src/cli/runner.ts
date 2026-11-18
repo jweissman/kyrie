@@ -272,7 +272,10 @@ export class Runner {
       this.doing = undefined;
       return { error: `could not be done: ${doing.act}: ${e instanceof Error ? e.message : String(e)}` };
     }
+    // Each turn of a fight chosen is a turn of the runner's: the number had stood still through a whole fight, so
+    // that thirty fight turns were all turn 30 (cold play 2, CL-11).
     if ('turn' in out) {
+      this.n++;
       return { turn: this.n, moment: 'fight', scene: { lines: this.fight.lines(), prose: [] }, offer: this.fight.offer() };
     }
     const event = out.done as CampaignEvent, before = doing.before;
