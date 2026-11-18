@@ -57,12 +57,14 @@ export class DeepRivals {
         + ` Initially Set pace(${id}) to ${this.pace}.`,
       `  Initially Set quantity(${head}, gold) to ${r.raised + 100}. Initially Set pays(${head}, ${r.kind}) to ${r.price}.`,
       `  Entity ${id}_offer: fact ${q(`${this.upper(power.office)} at ${seat.name} wants ${r.prize}, and will pay for it.`)}.`,
-      `  Topic ${id}_asked with ${head} ${q(`Ask {${head}} about ${purpose.hook.topic}`)} when true once {`,
+      // Not asked, nor an advance to go down, with the prize in hand: the head had said "Bring me the crown" to one
+      // holding it, and offered "something to go down with" to one come up (cold play 4's 26, CL-46).
+      `  Topic ${id}_asked with ${head} ${q(`Ask {${head}} about ${purpose.hook.topic}`)} when not holding(actor, ${r.kind}) once {`,
       `    Says ${q(this.fill(power.asked, r))}.`,
       `    On discuss { Assert knows(actor, ${id}_offer). Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found).${story} }`,
       '  }',
       `  Topic ${id}_advance with ${head} ${q(`Ask {${head}} for something to go down with`)} when knows(actor, ${id}_offer)`
-        + ` and not won(${id}) once {`,
+        + ` and not won(${id}) and not holding(actor, ${r.kind}) once {`,
       `    Says ${q(this.fill(power.advanced, r))}.`,
       `    On discuss { Increase quantity(actor, gold) by ${power.advance}. Decrease quantity(${head}, gold) by ${power.advance}.`
         + ` Decrease pays(${head}, ${r.kind}) by ${power.advance}. }`, '  }'];

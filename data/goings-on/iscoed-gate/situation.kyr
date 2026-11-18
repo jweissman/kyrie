@@ -41,7 +41,7 @@ Module gate "The last sea-gate" {
   Observe pin_seen at gatehouse as sign when holding(party, pawl_kind) and not knows(party, cut) "Turning the pawl over in the light at the door, you see that the stub of its pin is bright and square: sawn through, not worn." teaches cut.
 
   Topic reeve_gate with reeve "Ask the reeve about the sea-gate at Gatesend" when not mended(party) and not flooded(party) once {
-    Says "'It will not shut,' says the reeve. 'It has not shut since the new moon. I have written to the Rì's engineers in Dun Rìerdan, and they will come in the summer, with a bill, and the fen will have been sea since the spring.' She looks at you as if measuring rope. 'Six days to the spring tide. Thirty crowns. Nobody in Gatesend will go into the gatehouse now.'".
+    Says "'It will not shut,' says the reeve. 'It has not shut since the new moon. I have written to the Rì's engineers in Dun Rìerdan, and they will come in the summer, with a bill, and the fen will have been sea since the spring.' She looks at you as if measuring rope. 'Six days to the spring tide. Thirty crowns. Nobody in Gatesend will go into the gatehouse now, with the sea running under it like a mill-race.'".
     On discuss { Assert knows(actor, failing). Assert knows(actor, tide). }
   }
   Action wind_gate(actor: group, site: place) "Set the pawl in its socket and wind the sea-gate shut" {
@@ -49,7 +49,7 @@ Module gate "The last sea-gate" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gatehouse) and holding(actor, pawl_kind)
       and not mended(actor) and not flooded(actor).
     Resolve check(actor, brawn, dc_fair).
-    On success { Spend pawl_kind from actor. Assert mended(actor). }
+    On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). }
     On failure { Assert gateTried(actor). }
     Result "The pawl drops into its socket with a sound like a bell. Then the long work: the windlass bars, a turn and a rest and a turn, the chain coming up wet out of the slot link by link, the pawl clacking over the ratchet. Below, at last, something enormous seats itself in stone, and the mill-race sound stops.".
     Otherwise "The drum will not come round. You hang on the bar until your arms shake and the chain slips back a link at a time. It wants more weight than yours, or a fresh try.".
@@ -62,7 +62,7 @@ Module gate "The last sea-gate" {
       and knows(actor, tides) and not mended(actor) and not flooded(actor)
       and ((hour(clock) >= 4 and hour(clock) < 7) or (hour(clock) >= 16 and hour(clock) < 19)).
     Result "With the sea gone out from under it, the drum comes round as easily as a well-winch. The pawl drops in with a sound like a bell, and clacks over the ratchet tooth by tooth, and below, something enormous seats itself in stone. The mill-race sound stops.".
-    On success { Spend pawl_kind from actor. Assert mended(actor). }
+    On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). }
   }
   Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) once {
     Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.'".
@@ -96,6 +96,14 @@ Module gate "The last sea-gate" {
   Objective gate_wind when holding(party, pawl_kind) and not mended(party) and not flooded(party) toward gatehouse "Take the pawl to the windlass at {hamlet}, and wind the sea-gate shut.".
   Objective gate_claim when mended(party) and not gateClaimed(party) toward reeve "Tell the reeve at {town} that the sea-gate shuts.".
   Rule word_old when mended(party) and not stale(failing) { Assert stale(failing). }
+  // What the company did, for those who live under the gate to answer (the weir's Nest: data/origins/weir), and the
+  // hamlet itself, the first time the company comes down to it after (cold play 5's one change: nobody remarked it).
+  Entity shut: fact "The sea-gate at {hamlet} shuts again: the company wound it shut before the spring tide.".
+  Relation thanked(group).
+  Rule hamlet_thanks when mended(party) and at(party, hamletgreen) and not thanked(party) says "Doors are open all along the lane. Someone has chalked a wave inside a ring on the well-post, and an old man you have never met takes your hand in both of his and says nothing at all." { Assert thanked(party). }
+  // The sawn pin is a question: who wants the gate open? Whoever cut it comes and goes under the gatehouse, and the
+  // store behind the chain answers it (cold play 5's 8, cold play 4's 29: the pin led nowhere).
+  Objective gate_cutter when knows(party, cut) and not knows(party, store_found) and not flooded(party) toward gallery by well "Find out who sawed through the pawl's pin, and why they want the sea-gate open.".
 
   // ── The lower works: under the gate-well, the Water-Wardens' sluice gallery, their tide-room, a store the smugglers
   // keep behind the chain, and past the lower sluice door the wardens' undercroft. The door opens with the wardens'

@@ -117,6 +117,8 @@ describe('rivals for a deep site\'s prize', () => {
     Rivals.set(s, [{ kind: 'assert', call: ModuleWriter.call('at', 'region__w9_heart', 'region__s1_green') }]);
     Rivals.put(s, 'region__s1_green');
     await Rivals.take(s, /^Collect the heart of the vein for Wenna$/);
+    // Held, the prize is not asked after, nor an advance to go down for it (cold play 4's 26, CL-46).
+    expect(Rivals.names(s).filter(n => /old workings|go down with/.test(n))).toEqual([]);
     expect(await Rivals.take(s, /^Sell the heart of the vein to the prior$/)).toContain('carried away under a cloth');
     expect(Rivals.test(s, 'won', Rivals.id)).toBe(true);
     expect(Rivals.seen(s)).not.toContain('the brothers brought it up');

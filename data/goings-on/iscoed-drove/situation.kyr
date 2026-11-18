@@ -43,7 +43,12 @@ Module drove "The held drove" {
   Person bran "Bran ap Ifor" at customs { Role "the Brynach lead-drover, held behind the customs-house grille". Pronouns he. Peaceable. Manner stoic.
     Greets "Bran looks up through the grille and knows you. 'You came,' he says. 'Good. Listen.'" when kin(party, owain). }
   Person owain "Owain" at green { Role "Bran's drover's boy, fourteen, who came down with the drove". Pronouns he. Peaceable.
-    Greets "Owain is at your side at once. 'What do we do?' he asks." when kin(party, owain). }
+    Greets "Owain is at your side at once. 'What do we do?' he asks." when kin(party, owain) and not freed(party).
+    Greets "Owain is at your side at once. 'He's out,' he says, and grins." when kin(party, owain) and freed(party). }
+  // Bran let out, the boy has his own way home to say (cold play 4's 11: "What do we do?" with nothing to answer).
+  Topic owain_after with owain "Ask Owain what he will do now" when freed(party) once {
+    Says "'Go home with Bran,' says {owain}. 'He sells them at the sales, and then it's four days up the drove road to Caer Brynach.' He looks at you, and then away. 'You could come. He said so.'".
+  }
   // The boy waits on the landing for whoever will listen, and goes back to the beasts once someone has.
   Rule owain_to_pens when knows(party, boy_count) and at(owain, green) and not freed(party) and not sent(party) { Assert at(owain, pens). }
   Thing book "Mardle's tally-book" at customs {
@@ -102,7 +107,7 @@ Module drove "The held drove" {
   }
   // Let out, Bran says his thanks and where he is going himself, at once: the second cold play had him leave without
   // a word, his thanks behind a question nobody thought to ask (CL-03).
-  Rule bran_thanks when freed(party) and not thanked(party) says "'Sell, drink, go home,' says Bran. 'Up the drove road to Caer Brynach, four days with an empty drove.' He grips your hand like a gate-post. 'Come up the pass. There's work in Brynach for anyone who'll stand by a drover, and the lord pays for a sword: something has been at the cattle on the high pasture. Say Bran ap Ifor sent you.'" teaches road_west { Assert thanked(party). }
+  Rule bran_thanks when freed(party) and not thanked(party) says "'Now I sell them, and drink, and go home,' says Bran. 'Up the drove road to Caer Brynach, four days with an empty drove.' He grips your hand like a gate-post. 'Come up the pass. There's work in Brynach for anyone who'll stand by a drover, and the lord pays for a sword: something has been at the cattle on the high pasture. Say Bran ap Ifor sent you.'" teaches road_west { Assert thanked(party). }
 
   Rule bran_out when freed(party) and at(bran, customs) { Assert at(bran, pens). }
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }

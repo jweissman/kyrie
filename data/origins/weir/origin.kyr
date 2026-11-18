@@ -3,6 +3,7 @@ Module origin "Your aunt's weir" {
   Entity party: group "You".
   Place hamlet "The hamlet" is settlement. Place hamletgreen "The hamlet's green" is room.
   Entity reeve: group "The reeve". Entity failing: fact "The sea-gate fails". Entity tide: fact "The spring tide".
+  Entity cut: fact "The pawl's pin was sawn". Entity shut: fact "The sea-gate shuts".
   Relation lifted(group). Relation sold(group).
   Entity lease: fact "The weir at {hamlet} is yours on the reeve's lease. Five coin is owed to the reeve of {town} at the quarter-day, a month off.".
   Kind lease_kind "Tegwen's lease" is document teaching lease worth 0 weighing 1 described "A strip of parchment, much folded, in the reeve's clerk's hand: the eel-weir at the second bend below the sea-gate, with its stakes, wattles and traps, to Tegwen and her heirs, at five coin the quarter. Under it, in your aunt's careful capitals: TO GO TO MY SISTER'S CHILD.".
@@ -28,6 +29,15 @@ Module origin "Your aunt's weir" {
   Topic sell_eels with nest "Sell Nest the creel of eels" when holding(actor, eel_kind) and not sold(actor) once {
     Says "Nest weighs the creel in one hand. 'Three coin, and I take them to Porthalen myself.' She counts it out. 'Tegwen got four. Tegwen didn't let them sit.'".
     On discuss { Spend eel_kind from actor. Increase quantity(actor, gold) by 3. Assert sold(actor). }
+  }
+  // Nest answers what the company finds and does at the gate (cold play 5's 7 and 8: she had nothing to say of the
+  // sawn pin, and "Still here. I suppose that's something." to the one who had shut it).
+  Topic nest_pin with nest "Tell Nest the pawl's pin was sawn through" when knows(actor, cut) once {
+    Says "Nest stops with her hand on the net. 'Sawn,' she says. 'Then somebody wants that gate open.' She looks down the fen to the sea-bank. 'There's a boat goes up the sluice-cut at night, under the bank, with no lantern on it. I took it for eel-men from {town}. Eel-men don't saw iron.'".
+  }
+  // Told at once, on coming down from the bank, it was held behind the hamlet's own answer (the gate's).
+  Topic nest_shut with nest "Tell Nest the sea-gate shuts" when knows(actor, shut) once {
+    Says "'I heard it stop,' says Nest. 'Half the lane came out to listen to nothing.' She does not thank you. 'Tegwen would have liked that,' she says, and goes back to her nets.".
   }
   Goal false.
 }
