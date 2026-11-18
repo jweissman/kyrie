@@ -703,6 +703,77 @@ cleric way's, so a player's first cleric knows it. Of 2,232 installed classed cr
 fellowship keeper, kite's walk Wenna, thorn's fellowship keeper, wren's fellowship warden), as before. The tactics
 weigh it a little higher where nobody is afraid (a condition the ally lacks, six, less its slot), still below a blow.
 
+
+### 22. Mage Armor: stopped by the census, a decision for the lead (18 November)
+
+Not migrated: it moves the first hour. The SRD's Mage Armor is a first-level conjuration on the creature touched, a +4
+armour bonus of force (an armour bonus: it does not add to worn armour) for an hour a level, its save harmless.
+Orsino's (`armor`) is an abjuration on the caster alone, four harder to hit (added to worn armour) and **twenty
+temporary hit points**, for twenty rounds.
+
+**What it would take:** a hand entry (the caster or one ally, Kyr's `ally`); a hand condition over Orsino's
+`mage_armored` (it lays nothing else); and one small mechanic, an armour of force (a modifier read by
+Fighting.armorClass as body armour of that much where it is better than what is worn, never added to it; the
+character sheet and the forecasts read the same function). No temporary hit points.
+
+**What it moves:**
+- **The first mage way.** The abjurer is the first mage specialization, and its creation card's picks are Arcane
+  Ward, Mage Armor and Magic Missile. A first-level abjurer has 4 to 7 hit points of its own (median 5, 200 seeds):
+  Orsino's twenty temporary hit points are four times that, and the SRD's armour has none. Every first-hour fight a
+  player's first mage casts it in moves.
+- **The owner's pin of 15 November** (test/small/mage-casts, the P0 "could not cast Mage Armor on itself"): Mage Armor
+  offered on the mage alone, "nothing to choose" (`armor>`), becomes two aims, the mage or its companion.
+- **The school,** if the SRD's is taken: abjurers 43–44 % move (their first pick of the school becomes always Arcane
+  Ward: Mage Armor .47 → .10), conjurers 22.5–26 % (.10 → .30), drawn-school mages 9–10 %; no other specialist. The
+  abjurer's creation card loses Mage Armor (Hex takes its place, and Paralyzing Touch takes Slow's) and the
+  conjurer's gains it (Blur gives way). Of 2,232
+  installed classed creatures, eight move: a1's s3 traveller and ember's Bound Howe scholar lose it, six conjurers
+  (a1's arcology quill among them) gain it.
+
+**The options:**
+1. **The SRD's whole:** conjuration, the caster or one ally, the armour of force, no temporary hit points. Moves all
+   of the above.
+2. **The SRD's resolution, Orsino's school kept** (abjuration; structure fails, said, as the cure family's levels in
+   case 16): the caster or one ally, the armour of force, no temporary hit points. No draw or card moves; the pin's
+   aim and the first mage's twenty hit points do.
+3. **As 2, keeping Orsino's twenty temporary hit points** as Kyr's own adaptation for a first-level mage's frailty,
+   said as a difference (the census does not grade temporary hit points, so it would read as a pass it is not).
+4. **Orsino's, as it stands.**
+
+Recommended: 2, after measuring the a1 first hour's fights (the rats, the undertown) with a first-level abjurer
+before and after, so that the first mage's survival is a number before it is a change.
+
+### 23. Divine Favor: stopped by the census, a decision for the lead (18 November)
+
+Not migrated: it moves every installed divine caster. The SRD's Divine Favor is a first-level evocation on the caster,
++1 luck to hit and to damage each three casting levels (to +3) for a minute. Orsino's (`divine_favor`) is a War
+**cantrip**, Orsino's blessed (+1 to hit and damage) and keen (+2 to hit and damage, a telling blow on 18 or more) on
+the caster for three rounds.
+
+**What it would take:** a hand entry alone: Orsino's blessed is the SRD's +1 already (case 17), for ten rounds on the
+caster; +1 at every casting level converted (the SRD's to the fifth), as case 19's Shield of Faith is.
+
+**What it moves** (the census at the SRD's first level):
+- **Warbringers** 100 %: every one knew it as a cantrip; now about one in two draws it (.51) and one in two Smite
+  (1.00 → .53), their two first-level War spells.
+- **Every other cleric** 11–23.5 % (drawn domains 21.5–29.5 %), each gaining it among their open first-level picks.
+- **The creation cards:** the warbringer's, the deathspeaker's and the stormcaller's gain it (Shadow Cloak, Barkskin
+  and Anoint give way, measured before cases 19 and 20).
+- **The installed casters:** 48 of 2,232 classed creatures lose it and none gain it, for an installed caster
+  prepares its spells, every cantrip of its tradition among them (SpellSelection.prepare). Seven are a1's: the s1 Anselm, the s2 preacher, the w8 head, the
+  keep's chaplain, the tower's necromancer and the fellowship's keeper and head.
+
+**The options:**
+1. **The SRD's whole:** first level, blessed alone, ten rounds. Moves all of the above.
+2. **The SRD's resolution, Orsino's cantrip kept** (level 0; structure fails, said): blessed alone, ten rounds. No draw
+   moves; every divine caster's cantrip loses keen's +2 and its wider telling blow and lasts ten rounds, not three, so
+   the 48 installed casters' fights move wherever they cast it (the tactics weigh a condition laid on oneself at six,
+   below a blow, so they seldom do; not measured).
+3. **Orsino's, as it stands.**
+
+No recommendation: option 1 is the SRD's and its draw by rank moves only gainers and losers, but the 48 losers are
+the installed divine casters of every country, seven of a1's among them; the lead's call, as case 10's was.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
