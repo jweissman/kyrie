@@ -18,9 +18,20 @@ export class Summoning {
     const count = effect.amount ? Math.max(0, expressions.amount(effect.amount, Summoning.values(owner))) : 1;
     for (let i = 0; i < count; i++) {
       const pool = Summoning.pool(effect, owner);
-      const species = pool[pool.length > 1 ? expressions.number(`1d${pool.length}`) - 1 : 0]!;
-      const id = Summoning.fresh(context);
-      const creature = { ...context.content.creature(species, id, owner.team, effect.level), summoner: owner.id };
+      const drawn = pool[pool.length > 1 ? expressions.number(`1d${pool.length}`) - 1 : 0]!;
+      // A companion (a call answered by the beasts of the summoner's people: Orsino's byAncestry) is the summoner's
+      // own: the first to answer, from the animals of the country, comes every time after, by its name. Each call
+      // had drawn a new one, so that a ranger's "Bram" with a gnawing bite was "Ada" with mandibles in the next fight
+      // (cold play 2, CL-11). The die is thrown all the same, so the fight's dice fall as they did.
+      // One of it at a time: called again while it stands, another answers, as any would.
+      const companion = !!effect.byAncestry && count === 1;
+      const standing = context.fighters.some(f => f.summoner === owner.id && f.hp > 0
+        && f.name === owner.companion?.name);
+      const kept = companion && !standing ? owner.companion : undefined;
+      const species = kept?.raceId ?? drawn, id = Summoning.fresh(context);
+      const made = context.content.creature(species, id, owner.team, effect.level);
+      const creature = { ...made, ...kept ? { name: kept.name } : {}, summoner: owner.id };
+      if (companion && !owner.companion) { owner.companion = { raceId: species, name: made.name }; }
       context.fighters.push(creature);
       context.events.push({ type: 'summon', turn: context.turn, actor: owner.id, target: id, detail: creature.name });
     }

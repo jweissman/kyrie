@@ -48,8 +48,11 @@ export interface Creature {
     learnedAbilities: string[]; conditions: ConditionInstance[]; inventory?: ItemInstance[];
     // What it has used today of what it can do only so often a day, until it rests (see DailyUses).
     daily?: Daily;
+    // The animal that answers its call (Call Animal Companion), the same one each time: its kind and its name.
+    companion?: Companion;
   };
 }
+export interface Companion { raceId: string; name: string }
 
 export class CreatureSchema {
   // What levels have still to give, and the skills taken up with them.
@@ -64,6 +67,10 @@ export class CreatureSchema {
       throw new Error(`Invalid skills: ${creature.id}`);
     }
     if (!DailyUses.validate(creature.state.daily)) { throw new Error(`Invalid uses a day: ${creature.id}`); }
+    const c = creature.state.companion;
+    if (c !== undefined && (typeof c.name !== 'string' || !c.name || typeof c.raceId !== 'string' || !Canon.isBody(c.raceId))) {
+      throw new Error(`Invalid companion: ${creature.id}`);
+    }
   }
   static readonly attributes: Attribute[] = [
     'strength', 'dexterity', 'intelligence', 'wisdom', 'constitution', 'charisma',

@@ -54,7 +54,13 @@ export class CombatTelling {
   private static readonly rolled = new Set<CombatEvent['type']>(['attack', 'damage', 'save', 'check']);
   private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
     const [first, ...rest] = group;
-    const sentences = [...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
+    // One stepping in front of another is told before the blow they stepped into, and the blow as it fell on them:
+    // told after it as "steps in front of Carlin and takes it", a miss had read "bite misses Wenna. Wenna steps in
+    // front of Carlin and takes it" (cold play 2, CL-11).
+    const stepped = group.filter((e): e is Of<'intercept'> => e.type === 'intercept')
+      .map(e => `${told.name(e.actor)} steps in front of ${told.name(e.target)}.`);
+    const sentences = [...stepped,
+      ...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
       ...told.guards(group), ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
@@ -160,7 +166,7 @@ export class CombatTelling {
   private after(events: CombatEvent[]): string[] {
     const blow = events.find((e): e is Of<'attack'> => e.type === 'attack');
     const told = blow && events.find(e => e.type === 'damage' && e.target === blow.target);
-    return events.filter(e => e !== told && !this.unsaid.has(e)).map(e => this.consequence(e))
+    return events.filter(e => e !== told && !this.unsaid.has(e) && e.type !== 'intercept').map(e => this.consequence(e))
       .filter((s): s is string => !!s);
   }
   private consequence(e: CombatEvent): string | undefined {

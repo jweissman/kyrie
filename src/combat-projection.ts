@@ -6,6 +6,7 @@ import type { BattleState, EncounterParticipant, Fighter, Team } from './model';
 
 export class CombatProjection {
   static creature(fighter: Fighter, original?: Creature): Creature {
+    const companion = fighter.companion ?? original?.state.companion;
     return { ...(original?.generation ? { generation: structuredClone(original.generation) } : {}),
       ...(original?.professionId ? { professionId: original.professionId } : {}),
       // What it is goes on from the fight, and what a fight made it (the undead a raising makes) with it.
@@ -38,7 +39,8 @@ export class CombatProjection {
         // torch burning: found by test/growth.test.ts).
         ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}),
         ...(original?.state.skills ? { skills: [...original.state.skills] } : {}),
-        ...fighter.daily ? { daily: structuredClone(fighter.daily) } : {} } };
+        ...fighter.daily ? { daily: structuredClone(fighter.daily) } : {},
+        ...companion ? { companion: { ...companion } } : {} } };
   }
   // Every creature as a fight told after it names them, each on its own side: the company's as fighters, and the rest
   // as what they were fought as. Each creature had been drawn as of the company, and a foe's hit points told as it fell
@@ -78,6 +80,7 @@ export class CombatProjection {
       // A creature of a kind with no calling: its kind's powers are its own, spells among them cast without slots.
       ...(Canon.isBody(creature.raceId) && !creature.classId ? { innate: [...creature.base.abilities] } : {}),
       ...creature.state.daily ? { daily: structuredClone(creature.state.daily) } : {},
+      ...creature.state.companion ? { companion: { ...creature.state.companion } } : {},
       team, cooldowns: {} };
   }
   // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.

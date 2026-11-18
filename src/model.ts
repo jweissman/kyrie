@@ -1,5 +1,5 @@
 import type { Guarded } from './rules/defenses';
-import type { ConditionInstance } from './creature';
+import type { Companion, ConditionInstance } from './creature';
 export type { Creature } from './creature';
 
 import type { ArenaAbility } from './lang/parse';
@@ -30,6 +30,8 @@ export interface Fighter {
   statuses: ConditionInstance[];
   // The creature whose call brought it into the fight, for a summoned one.
   summoner?: string;
+  // The animal that answers its call, once one has (see Summoning.call).
+  companion?: Companion;
   // Where each of its cycling abilities is in its cycle (Orsino's cycleEffects: prismatic spray's beams).
   cycles?: Record<string, number>;
   // Every trait the creature holds: birth or nature traits and the ones it chose.

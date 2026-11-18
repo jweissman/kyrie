@@ -74,12 +74,7 @@ export class Voice {
   // that agrees with them, [walk|walks].
   static render(text: string, s: Speaking): string {
     const words = this.pronouns[s.pronoun ?? 'they'] ?? this.pronouns.they!;
-    // A verb next to the speaker's name agrees with the speaker, one or many, before the name or after it, not with
-    // the pronoun said of them ("'You,' say the woman in black": the cold evaluation).
-    const named = s.many === undefined ? text : text.replace(/(\{[Aa]ctor\} )\[([^|\]]*)\|([^\]]*)\]/g,
-      (_, actor: string, plural: string, singular: string) => `${actor}${s.many ? plural : singular}`)
-      .replace(/\[([^|\]]*)\|([^\]]*)\]( \{[Aa]ctor\})/g,
-        (_, plural: string, singular: string, actor: string) => `${s.many ? plural : singular}${actor}`);
+    const named = s.many === undefined ? text : Voice.agreeing(text, s.many);
     return named.replace(/\{(\w+)\}/g, (all, key: string) => {
       const lower = key.toLowerCase(), upper = key !== lower;
       const word = words[lower as keyof typeof words];
@@ -88,6 +83,21 @@ export class Voice {
       if (value === undefined) { return all; }
       return upper ? value.charAt(0).toUpperCase() + value.slice(1) : value;
     }).replace(/\[([^|\]]*)\|([^\]]*)\]/g, (_, plural: string, singular: string) => words.plural ? plural : singular);
+  }
+  // A verb agrees with the speaker, one or many, where the speaker is its subject, not with the pronoun said of them
+  // ("'You,' say the woman in black": the cold evaluation): next to the name, before it or after it, and after it in
+  // the same line until {they} takes over as the subject. Only the verb beside the name had agreed, so that "{Actor}
+  // [wince|winces], and still [look|looks] round" was told "Wenna winces, and still look round" (cold play 2, CL-11).
+  static agreeing(text: string, many: boolean): string {
+    let subject: 'actor' | 'pronoun' = 'pronoun';
+    return text.replace(/\{(\w+)\}|\[([^|\]]*)\|([^\]]*)\](?=( \{[Aa]ctor\})?)/g, (all: string, ...m: unknown[]) => {
+      const [key, plural, singular, before] = m as (string | undefined)[];
+      if (key !== undefined) {
+        if (/^actor$/i.test(key)) { subject = 'actor'; } else if (/^they$/i.test(key)) { subject = 'pronoun'; }
+        return all;
+      }
+      return before || subject === 'actor' ? many ? plural! : singular! : all;
+    });
   }
   static readonly pronouns: Record<string, { they: string; them: string; their: string; theirs: string;
     themself: string; plural: boolean }> = {

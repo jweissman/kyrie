@@ -96,7 +96,7 @@ export class CombatPresenter {
       case 'heal': return this.healed(event, target, this.foe(event, state));
       case 'death': return `${actor} falls.`;
       case 'defend': return `${actor} guards.`;
-      case 'intercept': return `${actor} steps in front of ${target} and takes it.`;
+      case 'intercept': return `${actor} steps in front of ${target}.`;
       case 'windup': return `${actor} ${event.detail}, ready to strike ${target} next turn.`;
       case 'interrupt': return `${actor} loses the ${event.detail.toLowerCase()} it was gathering.`;
       case 'skip': return `${actor} cannot act.`;
