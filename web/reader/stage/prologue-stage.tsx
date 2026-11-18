@@ -28,7 +28,7 @@ export class PrologueStage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, told = s.told!, page = PrologueStage.page(app);
     // The way in as its words tell it, and the country the life was chosen over where that is one of its kind, now
-    // in focus (see Scenery.approach); one who begins under a roof walked in by it too.
+    // in focus (see Scenery.approach, and Shell.plate, which draws it); one who begins under a roof walked in by it too.
     const country = Scenery.country(s.setting?.terrain, s.seed);
     const view = frame.screen.dark ? undefined : Scenery.approach(frame.screen, country);
     // A page goes on only when the player says so, by its one held Continue (the owner, 16 November: some sign on the
@@ -37,10 +37,6 @@ export class PrologueStage {
     return <PageFrame.View kind="opening" body="prologue-body"
       className={`prologue-page page-${page.kind}${page.kind === 'beat' && !page.last ? '' : ' last'}`}
       attrs={{ 'data-beat': page.kind === 'beat' ? String(page.at) : page.kind, 'aria-label': 'The opening' }}
-      background={view && <figure className="scenery" aria-hidden="true">
-        <img src={`paintings/large/${view}.webp`} alt="" decoding="async" ref={PrologueStage.shown}
-          onLoad={e => { e.currentTarget.classList.add('loaded'); }}
-          onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></figure>}
       header={page.kind !== 'after' && <p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(told.title)}</p>}
       narrative={page.kind === 'beat' ? <><p key={page.at} className="beat" data-id="beat" aria-live="polite">
         {told.beats[page.at]}</p>{page.last && <PrologueStage.Onward app={app} />}</>
@@ -48,9 +44,9 @@ export class PrologueStage {
       menu={PrologueStage.menu(app, page)}
       over={credit && <p className="credit" aria-hidden="true">{credit}</p>} />;
   }
-  // The opening's painting rises once it is had, over the dark, never over what was before it (M22's second review,
-  // OR-43: on a phone the country behind creation had shown, then been replaced); one already had rises at once.
-  static shown(this: void, img: HTMLImageElement | null) { if (img?.complete && img.naturalWidth) { img.classList.add('loaded'); } }
+  // The opening's painting is the shell's, behind the page (Shell.plate): it rose once, over the dark, as the last step
+  // of setting out ran, and is not put up again here (the owner, 18 November, OR-77; M22's second review, OR-43: on a
+  // phone the country behind creation had shown, then been replaced).
   // The page's one menu: a beat's Continue, a meeting's answers, the way on after it (the first aim said above it).
   private static menu(app: ReaderApp, page: Page): ReactNode {
     if (page.kind === 'meeting') { return <PrologueStage.Answers app={app} meeting={app.state.told!.meeting!} />; }
@@ -81,7 +77,7 @@ export class PrologueStage {
   private static Answers({ app, meeting }: { app: ReaderApp; meeting: Meeting }) {
     return <ol className="answers acts column" aria-label="What you do">
       {meeting.choices.map((c, i) => <li key={c.command}>
-        <ChoiceRow.Button className="act" data={{ choice: c.command, action: 'answer' }} act={c.command}
+        <ChoiceRow.Button data={{ choice: c.command, action: 'answer' }} act={c.command}
           onClick={() => PrologueStage.answer(app, c)} label={Typography.curl(c.label)} number={i + 1} />
       </li>)}
     </ol>;

@@ -6,6 +6,7 @@ import { CreationDefaults } from '../engine/creation-defaults';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
 import { WorldStage } from './stage/world-stage';
+import { Shell } from './shell';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
 export class ReaderOpening {
@@ -200,18 +201,34 @@ export class ReaderOpening {
   private async enter(request: Promise<Frame>, otherwise: 'company' | 'title') {
     try {
       const frame = await request;
+      await this.approach(frame);
       // A game begun opens on its opening, where the engine told one apart; one taken up again, on where it was.
       // Play begins where the company is (see WorldStage.begins).
       // The loading page's last words are its own: left in the state, they were told again under the first act taken
       // ("Telling where you are.": M22's review, OR-24).
       this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false, stage: '',
+        approach: undefined,
         outdoors: WorldStage.begins(frame),
         prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
     } catch (error) { this.fail(error, otherwise); }
   }
+  // A new game's opening is told over the way in: set out from the choice of a life, that painting comes up out of the
+  // dark behind the setting out's last words, and the opening begins over it once it is most of the way up, so that
+  // it is seen once, rising, and never shown and put up again (the owner, 18 November, OR-77). One who asks for less
+  // motion is not kept waiting on it.
+  private async approach(frame: Frame) {
+    const plate = frame.leaf.prologue && this.app.state.leaving
+      ? Shell.way(frame, this.app.state.setting?.terrain, this.app.state.seed) : undefined;
+    if (!plate) { return; }
+    await Shell.had(plate);
+    this.app.setState({ approach: plate });
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      await new Promise(done => setTimeout(done, Shell.waited));
+    }
+  }
   private fail(error: unknown, phase?: 'title' | 'campaigns' | 'company') {
     const message = error instanceof Error ? error.message : String(error);
-    this.app.setState({ error: message, phase: phase ?? this.app.state.phase, leaving: false });
+    this.app.setState({ error: message, phase: phase ?? this.app.state.phase, leaving: false, approach: undefined });
   }
   readonly title = () => {
     this.app.setState({ phase: 'title', frame: undefined, view: 'here', pending: undefined, error: '' });

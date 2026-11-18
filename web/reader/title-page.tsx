@@ -8,6 +8,7 @@ import { Hold } from './instrument/hold';
 import { createPortal } from 'react-dom';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
+import { Glyphs } from './creation/glyphs';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -55,12 +56,15 @@ export class TitlePage {
               ...TitlePage.saved(saved) }} /></li>}
           <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
             mark={TitlePage.every} own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
-          {/* One thing said: its name, and the arrow that is the sign of a new tab (said to a screen reader, and on
-              hover, not written out beside it: the owner, 15 November). */}
+          {/* One thing said: its name (that it opens in a new tab is said to a screen reader, never written out beside
+              it: the owner, 15 November; nor on hover: 18 November, OR-79). Its mark is the book lying open, in the
+              blue of knowledge, at the row's right where a key would be, so the words keep the column (the owner, 18
+              November, OR-80: "the Encyclopedia could have a blue icon"). */}
           <li><ChoiceRow.Link className="way-in" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
             label={<span aria-hidden="true">The encyclopedia</span>} mark={ChoiceRow.neutral}
-            own={{ target: '_blank', rel: 'noopener', title: 'Opens in a new tab',
-              'aria-label': 'The encyclopedia, opens in a new tab', ...item('encyclopedia') }} /></li>
+            extra={<Glyphs.View id="the_book" className="way-glyph" />}
+            own={{ target: '_blank', rel: 'noopener', 'aria-label': 'The encyclopedia, opens in a new tab',
+              ...item('encyclopedia') }} /></li>
           <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" mark={ChoiceRow.neutral}
             own={item('options')} onClick={TitlePage.options.bind(null, app)} /></li>
         </ul>
@@ -208,8 +212,9 @@ export class TitlePage {
     return (
       <section className="dev" aria-label="Testing">
         <p className="label">Testing</p>
-        <ol>{campaigns.map(c => <li key={c.id}><button type="button" className="act" data-nav data-action="campaign"
-          data-id={c.id} onClick={TitlePage.pick.bind(null, app)}>{c.title}</button> <span className="note">{c.seed}</span></li>)}</ol>
+        <ol>{campaigns.map(c => <li key={c.id}><ChoiceRow.Button data={{ action: 'campaign', id: c.id }} label={c.title}
+          aside={c.seed} mark={ChoiceRow.neutral} own={{ 'data-nav': true }} onClick={TitlePage.pick.bind(null, app)} />
+        </li>)}</ol>
       </section>
     );
   }

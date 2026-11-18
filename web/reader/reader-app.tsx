@@ -68,6 +68,8 @@ export interface AppState {
   goalSaid?: boolean;
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
   leaving?: boolean;
+  // The way in, coming up behind the last of setting out before the opening begins over it (see Shell.plate).
+  approach?: string;
   // Whether the world map is up: the one map, the whole stage. Play begins on it; coming into open country raises it;
   // entering a place, or doing anything where the company is, puts it away (the owner, 4 November, late: one map,
   // never a second view of it with a sidebar).

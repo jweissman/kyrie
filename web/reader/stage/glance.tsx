@@ -524,8 +524,8 @@ export class GlanceStage {
       <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
         {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(offered ? Told.title(aim) : aim))}
         {/* Not from inside an enclosed place: the compass is the way out there (CN-02). */}
-        {place && !CompassStage.of(app) && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
-          onClick={() => app.choose(MenuModel.country)}>{`${place.name}, on the map`}</button>}</p>
+        {place && !CompassStage.of(app) && <ChoiceRow.Button className="set-out" data={{ action: 'aim-map', id: place.id }}
+          label={`${place.name}, on the map`} mark={ChoiceRow.neutral} onClick={() => app.choose(MenuModel.country)} />}</p>
     );
   }
   // How the company came, in a line; a journey's legs, each as it went, opened from it (they are under Look about too).

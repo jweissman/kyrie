@@ -2,6 +2,7 @@ import type { Exchange } from '../../../src/presentation/narrator';
 import type { Choice } from '../../../src/ui/choice-list';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { ChoiceRow } from './choice-row';
 
 export interface Sight {
   bearing: string; distance: string; place: string; seen: string; by?: string; way?: string; beyond?: string;
@@ -75,7 +76,9 @@ export class Panorama {
                 beside "some way off · about 5 hours" read as a contradiction (the cold evaluation). */}
             <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)} by the ways you know`
               : ''}</span>
-            {d && choose && <button type="button" className="act set-out" data-action="set-out" data-id={d.id} {...onMap ? {} : { 'data-act': d.journey.id }} onClick={() => choose(d.journey)}>{onMap ? 'On the map' : 'Set out'}</button>}
+            {d && choose && <ChoiceRow.Button className="set-out" data={{ action: 'set-out', id: d.id }}
+              {...onMap ? {} : { act: d.journey.id }} label={onMap ? 'On the map' : 'Set out'} mark={ChoiceRow.neutral}
+              onClick={() => choose(d.journey)} />}
           </li>;
         })}</ol>
       </div>

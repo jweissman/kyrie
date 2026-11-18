@@ -171,7 +171,8 @@
 .glance .do-list .label { margin: 0 0 8px; }
 .glance .do-list > .aim { display: block; font-size: 14.5px; line-height: 1.45; }
 .glance .do-list > .aim .label { display: block; margin: 0 0 4px; }
-.glance .do-list > .aim .set-out { margin: 8px 0 0; }
+:root .aim .set-out.choice-row.choice-row { width: auto; flex: none; }
+:root .glance .do-list > .aim .set-out.choice-row.choice-row { margin: 8px 0 0; }
 .glance .do-list > .glance-row { padding: 0; border-top: 0; }
 .glance .do-list .glance-row .tiles { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
 .glance .do-list .act.led-act { min-height: 50px; padding-top: 10px; padding-bottom: 10px; }

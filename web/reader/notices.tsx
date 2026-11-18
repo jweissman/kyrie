@@ -2,6 +2,7 @@ import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Emphasis } from '../../src/presentation/emphasis';
 import { Glyphs } from './creation/glyphs';
+import { ChoiceRow } from './stage/choice-row';
 
 // What is said over play rather than in it: that the game can no longer be kept in this browser, the keys when they
 // are asked for, and anything that went wrong. With the map open they are said over the map, which covers the rest.
@@ -28,7 +29,8 @@ export class Notices {
       <div className="toast unkept" role="alert" data-id="unkept">
         <p>This game can no longer be kept in this browser: its storage is full. Download a save to keep it, and open
           it again from the title page.</p>
-        <button type="button" className="act" onClick={app.download}>Download a save</button>
+        <ChoiceRow.Button data={{ action: 'download' }} label="Download a save" mark={ChoiceRow.neutral}
+          onClick={app.download} />
       </div>
     );
   }

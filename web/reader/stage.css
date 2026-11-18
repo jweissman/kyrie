@@ -106,11 +106,12 @@
 .panorama .looked { display: block; font: 400 13.5px/1.4 var(--do); color: var(--dim); margin-top: 2px; }
 .panorama .looked.beyond { font: italic 400 15.5px/1.4 var(--told); color: var(--ivory); }
 .panorama .off { font: 400 13px var(--do); color: var(--dim); white-space: nowrap; }
-.panorama .set-out { min-height: 40px; padding: 8px 14px 8px 30px; font-size: 13.5px; }
+/* Its way there is the one row, as wide as its words (the owner, 18 November, OR-81: no older button left). */
+:root .panorama .set-out.choice-row.choice-row { width: auto; }
 @media (max-width: 640px) {
   .panorama .compass li { grid-template-columns: 2.4em minmax(0, 1fr) auto; }
   .panorama .off { grid-column: 2; }
-  .panorama .set-out { grid-column: 3; grid-row: 1; }
+  :root .panorama .set-out.choice-row.choice-row { grid-column: 3; grid-row: 1; }
 }
 /* A journey along known ways, leg by leg. */
 .travelled { margin: 0 0 22px; padding-left: 14px; border-left: 1px solid var(--edge-strong); }
@@ -127,22 +128,23 @@
    chapter, small and gold, and one paragraph at a time, centred low in the light; a touch goes on, and under the last,
    Go on. No book in the corner and nothing of yourself. ---- */
 .shell.prologue { --frame-w: 100vw; --frame-h: 100dvh; }
-.shell.prologue .frame { background: var(--ground); border: 0; box-shadow: none; }
+.shell.prologue .frame { background: transparent; border: 0; box-shadow: none; }
 .shell.prologue .frame::after { display: none; }
 /* The words in the middle of the picture, a little above it, not at its foot (the owner's play of 10 November). */
 .prologue-page { position: relative; height: var(--frame-h); display: grid; align-items: center; justify-items: center;
   padding: clamp(40px, 8vh, 96px) max(20px, env(safe-area-inset-left)) clamp(56px, 12vh, 132px);
   cursor: pointer; overflow: hidden; -webkit-tap-highlight-color: transparent; }
 .prologue-page.last { cursor: default; }
-.prologue-page .scenery { position: absolute; inset: 0; overflow: hidden; background: var(--ground); }
-/* Held still, and softened a little, with a grain over it: the paintings are small (some 750 by 600), and drawn over a
-   whole screen, slowly zoomed, their skies had shown the squares of their compression. */
-.prologue-page .scenery img { height: 100%; object-position: 50% 38%;
-  filter: var(--plate-scene) blur(clamp(.5px, .07vmax, 1.2px)); opacity: 0; }
-.prologue-page .scenery img.loaded { opacity: 1; animation: settle-in 2s var(--ease) both; }
-.prologue-page .scenery::before { content: ''; position: absolute; inset: 0; z-index: 1; opacity: .09; mix-blend-mode: overlay;
+/* The way in is the shell's one painting (Shell.plate), come up out of the dark as the last step of setting out runs
+   and kept up under the opening's words, never put up again as the opening's page arrives (the owner, 18 November,
+   OR-77). Held still, and softened a little, with a grain over it: the paintings are small (some 750 by 600), and
+   drawn over a whole screen, slowly zoomed, their skies had shown the squares of their compression. */
+:is(.shell, .shell.scene-full).approaching .ambient { inset: 0; transform: none; background-position: 50% 38%;
+  filter: var(--plate-scene) blur(clamp(.5px, .07vmax, 1.2px)); transition: opacity 1.6s var(--ease); }
+:is(.shell, .shell.scene-full).approaching .ambient::before { content: ''; position: absolute; inset: 0; z-index: 1;
+  opacity: .09; mix-blend-mode: overlay;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.prologue-page .scenery::after { content: ''; position: absolute; inset: 0;
+:is(.shell, .shell.scene-full).approaching .ambient::after {
   background: radial-gradient(ellipse 52% 42% at 50% 47%, rgba(10, 11, 14, .55), transparent 78%),
     linear-gradient(180deg, rgba(10, 11, 14, .2) 0%, rgba(10, 11, 14, .35) 50%, rgba(10, 11, 14, .75) 100%),
     radial-gradient(ellipse 90% 80% at 50% 40%, transparent 50%, rgba(10, 11, 14, .55) 100%); }
@@ -178,7 +180,7 @@
 .prologue-page .beat.meeting { margin-bottom: 22px; }
 .prologue-page .answers { width: min(32rem, 100%); margin: 0 auto; text-align: left; gap: 6px;
   animation: appear .8s 1.2s var(--ease) both; }
-.prologue-page .answers .act { width: 100%; background: rgba(25, 27, 33, .82); backdrop-filter: blur(6px); }
+.prologue-page .answers .choice-row { width: 100%; background: rgba(25, 27, 33, .82); backdrop-filter: blur(6px); }
 .prologue-page .answers kbd { margin-left: auto; }
 .prologue-page .said { margin: 0 0 14px; font: var(--type-control); letter-spacing: .04em; color: var(--dim); }
 .prologue-page .said::before { content: '\25C6'; margin-right: 10px; color: var(--faint); font-size: 9px; vertical-align: 2px; }
@@ -193,7 +195,7 @@
 .prologue-page .how > summary::-webkit-details-marker { display: none; }
 .prologue-page .how > summary:is(:hover, :focus-visible), .prologue-page .how[open] > summary { color: var(--dim); outline: none; }
 .prologue-page .how > p { margin: 2px 0 0; color: var(--dim); }
-.prologue-page .answers .act > .n { flex: 1; }
+.prologue-page .answers .choice-row > .n { flex: 1; }
 .prologue-page .notes { list-style: none; margin: 0 0 26px; padding: 0; font: var(--type-note); color: var(--verdigris); }
 .prologue-page .notes li { margin: 2px 0; }
 /* The way on comes after the words, and cannot be touched before it is seen. Set after the buttons' own rules, and
@@ -204,7 +206,7 @@
 @keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; } }
 .prologue-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left));
   bottom: max(14px, env(safe-area-inset-bottom)); z-index: 1; margin: 0; font: 400 11px/1.4 var(--do); color: var(--faint); }
-@media (prefers-reduced-motion: reduce) { .prologue-page *, .prologue-page .scenery img { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .prologue-page * { animation: none !important; } }
 
 /* ---- A place. Its head across the stage (the painting, dimming into the stage, with the name set on it), the telling
    under it, the ways on beside the telling, and a quiet foot: your aim, yourself, what you can do of yourself. ---- */
