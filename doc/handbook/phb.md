@@ -7241,6 +7241,16 @@ The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divi
 
 *Not playable — effect:damage: Cascading damage is not supported.*
 
+##### Cause Fear
+
+*Adapted · level 1 divine spell, necromancy, death domain* · `ability:terror`
+
+One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
+
+> Fill one foe of five Hit Dice or fewer with dread: afraid for a few rounds, or for one if they master it.
+
+*Adapted: The SRD's Cause Fear (doc/architecture/mission-22/srd-proving-cases.md, case 20): first level, its school necromancy beside Death, one foe of five Hit Dice or fewer (a pool of five on one: HitDicePool), a save against fear (made with Wisdom, the SRD's Will) at case 7's difficulty for a first-level spell; whoever fails is afraid three rounds, whoever saves one (the save's lesser hold: the SRD's partial). Converted: three rounds for the SRD's 1d4 (its mean, 2.5, rounded up: Kyr's durations are not rolled). Kept: Orsino's fear (−2 to hit, −2 to every save, −1 to every roll, slower), the same for the failed and the saved, where the SRD's frightened flees and its shaken does not (Kyr's afraid do not flee; their penalties are near the shaken's). Omitted: the living only (Kyr's undead are not proof against fear), and spell resistance. Before, Orsino's second level, any one foe, three rounds against 15 + the caster's level, or none for whoever saved.*
+
 ##### Confuse
 
 *Faithful · level 1 divine spell, chaos domain* · `ability:confuse`
@@ -7508,14 +7518,6 @@ One enemy is entangled for 3 turns (a Dexterity save against 15 + level + the ca
 One enemy is distracted for 4 turns (only humanoid creatures; a Wisdom save against 14 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the second level. Takes a second-level slot.
 
 > Soothe an enemy, reducing their aggression.
-
-##### Terror
-
-*Faithful · level 2 divine spell, death domain* · `ability:terror`
-
-One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
-
-> Frighten an enemy.
 
 #### Level 3
 

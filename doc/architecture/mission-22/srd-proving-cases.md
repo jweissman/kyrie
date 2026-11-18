@@ -624,6 +624,60 @@ companions are two harder to hit for ten rounds.
 
 **Omitted:** spell resistance (harmless); its growth with the casting level (above).
 
+
+### 20. Cause Fear, and a partial save (18 November): adapted
+
+Spec: `test/cause-fear` (2 cases; with the lesser hold taken out, whoever saves is not afraid and both fail; with
+Orsino's entry put back, its level and its aim fail).
+
+**The mechanic built: a partial save** (a save's `lesser`: src/rules/save-outcome.ts, laid by
+AbilityUse.effectOn).
+- A save marked `lesser` still lays what it lays on whoever succeeds, for that many rounds: the SRD's "Will partial",
+  where a success leaves a lesser effect, not none.
+- Never on whoever is proof against the save (immune: nothing is laid, as before).
+- Validated: only on an apply, a whole number of rounds below its own duration. The handbook says it ("a Wisdom save
+  against 14 shortens it to a round"); the census reads it as the SRD's partial, a save that negates the most of it.
+
+**The spell** (a hand entry over Orsino's Terror, data/catalog/abilities.json):
+- first level (Orsino's second), divine, Death, and the SRD's school, necromancy (exact);
+- one foe of five Hit Dice or fewer (exact, by case 14's pool of Hit Dice: five on one): it is not offered at a foe of
+  six or more;
+- a save against fear (made with Wisdom, the SRD's Will) at case 7's difficulty for a first-level spell, 14 at a first-
+  level caster of Wisdom 16 (exact there);
+- whoever fails is afraid three rounds, whoever saves one (converted: the SRD's 1d4, its mean rounded up, and its one
+  round; Kyr's durations are not rolled).
+
+**Kept:** Orsino's fear (Frightened: −2 to hit, −2 to every save, −1 to every roll, slower), the same for the failed
+and the saved. The SRD's frightened flees and its shaken does not; Kyr's afraid never flee, and their penalties are
+near the shaken's (−2 to attacks and saves). **Omitted:** the living only (Kyr's undead are not proof against fear,
+Orsino's undead nature), and spell resistance.
+
+**The census** (200 humans for each calling and level, before and after; Cause Fear's rate):
+
+| Calling, level | Moved | Before | After |
+|---|---|---|---|
+| cleric, deathspeaker (Death), 1 / 7 | 60.5 / 60 % | .43 / .46 | .45 / .46 |
+| cleric, vitalist, 1 / 7 | 10.5 / 9.5 % | .06 / .14 | .10 / .17 |
+| cleric, domain drawn, 1 / 7 | 12.5 / 11 % | .07 / .15 | .12 / .17 |
+| cleric, the other ten domains, 1–7 | 8.5–15.5 % | .04–.15 | .09–.17 |
+| mage, bard, every level | 0 % | 0 | 0 |
+
+- A deathspeaker's first pick of its domain is now Dark Bolt or Cause Fear, and its second-level Death pick always
+  Life Drain: three in five move, about as many knowing it. Every other cleric may draw it among its first-level
+  picks: each who moved gained or lost it, or a spell it displaced.
+- **The creation cards:** the deathspeaker's now has Cause Fear at the first level (Barkskin, and case 19's Shield of
+  Faith, give way to it) and Protection from Darkness at the second. No other card moves; the vitalist's does not.
+- **The installed casters** of a1 and the six countries (2,232 classed creatures): six gain it and none lose (a1's
+  s2 preacher, wren's and ember's keep chaplain, kahitude's and ember's s1 Anselm, ember's fellowship recorder). No
+  installed creature of those worlds knows it by its kind.
+- **Innate:** the balor, discerner, fiend, ifrit, marilith, mind destroyer, mouther and ooze cast it by their
+  kind. Now a first-level spell, it rests two of their turns where it rested four, and it cannot be aimed at a foe of
+  six Hit Dice or more. None is placed in a1; the ooze is met in two of the six countries' 543 den groups.
+
+**Where it is met.** A first-level cleric who draws it (a deathspeaker more than one in two), the deathspeaker
+creation card, and every Death cleric of the first level who prepares it; a hostile cleric's dread now falls only
+on a company member of the fifth level or below, and a member who masters it is afraid one round.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

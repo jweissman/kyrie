@@ -191,6 +191,12 @@ export class AbilityUse {
     if (effect.save) {
       const difficulty = expressions.amount(effect.save.difficulty, values);
       if (AbilityUse.save({ save: effect.save, target, difficulty }, expressions, context)) {
+        // A partial save's lesser hold (see SaveOutcome), never on whoever is proof against it.
+        const proof = !!effect.save.kind && Effects.immune(target, effect.save.kind);
+        if (effect.kind === 'apply' && effect.save.lesser && !proof) {
+          Effects.apply({ ...effect, duration: effect.save.lesser }, target, 0, context);
+          return 'partial';
+        }
         if (effect.save.success !== 'half') { return false; }
         amount = Math.floor(amount / 2); took = 'partial';
       }

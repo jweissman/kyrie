@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 750,
-    "adapted": 399,
+    "faithful": 749,
+    "adapted": 400,
     "represented": 4,
     "kyr": 568,
     "unsupported": 66,
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 230,
-      "adapted": 22,
+      "faithful": 229,
+      "adapted": 23,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10293,6 +10293,13 @@
    "section": "magic/spells-divine/spells-divine-1"
   },
   {
+   "id": "ability:terror",
+   "title": "Cause Fear",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-1"
+  },
+  {
    "id": "ability:confuse",
    "title": "Confuse",
    "status": "faithful",
@@ -10512,13 +10519,6 @@
   {
    "id": "ability:sweet_whisper",
    "title": "Sweet Whisper",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-divine/spells-divine-2"
-  },
-  {
-   "id": "ability:terror",
-   "title": "Terror",
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"

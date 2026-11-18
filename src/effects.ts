@@ -17,6 +17,7 @@ import { Fighting, type Combatant } from './rules/fighting';
 import { ModifierSet, type Dice, type Modifiers } from './rules/modifiers';
 import { KindDefenses, type Hit } from './kind-defenses';
 import { PlaceLaws } from './rules/place-laws';
+import { SaveOutcome } from './rules/save-outcome';
 import type { Attribute } from './creature';
 
 export interface EffectContext {
@@ -134,10 +135,7 @@ export class Effects {
       throw new Error(`Unknown damage type ${effect.damageType}`);
     }
     if (effect.onResist && !['damage', 'drain'].includes(effect.kind)) { throw new Error('Only damage halves on a resisted spell'); }
-    if (effect.save?.success && (!['negate', 'half'].includes(effect.save.success)
-      || (effect.save.success === 'half' && effect.kind !== 'damage'))) {
-      throw new Error('Half saves require a damage effect');
-    }
+    SaveOutcome.validate(effect);
     if (effect.save && (effect.save.stat === undefined) === (effect.save.kind === undefined)) {
       throw new Error('A save names either an attribute or a save category');
     }

@@ -28,7 +28,7 @@ Each kind, with what it fights with, by type. Habitat says where it is met. Temp
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
@@ -107,7 +107,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
@@ -145,7 +145,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
@@ -183,7 +183,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
@@ -2272,7 +2272,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
@@ -2303,7 +2303,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
@@ -2332,7 +2332,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
@@ -2363,7 +2363,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
+Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and none of more; a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus shortens it to a round). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the first level. Takes a first-level slot.
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 

@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 26 pass in structure
-(level, school), 15 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-14 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 27 pass in structure
+(level, school), 16 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+15 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 45 | school 69 | dice 10 | type 13 | save 32 | dc 12 | attack 104 | target 71 | duration 41 | of 119 |
+| spells, field exact or converted | level 46 | school 70 | dice 10 | type 13 | save 32 | dc 13 | attack 104 | target 71 | duration 42 | of 119 |
 
 ## Creatures, most met first
 
@@ -216,7 +216,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | summon_vermin | summon-swarm | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → long |
 | sunburst | sunburst | S✗ R✗ I– | ✗ 5 → 8 | ✗ · → evocation | ✗ 14/14/14/14 → 21/21/21/21 | – | ✗ wisdom half → dexterity negates | ✗ 15 → 21 | ✓ | ✓ | ✓ |
 | symbol_of_insanity | symbol-of-insanity | S✗ R✗ I– | ✓ | ✗ illusion → enchantment | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ all → one | ✗ 3 rounds → long |
-| terror | cause-fear | S✗ R✗ I– | ✗ 2 → 1 | ✗ · → necromancy | – | – | ✓ | ✗ 16 → 14 | ✓ | ✓ | ✗ 3 rounds → long |
+| terror | cause-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ three rounds for whoever fails, one for whoever saves: the SRD's 1d4, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 20) |
 | time_stop | time-stop | S✗ RU I– | ✗ 8 → 9 | ✓ | – | – | – | – | ✓ | ✓ | ✗ 1 rounds → long |
 | true_sight | true-seeing | S✗ R✗ I– | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | ✓ | ✗ 3 rounds → long |
 | weakness | ray-of-enfeeblement | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | ✗ constitution negates → · | ✗ 15 → · | ✗ none → ranged touch | ✓ | ✗ 3 rounds → long |

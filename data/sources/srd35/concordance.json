@@ -356,7 +356,8 @@
   "cure_critical": "test/cure-wounds.test.ts",
   "bless": "test/bless.test.ts",
   "hold_person": "test/hold-person.test.ts",
-  "shield": "test/shield-of-faith.test.ts"
+  "shield": "test/shield-of-faith.test.ts",
+  "terror": "test/cause-fear.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -396,6 +397,10 @@
   },
   "hold_person": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "terror": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",
+   "duration": "three rounds for whoever fails, one for whoever saves: the SRD's 1d4, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 20)"
   },
   "shield": {
    "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19)",

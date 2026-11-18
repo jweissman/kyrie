@@ -132,7 +132,8 @@ export class MechanicsText {
     insanity: 'madness', paralyze: 'paralysis', reflex: 'what can be dodged', drain: 'the draining of levels' };
   // A save by the quality it rests on, as the character sheet says it: "a Wisdom save against 19 avoids it".
   static save(save: Save, actor?: Record<string, number>): string {
-    const outcome = save.success === 'half' ? 'halves it' : 'avoids it';
+    const outcome = save.success === 'half' ? 'halves it' : save.lesser
+      ? `shortens it to ${save.lesser === 1 ? 'a round' : `${save.lesser} rounds`}` : 'avoids it';
     const quality = this.quality(save.stat ?? save.kind ?? 'magic');
     const again = save.again ? ', and is made again on each turn it holds, a success ending it' : '';
     return `${this.an(quality)} save against ${this.amount(save.difficulty, actor)} ${outcome}${again}`;
