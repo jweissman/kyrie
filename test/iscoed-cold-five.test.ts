@@ -2,6 +2,9 @@ import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
+import { ScreenModel } from '../src/ui/screen-model';
+import { ModuleWriter } from '../src/lang/module-writer';
+import type { World } from '../src/lang/world';
 
 // The fifth cold play of the golden route (mission-22/cold/cold-5-report.md, the elf mage from Gatesend) and the
 // fourth's threads (cold-4-report.md), replayed by their own lines: the world answers what the company found and did
@@ -17,7 +20,7 @@ async function play(as: string, acts: string[]) {
   // The plays' own lines, with the few it sent that were not offered then (an act refused is kept in the log).
   let s = r.said();
   for (const line of acts) { const x = await r.ask(line); if (!('error' in x)) { s = x; } }
-  return { r, s, ask: async (act: string) => said(await r.ask(JSON.stringify({ act }))) };
+  return { r, s, journey, ask: async (act: string) => said(await r.ask(JSON.stringify({ act }))) };
 }
 describe('Gatesend, after the fifth cold play', () => {
   // CL-35: the lease is the heir's from the start, not taken on reading a notice ("You take Tegwen's lease.").
@@ -73,5 +76,16 @@ describe('the drove road, after the fourth cold play', () => {
     expect(text(await ask('drove__owain_after'))).toContain('Go home with Bran');
     await ask('talk_to(gate__reeve)');
     expect(text(await ask('gate__reeve_gate'))).toContain('with the sea running under it like a mill-race');
+  }, 180000);
+  // CL-35's 16: the cellar's rats dead and how they came up not found, "and find where they get in" had dropped out of
+  // the aim unsaid; it is asked still, as an aim of its own.
+  it('asks still where the rats got in, once those in the cellar are dead', async () => {
+    const { journey } = await play('elf/mage/Ilse/scholar', lines(5, 31));
+    const c = journey.session.campaign as unknown as { world: World; commit(w: World): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('region__s4_u_done', 'region__s4_u_rats_job') }]));
+    const aims = ScreenModel.build(journey.session.campaign).aims?.map(a => a.text) ?? [];
+    expect(aims).toContain('The rats in the corn-store cellar are dead. Find where they got in: there will be more '
+      + 'where they came from.');
+    expect(aims.join(' ')).not.toContain('Clear the rats out of');
   }, 180000);
 });
