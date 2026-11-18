@@ -69,7 +69,10 @@ export class Telling {
     // The command being told is the last in the history (a copy of it, not the event itself).
     const before = campaign.history.at(-1)?.action === event.action ? campaign.history.slice(0, -1) : campaign.history;
     const met = new Set(before.flatMap(e => e.changes.filter(c => ties.has(c))));
-    return actors.filter(a => [...met].some(c => c.includes(`(${a}, `)));
+    // Or has already answered something put to them: Gek, who gave her job and her key to a question asked before any
+    // greeting, had then said "I don't know you" (cold play 5, CL-36).
+    const answered = new Set(before.map(e => campaign.operator(e.action)?.speaker).filter((x): x is string => !!x));
+    return actors.filter(a => answered.has(a) || [...met].some(c => c.includes(`(${a}, `)));
   }
   // Whoever has nobody in them still standing (a sergeant cut down, a band all fallen). Not a group gone into the
   // company: a recruit's own band is done with when they join, and they say so.

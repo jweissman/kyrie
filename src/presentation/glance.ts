@@ -123,10 +123,11 @@ export class Glance {
   // November).
   // Dark with a light to hand is said as it is, not as a want: "No light" beside "Haze: light a candle" had the player
   // arbitrate between the two (the blind playtest, 13 November).
-  // So with the dark ahead, nothing to see it by: why the way down is not led with (see CompanyLight).
+  // So with the dark ahead, nothing to see it by: why the way down is not led with (see CompanyLight). And dark with a
+  // light to hand says the light is there: "Need: Dark" had read as a want of the dark (cold play 5, CL-38).
   private static need({ expedition: e, dark, party }: Screen, lightable: boolean, ahead: boolean): string[] {
     return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [],
-      ...dark ? [lightable ? 'Dark' : 'No light'] : ahead ? ['No light'] : [],
+      ...dark ? [lightable ? 'Dark, a light to hand' : 'No light'] : ahead ? ['No light'] : [],
       ...party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
         ...m.hp <= 0 ? ['down'] : m.hp < m.maxHp / 2 ? [`${m.hp} of ${m.maxHp}`] : [],
         ...m.conditions.map(c => c.toLowerCase())].join(', ')}`)];

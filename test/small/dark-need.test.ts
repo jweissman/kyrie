@@ -15,7 +15,7 @@ describe('the dark, as what is needed', () => {
   it('is "Dark" while a light is to hand, and nothing once it is lit', async () => {
     const t = await Tiny.start(hall);
     await t.perform('go(t__door,t__hall)');
-    expect(t.glance.need ?? []).toContain('Dark');
+    expect(t.glance.need ?? []).toContain('Dark, a light to hand');
     expect(t.glance.need ?? []).not.toContain('No light');
     await t.perform('light_item(t__party_1__torch)');
     expect(t.glance.need ?? []).toEqual([]);
