@@ -185,7 +185,13 @@ export class Creation {
     const playable = (Content.playableRaces as string[]).includes(ancestry) ? ancestry : 'human';
     const pronouns = ProtagonistNames.presenting(seed);
     return { name: names[playable]?.[pronouns]?.[0] ?? 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior',
-      pronouns, rolled: Rolls.suited(Content.rolls(seed), Canon.classes.warrior?.attributes ?? {}) };
+      pronouns, rolled: Creation.rolled(seed, 'warrior') };
+  }
+  // The country's six rolls placed where a calling wants them, as creation places them when the calling is chosen
+  // (CreationFlow.changed). A protagonist named only by people and calling (the terminal's --as) is made of these
+  // too: made of the rolls as drawn, an iscoed warrior had strength 10 and wisdom 15 and missed half her blows (CL-08).
+  static rolled(seed: string, classId: string): Record<string, number> {
+    return Rolls.suited(Content.rolls(seed), Canon.classes[classId]?.attributes ?? {});
   }
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for
   // this company (its backgrounds place old friends in the region).

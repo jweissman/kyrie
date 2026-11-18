@@ -66,7 +66,9 @@ export class PlayTool {
       }
       return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
     }
-    const one = { name, raceId, classId, ...backgroundId ? { backgroundId } : {} };
+    // Who --as names is made as creation makes them: the world's rolls placed where the calling wants them (CL-08).
+    const one = { name, raceId, classId, rolled: Creation.rolled(o.world, classId),
+      ...backgroundId ? { backgroundId } : {} };
     const drawn = { party: [made ?? one], origin: o.origin ?? await PlayTool.given(o.world, made ?? one) };
     const session = await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch);
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
