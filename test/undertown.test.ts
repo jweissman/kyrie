@@ -73,10 +73,10 @@ describe('under the town the company begins in', () => {
     await Town.take(s, /^Attack the man with the black candle/);
     await Town.take(s, /^Pinch out the black candle/);
     const aims = ScreenModel.build(c).objectives.join(' ');
-    expect(aims).toMatch(/Tell Carmine at .* that the dead are laid, and who raised them/);
+    expect(aims).toMatch(/Tell Carmine at .* that the dead are laid, and the man who raised them gone/);
     await Town.take(s, /^Take an arch stacked/, /^Take the stone stair/, /^Take the lych-gate/,
       /^Take the shrine porch/);
-    expect(await Town.take(s, /^Tell Carmine the dead under the churchyard are laid, and who raised them/))
+    expect(await Town.take(s, /^Tell Carmine the dead under the churchyard are laid, and the man who raised them gone/))
       .toContain('a charm of ashwood');
     const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
     expect([kit.includes('ashwood_charm'), kit.filter(k => k === 'minor_healing_potion').length]).toEqual([true, 2]);

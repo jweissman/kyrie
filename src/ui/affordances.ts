@@ -1,4 +1,4 @@
-import type { Why } from '../presentation/glance-types';
+import type { Mark, Why } from '../presentation/glance-types';
 import { Attending } from './attention';
 import type { Choice } from './choice-list';
 import { AimRoute } from '../presentation/aim-route';
@@ -517,6 +517,15 @@ export class Affordances {
   private static risky(c: Choice): boolean {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));
   }
+  // An opener's marks and those of the act inside it that it does: a thing's row that takes it carries what taking
+  // it risks (cold play 3, CL-12: the vault's moonstone, led as "a cord of old rings" by its look, unwarned).
+  private static marksOf(c: Choice, command?: string): Mark[] {
+    const done = command && c.command !== command ? this.inside(c.children ?? [], command) : undefined;
+    return [...c.marks ?? [], ...(done?.marks ?? []).filter(m => !c.marks?.some(x => x.kind === m.kind))];
+  }
+  private static inside(k: Choice[], command: string): Choice | undefined {
+    return k.find(x => x.command === command) ?? k.map(x => this.inside(x.children ?? [], command)).find(Boolean);
+  }
   private static candidate(c: Choice, at: { kind: Kind; whys: Why[]; r: Reading; subject?: string; exit?: string;
     notes?: Candidate['notes']; leaves?: Candidate['leaves']; command?: string; for?: string; visited?: boolean;
     pointed?: boolean }): Candidate {
@@ -532,7 +541,7 @@ export class Affordances {
       ...at.subject ? { subject: at.subject } : {},
       ...at.leaves && Object.keys(at.leaves).length ? { leaves: at.leaves } : {},
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
-      order: 0, marks: c.marks ?? [], ...c.minutes ? { minutes: c.minutes } : {},
+      order: 0, marks: this.marksOf(c, command), ...c.minutes ? { minutes: c.minutes } : {},
       ...this.risky(c) ? { risk: true } : {},
       ...c.own ? { own: true } : {}, ...c.teaches ? { teaches: true } : {},
       ...command && at.r.done.has(command) ? { known: true } : {},

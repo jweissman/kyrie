@@ -85,7 +85,9 @@ export class Marks {
   private static warned(c: Choice, s: Section, here: Here): Mark | undefined {
     const warned = here.screen.warned;
     const toward = !!here.toward && new RegExp(`[(,]${here.toward}[,)]`).test(c.command ?? '');
-    if (warned && c.command && !toward && (c.minutes ?? 0) >= warned.left) {
+    // Anything done takes its minute at least: with a minute left, taking a moonstone off the vault's floor had brought
+    // its keeper on, unmarked, and killed the company (cold play 3, CL-12).
+    if (warned && c.command && !toward && Math.max(c.minutes ?? 0, 1) >= warned.left) {
       return { kind: 'warned', said: Patience.note(warned.by) };
     }
     if (here.threat && s.tone === 'company' && c.command && (c.minutes ?? 0) >= 10) {

@@ -276,7 +276,7 @@
     Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
     On discuss { Assert knows(actor, {t}_u_dead_job). Assert {t}_u_given({t}_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, {t}_u_crypt_lock). }
   }
-  Topic {t}_u_dead_lodger_ask with {t}_innkeeper "Ask {{t}_innkeeper} who goes out at night" when knows(actor, {t}_u_dead_robbed) and not knows(actor, {t}_u_dead_lodger) once {
+  Topic {t}_u_dead_lodger_ask with {t}_innkeeper "Ask {{t}_innkeeper} who goes out at night" when knows(actor, {t}_u_dead_robbed) and not knows(actor, {t}_u_dead_lodger) and not {t}_u_done({t}_u_raiser) once {
     Says "{{t}_innkeeper} wipes the same place on the counter twice. 'There's a man in the back room, been here a fortnight, pays in old coin. Goes out after dark and comes in before light. There's grave-dirt on his boots that I scrub off the step.'".
     On discuss { Assert knows(actor, {t}_u_dead_lodger). }
   }
@@ -343,11 +343,11 @@
   // ossuary beyond it, and an aim that pointed at the crypt left a company that had been through the ossuary standing
   // in the crypt led only to search it (the owner's play of 11 November: led to the threshold and abandoned there).
   Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_u_dead, {t}_u_raiser by {t}_u_yard "Lay the dead in {{t}_u_crypt} under {{t}_u_yard} at {town}, and find out who raised them.".
-  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and who raised them" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
+  Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and the man who raised them gone" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
     Says "{{t}_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert {t}_u_paid({t}_u_dead_job). Retract knows(actor, {t}_u_dead_job). }
   }
-  Topic {t}_u_dead_job_rest with {t}_priest "Tell {{t}_priest} who raised the dead under the churchyard" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
+  Topic {t}_u_dead_job_rest with {t}_priest "Tell {{t}_priest} the man who raised the dead under the churchyard is gone" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
     Says "{{t}_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then the rest of the coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 5. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert {t}_u_paid({t}_u_dead_job). Retract knows(actor, {t}_u_dead_job). }
   }
@@ -355,7 +355,7 @@
     Says "'Laid,' says {{t}_priest}, 'until whoever raised them comes back with another candle.' Ten coin. 'Find who it is. Then the rest is yours, and more.'".
     On discuss { Increase quantity(actor, gold) by 10. Assert {t}_u_halved({t}_u_dead_job). }
   }
-  Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) toward {t}_priest "Tell {{t}_priest} at {{priestat}} that the dead are laid, and who raised them. Fifteen coin are yours, and what the shrine can give.".
+  Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) toward {t}_priest "Tell {{t}_priest} at {{priestat}} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
 >> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
   Rule {t}_u_dead_onward when {t}_u_done({t}_u_dead_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
 --- pit spiders
@@ -477,6 +477,9 @@
     Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {pair}. Level 1. Temperament territorial. Lair {t}_u_charnel.
   }
   Initially Set encounterXp({t}_u_shamblers) to 90.
+  // The raiser's first tries are his candle's too: with it out they go down where they stand, and the job is not paid
+  // over dead still standing in the charnel passage (cold play 3, CL-20; the variety study's §10).
+  Rule {t}_u_charnel_lie when state({t}_u_candle, snuffed) and at({t}_u_shamblers, {t}_u_charnel) and able({t}_u_shamblers) says "In the charnel passage behind the bone-heaps, the dead fall down too." { Retract at({t}_u_shamblers, {t}_u_charnel). }
   Discovery {t}_u_charnel_goods "On the last shelf, under a fall of cloth, lies what the old dead were buried with. Nobody has been down to take it." {
     Found by searching {t}_u_charnel "Under the cloth on the last shelf, something hard and cold.".
   }

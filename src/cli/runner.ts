@@ -143,7 +143,7 @@ export class Runner {
       if (told.has(p) || led.has(p)) { continue; }
       told.add(p);
       const own = rest.find(x => x.id === `talk_to(${p})`);
-      out.push({ ...own ?? { id: `talk:${p}`, label: Typography.plain(Runner.called(screen, p) ?? `Talk to ${p}`),
+      out.push({ ...own ?? { id: `talk:${p}`, label: Typography.plain(Runner.called(screen, p) ?? `Talk to ${screen.people.find(x => x.id === p)!.name.split(', ')[0]}`),
         type: 'talk' as const, marks: [] }, aspects: [...new Set(rest.filter(x => whose.get(x.id) === p)
         .flatMap(x => x.aspects))] });
     }

@@ -2,6 +2,7 @@ import { Headings } from '../ui/headings';
 import type { Candidate, Kind } from '../ui/promotion';
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
+import { Patience } from '../ui/patience';
 import { PlayerView } from './player-view';
 import { Aspects } from './aspects';
 import type { Aspect, Mark, Promoted } from './glance-types';
@@ -42,7 +43,7 @@ export class Offers {
   // retreat, return).
   static scene(acts: Promoted[], ways: string[], cands: Candidate[],
     { campaign, out, screen }: { campaign?: Campaign; out?: Set<string>; screen?: Screen } = {}): Offer {
-    const live = [...cands.filter(c => !c.barred), ...this.besides(cands, campaign)];
+    const live = [...cands.filter(c => !c.barred), ...this.besides(cands, campaign, screen?.warned)];
     const byChoice = new Map(live.map(c => [c.choice, c]));
     const graves = out ? live.filter(c => c.marks.some(m => m.kind === 'grave')) : [];
     const leaves = new Set(graves.length ? acts.filter(a => out!.has(byChoice.get(a.choice)?.exit ?? '')).map(a => a.choice)
@@ -130,13 +131,18 @@ export class Offers {
   // act (talking to whoever is here, setting a thing down, lighting a torch by day): kept in the rest, by the kind of
   // its action, so that nothing the company can do is out of reach (and the terminal, which draws no likeness, can
   // offer talk among the four).
-  private static besides(cands: Candidate[], campaign?: Campaign): Candidate[] {
+  private static besides(cands: Candidate[], campaign?: Campaign, warned?: Screen['warned']): Candidate[] {
     if (!campaign) { return []; }
     const had = new Set(cands.flatMap(c => [c.choice, c.command, ...Object.values(c.leaves ?? {})]));
+    // Warned off as the page marks it (Marks.warned): whatever spends the last of their patience, a moment's take
+    // among it (cold play 3, CL-12: "Collect a moonstone", unmarked in the four, brought the vault's keeper on).
+    const toward = warned && new RegExp(`[(,]${warned.id}[,)]`);
     return PlayerView.choices(campaign).filter(r => !had.has(r.choice.id))
       .map((r, i) => ({ choice: r.choice.id, command: r.choice.id, label: r.choice.name,
         kind: this.kind(r.action.schema), whys: [], order: cands.length + i,
-        marks: r.action.grave ? [{ kind: 'grave' as const, said: r.action.grave, ask: true }] : [] }));
+        marks: [...r.action.grave ? [{ kind: 'grave' as const, said: r.action.grave, ask: true }] : [],
+          ...warned && !toward!.test(r.choice.id) && Math.max(r.action.minutes ?? 0, 1) >= warned.left
+            ? [{ kind: 'warned' as const, said: Patience.note(warned.by) }] : []] }));
   }
   // The rest in an order by what each is, the scene's own order within: talk and ways and what is done here before
   // the company's own gear (setting a thing down, giving it across, packing it), which a town's rest had led with

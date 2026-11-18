@@ -234,7 +234,7 @@ Module lab "The undercroft at Lowmouth" {
     Says "{low_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
     On discuss { Assert knows(actor, low_u_dead_job). Assert low_u_given(low_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, low_u_crypt_lock). }
   }
-  Topic low_u_dead_lodger_ask with low_innkeeper "Ask {low_innkeeper} who goes out at night" when knows(actor, low_u_dead_robbed) and not knows(actor, low_u_dead_lodger) once {
+  Topic low_u_dead_lodger_ask with low_innkeeper "Ask {low_innkeeper} who goes out at night" when knows(actor, low_u_dead_robbed) and not knows(actor, low_u_dead_lodger) and not low_u_done(low_u_raiser) once {
     Says "{low_innkeeper} wipes the same place on the counter twice. 'There's a man in the back room, been here a fortnight, pays in old coin. Goes out after dark and comes in before light. There's grave-dirt on his boots that I scrub off the step.'".
     On discuss { Assert knows(actor, low_u_dead_lodger). }
   }
@@ -284,11 +284,11 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_raiser_ended when not able(low_u_raiser) and not low_u_done(low_u_raiser) { Assert low_u_done(low_u_raiser). }
   Objective low_u_dead_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_priest "Ask {low_priest} about what has come up under the churchyard at Lowmouth: the crypt is locked.".
   Objective low_u_dead_job_aim when low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_u_dead, low_u_raiser by low_u_yard "Lay the dead in {low_u_crypt} under {low_u_yard} at Lowmouth, and find out who raised them.".
-  Topic low_u_dead_job_paid with low_priest "Tell {low_priest} the dead under the churchyard are laid, and who raised them" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
+  Topic low_u_dead_job_paid with low_priest "Tell {low_priest} the dead under the churchyard are laid, and the man who raised them gone" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
     Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert low_u_paid(low_u_dead_job). Retract knows(actor, low_u_dead_job). }
   }
-  Topic low_u_dead_job_rest with low_priest "Tell {low_priest} who raised the dead under the churchyard" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
+  Topic low_u_dead_job_rest with low_priest "Tell {low_priest} the man who raised the dead under the churchyard is gone" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
     Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then the rest of the coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 5. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert low_u_paid(low_u_dead_job). Retract knows(actor, low_u_dead_job). }
   }
@@ -296,7 +296,7 @@ Module lab "The undercroft at Lowmouth" {
     Says "'Laid,' says {low_priest}, 'until whoever raised them comes back with another candle.' Ten coin. 'Find who it is. Then the rest is yours, and more.'".
     On discuss { Increase quantity(actor, gold) by 10. Assert low_u_halved(low_u_dead_job). }
   }
-  Objective low_u_dead_job_owed when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_paid(low_u_dead_job) toward low_priest "Tell {low_priest} at {low_chapel} that the dead are laid, and who raised them. Fifteen coin are yours, and what the shrine can give.".
+  Objective low_u_dead_job_owed when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_paid(low_u_dead_job) toward low_priest "Tell {low_priest} at {low_chapel} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
   Rule low_u_dead_onward when low_u_done(low_u_dead_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
   Observe low_u_pit_scene at low_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces. At the bottom a square adit goes back into the rock behind a barred gate. A board on the gate says KEEP OUT in three hands.".
   Observe low_u_husks at low_u_adit when able(low_u_spiders) "Things hang in the web across the cutting ahead, wrapped grey and sucked dry. A fox, a dog, something the size of a calf. Whatever strung it takes prey that big.".
@@ -387,6 +387,7 @@ Module lab "The undercroft at Lowmouth" {
     Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers 2. Level 1. Temperament territorial. Lair low_u_charnel.
   }
   Initially Set encounterXp(low_u_shamblers) to 90.
+  Rule low_u_charnel_lie when state(low_u_candle, snuffed) and at(low_u_shamblers, low_u_charnel) and able(low_u_shamblers) says "In the charnel passage behind the bone-heaps, the dead fall down too." { Retract at(low_u_shamblers, low_u_charnel). }
   Discovery low_u_charnel_goods "On the last shelf, under a fall of cloth, lies what the old dead were buried with. Nobody has been down to take it." {
     Found by searching low_u_charnel "Under the cloth on the last shelf, something hard and cold.".
   }
