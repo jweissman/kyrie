@@ -8,6 +8,7 @@ import { Canon } from '../canon/canon';
 import folk from '../../data/generation/scenes/folk.json';
 import text from '../../data/generation/town/teachers.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
+import { RegionKey } from './region-key';
 
 interface Teacher { kind: 'arms' | 'arcane'; name: string; pronoun: string; draw: Draw }
 
@@ -48,7 +49,7 @@ export class RegionMarket {
     return region.settlements.flatMap(s => [this.teacher(region, s, 'arms').name, this.teacher(region, s, 'arcane').name]);
   }
   private static teacher(region: Region, s: Settlement, kind: Teacher['kind']): Teacher {
-    const draw = new Draw(`${region.name}:${s.id}:teacher:${kind}`), ancestry = s.folk ?? region.ancestry;
+    const draw = new Draw(`${RegionKey.of(region)}:${s.id}:teacher:${kind}`), ancestry = s.folk ?? region.ancestry;
     const pronoun = draw.pick(['she', 'he']), given = folk.given as unknown as Record<string, Record<string, string[]>>;
     const names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
     const taken = new Set([...Communities.everyone(region), ...RegionShops.keepers(region)]);

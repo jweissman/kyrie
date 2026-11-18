@@ -8,6 +8,7 @@ import { Draw } from './land/draw';
 import { CreatureVariants } from '../creature-variants';
 import { RegionWeather } from './region-weather';
 import { Challenge } from './challenge';
+import { RegionKey } from './region-key';
 
 export interface Beast { species: string; count: number; label: string; role: string; nature: string;
   variations?: string[] }
@@ -45,10 +46,10 @@ export class RegionEcology {
   // kind of country in one region hold the same kind of beast.
   static den(region: Region, habitat: string): Beast | undefined {
     const table = this.tables.denBeast.groups[habitat] ?? [], recorded = RegionEcology.recorded(habitat);
-    const kept = new Draw(`${region.name}:den:${habitat}:recorded`);
+    const kept = new Draw(`${RegionKey.of(region)}:den:${habitat}:recorded`);
     const rows = table.length ? table : this.tables.denBeast.groups[this.country(region)];
     let row = !table.length && recorded.length ? kept.weighted(recorded.map(r => [r, r.__weight ?? 1] as const))
-      : rows && this.weighed(rows, new Expressions(`${region.name}:den:${habitat}`));
+      : rows && this.weighed(rows, new Expressions(`${RegionKey.of(region)}:den:${habitat}`));
     // What dens there by its own record, beside the table, by its share of the weight of both: drawn apart from the
     // table's draw, so what the table gives a country is not shifted by a kind added to the records.
     if (table.length && recorded.length

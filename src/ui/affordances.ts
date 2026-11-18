@@ -304,9 +304,10 @@ export class Affordances {
     const fee = c.note?.split(' · ')[0];
     return fee && /coin$/.test(fee) ? `, ${fee}` : '';
   }
+  // Its price said after it, unless its own words say it already ("Ask Ebba for healing, 2 coin": CL-24).
   private static priced(c: Choice): string {
-    const fee = c.note?.split(' · ')[0];
-    return `${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}${fee && /coin$/.test(fee) ? `, ${fee}` : ''}`;
+    const fee = c.note?.split(' · ')[0], said = !!fee && c.label.endsWith(fee);
+    return `${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}${fee && /coin$/.test(fee) && !said ? `, ${fee}` : ''}`;
   }
   // A way: the one the aim names, one toward it, the way back when there is something to get away from, a way about
   // the place not yet taken, the first thing to try on a way barred.

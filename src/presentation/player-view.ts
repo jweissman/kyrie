@@ -124,6 +124,10 @@ export class PlayerView {
     const visible = OwnWords.unasked(world.module, seen);
     const rows = ActionPresentation.choices(visible, campaign.schemaList).map(row => {
       row.choice.time = ActionTime.of(row.action, world);
+      // A measure its label says ("Ask {healer} for {service}, {fee(service)} coin") is said by what it is bound to.
+      if (/\{[^}]*\(/.test(row.choice.name)) {
+        row.choice.name = ObservationText.render(row.choice.name, world, false, row.action.bindings ?? {});
+      }
       // Choices are grounded with every name; a place the company has not learned is said as it is seen, someone known
       // as something while that holds as that (the Book of Faces' BOF-01: "Talk to Tibb" beside "an old man").
       row.choice.name = Masked.choice(world, row.choice.name, row.action.bindings, unnamed);

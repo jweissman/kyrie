@@ -9,6 +9,7 @@ import type { Region, Settlement } from '../region-writer';
 import folk from '../../../data/generation/scenes/folk.json';
 import trades from '../../../data/generation/scenes/occupations.json';
 import animals from '../../../data/generation/scenes/animals-about.json';
+import { RegionKey } from '../region-key';
 
 export interface Occupation {
   name: string; background: string; painting: string; everywhere?: boolean; trades?: string[]; terrains?: string[];
@@ -62,7 +63,7 @@ export class Communities {
   static readonly manners = ['proud', 'grim', 'cheerful', 'acerbic', 'compassionate', 'stoic', 'jovial'];
   static readonly evenings = (trades as unknown as { evening: string[] }).evening;
   static plan(region: Region, s: Settlement, stock: string[] = []): Community {
-    const draw = new Draw(`${region.name}:${s.id}:community`), water = this.water(region, s);
+    const draw = new Draw(`${RegionKey.of(region)}:${s.id}:community`), water = this.water(region, s);
     const founding = Foundings.of(region, region.settlements.indexOf(s));
     const chosen = this.choose(region, s, { water, draw, founding });
     const ancestry = s.folk ?? region.ancestry, { people: used, animals: beasts } = this.before(region, s);

@@ -8,6 +8,7 @@ import world from '../../data/generation/scenes/orsino-world.json';
 import shops from '../../data/generation/scenes/shops.json';
 import folk from '../../data/generation/scenes/folk.json';
 import gems from '../../data/catalog/items/gems.json';
+import { RegionKey } from './region-key';
 
 interface Kind { role: string; room: string; painting: string; scene: string; stones?: number }
 
@@ -37,7 +38,7 @@ export class RegionShops {
     if (s.size !== 'town') { return []; }
     const fit = Object.keys(this.kinds).filter(k => this.shelves(region, i, k).length >= 3);
     const had = new Set(['general', this.merchants[s.merchantType ?? 'chandler'] ?? '']), out: string[] = [];
-    for (const kind of new Draw(`${region.name}:${s.id}:shops`).shuffle(fit)) {
+    for (const kind of new Draw(`${RegionKey.of(region)}:${s.id}:shops`).shuffle(fit)) {
       const family = this.families[kind] ?? kind;
       if (!had.has(family)) { out.push(kind); had.add(family); }
     }
@@ -53,7 +54,7 @@ export class RegionShops {
   // cheapest first. A market town's jeweller may have a ring of protection; a small town's has what a small town buys.
   static shelves(region: Region, i: number, kind: string): [string, number][] {
     const at = { means: Foundings.of(region, i).kind === 'market' ? 800 : 300,
-      key: `${region.name}:${region.settlements[i]!.id}:${kind}:shelves` };
+      key: `${RegionKey.of(region)}:${region.settlements[i]!.id}:${kind}:shelves` };
     return [...this.shelf(kind, at), ...this.stones(kind, at)].sort((a, b) => a[1] - b[1]);
   }
   // The stones a shop keeps besides what Orsino's shop of its kind sells, so many as its kind says (a jeweller's: the
@@ -72,7 +73,7 @@ export class RegionShops {
   }
   // Who keeps a shop: a name nobody settled in the country has (see Communities.everyone).
   private static keeper(region: Region, s: Settlement, kind: string): { name: string; pronoun: string; draw: Draw } {
-    const draw = new Draw(`${region.name}:${s.id}_${kind}`), ancestry = s.folk ?? region.ancestry;
+    const draw = new Draw(`${RegionKey.of(region)}:${s.id}_${kind}`), ancestry = s.folk ?? region.ancestry;
     const pronoun = draw.pick(['she', 'he']), given = folk.given as unknown as Record<string, Record<string, string[]>>;
     const names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
     const name = Communities.distinct(names, ancestry,
@@ -90,7 +91,7 @@ export class RegionShops {
     const means = ({ town: 300, village: 80 } as Record<string, number>)[s.size] ?? 25;
     const pool = [...new Map(of.trades.flatMap(k => this.stocks[k]?.stock ?? [])
       .filter(([what, fee]) => fee <= means && !of.have.includes(what))).entries()];
-    return new Draw(`${region.name}:${s.id}:wares`).shuffle(pool).slice(0, 3).sort((a, b) => a[1] - b[1])
+    return new Draw(`${RegionKey.of(region)}:${s.id}:wares`).shuffle(pool).slice(0, 3).sort((a, b) => a[1] - b[1])
       .map(([what, fee]) => [what, fee, 1]);
   }
   private static shop(region: Region, s: Settlement, at: { kind: string; n: number; shelves: [string, number][] }):

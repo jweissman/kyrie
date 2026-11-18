@@ -4,6 +4,7 @@ import { Draw } from './land/draw';
 import { Foundings } from './founding';
 import type { Contact, Region, Settlement } from './region-writer';
 import travellers from '../../data/generation/scenes/travellers.json';
+import { RegionKey } from './region-key';
 
 // Who in a generated region would go along with a company: the traveller at each inn, whose calling is a class (a
 // drover can fight, a pilgrim pray, a tinker open locks). Asked whether they would come along, they say what brings
@@ -26,7 +27,7 @@ export class RegionRecruits {
     const tables = GenerationSetting.tables as unknown as { travellerCalling: { groups: Record<string, string[]> } };
     const pool = tables.travellerCalling.groups[region.terrain] ?? [];
     if (!pool.length) { return region; }
-    const order = new Draw(`${seed}:${region.name}:callings`).shuffle(pool);
+    const order = new Draw(`${seed}:${RegionKey.of(region)}:callings`).shuffle(pool);
     return { ...region, settlements: region.settlements.map((s, i) => ({ ...s, calling: order[i % order.length]! })) };
   }
   // Why the company has come, said as it arrives, as a module of its own so it stands apart from the town: each

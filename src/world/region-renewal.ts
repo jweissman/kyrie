@@ -3,6 +3,7 @@ import { WrittenKyr } from './written-kyr';
 import { RegionEcology } from './region-ecology';
 import type { WorkPlan } from './history/work-plans';
 import type { Region, Site } from './region-writer';
+import { RegionKey } from './region-key';
 
 // A region goes on after a company has been through it. A work left empty (whatever lived in it dead, or nothing
 // there but the company) stays empty only a while: some days later the beasts of its kind of country move in, as
@@ -23,7 +24,7 @@ export class RegionRenewal {
     const habitat = RegionEcology.habitat(region, site), beast = RegionEcology.den(region, habitat);
     if (!beast) { return []; }
     const q = JSON.stringify, w = site.id, lair = `${w}_${plan.lair}`, comers = `${w}_newcomers`;
-    const draw = new Draw(`${region.name}:${w}:renewal`), nights = 4 + Math.floor(draw.next() * 6);
+    const draw = new Draw(`${RegionKey.of(region)}:${w}:renewal`), nights = 4 + Math.floor(draw.next() * 6);
     const thanks = 10 * (2 + plan.danger + beast.count), they = beast.label.replace(/^the /, '');
     // Empty when whoever the work held is dead (not the peaceable, who live there); when it held no one, once the
     // company has been in its den.

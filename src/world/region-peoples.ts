@@ -2,6 +2,7 @@ import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import folk from '../../data/generation/scenes/folk.json';
 import type { Region, Settlement } from './region-writer';
+import { RegionKey } from './region-key';
 
 interface Mix { _key: string; __weight?: number; majority: string; others: string[] }
 interface Tables {
@@ -48,7 +49,7 @@ export class RegionPeoples {
     for (const s of region.settlements) {
       for (const role of this.roles.filter(r => reserved.includes(s[r]))) {
         s[role] = this.name(s.people?.[role] ?? s.folk ?? region.ancestry, used,
-          new Expressions(`${region.name}:${s.id}:${role}:apart`));
+          new Expressions(`${RegionKey.of(region)}:${s.id}:${role}:apart`));
       }
     }
   }

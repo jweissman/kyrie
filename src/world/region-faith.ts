@@ -3,6 +3,7 @@ import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import { RegionGeography } from './region-geography';
 import type { Region, Settlement } from './region-writer';
+import { RegionKey } from './region-key';
 
 // A settlement's shrine: whose it is, what it is, how it is kept and how it came to be. Its form is Orsino's kind
 // (altar, fountain…); what it is called is what its seat shows ("a well-head with a carved lip" is the well-head of
@@ -28,7 +29,7 @@ export class RegionFaith {
     return region.settlements.map((s, i) => this.cult(region, s, i));
   }
   private static cult(region: Region, s: Settlement, i: number): Cult {
-    const rng = new Expressions(`${region.name}:${s.id}:faith`), land = this.land(region, i);
+    const rng = new Expressions(`${RegionKey.of(region)}:${s.id}:faith`), land = this.land(region, i);
     const local = i > 0 && land ? this.tables.localCult.groups[land] : undefined;
     const pick = local && rng.number('1d100') <= 60 ? this.pick(local, rng) : undefined;
     const deity = pick?._key ?? this.id(region.deity), domain = pick?.domain ?? region.domain;

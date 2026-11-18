@@ -4,6 +4,7 @@ import { RegionEcology } from './region-ecology';
 import { Challenge } from './challenge';
 import { RegionWeather } from './region-weather';
 import type { Region, Site } from './region-writer';
+import { RegionKey } from './region-key';
 
 // What a makers' work holds besides what its plan wrote: its rooms had been bare but for one keeper and two
 // treasures, five to nine rooms with nothing in them (the owner, 31 October: interiors thin, secrets and treasure too
@@ -14,7 +15,7 @@ export class RegionStock {
   static work(region: Region, site: Site, at: { great: boolean; written: string[]; values: Record<string, string> }):
     string[] {
     if (at.great) { return []; }
-    const rooms = this.bare(at.written), draw = new Draw(`${region.name}:${site.id}:stock`);
+    const rooms = this.bare(at.written), draw = new Draw(`${RegionKey.of(region)}:${site.id}:stock`);
     if (rooms.length < 2) { return []; }
     const [den, cache] = draw.shuffle(rooms.slice(1));
     return [...this.den(region, site, den!), ...cache ? this.cache(site, cache, at.values) : []];

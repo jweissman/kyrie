@@ -8,6 +8,7 @@ import { GeneralStores } from './general-stores';
 import type { Region, Settlement } from './region-writer';
 import folk from '../../data/generation/scenes/folk.json';
 import outfit from '../../data/generation/scenes/outfit.json';
+import { RegionKey } from './region-key';
 
 interface Outfit { chandler: string; hamlet: [string, number, number][] }
 interface Trade { role: string; shop: string; scene?: string; stock: [string, number, number][] }
@@ -42,7 +43,7 @@ export class Outfitters {
       ...RegionMarket.keepers(region)]);
     const given = folk.given as unknown as Record<string, Record<string, string[]>>;
     for (const s of region.settlements.filter(t => this.needed(t))) {
-      const draw = new Draw(`${region.name}:${s.id}:chandler`), ancestry = s.folk ?? region.ancestry;
+      const draw = new Draw(`${RegionKey.of(region)}:${s.id}:chandler`), ancestry = s.folk ?? region.ancestry;
       const pronoun = draw.pick(['she', 'he']), names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
       const name = Communities.distinct(names, ancestry, { draw, taken, reserved: region.reserved });
       taken.add(name);
@@ -59,7 +60,7 @@ export class Outfitters {
     if (!this.needed(s)) { return []; }
     const q = JSON.stringify, id = `${s.id}_chandlery`, keeper = `${s.id}_chandler`, c = this.chandler;
     const { name, pronoun } = this.keeper(region, s), ancestry = s.folk ?? region.ancestry;
-    const draw = new Draw(`${region.name}:${s.id}:chandler:manner`);
+    const draw = new Draw(`${RegionKey.of(region)}:${s.id}:chandler:manner`);
     const sells = [...c.stock, ...GeneralStores.village(region, s, c.stock.map(([what]) => what))]
       .map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     const likeness = CommunityWriter.likenessOf(region, { pronoun, painting: 'shopkeeper', id: keeper });

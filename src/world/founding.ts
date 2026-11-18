@@ -5,6 +5,7 @@ import { RegionFaith } from './region-faith';
 import type { Region, Settlement } from './region-writer';
 import { Features, type Feature } from './features';
 import tables from '../../data/generation/scenes/foundings.json';
+import { RegionKey } from './region-key';
 
 export type Kind = 'crossing' | 'harbour' | 'fishing' | 'workings' | 'yard' | 'farm' | 'monastery' | 'fortress'
   | 'ancient' | 'migration' | 'market';
@@ -61,7 +62,7 @@ export class Foundings {
   // What made each of a region's settlements, read before their names are given (see PlaceNames): nothing here
   // reads a settlement's name.
   static kinds(region: Region): Kind[] {
-    const out: (Kind | undefined)[] = region.settlements.map(() => undefined), draw = new Draw(`${region.name}:foundings`);
+    const out: (Kind | undefined)[] = region.settlements.map(() => undefined), draw = new Draw(`${RegionKey.of(region)}:foundings`);
     const fort = this.fort(region);
     if (fort !== undefined) { out[fort] = 'fortress'; }
     // One crossing: the settlement, not the town, nearest where a road fords or bridges a named river.
@@ -122,7 +123,7 @@ export class Foundings {
     return near.some(c => land.cover[c] === 'sea') ? 'sea' : undefined;
   }
   private static make(region: Region, s: Settlement, kind: Kind): Founding {
-    const e = this.table.foundings[kind], draw = new Draw(`${region.name}:${s.id}:founding`);
+    const e = this.table.foundings[kind], draw = new Draw(`${RegionKey.of(region)}:${s.id}:founding`);
     const crossed = kind === 'crossing' ? this.crossing(region, region.settlements.indexOf(s)) : undefined;
     const i = region.settlements.indexOf(s);
     const over = RegionGeography.atlas(region).ways.find(w => w.over && [w.start, w.end].includes(i));

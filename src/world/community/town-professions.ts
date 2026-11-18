@@ -5,6 +5,7 @@ import { Canon } from '../../canon/canon';
 import type { Region, Settlement } from '../region-writer';
 import type { Occupation } from './community';
 import kindsOfLife from '../../../data/generation/scenes/kinds-of-life.json';
+import { RegionKey } from '../region-key';
 
 // The professions the portraits show, in the settlements of the world (the owner, 3 November: hundreds of trades,
 // "well represented in the world"): beside its authored work, a settlement keeps a few people of other professions,
@@ -20,7 +21,7 @@ export class TownProfessions {
       ...s.size === 'town' ? ['learning', 'court', 'mechanisms', 'shadows'] : ['earth'], ...water ? ['water'] : []];
   }
   static pick(region: Region, s: Settlement, water: boolean, taken: Set<string>): [string, Occupation][] {
-    const draw = new Draw(`${region.name}:${s.id}:professions`), kinds = new Set(this.kinds(s, water));
+    const draw = new Draw(`${RegionKey.of(region)}:${s.id}:professions`), kinds = new Set(this.kinds(s, water));
     const classes = Canon.ancestries[s.folk ?? region.ancestry]?.classes;
     const open = Object.entries(Canon.backgrounds).filter(([id, b]) => b.painting && kinds.has(b.kind)
       && !taken.has(id) && this.lines[b.kind] && (!b.requiredClass || !classes || classes.includes(b.requiredClass)));

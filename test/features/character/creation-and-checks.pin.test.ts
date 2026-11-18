@@ -6,7 +6,7 @@ import type { Setting } from '../../../web/engine/protocol';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts.
 const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
-const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
+const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
   origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
   party: [Creation.protagonist('human', 'pins', names)] };
 

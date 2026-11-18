@@ -9,6 +9,7 @@ import { Features, type Feature } from './features';
 import tables from '../../data/generation/scenes/wilds.json';
 import text from '../../data/generation/wild/astray.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
+import { RegionKey } from './region-key';
 
 interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean; things?: Feature[] }
 interface Table {
@@ -63,7 +64,7 @@ export class RegionZones {
     if (!cache) { cache = new Map(); this.drawn.set(region, cache); }
     const done = cache.get(zone.id);
     if (done) { return done; }
-    const t = this.table[zone.wild], draw = new Draw(`${region.name}:${zone.id}:landmarks`), land = RegionGeography.atlas(region).land;
+    const t = this.table[zone.wild], draw = new Draw(`${RegionKey.of(region)}:${zone.id}:landmarks`), land = RegionGeography.atlas(region).land;
     const kinds = draw.shuffle(t.landmarks), name = zone.naming.name, out: Landmark[] = [];
     zone.parts.forEach((cells, i) => {
       const centre = zone.centres[i]!, kind = i === 0 ? undefined : kinds.shift();
@@ -158,7 +159,7 @@ export class RegionZones {
   // trail runs between neighbours and the whole country can be walked by way of them.
   private static trails(zone: Wilds, region: Region, marks: Landmark[]): string[] {
     const q = JSON.stringify, t = this.table[zone.wild], land = RegionGeography.atlas(region).land;
-    const draw = new Draw(`${region.name}:${zone.id}:trails`);
+    const draw = new Draw(`${RegionKey.of(region)}:${zone.id}:trails`);
     return this.tree(land, marks).map(([a, b], i) => `  Passage ${zone.id}_trail${i + 1} ${q(draw.pick(t.trails))} is track between ${a.id} and ${b.id} taking ${RegionRoads.time(this.minutes(land, a.cell, b.cell))}.`);
   }
   private static tree(land: Land, marks: Landmark[]): [Landmark, Landmark][] {

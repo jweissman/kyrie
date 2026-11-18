@@ -7,6 +7,7 @@ import { RegionTracts } from './region-tracts';
 import { RegionSites } from './region-sites';
 import { Vantage } from './vantage';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 // A meeting in the open country: the stretch it is in, what is met there, and the site beyond it leads to, if any.
 export interface Meeting { cell: number; section: KyrSection; lead?: Seat }
@@ -36,7 +37,7 @@ export class RegionMeetings {
     const land = RegionGeography.atlas(region).land, cells = this.open(region);
     const roads = new Set(RegionGeography.roads(region).flatMap(r => r.route.cells));
     const towns = region.settlements.flatMap(s => s.cell === undefined ? [] : [s.cell]);
-    const ranked = Draw.ranked(`${region.name}:meetings`, cells), chosen: number[] = [];
+    const ranked = Draw.ranked(`${RegionKey.of(region)}:meetings`, cells), chosen: number[] = [];
     const most = Math.min(this.most, Math.round(cells.length / 10));
     // At the edge of what each town knows: two or three stretches out from it.
     for (const t of towns) {
@@ -69,7 +70,7 @@ export class RegionMeetings {
     const options = this.template.sections.filter(s => lands.includes(s.group)
       && (lead || !s.said.includes('lead')) && (away || !s.said.includes('danger')));
     if (!options.length) { return []; }
-    const section = new Draw(`${region.name}:meeting:${cell}`).weighted(options.map(o => [o, o.weight] as const));
+    const section = new Draw(`${RegionKey.of(region)}:meeting:${cell}`).weighted(options.map(o => [o, o.weight] as const));
     return [{ cell, section, ...lead && section.said.includes('lead') ? { lead } : {} }];
   }
   // The nearest site a teller could name within a long day's walk of here: not a great work, which is found only by
@@ -83,7 +84,7 @@ export class RegionMeetings {
   }
   private static write(region: Region, m: Meeting): string[] {
     const land = RegionGeography.atlas(region).land, W = land.width, id = `wm${m.cell}`;
-    const draw = new Draw(`${region.name}:meeting:${m.cell}:who`), she = draw.chance(0.5);
+    const draw = new Draw(`${RegionKey.of(region)}:meeting:${m.cell}:who`), she = draw.chance(0.5);
     const town = [...region.settlements].filter(s => s.cell !== undefined)
       .sort((a, b) => Terrain.distance(land, a.cell!, m.cell) - Terrain.distance(land, b.cell!, m.cell))[0];
     const values: Record<string, string> = { m: id, tract: RegionTracts.id(m.cell), folk: region.ancestry,

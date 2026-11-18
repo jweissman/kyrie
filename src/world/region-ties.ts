@@ -4,6 +4,7 @@ import { RegionGeography } from './region-geography';
 import { RegionRumours } from './region-rumours';
 import { RegionSites } from './region-sites';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 // What each settlement has to do with the nearest place in the country that is not a settlement, and what that place
 // has to say back (data/generation/town/ties.kyrt): someone in the town wants something that is at the site; the site
@@ -20,7 +21,7 @@ export class RegionTies {
       if (!near) { return []; }
       const values = { t: s.id, town: s.name, site: near.site.id, sitename: near.site.name,
         where: RegionSites.where(near, region) };
-      return KyrTemplates.choose(this.template, `${region.name}:${s.id}:tie`, values)
+      return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:tie`, values)
         .flatMap(x => KyrTemplates.fill(x.lines, values));
     });
   }

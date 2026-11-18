@@ -12,6 +12,7 @@ import type { Animal, Community, Resident, Workplace } from './community';
 import { Features } from '../features';
 import { Likeness } from '../../paintings/likeness';
 import { Portraits } from '../../paintings/portraits';
+import { RegionKey } from '../region-key';
 
 // A community written as Kyr: its workplaces off the green; each of its people at their work by day, at the inn or
 // at home of an evening, and indoors at night, seen at what they do and ready to say something of it; its animals,
@@ -81,7 +82,7 @@ export class CommunityWriter {
     const work = station === 'high' ? { stations: ['middling', 'labouring'] }
       : { concept: who.painting, ...station ? { stations: [station] } : {} };
     const id = portraits.take({ ...who.pronoun === 'she' ? { sex: 'woman' as const } : who.pronoun === 'he' ? { sex: 'man' as const } : {},
-      ...work }, `${region.name}:${who.id}`);
+      ...work }, `${RegionKey.of(region)}:${who.id}`);
     return id ? ` Likeness ${this.q(id)}.` : '';
   }
   private static resident(region: Region, c: Community, r: Resident): string[] {

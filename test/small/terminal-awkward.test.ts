@@ -111,7 +111,7 @@ describe('the terminal\'s human mode, in the awkward world', () => {
   });
   it('makes a life through the same picker: the four, the rest a step away, the card chosen focused', () => {
     const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
-    const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
+    const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
       origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
       party: [Creation.protagonist('human', 'awkward', names)] };
     const step = new CreationFlow(setting, Creation.catalog()).steps().find(s => s.id === 'calling')!;

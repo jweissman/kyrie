@@ -50,7 +50,7 @@ Module world_services "Lodging, goods and camping" {
     Result "The room goes quiet to listen, and then sings along. By the end there are coins on the table, five of them yours.".
     Otherwise "You sing, and the room talks over you. Someone throws a coin, out of pity.".
   }
-  Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
+  Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}, {fee(service)} coin" {
     Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
       and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, healing) and quantity(actor, gold) >= fee(service).
     Time 6. Resolve recover(actor).

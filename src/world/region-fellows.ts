@@ -9,6 +9,7 @@ import { RegionSites } from './region-sites';
 import { RegionZones } from './region-zones';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/fellows.json';
+import { RegionKey } from './region-key';
 
 interface Knows { of: string; label: string; says: string }
 interface Calling { knows?: Knows; remarks: Record<string, string>; ruin: string[]; story: string[][]; shrine?: string;
@@ -53,7 +54,7 @@ export class RegionFellows {
   private static fellow(region: Region, s: Settlement): Fellow[] {
     const calling = this.table.callings[s.calling];
     if (!calling) { return []; }
-    const id = `${s.id}_traveller`, draw = new Draw(`${region.name}:${s.id}:fellow`), name = s.traveller;
+    const id = `${s.id}_traveller`, draw = new Draw(`${RegionKey.of(region)}:${s.id}:fellow`), name = s.traveller;
     return [{ s, id, member: `member_${id}_person`, name, calling, draw, values: { name, ...this.home(region, s, draw) } }];
   }
   // Where they come from and who they have there: another settlement of the country, and someone in it.

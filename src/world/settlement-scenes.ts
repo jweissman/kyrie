@@ -3,6 +3,7 @@ import { RegionGeography } from './region-geography';
 import { Foundings } from './founding';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/settlements.json';
+import { RegionKey } from './region-key';
 
 // What a settlement looks like from its heart and from the house where travellers sleep: what its founding made it (a
 // ford, a pit-head, a gate-yard), or for a farming place its green by its size and trade; where it lies; and for a
@@ -33,7 +34,7 @@ export class SettlementScenes {
     const s = region.settlements[i]!, f = Foundings.of(region, i), drinkers = (tables.drinkers as Record<string, string>)[s.trade] ?? '';
     if (f.keeping !== 'inn') {
       const scenes = Foundings.table.keeping[f.keeping].scene ?? [];
-      const room = scenes.length ? new Draw(`${region.name}:${s.id}:room`).pick(scenes).replaceAll('{keeper}', s.innkeeper) : '';
+      const room = scenes.length ? new Draw(`${RegionKey.of(region)}:${s.id}:room`).pick(scenes).replaceAll('{keeper}', s.innkeeper) : '';
       return [room, f.keeping === 'alehouse' ? drinkers : ''].filter(Boolean).join(' ');
     }
     const rooms = (tables.room as Record<string, string[]>)[s.size] ?? tables.room.village;
@@ -55,7 +56,7 @@ export class SettlementScenes {
   private static nth(region: Region, i: number, list: readonly string[], what: string): string {
     const s = region.settlements[i]!;
     const same = what === 'inn' ? region.settlements : region.settlements.filter(x => x.size === s.size);
-    const start = new Draw(`${region.name}:${s.size}:${what}`).int(list.length);
+    const start = new Draw(`${RegionKey.of(region)}:${s.size}:${what}`).int(list.length);
     return list[(same.indexOf(s) + start) % list.length]!;
   }
   private static inline(name: string): string { return name.replace(/^The /, 'the '); }

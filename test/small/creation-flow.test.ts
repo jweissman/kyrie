@@ -12,7 +12,7 @@ import type { Asking } from '../../src/cli/terminal-input';
 // and how one presents draws a name again until one is written. A country of two reasons for coming, and names.
 const names = { human: { she: ['Wenna', 'Alis'], he: ['Odo', 'Hew'], they: ['Wren'] },
   elf: { she: ['Ithil'], he: ['Lorin'], they: ['Aerin'] } };
-const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
+const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
   origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }, { id: 'wanderer', title: 'Wandering',
     choice: 'You come with your trade', background: 'drifter' }], names,
   party: [Creation.protagonist('human', 'flow', names)] };

@@ -13,7 +13,7 @@ import type { Asking } from '../../src/cli/terminal-input';
 // card had leapt to the front and the deck reshuffled under the player's hand (the owner, 14 November).
 const names = { dwarf: { she: ['Disa'], he: ['Dain'], they: ['Dvalin'] }, human: { she: ['Wenna'], he: ['Odo'],
   they: ['Wren'] } };
-const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
+const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
   origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
   party: [Creation.protagonist('human', 'four', names)] };
 describe('creation', () => {

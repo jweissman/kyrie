@@ -66,7 +66,8 @@ export interface Site extends Naming { id: string; kind: string; name: string; h
   // A work's: its plan, its makers' art, and the name its makers gave it (`made`), which the folk wore down.
   work?: { plan: string; art: string; made?: string; great?: boolean; deep?: boolean; imperial?: boolean } }
 export interface Region extends Naming {
-  name: string; terrain: string; ancestry: string; domain: string; deity: string;
+  // The name its draws are seeded by, where it is called otherwise (see RegionKey).
+  name: string; key?: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };
   // The region's named land (see RegionLand): its river, lake, peak, pass or wood. Its peoples, majority first.
   land?: Landmark[]; peoples?: string[];

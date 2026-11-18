@@ -6,6 +6,7 @@ import { RegionZones } from './region-zones';
 import { SettlementWriter } from './settlement-writer';
 import { CampaignTick } from '../campaign/campaign-tick';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 interface Tables {
   regionClimate: { groups: Record<string, string[]> }; climateWeather: { groups: Record<string, string[]> };
@@ -28,7 +29,7 @@ export class RegionWeather {
   static readonly seasonal: Record<string, Record<string, string>> = {
     winter: { rainy: 'snowy', humid: 'cold', hot: 'fair' }, summer: { snowy: 'rainy', freezing: 'fair', cold: 'fair' } };
   static climate(region: Region): string {
-    const rng = new Expressions(`${region.name}:weather`);
+    const rng = new Expressions(`${RegionKey.of(region)}:weather`);
     const climates = this.tables.regionClimate.groups[region.terrain] ?? ['temperate'];
     return climates[rng.number(`1d${climates.length}`) - 1]!;
   }
@@ -39,7 +40,7 @@ export class RegionWeather {
   // Every kind of weather the region's sky can have, in any season.
   static kinds(region: Region, start: CalendarStart): string[] {
     const climate = this.climate(region), kinds = this.tables.climateWeather.groups[climate] ?? ['fair'];
-    const first = this.inSeason(kinds[new Expressions(`${region.name}:weather:first`).number(`1d${kinds.length}`) - 1]!,
+    const first = this.inSeason(kinds[new Expressions(`${RegionKey.of(region)}:weather:first`).number(`1d${kinds.length}`) - 1]!,
       Calendar.date(start, 0).season, climate);
     return [...new Set([first, ...CampaignTick.seasons.flatMap(season => kinds.map(k => this.inSeason(k, season,
       climate)))])];

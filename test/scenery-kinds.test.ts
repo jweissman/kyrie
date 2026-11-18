@@ -9,7 +9,7 @@ import type { PlaceRef, Screen } from '../src/ui/screen-types';
 // generators write it (its id, its name, what it lies within); its painting is one of its kind's, or none where the
 // corpus has nothing of the kind, and never one known to be wrong for it.
 class Scene {
-  static readonly region: PlaceRef = { id: 'region', name: 'Merscfaenn', kind: 'region' };
+  static readonly region: PlaceRef = { id: 'region', name: 'Marshfen', kind: 'region' };
   static readonly town: PlaceRef = { id: 'region__s2', name: 'Millholm', kind: 'settlement' };
   static of(place: PlaceRef, within: PlaceRef[] = [Scene.town]): Screen {
     return { path: [Scene.region, ...within, place], place, dark: false,

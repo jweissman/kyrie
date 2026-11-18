@@ -9,6 +9,7 @@ import type { Region, Site } from './region-writer';
 import world from '../../data/generation/scenes/orsino-world.json';
 import met from '../../data/generation/scenes/wonders.json';
 import snares from '../../data/generation/scenes/snares.json';
+import { RegionKey } from './region-key';
 
 interface Piece { name: string; text: string; effect?: string; omits?: Record<string, string>; source: string }
 export interface Trap extends Piece { mechanism: string; sign: string }
@@ -53,7 +54,7 @@ export class RegionMarvels {
     const atlas = RegionGeography.atlas(region);
     const deep = atlas.zones.map(z => RegionZones.landmarks(region, z))
       .map(marks => ({ at: marks.find(l => /_(heart|deep)$/.test(l.id)), edge: marks[0]?.id })).filter(l => l.at);
-    const wild = new Draw(`${region.name}:wonders`).shuffle(this.wonders.filter(([, w]) => w.where === 'wild'));
+    const wild = new Draw(`${RegionKey.of(region)}:wonders`).shuffle(this.wonders.filter(([, w]) => w.where === 'wild'));
     return wild.slice(0, Math.min(2, deep.length))
       .flatMap((w, i) => this.wonder(w, deep[i]!.at!.id, 'wonder', { near: deep[i]!.edge }));
   }
@@ -63,9 +64,9 @@ export class RegionMarvels {
     const suffix = this.inner[plan], way = `${site.id}_${suffix}`;
     const ends = suffix ? WrittenKyr.of(written).ends(way) : undefined;
     if (!ends) { return []; }
-    const draw = new Draw(`${region.name}:${site.id}:within`), beyond = ends[1];
+    const draw = new Draw(`${RegionKey.of(region)}:${site.id}:within`), beyond = ends[1];
     const works = region.sites.filter(s => s.work).map(s => s.id), at = works.indexOf(site.id);
-    const within = new Draw(`${region.name}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
+    const within = new Draw(`${RegionKey.of(region)}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
     const wonder = beyond && draw.chance(0.5) ? within[at % within.length] : undefined;
     return [...this.trap(region, site, way),
       ...wonder ? this.wonder(wonder, beyond!, 'wonder',
@@ -123,7 +124,7 @@ export class RegionMarvels {
   // A trap on a work's inner way: the mechanism, as anyone can see it; what looking closely at it shows, and the
   // ways of dealing with it that knowing that opens; what it does when it goes off; and the way after.
   private static trap(region: Region, site: Site, way: string): string[] {
-    const draw = new Draw(`${region.name}:${site.id}:trap`);
+    const draw = new Draw(`${RegionKey.of(region)}:${site.id}:trap`);
     if (!draw.chance(0.6)) { return []; }
     return this.snare({ id: site.id, way, trap: draw.pick(this.traps)[1] });
   }

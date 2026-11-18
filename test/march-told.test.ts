@@ -9,7 +9,7 @@ import { RegionGeography } from '../src/world/region-geography';
 import { GeneratedWorld } from './support/generated';
 
 // The road across a march is told by the two countries it runs between, what falls behind and what begins, not by
-// the far country's land alone (the register's NAV-07). a1: Merscfaenn, a fen; west of it, whatever the seed makes.
+// the far country's land alone (the register's NAV-07). a1: Marshfen, a fen; west of it, whatever the seed makes.
 describe('the road across a march', () => {
   it('is told by the land it leaves and the land it comes to', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);

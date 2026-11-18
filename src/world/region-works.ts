@@ -27,6 +27,7 @@ import { Foundings } from './founding';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
 import type { Region, Settlement, Site } from './region-writer';
+import { RegionKey } from './region-key';
 
 // The makers' works in a generated region, as Kyr, from their plans (data/generation/works). Every work has its
 // outside: how it looks and the name cut over it. One a scenario has not taken is written whole: its rooms and ways,
@@ -47,7 +48,7 @@ export class RegionWorks {
       const work = history.works.find(w => w.id === site.id)!, plan = Histories.plan(work.plan);
       const values = this.values(region, site, work), purpose = plan.deep && DeepPurposes.of(work.art);
       if (purpose) { return taken[site.id] ? [] : DeepSites.lines(region, site, { purpose, values }); }
-      const sections = WorkPlans.choose(plan, `${region.name}:${work.id}:${work.plan}`, values)
+      const sections = WorkPlans.choose(plan, `${RegionKey.of(region)}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
       const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
       return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, written, values }),

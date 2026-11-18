@@ -18,7 +18,7 @@ import type { Asking } from '../../src/cli/terminal-input';
 // A mage as creation makes one, a companion, two rats: Magic Missile at a rat (a foe), Mage Armor on itself, Arcane
 // Ward on the companion (a friend), each offered by the page's fight menu and by the terminal's, and each cast.
 const names = { human: { she: ['Wenna'], he: ['Hamo'], they: ['Wren'] } };
-const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
+const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
   origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
   party: [Creation.protagonist('human', 'mage-casts', names)] };
 const made = () => {

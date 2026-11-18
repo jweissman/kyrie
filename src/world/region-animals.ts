@@ -7,6 +7,7 @@ import { RegionMeetings } from './region-meetings';
 import { RegionTracts } from './region-tracts';
 import { RegionEcology } from './region-ecology';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 // The animals of a country met where they live (the owner, 5 November, late: an animal added to animals.json is met
 // where it lives, with nothing else to write): about one stretch in eight of the open country that no meeting holds
@@ -19,7 +20,7 @@ export class RegionAnimals {
     const met = new Set(RegionMeetings.meetings(region).map(m => m.cell));
     const standing = new Set(RegionTracts.standing(region).map(s => s.cell));
     const cells = RegionTracts.cells(region).filter(c => !met.has(c) && !standing.has(c));
-    const chosen = Draw.ranked(`${region.name}:animals`, cells).slice(0, Math.min(this.most, Math.round(cells.length / 8)));
+    const chosen = Draw.ranked(`${RegionKey.of(region)}:animals`, cells).slice(0, Math.min(this.most, Math.round(cells.length / 8)));
     const lines = this.template.sections.flatMap(s => s.lines);
     // A kind of country known by its terrain alone (the desert, the snows) is every stretch of it.
     const country = Object.entries(Canon.habitats).filter(([, h]) => !h.covers && h.terrains?.includes(region.terrain))
@@ -27,7 +28,7 @@ export class RegionAnimals {
     return chosen.sort((a, b) => a - b).flatMap(c => {
       const kinds = RegionEcology.seen(new Set([...RegionGrowth.habitats(region, [c]), ...country]));
       if (!kinds.length) { return []; }
-      const [species, s] = new Draw(`${region.name}:animal:${c}`).weighted(kinds.map(k => [k, k[1].abundance!] as const));
+      const [species, s] = new Draw(`${RegionKey.of(region)}:animal:${c}`).weighted(kinds.map(k => [k, k[1].abundance!] as const));
       const name = s.name.toLowerCase();
       return KyrTemplates.fill(lines, { a: `wa${c}`, tract: RegionTracts.id(c), species,
         name: `${/^[aeiou]/.test(name) ? 'an' : 'a'} ${name}`,

@@ -13,6 +13,7 @@ import { DeepPurposes } from './deep/deep-purposes';
 import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/traffic.json';
 import folk from '../../data/generation/scenes/folk.json';
+import { RegionKey } from './region-key';
 
 interface Trouble { kind: string; seen: string; act: string; about: string; done: string; freed: string;
   reward: number }
@@ -40,7 +41,7 @@ export class RegionTraffic {
   }
   // One traveller to a road, of the first six.
   private static travellers(region: Region): Traveller[] {
-    const roads = RegionGeography.roads(region), draw = new Draw(`${region.name}:traffic`);
+    const roads = RegionGeography.roads(region), draw = new Draw(`${RegionKey.of(region)}:traffic`);
     const kinds = draw.shuffle(Object.keys(this.kinds)), used = new Set<string>();
     return roads.slice(0, 6).map((road, i) => this.traveller(region, road, kinds[i % kinds.length]!, used));
   }

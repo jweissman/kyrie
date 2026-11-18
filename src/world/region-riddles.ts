@@ -4,6 +4,7 @@ import { KyrTemplates } from './kyr-template';
 import { WrittenKyr } from './written-kyr';
 import world from '../../data/generation/scenes/orsino-world.json';
 import type { Region, Site } from './region-writer';
+import { RegionKey } from './region-key';
 
 interface Riddle { question: string; answer: string; kind: string; level: string; source: string }
 
@@ -17,7 +18,7 @@ export class RegionRiddles {
   static readonly answers = (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers;
   static work(region: Region, site: Site, written: string[]): string[] {
     const way = `${site.id}_in`, ends = WrittenKyr.of(written).ends(way);
-    const draw = new Draw(`${region.name}:${site.id}:riddle`);
+    const draw = new Draw(`${RegionKey.of(region)}:${site.id}:riddle`);
     if (!ends || site.work?.great || !draw.chance(0.4)) { return []; }
     const room = ends[0];
     const pool = Object.values(this.riddles).flat().filter(r => this.answers[r.kind]?.length);

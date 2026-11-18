@@ -10,6 +10,7 @@ import { SettlementWriter } from './settlement-writer';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import type { Region, Settlement } from './region-writer';
+import { RegionKey } from './region-key';
 
 // Two places a short walk from the town the company begins in, to go and look at (the owner, 10 November): the Hall,
 // the house of whoever holds the land now, and the first makers' stones on the hill above the town. What they are is
@@ -32,7 +33,7 @@ export class RegionOutskirts {
     // The deeper layer (outskirts-deep.kyrt) hangs on the first layer's ids; what needs the Empire's posting-house says
     // so itself ("if station") and is written only in a country that has one.
     const all = { ...values, ...this.station(region) };
-    const peopled = this.peopled(region, s), key = `${region.name}:${s.id}`, filled = { ...all, ...this.others(region, s) };
+    const peopled = this.peopled(region, s), key = `${RegionKey.of(region)}:${s.id}`, filled = { ...all, ...this.others(region, s) };
     const sections = [...KyrTemplates.choose(this.template, `${key}:outskirts`, all),
       ...KyrTemplates.choose(this.deepened, `${key}:outskirts-deep`, all),
       ...peopled ? [...KyrTemplates.choose(this.neighbourly, `${key}:neighbours`, all),

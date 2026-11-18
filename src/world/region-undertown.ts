@@ -6,6 +6,7 @@ import { DeepSites } from './deep/deep-sites';
 import { Foundings } from './founding';
 import { RegionMarket } from './region-market';
 import type { Region, Settlement, Site } from './region-writer';
+import { RegionKey } from './region-key';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
 // (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop"). What it is, the rooms, the
@@ -19,7 +20,7 @@ export class RegionUndertown {
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
     const t = s.id, values = this.values(t, s.name, company, { merchant: SettlementWriter.standing(region, s, 'merchant'),
       priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') });
-    const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);
+    const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`);
     return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
   }
@@ -39,7 +40,7 @@ export class RegionUndertown {
   }
   // Whether the town has a notice of its troubles on the green (see notice): one of its troubles says itself there.
   static noticed(region: Region, s: Settlement): boolean {
-    return KyrTemplates.choose(this.template, `${region.name}:${s.id}:undertown`).some(x => x.said.length > 0);
+    return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`).some(x => x.said.length > 0);
   }
   // The notice on the green that gathers what each trouble chosen says of itself; read, an aim for each.
   static notice(t: string, sections: KyrSection[], values: Record<string, string>): string[] {

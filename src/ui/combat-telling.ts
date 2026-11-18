@@ -138,8 +138,9 @@ export class CombatTelling {
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return [`${actor} waits.`]; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
-    // A blow that brings its target down is told by that alone (it falls, after), not by a number (BP-02).
-    const weight = damage?.amount && damage.hp !== 0 ? `, for ${CombatTelling.blow(damage)}`
+    // A blow that brings its target down is told with what it was dealt too, its falling said after (the owner, 18
+    // November); a number is what the die gave it, not the little left to take (BP-02).
+    const weight = damage?.amount ? `, for ${CombatTelling.blow(damage)}`
       : damage && !damage.amount && attack ? ', to no harm' : '';
     const landed = attack ? attack.success ? `, and it lands${weight}` : ', and misses' : '';
     // What came to nothing says so: "Ithil uses Soot Cloud." was all a cloud of soot told, with nothing hidden for it
@@ -166,9 +167,6 @@ export class CombatTelling {
     const verb = natural ? many ? 'catch' : 'catches' : attack.critical ? 'lands a telling blow on' : kind === 'ranged'
       ? 'shoots' : 'hits';
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
-    // A blow that brings its target down is told with no number, its falling said once after it: "for 9" over "takes
-    // 1" had read as the game contradicting itself (the first blind playtest, BP-02); its numbers are the detail.
-    if (damage?.amount && damage.hp === 0) { return `${how} ${verb} ${target}${with_}.`; }
     // A blow that lands and does no harm says so, not "for 0", nor nothing: "Zombie 2's claws catch Wenna." had read
     // as a hit whose number was lost (cold play 3, CL-17; a 1 on the die, a tenth turned aside, floored to nothing).
     if (damage && !damage.amount) { return `${how} ${verb} ${target}${with_}, to no harm.`; }

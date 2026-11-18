@@ -49,7 +49,7 @@ describe('the signs both clients draw', () => {
   });
   it('carry each creation card\'s emblem, as the page draws it', () => {
     const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
-    const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' },
+    const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' },
       origins: [{ id: 'debt', title: 'A debt', choice: 'You owe money' }], names,
       party: [Creation.protagonist('human', 'flow', names)] };
     const steps = new CreationFlow(setting, Creation.catalog()).steps()

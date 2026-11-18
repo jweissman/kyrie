@@ -13,7 +13,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 
 // A generated world goes on past the edges of its first region: an old road runs out to a march-stone on every side,
 // and the first time the company stands at one the country beyond is drawn from the world's seed and where it lies,
-// installed, and joined by the road across the march. a1: Merscfaenn, a fen; west of it, whatever the seed makes
+// installed, and joined by the road across the march. a1: Marshfen, a fen; west of it, whatever the seed makes
 // (east of a fen lies Tessary, an authored country).
 class March {
   static async start() {

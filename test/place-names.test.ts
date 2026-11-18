@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RegionKey } from '../src/world/region-key';
 import { PlaceNames } from '../src/world/place-names';
 import { RegionWriter, type Region } from '../src/world/region-writer';
 import { WorldAssembler } from '../src/world/world-assembler';
@@ -47,8 +48,13 @@ describe('generated places are named in their folk\'s tongue', () => {
     expect(Object.keys(manifest.chart.glosses).filter(id => /^s\d+$/.test(id))).toEqual([]);
     // What Deem drew a place to mean, said in Common, is there to fall back on.
     expect(CommonNames.meant({ feature: 'lofty', affix: 'town' }).map(c => c.name)).toEqual(['Highton']);
+    // A part drawn twice is said once; a heartland country is called in Common, as its villages are (OR-82: it had
+    // been Westron, "Merscfaenn" for a1), and keeps the Westron name it was drawn under as the key of its draws, so
+    // its land, its people and its towns are as they were.
     const fen = PlaceNames.render({ ...Regions.make('human'), name: 'Fenfen', feature: 'fen', affix: 'fen' });
-    expect([fen.name, fen.gloss]).toEqual(['Faenn', 'fen']);
+    expect([fen.name, fen.gloss, fen.key]).toEqual(['Fen', undefined, 'Faenn']);
+    const a1 = WorldAssembler.region('a1', [0, 0]);
+    expect([a1.name, a1.key, RegionKey.of(a1)]).toEqual(['Marshfen', 'Merscfaenn', 'Merscfaenn']);
   });
   it('is the same name for the same seed', async () => {
     const [a, b] = await Promise.all([1, 2].map(() => WorldAssembler.assemble('thorn', NodeBundleSource.shared,

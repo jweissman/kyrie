@@ -7,6 +7,7 @@ import type { Region, Settlement } from './region-writer';
 import { Canon } from '../canon/canon';
 import folk from '../../data/generation/scenes/folk.json';
 import table from '../../data/generation/scenes/general-stores.json';
+import { RegionKey } from './region-key';
 
 type Size = 'town' | 'market';
 interface Store {
@@ -50,7 +51,7 @@ export class GeneralStores {
     const rest = (store.pool ? RegionShops.stocks[store.pool]?.stock ?? [] : []).map(([what]) => what)
       .filter(k => !always.includes(k) && !made.includes(k) && !cloth.has(k) && this.worth(k) <= 10
         && !GeneralStores.unnamable.has(k));
-    const drawn = new Draw(`${region.name}:${s.id}:store:${kind}:shelves`).shuffle(rest).slice(0, store.drawn[size]);
+    const drawn = new Draw(`${RegionKey.of(region)}:${s.id}:store:${kind}:shelves`).shuffle(rest).slice(0, store.drawn[size]);
     const local = new Set(made);
     return [...new Set([...always, ...drawn, ...made])].map(k => this.ware(k, local.has(k), size === 'market' ? 2 : 1));
   }
@@ -58,7 +59,7 @@ export class GeneralStores {
   // village's own trade makes (a slate-quarrying village's chalk, an eel-catching one's hooks).
   static village(region: Region, s: Settlement, have: string[]): Ware[] {
     if (s.size !== 'village') { return []; }
-    const made = new Draw(`${region.name}:${s.id}:chandler:made`).shuffle((this.table.trade[s.trade] ?? [])
+    const made = new Draw(`${RegionKey.of(region)}:${s.id}:chandler:made`).shuffle((this.table.trade[s.trade] ?? [])
       .filter(k => !have.includes(k) && !this.table.village.always.includes(k))).slice(0, this.table.village.trade);
     const local = new Set(made);
     return [...this.table.village.always.filter(k => !have.includes(k)), ...made]
@@ -78,7 +79,7 @@ export class GeneralStores {
     const used = new Set(taken), given = folk.given as unknown as Record<string, Record<string, string[]>>;
     const families = folk.family as unknown as Record<string, string[]>;
     return region.settlements.flatMap((s, i) => this.kinds(region, i).map(kind => {
-      const draw = new Draw(`${region.name}:${s.id}:store:${kind}`), ancestry = s.folk ?? region.ancestry;
+      const draw = new Draw(`${RegionKey.of(region)}:${s.id}:store:${kind}`), ancestry = s.folk ?? region.ancestry;
       const pronoun = draw.pick(['she', 'he']), names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
       const first = Communities.distinct(names, ancestry, { draw, taken: used, reserved: region.reserved }).split(' ')[0]!;
       const family = draw.shuffle(families[ancestry] ?? families.human!).map(f => `${first} ${f}`);

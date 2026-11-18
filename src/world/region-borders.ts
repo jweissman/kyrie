@@ -7,6 +7,7 @@ import type { Region } from './region-writer';
 import type { After } from './countries';
 import { SettlementWriter } from './settlement-writer';
 import { Provinces } from './provinces';
+import { RegionKey } from './region-key';
 
 // The roads out of a region: from the settlement nearest each side, an old road to the edge of the region, marked
 // as the kingdom after the makers marked its bounds, or as the land itself is marked (a cairn on a pass, a beacon on
@@ -23,8 +24,8 @@ export class RegionBorders {
   private static marks(region: Region): string[] {
     const s = region.history?.successors;
     const t = borders.terrain as Record<string, string[]>, k = borders.kingdom as Record<string, string[]>;
-    const land = new Draw(`${region.name}:borders`).shuffle([...t[region.terrain] ?? [], ...t.plain!]);
-    const kingdom = s ? new Draw(`${region.name}:borders:kingdom`).shuffle(k[s.kind] ?? []).slice(0, 1) : [];
+    const land = new Draw(`${RegionKey.of(region)}:borders`).shuffle([...t[region.terrain] ?? [], ...t.plain!]);
+    const kingdom = s ? new Draw(`${RegionKey.of(region)}:borders:kingdom`).shuffle(k[s.kind] ?? []).slice(0, 1) : [];
     return [...kingdom, ...land].map(m => m.replaceAll('{region}', region.name).replaceAll('{kingdom}', s?.name ?? region.name));
   }
   static room(b: Border): string { return `edge_${b.side}`; }
@@ -55,7 +56,7 @@ export class RegionBorders {
   // road over; the sea is crossed by ship, not on foot (the march toward it is not a march: see Frontier.closed).
   private static shore(b: Border, region: Region, sea: string): string[] {
     const q = JSON.stringify, id = this.room(b), [x, y] = RegionGeography.spot(region, b.cell), at = borders.shore;
-    const from = this.from(region, b.seat, b.road), seen = new Draw(`${region.name}:shore:${b.side}`).pick(at.seen);
+    const from = this.from(region, b.seat, b.road), seen = new Draw(`${RegionKey.of(region)}:shore:${b.side}`).pick(at.seen);
     return [`  Place ${id}_land ${q(`the ${b.side}ern shore of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(this.said(at.room, region, sea))} is room within ${id}_land at 0, 0.`,
       `  Passage ${id}_road ${q(at.road.replaceAll('{side}', b.side))} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,

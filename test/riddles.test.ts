@@ -9,7 +9,7 @@ import { RegionRiddles } from '../src/world/region-riddles';
 
 // A makers' work with a speaking door: Orsino's riddle cut in it, and a row of words, the answer among three wrong
 // ones of its kind. A wrong word and the stone breathes cold on whoever pressed it; the right one and the door turns
-// and the way in is open. a1 (Merscfaenn) has two such doors.
+// and the way in is open. a1 (Marshfen) has two such doors.
 describe('a riddle at a door', () => {
   it('is answered from a choice of words, and opens only to the right one', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,

@@ -8,6 +8,7 @@ import { RegionSites } from './region-sites';
 import { RegionMeetings } from './region-meetings';
 import { Vantage } from './vantage';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 // Who goes about the open country of a generated region, and comes upon a company crossing it (the owner's blocking
 // report of 11 November: ordinary exploration felt empty; a meeting holds one stretch in ten, an animal one in eight of
@@ -24,7 +25,7 @@ export class RegionRovers {
     const away = this.away.bind(this, land, [...RegionGeography.roads(region).flatMap(r => r.route.cells),
       ...region.settlements.flatMap(s => s.cell === undefined ? [] : [s.cell])]);
     const homes: number[] = [];
-    for (const c of Draw.ranked(`${region.name}:rovers`, cells)) {
+    for (const c of Draw.ranked(`${RegionKey.of(region)}:rovers`, cells)) {
       if (homes.length >= Math.min(this.most, Math.round(cells.length / 40))) { break; }
       if (homes.every(h => Terrain.distance(land, h, c) > this.range)) { homes.push(c); }
     }
@@ -43,7 +44,7 @@ export class RegionRovers {
     const options = this.template.sections.filter(s => s.group === 'any' && (lead || !s.said.includes('lead'))
       && (danger || !s.said.includes('danger')));
     if (!options.length) { return []; }
-    const draw = new Draw(`${region.name}:rover:${home}`), section = draw.weighted(options.map(o => [o, o.weight] as const));
+    const draw = new Draw(`${RegionKey.of(region)}:rover:${home}`), section = draw.weighted(options.map(o => [o, o.weight] as const));
     // A danger goes about only where it may be met: away from the roads and the towns.
     const where = section.said.includes('danger') ? ranges.filter(away) : ranges, she = draw.chance(0.5);
     const town = region.settlements.filter(s => s.cell !== undefined)

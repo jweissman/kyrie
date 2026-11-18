@@ -87,9 +87,10 @@ export class ActionFeedbackView {
   static readonly nothing: Record<string, string> = { look_closely: 'Looked at closely, it is just as it seems.',
     listen: 'There is nothing to hear from it.', prod: 'Nothing gives, and nothing answers.',
     pry: 'The bar finds no purchase, and nothing gives.', push: 'It does not shift, either way.',
-    // A search goes over the whole of a place, and says so once and plainly when nothing is hidden in it: one neutral
-    // sentence had left players searching everywhere in case (REV-02, REV-15).
-    burn: 'It does not take the flame.', search: 'You have been over the whole of it, and nothing is hidden here.' };
+    // A search that finds nothing is told so by its own result (discovery.kyr), once: said here too, it had read
+    // "Nothing is put away or hidden here. You have been over the whole of it, and nothing is hidden here." (cold play
+    // 3, CL-18).
+    burn: 'It does not take the flame.' };
   // Where something learned leads, when nothing said where it is: somewhere to set out for now, and how far (the lone
   // tower joined the journeys unsaid, after the opened graves: play 7, M17-42).
   private static leads(campaign: Campaign, learned: { id: string; text: string }[],
@@ -309,7 +310,7 @@ export class ActionFeedbackView {
     const taken = ActionFeedbackView.begun(campaign, before, ActionFeedbackView.aims(before, after).taken);
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
-    const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
+    const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && action.schema !== 'search' && !learned.length && !changed.length
       && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
     const nothing = quiet ? ` ${ActionFeedbackView.nothing[action.schema ?? ''] ?? 'Nothing comes of it.'}` : '';
     // Who came at the company is told between the fights, not before the first.

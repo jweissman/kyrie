@@ -8,7 +8,7 @@ import type { Setting } from '../../web/engine/protocol';
 // write in), the flow keeping where it stands; no client keeps a page or a cursor of its own per step.
 const names = { human: { she: ['Wenna', 'Alis'], he: ['Odo', 'Hew', 'Aldo', 'Berin', 'Cade', 'Dunn', 'Edric', 'Fulk',
   'Gamel', 'Hamo', 'Ivo', 'Jory'], they: ['Wren'] } };
-const setting: Setting = { title: 'Merscfaenn', generated: true, pitch: { heading: '', text: '' }, names,
+const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' }, names,
   party: [Creation.protagonist('human', 'flow', names)] };
 
 describe('creation as the engine asks it', () => {

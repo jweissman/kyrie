@@ -8,6 +8,7 @@ import { RegionGeography, type Seat } from './region-geography';
 import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 // The sites of a generated region as a stranger meets them. A site is seen for what it looks like (a lone tower, a
 // grassed mound) until the company learns its name: from the people of the settlement it is reached from, who know
@@ -59,7 +60,7 @@ export class RegionSites {
   // from a start drawn for the country.
   static shape(region: Region, site: Region['sites'][number]): number {
     const same = region.sites.filter(s => s.work?.plan === site.work!.plan);
-    return (same.indexOf(site) + new Draw(`${region.name}:${site.work!.plan}:shapes`).int(3)) % 3;
+    return (same.indexOf(site) + new Draw(`${RegionKey.of(region)}:${site.work!.plan}:shapes`).int(3)) % 3;
   }
   static lines(region: Region, taken: Record<string, string> = {}): string[] {
     return RegionGeography.seats(region).flatMap(seat => this.seat(seat, region, !!taken[seat.site.id]));

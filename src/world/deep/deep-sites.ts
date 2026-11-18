@@ -14,6 +14,7 @@ import { DeepOrder } from './deep-order';
 import type { DeepPurpose, Valuable } from './deep-purposes';
 import type { Region, Site } from '../region-writer';
 import { RegionMarvels, type Fragment } from '../region-marvels';
+import { RegionKey } from '../region-key';
 
 // A region's deep site, as Kyr: one of its first makers' works that goes down level after level, written from what
 // it was for (its purpose: data/generation/deep) rather than from a plan's sections. Its levels and rooms where the
@@ -26,7 +27,7 @@ export class DeepSites {
   // town the company begins in, which a country's one rival expedition does not go down (see RegionUndertown).
   static lines(region: Region, site: Site,
     at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean; buried?: string }): string[] {
-    const { purpose, values } = at, key = `${region.name}:${site.id}:deep`;
+    const { purpose, values } = at, key = `${RegionKey.of(region)}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
     const handled = this.handled(layout), order = DeepOrder.lines(layout, content, { purpose, key });
     // What the kingdom after the makers did with it, and what its fall left there.

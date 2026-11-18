@@ -30,7 +30,7 @@ interface Tables {
 // they lie by (see CommonNames), and need no meaning told.
 export class PlaceNames {
   static readonly tongues: Record<string, string> = { human: 'westron', elf: 'quenya', dwarf: 'khuzdul' };
-  // The tongue a region's land is named in: plain Common in the human heartland, else its folk's.
+  // The tongue a region and its land are named in: plain Common in the human heartland, else its folk's.
   static landTongue(region: Region): string {
     return CommonNames.heartland(region) ? 'common' : this.tongues[region.ancestry] ?? 'westron';
   }
@@ -43,9 +43,12 @@ export class PlaceNames {
     const tables = GenerationSetting.tables as unknown as Tables;
     const features = tables.placeFeature.groups[region.terrain] ?? [];
     const affixes = tables.placeAffix.groups[region.terrain] ?? [];
-    const named = { ...region, ...this.named(region, tongue) }, parts = new Set<string>();
-    // A country of a great region is called its own name of it (see WorldShape).
+    const named = { ...region, ...this.named(region, this.landTongue(region)) }, parts = new Set<string>();
+    // A country of a great region is called its own name of it (see WorldShape). A heartland country called in
+    // Common keeps the Westron name it was drawn under as the key its draws are seeded by (see RegionKey).
     named.name = WorldShape.named(region.great, named.name);
+    const drawn = WorldShape.named(region.great, this.named(region, tongue).name ?? region.name);
+    if (drawn !== named.name) { named.key = drawn; }
     const taken = [named.name, ...this.landmarks(region).map(l => l.name)];
     const at = { taken, parts, rng, features, affixes, english: this.joined };
     // What made each settlement (see Foundings) is read first in the heartland, where it can be what a name tells.
@@ -149,7 +152,7 @@ export class PlaceNames {
   private static prefix(at: Distinction): string { return at.prefix ?? (at.kind ? 'site:' : ''); }
   // What a drawn region will be called, in its own folk's tongue (for the folk of the region next to it).
   static regionName(region: Region): string {
-    return WorldShape.named(region.great, this.named(region, this.tongues[region.ancestry] ?? 'westron').name
+    return WorldShape.named(region.great, this.named(region, this.landTongue(region)).name
       ?? region.name);
   }
   // A place's name in Common, its words apart, from what it means (the Cold Barrow): the starting country's first

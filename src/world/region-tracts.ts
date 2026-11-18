@@ -12,6 +12,7 @@ import { Provinces } from './provinces';
 import { Vantage } from './vantage';
 import type { Region } from './region-writer';
 import tables from '../../data/generation/scenes/tracts.json';
+import { RegionKey } from './region-key';
 
 interface Lie { name: string; zoned: string; minutes: number; told: string[] }
 // A place that stands on a cell of the land, the room the company goes into from the open country there, and what
@@ -202,7 +203,7 @@ export class RegionTracts {
   // How a stretch is told: its land, the river through it, the road across it, the land rising about it, a town close.
   static told(region: Region, cell: number): string {
     const atlas = RegionGeography.atlas(region), land = atlas.land, W = land.width, t = this.table;
-    const out = [new Draw(`${region.name}:tract${cell}`).pick(this.lie(land.cover[cell]!).told)];
+    const out = [new Draw(`${RegionKey.of(region)}:tract${cell}`).pick(this.lie(land.cover[cell]!).told)];
     if (atlas.rivers.some(r => r.cells.includes(cell))) {
       out.push(t.river.replace('{river}', region.land?.find(l => l.form === 'river')?.name ?? 'river'));
     }

@@ -5,6 +5,7 @@ import { RegionGeography } from './region-geography';
 import { RegionRumours } from './region-rumours';
 import { RegionSites } from './region-sites';
 import type { Region } from './region-writer';
+import { RegionKey } from './region-key';
 
 // Intimations of a larger world in each settlement (data/generation/town/threads.kyrt): a coin, a credential, a
 // letter, a chronicle, a veteran's tale, a preacher, a find, a levy. A different one is drawn for each of a country's
@@ -13,7 +14,7 @@ import type { Region } from './region-writer';
 export class RegionThreads {
   static readonly template = KyrTemplates.parse(text);
   static lines(region: Region): string[] {
-    const options = new Draw(`${region.name}:threads`).shuffle([...new Set(this.template.sections.map(s => s.option))]);
+    const options = new Draw(`${RegionKey.of(region)}:threads`).shuffle([...new Set(this.template.sections.map(s => s.option))]);
     const seats = RegionGeography.seats(region).filter(x => x.site.cell !== undefined && !x.site.work?.great
       && !x.site.work?.deep && !x.site.work?.imperial);
     return ['  Measure heard_threads(group).', ...region.settlements.flatMap((s, i) => {
