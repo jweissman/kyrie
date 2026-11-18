@@ -50,16 +50,16 @@ describe('creation', () => {
     const imports = source.split('\n').filter(l => /^import .* from '.*web\/engine\//.test(l));
     expect(imports.filter(l => !l.startsWith('import type '))).toEqual([]);
   });
-  // Born under one of Imbar's twelve signs, one a month (data/imbar/sky.json): the step leads with the one the life
-  // was drawn under and the months that follow it, as the sky turns; a sign chosen is the life's.
-  it('asks under which of the sky\'s twelve signs the life was born, the sky turning from the one drawn', () => {
+  // Born under one of Imbar's twelve signs, one a month (data/imbar/sky.json): all twelve at once, in the months' order
+  // as the zodiac beside them stands (FM-02), the one the life was drawn under chosen to begin with; a sign chosen is
+  // the life's.
+  it('asks under which of the sky\'s twelve signs the life was born, all twelve in the months\' order', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), sign = () => flow.steps().find(s => s.id === 'sign')!;
     const months = Creation.catalog().signs.map(x => x.id), drawn = flow.member.sign!;
     expect(sign().cards).toHaveLength(12);
-    const from = months.indexOf(drawn);
-    expect(sign().cards.slice(0, 4).map(c => c.id)).toEqual([0, 1, 2, 3].map(i => months[(from + i) % 12]!));
+    expect([sign().cards.map(c => c.id), sign().chosen]).toEqual([months, drawn]);
     flow.choose('sign', 'sign_wolf');
     // Chosen, it is the life's sign, and the deck stays where it was.
-    expect([flow.member.sign, sign().cards[0]!.id]).toEqual(['sign_wolf', drawn]);
+    expect([flow.member.sign, sign().cards.map(c => c.id)]).toEqual(['sign_wolf', months]);
   });
 });

@@ -107,8 +107,9 @@ export class CreationFlow {
   // and the rest as the catalog gives them. Never by what is chosen: a card chosen had leapt to the front, and the
   // deck reshuffled under the player's hand at every press (the owner, 14 November).
   private ranked(step: CreationStep): CreationCard[] {
-    // Four or fewer are all shown, in their own order (she, he, neither).
-    if (step.cards.length <= 4) { return step.cards; }
+    // Four or fewer are all shown, in their own order (she, he, neither); so is a set shown whole (the twelve signs in
+    // the months' order, as the zodiac beside them stands: FM-02).
+    if (step.cards.length <= 4 || step.all) { return step.cards; }
     return step.cards.map((card, i) => ({ card, i, score: this.score(step, card) }))
       .sort((x, y) => y.score - x.score || x.i - y.i).map(x => x.card);
   }
