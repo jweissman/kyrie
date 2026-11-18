@@ -1040,6 +1040,83 @@ and the lone thief is decided. Until then, the next creature slices are the kind
 (the mummy that keeps the great barrow, srd-invariants.md's case for damage that does not grow), each fought where it
 is placed.
 
+### 30. The mummy (18 November): the king under the mound by the SRD's numbers; the halls' mummies stopped by the census
+
+The first kind met deeper than the first hour (the lead's decisions on cases 25–29). Two kinds of placement answer to
+the SRD mummy, 13 of the eight worlds' placed groups, every one alone. **The king under the mound** keeps the
+king-barrow (data/generation/deep/barrow.json's keeper, level 12), in all eight worlds: a1's and iscoed's `w8_keeper`
+(the golden route's crown, CL-44: he comes when it is lifted), kahitude's and mere's `w9_keeper`, and the barrow under
+the first town in kite, thorn, wren and ember (`s1_ud_keeper`). **The halls' mummies** are drawn as dwellers by the
+barrow habitat: four of the third level (kite, thorn, wren and ember's embalmers' halls) and one of the first
+(kahitude's gallery). Orsino's mummy (`mummy`) is ten hit points and three a level (48 at the twelfth), two slams of
+1d6 a turn struck by its Strength and level, cloth, half of every blow turned and fire half again, regeneration, and
+Curse, Scream, Life Drain, Mass Curse and Reckless Attack. The SRD's is 8d12+3 (55), one slam of 1d6+10 at +11, AC 20,
+damage reduction 5/-, vulnerability to fire, despair (Will DC 16 or paralysed with fear 1d4 rounds) and mummy rot,
+saves +4/+2/+8, CR 5.
+
+**The king, moved** (spec: `test/royal-mummy` (6 cases)). A breed over Orsino's mummy, `mummy/royal`, placed by hand
+as the barrow's keeper (the keeper's `variations`, which a deep site's keeper now takes as its dwellers do), unplaced
+otherwise. By its record (data/catalog/variations.json):
+- 8d12+3, fifty-five hit points at every rank; its scores 24, 10, 10 (for the Constitution it has none of), 6, 14, 15
+  (exact);
+- one slam a turn (a breed's `actions`, new: Orsino's mummy acts twice) of 1d6+10: the breed's 1d6+3 and its
+  Strength's 7 (exact), struck at the SRD's +11 (exact: seventeen in twenty against SRD AC 15, where it had two in
+  five);
+- AC 20 as Westernesse 1 (converted: its natural armour 10 as a hide bonus of 9 over its wrappings);
+- damage reduction 5/- (exact), and fire half again (its base's, the SRD's vulnerability: exact), without its base's
+  half of every blow (`forgoes.resistances`, new: a variation now drops its base's fractions of a harm it names, as
+  engine-pressure.md §2 said the mummy would need) or its regeneration;
+- saves of +4, +2 and +8 (exact);
+- **despair**, a hand ability (data/catalog/abilities.json): every foe saves against fear at 16 (the SRD's Will DC,
+  exact; fear's save, so Remove Fear's heartened answers it, as Cause Fear's) or is paralysed two rounds (converted
+  from 1d4), once a day.
+
+**Adapted:** despair is the king's act on his turn, where the SRD's is at sight and costs nothing; once a day, where
+the SRD's spares for a day whoever saved. **Omitted:** mummy rot (a disease by days, ghoul fever's case). **Kept from
+its base:** the undead's nature (radiant harms it double), Orsino's slam's kind (piercing). The census grades it S✓ R✓
+I– (specials differ by mummy rot); 3 of 72 creatures now pass in resolution, 2 of a1's 88 placed groups are faithful
+(the keeper the second), and 2 % of the six countries' meetings (data/sources/srd35/encounters.json measured again; one
+rat group fewer in the dens is the commit before's, measured there too).
+
+**What it moves:** the eight keepers, nothing else (the census of the eight worlds' installed hostile groups, before
+and after: only `w8_keeper`, `w9_keeper` and `s1_ud_keeper` change, 48 → 55 hit points). Its challenge is measured: 14
+at its first level and its fifth (Orsino's mummy 1 and 4 at those levels, and the keeper is placed at the twelfth).
+Fought where it is placed, by companies of one to three at the first to third levels (40 seeds; won · a death):
+
+| Company | Orsino's king L1 / L2 / L3 | The SRD's king L1 / L2 / L3 |
+|---|---|---|
+| Warrior alone | 0 · 100 / 5 · 95 / 10 · 90 % | 0 · 100 / 0 · 100 / 0 · 100 % |
+| Warrior + cleric | 10 · 95 / 30 · 78 / 48 · 63 % | 10 · 90 / 18 · 88 / 23 · 78 % |
+| Thief alone, mage alone | 0 · 100 % at every level | 0 · 100 % at every level |
+| Warrior, cleric and mage | 30 · 83 / 53 · 68 / 63 · 57 % | 20 · 88 / 28 · 85 / 45 · 68 % |
+
+Fled from (every try Flee, 100 seeds; got away without anyone down):
+
+| Company | Orsino's king L1 / L2 / L3 | The SRD's king L1 / L2 / L3 |
+|---|---|---|
+| Warrior alone | 74 / 86 / 95 % | 67 / 78 / 84 % |
+| Warrior + cleric | 84 / 92 / 99 % | 81 / 92 / 98 % |
+| Thief alone | 49 / 60 / 68 % | 53 / 54 / 59 % |
+| Mage alone | 37 / 40 / 48 % | 49 / 49 / 49 % |
+| Warrior, cleric and mage | 87 / 94 / 100 % | 94 / 98 / 99 % |
+
+The king was a fight no company of the first three levels should take, and stays one (the three of the third level
+win 63 → 45 %); getting away from him moves within a few seeds either way (his one slam lands harder and his despair
+can hold a fleer, but he strikes once a turn where he struck twice). **The golden route**, played by cold play 4's own
+lines to the crown lifted (Wenna, a first-level warrior, and Carlin): fled, both get away at the second try, before
+and after; fought to the end, both are down, before and after (the king's guard now "turns 5 of the blow"). Not
+markedly deadlier: the slice lands. iscoed-cold-four, deep-barrow, loot-in-reach (the crown offered once the king has
+fallen), placed-told and play-structure hold; test/traces' wren-tower-climbed fails before and after, as case 25 found.
+
+**The halls' mummies, stopped by the census.** The same body in place of the five dwellers (the third level's four,
+kahitude's one of the first) makes each lethal: a warrior and cleric of the first level who win 80 % against Orsino's
+third-level mummy (90 % at the third) win 10 % (25 %), and the three of the first level 95 → 20 %. The options:
+1. **The SRD's mummy** in the halls: every one of the five a fight the companies that reach it lose.
+2. **Orsino's mummy as it stands** in the halls (the royal mummy the barrow's king alone).
+
+Recommended: 2. **A decision for the lead.** The SRD prices its CR 5 for four of the fifth level; the halls are met by
+the first to third.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -1100,7 +1177,7 @@ be claimed from the catalogue.
   changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
 - **The 33 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
   summoning, item creation, target forms, world magic and transformations), and none may be faked as data.
-- **The creatures.** 1 of 71 passes in resolution (rat/cellar); placed kinds keep Orsino's bodies by the lead's
+- **The creatures.** 3 of 72 pass in resolution (rat/cellar, the barrow ghoul, the royal mummy); placed kinds keep Orsino's bodies by the lead's
   ruling (srd-invariants.md: the ghoul's withdrawal). Since 18 November they go by proof slices of their own (SR-02,
   cases 25 on). The challenge table's re-measure at 48 fights a level
   (CB-21) comes before any placed creature is moved.

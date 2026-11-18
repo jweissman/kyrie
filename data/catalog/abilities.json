@@ -66,6 +66,29 @@
         "notes": "Kyr technique granted by a ward focus, as the fire ward is (GT-01): applies waterproof on the world clock for twelve units, the ward against the Plane of Water's cold."
       }
     },
+    "despair": {
+      "name": "Despair",
+      "kind": "natural",
+      "description": "It turns its face on whoever stands before it, and the sight holds them still with dread: whoever does not master their fear cannot move for a while. Once a day.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "paralyzed",
+          "duration": 2,
+          "target": "enemies",
+          "save": { "kind": "fear", "difficulty": { "kind": "literal", "value": 16 } }
+        }
+      ],
+      "uses": 1,
+      "recharges": "day",
+      "source": {
+        "kyr": true,
+        "srd35": "monster:mummy",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD mummy's despair (doc/architecture/mission-22/srd-proving-cases.md, case 30): whoever sees it saves against fear (the SRD's Will, DC 16, exact) or is paralysed with fear; two rounds for the SRD's 1d4 (converted). Adapted: the SRD's is at sight and takes no action, where Kyr's is the royal mummy's act on its turn, once a day (the SRD's: once a day for whoever saved). Its save is fear's (Remove Fear's heartened answers it), as Cause Fear's is (case 20)."
+      }
+    },
     "howl": {
       "name": "Howl",
       "kind": "natural",

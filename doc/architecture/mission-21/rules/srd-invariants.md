@@ -196,6 +196,8 @@ hit points (a level-12 mummy bites for 1d4); a stat block (the SRD's) does not g
 2. **SRD stat blocks for the high-level kinds placed**, one slice per creature, each fought where it is placed before it
    lands (the ghoul's lesson). The first case is the **mummy** that keeps the great barrow (a1's `w8_keeper`, level
    12: 48 hit points of 1d4 blows; the SRD mummy is 8d12+3, slam 1d6+10 and mummy rot, despair).
+   **Done for the keeper** (18 November, mission-22/srd-proving-cases.md case 30): the king under the mound is the
+   royal mummy (`mummy/royal`), the SRD's body in every world it is placed; the halls' mummies keep Orsino's.
 
 Either way the challenge table is measured again for what changes (CB-21: it is measured against a lone warrior with
 the dice as they fell).

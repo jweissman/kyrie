@@ -140,8 +140,9 @@ export class DeepSites {
       .map(([w, text]) => ` ${w} ${q(text)}.`).join('');
     const refuge = bottom.find(r => r.role === k.refuge);
     const shrinks = refuge && k.fears ? ` Refuge ${refuge.id}. Fears ${k.fears}.` : '';
-    return [`  Person ${id} ${q(k.label)} at ${heart.id} { Role ${q(k.role)}. Species ${k.species}. Level ${k.level}.`
-      + ` Temperament ${k.temperament}. Lair ${heart.id}.${shrinks}${words} }`,
+    const varied = (k.variations ?? []).map(v => ` Variant ${v}.`).join('');
+    return [`  Person ${id} ${q(k.label)} at ${heart.id} { Role ${q(k.role)}. Species ${k.species}.${varied}`
+      + ` Level ${k.level}. Temperament ${k.temperament}. Lair ${heart.id}.${shrinks}${words} }`,
       `  Item ${layout.site}_heart ${q(purpose.objective.item)} is ${purpose.objective.kind} at ${heart.id}.`,
       `  Rule ${id}_robbed when company(?c) and together(${id}, ?c) and able(${id}) and not routed(${id})`
         + ` and not tolerates(${id}, ?c) and not assails(${id}, ?c) and ownedItem(${layout.site}_heart, ?m)`

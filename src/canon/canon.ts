@@ -247,16 +247,22 @@ export class Canon {
     const said = { hitDice: this.first(over, 'hitDice'), attacks: this.first(over, 'attacks'),
       armor: this.first(over, 'armor'), riders: this.first(over, 'riders'), damage: this.first(over, 'damage'),
       armorBonus: this.first(over, 'armorBonus'), saves: this.first(over, 'saves'),
-      attackBonus: this.first(over, 'attackBonus') };
+      attackBonus: this.first(over, 'attackBonus'), actions: this.first(over, 'actions') };
     const defenses = over.flatMap(v => v.defenses ?? []);
     const forgone = new Set(over.flatMap(v => [...v.forgoes?.abilities ?? [], ...v.forgoes?.traits ?? []]));
-    if (Object.values(said).every(x => x === undefined) && !defenses.length && !forgone.size) { return {}; }
+    // Its base's fractions of the harm it goes without (the mummy's half of every blow): gone before its own are laid.
+    const unresisted = new Set(over.flatMap(v => v.forgoes?.resistances ?? []));
+    const kept = (b.defenses ?? []).filter(d => !(d.kind === 'resistance' && d.mode === 'fraction'
+      && d.to.some(t => unresisted.has(t))));
+    if (Object.values(said).every(x => x === undefined) && !defenses.length && !forgone.size && !unresisted.size) {
+      return {};
+    }
     const st = { ...b.statistics! };
     // Hit Dice are the whole of its hit points: no growth, no fixed number beside them.
     if (said.hitDice) { delete st.growth; delete st.hitPoints; }
     const stated = Object.fromEntries(Object.entries(said).filter(([, v]) => v !== undefined));
     return { statistics: { ...st, ...stated, ...said.attacks ? { weapon: said.attacks[0]! } : {} },
-      ...defenses.length ? { defenses: [...b.defenses ?? [], ...defenses] } : {},
+      ...defenses.length || unresisted.size ? { defenses: [...kept, ...defenses] } : {},
       ...b.abilities ? { abilities: b.abilities.filter(a => !forgone.has(a)) } : {},
       ...b.traits ? { traits: b.traits.filter(t => !forgone.has(t)) } : {} };
   }

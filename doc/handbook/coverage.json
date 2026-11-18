@@ -1076,7 +1076,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 120,
+    "kyr": 121,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1128,7 +1128,7 @@
       "faithful": 0,
       "adapted": 2,
       "represented": 0,
-      "kyr": 12,
+      "kyr": 13,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -20710,6 +20710,13 @@
   {
    "id": "ability:breathe_thunder",
    "title": "Deafening breath",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
+   "id": "ability:despair",
+   "title": "Despair",
    "status": "kyr",
    "book": "mm",
    "section": "natural-abilities"

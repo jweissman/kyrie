@@ -199,7 +199,7 @@
   {
    "group": "w8_keeper",
    "kinds": [
-    "mummy"
+    "mummy/royal"
    ]
   },
   {
@@ -828,7 +828,7 @@
   "revenant": 45,
   "spider/great/cave": 35,
   "zombie": 34,
-  "rat": 30,
+  "rat": 29,
   "hollow_stalker": 18,
   "wolf": 17,
   "spirit": 16,
@@ -837,7 +837,6 @@
   "hound/cave": 12,
   "hook_claw": 12,
   "bomb": 12,
-  "mummy": 11,
   "slump": 10,
   "boar": 9,
   "person:half_orc": 9,
@@ -850,9 +849,9 @@
   "eel": 7,
   "elemental/crystal_element": 7,
   "wisp": 6,
-  "rat/great": 6,
   "centipede/great": 6,
   "ghoul/barrow": 6,
+  "mummy/royal": 6,
   "young_owlbear": 6,
   "marl_pike": 6,
   "three_horn": 6,
@@ -865,6 +864,8 @@
   "mouther": 6,
   "person:dwarf": 6,
   "frog": 5,
+  "rat/great": 5,
+  "mummy": 5,
   "wraith": 5,
   "bear": 5,
   "elemental/earth_element": 4,

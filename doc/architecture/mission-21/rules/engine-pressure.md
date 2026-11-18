@@ -57,7 +57,10 @@ unplaced variation (8d12+3, slam 1d6+10 and mummy rot, 5/—, fire half again). 
 its species' defenses and cannot take one away, and Orsino's mummy carries `physical: 0.5` (half from every blow)
 where the SRD's is 5/—. It needs `forgoes` to reach a base's defenses as it reaches abilities (a defense named is
 dropped before the variation's own are laid on): a change to `Canon.stated` and `KindDefenses`, with an equivalence
-over every variation. M22, with §4.
+over every variation. M22, with §4. **Built (18 November, mission-22/srd-proving-cases.md case 30):** a variation's
+`forgoes.resistances` drops its base's fractions of the harm it names in `Canon.stated` (KindDefenses reads the composed
+kind, so it needed no change), and its `actions` sets how many times a turn it acts; the royal mummy, the king-barrow's
+keeper, is the SRD's by them. No variation before it names either, so every other composed kind is as it was.
 
 ## 3. Silver blocked by loot and market coupling → items as form × material
 

@@ -62,12 +62,15 @@ describe('the honest catalog over variations', () => {
   it('refuses a stat block that is not one: dice that are not dice, a routine of no natural weapon, a defense malformed', () => {
     const was = structuredClone(variations.t_basalt!);
     Object.assign(variations.t_basalt!, { hitDice: 'many', attacks: ['longsword'], armor: 'tail',
-      defenses: [{ kind: 'reduction', amount: 4, unless: ['silvery'] }], forgoes: { abilities: ['t_none'] } });
+      defenses: [{ kind: 'reduction', amount: 4, unless: ['silvery'] }], forgoes: { abilities: ['t_none'], resistances: ['t_harm'] },
+      actions: 0 });
     try {
       expect(CanonValidation.problems().filter(p => p.startsWith('variation t_basalt'))
         .map(p => p.replace(/defense \{.*\}/, 'defense'))).toEqual(['variation t_basalt: hit dice many are not dice',
         'variation t_basalt: defense: unknown attack tag silvery', 'variation t_basalt: longsword is no natural weapon',
-        'variation t_basalt: hide tail is not armour', 'variation t_basalt: forgoes unknown ability t_none']);
+        'variation t_basalt: hide tail is not armour', 'variation t_basalt: forgoes unknown ability t_none',
+        'variation t_basalt: forgoes a resistance to unknown harm t_harm',
+        'variation t_basalt: acts 0 times a turn, not a whole number of one or more']);
     } finally { variations.t_basalt = was; }
   });
 });

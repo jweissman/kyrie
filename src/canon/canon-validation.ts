@@ -173,6 +173,9 @@ export class CanonValidation {
     if (v.armor && !Canon.items[v.armor]?.armor) { this.fail(where, `hide ${v.armor} is not armour`); }
     for (const a of (v.forgoes?.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `forgoes unknown ability ${a}`); }
     for (const t of (v.forgoes?.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `forgoes unknown trait ${t}`); }
+    const harms = [...Canon.rules.damageTypes, 'physical', 'all'];
+    for (const r of (v.forgoes?.resistances ?? []).filter(r => !harms.includes(r))) { this.fail(where, `forgoes a resistance to unknown harm ${r}`); }
+    if (v.actions !== undefined && !(Number.isInteger(v.actions) && v.actions >= 1)) { this.fail(where, `acts ${v.actions} times a turn, not a whole number of one or more`); }
     this.riders(where, v.riders);
     this.expressions(where, v);
   }

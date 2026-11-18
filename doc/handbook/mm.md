@@ -3376,6 +3376,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | glass | material | glass | made of glass: clear or green, sharp where it breaks | Constitution +1, Charisma +2, Intelligence +1 | only by an author |
 | platinum | material | platinum | made of platinum: grey-white and very heavy | Constitution +5, Dexterity -4, Strength +2, Charisma +1 | only by an author |
 | barrow | breed | barrow | of the old breed of the barrows: quick, grey and long-nailed, its bite and claws stiffening what they touch | Strength +2, Dexterity +4, Intelligence +3, Wisdom +5, Charisma +7 | only by an author |
+| royal | breed | royal | one of the kings of the barrows, laid in his grave-goods and embalmed to keep: tall and heavy-handed, slow, and so terrible to see that the living stand still before him | Strength +12, Dexterity +2, Constitution -2, Intelligence -4, Wisdom +2, Charisma +10, Despair | only by an author |
 | cellar | breed | cellar | of the cellars and the sewers: small, quick and grey, and there is never only one | Strength -2, Dexterity +5, Constitution +4, Intelligence -1, Wisdom +2, Charisma -1 | only by an author |
 | flesh | material | flesh | stitched together from the dead and bolted at the joints: steel does little to it | Strength +4, Dexterity +2, Constitution -7, Intelligence -8, Wisdom +2, Charisma -7 | only by an author |
 | bronze | material | bronze | made of bronze: brown-gold, dark with handling | Constitution +3, Dexterity -2, Strength +1 | only by an author |
@@ -3443,6 +3444,16 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 2d6 + 2 × level thunder damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it); each caught is deafened for 2 turns (a Constitution save against 15 + level avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Again after 3 turns. 3 times a day, until a night's rest.
 
 > A roar of breath pours over everyone before the creature and deafens those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.
+
+### Despair
+
+*Kyr · natural ability* · `ability:despair`
+
+Every enemy is paralyzed for 2 turns (a Wisdom save against 16 avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. Once a day, until a night's rest.
+
+> It turns its face on whoever stands before it, and the sight holds them still with dread: whoever does not master their fear cannot move for a while. Once a day.
+
+*Adapted: The SRD mummy's despair (doc/architecture/mission-22/srd-proving-cases.md, case 30): whoever sees it saves against fear (the SRD's Will, DC 16, exact) or is paralysed with fear; two rounds for the SRD's 1d4 (converted). Adapted: the SRD's is at sight and takes no action, where Kyr's is the royal mummy's act on its turn, once a day (the SRD's: once a day for whoever saved). Its save is fear's (Remove Fear's heartened answers it), as Cause Fear's is (case 20).*
 
 ### Disintegrating breath
 

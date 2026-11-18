@@ -104,6 +104,7 @@
   ],
   "keeper": {
     "species": "mummy",
+    "variations": ["royal"],
     "label": "the king under the mound",
     "role": "the first king of the Barrow-Kin, who keeps the bounds",
     "level": 12,

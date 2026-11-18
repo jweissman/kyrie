@@ -123,6 +123,13 @@
   "mummy": {
    "srd": "mummy"
   },
+  "mummy/royal": {
+   "srd": "mummy",
+   "carries": {
+    "despair": "despair"
+   },
+   "notes": "Mummy rot omitted."
+  },
   "nightmare": {
    "srd": "nightmare"
   },

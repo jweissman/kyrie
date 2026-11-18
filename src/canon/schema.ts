@@ -148,8 +148,11 @@ export interface Overlay {
   // fixed stat block; the defenses it adds; its natural routine (the first its full blow) and its hide; and what of
   // its base's powers and nature it goes without (the generic undead package an SRD ghoul has not got).
   hitDice?: string; defenses?: Defense[]; attacks?: string[]; armor?: string;
-  forgoes?: { abilities?: string[]; traits?: string[] }; riders?: Record<string, Effect[]>;
+  // What it goes without may be its base's fractions of some harm too (Orsino's mummy's half of every blow, where the
+  // SRD's turns five: forgoes.resistances names the harm), and it may act fewer times a turn than its base (actions).
+  forgoes?: { abilities?: string[]; traits?: string[]; resistances?: string[] }; riders?: Record<string, Effect[]>;
   damage?: Record<string, string>; armorBonus?: string; saves?: Statistics['saves']; attackBonus?: number;
+  actions?: number;
   // Met only where an author names it (golem/flesh), never drawn into a generated country's dens and encounters: a
   // stat block placed nowhere until each placement has been fought (the ghoul's lesson, srd-invariants.md).
   unplaced?: true;
