@@ -14,7 +14,7 @@ describe('a mark on the page', () => {
   it('marked green as having something for you, leads its talk with the reply that pays, marked', async () => {
     const j = Journey.of(await DrawnWorld.start('kite', { origin: 'kin',
       party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
-    await j.play('Put your shoulder');
+    await j.play('Heave the wheel out');
     const screen = Glanced.of(j.session).screen, wagoner = screen.people.find(p => /wagoner/i.test(p.name))!;
     expect(wagoner.owed).toBe(true);
     const talk = Attending.talk(SceneModel.build(screen), wagoner.id)!;

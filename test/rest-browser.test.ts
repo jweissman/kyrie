@@ -49,11 +49,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
       await Rest.count(page, '[aria-modal="true"]')]).toEqual([1, 0, 0]);
     expect(await page.locator('.glance .lens').innerText()).not.toMatch(/look closely/i);
     expect(await Rest.touchable(page)).toBe(true);
-    const shoulder = page.locator('.glance .lens [data-act] >> text=/^Put your shoulder/');
-    await LensPages.seek(page, '.glance .lens [data-act]:has-text("Put your shoulder")');
+    const shoulder = page.locator('.glance .lens [data-act] >> text=/^Heave the wheel out/');
+    await LensPages.seek(page, '.glance .lens [data-act]:has-text("Heave the wheel out")');
     await shoulder.first().click(); await d.settle();
     // Done, it is not offered again, what came of it is told on the place, and the wagoner is owed.
-    expect(await Rest.count(page, '.glance [data-act] >> text=/^Put your shoulder/')).toBe(0);
+    expect(await Rest.count(page, '.glance [data-act] >> text=/^Heave the wheel out/')).toBe(0);
     expect(await page.locator('.focus').innerText()).toMatch(/stands square on the road again/);
     // Owed, by the likeness's one pip, which says so (see Pip).
     expect(await Rest.count(page, `${carter}.owed .pip[aria-label*="to gain"]`)).toBe(1);
