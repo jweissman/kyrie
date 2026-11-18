@@ -1204,6 +1204,40 @@ before and after (someone down 12 → 9 % at the first level, 11 → 3 % at the 
 and such a cleric 21 → 22 % and 18 → 23 % (the word costs the cleric its turn). test/reactions' flight is now proved
 by Turn Undead, the one spell left that turns a foe to flight.
 
+### 34. The still water, the waterworks' keeper (18 November): stopped by the census, a decision for the lead
+
+The next keeper met deeper than the first hour after the mummy: the waterworks' (data/generation/deep/waterworks.json,
+"the still water", level 8, alone), Orsino's water elemental (`elemental/water_element`) in a1's and iscoed's `w7` and
+kite's and thorn's `w8` (four of the eight worlds; the cisterns' dwellers of the same kind at the third and fifth
+levels beside them). Orsino's is 44 hit points at the eighth level, one slam of 1d6 by its Strength and level, scale,
+Dexterity 20 (AC 1), the water's affinity (half of cold, double fire, lightning and bludgeoning, proof against Will)
+and Drench. The concordance answers it with the SRD's Medium water elemental (CR 3); a keeper of the eighth level is
+nearer the Large (CR 5). Neither is written; both measured as a breed over it (Hit Dice, scores, slams, the bonus they
+are struck at, saves, AC as Westernesse reads it, the Large's 5/-, the water's affinity and Orsino's elemental nature
+forgone through `forgoes.traits`; water mastery and the vortex not carried). Companies of one to three at the first to
+third levels (fought, 40 seeds; fled, 100 seeds):
+
+| Company (won at L1 / L3 · got away at L1) | Orsino's keeper (44 hp) | The SRD's Large (68 hp, two slams of 2d8+5 at +10, AC 1, 5/-) | The SRD's Medium (30 hp, one slam of 1d8+4 at +6, AC 2) |
+|---|---|---|---|
+| Warrior alone | 0 / 3 % · 85 % | 0 / 0 % · 48 % | 15 / 43 % · 90 % |
+| Warrior + cleric | 5 / 43 % · 92 % | 3 / 10 % · 59 % | 55 / 88 % · 91 % |
+| Thief alone | 0 / 0 % · 59 % | 0 / 0 % · 35 % | 0 / 0 % · 68 % |
+| Warrior, cleric and mage | 28 / 78 % · 93 % | 5 / 10 % · 72 % | 68 / 93 % · 93 % |
+
+The Large makes the keeper markedly deadlier, and getting away from it most of all (a lone first-level warrior 85 →
+48 %); the Medium makes a fight the companies that reach it should not take one a first-level pair wins one time in
+two. The options:
+1. **The SRD's Large** as the keeper (the level it is placed at), every company of the first three levels markedly
+   likelier to die in its rooms.
+2. **The SRD's Medium**, the concordance's: faithful to its mapping, the keeper a fair fight from the second level.
+3. **Orsino's as it stands.**
+
+Recommended: 3, the keeper's danger being the deep site's design (it is told, it flinches from the Wardens' oath,
+and it is to be outwitted rather than fought), until the keepers' levels are reviewed against what the SRD would
+place there; then 2 or 1 by that review. **A decision for the lead.** The other keepers met deeper (the deep mine's
+mind destroyer at the ninth level, the singing hall's golem at the eighth) have no SRD counterpart in the concordance,
+or none placed (the iron golem of ember's smith is CR 13).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
