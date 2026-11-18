@@ -33,4 +33,19 @@ describe('the drove life, after Bran is let out', () => {
     expect(heard.scene.lines.join(' ')).toContain('got the Brynach drover out');
     expect(c.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(food + 1);
   }, 240000);
+  // ST-02: Mardle sells the drove himself if nobody stops him: the sale cried, a buyer at the pens, half the drove
+  // under the hammer, and Bran's share halved when he is let out after it.
+  it('is sold by Mardle on a clock of his own, and Bran gets out to half a drove', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const r = new Runner(journey.session), c = journey.session.campaign;
+    const told: string[] = [];
+    for (let i = 0; i < 60 && !c.world.test(ModuleWriter.call('drove__halved', 'party')); i++) {
+      const wait = offered(r.said()).find(o => /^Wait an hour/.test(o.label))!;
+      told.push(...said(await r.ask(JSON.stringify({ act: wait.id }))).scene.lines);
+    }
+    const all = told.join(' ');
+    expect(all).toContain('drove to be sold at the pens on the third day');
+    expect(all).toContain('A buyer from Wrackham');
+    expect(all).toContain('Eighteen of Bran');
+  }, 240000);
 });

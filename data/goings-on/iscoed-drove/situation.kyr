@@ -7,7 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
-  Relation sold(group).
+  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -28,8 +28,9 @@ Module drove "The held drove" {
   Observe customs_scene at customs when not freed(party) "A long counter, a strongbox chained to the wall, and a window barred like a gaol's. Through a grille at the back a big man in a drover's cloak sits on a bench with his hands between his knees.".
   Observe customs_after at customs when freed(party) "A long counter and a strongbox chained to the wall. The grille at the back stands open on an empty bench.".
   Observe mardle_says at customs as sign when not freed(party) and not sent(party) and not knows(party, clerk_count) "'Forty head at the march-stone,' Mardle is saying to the customs-man, with a finger on the tally-book. 'Thirty-six in the pens. Four hidden from the Rì.'" teaches clerk_count.
-  Observe pens_scene at pens when not freed(party) and not watered(party) "Thirty-six black bullocks of the fells, rough-coated and restless, crowd the rails, bawling to be watered.".
-  Observe pens_watered at pens when not freed(party) and watered(party) "Thirty-six black bullocks of the fells stand quiet at the rails, steaming, their trough full.".
+  Observe pens_scene at pens when not freed(party) and not watered(party) and not halved(party) "Thirty-six black bullocks of the fells, rough-coated and restless, crowd the rails, bawling to be watered.".
+  Observe pens_halved at pens when not freed(party) and halved(party) "Eighteen black bullocks are left at the rails. The other half of the pen is churned and empty.".
+  Observe pens_watered at pens when not freed(party) and watered(party) and not halved(party) "Thirty-six black bullocks of the fells stand quiet at the rails, steaming, their trough full.".
   Observe owain_water near owain of owain when at(owain, pens) and not freed(party) "{owain} is carrying water to them a bucket at a time, in a cloak too big for him.".
   Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "{owain} stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
   Observe pens_freed at pens when freed(party) and not sold(party) and not fined(party) "Bran is in among the bullocks, counting them again with a hand on each back.".
@@ -119,13 +120,31 @@ Module drove "The held drove" {
     Time 1 hours.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pens) and at(bran, pens) and freed(actor)
       and not fined(actor) and not sold(actor).
-    Result "Thirty-six bullocks through the lanes to the sale-yard, Owain at the back with a stick. They go at a good price. Bran pays you out of it in the yard: four coin. 'For the four you found,' he says.".
-    On success { Assert sold(actor). Increase quantity(actor, gold) by 4. }
+    Result "Thirty-six bullocks through the lanes to the sale-yard, Owain at the back with a stick. They go at a good price. Bran pays you out of it in the yard: four coin. 'For the four you found,' he says." when not halved(actor).
+    Result "Eighteen bullocks through the lanes to the sale-yard, Owain at the back with a stick. Bran says nothing of the other eighteen. He pays you out of what they bring: two coin. 'It should have been four,' he says." when halved(actor).
+    On success { Assert sold(actor). }
   }
+  Rule share_whole when sold(party) and not halved(party) and not paid(party) { Assert paid(party). Increase quantity(party, gold) by 4. }
+  Rule share_half when sold(party) and halved(party) and not paid(party) { Assert paid(party). Increase quantity(party, gold) by 2. }
+  // Mardle sells the drove himself, on a clock of his own (the owner's structural critique, 18 November, ST-02: a
+  // deadline had been the only actor): the sale cried, a buyer at the pens, half the drove under the hammer.
+  Rule sale_cried when not freed(party) and not sent(party) and not cried(party) and watch(clock) >= 60 says "A customs-man nails a paper to the customs-house door: Bran ap Ifor's drove to be sold at the pens on the third day, for the Rì's toll." { Assert cried(party). }
+  Rule buyer_comes when not freed(party) and not sent(party) and cried(party) and not bidden(party) and watch(clock) >= 162 says "A buyer from Wrackham walks the rails at the pens with Mardle, pointing with his stick. Owain stands in the gate and will not move out of it until Mardle tells him to." { Assert bidden(party). }
+  Rule half_sold when not freed(party) and not sent(party) and bidden(party) and not halved(party) and watch(clock) >= 312 says "The sale begins at the pens. Eighteen of Bran's bullocks go under the hammer to the Wrackham man before Mardle calls a halt for the day." { Assert halved(party). }
+  // What Mardle is afraid of, said where he is pressed (ST-02: obstruction had stood where a claim should).
+  Topic clerk_fear with clerk "Ask Mardle who he counts for" when knows(actor, bran_count) and not freed(party) once {
+    Says "'For the toll-farmer at Dun Rìerdan,' says Mardle. 'He docks me a crown for every beast that comes in short of what the march-stone saw, and he does not ask why. I have three children in the house behind the chandlery.' He closes the book. 'Count for him a year, and see if you count kinder.'".
+  }
+  // What each way of getting Bran out leaves behind (ST-02's aftermath): shown up by the ink, Mardle is gone, and his
+  // family with him; bought out, he is at the counter for the next drove.
+  Rule mardle_gone when turned(clerk) and at(party, green) and not gone(party) says "On the quay, a woman you have not seen before is loading a handcart outside the house behind the chandlery: bedding, a chair, a box of pots. Three children sit on the box. Nobody on the waterfront helps her, and nobody stops her." { Assert gone(party). }
   Topic keeper_after with keeper "Ask {keeper} what the waterfront is saying" when freed(party) once {
-    Says "'That you got the Brynach drover out from under Mardle,' says {keeper}. 'Third drove this year he's had four short of.' {keeper} puts a loaf on the counter and pushes it across. 'For the road. Nobody here would cross him.'".
-    On discuss { Increase quantity(actor, rations) by 1. }
+    Says "'That you got the Brynach drover out from under Mardle,' says {keeper}, and puts a loaf on the counter and pushes it across. 'For the road.'".
+    On discuss { Increase quantity(actor, rations) by 1. Assert heard(actor). }
   }
+  Rule heard_kept when heard(party) and not fined(party) and not turned(clerk) and not told(party) says "'Third drove this year he's had four short of. Nobody here would cross him.'" { Assert told(party). }
+  Rule heard_paid when heard(party) and fined(party) and not told(party) says "{keeper} does not quite look at you. 'Paid him his twelve crowns, they say. He'll be at the counter for the next drove, then.'" { Assert told(party). }
+  Rule heard_gone when heard(party) and turned(clerk) and not told(party) says "'And that Mardle's gone, out of the town by tonight, his wife and the children with him. Half the waterfront will drink to you, and the other half will remember it was you.'" { Assert told(party). }
   Topic bran_west with bran "Ask Bran about the work in Brynach" when freed(party) and (sold(party) or fined(party)) once {
     Says "'The old road west,' says Bran, 'past the march-stone and up the pass. Four days to Caer Brynach.' He points with his whole arm, the way a drover does. 'Something takes the beasts off the high pasture at night, and leaves nothing. The lord pays a sword. Ask for me.'".
   }
