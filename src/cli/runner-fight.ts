@@ -1,7 +1,8 @@
 import type { Battle } from '../battle';
 import type { Command } from '../model';
-import { Content } from '../content';
 import { Tactics } from '../tactics';
+import { ItemCatalog } from '../item-catalog';
+import { ItemNames } from '../item-names';
 import { CombatChoices } from '../ui/combat-choices';
 import { CombatTelling } from '../ui/combat-telling';
 import type { ActType } from '../presentation/offer';
@@ -64,11 +65,13 @@ export class RunnerFight {
     const b = this.pending?.battle;
     if (!b) { return []; }
     const state = b.state;
-    const hand = CombatChoices.actions(b.legalCommands(), Content.abilities)
+    // The fight's own repertoire, as the page's (CombatModel): what the company carries to use up among it (cold play
+    // 3, CL-14: a warrior died with two healing draughts in her pack, never offered in the fight).
+    const hand = CombatChoices.actions(b.legalCommands(), b.repertoire)
       .sort((x, y) => Number(!['melee', 'ranged'].includes(x.ability.id)) - Number(!['melee', 'ranged'].includes(y.ability.id)))
       .flatMap(c => c.commands.map(m => ({ id: `fight:${m.ability}:${m.target}`, type: 'fight' as const, marks: [],
         aspects: c.ability.id === 'flee' ? [] : ['danger'],
-        label: c.requiresTarget ? `${c.ability.name} at ${RunnerFight.name(b, m.target)}` : c.ability.name })));
+        label: RunnerFight.called(b, c.ability, m.target, c.requiresTarget) })));
     const actor = RunnerFight.name(b, state.actor);
     return [...hand, { id: RunnerFight.auto, label: `Let ${actor} fight this turn`, type: 'fight', aspects: [], marks: [] },
       { id: RunnerFight.through, label: 'Press on to the end', type: 'fight', aspects: [], marks: [] }];
@@ -79,6 +82,12 @@ export class RunnerFight {
     const primary = [all[0], flee, all.at(-2), all.at(-1)].filter((c, i, list): c is FightChoice => !!c
       && list.indexOf(c) === i);
     return { primary, rest: all.filter(c => !primary.includes(c)) };
+  }
+  // A carried thing is used ("Use a minor potion of healing on Wenna"), as the page calls it; an ability is aimed.
+  private static called(b: Battle, ability: { id: string; name: string }, target: string, aimed: boolean): string {
+    const carried = ItemCatalog.used(ability.id);
+    if (carried) { return `Use ${ItemNames.called(carried.name)}${aimed ? ` on ${RunnerFight.name(b, target)}` : ''}`; }
+    return aimed ? `${ability.name} at ${RunnerFight.name(b, target)}` : ability.name;
   }
   private static name(b: Battle, id: string): string { return b.state.combatants.find(f => f.id === id)?.name ?? id; }
   // The agent's choice for the turn, by its id.
