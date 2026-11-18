@@ -16,7 +16,7 @@ export class JourneyNotes {
   static readonly kinds: readonly Kind[] = ['diction', 'duplication', 'causality', 'excess', 'emphasis', 'other'];
   static readonly file = 'notes.json';
   static readonly about = 'Editorial notes on captured.json, by step and the exact words quoted from what that step'
-    + ' showed. Added by `kyrie read note`, or written by hand; read by `kyrie read render` and `kyrie read compare`.';
+    + ' showed. Added by `kyrie read note`, or written by hand; read by `kyrie read render` and `kyrie read replay`.';
   static read(dir: string): Notes {
     const path = join(dir, this.file);
     return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) as Notes : { about: this.about, notes: [] };

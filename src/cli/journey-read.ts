@@ -78,8 +78,7 @@ export class JourneyRead {
   // The capture's acts asked again under the code as it is now, kept apart as replay.json, and the two compared.
   private static async replay(dir: string): Promise<number> {
     const captured = this.read(dir);
-    const replay = await JourneyCapture.replay(await JourneyCapture.start(captured.args), captured,
-      join(dir, 'captured.json'));
+    const replay = await JourneyCapture.replay(await JourneyCapture.start(captured.args), captured, 'captured.json');
     writeFileSync(join(dir, 'replay.json'), this.json(replay));
     console.log(`${dir}/replay.json: ${replay.steps.length} of ${captured.steps.length} steps at ${replay.build.commit}`
       + (replay.diverged ? `; stopped at step ${replay.diverged.step}: ${replay.diverged.why}` : ''));
