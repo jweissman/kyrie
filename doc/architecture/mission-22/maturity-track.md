@@ -1,8 +1,7 @@
 # The maturity track
 
 The owner, 18 November: "investigate a 'maturity track' trying to work through some of [the] suggestions" of the
-platform maturity study (`doc/architecture/reviews/platform-maturity-study-2026-11-18.md`, the owner's, in their
-checkout). This is the plan for doing so beside the sprints, not a second register: each step cites the register rows
+platform maturity study (`doc/architecture/reviews/platform-maturity-study-2026-11-18.md`). This is the plan for doing so beside the sprints, not a second register: each step cites the register rows
 it moves, and its rows are MT-01.. in the open register.
 
 ## The rules the track keeps (the study's §9, and the mission's own)
