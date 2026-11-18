@@ -41,7 +41,40 @@ against the scenario's source as it stands, then gives what would make the sente
 - **The handoff (ST-04).** Which ending was taken is read at the sea-gate: the reeve's trust (exposure earns it; paying
   costs it), and at the Tower, where the toll-farmer's man reckons the quarter.
 
+## The last sea-gate (data/goings-on/iscoed-gate/situation.kyr)
+
+| Sentence | As it stands | Ready? |
+|---|---|---|
+| 1. Apparent story | At first the player thinks this is about shutting an old sea-gate before the spring tide drowns the fen. | yes |
+| 2. Moving actor | If ignored, the tide comes on the sixth day (`floods`). Nobody else acts: the smugglers who use the sluice-cut, and want the gate open, do nothing in the six days. | **no**: the tide is the only actor |
+| 3. Opposing claim | The smugglers' interest is real (an open gate lets their boats up the cut, and they pay the customs clerk one sack in ten) but is found only as a store, a rope and a tally behind the chain. | partly: a claim with nobody to make it |
+| 4. Turn | The pawl's pin "sawn through, not worn" turns old machinery failing into someone wanting the gate open. | **yes**: the best turn on the route |
+| 5. Crisis | The gate is wound shut by the company at the windlass, alone (`wind_gate`, `wind_at_ebb`). | **no**: maintenance, not a collision |
+| 6. Choice | Wind with help or at low water; show the reeve the tally or not. The first is a method; the second is a real choice, but optional and after the fact. | partly |
+| 7. Aftermath | The hamlet thanks the company (a wave chalked on the well-post, an old man's hands); the reeve sends her tally north; with the tally shown, "a new clerk by the quarter-day". | partly: thanks and a report; the smugglers and the eel-men unchanged |
+
+### What would make it a story (ST-03)
+
+- **A moving actor (2).** The smugglers act inside the six days, each beat met where it happens:
+  - *warning* (night 2): the windlass's chain is found unpinned again, or the socket packed with salt;
+  - *deterioration* (day 4): the eel-men are told the gate is cursed and will not go near the gatehouse; Nest, who
+    keeps the weir, is offered coin to say so too;
+  - *crisis* (the night before the tide): the smugglers' boat comes up the cut for the last load, and finds the gate
+    shut or being shut.
+- **An opposing claim (3).** The smugglers are named people with a stake: an eel-man of the hamlet whose family lives
+  on the run up the cut, and who sees the reeve's gate as the Rì's toll by another name. One line from him, said at
+  the gate, makes the claim.
+- **A collision (5).** The crisis is at the gate, with the eel-man, Nest and (if sent for) the reeve present: winding
+  the gate shut is done in front of them.
+- **A choice with a cost (6).** Shut it and expose them (the hamlet's eel-men lose the cut's money; the reeve trusts
+  the company); shut it and let the last boat through first (the eel-man's family keeps its winter; the reeve is not
+  told); or bargain, as the Wardens' wall says the sea is bargained with (a tide a month left open, by agreement).
+- **An aftermath (7).** Who keeps the gate after; whether the eel-men greet the company at the lane; what the reeve
+  sends north on her tally.
+- **The handoff (ST-04).** The smugglers pay Mardle. If the drove exposed him, they have lost their protection and act
+  sooner and more desperately; if Bran was bought out, Mardle warns them the company is coming.
+
 ## Next
 
-The last sea-gate (data/goings-on/iscoed-gate/situation.kyr) next, then the cold pans and the Tower; then ST-02 is
+The cold pans and the Tower next; then ST-02 is
 built from this sheet, measured by the beat map and the next cold play.
