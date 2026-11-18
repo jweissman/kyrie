@@ -58,6 +58,7 @@
     ["\\bsearch|\\blook(ing)? |\\bclue|discover|investigat|\\bfinds?\\b", "discovery"]
   ],
   "rows": {
+    "TR-01": "travel", "TR-02": "travel", "TR-03": "travel",
     "OR-38": "page-ui",
     "OR-39": "page-ui",
     "OR-40": "page-ui",
