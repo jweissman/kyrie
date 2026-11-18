@@ -47,6 +47,14 @@
    "note": "A template's grammar shows through: a label put where a sentence should be, and said before the rats are seen.",
    "suggest": "(cut: the next sentence shows the rats)",
    "by": "reader-1"
+  },
+  {
+   "step": 1,
+   "kind": "diction",
+   "quote": "Patch barks twice, for form’s sake, then comes to see who you are.",
+   "note": "A filler tag that explains a plain act (now banned by the prose lint, data/editorial/prose-lint.json).",
+   "suggest": "Patch barks twice, then comes to see who you are.",
+   "by": "prose-1"
   }
  ]
 }
