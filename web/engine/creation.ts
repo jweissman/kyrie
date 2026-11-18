@@ -22,6 +22,7 @@ import type { Trait } from '../../src/canon/schema';
 import { ProtagonistNames } from '../../src/world/protagonist-names';
 import { FirstSpells } from './first-spells';
 import { CardLines } from './card-lines';
+import { CompanyChapters } from '../../src/handbook/phb-company';
 
 
 // The engine's side of forming a company: what there is to choose from, what a campaign asks of the company, a
@@ -54,7 +55,7 @@ export class Creation {
         ...k.asks ? { asks: k.asks } : {}, ...k.life ? { life: k.life } : {},
         does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' ') })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
-      signs: structuredClone(sky.signs),
+      signs: sky.signs.map(s => ({ ...structuredClone(s), gifts: s.gifts.map(g => Creation.skyGift(g)) })),
       campaigns: [...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
         seed: s.seed, ...s.recommended ? { recommended: true } : {} })),
       { id: this.generated, title: 'A generated region', seed: 'thorn',
@@ -91,6 +92,12 @@ export class Creation {
         : { who: `${callingName}, ${CardLines.manners[id] ?? named.toLowerCase()}` };
     return { id, ...way, ...who, ...access ? { picks, spells: FirstSpells.shown(id, own, picks),
       first: FirstSpells.first(id, own) } : {} };
+  }
+  // A gift of the sky as creation offers it: its name, its sentence, and its rule as the reference says it.
+  private static skyGift(id: string): Catalog['signs'][number]['gifts'][number] {
+    const t = Canon.traits[id];
+    return { id, name: t?.name ?? id, text: t?.description ?? '',
+      does: CompanyChapters.gift(id).slice((t?.name ?? id).length + 2) };
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // The weapons a protagonist of a calling may set out with: its own, and every ordinary weapon of the kinds and

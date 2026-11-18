@@ -1,4 +1,4 @@
-import { useRef, type CSSProperties } from 'react';
+import { useRef, type CSSProperties, type MouseEvent } from 'react';
 import type { Catalog } from '../../engine/protocol';
 import { SkyCanvas } from './sky-canvas';
 import { SkyTexture } from './sky-texture';
@@ -37,9 +37,10 @@ export class Observatory {
   // whole: the twelve at once round the still ring, each where it always stands, the one considered lit (the owner,
   // 17 November, FM-02: all twelve signs at once, the zodiac and its rows in step; a fixed set's instrument).
   // zoom: whole, the sign whose row the hand or the keys are on, drawn up large where the wheel stands (OR-78).
-  static View({ signs, focus, chosen, flare, onFocus, onChoose, whole, zoom }: { signs: Sign[]; focus?: string;
+  // onOut: a touch on the open sky while a sign is drawn up lets the wheel go (OR-89).
+  static View({ signs, focus, chosen, flare, onFocus, onChoose, whole, zoom, onOut }: { signs: Sign[]; focus?: string;
     chosen?: string; flare?: string; onFocus: (id: string) => void; onChoose: (id: string) => void; whole?: boolean;
-    zoom?: string }) {
+    zoom?: string; onOut?: () => void }) {
     const turned = useRef(0), at = Math.max(0, signs.findIndex(s => s.id === focus)), step = 360 / Math.max(1, signs.length);
     // The nearest way round to the sign: the ring never spins the long way past eleven months; whole, it stands still.
     const want = whole ? 0 : -at * step, now = turned.current;
@@ -51,7 +52,7 @@ export class Observatory {
     const lens = near >= 0 ? Observatory.lens(signs[near]!, near * step) : 'none';
     return (
       <div className={`observatory${whole ? ' whole' : ''}${near >= 0 ? ' zoomed' : ''}`} aria-hidden="true"
-        data-zoom={near >= 0 ? zoom : ''}>
+        data-zoom={near >= 0 ? zoom : ''} onClick={near >= 0 && onOut ? Observatory.open.bind(null, onOut) : undefined}>
         <SkyCanvas.View pan={pan} still={still} />
         <svg viewBox={view.box} preserveAspectRatio={view.align} focusable="false">
           <Observatory.Defs />
@@ -68,6 +69,10 @@ export class Observatory {
         <i className="obs-meteor a" /><i className="obs-meteor b" />
       </div>
     );
+  }
+  // A touch on the sky that is not on a sign.
+  private static open(out: () => void, e: MouseEvent) {
+    if (!(e.target instanceof Element && e.target.closest('.obs-sign'))) { out(); }
   }
   // The still wheel drawn up to one sign (the owner, 18 November, OR-78: "just zoom in the sky to the constellation if
   // we hover over the menu action item for that sign"): the sky's units moved and scaled so that the sign stands where

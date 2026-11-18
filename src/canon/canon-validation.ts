@@ -40,7 +40,7 @@ export class CanonValidation {
   static readonly schools = ['abjuration', 'conjuration', 'divination', 'enchantment', 'evocation', 'illusion',
     'necromancy', 'transmutation'];
   static readonly traitCategories = ['lineage', 'nature', 'affinity', 'character', 'feat', 'party', 'specialization',
-    'calling'];
+    'calling', 'sign'];
   static readonly itemCategories = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment', 'treasure',
     'document'];
   private problems: string[] = [];

@@ -801,7 +801,7 @@
     "faithful": 747,
     "adapted": 402,
     "represented": 4,
-    "kyr": 570,
+    "kyr": 606,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -847,6 +847,19 @@
      }
     },
     {
+     "id": "signs",
+     "title": "Signs of the sky",
+     "counts": {
+      "faithful": 0,
+      "adapted": 0,
+      "represented": 0,
+      "kyr": 12,
+      "unsupported": 0,
+      "unreachable": 0,
+      "data-only": 0
+     }
+    },
+    {
      "id": "skills",
      "title": "Skills",
      "counts": {
@@ -866,7 +879,7 @@
       "faithful": 16,
       "adapted": 3,
       "represented": 0,
-      "kyr": 7,
+      "kyr": 31,
       "unsupported": 4,
       "unreachable": 0,
       "data-only": 0
@@ -5652,6 +5665,90 @@
    "section": "backgrounds/backgrounds-margins"
   },
   {
+   "id": "sign:sign_bear",
+   "title": "The Waking Bear",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_sower",
+   "title": "The Sower",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_hart",
+   "title": "The Hart",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_lantern",
+   "title": "The Lantern",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_crown",
+   "title": "The Crown",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_scythe",
+   "title": "The Scythe",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_sheaf",
+   "title": "The Sheaf",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_fox",
+   "title": "The Fox",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_hearth",
+   "title": "The Hearth",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_swan",
+   "title": "The Swan",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_ship",
+   "title": "The Ship",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
+   "id": "sign:sign_wolf",
+   "title": "The Wolf",
+   "status": "kyr",
+   "book": "phb",
+   "section": "signs"
+  },
+  {
    "id": "skill:woodcraft",
    "title": "Woodcraft",
    "status": "kyr",
@@ -5965,6 +6062,174 @@
    "status": "adapted",
    "book": "phb",
    "section": "traits/traits-character"
+  },
+  {
+   "id": "trait:star_unturned",
+   "title": "Unturned",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_hard_to_fell",
+   "title": "Hard to fell",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_provident",
+   "title": "Provident",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_patient",
+   "title": "Patient",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_quick",
+   "title": "Quick",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_wary",
+   "title": "Wary",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_lamplit",
+   "title": "Lamplit eye",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_clear_headed",
+   "title": "Clear-headed",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_bearing",
+   "title": "Bearing",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_unswayed",
+   "title": "Unswayed",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_finishing",
+   "title": "Finishing stroke",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_tireless",
+   "title": "Tireless",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_full_hand",
+   "title": "Full hand",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_strong_back",
+   "title": "Strong back",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_hard_to_pin",
+   "title": "Hard to pin",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_sly",
+   "title": "Sly",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_warm_hands",
+   "title": "Warm hands",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_hale",
+   "title": "Hale",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_calm",
+   "title": "Calm",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_steady",
+   "title": "Steady",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_weathered",
+   "title": "Weathered",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_restless",
+   "title": "Restless",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_fierce",
+   "title": "Fierce",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
+  },
+  {
+   "id": "trait:star_keen",
+   "title": "Keen",
+   "status": "kyr",
+   "book": "phb",
+   "section": "traits/traits-sign"
   },
   {
    "id": "trait:weapon_master",

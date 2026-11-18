@@ -22,8 +22,8 @@ export interface CreationCard {
 // a calling), as rows, as one dense list (the names of a people, creation's one exception to four in view), or as
 // rows over the sky they are signs of (the observatory).
 export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
-export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade' | 'presenting'
-  | 'name';
+export type CreationStepId = 'why' | 'you' | 'sign' | 'gift' | 'calling' | 'specialty' | 'before' | 'trade'
+  | 'presenting' | 'name';
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
 // thrown again; and the first spells known ("a,b,c").
@@ -38,9 +38,11 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // rest reachable); a client shows the first four and offers the rest, numbered as they stand, unless all (every card
 // at once: they are few, or a list). write: a field to write one's own in, by its placeholder; roll: the act that
 // deals another hand of the cards, by its aside.
+// leads: what the next step asks hangs on the card chosen here (the sign's gifts, the calling's art, the kind's
+// trades), so a client waits for the engine's answer before going on, never showing the next step as it stood before.
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
-  all?: boolean; write?: string; roll?: string;
+  all?: boolean; write?: string; roll?: string; leads?: boolean;
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -74,13 +76,17 @@ export class CreationFlow {
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
     const signs = catalog.signs, drawn = [...`${setting.title}${member.name ?? ''}`].reduce((n, ch) => n + ch.charCodeAt(0), 0);
     if (signs.length && !this.member.sign) { this.member.sign = signs[drawn % signs.length]!.id; }
+    // And with the first of its gifts until another is chosen.
+    if (!this.member.gift) { this.gifted(); }
     this.drawnSign = this.member.sign;
   }
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
   // "remove the abstract origin-quest selection in favor of diegetic starting circumstances"; see circumstance).
   steps(): CreationStep[] {
-    return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step) }));
+    return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step),
+      ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
+  static readonly leading: CreationStepId[] = ['sign', 'calling', 'before'];
   // Where the making stands: the step asked now (the first until another), or setting out.
   current(): CreationStepId | 'go' {
     const ids = this.steps().map(x => x.id);
@@ -143,7 +149,8 @@ export class CreationFlow {
       // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
-        say: x.line })) },
+        say: x.line, ...CreationFlow.entry(`sign:${x.id}`) })) },
+      ...this.gift(),
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.entry(`class:${x.id}`) })) },
@@ -167,6 +174,20 @@ export class CreationFlow {
           .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
   }
+  // The gift of the sign chosen, asked of the sign as the sky's own (the owner, 18 November, OR-89: "there should
+  // probably be perk selection happening when you select a star-sign"): its two, each by its sentence and its rule.
+  private gift(): CreationStep[] {
+    const sign = this.catalog.signs.find(x => x.id === this.member.sign);
+    if (!sign?.gifts.length) { return []; }
+    return [{ id: 'gift', ask: `What did ${sign.name} give you?`, present: 'rows', chosen: this.member.gift,
+      cards: sign.gifts.map(g => ({ id: g.id, name: g.name, aside: g.does.replace(/\.$/, ''), say: g.text,
+        emblem: sign.id })) }];
+  }
+  // A sign's first gift, given with it until another is chosen.
+  private gifted() {
+    const first = this.catalog.signs.find(x => x.id === this.member.sign)?.gifts[0]?.id;
+    if (first) { this.member.gift = first; } else { delete this.member.gift; }
+  }
   // A caster's school or god's domain, asked as the life knows it (the owner, 18 November, OR-90: "I do feel like
   // we've lost something not putting casters through school/domain selection"): a mage's art, a cleric's god's keeping;
   // a warrior's or a monk's way stays the calling's first until chosen in play. A way the people may not take is shown
@@ -176,7 +197,8 @@ export class CreationFlow {
     const ask = CreationFlow.asks[m.classId ?? ''], forbids = c.ancestries.find(a => a.id === m.raceId)?.forbids ?? [];
     if (!calling || !ask || !calling.specializations.some(t => t.of)) { return []; }
     return [{ id: 'specialty', ask, present: 'list', all: true, chosen: m.traits?.[0], cards: calling.specializations
-      .map(t => ({ id: t.id, name: t.name, ...t.line ? { line: t.line } : {}, ...t.text ? { say: t.text } : {},
+      .map(t => ({ id: t.id, name: t.name, emblem: t.id, ...t.line ? { line: t.line } : {},
+        ...t.text ? { say: t.text } : {},
         ...forbids.includes(t.id) ? { shut: 'Not for your people' } : {}, entry: CreationFlow.way(t) })) }];
   }
   static readonly asks: Record<string, string> = { mage: 'Which art did you learn?', cleric: 'What does your god keep?' };
@@ -200,7 +222,7 @@ export class CreationFlow {
     if (!this.past || !kind || of.length < 2) { return []; }
     const hand = CreationDefaults.hand(of, this.dealt, CreationFlow.trades);
     return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, chosen: was!.id,
-      ...hand.length < of.length ? { roll: 'other trades' } : {}, cards: hand.map(b => ({ id: b.id,
+      ...hand.length < of.length ? { roll: 'other trades' } : {}, cards: hand.map(b => ({ id: b.id, emblem: `life_${kind.id}`,
         name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.` })) }];
   }
   static readonly trades = 8;
@@ -255,7 +277,8 @@ export class CreationFlow {
       this.named = !!value.trim();
       return;
     }
-    if (step === 'sign') { m.sign = value; return; }
+    if (step === 'sign') { if (m.sign !== value) { m.sign = value; this.gifted(); } return; }
+    if (step === 'gift') { m.gift = value; return; }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
     else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; this.dealt = 0; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }
@@ -331,7 +354,7 @@ export class CreationFlow {
   private static entry(id: string): Pick<CreationCard, 'entry'> {
     const callings = CompanyChapters.callings();
     const all = [...CompanyChapters.ancestries().entries ?? [], ...callings.entries ?? [],
-      ...(callings.sections ?? []).flatMap(x => x.entries ?? [])];
+      ...(callings.sections ?? []).flatMap(x => x.entries ?? []), ...CompanyChapters.signs().entries ?? []];
     CreationFlow.entries ??= new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
     const found = CreationFlow.entries.get(id);
     return found ? { entry: found } : {};

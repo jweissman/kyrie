@@ -56,7 +56,8 @@ export class ComposedCreation {
   // Escape goes back a step (and is the keys' alone while it does), unless a sheet is open over the page.
   private static escape(back: () => boolean) {
     const key = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape' || document.querySelector('[aria-modal="true"]')) { return; }
+      // A sign drawn up in the sky is let go first (see useZoom).
+      if (e.key !== 'Escape' || document.querySelector('[aria-modal="true"], .observatory.zoomed')) { return; }
       if (back()) { e.preventDefault(); e.stopImmediatePropagation(); }
     };
     window.addEventListener('keydown', key, true);
@@ -80,26 +81,38 @@ export class ComposedCreation {
       if (step.present === 'sky' && !still) { flared(id); window.setTimeout(send, ComposedCreation.flare); } else { send(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
-    const [zoom, row] = ComposedCreation.useZoom(step.present === 'sky' && !!step.all, consider);
+    const sky = step.present === 'sky', [zoom, row, out] = ComposedCreation.useZoom(sky && !!step.all, consider);
+    // Over the sky the entry stands under the rows, the wheel having the room beside the question (OR-89).
+    const entry = <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} />;
     return <PageFrame.View kind="creation" {...frame} body="composed-step"
       column="composed-col"
-      background={step.present === 'sky' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
-        chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} />}
-      header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>
-        <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} /></>}
+      background={sky && <><Observatory.View signs={app.state.catalog!.signs} focus={lit}
+        chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} onOut={out} />
+        {zoom && <ChoiceRow.Button className="sky-out" data={{ action: 'whole-sky' }} label="All twelve"
+          mark={ChoiceRow.neutral} onClick={out} />}</>}
+      header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>{!sky && entry}</>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
-        consider={row} choose={choose} list={step.present === 'list' || (step.present === 'sky' && !!step.all)}
-        after={<ComposedCreation.Own app={app} step={step} onward={onward} />} />} />;
+        consider={row} choose={choose} list={step.present === 'list' || (sky && !!step.all)}
+        after={<><ComposedCreation.Own app={app} step={step} onward={onward} />{sky && entry}</>} />} />;
   }
   static readonly flare = 340;
   // The sky drawn up to the sign whose row the hand or the keys are on, and let go back to the whole wheel when no row
   // has been under the hand, or reached by the keys, for a few seconds (the owner, 18 November, OR-78: "we can zoom back
   // out if we spend a few seconds not hovering over any option"). A touch considers a row as a hover does. Only the rows
-  // draw it up: the hand over the sky itself lights a sign where it stands.
-  static useZoom(sky: boolean, consider: (id: string) => void): [string | undefined, (id: string) => void] {
+  // draw it up: the hand over the sky itself lights a sign where it stands. And back out at once, on asking (the owner,
+  // 18 November, OR-89: "it's not obvious how to zoom back out to the cycle"): All twelve, beside the sign drawn up; a
+  // touch on the open sky; or Escape, which goes back a step only once the wheel is whole.
+  static useZoom(sky: boolean, consider: (id: string) => void): [string | undefined, (id: string) => void, () => void] {
     const [zoom, zoomed] = useState<string>(), timer = useRef(0), keys = useRef(false), moved = useRef(false);
-    const over = useRef(false);
+    const over = useRef(false), drawn = useRef<string | undefined>(undefined);
+    drawn.current = zoom;
+    const out = () => { window.clearTimeout(timer.current); zoomed(undefined); };
+    // Escape while a sign is drawn up lets the wheel go, and only that (see ComposedCreation.escape).
+    const escape = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || !drawn.current) { return; }
+      e.preventDefault(); e.stopImmediatePropagation(); out();
+    };
     // Whether the keys moved last (a row they are on holds the sky), or the hand (only a row under it does); and whether
     // either has moved at all since the page came: the row lit as it comes is not a row gone to, and the wheel stays whole.
     useEffect(() => {
@@ -108,9 +121,11 @@ export class ComposedCreation {
         // A mouse over the rows holds the sky; a touch, which has no hover, never does.
         over.current = e.pointerType === 'mouse' && e.target instanceof Element && !!e.target.closest('.composed-rows'); };
       window.addEventListener('keydown', key, true);
+      window.addEventListener('keydown', escape, true);
       window.addEventListener('pointermove', hand, true);
       window.addEventListener('pointerdown', hand, true);
       return () => { window.clearTimeout(timer.current); window.removeEventListener('keydown', key, true);
+        window.removeEventListener('keydown', escape, true);
         window.removeEventListener('pointermove', hand, true); window.removeEventListener('pointerdown', hand, true); };
     }, []);
     const idle = () => {
@@ -121,7 +136,7 @@ export class ComposedCreation {
         if (held) { idle(); } else { zoomed(undefined); }
       }, ComposedCreation.idle);
     };
-    return [zoom, (id: string) => { consider(id); if (sky && moved.current) { zoomed(id); idle(); } }];
+    return [zoom, (id: string) => { consider(id); if (sky && moved.current) { zoomed(id); idle(); } }, out];
   }
   static readonly idle = 3000;
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list }: { offer: Offer; more: number;

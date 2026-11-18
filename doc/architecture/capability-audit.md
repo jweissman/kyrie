@@ -4,7 +4,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 | Family | Entries |
 |---|---|
-| Ancestries, callings, backgrounds and formations | 52 faithful, 249 adapted, 391 kyr, 5 not playable, 4 unreachable, 11 orsino data only |
+| Ancestries, callings, backgrounds and formations | 52 faithful, 249 adapted, 415 kyr, 5 not playable, 4 unreachable, 11 orsino data only |
 | Character creation | 16 faithful, 26 adapted, 1 kyr |
 | Progression, feats and high levels | 230 faithful, 29 adapted, 4 kyr, 33 not playable |
 | Action timing, reactions, conditions, costs and targeting | 177 faithful, 33 adapted, 50 kyr, 21 not playable |
@@ -17,7 +17,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 
 ## Ancestries, callings, backgrounds and formations
 
-Entries: 52 faithful, 249 adapted, 391 kyr, 5 not playable, 4 unreachable, 11 orsino data only.
+Entries: 52 faithful, 249 adapted, 415 kyr, 5 not playable, 4 unreachable, 11 orsino data only.
 
 **What Orsino defines.** 25 ancestries (racialModifier, occupationOptions, traits), 7 classes with classModifier gear, gold and proficiencies, 215 backgrounds, 16 party traits recognised from the company's make-up.
 

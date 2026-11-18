@@ -59,6 +59,41 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the sky drawn up to a sign', () => 
     await page.close();
   }, 200000);
 
+  // And back out on asking (OR-89: "it's not obvious how to zoom back out to the cycle"): All twelve, shown only while
+  // a sign is drawn up; Escape, which lets the wheel go and stays at the sign; a touch on the open sky. The sign's
+  // entry stands under its rows.
+  it('goes back to the twelve by All twelve, by Escape, and by a touch on the sky', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, pointer: true, query: '?world=kite' });
+    await toSign(page);
+    expect(await page.locator('.sky-out').count()).toBe(0);
+    const rows = page.locator('.composed-rows [data-option]');
+    await page.mouse.move(8, 792);
+    const zoomTo = async (n: number) => {
+      await rows.nth(n).hover();
+      await settled(page, (await rows.nth(n).getAttribute('data-option'))!);
+    };
+    await zoomTo(3);
+    expect(await page.locator('.composed-rows .creation-entry dt').allTextContents()).toEqual(['Month', 'Gifts']);
+    await page.locator('.sky-out').click();
+    await settled(page, '');
+    expect(await page.locator('.sky-out').count()).toBe(0);
+    await zoomTo(5);
+    await page.keyboard.press('Escape');
+    await settled(page, '');
+    expect(await page.getAttribute('.creation', 'data-page')).toBe('sign');
+    await zoomTo(7);
+    await page.mouse.click(300, 760);
+    await settled(page, '');
+    expect(await page.getAttribute('.creation', 'data-page')).toBe('sign');
+    // The sign taken, its gift is asked of it as the page first shows it, not of the sign before (CreationStep.leads).
+    const name = (await rows.nth(4).locator('.row-label').textContent())!;
+    await MonoDriver.hold(page, '.composed-rows [data-option] >> nth=4');
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'gift');
+    expect(await page.locator('h1.ask').textContent()).toBe(`What did ${name.replace(/^The /, 'the ')} give you?`);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 200000);
+
   it('on a phone, answers a touch on a row, and fits the screen', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 390, height: 844 }, { site, pointer: false, query: '?world=kite' });
     await toSign(page);

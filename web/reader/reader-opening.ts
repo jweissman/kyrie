@@ -116,7 +116,7 @@ export class ReaderOpening {
     const s = this.app.state, creation = s.creation, member = s.party[0];
     if (!creation || !member) { return; }
     const field = ({ you: 'raceId', calling: 'classId', presenting: 'pronouns', weapon: 'weapon', sign: 'sign',
-      trade: 'backgroundId' } as Partial<Record<CreationChoice, keyof Member>>)[step];
+      gift: 'gift', trade: 'backgroundId' } as Partial<Record<CreationChoice, keyof Member>>)[step];
     const named = step === 'name' || step === 'drawn';
     const now = { ...member, ...field ? { [field]: value } : {}, ...named ? { name: value } : {} } as Member;
     const [a, b] = step === 'place' ? value.split(':') : [], rolled = now.rolled as Record<string, number> | undefined;
@@ -126,7 +126,10 @@ export class ReaderOpening {
     const steps = creation.steps.map(x => x.id === step ? { ...x, chosen: value } : x), why = step === 'why' ? { origin: value } : {};
     // Where the making goes, as the engine said it would: a card chosen at the step asked (or a name drawn at the name)
     // goes on, back goes back; the engine's answer then stands in its place.
-    const on = (step === creation.at && step !== 'name') || (step === 'drawn' && creation.at === 'name') || step === 'onward';
+    // A step whose next hangs on the choice (CreationStep.leads) waits for the engine to say where it goes.
+    const leads = creation.steps.find(x => x.id === step)?.leads;
+    const on = (step === creation.at && step !== 'name' && !leads) || (step === 'drawn' && creation.at === 'name')
+      || step === 'onward';
     const at = step === 'back' ? creation.back ?? creation.at : on ? creation.on : creation.at;
     this.app.setState({ creation: { ...creation, steps, at, ...why }, party: [now, ...s.party.slice(1)], ...why });
   }

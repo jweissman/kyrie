@@ -1501,6 +1501,166 @@ Brings stealth, and knows someone who hears news at an inn.
 | Witness | +2 strength, +2 constitution | 1 | anyone | Stealth | Kyr |
 | Wretch | +2 constitution, +1 wisdom | 0 | anyone | Stealth | Adapted |
 
+## Signs of the sky
+
+A companion is born under one of the twelve signs of Imbar's sky, one rising in each month, and chooses one of its two gifts.
+
+### The Waking Bear
+
+*Kyr · sign of Thaw* · `sign:sign_bear`
+
+- Month: Thaw
+- Gifts: Unturned or Hard to fell
+
+Unturned: +2 against fear, +1 against charms.
+
+Hard to fell: +2 against death.
+
+> Slow to rise, and not to be turned once risen.
+
+### The Sower
+
+*Kyr · sign of Sowing* · `sign:sign_sower`
+
+- Month: Sowing
+- Gifts: Provident or Patient
+
+Provident: a tenth more coin from everything.
+
+Patient: Wisdom +1.
+
+> What they put by in the dark comes up in its time.
+
+### The Hart
+
+*Kyr · sign of Blossom* · `sign:sign_hart`
+
+- Month: Blossom
+- Gifts: Quick or Wary
+
+Quick: +2 initiative.
+
+Wary: +2 against what can be dodged.
+
+> Quick, wary, and lovely when it is not looking.
+
+### The Lantern
+
+*Kyr · sign of Greening* · `sign:sign_lantern`
+
+- Month: Greening
+- Gifts: Lamplit eye or Clear-headed
+
+Lamplit eye: +2 to searching.
+
+Clear-headed: +2 against madness.
+
+> Others find their way by them, and seldom say so.
+
+### The Crown
+
+*Kyr · sign of Midsummer* · `sign:sign_crown`
+
+- Month: Midsummer
+- Gifts: Bearing or Unswayed
+
+Bearing: Charisma +1.
+
+Unswayed: +2 against charms.
+
+> They are listened to before they have said anything worth it.
+
+### The Scythe
+
+*Kyr · sign of Haysel* · `sign:sign_scythe`
+
+- Month: Haysel
+- Gifts: Finishing stroke or Tireless
+
+Finishing stroke: A telling blow on 19 or more.
+
+Tireless: Constitution +1.
+
+> They finish what others leave standing.
+
+### The Sheaf
+
+*Kyr · sign of Harvest* · `sign:sign_sheaf`
+
+- Month: Harvest
+- Gifts: Full hand or Strong back
+
+Full hand: 1 more common supplies from a good search.
+
+Strong back: Strength +1.
+
+> Open-handed, and the hand is usually full.
+
+### The Fox
+
+*Kyr · sign of Leaffall* · `sign:sign_fox`
+
+- Month: Leaffall
+- Gifts: Hard to pin or Sly
+
+Hard to pin: 1 harder to hit.
+
+Sly: Dexterity +1.
+
+> Never where they were looked for, and always where they meant to be.
+
+### The Hearth
+
+*Kyr · sign of Smoke* · `sign:sign_hearth`
+
+- Month: Smoke
+- Gifts: Warm hands or Hale
+
+Warm hands: +1 healing.
+
+Hale: +2 against poison, +2 against disease.
+
+> Where they sit, people gather and stay.
+
+### The Swan
+
+*Kyr · sign of Frost* · `sign:sign_swan`
+
+- Month: Frost
+- Gifts: Calm or Steady
+
+Calm: +2 against magic.
+
+Steady: +2 against stunning.
+
+> Calm on the water, and nobody sees the work beneath it.
+
+### The Ship
+
+*Kyr · sign of Deepwinter* · `sign:sign_ship`
+
+- Month: Deepwinter
+- Gifts: Weathered or Restless
+
+Weathered: Resists 25% of cold.
+
+Restless: +1 evasion.
+
+> Restless in harbour, and bound to go out again.
+
+### The Wolf
+
+*Kyr · sign of Wolfmoon* · `sign:sign_wolf`
+
+- Month: Wolfmoon
+- Gifts: Fierce or Keen
+
+Fierce: +1 damage.
+
+Keen: +1 to hit.
+
+> They keep faith with their own, and with no one else.
+
 ## Skills
 
 Kyr does not roll for a skill. A company either has someone who brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the company's best searcher takes 10 on Orsino's check (Wisdom modifier and search bonuses, against 15).
@@ -1918,6 +2078,200 @@ Wisdom: +2 against madness, Wisdom +2, +3 to searching.
 > This creature possesses great wisdom, granting it enhanced perception and insight.
 
 *Left out — examineBonus: Kyr skill checks are deterministic.*
+
+### Gifts of the sky
+
+#### Unturned
+
+*Kyr · sign trait* · `trait:star_unturned`
+
++2 against fear, +1 against charms.
+
+> Not to be turned once risen.
+
+#### Hard to fell
+
+*Kyr · sign trait* · `trait:star_hard_to_fell`
+
++2 against death.
+
+> Slow to go down, as the bear is.
+
+#### Provident
+
+*Kyr · sign trait* · `trait:star_provident`
+
+Provident: a tenth more coin from everything.
+
+> What is put by comes back with more.
+
+#### Patient
+
+*Kyr · sign trait* · `trait:star_patient`
+
+Wisdom +1.
+
+> Waits, and sees what comes.
+
+#### Quick
+
+*Kyr · sign trait* · `trait:star_quick`
+
++2 initiative.
+
+> Away before the others have moved.
+
+#### Wary
+
+*Kyr · sign trait* · `trait:star_wary`
+
++2 against what can be dodged.
+
+> Out of the way of what comes at them.
+
+#### Lamplit eye
+
+*Kyr · sign trait* · `trait:star_lamplit`
+
+Lamplit eye: +2 to searching.
+
+> Finds what others pass by.
+
+#### Clear-headed
+
+*Kyr · sign trait* · `trait:star_clear_headed`
+
++2 against madness.
+
+> Keeps their head when others lose theirs.
+
+#### Bearing
+
+*Kyr · sign trait* · `trait:star_bearing`
+
+Charisma +1.
+
+> Listened to before they speak.
+
+#### Unswayed
+
+*Kyr · sign trait* · `trait:star_unswayed`
+
++2 against charms.
+
+> Not talked round, nor charmed.
+
+#### Finishing stroke
+
+*Kyr · sign trait* · `trait:star_finishing`
+
+A telling blow on 19 or more.
+
+> Finishes what others leave standing.
+
+#### Tireless
+
+*Kyr · sign trait* · `trait:star_tireless`
+
+Constitution +1.
+
+> Works on when others stop.
+
+#### Full hand
+
+*Kyr · sign trait* · `trait:star_full_hand`
+
+Full hand: 1 more common supplies from a good search.
+
+> The hand is usually full.
+
+#### Strong back
+
+*Kyr · sign trait* · `trait:star_strong_back`
+
+Strength +1.
+
+> Carries the harvest home.
+
+#### Hard to pin
+
+*Kyr · sign trait* · `trait:star_hard_to_pin`
+
+1 harder to hit.
+
+> Never where they were looked for.
+
+#### Sly
+
+*Kyr · sign trait* · `trait:star_sly`
+
+Dexterity +1.
+
+> Light on their feet and in their fingers.
+
+#### Warm hands
+
+*Kyr · sign trait* · `trait:star_warm_hands`
+
++1 healing.
+
+> Their care mends more.
+
+#### Hale
+
+*Kyr · sign trait* · `trait:star_hale`
+
++2 against poison, +2 against disease.
+
+> Fever and poison find little hold.
+
+#### Calm
+
+*Kyr · sign trait* · `trait:star_calm`
+
++2 against magic.
+
+> Calm when magic is worked on them.
+
+#### Steady
+
+*Kyr · sign trait* · `trait:star_steady`
+
++2 against stunning.
+
+> Not easily knocked senseless.
+
+#### Weathered
+
+*Kyr · sign trait* · `trait:star_weathered`
+
+Resists 25% of cold.
+
+> The cold of the open sea is nothing new.
+
+#### Restless
+
+*Kyr · sign trait* · `trait:star_restless`
+
++1 evasion.
+
+> Never still long enough to be hit.
+
+#### Fierce
+
+*Kyr · sign trait* · `trait:star_fierce`
+
++1 damage.
+
+> Bites hard for their own.
+
+#### Keen
+
+*Kyr · sign trait* · `trait:star_keen`
+
++1 to hit.
+
+> Never misses their own chance.
 
 ### Calling
 

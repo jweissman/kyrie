@@ -166,3 +166,13 @@
 /* On a phone the sign's question is set as every other step's, not one line wider than the screen (M22's review: the
    question had gone off the page). */
 @media (max-width: 760px) { .composed[data-page="sign"] .ask { width: auto; max-width: none; } }
+/* Back out from a sign drawn up to the twelve (OR-89): the open sky takes a touch, and All twelve stands in the sky at
+   the foot of the wheel, a row of the one grammar, only while a sign is drawn up. */
+.observatory.whole.zoomed { pointer-events: auto; cursor: zoom-out; }
+:root .composed .sky-out.choice-row.choice-row { position: absolute; z-index: 2; left: 10%; bottom: calc(var(--safe-b) + 104px);
+  width: auto; padding-right: 18px; }
+@media (max-width: 760px) {
+  :root .composed .sky-out.choice-row.choice-row { left: 50%; transform: translateX(-50%); bottom: calc(var(--safe-b) + 72px); }
+}
+/* Over the sky the sign's entry stands under its rows (see ComposedCreation.Step). */
+.composed .composed-rows > .creation-entry { position: static; width: auto; max-width: none; max-height: none; margin-top: 14px; }

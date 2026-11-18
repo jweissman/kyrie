@@ -80,8 +80,9 @@ export interface Catalog {
   presets: { id: string; label: string; note: string; members: Member[] }[];
   // Imbar's sky (data/imbar/sky.json): each sign, its month, what is said of those born under it, its stars (x, y,
   // magnitude, colour), the lines between them and the figure it is named for (an SVG path on a field of 100).
+  // Its two gifts, one chosen with it (OR-89): each by name, what it is in a sentence, and its rule in plain words.
   signs: { id: string; name: string; month: string; line: string; stars: number[][]; lines: number[][];
-    figure?: string }[];
+    figure?: string; gifts: { id: string; name: string; text: string; does: string }[] }[];
   campaigns: CampaignChoice[];
 }
 // What a company would bring, before it sets out.

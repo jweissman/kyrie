@@ -16,7 +16,8 @@ export class PlayersHandbook {
         + 'smaller, Not playable (defined, but never offered), or Unreachable (playable, but nothing in the game yet '
         + 'reaches it).'],
     sections: [CompanyChapters.ancestries(), CompanyChapters.callings(), CompanyChapters.backgrounds(),
-      CompanyChapters.skills(), this.traits(), CompanyChapters.formations(), CompanyChapters.equipment(),
+      CompanyChapters.signs(), CompanyChapters.skills(), this.traits(), CompanyChapters.formations(),
+      CompanyChapters.equipment(),
       PlayChapters.combat(), PlayChapters.magic(), PlayChapters.techniques(), PlayChapters.advancement(),
       PlayChapters.feats(), PlayChapters.conditions(), this.orsino()] };
   }
@@ -25,6 +26,7 @@ export class PlayersHandbook {
       + 'lineage traits; some backgrounds and feats give character traits.'],
     sections: [{ id: 'traits-lineage', title: 'Lineage', entries: PlayersHandbook.category('lineage') },
       { id: 'traits-character', title: 'Character', entries: PlayersHandbook.category('character') },
+      { id: 'traits-sign', title: 'Gifts of the sky', entries: PlayersHandbook.category('sign') },
       { id: 'traits-calling', title: 'Calling', intro: ['What a calling brings at later levels (Kyr\'s own progression).'],
         entries: PlayersHandbook.category('calling') }] };
   }

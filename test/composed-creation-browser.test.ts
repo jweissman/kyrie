@@ -50,7 +50,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where, { timeout: 5000 });
     }
     expect(seen.length).toBeGreaterThan(4);
-    expect(seen.length).toBeLessThanOrEqual(8);
+    expect(seen.length).toBeLessThanOrEqual(10);
     expect(Math.max(...most)).toBeLessThanOrEqual(4);
     expect(await page.locator('button:has-text("Details")').count()).toBe(0);
     await MonoDriver.hold(page, '[data-option="set-out"]');
