@@ -36,8 +36,10 @@ export class Observatory {
   static readonly pan = 18;
   // whole: the twelve at once round the still ring, each where it always stands, the one considered lit (the owner,
   // 17 November, FM-02: all twelve signs at once, the zodiac and its rows in step; a fixed set's instrument).
-  static View({ signs, focus, chosen, flare, onFocus, onChoose, whole }: { signs: Sign[]; focus?: string;
-    chosen?: string; flare?: string; onFocus: (id: string) => void; onChoose: (id: string) => void; whole?: boolean }) {
+  // zoom: whole, the sign whose row the hand or the keys are on, drawn up large where the wheel stands (OR-78).
+  static View({ signs, focus, chosen, flare, onFocus, onChoose, whole, zoom }: { signs: Sign[]; focus?: string;
+    chosen?: string; flare?: string; onFocus: (id: string) => void; onChoose: (id: string) => void; whole?: boolean;
+    zoom?: string }) {
     const turned = useRef(0), at = Math.max(0, signs.findIndex(s => s.id === focus)), step = 360 / Math.max(1, signs.length);
     // The nearest way round to the sign: the ring never spins the long way past eleven months; whole, it stands still.
     const want = whole ? 0 : -at * step, now = turned.current;
@@ -45,11 +47,15 @@ export class Observatory {
     const { cx, cy } = Observatory, pan = turned.current * Observatory.pan;
     const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const view = whole ? Observatory.wheel() : Observatory.view();
+    const near = whole && zoom ? signs.findIndex(s => s.id === zoom) : -1;
+    const lens = near >= 0 ? Observatory.lens(signs[near]!, near * step) : 'none';
     return (
-      <div className={`observatory${whole ? ' whole' : ''}`} aria-hidden="true">
+      <div className={`observatory${whole ? ' whole' : ''}${near >= 0 ? ' zoomed' : ''}`} aria-hidden="true"
+        data-zoom={near >= 0 ? zoom : ''}>
         <SkyCanvas.View pan={pan} still={still} />
         <svg viewBox={view.box} preserveAspectRatio={view.align} focusable="false">
           <Observatory.Defs />
+          <g className="obs-lens" style={{ transform: lens }}>
           <g className="obs-turned" style={{ '--turn': `${turned.current}deg` } as CSSProperties}>
           <g className="obs-ring" style={{ transformOrigin: `${cx}px ${cy}px` }}>
             <circle className="obs-arc" cx={cx} cy={cy} r={Observatory.r} />
@@ -57,10 +63,32 @@ export class Observatory {
               chosen={s.id === chosen} flare={s.id === flare} onFocus={onFocus} onChoose={onChoose} upright={whole} />)}
           </g>
           </g>
+          </g>
         </svg>
         <i className="obs-meteor a" /><i className="obs-meteor b" />
       </div>
     );
+  }
+  // The still wheel drawn up to one sign (the owner, 18 November, OR-78: "just zoom in the sky to the constellation if
+  // we hover over the menu action item for that sign"): the sky's units moved and scaled so that the sign stands where
+  // the wheel's middle is, about two thirds of the wheel across, its stars and lines plain; on a narrow screen, where the
+  // rows cover the wheel, in the band between the rows and the foot, as large as that band allows. A transform of the
+  // sky's units, as the ring is turned, eased by creation.css and cut for one who asks for less motion.
+  static lens(sign: Sign, angle: number): string {
+    const { cx, cy, r, field } = Observatory, [bx, by, bw, bh] = Observatory.wheel().box.split(' ').map(Number) as
+      [number, number, number, number];
+    const w = innerWidth, h = innerHeight, unit = Math.min(w / bw, h / bh), top = (h - bh * unit) / 2;
+    const a = angle * Math.PI / 180, sx = cx + r * Math.sin(a), sy = cy - r * Math.cos(a) + field * .06;
+    let tx = cx, ty = cy, size = Math.min(2 * r * unit * .66, h * .55);
+    if (w <= 760) {
+      const below = document.querySelector('.composed-rows')?.getBoundingClientRect().bottom ?? h * .7;
+      const band = Math.max(80, h - 96 - below);
+      size = Math.min(w * .62, band * .95);
+      tx = bx + w / 2 / unit;
+      ty = by + (below + band / 2 - top) / unit;
+    }
+    const k = size / (field * unit);
+    return `translate(${tx}px, ${ty}px) scale(${k}) translate(${-sx}px, ${-sy}px)`;
   }
   // A halo for each colour a star may be: a soft light of its own tint about it, fading to nothing.
   static Defs() {

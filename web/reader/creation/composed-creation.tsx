@@ -80,18 +80,50 @@ export class ComposedCreation {
       if (step.present === 'sky' && !still) { flared(id); window.setTimeout(send, ComposedCreation.flare); } else { send(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
+    const [zoom, row] = ComposedCreation.useZoom(step.present === 'sky' && !!step.all, consider);
     return <PageFrame.View kind="creation" {...frame} body="composed-step"
       column="composed-col"
       background={step.present === 'sky' && <Observatory.View signs={app.state.catalog!.signs} focus={lit}
-        chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} />}
+        chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} />}
       header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>
         <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} /></>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
-        consider={consider} choose={choose} list={step.present === 'list' || (step.present === 'sky' && !!step.all)}
+        consider={row} choose={choose} list={step.present === 'list' || (step.present === 'sky' && !!step.all)}
         after={<ComposedCreation.Own app={app} step={step} onward={onward} />} />} />;
   }
   static readonly flare = 340;
+  // The sky drawn up to the sign whose row the hand or the keys are on, and let go back to the whole wheel when no row
+  // has been under the hand, or reached by the keys, for a few seconds (the owner, 18 November, OR-78: "we can zoom back
+  // out if we spend a few seconds not hovering over any option"). A touch considers a row as a hover does. Only the rows
+  // draw it up: the hand over the sky itself lights a sign where it stands.
+  static useZoom(sky: boolean, consider: (id: string) => void): [string | undefined, (id: string) => void] {
+    const [zoom, zoomed] = useState<string>(), timer = useRef(0), keys = useRef(false), moved = useRef(false);
+    const over = useRef(false);
+    // Whether the keys moved last (a row they are on holds the sky), or the hand (only a row under it does); and whether
+    // either has moved at all since the page came: the row lit as it comes is not a row gone to, and the wheel stays whole.
+    useEffect(() => {
+      const key = () => { keys.current = true; moved.current = true; };
+      const hand = (e: PointerEvent) => { keys.current = false; moved.current = true;
+        // A mouse over the rows holds the sky; a touch, which has no hover, never does.
+        over.current = e.pointerType === 'mouse' && e.target instanceof Element && !!e.target.closest('.composed-rows'); };
+      window.addEventListener('keydown', key, true);
+      window.addEventListener('pointermove', hand, true);
+      window.addEventListener('pointerdown', hand, true);
+      return () => { window.clearTimeout(timer.current); window.removeEventListener('keydown', key, true);
+        window.removeEventListener('pointermove', hand, true); window.removeEventListener('pointerdown', hand, true); };
+    }, []);
+    const idle = () => {
+      window.clearTimeout(timer.current);
+      timer.current = window.setTimeout(() => {
+        const rows = document.querySelector('.composed-rows');
+        const held = over.current || (keys.current && !!rows?.contains(document.activeElement));
+        if (held) { idle(); } else { zoomed(undefined); }
+      }, ComposedCreation.idle);
+    };
+    return [zoom, (id: string) => { consider(id); if (sky && moved.current) { zoomed(id); idle(); } }];
+  }
+  static readonly idle = 3000;
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list }: { offer: Offer; more: number;
     unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
     after?: ReactNode; list?: boolean }) {

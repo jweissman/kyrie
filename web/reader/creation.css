@@ -47,15 +47,35 @@
 .obs-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .observatory svg { position: relative; }
 .observatory svg { width: 100%; height: 100%; display: block; }
-/* Whole, the figures are small: their lines and names a little stronger, every one pressable where it stands. */
+/* Whole, the figures are small: drawn for the wheel's scale, so that each reads as its figure among the twelve (the
+   owner, 18 November, OR-78: "hard to read individually"). Its lines a clear thread in the sky's own pale blue, its stars
+   plainly graded by magnitude (the faint ones small, the bright ones haloed), the figure it is named for engraved
+   faintly about them, and its name beneath; the one considered in the entry's warm light. */
 .observatory.whole { pointer-events: none; }
 .observatory.whole .obs-sign { pointer-events: auto; cursor: pointer; }
-.observatory.whole .obs-name { font-size: 64px; fill: rgba(236, 230, 217, .42); }
-.observatory.whole .obs-sign line { stroke: rgba(236, 230, 217, .3); stroke-width: 4; }
-.observatory.whole .obs-sign .obs-core { transform: scale(2.2); }
-.observatory.whole .obs-sign.lit line { stroke: rgba(242, 222, 170, .85); }
+.observatory.whole .obs-name { font-size: 72px; fill: rgba(236, 230, 217, .5); }
+.observatory.whole .obs-sign line { stroke: rgba(214, 222, 240, .5); stroke-width: 7; }
+.observatory.whole .obs-sign .obs-star { opacity: .9; }
+.observatory.whole .obs-sign .obs-star.b1 { opacity: .6; }
+.observatory.whole .obs-sign .obs-core { transform: scale(2.4); }
+.observatory.whole .obs-sign .obs-star.b1 .obs-core { transform: scale(1.8); }
+.observatory.whole .obs-sign .obs-star:is(.b3, .b4) .obs-core { transform: scale(2.8); }
+.observatory.whole .obs-sign .obs-halo { opacity: .55; }
+.observatory.whole .obs-figure { stroke: rgba(226, 206, 166, .2); }
+.observatory.whole .obs-sign.lit line { stroke: rgba(242, 222, 170, .9); }
+.observatory.whole .obs-sign.lit .obs-star { opacity: 1; }
 .observatory.whole .obs-sign.lit .obs-core { transform: scale(3); }
+.observatory.whole .obs-sign.lit .obs-halo { opacity: 1; }
+.observatory.whole .obs-sign.lit .obs-figure { stroke: rgba(226, 206, 166, .5); }
 .observatory.whole .obs-sign.lit .obs-name { fill: rgba(242, 222, 170, .95); }
+/* Drawn up to one sign (Observatory.lens): the sky's units eased over a second and a little more; the sign considered is
+   then drawn at its own magnitudes, finer for its size, the others fallen back. */
+.obs-lens { transform-box: view-box; transform-origin: 0 0; transition: transform 1200ms cubic-bezier(.45, 0, .2, 1); }
+.observatory.zoomed .obs-sign:not(.lit) { opacity: .1; transition: opacity 600ms var(--ease); }
+.observatory.zoomed .obs-sign.lit line { stroke-width: 3; }
+.observatory.zoomed .obs-sign.lit .obs-core { transform: scale(1.5); }
+.observatory.zoomed .obs-sign.lit .obs-name { font-size: 30px; }
+.observatory.zoomed .obs-sign.lit .obs-figure { stroke: rgba(226, 206, 166, .62); }
 .obs-far circle { opacity: .55; }
 .obs-mid > g > circle:last-child { opacity: .8; }
 .obs-near circle { fill: rgba(236, 230, 217, .55); }
@@ -116,6 +136,7 @@
   .obs-mid > g, .obs-far circle, .obs-meteor { animation: none !important; } .obs-sign line, .obs-sign .obs-star, .obs-figure,
     .obs-sign .obs-core, .obs-sign .obs-halo { transition: none; }
   .obs-sign.flare line { animation: none; }
+  .obs-lens, .observatory.zoomed .obs-sign { transition: none; }
 }
 /* One page template with the resting scene (the owner, 15 November: some pages reflowed and juddered as the choice changed,
    and none looked like the scene): the question stands where a place's name does, top left, in the same face; the telling
