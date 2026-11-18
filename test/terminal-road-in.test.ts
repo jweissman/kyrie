@@ -10,7 +10,7 @@ describe('the road in, in the terminal', () => {
     const out = await new Response(run.stdout).text();
     await run.exited;
     const told = out.split(/^> look$/m)[1]!.split('Foreground')[0]!;
-    expect(told.match(/canted|wheel down in the ditch/g)).toEqual(['canted', 'wheel down in the ditch']);
+    expect(told.match(/slid off the road|wheel is in the ditch/g)).toEqual(['slid off the road', 'wheel is in the ditch']);
     expect(told).toContain('Sacks of meal are roped');
   }, 120000);
 });
