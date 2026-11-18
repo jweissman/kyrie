@@ -218,5 +218,37 @@ Module gate "The last sea-gate" {
   }
   Milestone m_boat "bought a fen-boat and took it out on the drowned mere" worth 80 when been(party, mere).
   Objective boat_out when boated(party) and not been(party, mere) toward bank "Take the fen-boat out from the sea-bank at Gatesend, across the drowned fen to the drowned mere and its chapel.".
+  // The claim the sawn pin reveals, made by someone with a stake in it (the owner's structural critique, 18 November,
+  // ST-03: the smugglers had acted nowhere in the six days): Ifan Rhys, an eel-man of the hamlet whose family has run
+  // the sluice-cut since before the Wardens shut it, and who takes the reeve's gate for the Rì's toll by another name.
+  Relation prowled(group). Relation cursed(group). Relation boatCome(group). Relation letThrough(group).
+  Relation turnedBack(group). Relation ifanHeard(group). Relation ifanMet(group).
+  Person ifan "Ifan Rhys" at hamletgreen { Role "an eel-man of {hamlet}, mending a trap at his door". Pronouns he.
+    Peaceable. Manner acerbic. }
+  Topic ifan_gate with ifan "Ask Ifan about the sea-gate" when not mended(party) and not flooded(party) once {
+    Says "'Open a month,' says Ifan, and does not look up from the trap. 'The eels come up with the sea. Best run since my father's time.' He pulls a withy tight with his teeth. 'Not everyone wants it shut, whatever the reeve's paper says.'".
+  }
+  Topic ifan_claim with ifan "Ask Ifan who wanted the gate open" when knows(actor, cut) once {
+    Says "Ifan puts the trap down. 'The Wardens shut that cut on my grandfather, and the reeve keeps it shut for the Rì, and every sack that comes up it pays the Rì or the clerk at {town} or nobody.' He looks at the gatehouse. 'Shut it, and my children eat what the toll leaves. Leave it a tide, and they eat. You choose, since you're choosing.'".
+    On discuss { Assert ifanHeard(actor). }
+  }
+  // Ifan's clock, three beats before the tide (the critique's clock test: warning, deterioration, crisis).
+  Rule prowling when not mended(party) and not flooded(party) and not prowled(party) and watch(clock) >= 288 says "Word from {hamlet}: someone was in the Wardens' gatehouse in the night. The ratchet ring is greased, and wet boot-prints go to the well." { Assert prowled(party). }
+  Rule cursing when not mended(party) and not flooded(party) and prowled(party) and not cursed(party) and watch(clock) >= 576 says "The eel-men of {hamlet} will not go near the gatehouse now. Someone has told them a drowned warden walks the sea-bank at night, and Ifan Rhys tells it loudest." { Assert cursed(party). }
+  Rule boat_comes when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. He looks up at you through the slot in the floor and does not call out." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). }
+  Action let_through(actor: group, site: place) "Wind the gate up a tide's height and let Ifan's boat through" {
+    Time 30 minutes.
+    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor) and not turnedBack(actor).
+    Result "The drum takes the chain up a turn, the boat slides through on the last of the flood, and you wind it down again. Ifan lifts a hand from the pole as he passes under. Nobody else sees it.".
+    On success { Assert letThrough(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
+  }
+  Action turn_back(actor: group, site: place) "Keep the gate shut, and tell Ifan to take his boat back down the cut" {
+    Time 10 minutes.
+    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor) and not turnedBack(actor).
+    Result "Ifan looks at the shut gate a long moment, then at you. 'Then the reeve's clerk eats this winter,' he says, 'and my children don't.' He turns the boat in the cut with one push and is gone into the dark.".
+    On success { Assert turnedBack(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
+  }
+  Rule ifan_after when letThrough(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys is mending a trap at his door. He nods to you as you pass, as one eel-man to another, and says nothing of boats." { Assert ifanMet(party). }
+  Rule ifan_cold when turnedBack(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys's door is shut, and his nets are off the fence. A child on the step watches you all the way along the lane." { Assert ifanMet(party). }
   Goal mended(party).
 }
