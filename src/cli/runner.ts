@@ -41,6 +41,9 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   // Who goes with the one who plays, each by their calling and how hurt: a hireling's calling had been met first in a
   // fight's menu (cold play 2, CL-08).
   company?: string[];
+  // And the one who plays, as the page's own card says them: a cold player had not been told who they were beyond the
+  // drove (cold play 3, CL-26).
+  you?: string;
   // Of the four, those that act on the aim followed's next step (the glance's lead, US-07; see RunnerLed).
   led?: string[];
   // Instruments (the experience measures): where the company stands, what the act just done changed beyond time and
@@ -93,9 +96,9 @@ export class Runner {
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
   }
-  private static company(screen: Screen): Pick<Said, 'company'> {
-    const rest = (screen.party ?? []).slice(1).map(m => `${m.name}, ${m.line}, ${m.hp} of ${m.maxHp}`);
-    return rest.length ? { company: rest } : {};
+  private static company(screen: Screen): Pick<Said, 'company' | 'you'> {
+    const [you, ...rest] = (screen.party ?? []).map(m => `${m.name}, ${m.line}, ${m.hp} of ${m.maxHp}`);
+    return { ...you ? { you } : {}, ...rest.length ? { company: rest } : {} };
   }
   // The story's end as the page's last page tells it (AB-04: an agent had been left with an empty offer and no word of
   // how it came to it).

@@ -19,6 +19,8 @@ describe('the drove road, after the third cold play', () => {
   it('leads at the customs-house with the drove, not the taproom', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const r = new Runner(journey.session);
+    // CL-26: the first turn says who the one who plays is, as the page's card does.
+    expect(r.said().you).toBe('Wenna, human warrior, 14 of 14');
     let s: Said | undefined;
     for (const act of ['drove__owain_count_t', 'go(drove__customs_door,drove__customs)', 'drove__bran_count_t',
       'drove__clerk_count_t']) { s = said(await r.ask(JSON.stringify({ act }))); }
