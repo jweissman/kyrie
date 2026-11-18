@@ -61,7 +61,7 @@ export class RunnerOffer {
     if (r.for && at.names.has(r.for)) { return [this.made(r.for, at.names.get(r.for)!, entry)]; }
     if (!r.opens) { return [this.one(r, at, entry, entry)].flatMap(o => o ?? []); }
     const opens = this.leaves(r).flatMap(k => this.one(k, at, undefined, entry) ?? []);
-    return opens.length ? [{ ...this.made(r.id, r.label, entry), opens }] : [];
+    return opens.length ? [{ ...this.made(r.id, r.label, entry), opens, ...r.says ? { says: r.says } : {} }] : [];
   }
   private static leaves(r: Row): Row[] { return r.opens ? r.opens.flatMap(k => this.leaves(k)) : [r]; }
   // A row done by its command, where it is one the company can do: called by the offer's words where the offer has

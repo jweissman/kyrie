@@ -11,11 +11,13 @@ import { ScreenModel } from '../src/ui/screen-model';
 
 interface Lapse { world: string; turn: number; took: string; at: string; aim?: string; lead?: string }
 export class GoldContinuity {
-  static gold(s: Said): Offered | undefined {
+  // taken: what was taken already where it stands, passed over among what is only led (in a focus, the speaking
+  // door's tries and words, each tried once: CL-34).
+  static gold(s: Said, taken: Set<string> = new Set()): Offered | undefined {
     const all = [...s.offer.primary, ...s.offer.rest];
     // Gold first; what is only led on the step (a riddle's words at the speaking door: led, never gold, PB-16b) after.
     return s.offer.primary.find(o => o.aspects.includes('undertaking')) ?? all.find(o => o.aspects.includes('undertaking'))
-      ?? all.find(o => s.led?.includes(o.id));
+      ?? all.find(o => s.led?.includes(o.id) && !taken.has(`${s.at}|${o.id}`));
   }
   static said(x: Said | { error: string }): Said { if ('error' in x) { throw new Error(x.error); } return x; }
   // The first aim held taken up where none is followed, as a player would from the Notes.
@@ -31,19 +33,21 @@ export class GoldContinuity {
     const r = new Runner(journey.session), lapses: Lapse[] = [];
     let s = r.said(), taken = 0;
     // A loop: the same gold taken at the same place a third time (cold play 5: forecourt and kitchen, round and round).
-    const seen = new Map<string, number>();
+    const seen = new Map<string, number>(), tried = new Set<string>();
     s = await this.followed(r, s);
     for (let t = 0; t < turns; t++) {
       if (s.end) { return { lapses, taken, ended: 'the end' }; }
       s = await this.followed(r, s);
-      const g = this.gold(s);
+      const g = this.gold(s, tried);
       if (!g && s.going?.kind === 'frontier') {
         if (process.env.GOLD_TRACE) { console.log(`  ⋯ ${[...s.offer.primary, ...s.offer.rest].map(o => o.label).join(' | ')}`); }
         return { lapses, taken, ended: `frontier at ${s.at}: ${s.going.said}` };
       }
       if (!g) { return { lapses, taken, ended: `no gold at ${s.at} (aim ${s.aims?.find(a => a.followed)?.text ?? 'none'})` }; }
-      const key = `${s.at}|${g.id}`, times = (seen.get(key) ?? 0) + 1;
+      // A focus opened (a riddle read) is no round of a loop: what is taken in it is (see taken).
+      const key = `${s.at}|${g.id}`, times = (seen.get(key) ?? 0) + (g.says ? 0 : 1);
       seen.set(key, times);
+      tried.add(key);
       if (times >= 3) {
         lapses.push({ world: spec, turn: t, took: `LOOP ${g.id} (${g.label})`, at: s.at ?? '?',
           aim: s.aims?.find(a => a.followed)?.text, lead: s.going ? `${s.going.kind}` : 'none' });

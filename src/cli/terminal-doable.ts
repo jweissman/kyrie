@@ -2,6 +2,7 @@ import type { Screen } from '../ui/screen-types';
 import type { Aspect, Glance, Promoted } from '../presentation/glance-types';
 import type { ActType } from '../presentation/offer';
 import { Doable, type Row } from '../presentation/doable';
+import { Typography } from '../presentation/typography';
 
 // What the terminal lists each offered choice by, read from Doable and nothing else (TB-12): a row by the command it
 // does, one led for an act within it by that act (the page's "Ask Wat about Father"), an opener by its own id, with
@@ -38,15 +39,17 @@ export class TerminalDoable {
     return { aspects, types };
   }
   // The openers offered, each with the commands of its rows: what taking it lists.
-  static openers(glance: Glance | undefined, screen: Screen): { id: string; name: string; opens: string[] }[] {
+  static openers(glance: Glance | undefined, screen: Screen)
+    : { id: string; name: string; opens: string[]; says?: string }[] {
     const lensed = Object.values(glance?.lenses ?? {}).flatMap(l => [...l.promoted, ...l.rest])
       .map(a => Doable.one(glance!, screen, a.choice, a.command));
     return [...glance ? Doable.of(glance, screen) : [], ...lensed].filter(r => r.opens)
-      .map(r => ({ id: r.id, name: r.label, opens: this.leaves(r).flatMap(k => k.does ?? []) }));
+      .map(r => ({ id: r.id, name: r.label, opens: this.leaves(r).flatMap(k => k.does ?? []),
+        ...r.says ? { says: r.says } : {} }));
   }
   // The openers as the terminal lists them, beside every act: taken, each lists its rows (see Terminal.act).
   static listed(glance: Glance | undefined, screen: Screen, types: Map<string, ActType>)
-    : { id: string; name: string; opens: string[]; time: number; type: ActType }[] {
+    : { id: string; name: string; opens: string[]; says?: string; time: number; type: ActType }[] {
     return this.openers(glance, screen).map(o => ({ ...o, time: 0, type: types.get(o.id) ?? 'act' }));
   }
   // The glance's acts, an opener's without the command its first row does: what the page draws on the opener is
@@ -58,6 +61,16 @@ export class TerminalDoable {
   private static bare(a: Promoted): Promoted {
     const { command, ...rest } = a;
     return command ? rest : a;
+  }
+  // An opener taken, its rows: the four first; one with a focus reads it out, and every row of it is among the first
+  // (a riddle and all its answers: CL-34).
+  static unfolded<T>(rows: T[], says?: string): { first: T[]; rest: T[]; says?: string } {
+    const four = says ? rows.length : 4;
+    return { first: rows.slice(0, four), rest: rows.slice(four), ...says ? { says } : {} };
+  }
+  // Its name, and what it reads out whole (the speaking door's riddle), as lines over its rows.
+  static heading(o: { opened?: string; says?: string }): string[] {
+    return [...o.opened ? [`${Typography.plain(o.opened)}:`] : [], ...o.says ? [Typography.plain(o.says)] : []];
   }
   private static leaves(r: Row): Row[] { return r.opens ? r.opens.flatMap(k => this.leaves(k)) : [r]; }
   private static by(r: Row): string { return r.opens ? r.id : r.does ?? r.id; }

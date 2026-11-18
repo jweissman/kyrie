@@ -21,6 +21,9 @@ export interface Choice {
   local?: boolean;
   // What cannot be undone by it: the page says so, and asks again, before it is done.
   grave?: string;
+  // What is read on turning to it, an opener: what bars a way, said whole (the speaking door's riddle), its rows the
+  // answers (see Doable.Row.says).
+  focus?: string;
   // An answer to the question just put (see Act).
   answer?: boolean;
   // One of the place's own (see Act), and one done, not said (see Act).
@@ -54,8 +57,7 @@ export class ChoiceList {
     return Marks.on(screen, this.waited(screen, [
       ...[...screen.people, ...things].map(t => this.subject(t, screen.fresh)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),
-      ...this.company(screen),
-    ]));
+      ...this.company(screen)]));
   }
   // What the company can do by itself: light a light in the dark, tend whoever is hurt (see Tending), camp, rest and
   // the rest, and prepare spells.
@@ -161,8 +163,7 @@ export class ChoiceList {
       const label = still.has(told[i]!) && e.way ? `${told[i]!} by ${this.inline(e.way)}`
         : twice.has(labels[i]!) ? told[i]!
           : (e.several && e.transition === 'enter' || e.oneWay) && e.way
-            ? `${labels[i]!} by ${this.inline(this.unrepeated(e.way, e.scope))}`
-            : labels[i]!;
+            ? `${labels[i]!} by ${this.inline(this.unrepeated(e.way, e.scope))}` : labels[i]!;
       return this.way(e, OutOf.once(label)).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
         ? { ...c, grave: ChoiceList.oneWay } : c);
     });
@@ -192,9 +193,15 @@ export class ChoiceList {
     // A way that is barred, with something to try on what bars it, is the way, barred, saying what bars it (and what
     // another way there would want), and then those tries: "Into the bailey" had opened on looking closely, pushing
     // and listening at a portcullis, nothing saying why it was no way in (play 8).
+    // Where a try on it is grave (a word to press), what bars it is said whole on turning to it (its focus: the
+    // speaking door's riddle, every word of it), and the way's own reason, one line, names it: the riddle had been the
+    // way's reason, cut short to a line on the page, and turning to the door had said nothing of it (the owner, 18
+    // November, CL-34). A grille to push is still done by its first try.
     if (e.blocked && !e.acts.some(a => this.moves(a))) {
-      return [barred, ...this.tries(e, label, about).map(c => ({ ...c, about: [e.blocked, c.about].filter(Boolean)
-        .filter((x, i, all) => all.indexOf(x) === i).join(' ') }))];
+      const tries = this.tries(e, label, about).map(c => ({ ...c, about: [...new Set([e.blocked!, c.about ?? ''])]
+        .filter(Boolean).join(' '), ...c.children?.some(k => k.grave) ? { focus: e.blocked } : {} }));
+      return [e.via && tries.some(c => c.focus) ? { ...barred, disabled: `${this.upper(e.via)} bars the way.` } : barred,
+        ...tries];
     }
     // A way with one thing to do, and that thing is to go, is just the way; anything else (open the door, risk the
     // pit) is said, so a choice never pretends to lead somewhere it does not.
@@ -202,8 +209,7 @@ export class ChoiceList {
     if (only) {
       return [{ id, label, tone: 'way', ...(only.command ? { command: only.command } : {}),
         ...(only.does ? { does: only.does } : {}), ...(only.targets ? { targets: only.targets } : {}),
-        ...(only.moves ? { moves: true } : {}),
-        about: only.about ?? about,
+        ...(only.moves ? { moves: true } : {}), about: only.about ?? about,
         ...(note ? { note } : {}), ...(only.minutes ? { minutes: only.minutes } : {}),
         ...(only.risk ? { risk: true } : {}), ...(only.gutters ? { gutters: only.gutters } : {}),
         ...(only.grave ? { grave: only.grave } : {}) }];

@@ -559,6 +559,8 @@ export class GlanceStage {
   static acted(a: Promoted, c: Choice): Choice {
     // A fold in the foreground is the one act it leads with, in its own words (the owner, 15 November: no compound
     // menus; "Wait a while" waits a while, and the other measures of time are the time lens's).
+    // One with a focus (a riddle on a door) is no act of its own: it opens, and reads out (CL-34).
+    if (c.focus) { return c; }
     if (c.children?.length && !c.command && !/#look$/.test(c.id)) {
       const first = Attending.all(c.children).find(k => k.command && !k.children?.length && !k.disabled);
       return first ? { ...first, label: c.label } : c;
@@ -601,7 +603,7 @@ export class GlanceStage {
           {/* A thing's look among the four opens what can be done with it in place, under it, as the things lens does:
               chosen, it had turned the page to the thing, and done there the thing's page had stayed with only Back
               on it (Low Water's channel head, What Tessary Owes's notice). */}
-          {/#look$/.test(c.id) && c.children?.length ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
+          {(/#look$/.test(c.id) || c.focus) && c.children?.length ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
             data={{ action: 'choice', choice: c.id }} act={c.id} expanded={draw.open.has(c.id)} number={i + 1}
             onClick={() => app.setState({ open: draw.open.has(c.id) ? app.state.open.filter(o => o !== c.id)
               : [...app.state.open, c.id] })}

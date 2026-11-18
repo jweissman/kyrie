@@ -185,7 +185,9 @@ export class PlaceStage {
     useEffect(() => { if (shown) { at.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } }, [shown]);
     if (!shown) { return null; }
     const alike = PlaceStage.alike(c.children!), rest = c.children!.filter(k => !alike.includes(k));
+    // What it reads out whole, before its rows, where it has a focus: the riddle over its answers (CL-34).
     return <div ref={at} className="unfolded-group">
+      {c.focus && <p className="focus-said"><Told.Said text={c.focus} /></p>}
       {rest.length > 0 && <Act.List choices={rest} draw={draw} className="column unfolded" />}
       {alike.length > 0 && <ThingStage.Choices choices={alike} draw={draw} />}
     </div>;

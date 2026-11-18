@@ -29,6 +29,8 @@ export interface Candidate {
   known?: boolean; visited?: boolean; pointed?: boolean;
   // Not to be led with at all: disabled, on a companion, on the dead.
   barred?: boolean;
+  // An opener with a focus (a riddle read on a door), the commands of its rows: read there, never led loose beside it.
+  holds?: string[];
 }
 // Where the company stands: a danger here, someone warning it off, in the dark with no light, in a settlement or a
 // site (where a way not yet taken is worth leading with), in the open country (where the ways are the compass).

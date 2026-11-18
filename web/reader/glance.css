@@ -68,6 +68,9 @@
 /* What a choice opens, brought into view, clears the keys held at the foot (see PlaceStage.Opened). */
 .unfolded-group { scroll-margin-bottom: 110px; }
 .unfolded-group > .acts.unfolded + * { margin-top: 10px; }
+/* What a focus reads out whole (a riddle on a door), over its rows: never cut short (CL-34). */
+.unfolded-group > .focus-said { margin: 6px 0 10px; font: 400 15px/1.45 var(--do); color: var(--ivory, inherit);
+  white-space: normal; overflow: visible; }
 .led + .glance-keys, .led + .need + .glance-keys { margin-top: 10px; }
 .glance-keys > button { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
   width: auto; min-height: 44px; padding: 10px 16px; border: 1px solid var(--edge-strong); background: var(--surface);

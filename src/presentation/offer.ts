@@ -45,7 +45,10 @@ export class Offers {
     { campaign, out, screen }: { campaign?: Campaign; out?: Set<string>; screen?: Screen } = {}): Offer {
     const live = [...cands.filter(c => !c.barred), ...this.besides(cands, campaign, screen?.warned)];
     const byChoice = new Map(live.map(c => [c.choice, c]));
-    const graves = out ? live.filter(c => c.marks.some(m => m.kind === 'grave')) : [];
+    // What an opener led with holds (the speaking door's words, read in its focus) is not led loose beside it: two of
+    // the riddle's four answers had stood in the four, the riddle nowhere (the owner, 18 November, CL-34).
+    const held = new Set(acts.flatMap(a => byChoice.get(a.choice)?.holds ?? []));
+    const graves = out ? live.filter(c => c.marks.some(m => m.kind === 'grave') && !held.has(c.command ?? '')) : [];
     const leaves = new Set(graves.length ? acts.filter(a => out!.has(byChoice.get(a.choice)?.exit ?? '')).map(a => a.choice)
       : []);
     const promoted = acts.map(a => this.promoted(a, byChoice.get(a.choice))).map(o => leaves.has(o.choice)
@@ -76,7 +79,8 @@ export class Offers {
         // the third turn on (cold plays 2 and 3, CL-25).
         const idle = (type === 'go' || type === 'journey') && c.whys.length > 0
           && c.whys.every(w => w === 'unvisited') && acted;
-        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle) { continue; }
+        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle
+          || held.has(c.command ?? '')) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }

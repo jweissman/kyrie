@@ -38,12 +38,12 @@ const quitPlay = 'The player left the encounter.';
 // journey: set out on over the map, not a way from here, and which of the map's kinds it is (see Journeyed).
 // opens: an opener's, the commands of its rows (see TerminalDoable): taken, it lists them.
 interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed;
-  journey?: Journeyed; type?: ActType; told?: string[]; opens?: string[] }
+  journey?: Journeyed; type?: ActType; told?: string[]; opens?: string[]; says?: string }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 // rest: where the few are a surface's own (a lens, a talk), the rest of its own, as the page's All or Something
 // else… has them.
 interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
-  lens?: { name: Lens; more: number }; opened?: string }
+  lens?: { name: Lens; more: number }; opened?: string; says?: string }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
@@ -162,10 +162,9 @@ export class Terminal {
     // Inside a talk, each reply drawn as the likeness turned to was drawn for it (see Promoted.inside; E185).
     const acts = [...TerminalDoable.acts(glance, screen), ...talking ? [{ inside: talking.inside } as Promoted] : []];
     // An opener taken: its rows, the four first.
-    const opened = at.opened?.opens?.flatMap(id => byId.get(id) ?? []), name = at.opened?.name ?? '';
-    if (opened) {
-      return { all, first: opened.slice(0, 4).map(c => this.drawn(acts, c)), rest: opened.slice(4), opened: name };
-    }
+    // One with a focus reads it out, and every row of it is among the first: a riddle and all its answers (CL-34).
+    const o = at.opened, opened = o?.opens && TerminalDoable.unfolded(o.opens.flatMap(k => byId.get(k) ?? []), o.says);
+    if (o && opened) { return { all, ...opened, first: opened.first.map(c => this.drawn(acts, c)), opened: o.name }; }
     const talked = talking && this.talk(talking, { screen, byId, acts });
     if (talked) { return { all, ...talked }; }
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
@@ -313,7 +312,7 @@ export class Terminal {
   private static async typed(input: Asking, offered: Offered, turn: Turn): Promise<string | null> {
     const glance = turn.current?.leaf.glance;
     console.log('');
-    if (offered.opened) { console.log(`${Typography.plain(offered.opened)}:`); }
+    TerminalDoable.heading(offered).forEach(l => console.log(l));
     if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
     this.choices(offered.first);
     if (offered.more) { console.log(this.more(glance, offered.all, offered.more)); }
@@ -329,6 +328,7 @@ export class Terminal {
   private static async picked(input: Picking, offered: Offered, { turn, session }: { turn: Turn; session: PlaySession })
     : Promise<Listed | string | null> {
     if (!turn.spaced) { console.log(''); turn.spaced = true; }
+    if (offered.says) { TerminalDoable.heading(offered).forEach(l => console.log(l)); }
     const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
       all: offered.rest ? [...offered.first, ...offered.rest] : offered.all,
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,

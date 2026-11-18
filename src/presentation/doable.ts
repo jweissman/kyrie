@@ -12,10 +12,11 @@ import type { Glance, Lens, Promoted } from './glance-types';
 // Its indicator is its witnesses (Attest), as the page draws it.
 // for: what the engine leads it for within it (the question the aim waits on, under a talk), where it does: the four
 // are led with that, as the page draws it (Promoted.inside, TB-01). only: an opener with one thing to do under it,
-// which is that thing (its words the thing's own; a client that knows the act's full words says those).
+// which is that thing (its words the thing's own; a client that knows the act's full words says those). says: what
+// opening it reads out, whole, before its rows (a riddle on a door, its rows the answers: Choice.focus, CL-34).
 export interface Row {
   id: string; label: string; does?: string; opens?: Row[]; for?: string; lens?: Lens; led?: true; only?: true;
-  witnesses: Witness[];
+  says?: string; witnesses: Witness[];
 }
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>;
 interface Read { tree: Map<string, Choice>; acts: Map<string, Promoted>; glance: Offered; lens?: Lens; led?: boolean;
@@ -75,8 +76,8 @@ export class Doable {
     // opening it ("the sea-gate's pawl", gold at the gate-well, is collecting it: cold play 5, CL-33).
     const only = this.flat(opens).filter(r => !r.opens);
     const one = only.length === 1 ? only[0] : undefined;
-    if (one?.does) { return { ...base, label: one.label, does: one.does, only: true }; }
-    return { ...base, opens };
+    if (one?.does && !c?.focus) { return { ...base, label: one.label, does: one.does, only: true }; }
+    return { ...base, opens, ...c?.focus ? { says: c.focus } : {} };
   }
   // What taking a row does at once, where it does anything: its command; an opener none (it opens).
   static does(rows: readonly Row[], id: string): string | undefined {

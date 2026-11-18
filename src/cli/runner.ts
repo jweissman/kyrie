@@ -30,8 +30,9 @@ import { FightBegun } from '../presentation/fight-begun';
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
 // opens: an opener's rows, where it is one: taken, it opens (it does nothing of its own: TB-12).
+// says: an opener's focus, what opening it reads out whole (the speaking door's riddle: Doable's Row.says).
 export interface Offered { id: string; label: string; aspects: string[]; type: ActType; minutes?: number;
-  marks: string[]; bearing?: Bearing; opens?: Offered[] }
+  marks: string[]; bearing?: Bearing; opens?: Offered[]; says?: string }
 // What the runner says on each turn: how it was come to (arriving somewhere, what came of an act, or looked at on
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
 // scene.prose: of its lines, the narration alone (not the heading nor the aim and what is needed), as the scene
@@ -251,11 +252,14 @@ export class Runner {
       offer: RunnerOffer.lensed(screen, g, this.names(), lens) };
   }
   // An opener opened: its rows, the four first, where the company stands; nothing led nor gilded but as they are.
+  // One with a focus reads it out whole, and every row of it is led with: a riddle and all its answers (CL-34).
   private opened(opener: Offered, screen: Screen): Said {
-    const rows = opener.opens ?? [], g = this.glanced();
-    return { turn: this.n, moment: 'inspect', scene: { lines: [`${opener.label}:`], prose: [] }, at: screen.place.id,
-      offer: { primary: rows.slice(0, 4), rest: rows.slice(4) }, ...Runner.aims(screen),
-      ...g?.continuance ? { going: Runner.going(g.continuance) } : {} };
+    const rows = opener.opens ?? [], g = this.glanced(), says = opener.says ? [Typography.plain(opener.says)] : [];
+    const four = opener.says ? rows.length : 4, primary = rows.slice(0, four);
+    const led = opener.says ? RunnerLed.of(this.campaign, screen, g?.lead, primary) : [];
+    return { turn: this.n, moment: 'inspect', scene: { lines: [`${opener.label}:`, ...says], prose: says },
+      at: screen.place.id, offer: { primary, rest: rows.slice(four) }, ...led.length ? { led } : {},
+      ...Runner.aims(screen), ...g?.continuance ? { going: Runner.going(g.continuance) } : {} };
   }
   // The runner on stdio: a turn said on starting and after every line read; the transcript kept, if asked for.
   static async main(args: string[]): Promise<number> {

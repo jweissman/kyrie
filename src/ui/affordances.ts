@@ -510,8 +510,10 @@ export class Affordances {
   // An opener's own command is its talk where it has one, and never a trade: done by a headless player, "Talk to
   // Mik", once he had been spoken to, had bought a coil of rope, a torch, rashers of bacon, ten times over (the
   // runner's blind walk, 15 November: TB-04).
+  // One with a focus (a riddle to read) is none of its tries: it is opened, and read (CL-34).
   private static command(c: Choice): string | undefined {
     if (c.command) { return c.command; }
+    if (c.focus) { return undefined; }
     const open = Attending.all(c.children ?? []).filter(k => k.command && !k.disabled && !k.grave && !k.risk);
     return (open.find(k => k.does === 'talk_to') ?? open.find(k => !/^(buy|sell)_/.test(k.does ?? '')))?.command;
   }
@@ -535,7 +537,8 @@ export class Affordances {
     // listened at again, had kept the gold (the owner, 12 November: never round a loop that advances nothing).
     // Nor a grave act, which the gold would have the company guess at (see command).
     const again = !!command && at.r.done.has(command) && at.r.schema.get(command) !== 'go' && !command.startsWith('travel:');
-    const whys = again || this.risky(c) || !command ? at.whys.filter(w => w !== 'toward') : at.whys;
+    // An opener with a focus is the step itself, done by opening it: the riddle read, its answers its rows (CL-34).
+    const whys = again || this.risky(c) || (!command && !c.focus) ? at.whys.filter(w => w !== 'toward') : at.whys;
     // Called as it is standing alone, out of whoever's pane it belongs to: three animals' "Make much of" in one offer
     // had been three rows of the same words (FM-07; Act.alone, as Promotion's other rows are called).
     return { choice: c.id, label: c.alone ?? c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
@@ -547,6 +550,7 @@ export class Affordances {
       ...c.own ? { own: true } : {}, ...c.teaches ? { teaches: true } : {},
       ...command && at.r.done.has(command) ? { known: true } : {},
       ...at.visited !== undefined ? { visited: at.visited } : {}, ...at.pointed ? { pointed: true } : {},
-      ...c.disabled ? { barred: true } : {} };
+      ...c.disabled ? { barred: true } : {},
+      ...c.focus ? { holds: Attending.all(c.children ?? []).flatMap(k => k.command ?? []) } : {} };
   }
 }
