@@ -19,8 +19,9 @@ describe('a row says what it does', () => {
     const t = await Tiny.start(yard), r = new Runner(t.session);
     for (let i = 0; i < 4; i++) {
       const turn = r.said(), all = [...turn.offer.primary, ...turn.offer.rest];
-      expect(all.filter(o => /^Talk to /.test(o.label) && !/^talk_to\(/.test(o.id)).map(o => `${o.label} = ${o.id}`))
-        .toEqual([]);
+      // Or opens onto what can be said to them, doing nothing of its own (TB-12).
+      expect(all.filter(o => /^Talk to /.test(o.label) && !/^talk_to\(/.test(o.id) && !o.opens)
+        .map(o => `${o.label} = ${o.id}`)).toEqual([]);
       const next = all.find(o => o.type === 'talk') ?? all[0];
       if (!next) { break; }
       said(await r.ask(JSON.stringify({ act: next.id })));

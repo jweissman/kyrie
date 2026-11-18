@@ -11,6 +11,7 @@ import { Obituary } from '../narrative/obituary';
 import { TerminalSigns, type Signed } from './terminal-signs';
 import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
+import { TerminalDoable } from './terminal-doable';
 import { Typography } from '../presentation/typography';
 import { writeFile } from 'node:fs/promises';
 import { Campaign } from '../campaign/campaign';
@@ -35,18 +36,21 @@ import type { ActType } from '../presentation/offer';
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
 // journey: set out on over the map, not a way from here, and which of the map's kinds it is (see Journeyed).
+// opens: an opener's, the commands of its rows (see TerminalDoable): taken, it lists them.
 interface Listed { id: string; name: string; time: number; targets?: string[]; aspects?: Aspect[]; signed?: Signed;
-  journey?: Journeyed; type?: ActType; told?: string[] }
+  journey?: Journeyed; type?: ActType; told?: string[]; opens?: string[] }
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 // rest: where the few are a surface's own (a lens, a talk), the rest of its own, as the page's All or Something
 // else… has them.
 interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
-  lens?: { name: Lens; more: number } }
+  lens?: { name: Lens; more: number }; opened?: string }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
   told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
   scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number }; lens?: Lens;
+  // An opener taken: its rows listed, until anything is done (TerminalDoable).
+  opened?: Listed;
   // The row the human mode's focus was on, kept while nothing is done (a lens, the map), let go once something is.
   focus?: string;
   // Whether the line between what was told and the picker has been given since the scene was told; whether a save
@@ -106,7 +110,7 @@ export class Terminal {
     return { screen, leaf };
   }
   private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
-    at: { talking?: Talking; lens?: Lens } = {}): Offered {
+    at: { talking?: Talking; lens?: Lens; opened?: Listed } = {}): Offered {
     const { talking, lens } = at;
     // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
     // two hours, a way into the next stretch of country listed in minutes took ninety (cold review A, 12 November).
@@ -144,35 +148,33 @@ export class Terminal {
       }
     }
     const signs = new TerminalSigns(screen, glance);
-    // What each of the rest is to the company, as the glance's offer says it (Offers.scene): the rest unfolded carries
-    // the same indicator as the four (TP-02).
-    // And what kind of act each is (Offers' types), by which the human mode folds the rest.
-    const offer = glance?.offer, rest = new Map((offer?.rest ?? []).map(o => [o.command ?? o.choice, o.aspects]));
-    const types = new Map([...offer?.primary ?? [], ...offer?.rest ?? []].map(o => [o.command ?? o.choice, o.type]));
-    // An act within an opener (the question a talk is led for) is of the opener's kind.
-    for (const a of glance?.acts ?? []) {
-      for (const x of a.inside ?? []) { if (!types.has(x.command)) { types.set(x.command, types.get(a.choice) ?? 'talk'); } }
-    }
+    // What each of the rest is to the company, and what kind of act each is, by what it is listed by (TerminalDoable).
+    const key = TerminalDoable.keyed(glance, screen), { aspects: rest, types } = TerminalDoable.kinds(glance, screen);
     for (const c of all) {
       const aspects = rest.get(c.id);
       Object.assign(c, { signed: signs.on(c.id), type: types.get(c.id) ?? 'other', ...aspects?.length ? { aspects } : {} });
     }
-    const byId = new Map(all.map(c => [c.id, c]));
+    const byId = new Map<string, Listed>([...all, ...TerminalDoable.listed(glance, screen, types)].map(c => [c.id, c]));
     // What the page leads with inside a talk (the question the aim waits on, Promoted.inside) is offered as itself:
     // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
     // `all`, eight times in one cold review (12 November); the page shows it as the talk's own line.
-    const ids = Terminal.led(glance, screen);
+    const ids = TerminalDoable.led(glance, screen);
     // Inside a talk, each reply drawn as the likeness turned to was drawn for it (see Promoted.inside; E185).
-    const acts = [...glance?.acts ?? [], ...talking ? [{ inside: talking.inside } as Promoted] : []];
+    const acts = [...TerminalDoable.acts(glance, screen), ...talking ? [{ inside: talking.inside } as Promoted] : []];
+    // An opener taken: its rows, the four first.
+    const opened = at.opened?.opens?.flatMap(id => byId.get(id) ?? []), name = at.opened?.name ?? '';
+    if (opened) {
+      return { all, first: opened.slice(0, 4).map(c => this.drawn(acts, c)), rest: opened.slice(4), opened: name };
+    }
     const talked = talking && this.talk(talking, { screen, byId, acts });
     if (talked) { return { all, ...talked }; }
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
     const lensed = lens && glance?.lenses[lens];
-    const chosen = lensed ? lensed.promoted.map(a => a.command ?? a.choice) : [...new Set(ids)];
+    const chosen = lensed ? lensed.promoted.map(a => key(a)) : [...new Set(ids)];
     const first = chosen.flatMap(id => byId.get(id) ?? []).slice(0, 4);
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
     const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
-    const after = lensed ? lensed.rest.flatMap(a => byId.get(a.command ?? a.choice) ?? []) : [];
+    const after = lensed ? lensed.rest.flatMap(a => byId.get(key(a)) ?? []) : [];
     return { all, first: shown,
       ...lensed ? { lens: { name: lens, more }, rest: after } : { more: all.length - shown.length } };
   }
@@ -192,19 +194,6 @@ export class Terminal {
       .filter(said => !said.endsWith(' 0'));
     const journeys = all.filter(c => c.id.startsWith('travel:')).length;
     return `(more: ${[...lenses, ...journeys ? [`map ${journeys}`] : [], `all ${n}`].join(' · ')})`;
-  }
-  // What the page leads with, by the command each is done by: the scene's four (Glance.offer, the same four the page
-  // draws: TB-01, TB-02), an opener by the act within it that it is led for (the question the aim waits on), a way by
-  // its exit's command. A way in once gone through (Ísencepan's gate) had dropped from the foreground (PL-26).
-  static led(glance: Glance | undefined, screen: Screen): string[] {
-    const acts = new Map((glance?.acts ?? []).map(a => [a.choice, a]));
-    return (glance?.offer?.primary ?? []).map(o => {
-      const a = acts.get(o.choice);
-      return a?.inside?.[0]?.command ?? a?.command ?? o.command ?? this.way(screen, o.choice);
-    });
-  }
-  private static way(screen: Screen, id: string): string {
-    return screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command ?? id;
   }
   // What the page draws on a choice, by the page's own reading (Emphasis): what it is within what the glance leads
   // with, and gold only on the followed aim's next step (Promoted.continues). A headless player had seen no gold and no
@@ -295,7 +284,8 @@ export class Terminal {
       while (session.campaign.running) {
         if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
         const { screen, leaf } = turn.current;
-        const offered = this.foreground(session, leaf.glance, screen, { talking: turn.talking, lens: turn.lens });
+        const offered = this.foreground(session, leaf.glance, screen,
+          { talking: turn.talking, lens: turn.lens, opened: turn.opened });
         if (turn.talking && !offered.talk) { turn.talking = undefined; }
         this.next(leaf.glance?.next, screen, { all: offered.all, human });
         const answer = human ? await this.picked(input, offered, { turn, session })
@@ -323,6 +313,7 @@ export class Terminal {
   private static async typed(input: Asking, offered: Offered, turn: Turn): Promise<string | null> {
     const glance = turn.current?.leaf.glance;
     console.log('');
+    if (offered.opened) { console.log(`${Typography.plain(offered.opened)}:`); }
     if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
     this.choices(offered.first);
     if (offered.more) { console.log(this.more(glance, offered.all, offered.more)); }
@@ -348,7 +339,7 @@ export class Terminal {
       turn.focus = picked.focus;
       return picked.command === 'map' ? this.journeys(input, offered, session) : picked.command;
     }
-    return offered.all.find(c => c.id === picked.choice) ?? picked.choice;
+    return [...offered.all, ...offered.first].find(c => c.id === picked.choice) ?? picked.choice;
   }
   // The map in the human mode: the places known, and the journeys and crossings it offers picked among, as the page's
   // map sets out on them (the owner: the map is the basic navigation). Back, and nothing is done.
@@ -369,7 +360,7 @@ export class Terminal {
   private static chosen(offered: Offered, answer: string): Listed | undefined {
     const numbered = Number(answer) - 1;
     return numbered >= 0 && numbered < offered.first.length ? offered.first[numbered]
-      : offered.all.find(c => c.id === answer || Terminal.same(c.name, answer));
+      : [...offered.all, ...offered.first].find(c => c.id === answer || Terminal.same(c.name, answer));
   }
   // What is not an act in the story: looking again, the map, the sheet, the aims, the whole list, a save.
   private static async aside(session: PlaySession, answer: string, all: Listed[],
@@ -377,7 +368,10 @@ export class Terminal {
     if (answer === 'look') { turn.told = undefined; turn.current = this.scene(session, turn, true); return true; }
     if (answer === 'help' || answer === '?') { console.log(Terminal.commands); return true; }
     // A lens: what is led with, by kind (things, people, places, time); here, the scene's own. It takes no time.
-    if (Terminal.lenses.has(answer)) { turn.lens = answer === 'here' ? undefined : answer as Lens; return true; }
+    if (Terminal.lenses.has(answer)) {
+      turn.lens = answer === 'here' ? undefined : answer as Lens; turn.opened = undefined;
+      return true;
+    }
     if (answer === 'map') { TerminalBooks.map(session); return true; }
     if (answer === 'character' || answer === 'dossier') { TerminalBooks.dossier(session); turn.spaced = false; return true; }
     if (answer === 'aims' && TerminalInput.picks(input)) {
@@ -415,6 +409,9 @@ export class Terminal {
   }
   // One act, its fight the player's; false if the player left the game in a fight.
   private static async act(session: PlaySession, choice: Listed, turn: Turn, input: Asking): Promise<boolean> {
+    // An opener taken opens: its rows listed, no time; anything done lets it go.
+    turn.opened = choice.opens ? choice : undefined;
+    if (choice.opens) { return true; }
     const before = PlayerView.observe(session.campaign);
     const does = PlayerView.choices(session.campaign).find(r => r.choice.id === choice.id)?.action.schema;
     try {

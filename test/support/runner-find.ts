@@ -1,11 +1,12 @@
 import type { Offered, Runner, Said } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 
 // An act found by its words as a player finds it: among what is offered, else under the talk of one of the people here
 // (turned to, taking no time, or talked to by their own row: the runner holds what is said to someone under their
-// talk, CL-07).
+// talk, CL-07), or under an opener (TB-12).
 export class RunnerFind {
   static async find(r: Runner, s: Said, label: RegExp): Promise<{ said: Said; o?: Offered }> {
-    const all = (x: Said) => [...x.offer.primary, ...x.offer.rest];
+    const all = (x: Said) => RunnerOffer.flat([...x.offer.primary, ...x.offer.rest]);
     const here = all(s).find(x => label.test(x.label));
     if (here) { return { said: s, o: here }; }
     // As the turn stands now (a talk already turned to since s was said).

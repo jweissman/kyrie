@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Tiny } from '../support/tiny';
-import { Terminal } from '../../src/cli/terminal';
+import { TerminalDoable } from '../../src/cli/terminal-doable';
 import { MenuModel } from '../../web/reader/menu-model';
 import type { Frame } from '../../web/engine/protocol';
 import type { ReaderApp } from '../../web/reader/reader-app';
@@ -45,7 +45,14 @@ describe('the page\'s four', () => {
       ? r[1]!.startsWith(offered[i]!.choice.replace(/#look$/, '/'))
       : r[1] === offered[i]!.choice || r[1]!.startsWith(`${offered[i]!.choice}/`));
     expect(does).toEqual(offered.map(() => true));
-    // And the terminal leads with the same four, by the commands they do.
-    expect(Terminal.led(t.glance, t.screen)).toEqual(offered.map(o => o.command ?? o.choice));
+    // And the terminal leads with the same four, by the commands they do, an opener by its own id (TB-12: the page's
+    // four still do a fold by its first, GlanceStage.acted; see test/small/one-projection).
+    // (One with a single act under it is that act: the well's look, drawing a bucket.)
+    const listed = offered.map(o => {
+      const c = MenuModel.lead(menu, o.choice), kids = c?.children ?? [];
+      return c && !c.command && kids.length ? kids.length === 1 && kids[0]!.command ? kids[0]!.command : o.choice
+        : o.command ?? o.choice;
+    });
+    expect(TerminalDoable.led(t.glance, t.screen)).toEqual(listed);
   });
 });

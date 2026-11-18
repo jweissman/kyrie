@@ -4,7 +4,7 @@ import { Keyed } from '../support/keyed';
 import { Indicator } from '../../src/presentation/indicator';
 import { Emphasis } from '../../src/presentation/emphasis';
 import { Signs } from '../../src/presentation/signs';
-import { Terminal } from '../../src/cli/terminal';
+import { TerminalDoable } from '../../src/cli/terminal-doable';
 import { TerminalCreation } from '../../src/cli/terminal-creation';
 import { TerminalMenus, type Journeyed } from '../../src/cli/terminal-menus';
 import { TerminalPicker } from '../../src/cli/terminal-picker';
@@ -55,7 +55,7 @@ describe('the indicator grammar (TP-02)', () => {
 describe('the terminal\'s human mode, in the awkward world', () => {
   it('leads with the engine\'s four, the rest a step away, and back folds them again on the same row', async () => {
     // The four by the commands that do them, as the terminal leads with them (Terminal.led: an opener by its act).
-    const t = await Awkward.start(), four = Terminal.led(t.glance, t.screen);
+    const t = await Awkward.start(), four = TerminalDoable.led(t.glance, t.screen);
     const k = await Keyed.play(t.session, ['down', 'down', 'down', 'down', 'return', 'down', 'left']);
     expect(k.frames[0]!.menu.rows.map(r => r.id)).toEqual(four);
     expect(k.frames[0]!.lines).toContain(`   ${k.frames[0]!.menu.rest!.length} more`);

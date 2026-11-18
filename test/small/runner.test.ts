@@ -22,7 +22,8 @@ describe('the runner', () => {
     expect([first.turn, first.moment]).toEqual([0, 'arrive']);
     const legal = new Set([...PlayerView.observe(t.campaign).choices.map(c => c.id)]);
     expect(first.offer.primary.length).toBeGreaterThan(0);
-    for (const o of [...first.offer.primary, ...first.offer.rest]) {
+    // An opener is listed by its own id, its rows under it each by a legal one (TB-12).
+    for (const o of [...first.offer.primary, ...first.offer.rest].flatMap(x => x.opens ?? [x])) {
       expect([o.id, legal.has(o.id)]).toEqual([o.id, true]);
     }
   });

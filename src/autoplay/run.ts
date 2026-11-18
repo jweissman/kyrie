@@ -15,6 +15,7 @@ import { Invariants, type Violation } from './invariants';
 import { Widening } from './widening';
 import { DangerSense } from '../presentation/danger-sense';
 import { ScreenModel } from '../ui/screen-model';
+import { Doable } from '../presentation/doable';
 import { Narrator } from '../presentation/narrator';
 import { ChoiceList, type Choice } from '../ui/choice-list';
 import type { Aspect } from '../presentation/glance-types';
@@ -110,7 +111,7 @@ export class AutoplayRun {
   // prefers an aspect (silver: what is worth exploring; gold: the aim followed), what has it first, the page's order
   // kept otherwise (amendment 6, H).
   private static led(s: PlaySession, prefer?: Aspect): string[] {
-    const glance = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance;
+    const screen = ScreenModel.build(s.campaign), glance = Narrator.leaf(s.campaign, screen).glance;
     const acts = [...glance?.acts ?? []]
       .sort((a, b) => Number(!this.prefers(a, prefer)) - Number(!this.prefers(b, prefer)));
     // A conversation it leads with is opened as the page opens it, by talking to them; what it is led for in it is
@@ -119,9 +120,10 @@ export class AutoplayRun {
     // Then what the offer's four add (the roads of a crossroads among them): the menu is all a player is given.
     const added = (glance?.offer?.primary ?? []).filter(o => o.command && !acts.some(a => a.command === o.command))
       .map(o => o.command!);
+    // The talk itself is what its row does (Doable), not a command made of its id.
     return [...acts.flatMap(a => a.choice.endsWith('#talk')
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
-        `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
+        ...Doable.one(glance!, screen, a.choice, a.command).does ?? []]
       : a.command ? [a.command] : []), ...added];
   }
   // Whether a led act is what a walker prefers: the gold walker goes by the one the glance marks as carrying the aim

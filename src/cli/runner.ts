@@ -4,11 +4,10 @@ import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import type { Continuance } from '../presentation/aim-continuity';
 import { Narrator, type Exchange, type Leaf, type Told } from '../presentation/narrator';
-import type { Lens, Promoted, Successor } from '../presentation/glance-types';
-import { Offers, type ActType, type Bearing, type Offered as Glanced } from '../presentation/offer';
+import type { Lens, Successor } from '../presentation/glance-types';
+import type { ActType, Bearing } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
-import type { Act, Screen } from '../ui/screen-types';
-import { TalkFocus } from '../ui/talk-focus';
+import type { Screen } from '../ui/screen-types';
 import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
 import { Undertakings } from '../presentation/undertakings';
@@ -22,21 +21,27 @@ import { RunnerLines } from './runner-lines';
 import { RunnerAmid } from './runner-amid';
 import { RunnerPayoff } from './runner-payoff';
 import { RunnerLed } from './runner-led';
+import { RunnerOffer, type Kept } from './runner-offer';
+import { RunnerTalks } from './runner-talks';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
 import { FightBegun } from '../presentation/fight-begun';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
+// opens: an opener's rows, where it is one: taken, it opens (it does nothing of its own: TB-12).
 export interface Offered { id: string; label: string; aspects: string[]; type: ActType; minutes?: number;
-  marks: string[]; bearing?: Bearing }
+  marks: string[]; bearing?: Bearing; opens?: Offered[] }
 // What the runner says on each turn: how it was come to (arriving somewhere, what came of an act, or looked at on
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
 // scene.prose: of its lines, the narration alone (not the heading nor the aim and what is needed), as the scene
 // budget counts it (TerminalWalk).
 export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' | 'fight';
   scene: { lines: string[]; prose: string[] };
-  offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
+  // lenses: the rest as the page keeps it (RunnerOffer: the place's own first, the gear and the journeys last), the
+  // rest that, flat, in the same order.
+  offer: { primary: Offered[]; rest: Offered[]; lenses?: Partial<Record<Kept, Offered[]>> };
+  aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
   amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
   // How the aim followed goes on from here (Glance.continuance): its step, or what stands, in words, never nothing.
   going?: { kind: string; act?: string; said?: string };
@@ -89,18 +94,20 @@ export class Runner {
   said(turned: Turned = !this.told || this.told.moved ? 'arrive' : 'act'): Said {
     const c = this.campaign, screen = ScreenModel.build(c), leaf = this.scene.leaf(c, screen, this.told);
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
-    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), offer = this.offer(screen, g);
+    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), { offer } = this.offer(screen, g);
     const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
       purse: { coin: screen.purse.coin, rations: screen.purse.rations }, ...Runner.company(screen),
-      ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
-        id: a.id, text: Typography.plain(a.text), ...a.story ? { story: a.story.title } : {},
-        ...a.followed ? { followed: true as const } : {} })) } : {},
+      ...aim ? { aim: Typography.plain(aim.text) } : {}, ...Runner.aims(screen),
       ...g?.need?.length ? { need: g.need } : {}, ...g?.continuance ? { going: Runner.going(g.continuance) } : {},
       ...g?.next ? { next: Runner.next(g.next) } : {},
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
+  }
+  private static aims(screen: Screen): Pick<Said, 'aims'> {
+    return screen.aims?.length ? { aims: screen.aims.map(a => ({ id: a.id, text: Typography.plain(a.text),
+      ...a.story ? { story: a.story.title } : {}, ...a.followed ? { followed: true as const } : {} })) } : {};
   }
   private static going(c: Continuance): NonNullable<Said['going']> {
     return { kind: c.kind, ...'witness' in c ? { act: c.witness } : {}, ...c.said ? { said: c.said } : {} };
@@ -120,101 +127,14 @@ export class Runner {
     const kept = this.told?.moved && turned === 'arrive' ? this.payoff.back(this.campaign, screen.place.id) : undefined;
     return { at: screen.place.id, ...changed.length ? { changed } : {}, ...kept ? { kept } : {} };
   }
-  // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.
-  // An opener the glance leads for an act within it (asking Wenna to come along) is that act, as the page and the
-  // terminal lead with it (TB-01, test/small/one-projection): the walkers had spent a turn opening the talk.
-  private offer(screen: Screen, g: Leaf['glance']): Said['offer'] {
-    // Only what can be done by its id: a choice the page draws by a key of its own that names no command is left out.
-    const names = this.names(), offer = g?.offer;
-    const primary = Runner.doable(screen, names, Runner.within(offer?.primary ?? [], g?.acts ?? []));
-    const rest = Runner.doable(screen, names, offer?.rest ?? []);
-    const had = new Set([...primary, ...rest].flatMap(o => [o.id, /^go\([^,]+,([^)]+)\)$/.exec(o.id)?.[1] ?? '']
-      .map((x, i) => i ? `travel:${x}` : x)));
-    // A journey the map offers and the scene does not (the terminal sets out by them too); none to where a way from
-    // here already goes (CL-07: the same place offered twice, as a way and as a journey).
-    const journeys = [...new Map([...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
-      .map(d => [d.id, d])).values()]
-      .filter(d => !had.has(`travel:${d.id}`)).map(d => ({ id: `travel:${d.id}`, label: `Set out for ${d.name}`,
-        aspects: [], type: 'journey' as const, minutes: d.minutes, marks: [] }));
-    return { primary, rest: [...Runner.talks(screen, rest, primary, this.with), ...Runner.out(g, had), ...journeys] };
-  }
-  // Inside a site, the way out as the page's compass gives it (Compass.out), the whole route in one act: walking out
-  // of the barrow had been seven moves, a room at a time (cold play 4, CL-44).
-  private static out(g: Leaf['glance'], had: Set<string>): Offered[] {
-    const out = g?.compass?.out;
-    return out?.command && !out.barred && !had.has(out.command) ? [{ id: out.command, label: `Out to ${Typography
-      .plain(out.name)}`, aspects: [], type: 'journey', minutes: out.minutes, marks: [] }] : [];
-  }
-  // What can be said to each of the people here, one row a person, as the page holds it under their talk (CL-07, the
-  // cold plays: 30 asks to six people in the rest at the Stone Horn). The one the company is talking with (see
-  // Runner.with) has theirs first, talk before trade; anyone else is their talk alone: its own row where it is one
-  // ("Talk to Kynes", a world act), else talk:<id>, which turns to them taking no time.
-  private static talks(screen: Screen, rest: Offered[], primary: Offered[], talking?: string): Offered[] {
-    const whose = Runner.whose(screen, [...primary, ...rest]), paid = Runner.services(screen);
-    const many = new Set([...whose.values()].filter((p, i, all) => all.indexOf(p) !== i && p !== talking));
-    const theirs = rest.filter(o => talking && whose.get(o.id) === talking);
-    const out: Offered[] = [...theirs.filter(o => !paid.has(o.id)), ...theirs.filter(o => paid.has(o.id))];
-    const led = new Set(primary.map(o => whose.get(o.id) && /^talk_to\(/.test(o.id) ? whose.get(o.id) : ''));
-    const told = new Set<string>();
-    for (const o of rest.filter(x => !theirs.includes(x))) {
-      const p = whose.get(o.id);
-      if (!p || !many.has(p)) { out.push(o); continue; }
-      if (told.has(p) || led.has(p)) { continue; }
-      told.add(p);
-      const own = rest.find(x => x.id === `talk_to(${p})`);
-      out.push({ ...own ?? { id: `talk:${p}`, label: Typography.plain(Runner.called(screen, p) ?? `Talk to ${screen.people.find(x => x.id === p)!.name.split(', ')[0]}`),
-        type: 'talk' as const, marks: [] }, aspects: [...new Set(rest.filter(x => whose.get(x.id) === p)
-        .flatMap(x => x.aspects))] });
-    }
-    return out;
-  }
-  // Each command done with one of the people here, by whom: their own acts as the screen holds them under them.
-  // A word asked of someone (ask(informant, topic)) is theirs too, where the screen holds it apart from them.
-  private static whose(screen: Screen, rest: Offered[] = []): Map<string, string> {
-    const here = screen.people.filter(p => p.kind === 'person' && !p.state), ids = new Set(here.map(p => p.id));
-    return new Map([...rest.flatMap(o => [/^ask\(([^,]+),/.exec(o.id)?.[1] ?? ''].filter(p => ids.has(p))
-      .map(p => [o.id, p] as const)),
-    ...here.flatMap(p => Runner.flat(p.acts).flatMap(a => a.command ? [[a.command, p.id] as const] : []))]);
-  }
-  // What is had of someone for coin or work, said after what is said to them (TalkFocus.services: the page's own, and
-  // the haggling and buying of a trader's wares, which the page keeps with them).
-  private static services(screen: Screen): Set<string> {
-    return new Set(screen.people.flatMap(p => Runner.flat(p.acts)).filter(a => a.command
-      && (TalkFocus.services.has(a.does ?? '') || ['haggle', 'buy_item'].includes(a.does ?? ''))).map(a => a.command!));
-  }
+  // The glance's own offer (Offers.scene) as rows that can be done (RunnerOffer, from Doable): its four and its rest.
+  private offer(screen: Screen, g: Leaf['glance']) { return RunnerOffer.of(screen, g, this.names(), this.with); }
   // Why an act asked for is not offered, where the page knows (cold play 3, CL-21: talk_to the boy refused, saying
   // nothing): someone here is talked to by their row; one not here cannot be.
   private static why(screen: Screen, act: string): string {
     const p = /^talk_to\(([^)]+)\)$/.exec(act)?.[1];
     if (!p) { return ''; }
     return screen.people.some(x => x.id === p) ? ` (talk to them by talk:${p})` : ' (they are not here)';
-  }
-  // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
-  private static called(screen: Screen, person: string): string | undefined {
-    const talk = Runner.flat(screen.people.find(x => x.id === person)?.acts ?? []).find(a => a.does === 'talk_to');
-    return talk && (talk.alone ?? talk.label);
-  }
-  private static flat(acts: Act[]): Act[] { return acts.flatMap(a => [a, ...Runner.flat(a.children ?? [])]); }
-  // Each by what it does: an opener led for something within it (a question the aim waits on, a bed for the night) by
-  // that, and called as that is (the terminal's "Ask Wat about Father"). Done by its own command, "Talk to Eamon", led
-  // for what he knew of the country round, had taken a bed at his inn, nine nights running (TB-04).
-  private static within(list: Glanced[], acts: Promoted[]): Glanced[] {
-    const inside = new Map(acts.flatMap(a => a.inside?.[0] ? [[a.choice, a.inside[0].command]] : []));
-    return list.map(o => o.for || !inside.has(o.choice) ? o : { ...o, for: inside.get(o.choice) });
-  }
-  private static choice(screen: Screen, names: Map<string, string>, o: Glanced): Offered {
-    // A thing looked at is called by what is done to it ("Take a steel coin"), not by its name alone.
-    const named = o.for && names.get(o.for), id = Runner.way(screen, (named && o.for) || (o.command ?? o.choice));
-    // A talk's row that does another act in its place (led for what is inside it) is called by that act's own words:
-    // "Talk to the factor" had sold the crown (cold play 2, CL-05).
-    const talking = o.type === 'talk' && !/^talk_to\(/.test(id), opener = Runner.opener(screen, o.choice);
-    const own = !named && (talking || /#look$/.test(o.choice) || opener) ? names.get(id) : undefined;
-    return { id, label: Typography.plain(named || own || o.label), aspects: o.aspects, type: o.type,
-      ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind),
-      ...o.bearing ? { bearing: o.bearing } : {} };
-  }
-  private static doable(screen: Screen, names: Map<string, string>, list: Glanced[]): Offered[] {
-    return list.map(o => Runner.choice(screen, names, o)).filter(o => names.has(o.id) || o.id.startsWith('travel:'));
   }
   private static next(n: Successor): Next {
     return { text: Typography.plain(n.text), ...n.command ? { act: n.command } : {},
@@ -228,39 +148,6 @@ export class Runner {
   // Every choice's words, by its id.
   private names(): Map<string, string> {
     return new Map(PlayerView.choices(this.campaign).map(r => [r.choice.id, r.choice.name]));
-  }
-  // A way led with is done by its exit's own command.
-  // So with an act the page draws by its own key (a word at a way: "Look at the speaking door"), by the command it
-  // does, or the look within it, else the first: offered by its key, it had been taken as a command and failed (the
-  // matrix, a1's order).
-  private static way(screen: Screen, id: string): string {
-    const exit = screen.exits.find(e => e.id === id)?.acts.find(a => a.command)?.command;
-    if (exit) { return exit; }
-    const keyed = Runner.keyed([...screen.exits, ...screen.people, ...screen.things].flatMap(r => r.acts), id);
-    const look = keyed?.children?.find(a => a.does === 'look_closely' && a.command)?.command;
-    return keyed ? keyed.command ?? look ?? Runner.first(keyed.children ?? []) ?? id : id;
-  }
-  private static keyed(acts: Act[], key: string): Act | undefined {
-    for (const a of acts) {
-      const found = a.key === key ? a : Runner.keyed(a.children ?? [], key);
-      if (found) { return found; }
-    }
-    return undefined;
-  }
-  // A choice the page opens (a look at a thing on a way, with its tries under it) and the runner does by the first act
-  // within: called by that act, not the opener ("Push and pull at the corn-store padlock", which it does, where it had
-  // said "look at the corn-store padlock": the promise-fidelity walk, 14 November).
-  private static opener(screen: Screen, choice: string): boolean {
-    const key = choice.slice(choice.indexOf('/') + 1);
-    const act = Runner.keyed([...screen.exits, ...screen.people, ...screen.things].flatMap(r => r.acts), key);
-    return !!act && !act.command && !!act.children?.length && !act.children.some(a => a.does === 'look_closely');
-  }
-  private static first(acts: Act[]): string | undefined {
-    for (const a of acts) {
-      const command = a.command ?? Runner.first(a.children ?? []);
-      if (command) { return command; }
-    }
-    return undefined;
   }
   // What came of the last act as the narrator types it (someone's words, the telling, an event, a change), for the
   // journey reader's step inspector (src/cli/journey-capture.ts); none on arriving at the start.
@@ -282,17 +169,20 @@ export class Runner {
         : { error: `not offered in the fight: ${asked.act}${this.fight.whose(asked.act)}` };
     }
     const screen = ScreenModel.build(this.campaign);
-    const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g);
+    const g = Narrator.leaf(this.campaign, screen, this.told).glance, { offer: o, under } = this.offer(screen, g);
     // What pulls next is offered too, by its own act.
-    // And what is under each person's talk, offered as it is on the page (see Runner.talks).
-    const under = Runner.doable(screen, this.names(), g?.offer?.rest ?? []);
-    const offered = [...o.primary, ...o.rest, ...under].map(x => x.id).concat(g?.next?.command ?? []);
+    // And what is under each person's talk, offered as it is on the page (see RunnerTalks), and under an opener.
+    const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
+    const offered = all.map(x => x.id).concat(g?.next?.command ?? []);
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}${Runner.why(screen, asked.act)}` }; }
+    // An opener taken opens: its rows offered, no time (the page draws them; the runner had done its first).
+    const opener = all.find(x => x.id === asked.act && x.opens);
+    if (opener) { return this.opened(opener, screen); }
     if (asked.act.startsWith('talk:')) { this.with = asked.act.slice(5); return this.said('look'); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (asked.act.startsWith('follow:')) { await this.session.leg(asked.act); return this.said('look'); }
     const talking = /^talk_to\(([^)]+)\)$/.exec(asked.act)?.[1]
-      ?? Runner.whose(screen, [...o.primary, ...under]).get(asked.act);
+      ?? RunnerTalks.whose(screen, [...o.primary, ...under]).get(asked.act);
     this.doing = { act: asked.act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
       label: this.names().get(asked.act), leg: this.session.leg(asked.act, this.fight.controller),
       ...talking ? { with: talking } : {} };
@@ -336,15 +226,16 @@ export class Runner {
   // lens as it ranks any surface of its own).
   private lensed(lens: Lens): Said | { error: string } {
     const c = this.campaign, screen = ScreenModel.build(c), g = Narrator.leaf(c, screen, this.told).glance;
-    const l = g?.lenses[lens];
-    if (!l) { return { error: `no lens: ${String(lens)}` }; }
-    const all = [...g?.offer?.primary ?? [], ...g?.offer?.rest ?? []], names = this.names();
-    const ranked = Offers.ranked([...l.promoted, ...l.rest], a => all.find(o => o.choice === a.choice)
-      ?? { choice: a.choice, ...a.command ? { command: a.command } : {}, label: a.label, type: 'other', aspects: [],
-        marks: [] });
+    if (!g?.lenses[lens]) { return { error: `no lens: ${String(lens)}` }; }
     return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
-      offer: { primary: ranked.primary.map(o => Runner.choice(screen, names, o)),
-        rest: ranked.rest.map(o => Runner.choice(screen, names, o)) } };
+      offer: RunnerOffer.lensed(screen, g, this.names(), lens) };
+  }
+  // An opener opened: its rows, the four first, where the company stands; nothing led nor gilded but as they are.
+  private opened(opener: Offered, screen: Screen): Said {
+    const rows = opener.opens ?? [], c = this.campaign, g = Narrator.leaf(c, screen, this.told).glance;
+    return { turn: this.n, moment: 'inspect', scene: { lines: [`${opener.label}:`], prose: [] }, at: screen.place.id,
+      offer: { primary: rows.slice(0, 4), rest: rows.slice(4) }, ...Runner.aims(screen),
+      ...g?.continuance ? { going: Runner.going(g.continuance) } : {} };
   }
   // The runner on stdio: a turn said on starting and after every line read; the transcript kept, if asked for.
   static async main(args: string[]): Promise<number> {

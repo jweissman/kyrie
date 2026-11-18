@@ -12,6 +12,7 @@ const yard = `
   Company party "You" of 1 at yard.
   Thing door "the speaking door" on gate { State shut blocking "A door of dark wood, with a mouth carved in it.".
     State open "The door stands open.". Change speak "Say the word to the speaking door" from shut to open. }
+  Thing bell "the bell" at yard { State still "A bell on a post.". Change ring "Ring the bell" from still to still. }
   Goal false.`;
 const flat = (rows: readonly Row[]): Row[] => rows.flatMap(r => [r, ...flat(r.opens ?? [])]);
 describe('the offer, as rows that can be done', () => {
@@ -27,13 +28,20 @@ describe('the offer, as rows that can be done', () => {
     // And what is offered by its command alone does that command.
     expect(flat(rows).find(r => r.label === 'Light a torch')?.does).toBe('light_item(t__party_1__torch)');
   });
-  // The runner still does an opener by its first child (Runner.way); this fails until the runner reads Doable
-  // (the design's step 2): it is the speaking door's "Push and pull" for gold (cold play 5, CL-34).
-  it.failing('is what the runner offers, row for row', async () => {
+  // A look with a single act under it is that act, called by its words: there is nothing to choose in opening it (the
+  // sea-gate's pawl, gold at the gate-well, is collecting it: cold play 5, CL-33).
+  it('does the one act under a look that holds only one', async () => {
+    const t = await Tiny.start(yard);
+    const bell = flat(Doable.of(t.glance, t.screen)).find(r => r.id === 't__bell#look');
+    expect([bell?.opens, bell?.does]).toEqual([undefined, 'change_thing(t__bell_ring)']);
+  });
+  // The runner reads it (RunnerOffer): an opener is listed with its rows, never done by its first, as the speaking
+  // door's gold had been done as "Push and pull" (cold play 5, CL-34).
+  it('is what the runner offers, row for row', async () => {
     const t = await Tiny.start(yard);
     const rows = Doable.of(t.glance, t.screen), said = new Runner(t.session).said();
     const runner = [...said.offer.primary, ...said.offer.rest].map(o => o.id);
-    expect(runner.filter(id => !flat(rows).some(r => r.does === id || r.id === id))).toEqual([]);
+    expect(runner.filter(id => !flat(rows).some(r => r.does === id || r.id === id || r.for === id))).toEqual([]);
     expect(flat(rows).filter(r => r.opens).map(r => r.id).filter(id => runner.includes(id))).toEqual(
       flat(rows).filter(r => r.opens && r.led).map(r => r.id));
   });

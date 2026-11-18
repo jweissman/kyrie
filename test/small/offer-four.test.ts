@@ -2,8 +2,9 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Offers } from '../../src/presentation/offer';
 import type { Candidate } from '../../src/ui/promotion';
-import { Terminal } from '../../src/cli/terminal';
+import { TerminalDoable } from '../../src/cli/terminal-doable';
 import { PlayerView } from '../../src/presentation/player-view';
+import { Doable } from '../../src/presentation/doable';
 
 // Four promoted, everywhere, and the same four in both clients (the owner, 14 November: TB-01, TB-02): where a scene
 // has four or more choices to be had it offers exactly four, each a different kind of act, and keeps every other in
@@ -29,10 +30,11 @@ describe('the scene\'s offer', () => {
     const all = [...offer.primary, ...offer.rest].map(o => o.choice);
     expect(new Set(all).size).toBe(all.length);
     expect(offer.rest.length).toBeGreaterThan(0);
-    // The terminal's four are the engine's, each a command the company can do now.
-    const led = Terminal.led(t.glance, t.screen);
+    // The terminal's four are the engine's, each a command the company can do now, or an opener whose rows are (TB-12).
+    const led = TerminalDoable.led(t.glance, t.screen), rows = Doable.flat(Doable.of(t.glance, t.screen));
+    const opens = (id: string) => rows.find(r => r.id === id)?.opens?.every(k => !k.does || legal.has(k.does));
     expect(led).toHaveLength(4);
-    expect(led.filter(id => !legal.has(id) && !id.startsWith('travel:'))).toEqual([]);
+    expect(led.filter(id => !legal.has(id) && !id.startsWith('travel:') && !opens(id))).toEqual([]);
   });
   it('keeps the company\'s own gear behind what can be done here in the rest, whatever order they came in (TP-06)', () => {
     const c = (choice: string, kind: Candidate['kind'], order: number): Candidate =>

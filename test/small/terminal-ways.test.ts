@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
-import { Terminal } from '../../src/cli/terminal';
+import { TerminalDoable } from '../../src/cli/terminal-doable';
 import { PlayerView } from '../../src/presentation/player-view';
 
 // The terminal leads with what the page does, the quiet row of ways among it, by the command each is done by: the
@@ -25,7 +25,7 @@ describe('the terminal\'s foreground', () => {
     const ways = t.glance.ways.filter(id => !t.glance.acts.some(a => a.choice === id));
     expect(ways.length).toBeGreaterThan(0);
     const commands = new Set(PlayerView.observe(t.campaign).choices.map(c => c.id));
-    const led = Terminal.led(t.glance, t.screen);
+    const led = TerminalDoable.led(t.glance, t.screen);
     expect(led.filter(id => commands.has(id))).toEqual(expect.arrayContaining([expect.stringMatching(/^go\(t__gate/)]));
   });
 });

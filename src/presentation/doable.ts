@@ -10,47 +10,73 @@ import type { Glance, Lens, Promoted } from './glance-types';
 // (SceneModel, Attending.place), so that no client reads a row for itself. A row with a command does it; an opener
 // does nothing of its own: taken, it opens, its rows first the one the engine leads it for (Promoted.for, inside).
 // Its indicator is its witnesses (Attest), as the page draws it.
+// for: what the engine leads it for within it (the question the aim waits on, under a talk), where it does: the four
+// are led with that, as the page draws it (Promoted.inside, TB-01). only: an opener with one thing to do under it,
+// which is that thing (its words the thing's own; a client that knows the act's full words says those).
 export interface Row {
-  id: string; label: string; does?: string; opens?: Row[]; lens?: Lens; led?: true; witnesses: Witness[];
+  id: string; label: string; does?: string; opens?: Row[]; for?: string; lens?: Lens; led?: true; only?: true;
+  witnesses: Witness[];
 }
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>;
+interface Read { tree: Map<string, Choice>; acts: Map<string, Promoted>; glance: Offered; lens?: Lens; led?: boolean;
+  command?: string }
+interface Kept { rows: Row[]; at: Omit<Read, 'lens' | 'led' | 'command'>; lensOf: Map<string, Lens> }
 
 export class Doable {
-  private static readonly kept = new WeakMap<object, Row[]>();
+  private static readonly kept = new WeakMap<object, Kept>();
   // The offer's rows, the four first: from the glance and the screen it was drawn for.
-  static of(glance: Offered, screen: Screen): Row[] {
+  static of(glance: Offered, screen: Screen): Row[] { return this.read(glance, screen).rows; }
+  // Any choice of the scene as a row, offered or not (an act the glance leads with that the offer leaves out, an act a
+  // lens holds within an opener).
+  static one(glance: Offered, screen: Screen, id: string, command?: string): Row {
+    const { at, lensOf } = this.read(glance, screen), lens = lensOf.get(id);
+    return this.row(id, at.tree.get(id)?.label ?? id, { ...at, ...lens ? { lens } : {}, command });
+  }
+  // Every row, an opener's within it after it.
+  static flat(rows: readonly Row[]): Row[] { return rows.flatMap(r => [r, ...this.flat(r.opens ?? [])]); }
+  private static read(glance: Offered, screen: Screen): Kept {
     const kept = this.kept.get(glance);
     if (kept) { return kept; }
     const scene = Attending.place(SceneModel.build(screen)), tree = new Map<string, Choice>();
     this.index(tree, [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...scene.you]);
     const lensOf = new Map<string, Lens>(Object.entries(glance.lenses ?? {}).flatMap(([lens, l]) =>
       [...l.promoted.map(p => p.choice), ...l.rest.map(r => r.choice)].map(id => [id, lens as Lens] as const)));
-    const acts = new Map(glance.acts.map(a => [a.choice, a]));
+    const acts = new Map(glance.acts.map(a => [a.choice, a])), at = { tree, acts, glance };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
     const rows = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(o.choice, o.label,
-      { tree, acts, glance, lens: lensOf.get(o.choice), led: led.has(o.choice) }));
-    this.kept.set(glance, rows);
-    return rows;
+      { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command }));
+    const read = { rows, at, lensOf };
+    this.kept.set(glance, read);
+    return read;
   }
   private static index(tree: Map<string, Choice>, cs: Choice[]): void {
     for (const c of cs) { tree.set(c.id, c); this.index(tree, c.children ?? []); }
   }
-  private static row(id: string, label: string, at: { tree: Map<string, Choice>; acts: Map<string, Promoted>;
-    glance: Offered; lens?: Lens; led?: boolean }): Row {
+  private static row(id: string, label: string, at: Read): Row {
     const c = at.tree.get(id), act = at.acts.get(id);
     const witnesses = [Attest.witness(at.glance, id), ...c ? Attest.within(at.glance, c) : []]
       .filter((w): w is Witness => !!w);
+    const led = act?.inside?.[0]?.command ?? act?.for;
     const base = { id, label: c?.alone ?? label, witnesses, ...at.lens ? { lens: at.lens } : {},
-      ...at.led ? { led: true as const } : {} };
+      ...at.led ? { led: true as const } : {}, ...led ? { for: led } : {} };
     const kids = c?.children ?? [];
     // A row with a command does it, even where acts hang under it (a way with a door to listen at is gone by).
     // One offered by its command, outside the scene's tree (a light, a set-down, a wait), does that command.
-    const does = c ? c.command ?? act?.command : act?.command ?? id;
+    // A way over into the next stretch of country is set out on as a journey there, as the engine offers it (travel:,
+    // HexBoundary) and the page's map does: walked as a way, a cold play's journey had not been offered (cold play 4).
+    const offered = act?.command ?? at.command, journey = offered?.startsWith('travel:') ? offered : undefined;
+    const does = journey ?? (c ? c.command ?? act?.command : offered ?? id);
     if (c?.command || !kids.length) { return { ...base, ...does ? { does } : {} }; }
     // An opener opens: what the engine leads it for first, then the rest in the scene's order.
     const first = new Set([act?.for, ...(act?.inside ?? []).map(i => i.command)].filter((x): x is string => !!x));
     const ordered = [...kids.filter(k => first.has(k.command ?? '')), ...kids.filter(k => !first.has(k.command ?? ''))];
-    return { ...base, opens: ordered.map(k => this.row(k.id, k.label, { ...at, lens: at.lens, led: false })) };
+    const opens = ordered.map(k => this.row(k.id, k.label, { ...at, led: false, command: undefined }));
+    // One with a single thing to do under it is that thing, called by its own words: there is nothing to choose in
+    // opening it ("the sea-gate's pawl", gold at the gate-well, is collecting it: cold play 5, CL-33).
+    const only = this.flat(opens).filter(r => !r.opens);
+    const one = only.length === 1 ? only[0] : undefined;
+    if (one?.does) { return { ...base, label: one.label, does: one.does, only: true }; }
+    return { ...base, opens };
   }
   // What taking a row does at once, where it does anything: its command; an opener none (it opens).
   static does(rows: readonly Row[], id: string): string | undefined {

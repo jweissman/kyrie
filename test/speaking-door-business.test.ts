@@ -14,11 +14,13 @@ describe('the speaking door, its safe tries spent', () => {
   it('leads with its words, grave and never gold, and not with the way out', async () => {
     const s = await DrawnWorld.start('a1', { origin: 'order', party: [{ name: 'Hamo', raceId: 'human',
       classId: 'cleric', backgroundId: 'doctor' }] }, NodeBundleSource.shared);
-    const walk = await RunnerWalk.run(new Runner(s), 'straight', 8, 1);
+    const walk = await RunnerWalk.run(new Runner(s), 'straight', 12, 1);
     // Before, the door's own safe tries are its gold (look, push, listen); after, nothing is.
-    // (The door's tries by what they do: offered as one, once worded "look at the speaking door", they pushed.)
+    // (The door's tries by what they do, under the look at it that opens them (TB-12): once done by that look, worded
+    // "look at the speaking door", they pushed. Opening it takes a turn of the walk's, no time.)
     const said = walk.turns.find(t => t.offer.primary.some(o => /^Press the word/.test(o.label))
-      && !t.offer.primary.some(o => /^(push|listen|look_closely)\(region__w2_riddle\b/.test(o.id)))!;
+      && !t.offer.primary.flatMap(o => [o, ...o.opens ?? []])
+        .some(o => /^(push|listen|look_closely)\(region__w2_riddle\b/.test(o.id)))!;
     expect(said).toBeDefined();
     const words = said.offer.primary.filter(o => /^Press the word/.test(o.label));
     expect(words.length).toBeGreaterThanOrEqual(2);
