@@ -59,4 +59,12 @@ describe('the golden route, after the fourth cold play', () => {
     expect(at('region__w8_barrow_back_stone')?.offer.rest.find(o => o.label === 'Out to Holyking')?.id)
       .toBe('travel:region__w8');
   });
+  // CL-47: the follow's look had said Owain's whole answer again, and the dog's greeting, after the act that said them;
+  // and a companion's bark after a kill had been said word for word in two fights (T49, T74).
+  it('says nothing twice: not the act\'s telling again on a look, nor a bark again in a later fight', () => {
+    const owain = /Thirty-six,. says Owain/;
+    expect(told[0]!.scene.lines.some(l => owain.test(l))).toBe(true);
+    expect(told[1]!.scene.lines.some(l => owain.test(l) || l.startsWith('Patch barks'))).toBe(false);
+    expect(told.filter(s => text(s).includes('does not look pleased')).length).toBeLessThanOrEqual(1);
+  });
 });

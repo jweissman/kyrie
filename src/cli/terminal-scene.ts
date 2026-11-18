@@ -33,6 +33,10 @@ export class TerminalScene {
   // picked: whether the player picks by keys, so that how to follow an aim is its key, not a command to type.
   constructor(private readonly depth: Depth = 'none', private readonly o: { instruments?: boolean; picked?: boolean } = {}) {}
   private opened = false;
+  // What of the last act's telling has been said, line by line: a look after it says only what was not (the dice,
+  // what the budget held back), never the act again. Owain's whole answer, and the dog's greeting, had been said again
+  // on a follow's look (cold play 4, CL-47).
+  private heard = { of: '', said: new Set<string>() };
   // The narrator's leaf, with the game's opening as the page tells it apart before the first place (see Prologue): on
   // the first turn, before anything is done, and once. The terminal and the runner had opened on the quay's gulls, and
   // why the company was there (Bran taken, the tally-stick at your feet, Owain your cousin) came only with a second
@@ -58,8 +62,13 @@ export class TerminalScene {
     const header = [name, beside && (name ? TerminalColour.ink('dim', beside, d) : beside)].filter(Boolean).join(' · ');
     const rule = header && d !== 'none' ? [TerminalColour.ink('faint', '─'.repeat(Math.min(60,
       TerminalWidth.of(header))), d)] : [];
-    const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
-    const happened = ToldLines.said(leaf.exchange?.lines ?? [], whole).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
+    const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []), exchange = leaf.exchange?.lines ?? [];
+    const of = exchange.map(l => l.text).join('\n');
+    // Another act's telling is said afresh, though its words be the same ("An hour passes." each hour).
+    if (!whole || this.heard.of !== of) { this.heard = { of, said: new Set() }; }
+    const lines = ToldLines.said(exchange, whole).filter(l => !unsaid.has(l.text) && !this.heard.said.has(l.text));
+    lines.forEach(l => this.heard.said.add(l.text));
+    const happened = lines.map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
     const g = leaf.glance, seen = [g?.came, g?.sight?.text, g?.life?.text, g?.contents?.text, ...g?.changed ?? []]
       .filter((l): l is string => !!l).map(l => Typography.plain(l));
