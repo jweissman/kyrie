@@ -98,16 +98,25 @@ describe('the open country\'s meetings', () => {
     await s.leg('wait');
     expect(Wild.led(s).filter(([c]) => c.startsWith('search('))).toEqual([]);
     expect(PlayerView.choices(s.campaign).some(c => /^Search /.test(c.choice.name))).toBe(false);
-    // Crossing the country past a meeting not yet come to, the journey stops there.
+    // Crossing the country past a meeting not yet come to, the journey notices it there, on the leg that comes to it:
+    // it stops for one that asks something of the player, and tells one that does not (thorn's woundwort, its act no
+    // more than the plant) with the leg and goes on (the owner's trust contracts, G).
     const other = meetings.find(m => !['tracks', 'cache'].includes(m.section.option) && !m.section.said.includes('danger'))!;
     const about = RegionTracts.neighbours(other.cell, land.width, land.height);
     const from = about[0]!, to = about.find(c => c !== from && !RegionTracts.neighbours(from, land.width, land.height)
       .includes(c))!;
     GeneratedWorld.put(s, RegionTracts.id(from));
     await s.leg('wait');
-    const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.leg(c) }, `region__t${to}`);
-    expect(done.legs.at(-1)?.command).toEndWith(`,region__t${other.cell})`);
-    expect([done.arrived, done.stopped]).toEqual([false, 'Something is going on here']);
+    let weighty: boolean | undefined;
+    const done = await Travel.go({ campaign: s.campaign, perform: async (c: string) => {
+      const event = await s.leg(c);
+      if (s.campaign.world.one('at', 'party') === `region__t${other.cell}`) { weighty = Travel.weighty(s.campaign); }
+      return event;
+    } }, `region__t${to}`);
+    const met = done.legs.find(l => l.command.endsWith(`,region__t${other.cell})`))!;
+    expect(met).toBeDefined();
+    expect(weighty ? [done.stopped, done.legs.at(-1)] : [met.passed, done.arrived])
+      .toEqual(weighty ? ['Something is going on here', met] : ['Something is going on here', true]);
   }, 120000);
   // Kite come home as kin: the father went out by the bridge on the Brightbridge road. Out in the open country, with
   // no way to it known, the glance had led only with looking out; it leads with the step toward it (REV-08).
