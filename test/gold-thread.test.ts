@@ -34,7 +34,11 @@ class Thread {
       seen.set(key, (seen.get(key) ?? 0) + 1);
       if (seen.get(key)! > 2) { return { end: 'circle', trail }; }
       trail.push(`${screen.place.id}: ${lead.label}`);
-      const command = lead.command?.startsWith('travel:') ? lead.command : lead.for ?? lead.command!;
+      const command = lead.command?.startsWith('travel:') ? lead.command : lead.for ?? lead.command;
+      // A riddle read on a door (an opener with a focus: Choice.focus) has no command of its own by design: what is
+      // tried on it is the player's answer to what it says, which a walker that takes only the gold cannot give. The
+      // thread has come to it, and stops there honestly (a1's speaking door, at the head of the steps).
+      if (!command) { return { end: 'riddle', trail }; }
       const before = PlayerView.observe(c), at = before.location?.id, event = await s.leg(command);
       // What the page offers as the aim is seen through (PL-06), told as the page tells the act.
       if (!Undertakings.followed(c)) {
@@ -126,7 +130,7 @@ describe('the gold\'s thread', () => {
   it('goes on into a site only as far as what the aim waits on is known to be, and does not ask the same door over and over',
     async () => {
       expect(['danger', 'done', 'going']).toContain((await Thread.walk('kahitude', 'order')).end);
-      expect((await Thread.walk('a1', 'order')).end).not.toBe('circle');
+      expect(['danger', 'done', 'going', 'riddle']).toContain((await Thread.walk('a1', 'order')).end);
     }, 240000);
   // The debt's coin is not known to lie in Ísencepan: the gold goes to its door, and its rooms are exploration, not
   // the debt's (PL-23; the find taken up and led home with is test/small/gold-site's).
