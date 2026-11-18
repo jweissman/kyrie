@@ -6,25 +6,27 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
 **605 records**, every one visible: E0 486, E1 98, E2 1, E3 20.
-Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 59.
+Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 71.
 
 ## By family
 
 | Family | Records | Mapped (E1+) | E0 ready | E0 blocked |
 |---|---:|---:|---:|---:|
 | communication | 11 | 0 | 0 | 11 |
-| control | 86 | 21 | 4 | 61 |
+| control | 110 | 27 | 7 | 76 |
 | creation | 16 | 0 | 0 | 16 |
-| damage | 95 | 24 | 16 | 55 |
+| damage | 112 | 27 | 18 | 67 |
 | divination | 47 | 4 | 0 | 43 |
-| healing | 9 | 4 | 5 | 0 |
+| environment | 26 | 5 | 0 | 21 |
+| healing | 19 | 10 | 9 | 0 |
 | illusion | 35 | 3 | 0 | 32 |
 | movement | 21 | 2 | 8 | 11 |
-| protection | 52 | 19 | 26 | 7 |
+| object | 28 | 1 | 0 | 27 |
+| protection | 64 | 19 | 29 | 16 |
 | removal | 19 | 6 | 0 | 13 |
 | summoning | 31 | 9 | 0 | 22 |
 | transformation | 15 | 5 | 0 | 10 |
-| world | 168 | 22 | 0 | 146 |
+| world | 51 | 1 | 0 | 50 |
 
 ## Capability demand
 
@@ -33,17 +35,18 @@ become ready).
 
 | Capability | Blocks | Alone |
 |---|---:|---:|
-| resist.spell | 197 | 84 |
-| effect.world | 146 | 56 |
+| resist.spell | 197 | 112 |
+| effect.world | 50 | 25 |
 | effect.reveal | 43 | 25 |
+| target.object | 70 | 24 |
 | effect.summon | 22 | 20 |
 | effect.manifest | 32 | 12 |
 | effect.create | 16 | 11 |
 | effect.contact | 11 | 10 |
-| target.object | 53 | 9 |
+| area.persistent | 21 | 8 |
 | effect.dispel | 13 | 7 |
-| review.text | 44 | 5 |
-| attack.meleeTouch | 25 | 5 |
+| review.text | 44 | 6 |
+| attack.meleeTouch | 25 | 6 |
 | effect.transform | 10 | 5 |
 | attack.rangedTouch | 9 | 1 |
 | duration.concentration | 26 | 0 |
@@ -58,7 +61,7 @@ become ready).
 | aid | Aid | Clr 2, Good 2, Luck 2 | protection | E0 | — | — |
 | air-walk | Air Walk | Air 4, Clr 4, Drd 4 | damage | E0 | attack.meleeTouch | — |
 | alarm | Alarm | Brd 1, Rgr 1, Sor/Wiz 1 | world | E0 | effect.world | — |
-| align-weapon | Align Weapon | Clr 2 | world | E0 | effect.world | — |
+| align-weapon | Align Weapon | Clr 2 | object | E0 | target.object | — |
 | alter-self | Alter Self | Brd 2, Sor/Wiz 2 | transformation | E0 | effect.transform | — |
 | analyze-dweomer | Analyze Dweomer | Brd 6, Sor/Wiz 6 | divination | E0 | effect.reveal, target.object | — |
 | animal-growth | Animal Growth | Drd 5, Rgr 4, Sor/Wiz 5 | control | E0 | resist.spell | — |
@@ -66,16 +69,16 @@ become ready).
 | animal-shapes | Animal Shapes | Animal 7, Drd 8 | transformation | E0 | effect.transform | — |
 | animal-trance | Animal Trance | Brd 2, Drd 2 | control | E0 | duration.concentration, resist.spell | — |
 | animate-dead | Animate Dead | Clr 3, Death 3, Sor/Wiz 4 | summoning | E1 | effect.summon | animate_dead |
-| animate-objects | Animate Objects | Brd 6, Chaos 6, Clr 6 | world | E0 | effect.world, review.text, target.object | — |
+| animate-objects | Animate Objects | Brd 6, Chaos 6, Clr 6 | object | E0 | review.text, target.object | — |
 | animate-plants | Animate Plants | Drd 7, Plant 7 | world | E0 | effect.world, review.text | — |
-| animate-rope | Animate Rope | Brd 1, Sor/Wiz 1 | world | E0 | attack.rangedTouch, effect.world, review.text, target.object | — |
-| antilife-shell | Antilife Shell | Animal 6, Clr 6, Drd 6 | world | E0 | effect.world, resist.spell | — |
+| animate-rope | Animate Rope | Brd 1, Sor/Wiz 1 | object | E0 | attack.rangedTouch, review.text, target.object | — |
+| antilife-shell | Antilife Shell | Animal 6, Clr 6, Drd 6 | environment | E0 | area.persistent, resist.spell | — |
 | antimagic-field | Antimagic Field | Clr 8, Magic 6, Protection 6, Sor/Wiz 6 | removal | E0 | effect.dispel | — |
 | antipathy | Antipathy | Drd 9, Sor/Wiz 8 | control | E0 | resist.spell, target.object | — |
-| antiplant-shell | Antiplant Shell | Drd 4 | world | E0 | effect.world, resist.spell | — |
+| antiplant-shell | Antiplant Shell | Drd 4 | environment | E0 | area.persistent, resist.spell | — |
 | arcane-eye | Arcane Eye | Sor/Wiz 4 | divination | E0 | effect.reveal | — |
-| arcane-lock | Arcane Lock | Sor/Wiz 2 | world | E0 | effect.world | — |
-| arcane-mark | Arcane Mark | Sor/Wiz 0 | world | E0 | effect.world | — |
+| arcane-lock | Arcane Lock | Sor/Wiz 2 | object | E0 | target.object | — |
+| arcane-mark | Arcane Mark | Sor/Wiz 0 | object | E0 | target.object | — |
 | arcane-sight | Arcane Sight | Sor/Wiz 3 | divination | E0 | effect.reveal | — |
 | arcane-sight-greater | Arcane Sight, Greater | Sor/Wiz 7 | divination | E0 | effect.reveal | — |
 | astral-projection | Astral Projection | Clr 9, Sor/Wiz 9, Travel 9 | movement | E0 | resist.spell | — |
@@ -84,15 +87,15 @@ become ready).
 | awaken | Awaken | Drd 5 | world | E0 | effect.world, resist.spell | — |
 | baleful-polymorph | Baleful Polymorph | Drd 5, Sor/Wiz 5 | transformation | E0 | effect.transform, resist.spell | — |
 | bane | Bane | Clr 1 | control | E1 | resist.spell | mass_curse |
-| banishment | Banishment | Clr 6, Sor/Wiz 7 | world | E0 | effect.world, resist.spell | — |
+| banishment | Banishment | Clr 6, Sor/Wiz 7 | control | E0 | resist.spell | — |
 | barkskin | Barkskin | Drd 2, Rgr 2, Plant 2 | protection | E1 | — | barkskin |
-| bears-endurance | Bear’s Endurance | Clr 2, Drd 2, Rgr 2, Sor/Wiz 2 | world | E0 | effect.world, resist.spell | — |
-| bears-endurance-mass | Bear’s Endurance, Mass | Clr 6, Drd 6, Sor/Wiz 6 | world | E0 | effect.world | — |
+| bears-endurance | Bear’s Endurance | Clr 2, Drd 2, Rgr 2, Sor/Wiz 2 | protection | E0 | resist.spell | — |
+| bears-endurance-mass | Bear’s Endurance, Mass | Clr 6, Drd 6, Sor/Wiz 6 | protection | E0 | — | — |
 | bestow-curse | Bestow Curse | Clr 3, Sor/Wiz 4 | control | E1 | resist.spell | curse |
 | binding | Binding | Sor/Wiz 8 | control | E0 | resist.spell | — |
 | black-tentacles | Black Tentacles | Sor/Wiz 4 | damage | E0 | — | — |
 | blade-barrier | Blade Barrier | Clr 6, Good 6, War 6 | damage | E1 | resist.spell | blade_barrier |
-| blasphemy | Blasphemy | Clr 7, Evil 7 | world | E0 | effect.world, resist.spell | — |
+| blasphemy | Blasphemy | Clr 7, Evil 7 | damage | E0 | resist.spell | — |
 | bless | Bless | Clr 1, Pal 1 | protection | E3 | — | bless |
 | bless-water | Bless Water | Clr 1, Pal 1 | protection | E0 | resist.spell | — |
 | bless-weapon | Bless Weapon | Pal 1 | protection | E0 | attack.meleeTouch | — |
@@ -101,15 +104,15 @@ become ready).
 | blink | Blink | Brd 3, Sor/Wiz 3 | damage | E0 | — | — |
 | blur | Blur | Brd 2, Sor/Wiz 2 | protection | E1 | — | blur |
 | break-enchantment | Break Enchantment | Brd 4, Clr 5, Luck 5, Pal 4, Sor/Wiz 5 | removal | E0 | effect.dispel, review.text | — |
-| bulls-strength | Bull’s Strength | Clr 2, Drd 2, Pal 2, Sor/Wiz 2, Strength 2 | world | E0 | effect.world | — |
-| bulls-strength-mass | Bull’s Strength, Mass | Clr 6, Drd 6, Sor/Wiz 6 | world | E0 | effect.world | — |
+| bulls-strength | Bull’s Strength | Clr 2, Drd 2, Pal 2, Sor/Wiz 2, Strength 2 | protection | E0 | — | — |
+| bulls-strength-mass | Bull’s Strength, Mass | Clr 6, Drd 6, Sor/Wiz 6 | protection | E0 | — | — |
 | burning-hands | Burning Hands | Fire 1, Sor/Wiz 1 | damage | E3 | resist.spell | burning_hands |
 | call-lightning | Call Lightning | Drd 3 | damage | E0 | resist.spell | — |
 | call-lightning-storm | Call Lightning Storm | Drd 5 | damage | E0 | resist.spell | — |
 | calm-animals | Calm Animals | Animal 1, Drd 1, Rgr 1 | control | E0 | resist.spell | — |
 | calm-emotions | Calm Emotions | Brd 2, Clr 2, Law 2 | control | E3 | duration.concentration, resist.spell | calm_emotions |
-| cats-grace | Cat’s Grace | Brd 2, Drd 2, Rgr 2, Sor/Wiz 2 | world | E0 | effect.world, resist.spell | — |
-| cats-grace-mass | Cat’s Grace, Mass | Brd 6, Drd 6, Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
+| cats-grace | Cat’s Grace | Brd 2, Drd 2, Rgr 2, Sor/Wiz 2 | protection | E0 | resist.spell | — |
+| cats-grace-mass | Cat’s Grace, Mass | Brd 6, Drd 6, Sor/Wiz 6 | protection | E0 | resist.spell | — |
 | cause-fear | Cause Fear | Brd 1, Clr 1, Death 1, Sor/Wiz 1 | control | E3 | resist.spell | terror |
 | chain-lightning | Chain Lightning | Air 6, Sor/Wiz 6 | damage | E3 | resist.spell | chain_lightning |
 | changestaff | Changestaff | Drd 7 | world | E0 | effect.world | — |
@@ -120,7 +123,7 @@ become ready).
 | charm-person | Charm Person | Brd 1, Sor/Wiz 1 | control | E1 | resist.spell | charm |
 | chill-metal | Chill Metal | Drd 2 | control | E0 | resist.spell | — |
 | chill-touch | Chill Touch | Sor/Wiz 1 | damage | E0 | attack.meleeTouch, resist.spell | — |
-| circle-of-death | Circle of Death | Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
+| circle-of-death | Circle of Death | Sor/Wiz 6 | damage | E0 | resist.spell | — |
 | clairaudience-clairvoyance | Clairaudience/Clairvoyance | Brd 3, Knowledge 3, Sor/Wiz 3 | divination | E0 | effect.reveal | — |
 | clenched-fist | Clenched Fist | Sor/Wiz 8, Strength 8 | damage | E0 | resist.spell | — |
 | cloak-of-chaos | Cloak of Chaos | Chaos 8, Clr 8 | world | E0 | effect.world, review.text | — |
@@ -136,49 +139,49 @@ become ready).
 | comprehend-languages | Comprehend Languages | Brd 1, Clr 1, Sor/Wiz 1 | divination | E0 | effect.reveal | — |
 | cone-of-cold | Cone of Cold | Sor/Wiz 5, Water 6 | damage | E3 | resist.spell | cone_of_cold |
 | confusion | Confusion | Brd 3, Sor/Wiz 4, Trickery 4 | control | E1 | resist.spell | confusion |
-| confusion-lesser | Confusion, Lesser | Brd 1 | world | E1 | effect.world | confuse |
-| consecrate | Consecrate | Clr 2 | world | E0 | effect.world | — |
+| confusion-lesser | Confusion, Lesser | Brd 1 | control | E1 | — | confuse |
+| consecrate | Consecrate | Clr 2 | environment | E0 | area.persistent | — |
 | contact-other-plane | Contact Other Plane | Sor/Wiz 5 | communication | E0 | duration.concentration, effect.contact | — |
-| contagion | Contagion | Clr 3, Destruction 3, Drd 3, Sor/Wiz 4 | world | E1 | effect.world, resist.spell | contagion |
+| contagion | Contagion | Clr 3, Destruction 3, Drd 3, Sor/Wiz 4 | control | E1 | resist.spell | contagion |
 | contingency | Contingency | Sor/Wiz 6 | world | E0 | effect.world | — |
-| continual-flame | Continual Flame | Clr 3, Sor/Wiz 2 | world | E0 | effect.world, target.object | — |
+| continual-flame | Continual Flame | Clr 3, Sor/Wiz 2 | environment | E0 | area.persistent, target.object | — |
 | control-plants | Control Plants | Drd 8, Plant 8 | control | E0 | — | — |
 | control-undead | Control Undead | Sor/Wiz 7 | control | E1 | resist.spell | control_undead |
-| control-water | Control Water | Clr 4, Drd 4, Sor/Wiz 6, Water 4 | world | E0 | effect.world | — |
-| control-weather | Control Weather | Air 7, Clr 7, Drd 7, Sor/Wiz 7 | world | E0 | effect.world, review.text | — |
+| control-water | Control Water | Clr 4, Drd 4, Sor/Wiz 6, Water 4 | environment | E0 | area.persistent | — |
+| control-weather | Control Weather | Air 7, Clr 7, Drd 7, Sor/Wiz 7 | environment | E0 | area.persistent, review.text | — |
 | control-winds | Control Winds | Air 5, Drd 5 | control | E0 | — | — |
 | create-food-and-water | Create Food and Water | Clr 3 | creation | E0 | effect.create | — |
 | create-greater-undead | Create Greater Undead | Clr 8, Death 8, Sor/Wiz 8 | summoning | E0 | effect.summon | — |
 | create-undead | Create Undead | Clr 6, Death 6, Evil 6, Sor/Wiz 6 | summoning | E0 | effect.summon | — |
 | create-water | Create Water | Clr 0, Drd 0, Pal 1 | creation | E0 | effect.create | — |
-| creeping-doom | Creeping Doom | Drd 7 | world | E0 | effect.world | — |
+| creeping-doom | Creeping Doom | Drd 7 | damage | E0 | — | — |
 | crushing-despair | Crushing Despair | Brd 3, Sor/Wiz 4 | control | E0 | resist.spell | — |
 | crushing-hand | Crushing Hand | Sor/Wiz 9, Strength 9 | damage | E0 | resist.spell | — |
 | cure-critical-wounds | Cure Critical Wounds | Brd 4, Clr 4, Drd 5, Healing 4 | healing | E3 | — | cure_critical |
 | cure-critical-wounds-mass | Cure Critical Wounds, Mass | Clr 8, Drd 9, Healing 8 | healing | E0 | — | — |
 | cure-light-wounds | Cure Light Wounds | Brd 1, Clr 1, Drd 1, Healing 1, Pal 1, Rgr 2 | healing | E3 | — | cure |
 | cure-light-wounds-mass | Cure Light Wounds, Mass | Brd 5, Clr 5, Drd 6, Healing 5 | healing | E0 | — | — |
-| cure-minor-wounds | Cure Minor Wounds | Clr 0, Drd 0 | world | E1 | effect.world | cure_minor |
+| cure-minor-wounds | Cure Minor Wounds | Clr 0, Drd 0 | healing | E1 | — | cure_minor |
 | cure-moderate-wounds | Cure Moderate Wounds | Brd 2, Clr 2, Drd 3, Healing 2, Pal 3, Rgr 3 | healing | E3 | — | cure_moderate |
 | cure-moderate-wounds-mass | Cure Moderate Wounds, Mass | Brd 6, Clr 6, Drd 7 | healing | E0 | — | — |
 | cure-serious-wounds | Cure Serious Wounds | Brd 3, Clr 3, Drd 4, Pal 4, Rgr 4, Healing 3 | healing | E3 | — | cure_serious |
 | cure-serious-wounds-mass | Cure Serious Wounds, Mass | Clr 7, Drd 8 | healing | E0 | — | — |
-| curse-water | Curse Water | Clr 1 | world | E0 | attack.meleeTouch, effect.world, resist.spell | — |
-| dancing-lights | Dancing Lights | Brd 0, Sor/Wiz 0 | world | E1 | effect.world | dancing_lights |
-| darkness | Darkness | Brd 2, Clr 2, Sor/Wiz 2 | world | E1 | effect.world, target.object | create_darkness |
+| curse-water | Curse Water | Clr 1 | environment | E0 | area.persistent, attack.meleeTouch, resist.spell | — |
+| dancing-lights | Dancing Lights | Brd 0, Sor/Wiz 0 | environment | E1 | area.persistent | dancing_lights |
+| darkness | Darkness | Brd 2, Clr 2, Sor/Wiz 2 | environment | E1 | area.persistent, target.object | create_darkness |
 | darkvision | Darkvision | Rgr 3, Sor/Wiz 2 | divination | E0 | effect.reveal | — |
-| daylight | Daylight | Brd 3, Clr 3, Drd 3, Pal 3, Sor/Wiz 3 | world | E1 | attack.meleeTouch, effect.world, target.object | daylight |
+| daylight | Daylight | Brd 3, Clr 3, Drd 3, Pal 3, Sor/Wiz 3 | environment | E1 | area.persistent, attack.meleeTouch, target.object | daylight |
 | daze | Daze | Brd 0, Sor/Wiz 0 | control | E0 | resist.spell | — |
 | daze-monster | Daze Monster | Brd 2, Sor/Wiz 2 | control | E0 | resist.spell | — |
-| death-knell | Death Knell | Clr 2, Death 2 | world | E0 | effect.world, resist.spell | — |
+| death-knell | Death Knell | Clr 2, Death 2 | control | E0 | resist.spell | — |
 | death-ward | Death Ward | Clr 4, Death 4, Drd 5, Pal 4 | protection | E1 | — | death_ward |
 | deathwatch | Deathwatch | Clr 1 | world | E0 | effect.world | — |
 | deep-slumber | Deep Slumber | Brd 3, Sor/Wiz 3 | control | E0 | resist.spell | — |
-| deeper-darkness | Deeper Darkness | Clr 3 | world | E0 | effect.world, target.object | — |
+| deeper-darkness | Deeper Darkness | Clr 3 | environment | E0 | area.persistent, target.object | — |
 | delay-poison | Delay Poison | Brd 2, Clr 2, Drd 2, Pal 2, Rgr 1 | removal | E0 | effect.dispel | — |
 | delayed-blast-fireball | Delayed Blast Fireball | Sor/Wiz 7 | damage | E0 | resist.spell | — |
 | demand | Demand | Sor/Wiz 8 | control | E0 | resist.spell | — |
-| desecrate | Desecrate | Clr 2, Evil 2 | world | E0 | effect.world, resist.spell | — |
+| desecrate | Desecrate | Clr 2, Evil 2 | environment | E0 | area.persistent, resist.spell | — |
 | destruction | Destruction | Clr 7, Death 7 | damage | E0 | resist.spell | — |
 | detect-animals-or-plants | Detect Animals or Plants | Drd 1, Rgr 1 | divination | E0 | duration.concentration, effect.reveal | — |
 | detect-chaos | Detect Chaos | Clr 1 | divination | E0 | duration.concentration, effect.reveal | — |
@@ -192,16 +195,16 @@ become ready).
 | detect-snares-and-pits | Detect Snares and Pits | Drd 1, Rgr 1 | divination | E0 | duration.concentration, effect.reveal | — |
 | detect-thoughts | Detect Thoughts | Brd 2, Knowledge 2, Sor/Wiz 2 | divination | E1 | duration.concentration, effect.reveal | mind_reading |
 | detect-undead | Detect Undead | Clr 1, Pal 1, Sor/Wiz 1 | divination | E0 | duration.concentration, effect.reveal | — |
-| dictum | Dictum | Clr 7, Law 7 | world | E0 | effect.world, resist.spell | — |
+| dictum | Dictum | Clr 7, Law 7 | damage | E0 | resist.spell | — |
 | dimension-door | Dimension Door | Brd 4, Sor/Wiz 4, Travel 4 | damage | E0 | target.object | — |
-| dimensional-anchor | Dimensional Anchor | Clr 4, Sor/Wiz 4 | world | E0 | attack.rangedTouch, effect.world, resist.spell | — |
-| dimensional-lock | Dimensional Lock | Clr 8, Sor/Wiz 8 | world | E0 | effect.world, resist.spell | — |
-| diminish-plants | Diminish Plants | Drd 3, Rgr 3 | world | E0 | effect.world | — |
+| dimensional-anchor | Dimensional Anchor | Clr 4, Sor/Wiz 4 | control | E0 | attack.rangedTouch, resist.spell | — |
+| dimensional-lock | Dimensional Lock | Clr 8, Sor/Wiz 8 | control | E0 | resist.spell | — |
+| diminish-plants | Diminish Plants | Drd 3, Rgr 3 | environment | E0 | area.persistent | — |
 | discern-lies | Discern Lies | Clr 4, Pal 3 | divination | E0 | duration.concentration, effect.reveal | — |
 | discern-location | Discern Location | Clr 8, Knowledge 8, Sor/Wiz 8 | divination | E0 | effect.reveal, target.object | — |
 | disguise-self | Disguise Self | Brd 1, Sor/Wiz 1, Trickery 1 | illusion | E0 | effect.manifest | — |
 | disintegrate | Disintegrate | Destruction 7, Sor/Wiz 6 | damage | E1 | attack.rangedTouch, resist.spell | disintegrate |
-| dismissal | Dismissal | Clr 4, Sor/Wiz 5 | world | E0 | effect.world, resist.spell | — |
+| dismissal | Dismissal | Clr 4, Sor/Wiz 5 | control | E0 | resist.spell | — |
 | dispel-chaos | Dispel Chaos | Clr 5, Law 5, Pal 4 | removal | E0 | effect.dispel, review.text, target.object | — |
 | dispel-evil | Dispel Evil | Clr 5, Good 5, Pal 4 | removal | E0 | attack.meleeTouch, effect.dispel, review.text, target.object | — |
 | dispel-good | Dispel Good | Clr 5, Evil 5 | removal | E0 | effect.dispel, review.text, target.object | — |
@@ -210,7 +213,7 @@ become ready).
 | dispel-magic-greater | Dispel Magic, Greater | Brd 5, Clr 6, Drd 6, Sor/Wiz 6 | removal | E0 | effect.dispel | — |
 | displacement | Displacement | Brd 3, Sor/Wiz 3 | protection | E0 | — | — |
 | disrupt-undead | Disrupt Undead | Sor/Wiz 0 | damage | E0 | attack.rangedTouch, resist.spell | — |
-| disrupting-weapon | Disrupting Weapon | Clr 5 | world | E0 | effect.world | — |
+| disrupting-weapon | Disrupting Weapon | Clr 5 | object | E0 | target.object | — |
 | divination | Divination | Clr 4, Knowledge 4 | divination | E0 | effect.reveal | — |
 | divine-favor | Divine Favor | Clr 1, Pal 1 | protection | E1 | — | divine_favor |
 | divine-power | Divine Power | Clr 4, War 4 | world | E1 | effect.world | divine_power |
@@ -219,35 +222,35 @@ become ready).
 | dominate-person | Dominate Person | Brd 4, Sor/Wiz 5 | control | E1 | resist.spell | dominate_person |
 | doom | Doom | Clr 1 | control | E0 | resist.spell | — |
 | dream | Dream | Brd 5, Sor/Wiz 5 | illusion | E0 | effect.manifest, resist.spell | — |
-| eagles-splendor | Eagle’s Splendor | Brd 2, Clr 2, Pal 2, Sor/Wiz 2 | world | E0 | effect.world, resist.spell | — |
-| eagles-splendor-mass | Eagle’s Splendor, Mass | Brd 6, Clr 6, Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
+| eagles-splendor | Eagle’s Splendor | Brd 2, Clr 2, Pal 2, Sor/Wiz 2 | protection | E0 | resist.spell | — |
+| eagles-splendor-mass | Eagle’s Splendor, Mass | Brd 6, Clr 6, Sor/Wiz 6 | protection | E0 | resist.spell | — |
 | earthquake | Earthquake | Clr 8, Destruction 8, Drd 8, Earth 7 | damage | E1 | review.text | earthquake |
 | elemental-swarm | Elemental Swarm | Air 9, Drd 9, Earth 9, Fire 9, Water 9 | world | E0 | effect.world | — |
 | endure-elements | Endure Elements | Clr 1, Drd 1, Pal 1, Rgr 1, Sor/Wiz 1, Sun 1 | protection | E0 | — | — |
-| energy-drain | Energy Drain | Clr 9, Sor/Wiz 9 | world | E0 | effect.world, resist.spell | — |
-| enervation | Enervation | Sor/Wiz 4 | world | E0 | attack.rangedTouch, effect.world, resist.spell | — |
+| energy-drain | Energy Drain | Clr 9, Sor/Wiz 9 | damage | E0 | resist.spell | — |
+| enervation | Enervation | Sor/Wiz 4 | damage | E0 | attack.rangedTouch, resist.spell | — |
 | enlarge-person | Enlarge Person | Sor/Wiz 1, Strength 1 | transformation | E1 | effect.transform, resist.spell | enlarge |
 | enlarge-person-mass | Enlarge Person, Mass | Sor/Wiz 4 | transformation | E0 | effect.transform, resist.spell | — |
 | entangle | Entangle | Drd 1, Plant 1, Rgr 1 | control | E3 | — | entangle |
 | enthrall | Enthrall | Brd 2, Clr 2 | control | E0 | resist.spell | — |
 | entropic-shield | Entropic Shield | Clr 1, Luck 1 | protection | E0 | — | — |
-| erase | Erase | Brd 1, Sor/Wiz 1 | world | E0 | effect.world, review.text | — |
+| erase | Erase | Brd 1, Sor/Wiz 1 | object | E0 | review.text, target.object | — |
 | ethereal-jaunt | Ethereal Jaunt | Clr 7, Sor/Wiz 7 | damage | E0 | — | — |
 | etherealness | Etherealness | Clr 9, Sor/Wiz 9 | movement | E0 | resist.spell | — |
 | expeditious-retreat | Expeditious Retreat | Brd 1, Sor/Wiz 1 | movement | E0 | — | — |
 | explosive-runes | Explosive Runes | Sor/Wiz 3 | damage | E0 | attack.meleeTouch, resist.spell, review.text, target.object | — |
 | eyebite | Eyebite | Brd 6, Sor/Wiz 6 | control | E0 | resist.spell | — |
 | fabricate | Fabricate | Sor/Wiz 5 | creation | E0 | effect.create, review.text | — |
-| faerie-fire | Faerie Fire | Drd 1 | world | E0 | effect.world, resist.spell, target.object | — |
+| faerie-fire | Faerie Fire | Drd 1 | environment | E0 | area.persistent, resist.spell, target.object | — |
 | false-life | False Life | Sor/Wiz 2 | protection | E1 | — | false_life |
 | false-vision | False Vision | Brd 5, Sor/Wiz 5, Trickery 5 | divination | E0 | effect.reveal | — |
 | fear | Fear | Brd 3, Sor/Wiz 4 | control | E0 | resist.spell | — |
 | feather-fall | Feather Fall | Brd 1, Sor/Wiz 1 | world | E0 | effect.world, resist.spell, target.object | — |
-| feeblemind | Feeblemind | Sor/Wiz 5 | world | E0 | effect.world, resist.spell | — |
+| feeblemind | Feeblemind | Sor/Wiz 5 | control | E0 | resist.spell | — |
 | find-the-path | Find the Path | Brd 6, Clr 6, Drd 6, Knowledge 6, Travel 6 | divination | E0 | effect.reveal | — |
 | find-traps | Find Traps | Clr 2 | divination | E0 | effect.reveal | — |
 | finger-of-death | Finger of Death | Drd 8, Sor/Wiz 7 | damage | E1 | resist.spell | finger_of_death |
-| fire-seeds | Fire Seeds | Drd 6, Fire 6, Sun 6 | world | E0 | attack.meleeTouch, effect.world | — |
+| fire-seeds | Fire Seeds | Drd 6, Fire 6, Sun 6 | damage | E0 | attack.meleeTouch | — |
 | fire-shield | Fire Shield | Fire 5, Sor/Wiz 4, Sun 4 | damage | E0 | — | — |
 | fire-storm | Fire Storm | Clr 8, Drd 7, Fire 7 | damage | E1 | resist.spell | fire_storm |
 | fire-trap | Fire Trap | Drd 2, Sor/Wiz 4 | damage | E0 | attack.meleeTouch, resist.spell, target.object | — |
@@ -256,17 +259,17 @@ become ready).
 | flame-blade | Flame Blade | Drd 2 | damage | E0 | attack.meleeTouch, resist.spell | — |
 | flame-strike | Flame Strike | Clr 5, Drd 4, Sun 5, War 5 | damage | E0 | resist.spell | — |
 | flaming-sphere | Flaming Sphere | Drd 2, Sor/Wiz 2 | damage | E0 | resist.spell | — |
-| flare | Flare | Brd 0, Drd 0, Sor/Wiz 0 | world | E0 | effect.world, resist.spell | — |
+| flare | Flare | Brd 0, Drd 0, Sor/Wiz 0 | damage | E0 | resist.spell | — |
 | flesh-to-stone | Flesh to Stone | Sor/Wiz 6 | transformation | E1 | effect.transform, resist.spell | flesh_to_stone |
 | floating-disk | Floating Disk | Sor/Wiz 1 | creation | E0 | effect.create | — |
 | fly | Fly | Sor/Wiz 3, Travel 3 | damage | E1 | — | flight |
-| fog-cloud | Fog Cloud | Drd 2, Sor/Wiz 2, Water 2 | world | E0 | effect.world | — |
+| fog-cloud | Fog Cloud | Drd 2, Sor/Wiz 2, Water 2 | environment | E0 | area.persistent | — |
 | forbiddance | Forbiddance | Clr 6 | damage | E0 | resist.spell, review.text | — |
 | forcecage | Forcecage | Sor/Wiz 7 | creation | E0 | effect.create | — |
 | forceful-hand | Forceful Hand | Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
 | foresight | Foresight | Drd 9, Knowledge 9, Sor/Wiz 9 | divination | E1 | effect.reveal, review.text | foresight |
-| foxs-cunning | Fox’s Cunning | Brd 2, Sor/Wiz 2 | world | E0 | effect.world, resist.spell | — |
-| foxs-cunning-mass | Fox’s Cunning, Mass | Brd 6, Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
+| foxs-cunning | Fox’s Cunning | Brd 2, Sor/Wiz 2 | protection | E0 | resist.spell | — |
+| foxs-cunning-mass | Fox’s Cunning, Mass | Brd 6, Sor/Wiz 6 | protection | E0 | resist.spell | — |
 | freedom | Freedom | Sor/Wiz 9 | protection | E0 | resist.spell | — |
 | freedom-of-movement | Freedom of Movement | Brd 4, Clr 4, Drd 4, Luck 4, Rgr 4 | movement | E0 | — | — |
 | freezing-sphere | Freezing Sphere | Sor/Wiz 6 | damage | E0 | resist.spell | — |
@@ -278,30 +281,30 @@ become ready).
 | ghost-sound | Ghost Sound | Brd 0, Sor/Wiz 0 | illusion | E0 | effect.manifest | — |
 | ghoul-touch | Ghoul Touch | Sor/Wiz 2 | control | E1 | attack.meleeTouch, resist.spell | paralyzing_touch |
 | giant-vermin | Giant Vermin | Clr 4, Drd 4 | world | E0 | effect.world, resist.spell | — |
-| glibness | Glibness | Brd 3 | world | E0 | effect.world | — |
+| glibness | Glibness | Brd 3 | control | E0 | — | — |
 | glitterdust | Glitterdust | Brd 2, Sor/Wiz 2 | control | E0 | target.object | — |
 | globe-of-invulnerability | Globe of Invulnerability | Sor/Wiz 6 | protection | E1 | — | invulnerability |
 | globe-of-invulnerability-lesser | Globe of Invulnerability, Lesser | Sor/Wiz 4 | protection | E0 | — | — |
 | glyph-of-warding | Glyph of Warding | Clr 3 | protection | E1 | attack.meleeTouch, review.text | glyph_of_warding |
 | glyph-of-warding-greater | Glyph of Warding, Greater | Clr 6 | damage | E0 | review.text | — |
-| good-hope | Good Hope | Brd 3 | world | E0 | effect.world | — |
-| goodberry | Goodberry | Drd 1 | world | E1 | attack.meleeTouch, effect.world, resist.spell | goodberry |
+| good-hope | Good Hope | Brd 3 | control | E0 | — | — |
+| goodberry | Goodberry | Drd 1 | healing | E1 | attack.meleeTouch, resist.spell | goodberry |
 | grasping-hand | Grasping Hand | Sor/Wiz 7, Strength 7 | world | E0 | effect.world, resist.spell | — |
-| grease | Grease | Brd 1, Sor/Wiz 1 | world | E0 | effect.world, review.text | — |
+| grease | Grease | Brd 1, Sor/Wiz 1 | control | E0 | review.text | — |
 | guards-and-wards | Guards and Wards | Sor/Wiz 6 | protection | E0 | review.text | — |
 | guidance | Guidance | Clr 0, Drd 0 | divination | E0 | effect.reveal, resist.spell | — |
 | gust-of-wind | Gust of Wind | Drd 2, Sor/Wiz 2 | damage | E0 | resist.spell | — |
-| hallow | Hallow | Clr 5, Drd 5 | world | E0 | effect.world, review.text | — |
+| hallow | Hallow | Clr 5, Drd 5 | environment | E0 | area.persistent, review.text | — |
 | hallucinatory-terrain | Hallucinatory Terrain | Brd 4, Sor/Wiz 4 | illusion | E0 | effect.manifest | — |
 | halt-undead | Halt Undead | Sor/Wiz 3 | control | E0 | resist.spell | — |
-| harm | Harm | Clr 6, Destruction 6 | world | E1 | attack.meleeTouch, effect.world, resist.spell | harm |
+| harm | Harm | Clr 6, Destruction 6 | damage | E1 | attack.meleeTouch, resist.spell | harm |
 | haste | Haste | Brd 3, Sor/Wiz 3 | movement | E1 | — | haste |
-| heal | Heal | Clr 6, Drd 7, Healing 6 | world | E1 | effect.world | heal |
-| heal-mass | Heal, Mass | Clr 9, Healing 9 | world | E1 | effect.world | mass_heal |
-| heal-mount | Heal Mount | Pal 3 | world | E0 | effect.world | — |
+| heal | Heal | Clr 6, Drd 7, Healing 6 | healing | E1 | — | heal |
+| heal-mass | Heal, Mass | Clr 9, Healing 9 | healing | E1 | — | mass_heal |
+| heal-mount | Heal Mount | Pal 3 | healing | E0 | — | — |
 | heat-metal | Heat Metal | Drd 2, Sun 2 | control | E0 | resist.spell | — |
 | helping-hand | Helping Hand | Clr 3 | world | E0 | effect.world | — |
-| heroes-feast | Heroes’ Feast | Brd 6, Clr 6 | world | E0 | effect.world | — |
+| heroes-feast | Heroes’ Feast | Brd 6, Clr 6 | healing | E0 | — | — |
 | heroism | Heroism | Brd 2, Sor/Wiz 3 | protection | E0 | — | — |
 | heroism-greater | Heroism, Greater | Brd 5, Sor/Wiz 6 | protection | E0 | — | — |
 | hide-from-animals | Hide From Animals | Drd 1, Rgr 1 | world | E0 | effect.world, resist.spell | — |
@@ -312,11 +315,11 @@ become ready).
 | hold-monster-mass | Hold Monster, Mass | Sor/Wiz 9 | control | E0 | resist.spell | — |
 | hold-person | Hold Person | Brd 2, Clr 2, Sor/Wiz 3 | control | E3 | resist.spell | hold_person |
 | hold-person-mass | Hold Person, Mass | Sor/Wiz 7 | control | E0 | resist.spell | — |
-| hold-portal | Hold Portal | Sor/Wiz 1 | world | E0 | effect.world | — |
+| hold-portal | Hold Portal | Sor/Wiz 1 | object | E0 | target.object | — |
 | holy-aura | Holy Aura | Clr 8, Good 8 | world | E0 | effect.world, review.text | — |
 | holy-smite | Holy Smite | Good 4 | damage | E1 | resist.spell | holy_wrath |
 | holy-sword | Holy Sword | Pal 4 | damage | E0 | attack.meleeTouch | — |
-| holy-word | Holy Word | Clr 7, Good 7 | world | E0 | effect.world, resist.spell | — |
+| holy-word | Holy Word | Clr 7, Good 7 | damage | E0 | resist.spell | — |
 | horrid-wilting | Horrid Wilting | Sor/Wiz 8, Water 8 | damage | E0 | resist.spell | — |
 | hypnotic-pattern | Hypnotic Pattern | Brd 2, Sor/Wiz 2 | illusion | E0 | duration.concentration, effect.manifest, resist.spell | — |
 | hypnotism | Hypnotism | Brd 1, Sor/Wiz 1 | control | E0 | resist.spell | — |
@@ -326,19 +329,19 @@ become ready).
 | illusory-wall | Illusory Wall | Sor/Wiz 4 | illusion | E0 | effect.manifest | — |
 | imbue-with-spell-ability | Imbue with Spell Ability | Clr 4, Magic 4 | world | E0 | effect.world, review.text | — |
 | implosion | Implosion | Clr 9, Destruction 9 | control | E1 | duration.concentration, resist.spell | implosion |
-| imprisonment | Imprisonment | Sor/Wiz 9 | world | E0 | effect.world, resist.spell | — |
+| imprisonment | Imprisonment | Sor/Wiz 9 | control | E0 | resist.spell | — |
 | incendiary-cloud | Incendiary Cloud | Fire 8, Sor/Wiz 8 | damage | E0 | — | — |
 | inflict-critical-wounds | Inflict Critical Wounds | Clr 4, Destruction 4 | damage | E0 | resist.spell | — |
 | inflict-critical-wounds-mass | Inflict Critical Wounds, Mass | Clr 8 | damage | E0 | — | — |
 | inflict-light-wounds | Inflict Light Wounds | Clr 1, Destruction 1 | damage | E0 | attack.meleeTouch, resist.spell | — |
 | inflict-light-wounds-mass | Inflict Light Wounds, Mass | Clr 5, Destruction 5 | damage | E0 | resist.spell | — |
-| inflict-minor-wounds | Inflict Minor Wounds | Clr 0 | world | E0 | effect.world, resist.spell | — |
+| inflict-minor-wounds | Inflict Minor Wounds | Clr 0 | damage | E0 | resist.spell | — |
 | inflict-moderate-wounds | Inflict Moderate Wounds | Clr 2 | damage | E0 | resist.spell | — |
 | inflict-moderate-wounds-mass | Inflict Moderate Wounds, Mass | Clr 6 | damage | E0 | — | — |
 | inflict-serious-wounds | Inflict Serious Wounds | Clr 3 | damage | E0 | resist.spell | — |
 | inflict-serious-wounds-mass | Inflict Serious Wounds, Mass | Clr 7 | damage | E0 | — | — |
-| insanity | Insanity | Sor/Wiz 7 | world | E1 | effect.world, resist.spell | insanity |
-| insect-plague | Insect Plague | Clr 5, Drd 5 | world | E0 | effect.world | — |
+| insanity | Insanity | Sor/Wiz 7 | control | E1 | resist.spell | insanity |
+| insect-plague | Insect Plague | Clr 5, Drd 5 | damage | E0 | — | — |
 | instant-summons | Instant Summons | Sor/Wiz 7 | summoning | E0 | effect.summon, target.object | — |
 | interposing-hand | Interposing Hand | Sor/Wiz 5 | world | E0 | effect.world, resist.spell | — |
 | invisibility | Invisibility | Brd 2, Sor/Wiz 2, Trickery 2 | protection | E1 | target.object | invisibility |
@@ -347,15 +350,15 @@ become ready).
 | invisibility-purge | Invisibility Purge | Clr 3 | protection | E0 | — | — |
 | invisibility-sphere | Invisibility Sphere | Brd 3, Sor/Wiz 3 | protection | E0 | target.object | — |
 | iron-body | Iron Body | Earth 8, Sor/Wiz 8 | world | E0 | effect.world | — |
-| ironwood | Ironwood | Drd 6 | world | E0 | effect.world, target.object | — |
+| ironwood | Ironwood | Drd 6 | object | E0 | target.object | — |
 | irresistible-dance | Irresistible Dance | Brd 6, Sor/Wiz 8 | protection | E0 | resist.spell | — |
 | jump | Jump | Drd 1, Rgr 1, Sor/Wiz 1 | movement | E0 | resist.spell | — |
-| keen-edge | Keen Edge | Sor/Wiz 3 | world | E0 | effect.world | — |
-| knock | Knock | Sor/Wiz 2 | world | E1 | effect.world | knock |
+| keen-edge | Keen Edge | Sor/Wiz 3 | object | E0 | target.object | — |
+| knock | Knock | Sor/Wiz 2 | object | E1 | target.object | knock |
 | know-direction | Know Direction | Brd 0, Drd 0 | divination | E0 | effect.reveal | — |
 | legend-lore | Legend Lore | Brd 4, Knowledge 7, Sor/Wiz 6 | divination | E0 | effect.reveal | — |
 | levitate | Levitate | Sor/Wiz 2 | movement | E0 | target.object | — |
-| light | Light | Brd 0, Clr 0, Drd 0, Sor/Wiz 0 | world | E1 | effect.world, target.object | conjure_light |
+| light | Light | Brd 0, Clr 0, Drd 0, Sor/Wiz 0 | environment | E1 | area.persistent, target.object | conjure_light |
 | lightning-bolt | Lightning Bolt | Sor/Wiz 3 | damage | E3 | resist.spell | lightning_bolt |
 | limited-wish | Limited Wish | Sor/Wiz 7 | world | E0 | effect.world, resist.spell | — |
 | liveoak | Liveoak | Drd 6 | world | E0 | effect.world | — |
@@ -364,7 +367,7 @@ become ready).
 | longstrider | Longstrider | Drd 1, Rgr 1, Travel 1 | world | E0 | effect.world | — |
 | lullaby | Lullaby | Brd 0 | control | E0 | duration.concentration, resist.spell | — |
 | mage-armor | Mage Armor | Sor/Wiz 1 | protection | E1 | — | armor |
-| mage-hand | Mage Hand | Brd 0, Sor/Wiz 0 | world | E0 | duration.concentration, effect.world, target.object | — |
+| mage-hand | Mage Hand | Brd 0, Sor/Wiz 0 | object | E0 | duration.concentration, target.object | — |
 | mages-disjunction | Mage’s Disjunction | Magic 9, Sor/Wiz 9 | removal | E0 | effect.dispel | — |
 | mages-faithful-hound | Mage’s Faithful Hound | Sor/Wiz 5 | damage | E0 | — | — |
 | mages-lucubration | Mage’s Lucubration | Wiz 6 | world | E0 | effect.world | — |
@@ -387,15 +390,15 @@ become ready).
 | magic-weapon-greater | Magic Weapon, Greater | Clr 4, Pal 3, Sor/Wiz 3 | protection | E0 | — | — |
 | major-creation | Major Creation | Sor/Wiz 5 | creation | E0 | effect.create, target.object | — |
 | major-image | Major Image | Brd 3, Sor/Wiz 3 | illusion | E1 | duration.concentration, effect.manifest | image |
-| make-whole | Make Whole | Clr 2 | world | E0 | effect.world, target.object | — |
+| make-whole | Make Whole | Clr 2 | object | E0 | target.object | — |
 | mark-of-justice | Mark of Justice | Clr 5, Pal 4 | world | E0 | effect.world, resist.spell | — |
-| maze | Maze | Sor/Wiz 8 | world | E1 | effect.world, resist.spell | maze |
+| maze | Maze | Sor/Wiz 8 | control | E1 | resist.spell | maze |
 | meld-into-stone | Meld Into Stone | Clr 3, Drd 3 | damage | E0 | — | — |
-| mending | Mending | Brd 0, Clr 0, Drd 0, Sor/Wiz 0 | world | E0 | effect.world, target.object | — |
+| mending | Mending | Brd 0, Clr 0, Drd 0, Sor/Wiz 0 | object | E0 | target.object | — |
 | message | Message | Brd 0, Sor/Wiz 0 | communication | E0 | effect.contact | — |
 | meteor-swarm | Meteor Swarm | Sor/Wiz 9 | damage | E1 | attack.rangedTouch, resist.spell, review.text | meteor_swarm |
 | mind-blank | Mind Blank | Protection 8, Sor/Wiz 8 | protection | E1 | — | mind_blank |
-| mind-fog | Mind Fog | Brd 5, Sor/Wiz 5 | control | E0 | resist.spell | — |
+| mind-fog | Mind Fog | Brd 5, Sor/Wiz 5 | environment | E0 | area.persistent, resist.spell | — |
 | minor-creation | Minor Creation | Sor/Wiz 4 | creation | E0 | effect.create, target.object | — |
 | minor-image | Minor Image | Brd 2, Sor/Wiz 2 | illusion | E1 | duration.concentration, effect.manifest | minor_image |
 | miracle | Miracle | Clr 9, Luck 9 | world | E0 | effect.world, resist.spell, review.text | — |
@@ -407,17 +410,17 @@ become ready).
 | modify-memory | Modify Memory | Brd 4 | control | E0 | resist.spell | — |
 | moment-of-prescience | Moment of Prescience | Luck 8, Sor/Wiz 8 | divination | E0 | effect.reveal | — |
 | mount | Mount | Sor/Wiz 1 | world | E0 | effect.world | — |
-| move-earth | Move Earth | Drd 6, Sor/Wiz 6 | world | E0 | effect.world | — |
+| move-earth | Move Earth | Drd 6, Sor/Wiz 6 | object | E0 | target.object | — |
 | neutralize-poison | Neutralize Poison | Brd 4, Clr 4, Drd 3, Pal 4, Rgr 3 | removal | E0 | effect.dispel, target.object | — |
 | nightmare | Nightmare | Brd 5, Sor/Wiz 5 | damage | E1 | resist.spell | nightmare |
 | nondetection | Nondetection | Rgr 4, Sor/Wiz 3, Trickery 3 | divination | E0 | effect.reveal, target.object | — |
 | obscure-object | Obscure Object | Brd 1, Clr 3, Sor/Wiz 2 | control | E0 | resist.spell, target.object | — |
-| obscuring-mist | Obscuring Mist | Air 1, Clr 1, Drd 1, Sor/Wiz 1, Water 1 | world | E1 | effect.world | obscuring_mist |
-| open-close | Open/Close | Brd 0, Sor/Wiz 0 | world | E0 | effect.world, resist.spell, target.object | — |
+| obscuring-mist | Obscuring Mist | Air 1, Clr 1, Drd 1, Sor/Wiz 1, Water 1 | environment | E1 | area.persistent | obscuring_mist |
+| open-close | Open/Close | Brd 0, Sor/Wiz 0 | object | E0 | resist.spell, target.object | — |
 | orders-wrath | Order’s Wrath | Law 4 | damage | E0 | resist.spell | — |
-| overland-flight | Overland Flight | Sor/Wiz 5 | world | E0 | effect.world | — |
-| owls-wisdom | Owl’s Wisdom | Clr 2, Drd 2, Pal 2, Rgr 2, Sor/Wiz 2 | world | E0 | effect.world, resist.spell | — |
-| owls-wisdom-mass | Owl’s Wisdom, Mass | Clr 6, Drd 6, Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
+| overland-flight | Overland Flight | Sor/Wiz 5 | environment | E0 | area.persistent | — |
+| owls-wisdom | Owl’s Wisdom | Clr 2, Drd 2, Pal 2, Rgr 2, Sor/Wiz 2 | protection | E0 | resist.spell | — |
+| owls-wisdom-mass | Owl’s Wisdom, Mass | Clr 6, Drd 6, Sor/Wiz 6 | protection | E0 | resist.spell | — |
 | pass-without-trace | Pass Without Trace | Drd 1, Rgr 1 | world | E0 | effect.world | — |
 | passwall | Passwall | Sor/Wiz 5 | movement | E0 | — | — |
 | permanency | Permanency | Sor/Wiz 5 | world | E0 | effect.world | — |
@@ -434,18 +437,18 @@ become ready).
 | planar-binding-greater | Planar Binding, Greater | Sor/Wiz 8 | summoning | E0 | effect.summon | — |
 | planar-binding-lesser | Planar Binding, Lesser | Sor/Wiz 5 | summoning | E0 | effect.summon | — |
 | plane-shift | Plane Shift | Clr 5, Sor/Wiz 7 | movement | E1 | resist.spell | plane_shift |
-| plant-growth | Plant Growth | Drd 3, Plant 3, Rgr 3 | world | E0 | effect.world | — |
-| poison | Poison | Clr 4, Drd 3 | world | E0 | attack.meleeTouch, effect.world, resist.spell | — |
+| plant-growth | Plant Growth | Drd 3, Plant 3, Rgr 3 | environment | E0 | area.persistent | — |
+| poison | Poison | Clr 4, Drd 3 | control | E0 | attack.meleeTouch, resist.spell | — |
 | polar-ray | Polar Ray | Sor/Wiz 8 | damage | E1 | attack.rangedTouch, resist.spell | polar_ray |
 | polymorph | Polymorph | Sor/Wiz 4 | transformation | E1 | attack.meleeTouch, effect.transform | polymorph |
 | polymorph-any-object | Polymorph Any Object | Sor/Wiz 8, Trickery 8 | transformation | E0 | effect.transform, resist.spell, target.object | — |
-| power-word-blind | Power Word Blind | Sor/Wiz 7, War 7 | world | E0 | effect.world, resist.spell | — |
-| power-word-kill | Power Word Kill | Sor/Wiz 9, War 9 | world | E1 | effect.world, resist.spell | death |
-| power-word-stun | Power Word Stun | Sor/Wiz 8, War 8 | world | E0 | effect.world, resist.spell | — |
+| power-word-blind | Power Word Blind | Sor/Wiz 7, War 7 | control | E0 | resist.spell | — |
+| power-word-kill | Power Word Kill | Sor/Wiz 9, War 9 | damage | E1 | resist.spell | death |
+| power-word-stun | Power Word Stun | Sor/Wiz 8, War 8 | control | E0 | resist.spell | — |
 | prayer | Prayer | Clr 3, Pal 3 | protection | E1 | resist.spell | prayer |
-| prestidigitation | Prestidigitation | Brd 0, Sor/Wiz 0 | world | E0 | effect.world, review.text | — |
-| prismatic-sphere | Prismatic Sphere | Protection 9, Sor/Wiz 9, Sun 9 | world | E0 | effect.world, review.text | — |
-| prismatic-spray | Prismatic Spray | Sor/Wiz 7 | world | E1 | effect.world, resist.spell, review.text | prismatic_spray |
+| prestidigitation | Prestidigitation | Brd 0, Sor/Wiz 0 | object | E0 | review.text, target.object | — |
+| prismatic-sphere | Prismatic Sphere | Protection 9, Sor/Wiz 9, Sun 9 | environment | E0 | area.persistent, review.text | — |
+| prismatic-spray | Prismatic Spray | Sor/Wiz 7 | damage | E1 | resist.spell, review.text | prismatic_spray |
 | prismatic-wall | Prismatic Wall | Sor/Wiz 8 | creation | E0 | effect.create, review.text | — |
 | produce-flame | Produce Flame | Drd 1, Fire 2 | world | E0 | attack.rangedTouch, effect.world, resist.spell | — |
 | programmed-image | Programmed Image | Brd 6, Sor/Wiz 6 | illusion | E0 | effect.manifest | — |
@@ -459,13 +462,13 @@ become ready).
 | protection-from-spells | Protection From Spells | Magic 8, Sor/Wiz 8 | protection | E0 | — | — |
 | prying-eyes | Prying Eyes | Sor/Wiz 5 | divination | E0 | effect.reveal | — |
 | prying-eyes-greater | Prying Eyes, Greater | Sor/Wiz 8 | divination | E0 | effect.reveal | — |
-| purify-food-and-drink | Purify Food and Drink | Clr 0, Drd 0 | world | E0 | effect.world, resist.spell | — |
+| purify-food-and-drink | Purify Food and Drink | Clr 0, Drd 0 | object | E0 | resist.spell, target.object | — |
 | pyrotechnics | Pyrotechnics | Brd 2, Sor/Wiz 2 | control | E0 | resist.spell | — |
 | quench | Quench | Drd 3 | damage | E0 | — | — |
-| rage | Rage | Brd 2, Sor/Wiz 3 | world | E0 | duration.concentration, effect.world, resist.spell | — |
+| rage | Rage | Brd 2, Sor/Wiz 3 | control | E0 | duration.concentration, resist.spell | — |
 | rainbow-pattern | Rainbow Pattern | Brd 4, Sor/Wiz 4 | illusion | E0 | duration.concentration, effect.manifest, resist.spell | — |
-| raise-dead | Raise Dead | Clr 5 | world | E1 | attack.meleeTouch, effect.world | raise_dead |
-| ray-of-enfeeblement | Ray of Enfeeblement | Sor/Wiz 1 | world | E1 | attack.rangedTouch, effect.world, resist.spell | weakness |
+| raise-dead | Raise Dead | Clr 5 | healing | E1 | attack.meleeTouch | raise_dead |
+| ray-of-enfeeblement | Ray of Enfeeblement | Sor/Wiz 1 | control | E1 | attack.rangedTouch, resist.spell | weakness |
 | ray-of-exhaustion | Ray of Exhaustion | Sor/Wiz 3 | control | E0 | attack.rangedTouch, resist.spell | — |
 | ray-of-frost | Ray of Frost | Sor/Wiz 0 | damage | E1 | attack.rangedTouch, resist.spell | ray_of_frost |
 | read-magic | Read Magic | Brd 0, Clr 0, Drd 0, Pal 1, Rgr 1, Sor/Wiz 0 | divination | E0 | effect.reveal | — |
@@ -474,15 +477,15 @@ become ready).
 | reduce-person-mass | Reduce Person, Mass | Sor/Wiz 4 | transformation | E0 | effect.transform, resist.spell | — |
 | refuge | Refuge | Clr 7, Sor/Wiz 9 | world | E0 | effect.world, target.object | — |
 | regenerate | Regenerate | Clr 7, Drd 9, Healing 7 | healing | E0 | — | — |
-| reincarnate | Reincarnate | Drd 4 | world | E0 | effect.world | — |
+| reincarnate | Reincarnate | Drd 4 | healing | E0 | — | — |
 | remove-blindness-deafness | Remove Blindness/Deafness | Clr 3, Pal 3 | removal | E0 | effect.dispel | — |
 | remove-curse | Remove Curse | Brd 3, Clr 3, Pal 3, Sor/Wiz 4 | removal | E0 | effect.dispel | — |
 | remove-disease | Remove Disease | Clr 3, Drd 3, Rgr 3 | removal | E1 | effect.dispel | cure_disease |
 | remove-fear | Remove Fear | Brd 1, Clr 1 | removal | E3 | effect.dispel | remove_fear |
 | remove-paralysis | Remove Paralysis | Clr 2, Pal 2 | removal | E0 | effect.dispel | — |
-| repel-metal-or-stone | Repel Metal or Stone | Drd 8 | world | E0 | effect.world | — |
+| repel-metal-or-stone | Repel Metal or Stone | Drd 8 | object | E0 | target.object | — |
 | repel-vermin | Repel Vermin | Brd 4, Clr 4, Drd 4, Rgr 3 | damage | E0 | resist.spell | — |
-| repel-wood | Repel Wood | Drd 6, Plant 6 | world | E0 | effect.world | — |
+| repel-wood | Repel Wood | Drd 6, Plant 6 | object | E0 | target.object | — |
 | repulsion | Repulsion | Clr 7, Protection 7, Sor/Wiz 6 | control | E0 | resist.spell | — |
 | resilient-sphere | Resilient Sphere | Sor/Wiz 4 | control | E0 | resist.spell | — |
 | resist-energy | Resist Energy | Clr 2, Drd 2, Fire 3, Pal 2, Rgr 1, Sor/Wiz 2 | protection | E1 | — | resist_fire |
@@ -490,8 +493,8 @@ become ready).
 | restoration | Restoration | Clr 4, Pal 4 | removal | E1 | effect.dispel | restoration |
 | restoration-greater | Restoration, Greater | Clr 7 | removal | E1 | effect.dispel | major_restoration |
 | restoration-lesser | Restoration, Lesser | Clr 2, Drd 2, Pal 1 | removal | E1 | effect.dispel | minor_restoration |
-| resurrection | Resurrection | Clr 7 | world | E2 | effect.world | resurrect |
-| reverse-gravity | Reverse Gravity | Drd 8, Sor/Wiz 7 | world | E0 | effect.world | — |
+| resurrection | Resurrection | Clr 7 | healing | E2 | — | resurrect |
+| reverse-gravity | Reverse Gravity | Drd 8, Sor/Wiz 7 | control | E0 | — | — |
 | righteous-might | Righteous Might | Clr 5, Strength 5 | transformation | E0 | effect.transform | — |
 | rope-trick | Rope Trick | Sor/Wiz 2 | creation | E0 | effect.create | — |
 | rusting-grasp | Rusting Grasp | Drd 4 | damage | E0 | attack.meleeTouch, target.object | — |
@@ -504,8 +507,8 @@ become ready).
 | scrying-greater | Scrying, Greater | Brd 6, Clr 7, Drd 7, Sor/Wiz 7 | divination | E0 | effect.reveal, resist.spell | — |
 | sculpt-sound | Sculpt Sound | Brd 3 | control | E0 | resist.spell, target.object | — |
 | searing-light | Searing Light | Clr 3, Sun 3 | damage | E0 | attack.rangedTouch, resist.spell | — |
-| secret-chest | Secret Chest | Sor/Wiz 5 | world | E0 | effect.world | — |
-| secret-page | Secret Page | Brd 3, Sor/Wiz 3 | world | E0 | effect.world | — |
+| secret-chest | Secret Chest | Sor/Wiz 5 | object | E0 | target.object | — |
+| secret-page | Secret Page | Brd 3, Sor/Wiz 3 | object | E0 | target.object | — |
 | secure-shelter | Secure Shelter | Brd 4, Sor/Wiz 4 | creation | E0 | effect.create | — |
 | see-invisibility | See Invisibility | Brd 3, Sor/Wiz 2 | divination | E0 | effect.reveal | — |
 | seeming | Seeming | Brd 5, Sor/Wiz 5 | illusion | E0 | effect.manifest, resist.spell | — |
@@ -535,11 +538,11 @@ become ready).
 | simulacrum | Simulacrum | Sor/Wiz 7 | illusion | E0 | effect.manifest | — |
 | slay-living | Slay Living | Clr 5, Death 5 | damage | E0 | attack.meleeTouch, resist.spell | — |
 | sleep | Sleep | Brd 1, Sor/Wiz 1 | control | E3 | resist.spell | sleep |
-| sleet-storm | Sleet Storm | Drd 3, Sor/Wiz 3 | world | E0 | effect.world | — |
+| sleet-storm | Sleet Storm | Drd 3, Sor/Wiz 3 | environment | E0 | area.persistent | — |
 | slow | Slow | Brd 3, Sor/Wiz 3 | control | E1 | resist.spell | slow |
 | snare | Snare | Rgr 2, Drd 3 | damage | E0 | attack.meleeTouch | — |
-| soften-earth-and-stone | Soften Earth and Stone | Drd 2, Earth 2 | world | E0 | effect.world, review.text | — |
-| solid-fog | Solid Fog | Sor/Wiz 4 | world | E0 | effect.world | — |
+| soften-earth-and-stone | Soften Earth and Stone | Drd 2, Earth 2 | object | E0 | review.text, target.object | — |
+| solid-fog | Solid Fog | Sor/Wiz 4 | environment | E0 | area.persistent | — |
 | song-of-discord | Song of Discord | Brd 5 | control | E0 | resist.spell | — |
 | soul-bind | Soul Bind | Clr 9, Sor/Wiz 9 | control | E0 | — | — |
 | sound-burst | Sound Burst | Brd 2, Clr 2 | damage | E0 | resist.spell | — |
@@ -559,7 +562,7 @@ become ready).
 | statue | Statue | Sor/Wiz 7 | transformation | E0 | effect.transform | — |
 | status | Status | Clr 2 | divination | E0 | effect.reveal | — |
 | stinking-cloud | Stinking Cloud | Sor/Wiz 3 | control | E0 | — | — |
-| stone-shape | Stone Shape | Clr 3, Drd 3, Earth 3, Sor/Wiz 4 | world | E0 | effect.world, target.object | — |
+| stone-shape | Stone Shape | Clr 3, Drd 3, Earth 3, Sor/Wiz 4 | object | E0 | target.object | — |
 | stone-tell | Stone Tell | Drd 6 | divination | E0 | effect.reveal | — |
 | stone-to-flesh | Stone to Flesh | Sor/Wiz 6 | transformation | E1 | effect.transform, resist.spell | stone_to_flesh |
 | stoneskin | Stoneskin | Drd 5, Earth 6, Sor/Wiz 4, Strength 6 | protection | E1 | — | stoneskin |
@@ -606,25 +609,25 @@ become ready).
 | teleport-object | Teleport Object | Sor/Wiz 7 | movement | E0 | resist.spell, target.object | — |
 | teleportation-circle | Teleportation Circle | Sor/Wiz 9 | movement | E0 | resist.spell | — |
 | temporal-stasis | Temporal Stasis | Sor/Wiz 8 | control | E0 | attack.meleeTouch, resist.spell | — |
-| time-stop | Time Stop | Sor/Wiz 9, Trickery 9 | world | E1 | effect.world | time_stop |
+| time-stop | Time Stop | Sor/Wiz 9, Trickery 9 | control | E1 | — | time_stop |
 | tiny-hut | Tiny Hut | Brd 3, Sor/Wiz 3 | creation | E0 | effect.create | — |
 | tongues | Tongues | Brd 2, Clr 4, Sor/Wiz 3 | communication | E0 | effect.contact | — |
 | touch-of-fatigue | Touch of Fatigue | Sor/Wiz 0 | control | E0 | attack.meleeTouch, resist.spell | — |
-| touch-of-idiocy | Touch of Idiocy | Sor/Wiz 2 | world | E0 | attack.meleeTouch, effect.world, resist.spell | — |
+| touch-of-idiocy | Touch of Idiocy | Sor/Wiz 2 | control | E0 | attack.meleeTouch, resist.spell | — |
 | transformation | Transformation | Sor/Wiz 6 | world | E0 | effect.world | — |
-| transmute-metal-to-wood | Transmute Metal to Wood | Drd 7 | world | E0 | effect.world, resist.spell, target.object | — |
-| transmute-mud-to-rock | Transmute Mud to Rock | Drd 5, Sor/Wiz 5 | world | E0 | effect.world, review.text | — |
+| transmute-metal-to-wood | Transmute Metal to Wood | Drd 7 | object | E0 | resist.spell, target.object | — |
+| transmute-mud-to-rock | Transmute Mud to Rock | Drd 5, Sor/Wiz 5 | object | E0 | review.text, target.object | — |
 | transmute-rock-to-mud | Transmute Rock to Mud | Drd 5, Sor/Wiz 5 | damage | E0 | review.text | — |
 | transport-via-plants | Transport via Plants | Drd 6 | movement | E0 | target.object | — |
-| trap-the-soul | Trap the Soul | Sor/Wiz 8 | world | E0 | effect.world, resist.spell, review.text | — |
+| trap-the-soul | Trap the Soul | Sor/Wiz 8 | control | E0 | resist.spell, review.text | — |
 | tree-shape | Tree Shape | Drd 2, Rgr 3 | transformation | E0 | effect.transform | — |
 | tree-stride | Tree Stride | Drd 5, Rgr 4 | movement | E0 | — | — |
-| true-resurrection | True Resurrection | Clr 9 | world | E0 | effect.world | — |
+| true-resurrection | True Resurrection | Clr 9 | healing | E0 | — | — |
 | true-seeing | True Seeing | Clr 5, Drd 7, Knowledge 5, Sor/Wiz 6 | divination | E1 | effect.reveal | true_sight |
 | true-strike | True Strike | Sor/Wiz 1 | divination | E0 | effect.reveal | — |
-| undeath-to-death | Undeath to Death | Clr 6, Sor/Wiz 6 | world | E0 | effect.world, resist.spell | — |
+| undeath-to-death | Undeath to Death | Clr 6, Sor/Wiz 6 | damage | E0 | resist.spell | — |
 | undetectable-alignment | Undetectable Alignment | Brd 1, Clr 2, Pal 2 | divination | E0 | effect.reveal, resist.spell, target.object | — |
-| unhallow | Unhallow | Clr 5, Drd 5 | world | E0 | effect.world, review.text | — |
+| unhallow | Unhallow | Clr 5, Drd 5 | environment | E0 | area.persistent, review.text | — |
 | unholy-aura | Unholy Aura | Clr 8, Evil 8 | world | E0 | effect.world, review.text | — |
 | unholy-blight | Unholy Blight | Evil 4 | damage | E0 | resist.spell | — |
 | unseen-servant | Unseen Servant | Brd 1, Sor/Wiz 1 | creation | E0 | effect.create | — |
@@ -633,27 +636,27 @@ become ready).
 | ventriloquism | Ventriloquism | Brd 1, Sor/Wiz 1 | illusion | E0 | effect.manifest | — |
 | virtue | Virtue | Clr 0, Drd 0, Pal 1 | protection | E0 | — | — |
 | vision | Vision | Sor/Wiz 7 | divination | E0 | effect.reveal | — |
-| wail-of-the-banshee | Wail of the Banshee | Death 9, Sor/Wiz 9 | world | E0 | effect.world, resist.spell | — |
+| wail-of-the-banshee | Wail of the Banshee | Death 9, Sor/Wiz 9 | damage | E0 | resist.spell | — |
 | wall-of-fire | Wall of Fire | Drd 5, Fire 4, Sor/Wiz 4 | damage | E0 | duration.concentration, resist.spell | — |
 | wall-of-force | Wall of Force | Sor/Wiz 5 | creation | E0 | effect.create | — |
 | wall-of-ice | Wall of Ice | Sor/Wiz 4 | damage | E0 | resist.spell | — |
 | wall-of-iron | Wall of Iron | Sor/Wiz 6 | damage | E0 | review.text | — |
 | wall-of-stone | Wall of Stone | Clr 5, Drd 6, Earth 5, Sor/Wiz 5 | creation | E0 | effect.create, review.text | — |
 | wall-of-thorns | Wall of Thorns | Drd 5, Plant 5 | creation | E0 | effect.create | — |
-| warp-wood | Warp Wood | Drd 2 | world | E0 | effect.world, resist.spell, target.object | — |
+| warp-wood | Warp Wood | Drd 2 | object | E0 | resist.spell, target.object | — |
 | water-breathing | Water Breathing | Clr 3, Drd 3, Sor/Wiz 3, Water 3 | world | E0 | effect.world | — |
 | water-walk | Water Walk | Clr 3, Rgr 3 | movement | E0 | — | — |
-| waves-of-exhaustion | Waves of Exhaustion | Sor/Wiz 7 | world | E0 | effect.world, resist.spell | — |
-| waves-of-fatigue | Waves of Fatigue | Sor/Wiz 5 | world | E0 | effect.world, resist.spell | — |
+| waves-of-exhaustion | Waves of Exhaustion | Sor/Wiz 7 | control | E0 | resist.spell | — |
+| waves-of-fatigue | Waves of Fatigue | Sor/Wiz 5 | control | E0 | resist.spell | — |
 | web | Web | Sor/Wiz 2 | damage | E0 | — | — |
 | weird | Weird | Sor/Wiz 9 | damage | E1 | resist.spell | weird |
 | whirlwind | Whirlwind | Air 8, Drd 8 | damage | E0 | resist.spell | — |
 | whispering-wind | Whispering Wind | Brd 2, Sor/Wiz 2 | communication | E0 | effect.contact | — |
 | wind-walk | Wind Walk | Clr 6, Drd 7 | movement | E0 | — | — |
-| wind-wall | Wind Wall | Air 2, Clr 3, Drd 3, Rgr 2, Sor/Wiz 3 | world | E0 | effect.world, resist.spell | — |
+| wind-wall | Wind Wall | Air 2, Clr 3, Drd 3, Rgr 2, Sor/Wiz 3 | environment | E0 | area.persistent, resist.spell | — |
 | wish | Wish | Sor/Wiz 9 | world | E0 | effect.world, resist.spell, review.text | — |
-| wood-shape | Wood Shape | Drd 2 | world | E0 | effect.world, resist.spell | — |
-| word-of-chaos | Word of Chaos | Chaos 7, Clr 7 | world | E0 | effect.world, resist.spell | — |
+| wood-shape | Wood Shape | Drd 2 | object | E0 | resist.spell, target.object | — |
+| word-of-chaos | Word of Chaos | Chaos 7, Clr 7 | damage | E0 | resist.spell | — |
 | word-of-recall | Word of Recall | Clr 6, Drd 8 | movement | E0 | target.object | — |
 | zone-of-silence | Zone of Silence | Brd 4 | illusion | E0 | effect.manifest | — |
 | zone-of-truth | Zone of Truth | Clr 2, Pal 2 | control | E0 | resist.spell | — |

@@ -94,13 +94,13 @@
   "id": "align-weapon",
   "name": "Align Weapon",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Clr 2"
@@ -221,15 +221,13 @@
   "id": "animate-objects",
   "name": "Animate Objects",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.converted",
-   "effect.world",
    "review.text",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "review.text",
    "target.object"
   ],
@@ -257,17 +255,15 @@
   "id": "animate-rope",
   "name": "Animate Rope",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "attack.rangedTouch",
    "duration.converted",
-   "effect.world",
    "review.text",
    "target.object"
   ],
   "missing": [
    "attack.rangedTouch",
-   "effect.world",
    "review.text",
    "target.object"
   ],
@@ -278,15 +274,15 @@
   "id": "antilife-shell",
   "name": "Antilife Shell",
   "school": "abjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "resist.spell"
   ],
   "grade": "E0",
@@ -330,15 +326,15 @@
   "id": "antiplant-shell",
   "name": "Antiplant Shell",
   "school": "abjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "resist.spell"
   ],
   "grade": "E0",
@@ -363,12 +359,12 @@
   "id": "arcane-lock",
   "name": "Arcane Lock",
   "school": "abjuration",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 2"
@@ -377,12 +373,12 @@
   "id": "arcane-mark",
   "name": "Arcane Mark",
   "school": "universal",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 0"
@@ -516,13 +512,12 @@
   "id": "banishment",
   "name": "Banishment",
   "school": "abjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -546,14 +541,13 @@
   "id": "bears-endurance",
   "name": "Bear’s Endurance",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -563,13 +557,11 @@
   "id": "bears-endurance-mass",
   "name": "Bear’s Endurance, Mass",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Clr 6, Drd 6, Sor/Wiz 6"
  },
@@ -640,14 +632,13 @@
   "id": "blasphemy",
   "name": "Blasphemy",
   "school": "evocation",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -779,14 +770,12 @@
   "id": "bulls-strength",
   "name": "Bull’s Strength",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Clr 2, Drd 2, Pal 2, Sor/Wiz 2, Strength 2"
  },
@@ -794,14 +783,12 @@
   "id": "bulls-strength-mass",
   "name": "Bull’s Strength, Mass",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Clr 6, Drd 6, Sor/Wiz 6"
  },
@@ -896,14 +883,13 @@
   "id": "cats-grace",
   "name": "Cat’s Grace",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -913,14 +899,13 @@
   "id": "cats-grace-mass",
   "name": "Cat’s Grace, Mass",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1092,14 +1077,13 @@
   "id": "circle-of-death",
   "name": "Circle of Death",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1347,13 +1331,11 @@
   "id": "confusion-lesser",
   "name": "Confusion, Lesser",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Brd 1",
   "mapped": "confuse"
@@ -1362,14 +1344,14 @@
   "id": "consecrate",
   "name": "Consecrate",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Clr 2"
@@ -1394,13 +1376,12 @@
   "id": "contagion",
   "name": "Contagion",
   "school": "necromancy",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -1426,13 +1407,13 @@
   "id": "continual-flame",
   "name": "Continual Flame",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
-   "effect.world",
+   "area.persistent",
    "target.object"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "target.object"
   ],
   "grade": "E0",
@@ -1472,13 +1453,13 @@
   "id": "control-water",
   "name": "Control Water",
   "school": "transmutation",
-  "family": "world",
+  "family": "environment",
   "needs": [
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Clr 4, Drd 4, Sor/Wiz 6, Water 4"
@@ -1487,14 +1468,14 @@
   "id": "control-weather",
   "name": "Control Weather",
   "school": "transmutation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "grade": "E0",
@@ -1574,14 +1555,12 @@
   "id": "creeping-doom",
   "name": "Creeping Doom",
   "school": "conjuration",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.harm"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Drd 7"
  },
@@ -1672,13 +1651,11 @@
   "id": "cure-minor-wounds",
   "name": "Cure Minor Wounds",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Clr 0, Drd 0",
   "mapped": "cure_minor"
@@ -1737,15 +1714,15 @@
   "id": "curse-water",
   "name": "Curse Water",
   "school": "necromancy",
-  "family": "world",
+  "family": "environment",
   "needs": [
+   "area.persistent",
    "attack.meleeTouch",
-   "effect.world",
    "resist.spell"
   ],
   "missing": [
+   "area.persistent",
    "attack.meleeTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1755,13 +1732,13 @@
   "id": "dancing-lights",
   "name": "Dancing Lights",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "effect.world"
+   "area.persistent"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E1",
   "levels": "Brd 0, Sor/Wiz 0",
@@ -1771,14 +1748,14 @@
   "id": "darkness",
   "name": "Darkness",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "target.object"
   ],
   "grade": "E1",
@@ -1804,16 +1781,16 @@
   "id": "daylight",
   "name": "Daylight",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
+   "area.persistent",
    "attack.meleeTouch",
    "duration.converted",
-   "effect.world",
    "target.object"
   ],
   "missing": [
+   "area.persistent",
    "attack.meleeTouch",
-   "effect.world",
    "target.object"
   ],
   "grade": "E1",
@@ -1854,13 +1831,12 @@
   "id": "death-knell",
   "name": "Death Knell",
   "school": "necromancy",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1917,14 +1893,14 @@
   "id": "deeper-darkness",
   "name": "Deeper Darkness",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "target.object"
   ],
   "grade": "E0",
@@ -1980,15 +1956,15 @@
   "id": "desecrate",
   "name": "Desecrate",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2223,14 +2199,13 @@
   "id": "dictum",
   "name": "Dictum",
   "school": "evocation",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2255,16 +2230,15 @@
   "id": "dimensional-anchor",
   "name": "Dimensional Anchor",
   "school": "abjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
    "attack.rangedTouch",
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
    "attack.rangedTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2274,15 +2248,14 @@
   "id": "dimensional-lock",
   "name": "Dimensional Lock",
   "school": "abjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
    "area.burst",
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2292,12 +2265,12 @@
   "id": "diminish-plants",
   "name": "Diminish Plants",
   "school": "transmutation",
-  "family": "world",
+  "family": "environment",
   "needs": [
-   "effect.world"
+   "area.persistent"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Drd 3, Rgr 3"
@@ -2372,13 +2345,12 @@
   "id": "dismissal",
   "name": "Dismissal",
   "school": "abjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2525,13 +2497,13 @@
   "id": "disrupting-weapon",
   "name": "Disrupting Weapon",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Clr 5"
@@ -2665,14 +2637,13 @@
   "id": "eagles-splendor",
   "name": "Eagle’s Splendor",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2682,14 +2653,13 @@
   "id": "eagles-splendor-mass",
   "name": "Eagle’s Splendor, Mass",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2743,13 +2713,12 @@
   "id": "energy-drain",
   "name": "Energy Drain",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2759,15 +2728,14 @@
   "id": "enervation",
   "name": "Enervation",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "attack.rangedTouch",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
    "attack.rangedTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2855,14 +2823,14 @@
   "id": "erase",
   "name": "Erase",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "missing": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Brd 1, Sor/Wiz 1"
@@ -2966,16 +2934,16 @@
   "id": "faerie-fire",
   "name": "Faerie Fire",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "resist.spell",
    "target.object"
   ],
@@ -3052,13 +3020,12 @@
   "id": "feeblemind",
   "name": "Feeblemind",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -3114,15 +3081,14 @@
   "id": "fire-seeds",
   "name": "Fire Seeds",
   "school": "conjuration",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "attack.meleeTouch",
    "duration.converted",
-   "effect.world"
+   "effect.harm"
   ],
   "missing": [
-   "attack.meleeTouch",
-   "effect.world"
+   "attack.meleeTouch"
   ],
   "grade": "E0",
   "levels": "Drd 6, Fire 6, Sun 6"
@@ -3259,14 +3225,13 @@
   "id": "flare",
   "name": "Flare",
   "school": "evocation",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -3322,14 +3287,14 @@
   "id": "fog-cloud",
   "name": "Fog Cloud",
   "school": "conjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Drd 2, Sor/Wiz 2, Water 2"
@@ -3405,14 +3370,13 @@
   "id": "foxs-cunning",
   "name": "Fox’s Cunning",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -3422,14 +3386,13 @@
   "id": "foxs-cunning-mass",
   "name": "Fox’s Cunning, Mass",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -3613,14 +3576,12 @@
   "id": "glibness",
   "name": "Glibness",
   "school": "transmutation",
-  "family": "world",
+  "family": "control",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Brd 3"
  },
@@ -3705,14 +3666,12 @@
   "id": "good-hope",
   "name": "Good Hope",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Brd 3"
  },
@@ -3720,16 +3679,15 @@
   "id": "goodberry",
   "name": "Goodberry",
   "school": "transmutation",
-  "family": "world",
+  "family": "healing",
   "needs": [
    "attack.meleeTouch",
    "duration.converted",
-   "effect.world",
+   "effect.heal",
    "resist.spell"
   ],
   "missing": [
    "attack.meleeTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -3757,14 +3715,13 @@
   "id": "grease",
   "name": "Grease",
   "school": "conjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "review.text"
   ],
   "missing": [
-   "effect.world",
    "review.text"
   ],
   "grade": "E0",
@@ -3822,14 +3779,14 @@
   "id": "hallow",
   "name": "Hallow",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "grade": "E0",
@@ -3870,15 +3827,14 @@
   "id": "harm",
   "name": "Harm",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "attack.meleeTouch",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
    "attack.meleeTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -3903,13 +3859,11 @@
   "id": "heal",
   "name": "Heal",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Clr 6, Drd 7, Healing 6",
   "mapped": "heal"
@@ -3918,13 +3872,11 @@
   "id": "heal-mass",
   "name": "Heal, Mass",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Clr 9, Healing 9",
   "mapped": "mass_heal"
@@ -3933,13 +3885,11 @@
   "id": "heal-mount",
   "name": "Heal Mount",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Pal 3"
  },
@@ -3977,13 +3927,11 @@
   "id": "heroes-feast",
   "name": "Heroes’ Feast",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Brd 6, Clr 6"
  },
@@ -4151,13 +4099,13 @@
   "id": "hold-portal",
   "name": "Hold Portal",
   "school": "abjuration",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 1"
@@ -4217,14 +4165,13 @@
   "id": "holy-word",
   "name": "Holy Word",
   "school": "evocation",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -4383,13 +4330,12 @@
   "id": "imprisonment",
   "name": "Imprisonment",
   "school": "abjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -4472,13 +4418,12 @@
   "id": "inflict-minor-wounds",
   "name": "Inflict Minor Wounds",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -4542,13 +4487,12 @@
   "id": "insanity",
   "name": "Insanity",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -4559,14 +4503,12 @@
   "id": "insect-plague",
   "name": "Insect Plague",
   "school": "conjuration",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.harm"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Clr 5, Drd 5"
  },
@@ -4695,14 +4637,12 @@
   "id": "ironwood",
   "name": "Ironwood",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.converted",
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "target.object"
   ],
   "grade": "E0",
@@ -4743,13 +4683,13 @@
   "id": "keen-edge",
   "name": "Keen Edge",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 3"
@@ -4758,12 +4698,12 @@
   "id": "knock",
   "name": "Knock",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E1",
   "levels": "Sor/Wiz 2",
@@ -4817,14 +4757,14 @@
   "id": "light",
   "name": "Light",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "target.object"
   ],
   "grade": "E1",
@@ -4963,15 +4903,13 @@
   "id": "mage-hand",
   "name": "Mage Hand",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "duration.concentration",
-   "effect.world",
    "target.object"
   ],
   "missing": [
    "duration.concentration",
-   "effect.world",
    "target.object"
   ],
   "grade": "E0",
@@ -5309,13 +5247,11 @@
   "id": "make-whole",
   "name": "Make Whole",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "target.object"
   ],
   "grade": "E0",
@@ -5341,13 +5277,12 @@
   "id": "maze",
   "name": "Maze",
   "school": "conjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -5371,13 +5306,11 @@
   "id": "mending",
   "name": "Mending",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "target.object"
   ],
   "grade": "E0",
@@ -5436,13 +5369,14 @@
   "id": "mind-fog",
   "name": "Mind Fog",
   "school": "enchantment",
-  "family": "control",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "effect.condition",
+   "area.persistent",
    "resist.spell"
   ],
   "missing": [
+   "area.persistent",
    "resist.spell"
   ],
   "grade": "E0",
@@ -5628,12 +5562,12 @@
   "id": "move-earth",
   "name": "Move Earth",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Drd 6, Sor/Wiz 6"
@@ -5709,14 +5643,14 @@
   "id": "obscuring-mist",
   "name": "Obscuring Mist",
   "school": "conjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E1",
   "levels": "Air 1, Clr 1, Drd 1, Sor/Wiz 1, Water 1",
@@ -5726,14 +5660,12 @@
   "id": "open-close",
   "name": "Open/Close",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
@@ -5760,13 +5692,13 @@
   "id": "overland-flight",
   "name": "Overland Flight",
   "school": "transmutation",
-  "family": "world",
+  "family": "environment",
   "needs": [
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 5"
@@ -5775,14 +5707,13 @@
   "id": "owls-wisdom",
   "name": "Owl’s Wisdom",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -5792,14 +5723,13 @@
   "id": "owls-wisdom-mass",
   "name": "Owl’s Wisdom, Mass",
   "school": "transmutation",
-  "family": "world",
+  "family": "protection",
   "needs": [
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6039,12 +5969,12 @@
   "id": "plant-growth",
   "name": "Plant Growth",
   "school": "transmutation",
-  "family": "world",
+  "family": "environment",
   "needs": [
-   "effect.world"
+   "area.persistent"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Drd 3, Plant 3, Rgr 3"
@@ -6053,15 +5983,14 @@
   "id": "poison",
   "name": "Poison",
   "school": "necromancy",
-  "family": "world",
+  "family": "control",
   "needs": [
    "attack.meleeTouch",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
    "attack.meleeTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6125,13 +6054,12 @@
   "id": "power-word-blind",
   "name": "Power Word Blind",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6141,13 +6069,12 @@
   "id": "power-word-kill",
   "name": "Power Word Kill",
   "school": "enchantment",
-  "family": "world",
+  "family": "damage",
   "needs": [
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -6158,13 +6085,12 @@
   "id": "power-word-stun",
   "name": "Power Word Stun",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6192,14 +6118,14 @@
   "id": "prestidigitation",
   "name": "Prestidigitation",
   "school": "universal",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "missing": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Brd 0, Sor/Wiz 0"
@@ -6208,15 +6134,15 @@
   "id": "prismatic-sphere",
   "name": "Prismatic Sphere",
   "school": "abjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "review.text"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "grade": "E0",
@@ -6226,15 +6152,14 @@
   "id": "prismatic-spray",
   "name": "Prismatic Spray",
   "school": "evocation",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.cone",
-   "effect.world",
+   "effect.harm",
    "resist.spell",
    "review.text"
   ],
   "missing": [
-   "effect.world",
    "resist.spell",
    "review.text"
   ],
@@ -6435,14 +6360,14 @@
   "id": "purify-food-and-drink",
   "name": "Purify Food and Drink",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
-   "resist.spell"
+   "resist.spell",
+   "target.object"
   ],
   "missing": [
-   "effect.world",
-   "resist.spell"
+   "resist.spell",
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Clr 0, Drd 0"
@@ -6478,16 +6403,15 @@
   "id": "rage",
   "name": "Rage",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
    "duration.concentration",
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
    "duration.concentration",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6517,14 +6441,13 @@
   "id": "raise-dead",
   "name": "Raise Dead",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
    "attack.meleeTouch",
-   "effect.world"
+   "effect.heal"
   ],
   "missing": [
-   "attack.meleeTouch",
-   "effect.world"
+   "attack.meleeTouch"
   ],
   "grade": "E1",
   "levels": "Clr 5",
@@ -6534,16 +6457,15 @@
   "id": "ray-of-enfeeblement",
   "name": "Ray of Enfeeblement",
   "school": "necromancy",
-  "family": "world",
+  "family": "control",
   "needs": [
    "attack.rangedTouch",
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
    "attack.rangedTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E1",
@@ -6684,13 +6606,11 @@
   "id": "reincarnate",
   "name": "Reincarnate",
   "school": "transmutation",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Drd 4"
  },
@@ -6770,14 +6690,14 @@
   "id": "repel-metal-or-stone",
   "name": "Repel Metal or Stone",
   "school": "abjuration",
-  "family": "world",
+  "family": "object",
   "needs": [
    "area.line",
    "duration.converted",
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Drd 8"
@@ -6803,14 +6723,14 @@
   "id": "repel-wood",
   "name": "Repel Wood",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "area.line",
    "duration.converted",
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Drd 6, Plant 6"
@@ -6923,13 +6843,11 @@
   "id": "resurrection",
   "name": "Resurrection",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E2",
   "levels": "Clr 7",
   "mapped": "resurrect"
@@ -6938,14 +6856,12 @@
   "id": "reverse-gravity",
   "name": "Reverse Gravity",
   "school": "transmutation",
-  "family": "world",
+  "family": "control",
   "needs": [
    "duration.converted",
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Drd 8, Sor/Wiz 7"
  },
@@ -7148,12 +7064,12 @@
   "id": "secret-chest",
   "name": "Secret Chest",
   "school": "conjuration",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 5"
@@ -7162,12 +7078,12 @@
   "id": "secret-page",
   "name": "Secret Page",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world"
+   "target.object"
   ],
   "missing": [
-   "effect.world"
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Brd 3, Sor/Wiz 3"
@@ -7652,14 +7568,14 @@
   "id": "sleet-storm",
   "name": "Sleet Storm",
   "school": "conjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Drd 3, Sor/Wiz 3"
@@ -7700,14 +7616,14 @@
   "id": "soften-earth-and-stone",
   "name": "Soften Earth and Stone",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "missing": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Drd 2, Earth 2"
@@ -7716,14 +7632,14 @@
   "id": "solid-fog",
   "name": "Solid Fog",
   "school": "conjuration",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "duration.converted",
-   "effect.world"
+   "area.persistent",
+   "duration.converted"
   ],
   "missing": [
-   "effect.world"
+   "area.persistent"
   ],
   "grade": "E0",
   "levels": "Sor/Wiz 4"
@@ -8017,13 +7933,11 @@
   "id": "stone-shape",
   "name": "Stone Shape",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "target.object"
   ],
   "grade": "E0",
@@ -8766,13 +8680,11 @@
   "id": "time-stop",
   "name": "Time Stop",
   "school": "transmutation",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world"
+   "effect.condition"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Sor/Wiz 9, Trickery 9",
   "mapped": "time_stop"
@@ -8830,16 +8742,15 @@
   "id": "touch-of-idiocy",
   "name": "Touch of Idiocy",
   "school": "enchantment",
-  "family": "world",
+  "family": "control",
   "needs": [
    "attack.meleeTouch",
    "duration.converted",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
    "attack.meleeTouch",
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -8864,15 +8775,13 @@
   "id": "transmute-metal-to-wood",
   "name": "Transmute Metal to Wood",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "area.burst",
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
@@ -8883,14 +8792,14 @@
   "id": "transmute-mud-to-rock",
   "name": "Transmute Mud to Rock",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "missing": [
-   "effect.world",
-   "review.text"
+   "review.text",
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Drd 5, Sor/Wiz 5"
@@ -8929,14 +8838,13 @@
   "id": "trap-the-soul",
   "name": "Trap the Soul",
   "school": "conjuration",
-  "family": "world",
+  "family": "control",
   "needs": [
-   "effect.world",
+   "effect.condition",
    "resist.spell",
    "review.text"
   ],
   "missing": [
-   "effect.world",
    "resist.spell",
    "review.text"
   ],
@@ -8975,13 +8883,11 @@
   "id": "true-resurrection",
   "name": "True Resurrection",
   "school": "conjuration",
-  "family": "world",
+  "family": "healing",
   "needs": [
-   "effect.world"
+   "effect.heal"
   ],
-  "missing": [
-   "effect.world"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Clr 9"
  },
@@ -9019,14 +8925,13 @@
   "id": "undeath-to-death",
   "name": "Undeath to Death",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -9054,14 +8959,14 @@
   "id": "unhallow",
   "name": "Unhallow",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
    "area.burst",
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "review.text"
   ],
   "grade": "E0",
@@ -9198,14 +9103,13 @@
   "id": "wail-of-the-banshee",
   "name": "Wail of the Banshee",
   "school": "necromancy",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -9312,15 +9216,13 @@
   "id": "warp-wood",
   "name": "Warp Wood",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
    "area.burst",
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
   "missing": [
-   "effect.world",
    "resist.spell",
    "target.object"
   ],
@@ -9359,14 +9261,13 @@
   "id": "waves-of-exhaustion",
   "name": "Waves of Exhaustion",
   "school": "necromancy",
-  "family": "world",
+  "family": "control",
   "needs": [
    "area.cone",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -9376,14 +9277,13 @@
   "id": "waves-of-fatigue",
   "name": "Waves of Fatigue",
   "school": "necromancy",
-  "family": "world",
+  "family": "control",
   "needs": [
    "area.cone",
-   "effect.world",
+   "effect.condition",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",
@@ -9468,14 +9368,14 @@
   "id": "wind-wall",
   "name": "Wind Wall",
   "school": "evocation",
-  "family": "world",
+  "family": "environment",
   "needs": [
+   "area.persistent",
    "duration.converted",
-   "effect.world",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
+   "area.persistent",
    "resist.spell"
   ],
   "grade": "E0",
@@ -9503,14 +9403,14 @@
   "id": "wood-shape",
   "name": "Wood Shape",
   "school": "transmutation",
-  "family": "world",
+  "family": "object",
   "needs": [
-   "effect.world",
-   "resist.spell"
+   "resist.spell",
+   "target.object"
   ],
   "missing": [
-   "effect.world",
-   "resist.spell"
+   "resist.spell",
+   "target.object"
   ],
   "grade": "E0",
   "levels": "Drd 2"
@@ -9519,14 +9419,13 @@
   "id": "word-of-chaos",
   "name": "Word of Chaos",
   "school": "evocation",
-  "family": "world",
+  "family": "damage",
   "needs": [
    "area.burst",
-   "effect.world",
+   "effect.harm",
    "resist.spell"
   ],
   "missing": [
-   "effect.world",
    "resist.spell"
   ],
   "grade": "E0",

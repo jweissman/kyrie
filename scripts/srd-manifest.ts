@@ -25,6 +25,11 @@ export class SrdManifest {
     'effect.condition', 'effect.travel', 'duration.converted']);
   // Families by name first (what a spell is for), then by its fields.
   static readonly named: [string, RegExp][] = [
+    ['healing', /^heal|cure minor|raise dead|resurrection|reincarnate|heroes' feast|goodberry/i],
+    ['damage', /^harm$|inflict minor|circle of death|power word kill|wail of the banshee|energy drain|enervation|undeath to death|blasphemy|holy word|dictum|word of chaos|flare|prismatic spray|fire seeds|creeping doom|insect plague/i],
+    ['control', /confusion|feeblemind|insanity|power word (stun|blind)|ray of enfeeblement|touch of idiocy|waves of (fatigue|exhaustion)|^rage$|contagion|^poison$|grease|reverse gravity|time stop|imprisonment|^maze$|trap the soul|banishment|dismissal|dimensional (anchor|lock)|death knell|good hope|glibness/i],
+    ['environment', /light|darkness|dancing lights|continual flame|faerie fire|fog|obscuring mist|sleet storm|wind wall|control (water|weather)|plant growth|diminish plants|consecrate|desecrate|hallow|unhallow|curse water|antilife shell|antiplant shell|prismatic sphere/i],
+    ['object', /animate (objects|rope)|arcane (lock|mark)|mage hand|make whole|mending|open\/close|^knock$|^erase$|secret (page|chest)|(stone|wood) shape|warp wood|transmute|soften earth|move earth|ironwood|purify food|hold portal|keen edge|align weapon|disrupting weapon|repel (metal|wood)|prestidigitation/i],
     ['summoning', /summon|nature's ally|planar ally|planar binding|^gate$|animate dead|create (greater )?undead/i],
     ['transformation', /polymorph|shapechange|alter self|baleful|flesh to stone|stone to flesh|tree shape|animal shape|statue|reduce person|enlarge person|righteous might/i],
     ['communication', /sending|message|tongues|speak with|whispering wind|telepathic|commune|contact other plane/i],
@@ -37,7 +42,7 @@ export class SrdManifest {
   static family(s: SrdSpell): string {
     if (s.damage) { return 'damage'; }
     if (s.heal) { return 'healing'; }
-    const named = this.named.find(([, re]) => re.test(s.name));
+    const name = s.name.replace(/[\u2018\u2019]/g, "'"), named = this.named.find(([, re]) => re.test(name));
     if (named) { return named[0]; }
     if (s.school === 'illusion') { return 'illusion'; }
     if (s.school === 'divination') { return 'divination'; }
@@ -50,6 +55,7 @@ export class SrdManifest {
     control: 'effect.condition', protection: 'effect.condition', summoning: 'effect.summon',
     transformation: 'effect.transform', communication: 'effect.contact', movement: 'effect.travel',
     creation: 'effect.create', removal: 'effect.dispel', divination: 'effect.reveal', illusion: 'effect.manifest',
+    environment: 'area.persistent', object: 'target.object',
     world: 'effect.world' };
   // What a record needs, from its fields.
   static needs(s: SrdSpell, family: string): string[] {
