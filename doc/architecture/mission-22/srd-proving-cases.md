@@ -901,6 +901,145 @@ is the CB-01/CB-03 concern: the slice would make the first hour markedly deadlie
 Recommended: 4, now, with 3 for the newcomers' singles of w5, w6 and e1 (met by a second-level company) once their
 placement is reviewed, never the ossuary's. **A decision for the lead.**
 
+### 26. The zombie (18 November): stopped by the census, a decision for the lead
+
+Not migrated: it makes the first hour's commonest undead fight markedly deadlier for a lone first-level character.
+The second most met kind: 12 of a1's groups and 34 of the six countries' dens; 49 placed groups in the eight worlds
+(a1 12, iscoed 3, kite 3, thorn 7, wren 9, kahitude 3, mere 3, ember 9), iscoed's undertown shamblers among them.
+Kyr's zombie (`zombie`, an author's own kind) is rolled scores, a d6 a level (6 to 9 hit points at the first, 10 to
+15 at the third), claws of 1d4 by its Strength, cloth, and Orsino's Rage and Infect. The SRD's human commoner zombie
+is 2d12+3 (16), a slam of 1d6+1 at +2, AC 11, damage reduction 5/slashing, single actions only, saves +0/-1/+3.
+
+**What it would take:** the record alone, nothing new. Fixed scores (12, 8, 10 for the Constitution it has none of,
+1, 10, 1), Hit Dice 2d12+3, the catalog's slam (1d6), its blows at +2 and its saves (a fixed stat block's, as the
+barrow ghoul's), hide for its natural armour 2 (Westernesse 10, as AC 11 is), a reduction of 5 unless slashing
+(srd-invariants.md's typed defenses), and Rage and Infect dropped. So written, the census grades it exact in every
+field it grades (S✓ R✓); single actions are moot in a fight without movement.
+
+**What it moves** (20 seeds; the warrior's battleaxe is slashing, the thief's shortsword slashing, the cleric's staff
+bludgeoning, the mage's dagger piercing):
+
+| Placed as | Where (groups) | Kyr's: warrior / pair / thief / mage | SRD's | SRD's without the reduction | Kyr's body, the SRD's slam and reduction |
+|---|---|---|---|---|---|
+| 2 × zombie L1 (the dens, the undertown's shamblers, the halls' gallery) | 21 | 90 / 100 / 35 / 15 % | 60 / 95 / 5 / 0 % | 60 / 95 / 5 / 0 % | 80 / 85 / 5 / 5 % |
+| 2 × zombie L2–L3 (the newcomers, the Howe's iron caps) | 16 | 80 / 100 / 20–30 / 0–5 % | 60 / 95 / 5 / 0 % | 60 / 95 / 5 / 0 % | 60 / 90–95 / 5–10 / 0 % |
+| 1 × zombie L1 (a den's leader) | 4 | 100 / 100 / 80 / 70 % | 100 / 100 / 5 / 10 % | 100 / 100 / 25 / 10 % | 100 / 100 / 15 / 20 % |
+| 3 × zombie L3 (the Howe's drowned) | 8 | 35 / 80 / 10 / 0 % | 25 / 50 / 0 / 0 % | 25 / 65 / 0 / 0 % | 25 / 45 / 5 / 0 % |
+
+A lone first-level warrior against the commonest pair: a win nine times in ten becomes six, and a death one in ten
+four in ten (median harm 20 → 59 %). The cause is the SRD's sixteen hit points at every rank, not its reduction
+(without it the warrior's column is the same; it is the staff's and the dagger's). The challenge table would measure
+it 0.5 at its first level and its fifth (Kyr's 0.25 and 0.5), within a first den's "two of a kind of challenge one or
+less" (RegionStock.numbers), so the dens would keep their pairs.
+
+**The options:**
+1. **The SRD's whole**, as above: every pair of the first hour deadlier, a lone thief's and mage's zombie fights all
+   but hopeless (5 % and 0 %).
+2. **The SRD's whole, one where two are now** (number, not the kind's numbers: placements.md's lesson read the other
+   way): the denned singles are trivial for a warrior (100 %) and hopeless for a thief (5 %). A change to RegionStock
+   and the undertown's template, each a placement review.
+3. **The SRD's blows and reduction on Kyr's body** (its rolled d6 a level kept, slam 1d6, 5/slashing; saves and to-hit
+   by its level, for a fixed save wants Hit Dice): the warrior's pair 90 → 80 %, the warrior and cleric's 100 → 85 %
+   (the staff is turned). Structure and resolution still fail; not recommended.
+4. **Kyr's zombie as it stands.**
+
+Recommended: 4 for now; 2 if the lead wants the SRD's zombie met, after the denned-numbers review. **A decision for the
+lead.** The barrow ghoul (case 25) is a single placed by hand; the zombie is drawn into every barrow and ruin den.
+
+### 27. The rat (18 November): stopped by the census, a decision for the lead
+
+Not migrated: the SRD rat is kinder to nobody and much harder on a lone thief or mage. Orsino's rat (`rat`) is met in
+5 of a1's groups and 30 of the dens; plain rats are 24 of the eight worlds' placed groups (the manor's three, the
+adits' and barrows' fours and fives), beside the runts, the great rats and the buck, which are variations of it (the
+SRD's dire rat is another row). It has two hit points, a gnawing bite of 1d3 struck by its level (one in five against
+SRD AC 15), fur. The SRD rat is `rat/cellar` already (proof-slices.md, step 2, unplaced): one hit point, its bite at
++4 (one in two), its saves.
+
+**What it would take:** the cellar rat in the plain rat's placements (an ecology row naming it, or the breed made the
+rat's own), and its bite's harm: the SRD's 1d3 − 4 is one point a bite, where Westernesse floors a blow's Strength at
+none, never below, so the cellar rat bites for 1d3 (a placed record's literal dice, as the barrow ghoul's claws, would
+make it 1, exact).
+
+**What it moves** (20 seeds; warrior / warrior and cleric / thief / mage):
+
+| Placed as | Groups | Orsino's rat | The cellar rat (1d3) | The cellar rat, a bite of 1 |
+|---|---|---|---|---|
+| 3 × rat L1 (the manor's, the cistern's) | 10 | 95 / 100 / 65 / 35 % | 75 / 100 / 15 / 20 % | 90 / 100 / 15 / 30 % |
+| 4 × rat L1–L2 (the adits') | 7 | 85–90 / 100 / 40 / 20–35 % | 70 / 100 / 0 / 10 % | 90 / 100 / 5 / 20 % |
+| 5 × rat L1–L2 (the barrows' recesses and vents) | 7 | 90–95 / 100 / 0–10 / 15 % | 60 / 90 / 0 / 10 % | 80 / 95 / 0 / 20 % |
+
+Its one hit point does not outweigh hitting two and a half times as often: with the SRD's one-point bite the warrior
+is where he was and the thief's manor rats go from 65 % to 15 %. CB-01 and CB-03's concern (and placements.md's open
+decision 6, the lone thief): a lone first-level thief or mage would lose most of the first town's rat fights.
+
+**The options:**
+1. **The cellar rat with a bite of one** in the plain rat's placements: faithful; the warrior's first hour unmoved,
+   the thief's and mage's markedly harder.
+2. **The same in one placement** (proof-slices.md, step 6: "one ecology row only after reviewing the resulting
+   country samples"): the barrows' fives, where a thief already loses (0–10 %).
+3. **Orsino's rat as it stands** (the cellar rat named, unplaced).
+
+Recommended: 3 until the lone thief's decision (placements.md, 6); then 2. **A decision for the lead.**
+
+### 28. The cave spider (18 November): stopped by the census, a decision for the lead
+
+Not migrated: every pair becomes lethal. The great cave spider (`spider/great/cave`, Orsino's spider great and of the
+dark) is met in 3 of a1's groups and 35 of the dens, and spiders in 44 of the eight worlds' placed groups (the
+undertown's spider room and brood-mother in every world, the adits', the broods, the dens). It is rolled scores, a d4
+a level and the great breed's health (8 or 9 at the first), a bite of 1d6 by its level (two in five against SRD AC
+15), chitin, and Orsino's venomous bite and Ensnare. The SRD's medium monstrous spider is 2d8+2 (11), its bite of 1d6
+at +4 (one in two), AC 14, poison (Fortitude 12, 1d4 Strength), web, saves +4/+3/+0.
+
+**What it would take:** a breed carrying the block (Hit Dice, its bite at +4, its saves), as the barrow ghoul's; its
+poison and web as Orsino's venomous bite and Ensnare, as now. Measured as such a breed in place of every spider
+(20 seeds; warrior / warrior and cleric / thief / mage):
+
+| Placed as | Groups | Orsino's | The SRD's |
+|---|---|---|---|
+| 1 × spider L1 (the undertown's spider room) | 10 | 85 / 100 / 50 / 25 % | 80 / 100 / 15 / 10 % |
+| The brood-mother L2 (19 hit points) | 8 | 75 / 100 / 15 / 0 % | 80 / 100 / 10 / 10 % (11) |
+| 2 × spider L1 (the dens, the winze foot) | 11 | 50–70 / 90–100 / 10 / 10–20 % | 25 / 70 / 0 / 0 % |
+| 2 × spider L2–L3 (the newcomers, the winze head) | 8 | 5–25 / 55–80 / 0 / 0 % | 20–25 / 70 / 0 / 0 % |
+| 3 × spider L1 (the broods, the barrow's ossuary) | 7 | 10–30 / 50–75 / 0 / 0 % | 0 / 30 / 0 / 0 % |
+
+The undertown's room (one spider for a company of one) moves little for the warrior and much for the thief; every
+first-level pair halves for him; the brood-mother, a fixed block, loses her size. The spiders are already the first
+hour's deadliest kind (placements.md: "poison in threes is the barrow's real killer").
+
+**The options:** the SRD's spider everywhere (every pair lethal); in the singles alone (the undertown's room: the
+thief 50 → 15 %); or Orsino's as it stands. Recommended: Orsino's as it stands. **A decision for the lead.**
+
+### 29. The wolf (18 November): stopped by the census, a decision for the lead
+
+Not migrated: a pack of three becomes lethal. The wolf is met in 2 of a1's groups and 17 of the dens, and in 25 of the
+eight worlds' placed groups (the packs of w5–w7 and e1, iscoed's w5 among them; the dens' pairs; a wandering one). It
+is rolled scores, a d8 a level (6 to 9 at the first), a bite of 1d6 by its level (three in ten against SRD AC 15),
+Orsino's Howl. The SRD wolf is 2d8+4 (13), its bite of 1d6+1 at +3 (nine in twenty), AC 14, trip, saves +5/+5/+1.
+Measured as a breed carrying the block (Hit Dice, the bite at +3, its saves; its trip not carried), in place of every
+wolf (20 seeds; warrior / warrior and cleric / thief / mage):
+
+| Placed as | Groups | Orsino's | The SRD's |
+|---|---|---|---|
+| 3 × wolf L1–L2 (the packs) | 5 | 25–60 / 75–95 / 0–5 / 0–5 % | 15 / 50 / 0 / 0 % |
+| 2 × wolf L1–L3 (the dens, the newcomers) | 13 | 60–80 / 90–100 / 5–25 / 0–15 % | 50 / 100 / 5 / 0–5 % |
+| 1 × wolf (a wanderer; ember's frost wolves) | 7 | 95–100 / 95–100 / 25–75 / 10–70 % | 80 / 100 / 50 / 30 % |
+
+A pack of three first-level wolves, which a lone warrior wins three times in five, he would win one in seven; his
+death in a pair's fight goes from one in five to one in two. **The options:** the SRD's wolf everywhere; in the
+singles alone; or Orsino's as it stands. Recommended: Orsino's as it stands. **A decision for the lead.**
+
+### What the creature census says, across cases 25–29
+
+Each SRD body hits more often than the Westernesse kind it would replace (two in five to one in two against SRD AC
+15, where Kyr's first-level kinds strike one in five to two in five by their level), and a fixed block does not
+shrink at the first level. The SRD prices its CR 1/2 and CR 1 creatures for a party of four; Kyr's first hour is one
+life (an origin keeps one), and a lone thief or mage already loses most fights (placements.md, decision 6). So
+every SRD body met in pairs or more makes the first hour markedly deadlier, and the migration can move a placed kind
+only where it is met alone and by hand (the barrow ghoul), or after the ecology prices a company of one (CB-01, CB-03)
+and the lone thief is decided. Until then, the next creature slices are the kinds met deeper than the first hour
+(the mummy that keeps the great barrow, srd-invariants.md's case for damage that does not grow), each fought where it
+is placed.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
