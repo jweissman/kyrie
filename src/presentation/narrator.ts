@@ -464,7 +464,9 @@ export class Narrator {
     const operator = campaign.operator(event.action), act = operator?.schema;
     const begun = event.cut && !event.prelude && operator?.name, me = this.alone(campaign);
     const revealed = this.revealed(campaign, event);
-    const turned = this.tidy(unique, fight).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
+    // Condensed only where the one who plays had a turn in it, and so saw it blow by blow: paralysed by the first blow
+    // of the keeper of the vault, Wenna never moved, and was told only the last of four rounds (cold play 6, CL-51).
+    const turned = this.tidy(unique, fight && Narrator.acted(campaign, event)).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
       ? { ...l, text: SecondPerson.turn(l.text, me) } : l)
       .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
@@ -494,6 +496,12 @@ export class Narrator {
     const kept = new Set(made.filter(m => m.l.kind !== 'fight').map(m => m.text!));
     return Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0, kept)
       .map(text => ({ ...made.find(m => m.text === text)?.l ?? { kind: 'event' as const }, text }));
+  }
+  // Whether the one who plays acted in a fight: took a turn, not only lost one.
+  private static acted(campaign: Campaign, event: CampaignEvent): boolean {
+    const me = campaign.readout.partyIds[0];
+    return event.combat.some(e => 'actor' in e && e.actor === me && e.type !== 'skip' && e.type !== 'save'
+      && e.type !== 'death');
   }
   // The name of one who has come alone, whose own acts are told to them (see SecondPerson); none for a company.
   private static alone(campaign: Campaign): string | undefined {
