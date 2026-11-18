@@ -97,7 +97,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('.focus .ways-here, .focus .plates').count()).toBe(0);
     await page.click('[data-action="put-away-map"]');
     expect(await w.page_()).toContain('scale-scene');
-    await page.click('[data-action="back-to-map"]');
+    // Back to the map by the engine's own way to it (the page has no button of its own for it): M, as the menu's
+    // "Open the world map".
+    await page.keyboard.press('m');
     expect(await w.page_()).toContain('scale-board');
     // Back to the town from its card on the map: chosen, travelled to, come to, and entered by its large button.
     await page.waitForSelector('[data-action="map-place"][data-id="region__s2"]', { timeout: 120000 });

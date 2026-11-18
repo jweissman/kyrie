@@ -73,8 +73,9 @@ export class WorldStage {
             {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
               : overworld ? <WorldStage.Hex app={app} screen={screen} id={focus} clear={() => pick()} see={pick}
               enter={() => app.outdoor(false)} />
-              : <>{WorldStage.wild(screen) && <button type="button" className="option quiet back-to-map"
-                data-action="back-to-map" onClick={() => app.outdoor(true)}>Back out to the map</button>}
+              : <>{/* No "Back out to the map" of the page's own: the engine offers the world map as a row (the
+                    owner, 18 November: the page invents no flows or buttons).
+                    */}
                 {/* Go, Look and Wait open here, in the scene's own panel, the painting kept (the owner, 11 November:
                     Look a conversation with the place, not a panel of its own). */}
                 {frame.leaf.glance && explorer && SceneRail.on(app) ? <Explorer.View app={app} draw={draw} />

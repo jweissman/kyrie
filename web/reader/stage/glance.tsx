@@ -16,6 +16,7 @@ import { Emphasis } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { Guidance } from '../guidance';
 import { LensFocused } from './lens-focused';
+import { LensRows } from './lens-rows';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
 import { Moments } from './moments';
@@ -268,30 +269,11 @@ export class GlanceStage {
   static Lens({ app, draw, lens }: { app: ReaderApp; draw: Draw; lens: Lens }) {
     const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return null; }
-    // With nothing promoted (the time lens's waits, which no reason ranks), its acts are shown as they stand, in order.
-    // An opener among them (a thing's look, with no act of its own) is drawn as what it opens, its leaves (Lensed.leaves),
-    // under the thing's name: chosen, it had turned the page to the thing, and done there, the thing's page stayed with
-    // only Back on it (Low Water's channel head, in the browser).
-    // Only a thing's look: the company's own openers stay one act (preparing spells opens the caster's page), as the
-    // engine rules them. What it opens that the lens gives already is not drawn twice (a door's words).
-    const leaves = lens === 'things' ? lensed.leaves ?? {} : {}, opens = (a: { choice: string }) => !!leaves[a.choice]?.length;
-    const given = new Set([...lensed.promoted, ...lensed.rest].filter(a => !opens(a)).flatMap(a => [a.choice, a.command ?? '']));
-    const inside = (a: LensAct): LensAct[] => (leaves[a.choice] ?? []).filter(l => !given.has(l.choice) && !given.has(l.command ?? ''))
-      .map(l => ({ ...l, subject: l.subject ?? a.subject ?? a.choice }));
-    // An opener on a way whose every act the lens gives itself (the speaking door's look, its words in the lens) is not
-    // drawn as well: it would draw them a second time under it.
-    const covered = (a: { choice: string }) => {
-      const kids = GlanceStage.choice(app, a.choice)?.children ?? [];
-      return kids.length > 0 && kids.every(k => given.has(k.id));
-    };
-    const promoted = lensed.promoted.filter(p => !opens(p) && !covered(p));
-    const opened = lensed.promoted.filter(p => opens(p) && inside(p).length);
-    const rest = lensed.rest.flatMap(a => opens(a) ? inside(a) : covered(a) ? [] : [a]);
+    // Its rows, as the rail's mark that opens it reads them (LensRows: the mark made of nothing it does not draw).
     // Never more than four (the owner, 16 November, in every context, lenses too): where its acts do not fit, the lens
-    // is drawn by focus, a thing one row and its alike acts one row, never a riddle's words over pages (the owner, 17
-    // November: see LensFocused).
-    const flat = GlanceStage.grouped(rest).flatMap(g => g.acts), all = [...promoted, ...opened.flatMap(inside), ...flat];
-    if (all.length > GlanceStage.per || app.state.focused?.length) {
+    // is drawn by focus, a thing one row and its alike acts one row (the owner, 17 November: see LensFocused).
+    const { promoted, opened, flat, all, inside } = LensRows.of(app, lens, lensed, GlanceStage.choice);
+    if (LensRows.focused(app, { promoted, opened, flat, all, inside })) {
       return <LensFocused.View app={app} draw={draw} lens={lens} lensed={lensed} acts={all} />;
     }
     // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
@@ -316,16 +298,8 @@ export class GlanceStage {
         <li key={a.choice} data-subject={a.subject}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul>}
     </div>;
   }
-  // A lens's rest by what it is done to (LensAct.subject): a thing's or someone's acts together under their name, so
-  // that "Look closely" says at what; the rest as they come.
-  static grouped(rest: LensAct[]): { subject?: string; acts: LensAct[] }[] {
-    const out: { subject?: string; acts: LensAct[] }[] = [];
-    for (const a of rest) {
-      const prior = out.at(-1);
-      if (prior && a.subject && prior.subject === a.subject) { prior.acts.push(a); } else { out.push({ ...a.subject ? { subject: a.subject } : {}, acts: [a] }); }
-    }
-    return out;
-  }
+  // A lens's rest by what it is done to (see LensRows.grouped).
+  static grouped(rest: LensAct[]): { subject?: string; acts: LensAct[] }[] { return LensRows.grouped(rest); }
   // A lens group's name: someone or something here; the company itself (the time lens's own acts); or what the
   // engine names where the scene draws no one for it (a thing on a way, the way: Lensed.subjects).
   static named(app: ReaderApp, subject: string): string {

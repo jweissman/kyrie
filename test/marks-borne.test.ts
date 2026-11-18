@@ -10,6 +10,7 @@ import { Act } from '../web/reader/stage/act';
 import { AtHand } from '../web/reader/stage/at-hand';
 import { SceneRail } from '../web/reader/stage/scene-rail';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
+import { GlanceStage } from '../web/reader/stage/glance';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';
 
@@ -41,14 +42,31 @@ class Page {
     const order = Emphasis.precedence.map(a => Emphasis.tones[a]);
     return { tone: order.find(t => tones.includes(t!)), companion: rows.some(r => /pip-icon companion/.test(r)) };
   }
+  // The lens a touch opens, as the scene draws it (GlanceStage.Lens), and the tones its rows are drawn in.
+  lens(part: 'go' | 'look'): { tone?: string } | undefined {
+    const lens = part === 'go' ? 'places' : 'things';
+    if (!this.state.frame?.leaf.glance?.lenses?.[lens]) { return undefined; }
+    const was = this.state;
+    this.setState({ exploring: part, focused: undefined });
+    const html = renderToStaticMarkup(createElement(GlanceStage.Lens,
+      { app: this.app, draw: Act.draw(this.app), lens }));
+    this.state = was;
+    const tones = [...html.matchAll(/--prism:var\(--tone-(\w+)\)/g)].map(m => m[1]!);
+    return { tone: Emphasis.precedence.map(a => Emphasis.tones[a]).find(t => tones.includes(t!)) };
+  }
   check(at: string) {
     const go = Page.mark(renderToStaticMarkup(createElement(SceneRail.Mark, { app: this.app, part: 'go', glyph: 'go_on',
       words: 'Go', standing: SceneRail.go(this.app) })));
-    expect({ at, ...go }).toEqual({ at, ...Page.rows(this.html(Wayfinder.View), 'wf-row') });
+    // The places lens is what Go… opens where the glance has one (the owner, 18 November: Go… gold over a lens of two
+    // rows, neither gold); the Wayfinder's list where it has none.
+    const drawn = this.lens('go');
+    if (drawn) { expect({ at, tone: go.tone }).toEqual({ at, tone: drawn.tone }); }
+    else { expect({ at, ...go }).toEqual({ at, ...Page.rows(this.html(Wayfinder.View), 'wf-row') }); }
     const look = SceneRail.look(this.app);
     if ('shut' in look) { return; }
-    expect({ at, tone: 'lit' in look ? look.lit?.tone : undefined })
-      .toEqual({ at, tone: Page.rows(this.html(AtHand.View), 'ah-row').tone });
+    const things = this.lens('look') ?? { tone: Page.rows(this.html(AtHand.View), 'ah-row').tone };
+    const lit: string | undefined = 'lit' in look ? look.lit?.tone : undefined;
+    expect({ at, tone: lit }).toEqual({ at, tone: things.tone });
   }
 }
 

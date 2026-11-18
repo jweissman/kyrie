@@ -11,7 +11,9 @@ import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { Signs } from '../../../src/presentation/signs';
 import { Pip } from './pip';
-import { Attest, type Attested } from '../../../src/presentation/attest';
+import { Attest, type Attested, type Witness } from '../../../src/presentation/attest';
+import { LensRows } from './lens-rows';
+import { Look } from '../look';
 import { WorldStage } from './world-stage';
 import { PageFrame } from '../page-frame';
 
@@ -122,9 +124,11 @@ export class SceneRail {
   static go(app: ReaderApp): Standing {
     const ways = Wayfinder.ways(app), idle = new Set(app.state.frame?.leaf.glance?.idle ?? []);
     if (!ways.length) { return { shut: 'no way on from here' }; }
-    // Lit by what the rows it opens bear (Wayfinder.bears), the first of them by the one precedence: not by the
-    // promoted lens, whose four were not the rows shown (the owner, 18 November), nor by somewhere not yet been.
-    const lit = Attest.of(ways.flatMap(w => Wayfinder.bears(app, w).witnesses), Guidance.shown(app));
+    // Lit by what the rows it opens bear, as the places lens draws them (LensRows), the first of them by the one
+    // precedence: never by a way the lens does not draw (the owner, 18 November: Go… gold, and neither of its two
+    // rows, "to the fellside" and "Open the world map", gold; it had been lit from the page's own list of ways).
+    const lit = Attest.of(SceneRail.opened(app, 'places', Wayfinder.ways(app).flatMap(w => Wayfinder.bears(app, w)
+      .witnesses)), Guidance.shown(app));
     if (lit) { return { lit }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
@@ -140,9 +144,15 @@ export class SceneRail {
   static look(app: ReaderApp): Standing {
     const hand = AtHand.of(app), glance = app.state.frame?.leaf.glance;
     if (!hand.some(h => h.choices.some(c => !c.disabled))) { return { shut: 'nothing here to look at more closely' }; }
-    const lit = Attest.of(hand.flatMap(h => AtHand.bears(app, h)), Guidance.shown(app));
+    const lit = Attest.of(SceneRail.opened(app, 'things', hand.flatMap(h => AtHand.bears(app, h))), Guidance.shown(app));
     if (lit) { return { lit }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
+  }
+  // The witnesses of the rows a touch opens: the lens's, where the scene draws it as the engine's lens (LensRows);
+  // else the panel's own (without, where Go… opens the Wayfinder's list).
+  private static opened(app: ReaderApp, lens: 'places' | 'things', without: Witness[]): Witness[] {
+    return app.state.frame?.leaf.glance?.lenses?.[lens] && SceneRail.on(app) && !Look.is('attend')
+      ? LensRows.marks(app, lens, GlanceStage.choice) : without;
   }
   // Whether one of the ways Go… opens bears someone who might join (see Wayfinder.bears).
   static joins(app: ReaderApp): boolean {
