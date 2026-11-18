@@ -12,6 +12,7 @@ import { ItemNames } from '../item-names';
 export interface Telling { text: string; detail: string; round: number; actor?: string }
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
+interface Blow { attack: Extract<CombatEvent, { type: 'attack' }>; damage?: Harm }
 
 // A fight as the company sees it: each exchange (someone acts, and what follows from it) told in a sentence or two,
 // "Elen hits the boar with the spear, for 4. The boar is knocked flat." The dice stay with the exchange, for whoever
@@ -59,8 +60,14 @@ export class CombatTelling {
     // front of Carlin and takes it" (cold play 2, CL-11).
     const stepped = group.filter((e): e is Of<'intercept'> => e.type === 'intercept')
       .map(e => `${told.name(e.actor)} steps in front of ${told.name(e.target)}.`);
+    // Each blow of an act told with what it did: a routine of several (a ghoul's claws, claws and bite) had been
+    // told by its first alone, and the harm of the others taken as told, so that a turn said "for 6" and cost 10, or
+    // "miss" and cost 2 (cold play 3, CL-13).
+    const blows = CombatTelling.blows(rest);
+    const dealt = new Set<CombatEvent>(blows.flatMap(b => b.damage ? [b.damage] : []));
     const sentences = [...stepped,
-      ...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
+      ...first?.type === 'action' ? [...told.act(first, rest, blows), ...told.after(rest, dealt)]
+        : told.after(group, new Set()),
       ...told.guards(group), ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
@@ -117,28 +124,36 @@ export class CombatTelling {
     return w ? w.name.toLowerCase() : '';
   }
   // What someone did and how it landed: a blow struck, a shot, an ability used.
-  private act(action: Of<'action'>, rest: CombatEvent[]): string {
+  private act(action: Of<'action'>, rest: CombatEvent[], blows: Blow[]): string[] {
     const c = action.command, actor = this.name(c.actor);
-    if (action.source?.kind === 'trap') { return `${action.source.name ?? 'A trap'} goes off.`; }
-    const attack = rest.find((e): e is Of<'attack'> => e.type === 'attack');
-    const damage = rest.find((e): e is Harm => e.type === 'damage' && (!attack || e.target === attack.target));
-    if ((c.ability === 'melee' || c.ability === 'ranged') && attack) { return this.blow(c.ability, attack, damage); }
+    if (action.source?.kind === 'trap') { return [`${action.source.name ?? 'A trap'} goes off.`]; }
+    const kind = c.ability === 'ranged' ? 'ranged' : 'melee', more = blows.slice(1).map(b => this.blow(kind, b.attack, b.damage));
+    if ((c.ability === 'melee' || c.ability === 'ranged') && blows.length) {
+      return [this.blow(c.ability, blows[0]!.attack, blows[0]!.damage), ...more];
+    }
+    const attack = blows[0]?.attack;
+    const damage = attack ? blows[0]!.damage : rest.find((e): e is Harm => e.type === 'damage');
     const carried = action.source?.kind === 'item' && ItemCatalog.used(c.ability) ? action.source.name : undefined;
     const ability = carried ? ItemNames.called(carried)
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
-    if (c.ability === 'wait') { return `${actor} waits.`; }
+    if (c.ability === 'wait') { return [`${actor} waits.`]; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
     // A blow that brings its target down is told by that alone (it falls, after), not by a number (BP-02).
-    const weight = damage?.amount && damage.hp !== 0 ? `, for ${CombatTelling.blow(damage)}` : '';
+    const weight = damage?.amount && damage.hp !== 0 ? `, for ${CombatTelling.blow(damage)}`
+      : damage && !damage.amount && attack ? ', to no harm' : '';
     const landed = attack ? attack.success ? `, and it lands${weight}` : ', and misses' : '';
     // What came to nothing says so: "Ithil uses Soot Cloud." was all a cloud of soot told, with nothing hidden for it
     // to show (the play-structure investigation's PT-23).
     const nothing = !attack && !rest.some(e => e.type !== 'initiative' && e.type !== 'end') ? ', to no effect' : '';
-    return `${actor} uses ${ability}${target}${landed}${nothing}.`;
+    return [`${actor} uses ${ability}${target}${landed}${nothing}.`, ...more];
   }
   private blow(kind: string, attack: Of<'attack'>, damage?: Harm): string {
-    const actor = this.name(attack.actor), target = this.name(attack.target), weapon = this.weapon(attack.actor);
-    const natural = this.fighter(attack.actor)?.equipment?.weapon?.natural;
+    const actor = this.name(attack.actor), target = this.name(attack.target);
+    const held = this.fighter(attack.actor)?.equipment?.weapon;
+    // The blow's own weapon: a ghoul's claws and its bite are one routine, told each by its own.
+    const own = !attack.weapon || !held || attack.weapon === held.id;
+    const weapon = own ? this.weapon(attack.actor) : (Canon.items[attack.weapon]?.name ?? attack.weapon.replace(/_/g, ' ')).toLowerCase();
+    const natural = own ? held?.natural : held?.natural || !Canon.items[attack.weapon]?.weapon;
     const how = natural ? CombatTelling.whose(actor, weapon) : actor;
     // A creature's antlers or claws are many, and miss and catch as many ("Finn's antlers misses": the cold
     // evaluation; "the risen dead's claws catches Maren": play 8).
@@ -154,7 +169,9 @@ export class CombatTelling {
     // A blow that brings its target down is told with no number, its falling said once after it: "for 9" over "takes
     // 1" had read as the game contradicting itself (the first blind playtest, BP-02); its numbers are the detail.
     if (damage?.amount && damage.hp === 0) { return `${how} ${verb} ${target}${with_}.`; }
-    // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
+    // A blow that lands and does no harm says so, not "for 0", nor nothing: "Zombie 2's claws catch Wenna." had read
+    // as a hit whose number was lost (cold play 3, CL-17; a 1 on the die, a tenth turned aside, floored to nothing).
+    if (damage && !damage.amount) { return `${how} ${verb} ${target}${with_}, to no harm.`; }
     return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}.`;
   }
   // What a creature's defenses did in the exchange: silver passing a unicorn's guard, fire stopping a troll's mending.
@@ -163,11 +180,19 @@ export class CombatTelling {
       .flatMap(e => DefenseTelling.said(e, this.name(e.target)));
   }
   // What followed: harm and healing not already told, conditions taken or shaken off, who fell or got away.
-  private after(events: CombatEvent[]): string[] {
-    const blow = events.find((e): e is Of<'attack'> => e.type === 'attack');
-    const told = blow && events.find(e => e.type === 'damage' && e.target === blow.target);
-    return events.filter(e => e !== told && !this.unsaid.has(e) && e.type !== 'intercept').map(e => this.consequence(e))
+  private after(events: CombatEvent[], dealt: ReadonlySet<CombatEvent>): string[] {
+    return events.filter(e => !dealt.has(e) && !this.unsaid.has(e) && e.type !== 'intercept').map(e => this.consequence(e))
       .filter((s): s is string => !!s);
+  }
+  // Each attack of an act, and the harm it did: the first damage to its target after it, before the next attack.
+  private static blows(events: CombatEvent[]): Blow[] {
+    return events.flatMap((e, i) => {
+      if (e.type !== 'attack') { return []; }
+      const next = events.findIndex((f, j) => j > i && f.type === 'attack');
+      const damage = e.success ? events.slice(i + 1, next < 0 ? undefined : next)
+        .find((d): d is Harm => d.type === 'damage' && d.target === e.target) : undefined;
+      return [{ attack: e, ...damage ? { damage } : {} }];
+    });
   }
   private consequence(e: CombatEvent): string | undefined {
     switch (e.type) {
