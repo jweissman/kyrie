@@ -2,6 +2,7 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, CSSProperties, MouseEv
 import type { Choice } from '../../../src/ui/choice-list';
 import { Act, type Draw } from './act';
 import type { Attested } from '../../../src/presentation/attest';
+import { Glyphs } from '../creation/glyphs';
 
 // The one row every choice is drawn as (Mission 21's design system, proposal step 1: the M20 screens study's
 // proposal A): the scene's acts, a place's things that can change the world, a conversation's questions, its leave and
@@ -16,6 +17,8 @@ export interface RowParts {
   // Its indicator: an opportunity's, made only of the glance's witnesses (Attest); or a plain kind; or none.
   indicator?: Attested; plain?: Plain;
   label: ReactNode; aside?: ReactNode; number?: number; extra?: ReactNode;
+  // An emblem drawn in ink before its words (a spell's school: see Glyphs), never a tone.
+  glyph?: string;
 }
 export class ChoiceRow {
   static readonly cls = 'choice-row';
@@ -25,13 +28,13 @@ export class ChoiceRow {
     every: 'linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue), var(--tone-green), var(--tone-violet))' };
   private static nothing(): void { /* a shut row says why, and does nothing */ }
   // The inside, the same everywhere; the older classes kept beside the new so that what reads them still finds them.
-  static Parts({ indicator, plain, label, aside, number, extra }: RowParts) {
+  static Parts({ indicator, plain, label, aside, number, extra, glyph }: RowParts) {
     const fill = indicator?.tone ? `var(--tone-${indicator.tone})` : plain ? ChoiceRow.plains[plain] : undefined;
     return <>
       {fill && <i className={`prism-bar row-mark${!indicator?.tone && plain === 'neutral' ? ' neutral' : ''}`}
         style={{ '--prism': fill } as CSSProperties} data-witness={indicator?.witnesses.map(w => w.id).join(' ') || undefined}
         {...indicator?.tone ? { role: 'img', 'aria-label': indicator.words } : { 'aria-hidden': true }} />}
-      <span className="n row-label">{label}</span>
+      <span className="n row-label">{glyph && <Glyphs.View id={glyph} className="row-glyph" />}{label}</span>
       {aside && <span className="why-said row-aside">{aside}</span>}
       {extra}
       {number !== undefined && <kbd className="key row-key" aria-hidden="true">{number}</kbd>}
@@ -44,7 +47,8 @@ export class ChoiceRow {
     const drawn = number ?? shown;
     return <Act.View choice={choice} draw={draw} quiet={quiet} number={number}
       className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}`}>
-      <ChoiceRow.Parts {...parts} {...drawn !== undefined ? { number: drawn } : {}} /></Act.View>;
+      <ChoiceRow.Parts {...parts} glyph={parts.glyph ?? choice.emblem}
+        {...drawn !== undefined ? { number: drawn } : {}} /></Act.View>;
   }
   // Anything else that is chosen as a row (a fight's move, Trade): a button with its own data.
   // act: the id of the act it does, where it does one (the action system's mark: data-act); none for what only opens

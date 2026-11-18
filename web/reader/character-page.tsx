@@ -170,7 +170,8 @@ export class CharacterPage {
     const [read, setRead] = useState<string>(), sheet = m.sheet, shown = m.abilities.find(a => a.id === read);
     return <section className="can"><h3>Can do</h3>
       <ul className="chips">{m.abilities.map(a => <li key={a.id}><button type="button" aria-pressed={a.id === read}
-        onClick={() => setRead(a.id === read ? undefined : a.id)}>{a.name}
+        onClick={() => setRead(a.id === read ? undefined : a.id)}>{a.emblem && <Glyphs.View id={a.emblem}
+          className="spell-glyph" />}{a.name}
         {a.price && <small>{a.price}{CharacterPage.yet(m, a.price)}</small>}</button></li>)}</ul>
       {shown && <p className="read"><b>{shown.name}.</b> {Typography.curl(shown.text)}</p>}
       <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
@@ -205,7 +206,7 @@ export class CharacterPage {
     return <section className="prepared"><h3>Prepared today</h3><ul>{m.spells!.map((x, i) => {
       const swap = swaps.find(c => c.label.startsWith(`In place of ${x.name} (`) && !offered.has(c));
       if (swap) { offered.add(swap); }
-      return <li key={`${x.name}${i}`}><b>{x.name}</b><span className="from">{` level ${x.level}${x.ready ? '' : ', spent'}`}</span>
+      return <li key={`${x.name}${i}`}>{x.emblem && <Glyphs.View id={x.emblem} className="spell-glyph" />}<b>{x.name}</b><span className="from">{` level ${x.level}${x.ready ? '' : ', spent'}`}</span>
         {(swap?.children ?? []).length > 0 && <div className="instead"><span className="label">Or prepare instead</span>
           <Act.List choices={swap!.children!} draw={draw} className="small swaps" /></div>}</li>;
     })}</ul></section>;

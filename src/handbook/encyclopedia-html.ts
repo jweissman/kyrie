@@ -3,6 +3,7 @@ import type { Chapter, Encyclopedia } from './encyclopedia';
 import { HandbookHtml } from './render-html';
 import { Identity } from '../presentation/identity';
 import { Emblems } from '../presentation/emblems';
+import { SpellSchools } from '../presentation/spell-schools';
 import { StatBlock } from './stat-block';
 
 // The Encyclopedia as pages of a book in parchment and ink (see css): a title page of chapters and a search over every
@@ -72,9 +73,11 @@ export class EncyclopediaHtml {
       + `</tr></thead><tbody>${rows}</tbody></table></div>`;
   }
   // A people's, a calling's, a way's or a kind of life's emblem beside its name, drawn as creation and play draw it
-  // (the owner, 5 November: the Encyclopedia teaches the same signs).
+  // (the owner, 5 November: the Encyclopedia teaches the same signs); a spell's, its school's or domain's (OR-92).
   private static emblem(id: string, className?: string): string {
-    const of = /^(?:ancestry|class|trait):(.+)$/.exec(id)?.[1] ?? /^backgrounds-(.+)$/.exec(id)?.[1]?.replace(/^/, 'life_');
+    const spell = /^ability:(.+)$/.exec(id)?.[1];
+    const of = /^(?:ancestry|class|trait):(.+)$/.exec(id)?.[1] ?? /^backgrounds-(.+)$/.exec(id)?.[1]?.replace(/^/, 'life_')
+      ?? (spell && SpellSchools.emblem(spell));
     return of ? Emblems.svg(of, className) : '';
   }
   private entry(e: Entry): string {

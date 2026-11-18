@@ -1,5 +1,6 @@
 import { Content } from '../content';
 import { MechanicsText } from '../presentation/mechanics-text';
+import { SpellSchools } from '../presentation/spell-schools';
 import type { ArenaAbility } from '../lang/parse';
 import type { MemberRow } from './screen-types';
 
@@ -10,6 +11,7 @@ export class AbilityRows {
   static of(m: { abilities?: string[]; attributes?: Record<string, number>; level: number }): MemberRow['abilities'] {
     return (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id)).filter(a => !!a)
       .map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
+        ...SpellSchools.field([a.id]),
         text: [MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }), this.needs(a)]
           .filter(Boolean).join(' ') }));
   }

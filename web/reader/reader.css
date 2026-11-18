@@ -251,6 +251,8 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .character .prepared .instead { margin: 3px 0 2px; }
 .character .prepared .instead .label { font: 400 13px var(--do); color: var(--grey); }
 .character .prepared .acts.swaps { display: flex; flex-wrap: wrap; gap: 0 18px; margin: 0; padding: 0; }
+.character :is(.prepared, .can) .spell-glyph { width: 1.1em; height: 1.1em; margin-right: .35em; vertical-align: -.18em;
+  fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .85; }
 .character .gear { list-style: none; padding: 0; }
 .character .gear li { padding: 5px 0; border-top: 1px solid var(--hair); font-size: 16px; }
 @media (max-width: 860px) {

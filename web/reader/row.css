@@ -78,3 +78,7 @@
   :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] {
     animation-timing-function: steps(4, end); }
 }
+/* An emblem beside a row's words (a people's, a calling's, a school's, a spell's school: OR-92), small, in ink: the
+   row's own colour, never a tone. */
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row > .row-label > .row-glyph {
+  width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .85; }

@@ -7,7 +7,7 @@ import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names'; import { Passages } from './passages'; import { KnownNames } from './known-names';
 import { MechanicsText } from '../presentation/mechanics-text';
-import { AbilityRows } from './ability-rows';
+import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../canon/background-catalog';
 import { ConditionSense } from '../canon/condition-sense';
 import { Advancement } from '../rules/advancement';
@@ -412,7 +412,7 @@ export class ScreenModel {
     return prepared.flatMap((spells, i) => {
       const left = [...ready[i] ?? []];
       return spells.map(id => ({ level: i + 1, name: Content.abilities.find(a => a.id === id)?.name ?? id,
-        ready: left.includes(id) && left.splice(left.indexOf(id), 1).length > 0 }))
+        ready: left.includes(id) && left.splice(left.indexOf(id), 1).length > 0, ...SpellSchools.field([id]) }))
         .sort((a, b) => Number(b.ready) - Number(a.ready));
     });
   }

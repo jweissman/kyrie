@@ -74,7 +74,7 @@ export class FightMoves {
       <div className="hand-menu" role="toolbar" aria-label={section.title}>
         {paged.shown.map(c => <ChoiceRow.Button key={c.id} className={`move${c.disabled ? ' unusable' : ''}`}
           data={{ action: 'move', choice: c.id, disabled: c.disabled ? 'true' : undefined }} act={c.disabled ? undefined : c.id}
-          onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))}
+          onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))} glyph={c.emblem}
           {...c.disabled ? { aside: Typography.curl(c.disabled) } : {}} events={note(c)} />)}
       </div>
       <div className="hand-detail" aria-live="polite">

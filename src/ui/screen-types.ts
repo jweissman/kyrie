@@ -146,7 +146,8 @@ export interface MemberRow {
   emblems?: string[];
   hp: number; maxHp: number; mana: number; maxMana: number; slots?: number[]; maxSlots?: number[];
   // Spells by level: each prepared one, and whether it is still ready to cast.
-  spells?: { level: number; name: string; ready: boolean }[];
+  // Each with its school's or domain's emblem (see SpellSchools).
+  spells?: { level: number; name: string; ready: boolean; emblem?: string }[];
   experience: number; gold: number;
   // What the next level brings in kind (a technique, a calling trait, a new level of spells), if anything.
   next?: string[];
@@ -156,7 +157,7 @@ export interface MemberRow {
   conditions: string[]; boons?: string[];
   // Down: what follows for them, which no cure changes (see Standing).
   fallen?: string;
-  abilities: { id: string; name: string; text: string; cost: number; price: string }[];
+  abilities: { id: string; name: string; text: string; cost: number; price: string; emblem?: string }[];
   attributes: Record<string, number>; acts: Act[];
   // The member as the rules have them (qualities as they stand, how they fight and are fought, saves, skills), and a
   // level's development still to spend, each way with what it would change (see CharacterSheets).

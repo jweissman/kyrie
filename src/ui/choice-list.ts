@@ -1,9 +1,7 @@
 import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow, Transition } from './screen-types';
-import { Patience } from './patience';
-import { Tending } from './tending';
-import { Counted } from '../presentation/counted';
-import { OutOf } from '../presentation/out-of';
-import { Marks } from './marks';
+import { Patience } from './patience'; import { Tending } from './tending'; import { Marks } from './marks';
+import { Counted } from '../presentation/counted'; import { OutOf } from '../presentation/out-of';
+import { SpellSchools } from '../presentation/spell-schools';
 import type { Mark } from '../presentation/glance-types';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
@@ -33,6 +31,8 @@ export interface Choice {
   // its action, never its words (see ChoiceList.sustained; the owner, 16 November). Searching, waiting, looking are
   // touches.
   hold?: 'sustained';
+  // The emblem drawn beside its words: a spell's school or domain (see SpellSchools), an icon in ink, never a tone.
+  emblem?: string;
 }
 // What the choices are about: a person, a creature, a thing, the ways out, the company itself.
 export interface Section {
@@ -108,7 +108,7 @@ export class ChoiceList {
     return screen.party.flatMap(m => m.acts.filter(a => a.light).flatMap((a): Choice[] => {
       const can = [a, ...a.children ?? []].find(x => x.command && !x.disabled);
       return can ? [{ id: `light:${m.id}:${a.key}`, label: `${m.name}: cast ${a.label}`, tone: 'spell',
-        command: can.command!, ...a.about ? { about: a.about } : {} }] : [];
+        command: can.command!, ...a.about ? { about: a.about } : {}, ...SpellSchools.field(can.targets) }] : [];
     }));
   }
   // A caster's spells can be prepared from wherever the company is: an hour of study or prayer.
@@ -306,7 +306,7 @@ export class ChoiceList {
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
       ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}),
-      ...ChoiceList.sustained(a.does) ? { hold: 'sustained' as const } : {} };
+      ...ChoiceList.sustained(a.does) ? { hold: 'sustained' as const } : {}, ...SpellSchools.field(a.targets) };
   }
   // An act of hours and commitment, by its action (resting, camping). A presentation of the act (it is held, not
   // touched), never game time.
@@ -362,7 +362,7 @@ export class ChoiceList {
       // And what cannot be used now, in its place, saying why (the completion plan, §2.4).
       const not = (c.unavailable ?? []).filter(u => (u.carried ? 'carried' : u.spell ? 'spells' : 'abilities') === id)
         .map(u => ({ id: `unusable:${u.id}`, label: u.name, tone: id === 'spells' ? 'spell' as const : 'ability' as const,
-          disabled: u.why }));
+          disabled: u.why, ...SpellSchools.field([u.id]) }));
       return { id, title, tone: id === 'spells' ? 'spell' as const : 'ability' as const, glyph: id === 'spells' ? '✦' : '⚔',
         choices: [...['abilities', 'spells'].includes(id) ? this.fold(list, id, c) : list.map(a => this.ability(a, c)), ...not] };
     }).filter(s => s.choices.length).concat(this.pace(c));
@@ -412,7 +412,8 @@ export class ChoiceList {
       : `${this.odds(a.odds)} · `}ends the fight for all` : a.targets.length ? ''
       : ({ party: 'the whole company', allies: 'every ally', enemies: 'every foe', all: 'everyone' } as Record<string, string>)[a.scope] ?? '';
     const note = [cost, a.gist, scope].filter(Boolean).join(' · ');
-    const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}) };
+    const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}),
+      ...SpellSchools.field([a.id]) };
     if (!a.targets.length) { return { ...base, command: `${a.id}>` }; }
     const fighters = [...c.foes, ...c.allies];
     // With only one possible target there is nothing to choose: the choice names it and acts at once.
