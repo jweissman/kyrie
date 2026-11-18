@@ -168,3 +168,51 @@ Held by `test/iscoed-roads`, which goes up each road to its march-stone and on t
 What could not be said without TypeScript (WD-16): a country's module cannot read what the company did in another
 country's module. Marged cannot know that Bran was freed, only that the company says so. The Exchange reads the tally
 as a scroll-case, a thing of the catalog, because Iscoed's own kinds are Iscoed's.
+
+## Evidence: cross-country variation and the review kit
+
+**Cross-country variation** (`bun scripts/world-compare.ts`). For each kind of thing, it measures how much two
+neighbouring countries share (Jaccard, 1 the same), averaged over the three pairs of neighbours. The atlas neighbours
+are Iscoed, Rìerdan and Brynach in `iscoed`, `iscoed3` and `iscoed4`. The control is the same three cells of a1, kite
+and b2.
+
+| aspect | atlas neighbours | control neighbours |
+|---|---:|---:|
+| terrain | 0.00 | 0.22 |
+| livelihoods | 0.20 | 0.27 |
+| merchants | 0.48 | 0.59 |
+| peoples | 0.21 | 0.36 |
+| faith | 0.00 | 0.00 |
+| makers | 0.11 | 0.37 |
+| works | 0.32 | 0.50 |
+| creatures | 0.35 | 0.45 |
+
+Atlas neighbours share less of every kind of thing, and the stock, creatures and makers differ as well as the words.
+Read this with three caveats:
+
+- The atlas gives each country its own terrain, and the creatures and merchants partly follow from that.
+- The difference beyond terrain is the makers and works (0.11 against 0.37), the peoples, and the countries' own
+  goings-on, which this table does not count.
+- Merchants still overlap at 0.48, because a merchant is still a trade's (WD-04).
+
+**The review kit** (`review-kit/`, for the lead to run blind):
+
+- `prompt.md`, the reviewer's brief.
+- `countries/country-A.md` to `country-F.md`. These are six countries, each its profile and what its module says of
+  its settlements and people. Every country's and settlement's name is a letter. Three are the atlas's neighbours and
+  three are a1's, interleaved. The key is `../review-key.json`, kept out of the kit.
+- `transcripts/`, three playthroughs written by the page's labels, a sentence already told at a place left out:
+  1. Iscoed's drove road, a human warrior. This is the golden route.
+  2. Iscoed's weir, an elf mage. The mage cannot wind the gate by strength, twice, and winds it at low water by the
+     wardens' slate: a way added for exactly this (`test/iscoed-sea-gate`).
+  3. a1's older opening, over the hills to the inn.
+
+  The country names are masked. The drove transcript is headless (scratch `tplay.ts`).
+
+What the recordings found, and what was fixed at once:
+
+- The pens still said "bawling to be watered" after the drove was watered. They now say what was done.
+- At the customs-house, with the drowned four found, the clerk's count and his book still led. "Tell Mardle where the
+  four bullocks are" was offered only among the rest. The clerk's other questions now stand aside once the four are
+  found, so it leads.
+- The sea-gate had no way through but strength. It now also comes round at low water to one who has the slate's hour.
