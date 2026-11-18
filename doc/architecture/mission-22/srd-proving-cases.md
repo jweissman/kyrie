@@ -743,6 +743,13 @@ character sheet and the forecasts read the same function). No temporary hit poin
 Recommended: 2, after measuring the a1 first hour's fights (the rats, the undertown) with a first-level abjurer
 before and after, so that the first mage's survival is a number before it is a change.
 
+
+**The lead's decision (18 November):** Orsino's Mage Armor is kept for now, said so in the fidelity ledger. It is the
+first mage way's card spell, and the elf mage is the golden route's alternate character (current-sprint.md), cold-played
+in Sprint 1 (S1-4): its twenty temporary hit points against a first-level abjurer's four to seven would move that first
+hour mid-sprint. Taken up again after S1-4, by the recommended option (the SRD's resolution, Orsino's school), measured
+on a1's first-hour fights first.
+
 ### 23. Divine Favor: stopped by the census, a decision for the lead (18 November)
 
 Not migrated: it moves every installed divine caster. The SRD's Divine Favor is a first-level evocation on the caster,
@@ -774,6 +781,11 @@ caster; +1 at every casting level converted (the SRD's to the fifth), as case 19
 No recommendation: option 1 is the SRD's and its draw by rank moves only gainers and losers, but the 48 losers are
 the installed divine casters of every country, seven of a1's among them; the lead's call, as case 10's was.
 
+
+**The lead's decision (18 November):** Orsino's level is kept, and said so. At the SRD's first level 48 installed
+divine casters would lose it and none gain it, seven of them in a1's first hour, for a level number the player does not
+meet: the rule of the proof slices (a row only where its behaviour is met) is not served by the move. Its resolution may
+be taken up on its own, at Orsino's level, as Cure Wounds' levels were kept (case 16).
 
 ### 24. Calm Emotions by the SRD's numbers (18 November): adapted
 
