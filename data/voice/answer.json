@@ -1,0 +1,10 @@
+{
+  "about": "An answer asked for again and given as it was before, word for word, nothing it bears on changed since: told as given again, not again in full, for what it said is in the Notes (the boredom census, BO-10: Honoria's tea-shop and Hulda's work told word for word each time they were asked). {actor} is the one answering.",
+  "kinds": ["answer-again"],
+  "lines": [
+    { "id": "answer-again.1", "text": "{Actor} tells you again, much as before." },
+    { "id": "answer-again.2", "text": "{Actor} goes over it again for you, in the same words as before." },
+    { "id": "answer-again.3", "text": "‘As I said,’ says {actor}, and tells it you again." },
+    { "id": "answer-again.4", "text": "{Actor} tells it you over again, patiently. Nothing in it has changed." }
+  ]
+}

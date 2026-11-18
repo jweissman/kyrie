@@ -5,7 +5,7 @@ import { Voice, type VoiceLine } from './voice';
 import { VoiceContext } from './voice-context';
 import { Editor } from './editor';
 import { Journeys } from './journeys';
-import { Days } from './days';
+import { Days } from './days'; import { Answers } from './answers';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
@@ -45,7 +45,9 @@ export class Telling {
     for (const actor of greeting.length ? this.met(campaign, event, company, greeting) : []) { pairs.add(`met:${actor}`); }
     // A way across country is told as it goes, before anything that happened at its end.
     // And a wait come to first light or dark, by the sky and where it is waited out (see Days).
-    const told: Voiced[] = [...Journeys.tell(campaign, event, used), ...Days.tell(campaign, event, used)];
+    // And an answer, as given again where it is (see Answers).
+    const told: Voiced[] = [...Journeys.tell(campaign, event, used), ...Days.tell(campaign, event, used),
+      ...Answers.tell(campaign, event, used)];
     for (const h of happenings) {
       const said = this.say(campaign, h, { used, pairs,
         key: `${campaign.readout.seed}:${event.elapsed}:${h.kind}:${h.actor ?? ''}` });
