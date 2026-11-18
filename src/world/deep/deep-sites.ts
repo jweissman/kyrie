@@ -131,7 +131,9 @@ export class DeepSites {
       (_, n) => `  Item ${r.id}_ore${n} ${this.q(ore.name)} is ${ore.kind} at ${r.id}.`));
   }
   // At the bottom: whatever the makers broke into, and what they died for, which it keeps.
-  // It shrinks back into its refuge from what it fears, and keeps the heart while it is there.
+  // It shrinks back into its refuge from what it fears, and keeps the heart while it is there: taken from under it, it
+  // comes at once, in its own words or its kind's. The king had let his crown be lifted from his head, said "In a few
+  // minutes it will be on you", and never came (cold play 4, CL-44; cold play 2, CL-10).
   private static keeper(purpose: DeepPurpose, layout: DeepLayout): string[] {
     const bottom = layout.levels.at(-1)!.rooms, heart = bottom.find(r => r.role === 'heart') ?? bottom.at(-1)!;
     const q = this.q, k = purpose.keeper, id = `${layout.site}_keeper`, words = Object.entries(k.words ?? {})
@@ -140,7 +142,11 @@ export class DeepSites {
     const shrinks = refuge && k.fears ? ` Refuge ${refuge.id}. Fears ${k.fears}.` : '';
     return [`  Person ${id} ${q(k.label)} at ${heart.id} { Role ${q(k.role)}. Species ${k.species}. Level ${k.level}.`
       + ` Temperament ${k.temperament}. Lair ${heart.id}.${shrinks}${words} }`,
-      `  Item ${layout.site}_heart ${q(purpose.objective.item)} is ${purpose.objective.kind} at ${heart.id}.`];
+      `  Item ${layout.site}_heart ${q(purpose.objective.item)} is ${purpose.objective.kind} at ${heart.id}.`,
+      `  Rule ${id}_robbed when company(?c) and together(${id}, ?c) and able(${id}) and not routed(${id})`
+        + ` and not tolerates(${id}, ?c) and not assails(${id}, ?c) and ownedItem(${layout.site}_heart, ?m)`
+        + ` and memberOf(?m, ?c) and onslaught(${id}, ?o) says ${k.robbed ? q(k.robbed) : '"{?o}"'} {`
+        + ` Assert assails(${id}, ?c). Retract warned(${id}, ?c). }`];
   }
   // Where the makers left what the keeper cannot bear, and what reading their words tells of it.
   private static bane(purpose: DeepPurpose, layout: DeepLayout): string[] {

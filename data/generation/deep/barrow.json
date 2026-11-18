@@ -113,7 +113,8 @@
     "words": {
       "Warns": "The king sits up on his bier, slowly, the way a man sits up who has been called, and turns his face toward you. There is no face, only the crown. Round his bier the shields of his household lie in a ring, and every one of them is split to the boss, and the floor between them is darker than the dark. He is in no hurry. He has never needed to be.",
       "Flinches": "The light of day comes into the king's hall with you, and the king puts up an arm against it as the living do, and goes back from it, step by step, into the deep grave behind the ring."
-    }
+    },
+    "robbed": "The crown comes up off the king's head, and his dry hands close on the air where it was. Then he is off the bier and coming for you."
   },
   "bane": {
     "item": "noonlight",

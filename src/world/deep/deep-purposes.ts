@@ -80,7 +80,9 @@ export interface DeepPurpose {
   elites?: { depth: number; groups: DeepGroup[] }[];
   // What keeps the bottom, too strong to fight when the site is first found: where it shrinks back to, and what it
   // cannot bear.
-  keeper: DeepGroup & { level: number; words?: Record<string, string>; refuge?: string; fears?: string };
+  // robbed: what it does as its heart is taken from under it, which it comes at once for.
+  keeper: DeepGroup & { level: number; words?: Record<string, string>; refuge?: string; fears?: string;
+    robbed?: string };
   // What it cannot bear, and where the makers left it: an item in a room of a role, how it looks there, the words
   // they cut about it (read with lore where they walled the way down), and what reading them tells.
   bane?: { item: string; role: string; seen: string; cut: string; fact: string;
