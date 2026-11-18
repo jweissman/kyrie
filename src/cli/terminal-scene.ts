@@ -3,6 +3,7 @@ import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
 import { Signs } from '../presentation/signs';
 import { ToldLines } from '../presentation/told-lines';
+import { RecruitSaid } from '../presentation/recruit-said';
 import { TerminalColour, type Depth } from './terminal-colour';
 import { TerminalWidth } from './terminal-width';
 import type { Leaf } from '../presentation/narrator';
@@ -21,7 +22,7 @@ export type Turned = 'arrive' | 'act' | 'look';
 // The day and the part of it, the weather, the aim and what is needed are said when they change, and on a look. The
 // aim is said by the page's rule (AimSaid): followed, in gold; offered, by its title with how to follow it.
 export class TerminalScene {
-  private said: Partial<Record<'place' | 'time' | 'weather' | 'aim' | 'need' | 'instruments', string>> = {};
+  private said: Partial<Record<'place' | 'time' | 'weather' | 'aim' | 'need' | 'instruments' | 'recruit', string>> = {};
   // Each presentation as it was printed, by how its turn was come to: its prose (the scene's narration, what came of
   // an act), and apart from it what it says for reference (the aim, what is needed), so that a walk measures each
   // (TerminalWalk).
@@ -52,7 +53,8 @@ export class TerminalScene {
     const placed = [...leaf.situation, ...leaf.presence, ...leaf.changed].map(l => Typography.plain(l));
     const prose = turned === 'act' ? [...happened, ...leaf.changed.map(l => Typography.plain(l))]
       : whole || !g ? [...placed, ...happened] : [...seen, ...happened];
-    const reference = [...this.aim(screen, g?.aim, whole), ...this.need(leaf, whole), ...this.instruments(leaf, whole)];
+    const reference = [...this.aim(screen, g?.aim, whole), ...this.recruits(screen, whole), ...this.need(leaf, whole),
+      ...this.instruments(leaf, whole)];
     this.told.push({ turned, lines: prose, reference });
     return [...header ? ['', header, ...rule] : [], ...prose, ...reference];
   }
@@ -74,6 +76,13 @@ export class TerminalScene {
     const n = (screen.aims ?? []).findIndex(a => a.id === aim.offered) + 1;
     return [`${TerminalColour.bold(`An aim: ${Typography.plain(aim.text)}`, d)}${n ? this.o.picked ? ' · a to follow'
       : ` · follow ${n}` : ''}`];
+  }
+  // Who would join the company here, and what they would bring, as the page's talk says it (RecruitSaid): said when
+  // it changes, and on a look.
+  private recruits(screen: Screen, whole: boolean): string[] {
+    const lines = (screen.people ?? [])
+      .flatMap(p => p.recruit ? [RecruitSaid.line(p.name, p.recruit, screen.purse.coin)] : []);
+    return this.fresh('recruit', lines.join('\n') || undefined, whole) ? lines : [];
   }
   private need(leaf: Leaf, whole: boolean): string[] {
     const need = this.fresh('need', leaf.glance?.need?.join(' · '), whole);

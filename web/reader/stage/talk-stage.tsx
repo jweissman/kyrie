@@ -6,6 +6,7 @@ import type { Counter } from '../../../src/ui/trade-model';
 import type { ReaderApp } from '../reader-app';
 import type { TalkLine } from '../conversation';
 import { Typography } from '../../../src/presentation/typography';
+import { RecruitSaid } from '../../../src/presentation/recruit-said';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
@@ -221,10 +222,9 @@ export class TalkStage {
   // of a few lines: in full it had filled the middle of the conversation (the play-structure investigation's PT-12),
   // and folded it was a web page's disclosure (the owner's interim report).
   static Recruit({ recruit: r, coin }: { recruit: NonNullable<Talk['subject']['recruit']>; coin: number }) {
-    const ask = r.hire ? `${r.hire} coin${r.hire > coin ? `, more than you have` : ''}` : 'nothing';
     return (
       <section className="recruit" aria-label="What they would bring">
-        <p className="summary">{Typography.curl(`${Words.upper(Words.article(r.line))} of level ${r.level}, asking ${ask}`)}</p>
+        <p className="summary">{Typography.curl(Words.upper(RecruitSaid.summary(r, coin)))}</p>
         <p className="bearing">{Typography.curl(r.sheet.fighting.map(b => `${b.label}: ${b.value}`).join(' · '))}</p>
         <p className="qualities-line">{r.sheet.qualities.map(q => `${q.name} ${q.score}`).join(' · ')}</p>
         {(r.sheet.skills.length > 0 || r.techniques.length > 0) && <p className="skills-line">{Typography.curl([

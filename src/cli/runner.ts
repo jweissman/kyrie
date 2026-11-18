@@ -38,6 +38,9 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
   // What the company has to spend, every turn (cold play 2, CL-06: no turn had said what was in the purse).
   purse?: { coin: number; rations: number };
+  // Who goes with the one who plays, each by their calling and how hurt: a hireling's calling had been met first in a
+  // fight's menu (cold play 2, CL-08).
+  company?: string[];
   // Of the four, those that act on the aim followed's next step (the glance's lead, US-07; see RunnerLed).
   led?: string[];
   // Instruments (the experience measures): where the company stands, what the act just done changed beyond time and
@@ -82,13 +85,17 @@ export class Runner {
     const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
-      purse: { coin: screen.purse.coin, rations: screen.purse.rations },
+      purse: { coin: screen.purse.coin, rations: screen.purse.rations }, ...Runner.company(screen),
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.story ? { story: a.story.title } : {},
         ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
+  }
+  private static company(screen: Screen): Pick<Said, 'company'> {
+    const rest = (screen.party ?? []).slice(1).map(m => `${m.name}, ${m.line}, ${m.hp} of ${m.maxHp}`);
+    return rest.length ? { company: rest } : {};
   }
   // The story's end as the page's last page tells it (AB-04: an agent had been left with an empty offer and no word of
   // how it came to it).
