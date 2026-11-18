@@ -2,9 +2,9 @@ import { appendFile } from 'node:fs/promises';
 import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
-import { Narrator, type Exchange, type Told } from '../presentation/narrator';
+import { Narrator, type Exchange, type Leaf, type Told } from '../presentation/narrator';
 import type { Lens, Promoted, Successor } from '../presentation/glance-types';
-import { Offers, type ActType, type Bearing, type Offer, type Offered as Glanced } from '../presentation/offer';
+import { Offers, type ActType, type Bearing, type Offered as Glanced } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
 import type { Act, Screen } from '../ui/screen-types';
 import { TalkFocus } from '../ui/talk-focus';
@@ -23,6 +23,7 @@ import { RunnerPayoff } from './runner-payoff';
 import { RunnerLed } from './runner-led';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
+import { FightBegun } from '../presentation/fight-begun';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
@@ -71,8 +72,9 @@ export class Runner {
   private readonly payoff = new RunnerPayoff();
   private readonly scene = new TerminalScene();
   private readonly fight = new RunnerFight();
+  // since: how long the story was as it began (see FightBegun), and its words.
   private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent>;
-    with?: string };
+    with?: string; since: number; label?: string };
   // Whom the company is talking with: turned to (talk:<id>), talked to, or asked something; until it does anything
   // else or goes elsewhere (the page's Conversation attention).
   private with?: string;
@@ -82,9 +84,9 @@ export class Runner {
   private get campaign() { return this.session.campaign; }
   // The turn as it stands: arriving (the first, and after a move), or what came of the last act.
   said(turned: Turned = !this.told || this.told.moved ? 'arrive' : 'act'): Said {
-    const c = this.campaign, screen = ScreenModel.build(c), leaf = Narrator.leaf(c, screen, this.told);
+    const c = this.campaign, screen = ScreenModel.build(c), leaf = this.scene.leaf(c, screen, this.told);
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
-    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), offer = this.offer(screen, g?.offer, g?.acts);
+    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), offer = this.offer(screen, g);
     const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
@@ -114,10 +116,10 @@ export class Runner {
   // The glance's own offer (Offers.scene): its four and its rest, each by the command that does it.
   // An opener the glance leads for an act within it (asking Wenna to come along) is that act, as the page and the
   // terminal lead with it (TB-01, test/small/one-projection): the walkers had spent a turn opening the talk.
-  private offer(screen: Screen, offer: Offer | undefined, acts: Promoted[] = []): Said['offer'] {
+  private offer(screen: Screen, g: Leaf['glance']): Said['offer'] {
     // Only what can be done by its id: a choice the page draws by a key of its own that names no command is left out.
-    const names = this.names();
-    const primary = Runner.doable(screen, names, Runner.within(offer?.primary ?? [], acts));
+    const names = this.names(), offer = g?.offer;
+    const primary = Runner.doable(screen, names, Runner.within(offer?.primary ?? [], g?.acts ?? []));
     const rest = Runner.doable(screen, names, offer?.rest ?? []);
     const had = new Set([...primary, ...rest].flatMap(o => [o.id, /^go\([^,]+,([^)]+)\)$/.exec(o.id)?.[1] ?? '']
       .map((x, i) => i ? `travel:${x}` : x)));
@@ -127,7 +129,14 @@ export class Runner {
       .map(d => [d.id, d])).values()]
       .filter(d => !had.has(`travel:${d.id}`)).map(d => ({ id: `travel:${d.id}`, label: `Set out for ${d.name}`,
         aspects: [], type: 'journey' as const, minutes: d.minutes, marks: [] }));
-    return { primary, rest: [...Runner.talks(screen, rest, primary, this.with), ...journeys] };
+    return { primary, rest: [...Runner.talks(screen, rest, primary, this.with), ...Runner.out(g, had), ...journeys] };
+  }
+  // Inside a site, the way out as the page's compass gives it (Compass.out), the whole route in one act: walking out
+  // of the barrow had been seven moves, a room at a time (cold play 4, CL-44).
+  private static out(g: Leaf['glance'], had: Set<string>): Offered[] {
+    const out = g?.compass?.out;
+    return out?.command && !out.barred && !had.has(out.command) ? [{ id: out.command, label: `Out to ${Typography
+      .plain(out.name)}`, aspects: [], type: 'journey', minutes: out.minutes, marks: [] }] : [];
   }
   // What can be said to each of the people here, one row a person, as the page holds it under their talk (CL-07, the
   // cold plays: 30 asks to six people in the rest at the Stone Horn). The one the company is talking with (see
@@ -266,7 +275,7 @@ export class Runner {
         : { error: `not offered in the fight: ${asked.act}${this.fight.whose(asked.act)}` };
     }
     const screen = ScreenModel.build(this.campaign);
-    const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer, g?.acts);
+    const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g);
     // What pulls next is offered too, by its own act.
     // And what is under each person's talk, offered as it is on the page (see Runner.talks).
     const under = Runner.doable(screen, this.names(), g?.offer?.rest ?? []);
@@ -277,8 +286,9 @@ export class Runner {
     if (asked.act.startsWith('follow:')) { await this.session.leg(asked.act); return this.said('look'); }
     const talking = /^talk_to\(([^)]+)\)$/.exec(asked.act)?.[1]
       ?? Runner.whose(screen, [...o.primary, ...under]).get(asked.act);
-    this.doing = { act: asked.act, before: PlayerView.observe(this.campaign),
-      leg: this.session.leg(asked.act, this.fight.controller), ...talking ? { with: talking } : {} };
+    this.doing = { act: asked.act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
+      label: this.names().get(asked.act), leg: this.session.leg(asked.act, this.fight.controller),
+      ...talking ? { with: talking } : {} };
     return this.went();
   }
   // The act going on: its next turn of a fight, if one began, else what came of it.
@@ -294,7 +304,8 @@ export class Runner {
     // that thirty fight turns were all turn 30 (cold play 2, CL-11).
     if ('turn' in out) {
       this.n++;
-      return { turn: this.n, moment: 'fight', scene: { lines: this.fight.lines(), prose: [] }, offer: this.fight.offer() };
+      const lines = this.fight.lines(() => FightBegun.lines(this.campaign, doing.since, doing.label));
+      return { turn: this.n, moment: 'fight', scene: { lines, prose: [] }, offer: this.fight.offer() };
     }
     const event = out.done as CampaignEvent, before = doing.before;
     this.doing = undefined;

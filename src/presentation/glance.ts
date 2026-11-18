@@ -44,9 +44,9 @@ export class Glance {
     const recall = CompanyRecall.of(campaign), here = screen.place.id;
     const arrival: Arrival = !told ? 'opening' : !told.moved ? 'stay'
       : recall.been(here) || telling.known ? 'return' : 'first';
-    const lines = GlanceLines.of(campaign, screen, { arrival, recall, kept: telling.kept, changed: telling.changed });
-    const scene = Attending.place(SceneModel.build(screen));
-    const sensed = Perception.sensed(campaign, screen), life = lines.life?.subject;
+    const lines = GlanceLines.of(campaign, screen, { ...telling, arrival, recall, changes: told?.event.changes }),
+      scene = Attending.place(SceneModel.build(screen)), sensed = Perception.sensed(campaign, screen);
+    const life = lines.life?.subject;
     const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
@@ -74,8 +74,8 @@ export class Glance {
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
-    return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
-      changed: lines.changed, acts, ways, offer: Offers.scene(acts, ways, cands, { campaign, out, screen }),
+    return { arrival, ...GlanceLines.said(lines), acts, ways,
+      offer: Offers.scene(acts, ways, cands, { campaign, out, screen }),
       ...this.aimed(campaign, screen, reading), ...Threshold.leads(campaign, screen, reading.named),
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},

@@ -3,10 +3,11 @@ import { Canon } from '../canon/canon';
 // Where something met in play is in the encyclopedia (M19-147: nothing in play led to it): a creature by its base kind
 // (a great rat is a rat), by the id of its entry and the name of its kind to search by where it has none of its own.
 export class EncyclopediaEntry {
-  static creature(raceId: string): { id: string; name: string } | undefined {
+  // And what it looks like, as its kind varies (see Canon.creature), for whoever says it.
+  static creature(raceId: string): { id: string; name: string; looks?: string } | undefined {
     if (!Canon.isSpecies(raceId)) { return undefined; }
-    const base = this.catalogued(Canon.resolve('species', raceId).split('/')[0]!);
-    return { id: `species-${base.replace(/_/g, '-')}`, name: Canon.creature(raceId).name };
+    const base = this.catalogued(Canon.resolve('species', raceId).split('/')[0]!), kind = Canon.creature(raceId);
+    return { id: `species-${base.replace(/_/g, '-')}`, name: kind.name, ...kind.looks ? { looks: kind.looks } : {} };
   }
   // A module's own kind (Species manticore_kind "a manticore" like chimera) has no entry of its own, the book being
   // written from the catalogs alone: it is found under the kind it is like, up the variantOf chain, as its portrait

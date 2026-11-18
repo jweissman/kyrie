@@ -88,13 +88,14 @@ export class Terminal {
   // TerminalScene: what has not changed is not said again).
   private static scene(session: PlaySession, turn: Turn, whole = false) {
     const began = performance.now();
-    const screen = ScreenModel.build(session.campaign), leaf = Narrator.leaf(session.campaign, screen, turn.told);
+    const c = session.campaign, screen = ScreenModel.build(c), scene = turn.scene ??= new TerminalScene();
+    const leaf = scene.leaf(c, screen, turn.told);
     // Following an aim or letting it go changes what is led with, not where the company is (attended).
     const turned = whole ? 'look' : turn.attended ? 'act' : !turn.told || turn.told.moved ? 'arrive' : 'act';
     turn.attended = false;
     // Picked at a terminal, each line broken at its words to the terminal's width, not where the terminal breaks it.
     const width = turn.width?.();
-    for (const line of (turn.scene ??= new TerminalScene()).lines(screen, leaf, turned)) {
+    for (const line of scene.lines(screen, leaf, turned)) {
       for (const l of width && line ? TerminalWidth.wrap(line, width - 1) : [line]) { console.log(l); }
     }
     if (turn.profile) {

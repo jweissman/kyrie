@@ -11,7 +11,8 @@ import type { CompanyRecall } from './company-recall';
 import type { Arrival, Glance } from './glance-types';
 
 type Line = { id: string; text: string };
-export interface Lines { sight?: Glance['sight']; life?: Glance['life']; changed: string[]; pointed: Set<string> }
+export interface Lines { sight?: Glance['sight']; life?: Glance['life']; contents?: Glance['contents']; changed: string[];
+  pointed: Set<string> }
 
 // The glance's few lines (OWN-18): the place's own distinctive line (at most two sentences, never cut inside one), a
 // sign of life now, and on a return what has changed. A line is the place's own when its installation's, set at it,
@@ -20,8 +21,10 @@ export interface Lines { sight?: Glance['sight']; life?: Glance['life']; changed
 // module declares, never from the words.
 export class GlanceLines {
   static readonly words = 50;
+  // changes: what the last act changed, by which whoever warned the company off just now is known, its warning told
+  // as what happened (see here).
   static of(campaign: Campaign, screen: Screen, at: { arrival: Arrival; recall: CompanyRecall; kept: Line[];
-    changed: string[] }): Lines {
+    changed: string[]; changes?: readonly string[] }): Lines {
     const defs = this.defs(campaign.module), present = this.present(screen);
     // The place's own; else, where no line is its own (an opening's, an origin's), one set at it about nothing.
     const own = this.owned(at.kept, defs, { here: screen.place.id, present });
@@ -29,7 +32,8 @@ export class GlanceLines {
       back: ['return', 'resume'].includes(at.arrival) });
     // Staying, what was done leads: the place and its life are as they were.
     const life = at.arrival === 'stay' ? undefined
-      : this.life(screen, { defs, present, kept: at.kept, own, sight, arrival: at.arrival, recall: at.recall });
+      : this.life(screen, { defs, present, kept: at.kept, own, sight, arrival: at.arrival, recall: at.recall,
+        warned: new Set((at.changes ?? []).flatMap(c => /^\+ warned\(([^,]+),/.exec(c)?.[1] ?? [])) });
     const passing = new Set(screen.observed.filter(o => ['weather', 'ambience'].includes(this.def(defs, o.id)?.aspect ?? ''))
       .map(o => Typography.curl(FictionalTime.prose(o.text))));
     const back = ['return', 'resume'].includes(at.arrival);
@@ -38,7 +42,36 @@ export class GlanceLines {
       .filter(t => t !== sight?.text && !passing.has(t) && t !== life?.text).slice(0, 2);
     // What the lines told now name, of someone here or of the place (the taproom a dog lies at the door of).
     const pointed = new Set(screen.observed.flatMap(l => this.named(this.def(defs, l.id)?.text ?? '')));
-    return { ...sight ? { sight } : {}, ...life ? { life } : {}, changed, pointed };
+    const contents = ['first', 'opening'].includes(at.arrival) && !screen.dark
+      ? this.contents(campaign, screen, { defs, told: [sight?.id, life?.id, life?.subject] }) : undefined;
+    return { ...sight ? { sight } : {}, ...life ? { life } : {}, ...contents ? { contents } : {}, changed, pointed };
+  }
+  // The lines as the glance says them.
+  static said({ sight, life, contents, changed }: Lines): Pick<Glance, 'sight' | 'life' | 'contents' | 'changed'> {
+    return { ...sight ? { sight } : {}, ...life ? { life } : {}, ...contents ? { contents } : {}, changed };
+  }
+  // What lies here to be taken, read or opened, by name, the first time the company comes: three at most, those its
+  // author set a line beside first, then what is worth having, then the rest (the look tells them whole). A room's
+  // things had been in its acts alone: the dead party's pack, notebook and coins at the back-stone, the beads in the
+  // passage, the net in the cross-chamber, so that "The notebook lies open by the dead fire where you left it" was the
+  // first word of either (cold play 4, CL-42). Not what is for sale, someone's, inside something, or a way's own
+  // works (a portal stone's counterweight, said with the way), nor what is told already.
+  static readonly listed = 3;
+  private static contents(campaign: Campaign, screen: Screen, at: { defs: Map<string, Observation>;
+    told: (string | undefined)[] }): Glance['contents'] {
+    const types = new Map(campaign.module.entities.map(e => [e.id, e.type])), works = this.works(campaign.module);
+    const lined = new Set(screen.observed.flatMap(o => {
+      const d = this.def(at.defs, o.id);
+      return d?.anchor === 'near' && d.place && !at.told.includes(o.id) ? [d.place] : [];
+    }));
+    const here = screen.things.filter(t => t.acts.length && !t.note && !at.told.includes(t.id)
+      && !works.has(t.id) && (types.get(t.id) === 'item' || (types.get(t.id) === 'thing' && lined.has(t.id))));
+    const ranked = [...here.filter(t => lined.has(t.id)), ...here.filter(t => !lined.has(t.id) && t.valuable),
+      ...here.filter(t => !lined.has(t.id) && !t.valuable)].slice(0, this.listed);
+    if (!ranked.length) { return undefined; }
+    const names = ranked.map(t => Typography.plain(t.name));
+    const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0]!;
+    return { text: this.curl(`You see ${list}.`), subjects: ranked.map(t => t.id) };
   }
   // What the company itself left changed here (a chest it opened), as it stands now: come back to, the place had been
   // told by its first sentence only, and what was done in it went unsaid (Quittance's QTC-10). By the world's record
@@ -78,10 +111,14 @@ export class GlanceLines {
   // someone doing something; a line that is someone's; someone with something to be asked; and the first time only,
   // the place's passing life, or an animal's. Come back to, only what is new since.
   private static life(screen: Screen, at: { defs: Map<string, Observation>; present: Set<string>; kept: Line[];
-    own: Line[]; sight?: Glance['sight']; arrival: Arrival; recall: CompanyRecall }): Glance['life'] {
+    own: Line[]; sight?: Glance['sight']; arrival: Arrival; recall: CompanyRecall; warned: ReadonlySet<string> }):
+    Glance['life'] {
     const people = screen.people.filter(p => !p.companion && !p.state), first = !['return', 'resume'].includes(at.arrival);
     const threat = people.find(p => p.reckoning);
-    if (threat) { return { text: this.curl(threat.says?.[0] ?? this.here(threat)), subject: threat.id, danger: true }; }
+    if (threat) {
+      return { text: this.curl(threat.says?.[0] ?? this.here(threat, at.warned.has(threat.id))), subject: threat.id,
+        danger: true };
+    }
     const warner = screen.warned && people.find(p => p.id === screen.warned!.id);
     if (warner) { return { text: this.curl(warner.says?.[0] ?? this.here(warner)), subject: warner.id }; }
     const fresh = this.fresh.bind(this, first, at.recall);
@@ -107,11 +144,20 @@ export class GlanceLines {
   // Who is here with nothing else said of them: a creature by what it is, its kind as it varies (a barrow ghoul, not
   // a ghoul), where its name does not say it. "The keeper of the vault is here." had been all the vault said of what
   // killed the company (cold play 3, CL-13).
-  private static here(row: TargetRow): string {
+  // And what its kind looks like, once: "The snakes are here." had been all an ossuary said of what came at the
+  // company, and a fight opened on their hit points (cold play 4, CL-42). One whose warning has just been told (the
+  // king sitting up on his bier) is said by its looks alone, not labelled before it ("The king under the mound is
+  // here: a mummy.": CL-44).
+  private static here(row: TargetRow, warned = false): string {
     const name = row.name.split(', ')[0]!, kind = row.kind === 'person' ? undefined : row.entry?.name.toLowerCase();
     const named = !kind || name.toLowerCase().includes(kind.split(' ').at(-1)!.replace(/s$/, ''));
     const what = named ? '' : `: ${row.many ? `${kind}s` : `${/^[aeiou]/.test(kind) ? 'an' : 'a'} ${kind}`}`;
-    return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${row.many ? 'are' : 'is'} here${what}.`;
+    const called = `${name.charAt(0).toUpperCase()}${name.slice(1)} ${row.many ? 'are' : 'is'} here`;
+    const looks = row.entry?.looks && Sentences.split(row.entry.looks)[0];
+    if (!looks) { return `${called}${what}.`; }
+    const like = `${looks.charAt(0).toLowerCase()}${looks.slice(1)}`;
+    if (row.many) { return named ? `${called}, each ${like}` : `${called}${what}. Each is ${like}`; }
+    return warned ? looks : `${called}${what}. ${looks}`;
   }
   private static curl(text: string): string { return Typography.curl(FictionalTime.prose(text)); }
   private static owned(kept: Line[], defs: Map<string, Observation>,
@@ -153,6 +199,19 @@ export class GlanceLines {
   }
   private static def(defs: Map<string, Observation>, id: string): Observation | undefined {
     return defs.get(id.split('@')[0]!);
+  }
+  // What a way's opening turns on (a winch's wheel, a lever): said with the way, not as a thing lying here.
+  private static readonly worked = new WeakMap<Module, Set<string>>();
+  private static works(module: Module): Set<string> {
+    let works = this.worked.get(module);
+    if (!works) {
+      const found = new Set<string>();
+      for (const r of (module.rules ?? []).filter(x => x.id.endsWith('__opens'))) {
+        ModuleWriter.conditionCalls(r.when, call => { if (call.name === 'state') { found.add(call.args[0]!); } return call; });
+      }
+      this.worked.set(module, works = found);
+    }
+    return works;
   }
   private static readonly cached = new WeakMap<Module, Map<string, Observation>>();
   static defs(module: Module): Map<string, Observation> {

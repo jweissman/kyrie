@@ -26,6 +26,7 @@ import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { SceneBudget } from '../../src/presentation/scene-budget';
 import { Prologue } from '../../src/presentation/prologue';
+import { FightBegun } from '../../src/presentation/fight-begun';
 import { Obituary } from '../../src/narrative/obituary';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
@@ -286,10 +287,8 @@ export class EngineHost {
       journey: last.leaf.journey ?? [], lines: (last.leaf.exchange?.lines ?? []).map(l => l.text) });
     return this.session!.campaign.history.at(-1)!;
   }
-  // A fight held on its own page is not told again at the place it was fought in: only what was witnessed meanwhile.
-  private static unfought(feedback: ActionFeedback): ActionFeedback {
-    return { ...feedback, immediate: feedback.immediate.filter(t => t.startsWith('You witness: ')) };
-  }
+  // A fight held on its own page is not told again at the place it was fought in (see ActionFeedbackView.fought).
+  private static unfought(feedback: ActionFeedback): ActionFeedback { return ActionFeedbackView.fought(feedback); }
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
   // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts. It
   // is drawn as part of the command (see PlaySession.extend), so a replay of the game draws it too.
@@ -316,17 +315,10 @@ export class EngineHost {
     this.fought = battle;
     this.post({ kind: 'frame', frame: this.frame() });
   });
-  // What was seen and said in the moment the company was set upon, if it was: never what was told before the command
-  // that began it (a fight with bats begun by the company opened on "Brann lights a torch.": play 13).
-  // Or, set upon in the midst of something done (a firebomb thrown through a crack at what will not wait for it), that
-  // it was done: the fight had opened on nothing, and the act was told after it as an attack (Mission 20's cold play).
+  // What the fight opens on (see FightBegun); the page's opening is never empty once the fight has begun.
   private begun(): string[] {
-    const history = this.session?.campaign.history ?? [];
-    const last = history.length > this.began ? history.at(-1) : undefined;
-    const seen = [...(last?.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
-      ...(last?.response ? [last.response] : [])];
-    const did = !seen.length && this.doing && !/^(Attack|Fight)\b/.test(this.doing) ? `You ${this.doing.charAt(0).toLowerCase()}${this.doing.slice(1)}.` : undefined;
-    return seen.length ? [...new Set(seen)] : [did ?? ''];
+    const said = this.session ? FightBegun.lines(this.session.campaign, this.began, this.doing) : [];
+    return said.length ? said : [''];
   }
   // The companion's choice, as one of the commands the fight allows them now; none, and they fight on their own.
   private fight(choice?: string) {
@@ -413,8 +405,7 @@ export class EngineHost {
     // The opening is headed with the chapter its origin names ("Coming home"), or the country's name. Where the page
     // tells it apart, before the first place (OWN-17), the chapter heads that, and the place does not say it again,
     // nor why the company came, nor how it came in; the story begins with it, once.
-    const chapter = campaign.module.entities.find(e => /(^|__)chapter$/.test(e.type))?.name
-      ?? screen.title.split(' — ')[0]!;
+    const chapter = Prologue.title(campaign, screen);
     const prologue = opening && this.apart ? Prologue.of(campaign, screen, chapter) : undefined;
     const leaf = Narrator.leaf(campaign, screen, this.told, prologue?.opening);
     // A fight held on its own page is told there, not again over the place; one foregone, fought through as one act

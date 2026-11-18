@@ -34,6 +34,10 @@ export interface Pages { beats: 'none'; meeting?: Exclude<Page, 'none'>; after: 
 export class Prologue {
   static readonly arrival = 'origin__arrival';
   static readonly meetingId = 'origin__meeting';
+  // The opening's heading: the chapter its origin names ("Coming home"), or the country's name.
+  static title(campaign: Campaign, screen: Screen): string {
+    return campaign.module.entities.find(e => /(^|__)chapter$/.test(e.type))?.name ?? screen.title.split(' — ')[0]!;
+  }
   static of(campaign: Campaign, screen: Screen, title: string): { told: Told; opening: Opening } | undefined {
     const seen = new Map(screen.observed.map(o => [o.id, o.text]));
     // Why: the first of the origin's features where it begins, but the arrival (one over the hills may see the town's

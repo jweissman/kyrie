@@ -124,6 +124,8 @@ export interface Glance {
   sight?: { id: string; text: string };
   // A sign of life now: a danger, whoever warns, a person's words or doings, the place's passing life.
   life?: { id?: string; text: string; subject?: string; danger?: boolean };
+  // What lies here to be taken, read or opened, said once on coming here (see GlanceLines.contents).
+  contents?: { text: string; subjects: string[] };
   // On a return, what has changed since the company was last here: at most two lines.
   changed: string[];
   // At most three, the best first.

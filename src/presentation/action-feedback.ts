@@ -287,6 +287,15 @@ export class ActionFeedbackView {
       available: after.choices.filter(c => !before.choices.some(b => b.id === c.id)).map(c => c.name),
       unavailable: [] };
   }
+  // A fought act, its fight told turn by turn on its own page (or the runner's turns): told by the fight's own lines
+  // where they are given, then only what was witnessed meanwhile, and what ran out in it, a light above all: the
+  // torch gone out in the fight in the bone hall had been told nowhere, and the dark came on with no word (cold play 4,
+  // CL-42). keep: what else is told (how it ended).
+  static fought(feedback: ActionFeedback, told: string[] = [], keep: string[] = []): ActionFeedback {
+    const lapsed = new Set(feedback.lapsed ?? []);
+    return { ...feedback, immediate: [...told, ...feedback.immediate.filter(t => t.startsWith('You witness: ')
+      || lapsed.has(t) || keep.includes(t))] };
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action);

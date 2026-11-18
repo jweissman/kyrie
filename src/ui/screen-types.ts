@@ -117,7 +117,9 @@ export interface TargetRow {
   // Someone with something for the company now: a thing to be said to them, open now, that pays it (see Owed).
   owed?: boolean;
   // A creature's kind, for its entry in the encyclopedia: the base kind's id, and the kind's name to search by.
-  entry?: { id: string; name: string };
+  // And what the kind looks like (the catalog's looks), said with it: "The snakes are here." had been all an ossuary
+  // said of them (cold play 4, CL-42).
+  entry?: { id: string; name: string; looks?: string };
 }
 export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.

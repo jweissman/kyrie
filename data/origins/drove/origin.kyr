@@ -9,8 +9,10 @@ Module origin "Down the drove road" {
   Item stick "Bran's tally-stick" is tally_kind at green.
   Initially Assert knows(party, held). Initially Assert kin(party, owain).
   Entity called_cousin: fact "your cousin". Initially Assert kinship(owain, called_cousin).
-  Observe arrival at green as fixture when watch(clock) < 1 "Eleven days down from the fells, and the last mile the worst. In the dark the Black Rhyne's bank went out from under the tail of the drove. You heard them in the water. Bran said leave them. Then {town} at first light, salt-houses and masts, the customs-men waiting at the march-stone with their staves. They counted. They took Bran.".
-  Observe charge at green as feature when watch(clock) < 2 "Bran went with them without a word, only throwing his tally-stick down at your feet as they took him. The drove is in the pens behind the customs-house, thirty-six head and nobody's but yours to mind. Owain is at your elbow on the landing. He is your cousin, fourteen, and frightened. The customs clerk says four beasts were hidden from the toll.".
+  // Told first, as why the company came (see Prologue: the origin's feature, then its arrival); what Owain answers at
+  // the Black Rhyne is his to tell.
+  Observe charge at green as feature when watch(clock) < 2 "Eleven days you have walked Bran ap Ifor's drove down from the fells to sell. The last mile, in the dark, was the worst.".
+  Observe arrival at green as fixture when watch(clock) < 1 "{town} came at first light, all salt-houses and masts. The customs-men were waiting at the march-stone with their staves. They counted, and they took Bran. He went without a word, only throwing his tally-stick down at your feet. The drove is in the pens behind the customs-house. Owain is at your elbow, your cousin, fourteen and frightened.".
   Observe stick_lies near stick of stick when at(stick, green) "Bran's tally-stick lies on the cobbles at your feet, where he threw it to you.".
   Goal false.
 }

@@ -6,7 +6,7 @@ import { ItemNames } from '../item-names';
 import { CombatChoices } from '../ui/combat-choices';
 import { CombatTelling } from '../ui/combat-telling';
 import type { ActType } from '../presentation/offer';
-import type { ActionFeedback } from '../presentation/action-feedback';
+import { ActionFeedbackView, type ActionFeedback } from '../presentation/action-feedback';
 
 // A fight as the runner gives it to an agent, turn by turn, as the terminal and the page do: the hand (each move at
 // each target, the weapon's blow first), "auto" for this turn as the rules would play it, and "through" to the end.
@@ -23,6 +23,7 @@ export class RunnerFight {
   private waking?: () => void;
   private from = 0;
   private rest = false;
+  private opened = false;
   // The controller the session's leg is given: each of the company's turns waits for the agent, unless it said through.
   readonly controller = (battle: Battle): Promise<Command> => {
     if (this.rest) { return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands())); }
@@ -38,7 +39,7 @@ export class RunnerFight {
     if ('done' in out) {
       const b = this.battle;
       this.closing = b && CombatTelling.since(b.events, this.from, b.state).map(t => t.text);
-      this.pending = undefined; this.battle = undefined; this.rest = false; this.from = 0;
+      this.pending = undefined; this.battle = undefined; this.rest = false; this.from = 0; this.opened = false;
     }
     return out;
   }
@@ -48,18 +49,20 @@ export class RunnerFight {
   closed(feedback: ActionFeedback): ActionFeedback {
     const closing = this.closing;
     this.closing = undefined;
-    return closing ? { ...feedback, immediate: [...closing, ...feedback.immediate
-      .filter(t => t.startsWith('You witness: ') || t === feedback.result)] } : feedback;
+    return closing ? ActionFeedbackView.fought(feedback, closing, feedback.result ? [feedback.result] : []) : feedback;
   }
   get fighting(): boolean { return !!this.pending; }
   // What has happened since the agent last chose, and who stands as they are.
-  lines(): string[] {
+  // begun: what the fight opens on (see FightBegun), said on its first turn.
+  lines(begun?: () => string[]): string[] {
     const b = this.pending?.battle;
     if (!b) { return []; }
+    const opening = this.opened ? [] : begun?.() ?? [];
+    this.opened = true;
     const events = b.events, told = CombatTelling.since(events, this.from, b.state).map(t => t.text);
     this.from = events.length;
     const who = b.state.combatants.map(f => `${f.name} ${f.hp}/${f.maxHp}`).join(' · ');
-    return [...told, who];
+    return [...opening, ...told, who];
   }
   choices(): FightChoice[] {
     const b = this.pending?.battle;

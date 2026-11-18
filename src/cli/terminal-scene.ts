@@ -4,9 +4,11 @@ import { AimSaid } from '../presentation/aim-said';
 import { Signs } from '../presentation/signs';
 import { ToldLines } from '../presentation/told-lines';
 import { RecruitSaid } from '../presentation/recruit-said';
+import { Prologue } from '../presentation/prologue';
+import type { Campaign } from '../campaign/campaign';
 import { TerminalColour, type Depth } from './terminal-colour';
 import { TerminalWidth } from './terminal-width';
-import type { Leaf } from '../presentation/narrator';
+import { Narrator, type Leaf, type Told } from '../presentation/narrator';
 import type { Screen } from '../ui/screen-types';
 
 // How a turn is come to: arriving somewhere, doing something where the company stands, or looking deliberately.
@@ -30,6 +32,18 @@ export class TerminalScene {
   // instruments: whether the instruments are said among the lines (the human mode reads them in its picker instead);
   // picked: whether the player picks by keys, so that how to follow an aim is its key, not a command to type.
   constructor(private readonly depth: Depth = 'none', private readonly o: { instruments?: boolean; picked?: boolean } = {}) {}
+  private opened = false;
+  // The narrator's leaf, with the game's opening as the page tells it apart before the first place (see Prologue): on
+  // the first turn, before anything is done, and once. The terminal and the runner had opened on the quay's gulls, and
+  // why the company was there (Bran taken, the tally-stick at your feet, Owain your cousin) came only with a second
+  // look (cold play 4, CL-42). The place told with it leaves out what it told (Narrator.leaf's opening).
+  leaf(campaign: Campaign, screen: Screen, told?: Told): Leaf {
+    const first = !this.opened && !told && !campaign.history.length;
+    this.opened = true;
+    const opening = first ? Prologue.of(campaign, screen, Prologue.title(campaign, screen)) : undefined;
+    const leaf = Narrator.leaf(campaign, screen, told, opening?.opening);
+    return opening ? { ...leaf, prologue: opening.told } : leaf;
+  }
   lines(screen: Screen, leaf: Leaf, turned: Turned): string[] {
     const whole = turned === 'look', day = screen.date?.short ?? `Day ${FictionalTime.day(screen.elapsed)}`;
     const time = this.fresh('time', `${day}, ${FictionalTime.part(screen.elapsed)}`, whole);
@@ -47,16 +61,26 @@ export class TerminalScene {
     const unsaid = new Set(whole ? [] : leaf.glanced?.unsaid ?? []);
     const happened = ToldLines.said(leaf.exchange?.lines ?? [], whole).filter(l => !unsaid.has(l.text)).map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));
-    const g = leaf.glance, seen = [g?.came, g?.sight?.text, g?.life?.text, ...g?.changed ?? []]
+    const g = leaf.glance, seen = [g?.came, g?.sight?.text, g?.life?.text, g?.contents?.text, ...g?.changed ?? []]
       .filter((l): l is string => !!l).map(l => Typography.plain(l));
     // After an act, what happened and what changed; arriving, the glance; looked at, the place whole.
     const placed = [...leaf.situation, ...leaf.presence, ...leaf.changed].map(l => Typography.plain(l));
     const prose = turned === 'act' ? [...happened, ...leaf.changed.map(l => Typography.plain(l))]
       : whole || !g ? [...placed, ...happened] : [...seen, ...happened];
-    const reference = [...this.aim(screen, g?.aim, whole), ...this.recruits(screen, whole), ...this.need(leaf, whole),
-      ...this.instruments(leaf, whole)];
+    // The opening's aim is the aim the place would have said (the glance leaves it to the opening: Glance.of).
+    const reference = [...this.aim(screen, g?.aim ?? leaf.prologue?.aim, whole), ...this.recruits(screen, whole),
+      ...this.need(leaf, whole), ...this.instruments(leaf, whole)];
     this.told.push({ turned, lines: prose, reference });
-    return [...header ? ['', header, ...rule] : [], ...prose, ...reference];
+    return [...this.prologue(leaf), ...header ? ['', header, ...rule] : [], ...prose, ...reference];
+  }
+  // The opening, before the first place: its chapter, its beats, whoever is met on the way in. Its own pages on the
+  // page, so not counted with the place's telling (TerminalWalk's budget).
+  private prologue(leaf: Leaf): string[] {
+    const p = leaf.prologue;
+    if (!p) { return []; }
+    const d = this.depth;
+    return ['', TerminalColour.bold(TerminalColour.ink('ivory', p.title, d), d),
+      ...[...p.beats, ...p.meeting ? [p.meeting.text] : []].map(l => Typography.plain(l))];
   }
   // The aim, said once for each change, never by comparing its words: when the glance says it (Glance.aim: on a first
   // arrival, where no act serves it, when it has changed), when the aim followed has changed (Follow this, or let go),
