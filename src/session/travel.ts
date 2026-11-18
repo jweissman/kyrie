@@ -50,9 +50,15 @@ export class Travel {
       const why = await this.step(t, legs.shift()!, done);
       if (this.at(t.campaign, destination)) { done.arrived = true; break; }
       if (why) { done.stopped = why; break; }
+      // Water seen across the way ahead: where a way round is known, it is taken, said in passing on the leg; only
+      // where none is known does the journey stop (the owner's trust contracts, G: six of seven stops left on 6–8 hex
+      // journeys were the way going round water, nothing for the player to decide).
       if (legs.some(l => Overland.found(t.campaign, l))) {
-        done.stopped = this.unforeseen(t.campaign, destination);
-        break;
+        const round = Itineraries.plan(t.campaign, destination)?.legs.length;
+        if (!round) { done.stopped = this.unforeseen; break; }
+        const last = done.legs.at(-1);
+        if (last) { last.passed = 'Water lies across the way ahead: the way on goes round it'; }
+        legs = [];
       }
     }
     return done;
@@ -74,12 +80,8 @@ export class Travel {
     done.legs.push(made);
     return this.interrupted(t.campaign, event, before, { leg, made });
   }
-  // Water seen across the way ahead, where open country had been reckoned: the way on goes round it, laid again from
-  // here, or there is none known.
-  private static unforeseen(campaign: Campaign, destination: string): string {
-    return Itineraries.plan(campaign, destination)?.legs.length ? 'Water lies across the way ahead: the way on goes round it'
-      : 'Water lies across the way ahead, and you know no way round it';
-  }
+  // Water seen across the way ahead, where open country had been reckoned, and no way round it known.
+  private static readonly unforeseen = 'Water lies across the way ahead, and you know no way round it';
   // Why a leg cannot simply be taken, in the words of what stands in the way: the river in spate, a rope wanted, a
   // watcher. Before, a ford in spate was said only to "not let you by" (mere, in a newcomer's night).
   private static barred(campaign: Campaign, leg: Leg): string {

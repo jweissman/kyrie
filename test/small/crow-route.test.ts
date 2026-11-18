@@ -64,6 +64,7 @@ describe('the way laid across the country', () => {
       expect([way[0], way.at(-1), way.length]).toEqual([7, 13, 8]);
     }
   });
+  // Water found ahead, with a way round it known, is told with the leg and the journey goes round (TR-02).
   it('is laid over water it has not seen, as open country, and turns aside only when it sees it, saying so', async () => {
     const t = await land({ lake: 10 });
     expect(laid(t)).toEqual([7, 8, 9, 10, 11, 12, 13]);
@@ -71,11 +72,10 @@ describe('the way laid across the country', () => {
     expect(t.screen.destinations?.find(d => d.id === 't__barrow')?.legs.map(l => l.to))
       .toContain('country not yet seen');
     await t.session.leg('travel:t__barrow');
-    expect([t.where(), t.session.journeyed?.stopped]).toEqual(['t__t9', expect.stringMatching(/^Water lies across/)]);
-    t.look();
-    expect(laid(t)).not.toContain(10);
-    await t.session.leg('travel:t__barrow');
-    expect(t.where()).toBe('t__mouth');
+    const journey = t.session.journeyed!;
+    expect([t.where(), journey.stopped]).toEqual(['t__mouth', undefined]);
+    expect(journey.legs.map(l => l.passed)).toContain('Water lies across the way ahead: the way on goes round it');
+    expect(journey.legs.map(l => /^go\(t__t(\d+),/.exec(l.command)?.[1])).not.toContain('10');
   });
   it('takes a known road only where it is the quicker', async () => {
     const quick = await land({ road: '2 hours' });

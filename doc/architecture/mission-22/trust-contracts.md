@@ -171,9 +171,12 @@ them; or a glance act led for a sign, a thing unlooked at, an answer or a warnin
 temper, or a wary or tame one (`Travel.lets`: a lair and no temperament but wary/tame). A fight, a hurt, a barred way,
 night, weariness, hunger and a changed route stop as before. The toll still stops (paying it is a decision).
 
-Still open (TR-02): the water re-route ("the way on goes round it") stops six journeys where the way on is laid and
-known; it is a changed route, which the owner names as a reason, but nothing is asked of the player but to set out
-again; and what is told in passing leaves no mark on the map to come back to (an optional discovery should).
+Then the water re-route: water found across the way ahead, where a way round it is known, is told with the leg ("the
+way on goes round it") and the journey re-plans and goes on; it stops only where no way round is known ("you know no
+way round it"), which asks the player for a decision. The census after: 1 stop in 28 journeys (151 legs), 16 things
+told in passing, 28 of 28 arrived.
+
+Still open (TR-02): what is told in passing leaves no mark on the map to come back to (an optional discovery should).
 
 ### F. What travel costs, measured (no numbers changed)
 
