@@ -1,28 +1,13 @@
 # Before and after: --world iscoed --as human/warrior/Wenna
 
 - Before: Captured: what the player was shown when it was played, at 8f7bb0c9, 2026-11-18T00:47.
-- After: Replay: the capture's acts played again under the code as it is now (the acts of captured.json), at 9f5a068e with changes not committed, 2026-11-18T00:50.
+- After: Replay: the capture's acts played again under the code as it is now (the acts of captured.json), at c21a220a, 2026-11-18T01:41.
 
-## 4. To the Black Rhyne, behind the pens
+## 1. Ask Owain how many head came down
 
-**Before:** A dyke of black water between steep banks, the far bank slumped into it where the sea came over in the winter. The smell reaches you before the sight does.
+**Before:** ‘Thirty-six,’ says the boy at once, and then, because you are listening: ‘There were forty at Hafod. At the Black Rhyne the bank went from under the last of them, in the dark. We heard them in the water. Bran said leave them, or we’d lose the rest.’ He points with his chin, behind the pens. ‘They’re still there.’ Patch barks twice, for form’s sake, then comes to see who you are. You take Bran’s tally-stick.
 
-**After:** A dyke of black water between steep banks, the far bank slumped into it where the sea came over in the winter. It stinks of rotting weed and silt.
+**After:** ‘Thirty-six,’ says the boy at once, and then, because you are listening: ‘There were forty at Hafod. At the Black Rhyne the bank went from under the last of them, in the dark. We heard them in the water. Bran said leave them, or we’d lose the rest.’ He points with his chin, behind the pens. ‘They’re still there.’ Patch barks twice, then comes to see who you are. You take Bran’s tally-stick.
 
-- diction: “The smell reaches you before the sight does.” no longer shown
-
-## 19. Read the dues-receipt on the post
-
-**Before:** A wheel; no wing. RECEIVED OF THE FOLK OF Porthalen, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. The seal: a wheel, in lead. Only a wheel.
-
-**After:** The seal is a wheel with no wing. RECEIVED OF THE FOLK OF Porthalen, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. The seal: a wheel, in lead. Only a wheel.
-
-- causality: “A wheel; no wing.” no longer shown
-
-## 30. Follow the marks under the garden wall
-
-**Before:** A vixen is bringing kits up in the old wall of the Hall’s cellar, and has been taking what the town cannot count. A fox’s, with young: a vixen, with kits. The line goes under the wall by a gap that leads toward the Hall cellar.
-
-**After:** A vixen is bringing kits up in the old wall of the Hall’s cellar, and has been taking what the town cannot count. The line goes under the wall by a gap that leads toward the Hall cellar.
-
-- excess: “A fox’s, with young: a vixen, with kits.” no longer shown
+- causality: “You take Bran’s tally-stick.” still shown
+- diction: “Patch barks twice, for form’s sake, then comes to see who you are.” no longer shown
