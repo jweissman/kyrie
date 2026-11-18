@@ -51,13 +51,15 @@ describe('making the protagonist', () => {
   });
   it('is one flow: its steps, its cards, and what a choice settles', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
-    // The calling only: its way (a mage's school) is not asked, but the calling's own until chosen in play.
+    // A warrior's way is not asked, but the calling's own until chosen in play; the trade within a kind of life is
+    // asked once there is one (OR-90).
     expect(ids()).toEqual(['you', 'sign', 'calling', 'before', 'presenting', 'name']);
     flow.choose('you', 'elf');
     expect(flow.steps().find(s => s.id === 'calling')!.cards.map(c => c.id)).not.toContain('cleric');
     flow.choose('calling', 'mage');
     const schools = Creation.catalog().callings.find(c => c.id === 'mage')!.specializations.map(t => t.id);
-    expect([ids().includes('specialty'), schools.includes(flow.member.traits?.[0] ?? '')]).toEqual([false, true]);
+    // A mage's school is asked (OR-90), its first until chosen.
+    expect([ids().includes('specialty'), schools.includes(flow.member.traits?.[0] ?? '')]).toEqual([true, true]);
     const school = flow.member.traits![0];
     // A new calling's way is its own (the first it offers), never the last calling's.
     flow.choose('calling', 'warrior');

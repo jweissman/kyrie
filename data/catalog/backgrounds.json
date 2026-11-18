@@ -1,5 +1,5 @@
 {
-  "about": "Backgrounds and professions as Deem tables. Orsino's backgroundModifier (data/catalog/orsino/backgrounds.json, generated) gives each one its scores, gold, class and gear; these tables say what it means in a Kyr world. backgroundKind puts every Orsino background in one kind; backgroundKindMeaning gives a kind's skills, gear and the channel an old acquaintance hears news through (the n-th background of a kind takes the kind's n-th contact line, round again); backgroundOverlay changes one background where it differs from its kind. Compiled into the catalog by BackgroundCatalog.",
+  "about": "Backgrounds and professions as Deem tables. Orsino's backgroundModifier (data/catalog/orsino/backgrounds.json, generated) gives each one its scores, gold, class and gear; these tables say what it means in a Kyr world. backgroundKind puts every Orsino background in one kind; backgroundKindMeaning gives a kind's skills, gear, the question its trades are asked by at creation (asks), what a life of it is in a sentence (life), and the channel an old acquaintance hears news through (the n-th background of a kind takes the kind's n-th contact line, round again); backgroundOverlay changes one background where it differs from its kind. Compiled into the catalog by BackgroundCatalog.",
   "backgroundKind": {
     "discriminator": "kind",
     "groups": {
@@ -66,6 +66,8 @@
     "groups": {
       "wild": {
         "name": "Wild country",
+        "asks": "What did you do in the backcountry?",
+        "life": "A life lived off the land: hunting, tracking, herding and keeping the woods.",
         "skills": ["woodcraft"],
         "channel": "road",
         "contacts": [
@@ -76,6 +78,8 @@
       },
       "roads": {
         "name": "The roads",
+        "asks": "What did you do on the roads?",
+        "life": "A life on the move: carrying goods, word and maps from one town to the next.",
         "skills": ["wayfinding"],
         "channel": "road",
         "contacts": [
@@ -86,6 +90,8 @@
       },
       "mechanisms": {
         "name": "Locks and mechanisms",
+        "asks": "What did you make at the bench?",
+        "life": "A life of fine work: locks, clocks, bells and things that move.",
         "skills": ["lockwork"],
         "channel": "market",
         "contacts": [
@@ -95,6 +101,8 @@
       },
       "shadows": {
         "name": "The shadows",
+        "asks": "What did you do in the shadows?",
+        "life": "A life outside the law: theft, smuggling, cards and worse.",
         "skills": ["stealth", "deception"],
         "channel": "market",
         "contacts": [
@@ -104,6 +112,8 @@
       },
       "healing": {
         "name": "Healing",
+        "asks": "How did you tend the sick?",
+        "life": "A life of tending: setting bones, mixing simples, nursing the sick.",
         "skills": ["mending"],
         "channel": "temple",
         "contacts": [
@@ -113,6 +123,8 @@
       },
       "faith": {
         "name": "The faith",
+        "asks": "What were you in the faith?",
+        "life": "A life given to a god: rites, shrines, alms and the hunt for what is unholy.",
         "skills": ["rites", "insight"],
         "channel": "temple",
         "contacts": [
@@ -122,6 +134,8 @@
       },
       "learning": {
         "name": "Learning",
+        "asks": "What did you study?",
+        "life": "A life of study: books, stars, old tongues and the arts.",
         "skills": ["lore"],
         "channel": "temple",
         "contacts": [
@@ -131,6 +145,8 @@
       },
       "earth": {
         "name": "Stone and earth",
+        "asks": "What did you do with stone and earth?",
+        "life": "A life of digging and building: mines, quarries, walls and gardens.",
         "skills": ["digging"],
         "gear": ["shovel"],
         "channel": "tavern",
@@ -141,6 +157,8 @@
       },
       "arms": {
         "name": "Arms",
+        "asks": "What did you do under arms?",
+        "life": "A life of fighting, or of making what fighters carry.",
         "skills": ["brawn", "intimidation"],
         "channel": "tavern",
         "contacts": [
@@ -150,6 +168,8 @@
       },
       "water": {
         "name": "The water",
+        "asks": "What did you do on the water?",
+        "life": "A life on boats: rivers, nets, ships and the open sea.",
         "skills": ["climbing"],
         "gear": ["rope"],
         "channel": "road",
@@ -160,6 +180,8 @@
       },
       "stage": {
         "name": "The stage",
+        "asks": "What did you do on the stage?",
+        "life": "A life before a crowd: songs, tales, plays and tricks.",
         "skills": ["lore", "deception"],
         "channel": "tavern",
         "contacts": [
@@ -169,6 +191,8 @@
       },
       "trade": {
         "name": "A trade",
+        "asks": "What was your trade?",
+        "life": "A life of honest work: baking, brewing, weaving, farming, selling.",
         "skills": ["persuasion"],
         "channel": "market",
         "contacts": [
@@ -178,6 +202,8 @@
       },
       "court": {
         "name": "Courts and offices",
+        "asks": "What was your place at court?",
+        "life": "A life in office: courts, councils, taxes and the high-born.",
         "skills": ["persuasion", "insight"],
         "channel": "market",
         "contacts": [
@@ -187,6 +213,8 @@
       },
       "margins": {
         "name": "The margins",
+        "asks": "How did you live on the margins?",
+        "life": "A life at the edge: cast out, locked up, or barely living through it.",
         "skills": ["stealth"],
         "channel": "tavern",
         "contacts": [

@@ -51,6 +51,7 @@ export class Creation {
         .sort((a, b) => a.name.localeCompare(b.name)),
       // Each kind of background, and what the skill its people know is for.
       kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name,
+        ...k.asks ? { asks: k.asks } : {}, ...k.life ? { life: k.life } : {},
         does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' ') })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
       signs: structuredClone(sky.signs),

@@ -779,6 +779,8 @@ Where a companion comes from: Orsino's scores and gold for each, and what the ki
 
 ### Wild country
 
+A life lived off the land: hunting, tracking, herding and keeping the woods.
+
 Brings woodcraft, and knows someone who hears news on the road.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -822,6 +824,8 @@ Brings woodcraft, and knows someone who hears news on the road.
 
 ### The roads
 
+A life on the move: carrying goods, word and maps from one town to the next.
+
 Brings wayfinding, and knows someone who hears news on the road.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -857,6 +861,8 @@ Brings wayfinding, and knows someone who hears news on the road.
 
 ### Locks and mechanisms
 
+A life of fine work: locks, clocks, bells and things that move.
+
 Brings lockwork, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -870,6 +876,8 @@ Brings lockwork, and knows someone who hears news at a market.
 | Toymaker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork, Firewood | Adapted |
 
 ### The shadows
+
+A life outside the law: theft, smuggling, cards and worse.
 
 Brings stealth and deception, and knows someone who hears news at a market.
 
@@ -909,6 +917,8 @@ Brings stealth and deception, and knows someone who hears news at a market.
 
 ### Healing
 
+A life of tending: setting bones, mixing simples, nursing the sick.
+
 Brings mending, and knows someone who hears news at a shrine.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -933,6 +943,8 @@ Brings mending, and knows someone who hears news at a shrine.
 | Receptary | +2 intelligence, +1 dexterity | 20 | anyone | Mending | Kyr |
 
 ### The faith
+
+A life given to a god: rites, shrines, alms and the hunt for what is unholy.
 
 Brings rites of the dead and insight, and knows someone who hears news at a shrine.
 
@@ -994,6 +1006,8 @@ Brings rites of the dead and insight, and knows someone who hears news at a shri
 | Witch hunter | +2 strength, +2 dexterity, +2 constitution, +2 intelligence, +3 wisdom, +1 charisma | 40 | Cleric | Rites of the dead, Insight, Holy symbol | Adapted |
 
 ### Learning
+
+A life of study: books, stars, old tongues and the arts.
 
 Brings lore, and knows someone who hears news at a shrine.
 
@@ -1086,6 +1100,8 @@ Brings lore, and knows someone who hears news at a shrine.
 
 ### Stone and earth
 
+A life of digging and building: mines, quarries, walls and gardens.
+
 Brings digging, carries shovel, and knows someone who hears news at an inn.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -1109,6 +1125,8 @@ Brings digging, carries shovel, and knows someone who hears news at an inn.
 | Treasure hunter | +3 dexterity, +3 intelligence, +2 wisdom | 120 | anyone | Digging, Stealth, Shovel | Adapted |
 
 ### Arms
+
+A life of fighting, or of making what fighters carry.
 
 Brings brawn and intimidation, and knows someone who hears news at an inn.
 
@@ -1170,6 +1188,8 @@ Brings brawn and intimidation, and knows someone who hears news at an inn.
 
 ### The water
 
+A life on boats: rivers, nets, ships and the open sea.
+
 Brings climbing, carries coil of rope, and knows someone who hears news on the road.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -1192,6 +1212,8 @@ Brings climbing, carries coil of rope, and knows someone who hears news on the r
 | Whaler | +3 charisma, +2 wisdom | 20 | anyone | Climbing, Coil of rope | Kyr |
 
 ### The stage
+
+A life before a crowd: songs, tales, plays and tricks.
 
 Brings lore and deception, and knows someone who hears news at an inn.
 
@@ -1277,6 +1299,8 @@ Brings lore and deception, and knows someone who hears news at an inn.
 | Virtuoso | +3 charisma, +3 dexterity | 60 | Bard | Lore, Deception, Persuasion | Adapted |
 
 ### A trade
+
+A life of honest work: baking, brewing, weaving, farming, selling.
 
 Brings persuasion, and knows someone who hears news at a market.
 
@@ -1384,6 +1408,8 @@ Brings persuasion, and knows someone who hears news at a market.
 
 ### Courts and offices
 
+A life in office: courts, councils, taxes and the high-born.
+
 Brings persuasion and insight, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
@@ -1441,6 +1467,8 @@ Brings persuasion and insight, and knows someone who hears news at a market.
 | Viscount | +3 charisma, +2 intelligence | 113 | anyone | Persuasion, Insight | Kyr |
 
 ### The margins
+
+A life at the edge: cast out, locked up, or barely living through it.
 
 Brings stealth, and knows someone who hears news at an inn.
 

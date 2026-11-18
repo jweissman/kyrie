@@ -51,10 +51,15 @@ export class CreationDefaults {
   // offered an elf the same names twice in two rolls); all of them, where there are no more than six.
   static readonly offered = 6;
   static table(member: Member, setting: Setting | undefined, roll: number): string[] {
-    const names = this.names(member, setting), tables = Math.ceil(names.length / this.offered);
-    if (tables <= 1) { return names; }
-    const at = roll % tables, size = Math.floor(names.length / tables), over = names.length % tables;
-    const start = at * size + Math.min(at, over);
-    return names.slice(start, start + size + (at < over ? 1 : 0));
+    return this.hand(this.names(member, setting), roll);
+  }
+  // A hand of a list, as a table rolled on: the list cut into as few hands as hold no more than size, as near one size
+  // as they go, the roll-th of them (round again); the whole where it is no more than one hand (names, trades).
+  static hand<T>(all: T[], roll: number, size = this.offered): T[] {
+    const tables = Math.ceil(all.length / size);
+    if (tables <= 1) { return all; }
+    const at = roll % tables, each = Math.floor(all.length / tables), over = all.length % tables;
+    const start = at * each + Math.min(at, over);
+    return all.slice(start, start + each + (at < over ? 1 : 0));
   }
 }

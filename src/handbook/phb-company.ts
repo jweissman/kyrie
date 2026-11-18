@@ -64,13 +64,27 @@ export class CompanyChapters {
       ...t.description ? { text: [t.description] } : {}, notes: HandbookStatus.notes(t),
       refs: (t.grants?.abilities ?? []).map(a => `ability:${a}`) };
   }
+  // A kind of life as the reference says it, beside its choice at creation as in its own section (OR-88): what it
+  // brings and carries, who its people know, and its trades; the rules of what it brings.
+  static kind(kind: string): { facts: [string, string][]; rules: string[] } {
+    const m = Canon.backgroundKinds[kind]!, skills = m.skills ?? [];
+    const trades = Object.values(Canon.backgrounds).filter(b => b.kind === kind && !b.requiredClass).map(b => b.name);
+    return { facts: [
+      ...skills.length ? [['Brings', skills.map(s => Canon.skills[s]?.name ?? s).join(', ')] as [string, string]] : [],
+      ...m.gear?.length ? [['Carries', m.gear.map(g => Canon.items[g]?.name ?? g).join(', ')] as [string, string]] : [],
+      ...m.channel ? [['Knows', `someone who hears news ${CompanyChapters.heard[m.channel]}`] as [string, string]] : [],
+      ...trades.length ? [['Trades', `${trades.slice(0, 5).join(', ')}${trades.length > 5 ? ', …' : ''}`] as [string, string]] : []],
+    rules: skills.map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`.trim()) };
+  }
+  static readonly heard: Record<string, string> = { road: 'on the road', tavern: 'at an inn', temple: 'at a shrine',
+    market: 'at a market' };
   static backgrounds(): Section {
     const sections = Object.entries(Canon.backgroundKinds).map(([kind, meaning]): Section => {
       const ids = Object.keys(Canon.backgrounds).filter(id => Canon.backgrounds[id]!.kind === kind).sort();
       return { id: `backgrounds-${kind}`, title: meaning.name,
-        intro: [`Brings ${meaning.skills?.length ? meaning.skills.map(s => Canon.skills[s]?.name ?? s).join(' and ').toLowerCase() : 'no skill'}`
+        intro: [...meaning.life ? [meaning.life] : [], `Brings ${meaning.skills?.length ? meaning.skills.map(s => Canon.skills[s]?.name ?? s).join(' and ').toLowerCase() : 'no skill'}`
           + `${meaning.gear?.length ? `, carries ${meaning.gear.map(g => Canon.items[g]?.name ?? g).join(', ').toLowerCase()}` : ''}`
-          + `${meaning.channel ? `, and knows someone who hears news ${({ road: 'on the road', tavern: 'at an inn', temple: 'at a shrine', market: 'at a market' })[meaning.channel]}` : ''}.`],
+          + `${meaning.channel ? `, and knows someone who hears news ${CompanyChapters.heard[meaning.channel]}` : ''}.`],
         table: { head: ['Background', 'Qualities', 'Gold', 'For', 'Brings', 'Status'],
           rows: ids.map(id => { const b = Canon.backgrounds[id]!; return [b.name, HandbookText.attributes(b.attributes),
             String(b.gold),

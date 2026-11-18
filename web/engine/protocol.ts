@@ -75,7 +75,8 @@ export interface Catalog {
   // and the calling it is kept for, if any. Each kind, and what its skill is for.
   backgrounds: { id: string; name: string; kind: string; text: string; qualities: Record<string, number>; coin: number;
     gear: string[]; calling?: string; forms?: { man?: string; woman?: string; neither?: string } }[];
-  kinds: { id: string; name: string; does: string }[];
+  // A kind's question for its trades and its life in a sentence (OR-88, OR-90).
+  kinds: { id: string; name: string; does: string; asks?: string; life?: string }[];
   presets: { id: string; label: string; note: string; members: Member[] }[];
   // Imbar's sky (data/imbar/sky.json): each sign, its month, what is said of those born under it, its stars (x, y,
   // magnitude, colour), the lines between them and the figure it is named for (an SVG path on a field of 100).

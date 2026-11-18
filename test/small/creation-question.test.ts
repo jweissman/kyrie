@@ -16,7 +16,7 @@ describe('creation as the engine asks it', () => {
     const steps = new CreationFlow(setting, Creation.catalog()).steps();
     const of = (id: string) => steps.find(x => x.id === id)!;
     expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['sign', 'sky'], ['calling', 'cards'],
-      ['before', 'rows'], ['presenting', 'rows'], ['name', 'list']]);
+      ['before', 'list'], ['presenting', 'rows'], ['name', 'list']]);
     expect(of('presenting').cards.map(c => c.aside)).toEqual(['she, her', 'he, him', 'they, them']);
     expect(of('sign').cards.every(c => c.aside && c.say && /^[A-Z]/.test(c.name))).toBe(true);
     expect(of('you').cards.every(c => c.say && !/[.!?].+[.!?]$/.test(c.say))).toBe(true);

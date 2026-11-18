@@ -22,7 +22,8 @@ export interface CreationCard {
 // a calling), as rows, as one dense list (the names of a people, creation's one exception to four in view), or as
 // rows over the sky they are signs of (the observatory).
 export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
-export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'presenting' | 'name';
+export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade' | 'presenting'
+  | 'name';
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
 // thrown again; and the first spells known ("a,b,c").
@@ -58,12 +59,16 @@ export class CreationFlow {
   private asked = false;
   // Whether the player chose what the life did before (its kind of life), which the circumstance follows.
   private past = false;
+  // Whether the trade within it was chosen too (the life then says it: "Once a sailor").
+  private traded = false;
   // The sign the life was first drawn under: the signs turn from it, and never from the one chosen since.
   private readonly drawnSign?: string;
   // The step the making stands at ('go': setting out), and the hands of names dealt since the people or the way of
   // presenting last changed.
   private at?: CreationStepId | 'go';
   private rolls = 0;
+  // The hands of trades dealt since the kind of life last changed (see trades).
+  private dealt = 0;
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
     this.member = structuredClone(member);
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
@@ -109,7 +114,7 @@ export class CreationFlow {
   private ranked(step: CreationStep): CreationCard[] {
     // Four or fewer are all shown, in their own order (she, he, neither); so is a set shown whole (the twelve signs in
     // the months' order, as the zodiac beside them stands: FM-02).
-    if (step.cards.length <= 4 || step.all) { return step.cards; }
+    if (step.cards.length <= 4 || step.id === 'sign' || step.id === 'name' || step.id === 'trade') { return step.cards; }
     return step.cards.map((card, i) => ({ card, i, score: this.score(step, card) }))
       .sort((x, y) => y.score - x.score || x.i - y.i).map(x => x.card);
   }
@@ -142,13 +147,16 @@ export class CreationFlow {
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.entry(`class:${x.id}`) })) },
-      // The calling only: its way (a cleric's domain, a mage's school, a warrior's way) is the calling's first until
-      // another is chosen later in play (the owner, 14 November: "just select the high-level profession").
-      // The kind of life only: the trade within it is the one that best suits the calling, chosen later in play if at
-      // all (the owner, 14 November: "just select the high-level category at first, and then later we can backfill").
-      { id: 'before', ask: 'What did you do before this?', present: 'rows', chosen: open.find(b => b.id === m.backgroundId)?.kind,
+      ...this.specialty(),
+      // Every kind of life at once, each said by what it is and beside it the reference's entry (the owner, 18
+      // November, OR-88: "it's reasonable to show all of them rather than force multiple pages… some indication from
+      // the encyclopedia of what the choice means"); then the trade within it, asked in its own words (OR-90).
+      { id: 'before', ask: 'What did you do before this?', present: 'list', all: true,
+        chosen: open.find(b => b.id === m.backgroundId)?.kind,
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
-          .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}` })) },
+          .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
+            entry: CompanyChapters.kind(k.id) })) },
+      ...this.trades(),
       { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true, chosen: m.pronouns,
         cards: CreationFlow.presenting.map(([id, name, aside]) => ({ id, name, aside,
           say: 'The words the world will speak of you in.' })) },
@@ -159,6 +167,43 @@ export class CreationFlow {
           .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
   }
+  // A caster's school or god's domain, asked as the life knows it (the owner, 18 November, OR-90: "I do feel like
+  // we've lost something not putting casters through school/domain selection"): a mage's art, a cleric's god's keeping;
+  // a warrior's or a monk's way stays the calling's first until chosen in play. A way the people may not take is shown
+  // shut.
+  private specialty(): CreationStep[] {
+    const c = this.catalog, m = this.member, calling = c.callings.find(x => x.id === m.classId);
+    const ask = CreationFlow.asks[m.classId ?? ''], forbids = c.ancestries.find(a => a.id === m.raceId)?.forbids ?? [];
+    if (!calling || !ask || !calling.specializations.some(t => t.of)) { return []; }
+    return [{ id: 'specialty', ask, present: 'list', all: true, chosen: m.traits?.[0], cards: calling.specializations
+      .map(t => ({ id: t.id, name: t.name, ...t.line ? { line: t.line } : {}, ...t.text ? { say: t.text } : {},
+        ...forbids.includes(t.id) ? { shut: 'Not for your people' } : {}, entry: CreationFlow.way(t) })) }];
+  }
+  static readonly asks: Record<string, string> = { mage: 'Which art did you learn?', cleric: 'What does your god keep?' };
+  // A way as the reference has it, and the spells one who takes it sets out knowing.
+  private static way(t: Catalog['callings'][number]['specializations'][number]): NonNullable<CreationCard['entry']> {
+    const found = CreationFlow.entry(`trait:${t.id}`).entry ?? { facts: [], rules: [] };
+    const spells = (t.spells ?? []).map(x => x.name);
+    return { facts: [...found.facts, ...spells.length ? [['Sets out knowing', spells.join(', ')] as [string, string]] : []],
+      rules: t.rules?.length ? t.rules : found.rules };
+  }
+  // The trade within the kind of life chosen (once it is chosen), asked in the kind's own words ("What did you do on
+  // the water?"), a hand of them at a time, the one best suited to the calling first (the calling's own, where it has
+  // one of the kind).
+  private trades(): CreationStep[] {
+    const c = this.catalog, m = this.member, was = c.backgrounds.find(b => b.id === m.backgroundId);
+    const kind = c.kinds.find(k => k.id === was?.kind);
+    const wants = c.callings.find(x => x.id === m.classId)?.qualities ?? {};
+    const of = c.backgrounds.filter(b => b.kind === kind?.id && (!b.calling || b.calling === m.classId))
+      .sort((a, b) => Number(!!b.calling) - Number(!!a.calling) || CreationFlow.fit(b.qualities, wants)
+        - CreationFlow.fit(a.qualities, wants) || a.name.localeCompare(b.name));
+    if (!this.past || !kind || of.length < 2) { return []; }
+    const hand = CreationDefaults.hand(of, this.dealt, CreationFlow.trades);
+    return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, chosen: was!.id,
+      ...hand.length < of.length ? { roll: 'other trades' } : {}, cards: hand.map(b => ({ id: b.id,
+        name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.` })) }];
+  }
+  static readonly trades = 8;
   // The life chosen, in a few sentences, its way in its noun, as setting out tells it: "An elf abjurer. Before this,
   // scholarship. A battleaxe in hand." In the words creation showed (M22's review: "abjurer" and "artificer", which no
   // page had said): the calling as chosen, unless a specialty was chosen too; the kind of life before, as the step
@@ -177,7 +222,7 @@ export class CreationFlow {
       .join(' ');
     return [`${Words.upper(who ? Words.article(who) : 'someone')}.`,
       ...origin ? [`${Words.upper(origin.title.replace(/\.$/, ''))}.`] : [],
-      ...life ? [`Before this, ${life.name.toLowerCase()}.`] : was
+      ...life && !this.traded ? [`Before this, ${life.name.toLowerCase()}.`] : was
         ? [`Once ${Words.article(BackgroundCatalog.called(was, m.pronouns).toLowerCase())}.`] : [],
       weapon ? `${Words.upper(Words.article(weapon.name.toLowerCase()))} in hand.` : 'Bare hands.'];
   }
@@ -188,7 +233,7 @@ export class CreationFlow {
   choose(step: CreationChoice, value: string) {
     const here = this.current();
     if (step === 'back' || step === 'onward') { this.move(step === 'back' ? -1 : 1); return; }
-    if (step === 'roll') { this.rolls++; return; }
+    if (step === 'roll') { if (here === 'trade') { this.dealt++; } else { this.rolls++; } return; }
     // A card chosen at the step asked goes on to the next; a name being written, or a choice behind Details, does not.
     if ((step === here && step !== 'name') || (step === 'drawn' && here === 'name')) { this.settled(step, value); this.move(1); return; }
     this.settled(step, value);
@@ -201,7 +246,10 @@ export class CreationFlow {
     if (step === 'spells') { m.spells = value.split(',').filter(Boolean); return; }
     if (step === 'place') { this.place(value); return; }
     if (step === 'reroll') { this.reroll(); return; }
-    if (step === 'trade') { if (value) { m.backgroundId = value; } else { delete m.backgroundId; } return; }
+    if (step === 'trade') {
+      if (value) { m.backgroundId = value; this.past = this.traded = true; } else { delete m.backgroundId; }
+      return;
+    }
     if (step === 'name') {
       m.name = value.trim() || CreationDefaults.names(m, this.setting)[0] || m.name;
       this.named = !!value.trim();
@@ -209,7 +257,7 @@ export class CreationFlow {
     }
     if (step === 'sign') { m.sign = value; return; }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
-    else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; }
+    else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; this.dealt = 0; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }
     CreationDefaults.settle(m, this.catalog, { trade: !this.given(), ...was ? { was } : {} });
     if ((step === 'you' && value !== people) || step === 'presenting') { this.rolls = 0; }
@@ -281,7 +329,9 @@ export class CreationFlow {
   // Player's Handbook and the encyclopedia read the same).
   private static entries?: Map<string, NonNullable<CreationCard['entry']>>;
   private static entry(id: string): Pick<CreationCard, 'entry'> {
-    const all = [...CompanyChapters.ancestries().entries ?? [], ...CompanyChapters.callings().entries ?? []];
+    const callings = CompanyChapters.callings();
+    const all = [...CompanyChapters.ancestries().entries ?? [], ...callings.entries ?? [],
+      ...(callings.sections ?? []).flatMap(x => x.entries ?? [])];
     CreationFlow.entries ??= new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
     const found = CreationFlow.entries.get(id);
     return found ? { entry: found } : {};

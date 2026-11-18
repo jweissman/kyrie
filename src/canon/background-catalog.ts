@@ -6,6 +6,9 @@ interface Table<T> { discriminator: string; groups: Record<string, T> }
 // hears news through, with the lines that introduce them.
 export interface KindMeaning {
   name: string; skills?: string[]; gear?: string[]; channel?: Channel; contacts?: string[];
+  // The question a trade of the kind is asked by, in its own words ("What did you do on the water?"), and what a life
+  // of the kind is, in a sentence: creation and the handbook say the same (OR-88, OR-90).
+  asks?: string; life?: string;
 }
 // Where one background differs from its kind. A list given here replaces the kind's.
 export interface BackgroundChange {
