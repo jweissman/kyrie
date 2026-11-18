@@ -19,6 +19,16 @@ describe('a Kyr template', () => {
   });
   it('is what the undertown is written from', () => {
     expect(RegionUndertown.template.id).toBe('undertown');
-    expect(RegionUndertown.template.sections.filter(s => s.said.length).map(s => s.option)).toEqual(['rats', 'dead', 'spiders']);
+    expect(RegionUndertown.template.sections.filter(s => s.said.length).map(s => s.option)).toEqual(['apprentice', 'runaway', 'rats',
+      'dead', 'spiders']);
+  });
+  // A group's option fixed, as a kit's author fixes a dimension (Iscoed's first town keeps the corn-store's rats):
+  // written in place of the one drawn, and the groups after it drawn as they would have been.
+  it('writes the option fixed for its group, and draws the groups after it as before', () => {
+    const t = KyrTemplates.parse([text, '--- weather rain', '>> RAIN.', '--- weather sun', '>> SUN.'].join('\n'));
+    for (const key of ['a', 'b', 'c', 'd']) {
+      const drawn = KyrTemplates.choose(t, key), fixed = KyrTemplates.choose(t, key, {}, { trouble: 'rats' });
+      expect(fixed.map(x => x.option)).toEqual(['base', 'rats', drawn[2]!.option]);
+    }
   });
 });

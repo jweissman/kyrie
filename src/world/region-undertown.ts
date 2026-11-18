@@ -5,6 +5,7 @@ import { DeepPurposes } from './deep/deep-purposes';
 import { DeepSites } from './deep/deep-sites';
 import { Foundings } from './founding';
 import { RegionMarket } from './region-market';
+import { StrategicAtlas } from './strategic-atlas';
 import type { Region, Settlement, Site } from './region-writer';
 import { RegionKey } from './region-key';
 
@@ -15,12 +16,13 @@ import { RegionKey } from './region-key';
 // of itself (the talk of it on the green had been lost under an arrival's news). Read, the notice is an aim for each.
 export class RegionUndertown {
   static readonly template = KyrTemplates.parse(text);
-  static lines(region: Region, s: Settlement, company = 3): string[] {
+  // fix: an option fixed for a group (see KyrTemplates.choose), by default the country's own (StrategicAtlas.fix).
+  static lines(region: Region, s: Settlement, company = 3, fix = StrategicAtlas.fix(region, 'undertown')): string[] {
     // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed; and how
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
     const t = s.id, values = this.values(t, s.name, company, { merchant: SettlementWriter.standing(region, s, 'merchant'),
       priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') });
-    const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`);
+    const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`, {}, fix);
     return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
   }
@@ -40,7 +42,8 @@ export class RegionUndertown {
   }
   // Whether the town has a notice of its troubles on the green (see notice): one of its troubles says itself there.
   static noticed(region: Region, s: Settlement): boolean {
-    return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`).some(x => x.said.length > 0);
+    return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, {}, StrategicAtlas.fix(region, 'undertown'))
+      .some(x => x.said.length > 0);
   }
   // The notice on the green that gathers what each trouble chosen says of itself; read, an aim for each.
   static notice(t: string, sections: KyrSection[], values: Record<string, string>): string[] {

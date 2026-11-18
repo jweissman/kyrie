@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "about": "The strategic atlas of Westernesse's reference worlds (doc/architecture/mission-22/world/orientation.md): what certain countries are, as facts the lower generators read, written by hand, for the worlds whose seeds are listed (`worlds`), each world drawing the same countries with its own detail. A country stands at a cell of the grid (`cell`, the first country 0,0; north is minus y), and says its name, its kind of country, its majority people and faith (given to the Deem `region` generator as the Great Desert gives its terrain), the side its land falls to the sea, the arts of the makers whose works are in it, what its settlements live by (by what lies around them, as Livelihoods reads a terrain's), the names of its chief settlements (the first its seat), and its facts: polity, who rules it and from where, its people's number, what it lives by, is short of and sells, its dangers, its roads and its neighbours, written into its module as Kyr facts. A world not listed is drawn as before. Read by src/world/strategic-atlas.ts.",
+  "about": "The strategic atlas of Westernesse's reference worlds (doc/architecture/mission-22/world/orientation.md): what certain countries are, as facts the lower generators read, written by hand, for the worlds whose seeds are listed (`worlds`), each world drawing the same countries with its own detail. A country stands at a cell of the grid (`cell`, the first country 0,0; north is minus y), and says its name, its kind of country, its majority people and faith (given to the Deem `region` generator as the Great Desert gives its terrain), the side its land falls to the sea, the arts of the makers whose works are in it, what its settlements live by (by what lies around them, as Livelihoods reads a terrain's), the names of its chief settlements (the first its seat), the options it fixes for a town template's groups (`fix`: Iscoed's first town keeps the corn-store's rats, so the first-hour route it is measured by holds), and its facts: polity, who rules it and from where, its people's number, what it lives by, is short of and sells, its dangers, its roads and its neighbours, written into its module as Kyr facts. A world not listed is drawn as before. Read by src/world/strategic-atlas.ts.",
   "worlds": ["iscoed", "iscoed3", "iscoed4"],
   "countries": [
     {
@@ -20,6 +20,7 @@
       "provinces": ["longman", "tolleth", "tessary", "skerrow", "strewnfield"],
       "towns": 0,
       "standing": ["arcology", "bound-howe"],
+      "fix": { "undertown": { "store": "rats" } },
       "facts": {
         "polity": "the Rì's southern march, kept for the Rì by a reeve at Porthalen",
         "people": "some six thousand: fifteen hundred in Porthalen, the rest in the fen villages and the hamlets on the sea-bank",

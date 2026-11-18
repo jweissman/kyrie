@@ -32,15 +32,20 @@ export class KyrTemplates {
     return { id, about, sections };
   }
   // The sections written for one place: every section that is its own group, and one drawn option of each other; of
-  // those whose condition the place's values meet (a group left with no option writes nothing).
-  static choose(template: KyrTemplate, key: string, values: Record<string, string> = {}): KyrSection[] {
+  // those whose condition the place's values meet (a group left with no option writes nothing). An option fixed for
+  // its group (fix: group to option, as a kit's author fixes a dimension) is written in place of the one drawn; the
+  // draw is still made, so that the groups after it draw as they would have.
+  static choose(template: KyrTemplate, key: string, values: Record<string, string> = {},
+    fix: Record<string, string> = {}): KyrSection[] {
     const draw = new Draw(key), groups = [...new Set(template.sections.map(s => s.group))];
     return groups.flatMap(group => {
       const options = template.sections.filter(s => s.group === group && (!s.when || values[s.when])
         && (!s.unless || !values[s.unless]));
       if (!options.length) { return []; }
       const always = options.filter(s => s.option === s.group);
-      return always.length ? always : [draw.weighted(options.map(o => [o, o.weight] as const))];
+      if (always.length) { return always; }
+      const drawn = draw.weighted(options.map(o => [o, o.weight] as const));
+      return [options.find(o => o.option === fix[group]) ?? drawn];
     });
   }
   // Lines with their placeholders filled; a brace round anything not a value given is left for Kyr. A value is made

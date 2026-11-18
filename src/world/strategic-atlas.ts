@@ -12,6 +12,9 @@ export interface AtlasCountry {
   id: string; cell: [number, number]; name: string; terrain: string; ancestry?: string; domain?: string;
   shore?: Side; port?: boolean; arts?: string[]; goings?: string[]; exclude?: string[]; provinces?: string[];
   towns?: number; standing?: string[];
+  // An option fixed for a group of a town template, by template (see KyrTemplates.choose): what the country's first
+  // town is held to, as a kit's author fixes a dimension.
+  fix?: Record<string, Record<string, string>>;
   livelihoods?: Record<string, string>;
   settlements?: string[];
   facts: Record<string, string>; neighbours?: Partial<Record<Side, string>>;
@@ -27,6 +30,10 @@ export class StrategicAtlas {
     return this.countries.find(c => c.cell[0] === x && c.cell[1] === y);
   }
   static byId(id: string | undefined): AtlasCountry | undefined { return this.countries.find(c => c.id === id); }
+  // The options a country fixes for a template's groups (Iscoed's first town keeps the corn-store's rats).
+  static fix(region: Region, template: string): Record<string, string> {
+    return this.byId(region.country)?.fix?.[template] ?? {};
+  }
   // What the Deem `region` generator is given for a country of the atlas: its kind of country, people and faith.
   static given(seed: string, x: number, y: number): Record<string, DeemValue> {
     const c = this.at(seed, x, y);

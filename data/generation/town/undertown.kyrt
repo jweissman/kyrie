@@ -7,7 +7,10 @@
 // one, as a player begins (a lone first-level mage had died to the corn-store's two great rats three times in four).
 // id of the foe it sets there ({t}_u_<option>) and of the job of being rid of it ({t}_u_<option>_job), and its ">>"
 // lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
-// needs to change.
+// needs to change. An option may be another cause of the same trouble rather than another creature: the store's
+// apprentice and runaway are the people its job turns out to be about, not foes (the variety study's experiment,
+// mission-22/variety-study/experiment.md). A country of the strategic atlas may fix a group's option (its `fix` in
+// data/imbar/atlas.json): Iscoed's first town keeps the rats, so the first-hour route it is measured by holds.
 --- base
   // Each fight under the town is worth three times its plain worth, so that a company that clears all of it (some
   // thousand) comes to the stair below the vault at the second level, not the first (the builder's descent of 8
@@ -85,10 +88,7 @@
   }
   Place {t}_u_cellar "the corn-store cellar" is room within {t} at 0, 3 underground 1 down.
   Passage {t}_u_trap "the trapdoor" is stair between {t}_u_store and {t}_u_cellar.
-  Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground 1 down.
-  Passage {t}_u_runs "a hole gnawed through the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
-  Place {t}_u_nest "the nest" is room within {t} at 0, 6 underground 2 down.
-  Passage {t}_u_nest_way "the rats' run down" is crawl between {t}_u_warren and {t}_u_nest.
+  // The way on from the cellar, and its names, are each store trouble's own (the rats' runs, a crawl a man has swept).
   Passage {t}_u_nest_shelf "a shelf above the water" is passage between {t}_u_nest and {t}_u_drain.
   Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground 1 down.
   Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt.
@@ -124,19 +124,237 @@
   Initially Assert restful({t}_u_store).
   // What each room under the town is, said on coming down into it (the cellar had said nothing at all: a play of a1's
   // rats on 3 November).
-  Observe {t}_u_cellar_scene at {t}_u_cellar as fixture when true "A low brick cellar under the corn-store, damp to the touch. Spilled grain is trodden black on the floor, among the droppings of something bigger than mice.".
-  Observe {t}_u_warren_scene at {t}_u_warren as fixture when true "A crawlway of earth and old brick runs behind the cellar wall, gnawed wider than any rat should need. It is littered with husks and bones, and stinks of a nest.".
   Observe {t}_u_crypt_scene at {t}_u_crypt as fixture when true "A vaulted crypt under the churchyard, its shelves of coffins pushed askew. The dust on the floor is scuffed through in a dozen places by feet that dragged.".
   Observe {t}_u_ossuary_scene at {t}_u_ossuary as fixture when true "Bones are stacked to the roof in patient courses, with skulls in rows along the top like a frieze. There are gaps in the courses where some have lately been taken down.".
   Observe {t}_u_adit_scene at {t}_u_adit as fixture when true "The old quarry's adit runs straight into the hill, its walls bitten by picks. Grey threads of web cross it at the height of a face.".
   Observe {t}_u_gallery_scene at {t}_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.".
---- store rats
+--- store apprentice 1
+  // Taken by the trapdoor (the variety study, mission-22/variety-study/report.md §5.1 and §8): the merchant's
+  // apprentice lets a buyer's men up the drain by night, and the merchant blames rats. From the green it is the same
+  // trouble; below, the floor is swept and nothing gnaws. Found first: the swept path (by anyone), the greased bolt
+  // (by one who knows locks), the sacks the innkeeper sees on the landing at dawn. The crux is a night's watch and
+  // then a word: the lad marched up to the merchant, or talked round and kept. Left too long, he runs.
+  // The options of the store are drawn in the order they are written, the plainest last: the rats keep the most weight.
+  Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks are stacked to the rafters at the front, and there are fewer at the back than there should be. A trapdoor is in the floor. The boards round it are swept clean, though nothing else here is.".
+  Place {t}_u_warren "the crawl behind the cellar wall" is room within {t} at 0, 4 underground 1 down.
+  Passage {t}_u_runs "a hole in the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
+  Place {t}_u_nest "the shelf over the drain" is room within {t} at 0, 6 underground 2 down.
+  Passage {t}_u_nest_way "a crawl going down" is crawl between {t}_u_warren and {t}_u_nest.
+  Observe {t}_u_cellar_scene at {t}_u_cellar as fixture when true "A low brick cellar under the corn-store, damp to the touch. Spilled grain lies over the floor, and the stair is worn pale.".
+  Observe {t}_u_warren_scene at {t}_u_warren as fixture when true "A crawlway of earth and old brick runs behind the cellar wall. It is wide enough for a man bent double, and its floor is trodden hard.".
+  Observe {t}_u_nest_scene at {t}_u_nest as fixture when true "A dry shelf above the drain water. A rope is tied off to an iron ring in the wall. Grain is spilled at its foot, as from a sack let down.".
+  Person {t}_u_apprentice "the apprentice" at {merchantat} {
+    Role "the merchant's apprentice, a thin lad floured to the elbows, who keeps the corn-store's tally". Ancestry human. Level 1. Peaceable. Manner stoic. Pronouns he.
+  }
+  Entity {t}_u_apprentice_job: fact "Find what is taking the grain from the corn-store at {town}. Rats, {{t}_merchant} says.".
+  Entity {t}_u_apprentice_swept: fact "Nothing gnaws under the corn-store at {town}. A path is swept through the cellar's grain to a hole in the wall. Its sweeper comes when the town is asleep.".
+  Entity {t}_u_apprentice_bolt: fact "The bolt on the corn-store's trapdoor is newly greased. Whoever takes the grain comes and goes by it often.".
+  Entity {t}_u_apprentice_landing: fact "Twice this week there were sacks on the landing at {town} at dawn. They went into a boat with a ring painted on its bow.".
+  Entity {t}_u_apprentice_seen: fact "{{t}_merchant}'s apprentice lets men up into the corn-store cellar by night, and they carry the grain away down the drain.".
+  Entity {t}_u_apprentice_buyer: fact "The corn-store's grain went down the drain to a boat with a ring painted on its bow, a shilling a sack.".
+  Relation {t}_u_apprentice_caught(entity). Relation {t}_u_apprentice_exposed(entity).
+  Relation {t}_u_apprentice_kept(entity). Relation {t}_u_apprentice_fled(entity).
+  Measure {t}_u_store_given_at(group). Measure {t}_u_thanked_at(group).
+  Topic {t}_u_apprentice_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) once {
+    Says "'Rats,' says {{t}_merchant}. 'A sack a night, near enough, and never a hole gnawed in one of them. Clever rats.' A key comes off a nail behind the counter. At the shelves the apprentice stops what he is doing, and starts again. 'There's a trapdoor in the floor. Find where they get in and stop it. Ten coin, and a lantern besides.'".
+    On discuss { Assert knows(actor, {t}_u_apprentice_job). Assert {t}_u_given({t}_u_apprentice_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). Set {t}_u_store_given_at({t}_merchant) to watch(clock). }
+  }
+  Topic {t}_u_apprentice_rats with {t}_u_apprentice "Ask the apprentice about the rats" when knows(actor, {t}_u_apprentice_job) and not {t}_u_apprentice_caught({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) once {
+    Says "'Rats,' says the apprentice, to the shelf. 'Big ones. I'd not go down there, me. Not at night.'".
+  }
+  Observe {t}_u_apprentice_path at {t}_u_cellar as sign when not knows(party, {t}_u_apprentice_swept) and not {t}_u_done({t}_u_apprentice_job) "There are no droppings in the spilled grain, and no gnawing on the stair. A broom has swept a path through it to a hole in the far wall." teaches {t}_u_apprentice_swept.
+  Observe {t}_u_apprentice_greased at {t}_u_store as sign noticed by lockwork when not knows(party, {t}_u_apprentice_bolt) and not {t}_u_done({t}_u_apprentice_job) "The trapdoor's bolt is greased, and the grease is new. Rats do not grease bolts." teaches {t}_u_apprentice_bolt.
+  Observe {t}_u_apprentice_by_day at {t}_u_cellar when knows(party, {t}_u_apprentice_swept) and not dark() and not {t}_u_apprentice_caught({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) "Whoever sweeps the path comes when the town is asleep: the grain on it is fresh-spilled since last night.".
+  Topic {t}_u_apprentice_dawn with {t}_innkeeper "Ask {{t}_innkeeper} about the corn-store's rats" when knows(actor, {t}_u_apprentice_job) and not knows(actor, {t}_u_apprentice_landing) and not {t}_u_done({t}_u_apprentice_job) once {
+    Says "{{t}_innkeeper} snorts. 'Rats? I'm up before light. Twice this week there were sacks on the landing at dawn, going into a boat with a ring painted on its bow. Rats don't row.'".
+    On discuss { Assert knows(actor, {t}_u_apprentice_landing). }
+  }
+  // The crux: a night's watch in the cellar, for whoever has seen that it is no rat.
+  Action {t}_u_apprentice_watched(actor: group, site: place) "Wait in the dark of the cellar through the night, and watch the hole in the wall" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_cellar) and dark() and (knows(actor, {t}_u_apprentice_swept) or knows(actor, {t}_u_apprentice_bolt) or knows(actor, {t}_u_apprentice_landing)) and not {t}_u_apprentice_caught({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job).
+    Time 12.
+    On success { Assert {t}_u_apprentice_caught({t}_u_apprentice_job). Assert knows(actor, {t}_u_apprentice_seen). Retract at({t}_u_apprentice, {merchantat}). Assert at({t}_u_apprentice, {t}_u_cellar). Retract unlit({t}_u_cellar). }
+    Result "Late, a light comes through the hole in the far wall. Two men with empty sacks come after it. Behind them, holding the lantern up, is the apprentice of {{t}_merchant}. You step out. The men are back through the hole and away down the drain before the lantern stops swinging. The lad stands where he is, with the light, and does not run.".
+  }
+  // Then a word, and what the house comes to by it: the lad marched up, or talked round and kept.
+  Action {t}_u_apprentice_marched(actor: group, site: place) "Take the apprentice up to {{t}_merchant} by the collar" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_cellar) and at({t}_u_apprentice, {t}_u_cellar) and not {t}_u_done({t}_u_apprentice_job).
+    Time 3.
+    On success { Assert {t}_u_apprentice_exposed({t}_u_apprentice_job). Assert {t}_u_done({t}_u_apprentice_job). Retract at({t}_u_apprentice, {t}_u_cellar). Assert unlit({t}_u_cellar). }
+    Result "{{t}_merchant} comes down in a nightshirt with a candle, and hears it all. The lad is out of the door before the candle is burned down an inch, with what he stood up in. 'Clever rats,' says {{t}_merchant}, to nobody.".
+  }
+  Action {t}_u_apprentice_talked(actor: group, site: place) "Tell the apprentice it ends tonight, and that {{t}_merchant} need not hear who" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_cellar) and at({t}_u_apprentice, {t}_u_cellar) and not {t}_u_done({t}_u_apprentice_job).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert {t}_u_apprentice_kept({t}_u_apprentice_job). Assert {t}_u_done({t}_u_apprentice_job). Assert knows(actor, {t}_u_apprentice_buyer). Retract at({t}_u_apprentice, {t}_u_cellar). Assert at({t}_u_apprentice, {merchantat}). Assert unlit({t}_u_cellar). }
+    Result "He sits down on the stair. It was a man off a boat with a ring painted on its bow, he says. A shilling a sack, and his mother's rent. He will brick up the hole himself before morning. He goes up the stair ahead of you, and does not look back.".
+    Otherwise "'You'll tell him anyway,' he says, and will not look at you.".
+  }
+  // Left two days and a night unwatched, the lad runs, and takes the seed-corn with him: said wherever the company is.
+  Rule {t}_u_apprentice_ran when {t}_u_given({t}_u_apprentice_job) and not {t}_u_apprentice_caught({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) and watch(clock) >= {t}_u_store_given_at({t}_merchant) + 180
+    says "Word goes round {town}: the apprentice of {{t}_merchant} is gone in the night, and the last of the seed-corn with him." {
+    Assert {t}_u_apprentice_fled({t}_u_apprentice_job). Assert {t}_u_done({t}_u_apprentice_job). Retract at({t}_u_apprentice, {merchantat}).
+  }
+  Rule {t}_u_apprentice_onward when {t}_u_done({t}_u_apprentice_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Milestone {t}_u_apprentice_found "found out what was taking the corn-store's grain" worth 120 when {t}_u_apprentice_caught({t}_u_apprentice_job).
+  Topic {t}_u_apprentice_paid with {t}_merchant "Ask {{t}_merchant} for the ten coin for the corn-store" when {t}_u_apprentice_exposed({t}_u_apprentice_job) and not {t}_u_paid({t}_u_apprentice_job) once {
+    Says "Ten coin are counted out hard, one at a time. A lantern and two flasks of oil are set beside them. 'I'd sooner it had been rats,' says {{t}_merchant}.".
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_apprentice_job). Retract knows(actor, {t}_u_apprentice_job). Assert grateful({t}_merchant, actor). Set {t}_u_thanked_at({t}_merchant) to watch(clock). }
+  }
+  Topic {t}_u_apprentice_quiet with {t}_merchant "Tell {{t}_merchant} the grain will stop going, and not who took it" when {t}_u_apprentice_kept({t}_u_apprentice_job) and not {t}_u_paid({t}_u_apprentice_job) once {
+    Says "'Not rats, then.' {{t}_merchant} gives the lad at the shelves a long look, and lets it go. Six coin are counted out, and a lantern set beside them. 'Six, for a thing I'm not to know.'".
+    On discuss { Increase quantity(actor, gold) by 6. Give lantern to actor. Assert {t}_u_paid({t}_u_apprentice_job). Retract knows(actor, {t}_u_apprentice_job). }
+  }
+  Topic {t}_u_apprentice_late with {t}_merchant "Tell {{t}_merchant} what was taking the grain" when {t}_u_apprentice_fled({t}_u_apprentice_job) and not {t}_u_paid({t}_u_apprentice_job) and (knows(actor, {t}_u_apprentice_swept) or knows(actor, {t}_u_apprentice_bolt) or knows(actor, {t}_u_apprentice_landing)) once {
+    Says "'The lad,' says {{t}_merchant}. 'Gone in the night, and you knew it was no rat.' Four coin come across the counter, and no lantern. 'For knowing.'".
+    On discuss { Increase quantity(actor, gold) by 4. Assert {t}_u_paid({t}_u_apprentice_job). Retract knows(actor, {t}_u_apprentice_job). }
+  }
+  // What the house came to, read after by the merchant, the innkeeper and the lad himself (the study's consequence
+  // by approach): the lad marched up is gone, and the merchant does the tally; kept, he is a friend who knows the drain.
+  Topic {t}_u_apprentice_favour with {t}_merchant "Ask {{t}_merchant} how the corn-store is keeping" when grateful({t}_merchant, actor) and {t}_u_apprentice_exposed({t}_u_apprentice_job) and watch(clock) >= {t}_u_thanked_at({t}_merchant) + 72 once {
+    Says "'Dry and quiet,' says {{t}_merchant}. 'I keep the tally myself now.' A candle and a flask of oil come across the counter. 'No charge. You'll be going down again, I don't doubt.'".
+    On discuss { Give candle to actor. Give lamp_oil to actor. }
+  }
+  Topic {t}_u_apprentice_drain with {t}_u_apprentice "Ask the apprentice about the old drain" when {t}_u_apprentice_kept({t}_u_apprentice_job) and not knows(actor, {t}_u_drain_warm) once {
+    Says "The lad looks round for {{t}_merchant} first. 'The men came up it every night. There's a long thing down there, all legs, that lies up by the bakehouse flue where the stone is warm. Keep to the cold side and it won't stir. They always did.'".
+    On discuss { Assert knows(actor, {t}_u_drain_warm). }
+  }
+  Topic {t}_u_apprentice_told with {t}_innkeeper "Ask {{t}_innkeeper} what is said of the corn-store" when {t}_u_apprentice_exposed({t}_u_apprentice_job) once {
+    Says "'They're saying {{t}_merchant} turned the lad out in a nightshirt,' says {{t}_innkeeper}. 'And the boat with the ring on its bow has not been in since.'".
+  }
+  Topic {t}_u_apprentice_hushed with {t}_innkeeper "Ask {{t}_innkeeper} what is said of the corn-store" when {t}_u_apprentice_kept({t}_u_apprentice_job) once {
+    Says "{{t}_innkeeper} looks at you. 'The rats just stopped, they say. And the boat with the ring on its bow has not been in since.'".
+  }
+  Topic {t}_u_apprentice_gone_told with {t}_innkeeper "Ask {{t}_innkeeper} about the apprentice who ran" when {t}_u_apprentice_fled({t}_u_apprentice_job) once {
+    Says "'Went off in the boat with the ring on its bow,' says {{t}_innkeeper}. 'The seed-corn under a sail.' '{{t}_merchant} will be buying seed at the spring price.'".
+  }
+  Objective {t}_u_apprentice_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) toward {t}_merchant "Ask {{t}_merchant} about the grain going from the corn-store at {town}: the corn-store is locked.".
+  Objective {t}_u_apprentice_job_aim when {t}_u_given({t}_u_apprentice_job) and not knows(party, {t}_u_apprentice_swept) and not knows(party, {t}_u_apprentice_bolt) and not knows(party, {t}_u_apprentice_landing) and not {t}_u_done({t}_u_apprentice_job) toward {t}_u_cellar by {t}_u_store "Find what is taking the grain from {{t}_u_cellar}, under {{t}_u_store} at {town}.".
+  Objective {t}_u_apprentice_job_watch when (knows(party, {t}_u_apprentice_swept) or knows(party, {t}_u_apprentice_bolt) or knows(party, {t}_u_apprentice_landing)) and not {t}_u_apprentice_caught({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) toward {t}_u_cellar by {t}_u_store "No rat takes the grain from under {{t}_u_store}. Wait in {{t}_u_cellar} after dark, and see what comes.".
+  Objective {t}_u_apprentice_job_word when at({t}_u_apprentice, {t}_u_cellar) and not {t}_u_done({t}_u_apprentice_job) toward {t}_u_apprentice "The apprentice of {{t}_merchant} stands caught with the lantern in {{t}_u_cellar}. Take him up to {{t}_merchant}, or talk to him.".
+  Objective {t}_u_apprentice_job_owed when {t}_u_given({t}_u_apprentice_job) and {t}_u_done({t}_u_apprentice_job) and not {t}_u_paid({t}_u_apprentice_job) and not {t}_u_apprentice_fled({t}_u_apprentice_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} the grain will stop going. Ten coin are owed for it, or six for keeping a secret.".
+>> 'GRAIN going from the old corn-store, a sack a night. Rats, says {{t}_merchant}. Ten coin, and a lantern. Ask for the key.'
+--- store runaway 1
+  // Something at the grain that is no rat (the variety study's §8, under its §9 rule that a cause must move the crux
+  // into another family than the rats'): a girl run from the mill lives in the crawl behind the cellar wall, on the
+  // merchant's grain. Found first: sacks slit as a knife slits, a child's bare prints in the spilled grain, the bread
+  // on the step, and, asked, the priest's word of a girl gone from the mill. The crux is a coaxing, not a fight (bread
+  // held out, or words), and then where she is sent: to the shrine, or to the merchant. The merchant says the clock:
+  // two days, and then poison under the grain; laid, she is gone down the drain.
+  Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks are stacked to the rafters. Low at the back, three are slit along the seam, neatly, as a knife slits. A trapdoor is in the floor, with a crust of bread on its edge.".
+  Place {t}_u_warren "the crawl behind the cellar wall" is room within {t} at 0, 4 underground 1 down.
+  Passage {t}_u_runs "a hole in the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
+  Place {t}_u_nest "the shelf over the drain" is room within {t} at 0, 6 underground 2 down.
+  Passage {t}_u_nest_way "a crawl going down" is crawl between {t}_u_warren and {t}_u_nest.
+  Observe {t}_u_cellar_scene at {t}_u_cellar as fixture when true "A low brick cellar under the corn-store, damp to the touch. Spilled grain is trodden into the floor, and there are no droppings in it.".
+  Observe {t}_u_warren_scene at {t}_u_warren as fixture when true "A crawlway of earth and old brick runs behind the cellar wall. At its end, sacking is heaped into a bed, with a rag doll on it and the crusts of a loaf.".
+  Observe {t}_u_nest_scene at {t}_u_nest as fixture when true "A dry shelf above the drain water. The ashes of a small fire are here, made more than once. The dust beside it is pressed flat where a small body slept.".
+  Person {t}_u_runaway "the hungry girl" at {t}_u_warren {
+    Role "a girl of ten or so, all eyes and elbows, run from a hard master to live on the merchant's grain". Ancestry human. Level 1. Peaceable. Manner stoic. Pronouns she.
+  }
+  Entity {t}_u_runaway_job: fact "Stop the losses from the corn-store's grain at {town}, before {{t}_merchant} lays poison.".
+  Entity {t}_u_runaway_prints: fact "A child goes barefoot in the corn-store cellar at {town}. Small prints in its spilled grain go to a hole in the wall.".
+  Entity {t}_u_runaway_who: fact "A girl ran from the mill at the ford before the frosts. Her master said she drowned in the race, and nobody looked.".
+  Relation {t}_u_runaway_trusts(entity). Relation {t}_u_runaway_sheltered(entity).
+  Relation {t}_u_runaway_handed(entity). Relation {t}_u_runaway_lost(entity).
+  Measure {t}_u_store_given_at(group). Measure {t}_u_thanked_at(group).
+  Topic {t}_u_runaway_job_ask with {t}_merchant "Ask {{t}_merchant} about what is at the grain" when not {t}_u_given({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) once {
+    Says "'Something's at my grain,' says {{t}_merchant}. 'Sacks slit, a handful gone at a time, the bread off my sill. A fox, or rats too clever for a trap.' A key comes off a nail behind the counter. 'Rid me of it. Ten coin, and a lantern. Two days, mind. Then I lay poison under the grain myself, and there's an end of it.'".
+    On discuss { Assert knows(actor, {t}_u_runaway_job). Assert {t}_u_given({t}_u_runaway_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). Set {t}_u_store_given_at({t}_merchant) to watch(clock). }
+  }
+  Observe {t}_u_runaway_tracks at {t}_u_cellar as sign when not knows(party, {t}_u_runaway_prints) and not {t}_u_done({t}_u_runaway_job) "In the grain by the far wall are a child's bare prints. They go to a hole low in the wall." teaches {t}_u_runaway_prints.
+  Topic {t}_u_runaway_asked with {t}_priest "Ask {{t}_priest} about a child gone missing" when knows(actor, {t}_u_runaway_prints) and not knows(actor, {t}_u_runaway_who) and not {t}_u_done({t}_u_runaway_job) once {
+    Says "'A child?' {{t}_priest} sits down. 'A girl ran from the mill at the ford before the frosts. Her master said she drowned in the race, and nobody looked.' A breath. 'If it is her, send her here. Not back to him.'".
+    On discuss { Assert knows(actor, {t}_u_runaway_who). }
+  }
+  // Come at, she is down the hole at the back: what will not do is said before it is tried.
+  Observe {t}_u_runaway_wary at {t}_u_warren when at({t}_u_runaway, {t}_u_warren) and not {t}_u_runaway_trusts({t}_u_runaway_job) "The girl backs into the sacking with a stone in her fist. She will be down the hole at the back if you come a step nearer.".
+  // The crux: she is coaxed, by bread held out or by words, and no blow does it.
+  Action {t}_u_runaway_fed(actor: group, site: place) "Hold out bread to the girl, and wait" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and at({t}_u_runaway, {t}_u_warren) and quantity(actor, rations) >= 1 and not {t}_u_runaway_trusts({t}_u_runaway_job).
+    Time 3.
+    On success { Decrease quantity(actor, rations) by 1. Assert {t}_u_runaway_trusts({t}_u_runaway_job). }
+    Result "You sit down on the earth with the bread on your open hand, and wait. It is a long time. Then she comes, a step at a time, and takes it. She eats it where she stands. When it is gone she sits down, out of reach, and looks at you.".
+  }
+  Action {t}_u_runaway_coaxed(actor: group, site: place) "Tell the girl you are not from the mill, and mean her no harm" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and at({t}_u_runaway, {t}_u_warren) and not {t}_u_runaway_trusts({t}_u_runaway_job).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert {t}_u_runaway_trusts({t}_u_runaway_job). }
+    Result "You say it low, and say it again. The stone goes down. 'Not the mill,' she says. It is the first thing she has said to anyone in a long while.".
+    Otherwise "She is down the hole at the back before you have finished, and up again when you have gone quiet. Not yet.".
+  }
+  // Then where she is sent, and what it makes of the merchant and the priest.
+  Action {t}_u_runaway_sent(actor: group, site: place) "Send the girl to {{t}_priest} at the shrine, with your word that she is to be kept" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and at({t}_u_runaway, {t}_u_warren) and {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job).
+    Time 1.
+    On success { Assert {t}_u_runaway_sheltered({t}_u_runaway_job). Assert {t}_u_done({t}_u_runaway_job). Retract at({t}_u_runaway, {t}_u_warren). Assert at({t}_u_runaway, {priestat}). }
+    Result "She knows the shrine. She takes the doll and goes up the stair ahead of you. She does not run.".
+  }
+  Action {t}_u_runaway_given_up(actor: group, site: place) "Take the girl up to {{t}_merchant}, for what she has eaten" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and at({t}_u_runaway, {t}_u_warren) and {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job).
+    Time 3.
+    On success { Assert {t}_u_runaway_handed({t}_u_runaway_job). Assert {t}_u_done({t}_u_runaway_job). Retract at({t}_u_runaway, {t}_u_warren). }
+    Result "She comes, because she said she would. {{t}_merchant} looks at her a long time, and sends to the mill at the ford. Her master comes for her before dark.".
+  }
+  // Two days, as the merchant said, and the poison is laid: said wherever the company is, and she is gone.
+  Rule {t}_u_runaway_poison when {t}_u_given({t}_u_runaway_job) and not {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) and watch(clock) >= {t}_u_store_given_at({t}_merchant) + 288
+    says "Word comes round {town}: {{t}_merchant} has laid poison under the grain in the corn-store cellar, as promised. By morning the sacks are no longer slit." {
+    Assert {t}_u_runaway_lost({t}_u_runaway_job). Assert {t}_u_done({t}_u_runaway_job). Retract at({t}_u_runaway, {t}_u_warren).
+  }
+  Rule {t}_u_runaway_onward when {t}_u_done({t}_u_runaway_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Milestone {t}_u_runaway_found "found who was at the corn-store's grain, and won her trust" worth 120 when {t}_u_runaway_trusts({t}_u_runaway_job).
+  Topic {t}_u_runaway_paid with {t}_merchant "Tell {{t}_merchant} what has been at the grain" when {t}_u_runaway_sheltered({t}_u_runaway_job) and not {t}_u_paid({t}_u_runaway_job) once {
+    Says "'A child. On my corn, all winter.' {{t}_merchant} is quiet a while. Ten coin are counted out, and a lantern and two flasks of oil set beside them. 'Tell the priest there's a sack for her at harvest. And not a word of it to the mill.'".
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_runaway_job). Retract knows(actor, {t}_u_runaway_job). Assert grateful({t}_merchant, actor). Set {t}_u_thanked_at({t}_merchant) to watch(clock). }
+  }
+  Topic {t}_u_runaway_bounty with {t}_merchant "Ask {{t}_merchant} for the ten coin for the corn-store" when {t}_u_runaway_handed({t}_u_runaway_job) and not {t}_u_paid({t}_u_runaway_job) once {
+    Says "'Back where she belongs,' says {{t}_merchant}, and counts out ten coin. A lantern and two flasks of oil go on the counter beside them.".
+    On discuss { Increase quantity(actor, gold) by 10. Give lantern to actor. Give 2 lamp_oil to actor. Assert {t}_u_paid({t}_u_runaway_job). Retract knows(actor, {t}_u_runaway_job). }
+  }
+  Topic {t}_u_runaway_unpaid with {t}_merchant "Ask {{t}_merchant} about the corn-store" when {t}_u_runaway_lost({t}_u_runaway_job) and {t}_u_given({t}_u_runaway_job) and not {t}_u_paid({t}_u_runaway_job) once {
+    Says "'The poison saw to it,' says {{t}_merchant}. 'I'll not pay for what poison did.'".
+    On discuss { Assert {t}_u_paid({t}_u_runaway_job). Retract knows(actor, {t}_u_runaway_job). }
+  }
+  // What came of her, read after by the merchant, the priest and the girl herself (consequence by approach): kept at
+  // the shrine she tells what she saw below; sent back, the priest says so.
+  Topic {t}_u_runaway_favour with {t}_merchant "Ask {{t}_merchant} how the corn-store is keeping" when grateful({t}_merchant, actor) and {t}_u_runaway_sheltered({t}_u_runaway_job) and watch(clock) >= {t}_u_thanked_at({t}_merchant) + 72 once {
+    Says "'Dry and quiet,' says {{t}_merchant}. 'The priest's girl sweeps it out for a loaf.' A candle and a flask of oil come across the counter. 'No charge. You'll be going down again, I don't doubt.'".
+    On discuss { Give candle to actor. Give lamp_oil to actor. }
+  }
+  Topic {t}_u_runaway_below with {t}_u_runaway "Ask the girl what she saw down below" when {t}_u_runaway_sheltered({t}_u_runaway_job) and not knows(actor, {t}_u_letters) once {
+    Says "'There's letters,' she says, 'on the big stone where the drain goes into the old place. Round in a ring. Three are rubbed deep, like somebody's thumb did it.' She shows you with her own thumb, on the table.".
+    On discuss { Assert knows(actor, {t}_u_letters). }
+  }
+  Topic {t}_u_runaway_kept with {t}_priest "Ask {{t}_priest} about the girl from the corn-store" when {t}_u_runaway_sheltered({t}_u_runaway_job) once {
+    Says "'She sleeps, and she eats,' says {{t}_priest}. 'She has asked twice whether you will come back.'".
+  }
+  Topic {t}_u_runaway_returned with {t}_priest "Ask {{t}_priest} about the girl from the corn-store" when {t}_u_runaway_handed({t}_u_runaway_job) once {
+    Says "{{t}_priest} does not look up. 'Back at the mill. You did what you were paid for.'".
+  }
+  Topic {t}_u_runaway_gone with {t}_priest "Ask {{t}_priest} about the girl from the corn-store" when {t}_u_runaway_lost({t}_u_runaway_job) and knows(actor, {t}_u_runaway_prints) once {
+    Says "'Gone down the drain when the poison went down, they say,' says {{t}_priest}. 'A carter saw a girl on the road at first light, alone.'".
+  }
+  Objective {t}_u_runaway_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) toward {t}_merchant "Ask {{t}_merchant} about what is at the grain in the corn-store at {town}: the corn-store is locked.".
+  Objective {t}_u_runaway_job_aim when {t}_u_given({t}_u_runaway_job) and not knows(party, {t}_u_runaway_prints) and not {t}_u_done({t}_u_runaway_job) toward {t}_u_cellar by {t}_u_store "Find what is at the grain in {{t}_u_cellar}, under {{t}_u_store} at {town}. In two days {{t}_merchant} lays poison.".
+  Objective {t}_u_runaway_job_found when knows(party, {t}_u_runaway_prints) and not {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) toward {t}_u_runaway by {t}_u_cellar "A child's bare prints go through the grain. Find who sleeps behind the wall of {{t}_u_cellar}, and come quietly.".
+  Objective {t}_u_runaway_job_send when {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) toward {t}_u_runaway "The girl in {{t}_u_warren} will go where you send her: to {{t}_priest} at the shrine, or up to {{t}_merchant}.".
+  Objective {t}_u_runaway_job_owed when {t}_u_given({t}_u_runaway_job) and {t}_u_done({t}_u_runaway_job) and not {t}_u_runaway_lost({t}_u_runaway_job) and not {t}_u_paid({t}_u_runaway_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} what has been at the grain.".
+>> 'Something at the grain in the old corn-store, nights, and the bread off the sill. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
+--- store rats 12
   // The rats: the corn-store is locked and its key is the merchant's, given with the job. A brood in the runs behind
   // the cellar wall, and below them, down their own run into the old drain, the nest and the old buck rat that keeps
   // it: a job of two fights, or of ratsbane and fire for a company that would rather not (Mission 19: the owner found
   // two rats and "it is done" too short to be worth it). The drain below the runs is the undertown's road (see
   // the section below).
   Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks are stacked to the rafters, and the place smells of mice. A sack of grain weighs down a trapdoor in the floor, and every wall is gnawed through at its foot.".
+  Place {t}_u_warren "the rat-runs" is room within {t} at 0, 4 underground 1 down.
+  Passage {t}_u_runs "a hole gnawed through the cellar wall" is crawl between {t}_u_cellar and {t}_u_warren.
+  Place {t}_u_nest "the nest" is room within {t} at 0, 6 underground 2 down.
+  Passage {t}_u_nest_way "the rats' run down" is crawl between {t}_u_warren and {t}_u_nest.
+  Observe {t}_u_cellar_scene at {t}_u_cellar as fixture when true "A low brick cellar under the corn-store, damp to the touch. Spilled grain is trodden black on the floor, among the droppings of something bigger than mice.".
+  Observe {t}_u_warren_scene at {t}_u_warren as fixture when true "A crawlway of earth and old brick runs behind the cellar wall, gnawed wider than any rat should need. It is littered with husks and bones, and stinks of a nest.".
   Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
     Role "rats, fat and bold, that have eaten their way into the corn-store from below". Species rat.{runts} Numbers {pack}. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
