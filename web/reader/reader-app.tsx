@@ -52,6 +52,10 @@ export interface AppState {
   // leads with first), which is chosen, and whom the choices have made. In a drawn country the page shows it and
   // sends back each choice; it decides no step, no card's place and nothing a choice settles.
   creation?: import('../engine/engine-creation').CreationState;
+  // The card committed at a step whose next hangs on it, held taken until the engine answers: no other press is taken
+  // meanwhile (the owner, 18 November: the sign and the life needed several long presses; "long-press commitment
+  // should feel secure").
+  waiting?: string;
   // An encyclopedia entry open over the game, by its address (see EncyclopediaOverlay).
   entry?: string;
   // Whether the protagonist's name is one the player wrote: a name drawn for them is drawn again for a new people.

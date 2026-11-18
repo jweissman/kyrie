@@ -176,3 +176,7 @@
 }
 /* Over the sky the sign's entry stands under its rows (see ComposedCreation.Step). */
 .composed .composed-rows > .creation-entry { position: static; width: auto; max-width: none; max-height: none; margin-top: 14px; }
+/* A card committed at a step whose next hangs on it, while the engine answers (ReaderState.waiting): that row stays
+   taken (row.css's [data-taken]), the others quiet, and no press is taken until the answer comes. */
+.composed-rows[data-committed] { pointer-events: none; }
+.composed-rows[data-committed] .composed-row:not([data-taken]) { opacity: .4; transition: opacity 120ms ease; }

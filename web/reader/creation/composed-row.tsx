@@ -19,17 +19,19 @@ export class ComposedRow {
   // The mark of the one chosen before (come back to): the entry's gold on its mark alone, its ground the row's own (a
   // tone's name would tint the whole row: menu.css).
   static readonly before = 'var(--accent, #d9b46a)';
-  static View({ option, n, chosen, lit, onConsider, onChoose, hold, children }: { option: Option; n?: number;
-    chosen?: boolean; lit?: boolean; onConsider: (id: string) => void; onChoose: (id: string, held: boolean) => void; hold?: boolean;
-    children?: ReactNode }) {
+  // taken: committed, held taken while the engine answers (ReaderState.waiting): lit fully and marked so.
+  static View({ option, n, chosen, lit, taken, onConsider, onChoose, hold, children }: { option: Option; n?: number;
+    chosen?: boolean; lit?: boolean; taken?: boolean; onConsider: (id: string) => void; onChoose: (id: string, held: boolean) => void;
+    hold?: boolean; children?: ReactNode }) {
     // The one row (ChoiceRow), as every menu's: the one already chosen marked in the entry's gold.
-    const own = { 'data-nav': true, disabled: !!option.shut, 'aria-current': chosen || undefined,
+    const own = { 'data-nav': true, disabled: !!option.shut, 'aria-current': chosen || taken || undefined,
+      ...taken ? { 'data-taken': true } : {},
       'data-considered': lit || undefined, onMouseEnter: (e: MouseEvent<HTMLButtonElement>) => ComposedRow.hand(e.currentTarget)
         && onConsider(option.id), onFocus: () => onConsider(option.id),
       ...hold ? ComposedRow.held(option.id, onConsider, () => onChoose(option.id, true))
         : { onClick: () => onChoose(option.id, false) } };
-    return <ChoiceRow.Button className={`composed-row${chosen ? ' chosen' : ''}`} data={{ option: option.id }} own={own}
-      plain={chosen ? 'chosen' : 'neutral'}
+    return <ChoiceRow.Button className={`composed-row${chosen || taken ? ' chosen' : ''}`} data={{ option: option.id }} own={own}
+      plain={chosen || taken ? 'chosen' : 'neutral'}
       label={option.glyph ? <><Glyphs.View id={option.glyph} className="row-glyph" />{Typography.curl(option.name)}</>
         : Typography.curl(option.name)}
       aside={Typography.curl(option.shut ?? option.aside ?? '')} extra={children} {...n !== undefined ? { number: n } : {}} />;

@@ -351,13 +351,19 @@ export class CreationFlow {
   // A people's or a calling's entry in the reference, as the handbook writes it from the catalog (one source: the
   // Player's Handbook and the encyclopedia read the same).
   private static entries?: Map<string, NonNullable<CreationCard['entry']>>;
+  // The handbook's chapters are written once: they had been written again for every card of every step, several times
+  // a choice, and a choice had taken 90–200 ms to answer (the owner, 18 November: "these screens should be preparable
+  // in milliseconds").
   private static entry(id: string): Pick<CreationCard, 'entry'> {
+    CreationFlow.entries ??= CreationFlow.written();
+    const found = CreationFlow.entries.get(id);
+    return found ? { entry: found } : {};
+  }
+  private static written(): Map<string, NonNullable<CreationCard['entry']>> {
     const callings = CompanyChapters.callings();
     const all = [...CompanyChapters.ancestries().entries ?? [], ...callings.entries ?? [],
       ...(callings.sections ?? []).flatMap(x => x.entries ?? []), ...CompanyChapters.signs().entries ?? []];
-    CreationFlow.entries ??= new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
-    const found = CreationFlow.entries.get(id);
-    return found ? { entry: found } : {};
+    return new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
   }
   // A people's or a calling's aside and sentence: its line beside it, and the first sentence of its words.
   private static said(x: { line?: string; text?: string }): Pick<CreationCard, 'aside' | 'say'> {

@@ -76,6 +76,8 @@ export class ReaderOpening {
   choose(step: CreationStepId, id: string) { if (this.app.state.creation) { void this.chosen(step, id); } }
   private async chosen(step: CreationChoice, value: string) {
     const app = this.app;
+    // A press while a step that leads is answered goes nowhere: it had landed on the step after, as it stood before.
+    if (app.state.waiting && step !== 'back') { return; }
     this.pressed(step, value);
     try {
       const creation = await app.engine.request<CreationState>({ kind: 'creation', step, value });
@@ -83,11 +85,11 @@ export class ReaderOpening {
       const member = step === 'name' || step === 'drawn'
         ? { ...creation.member, name: app.state.party[0]?.name ?? creation.member.name } : creation.member;
       const party = [member, ...app.state.party.slice(1)];
-      app.setState({ creation, party, origin: creation.origin, ...step === 'name' ? { named: !!value.trim() } : {},
+      app.setState({ creation, party, origin: creation.origin, waiting: undefined, ...step === 'name' ? { named: !!value.trim() } : {},
         ...step === 'drawn' ? { named: false } : {} });
       if (!ReaderOpening.unmade.includes(step)) { void this.preview(party); }
       this.readySoon();
-    } catch (error) { this.fail(error, 'company'); }
+    } catch (error) { app.setState({ waiting: undefined }); this.fail(error, 'company'); }
   }
   // A change to one companion: the protagonist of a drawn country by the engine's making (which draws a name again
   // for a new people or way of presenting, and takes again as it stands what a change discards: CreationFlow); an
@@ -127,11 +129,15 @@ export class ReaderOpening {
     // Where the making goes, as the engine said it would: a card chosen at the step asked (or a name drawn at the name)
     // goes on, back goes back; the engine's answer then stands in its place.
     // A step whose next hangs on the choice (CreationStep.leads) waits for the engine to say where it goes.
-    const leads = creation.steps.find(x => x.id === step)?.leads;
+    // A step whose next hangs on the choice stays, its row taken and held there, committed, until the engine says what
+    // comes next (CreationStep.leads): the press is answered at once, and nothing else is taken meanwhile (the owner,
+    // 18 November: "a 'locked/committed' state of the menu item that says the final value has been accepted").
+    const leads = step === creation.at && !!creation.steps.find(x => x.id === step)?.leads;
     const on = (step === creation.at && step !== 'name' && !leads) || (step === 'drawn' && creation.at === 'name')
       || step === 'onward';
     const at = step === 'back' ? creation.back ?? creation.at : on ? creation.on : creation.at;
-    this.app.setState({ creation: { ...creation, steps, at, ...why }, party: [now, ...s.party.slice(1)], ...why });
+    this.app.setState({ creation: { ...creation, steps, at, ...why }, party: [now, ...s.party.slice(1)], ...why,
+      ...leads ? { waiting: value } : {} });
   }
   // A name taken from the table, borne as the table's (see CreationChoice).
   drawn(name: string) { void this.chosen('drawn', name); }
