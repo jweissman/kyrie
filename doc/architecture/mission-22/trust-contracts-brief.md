@@ -1,7 +1,7 @@
 # Trust contracts: the owner's commission (18 November 2026)
 
-Kept verbatim. The register rows it opens are TC-01..TC-09; the investigation and the contracts' state are in
-trust-contracts.md.
+Kept verbatim. Its rows in the register are TB-12 (Doable) and TR-01..TR-03 (travel), beside the rows it closed; the
+investigation and the contracts' state are in trust-contracts.md.
 
 ---
 
