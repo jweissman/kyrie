@@ -12,6 +12,7 @@ import { AuthorLint } from './author-lint';
 import { AdventureNames } from './adventure-names';
 import type { Module } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
+import { ExportRoles } from './export-roles';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
 // nothing (a rule that may be meant: see CampaignLint.anchors).
@@ -124,6 +125,8 @@ export class KyrLint {
   }
   static async main(args: string[]): Promise<number> {
     if (args.includes('--inventory')) { console.log(this.inventory().join('\n')); return 0; }
+    // Every module's exports and the role each plays (see ExportRoles).
+    if (args.includes('--exports')) { return ExportRoles.main(args); }
     // Errors only, for an author who wants to know whether it loads and plays (the Book of Faces' BOF-14).
     const verbose = args.includes('--verbose'), only = args.includes('--errors');
     const results = await this.run(args.filter(a => !a.startsWith('--')));

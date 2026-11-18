@@ -13,6 +13,8 @@ export interface InstalledModule {
   id: string; name: string; description?: string; seed: string; installedAt: number; deadline?: number;
   goal: Predicate; actors: string[]; pressures: string[]; roles?: BoundRole[];
   outcomes: { id: string; predicate: Predicate }[]; exports: Record<string, string>; experience?: number;
+  // The roles its manifest declared for its exports, where it declared any (see ModuleExports).
+  exported?: Record<string, import('./module-exports').ExportRole>;
   // A module installed into a world that goes on (a country beyond a march): its ending closes its chapter only.
   chapter?: boolean;
 }

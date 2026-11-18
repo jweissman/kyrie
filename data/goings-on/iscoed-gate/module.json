@@ -52,12 +52,33 @@
     }
   },
   "exports": {
-    "failing": "failing",
-    "tide": "tide",
-    "reeve": "reeve",
-    "bank": "bank",
-    "gatehouse": "gatehouse",
-    "cut": "cut",
-    "shut": "shut"
+    "failing": {
+      "entity": "failing",
+      "role": "fact"
+    },
+    "tide": {
+      "entity": "tide",
+      "role": "fact"
+    },
+    "reeve": {
+      "entity": "reeve",
+      "role": "participant"
+    },
+    "bank": {
+      "entity": "bank",
+      "role": "place"
+    },
+    "gatehouse": {
+      "entity": "gatehouse",
+      "role": "place"
+    },
+    "cut": {
+      "entity": "cut",
+      "role": "fact"
+    },
+    "shut": {
+      "entity": "shut",
+      "role": "outcome"
+    }
   }
 }

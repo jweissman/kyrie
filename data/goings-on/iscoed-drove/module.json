@@ -32,15 +32,45 @@
     }
   },
   "exports": {
-    "held": "held",
-    "road_west": "road_west",
-    "bran": "bran",
-    "owain": "owain",
-    "customs": "customs",
-    "pens": "pens",
-    "found_drowned": "found_drowned",
-    "altered": "altered",
-    "mardle_shown": "mardle_shown",
-    "mardle_paid": "mardle_paid"
+    "held": {
+      "entity": "held",
+      "role": "fact"
+    },
+    "road_west": {
+      "entity": "road_west",
+      "role": "outcome"
+    },
+    "bran": {
+      "entity": "bran",
+      "role": "participant"
+    },
+    "owain": {
+      "entity": "owain",
+      "role": "participant"
+    },
+    "customs": {
+      "entity": "customs",
+      "role": "place"
+    },
+    "pens": {
+      "entity": "pens",
+      "role": "place"
+    },
+    "found_drowned": {
+      "entity": "found_drowned",
+      "role": "fact"
+    },
+    "altered": {
+      "entity": "altered",
+      "role": "fact"
+    },
+    "mardle_shown": {
+      "entity": "mardle_shown",
+      "role": "outcome"
+    },
+    "mardle_paid": {
+      "entity": "mardle_paid",
+      "role": "outcome"
+    }
   }
 }

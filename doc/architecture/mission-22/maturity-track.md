@@ -41,6 +41,26 @@ it moves, and its rows are MT-01.. in the open register.
 3. **Typed exports (B).** Optional roles on exports (fact, outcome, participant, place, capability), inferred for the
    ones there are, a lint advice for an export with none. Proving slice: one parent (a standing module's complication)
    composed from declared roles alone. Invariant: a typed export read as the wrong role fails at the load.
+
+   **Landed 18 November** (`src/campaign/module-exports.ts`, `src/cli/export-roles.ts`). An export may be written
+   `"held": { "entity": "held", "role": "fact" }`; the string form stays valid. Five roles, and the entity types
+   each admits: fact (fact), outcome (fact, condition, ending, milestone), participant (group, identity), place
+   (place, passage), capability (thing, item, good, capability). The role is inferred from the compiled entity: a
+   fact is an outcome where it is not established at the outset and nothing in play reads it (no act's condition, no
+   rule but a milestone's or an ending's, nothing seen), only the goal, objectives and milestones if anything. At the
+   load: a declared role its entity cannot play fails (`Module child exports word as place, but word is a fact`); a
+   child's declared roles are kept on its installation (`exported`), and a parent's import whose `roles` type the
+   child's role does not admit fails (`Module gate imports forged as fact from drove.altered, but drove exports
+   altered as participant`). `bin/kyrie lint --exports` reads every module in data/ on its own (imports unbound,
+   the canon's kinds in), lists each export with its type and inferred role, an error where a declaration
+   disagrees, advice for each export with none (`--verbose`): 59 modules, 363 exports, 15 declared; inferred place
+   183, participant 87, fact 49, outcome 37 (30 of them the canon's world events, rose_made_whole..pharos_fed),
+   capability 7; none unclassified, no disagreement. Proving slice: the drove's and the sea-gate's exports
+   annotated; the gate's three imports of the drove (forged = drove.altered fact, freedword = drove.road_west
+   outcome, drovedrowned = drove.found_drowned fact) validated from the two manifests and the scenario alone
+   (test/export-roles). Nothing moves: `compat --base origin/main --quick` says `same`; test/traces, drove-return,
+   iscoed-sea-gate pass. Open: the roles are not yet required (advice only); no situation hook or kit reads a
+   child's outcome by role; the other 57 modules untyped; the inference of outcome is lexical (an id read).
 4. **Why (§7.1).** `kyrie inspect --why fact <id>` and `--why placement <id>` from what Diagnostics, the ledger and the
    binder trace already keep. Proving slice: why the corn-store key-holder is where they are.
 5. **Routes and pursuits (F).** A `Route` form compiled into the pursuits and clock rules there are, introduced only
@@ -99,4 +119,5 @@ it moves, and its rows are MT-01.. in the open register.
 
 - Step 1: the riddle (CL-34) in hand; OR-94 and OR-95 landed 18 November.
 - Step 2: started 18 November (an agent, R26/R86/R42).
+- Step 3: landed 18 November (typed exports; see the step).
 - Step 6: landed 18 November (scripts/compat.ts; see the step).

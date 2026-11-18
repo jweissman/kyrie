@@ -7,6 +7,7 @@ import { Geography } from './geography';
 import { Kits } from './kit';
 import { Ledger } from './ledger';
 import { Trace } from './trace';
+import { ModuleExports } from '../../campaign/module-exports';
 
 // A campaign manifest entry that asks for a kit rather than naming a module: which kit, the installation id its
 // modules are named under, and anything its author fixes (a slot bound to an exported place, a dimension's value).
@@ -81,7 +82,7 @@ export class Composition {
     const company = parts.find(m => m.company)?.company;
     const module = { ...parts[0]!, ...company ? { company } : {}, entities: parts.flatMap(m => m.entities),
       initial: parts.flatMap(m => m.initial) };
-    Geography.read(ledger, { install: entry.id, module, exports: manifest.exports ?? {},
+    Geography.read(ledger, { install: entry.id, module, exports: ModuleExports.locals(manifest.exports),
       ...(manifest.assembly.commitments ? { commitments: manifest.assembly.commitments } : {}) });
   }
   // The region's context for Deem: its terrain, as committed.

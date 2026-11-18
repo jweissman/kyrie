@@ -4,10 +4,13 @@ import type { BoundRole } from './role-requirements';
 import type { Call, Change, Instance, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import type { CampaignDefinition, InstalledModule } from './definition';
+import type { ExportRole } from './module-exports';
 
 export interface ModuleDraft {
   id: string; seed: string; instance: Instance; imports: string[]; exports: Record<string, string>; roles?: BoundRole[];
   experience?: number;
+  // The roles its manifest declares for its exports, by export (see ModuleExports).
+  exported?: Record<string, ExportRole>;
   // Installed into a world already under way (a country beyond a march): its ending closes its chapter, not the book.
   chapter?: boolean;
 }
@@ -176,6 +179,7 @@ export class ModuleNamespace {
       ...(draft.roles?.length ? { roles: structuredClone(draft.roles) } : {}),
       actors: definition.actors.map(a => a.id), pressures: definition.pressures.map(p => p.id),
       outcomes: structuredClone(definition.outcomes), exports: draft.exports,
+      ...(draft.exported ? { exported: { ...draft.exported } } : {}),
       ...(draft.experience ? { experience: draft.experience } : {}), ...(draft.chapter ? { chapter: true } : {}) };
   }
 }

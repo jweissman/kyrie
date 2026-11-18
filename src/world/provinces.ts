@@ -7,6 +7,7 @@ import { Countries, type Country } from './countries';
 import { RegionGeography } from './region-geography';
 import type { Region } from './region-writer';
 import type { BundleSource } from '../campaign/bundle-source';
+import { ModuleExports, type ExportEntry } from '../campaign/module-exports';
 
 // The provinces of a world's first country: authored adventures installed as parts of it rather than as countries of
 // their own beyond its marches (Mission 18's Gate B). Each has a way in on the country's land, a little in from the
@@ -51,8 +52,8 @@ export class Provinces {
   static async regions(provinces: Province[], base: BundleSource): Promise<Province[]> {
     return Promise.all(provinces.map(async p => {
       const manifest = JSON.parse(await base.read(base.resolve(`data/adventures/${this.country(p.country).bundle}`))) as
-        { exports?: Record<string, string> };
-      const own = manifest.exports?.region;
+        { exports?: Record<string, ExportEntry> };
+      const own = ModuleExports.locals(manifest.exports).region;
       return own ? { ...p, region: `${this.install(p.country)}__${own}` } : p;
     }));
   }

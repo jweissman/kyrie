@@ -19,6 +19,7 @@ import { CompiledModules, type Compiled } from './compiled-modules';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
+import { ModuleExports, type ExportEntry } from './module-exports';
 
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
@@ -55,7 +56,8 @@ export interface BundleManifest {
   // The ids of the canon (data/imbar) it names: given their declarations from there, and bound to the world's own
   // (see ModuleCanon). A plane named brings its region and threshold; a place, the places it lies within.
   canon?: string[];
-  exports?: Record<string, string>;
+  // Each export's entity, or the entity and the part it plays ({ "entity": "held", "role": "fact" }: ModuleExports).
+  exports?: Record<string, ExportEntry>;
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
   // Experience for each companion when the module's goal first holds.
   experience?: number;
@@ -77,8 +79,7 @@ export class ModuleBundle {
     const valid = m.version === 1 && strings(m.source, 1) && strings(m.rules, 1)
       && (!m.generation || typeof m.generation.type === 'string')
       && [m.imports, m.globals, m.canon].every(list => list === undefined || Array.isArray(list) && strings(list))
-      && (m.exports === undefined || (typeof m.exports === 'object' && !Array.isArray(m.exports)
-        && Object.entries(m.exports).every(([k, v]) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(k) && typeof v === 'string')));
+      && ModuleExports.valid(m.exports);
     if (!valid) { throw new Error('Invalid module manifest'); }
   }
   // A campaign's modules, in order; entries that ask for a kit are composed into modules with the campaign's seed.
@@ -195,6 +196,7 @@ export class ModuleBundle {
     if (Object.keys(request.imports ?? {}).some(key => !manifest.imports?.includes(key))) {
       throw new Error('Undeclared module import');
     }
+    ModuleExports.bound(request.id, manifest.roles, request.imports, installed);
     for (const name of manifest.imports ?? []) {
       const reference = request.imports?.[name];
       const [owner, exported, extra] = reference?.split('.') ?? [];
@@ -212,6 +214,14 @@ export class ModuleBundle {
       if (installed?.some(m => Object.values(m.exports).includes(name))) { imports[name] = name; }
     }
     return imports;
+  }
+  // The roles its exports declare, each held to the entity it names, and kept with the installation for the modules
+  // composed after it (see ModuleExports).
+  private static exported(id: string, manifest: BundleManifest, draft: ModuleDraft) {
+    const declared = ModuleExports.declared(manifest.exports);
+    if (!Object.keys(declared).length) { return; }
+    ModuleExports.check(id, ModuleExports.read(manifest.exports, draft.exports, draft.instance.module));
+    draft.exported = declared;
   }
   // A chart's places, roads and parts named as the installed module names them.
   private static chart(chart: import('../lang/module').LandChart, id: string): import('../lang/module').LandChart {
@@ -309,6 +319,8 @@ export class ModuleBundle {
   private static async loading(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
     canonless?: boolean;
+    // Read on its own, its imports unbound (what its exports are: ExportRoles), never to be played.
+    unbound?: boolean;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
     const path = source.resolve(request.bundle);
@@ -347,13 +359,15 @@ export class ModuleBundle {
       const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
       ModuleCanon.settle(instance.module, given);
       if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
-      imports = this.imports(bound, request, options.installed, instance.module);
+      imports = this.imports(options.unbound ? { ...bound, optional: bound.imports } : bound, request,
+        options.installed, instance.module);
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
-        imports, globals: bound.globals ?? [], exports: manifest.exports ?? {} }).draft();
+        imports, globals: bound.globals ?? [], exports: ModuleExports.locals(manifest.exports) }).draft();
+      if (!options.unbound) { ModuleBundle.exported(request.id, manifest, draft); }
     } catch (error) {
       throw Diagnostics.explain(error, files.slice(0, situationPaths.length), files.slice(situationPaths.length));
     }
-    draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
+    draft.roles = options.unbound ? [] : RoleRequirements.bind(manifest.roles ?? {}, imports);
     if (manifest.chart) { draft.instance.module.charts = { [`${request.id}__region`]: this.chart(manifest.chart, request.id) }; }
     if (request.within) { ModuleBundle.nest(draft, request.within); }
     if (manifest.experience) { draft.experience = manifest.experience; }

@@ -49,7 +49,7 @@ export class KyrieCli {
     '           bin/kyrie serve                    (one game over stdin/stdout, a JSON line each way: see src/cli/serve.ts)',
     '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
-    '           bin/kyrie lint [campaign.json] [--errors] [--inventory] | compile <module.kyr> | names <surname ...>',
+    '           bin/kyrie lint [campaign.json] [--errors] [--inventory] [--exports] | compile <module.kyr> | names <surname ...>',
     '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
