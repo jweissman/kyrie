@@ -3,7 +3,8 @@ import { Tiny } from '../support/tiny';
 import { ScreenModel } from '../../src/ui/screen-model';
 
 // A search the light will not last through is said so beside it (CO-12: a torch, then a candle, burned out in one
-// search with no word before). Not barred: another light may be lit.
+// search with no word before). Not barred: another light may be lit. Said as the light giving out, never a trap (cold
+// play 3, CL-16: "Search here" in the rats' nest marked danger and trap, and the torch guttered).
 const cellar = `
   Place cellar "the cellar" is room at 0, 0 underground.
   Company party "You" of 1 at cellar.
@@ -18,7 +19,8 @@ describe('a search in a failing light', () => {
       await t.play('Wait › A while');
     }
     expect(ScreenModel.build(t.campaign).expedition.flame?.left).toBeLessThan(20);
-    expect(search(t)).toMatchObject({ risk: true });
+    expect(search(t)?.risk).toBeUndefined();
+    expect(search(t)?.gutters).toMatch(/^The torch has \d+ minutes left: it will give out first\.$/);
     expect(search(t)?.about).toMatch(/The torch has \d+ minutes left: it will give out first\./);
     expect(search(t)?.disabled).toBeUndefined();
   });

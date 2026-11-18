@@ -12,7 +12,7 @@ export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' 
 export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
-  note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string;
+  note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string; gutters?: string;
   // What it is called standing alone, out of its group (see Act.alone).
   alone?: string;
   // What kind of act it is, and what it is done to or with (see Act.does, Act.targets).
@@ -205,7 +205,8 @@ export class ChoiceList {
         ...(only.moves ? { moves: true } : {}),
         about: only.about ?? about,
         ...(note ? { note } : {}), ...(only.minutes ? { minutes: only.minutes } : {}),
-        ...(only.risk ? { risk: true } : {}), ...(only.grave ? { grave: only.grave } : {}) }];
+        ...(only.risk ? { risk: true } : {}), ...(only.gutters ? { gutters: only.gutters } : {}),
+        ...(only.grave ? { grave: only.grave } : {}) }];
     }
     return this.tries(e, label, about);
   }
@@ -299,7 +300,8 @@ export class ChoiceList {
     const about = [a.about, a.reckoned?.text].filter(Boolean).join(' ');
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
-      ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
+      ...(a.risk ? { risk: true } : {}), ...(a.gutters ? { gutters: a.gutters } : {}),
+      ...(a.disabled ? { disabled: a.disabled } : {}),
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),

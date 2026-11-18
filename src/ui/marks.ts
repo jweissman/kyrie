@@ -53,6 +53,7 @@ export class Marks {
       marks.push({ kind: 'trap', said: [exit?.hazard ?? 'It could go wrong.', this.harm(exit, here.screen)].join(' ').trim(),
         ask: true });
     }
+    if (c.gutters && c.command) { marks.push({ kind: 'gutters', said: c.gutters, ask: true }); }
     if (c.note?.split(' · ').includes(ChoiceList.unexamined)) {
       marks.push({ kind: 'unlooked', said: 'Not looked at closely yet.' });
     }

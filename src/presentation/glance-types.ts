@@ -55,7 +55,7 @@ export type Why =
   | 'present';
 // What a choice risks, or needs said before it is chosen.
 export type MarkKind = 'one-way' | 'grave' | 'fight' | 'trap' | 'unlooked' | 'heard' | 'lurks' | 'exposed' | 'warned'
-  | 'night';
+  | 'night' | 'gutters';
 // ask: the page asks again before it is done.
 // danger: a fight's, as reckoned, so that an easy one is not drawn as a deadly one is.
 export interface Mark { kind: MarkKind; said: string; ask?: boolean; danger?: 'slight' | 'fair' | 'hard' | 'grave' | 'deadly' }

@@ -12,6 +12,8 @@ export type Passage = 'open' | 'guarded' | 'hazard' | 'climb' | 'hidden' | 'door
 
 export interface Act {
   key: string; label: string; command?: string; minutes?: number; risk?: boolean; children?: Act[];
+  // That the company's light will give out before it is done, in words (see LightLeft): no trap, nor any danger.
+  gutters?: string;
   // What it is called standing alone, out of the group it is under ("Push and pull at the padlock", not "… at it").
   alone?: string;
   // What kind of act it is (its action's schema: talk_to, take_lodging, look_closely…), whether or not it can be done

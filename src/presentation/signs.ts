@@ -17,7 +17,7 @@ export class Signs {
   static readonly marks: Record<MarkKind, string> = { 'one-way': 'no way back', grave: 'cannot be undone',
     fight: 'a fight', trap: 'a risk', unlooked: 'not looked at', heard: 'something heard', lurks: 'something waits',
     exposed: 'a cold night',
-    warned: 'they will not wait', night: 'after dark' };
+    warned: 'they will not wait', night: 'after dark', gutters: 'the light gives out' };
   // An act done by holding rather than a touch (a search, a wait, a rest): the page's ring, said or signed.
   static readonly hold = { sign: '⧗', said: 'hold to do it' };
   // A way to a place with nothing new to give for now (Glance.idle): drawn dim, and said so where nothing dims.
