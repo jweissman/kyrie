@@ -23,6 +23,8 @@ describe('a fen-boat bought with the sea-gate\'s reward', () => {
     const before = Fen.coin(j);
     await j.play('Tell the reeve the sea-gate at Gatesend shuts');
     expect(Fen.coin(j)).toBe(before + 30);
+    // And the reeve's tally to carry north (step 5): the salt road's reason.
+    expect((j.screen().aims ?? []).map(a => a.text).join(' ')).toMatch(/Tower of the Scales in Dun Rìerdan/);
     await j.play('Buy one of Gwil\'s fen-boats');
     expect(Fen.coin(j)).toBe(before);
     await j.play('map:Gatesend', '?map:Gatesend', '?map:Gatesend', 'To the sea-bank');

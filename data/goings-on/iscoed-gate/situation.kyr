@@ -56,8 +56,14 @@ Module gate "The last sea-gate" {
   }
   Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) once {
     Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.'".
-    On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). }
+    On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). Give tally_case to actor. Assert knows(actor, road_north). }
   }
+  // The reason to go north: the reeve's quarter-tally for the Exchange in Dun Rìerdan, carried by one who knows what
+  // the sea costs (see data/goings-on/rierdan-scales).
+  Entity road_north: fact "The reeve's quarter-tally goes north up the salt road to the Exchange in the Tower of the Scales, in Dun Rìerdan, where the salt price of the realm is set.".
+  Entity tally_kept: fact "".
+  Item tally_case "the reeve's quarter-tally, in a scroll-case" is scrollcase at gatehouse hidden until tally_kept.
+  Objective north_aim when knows(party, road_north) and holding(party, scrollcase) toward town "Take the reeve's tally north up the salt road to the Tower of the Scales in Dun Rìerdan.".
   Topic reeve_cut with reeve "Show the reeve the pawl's sawn pin" when knows(actor, cut) once {
     Says "The reeve's face does not change, but she goes very still. 'Sawn,' she says. 'Then someone wants the fen wet, or the gate open. The cut runs under the bank to the sea, and a boat could come and go by it at night with no customs-man the wiser.' She looks toward the waterfront. 'Keep that to yourself until I know who.'".
   }

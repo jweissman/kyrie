@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "green"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "pasture": "pasture",
+    "guide": "guide"
+  },
+  "unclocked": "the hall keeps its doors open to every drove, whenever it comes"
+}

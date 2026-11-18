@@ -2,6 +2,9 @@ import atlas from '../../data/imbar/atlas.json';
 import type { DeemValue } from 'deem';
 import type { Side } from './land/borders';
 import type { Region } from './region-writer';
+import type { BundleSource } from '../campaign/bundle-source';
+import type { Entry } from './world-assembler';
+import { StoryPeople } from './story-people';
 
 // A country of the strategic atlas (data/imbar/atlas.json): what it is, as facts the lower generators read, in the
 // worlds the atlas is for. Westernesse's, not the kernel's: a country, a reeve and a salt-tax are this setting's words.
@@ -66,6 +69,10 @@ export class StrategicAtlas {
   }
   // The standing scenarios it holds of those every first country does (data/scenarios/standing.json), where it says.
   static standing(region: Region): string[] | undefined { return this.byId(region.country)?.standing; }
+  // The country's own goings-on as the assembler places them (see WorldAssembler.beyond).
+  static entries(base: BundleSource, region: Region): Promise<Entry[]> {
+    return Promise.all(this.goings(region).map(s => StoryPeople.entry(base, base.resolve(s))));
+  }
   // The library's goings-on a country of the atlas does not hold: those its own would contradict (a second drover).
   static exclude(region: Region): string[] { return this.byId(region.country)?.exclude ?? []; }
   // The arts of the makers whose works are in the country, where the atlas says.

@@ -146,4 +146,25 @@ for coin, and then both ways open, the cut into the store and the bell rung.
 The salt-licence the orientation proposed is not built. A licence that sells salt dear in Brynach needs a price that
 follows a country's want (WD-04), or a module in Brynach that can read a thing carried from Iscoed's (WD-16).
 
-Next: step 5, the roads north and west.
+## Step 5: the roads north and west
+
+Each road is carried by someone with a reason of their own, and each far end is the country's own, placed when that
+country is drawn (`StrategicAtlas.goings`, now held by a country beyond the march as by the first).
+
+- **North, the salt road.** The reeve, paid for the shut gate, gives the company her quarter-tally in a scroll-case
+  for the Exchange. The aim is "Take the reeve's tally north up the salt road to the Tower of the Scales in Dun
+  Rìerdan". In the city, seven towers stand over the roofs, the Exchange's with scales for a weathervane. On its
+  counting-floor Iscoed's salt has the highest price chalked under it. Its clerk, Iolo Penwyn, pays twelve crowns
+  and writes the company's name in the red ink, "for people we will answer for", and sends it on to the Tower of
+  Doors.
+- **West, the drove road.** Bran, freed, says Caer Brynach's lord pays for a sword. At the pass the drovers' hall has
+  a flame cut beside every drove that lost beasts on the high pasture, "wolves don't burn the grass": this is
+  Career's dragon, which lairs in Brynach by its own rule. Marged, the keeper, asks the count, and gives a guide over
+  the tops.
+
+Held by `test/iscoed-roads`, which goes up each road to its march-stone and on to the city and to the pass, and by
+`test/iscoed-fen-boat`, where the reeve gives the tally.
+
+What could not be said without TypeScript (WD-16): a country's module cannot read what the company did in another
+country's module. Marged cannot know that Bran was freed, only that the company says so. The Exchange reads the tally
+as a scroll-case, a thing of the catalog, because Iscoed's own kinds are Iscoed's.

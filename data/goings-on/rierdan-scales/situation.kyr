@@ -1,0 +1,20 @@
+Module scales "The Tower of the Scales" {
+  Description "Every reeve of the Rì's marches sends a quarter's tally to the Exchange of Dun Rì in the Tower of the Scales, where the guilds weigh and bargain and the salt price of the realm is set.".
+  Entity party: group "Your company".
+  Place town "The city" is settlement.
+  Place green "The city's heart" is room.
+  Relation tallied(group).
+  Place scales "the counting-floor of the Tower of the Scales" is room within town at 6, 6.
+  Passage scales_door "the Tower of the Scales' door" is door between green and scales.
+  Observe towers at green as sign when not tallied(party) "Over the roofs seven towers stand up into the weather, each of a different stone. The squat one with the brass weathervane, a pair of scales turning in the wind, is the Exchange's.".
+  Observe scales_scene at scales when true "A floor of black and white stone the size of a field, with balances along it as tall as trees, and at a hundred desks clerks writing in two colours of ink. Salt from four countries stands in sample-jars on a long table, each with its price chalked under it, and the price under Iscoed's is the highest.".
+  Person iolo "Iolo Penwyn" at scales { Role "a clerk of the Exchange, who keeps the marches' tallies". Pronouns he. Peaceable. Manner jovial. }
+  Entity vouched: fact "The Exchange of Dun Rì has your name in its book as one who carried a reeve's tally whole: the colleges and the courts of the city ask the Exchange who a stranger is.".
+  Topic tally with iolo "Give Iolo the reeve's tally from Iscoed" when holding(actor, scrollcase) and not tallied(actor) once {
+    Says "Iolo breaks the reeve's seal, reads down the column, and whistles at the last line. 'Gatesend's gate shut, and a clerk turned out. She writes well of you.' Twelve crowns from the Exchange's purse for the carrying, and your name in the big book, in the red ink. 'Red is for people we will answer for,' he says. 'Take that to the Tower of Doors, if you want to learn anything they teach.'".
+    On discuss { Spend scrollcase from actor. Increase quantity(actor, gold) by 12. Assert tallied(actor). Assert knows(actor, vouched). }
+  }
+  Milestone m_tallied "carried the reeve's tally to the Tower of the Scales" worth 100 when tallied(party).
+  Objective tally_aim when holding(party, scrollcase) and not tallied(party) toward iolo by scales "Take the reeve's tally to the Exchange in the Tower of the Scales, in Dun Rìerdan.".
+  Goal tallied(party).
+}

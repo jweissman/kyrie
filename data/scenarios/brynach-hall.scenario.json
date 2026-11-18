@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "id": "brynach-hall",
+  "name": "The drovers' hall at the pass",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    }
+  },
+  "modules": [
+    {
+      "id": "hall",
+      "bundle": "../goings-on/brynach-hall/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "green": "@town.green"
+      }
+    }
+  ],
+  "hooks": []
+}

@@ -152,9 +152,9 @@ export class WorldAssembler {
     const region = this.region(seed, [at.x, at.y], undefined, { taken: at.taken, first: at.first });
     region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar; region.held = at.held;
     region.further = Countries.further(region, seed, at.first);
-    const library = await this.library(base, 'data/scenarios/library.json');
-    const { context, placements } = this.settle(region, library,
-      { seed: WorldGrid.seed(seed, at.x, at.y), rid, rounds: [3, 2], exclude: at.exclude });
+    const lib = await this.library(base, 'data/scenarios/library.json'), own = await StrategicAtlas.entries(base, region);
+    const { context, placements } = this.settle(region, lib, { seed: WorldGrid.seed(seed, at.x, at.y), rid,
+      rounds: [3, 2], exclude: at.exclude, heralds: own });
     const root = `world-${seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world'}/${rid}`;
     const files: Record<string, string> = {};
     // Its own random identity, its cell: every drawn country's Kyr module is `Module region`, and a module is seeded
@@ -162,7 +162,7 @@ export class WorldAssembler {
     // shared seeds between two countries). The first country, drawn above, keeps the seed it had.
     const modules: BundleRequest[] = [{ id: rid, bundle: base.resolve(`${root}/region/module.json`),
       imports: { party: `${RegionWriter.id}.party` }, randomIdentity: rid }];
-    this.spread(placements, { library, base, region, contacts: [], context, files, root, modules });
+    this.spread(placements, { library: [...lib, ...own], base, region, contacts: [], context, files, root, modules });
     RegionWriter.write(files, root, region, { company: null, taken: this.taken(placements), beyond: true });
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }

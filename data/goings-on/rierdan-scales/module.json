@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "green"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "vouched": "vouched"
+  },
+  "unclocked": "a standing institution: the Exchange takes tallies every quarter"
+}

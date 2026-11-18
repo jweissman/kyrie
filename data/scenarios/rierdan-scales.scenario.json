@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "id": "rierdan-scales",
+  "name": "The Tower of the Scales",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    }
+  },
+  "modules": [
+    {
+      "id": "scales",
+      "bundle": "../goings-on/rierdan-scales/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "green": "@town.green"
+      }
+    }
+  ],
+  "hooks": []
+}

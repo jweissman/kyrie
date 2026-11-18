@@ -1,0 +1,24 @@
+Module hall "The drovers' hall at the pass" {
+  Description "Every drove that goes down to the fen leaves from the drovers' hall at the pass, and every drover who comes back sleeps in it the first night. Its keeper knows what is on the high pasture.".
+  Entity party: group "Your company".
+  Place town "The market at the pass" is settlement.
+  Place green "The market" is room.
+  Relation welcomed(group). Relation hallWarned(group).
+  Place hall "the drovers' hall" is room within town at 6, 5.
+  Passage hall_door "the drovers' hall door" is door between green and hall.
+  Observe hall_sign at green as sign when not welcomed(party) "Under the wall of the pass a long low hall has its doors open on a yard full of empty pens, and a board over the door with a bullock painted on it, very badly.".
+  Observe hall_scene at hall when true "A hall the length of a barn with a fire down its middle and sleeping-benches along both walls, hung with wet cloaks. On the beam over the fire every drove that has gone down the road this year is cut as a notch, and beside the last few notches a mark like a flame.".
+  Person marged "Marged" at hall { Role "the keeper of the drovers' hall at the pass". Pronouns she. Peaceable. Manner grim. }
+  Entity pasture: fact "Something takes the drovers' cattle on the high pasture above the pass: whole beasts, at night, and the grass burnt where it lands. The lord of the pass pays for a sword against it.".
+  Entity guide: fact "Marged's son Dai knows the old drove road over the tops, where the dragon's ground is, and will go with whoever the hall vouches for.".
+  Topic pasture_t with marged "Ask Marged what the flame marks on the beam are" when not hallWarned(actor) once {
+    Says "'Droves that lost beasts on the high pasture,' says Marged. 'Not to wolves. Wolves don't burn the grass.' She does not look up at the beam. 'The lord pays for a sword. Nobody has collected.'".
+    On discuss { Assert hallWarned(actor). Assert knows(actor, pasture). }
+  }
+  Topic bran_sent with marged "Tell Marged that Bran ap Ifor sent you" when not welcomed(actor) once {
+    Says "Marged looks at you a long time. 'Bran's alive, then, and out of the Rì's lock-up,' she says. 'Thirty-six head?' And when you say it, she nods. 'You'll eat here, and sleep here, and my Dai will take you over the tops when you want to see what's on them. Bran doesn't send people.'".
+    On discuss { Assert welcomed(actor). Assert knows(actor, guide). }
+  }
+  Milestone m_welcomed "was welcomed at the drovers' hall at the pass" worth 60 when welcomed(party).
+  Goal welcomed(party).
+}

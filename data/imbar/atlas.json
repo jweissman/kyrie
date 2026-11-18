@@ -41,6 +41,7 @@
       "arts": ["sky", "stone"],
       "livelihoods": { "woods": "timber", "meadows": "wool", "heath": "honey", "fen": "reed", "fells": "slate", "harbour": "salt", "coast": "salt" },
       "settlements": ["Dun Rìerdan", "Caerwen", "Llanfor"],
+      "goings": ["rierdan-scales"],
       "facts": {
         "polity": "the Rì's own country, ruled from the Llys in Dun Rìerdan, the city of the seven powers",
         "people": "some forty thousand: twenty thousand in the city, the rest in two market towns and the villages of the river",
@@ -62,6 +63,7 @@
       "arts": ["deep", "sky"],
       "livelihoods": { "fells": "iron", "meadows": "wool", "heath": "wool", "woods": "charcoal", "fen": "peat", "harbour": "salt", "coast": "salt" },
       "settlements": ["Caer Brynach", "Pwll Haearn", "Hafod"],
+      "goings": ["brynach-hall"],
       "facts": {
         "polity": "a lordship of the fells, whose lord owes the Rì a war-band and will not pay the Rì's toll on the drove road",
         "people": "some four thousand: a walled market at the pass, iron-pit villages, and shielings on the high pasture",
