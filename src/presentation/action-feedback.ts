@@ -12,7 +12,7 @@ import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Canon } from '../canon/canon';
 import { ObservationText } from '../lang/observation-text';
 import { Itineraries } from '../ui/itinerary';
-import { Telling } from '../narrative/telling';
+import { Telling } from '../narrative/telling'; import { Days } from '../narrative/days';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -323,7 +323,8 @@ export class ActionFeedbackView {
       && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
     const nothing = quiet ? ` ${ActionFeedbackView.nothing[action.schema ?? ''] ?? 'Nothing comes of it.'}` : '';
     // Who came at the company is told between the fights, not before the first.
-    const response = split ? undefined : event.response;
+    // A wait's first light or dark is told as the voice tables told it this time (see Days).
+    const response = split ? undefined : Days.told(event) ?? event.response;
     const result = response ? `${response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
       unsaid.length ? unsaid.map(k => k.text).join(' ') :
         before.location?.id !== after.location?.id ? `You arrive at ${after.location?.name}.` :

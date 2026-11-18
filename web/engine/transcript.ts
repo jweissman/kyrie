@@ -3,6 +3,7 @@ import { Narrator } from '../../src/presentation/narrator';
 import type { ActionFeedback } from '../../src/presentation/action-feedback';
 import type { CampaignEvent } from '../../src/campaign/campaign';
 import type { Entry } from './protocol';
+import { Voice } from '../../src/narrative/voice';
 
 export interface Said {
   id: number; said: string; move: boolean; moved: boolean; place: string; placeName: string; elapsed: number;
@@ -22,8 +23,7 @@ export class PlayTranscript {
       event.prelude.response ?? ''] : [];
     // "Bran: set down a sack of bell-teeth." is how an item leaves a hand; the action says how it went.
     // What the voice tables told of it (a greeting, someone joining) is the story's as it was the page's.
-    // A fight's barks are told with its blows, not again after them.
-    const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey') && v.kind !== 'bark').map(v => v.text);
+    const voiced = (event.voiced ?? []).filter(v => !Voice.apart(v.kind)).map(v => v.text);
     const lines = [...ambush, ...(plain ? [] : [f.result]), ...voiced,
       ...f.immediate.map(l => l.replace(/^You witness: /, '')).filter(l => !/^[^:]+: set down /.test(l)),
       ...(c.moved ? [] : f.observations), ...f.events];

@@ -18,7 +18,7 @@ import { Compass } from './compass';
 import { Likenesses } from './likenesses';
 import { LensSubjects } from './lens-subjects';
 import { Glance } from './glance'; import { Instruments } from './instruments';
-import { SceneBudget } from './scene-budget';
+import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
 import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
@@ -400,9 +400,8 @@ export class Narrator {
     const fight = event.combat.some(e => e.type === 'end');
     // What the voice tables told of it (someone joining, a dog patted) stands for the bare result of the command.
     // How a skilled act went (feat) is told before what it came to: the lock picked, then the padlock open (BP-06).
-    // A fight's barks are its telling's, said in it (see CombatTelling.barks).
-    const [feat = [], voiced = []] = [true, false].map(f => (event.voiced ?? []).filter(v => !v.kind.startsWith('journey')
-      && v.kind !== 'bark' && (v.kind === 'feat') === f).map(v => ({ text: v.text, kind: 'telling' as const })));
+    const [feat = [], voiced = []] = [true, false].map(f => (event.voiced ?? []).filter(v => !Voice.apart(v.kind)
+      && (v.kind === 'feat') === f).map(v => ({ text: v.text, kind: 'telling' as const })));
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
     const bare = voiced.length && (/^You do /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));

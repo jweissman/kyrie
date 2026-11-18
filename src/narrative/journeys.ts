@@ -30,7 +30,6 @@ export class Journeys {
     const march = this.march(campaign, way, from, to);
     const values = { from: Editor.called(campaign, town && town !== there ? town : from),
       to: Editor.called(campaign, there ?? to), way: this.way(campaign, way), ...march?.words };
-    const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]?.replace(/^.*weather_/, '');
     // A way taken before is not told again: setting out and the light going, not the land it runs through nor coming
     // in sight of its end (the follow-up review read familiar journeys in full).
     const again = campaign.history.some(e => e.elapsed < event.elapsed && e.result === 'success'
@@ -47,7 +46,7 @@ export class Journeys {
     }
     const kinds: [string, Record<string, string>][] = [
       ...this.going(campaign, event, from, start) ? [] : [['journey-depart', { time: FictionalTime.part(start),
-        sky: this.skies[sky ?? ''] ?? (this.wintry(campaign, from, start) ? 'cold' : 'fair'),
+        sky: this.sky(campaign, from, start),
         ...FictionalTime.early(start) ? { light: 'early' } : {} }] as
         [string, Record<string, string>]],
       ...(march || chart) && !again ? [['journey-land', march?.land ?? this.ground(campaign, chart!, { way, from, to })] as
@@ -67,6 +66,12 @@ export class Journeys {
     const [behind, ahead] = [this.country(campaign, from), this.country(campaign, to)];
     return behind && ahead ? { land: { land: behind === ahead ? 'march-alike' : 'march' },
       words: { behind: RegionGeography.terrain(behind), ahead: RegionGeography.terrain(ahead) } } : undefined;
+  }
+  // The sky over a place at an hour, as the voice tables know it: the weather's, else cold or fair.
+  static sky(campaign: Campaign, place: string, elapsed: number): string {
+    const sky = campaign.world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]
+      ?.replace(/^.*weather_/, '');
+    return this.skies[sky ?? ''] ?? (this.wintry(campaign, place, elapsed) ? 'cold' : 'fair');
   }
   // A frost country's sky, and any in winter, is cold unless it is something else: no dew on the grass on a frozen
   // fell (A Winter in Carth's friction 9, the register's CTH-09).
