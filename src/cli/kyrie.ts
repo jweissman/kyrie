@@ -37,6 +37,7 @@ import { DrawnWorld } from '../world/drawn-world';
 import { AdventureNames } from './adventure-names';
 import { CheckpointStore } from '../session/checkpoint-store';
 import { Serve } from './serve';
+import { JourneyRead } from './journey-read';
 
 export class KyrieCli {
   static readonly usage = [
@@ -44,6 +45,7 @@ export class KyrieCli {
     '           (a picker on a terminal, plain lines through a pipe; --interactive or --headless to say which;',
     '            save keeps the game in one slot, resume takes it up; --save-as asks for a path instead)',
     '           bin/kyrie run --world <seed> [--origin o] [--as race/calling/Name] [--transcript out.jsonl] (JSON lines)',
+    '           bin/kyrie read record|render|note|replay|scene <dir> … (a journey read as the player met it, for review)',
     '           bin/kyrie serve                    (one game over stdin/stdout, a JSON line each way: see src/cli/serve.ts)',
     '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
@@ -92,6 +94,7 @@ export class KyrieCli {
       case 'prose': return ProseTool.main(rest);
       case 'adventure': return this.adventure(rest);
       case 'run': return Runner.main(rest);
+      case 'read': return JourneyRead.main(rest);
       case 'campaign': await Terminal.playCampaign(await Campaign.load(path, TerminalMode.rest(rest)[1] ?? 'campaign',
         NodeBundleSource.shared), TerminalMode.input(rest)); return 0;
       case 'replay': return this.replay(path);

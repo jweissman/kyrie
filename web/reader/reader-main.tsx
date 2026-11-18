@@ -23,14 +23,16 @@ class ReaderMain {
     // The commitment's sound, an address away while M22 tries it (?sound=1; see Tone).
     Tone.set(query);
     createRoot(root).render(<ReaderApp ref={ReaderMain.app} query={query} />);
-    // What automation may do besides look (scripts/journey-browser.ts): set out with a given company, do a command by
-    // its id, let a fight go on, and go back from a fight that has ended.
+    // What automation may do besides look (scripts/journey-browser.ts): set out with a given company, open a save,
+    // do a command by its id, let a fight go on, and go back from a fight that has ended.
     const app = () => ReaderMain.app.current;
     (window as unknown as { kyrieMono: unknown }).kyrieMono = { inspect: ReaderMain.inspect,
       exportTranscript: ReaderMain.transcript,
       begin: (r: Parameters<ReaderApp['opening']['setOutWith']>[0]) => app()?.opening.setOutWith(r),
       act: (command: string, said: string) => app()?.act(command, said), auto: () => app()?.auto(),
       back: () => app()?.back(),
+      // A save file opened as the title page opens one (the journey reader's scene view: scripts/journey-scene.ts).
+      resume: (text: string) => app()?.opening.resume(text),
       // A composition drawn over the same state, for captures (see Look).
       relook: (name: string) => { Look.set(name); app()?.forceUpdate(); } };
   }

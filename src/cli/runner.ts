@@ -2,7 +2,7 @@ import { appendFile } from 'node:fs/promises';
 import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
 import { ActionFeedbackView } from '../presentation/action-feedback';
-import { Narrator, type Told } from '../presentation/narrator';
+import { Narrator, type Exchange, type Told } from '../presentation/narrator';
 import type { Lens, Promoted, Successor } from '../presentation/glance-types';
 import { Offers, type ActType, type Bearing, type Offer, type Offered as Glanced } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
@@ -167,6 +167,12 @@ export class Runner {
       if (command) { return command; }
     }
     return undefined;
+  }
+  // What came of the last act as the narrator types it (someone's words, the telling, an event, a change), for the
+  // journey reader's step inspector (src/cli/journey-capture.ts); none on arriving at the start.
+  exchange(): Exchange | undefined {
+    const c = this.campaign;
+    return this.told && Narrator.leaf(c, ScreenModel.build(c), this.told).exchange;
   }
   // A line from an agent, answered by what the turn then says, or an error.
   async ask(line: string): Promise<Said | { error: string }> {
