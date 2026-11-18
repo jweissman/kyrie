@@ -104,9 +104,14 @@ export class GlanceLines {
   private static fresh(first: boolean, recall: CompanyRecall, text: string): boolean {
     return first || !recall.read(text);
   }
+  // Who is here with nothing else said of them: a creature by what it is, its kind as it varies (a barrow ghoul, not
+  // a ghoul), where its name does not say it. "The keeper of the vault is here." had been all the vault said of what
+  // killed the company (cold play 3, CL-13).
   private static here(row: TargetRow): string {
-    const name = row.name.split(', ')[0]!;
-    return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${row.many ? 'are' : 'is'} here.`;
+    const name = row.name.split(', ')[0]!, kind = row.kind === 'person' ? undefined : row.entry?.name.toLowerCase();
+    const named = !kind || name.toLowerCase().includes(kind.split(' ').at(-1)!.replace(/s$/, ''));
+    const what = named ? '' : `: ${row.many ? `${kind}s` : `${/^[aeiou]/.test(kind) ? 'an' : 'a'} ${kind}`}`;
+    return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${row.many ? 'are' : 'is'} here${what}.`;
   }
   private static curl(text: string): string { return Typography.curl(FictionalTime.prose(text)); }
   private static owned(kept: Line[], defs: Map<string, Observation>,
