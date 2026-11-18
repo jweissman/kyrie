@@ -8,6 +8,16 @@ rules for all of Kyrie's text; this page is the narrower rule for describing a p
 2026, after the owner read a generated market-place aloud and found it bland, cluttered and wry where it should have
 been vivid.
 
+> **Superseded in part, 17 November 2026.** The owner's new default for ordinary events, travel, generated
+> descriptions, observations and consequences is plain, exact, literal English ([plain-prose.md](plain-prose.md)).
+> Where this page asks for more than that it is superseded: "the senses first" is no longer a requirement (sense
+> detail goes in when it is what the player would notice first); "one telling detail" is a limit, not an invitation,
+> and none is the default; the before/after example's sensory additions ("slick with trodden cabbage leaves", "his
+> voice cracking on the top note") are no longer the model; "vary it" is not met with synonyms. The order of a
+> place's telling, what never goes in a description, the grammar checks, the kind before the name and the banned
+> table stand; the banned table is now enforced by the prose lint (`data/editorial/prose-lint.json`). The text below
+> is kept as written on 7 November.
+
 ## A place is told in three moves
 
 1. **The senses first.** What the eye meets on arriving, then what is heard or smelled. One or two sentences.
