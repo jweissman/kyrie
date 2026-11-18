@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import type { CreatureStore } from '../src/creature-store';
+import { RunnerFind } from './support/runner-find';
 
 // A new verb, and how it is opened (round 9's diagnosis of the owner's OR-60: "or unlock new adventuring verbs"): the
 // drill-yard named its lessons, "only to one who has done enough out in the world to have earned it", and never what
@@ -13,11 +14,7 @@ class Yard {
     const r = new Runner(journey.session);
     return { journey, r, s: r.said() as Said };
   }
-  static async act(r: Runner, s: Said, label: RegExp): Promise<Said> {
-    const o = [...s.offer.primary, ...s.offer.rest].find(x => label.test(x.label));
-    if (!o) { throw new Error(`no ${label} among ${[...s.offer.primary, ...s.offer.rest].map(x => x.label).join(' | ')}`); }
-    return await r.ask(JSON.stringify({ act: o.id })) as Said;
-  }
+  static act(r: Runner, s: Said, label: RegExp): Promise<Said> { return RunnerFind.act(r, s, label); }
 }
 describe('a lesson at the drill-yard', () => {
   it('says what earns it, then what it costs, and is taught once both are had', async () => {

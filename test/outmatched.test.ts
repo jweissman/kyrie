@@ -3,6 +3,7 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
+import { RunnerFind } from './support/runner-find';
 
 // A job whose fight is beyond a company alone, by its own reckoning (OR-64, the owner, 17 November: "way too easy
 // for a starting mage to die … the initial quest-giver could hint 'you need to get some friends'"): the one who
@@ -17,8 +18,7 @@ class Quarry {
     Quarry.session = journey.session;
     let s = r.said() as Said;
     for (const label of [/^To the landing at/, /^Into the Lucky Phoenix/, /^Ask Eamon about the old quarry$/]) {
-      const o = [...s.offer.primary, ...s.offer.rest].find(x => label.test(x.label))!;
-      s = await r.ask(JSON.stringify({ act: o.id })) as Said;
+      s = await RunnerFind.act(r, s, label);
     }
     return s.scene.lines.join(' ');
   }

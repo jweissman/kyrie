@@ -7,6 +7,7 @@ import type { Lens, Promoted, Successor } from '../presentation/glance-types';
 import { Offers, type ActType, type Bearing, type Offer, type Offered as Glanced } from '../presentation/offer';
 import { ScreenModel } from '../ui/screen-model';
 import type { Act, Screen } from '../ui/screen-types';
+import { TalkFocus } from '../ui/talk-focus';
 import { Typography } from '../presentation/typography';
 import { AimSaid } from '../presentation/aim-said';
 import { Undertakings } from '../presentation/undertakings';
@@ -64,7 +65,11 @@ export class Runner {
   private readonly payoff = new RunnerPayoff();
   private readonly scene = new TerminalScene();
   private readonly fight = new RunnerFight();
-  private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent> };
+  private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent>;
+    with?: string };
+  // Whom the company is talking with: turned to (talk:<id>), talked to, or asked something; until it does anything
+  // else or goes elsewhere (the page's Conversation attention).
+  private with?: string;
   constructor(readonly session: PlaySession) {}
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
   get scenes(): Presented[] { return this.scene.told.map(t => ({ ...t, sentences: TerminalWalk.count(t.lines) })); }
@@ -112,8 +117,51 @@ export class Runner {
       .map(d => [d.id, d])).values()]
       .filter(d => !had.has(`travel:${d.id}`)).map(d => ({ id: `travel:${d.id}`, label: `Set out for ${d.name}`,
         aspects: [], type: 'journey' as const, minutes: d.minutes, marks: [] }));
-    return { primary, rest: [...rest, ...journeys] };
+    return { primary, rest: [...Runner.talks(screen, rest, primary, this.with), ...journeys] };
   }
+  // What can be said to each of the people here, one row a person, as the page holds it under their talk (CL-07, the
+  // cold plays: 30 asks to six people in the rest at the Stone Horn). The one the company is talking with (see
+  // Runner.with) has theirs first, talk before trade; anyone else is their talk alone: its own row where it is one
+  // ("Talk to Kynes", a world act), else talk:<id>, which turns to them taking no time.
+  private static talks(screen: Screen, rest: Offered[], primary: Offered[], talking?: string): Offered[] {
+    const whose = Runner.whose(screen, [...primary, ...rest]), paid = Runner.services(screen);
+    const many = new Set([...whose.values()].filter((p, i, all) => all.indexOf(p) !== i && p !== talking));
+    const theirs = rest.filter(o => talking && whose.get(o.id) === talking);
+    const out: Offered[] = [...theirs.filter(o => !paid.has(o.id)), ...theirs.filter(o => paid.has(o.id))];
+    const led = new Set(primary.map(o => whose.get(o.id) && /^talk_to\(/.test(o.id) ? whose.get(o.id) : ''));
+    const told = new Set<string>();
+    for (const o of rest.filter(x => !theirs.includes(x))) {
+      const p = whose.get(o.id);
+      if (!p || !many.has(p)) { out.push(o); continue; }
+      if (told.has(p) || led.has(p)) { continue; }
+      told.add(p);
+      const own = rest.find(x => x.id === `talk_to(${p})`);
+      out.push({ ...own ?? { id: `talk:${p}`, label: Typography.plain(Runner.called(screen, p) ?? `Talk to ${p}`),
+        type: 'talk' as const, marks: [] }, aspects: [...new Set(rest.filter(x => whose.get(x.id) === p)
+        .flatMap(x => x.aspects))] });
+    }
+    return out;
+  }
+  // Each command done with one of the people here, by whom: their own acts as the screen holds them under them.
+  // A word asked of someone (ask(informant, topic)) is theirs too, where the screen holds it apart from them.
+  private static whose(screen: Screen, rest: Offered[] = []): Map<string, string> {
+    const here = screen.people.filter(p => p.kind === 'person' && !p.state), ids = new Set(here.map(p => p.id));
+    return new Map([...rest.flatMap(o => [/^ask\(([^,]+),/.exec(o.id)?.[1] ?? ''].filter(p => ids.has(p))
+      .map(p => [o.id, p] as const)),
+    ...here.flatMap(p => Runner.flat(p.acts).flatMap(a => a.command ? [[a.command, p.id] as const] : []))]);
+  }
+  // What is had of someone for coin or work, said after what is said to them (TalkFocus.services: the page's own, and
+  // the haggling and buying of a trader's wares, which the page keeps with them).
+  private static services(screen: Screen): Set<string> {
+    return new Set(screen.people.flatMap(p => Runner.flat(p.acts)).filter(a => a.command
+      && (TalkFocus.services.has(a.does ?? '') || ['haggle', 'buy_item'].includes(a.does ?? ''))).map(a => a.command!));
+  }
+  // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
+  private static called(screen: Screen, person: string): string | undefined {
+    const talk = Runner.flat(screen.people.find(x => x.id === person)?.acts ?? []).find(a => a.does === 'talk_to');
+    return talk && (talk.alone ?? talk.label);
+  }
+  private static flat(acts: Act[]): Act[] { return acts.flatMap(a => [a, ...Runner.flat(a.children ?? [])]); }
   // Each by what it does: an opener led for something within it (a question the aim waits on, a bed for the night) by
   // that, and called as that is (the terminal's "Ask Wat about Father"). Done by its own command, "Talk to Eamon", led
   // for what he knew of the country round, had taken a bed at his inn, nine nights running (TB-04).
@@ -202,12 +250,17 @@ export class Runner {
     const screen = ScreenModel.build(this.campaign);
     const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer, g?.acts);
     // What pulls next is offered too, by its own act.
-    const offered = [...o.primary, ...o.rest].map(x => x.id).concat(g?.next?.command ?? []);
+    // And what is under each person's talk, offered as it is on the page (see Runner.talks).
+    const under = Runner.doable(screen, this.names(), g?.offer?.rest ?? []);
+    const offered = [...o.primary, ...o.rest, ...under].map(x => x.id).concat(g?.next?.command ?? []);
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}` }; }
+    if (asked.act.startsWith('talk:')) { this.with = asked.act.slice(5); return this.said('look'); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (asked.act.startsWith('follow:')) { await this.session.leg(asked.act); return this.said('look'); }
+    const talking = /^talk_to\(([^)]+)\)$/.exec(asked.act)?.[1]
+      ?? Runner.whose(screen, [...o.primary, ...under]).get(asked.act);
     this.doing = { act: asked.act, before: PlayerView.observe(this.campaign),
-      leg: this.session.leg(asked.act, this.fight.controller) };
+      leg: this.session.leg(asked.act, this.fight.controller), ...talking ? { with: talking } : {} };
     return this.went();
   }
   // The act going on: its next turn of a fight, if one began, else what came of it.
@@ -227,6 +280,7 @@ export class Runner {
     const moved = before.location?.id !== this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
     const feedback = this.fight.closed(ActionFeedbackView.read(this.campaign, event, before));
     this.told = { event, feedback, said: doing.act, moved };
+    this.with = moved ? undefined : doing.with;
     if (before.location?.id) { this.payoff.note(before.location.id, RunnerPayoff.changed(event, doing.act)); }
     this.n++;
     return this.said();
