@@ -25,6 +25,8 @@ export interface ActionFeedback {
   // Of the immediate, what lasting conditions ran out while it was done (a torch guttering out in the middle of a
   // search): told as what happened, not as a blow of a fight it fell beside (round 7: "the torch died silently").
   lapsed?: string[];
+  // What the legs of a journey before its last brought, one line each, told before where it came (see Travel.way).
+  way?: string[];
   // Aims taken up or come to by it: reading the makers' marks made the brothers' errand "You have copied the old
   // writing at Riwustagn. Ruven at Faennsīe should see it.", and only the notes said so (play 7).
   aims?: string[];
@@ -257,6 +259,16 @@ export class ActionFeedbackView {
     return !!Canon.conditions[e.actor]?.law && next.actor === e.actor && next.target === e.target
       && next.damageType === e.damageType && !next.stoppedBy;
   }
+  // What lasting conditions ran out in an event, in the words they are told by (a leg of a journey: see Travel).
+  static lapses(campaign: Campaign, event: CampaignEvent): string[] {
+    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds, BandNames.of(campaign));
+    return this.lapsed(event, names).lapsed ?? [];
+  }
+  // What ran out in it, and what a journey's legs before it brought, where it is a journey's last (see Travel.way).
+  private static ran(event: CampaignEvent, names: Parameters<typeof CombatPresenter.format>[1]): Pick<ActionFeedback,
+    'lapsed' | 'way'> {
+    return { ...this.lapsed(event, names), ...event.way?.length ? { way: [...event.way] } : {} };
+  }
   // What lasting conditions ran out (a light, a ward): by the event, and the condition's lifetime.
   private static lapsed(event: CampaignEvent, names: Parameters<typeof CombatPresenter.format>[1]):
     { lapsed?: string[] } {
@@ -350,7 +362,7 @@ export class ActionFeedbackView {
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
-      rolls, ...this.lapsed(event, names), discoveries: learned.map(k => shown.get(k.id) ?? k.text),
+      rolls, ...this.ran(event, names), discoveries: learned.map(k => shown.get(k.id) ?? k.text),
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
       ...amended.length ? { amended } : {}, ...taken.length ? { taken } : {}, ...this.borne(campaign, before, after),

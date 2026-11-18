@@ -428,7 +428,7 @@ export class Narrator {
     // Grand Tour's "Sennet wakes to the winch-gang's horn" was told before the night's bed and supper: GTR-X05).
     const opened = chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [], first = told.moved || waiting;
     const lines: ExchangeLine[] = [
-      ...first ? opened : [],
+      ...first ? opened : [], ...(feedback.way ?? []).map(text => ({ text, kind: 'event' as const })),
       ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...result,
       ...first ? [] : opened,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),

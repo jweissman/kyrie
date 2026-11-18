@@ -112,7 +112,9 @@ export class PlaySession {
       // None taken: a wait, where the company can wait; else what was last told (one held where it lies cannot).
       const held = !PlayerView.choices(this.campaign).some(c => c.choice.id === 'wait');
       const last = done.legs.at(-1)?.event ?? (held ? this.campaign.history.at(-1) : undefined);
-      return last ?? this.perform('wait', controller);
+      // Told with what its legs before brought (see Travel.way): a copy, not the campaign's record.
+      const way = Travel.way(done);
+      return last ? way.length ? { ...last, way } : last : this.perform('wait', controller);
     }
     if (command.startsWith('follow:')) { return this.perform(command, controller); }
     const to = this.whither(command);

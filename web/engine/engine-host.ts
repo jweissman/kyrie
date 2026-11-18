@@ -272,7 +272,10 @@ export class EngineHost {
     // Come there, or with no way on known from where it stopped, nothing is held: the page had said "Go on to …
     // (0 minutes)" after a set-out that found no way, and going on only said so again (the navigation review).
     if (done.arrived || !plan) { this.bound = undefined; }
-    const frame = trail.last ?? this.settled(), legs = trail.legs;
+    // Each leg as it was told, and what it brought that its telling does not (water gone round: see Travel.found).
+    const legs = trail.legs.map((l, i) => ({ ...l,
+      journey: [...l.journey, ...done.legs[i] ? Travel.found(done.legs[i]) : []] }));
+    const frame = trail.last ?? this.settled();
     const to = plan?.name ?? Travel.named(session.campaign, destination) ?? 'where you set out for';
     const travel = { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} };
     // The journey is one line of the glance where it ends; its legs stay with the place's full telling.

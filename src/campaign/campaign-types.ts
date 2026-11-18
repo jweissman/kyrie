@@ -75,4 +75,6 @@ export interface CampaignEvent {
   voiced?: { id: string; kind: string; actor?: string; text: string }[];
   // The world's words heard and held back, as told lately: which perceptions (see RuleWords).
   unsaid?: string[];
+  // Of a journey's last leg as the journey returns it, never kept: what its legs before brought (see Travel.way).
+  way?: string[];
 }
