@@ -100,8 +100,9 @@ export interface TargetRow {
   many?: boolean;
   // What can be seen of them now ("Wren stands with one hand shading her eyes"), told with them, not in the prose.
   says?: string[];
-  // For those the company could fight: how the most seasoned member reckons a fight would go.
-  reckoning?: { danger: Danger; text: string };
+  // For those the company could fight: how the most seasoned member reckons a fight would go, and, for one it could
+  // lose, the help that can be had (FightHelp, CL-52).
+  reckoning?: { danger: Danger; text: string; help?: string };
   // Someone who has joined the company: not here so much as with you, and to be talked to wherever you are.
   companion?: boolean;
   // The painting shown beside them: for what they do, not of them (see Likeness), and how it is credited.

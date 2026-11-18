@@ -72,7 +72,9 @@ export class Marks {
     const row = here.screen.people.find(p => p.id === s.id);
     const reckoning = act?.reckoned ?? (row?.reckoning && c.label === 'Attack' ? row.reckoning : undefined);
     if (!reckoning || !c.command) { return undefined; }
-    return { kind: 'fight', said: [ChoiceList.chances[reckoning.danger], reckoning.text].filter(Boolean).join(': '),
+    const help = 'help' in reckoning && reckoning.help ? [reckoning.help] : [];
+    const said = [[ChoiceList.chances[reckoning.danger], reckoning.text].filter(Boolean).join(': '), ...help].join(' ');
+    return { kind: 'fight', said,
       danger: reckoning.danger, ...['grave', 'deadly'].includes(reckoning.danger) ? { ask: true } : {} };
   }
   // A danger here: someone the company could fight who is not with it, nor down (as SceneModel.threat has it).

@@ -77,7 +77,13 @@ export class RunnerOffer {
   private static made(id: string, label: string, o?: Glanced): Offered {
     return { id, label: Typography.plain(label), aspects: o?.aspects ?? [], type: o?.type ?? 'act',
       ...o?.minutes ? { minutes: o.minutes } : {}, marks: o?.marks.map(m => m.kind) ?? [],
-      ...o?.bearing ? { bearing: o.bearing } : {} };
+      ...o?.bearing ? { bearing: o.bearing } : {}, ...this.aside(o) };
+  }
+  // A fight that could be lost says so on its row, its odds and the help that can be had, as the page and the
+  // terminal ask it before it is done (Grave): the runner had said only "danger" over a fight that killed (CL-52).
+  private static aside(o?: Glanced): Pick<Offered, 'aside'> {
+    const said = o?.marks.find(m => m.kind === 'fight' && m.ask)?.said;
+    return said ? { aside: Typography.plain(`${said.charAt(0).toUpperCase()}${said.slice(1)}`) } : {};
   }
   // The rest by lens, in the order they are met (the one talked with first, CL-07), and flat in that order.
   private static grouped(screen: Screen, rest: Offered[], at: { lens: Map<string, Lens>; talking?: string })

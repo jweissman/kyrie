@@ -133,12 +133,12 @@ export class ChoiceList {
     const dead = t.device ? 'broken' : 'dead';
     const note = [t.activity ?? t.note, t.state === 'dead' ? dead : t.state ? 'down' : ''].filter(Boolean).join(' · ');
     const about = [...t.says ?? [], t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : '',
-      t.reckoning?.text].filter(Boolean).join(' ');
+      t.reckoning?.text, t.reckoning?.help].filter(Boolean).join(' ');
     // A fight or a risk comes after the gentler ways with the same subject, so Enter on arrival is never a blow; an
     // attack says what the company makes of its chances.
     const choices = this.flatten(t.acts, t.id, tone).map(c => c.label === 'Attack' && t.reckoning ? { ...c,
       note: [c.note, this.chances[t.reckoning.danger]].filter(Boolean).join(' · '),
-      about: [c.about, t.reckoning.text].filter(Boolean).join(' ') } : c);
+      about: [c.about, t.reckoning.text, t.reckoning.help].filter(Boolean).join(' ') } : c);
     return { id: t.id, title: t.name, tone, glyph, ...(note ? { note } : {}), ...(about ? { about } : {}),
       ...(t.says?.some(x => fresh.includes(x)) ? { fresh: true } : {}),
       choices: [...choices.filter(c => !c.risk), ...choices.filter(c => c.risk)] };

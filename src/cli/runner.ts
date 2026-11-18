@@ -31,8 +31,9 @@ import { FightBegun } from '../presentation/fight-begun';
 // agent acts on what the page and the terminal would have it act on.
 // opens: an opener's rows, where it is one: taken, it opens (it does nothing of its own: TB-12).
 // says: an opener's focus, what opening it reads out whole (the speaking door's riddle: Doable's Row.says).
+// aside: what the row says before it is chosen, of a fight that could be lost: its odds and the help to be had (CL-52).
 export interface Offered { id: string; label: string; aspects: string[]; type: ActType; minutes?: number;
-  marks: string[]; bearing?: Bearing; opens?: Offered[]; says?: string }
+  marks: string[]; bearing?: Bearing; opens?: Offered[]; says?: string; aside?: string }
 // What the runner says on each turn: how it was come to (arriving somewhere, what came of an act, or looked at on
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
 // scene.prose: of its lines, the narration alone (not the heading nor the aim and what is needed), as the scene

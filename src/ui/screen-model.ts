@@ -23,6 +23,7 @@ import type { Entity } from '../lang/module';
 import { Withheld } from './withheld'; import { LightLeft } from './light-left';
 import { CompanyRecall } from '../presentation/company-recall';
 import { DangerSense } from '../presentation/danger-sense';
+import { FightHelp } from '../presentation/fight-help';
 import { ChoiceGrouping, type Grouped } from './choice-grouping';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
@@ -62,8 +63,8 @@ export class ScreenModel {
     const charted = new ChartModel(world, view.actor, entities).build(visited, here);
     // Each person in the one painting they are met in wherever they are (see Portraits).
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
-      ...this.marks(campaign, p.id, { along, stakes, owed }),
-      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
+      ...this.marks(campaign, p.id, { along, stakes, owed }), ...FightHelp.reckoning(campaign, p.id, grouped.targets),
+      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {},
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
     const screen: Screen = {
       title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
@@ -95,7 +96,8 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
-    return { ...screen, camp: LightLeft.warned(screen.camp, screen.expedition.flame),
+    return { ...screen, people: FightHelp.on(campaign, screen), camp: LightLeft.warned(screen.camp,
+      screen.expedition.flame),
       ...TownPlan.of(screen, entities, world, { visited, recall: CompanyRecall.of(campaign) }) };
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
@@ -344,15 +346,6 @@ export class ScreenModel {
       : told.description;
   }
   private static bare(s: string): string { return s.toLowerCase().replace(/^(an?|the) /, ''); }
-  // A group the company could attack is weighed up before it does; not one that has let it be (the hobs at the gate,
-  // parleyed with and asking it in, had been led with as a danger to attack, "easily won": OWN-57's play).
-  private static reckoning(campaign: Campaign, id: string, grouped: Grouped): Pick<TargetRow, 'reckoning'> {
-    if (!(grouped.targets.get(id) ?? []).some(a => a.label === 'Attack')) { return {}; }
-    const world = campaign.world, company = campaign.playerActor;
-    if (company && world.relates('tolerates') && world.test(ModuleWriter.call('tolerates', id, company))) { return {}; }
-    const reckoning = DangerSense.reckon(campaign, id);
-    return reckoning ? { reckoning } : {};
-  }
   // The formations the company was formed as: every member holds them, so the first living one says.
   private static formations(campaign: Campaign): Screen['formations'] {
     const ids = campaign.readout.partyIds, member = campaign.readout.creatures.find(c => ids.includes(c.id));
