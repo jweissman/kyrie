@@ -106,5 +106,32 @@ What it cannot do:
   tables share lines) lists every place, up to four.
 - It traces against the sources as they stand when the page is made, not as they stood when the journey was played.
   After an edit, a captured sentence may no longer be found, and that is the point of the replay.
-- Short sentences ("Time passes.") match wherever they are written, which is often everywhere.
+- Short sentences ("Time passes.") match wherever they are written, which is often everywhere. A template
+  sentence needs ten letters of its own in one stretch to be matched at all.
 - Fight lines are not traced.
+
+On the example below, 96 of the 102 distinct sentences outside the fight were exact or template, 3 partial and 3
+none: "You take Bran's tally-stick." (an item's name joined to a verb), "Ask Leif.'" (written `Ask {{t}_priest}.'` in
+undertown.kyrt: a template with too few words of its own to be matched safely) and "Rats in the cellar are here." (made by the narrator).
+
+## The example
+
+[iscoed-drove/](iscoed-drove/) is `--world iscoed --as human/warrior/Wenna`, 45 steps by the policy. It goes from the
+landing at Porthalen through the drove (customs-house, pens, the Black Rhyne), the Stone Horn's taproom (a recruit,
+the tally-stick, the Merrowdale notice), the well-post's notices, and Porthalen Hall (hall, library, loggia, garden,
+kitchen), down to the Hall cellar and the first turns of a fight with its rats.
+
+- `captured.json` was recorded at the tool's own commit on its branch (8f7bb0c9, before it was rebased onto main).
+  The game code it played was e04b4264's. Recording it twice gave the same narration step for step.
+- `notes.json` has six notes, one each of causality, diction, duplication and excess, plus a second causality and a
+  second diction. They are marked in `reader.html`.
+- `replay.json` and `compare.html`/`compare.md` are a **demonstration**. The "after" was played in a throwaway
+  worktree with three sentences revised by hand. Those changes are kept in
+  [iscoed-drove/demo-revision.diff](iscoed-drove/demo-revision.diff) and were never landed, so the replay's label
+  says "with changes not committed". Three of the 46 steps read otherwise, and three notes are no longer shown. A
+  replay under main at the time changed nothing on this route. After the prose revision lands, run
+  `bin/kyrie read replay doc/architecture/mission-22/journey-reader/iscoed-drove` to replace the demonstration with
+  the real before-and-after.
+- The scene view of step 22 ("Ask the steward of the Hall about the old road") was opened in the built page from a
+  12 MB checkpoint made in 6 s. The page told the steward's answer word for word as captured. The checkpoint is not
+  kept here; `read scene` makes it again.

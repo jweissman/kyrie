@@ -1,0 +1,52 @@
+{
+ "about": "Editorial notes on captured.json, by step and the exact words quoted from what that step showed. Added by `kyrie read note`, or written by hand; read by `kyrie read render` and `kyrie read replay`.",
+ "notes": [
+  {
+   "step": 1,
+   "kind": "causality",
+   "quote": "You take Bran’s tally-stick.",
+   "note": "Nobody hands it over and nothing says why it is wanted: the boy answered a question about the count, and a stick arrives in the pack.",
+   "suggest": "Owain gives you Bran’s tally-stick to carry to the customs-house.",
+   "by": "reader-1"
+  },
+  {
+   "step": 4,
+   "kind": "diction",
+   "quote": "The smell reaches you before the sight does.",
+   "note": "Says that there is a smell, not what it is, after the sight has already been described.",
+   "suggest": "It stinks of rotting weed and silt.",
+   "by": "reader-1"
+  },
+  {
+   "step": 14,
+   "kind": "duplication",
+   "quote": "The dead man kept the count of oak cut behind the Hall’s chain, and who bought it.",
+   "note": "Coming back into the taproom tells the tally-stick's reading again, word for word (first told at step 10), in place of the room.",
+   "by": "reader-1"
+  },
+  {
+   "step": 19,
+   "kind": "causality",
+   "quote": "A wheel; no wing.",
+   "note": "Told before the receipt it is about: the reader meets the conclusion before the seal.",
+   "suggest": "(after the receipt) The seal is a wheel with no wing.",
+   "by": "reader-1"
+  },
+  {
+   "step": 30,
+   "kind": "excess",
+   "quote": "A fox’s, with young: a vixen, with kits.",
+   "note": "Says three times what the sentence before it said once.",
+   "suggest": "(cut)",
+   "by": "reader-1"
+  },
+  {
+   "step": 34,
+   "kind": "diction",
+   "quote": "Rats in the cellar are here.",
+   "note": "A template's grammar shows through: a label put where a sentence should be, and said before the rats are seen.",
+   "suggest": "(cut: the next sentence shows the rats)",
+   "by": "reader-1"
+  }
+ ]
+}
