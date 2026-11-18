@@ -1,0 +1,50 @@
+{
+  "about": "Suspicious constructions for editorial review (doc/authoring/plain-prose.md). Not failures: each is a shape that has hidden what happened in at least one sentence met in play or in the first hour's tables (its evidence), and is often fine elsewhere. An editor reads the matches with `bun scripts/prose-lint.ts --watch` and keeps, cuts or plainly rewrites each. Ordinary words are never listed here for one bad sentence; a construction is.",
+  "watch": [
+    {
+      "pattern": "^With (the|a|an|his|her|their) [a-z'-]+ [a-z]+ing\\b",
+      "why": "an absolute 'with' clause opening a sentence puts the person doing the work in a side clause and the thing in the main one",
+      "evidence": "With the wagoner roaring at the wheel, the cart comes up out of the ditch in a slither of meal. (data/origins/prologue.kyrt, the owner, 17 November)"
+    },
+    {
+      "pattern": "\\b(with|in) a (lurch|slither|flurry|welter|clatter|scatter|shower|spray|rush|gust|swirl) of\\b",
+      "why": "a noun of motion standing where a verb would say what moved",
+      "evidence": "the cart comes up out of the ditch in a slither of meal (data/origins/prologue.kyrt, the horse's head, before 17 November; it had been 'with a lurch and a slither of meal' before 13 November)"
+    },
+    {
+      "pattern": "\\blike an? [a-z]+",
+      "why": "a simile on an ordinary event: keep it where it tells the reader something they could not otherwise picture (a wonder, a sound with no name), cut it where the plain thing is already clear",
+      "evidence": "{Actor} pushes {their} head hard against your hand and purrs like a kettle. (data/voice/pet.json); the wheel comes up out of the ditch with a noise like a boot coming out of a bog (data/generation/scenes/traffic.json)"
+    },
+    {
+      "pattern": "\\bas (if|though)\\b",
+      "why": "a supposition the narrator adds to a plain act; also counted by test/small/empty-words",
+      "evidence": "He counts the coin into your hand as though each one hurt him. (data/origins/prologue.kyrt, the carter's bargain)"
+    },
+    {
+      "pattern": "\\b(the )?(land|country|road|wind|rain|heat|sky|fog|wood|light|night) (changes its mind|does not notice|sets out|finds you|leans on|knows|sits on|thinks)",
+      "why": "weather and land given a mind: a figure where the weather could be said",
+      "evidence": "Halfway between the stones the land changes its mind. (data/voice/journey.json, journey-land.march.2)"
+    },
+    {
+      "pattern": "\\b(as it always is|as they always do|which is as much [a-z]+ as|it is not a [a-z]+ [a-z]+\\.)",
+      "why": "the narrator reasoning aloud or winking at the reader",
+      "evidence": "The last mile is the longest, as it always is. (data/voice/journey.json, journey-long.3); It is not a dignified dog. (data/voice/pet.json)"
+    },
+    {
+      "pattern": "\\b(seems?|appears?) to\\b",
+      "why": "a hedge: say what is seen, or that it is not known",
+      "evidence": "{Actor} looks you over, and does not seem to like what {they} [see|sees] any better than anything else. (data/voice/address.json: a hedge and a wink in one greeting)"
+    },
+    {
+      "pattern": "\\byour (feet|boots|bones|eyes) (know|tell|say)",
+      "why": "a body part given the knowing",
+      "evidence": "It is a long walk, and your feet know it by the end. (data/voice/journey.json, journey-long.1)"
+    },
+    {
+      "pattern": "\\b(sucks a tooth|gives tongue|for form's sake|before you do)\\b",
+      "why": "a stock idiom of the engine's voice; fine once, a tic when the same speaker class says it every time",
+      "evidence": "{seller} sucks a tooth, and names a lower price for the {goods}. (data/rules/services.kyr, haggling: two rules)"
+    }
+  ]
+}

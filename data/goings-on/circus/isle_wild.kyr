@@ -116,7 +116,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, stealth, dc_hard).
     On success { Assert tolerates(three_horns, actor). }
     Result "You walk as they graze: three steps, a stop, three steps, a stop. You do not look at the calf. The cow's head follows you across the clay like a weathervane, and lets you go.".
-    Otherwise "The cow has a exact idea of how far away you are, and it is not as far as you thought.".
+    Otherwise "The cow has an exact idea of how far away you are, and it is not as far as you thought.".
   }
   Action sit_with_herd(actor: group, site: place) "Ask Mumchance to sit by the calf" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and at(three_horns, plain_mid) and mumchanceAboard(wapshotts) and (mumNo(wapshotts) or mumMatters(wapshotts)) and not tolerates(three_horns, actor).

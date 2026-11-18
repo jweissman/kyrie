@@ -46,14 +46,14 @@
       "when": {
         "moment": "first"
       },
-      "text": "{Actor} gives you the look people keep for strangers who have stopped walking. ‘Can I help you?’"
+      "text": "{Actor} looks at you as at a stranger. ‘Can I help you?’"
     },
     {
       "id": "address.again.1",
       "when": {
         "moment": "again"
       },
-      "text": "‘You again,’ [say|says] {actor}, and it seems to be all right."
+      "text": "‘You again,’ [say|says] {actor}, without complaint."
     },
     {
       "id": "address.again.2",
@@ -83,7 +83,7 @@
         "moment": "first",
         "time": "morning"
       },
-      "text": "‘Morning,’ [say|says] {actor}, the way people say it before they have decided about you."
+      "text": "‘Morning,’ [say|says] {actor}, and looks at you carefully."
     },
     {
       "id": "address.again.night",
@@ -179,7 +179,7 @@
         "moment": "first",
         "manner": "grim"
       },
-      "text": "{Actor} looks you over, and does not seem to like what {they} [see|sees] any better than anything else."
+      "text": "{Actor} looks you over, and does not like what {they} [see|sees]."
     },
     {
       "id": "address.again.grim",
@@ -235,7 +235,7 @@
         "moment": "again",
         "manner": "stoic"
       },
-      "text": "{Actor} inclines {their} head, which seems to be a whole greeting."
+      "text": "{Actor} inclines {their} head, and says nothing."
     },
     {
       "id": "address.again.stoic.3",
@@ -315,7 +315,7 @@
         "moment": "again",
         "manner": "compassionate"
       },
-      "text": "‘How are you getting on?’ [ask|asks] {actor}, and seems to want to know."
+      "text": "‘How are you getting on?’ [ask|asks] {actor}, and waits for the answer."
     },
     {
       "id": "address.again.compassionate.3",

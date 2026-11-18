@@ -47,7 +47,7 @@ Module world_services "Lodging, goods and camping" {
     Resolve check(actor, performance, dc_fair).
     On success { Set singsAgain(actor) to watch(clock) + 72. Increase quantity(actor, gold) by 5. }
     On failure { Set singsAgain(actor) to watch(clock) + 72. Increase quantity(actor, gold) by 1. }
-    Result "The room goes quiet for you, and then joins in; by the end there are coins on the table, five of them yours.".
+    Result "The room goes quiet to listen, and then sings along. By the end there are coins on the table, five of them yours.".
     Otherwise "You sing, and the room talks over you. Someone throws a coin, out of pity.".
   }
   Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
@@ -100,7 +100,7 @@ Module world_services "Lodging, goods and camping" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Decrease goodsPrice(seller, goods) by 1. Assert haggled(seller, goods). }
     On failure { Increase goodsPrice(seller, goods) by 1. Assert haggled(seller, goods). }
-    Result "{seller} sucks a tooth, and names a lower price for the {goods}.".
+    Result "{seller} thinks it over, and names a lower price for the {goods}.".
     Otherwise "{seller} will not be argued with, and the {goods} is dearer for the asking.".
   }
   // The same for a ware that is a thing on a shelf (an item for sale), which is how most of what is sold is sold.
@@ -114,7 +114,7 @@ Module world_services "Lodging, goods and camping" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Decrease price(find) by 1. Assert haggledItem(find). }
     On failure { Increase price(find) by 1. Assert haggledItem(find). }
-    Result "{merchant} sucks a tooth, and names a lower price for {find}.".
+    Result "{merchant} thinks it over, and names a lower price for {find}.".
     Otherwise "{merchant} will not be argued with, and {find} is dearer for the asking.".
   }
   // A favour remembered in trade: one grateful to a company asks a coin less of it for each of their wares (the

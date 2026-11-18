@@ -54,7 +54,7 @@
   Entity {t}_coin_habit: fact "The shrine's offering-book shows a coin left at the old numbered post on the road every year for two hundred years, through plague, famine and war: a habit, not a fashion of piety.".
   Person {t}_hesper "Hesper Lowe" at {t}_green {
     Role "a boat-wright's apprentice with a drawing of a bell". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
-    Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks at you the way a carpenter looks at timber. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
+    Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks you up and down. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
   }
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
     Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it. They say the Hall's boy comes home humming four notes from the hill, three down and one up, and that something up there rings them. If I had the shape of it...' She stops. 'Do not laugh. Everyone does.'".
@@ -77,7 +77,7 @@
   }
   Rule {t}_bell_hung when {t}_bell_cast(party) and not at({t}_new_bell, {t}_green) { Assert at({t}_new_bell, {t}_green). }
   Rule {t}_bell_answered when state({t}_new_bell, rung) and not knows(party, {t}_tunnel_found) says "The four notes go out over the roofs, and from the direction of the Hall, faint and late, something answers with one: and then, in the Hall's cellar, the sound of a brick falling out of a wall." teaches {t}_tunnel_found { }
-  Observe {t}_bell_new at {t}_green when {t}_bell_cast(party) "A new bell hangs over the well, small and dark and a little crooked in the hanging, and when the wind moves it it does not clang. It says four notes, three down and one up, and the children have started to hum them.".
+  Observe {t}_bell_new at {t}_green when {t}_bell_cast(party) "A new bell hangs over the well, small and dark and a little crooked in the hanging, and when the wind moves it, it does not clang. It says four notes, three down and one up, and the children have started to hum them.".
   Topic {t}_anselm_wax with {t}_anselm "Tell {{t}_anselm} you took a wax from the chime" when state({t}_chime_wax, taken) once {
     Says "{{t}_anselm} goes quite still. 'You took a pattern off the dead's own bell,' he says. 'For a girl who means to ring it in a market.' A long breath. 'I do not know if that is theft or the only sort of remembering anyone is going to do. Do not ask me yet.'".
     On discuss { Assert {t}_an_insists(party). }

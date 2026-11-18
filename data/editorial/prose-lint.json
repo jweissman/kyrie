@@ -1,0 +1,20 @@
+{
+  "about": "Banned expressions and constructions in the ordinary prose (doc/authoring/plain-prose.md). Each entry is earned by a sentence met in play or in the tables, kept in `evidence`, which the entry must match; each fails test/small/prose-lint wherever it is narrated in `scope`. Keep the list small: a word that is bad in one sentence and useful in others belongs in watchlist.json. An authored adventure's prose, and a going-on's, is its author's, and is not in scope. `owned`: files another agent is editing, whose findings are listed by scripts/prose-lint.ts and not failed.",
+  "scope": ["data/rules/*.kyr", "data/voice/*.json", "data/generation/**/*.json", "data/generation/**/*.kyrt",
+    "data/origins/**/*.kyr", "data/origins/**/*.kyrt", "data/origins/**/*.json"],
+  "owned": ["^data/origins/(drove|pans|weir)/"],
+  "banned": [
+    { "phrase": "in a slither of", "why": "a decorative noun phrase where the event (the meal spilled) is not said",
+      "evidence": "With the wagoner roaring at the wheel, the cart comes up out of the ditch in a slither of meal. (data/origins/prologue.kyrt; the owner, 17 November night: 'the imagery is strained, the physical event is obscured, and the sentence sounds unpleasant')" },
+    { "pattern": "\\bwith the air of (a|an|one)\\b", "why": "the narrator judging what someone is like instead of saying what they do (narratology.md's banned table, 7 November)",
+      "evidence": "Aldous Fenn looks you over with the air of a man sizing up timber. (data/generation/town/outskirts-deep.kyrt: the reeve's greeting, met in every a1 walk of the prose census, 17 November)" },
+    { "phrase": "thinks better of it", "why": "drollery: an animal or a thing given a second thought (narratology.md's banned table, 7 November)",
+      "evidence": "Night comes on while you are still on the {way}. An owl keeps pace with you for a while, and then thinks better of it. (data/voice/journey.json, journey-dark.2)" },
+    { "phrase": "for form's sake", "why": "a wry tag that explains a plain act",
+      "evidence": "{Actor} barks twice, for form's sake, then comes to see who you are. (data/voice/greet.json, greet.dog.3: the owner's example of filler, 17 November)" },
+    { "pattern": "\\bas (if|though) (that were the point|it owed)", "why": "metacommentary: the narrator explaining the joke (narratology.md, 7 November)",
+      "evidence": "{Name} is leaning on a gate, looking at a field as though it owed them money. (data/generation/scenes/occupations.json before 14 November)" },
+    { "pattern": "\\bsince (anyone|anybody) can remember\\b", "why": "a claim the narrator cannot vouch for (narratology.md, 7 November)",
+      "evidence": "Reedford holds the country's market, and has done since anyone can remember. (data/generation/scenes/settlements.json before 7 November)" }
+  ]
+}

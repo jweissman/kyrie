@@ -32,7 +32,7 @@
   Person {t}_tie_nan "the old woman in the doorway" at {t}_green {
     Role "the innkeeper's mother, who has not been out of her chair since the harvest and who asks, every morning, whether the lamp has been lit". Ancestry human. Peaceable. Manner stoic. Pronouns she.
     Seen when not {t}_tie_lost(party).
-    Greets "A very old woman has been set in a chair in the lee of the door with a blanket to her chin and a rosary of dried peas. 'Is it lit?' she says, not to you. 'It is lit, Mam,' somebody says from inside. 'Then I may sit,' she says, and sits, as if she had been standing.".
+    Greets "A very old woman has been set in a chair in the lee of the door with a blanket to her chin and a rosary of dried peas. 'Is it lit?' she says, not to you. 'It is lit, Mam,' somebody says from inside. 'Then I may sit,' she says.".
   }
   Topic {t}_tie_ask with {t}_innkeeper "Ask {{t}_innkeeper} why the lamp is kept in the window" when not knows(actor, {site}_named) once {
     Says "'For a lad who went out to {sitename}, in {where},' says {{t}_innkeeper}. 'My brother. For a bet, or a girl, or to be somebody. He did not come back, and Mam kept his bed.' A pause you could set a cup on. 'She will not see the week out. Two days, the herb-wife says, and I have not said so to her. She asks me every morning if the lamp is lit. If I could put one thing in her hands from out there, whatever it was. That is all I have. It is not much to ask a stranger.'".

@@ -12,7 +12,7 @@
         "seen": "{Name}'s cart has a wheel in the ditch, down to the hub, and {Name} is standing looking at it with {their} hands on {their} hips.",
         "act": "Put your shoulders to {Name}'s cart",
         "about": "Mud to the knees and a heave on three; the cart is no lighter for being stuck.",
-        "done": "On three you heave, and on the fourth three the wheel comes up out of the ditch with a noise like a boot coming out of a bog. {Name} pays you, which {they} [need|needs] not have done, and won't hear otherwise.",
+        "done": "You and {Name} heave together, and after four tries the wheel comes up out of the ditch. {Name} pays you, though you did not ask, and will not take it back.",
         "freed": "Some carters coming the other way have helped {Name} heave the cart out of the ditch.",
         "reward": 2 }
     },

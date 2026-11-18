@@ -102,7 +102,9 @@ export class ScenarioWord {
       at.lines.push(`  Entity ${local}: fact "Its name".`);
       at.imports[local] = `${at.placement.rid}.${site.id}_named`; at.declared.add(local);
     }
-    const said = `${seen.replace(/^an? /, 'The ')} they speak of is called ${site.name}.`;
+    // Its name first, so that the verb agrees whatever it is seen as: "The fallen walls they speak of is called
+    // Fengate" had been said (the prose census, 17 November).
+    const said = `${site.name} is the name of the ${seen.replace(/^(an?|the) /i, '')} they speak of.`;
     for (const [i, carrier] of at.tellers.entries()) {
       at.lines.push(`  Observe ${fact}_names${i} near ${carrier} as hearsay when knows(party, ${fact})`
         + ` and not knows(party, ${local}) ${q(said)} teaches ${local}.`);

@@ -111,7 +111,7 @@
   // ---- The road-wood: who owns the timber along the old road?
   Person {t}_reeve "Aldous Fenn" at {t}_green {
     Role "reeve of the wood-wardens, who license the cutting in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
-    Greets "Aldous Fenn looks you over with the air of a man sizing up timber. 'You'll be walking out to the Hall, I suppose. Everyone with boots does.'".
+    Greets "Aldous Fenn looks you over, from your boots up. 'You'll be walking out to the Hall, I suppose. Everyone with boots does.'".
   }
   Relation {t}_roadwood_open(group). Relation {t}_roadwood_shared(group). Relation {t}_roadwood_hall(group).
   Entity {t}_roadwood_grant: fact "The Empire's grant of the road, in the Hall's muniments: fifty paces either side of the road belong to the road, not to the Hall or the town; whoever cuts there owes the road its keeping.".
