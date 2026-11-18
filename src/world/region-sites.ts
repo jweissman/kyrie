@@ -174,7 +174,7 @@ export class RegionSites {
     }).sort((a, b) => a.gap - b.gap)[0];
     // From a road, the road walked from its way room to where the track leaves it besides (see RegionRoads.along).
     const best = road && road.gap < town.gap ? road : { ...town, along: 0 };
-    const track = Math.max(30, Math.round(best.gap * RegionRoads.minutesPerHour / 10) * 10);
+    const track = Math.max(30, Math.round(best.gap * RegionRoads.trackPerHour / 10) * 10);
     return { from: best.from, minutes: track + Math.round(best.along / 10) * 10 };
   }
   // Where a site is, as people say it: the wild country it stands in, or which way it lies from the settlement.

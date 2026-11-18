@@ -71,7 +71,7 @@ describe('a journey travelled', () => {
   // counterexample is the same leg with something there that asks the player (Travel.weighty): it would stop.
   it('goes on past what asks nothing of the player, and tells it with the leg', async () => {
     const s = await Walked.start(), c = s.campaign;
-    const stone = TravelCensus.far(c, 3).find(d => /Cloudreach/.test(d.name))!;
+    const stone = TravelCensus.far(c, 3).find(d => d.name === 'open country at 8')!;
     const done = await Travel.go({ campaign: c, perform: (command: string) => s.perform(command) }, stone.id);
     const met = done.legs.find(l => /pedlar/.test(l.passed ?? ''));
     expect(met).toBeDefined();

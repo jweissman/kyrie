@@ -217,6 +217,10 @@ Proposals (for the lead and the owner; none made):
 5. A reckoning before setting out, from what the plan already knows: the hours, the rations it will eat, and the
    known risks on the way (a ford in spate, a den heard of, the dark coming on), the unknown left unknown.
 
+Done (18 November), proposal 1: a road goes at two-thirds of the ground's going (`RegionRoads.minutesPerHour` 20, a
+track off a road at the ground's own, `trackPerHour` 30). The census after: by road 28 minutes a hex (136 hexes), off
+it 50 (59); 2 stops in 28 journeys, both a toll (a decision); 28 of 28 arrived.
+
 ### The pins
 
 `test/small/travel-continuity.test.ts`: on a1, a journey of six hexes over open country: every leg moves the company

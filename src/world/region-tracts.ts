@@ -115,7 +115,7 @@ export class RegionTracts {
   private static walked(cells: number[], cover: Cover[]): number {
     return cells.reduce((n, c) => n + Roads.hours[cover[c]!], 0);
   }
-  // A road's length in the hours a road is walked in (a cell of open ground is half an hour: see RegionRoads), as a
+  // A road's length in the hours a road is walked in (a cell of open ground is twenty minutes: see RegionRoads), as a
   // traveller says it.
   private static span(hours: number): string {
     const halves = Math.max(1, Math.round(hours * RegionRoads.minutesPerHour / 30)), whole = Math.floor(halves / 2);

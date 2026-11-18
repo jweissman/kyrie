@@ -11,12 +11,15 @@ import type { Region } from './region-writer';
 interface WayNames { land: string; way: string; out: string; on: string; kind: string; scene: string }
 
 // A generated region's roads as Kyr. Each road is a stretch of country between two settlements: one way room, a
-// passage out to it from each end, taking the time the land asks (a cell of open ground is half an hour on a road;
+// passage out to it from each end, taking the time the land asks (a cell of open ground is twenty minutes on a road;
 // woods, fen and fells slower). A road crossing a river crosses it by a ford, which a river in spate makes
 // dangerous, or a bridge where the river is too deep to wade; a road over the fells crosses a pass, cold after dark,
-// with the summit of its fells above it when they have one.
+// with the summit of its fells above it when they have one. A road goes at two-thirds of the ground's own going, so
+// it is a real choice against a straight line over open country, wood and fen (the census had found a road slower a
+// hex than the fields beside it: TR-03); a track off it goes at the ground's own (trackPerHour).
 export class RegionRoads {
-  static readonly minutesPerHour = 30;
+  static readonly minutesPerHour = 20;
+  static readonly trackPerHour = 30;
   static lines(region: Region): string[] {
     return RegionGeography.roads(region).flatMap(r => this.road(r, region));
   }
