@@ -52,6 +52,11 @@ describe('the journey reader', () => {
     expect(seen).toMatchObject({ how: 'exact', sources: [{ file: 'data/a.kyr', line: 8, decl: 'Observe byre_seen' }] });
     expect(p.trace('The carter counts the coin twice, and puts it away.').how).toBe('template');
     expect(p.trace('You take the key.').how).toBe('none');
+    // Words given someone to say, written without their quotes; a Kyr blank made in code.
+    p.add('data/c.json', '{ "brings": "The eels are not running. Nothing is, this season." }');
+    expect(p.trace('‘The eels are not running.').sources[0]).toMatchObject({ file: 'data/c.json', decl: 'brings' });
+    p.add('src/d.ts', "const l = ` '${s.name} is where ${b.way} goes out from,' {${keeper}} adds.`;");
+    expect(p.trace('‘Edderwick is where the north road goes out from,’ Kynes adds.').how).toBe('template');
   });
   it('holds a note to the words it quotes, and says when a replay no longer shows them', async () => {
     const run = await JourneyCapture.record(await at(yard), { args, limit: 1, build: { commit: 'test', dirty: false } });

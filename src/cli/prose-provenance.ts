@@ -62,8 +62,14 @@ export class ProseProvenance {
     }
   }
   // A sentence shown, traced.
+  // A sentence in someone's mouth is looked for in its quotes and, written without them, out of them.
   trace(sentence: string): Traced {
-    const key = ProseProvenance.key(sentence), exact = this.exact.get(key);
+    const traced = this.traced(sentence, ProseProvenance.key(sentence));
+    const bare = ProseProvenance.key(sentence).replace(/^'|'$/g, '');
+    return traced.how === 'none' && /^'|'$/.test(ProseProvenance.key(sentence)) ? this.traced(sentence, bare) : traced;
+  }
+  private traced(sentence: string, key: string): Traced {
+    const exact = this.exact.get(key);
     if (exact) { return { sentence, how: 'exact', sources: ProseProvenance.few(exact) }; }
     const filled = this.templates.filter(t => key.includes(t.longest) && ProseProvenance.fills(t.parts, key));
     if (filled.length) { return { sentence, how: 'template', sources: ProseProvenance.few(filled.map(t => t.source)) }; }
@@ -104,8 +110,8 @@ export class ProseProvenance {
     const seen = new Set<string>();
     return sources.filter(s => !seen.has(`${s.file}:${s.line}`) && !!seen.add(`${s.file}:${s.line}`)).slice(0, 4);
   }
-  static readonly blank = /\$\{[^}]*\}|\{\{[^}\s]*\}[^}\s]*\}|\{[^}\s]*\}/;
-  private static readonly blanks = /\$\{[^}]*\}|\{\{[^}\s]*\}[^}\s]*\}|\{[^}\s]*\}/g;
+  static readonly blank = /\$\{[^}]*\}|\{\{[^}\s]*\}[^}\s]*\}|\{[^}\s${]*\}/;
+  private static readonly blanks = /\$\{[^}]*\}|\{\{[^}\s]*\}[^}\s]*\}|\{[^}\s${]*\}/g;
   // Text as it is compared: quotes and dashes straight, the stress marks and spacing gone, in lower case.
   static key(text: string): string {
     return text.replace(/[‘’]/g, '\'').replace(/[“”]/g, '"').replace(/[–—]/g, '-').replace(/…/g, '...')
