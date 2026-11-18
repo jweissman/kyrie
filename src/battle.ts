@@ -38,12 +38,12 @@ export class Battle {
   // A fight that came at the company, seen as it began: the company acts first in the first round, and can get back
   // the way it came for certain (PT-10). Rounds begun, and how often the company has tried to run and been held.
   private readonly moment?: Moment;
-  private rounds = 0;
-  private held = 0;
+  private rounds = 0; private held = 0;
   // What the fight is for when it is not lives (see Morale), who stood as it began, and whether the band broke.
   private readonly terms: NonNullable<Scenario['terms']>;
   private readonly upright: Set<string>;
-  private broke = false;
+  // And what was said in the fights before this one, so that it is not said again in it (see Barks).
+  private broke = false; private barked: string[] = [];
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.moment = scenario.moment;
@@ -150,9 +150,11 @@ export class Battle {
     return { combatants: structuredClone(this.fighters), turn: this.turn,
       actor: this.outcome ? '' : this.order[this.cursor]!, outcome: this.outcome,
       ...(this.intents.size ? { intents: Object.fromEntries([...this.intents].map(([id, c]) => [id, { ...c }])) } : {}),
-      order: this.order.slice(this.cursor),
+      order: this.order.slice(this.cursor), ...this.barked.length ? { barked: [...this.barked] } : {},
       ...this.departed.length ? { departed: this.departed.map(f => ({ id: f.id, name: f.name })) } : {} };
   }
+  // The lines said in the fights before, as the campaign's record has them (see Barks.before).
+  heard(lines: readonly string[]) { this.barked = [...lines]; }
   get events(): CombatEvent[] { return structuredClone(this.history); }
   private actor(): Fighter { return this.fighters.find(f => f.id === this.order[this.cursor])!; }
   // What a creature may do: the abilities it knows plus melee or ranged from its weapon (Orsino's validActions),

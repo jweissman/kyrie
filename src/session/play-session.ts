@@ -9,7 +9,9 @@ import type { Battle } from '../battle';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
-import { Telling } from '../narrative/telling';
+import { Telling, type Voiced } from '../narrative/telling';
+import { Barks } from '../narrative/barks';
+import { CombatTelling } from '../ui/combat-telling';
 import type { Memorial } from '../world/memorial';
 import { Crossing } from '../campaign/crossing';
 import { Travel, type Journeyed } from './travel';
@@ -137,9 +139,11 @@ export class PlaySession {
     const id = PlayerView.resolve(this.campaign, command);
     const aims = Undertakings.held(this.campaign).map(o => o.id);
     this.busy = true;
-    const combat: Command[] = [];
+    const combat: Command[] = [], barked: Voiced[] = [];
     try {
       const event = await this.campaign.executeAsync(id, async battle => {
+        // What fighters said in the fights before is not said again in this one (see Barks).
+        battle.heard(Barks.before([...this.campaign.history.flatMap(e => e.voiced ?? []), ...barked]));
         while (!battle.state.outcome) {
           const actor = battle.state.combatants.find(f => f.id === battle.state.actor)!;
           const legal = battle.legalCommands();
@@ -152,15 +156,16 @@ export class PlaySession {
           if (player) { combat.push({ ...chosen }); }
           battle.step(chosen);
         }
+        barked.push(...CombatTelling.barks(battle.events, battle.state));
       });
       // What comes of the command after it (the country beyond drawn and installed), and what the company is told of
       // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
       // the command, and nothing of it is kept (Mission 15's independent audit, F3).
-      let voiced: ReturnType<typeof Telling.tell>;
+      let voiced: Voiced[];
       try {
         if (this.expander) { await this.expander.expand(this.campaign); }
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
-        voiced = Telling.tell(this.campaign, event);
+        voiced = [...barked, ...Telling.tell(this.campaign, event)];
       } catch (error) { this.campaign.undo(); throw error; }
       Undertakings.after(this.campaign, aims);
       this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });

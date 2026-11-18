@@ -70,6 +70,7 @@ export interface CampaignEvent {
   // What the company did before it was set upon, and how many of the combat's events were that first fight's.
   prelude?: { action: string; response?: string; perceptions?: CampaignEvent['perceptions']; fought?: number };
   fledTo?: string;
-  // What the company was told of what happened, in the voice tables' words (see Telling): which line, of what.
+  // What the company was told of what happened, in the voice tables' words (see Telling), and what fighters said in
+  // its fights (kind bark: see Barks): which line, of what.
   voiced?: { id: string; kind: string; actor?: string; text: string }[];
 }

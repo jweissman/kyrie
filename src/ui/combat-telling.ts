@@ -25,6 +25,26 @@ export class CombatTelling {
   // each turn's events as a fight of their own, its barks begun afresh, and a companion said "Damn it" at each miss
   // (the owner's headless review, 14 November: never the same line twice in one fight).
   static since(events: CombatEvent[], from: number, state: BattleState, said?: ReadonlyMap<string, string>): Telling[] {
+    const barks = this.barker(state, said), told = new CombatTelling(state, CombatTelling.unlasted(events));
+    return this.groups(events).map((g, n) => ({ g, bark: barks.of(g.events, n) })).filter(({ g }) => g.at >= from)
+      .map(({ g, bark }) => this.tell(CombatTelling.unheld(g.events), g.round, told, bark)).filter(t => t.text);
+  }
+  // What fighters said in a fight, line by line, as its telling says them: for the campaign's record of what has been
+  // told, so that a line said in one fight is not said again in the next (CL-37).
+  static barks(events: CombatEvent[], state: BattleState): { id: string; kind: 'bark'; actor: string; text: string }[] {
+    const barks = this.barker(state);
+    return this.groups(events).flatMap((g, n) => {
+      const line = barks.line(g.events, n);
+      return line ? [{ ...line, kind: 'bark' as const }] : [];
+    });
+  }
+  // What fighters say at the turning points, now and then (see Barks), and what they said in the fights before.
+  private static barker(state: BattleState, said?: ReadonlyMap<string, string>): Barks {
+    const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
+    return new Barks(fighters, fighters.map(f => f.id).join(','), said, state.barked);
+  }
+  // Each exchange: an act and what follows from it, in the round it fell in.
+  private static groups(events: CombatEvent[]): { round: number; at: number; events: CombatEvent[] }[] {
     const groups: { round: number; at: number; events: CombatEvent[] }[] = [];
     let round = 0;
     events.forEach((e, at) => {
@@ -32,12 +52,7 @@ export class CombatTelling {
       if (e.type === 'action' || !groups.length) { groups.push({ round: Math.max(1, round), at, events: [e] }); }
       else { groups.at(-1)!.events.push(e); }
     });
-    // What fighters say at the turning points, now and then (see Barks).
-    const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
-    const barks = new Barks(fighters, fighters.map(f => f.id).join(','), said);
-    const told = new CombatTelling(state, CombatTelling.unlasted(events));
-    return groups.map((g, n) => ({ g, bark: barks.of(g.events, n) })).filter(({ g }) => g.at >= from)
-      .map(({ g, bark }) => this.tell(CombatTelling.unheld(g.events), g.round, told, bark)).filter(t => t.text);
+    return groups;
   }
   // A save held against a condition is not told where the same blow then lays that condition on the same fighter by
   // another way (a venomous bite: its poison's own trigger held, its applied poison not): "shrugs off the poison. …

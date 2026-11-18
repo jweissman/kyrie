@@ -110,5 +110,7 @@ export interface BattleState {
   intents?: Record<string, Command>; order?: string[];
   // Foes that fled the fight, by name, so what they did can still be told.
   departed?: { id: string; name: string }[];
+  // The lines fighters said in the fights before this one, last within their interval (see Barks.before).
+  barked?: string[];
 }
 export type Controller = (state: BattleState, legal: Command[]) => Command;

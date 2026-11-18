@@ -14,13 +14,23 @@ export class Barks {
   // seldom.
   static readonly chance: Record<string, number> = { fall: 100, kill: 55, crit: 45, flee: 60, engage: 40, miss: 12,
     hurt: 70 };
-  private readonly used = new Set<string>();
+  // How many of the lines said last, in the fights before this one, are not said again in it.
+  static readonly interval = 12;
+  private readonly used: Set<string>;
   // said: the words each fighter is spoken of in, where known; else they ("swears under their breath" of a dwarf
-  // woman: round 9, P).
+  // woman: round 9, P). before: the lines said in the fights before this one, oldest first (see Barks.before).
   constructor(private readonly fighters: Fighter[], private readonly seed: string,
-    private readonly said?: ReadonlyMap<string, string>) {}
+    private readonly said?: ReadonlyMap<string, string>, before: readonly string[] = []) {
+    this.used = Editor.recency([...before]);
+  }
+  // Of what the campaign has told (CampaignEvent.voiced, in order), the barks said last: within the interval.
+  static before(told: readonly { id: string; kind: string }[]): string[] {
+    return told.filter(v => v.kind === 'bark').map(v => v.id).slice(-Barks.interval);
+  }
   // The bark for one exchange, if it has a turning point worth one.
-  of(events: CombatEvent[], n: number): string | undefined {
+  of(events: CombatEvent[], n: number): string | undefined { return this.line(events, n)?.text; }
+  // The bark for one exchange, with which line it is and who says it.
+  line(events: CombatEvent[], n: number): { id: string; actor: string; text: string } | undefined {
     const moment = this.moment(events);
     if (!moment) { return undefined; }
     const [kind, who, slain] = moment, fighter = this.fighters.find(f => f.id === who);
@@ -35,8 +45,8 @@ export class Barks {
     if (!line || this.used.has(line.id)) { return undefined; }
     Editor.said(this.used, line.id);
     // One fighter is one, whatever the pronoun said of them: "'Oh, well struck,' say Haze" (the laboratory).
-    return Voice.render(line.text, { actor: fighter.name.replace(/^an? /, 'the '),
-      pronoun: this.said?.get(fighter.id) ?? 'they', many: false });
+    return { id: line.id, actor: fighter.id, text: Voice.render(line.text, {
+      actor: fighter.name.replace(/^an? /, 'the '), pronoun: this.said?.get(fighter.id) ?? 'they', many: false }) };
   }
   // The turning point of an exchange: someone falling, a kill, a blow that tells, a flight, a miss.
   private moment(events: CombatEvent[]): [string, string, string?] | undefined {

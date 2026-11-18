@@ -22,7 +22,8 @@ export class PlayTranscript {
       event.prelude.response ?? ''] : [];
     // "Bran: set down a sack of bell-teeth." is how an item leaves a hand; the action says how it went.
     // What the voice tables told of it (a greeting, someone joining) is the story's as it was the page's.
-    const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey')).map(v => v.text);
+    // A fight's barks are told with its blows, not again after them.
+    const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey') && v.kind !== 'bark').map(v => v.text);
     const lines = [...ambush, ...(plain ? [] : [f.result]), ...voiced,
       ...f.immediate.map(l => l.replace(/^You witness: /, '')).filter(l => !/^[^:]+: set down /.test(l)),
       ...(c.moved ? [] : f.observations), ...f.events];
