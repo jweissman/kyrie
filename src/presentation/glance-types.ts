@@ -36,6 +36,9 @@ export type Why =
   // What was won, put to use: someone here who buys a treasure the company carries; someone who adds to what it can do
   // (a lesson, a spell) for what it can pay.
   | 'spoils' | 'means'
+  // Someone with something for the company now: thanks that pay, a payment owed (see Owed). The talk with them is a
+  // payoff, as the act inside it is (the owner, 18 November: the wagoner's thanks green, and nothing outside said so).
+  | 'owed'
   // Someone who could join the company: willing now, or with something to be asked that would make them so.
   | 'companion'
   // A way about a settlement or site not yet taken.

@@ -70,10 +70,10 @@ export class TitlePage {
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} /></>} />;
   }
-  // The saved game's place and time, as Continue's title and its name to a reader.
-  static saved(saved: { where?: string; when?: string }): { title?: string; 'aria-label'?: string } {
+  // The saved game's place and time, as Continue's name to a reader: never hover text (the owner, 18 November, OR-79).
+  static saved(saved: { where?: string; when?: string }): { 'aria-label'?: string } {
     const said = [saved.where, saved.when].filter(Boolean).join(' · ');
-    return said ? { title: said, 'aria-label': `Continue: ${said}` } : {};
+    return said ? { 'aria-label': `Continue: ${said}` } : {};
   }
   static focus(way: Way) {
     if (!document.activeElement || document.activeElement === document.body) {

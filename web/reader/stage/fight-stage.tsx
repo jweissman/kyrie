@@ -159,7 +159,7 @@ export class FightStage {
     return (
       <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
         {(!foe || f.face) && <FightStage.Face fighter={f} />}
-        <p className="n"><b title={foe ? undefined : Typography.curl(Words.upper(f.name))}>{Typography.curl(Words.upper(f.name))}</b>
+        <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>
           {took > 0 && !foe && <span className="took" key={`${f.hp}`}>−{took}</span>}
           {!foe && <span className="of">{f.hp} of {f.maxHp}</span>}</p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${band}%` }} /></span>

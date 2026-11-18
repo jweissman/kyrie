@@ -21,10 +21,9 @@ export class CompanyPage {
             <h2>Your company</h2>
             <p className="presets">Ready companies:{' '}
               {catalog.presets.map(p => (
-                <button type="button" key={p.id} data-action="preset" data-id={p.id} title={p.note}
+                <button type="button" key={p.id} data-action="preset" data-id={p.id}
                   onClick={CompanyPage.preset.bind(null, app)}>{p.label}</button>))}
               {setting.generated && s.party.length > 1 && <button type="button" data-action="alone"
-                title="Set out with only the first of them, and find companions on the way"
                 onClick={app.opening.alone}>Go alone</button>}
             </p>
             <ol className="companions">
@@ -35,7 +34,7 @@ export class CompanyPage {
           {preview && <section className="together" aria-label="Together">
             <p>Between them: {preview.covered.map(c => `${c.name.toLowerCase()} (${c.who.join(', ')})`).join(', ')}.</p>
             {preview.missing.length > 0 && <p className="lack">No one has {CompanyPage.list(preview.missing)}.</p>}
-            {preview.formed.map(f => <p key={f.name} className="formed" title={f.perks.join(' ')}>
+            {preview.formed.map(f => <p key={f.name} className="formed">
               Together they are a <b>{f.name}</b>.</p>)}
           </section>}
           <div className="set-out">

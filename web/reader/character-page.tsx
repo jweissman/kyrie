@@ -10,7 +10,6 @@ import { Counted } from '../../src/presentation/counted';
 import { Act, type Draw } from './stage/act';
 import { Told } from './stage/told';
 import { Words } from './words';
-import { CreationRules } from './creation-rules';
 
 // The character: who they are, how they stand, what they can do and what they could become. Everything on it is
 // worked out by the rules the game plays by (see CharacterSheets), so what it says is what a fight or a check will
@@ -144,8 +143,7 @@ export class CharacterPage {
   static Qualities({ member: m }: { member: MemberRow }) {
     const sheet = m.sheet;
     if (!sheet) { return null; }
-    return <ul className="stat-row" aria-label="Qualities">{sheet.qualities.map(q => <li key={q.id}
-      title={Typography.curl(CreationRules.quality(q.id, q.score, undefined, false).join(' '))}>
+    return <ul className="stat-row" aria-label="Qualities">{sheet.qualities.map(q => <li key={q.id}>
       <span className="q">{q.name.slice(0, 3)}</span><b className="score">{q.score}</b>
       <span className="mod">{CharacterPage.signed(Math.floor((q.score - 10) / 2))}</span></li>)}</ul>;
   }
@@ -184,7 +182,7 @@ export class CharacterPage {
   static Skills({ heading, skills }: { heading: string; skills: SkillRow[] }) {
     if (!skills.length) { return null; }
     return <><h3>{heading}</h3><p className="skill-line">{skills.map((k, i) =>
-      <span key={k.id} title={Typography.curl(`${k.from}. ${k.text}`)}>{i > 0 && ' · '}{k.name}
+      <span key={k.id}>{i > 0 && ' · '}{k.name}
         {k.check !== undefined && <small> {CharacterPage.signed(k.check)}</small>}</span>)}</p></>;
   }
   // What they carry: what is in hand and worn first, then the rest, the same things together.

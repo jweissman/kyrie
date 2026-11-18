@@ -205,7 +205,7 @@ export class Affordances {
       // here: the fevered child's mother is gone to before her daughter, who could keep the cups for her.
       ...(moving.length && (!person || (!named && !screen.people.some(p => p.id !== s.id && r.named.has(p.id)))))
         || (!person && spoils && r.coin) ? ['advance' as const] : [],
-      ...spoils ? ['spoils' as const] : [],
+      ...spoils ? ['spoils' as const] : [], ...person && this.owes(s, leaves, screen) ? ['owed' as const] : [],
       ...this.about(fresh, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
@@ -224,7 +224,7 @@ export class Affordances {
       ...kept ? { named: kept, kin: kept, held: kept } : {}, ...moving[0] ? { advance: moving[0].command! } : {},
       ...take ? { spoils: take, ...!moving[0] ? { advance: take } : {} } : {},
       ...learned ? { asked: learned.command! } : {}, ...joining ? { companion: joining.command! } : {},
-      ...looked ? { unlooked: looked.command! } : {},
+      ...looked ? { unlooked: looked.command! } : {}, ...person ? this.owedFor(s, leaves, screen) : {},
       // A sign seen in them is had by looking closer, or by what is led with them (making much of the grey dog).
       ...r.signs.has(s.id) && (looked?.command ?? this.command(opener))
         ? { sign: looked?.command ?? this.command(opener)! } : {},
@@ -241,6 +241,14 @@ export class Affordances {
     ...!answer && (kin || named || held) && asked ? { for: asked.command! }
       : !answer && moving[0] ? { for: moving[0].command! }
         : !answer && needs[0]?.choice?.command ? { for: needs[0].choice.command } : {} })];
+  }
+  // What pays the company, said to someone with something for it now (see Owed): the act inside their talk's payoff.
+  private static owes(s: SceneSubject, leaves: Choice[], screen: Screen): Choice | undefined {
+    return s.owed ? leaves.find(c => !!screen.paying?.includes(c.command!.replace(/\(.*$/, ''))) : undefined;
+  }
+  private static owedFor(s: SceneSubject, leaves: Choice[], screen: Screen): { owed?: string } {
+    const owes = this.owes(s, leaves, screen);
+    return owes ? { owed: owes.command! } : {};
   }
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in

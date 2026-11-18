@@ -50,7 +50,7 @@ export class Act {
         {...held}>
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && !warned && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
-        {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
+        {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Signs.marks[m.kind]}</span>)}
         {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}
         {warned && <span className="about">{Typography.curl(c.about!)}</span>}

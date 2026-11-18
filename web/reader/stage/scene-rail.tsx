@@ -43,10 +43,8 @@ export class SceneRail {
         {/* An attention, never a second place to commit: the glass turns the scene to what can be searched and looked at (the
             Look lens, where the search leads); "Search here" is done by the one foreground, never from the rail (the
             owner, 15 November: every act through one of the four). */}
-        {search ? <button type="button" className="rail-mark by-glyph" data-action="explore" aria-label="Search: look closely"
-          title="Search: look closely" onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
-          : <button type="button" className="rail-mark by-glyph" disabled aria-label="Search: nothing here to search"
-            title="Search: nothing here to search"><Glyphs.View id="search" className="rail-glyph" /></button>}
+        {search ? <button type="button" className="rail-mark by-glyph" data-action="explore" aria-label="Search: look closely" onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
+          : <button type="button" className="rail-mark by-glyph" disabled aria-label="Search: nothing here to search"><Glyphs.View id="search" className="rail-glyph" /></button>}
         <span className="rail-gap" aria-hidden="true" />
         <SceneRail.Books app={app} />
       </nav>
@@ -67,7 +65,7 @@ export class SceneRail {
     // semantic opportunity color"): what someone here is to the company is the one pip by their own likeness, from
     // the glance's aspects; the mark that shows them is a neutral icon.
     return <button type="button" className={`rail-mark opens-talk${on ? ' pressed' : ''}`}
-      data-action="lens" data-part="talk" aria-pressed={on} aria-label={said} title={said}
+      data-action="lens" data-part="talk" aria-pressed={on} aria-label={said}
       onClick={() => app.setState({ talking: !on, exploring: undefined })}>
       {/* Anyone here, a hooded head: not the companion's icon, which promises someone who would join (the owner,
           17 November, FM-05: a companion's icon on the mark whose lens then showed no one who would). */}
@@ -83,19 +81,18 @@ export class SceneRail {
   static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
     const marks = <>
       {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
-        aria-label="The map: back to where you are" title="Back to where you are" onClick={() => app.outdoor(false)}>
+        aria-label="The map: back to where you are" onClick={() => app.outdoor(false)}>
         <Glyphs.View id="the_map" className="rail-glyph" /></button>
         : CompassStage.of(app) ? <button type="button" className={`rail-mark opens-compass${SceneRail.mapLit(app) ? ' lit' : ''}`}
-          data-action="compass" data-key="m" aria-label="The compass: the way out, and the ways in here"
-          title="The compass: the way out, and the ways in here" aria-pressed={app.state.exploring === 'go'}
+          data-action="compass" data-key="m" aria-label="The compass: the way out, and the ways in here" aria-pressed={app.state.exploring === 'go'}
           onClick={() => Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go')}>
           <Glyphs.View id="the_compass" className="rail-glyph" />
           {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>
         : <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit' : ''}`}
-          data-action="mode" data-view="map" data-key="m" aria-label="The map" title="The map"
+          data-action="mode" data-view="map" data-key="m" aria-label="The map"
           onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" />
           {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>}
-      <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
+      <button type="button" className="rail-mark" data-action="book" aria-label="Your book"
         onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
       </button>
     </>;
@@ -113,7 +110,7 @@ export class SceneRail {
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
       + `${'dim' in standing ? ' dim' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
         data-condition={Pip.condition({ idle: 'dim' in standing })} data-tone={lit} data-companion={companion || undefined}
-      aria-expanded={app.state.exploring === part} aria-label={said} title={shut ? said : words} disabled={!!shut}
+      aria-expanded={app.state.exploring === part} aria-label={said} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" />
       {!shut && <Pip.View fill={lit && `var(--tone-${lit})`} companion={companion} />}

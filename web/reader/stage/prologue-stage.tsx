@@ -97,7 +97,7 @@ export class PrologueStage {
     return (<>
       {s.pending && <p className="said waiting">{Typography.curl(s.pending.said)}</p>}
       {said.map((l, i) => <p key={i} className={`beat outcome ${l.kind}`}>{l.text}</p>)}
-      {rolls.length > 0 && <details className="how"><summary aria-label="How it fell" title="How it fell">⚄</summary>
+      {rolls.length > 0 && <details className="how"><summary aria-label="How it fell">⚄</summary>
         {rolls.map((l, i) => <p key={i}>{l.text}</p>)}</details>}
       {!s.pending && <PrologueStage.Onward app={app} />}
     </>);

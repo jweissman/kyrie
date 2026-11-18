@@ -49,8 +49,7 @@ export class ComposedCreation {
       : <ComposedCreation.Go key="go" app={app} frame={frame} />;
   }
   static Mark({ id, action, label, go }: { id: string; action: string; label: string; go: () => void }) {
-    return <button type="button" className={`rail-mark edge-mark ${action}`} data-action={action} aria-label={label}
-      title={label} onClick={go}><Glyphs.View id={id} className="rail-glyph" /></button>;
+    return <button type="button" className={`rail-mark edge-mark ${action}`} data-action={action} aria-label={label} onClick={go}><Glyphs.View id={id} className="rail-glyph" /></button>;
   }
   // The flow's steps as the composition asks them, in its order: every one, how you present among them.
   static ids(app: ReaderApp): string[] { return app.opening.steps().map(x => x.id); }

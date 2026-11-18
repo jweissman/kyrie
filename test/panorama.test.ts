@@ -37,7 +37,9 @@ describe('a panorama', () => {
     const html = renderToStaticMarkup(createElement(Panorama.View, { sights, going, choose: () => undefined }));
     expect(html).toContain('What can be seen from here');
     expect(html.match(/data-action="set-out"/g)).toHaveLength(1);
-    expect(html).toContain('data-id="region__w3" title="Set out toward Paliduslac"');
+    // Its going said by its button, never by hover text (OR-79).
+    expect(html).toContain('data-id="region__w3"');
+    expect(html).not.toContain('title=');
     expect(html).toContain('A square doorway in a hillside in Beorquudu. It is your wayfinding that makes it out.');
   });
   it('leaves out of the margin what it says itself', () => {

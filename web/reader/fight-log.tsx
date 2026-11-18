@@ -13,7 +13,7 @@ export class FightLog {
         {rounds.map(r => (
           <section key={r} className="round">
             <h2>Round {r}</h2>
-            {exchanges.filter(e => e.round === r).map(e => <p key={e.n} title={e.detail}>{e.text}</p>)}
+            {exchanges.filter(e => e.round === r).map(e => <p key={e.n}>{e.text}</p>)}
           </section>
         ))}
         {!exchanges.length && <p className="none">Nothing has happened yet.</p>}

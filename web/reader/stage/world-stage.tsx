@@ -185,7 +185,7 @@ export class WorldStage {
     const name = Typography.curl(Words.upper(x.name));
     const body = <><span className="face" aria-hidden="true">{face}</span>
       <Pip.View fill={pip?.fill} label={pip?.label} companion={!!pip?.aspects?.includes('companionship')} />
-      <span className="pn" title={name}>{name}</span>
+      <span className="pn">{name}</span>
       {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;
     // The fallen are drawn fallen (the owner, 7 November: the dead had stood in their likenesses as if alive).
     const fell = x.state ? ` fallen ${x.state}` : '';

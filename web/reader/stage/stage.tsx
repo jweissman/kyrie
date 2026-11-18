@@ -181,7 +181,7 @@ export class Stage {
         {screen.expedition.hungry && <span className="hurt">hungry</span>}
         {screen.expedition.weary && <span className="hurt">weary</span>}
         <span data-id="purse">{screen.purse.coin} {screen.purse.currency ?? 'coin'}</span>
-        <span title={screen.expedition.nextMeal && `Fed until ${screen.expedition.nextMeal}`}>
+        <span>
           {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}</span>
         {screen.expedition.light && <span className="light" data-id="light">{Typography.curl(screen.expedition.light)}</span>}
       </p>

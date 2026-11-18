@@ -46,7 +46,7 @@ export class Check {
       : roll.made ? 'made' : 'missed';
     const at = roll.die === undefined ? undefined : { left: `${(roll.die - 0.5) * 5}%` } as CSSProperties;
     return (
-      <p className={`roll throw ${state}`} aria-label={said} title={said}>
+      <p className={`roll throw ${state}`} aria-label={said}>
         <span className="who">{Typography.curl(`${roll.who} · ${[roll.what, roll.kind === 'save' ? 'save' : '']
           .filter(Boolean).join(' ')}`)}</span>
         <span className="track" aria-hidden="true">
