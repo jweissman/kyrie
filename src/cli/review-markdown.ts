@@ -92,11 +92,23 @@ export class ReviewMarkdown {
         : b.source.kind === 'unknown' ? 'unknown' : b.source.kind;
       by.set(k, (by.get(k) ?? 0) + b.changes.length);
     }
-    const unknown = r.frames.flatMap(f => f.lines.filter(l => l.exact === 'unknown').map(l => `- scene ${f.n} (${
-      f.place.name}): “${l.text}” — ${l.sources.map(x => x.kind === 'unknown' ? x.reason : '').join('')}`));
+    const unknown = r.frames.flatMap(f => f.lines.filter(l => l.exact === 'unknown').map(l => `- ${
+      this.at(r, f)} (${f.place.name}): “${l.text}” — ${l.sources.map(x => x.kind === 'unknown' ? x.reason : '').join('')}`));
+    const unmade = new Map<string, number>();
+    for (const c of r.steps.flatMap(s => s.delta.by).filter(b => b.source.kind === 'unknown').flatMap(b => b.changes)) {
+      const name = /^[+-] (\w+)/.exec(c)?.[1] ?? c;
+      unmade.set(name, (unmade.get(name) ?? 0) + 1);
+    }
     return [...this.head(r), '', '## Lines whose maker is unknown', '', ...unknown.length ? unknown : ['(none)'], '',
       '## The world\'s changes, by what made them', '', '| made by | changes |', '|---|---|',
-      ...[...by.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => `| ${k} | ${n} |`), ''].join('\n');
+      ...[...by.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => `| ${k} | ${n} |`), '',
+      'Of those not known, by what they write:', '',
+      ...[...unmade.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => `- ${k}: ${n}`), ''].join('\n');
+  }
+  // Where a scene was shown: after which step (the opening, before any).
+  private static at(r: JourneyReviewV1, f: ReviewFrame): string {
+    const s = r.steps.find(x => x.after === f.n);
+    return s ? `step ${s.n}` : 'the opening';
   }
   // A replay beside the recording it replayed: both named, by revision and by how each was made, and step by step the
   // three verdicts (§15.15), with what was shown otherwise where it was.

@@ -108,7 +108,8 @@ export class ReviewProvenance {
     }
     const kind = kinds.find(k => ReviewProvenance.key(k.text) === key)?.kind;
     if (kind === 'fight' || kind === 'roll') { return { exact: 'producer', sources: [{ kind: 'engine', producer: `narrator:${kind}` }] }; }
-    return this.unknown(kind ? `a ${kind} line no producer of this step made whole` : 'no producer of this step made it');
+    return this.unknown(kind ? `${/^[aeiou]/.test(kind) ? 'an' : 'a'} ${kind} line no producer of this step made whole`
+      : 'no producer of this step made it');
   }
   // Of the ways a line was made, those of its makers: a way that only relays (see the head of this file) set aside
   // where a way by a maker of the words is there too, part by part.
