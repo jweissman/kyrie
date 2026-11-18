@@ -2,7 +2,8 @@ import { LocalObservations } from '../campaign/local-observations';
 import { Sentences } from '../presentation/sentences';
 import { CampaignLint } from './campaign-lint';
 import { ModuleWriter } from '../lang/module-writer';
-import type { Predicate } from '../lang/module';
+import type { Change, Module, Predicate } from '../lang/module';
+import { LintSource } from './lint-source';
 
 // What an author would want to know of a campaign and is not told by its play (the Grand Tour's friction X06, X15 and
 // X17): a tame one's own greeting said on arrival, a first place with nothing said of it, a module that gives the
@@ -12,7 +13,7 @@ export class AuthorLint {
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
-    this.nearWay(lint); this.unheard(lint);
+    this.nearWay(lint); this.unheard(lint); this.untied(lint); this.neverThere(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -60,6 +61,62 @@ export class AuthorLint {
       lint.add('advice', 'unheard', `${r.id} says what happens with ${held.args[0]} at ${held.args[1]}, and is heard `
         + `wherever the company is: write it at ${held.args[1]} (or near ${held.args[0]}), or heard at it, if not meant`);
     }
+  }
+  // An act asked where the one who acts stands (at(actor, site)) and of a thing's state, that never asks the thing be
+  // there: offered in every room the company stands in (the Numbered House's R26: "Turn the ring one notch" at the
+  // Landing, the ring's drawer three rooms off). Left alone, as asked where in another way: a site its condition asks
+  // anything more of, and one who acts asked anything more than able(actor) and company(actor) (at(actor, gullet),
+  // inWing(actor), distinct(actor, torold) in a topic whose Torold is at the site), in any branch of an "or".
+  static untied(lint: CampaignLint) {
+    const things = new Set(lint.module.entities.filter(e => ['thing', 'scenery'].includes(e.type)).map(e => e.id));
+    for (const a of lint.module.actions.filter(x => x.id.includes('__') && !x.schema)) {
+      const held = this.held(a.requires), asked = this.asked(a.requires);
+      const names = new Set((a.parameters ?? []).map(p => p.name).concat('actor'));
+      for (const site of (a.parameters ?? []).filter(p => p.type === 'place').map(p => p.name)) {
+        const stands = asked.filter(c => c.name === 'at' && names.has(c.args[0]!) && c.args[1] === site);
+        const more = asked.filter(c => !stands.includes(c) && !['able', 'company'].includes(c.name)
+          && c.args.some(x => names.has(x)));
+        if (!stands.length || more.length) { continue; }
+        const stated = held.filter(c => c.name === 'state' && things.has(c.args[0]!)).map(c => c.args[0]!);
+        for (const thing of new Set(stated)) {
+          lint.add('advice', 'untied', `${LintSource.at(lint.path, a.id, 'Action')}Action ${a.id} asks the state of `
+            + `${thing} and where the one who acts stands, but never that ${thing} is at ${site}: it is offered in `
+            + `every room; ask at(${thing}, ${site}) too`);
+        }
+      }
+    }
+  }
+  // A rule that asks where someone is (at(x, ?p)), of one declared nowhere whom nothing ever puts anywhere (no Arrives,
+  // no Bring, no Assert at(x, …)): it never holds, so it never happens (the Gathering's R86: twenty-three first moves
+  // written to move someone not yet in the story). Assert their new place, and retract nothing: at is exclusive.
+  static neverThere(lint: CampaignLint) {
+    const company = lint.session.campaign.playerActor, rules = lint.module.rules ?? [];
+    const nowhere = lint.module.entities.filter(e => e.type === 'group' && e.id.includes('__') && e.id !== company
+      && !lint.world.one('at', e.id)).map(e => e.id).filter(x => !this.places(lint.module, x));
+    for (const r of rules.filter(x => x.id.includes('__'))) {
+      for (const x of nowhere.filter(n => this.asksAt(r.when, n))) {
+        lint.add('advice', 'never-there', `${LintSource.at(lint.path, r.id, 'Rule')}${r.id} asks at(${x}, ?…), but `
+          + `${x} is nowhere and nothing puts them anywhere: it never happens; to bring them in, assert their place `
+          + '(Assert at(…)) without asking where they were, or give them `Arrives at … when …`');
+      }
+    }
+  }
+  // Whether a condition asks where someone is, wherever that be (or anywhere in particular, too).
+  private static asksAt(when: Predicate, x: string, anywhere = false): boolean {
+    return this.held(when).some(c => c.name === 'at' && c.args[0] === x && (anywhere || c.args[1]!.startsWith('?')));
+  }
+  // Whether anything puts someone somewhere: there, or brought (see Bringing). What does only once they are somewhere
+  // does not: an act asking at(x, reed_marsh), a rule its own at(x, ?p).
+  private static places(m: Module, x: string): boolean {
+    const changes: Change[] = [...(m.rules ?? []).filter(r => !this.asksAt(r.when, x, true)).flatMap(r => r.effects),
+      ...m.actions.filter(a => !this.asksAt(a.requires, x, true)).flatMap(a => [...a.success, ...a.failure]),
+      ...m.initial];
+    return changes.some(c => c.kind === 'assert' && ['at', 'bringing'].includes(c.call.name) && c.call.args[0] === x);
+  }
+  // The calls a condition asks in any of its branches, not under a "not".
+  private static asked(p: Predicate): { name: string; args: string[] }[] {
+    if (p.kind === 'call') { return [p]; }
+    return p.kind === 'and' || p.kind === 'or' ? [...this.asked(p.left), ...this.asked(p.right)] : [];
   }
   // The calls a condition needs to hold, not under a "not".
   private static held(p: Predicate): { name: string; args: string[] }[] {

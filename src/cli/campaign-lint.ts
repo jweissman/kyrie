@@ -11,6 +11,8 @@ import { EndingOrder } from '../lang/ending-order';
 import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
 import { CommitmentLint } from './commitment-lint';
+import { LintSource } from './lint-source';
+import { ModuleShadow } from '../campaign/module-shadow';
 import { Narrator } from '../presentation/narrator';
 
 // One campaign's findings, gathered by named checks over its loaded world.
@@ -34,8 +36,16 @@ export class CampaignLint {
     for (const c of this.session.campaign.save().definition?.conflicts ?? []) { this.add('error', 'identity', c); }
   }
   // A name a module has that the shared rules have too is the module's own within it: worth knowing, not an error.
+  // Said with the name it became, which a spec or a save asks for, and where it is declared (the Silent Lord's R42:
+  // its own settled, trusts and won were "Unknown predicate" at the spec).
   shadows() {
-    for (const s of this.session.campaign.save().definition?.shadows ?? []) { this.add('warning', 'shadow', s); }
+    for (const s of this.session.campaign.save().definition?.shadows ?? []) {
+      const [, module, name] = /^(\w+): (?:action )?(\w+) is /.exec(s) ?? [];
+      const own = `${module}__${ModuleShadow.local(name ?? '')}`;
+      const where = module ? LintSource.at(this.path, `${module}__${name}`, '(?:Relation|Measure|Query|Action)') : '';
+      this.add('warning', 'shadow', module ? `${s}, ${own} to a spec or a save${where ? ` (${where.slice(0, -2)})` : ''}`
+        : s);
+    }
   }
   // An aim its author gave no target is read from its words (see ObjectiveTarget); where they name places neither of
   // which holds the other, the page cannot tell which is meant, and where they name nothing to go to or speak with it
