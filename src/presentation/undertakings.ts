@@ -152,8 +152,12 @@ export class Undertakings {
     const places = new Set(aims.flatMap(o => this.places(campaign, o)));
     const leading = new Set(w.relates('leadsTo') ? w.related('leadsTo').filter(l => places.has(l.args[1]!))
       .map(l => l.args[0]!) : []);
-    return new Set(rows.filter(r => (r.action.success ?? []).some(c => c.kind === 'assert' && c.call?.name === 'knows'
-      && (waited.has(c.call.args[1] ?? '') || leading.has(c.call.args[1] ?? '')))).map(r => r.choice.id));
+    // And what moves an aim held on, call by call, as the aim followed's are found (AimAdvances): taking up the job
+    // the aim is to ask about, given(rats_job), had served no aim, and the question come to ask stood outside the four
+    // while the salter was asked about the old kingdom (cold play 3, CL-25).
+    const moving = aims.flatMap(o => [...AimAdvances.of(campaign, rows as Parameters<typeof AimAdvances.of>[1], o)]);
+    return new Set([...rows.filter(r => (r.action.success ?? []).some(c => c.kind === 'assert' && c.call?.name === 'knows'
+      && (waited.has(c.call.args[1] ?? '') || leading.has(c.call.args[1] ?? '')))).map(r => r.choice.id), ...moving]);
   }
   // The places an aim is about, by id, most particular first: those its words or condition name; then the outside of
   // a site among them (the barrow's outside, where the map has it); then what they lie in (the inn's town). For the

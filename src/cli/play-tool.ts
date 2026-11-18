@@ -74,7 +74,7 @@ export class PlayTool {
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
     // nor begun by name: --as herbs on a1 had set out with "No aim is held".
     if (!session.campaign.module.entities.some(e => e.id.startsWith('origin__'))) {
-      throw new Error(`no ${drawn.origin ?? 'origin'} in ${o.world}`);
+      throw new Error(`no ${drawn.origin ? `${drawn.origin} origin` : 'origin'} in ${o.world}`);
     }
     return { journey: Journey.of(session), lead: [] };
   }
