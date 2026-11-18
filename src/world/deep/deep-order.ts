@@ -30,8 +30,14 @@ export class DeepOrder {
       .map(([k, v]) => [k, this.fill(v as string, named)]));
     return [...DeepRooms.section('order', { ...said, id, room: chest.room.id, friezeroom: frieze.room.id }),
       ...shown.flatMap((part, n) => DeepRooms.section('orderright', { ...said, id, room: chest.room.id, n: String(n),
-        k: String(marks.indexOf(part)), press: words.press!.replace('{part}', part) })),
+        k: String(marks.indexOf(part)), press: words.press!.replace('{part}', part), ...this.last(id, said,
+          marks.indexOf(part) === marks.length - 1) })),
       ...this.gift(id, at.purpose, draw)];
+  }
+  // The last mark held says the chest opening and opens it; any other, that it holds.
+  private static last(id: string, said: Record<string, string>, last: boolean): { saidheld: string; opens: string } {
+    return last ? { saidheld: said.right!, opens: ` Retract state(${id}, sealed). Assert state(${id}, open).` }
+      : { saidheld: said.held!, opens: '' };
   }
   private static fill(text: string, named: Record<string, string>): string {
     return text.replace(/\{(\w+)\}/g, (all, k: string) => named[k] ?? all);

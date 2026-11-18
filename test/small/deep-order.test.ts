@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { ModuleWriter } from '../../src/lang/module-writer';
+import { PlayerView } from '../../src/presentation/player-view';
 import { DeepOrder } from '../../src/world/deep/deep-order';
 import { DeepPurposes } from '../../src/world/deep/deep-purposes';
 import type { DeepContent } from '../../src/world/deep/deep-pacing';
@@ -47,7 +48,16 @@ describe('an order chest in a deep site', () => {
     expect(order).toHaveLength(3);
     await t.play(`Press the boss carved as ${order[1]}`);
     expect(n(t)).toBe(0);
-    for (const mark of order) { await t.play(`Press the boss carved as ${mark}`); }
+    // The act a mark is pressed by is the same before and after a press, and says nothing of the order: a right and a
+    // wrong act a mark, offered by turns, had given it away and refused a press read off the turn before (CL-43).
+    const ids = () => PlayerView.choices(t.campaign).map(c => c.choice.id).filter(c => c.startsWith(`t__${id}_`)
+      && /Press/.test(PlayerView.choices(t.campaign).find(x => x.choice.id === c)!.choice.name)).sort();
+    const before = ids();
+    for (const mark of order) {
+      await t.play(`Press the boss carved as ${mark}`);
+      if (!open(t)) { expect(ids()).toEqual(before); }
+    }
+    expect(before.every(c => /_m\d\(/.test(c))).toBe(true);
     expect(open(t)).toBe(true);
     expect(t.world.test(ModuleWriter.call('inside', `t__${id}_gift`, `t__${id}`))).toBe(true);
   });

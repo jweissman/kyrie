@@ -119,7 +119,6 @@
     State shown "{friezeseen}".
   }
   Observe {id}_frieze_read at {friezeroom} when not knows(party, {id}_order) "{friezeseen}" teaches {id}_order.
-  Rule {id}_opens when {id}_n({id}) == 3 and state({id}, sealed) says "{right}" { Retract state({id}, sealed). Assert state({id}, open). }
   Action {id}_read(actor: group, site: place) "{readlabel}" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and capable(actor, lore) and not knows(actor, {id}_order) and not {id}_tried().
     Time 3.
@@ -136,16 +135,16 @@
     Result "{force}".
   }
 --- orderright
-  // The mark that comes next in the order ({k}: how many have gone before it): pressed, it holds down.
-  Action {id}_p{n}(actor: group, site: place) "{press}" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and {id}_n({id}) == {k}.
+  // A mark, pressed: one act a mark, whatever has gone before it, so that the act a mark is pressed by is the same
+  // every turn and says nothing of the order (the cold plays: a right and a wrong act for each mark, offered by turns,
+  // had given the order away by their ids, and had refused the press a player read off the turn before: CL-43). Rules
+  // then hold it down, if it is the mark that comes next ({k}: how many have gone before it), or spring them all back;
+  // the last mark held opens the chest in the same breath ({opens}: rules make one pass).
+  Relation {id}_pressed{n}().
+  Action {id}_m{n}(actor: group, site: place) "{press}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and not {id}_pressed{n}().
     Time 1.
-    On success { Increase {id}_n({id}) by 1. }
-    Result "{held}".
+    On success { Assert {id}_pressed{n}(). }
   }
-  Action {id}_q{n}(actor: group, site: place) "{press}" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {room}) and state({id}, sealed) and {id}_n({id}) != {k}.
-    Time 1.
-    On success { Set {id}_n({id}) to 0. }
-    Result "{wrong}".
-  }
+  Rule {id}_held{n} when {id}_pressed{n}() and {id}_n({id}) == {k} says "{saidheld}" { Retract {id}_pressed{n}(). Increase {id}_n({id}) by 1.{opens} }
+  Rule {id}_back{n} when {id}_pressed{n}() and {id}_n({id}) != {k} says "{wrong}" { Retract {id}_pressed{n}(). Set {id}_n({id}) to 0. }

@@ -77,9 +77,11 @@ describe('what lies in a deep site, with a brother of one\'s own name in the com
     Reach.enter(s, s.campaign.world.one('at', chest)!);
     const gift = module.entities.find(e => e.id === `${chest}_gift`)!;
     expect(Reach.hand(s).has(gift.name)).toBe(false);
-    for (let n = 0; n < 3; n++) {
-      const right = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`${chest}_p`))!;
-      await s.leg(right.choice.id);
+    // In the order the frieze tells (its discovery's words): the act a mark is pressed by says nothing of it (CL-43).
+    const told = module.entities.find(e => e.id === `${chest}_order`)!.name;
+    for (const mark of [...told.split(':')[1]!.matchAll(/the [a-z-]+/g)].map(m => m[0])) {
+      const press = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`${chest}_m`) && c.choice.name.endsWith(mark))!;
+      await s.leg(press.choice.id);
     }
     expect(Reach.hand(s).get(gift.name)?.[0]).toStartWith(`take_out(${gift.id},${chest},`);
   }, 30000);
