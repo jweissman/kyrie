@@ -190,6 +190,12 @@ export class ComposedCreation {
       <h2>{Typography.curl(card.name)}</h2>
       <dl>{card.entry.facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{Typography.curl(v)}</dd></div>)}</dl>
       {card.entry.rules.length > 0 && <ul>{card.entry.rules.map(r => <li key={r}>{Typography.curl(r)}</li>)}</ul>}
+      {card.entry.groups?.map(g => <section key={g.heading} className="entry-group" aria-label={g.heading}>
+        <h3>{g.heading}</h3>
+        <ul>{g.rows.map(x => <li key={x.id} data-entry-row={x.id}>{x.emblem && <Glyphs.View id={x.emblem}
+          className="entry-glyph" />}<b>{Typography.curl(x.name)}</b> {Typography.curl(x.line)}</li>)}</ul>
+      </section>)}
+      {card.entry.after && <p className="entry-after">{Typography.curl(card.entry.after)}</p>}
     </aside>;
   }
   // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).

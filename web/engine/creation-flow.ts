@@ -5,6 +5,7 @@ import { CreationRules } from '../reader/creation-rules';
 import { Words } from '../reader/words';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
+import { CreationSpells, type SpellStepId } from './creation-spells';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
@@ -15,7 +16,13 @@ import type { Catalog, Member, Setting } from './protocol';
 // choice as it is considered (the owner, 17 November: "hovering over Elf shows the details for elves"; PA-05).
 export interface CreationCard {
   id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
-  aside?: string; say?: string; entry?: { facts: [string, string][]; rules: string[] };
+  aside?: string; say?: string; entry?: CreationEntry;
+}
+// groups: things listed under the entry, a heading over each, each by its emblem, its name and a line (the spells a
+// school sets out knowing, at will and at first level); after: a line under them (those known now, cast later).
+export interface CreationEntry {
+  facts: [string, string][]; rules: string[];
+  groups?: { heading: string; rows: { id: string; name: string; line: string; emblem?: string }[] }[]; after?: string;
 }
 // How a step is best drawn, a hint every client may take or leave (the owner, 17 November: the engine says the
 // question, its options and how they may be shown; no client keeps a page of its own per step): as cards (a people,
@@ -23,7 +30,7 @@ export interface CreationCard {
 // rows over the sky they are signs of (the observatory).
 export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
 export type CreationStepId = 'why' | 'you' | 'sign' | 'gift' | 'calling' | 'specialty' | 'before' | 'trade'
-  | 'presenting' | 'name';
+  | 'presenting' | 'name' | SpellStepId;
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
 // thrown again; and the first spells known ("a,b,c").
@@ -40,9 +47,10 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // deals another hand of the cards, by its aside.
 // leads: what the next step asks hangs on the card chosen here (the sign's gifts, the calling's art, the kind's
 // trades), so a client waits for the engine's answer before going on, never showing the next step as it stood before.
+// emblems: each card's emblem is drawn beside its name, whatever the step is drawn as (a school's, a spell's school).
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
-  all?: boolean; write?: string; roll?: string; leads?: boolean;
+  all?: boolean; write?: string; roll?: string; leads?: boolean; emblems?: boolean;
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -86,7 +94,7 @@ export class CreationFlow {
     return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step),
       ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
-  static readonly leading: CreationStepId[] = ['sign', 'calling', 'before'];
+  static readonly leading: CreationStepId[] = ['sign', 'calling', 'specialty', 'before'];
   // Where the making stands: the step asked now (the first until another), or setting out.
   current(): CreationStepId | 'go' {
     const ids = this.steps().map(x => x.id);
@@ -154,7 +162,7 @@ export class CreationFlow {
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.entry(`class:${x.id}`) })) },
-      ...this.specialty(),
+      ...this.specialty(), ...this.spells(),
       // Every kind of life at once, each said by what it is and beside it the reference's entry (the owner, 18
       // November, OR-88: "it's reasonable to show all of them rather than force multiple pages… some indication from
       // the encyclopedia of what the choice means"); then the trade within it, asked in its own words (OR-90).
@@ -196,18 +204,21 @@ export class CreationFlow {
     const c = this.catalog, m = this.member, calling = c.callings.find(x => x.id === m.classId);
     const ask = CreationFlow.asks[m.classId ?? ''], forbids = c.ancestries.find(a => a.id === m.raceId)?.forbids ?? [];
     if (!calling || !ask || !calling.specializations.some(t => t.of)) { return []; }
-    return [{ id: 'specialty', ask, present: 'list', all: true, chosen: m.traits?.[0], cards: calling.specializations
+    return [{ id: 'specialty', ask, present: 'list', all: true, emblems: true, chosen: m.traits?.[0], cards: calling.specializations
       .map(t => ({ id: t.id, name: t.name, emblem: t.id, ...t.line ? { line: t.line } : {},
-        ...t.text ? { say: t.text } : {},
-        ...forbids.includes(t.id) ? { shut: 'Not for your people' } : {}, entry: CreationFlow.way(t) })) }];
+        ...t.text ? { say: t.text } : {}, ...forbids.includes(t.id) ? { shut: 'Not for your people' } : {},
+        entry: { ...CreationFlow.way(t), ...CreationSpells.shown(t, calling.name.toLowerCase(), m) } })) }];
+  }
+  // The first spells, chosen, where the art is asked (see CreationSpells).
+  private spells(): CreationStep[] {
+    const m = this.member;
+    return this.specialty().length ? CreationSpells.steps(m, this.catalog.callings.find(x => x.id === m.classId)) : [];
   }
   static readonly asks: Record<string, string> = { mage: 'Which art did you learn?', cleric: 'What does your god keep?' };
-  // A way as the reference has it, and the spells one who takes it sets out knowing.
-  private static way(t: Catalog['callings'][number]['specializations'][number]): NonNullable<CreationCard['entry']> {
+  // A way as the reference has it (the spells one who takes it sets out knowing listed under it: CreationSpells.shown).
+  private static way(t: Catalog['callings'][number]['specializations'][number]): CreationEntry {
     const found = CreationFlow.entry(`trait:${t.id}`).entry ?? { facts: [], rules: [] };
-    const spells = (t.spells ?? []).map(x => x.name);
-    return { facts: [...found.facts, ...spells.length ? [['Sets out knowing', spells.join(', ')] as [string, string]] : []],
-      rules: t.rules?.length ? t.rules : found.rules };
+    return { facts: found.facts, rules: t.rules?.length ? t.rules : found.rules };
   }
   // The trade within the kind of life chosen (once it is chosen), asked in the kind's own words ("What did you do on
   // the water?"), a hand of them at a time, the one best suited to the calling first (the calling's own, where it has
@@ -256,6 +267,8 @@ export class CreationFlow {
     const here = this.current();
     if (step === 'back' || step === 'onward') { this.move(step === 'back' ? -1 : 1); return; }
     if (step === 'roll') { if (here === 'trade') { this.dealt++; } else { this.rolls++; } return; }
+    // A card shut is not taken (a way the people may not take, a spell that would leave none of the art).
+    if (step === here && this.steps().find(x => x.id === here)?.cards.find(c => c.id === value)?.shut) { return; }
     // A card chosen at the step asked goes on to the next; a name being written, or a choice behind Details, does not.
     if ((step === here && step !== 'name') || (step === 'drawn' && here === 'name')) { this.settled(step, value); this.move(1); return; }
     this.settled(step, value);
@@ -266,6 +279,7 @@ export class CreationFlow {
     if (step === 'weapon') { m.weapon = value; return; }
     if (step === 'drawn') { m.name = value; this.named = false; return; }
     if (step === 'spells') { m.spells = value.split(',').filter(Boolean); return; }
+    if (CreationSpells.is(step)) { CreationSpells.settle(m, this.catalog, step, value); return; }
     if (step === 'place') { this.place(value); return; }
     if (step === 'reroll') { this.reroll(); return; }
     if (step === 'trade') {

@@ -57,9 +57,9 @@ describe('a life before, and a caster\'s art', () => {
     expect(flow.current()).toBe('specialty');
     const school = step(flow, 'specialty')!;
     expect([school.ask, school.cards.length]).toEqual(['Which art did you learn?', 8]);
-    expect(school.cards.find(c => c.id === 'evoker')!.entry!.facts.some(([k]) => k === 'Sets out knowing')).toBe(true);
+    expect(school.cards.find(c => c.id === 'evoker')!.entry!.groups!.map(g => g.heading)).toEqual(['At will', 'First level']);
     flow.choose('specialty', 'evoker');
-    expect([flow.member.traits, flow.current(), flow.life()[0]]).toEqual([['evoker'], 'before', 'A human evoker.']);
+    expect([flow.member.traits, flow.current(), flow.life()[0]]).toEqual([['evoker'], 'spell-1', 'A human evoker.']);
     flow.choose('back', ''); flow.choose('back', ''); flow.choose('calling', 'cleric');
     expect(step(flow, 'specialty')!.ask).toBe('What does your god keep?');
     flow.choose('calling', 'warrior');

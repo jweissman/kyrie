@@ -5,12 +5,19 @@ import { ChoiceList } from '../../src/ui/choice-list';
 import { AbilityRows } from '../../src/ui/ability-rows';
 import { EncyclopediaHtml } from '../../src/handbook/encyclopedia-html';
 import type { CombatScreen } from '../../src/ui/screen-types';
+import { Creation } from '../../web/engine/creation';
+import { CreationFlow } from '../../web/engine/creation-flow';
+import type { Setting } from '../../web/engine/protocol';
 
 // The schools' and domains' emblems drawn wherever a spell or a school is shown (the owner, 18 November, OR-92: "we
 // have glyphs/icons for the spell schools and we don't surface those in the menu or in the display area"): a spell by
 // the emblem of the way that teaches it, in a fight's spells, the scene's casting and preparing, the company's book and
 // the Encyclopedia; creation's school step by each school's; and the school's entry its first spells, each with the
 // emblem of what it is for and a line of what it does (OWN-15's strip, lost with the cards page).
+const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
+const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' }, names,
+  party: [Creation.protagonist('human', 'glyphs', names)] };
+
 describe('the schools\' emblems', () => {
   it('names a spell by its school, or a prayer by its domain', () => {
     expect(['firebolt', 'ward', 'bless', 'siphon_life'].map(id => SpellSchools.emblem(id)))
@@ -38,5 +45,21 @@ describe('the schools\' emblems', () => {
     const html = new EncyclopediaHtml(book).chapter({ id: 'magic', title: 'Magic', lede: [],
       sections: [{ id: 's', title: 'Cantrips', entries: [{ id: 'ability:firebolt', title: 'Firebolt' }] }] } as never);
     expect(html).toContain(Emblems.svg('evoker'));
+  });
+
+  it('draws each school beside its name, and lists the spells it sets out knowing', () => {
+    const flow = new CreationFlow(setting, Creation.catalog());
+    for (const [id, v] of [['you', 'human'], ['sign', 'sign_ship'], ['gift', 'star_restless'], ['calling', 'mage']]) {
+      flow.choose(id as never, v!);
+    }
+    const school = flow.steps().find(x => x.id === 'specialty')!;
+    expect(school.emblems).toBe(true);
+    expect(school.cards.every(c => c.emblem === c.id && Emblems.has(c.id) || c.id === 'generalist')).toBe(true);
+    const evoker = school.cards.find(c => c.id === 'evoker')!.entry!;
+    const [atWill, first] = evoker.groups!;
+    expect(atWill!.rows.map(r => r.name)).toEqual(['Frostbite', 'Scald']);
+    expect(first!.rows.length).toBe(3);
+    expect([...atWill!.rows, ...first!.rows].every(r => r.line && r.emblem && Emblems.has(r.emblem))).toBe(true);
+    expect(evoker.after).toMatch(/^Every mage knows Light too\. Later: /);
   });
 });

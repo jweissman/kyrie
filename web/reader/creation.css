@@ -1,9 +1,6 @@
 /* ---- Creation's rows are the one row (ChoiceRow: menu.css and row.css), of every menu's one height; creation gives
    them nothing of its own but the field a name is written in. ---- */
 .composed-write { cursor: text; }
-/* Ancestry's and calling's emblems beside their names, small, in the row's own colour. */
-:root .composed .choice-row > .row-label > .row-glyph { width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none;
-  stroke: currentColor; stroke-width: 1.5; opacity: .85; }
 .composed-write > input { all: unset; flex: 1 1 auto; min-width: 0; font: var(--t-choice); color: var(--ivory); }
 .composed-write > input::placeholder { color: var(--dim); }
 /* The reference's entry for the option considered, in the room beside the question (PA-05): its words, a few facts, its
@@ -17,6 +14,15 @@
 .composed .creation-entry dt { font: 500 12px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
 .composed .creation-entry dd { margin: 0; font: 400 14px/1.5 var(--do); }
 .composed .creation-entry ul { margin: 0; padding: 0 0 0 1.1em; font: 400 14px/1.5 var(--do); color: var(--dim); }
+/* The spells a school or a god's keeping sets out knowing (OR-92), under when they are cast, each by the emblem of what
+   it is for, in ink, its name and what it does. */
+.composed .creation-entry .entry-group h3 { margin: 12px 0 4px; font: 500 12px/1.5 var(--do); letter-spacing: .06em;
+  color: var(--dim); }
+.composed .creation-entry .entry-group ul { list-style: none; padding: 0; color: var(--ivory); }
+.composed .creation-entry .entry-group b { font-weight: 500; }
+.composed .creation-entry .entry-glyph { width: 18px; height: 18px; margin: 0 8px -4px 0; fill: none; stroke: currentColor;
+  stroke-width: 1.5; opacity: .85; }
+.composed .creation-entry .entry-after { margin: 10px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }
 @media (orientation: portrait), (max-width: 899px) { .composed .creation-entry { display: none; } }
 /* A list is one of the four, its options close together, two to a line (creation's one dense menu, the engine's
    hint: a people's names; the owner, 17 November). */
