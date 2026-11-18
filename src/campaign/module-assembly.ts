@@ -92,7 +92,7 @@ export class ModuleAssembly {
     if (manifest.discoveries?.some(b => information.entities.some(e => e.id === b.source))) {
       throw new Error('Source configured by both information and legacy discoveries');
     }
-    return { ...situation, name: manifest.name ? `${situation.name}: ${manifest.name}` : situation.name,
+    return { ...situation, name: manifest.name && manifest.name !== situation.name ? `${situation.name}: ${manifest.name}` : situation.name,
       kinds: [...rules.kinds, ...situation.kinds], relations: [...rules.relations, ...situation.relations],
       measures: [...rules.measures, ...situation.measures], queries: [...rules.queries, ...situation.queries],
       // A kind of the catalog both name (a recipe's willow bark, and willow bark lying on a bank) is one kind.

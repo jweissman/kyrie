@@ -16,7 +16,8 @@ export class News {
     const exchange = frame.leaf.exchange;
     if (!exchange) { return []; }
     const seen = new Set(had.map(i => i.text));
-    const aims: Item[] = (exchange.aims ?? []).map(a => ({ text: a.text, label: a.now ? 'The aim now' : 'A new aim', aim: true }));
+    const aims: Item[] = (exchange.aims ?? []).map(a => ({ text: a.text, aim: true,
+      label: a.begins ? `A story begins: ${a.begins}` : a.now ? 'The aim now' : 'A new aim' }));
     const notes: Item[] = exchange.notes.filter(n => !Words.aimed.test(n) || !exchange.aims?.length)
       .map(n => ({ text: n.replace(Words.noted, ''), ...Words.label(n) ? { label: Words.label(n)! } : {},
         ...Words.aimed.test(n) ? { aim: true as const } : {} }));

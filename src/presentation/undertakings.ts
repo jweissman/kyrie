@@ -9,6 +9,7 @@ import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
 import { AimWords } from './aim-words';
 import type { Promoted } from './glance-types';
+import { Stories } from './stories';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -81,9 +82,13 @@ export class Undertakings {
     static shown(campaign: Campaign, held: { id: string; text: string }[], here: string) {
     const followed = this.followed(campaign)?.id, chosen = this.chosen(campaign);
     const defs = new Map((campaign.module.objectives ?? []).map(o => [o.id, o]));
+    // The aim followed first, the company's own errand, then the stories' aims, then the rest (see Stories): the
+    // numbers every client follows by.
     const ordered = Stakes.here(campaign, held, here)
-      .toSorted((a, b) => Number(b.id === followed) - Number(a.id === followed))
-      .map(o => ({ o, def: defs.get(o.id) })).map(({ o, def }) => ({ id: o.id, text: FictionalTime.prose(o.text),
+      .toSorted((a, b) => this.rank(campaign, defs.get(a.id), a.id, followed)
+        - this.rank(campaign, defs.get(b.id), b.id, followed))
+      .map(o => ({ o, def: defs.get(o.id), story: Stories.of(campaign, o.id) }))
+      .map(({ o, def, story }) => ({ id: o.id, text: FictionalTime.prose(o.text), ...story ? { story } : {},
         ...o.id === followed ? { followed: true as const } : { follow: `follow:${o.id}` },
         ...o.id === followed && chosen ? { chosen: true as const } : {},
         ...def && Stakes.own(def) ? { own: true as const } : {},
@@ -91,6 +96,9 @@ export class Undertakings {
           ? { who: this.who(campaign, def) } : {} }));
     const folded = this.folded(campaign, ordered);
     return { objectives: folded.map(o => o.text), ...folded.length ? { aims: folded } : {} };
+  }
+  private static rank(campaign: Campaign, def: Objective | undefined, id: string, followed?: string): number {
+    return id === followed ? 0 : def && Stakes.own(def) ? 1 : Stories.of(campaign, id) ? 2 : 3;
   }
   // A work's own aim (somewhere named, to be gone into: its _sought) is part of another aim held for the same site,
   // not an aim beside it: "Your sister went into Albustagn" and "The springs … were held somewhere under Albustagn"

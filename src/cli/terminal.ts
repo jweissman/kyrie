@@ -273,7 +273,12 @@ export class Terminal {
       return;
     }
     if (answer === 'unfollow') { await session.leg('follow:'); return; }
-    aims.forEach((a, i) => console.log(`${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`));
+    // Under the story each is part of, then the rest (see Stories), numbered as they are followed by.
+    aims.forEach((a, i) => {
+      const under = a.story?.title ?? 'Besides', was = aims[i - 1]?.story?.title ?? (i ? 'Besides' : undefined);
+      if (under !== was) { console.log(Typography.plain(under)); }
+      console.log(`  ${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`);
+    });
     if (!aims.length) { console.log('No aim is held.'); }
   }
   // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk); with

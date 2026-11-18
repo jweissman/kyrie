@@ -99,14 +99,24 @@ export class Sheet {
     return Sheet.ordered(app, [...screen.deadlines.map(text => ({ text })), ...held]);
   }
   static key(aim: Held): string { return aim.id ?? aim.text; }
+  static stories(titles: (string | undefined)[]): string[] { return [...new Set(titles.filter(t => t !== undefined))]; }
   static Aims({ app, picked, pick }: { app: ReaderApp; picked?: string; pick: (key: string) => void }) {
     const screen = app.state.frame!.screen, [first, ...rest] = Sheet.listed(app);
     const card = (aim: Held) => <Sheet.Aim key={Sheet.key(aim)} app={app} aim={aim} picked={picked === Sheet.key(aim)}
       pick={pick} />;
-    const town = AimNear.town(screen), here = rest.filter(o => town && AimNear.near(screen, o.id ? { id: o.id } : o.text));
-    const far = rest.filter(o => !here.includes(o));
+    // Each story's aims under its title, then the rest (the owner, 18 November, OR-74: stories apart from simple aims).
+    // The first's own story's other aims go under it, its title said once above it.
+    const story = (aim?: Held) => aim && Sheet.held(app, aim)?.story?.title, own = story(first);
+    const told = Sheet.stories(rest.map(story)).filter(t => t !== own), mine = own ? rest.filter(o => story(o) === own) : [];
+    const loose = rest.filter(o => !story(o)), town = AimNear.town(screen);
+    const here = loose.filter(o => town && AimNear.near(screen, o.id ? { id: o.id } : o.text));
+    const far = loose.filter(o => !here.includes(o));
     return <>
+      {own && <p className="aims-story kicker">{Typography.curl(own)}</p>}
       <ul className="aims">{card(first!)}</ul>
+      {mine.length > 0 && <ul className="aims rest">{mine.map(card)}</ul>}
+      {told.map(t => <div key={t} className="aims-more story"><h3>{Typography.curl(t)}</h3>
+        <ul className="aims rest">{rest.filter(o => story(o) === t).map(card)}</ul></div>)}
       {here.length > 0 && <div className="aims-more"><h3>{Typography.curl(`To hand in ${town!.name}`)}</h3>
         <ul className="aims rest">{here.map(card)}</ul></div>}
       {far.length > 0 && <div className="aims-more"><h3>{town ? 'Further off' : 'You could also take up'}</h3>

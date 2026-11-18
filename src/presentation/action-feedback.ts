@@ -5,6 +5,7 @@ import { PlayerView, type PlayerSnapshot } from './player-view';
 import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { Outmatched } from './outmatched';
+import { Stories } from './stories';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Operator, Predicate } from '../lang/module';
 import { PartyCapabilities } from '../campaign/party-capabilities';
@@ -31,7 +32,8 @@ export interface ActionFeedback {
   amended?: string[];
   // The same aims, each by its id with its words: what the page follows and counts by (the owner, 11 November: an
   // undertaking known by the game's state, never by its sentence).
-  taken?: { id: string; text: string; now?: true }[];
+  // begins: the title of the story it begins, where no aim of that story was held before (see Stories).
+  taken?: { id: string; text: string; now?: true; begins?: string }[];
   // Places something learned leads to that nothing said where they are, now somewhere to set out for.
   leads?: string[];
   // What the company was told and has now seen for itself (come to the place, or the thing in its hands), and who told
@@ -56,6 +58,15 @@ export class ActionFeedbackView {
       .map(o => this.told(o));
     return { aims: aims.map(a => a.text), amended: amended.map(a => a.text),
       taken: [...aims, ...amended.map(a => ({ ...a, now: true as const }))] };
+  }
+  // A story begun by it: an aim taken up of a story none of whose aims was held before, told as the story's beginning
+  // (the owner, 18 November, OR-74: onboarding to an adventure proper made plain, not a seventh aim among six).
+  static begun(campaign: Campaign, before: PlayerSnapshot, taken: { id: string; text: string; now?: true }[]) {
+    const had = new Set((before.objectives ?? []).map(o => Stories.of(campaign, o.id)?.id));
+    return taken.map(t => {
+      const story = t.now ? undefined : Stories.of(campaign, t.id);
+      return story && !had.has(story.id) ? { ...t, begins: story.title } : t;
+    });
   }
   // The aim followed again when the one followed has ended: the company's own errand taken up once more, said as the
   // aim now (round 4's talker saw the aim followed go back to a dungeon on its own, with nothing to say so).
@@ -294,7 +305,8 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
-    const { aims, amended, taken } = ActionFeedbackView.aims(before, after);
+    const { aims, amended } = ActionFeedbackView.aims(before, after);
+    const taken = ActionFeedbackView.begun(campaign, before, ActionFeedbackView.aims(before, after).taken);
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length

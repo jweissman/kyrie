@@ -45,7 +45,8 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
 // What pulls once an aim is seen through (Succession): its words, and the act that takes it up, or the aim to follow.
 export interface Next { text: string; act?: string; label?: string; follow?: string }
 // An aim held, as the Notes list it: following one (as Follow this does) takes no time.
-export interface Aim { id: string; text: string; followed?: true }
+// story: the title of the adventure it is part of; none, a miscellaneous aim (see Stories).
+export interface Aim { id: string; text: string; story?: string; followed?: true }
 // What an agent may send: an act by its id, a lens to look through, the place looked at whole, every choice, or an aim
 // to follow (none, to follow none).
 // follow: an aim by its id, or by the number the scene says it by ("· follow 1": cold play 2, CL-11).
@@ -78,7 +79,8 @@ export class Runner {
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
       purse: { coin: screen.purse.coin, rations: screen.purse.rations },
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
-        id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
+        id: a.id, text: Typography.plain(a.text), ...a.story ? { story: a.story.title } : {},
+        ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
