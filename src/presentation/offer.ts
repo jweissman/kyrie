@@ -74,8 +74,8 @@ export class Offers {
       }
     }
     const primary = [...led, ...fill].slice(0, this.four);
-    const rest = live.filter(c => !shown.has(c.choice)).sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order)
-      .map(c => this.candidate(c));
+    const rest = this.once(live.filter(c => !shown.has(c.choice)), [...shown])
+      .sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order).map(c => this.candidate(c));
     // A site, or under the ground (a town's undertown is one too).
     const site = !!screen && (screen.path.some(p => p.kind === 'site') || !!screen.place.underground);
     const at = { site, ...out ? { out } : {} };
@@ -89,6 +89,18 @@ export class Offers {
   private static told(o: Offered, c: { twice: Set<string>; byChoice: Map<string, Candidate>;
     at: { site: boolean; out?: Set<string> }; land?: { screen: Screen; campaign: Campaign } }): Offered {
     return this.borne(this.borneWay(o, c.twice.has(o.label) ? c.land : undefined), c.byChoice.get(o.choice), c.at);
+  }
+  // Each place gone to once: a journey to where a way from here already goes ("Set out for the shore of the Eastern
+  // Ocean" beside "To the shore of the Eastern Ocean", "To the way into Scarth Holm" beside "Take the road to Scarth
+  // Holm") is the same choice told twice (cold play 2, CL-07: a rest of 86, a dozen of them a destination again).
+  private static once(rest: Candidate[], shown: string[]): Candidate[] {
+    const ids = [...rest.flatMap(c => [c.choice, c.command ?? '']), ...shown];
+    const there = new Set(ids.flatMap(id => /^go\([^,]+,([^)]+)\)$/.exec(id)?.[1] ?? []));
+    return rest.filter(c => !there.has(Offers.journeyTo(c) ?? ''));
+  }
+  // Where a journey goes, where the candidate is one (travel:<place>).
+  private static journeyTo(c: Candidate): string | undefined {
+    return [c.command, c.choice].find(id => id?.startsWith('travel:'))?.slice('travel:'.length);
   }
   private static twice(all: Offered[]): Set<string> {
     const labels = all.map(o => o.label);

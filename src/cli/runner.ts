@@ -100,9 +100,12 @@ export class Runner {
     const names = this.names();
     const primary = Runner.doable(screen, names, Runner.within(offer?.primary ?? [], acts));
     const rest = Runner.doable(screen, names, offer?.rest ?? []);
-    const had = new Set([...primary, ...rest].map(o => o.id));
-    // A journey the map offers and the scene does not (the terminal sets out by them too).
-    const journeys = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
+    const had = new Set([...primary, ...rest].flatMap(o => [o.id, /^go\([^,]+,([^)]+)\)$/.exec(o.id)?.[1] ?? '']
+      .map((x, i) => i ? `travel:${x}` : x)));
+    // A journey the map offers and the scene does not (the terminal sets out by them too); none to where a way from
+    // here already goes (CL-07: the same place offered twice, as a way and as a journey).
+    const journeys = [...new Map([...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
+      .map(d => [d.id, d])).values()]
       .filter(d => !had.has(`travel:${d.id}`)).map(d => ({ id: `travel:${d.id}`, label: `Set out for ${d.name}`,
         aspects: [], type: 'journey' as const, minutes: d.minutes, marks: [] }));
     return { primary, rest: [...rest, ...journeys] };
