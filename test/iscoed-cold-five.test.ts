@@ -1,0 +1,74 @@
+import { describe, expect, it } from 'bun:test';
+import { readFileSync } from 'node:fs';
+import { PlayTool } from '../src/cli/play-tool';
+import { Runner, type Said } from '../src/cli/runner';
+
+// The fifth cold play of the golden route (mission-22/cold/cold-5-report.md, the elf mage from Gatesend) and the
+// fourth's threads (cold-4-report.md), replayed by their own lines: the world answers what the company found and did
+// (CL-32, CL-46), and what is told is so (CL-35).
+const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
+const sent = { 4: 'doc/architecture/mission-22/cold/cold-4-lines.txt', 5: 'doc/architecture/mission-22/cold/cold-5-lines.txt' };
+const lines = (play: 4 | 5, n: number) => readFileSync(sent[play], 'utf8').split('\n').filter(Boolean).slice(0, n);
+const text = (s: Said) => s.scene.lines.join('\n');
+const labels = (s: Said) => [...s.offer.primary, ...s.offer.rest].map(o => o.label);
+async function play(as: string, acts: string[]) {
+  const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
+  const r = new Runner(journey.session);
+  // The plays' own lines, with the few it sent that were not offered then (an act refused is kept in the log).
+  let s = r.said();
+  for (const line of acts) { const x = await r.ask(line); if (!('error' in x)) { s = x; } }
+  return { r, s, ask: async (act: string) => said(await r.ask(JSON.stringify({ act }))) };
+}
+describe('Gatesend, after the fifth cold play', () => {
+  // CL-35: the lease is the heir's from the start, not taken on reading a notice ("You take Tegwen's lease.").
+  it('gives Tegwen\'s lease before anything is done, and reading the notice says only the notice', async () => {
+    const { s } = await play('elf/mage/Ilse/scholar', lines(5, 1));
+    expect(text(s)).not.toContain('Tegwen');
+    expect(labels(s)).toContain('Read Tegwen\'s lease');
+  }, 180000);
+  // CL-32: the sawn pin is something to tell and a question to follow; the gate shut, Gatesend and Nest answer it.
+  it('answers the sawn pin and the shut gate', async () => {
+    const { s, ask } = await play('elf/mage/Ilse/scholar', lines(5, 25));
+    expect(text(s)).toContain('chalked a wave inside a ring');
+    expect(s.aims?.map(a => a.text)).toContain('Find out who sawed through the pawl\'s pin, and why they want the sea-gate open.');
+    expect(labels(await ask('talk_to(origin__nest)'))).toContain('Tell Nest the sea-gate shuts');
+    expect(text(await ask('origin__nest_shut'))).toContain('I heard it stop');
+    expect(text(await ask('origin__nest_pin'))).toContain('Eel-men don’t saw iron');
+  }, 180000);
+  // CL-32: the cook's eight silver and her pie are paid; put out for the music box, the kitchen says why, and the
+  // box given back opens the Hall again; the chime is the boy's tune only to one who heard him hum it.
+  it('pays the cook\'s eight silver and pie, and undoes the theft by giving the box back', async () => {
+    const run = await play('elf/mage/Ilse/scholar', lines(5, 76));
+    const before = run.s.purse!;
+    const paid = await run.ask('region__s4_manor_cook_ratsdone');
+    expect(paid.purse).toEqual({ coin: before.coin + 8, rations: before.rations + 1 });
+    let s = paid;
+    for (const line of lines(5, 88).slice(77)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
+    expect(text(s)).toContain('The steward says you are put out of the house');
+    // Its 35: a second word with the cook had printed nothing at all.
+    expect(text(await run.ask('talk_to(region__s4_manor_cook)'))).toContain('Well?');
+    expect(text(await run.ask('region__s4_manor_cook_amends'))).toContain('The front door is open');
+    const front = await run.ask('go(region__s4_manor_kdoor,region__s4_manor_front)');
+    expect(labels(front)).toContain('To the great hall');
+  }, 240000);
+  // Its 37, 38, 41: the chime is the boy's tune to one who has heard him hum it in the Hall kitchen, the house's
+  // history is not told again, and nothing is said to answer that does not.
+  it('rings the chime as the tune the kitchen boy hums, and says nothing twice', async () => {
+    const { s } = await play('elf/mage/Ilse/scholar', lines(5, 95));
+    expect(text(s)).toContain('it is the tune the kitchen boy hums at the Hall');
+    expect(text(s)).not.toMatch(/Wimble's four notes|answered question|dressed limestone/);
+  }, 240000);
+});
+// The fourth cold play's threads (CL-46): Bran says what he will do himself, the boy has his answer once Bran is out,
+// and the reeve says why nobody in Gatesend will go into the gatehouse.
+describe('the drove road, after the fourth cold play', () => {
+  it('lets Bran and Owain say what comes next, and the reeve why the gatehouse is shunned', async () => {
+    const { s: freed, ask } = await play('human/warrior/Wenna', lines(4, 12));
+    expect(text(freed)).toContain('Now I sell them, and drink, and go home');
+    said(await ask('go(drove__customs_door,region__s1_green)'));
+    await ask('talk_to(drove__owain)');
+    expect(text(await ask('drove__owain_after'))).toContain('Go home with Bran');
+    await ask('talk_to(gate__reeve)');
+    expect(text(await ask('gate__reeve_gate'))).toContain('with the sea running under it like a mill-race');
+  }, 180000);
+});

@@ -30,6 +30,7 @@
   Person {t}_manor_cook "Orla Pennick" at {t}_manor_kitchen {
     Role "the cook of the Hall, who feeds forty on a budget for ten". Ancestry human. Peaceable. Manner acerbic. Pronouns she.
     Greets "Orla Pennick does not stop what she is doing. 'If you want feeding, the answer is no. If you want hiding, the answer is also no. If you want to be useful, there's a sack of onions.'".
+    Greets again "Orla Pennick looks up, and goes back to what she was doing. 'Well?'".
   }
   Person {t}_manor_boy "Wimble" at {t}_manor_kitchen {
     Role "the kitchen boy, who went up to the dome and came back not knowing his name". Ancestry human. Peaceable. Manner stoic. Pronouns he.
@@ -49,9 +50,20 @@
   }
   Topic {t}_manor_cook_ratsdone with {t}_manor_cook "Tell {{t}_manor_cook} the cellar is clear" when not able({t}_manor_rats) and at(party, {t}_manor_kitchen) once {
     Says "'Well,' says {{t}_manor_cook}. She goes to the dresser and takes down a coin-dish, and counts out eight silver, and then stands there with a mutton pie she did not appear to be holding a moment ago. 'Sit. Eat. Nobody in this house has said thank you in nine years, so you may have the pie instead.'".
-    On discuss { Give 8 gold to actor. Assert {t}_manor_ratsdone(party). }
+    On discuss { Give 8 gold to actor. Give rations to actor. Assert {t}_manor_ratsdone(party). }
   }
   Relation {t}_manor_ratsdone(group). Relation {t}_manor_keyknown(group).
+  // Put out of the Hall for what was carried off (outskirts.kyrt), the company finds the kitchen door still open: the
+  // cook says why, and takes the thing back to its place, and the steward's doors open again (cold play 5's 34, 36:
+  // no way to give it back, and a cook who had heard nothing).
+  Relation {t}_manor_backdoor(group). Relation {t}_manor_amends(group).
+  Rule {t}_manor_cook_heard when state({t}_manor_bar, barred) and at(party, {t}_manor_kitchen) and not {t}_manor_backdoor(party) says "Orla Pennick looks up as you come in, and does not smile. 'The steward says you are put out of the house. The steward does not come in my kitchen.' She holds out her hand. 'If you have it still, give it here. It goes back on its shelf, and nobody says another word.'" { Assert {t}_manor_backdoor(party). }
+  Topic {t}_manor_cook_amends with {t}_manor_cook "Give {{t}_manor_cook} the music box to put back" when carries(actor, {t}_manor_box) and objected({t}_manor_steward, {t}_manor_box) once {
+    Says "{{t}_manor_cook} takes the box, wipes it on her apron, and goes out through the house with it without a word. When she comes back she says, 'It's on its shelf. The steward has counted it. The front door is open.' She looks at you. 'Don't.'".
+    On discuss { Spend {t}_manor_box from actor. Assert at({t}_manor_box, {t}_manor_library). Retract objected({t}_manor_steward, {t}_manor_box).
+      Retract state({t}_manor_bar, barred). Assert state({t}_manor_bar, open). Retract state({t}_manor_bar2, barred). Assert state({t}_manor_bar2, open).
+      Assert {t}_manor_amends(party). }
+  }
   Entity {t}_manor_key_told: fact "The cook knows where the old press key is kept: on a nail behind the dresser, where she hung it when the steward lost it.".
   Topic {t}_manor_cook_key with {t}_manor_cook "Ask {{t}_manor_cook} about the muniment press" when {t}_manor_ratsdone(party) once {
     Says "'The press? The steward has not had the key in forty years and she knows it, and she would sooner be dead than ask me.' {{t}_manor_cook} reaches behind the dresser without looking and takes down a black iron key on a loop of string. 'It was there when I came. Nobody has asked.'".
@@ -83,10 +95,14 @@
   Passage {t}_stones_slabstair "the stair under the slab" is stair between {t}_stones_dome and {t}_stones_under hidden until {t}_slab_found needing brawn or crowbar.
   Thing {t}_stones_chime "the bronze chime" at {t}_stones_under {
     State still "The chime hangs from the roof on its chain, and the tongue is tied back with a strip of cloth.".
-    State struck "The chime has been struck: three notes down, one up, and the sound lingers in the stone like an answered question.".
+    State struck "The chime has been struck, and the sound goes on in the stone a long time after.".
     Change strike "Cut the cloth and strike the chime" from still to struck.
   }
-  Observe {t}_stones_chime_learned at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) "It is Wimble's four notes, exactly, and the chamber rings with them. Whoever the makers were, they sent this signal to their dead, or from them. {craft}" teaches {t}_boy_tune.
+  // The boy's tune is his only to one who has heard him hum it, in the Hall kitchen (cold play 5's 37: "Wimble's four
+  // notes" to one who had heard from him only "There was a bell"); the house's history is told in the library, not
+  // again here (its 38).
+  Observe {t}_stones_chime_learned at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) and been(party, {t}_manor_kitchen) "Three notes down and one up: it is the tune the kitchen boy hums at the Hall, and the chamber rings with it. Whoever the makers were, they sent this signal to their dead, or from them." teaches {t}_boy_tune.
+  Observe {t}_stones_chime_rung at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) and not been(party, {t}_manor_kitchen) "Three notes down and one up, and the chamber rings with them. Whoever the makers were, they sent this signal to their dead, or from them.".
   Entity {t}_boy_tune: fact "Wimble's humming is the old stones' chime: three notes down, one up. He must have heard it struck.".
   Observe {t}_stones_cup_sign at {t}_stones_under when at({t}_stones_cup, {t}_stones_under) "At the foot of the lowest niche a small bronze cup stands in a ring of dust. Of everything in the round room it alone has been set out, as a place is laid for someone; the ring says it has stood so for longer than the Hall has had a name. To lift it would be to take from the dead what the dead were given.".
   Relation {t}_cup_felt(group).
@@ -154,7 +170,7 @@
     Says "{{t}_manor_steward} reads it, and folds it, and puts it in her sleeve. 'I will see that the family hears of it,' she says. 'The chain stays, for now, until the family decides.' She gives you a handful of silver and does not meet your eye. 'The reeve need not trouble himself with the paper.'".
     On discuss { Give 15 gold to actor. Assert {t}_roadwood_hall(party). }
   }
-  Objective {t}_roadwood_aim_read when {t}_roadwood_open(party) and not knows(party, {t}_roadwood_grant) and not {t}_roadwood_shared(party) and not {t}_roadwood_hall(party) toward {t}_manor_muniments "Learn what the Empire's grant of the road says: the parchment lies in the Hall's muniment press, behind a door the rats have made difficult.".
+  Objective {t}_roadwood_aim_read when {t}_roadwood_open(party) and not knows(party, {t}_roadwood_grant) and not {t}_roadwood_shared(party) and not {t}_roadwood_hall(party) toward {t}_manor_muniments "Find the paper that says whose the road-wood is. {{t}_reeve} says there is always one.".
   Objective {t}_roadwood_aim_tell when knows(party, {t}_roadwood_grant) and not {t}_roadwood_shared(party) and not {t}_roadwood_hall(party) toward {t}_reeve "Take what the grant says to {{t}_reeve} on the green, or to the Hall's steward: they will not want the same answer.".
   Observe {t}_roadwood_talk at {t}_green when {t}_roadwood_shared(party) "The wardens are cutting the road-wood again, in a line, with a licence-stick each, and a boy running ahead of them with a billhook trimming the verge. It is the first time anyone has seen the road clear in six years, and the Hall's carts are on it.".
   Observe {t}_roadwood_sour at {t}_green when {t}_roadwood_hall(party) "The wood-wardens go about with their hats low. Nobody has told the reeve anything, and he knows, and the whole green knows he knows.".
