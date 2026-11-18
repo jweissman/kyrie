@@ -163,6 +163,13 @@ export class Runner {
     return new Set(screen.people.flatMap(p => Runner.flat(p.acts)).filter(a => a.command
       && (TalkFocus.services.has(a.does ?? '') || ['haggle', 'buy_item'].includes(a.does ?? ''))).map(a => a.command!));
   }
+  // Why an act asked for is not offered, where the page knows (cold play 3, CL-21: talk_to the boy refused, saying
+  // nothing): someone here is talked to by their row; one not here cannot be.
+  private static why(screen: Screen, act: string): string {
+    const p = /^talk_to\(([^)]+)\)$/.exec(act)?.[1];
+    if (!p) { return ''; }
+    return screen.people.some(x => x.id === p) ? ` (talk to them by talk:${p})` : ' (they are not here)';
+  }
   // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
   private static called(screen: Screen, person: string): string | undefined {
     const talk = Runner.flat(screen.people.find(x => x.id === person)?.acts ?? []).find(a => a.does === 'talk_to');
@@ -252,7 +259,8 @@ export class Runner {
     if ('follow' in asked) { return this.follow(asked.follow); }
     if (!('act' in asked) || typeof asked.act !== 'string') { return { error: `nothing asked: ${line}` }; }
     if (this.fight.fighting) {
-      return this.fight.choose(asked.act) ? this.went() : { error: `not offered in the fight: ${asked.act}` };
+      return this.fight.choose(asked.act) ? this.went()
+        : { error: `not offered in the fight: ${asked.act}${this.fight.whose(asked.act)}` };
     }
     const screen = ScreenModel.build(this.campaign);
     const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer, g?.acts);
@@ -260,7 +268,7 @@ export class Runner {
     // And what is under each person's talk, offered as it is on the page (see Runner.talks).
     const under = Runner.doable(screen, this.names(), g?.offer?.rest ?? []);
     const offered = [...o.primary, ...o.rest, ...under].map(x => x.id).concat(g?.next?.command ?? []);
-    if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}` }; }
+    if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}${Runner.why(screen, asked.act)}` }; }
     if (asked.act.startsWith('talk:')) { this.with = asked.act.slice(5); return this.said('look'); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (asked.act.startsWith('follow:')) { await this.session.leg(asked.act); return this.said('look'); }

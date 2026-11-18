@@ -16,7 +16,10 @@ export class RunnerPayoff {
   // a change counts where it touches the company or what the act was done to.
   private static readonly kept = new RegExp(`^[+-] (\\w+__)*(${['said_', 'heard_', 'toldBy', 'readIn', 'learnedFrom',
     'carried', 'goodsPrice', 'larder', 'wages', 'lingered', 'arrivedAt', 'tookWay', 'addressed', 'acquainted', 'tried',
-    'greeted', '\\w*answered', '\\w*asked', '\\w*noted'].join('|')})`);
+    'greeted', '\\w*answered', '\\w*asked', '\\w*noted',
+    // What a member could be taught, every ability at once as the experience comes: 68 of them after one act, from
+    // breathe_fire to bleat, read as the act's doing (cold play 3, CL-15); a lesson is offered by whoever teaches it.
+    'canTrain'].join('|')})`);
   static changed(event: CampaignEvent, act = ''): string[] {
     const touched = [/\bparty\b/, /_member_/, ...(/\((.*)\)/.exec(act)?.[1]?.split(',') ?? []).map(a => a.trim())
       .filter(a => a && !/^(party|region__member_)/.test(a)).map(a => new RegExp(`\\b${a}\\b`))];

@@ -90,6 +90,15 @@ export class RunnerFight {
     return aimed ? `${ability.name} at ${RunnerFight.name(b, target)}` : ability.name;
   }
   private static name(b: Battle, id: string): string { return b.state.combatants.find(f => f.id === id)?.name ?? id; }
+  // Why a fight act asked for is not offered: it is another's turn (cold play 3, CL-21: Prepare Charge refused, it
+  // being Carlin's turn, and nothing said so).
+  whose(id: string): string {
+    const b = this.pending?.battle, [, , actor] = /^fight:([^:]+):(.+)$/.exec(id) ?? [];
+    if (!b) { return ''; }
+    const now = RunnerFight.name(b, b.state.actor);
+    return actor && actor !== b.state.actor && b.state.combatants.some(f => f.id === actor && f.team === 'fighters')
+      ? ` (it is ${now}'s turn)` : ` (${now} acts now)`;
+  }
   // The agent's choice for the turn, by its id.
   choose(id: string): boolean {
     const p = this.pending;
