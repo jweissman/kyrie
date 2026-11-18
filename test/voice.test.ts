@@ -56,7 +56,8 @@ describe('The voice of the household', () => {
     const s = await Household.start();
     for (const step of ['yard gate', 'Make much of Fly', 'back door', 'Ask Wat to join', 'back door', 'yard gate']) {
       const e = await Household.act(s, step), world = s.campaign.world, here = world.one('at', 'party');
-      for (const v of e.voiced ?? []) {
+      // Of someone: the record keeps what is of nobody too (the morning, the world's own words: see Days, RuleWords).
+      for (const v of (e.voiced ?? []).filter(v => v.actor)) {
         const with_ = world.test(ModuleWriter.call('travelsWith', v.actor!, 'party')) || world.one('at', v.actor!) === here;
         expect(with_).toBe(true);
       }
