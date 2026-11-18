@@ -89,6 +89,8 @@ export class DeepRivals {
       + ` and not (at(party, ?p) and deepLevelOf(?p, ${levels.at(-1)!.id}))`;
     const entry = levels.at(-1)!.rooms[0]!.id, packs = `${id}_packs`, gear = power.gear.map((g, n) => ({ g, n }));
     const fate = this.fill(`${this.upper(power.band)} went down into {name}, and few of them came back.`, this.heard(r));
+    const beaten = this.fill(`${this.upper(power.band)} came back from {name} with nothing: someone had been down to it`
+      + ' before them, and they are telling everyone so.', this.heard(r));
     return [`  Place ${packs} "where they keep their packs" is room within ${levels.at(-1)!.id}.`,
       ...gear.map(({ g, n }) => `  Item ${id}_gear${n} ${q(this.called(g))} is ${g} at ${packs}.`),
       `  Relation ${id}_broken(). Relation ${id}_bought(). Entity ${id}_fate: fact ${q(fate)}.`,
@@ -107,7 +109,13 @@ export class DeepRivals {
         + `${at.raises ? ` Assert ${at.layout.site}_raised().` : ''} }`,
       `  Observe ${id}_won_seen at ${seat.id}_green when won(${id}) and keeps(${head}, ${heart}) and not ${id}_bought()`
         + ` ${q(this.fill(power.won, r))}.`,
-      `  Rule ${id}_empty when ${due} and not able(${keeper}) and not at(${heart}, ${room}) { Assert foiled(${id}). }`,
+      // Beaten to it, they come back with nothing and are heard of so: the second cold play's five diggers went up and
+      // were never heard of again once the company had the crown (CL-09).
+      `  Rule ${id}_empty when ${due} and not able(${keeper}) and not at(${heart}, ${room}) { Assert foiled(${id}).`
+        + ` Assert ${id}_beaten(). }`,
+      `  Relation ${id}_beaten(). Entity ${id}_back: fact ${q(beaten)}.`,
+      `  Observe ${id}_back_heard near ${values.keeper} as hearsay when ${id}_beaten() and not knows(party, ${id}_back)`
+        + ` ${q(beaten)} teaches ${id}_back.`,
       `  Rule ${id}_sold at ${seat.id}_green when keeps(${head}, ${heart}) and not won(${id}) says ${q(this.fill(power.sold, r))}`
         + ` { Assert won(${id}). Assert ${id}_bought(). }`];
   }
