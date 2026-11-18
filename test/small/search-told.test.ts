@@ -18,7 +18,7 @@ describe('a search', () => {
   it('says it found nothing where nothing is put away, and tells what it finds where something is', async () => {
     const t = await Tiny.start(hall);
     expect((await t.session.leg('search(party,t__hall)')).response).toBe(
-      'You search the cloth-hall with care, a little at a time. Nothing is put away or hidden here.');
+      'You search the cloth-hall with care, a little at a time. Nothing is hidden here but what you can already see.');
     await t.play('To the back store');
     const found = await t.session.leg('search(party,t__store)');
     expect(found.response).toBe('You search the back store with care, a little at a time.');

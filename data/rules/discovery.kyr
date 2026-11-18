@@ -80,7 +80,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     // Where nothing reads a search of the place, it finds nothing, and says so: twelve of fourteen searches in the
     // boredom census's walks (a cloth-hall, a bakehouse, a byre) ended on the plain words, twenty minutes gone and
     // nothing said of what came of them (BO-03).
-    Result "You search {site} with care, a little at a time. Nothing is put away or hidden here." when
+    Result "You search {site} with care, a little at a time. Nothing is hidden here but what you can already see." when
       not answers(site, rummaging) and not searchedAnywhere().
     Result "You search {site} with care, a little at a time.".
   }

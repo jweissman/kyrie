@@ -83,7 +83,7 @@ describe('things hidden until found', () => {
     const s = await Strongroom.start();
     // Said once, by the search's own result (cold play 3, CL-18).
     const searched = await Strongroom.said(s, 'search(world__hall)');
-    expect(searched).toContain('Nothing is put away or hidden here.');
+    expect(searched).toContain('Nothing is hidden here but what you can already see.');
     expect(searched).not.toContain('nothing is hidden here');
     await s.leg('go(world__study_door,world__study)');
     expect(await Strongroom.said(s, 'push(world__wall_map)')).toContain('It does not shift, either way.');
