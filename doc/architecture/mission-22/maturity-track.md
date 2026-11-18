@@ -50,9 +50,54 @@ it moves, and its rows are MT-01.. in the open register.
 6. **Compatibility harness (§7.4).** For the pinned worlds and journeys: command ids and presenter rows, save restore,
    placement commitments and replay digest, compared and classified additive, presentation-only, world-moving,
    save-breaking or replay-breaking. This is what lets TR-03's faster roads come back with its replays classified.
+
+   **Landed 18 November** (`scripts/compat.ts`, `src/cli/compat-snapshot.ts`, `src/cli/compat-journeys.ts`,
+   `src/cli/compat-compare.ts`). A snapshot of the pinned set: the worlds a1, kite and iscoed (as the drove and as
+   the weir begin) — every place, every passage with its ends and minutes (`ActionTime.passage`), every creature and
+   where it is, every placement by its bindings — and the journeys: the fourth and fifth cold plays' lines
+   (`doc/architecture/mission-22/cold/cold-4-lines.txt` and `cold-5-lines.txt`, sent to the runner as the iscoed
+   cold-play specs send them) and each kept trace (`test/fixtures/traces`), every step recorded as: taken or why not,
+   the rows the runner offers after it (`id | label`, opened rows too), the scene's lines, the digest; and each
+   journey's end saved, restored in its own build, and (with a base) the base's save opened in this build. Two
+   snapshots compared, each difference is one of: additive (a place, passage, person, placement or row more, nothing
+   gone), presentation-only (a label or line changed where the digest after the step is the same), world-moving
+   (layout, minutes, people or placements changed; play coming to another watch or place; a row no longer offered; a
+   label or line changed where the state is not the same), replay-breaking (a recorded line or command taken before
+   and not now, or steps fewer), save-breaking (a save not restoring, or the base's opening as another game). A
+   journey is told until play first comes to another watch or place; the turns after are counted, not listed.
+   Deterministic: a tree against itself says `same`.
+
+       bun scripts/compat.ts --base origin/main            # the base checked out in /var/tmp/kyrie/compat/base
+       bun scripts/compat.ts --base /var/tmp/kyrie/wt-x    # a worktree that holds the base
+       bun scripts/compat.ts snapshot --out base.json --saves dir [--quick]
+       bun scripts/compat.ts compare base.json [now.json] [--findings all.json] [--examples n] [--out now.json]
+
+   A base without the harness has its four files copied in. The whole set is about two minutes a snapshot (so four
+   with `--base`); `--quick` (a1, the cold play 4's first twelve lines, the Hessel trace) is 18 s a snapshot, about a
+   minute with `--base` (the checkout and a cold parse cache), so it is not on the push lane: a stored quick baseline
+   compared would be 18 s, and goes stale with every change it reports. `test/small/compat-kinds.test.ts` pins the
+   classes on snapshots shaped as the runs below.
+
+   The two proofs, against ccf5ec1a's snapshot:
+   - **Wording** (`data/voice/conditions.json`, defending's "{target} stands on guard." to "{target} takes guard,
+     blade up."): `presentation-only: 1`, at `cold-5 step 43 {"act":"fight:defend:region__party_1"}`, nothing else.
+   - **TR-03's faster roads** (cf45653a's `region-roads.ts` and `region-sites.ts`: roads at 20 minutes an hour,
+     tracks at 30): `replay-breaking`. World-moving in all four worlds (a1 66 passages, kite 72, iscoed 51 each: e.g.
+     a1's east edge road 270 to 180 minutes, iscoed's road to the Long Man's gate 180 to 120). The fourth cold play
+     comes otherwise at step 27 (`travel:region__s4` now arrives at Gatesend, watch 65, where HEAD's had turned off
+     to the barrow at watch 18), takes step 28's `travel:region__w8` HEAD refuses, and 46 of its later lines are no
+     longer offered, from step 29 (`go(region__w8_in,region__w8_barrow_mouth)`) to step 90; the fifth cold play's
+     state differs from step 1 but every line still goes, at the same watches and places, with the same rows and
+     words; the wren-turf-hut trace arrives at watch 61, not 67 (its kept watch, so test/traces fails); the
+     wren-tower trace keeps its watch and places but loses "Set out for Redkeep" and "Talk to Baern" (the priest's
+     row became `talk:`). Saves: none broken.
+   - Seen on the way: at HEAD the fourth cold play's own lines break at step 27, its journey to Gatesend turned
+     aside to the barrow, so lines 28 on are refused or sent into a fight and its save cannot be taken; its spec
+     plays only its first twelve.
 7. **Social facts into the ledger (E)** and **8. qualitative placement (D)**, after 6, each by its study proof.
 
 ## Begun
 
 - Step 1: the riddle (CL-34) in hand; OR-94 and OR-95 landed 18 November.
 - Step 2: started 18 November (an agent, R26/R86/R42).
+- Step 6: landed 18 November (scripts/compat.ts; see the step).
