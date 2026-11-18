@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 27 pass in structure
-(level, school), 16 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-15 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 28 pass in structure
+(level, school), 17 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+16 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 46 | school 70 | dice 10 | type 13 | save 32 | dc 13 | attack 104 | target 71 | duration 42 | of 119 |
+| spells, field exact or converted | level 46 | school 71 | dice 10 | type 13 | save 33 | dc 14 | attack 104 | target 71 | duration 43 | of 119 |
 
 ## Creatures, most met first
 
@@ -192,7 +192,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | protection_from_fire | protection-from-energy | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → long |
 | raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | ✓ | ✓ |
 | ray_of_frost | ray-of-frost | S✗ R✗ I– | ✗ 2 → 0 | ✓ | ✗ 7/7/7/7 → 2/2/2/2 | ✓ | – | – | ✗ none → ranged touch | ✓ | ✓ |
-| remove_fear | remove-fear | S✗ R✗ I– | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 14 | ✓ | ✓ | ✗ instant → long |
+| remove_fear | remove-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | ✓ | ✓ |
 | resist_fire | resist-energy | S✗ R✗ I– | ✓ | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 15 | ✓ | ✓ | ✗ 3 rounds → long |
 | restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
 | resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✓ | ✓ |

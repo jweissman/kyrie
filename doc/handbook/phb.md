@@ -7321,11 +7321,13 @@ Heal one ally for 1d8 + statMod(wisdom). A divine spell of the first level. Take
 
 ##### Remove Fear
 
-*Faithful · level 1 divine spell, life domain* · `ability:remove_fear`
+*Adapted · level 1 divine spell, abjuration, life domain* · `ability:remove_fear`
 
-End fear on one ally. A divine spell of the first level. Takes a first-level slot.
+End fear on one ally; that ally is heartened for 100 turns. Heartened: +4 against fear. A divine spell of the first level. Takes a first-level slot.
 
-> Calm a frightened ally.
+> Steady a companion, or yourself: any fear on them lifts, and fear takes hold of them far less for ten minutes.
+
+*Adapted: The SRD's Remove Fear (doc/architecture/mission-22/srd-proving-cases.md, case 21): first level, its school abjuration beside Life, on the caster or one ally: any fear on them ends, and for ten minutes (a hundred rounds) they have +4 against fear (the heartened condition). Converted: the fear on them ended, where the SRD's is suppressed for the spell's ten minutes (Kyr's fear lasts a few rounds); the ten minutes end with the fight, as every condition of a fight does; its save the SRD's harmless one. Omitted: the SRD's one more subject each four casting levels (Kyr aims a spell at one ally or the whole company). Before, Orsino's: the fear on one ally ended, and nothing after.*
 
 ##### Shadow Cloak
 
@@ -10102,6 +10104,16 @@ Spells -1 harder to resist.
 2 harder to hit, +10 initiative, Dexterity +4, 1 more blow a turn.
 
 > Moving with supernatural speed.
+
+### Heartened
+
+*Kyr · lasts the fight at most* · `condition:heartened`
+
++4 against fear.
+
+> Steadied against dread: +4 against fear.
+
+*Adapted: The SRD's Remove Fear's courage (mission-22/srd-proving-cases.md, case 21): +4 against fear (Kyr's fear save, made with Wisdom), the SRD's morale bonus; it ends with the fight.*
 
 ### Heroism
 

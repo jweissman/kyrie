@@ -483,6 +483,23 @@
         "notes": "Orsino's asleep (no actions; its sleep save), and the SRD's Sleep's waking (mission-22/srd-proving-cases.md, case 14): a blow that wounds a sleeper and leaves them standing wakes them (its onAttacked hook, answering harm from another creature). Omitted: the sleeper helpless, and waking by a slap or a noise."
       }
     },
+    "heartened": {
+      "name": "Heartened",
+      "description": "Steadied against dread: +4 against fear.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "saves": { "fear": 4 }
+      },
+      "begins": "{target} stands steadier.",
+      "ends": "{target}'s steadiness passes.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:remove-fear",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Remove Fear's courage (mission-22/srd-proving-cases.md, case 21): +4 against fear (Kyr's fear save, made with Wisdom), the SRD's morale bonus; it ends with the fight."
+      }
+    },
     "shield_of_faith": {
       "name": "Shield of Faith",
       "description": "A shimmer of faith turns blows aside: two harder to hit, whatever armour is worn.",

@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 749,
-    "adapted": 400,
+    "faithful": 748,
+    "adapted": 401,
     "represented": 4,
-    "kyr": 568,
+    "kyr": 569,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 229,
-      "adapted": 23,
+      "faithful": 228,
+      "adapted": 24,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -970,7 +970,7 @@
       "faithful": 125,
       "adapted": 29,
       "represented": 0,
-      "kyr": 43,
+      "kyr": 44,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -10358,7 +10358,7 @@
   {
    "id": "ability:remove_fear",
    "title": "Remove Fear",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-1"
   },
@@ -12354,6 +12354,13 @@
    "id": "condition:haste",
    "title": "Haste",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:heartened",
+   "title": "Heartened",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },

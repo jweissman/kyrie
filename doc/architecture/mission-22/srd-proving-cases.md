@@ -678,6 +678,31 @@ Orsino's undead nature), and spell resistance.
 creation card, and every Death cleric of the first level who prepares it; a hostile cleric's dread now falls only
 on a company member of the fifth level or below, and a member who masters it is afraid one round.
 
+
+### 21. Remove Fear by the SRD's numbers (18 November): adapted
+
+Spec: `test/remove-fear` (2 cases; with Orsino's entry put back, the fear ends and nothing follows, and the second
+fails).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json), on the caster or one ally, never a foe:
+- first level, divine, Life, and the SRD's school, abjuration, beside its domain (exact);
+- any fear on them ends (converted: the SRD's is suppressed for the spell's ten minutes, then returns if it is still
+  running; Kyr's fear lasts a few rounds, so ending it is the same in play);
+- then +4 against fear for ten minutes, a hundred rounds (a new condition, `heartened`: `saves: { fear: 4 }`, the
+  existing save bonus, read by every fear save), ending with the fight as every condition of a fight does;
+- its save the SRD's harmless one (converted).
+
+**Omitted:** the SRD's one more subject each four casting levels (Kyr aims a spell at one ally or at the whole
+company; a count of allies would be a target form of its own). Spell resistance (harmless).
+
+**The census.** No draw moves: no level, domain or tradition changed (the school is read for arcane draws alone), and
+the creation cards are the same (FirstSpells.picks, every way). What moves is every casting: the warded ally now also
+saves 4 better against fear for the rest of the fight. A vitalist knows it a little under one in four (.23 at the
+first level, .27 at the seventh), a cleric of a drawn domain .14 and .21; it is the vitalist creation card's, the first
+cleric way's, so a player's first cleric knows it. Of 2,232 installed classed creatures, five know it (a1's w8 head and
+fellowship keeper, kite's walk Wenna, thorn's fellowship keeper, wren's fellowship warden), as before. The tactics
+weigh it a little higher where nobody is afraid (a condition the ally lacks, six, less its slot), still below a blow.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

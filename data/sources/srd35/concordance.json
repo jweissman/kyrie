@@ -357,7 +357,8 @@
   "bless": "test/bless.test.ts",
   "hold_person": "test/hold-person.test.ts",
   "shield": "test/shield-of-faith.test.ts",
-  "terror": "test/cause-fear.test.ts"
+  "terror": "test/cause-fear.test.ts",
+  "remove_fear": "test/remove-fear.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -397,6 +398,10 @@
   },
   "hold_person": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "remove_fear": {
+   "save": "harmless: made by none who takes it willingly (srd-proving-cases.md, case 21)",
+   "dc": "harmless: none is made (srd-proving-cases.md, case 21)"
   },
   "terror": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",
