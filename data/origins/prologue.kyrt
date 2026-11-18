@@ -20,21 +20,21 @@
     Role "a wagoner hauling meal into {home}". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
     // Spoken to once the wheel is out, not as a stranger's: "If it's trouble, I have enough of my own" had greeted
     // whoever had just got him out of the ditch (three cold rounds running: R3-C, R4-E 18, R4-F 19).
-    Greets "The wagoner straightens up from the wheel, blowing, and looks at you properly for the first time. 'Well,' he says." when state(cart, righted).
+    Greets "The wagoner wipes his hands on his coat. 'Thank you,' he says." when state(cart, righted).
     // While the wheel is still in the ditch, spoken to, he says what he wants: talking to him then had shown an empty
     // page in every walk that tried it (PP-07).
     Greets "The wagoner looks up from the wheel. 'If you're stopping, take the horse's head,' he says. 'If not, go on.'" when state(cart, ditched).
   }
-  Observe meeting near carter when not answered(party) "A cart stands canted at the side of the road, one wheel down in the ditch to the hub. The horse is blowing in the shafts, and a sack of meal has burst on the bed. The wagoner is up to his knees in the ditch with his shoulder to the wheel. He looks round when he hears you, and does not ask for help.".
+  Observe meeting near carter when not answered(party) "A cart has slid off the road. One wheel is in the ditch up to the hub, and the horse is straining in the shafts. The wagoner stands in the ditch, pushing at the wheel with his shoulder. He looks up as you come, but he does not ask for help.".
   Thing cart "the cart" at {approach} {
     // Only what the meeting does not say: the cart was told twice, word for word nearly, on the road in (the headless
     // terminal, 12 November).
-    State ditched "Sacks of meal are roped on the cart's bed; one has burst, and the meal is running into the ditch.".
-    State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
+    State ditched "Sacks of meal are roped on the cart. One has split, and meal is spilling into the ditch.".
+    State righted "The cart is back on the road, and the horse stands quiet.".
     Change heave "Heave the wheel out with him" from ditched to righted needing brawn or crowbar.
     }
   Topic carter_thanks with carter "Hear the wagoner's thanks" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
-    Says "'You'll eat at my cost, then,' says the wagoner, wiping his hands down his coat. 'Ask for me at the inn. I'll be there before you are, and there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
+    Says "'Eat at the inn tonight, at my cost,' says the wagoner. 'Ask for me there. I'll be in before you.' He gives you two coins as well, and will not take them back.".
     On discuss { Assert wayIn(cart_righted). Increase quantity(actor, gold) by 2. }
   }
   // However it came out of the ditch, it was answered.
@@ -49,7 +49,7 @@
   // What the company did, known as done: learnt from his thanks, it had been filed as the wagoner's word, "told you,
   // not yet seen for yourself" (two cold rounds and the owner's play of 10 November).
   // Once: it had been said wherever the wagoner was, five times by the evening and again after a reload (round 7).
-  Observe carter_deed near carter when state(cart, righted) and not wayIn(cart_bargained) and not knows(party, cart_righted) "The wheel is out of the ditch, and the wagoner's meal is on the road again because of you." teaches cart_righted.
+  Observe carter_deed near carter when state(cart, righted) and not wayIn(cart_bargained) and not knows(party, cart_righted) "You helped the wagoner get his cart out of the ditch." teaches cart_righted.
   Entity cart_bargained: fact "On the way into {home} you got a wagoner out of the ditch for a sack of his meal and a coin.".
   Entity cart_left: fact "On the way into {home} you left a wagoner in the ditch, and did not stop.".
   Entity cart_robbed: fact "On the way into {home} you lifted a sack off a wagoner's load while his back was to you.".
@@ -69,7 +69,7 @@
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and capable(actor, stealth) and state(cart, ditched) and not wayIn(cart_robbed).
     Time 1.
     On success { Assert wayIn(cart_robbed). Assert answered(actor). Assert knows(actor, cart_robbed). Give rations to actor. }
-    Result "The sack comes off the tail of the cart without a sound. The wagoner, shoulder to the wheel, curses the wheel and does not turn round.".
+    Result "You lift a sack off the back of the cart. The wagoner is pushing at the wheel and does not turn round.".
   }
   // A hand for a price: a sack of the meal and a coin, and the wagoner's opinion of you.
   // A bargain struck, not thanks owed: said to him, and done (an act, so that the wagoner is not badged as owing
@@ -80,15 +80,15 @@
     Time 3.
     On success { Retract state(cart, ditched). Assert state(cart, righted). Assert wayIn(cart_bargained). Assert answered(actor).
       Assert knows(actor, cart_bargained). Increase quantity(actor, gold) by 1. Give rations to actor. }
-    Result "'A share,' says the wagoner, and looks at you a long moment. 'A sack, then, and a coin. Be quick about it.' You put your shoulder to the wheel with him, the horse pulls, and the cart comes up out of the ditch. He gives you a sack of meal and one coin. 'You'll go far,' he says. He does not say it kindly.".
+    Result "'A share?' says the wagoner. 'A sack of meal and a coin, then. Be quick.' You push the wheel with him while the horse pulls, and the cart comes up out of the ditch. He gives you the sack and the coin, and says nothing more.".
   }
   Topic carter_leave with carter "Walk on" when state(cart, ditched) and not wayIn(cart_left) once {
-    Says "'No more could the last six,' says the wagoner, and turns back to his wheel without looking at you.".
+    Says "The wagoner says nothing. He turns back to his wheel.".
     On discuss { Assert wayIn(cart_left). Assert answered(actor). Assert knows(actor, cart_left). }
   }
   // A question, not an answer: kept out of the meeting's answers by its id (Prologue.meeting takes carter_…).
   Topic ask_wagoner with carter "Ask the wagoner what he is carrying, and where" when state(cart, ditched) once {
-    Says "'Meal for {home}, and late with it,' he says. He spits. 'Three days on the road and the last mile does this. You'd not have a back on you that could lift?'".
+    Says "'Meal for {home},' he says. 'I'm late with it already. Three days on the road, and the wheel goes in the ditch a mile from town. Can you give me a hand?'".
   }
   // In {home}, at the inn, what was done on the road is remembered.
   Topic carter_inn with carter "Sit with the wagoner" when at(carter, {inn}) and wayIn(cart_righted) once {

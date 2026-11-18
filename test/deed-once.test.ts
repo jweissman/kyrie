@@ -9,7 +9,7 @@ describe('the wagoner\'s wheel', () => {
     const g = await Glanced.country('a1');
     const heave = PlayerView.choices(g.campaign).find(c => /heave/.test(c.choice.id))!;
     await g.perform(heave.choice.id);
-    const deed = /meal is on the road again because of you/;
+    const deed = /You helped the wagoner get his cart out of the ditch/;
     const page = () => [...g.leaf.situation, ...g.leaf.presence, ...g.leaf.changed,
       ...(g.leaf.exchange?.lines ?? []).map(l => l.text), ...(g.leaf.exchange?.notes ?? [])].join(' ');
     expect(page()).toMatch(deed);
