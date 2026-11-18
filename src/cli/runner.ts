@@ -23,6 +23,7 @@ import { RunnerPayoff } from './runner-payoff';
 import { RunnerLed } from './runner-led';
 import { RunnerOffer, type Kept } from './runner-offer';
 import { RunnerTalks } from './runner-talks';
+import { RunnerEnding } from './runner-ending';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
 import { FightBegun } from '../presentation/fight-begun';
@@ -79,9 +80,9 @@ export type Asked = { act: string } | { lens: Lens } | { look: true } | { more: 
 export class Runner {
   private n = 0;
   private told?: Told;
-  private readonly payoff = new RunnerPayoff();
-  private readonly scene = new TerminalScene();
-  private readonly fight = new RunnerFight();
+  private payoff = new RunnerPayoff();
+  private scene = new TerminalScene();
+  private fight = new RunnerFight();
   // since: how long the story was as it began (see FightBegun), and its words.
   private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent>;
     with?: string; since: number; label?: string };
@@ -92,7 +93,8 @@ export class Runner {
   // the screen had been built up to five times a turn, most of an act's time). Kept while the world it was built of
   // is the world (a world changed is a new one: an act, or a change made from outside, as a spec's coin).
   private now?: { world: object; screen: Screen; glance?: { of: Leaf['glance'] }; names?: Map<string, string> };
-  constructor(readonly session: PlaySession) {}
+  constructor(private current: PlaySession) {}
+  get session(): PlaySession { return this.current; }
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
   get scenes(): Presented[] { return this.scene.told.map(t => ({ ...t, sentences: TerminalWalk.count(t.lines) })); }
   private get campaign() { return this.session.campaign; }
@@ -101,7 +103,8 @@ export class Runner {
     const c = this.campaign, now = this.standing, screen = now.screen, leaf = this.scene.leaf(c, screen, this.told);
     now.glance = { of: leaf.glance };
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
-    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim), { offer } = this.offer(screen, g);
+    const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
+    const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };
     const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
@@ -175,6 +178,7 @@ export class Runner {
   async ask(line: string): Promise<Said | { error: string }> {
     let asked: Asked;
     try { asked = JSON.parse(line) as Asked; } catch { return { error: `not JSON: ${line}` }; }
+    if (!this.campaign.running) { return this.ended(asked); }
     if ('look' in asked) { return this.said('look'); }
     if ('lens' in asked) { return this.lensed(asked.lens); }
     if ('more' in asked) { return this.said(); }
@@ -202,6 +206,17 @@ export class Runner {
       label: this.names().get(asked.act), leg: this.lead(asked.act),
       ...talking ? { with: talking } : {} };
     return this.went();
+  }
+  // Anything asked once the story has ended is answered with the ending, and what it offers done (CL-53: a look after
+  // a death had never been answered).
+  private async ended(asked: Asked): Promise<Said | { error: string }> {
+    if (!('act' in asked) || asked.act !== RunnerEnding.again.id) { return this.said('look'); }
+    if (!RunnerEnding.can(this.session)) { return { error: `not offered: ${asked.act}` }; }
+    this.current = await RunnerEnding.begin(this.session);
+    this.payoff = new RunnerPayoff(); this.scene = new TerminalScene(); this.fight = new RunnerFight();
+    this.told = undefined; this.now = undefined; this.with = undefined; this.doing = undefined;
+    this.n++;
+    return this.said('arrive');
   }
   // An act set going: what stood before it is let go.
   private lead(act: string): Promise<CampaignEvent> {
@@ -276,7 +291,6 @@ export class Runner {
     for (let line = await lines.next(); line !== null; line = await lines.next()) {
       const out = await runner.ask(line);
       await Runner.say(out, kept);
-      if ('end' in out) { return 0; }
     }
     return 0;
   }
