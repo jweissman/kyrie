@@ -35,13 +35,16 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(text(await ask('origin__nest_shut'))).toContain('I heard it stop');
     expect(text(await ask('origin__nest_pin'))).toContain('Eel-men don’t saw iron');
   }, 180000);
-  // CL-32: the cook's eight silver and her pie are paid; put out for the music box, the kitchen says why, and the
-  // box given back opens the Hall again; the chime is the boy's tune only to one who heard him hum it.
-  it('pays the cook\'s eight silver and pie, and undoes the theft by giving the box back', async () => {
+  // CL-32: the cook's eight coin and her pie are paid, and said in the purse's own word (CL-40: "eight silver" had
+  // been paid into a purse that counts coin, unsaid whether one is the other); put out for the music box, the kitchen
+  // says why, and the box given back opens the Hall again; the chime is the boy's tune only to one who heard him hum
+  // it.
+  it('pays the cook\'s eight coin and pie, and undoes the theft by giving the box back', async () => {
     const run = await play('elf/mage/Ilse/scholar', lines(5, 76));
     const before = run.s.purse!;
     const paid = await run.ask('region__s4_manor_cook_ratsdone');
     expect(paid.purse).toEqual({ coin: before.coin + 8, rations: before.rations + 1 });
+    expect(text(paid)).toContain('counts out eight coin');
     let s = paid;
     for (const line of lines(5, 88).slice(77)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
     expect(text(s)).toContain('The steward says you are put out of the house');

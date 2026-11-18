@@ -46,10 +46,10 @@
   }
   Initially Set encounterXp({t}_manor_rats) to 50.
   Topic {t}_manor_cook_rats with {t}_manor_cook "Ask {{t}_manor_cook} what is the matter with the cellar" when able({t}_manor_rats) once {
-    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight silver in it, if someone happened to go down. The lantern on the nail by the door, and the oil under it: a torch will not see you to the bottom and back, and I am not carrying anyone up. Bring the lantern back.'".
+    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight coin in it, if someone happened to go down. The lantern on the nail by the door, and the oil under it: a torch will not see you to the bottom and back, and I am not carrying anyone up. Bring the lantern back.'".
   }
   Topic {t}_manor_cook_ratsdone with {t}_manor_cook "Tell {{t}_manor_cook} the cellar is clear" when not able({t}_manor_rats) and at(party, {t}_manor_kitchen) once {
-    Says "'Well,' says {{t}_manor_cook}. She goes to the dresser and takes down a coin-dish, and counts out eight silver, and then stands there with a mutton pie she did not appear to be holding a moment ago. 'Sit. Eat. Nobody in this house has said thank you in nine years, so you may have the pie instead.'".
+    Says "'Well,' says {{t}_manor_cook}. She goes to the dresser and takes down a coin-dish, and counts out eight coin, and then stands there with a mutton pie she did not appear to be holding a moment ago. 'Sit. Eat. Nobody in this house has said thank you in nine years, so you may have the pie instead.'".
     On discuss { Give 8 gold to actor. Give rations to actor. Assert {t}_manor_ratsdone(party). }
   }
   Relation {t}_manor_ratsdone(group). Relation {t}_manor_keyknown(group).
@@ -159,7 +159,7 @@
   Observe {t}_manor_deed_seen at {t}_manor_muniments when not state({t}_manor_deed, read) "A sheet of cream parchment with a lead seal lies in the fan of papers, and has been lying there since someone put it down and did not pick it up again.".
   // Settling it: shared between the two, on the condition both keep the road; or given to the Hall alone.
   Topic {t}_reeve_settled with {t}_reeve "Tell {{t}_reeve} what the grant says" when knows(party, {t}_roadwood_grant) and not {t}_roadwood_shared(party) and not {t}_roadwood_hall(party) once {
-    Says "{{t}_reeve} listens to the end with his hat in his hand. 'Fifty paces either side belong to the road,' he says. 'Not to the Hall. Not to the wardens. To the road, and the road wants keeping.' He laughs, once, a short rough laugh. 'My father was wrong and the steward was wrong, and each is a little right. The wardens will keep the road from the green to the Hall's gate. If the Hall keeps it from there to the ford, I will cut nothing without a licence.' He presses twelve silver on you, and will not take it back.".
+    Says "{{t}_reeve} listens to the end with his hat in his hand. 'Fifty paces either side belong to the road,' he says. 'Not to the Hall. Not to the wardens. To the road, and the road wants keeping.' He laughs, once, a short rough laugh. 'My father was wrong and the steward was wrong, and each is a little right. The wardens will keep the road from the green to the Hall's gate. If the Hall keeps it from there to the ford, I will cut nothing without a licence.' He presses twelve coin on you, and will not take it back.".
     On discuss { Assert {t}_roadwood_shared(party). Increase quantity(actor, gold) by 12. }
   }
   Topic {t}_steward_settled with {t}_manor_steward "Show {{t}_manor_steward} the grant" when knows(party, {t}_roadwood_grant) and {t}_roadwood_shared(party) once {
