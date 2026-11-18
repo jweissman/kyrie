@@ -14,7 +14,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
-import { Succession } from './succession';
+import { Succession } from './succession'; import { Readings } from './readings';
 import { Compass } from './compass';
 import { Likenesses } from './likenesses';
 import { LensSubjects } from './lens-subjects';
@@ -426,13 +426,13 @@ export class Narrator {
     // A thing changed is told by what came of it (the water going down) before how it is now (the well dry); a wait,
     // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
     const changing = /^change_thing/.test(action?.schema ?? ''), waiting = /^wait/.test(action?.schema ?? '');
-    const seen = (told.moved ? [] : feedback.observations).map(text => ({ text, kind: 'change' as const }));
+    const { seen, result: done } = Readings.last(campaign, told, changing, result);
     // A chapter opens the telling, of a walk or a wait; one come to by an act that passed the time follows the act (the
     // Grand Tour's "Sennet wakes to the winch-gang's horn" was told before the night's bed and supper: GTR-X05).
     const opened = chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [], first = told.moved || waiting;
     const lines: ExchangeLine[] = [
       ...first ? opened : [], ...(feedback.way ?? []).map(text => ({ text, kind: 'event' as const })),
-      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...result,
+      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...done,
       ...first ? [] : opened,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing || fight ? [] : events,

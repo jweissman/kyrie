@@ -83,8 +83,11 @@ export class GlanceLines {
     // every place he came to (round 5).
     const along = new Set(['following', 'memberOf'].filter(n => w.relates(n))
       .flatMap(n => w.related(n).filter(r => ours.has(r.args[1]!)).map(r => r.args[0]!)));
+    // Nor what was only read or looked at (a receipt, a body under a cloth: something read in it is a reading of it),
+    // which had been read out again on coming back to the landing (cold play 6, CL-55).
+    const read = new Set([...defs.values()].filter(d => d.aspect === 'reading' && d.about).map(d => d.about!));
     return screen.observed.filter(o => changed.has(this.def(defs, o.id)?.about ?? '')
-      && !along.has(this.def(defs, o.id)?.about ?? ''))
+      && !along.has(this.def(defs, o.id)?.about ?? '') && !read.has(this.def(defs, o.id)?.about ?? ''))
       .map(o => FictionalTime.prose(o.text));
   }
   // The place's lead line: in the dark, the dark; else its own lasting line before its passing life, the first written.

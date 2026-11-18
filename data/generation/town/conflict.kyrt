@@ -30,21 +30,21 @@
   }
   Thing {t}_receipt_a "the dues-receipt nailed to the post" at {t}_green {
     State nailed "A strip of vellum is nailed to the post by the well, in a fair clerk's hand, with a lead seal pressed in a blob of wax.".
-    State read "RECEIVED OF THE FOLK OF {town}, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. The seal: a wheel, in lead. Only a wheel.".
+    State read "RECEIVED OF THE FOLK OF {townup}, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. The seal: a wheel, in lead. Only a wheel.".
     Change read "Read the dues-receipt on the post" from nailed to read.
   }
   Observe {t}_receipt_a_learned at {t}_green of {t}_receipt_a as reading when state({t}_receipt_a, read) "A wheel; no wing." teaches {t}_rec_a.
   Entity {t}_rec_a: fact "A dues-receipt at {town} is sealed with a wheel and no wing.".
   Thing {t}_receipt_b "the dues-receipt on the lintel" at {b}_green {
     State nailed "A strip of vellum is pinned to the lintel of the inn at {bname}, with a lead seal in wax.".
-    State read "RECEIVED OF THE FOLK OF {bname}, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. A wheel in lead, and no wing.".
+    State read "RECEIVED OF THE FOLK OF {bnameup}, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. A wheel in lead, and no wing.".
     Change read "Read the dues-receipt on the lintel" from nailed to read.
   }
   Observe {t}_receipt_b_learned at {b}_green of {t}_receipt_b as reading when state({t}_receipt_b, read) "The same wheel." teaches {t}_rec_b.
   Entity {t}_rec_b: fact "A dues-receipt at {bname} is sealed with a wheel and no wing.".
   Thing {t}_receipt_c "the dues-receipt in the window" at {c}_green {
     State nailed "A strip of vellum is pasted in the window of the inn at {cname}, with a lead seal in wax.".
-    State read "RECEIVED OF THE FOLK OF {cname}, FOR THE KEEPING OF THE ROAD, THREE CROWNS A HEARTH (A HAMLET'S RATE), BY THE OFFICE OF THE ROAD. A wheel in lead, and no wing.".
+    State read "RECEIVED OF THE FOLK OF {cnameup}, FOR THE KEEPING OF THE ROAD, THREE CROWNS A HEARTH (A HAMLET'S RATE), BY THE OFFICE OF THE ROAD. A wheel in lead, and no wing.".
     Change read "Read the dues-receipt in the window" from nailed to read.
   }
   Observe {t}_receipt_c_learned at {c}_green of {t}_receipt_c as reading when state({t}_receipt_c, read) "The same again." teaches {t}_rec_c.

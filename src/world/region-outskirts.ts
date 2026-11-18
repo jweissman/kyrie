@@ -47,7 +47,9 @@ export class RegionOutskirts {
     const near = region.settlements.filter(x => x !== s && x.cell !== undefined && s.cell !== undefined)
       .sort((a, b) => Terrain.distance(land, s.cell!, a.cell!) - Terrain.distance(land, s.cell!, b.cell!));
     const [b, c] = [near[0] ?? s, near[1] ?? near[0] ?? s];
-    return { b: b.id, bname: b.name, c: c.id, cname: c.name };
+    // And each in capitals, for what is written in capitals: "RECEIVED OF THE FOLK OF Porthalen" (cold play 6, CL-55).
+    return { b: b.id, bname: b.name, c: c.id, cname: c.name, townup: s.name.toUpperCase(),
+      bnameup: b.name.toUpperCase(), cnameup: c.name.toUpperCase() };
   }
   // Whether the town has an inn, a shrine and a shop, whose people the neighbours' talk is of.
   private static peopled(region: Region, s: Settlement): boolean {

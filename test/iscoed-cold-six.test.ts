@@ -26,7 +26,7 @@ describe('the golden route, after the sixth cold play', () => {
     expect(told).toContain('The keeper of the vault hits Wenna.');
     expect(told).toContain('The fight is lost.');
   }, 240000);
-  // CL-54 and CL-56, by the play's own lines to the book read and the undercroft lit: talk says something and is
+  // CL-54, CL-55 and CL-56, by the play's own lines to the book read and the undercroft lit: talk says something and is
   // one step; the man with the black candle has a question; the dead man's clues make an aim; his book is read; and
   // the lettered flag is an aim only once it is seen.
   it('talks in one step, and makes aims of what is found once it is found', async () => {
@@ -44,5 +44,12 @@ describe('the golden route, after the sixth cold play', () => {
     expect(aims(38)).not.toContain('lettered');
     expect(aims(38)).not.toContain('Something is under the floor');
     expect(aims(39)).toContain('Something is under the floor');
+    // CL-55: the receipt, then what is read in it, in its own capitals; not read out again on coming back; the body,
+    // then what it says.
+    const receipt = at[3]!.scene.lines;
+    expect(receipt[0]).toStartWith('RECEIVED OF THE FOLK OF PORTHALEN,');
+    expect(receipt[1]).toBe('A wheel; no wing.');
+    expect(text(14)).not.toContain('A wheel; no wing.');
+    expect(at[23]!.scene.lines[0]).toStartWith('Under the cloth: Joss Hatherly');
   }, 240000);
 });
