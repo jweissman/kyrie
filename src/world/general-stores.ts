@@ -1,3 +1,4 @@
+import { Herbals } from './herbals';
 import { Draw } from './land/draw';
 import { Foundings } from './founding';
 import { CommunityWriter } from './community/community-writer';
@@ -68,7 +69,7 @@ export class GeneralStores {
   // What a thing costs, and how many there are: its worth, a quarter off where it is made; two of it where it is made,
   // and in a market town, and one of anything dear.
   private static ware(kind: string, local: boolean, plenty: number): Ware {
-    const worth = this.worth(kind), fee = local ? Math.max(1, Math.floor(worth * 3 / 4)) : worth;
+    const worth = Herbals.fee(kind, this.worth(kind)), fee = local ? Math.max(1, Math.floor(worth * 3 / 4)) : worth;
     return [kind, fee, worth > 8 ? 1 : local ? plenty + 1 : plenty];
   }
   private static worth(kind: string): number { return Canon.items[kind]?.value ?? 1; }

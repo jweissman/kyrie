@@ -7,6 +7,14 @@ export class Herbals {
   static price(abundance?: number): number {
     return abundance === undefined || abundance >= 5 ? 1 : abundance >= 3 ? 2 : abundance >= 2 ? 3 : 6;
   }
+  // What a shop asks for a thing gathered wild: twice what it pays the gatherer, never the catalog's worth of it
+  // ("Buy a dandelion for Ilse · 9 coin" in a yard where dandelions grow: cold play 5, CL-40); anything else, its fee.
+  static fee(what: string, fee: number): number {
+    const paid = this.paid().get(what);
+    return paid === undefined ? fee : Math.min(fee, paid * 2);
+  }
+  private static bought?: Map<string, number>;
+  private static paid(): Map<string, number> { return this.bought ??= new Map(this.buys()); }
   static buys(): [string, number][] {
     const seen = new Map<string, number>();
     for (const p of Object.values(Canon.plants)) {

@@ -68,7 +68,8 @@ export class RegionShops {
     return new Draw(`${at.key}:stones`).shuffle(pool).slice(0, n);
   }
   static shelf(kind: string, at: { means: number; key: string }): [string, number][] {
-    const pool = (this.stocks[kind]?.stock ?? []).filter(([, fee]) => fee <= at.means), draw = new Draw(at.key);
+    const pool = (this.stocks[kind]?.stock ?? []).filter(([, fee]) => fee <= at.means)
+      .map(([what, fee]): [string, number] => [what, Herbals.fee(what, fee)]), draw = new Draw(at.key);
     return [...pool.slice(0, 5), ...draw.shuffle(pool.slice(5)).slice(0, 3)].sort((a, b) => a[1] - b[1]);
   }
   // Who keeps a shop: a name nobody settled in the country has (see Communities.everyone).
@@ -92,7 +93,7 @@ export class RegionShops {
     const pool = [...new Map(of.trades.flatMap(k => this.stocks[k]?.stock ?? [])
       .filter(([what, fee]) => fee <= means && !of.have.includes(what))).entries()];
     return new Draw(`${RegionKey.of(region)}:${s.id}:wares`).shuffle(pool).slice(0, 3).sort((a, b) => a[1] - b[1])
-      .map(([what, fee]) => [what, fee, 1]);
+      .map(([what, fee]) => [what, Herbals.fee(what, fee), 1]);
   }
   private static shop(region: Region, s: Settlement, at: { kind: string; n: number; shelves: [string, number][] }):
     string[] {
