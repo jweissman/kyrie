@@ -16,8 +16,9 @@ against 6.5), then by the beat map below.
 | S2-6 | Defect (E2) | CB-01, CB-03: the alternate character's viability | The mage's route viable by preparation, avoidance or help, a warning naming help that can be had | lead | to start |
 
 Stop rule (the plan's): no generalized career, faction, crafting or quest system to mend a missing beat. Running
-beside it: one SRD slice at a time (SR-01); the maturity track paused after its step 2 except where the route needs it,
-and its compatibility harness (MT-06) before any change that moves generated worlds.
+beside it: one SRD slice at a time (SR-01); the maturity track steadily, one step at a time (the owner, 18 November:
+"steady progress against maturity goals especially"), its compatibility harness (MT-06) first, before any change that
+moves generated worlds.
 
 ---
 
