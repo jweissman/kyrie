@@ -69,7 +69,9 @@ export class SceneRail {
     return <button type="button" className={`rail-mark opens-talk${on ? ' pressed' : ''}`}
       data-action="lens" data-part="talk" aria-pressed={on} aria-label={said} title={said}
       onClick={() => app.setState({ talking: !on, exploring: undefined })}>
-      <Glyphs.View id="companion" className="rail-glyph" />
+      {/* Anyone here, a hooded head: not the companion's icon, which promises someone who would join (the owner,
+          17 November, FM-05: a companion's icon on the mark whose lens then showed no one who would). */}
+      <Glyphs.View id="someone" className="rail-glyph" />
     </button>;
   }
   // Inside an enclosed place the map gives way to the compass (CN-02, CN-03): its mark turns the places lens on, the

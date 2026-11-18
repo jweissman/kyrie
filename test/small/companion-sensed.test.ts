@@ -46,6 +46,18 @@ describe('a companion perceived, on a lane of three', () => {
     expect(her?.aspects).toContain('companionship');
     expect(facts(t)).toBe(world);
   });
+  // And it follows the world as it changes (the owner, 17 November, FM-05: an icon must be something the player can
+  // find and act on): once she is no longer in the taproom, its way promises no one, and the way to where she is now
+  // does, by her row.
+  it('follows her: the way she left promises no one, the way to where she is, her', async () => {
+    const t = await Tiny.start(lane);
+    t.journey.put('t__ysolde', 't__shop');
+    t.look();
+    const g = t.glance, row = (to: string) => g.lenses!.places.promoted.find(p => p.choice.includes(to));
+    expect(g.sensed?.map(x => x.to)).toEqual(['t__shop']);
+    expect(row('t__taproom')?.aspects.includes('companionship') ?? false).toBe(false);
+    expect(row('t__shop')?.note).toBe('someone who might go with you');
+  });
   it('three places off for a Gregarious company', async () => {
     const t = await Tiny.start(lane), world = facts(t);
     t.journey.put('party', 't__shop');
