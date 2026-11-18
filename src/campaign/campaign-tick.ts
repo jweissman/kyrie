@@ -14,6 +14,7 @@ import { World } from '../lang/world';
 import { Reads } from '../lang/reads';
 import { EndingOrder } from '../lang/ending-order';
 import { Journey } from './journey';
+import { Consequences } from './consequences';
 import type { Call, Change, Module, Operator, WorldRule, WorldState } from '../lang/module';
 import type { CampaignDefinition } from './definition';
 import type { CreatureStore } from '../creature-store';
@@ -145,6 +146,10 @@ export class CampaignTick {
     host.commitWorld(host.world);
     const began = host.world;
     for (const rule of host.module.rules ?? []) { if (rule.upkeep) { this.fire(host, rule, [], { began }); } }
+    // A thing a module gives as it begins (Initially Assert handed(...)) is the company's before it does anything:
+    // given in the first watch, it was told after whatever came first ("You take Tegwen's lease." on reading a notice,
+    // cold play 5's CL-35).
+    Consequences.hand(host, []);
   }
   // The world's rules once more, as the company learns something by seeing, reading or hearing it (see
   // Perceptions.settle); since is the world before it was learned. A rule is asked again only if something it reads

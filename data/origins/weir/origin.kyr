@@ -3,7 +3,7 @@ Module origin "Your aunt's weir" {
   Entity party: group "You".
   Place hamlet "The hamlet" is settlement. Place hamletgreen "The hamlet's green" is room.
   Entity reeve: group "The reeve". Entity failing: fact "The sea-gate fails". Entity tide: fact "The spring tide".
-  Relation lifted(group). Relation sold(group). Relation leaseHanded(group).
+  Relation lifted(group). Relation sold(group).
   Entity lease: fact "The weir at {hamlet} is yours on the reeve's lease. Five coin is owed to the reeve of {town} at the quarter-day, a month off.".
   Kind lease_kind "Tegwen's lease" is document teaching lease worth 0 weighing 1 described "A strip of parchment, much folded, in the reeve's clerk's hand: the eel-weir at the second bend below the sea-gate, with its stakes, wattles and traps, to Tegwen and her heirs, at five coin the quarter. Under it, in your aunt's careful capitals: TO GO TO MY SISTER'S CHILD.".
   Kind eel_kind "a creel of eels" is treasure worth 3 weighing 4 described "A wicker creel, wet and heavy and moving.".
@@ -16,7 +16,7 @@ Module origin "Your aunt's weir" {
   Observe charge at hamletgreen as feature when watch(clock) < 2 "'You'll be Tegwen's,' says the woman at the next door, and looks you over. 'Nest. I kept her weir going since the burying. The traps want lifting every morning or the eels rot in them.' She nods up at the gatehouse. 'And the gate's not shut since the new moon. Spring tide's in six days. When the sea comes over, there's no weir, and no Gatesend either.'".
   Observe weir_scene at weir when not lifted(party) "A fence of stakes and wattle runs out across the channel in a long V, with a wicker trap at its point. The water through it is running the wrong way: in from the sea, not out.".
   Observe weir_lifted at weir when lifted(party) "The weir's trap is lifted and set again. The water through the wattles still runs the wrong way.".
-  Rule lease_given when not leaseHanded(party) { Give lease_scroll to party. Assert leaseHanded(party). }
+  Initially Assert handed(lease_scroll, party).
   Item creel "a creel of eels" is eel_kind at weir hidden until lifted_once.
   Entity lifted_once: fact "The weir's trap held a creel of eels this morning.".
   Action lift_trap(actor: group, site: place) "Lift the weir's trap" {

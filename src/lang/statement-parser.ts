@@ -45,8 +45,15 @@ export class StatementParser {
   // one of a kind it carries, given up. The engine does both (Consequences.hand), and forgets that it was asked to.
   // "Give 2 lamp_oil to actor.": as many of a kind, counted in gifts, since a fact asserted twice is one (a priest's
   // two draughts had been one).
+  // "Give 8 gold to actor.", "Give rations to actor.": a good (coin, food) is no thing to hand but so much more of it
+  // (Increase quantity(actor, gold) by 8): given as a thing, it gave nothing, and the Hall's cook counted out eight
+  // silver and a pie into no one's purse (CL-32).
   static Give(_give: Node, what: Node, _to: Node, group: Node) {
     const { count, item } = ModuleParser.ast(what) as { count: number; item: string };
+    if (item === 'gold' || item === 'rations') {
+      return { kind: 'increase', call: { kind: 'call', name: 'quantity', args: [group.sourceString, item] },
+        value: { kind: 'number', value: count } };
+    }
     return count > 1 ? { kind: 'increase', call: { kind: 'call', name: 'gifts', args: [item, group.sourceString] },
       value: { kind: 'number', value: count } }
       : { kind: 'assert', call: { kind: 'call', name: 'handed', args: [item, group.sourceString] } };
