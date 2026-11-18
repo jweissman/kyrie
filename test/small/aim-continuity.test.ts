@@ -44,4 +44,19 @@ describe('how the aim followed goes on', () => {
     expect(t.gold.map(a => a.command)).toEqual(['push(t__grille)']);
     expect(t.glance.continuance?.kind).toMatch(/^(step|gilded)$/);
   });
+  // At the place the aim names, what its words are about is the step: the pawl to be brought up out of the gate-well,
+  // lying there, is taken for it, gold (cold play 5, CL-33: "Collect the sea-gate's pawl" unmarked, and the frontier
+  // saying nothing here bore on the aim).
+  it('is gold on taking what the aim is about, at the place it names', async () => {
+    const t = await Tiny.start(`
+      Place well "the gate-well" is room at 0, 0 indoors.
+      Company party "You" of 1 at well.
+      Kind pawl_kind "the sea-gate's pawl" is gear worth 6 weighing 6 described "A tooth of iron.".
+      Item pawl "the sea-gate's pawl" is pawl_kind at well.
+      Objective bring when not holding(party, pawl_kind) toward well "Bring the sea-gate's pawl up out of the gate-well.".
+      Goal false.`);
+    t.follow('bring');
+    expect(t.gold.map(a => a.command)).toEqual([expect.stringMatching(/^take_item\(t__pawl,/)]);
+    expect(t.glance.continuance?.kind).toMatch(/^(step|gilded)$/);
+  });
 });

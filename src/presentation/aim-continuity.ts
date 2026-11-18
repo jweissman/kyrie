@@ -7,6 +7,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { Itineraries } from '../ui/itinerary';
 import { Undertakings } from './undertakings';
+import { Stakes } from '../ui/stakes';
 import { CompanyLight } from './company-light';
 import { AimLeading, type AimLead } from './aim-lead';
 import type { Promoted } from './glance-types';
@@ -80,7 +81,13 @@ export class AimContinuity {
   static acting(campaign: Campaign, screen: Screen, lead: AimLead, cands: Candidate[]): Candidate[] {
     if (!lead.next.length) { return []; }
     const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
-    const step = new Set([...lead.next, ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
+    const def = Undertakings.followed(campaign);
+    // At the place the aim names, what its words are about is the step too: the pawl the aim is to bring up out of the
+    // gate-well, found there, is taken for it (cold play 5, CL-33: "Collect the sea-gate's pawl" unmarked, the
+    // frontier saying nothing here bore on the aim).
+    const about = lead.source === 'here' && def ? [...Stakes.read(campaign, def)].filter(id => !byId.get(id)?.space) : [];
+    const step = new Set([...lead.next, ...about,
+      ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
     // Where the step is what bars the way, an act whose site is the bar acts on it too (the speaking door's words).
     const skip = lead.source === 'barred' ? ['actor'] : ['actor', 'site'];
     const bound = new Map(PlayerView.choices(campaign).map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})

@@ -37,7 +37,10 @@ export class GoldContinuity {
       if (s.end) { return { lapses, taken, ended: 'the end' }; }
       s = await this.followed(r, s);
       const g = this.gold(s);
-      if (!g && s.going?.kind === 'frontier') { return { lapses, taken, ended: `frontier at ${s.at}: ${s.going.said}` }; }
+      if (!g && s.going?.kind === 'frontier') {
+        if (process.env.GOLD_TRACE) { console.log(`  ⋯ ${[...s.offer.primary, ...s.offer.rest].map(o => o.label).join(' | ')}`); }
+        return { lapses, taken, ended: `frontier at ${s.at}: ${s.going.said}` };
+      }
       if (!g) { return { lapses, taken, ended: `no gold at ${s.at} (aim ${s.aims?.find(a => a.followed)?.text ?? 'none'})` }; }
       if (process.env.GOLD_TRACE) { console.log(`  · ${s.at}: ${g.label} [${s.going?.kind ?? "-"}]`); }
       const key = `${s.at}|${g.id}`, times = (seen.get(key) ?? 0) + 1;

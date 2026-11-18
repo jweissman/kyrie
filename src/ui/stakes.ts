@@ -39,7 +39,7 @@ export class Stakes {
     return ObjectiveTarget.of(campaign, o, () => Stakes.read(campaign, o));
   }
   // An aim its author gave no target, read from its words (see named).
-  private static read(campaign: Campaign, o: Objective): Set<string> {
+  static read(campaign: Campaign, o: Objective): Set<string> {
     const ids = Stakes.said(campaign, o), addresses = Stakes.addresses(campaign, o);
     return new Set([...ids].filter(id => !addresses.has(id)));
   }
