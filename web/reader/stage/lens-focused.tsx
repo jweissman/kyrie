@@ -10,12 +10,14 @@ import { LensFocus, type Unit } from './lens-focus';
 import { Guidance } from '../guidance';
 import { PageFrame } from '../page-frame';
 import { Paging } from '../paging';
+import { Attending } from '../../../src/ui/attention';
 
 // A lens whose acts do not fit its four, drawn by focus (see LensFocus): each thing with more than one act one row,
 // chosen to focus it; on it, a run of acts alike one row (a riddle's words, "Press the word…"); focused, the four are
-// its answers, and "Leave it for now" where there is room. What is seen of the thing focused (the riddle cut across the
-// door) is told in the narrative beside them (Seen), never among the rows (the owner, 15 November: no text in the
-// list). Escape, or Leave it, goes back a level (see Explorer.key). Only where there are more than four does a pager
+// its answers, and "Leave it for now" where there is room. What the thing focused reads out (the riddle cut across the
+// door: the engine's focus, Choice.focus, as the four's opener and the runner and the terminal read it) is said above
+// its rows, never among them: told only in the narrative beside them, it had not been seen (the owner, 18 November,
+// CL-34: "I don't see the questions"). Escape, or Leave it, goes back a level (see Explorer.key). Only where there are more than four does a pager
 // still turn them (the narrow exception: many things at hand, each one row).
 export class LensFocused {
   static View({ app, draw, lens, lensed, acts }: { app: ReaderApp; draw: Draw; lens: Lens; lensed: Lensed;
@@ -28,6 +30,7 @@ export class LensFocused {
     const focus = (key?: string) => app.setState({ focused: key ? [...view.focused, key] : view.focused.slice(0, -1) });
     return <div {...PageFrame.slot('menu')} className={`lens lens-${lens} lens-focus`} data-lens={lens}
       data-focus={view.focused.at(-1)}>
+      <LensFocused.Said app={app} lensed={lensed} acts={acts} focused={view.focused} />
       <ul className="acts lens-rest">{rows.map(r => <li key={LensFocus.unit(r) ? r.key : r.choice}
         {...LensFocus.unit(r) ? {} : { 'data-subject': r.subject }}>
         {LensFocus.unit(r) ? <LensFocused.Unit unit={r} gilded={gilded} focus={focus}
@@ -42,13 +45,22 @@ export class LensFocused {
       </ul>
     </div>;
   }
-  // What is seen of the thing focused, in the narrative: the riddle cut across the door, above its words.
-  static Seen({ app }: { app: ReaderApp }) {
-    const lens = GlanceStage.lens(app), key = app.state.focused?.[0];
-    const thing = key?.startsWith('thing:') ? key.slice('thing:'.length) : undefined;
-    const seen = thing && lens ? app.state.frame?.leaf.glance?.lenses?.[lens]?.subjects?.[thing]?.seen ?? [] : [];
-    return seen.length ? <div className="lens-seen" data-subject={thing}>
+  // What the thing focused reads out, above its rows: the focus of the opener its acts are under (the riddle cut
+  // across the door), else what the lens says is seen of it.
+  static Said({ app, lensed, acts, focused }: { app: ReaderApp; lensed: Lensed; acts: LensAct[];
+    focused: string[] }) {
+    const key = focused[0], thing = key?.startsWith('thing:') ? key.slice('thing:'.length) : undefined;
+    if (!thing) { return null; }
+    const said = LensFocused.focus(app, acts.filter(a => a.subject === thing).map(a => a.choice));
+    const seen = said ? [said] : lensed.subjects?.[thing]?.seen ?? [];
+    return seen.length ? <div className="lens-seen focus-said" data-subject={thing}>
       {seen.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div> : null;
+  }
+  // The engine's focus on the opener that holds these acts, where one does (Choice.focus).
+  static focus(app: ReaderApp, ids: string[]): string | undefined {
+    const within = new Set(ids), scene = app.menu.scene;
+    return Attending.all([...scene?.near ?? [], ...scene?.far ?? [], ...app.menu.choices])
+      .find(c => c.focus && (c.children ?? []).some(k => within.has(k.id)))?.focus;
   }
   // A thing, or its alike acts, as one row: its words and an ellipsis, its mark the colour of what is in it.
   // Its mark, of the witnesses of the acts in it (Attest).

@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { PlayTool } from '../../src/cli/play-tool';
 import { Runner, type Offered, type Said } from '../../src/cli/runner';
 import { TerminalDoable } from '../../src/cli/terminal-doable';
@@ -8,6 +10,10 @@ import type { PlaySession } from '../../src/session/play-session';
 import { MenuModel } from '../../web/reader/menu-model';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import type { ReaderApp } from '../../web/reader/reader-app';
+import { LensRows } from '../../web/reader/stage/lens-rows';
+import { LensFocus } from '../../web/reader/stage/lens-focus';
+import { LensFocused } from '../../web/reader/stage/lens-focused';
+import type { Draw } from '../../web/reader/stage/act';
 import { Glanced } from '../support/glanced';
 
 // The speaking door, focused (the owner, 18 November, P0, CL-34): "I don't see the questions; I only see two answers
@@ -55,6 +61,29 @@ describe('the speaking door, focused', () => {
     expect(c.focus).toContain(question);
     expect(c.children!.filter(k => /^Press the word/.test(k.label))).toHaveLength(4);
     expect(MenuModel.lead(app.menu, 'exit:region__w2_stair')?.disabled).toBe('The speaking door bars the way.');
+  });
+  // The page's Look lens, focused on the door (LensFocus: the door one row, then its words one row, then the words):
+  // at each focus the riddle is drawn above the rows, the engine's own focus, and every word is reachable.
+  it('in the Look lens: focused on the door, the riddle above its rows, and every word reachable', () => {
+    const g = Glanced.of(session), frame = g.frame(), lensed = g.glance.lenses.things;
+    const at = (focused: string[]) => ({ state: { frame, exploring: 'look', focused }, setState: () => undefined,
+      menu: MenuModel.build(frame, 'here', []), props: {} }) as unknown as ReaderApp;
+    const { all } = LensRows.of(at([]), 'things', lensed, GlanceStage.choice);
+    const thing = 'thing:region__w2_riddle', named = (s: string) => GlanceStage.named(at([]), s);
+    expect(LensFocus.of(all, [], named).rows.some(r => LensFocus.unit(r) && r.key === thing)).toBe(true);
+    // The words said are the engine's focus on the door's opener, not a page's own reading of the door.
+    expect(LensFocused.focus(at([]), all.filter(a => a.subject === 'region__w2_riddle').map(a => a.choice)))
+      .toContain(question);
+    for (const focused of [[thing], [thing, `${thing}|Press the word`]]) {
+      const app = at(focused), draw = { app, index: new Map(), open: new Set<string>() } as unknown as Draw;
+      const html = renderToStaticMarkup(createElement(LensFocused.View, { app, draw, lens: 'things', lensed, acts: all }));
+      const riddle = html.indexOf(question.replace(/'/g, '’')), list = html.indexOf('lens-rest');
+      expect(riddle).toBeGreaterThan(-1);
+      expect(riddle).toBeLessThan(list);
+    }
+    const words = LensFocus.of(all, [thing, `${thing}|Press the word`], named).rows;
+    expect(words.map(r => LensFocus.unit(r) ? r.name : r.label).join(' ')).toContain(`“${answer}”`);
+    expect(words).toHaveLength(4);
   });
   it('in the terminal: the opener reads the riddle out over every word', () => {
     const g = Glanced.of(session);
