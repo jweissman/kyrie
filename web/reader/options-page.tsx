@@ -4,7 +4,6 @@ import { ReaderOptions, type Options } from './reader-options';
 import { TitlePage } from './title-page';
 import { Identity } from '../../src/presentation/identity';
 import { ChoiceRow } from './stage/choice-row';
-import { ComposedRow } from './creation/composed-row';
 
 // Options, from the title: the size of the page's letters, whether the dice behind what happens are told ("Wenna
 // makes the persuasion check (d20 16 …)") or only what came of them, and a game saved elsewhere opened from its file;
@@ -32,24 +31,24 @@ export class OptionsPage {
               <ul className="rows">{setting.values.map(v => {
                 const chosen = options[setting.key] === v.id;
                 return <li key={v.id}><ChoiceRow.Button data={{ action: 'option', key: setting.key, id: v.id }}
-                  label={v.label} aside={v.note || undefined} mark={chosen ? ComposedRow.before : ChoiceRow.neutral}
+                  label={v.label} aside={v.note || undefined} plain={chosen ? 'chosen' : 'neutral'}
                   own={{ 'data-nav': true, 'aria-pressed': chosen }} onClick={OptionsPage.set.bind(null, app)} /></li>;
               })}</ul>
             </section>))}
           <section className="option-set" aria-label="A saved game">
             <p className="label">A saved game</p>
             <ul className="rows"><li><ChoiceRow.Button data={{ action: 'load-file' }} label="Open a save file"
-              aside="Downloaded from this browser or another" mark={ChoiceRow.neutral} own={{ 'data-nav': true }}
+              aside="Downloaded from this browser or another" plain="neutral" own={{ 'data-nav': true }}
               onClick={OptionsPage.open} /></li></ul>
             <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} />
           </section>
           <section className="option-set" aria-label="For authors">
             <p className="label">For authors</p>
             <ul className="rows"><li><ChoiceRow.Link data={{ action: 'handbooks' }} href="handbook/index.html"
-              label="The Kyr handbooks" aside="Every definition the game plays from" mark={ChoiceRow.neutral}
+              label="The Kyr handbooks" aside="Every definition the game plays from" plain="neutral"
               own={{ 'data-nav': true }} /></li></ul>
           </section>
-          <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" mark={ChoiceRow.neutral}
+          <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" plain="neutral"
             own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>
           <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
         </main>

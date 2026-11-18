@@ -11,6 +11,7 @@ import { GlanceStage } from '../../web/reader/stage/glance';
 import { PlaceMark } from '../../web/reader/stage/place-mark';
 import { SceneRail } from '../../web/reader/stage/scene-rail';
 import { WorldStage } from '../../web/reader/stage/world-stage';
+import { Attested_ } from '../support/attested';
 
 // The page draws every indicator by the one grammar every client reads (TP-02, the owner, 14 November): one colour, an
 // act's chief aspect by the one precedence (the aim's gold, then red, green, blue, violet, silver), never a gradient
@@ -59,7 +60,7 @@ describe('the page\'s one indicator', () => {
       const at = app([], { lindal: { aspects: c.aspects } }), x = { id: 'lindal', name: 'Lindal', kind: 'person',
         choices: [] } as never;
       const seen = WorldStage.seen(at, x);
-      expect([c.aspects, seen.fill]).toEqual([c.aspects, expected(c).tone]);
+      expect([c.aspects, seen?.tone ? `var(--tone-${seen.tone})` : undefined]).toEqual([c.aspects, expected(c).tone]);
       const html = renderToStaticMarkup(createElement(WorldStage.Portrait, { subject: x, draw: Act.draw(at),
         pip: seen }));
       expect([c.aspects, drawn(html, 'pip')]).toEqual([c.aspects, expected(c)]);
@@ -73,13 +74,13 @@ describe('the page\'s one indicator', () => {
   });
   it('draws the rail\'s pips in it, and a companion among its rows by the icon', () => {
     for (const c of cases.filter(x => !x.gilded)) {
-      const tone = terminal({ aspects: c.aspects, gilded: false }).tone;
+      const mark = Attested_.of(c.aspects, false);
       const lit = renderToStaticMarkup(createElement(SceneRail.Mark, { app: app([]), part: 'look', glyph: 'look_about',
-        words: 'Look', standing: tone ? { lit: tone } : {} }));
+        words: 'Look', standing: mark ? { lit: mark } : {} }));
       expect([c.aspects, drawn(lit, 'pip').tone]).toEqual([c.aspects, expected(c).tone]);
     }
     const html = renderToStaticMarkup(createElement(SceneRail.Mark, { app: app([]), part: 'go', glyph: 'go_on',
-      words: 'Go', standing: {}, companion: true }));
+      words: 'Go', standing: { lit: Attested_.of(['companionship'], false)! } }));
     expect(drawn(html, 'pip')).toEqual(expected({ aspects: ['companionship'], gilded: false }));
   });
 });

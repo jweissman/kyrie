@@ -42,7 +42,7 @@ export class FightMoves {
     return <div className={`hand${aiming ? ' aiming' : ''}`}>
       <div className="hand-menu" role="toolbar" aria-label="What you can do">
         {attack && <ChoiceRow.Button className={`move main${aiming?.choice.id === attack.id ? ' opened' : ''}`}
-          data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} mark="var(--ember)"
+          data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} plain="blow"
           label={FightMoves.attack(attack)} />}
         {kinds.map(([id, label]) =>
           <ChoiceRow.Button key={id} className="move kind" data={{ action: 'panel', panel: id }}

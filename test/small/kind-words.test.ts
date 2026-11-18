@@ -7,6 +7,7 @@ import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import { Pip } from '../../web/reader/stage/pip';
+import { Attested_ } from '../support/attested';
 
 // What kind of thing a choice is ("to learn", "to gain", "worth a look", "an aim") is its mark's to say, and the words
 // are for a reader of the page alone (the blind playtest of 13 November, BP-08): the row's visible words are the act's
@@ -34,7 +35,7 @@ describe('the kind of a choice', () => {
     expect(seen(render('with Wat'))).toContain('with Wat');
   });
   it('is no tooltip on a pip', () => {
-    const pip = renderToStaticMarkup(createElement(Pip.View, { fill: 'var(--tone-blue)', label: 'to learn' }));
+    const pip = renderToStaticMarkup(createElement(Pip.View, { mark: Attested_.of(['knowledge']), label: 'to learn' }));
     expect([pip.includes('aria-label="to learn"'), pip.includes('title=')]).toEqual([true, false]);
   });
 });

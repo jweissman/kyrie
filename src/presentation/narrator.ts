@@ -151,8 +151,9 @@ export class Narrator {
     });
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
     const glance = Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening });
-    return { ...leaf, instruments: Instruments.of(campaign, screen), glance: Likenesses.with(LensSubjects.with(campaign,
-      screen, { ...glance, ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) })) };
+    const whole = { ...glance, ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) };
+    return { ...leaf, instruments: Instruments.of(campaign, screen),
+      glance: Likenesses.with(LensSubjects.with(campaign, screen, whole), screen) };
   }
   // Whether what is seen is a thing's state that the command itself set.
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {

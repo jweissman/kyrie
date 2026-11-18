@@ -60,7 +60,7 @@ export class Emphasis {
     return all.filter((a, i) => all.indexOf(a) === i);
   }
   // Whether a choice does a command, or holds one that does (a group of questions).
-  private static is(c: Choice, command?: string): boolean {
+  static is(c: Choice, command?: string): boolean {
     return !!command && (c.command === command || !!c.children?.some(k => k.command === command));
   }
   // The fill of the one indicator at a choice's left edge: through its tones where several meet, else its tone.

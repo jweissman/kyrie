@@ -3,6 +3,7 @@ import { PlaceFacets } from '../../src/presentation/place-facets';
 import type { Screen } from '../../src/ui/screen-types';
 import type { Lensed } from '../../src/presentation/glance-types';
 import { MapMenu } from '../../web/reader/map-menu';
+import type { Projected } from '../../src/presentation/attest';
 
 // What each place on the map is to the company, read once for its marks and its menu (the owner, 17 November: a gold
 // act and no gold on the map, and a town with gold in it found only by touching it): the aim followed's places gold,
@@ -19,21 +20,23 @@ const screen = {
 } as unknown as Screen;
 const places = { promoted: [{ choice: 'x_mill', exit: 'x_mill', aspects: ['payoff'] }], rest: [],
   aspects: ['payoff'] } as unknown as Lensed;
-const glance = { sensed: [{ to: 'lea', aspect: 'companionship' as const, far: 1 }], lenses: { places } };
+const glance = { sensed: [{ to: 'lea', aspect: 'companionship' as const, far: 1 }], lenses: { places } } as unknown as Projected;
 
 describe('what each place is to the company, on the map', () => {
   it('reads the aim, other aims, who is perceived and what the ways are led with', () => {
-    const f = PlaceFacets.of(screen, glance);
-    expect(f.inn).toEqual(['undertaking']);
-    expect(f.stow).toEqual(['undertaking']);
-    expect(f.fen).toEqual(['exploration']);
-    expect(f.lea).toEqual(['companionship']);
-    expect(f.mill).toEqual(['payoff']);
+    const f = PlaceFacets.of(screen, glance), of = (id: string) => PlaceFacets.aspects(f.get(id));
+    expect(of('inn')).toEqual(['undertaking']);
+    expect(of('stow')).toEqual(['undertaking']);
+    expect(of('fen')).toEqual(['exploration']);
+    expect(of('lea')).toEqual(['companionship']);
+    expect(of('mill')).toEqual(['payoff']);
+    // Each by its witnesses (Attest): the aim's place, what is perceived along a way, the way led with.
+    expect(f.get('mill')?.map(w => w.id)).toEqual(['x_mill']);
   });
   it('offers them in the map\'s menu by what they are, gold first, before the nearest', () => {
     const f = PlaceFacets.of(screen, glance);
     expect(MapMenu.roads(screen, f, { taken: [] }).map(r => r.id)).toEqual(['stow', 'mill', 'lea', 'fen']);
-    expect(MapMenu.marked(f.stow, true).mark).toBe('var(--tone-gold)');
-    expect(MapMenu.marked(f.stow, false).markClass).toBe('neutral');
+    expect(MapMenu.marked(f.get('stow'), true).indicator?.tone).toBe('gold');
+    expect(MapMenu.marked(f.get('stow'), false)).toEqual({ plain: 'neutral' });
   });
 });

@@ -7,6 +7,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { SceneModel } from '../src/ui/scene';
 import { Attending } from '../src/ui/attention';
 import { TalkStage } from '../web/reader/stage/talk-stage';
+import { Attested_ } from './support/attested';
 
 // A likeness marked for knowledge has a reply drawn so (the owner's player report, 12 November: a blue pip on a
 // person, and no blue reply among what could be said): what would tell the company something is typed by what its
@@ -23,7 +24,7 @@ describe('what someone would tell', () => {
     expect(asks.every(c => c.teaches)).toBe(true);
     expect(all.find(c => /^buy_item\(/.test(c.command ?? ''))?.teaches).toBeUndefined();
     const draw = { index: new Map(), open: new Set(), app: { state: {}, numbered: new Map() } } as unknown as Parameters<typeof TalkStage.Reply>[0]['draw'];
-    const marked = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw, aspects: ['knowledge'] }));
+    const marked = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw, aspects: [...Attested_.of(['knowledge'])!.witnesses] }));
     expect(marked).toContain('data-aspects="knowledge"');
     expect(marked).toContain('var(--tone-blue)');
     expect(renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw }))).not.toContain('prism-bar');

@@ -30,7 +30,8 @@ import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
 import { Scrolled } from './scrolled';
 import { Attention } from './attention';
-import { ChoiceRow } from './choice-row';
+import { ChoiceRow, type RowParts } from './choice-row';
+import { Attest } from '../../../src/presentation/attest';
 import { CompassStage } from './compass-stage';
 import { Look } from '../look';
 import { Signs } from '../../../src/presentation/signs';
@@ -233,9 +234,10 @@ export class GlanceStage {
         {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the
             owner, 12 November: "The dues-receipt nailed to the post…" as a link); only the ways on stay quiet words. */}
         {posted && !drawn.some(d => d?.id === posted.id) && <ChoiceRow.Act choice={posted} draw={draw} quiet
-          className="opener opens-posted as-act" mark={ChoiceRow.neutral} markClass="neutral" label={Typography.curl(posted.label)} />}
+          className="opener opens-posted as-act" plain="neutral" label={Typography.curl(posted.label)} />}
+        {/* Its mark its witness's own (the trust contracts): it had been gold for any act the place led with. */}
         {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
-          mark="var(--tone-gold)" markLabel="your aim" label={Typography.curl(yours.label)} />}
+          {...GlanceStage.marked(app, yours.id, true)} label={Typography.curl(yours.label)} />}
         {/* A lens on is the one menu: no touch beside it, which had drawn the one way twice ("To the camp…" under its own row). */}
         {only ? !opened ? null : <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
@@ -352,8 +354,7 @@ export class GlanceStage {
   // One of a lens's rest: the menu's own choice where it is one (its keys, its mark); else the act as the lens names it.
   // aspects: what it is, where the lens promoted it (its mark, as the four's are).
   static LensRow({ app, draw, act: a, aspects }: { app: ReaderApp; draw: Draw; act: LensAct; aspects?: Aspect[] }) {
-    const c = GlanceStage.choice(app, a.choice), fill = Pip.fill(aspects, Guidance.shown(app));
-    const mark = fill ? { mark: fill } : {};
+    const c = GlanceStage.choice(app, a.choice), mark = aspects?.length ? GlanceStage.marked(app, a.choice, true) : {};
     // What it risks said on it, as the four say theirs (a way with no coming back).
     const [going, how] = Words.going(a.label);
     const risks = [how ?? '', ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
@@ -377,6 +378,13 @@ export class GlanceStage {
   // What the company itself can do that the place leads with first (ring the bell it carries, among the hobs), as a
   // touch of its own, as an unread notice is: led with and drawn nowhere but Look…, the reference tour had stopped at
   // it (Mission 20).
+  // A row's mark: the indicator of the glance's witness for the choice it is (Attest), else the neutral line.
+  static marked(app: ReaderApp, choice: string, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
+    const g = app.state.frame?.leaf.glance, w = Attest.witness(g, choice) ?? Attest.within(g, GlanceStage.choice(app, choice)
+      ?? { id: choice, label: '' } as Choice)[0];
+    const indicator = Attest.of([w], gilded && Guidance.shown(app));
+    return indicator?.tone ? { indicator } : { plain: 'neutral' };
+  }
   static yours(app: ReaderApp, acts: Promoted[], drawn: (Choice | undefined)[]): Choice | undefined {
     const lead = acts.find(a => a.tier > 0 && !a.exit && !a.choice.startsWith('travel:') && !a.subject);
     const c = lead && (app.menu.scene?.you ?? []).find(x => x.id === lead.choice);
@@ -525,7 +533,7 @@ export class GlanceStage {
         {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(offered ? Told.title(aim) : aim))}
         {/* Not from inside an enclosed place: the compass is the way out there (CN-02). */}
         {place && !CompassStage.of(app) && <ChoiceRow.Button className="set-out" data={{ action: 'aim-map', id: place.id }}
-          label={`${place.name}, on the map`} mark={ChoiceRow.neutral} onClick={() => app.choose(MenuModel.country)} />}</p>
+          label={`${place.name}, on the map`} plain="neutral" onClick={() => app.choose(MenuModel.country)} />}</p>
     );
   }
   // How the company came, in a line; a journey's legs, each as it went, opened from it (they are under Look about too).
@@ -610,7 +618,7 @@ export class GlanceStage {
         const note = (aimed && !gilded ? undefined : said) ?? GlanceStage.whom(app, a, label);
         // One indicator at the left carries what it is: one colour, by the precedence every client reads (see Pip);
         // the rest of it stays neutral (the owner, 11 November: colour concentrated, sparing, consistent).
-        const tone = Pip.tone(a.aspects, gilded), mark = Pip.fill(a.aspects, gilded);
+        const parts = GlanceStage.marked(app, a.choice, gilded), tone = parts.indicator?.tone;
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
           data-continues={a.continues || undefined} data-condition={Pip.condition({ afar: !!a.afar })}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
@@ -623,18 +631,17 @@ export class GlanceStage {
             data={{ action: 'choice', choice: c.id }} act={c.id} expanded={draw.open.has(c.id)} number={i + 1}
             onClick={() => app.setState({ open: draw.open.has(c.id) ? app.state.open.filter(o => o !== c.id)
               : [...app.state.open, c.id] })}
-            mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
+            {...parts}
             label={Typography.curl(label)} {...note ? { aside: GlanceStage.aside(note) } : {}} />
           : !draw.index.has(c.id) ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
             data={{ action: 'choice', choice: c.id }} act={c.id} onClick={() => app.choose(c)} number={i + 1}
-            mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
+            {...parts}
             label={Typography.curl(label)} {...note ? { aside: GlanceStage.aside(note) } : {}}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}`}>{Typography.curl(Words.upper(m.said))}</span>)} />
           : <ChoiceRow.Act choice={c} draw={draw} shown={i + 1}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`
               + `${a.afar ? ' afar' : ''}`}
-            mark={mark ?? ChoiceRow.neutral} markClass={mark ? undefined : 'neutral'}
-            {...mark ? { markLabel: Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x]).join(', ') } : {}}
+            {...parts}
             label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></>}
             aside={note && GlanceStage.aside(note)}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />}

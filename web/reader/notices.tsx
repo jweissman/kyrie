@@ -29,7 +29,7 @@ export class Notices {
       <div className="toast unkept" role="alert" data-id="unkept">
         <p>This game can no longer be kept in this browser: its storage is full. Download a save to keep it, and open
           it again from the title page.</p>
-        <ChoiceRow.Button data={{ action: 'download' }} label="Download a save" mark={ChoiceRow.neutral}
+        <ChoiceRow.Button data={{ action: 'download' }} label="Download a save" plain="neutral"
           onClick={app.download} />
       </div>
     );

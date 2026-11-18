@@ -43,11 +43,11 @@ class Page {
   }
   check(at: string) {
     const go = Page.mark(renderToStaticMarkup(createElement(SceneRail.Mark, { app: this.app, part: 'go', glyph: 'go_on',
-      words: 'Go', standing: SceneRail.go(this.app), companion: SceneRail.joins(this.app) })));
+      words: 'Go', standing: SceneRail.go(this.app) })));
     expect({ at, ...go }).toEqual({ at, ...Page.rows(this.html(Wayfinder.View), 'wf-row') });
     const look = SceneRail.look(this.app);
     if ('shut' in look) { return; }
-    expect({ at, tone: 'lit' in look ? look.lit : undefined })
+    expect({ at, tone: 'lit' in look ? look.lit?.tone : undefined })
       .toEqual({ at, tone: Page.rows(this.html(AtHand.View), 'ah-row').tone });
   }
 }

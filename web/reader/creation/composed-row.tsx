@@ -29,7 +29,7 @@ export class ComposedRow {
       ...hold ? ComposedRow.held(option.id, onConsider, () => onChoose(option.id, true))
         : { onClick: () => onChoose(option.id, false) } };
     return <ChoiceRow.Button className={`composed-row${chosen ? ' chosen' : ''}`} data={{ option: option.id }} own={own}
-      mark={chosen ? ComposedRow.before : ChoiceRow.neutral}
+      plain={chosen ? 'chosen' : 'neutral'}
       label={option.glyph ? <><Glyphs.View id={option.glyph} className="row-glyph" />{Typography.curl(option.name)}</>
         : Typography.curl(option.name)}
       aside={Typography.curl(option.shut ?? option.aside ?? '')} extra={children} {...n !== undefined ? { number: n } : {}} />;

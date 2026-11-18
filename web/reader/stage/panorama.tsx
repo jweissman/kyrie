@@ -77,7 +77,7 @@ export class Panorama {
             <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)} by the ways you know`
               : ''}</span>
             {d && choose && <ChoiceRow.Button className="set-out" data={{ action: 'set-out', id: d.id }}
-              {...onMap ? {} : { act: d.journey.id }} label={onMap ? 'On the map' : 'Set out'} mark={ChoiceRow.neutral}
+              {...onMap ? {} : { act: d.journey.id }} label={onMap ? 'On the map' : 'Set out'} plain="neutral"
               onClick={() => choose(d.journey)} />}
           </li>;
         })}</ol>

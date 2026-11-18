@@ -3,9 +3,10 @@ import { WorldStage } from '../../web/reader/stage/world-stage';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import type { SceneSubject } from '../../src/ui/scene';
 import type { Glance, Promoted } from '../../src/presentation/glance-types';
+import { Likenesses } from '../../src/presentation/likenesses';
 
-// A likeness's one pip is the engine's value for it (Glance.likenesses, M21's PL-32), with only what the scene says of
-// them besides (something owed, a danger seen): never composed again on the page from the glance's acts, which at
+// A likeness's one pip is the engine's value for it (Glance.likenesses, M21's PL-32), a danger seen in them included:
+// never composed again on the page from the glance's acts, which at
 // Merscstede had made Lindal, the sealed letter's next step, a ring that read blue.
 const act = (aspects: Promoted['aspects'], continues = false): Promoted => ({ choice: 'lindal#talk', subject: 'lindal',
   label: 'Speak with Lindal', why: 'named', facets: ['here'], tier: 1, aspects, marks: [],
@@ -20,13 +21,16 @@ describe('a likeness\'s pip', () => {
     const glance = { acts: [act(['undertaking', 'knowledge'], true)],
       likenesses: { lindal: { aspects: ['undertaking' as const], continues: true as const } } };
     const seen = WorldStage.seen(app(glance), lindal());
-    expect([seen.aspects, seen.gilded, seen.tone]).toEqual([['undertaking'], true, 'gold']);
+    expect([seen?.witnesses.flatMap(w => w.aspects), seen?.tone]).toEqual([['undertaking'], 'gold']);
     // The acts alone say nothing of the likeness: with no likeness given, no pip.
-    expect(WorldStage.seen(app({ acts: glance.acts }), lindal()).fill).toBeUndefined();
+    expect(WorldStage.seen(app({ acts: glance.acts }), lindal())).toBeUndefined();
   });
-  it('adds only what is owed them and a danger seen in them', () => {
+  // A danger seen in them is the engine's too now (Likenesses: SceneModel.threat), never added on the page (the trust
+  // contracts: an indicator only of the engine's witnesses).
+  it('adds a danger seen in them in the engine, the page only drawing it', () => {
+    expect(Likenesses.of([], ['lindal']).lindal).toEqual({ aspects: ['danger'] });
     const seen = WorldStage.seen(app({ acts: [], likenesses: { lindal: { aspects: ['knowledge'] } } }),
       lindal({ owed: true, danger: 'grave' } as Partial<SceneSubject>));
-    expect(seen.aspects.toSorted()).toEqual(['danger', 'knowledge', 'payoff']);
+    expect(seen?.witnesses.flatMap(w => w.aspects)).toEqual(['knowledge']);
   });
 });

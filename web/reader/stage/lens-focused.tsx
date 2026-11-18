@@ -4,9 +4,9 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import type { Draw } from './act';
 import { ChoiceRow } from './choice-row';
+import { Attest, type Witness } from '../../../src/presentation/attest';
 import { GlanceStage } from './glance';
 import { LensFocus, type Unit } from './lens-focus';
-import { Pip } from './pip';
 import { Guidance } from '../guidance';
 import { PageFrame } from '../page-frame';
 import { Paging } from '../paging';
@@ -30,13 +30,14 @@ export class LensFocused {
       data-focus={view.focused.at(-1)}>
       <ul className="acts lens-rest">{rows.map(r => <li key={LensFocus.unit(r) ? r.key : r.choice}
         {...LensFocus.unit(r) ? {} : { 'data-subject': r.subject }}>
-        {LensFocus.unit(r) ? <LensFocused.Unit unit={r} gilded={gilded} focus={focus} />
+        {LensFocus.unit(r) ? <LensFocused.Unit unit={r} gilded={gilded} focus={focus}
+          witnesses={r.acts.flatMap(x => Attest.witness(app.state.frame?.leaf.glance, x.choice) ?? [])} />
           : <GlanceStage.LensRow app={app} draw={draw} act={r} aspects={aspects.get(r.choice)} />}</li>)}
         {view.leave && <li><ChoiceRow.Button className="leave-focus" data={{ action: 'defocus' }}
-          onClick={() => focus()} mark={ChoiceRow.neutral} markClass="neutral" label="Leave it for now" /></li>}
+          onClick={() => focus()} plain="neutral" label="Leave it for now" /></li>}
         {paged.pages > 1 && <li><ChoiceRow.Button className="lens-page"
           data={{ action: 'lens-page', page: String(paged.at + 1), pages: String(paged.pages) }}
-          onClick={() => turn(paged.at + 1)} mark={ChoiceRow.neutral} markClass="neutral" label="More…"
+          onClick={() => turn(paged.at + 1)} plain="neutral" label="More…"
           aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
       </ul>
     </div>;
@@ -50,10 +51,12 @@ export class LensFocused {
       {seen.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div> : null;
   }
   // A thing, or its alike acts, as one row: its words and an ellipsis, its mark the colour of what is in it.
-  static Unit({ unit, gilded, focus }: { unit: Unit; gilded: boolean; focus: (key: string) => void }) {
-    const fill = Pip.fill(unit.aspects, gilded);
+  // Its mark, of the witnesses of the acts in it (Attest).
+  static Unit({ unit, gilded, focus, witnesses }: { unit: Unit; gilded: boolean; focus: (key: string) => void;
+    witnesses: Witness[] }) {
+    const indicator = Attest.of(witnesses, gilded);
     return <ChoiceRow.Button className="focus-row" data={{ action: 'focus', choice: unit.key }}
-      onClick={() => focus(unit.key)} {...fill ? { mark: fill } : { mark: ChoiceRow.neutral, markClass: 'neutral' }}
+      onClick={() => focus(unit.key)} {...indicator?.tone ? { indicator } : { plain: 'neutral' as const }}
       label={Typography.curl(unit.name)} />;
   }
 }

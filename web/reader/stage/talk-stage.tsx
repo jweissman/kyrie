@@ -16,13 +16,13 @@ import { Wares, type Ware } from '../wares';
 import { TalkFocus } from '../talk-focus';
 import { Paging } from '../paging';
 import { AimNear } from '../aim-near';
-import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
+import { Attest, type Witness } from '../../../src/presentation/attest';
 import { ChoiceRow } from './choice-row';
 import { PageFrame } from '../page-frame';
 import { Check } from './check';
-import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
+import type { Promoted } from '../../../src/presentation/glance-types';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
@@ -58,13 +58,12 @@ export class TalkStage {
     // has its blue question, or its asking to come along, drawn so here, and one drawn plain has nothing drawn (see
     // Emphasis.within): a salter with no mark had had every question blue, for each told something.
     // What pays the company is drawn green, as their likeness is (see SceneSubject.owed).
-    // As their likeness was drawn when they were turned to (see ReaderState.turned); the aim's next step as it is now.
-    const now = frame.leaf.glance?.acts ?? [], acts = s.turned ? [...s.turned.map(TalkStage.ungilded),
-      ...now.filter(a => a.continues)] : now;
+    // As each reply stands now, never as the talk was led with when it was turned to (the trust contracts: no promise
+    // kept after it is spent; see Attest.reply).
     const gilded = Guidance.shown(app);
     const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
-    const drawn = (c: Choice): Aspect[] => spent(c) ? [] : Emphasis.within(acts, c, [
-      ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : []]);
+    const g = frame.leaf.glance;
+    const drawn = (c: Choice): Witness[] => spent(c) ? [] : Attest.reply(g, c, frame.screen.paying);
 
     // Four acts in view (the owner's ruling 2): taking your leave always, and in the three rows before it any answer
     // owed, then what can be said and Trade, a page at a time; each row's key is its place, 1 to 4.
@@ -93,20 +92,20 @@ export class TalkStage {
                     with what would fetch coin: Mission 20). */}
                 <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} spent={spent} opened={focus.opened}
                   gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={<TalkStage.ToTrade app={app}
-                    aspects={[...new Set(focus.services.flatMap(drawn))]} gilded={gilded} />} />
+                    witnesses={focus.services.flatMap(drawn)} gilded={gilded} />} />
               </>}
             </div>
             {/* The way out, always in view at the foot (round 5: under the fade at a long counter, half there): Back
                 from trading, which is the way out while trading; else taking your leave, the last of the four. */}
             <ol className="leave replies">
               {s.trading ? <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.trade(false)}
-                mark={ChoiceRow.neutral} markClass="neutral" label="Back" /></li>
+                plain="neutral" label="Back" /></li>
                 : <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={a + paged.shown.length + 1}
-                  mark={ChoiceRow.neutral} markClass="neutral" label={talk.leave.label} /></li>}
+                  plain="neutral" label={talk.leave.label} /></li>}
               {/* The page turned last, below the acts, which run 1 to 4 without a gap (M22's review: 1, 2, 3, the
                   pager, 4). */}
               {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
-                onClick={() => turn(paged.at + 1)} mark={ChoiceRow.neutral} markClass="neutral"
+                onClick={() => turn(paged.at + 1)} plain="neutral"
                 label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
                 aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
             </ol>
@@ -121,12 +120,15 @@ export class TalkStage {
   }
   // Trade, drawn as what the glance found among what is had of them for coin (a bed for the night, what the aim waits
   // on to be sold: Mission 20).
-  static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
-    const bar = Pip.fill(aspects, gilded);
+  static ToTrade({ app, witnesses, gilded }: { app: ReaderApp; witnesses: Witness[]; gilded: boolean }) {
+    const indicator = Attest.of(witnesses, gilded);
     // A row like the questions, the width of them all (the owner, 16 November: an action is a full-width row), among them.
-    return <ChoiceRow.Button className={gilded && aspects.includes('undertaking') ? 'aimed' : ''}
-      data={{ action: 'trade', aspects: aspects.join(' ') || undefined }} onClick={() => app.trade(true)} label="Trade"
-      {...bar ? { mark: bar, markLabel: Pip.words(aspects, gilded) } : {}} />;
+    return <ChoiceRow.Button className={indicator?.tone === 'gold' ? 'aimed' : ''}
+      data={{ action: 'trade', aspects: TalkStage.aspects(witnesses) || undefined }} onClick={() => app.trade(true)} label="Trade"
+      {...indicator?.tone ? { indicator } : {}} />;
+  }
+  static aspects(ws: readonly Witness[] | undefined): string {
+    return [...new Set((ws ?? []).flatMap(w => w.aspects))].join(' ');
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
@@ -290,7 +292,7 @@ export class TalkStage {
   // row that turns the page (no act) is under the leave.
   static Topics({ draw, name, paged, first, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
     name: string; paged: ReturnType<typeof Paging.of<Choice | 'trade'>>; first: number;
-    spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Aspect[];
+    spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Witness[];
     paying?: string[]; trade: ReactNode }) {
     return <>
       <ol className="replies" aria-label={`What you might say to ${name}`}>
@@ -300,15 +302,15 @@ export class TalkStage {
     </>;
   }
   static Reply({ choice: c, draw, number, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
-    number?: number; asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
-    const bar = Pip.fill(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');
+    number?: number; asked?: boolean; fresh?: boolean; aspects?: Witness[]; gilded?: boolean; pays?: boolean }) {
+    const indicator = Attest.of(aspects ?? [], gilded), bar = indicator?.tone, aimed = bar === 'gold';
     return (
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
-        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}
+        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={TalkStage.aspects(aspects) || undefined}
         data-condition={Pip.condition({ spent: asked, fresh })}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
         <ChoiceRow.Act choice={c} draw={draw} number={number}
-          {...bar ? { mark: bar, markLabel: Pip.words(aspects!, gilded) } : {}}
+          {...bar ? { indicator } : {}}
           label={<span className="said">{Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}
             {asked && <small> · asked</small>}{pays && <span className="for-you sr-only">, for you</span>}</span>} />
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}

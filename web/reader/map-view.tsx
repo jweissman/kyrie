@@ -11,7 +11,7 @@ import { HexLand } from './hex-land';
 import { BoardField } from './board-field';
 import type { Courses, Dress } from './board/board-types';
 import { PlaceFacets } from '../../src/presentation/place-facets';
-import { Pip } from './stage/pip';
+import { Attest } from '../../src/presentation/attest';
 import { MenuModel } from './menu-model';
 import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
@@ -86,9 +86,9 @@ export class MapView {
   // where the page shows the way (see Guidance), and a companion's icon.
   static dress(app: ReaderApp, screen: Screen): Dress {
     const facets = PlaceFacets.of(screen, app.state.frame?.leaf.glance), gilded = Guidance.shown(app);
-    return Object.fromEntries(Object.entries(facets).map(([id, aspects]) => {
-      const tone = Pip.tone(aspects, gilded);
-      return [id, { ...tone ? { tone } : {}, ...aspects.includes('companionship') ? { companion: true } : {} }];
+    return Object.fromEntries([...facets].map(([id, witnesses]) => {
+      const mark = Attest.of(witnesses, gilded);
+      return [id, { ...mark?.tone ? { tone: mark.tone } : {}, ...mark?.companion ? { companion: true } : {} }];
     }).filter(([, d]) => Object.keys(d as object).length));
   }
   // Where a choice on the map would set out for: the itinerary's place, else the journey its set-out makes.

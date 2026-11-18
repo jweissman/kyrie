@@ -67,10 +67,10 @@ export class Sheet {
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
         <ol {...PageFrame.slot('menu')} className="led keep" aria-label="What can be done">
           {aim && <Sheet.AimActs app={app} aim={aim} />}
-          <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} mark={ChoiceRow.neutral}
-            markClass="neutral" label="Download a save file" /></li>
-          <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} mark={ChoiceRow.neutral}
-            markClass="neutral" label="Back to the title" /></li>
+          <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} plain="neutral"
+            label="Download a save file" /></li>
+          <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} plain="neutral"
+            label="Back to the title" /></li>
         </ol>
       </article>
     );
@@ -148,10 +148,11 @@ export class Sheet {
     const place = screen && Aims.named(screen, screen.destinations ?? [], aim.text);
     return <>
       <li><ChoiceRow.Button className="follow" data={{ action: 'follow' }} act={held?.follow} shut={following || !held?.follow}
-        onClick={() => { void Sheet.take(app, held?.follow); }} mark={following ? 'var(--tone-gold)' : ChoiceRow.neutral}
-        markClass={following ? undefined : 'neutral'} label={following ? 'Following' : 'Follow this'} /></li>
-      {place && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} mark={ChoiceRow.neutral}
-        markClass="neutral" label={`${place.name}, on the map`}
+        // Following is a choice made, not an opportunity: the chosen mark, no Atlas gold (the trust contracts).
+        onClick={() => { void Sheet.take(app, held?.follow); }} plain={following ? 'chosen' : 'neutral'}
+        label={following ? 'Following' : 'Follow this'} /></li>
+      {place && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} plain="neutral"
+        label={`${place.name}, on the map`}
         onClick={() => { void Sheet.take(app, held?.follow).then(() => app.chart(Sheet.charted(screen, place.id))); }} /></li>}
     </>;
   }

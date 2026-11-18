@@ -111,7 +111,7 @@ export class PrologueStage {
     const ref = useRef<HTMLButtonElement>(null);
     useEffect(() => { ref.current?.focus({ preventScroll: true }); }, []);
     return <ChoiceRow.Button ref={ref} className="go-on" data={{ action }} own={{ 'data-nav': true, ...Hold.bind(then) }}
-      mark={ChoiceRow.neutral} label="Continue" />;
+      plain="neutral" label="Continue" />;
   }
   // An answer to the meeting, done as any choice is (and timed so); its page waits on what came of it.
   static answer(app: ReaderApp, choice: Meeting['choices'][number]) {

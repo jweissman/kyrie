@@ -1,10 +1,9 @@
 import type { CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
-import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emblems } from '../../../src/presentation/emblems';
 import { SceneKinds } from '../../../src/ui/scene-kinds';
-import { Emphasis } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
+import { Attest, type Attested } from '../../../src/presentation/attest';
 import { Guidance } from '../guidance';
 import { PlaceStage } from './place-stage';
 
@@ -23,7 +22,7 @@ export class PlaceMark {
     const frame = app.state.frame!, family = PlaceMark.family(app), facets = PlaceMark.facets(app);
     const idle = frame.leaf.glance?.idle?.includes(frame.screen.place.id);
     // One colour, as every indicator is (see Pip): what it is chiefly, by the one precedence; never through several.
-    const fill = Pip.fill(facets, false), said = [PlaceMark.words[family], Pip.words(facets, false)].filter(Boolean).join(', ');
+    const fill = Pip.fill(facets), said = [PlaceMark.words[family], facets?.words].filter(Boolean).join(', ');
     return <span className={`place-mark${idle ? ' dim' : ''}`} aria-label={said} data-condition={Pip.condition({ idle })}
       role="img" style={{ '--pm': fill ?? 'var(--faint)' } as CSSProperties}>
       <i className="pm-accent" aria-hidden="true" /></span>;
@@ -37,9 +36,9 @@ export class PlaceMark {
     return { settlement: 'town', site: 'ruin', wild: 'wild' }[PlaceStage.kind(screen)];
   }
   // What the company knows it can do here, by kind, each once, in the order led.
-  static facets(app: ReaderApp): Aspect[] {
-    const acts = app.state.frame?.leaf.glance?.acts ?? [], shown = Guidance.shown(app);
-    const all = acts.flatMap(a => Emphasis.drawn(a.aspects, !!a.continues && shown));
-    return all.filter((a, i) => all.indexOf(a) === i);
+  // Of what the place leads with, the glance's witnesses (Attest).
+  static facets(app: ReaderApp): Attested | undefined {
+    const g = app.state.frame?.leaf.glance;
+    return Attest.of((g?.acts ?? []).map(a => Attest.witness(g, a.choice)), Guidance.shown(app));
   }
 }

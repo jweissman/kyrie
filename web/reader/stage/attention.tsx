@@ -10,6 +10,7 @@ import { Wayfinder, type Way } from './wayfinder';
 import { WorldStage } from './world-stage';
 import { PlaceStage } from './place-stage';
 import { Pip } from './pip';
+import type { Attested } from '../../../src/presentation/attest';
 import { ChoiceRow } from './choice-row';
 import { Signs } from '../../../src/presentation/signs';
 import { Indicator } from '../../../src/presentation/indicator';
@@ -23,7 +24,7 @@ import { PageFrame } from '../page-frame';
 // page, never a second list beside the first. A thing
 // chosen unfolds in place, its acts under its name; a way or a person touched is gone to or spoken to at once.
 export type Lens = 'here' | 'people' | 'things' | 'ways';
-interface Row { id: string; label: string; note?: string; tone?: string; faint?: boolean; glyph?: string;
+interface Row { id: string; label: string; note?: string; mark?: Attested; faint?: boolean; glyph?: string;
   pick: () => void; chosen?: boolean; choice?: Choice }
 export class Attention {
   // At most this many rows in a lens (four in every context: the owner, 16 November); the rest on pages, a row that
@@ -48,7 +49,7 @@ export class Attention {
           data={{ pick: r.id, choice: r.choice && draw.index.has(r.choice.id) ? r.choice.id : undefined,
             condition: Pip.condition({ afar: r.faint }) }} onClick={r.pick}
           {...r.choice ? { act: r.choice.id } : {}}
-          {...r.tone ? { mark: `var(--tone-${r.tone})` } : {}}
+          {...r.mark?.tone ? { indicator: r.mark } : {}}
           label={<>{r.glyph && <span className="row-glyph" aria-hidden="true">{r.glyph}</span>}{Typography.curl(r.label)}</>}
           aside={r.note && Typography.curl(r.note)} />
         {r.chosen && chosen && <Attention.Unfolded draw={draw} held={chosen} />}
@@ -72,47 +73,47 @@ export class Attention {
     return WorldStage.present(app).filter(x => x.kind !== 'companion' && !x.state);
   }
   private static personRows(app: ReaderApp): Row[] {
-    const rank = (x: ReturnType<typeof Attention.people>[number]) => (WorldStage.seen(app, x).tone ? 0 : x.live ? 1 : 2);
+    const rank = (x: ReturnType<typeof Attention.people>[number]) => (WorldStage.seen(app, x)?.tone ? 0 : x.live ? 1 : 2);
     return [...Attention.people(app)].sort((a, b) => rank(a) - rank(b)).flatMap(x => {
       const into = WorldStage.into(x), seen = WorldStage.seen(app, x);
       if (!into) { return []; }
       const verb = x.kind === 'person' ? (x.live ? 'Talk to' : 'Look at') : 'Look at';
       return [{ id: x.id, label: `${verb} ${Words.short(x.name)}`, ...x.note ? { note: Words.described(x.note) } : {},
-        ...seen.tone ? { tone: seen.tone } : {}, choice: into, pick: () => app.choose(into) }];
+        ...seen ? { mark: seen } : {}, choice: into, pick: () => app.choose(into) }];
     });
   }
   static things(app: ReaderApp): Held[] { return AtHand.of(app).filter(h => h.id !== 'about'); }
   private static thingRows(app: ReaderApp): Row[] {
     return Attention.things(app).map(h => {
-      const tone = AtHand.tone(app, h), only = h.choices.length === 1 && h.choices[0]!.command ? h.choices[0] : undefined;
+      const mark = AtHand.mark(app, h), only = h.choices.length === 1 && h.choices[0]!.command ? h.choices[0] : undefined;
       // A thing done at a way off this place is said as the act ("Drop the bar across the camp gate"), as the glance
       // says it (GlanceStage.label), not the way it is on.
       const said = only && (only.alone ?? Words.upper(/ — (.+)$/.exec(only.label)?.[1] ?? only.label));
       return { id: h.id, label: said ?? Words.upper(h.name),
-        ...h.note ? { note: h.note } : {}, ...tone ? { tone } : {}, chosen: app.state.hovered === h.id,
+        ...h.note ? { note: h.note } : {}, ...mark ? { mark } : {}, chosen: app.state.hovered === h.id,
         ...only ? { choice: only } : {},
         pick: () => only ? app.choose(only) : app.state.hovered === h.id ? app.setState({ hovered: undefined, open: [] })
           : AtHand.pick(app, h) };
-    }).sort((a, b) => Number(!a.tone) - Number(!b.tone));
+    }).sort((a, b) => Number(!a.mark?.tone) - Number(!b.mark?.tone));
   }
   // Where to go: the aim's way first, then those lit by what the place leads with, then the rest; never the idle first.
   private static wayRows(app: ReaderApp): Row[] {
     const glance = app.state.frame?.leaf.glance, idle = new Set(glance?.idle ?? []);
     // What is perceived off along a way (someone who might join you, that way): its tone, faint (see Perception).
     const sensed = (w: Way) => glance?.sensed?.find(x => x.to === Wayfinder.to(w) || w.holds?.includes(x.to));
-    const rank = (w: Way) => (w.aim === 'followed' ? 0 : Wayfinder.tone(app, w) ? 1 : sensed(w) ? 2 : idle.has(Wayfinder.to(w)) ? 4 : 3);
+    const rank = (w: Way) => (Wayfinder.bears(app, w).aimed ? 0 : Wayfinder.tone(app, w) ? 1 : sensed(w) ? 2 : idle.has(Wayfinder.to(w)) ? 4 : 3);
     return [...Wayfinder.ways(app)].sort((a, b) => rank(a) - rank(b)).map(w => {
       // In a site, the frontier and the retreat by their direction and a plain word, as the terminal says them (EX-02).
       const bearing = Signs.bearing(glance, w.c.command ?? w.c.id);
-      const lit = w.aim === 'followed' ? 'gold' : Wayfinder.tone(app, w), far = sensed(w), glyph = bearing?.sign ?? Signs.way(w.whither, !!w.c.disabled), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
+      const mark = Wayfinder.mark(app, w), lit = mark?.faint ? undefined : mark?.tone, far = sensed(w), glyph = bearing?.sign ?? Signs.way(w.whither, !!w.c.disabled), time = (w.c.minutes ?? 0) > 5 ? Words.span(w.c.minutes!) : '';
       // A companion perceived that way is said whatever colour the way has of its own (it is an icon, never a tone);
       // anything else perceived is the faint tone of a way with none (the atlas-perception matrix, M21), said in words
       // only where it is so (a danger, someone), never that it is worth a look (the owner's headless review, HP-06).
-      const tone = lit ?? Pip.sensed(far?.aspect), kin = far?.aspect === 'companionship';
+      const kin = far?.aspect === 'companionship';
       return { id: w.c.id, label: GlanceStage.short(w.name), ...glyph !== '·' ? { glyph } : {},
         note: [bearing?.said ?? '', w.c.disabled ? `shut: ${w.c.disabled}` : '', far && (kin || !lit) && Indicator.tells(far.aspect) ? Signs.sensed(far.aspect, far.far) : '', time]
           .filter(Boolean).join(' · ') || undefined,
-        ...tone ? { tone } : {}, ...far && !lit && !kin ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
+        ...mark ? { mark } : {}, ...far && !lit && !kin ? { faint: true } : {}, choice: w.c, pick: () => Wayfinder.go(app, w) } as Row;
     });
   }
 }

@@ -2,9 +2,10 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Pip } from './pip';
+import type { Attested } from '../../../src/presentation/attest';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
-import { Wayfinder, type Way } from './wayfinder';
+import { Wayfinder } from './wayfinder';
 import { Signs } from '../../../src/presentation/signs';
 
 // The scene's lenses (the owner, 12 November: the cinematic study, made the one resting scene). Go and Look turned on
@@ -15,8 +16,7 @@ import { Signs } from '../../../src/presentation/signs';
 // faint: what is only perceived off along a way (someone who might join you, that way), its pip soft (see Perception).
 // act: the way it goes by, for a way's tile, which goes at a touch (the action system's mark); none for a thing's,
 // which is looked at.
-interface Tile { id: string; name: string; glyph?: string; picture?: string; tone?: string; companion?: boolean;
-  faint?: boolean; dim?: boolean;
+interface Tile { id: string; name: string; glyph?: string; picture?: string; mark?: Attested; dim?: boolean;
   chosen: boolean; pick: () => void; act?: string }
 export class Lenses {
   static Strip({ app }: { app: ReaderApp }) {
@@ -32,7 +32,7 @@ export class Lenses {
             onClick={t.pick}>
             {t.picture ? <span className="lens-face" aria-hidden="true"><img src={t.picture} alt="" decoding="async" /></span>
               : t.glyph && t.glyph !== '·' && <span className="lens-glyph" aria-hidden="true">{t.glyph}</span>}
-            <Pip.View fill={t.tone && `var(--tone-${t.tone})`} companion={t.companion} faint={t.faint} />
+            <Pip.View mark={t.mark} />
             <span className="lens-name">{Typography.curl(Words.upper(t.name))}</span>
           </button></li>)}
       </ul>
@@ -45,26 +45,23 @@ export class Lenses {
   // The ways from here, by the direction each goes and its short name; the aim's in its gold, as its row is.
   private static ways(app: ReaderApp): Tile[] {
     const glance = app.state.frame?.leaf.glance, idle = new Set(glance?.idle ?? []);
-    const sensed = (w: Way) => glance?.sensed?.find(x => x.to === Wayfinder.to(w) || w.holds?.includes(x.to));
     return Wayfinder.ways(app).map((w): Tile => ({ id: w.c.id, name: GlanceStage.short(w.name),
       glyph: Signs.way(w.whither, !!w.c.disabled),
-      ...(w.aim === 'followed' ? { tone: 'gold' } : Wayfinder.tone(app, w) ? { tone: Wayfinder.tone(app, w)! }
-        : Pip.sensed(sensed(w)?.aspect) ? { tone: Pip.sensed(sensed(w)!.aspect)!, faint: true } : {}),
-      // A companion perceived that way is its icon, whatever colour the way has of its own (atlas-perception, M21).
-      ...sensed(w)?.aspect === 'companionship' ? { companion: true } : {},
+      // Of the way's witnesses (Wayfinder.bears): the aim's gold, what it is led with, who is perceived along it.
+      ...Wayfinder.mark(app, w) ? { mark: Wayfinder.mark(app, w)! } : {},
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
       // Touched, a way is gone by, as a likeness touched is spoken to (the owner, 12 November: a place's badge did not
       // go there); its row in Go's list still says what it is first.
       act: w.c.id, pick: () => Wayfinder.go(app, w) })).filter(t => !t.dim)
-      .sort((a, b) => Number(!a.tone) - Number(!b.tone) || Number(b.tone === 'gold') - Number(a.tone === 'gold'))
+      .sort((a, b) => Number(!a.mark?.tone) - Number(!b.mark?.tone) || Number(b.mark?.tone === 'gold') - Number(a.mark?.tone === 'gold'))
       .slice(0, Lenses.most);
   }
   // The things at hand, by their pictures where the place's people or things have one.
   private static things(app: ReaderApp): Tile[] {
     const subjects = app.menu.scene?.subjects ?? [];
     return AtHand.of(app).map(h => {
-      const picture = subjects.find(x => x.id === h.id)?.portrait?.src, tone = AtHand.tone(app, h);
-      return { id: h.id, name: h.name, ...picture ? { picture } : {}, ...tone ? { tone } : {},
+      const picture = subjects.find(x => x.id === h.id)?.portrait?.src, mark = AtHand.mark(app, h);
+      return { id: h.id, name: h.name, ...picture ? { picture } : {}, ...mark ? { mark } : {},
         chosen: app.state.hovered === h.id, pick: () => AtHand.pick(app, h) };
     });
   }

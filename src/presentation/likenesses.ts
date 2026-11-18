@@ -1,13 +1,18 @@
 import type { Aspect, Glance, Likeness } from './glance-types';
+import type { Screen } from '../ui/screen-types';
+import { SceneModel } from '../ui/scene';
 
 // What each likeness here is to the company, said once by the engine for the page to draw as it is (M21's PL-32): the
 // aspects of what the glance leads with about them, together; and where one of them is the followed aim's next step,
 // the undertaking alone, so that its one indicator is gold. The page had aggregated every aspect into a ring through
 // their tones, and Lindal, the sealed letter's next step, whose talk also teaches, had been drawn a pip that read blue.
-// What is scene-level and not an opportunity (a debt owed them, a danger seen) the page adds as before.
+// And a danger seen in them, which the page had added by its own reading (the owner's trust contracts, 18 November: an
+// indicator only of the engine's witnesses): a subject the scene reckons a threat (SceneModel.threat). A debt owed
+// them is a payoff the glance leads with already (Owed, OR-76).
 export class Likenesses {
-  static of(acts: Glance['acts']): Record<string, Likeness> {
+  static of(acts: Glance['acts'], threats: readonly string[] = []): Record<string, Likeness> {
     const out: Record<string, Likeness> = {};
+    for (const who of threats) { out[who] = { aspects: ['danger'] }; }
     for (const a of acts) {
       if (!a.subject) { continue; }
       const was = out[a.subject];
@@ -19,7 +24,8 @@ export class Likenesses {
     return out;
   }
   // The glance with them: on every glance drawn, and again wherever its acts are changed (Glance.held).
-  static with<T extends Pick<Glance, 'acts'>>(glance: T): T & Pick<Glance, 'likenesses'> {
-    return { ...glance, likenesses: this.of(glance.acts) };
+  static with<T extends Pick<Glance, 'acts'>>(glance: T, screen: Screen): T & Pick<Glance, 'likenesses'> {
+    const threats = SceneModel.build(screen).subjects.filter(SceneModel.threat).map(x => x.id);
+    return { ...glance, likenesses: this.of(glance.acts, threats) };
   }
 }

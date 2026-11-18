@@ -69,10 +69,10 @@ export class BookStage {
             {Typography.curl(`With you: ${others.map(o => `${o.name}, ${o.line}`).join('; ')}.`)}</p>}
           <ol {...PageFrame.slot('menu')} className="led ending-menu" aria-label="What can be done now">
             {frame.ending?.memorial && <li><ChoiceRow.Button className="led-act" data={{ action: 'again' }}
-              onClick={app.opening.again} mark={ChoiceRow.neutral} markClass="neutral"
+              onClick={app.opening.again} plain="neutral"
               label="Begin again in this country, from its first day" /></li>}
             <li><ChoiceRow.Button className="led-act" data={{ action: 'new' }} onClick={app.opening.title}
-              mark={ChoiceRow.neutral} markClass="neutral" label="Back to the title" /></li>
+              plain="neutral" label="Back to the title" /></li>
           </ol>
         </div>
       </div>

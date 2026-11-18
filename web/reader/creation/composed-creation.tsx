@@ -89,7 +89,7 @@ export class ComposedCreation {
       background={sky && <><Observatory.View signs={app.state.catalog!.signs} focus={lit}
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} onOut={out} />
         {zoom && <ChoiceRow.Button className="sky-out" data={{ action: 'whole-sky' }} label="All twelve"
-          mark={ChoiceRow.neutral} onClick={out} />}</>}
+          plain="neutral" onClick={out} />}</>}
       header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>{!sky && entry}</>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
@@ -173,7 +173,7 @@ export class ComposedCreation {
       {step.roll !== undefined && <ComposedRow.View option={{ id: 'roll', name: 'Roll again', aside: step.roll }}
         onConsider={() => undefined} onChoose={() => app.opening.roll()} />}
       {step.write !== undefined && <label className="choice-row composed-row composed-write">
-        <i className="prism-bar row-mark" aria-hidden="true" style={{ '--prism': ChoiceRow.neutral } as CSSProperties} />
+        <i className="prism-bar row-mark neutral" aria-hidden="true" style={{ '--prism': 'var(--row-neutral)' } as CSSProperties} />
         <input data-field="name" data-nav placeholder={step.write} maxLength={40} autoComplete="off" spellCheck={false}
           onKeyDown={e => { if (e.key === 'Enter' && e.currentTarget.value.trim()) { e.preventDefault(); onward(); } }}
           onChange={e => app.opening.edit(0, 'name', e.currentTarget.value)} /></label>}

@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
-import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
-import type { Tone } from '../../../src/presentation/emphasis';
+import type { Promoted } from '../../../src/presentation/glance-types';
 import { Guidance } from '../guidance';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { Frame } from '../../engine/protocol';
@@ -22,6 +21,7 @@ import { PageFrame } from '../page-frame';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
+import { Attest, type Attested } from '../../../src/presentation/attest';
 import { Standing } from '../../../src/ui/standing';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
@@ -103,9 +103,9 @@ export class WorldStage {
     return (
       <ul className={`portraits${many > WorldStage.crowd ? ' crowd' : ''}`} aria-label="Who is here">
         {[...company, ...shown].map(x => { const seen = WorldStage.seen(app, x); return <li key={x.id} data-subject={x.id}
-          className={`${x.kind}${x.danger ? ' danger' : ''}${seen.gilded ? ' led' : ''}`
-            + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}${seen.tone ? ` toned tone-${seen.tone}` : ''}`}
-          data-aspects={seen.aspects.join(' ') || undefined}>
+          className={`${x.kind}${x.danger ? ' danger' : ''}${seen?.tone === 'gold' ? ' led' : ''}`
+            + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}${seen?.tone ? ` toned tone-${seen.tone}` : ''}`}
+          data-aspects={[...new Set(seen?.witnesses.flatMap(w => w.aspects))].join(' ') || undefined}>
           <WorldStage.Portrait subject={x} draw={draw} pip={seen} /></li>; })}
       </ul>
     );
@@ -137,14 +137,9 @@ export class WorldStage {
   // aspects of what can be done with them together, or the undertaking alone where they are the followed aim's next
   // step; and of the scene's own, only something owed them and a danger seen in them. Gold only where the way is shown
   // (see Guidance). Drawn as one pip by the likeness (see Pip), never composed again here from the glance's acts.
-  static seen(app: ReaderApp, x: SceneSubject): { aspects: Aspect[]; gilded: boolean; tone?: Tone; fill?: string;
-    label: string } {
-    const likeness = app.state.frame?.leaf.glance?.likenesses?.[x.id];
-    const gilded = !!likeness?.continues && Guidance.shown(app);
-    const all = [...likeness?.aspects ?? [], ...x.owed ? ['payoff' as const] : [], ...x.danger ? ['danger' as const] : []];
-    const aspects = all.filter((a, i) => all.indexOf(a) === i).sort((a, b) => Number(b === 'undertaking') - Number(a === 'undertaking'));
-    const tone = Pip.tone(aspects, gilded), fill = Pip.fill(aspects, gilded);
-    return { aspects, gilded, ...tone ? { tone } : {}, ...fill ? { fill } : {}, label: Pip.words(aspects, gilded) };
+  static seen(app: ReaderApp, x: SceneSubject): Attested | undefined {
+    const g = app.state.frame?.leaf.glance, likeness = g?.likenesses?.[x.id];
+    return Attest.of([Attest.subject(g, x.id)], !!likeness?.continues && Guidance.shown(app));
   }
   // A likeness with nothing to open, touched, says why beneath it for a moment, rather than nothing (round 6: three taps
   // on the factor's hands, and on an enemy, did nothing, and nothing said why).
@@ -170,8 +165,7 @@ export class WorldStage {
     WorldStage.fetching.add(src);
     const img = new Image(); img.decoding = 'async'; img.src = src;
   }
-  static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string;
-    aspects?: Aspect[] } }) {
+  static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: Attested }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined;
     // Whoever can be turned to has their large likeness fetched while the scene shows them, so a conversation opens
@@ -184,7 +178,7 @@ export class WorldStage {
       : <Glyphs.View id={Glyphs.met(x)} className="emblem" />;
     const name = Typography.curl(Words.upper(x.name));
     const body = <><span className="face" aria-hidden="true">{face}</span>
-      <Pip.View fill={pip?.fill} label={pip?.label} companion={!!pip?.aspects?.includes('companionship')} />
+      <Pip.View mark={pip} />
       <span className="pn">{name}</span>
       {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;
     // The fallen are drawn fallen (the owner, 7 November: the dead had stood in their likenesses as if alive).
@@ -275,8 +269,7 @@ export class WorldStage {
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
     return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id} data-act={c.id}
       onClick={() => { app.choose(c); }}>
-      <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} faint={!!a.afar}
-        companion={a.aspects.includes('companionship')} />
+      <Pip.View mark={Attest.of([Attest.witness(app.state.frame?.leaf.glance, a.choice)], gilded)} />
       {Typography.curl(a.label)}</button>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let

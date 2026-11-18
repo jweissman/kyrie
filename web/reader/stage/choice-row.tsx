@@ -1,6 +1,7 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, CSSProperties, MouseEvent, ReactNode, Ref } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import { Act, type Draw } from './act';
+import type { Attested } from '../../../src/presentation/attest';
 
 // The one row every choice is drawn as (Mission 21's design system, proposal step 1: the M20 screens study's
 // proposal A): the scene's acts, a place's things that can change the world, a conversation's questions, its leave and
@@ -8,21 +9,28 @@ import { Act, type Draw } from './act';
 // under them, and the number it is pressed by at the right. What it does stays the button's own: an engine choice is
 // drawn by Act.View (data-choice, data-index, its number), anything else by a plain button with its data-action.
 // Its look is menu.css's alone; the pages lay rows out, they do not style them.
+// A row that is no opportunity is one of these, never a colour of its own: nothing in particular (a faint line), the
+// option chosen in creation or Options, a fight's blow, and the title's two ways in (the owner's).
+export type Plain = 'neutral' | 'chosen' | 'blow' | 'every' | 'knowing';
 export interface RowParts {
-  // The indicator's fill: a tone (var(--tone-…)) or an OKLab prism; none, no indicator.
-  mark?: string; markLabel?: string; markClass?: string;
+  // Its indicator: an opportunity's, made only of the glance's witnesses (Attest); or a plain kind; or none.
+  indicator?: Attested; plain?: Plain;
   label: ReactNode; aside?: ReactNode; number?: number; extra?: ReactNode;
 }
 export class ChoiceRow {
   static readonly cls = 'choice-row';
-  // The indicator of a row that is nothing in particular: a faint neutral line (menu.css), not a colour.
-  static readonly neutral = 'var(--row-neutral)';
+  // Each plain kind's fill (menu.css): none of them an Atlas tone but the title's, which is the owner's own.
+  private static readonly plains: Record<Plain, string> = { neutral: 'var(--row-neutral)', chosen: 'var(--accent, #d9b46a)',
+    blow: 'var(--ember)', knowing: 'var(--tone-blue)',
+    every: 'linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue), var(--tone-green), var(--tone-violet))' };
   private static nothing(): void { /* a shut row says why, and does nothing */ }
   // The inside, the same everywhere; the older classes kept beside the new so that what reads them still finds them.
-  static Parts({ mark, markLabel, markClass, label, aside, number, extra }: RowParts) {
+  static Parts({ indicator, plain, label, aside, number, extra }: RowParts) {
+    const fill = indicator?.tone ? `var(--tone-${indicator.tone})` : plain ? ChoiceRow.plains[plain] : undefined;
     return <>
-      {mark && <i className={`prism-bar row-mark${markClass ? ` ${markClass}` : ''}`}
-        style={{ '--prism': mark } as CSSProperties} {...markLabel ? { role: 'img', 'aria-label': markLabel } : { 'aria-hidden': true }} />}
+      {fill && <i className={`prism-bar row-mark${!indicator?.tone && plain === 'neutral' ? ' neutral' : ''}`}
+        style={{ '--prism': fill } as CSSProperties} data-witness={indicator?.witnesses.map(w => w.id).join(' ') || undefined}
+        {...indicator?.tone ? { role: 'img', 'aria-label': indicator.words } : { 'aria-hidden': true }} />}
       <span className="n row-label">{label}</span>
       {aside && <span className="why-said row-aside">{aside}</span>}
       {extra}

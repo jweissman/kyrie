@@ -9,17 +9,17 @@ import { AtHand } from './at-hand';
 import { Pastime } from './pastime';
 import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
-import type { Tone } from '../../../src/presentation/emphasis';
-import type { Aspect } from '../../../src/presentation/glance-types';
 import { Signs } from '../../../src/presentation/signs';
 import { Pip } from './pip';
+import { Attest, type Attested } from '../../../src/presentation/attest';
 import { WorldStage } from './world-stage';
 import { PageFrame } from '../page-frame';
 
 // How a touch on the rail stands now (amendment 6, the owner's notes of 11 November): lit, by the tone of what it has
 // that is new or the aim's; ordinary, with something in it still useful; dim, with nothing new for now (it can still
 // be opened, and is lit again when the world changes); or shut, with nothing in it to do, and says why.
-type Standing = { lit?: Tone } | { dim: true } | { shut: string } | Record<string, never>;
+// lit: an indicator, made only of the witnesses of the rows the control opens (Attest), never a colour of its own.
+type Standing = { lit?: Attested } | { dim: true } | { shut: string } | Record<string, never>;
 
 // The scene's few touches, apart from what is told and what is led with: a small rail of marks at the foot of the
 // screen's right side, well inside its edges (the owner: "a tiny rail of icons at the hard bottom right", nothing of
@@ -33,10 +33,8 @@ export class SceneRail {
     return (
       <nav {...PageFrame.slot('rail')} className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
         <SceneRail.Talk app={app} />
-        <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
-          companion={SceneRail.joins(app)} />
-        <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)}
-          companion={AtHand.of(app).some(h => AtHand.bears(app, h).includes('companionship'))} />
+        <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)} />
+        <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
         {/* Each in its own place whether it can be done or not, shut and saying why when not: the rail's marks had moved
             under the finger as the Search came and went, and a touch for the Eye opened Go (round 7, both players). */}
         <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
@@ -82,19 +80,18 @@ export class SceneRail {
   static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
     const marks = <>
       {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
-        aria-label="The map: back to where you are" data-tone={SceneRail.here(app)} onClick={() => app.outdoor(false)}>
+        aria-label="The map: back to where you are" data-tone={SceneRail.local(app)?.tone} onClick={() => app.outdoor(false)}>
         <Glyphs.View id="the_map" className="rail-glyph" />
-        {SceneRail.here(app) && <Pip.View fill={`var(--tone-${SceneRail.here(app)})`}
-          label={`Where you are: ${Pip.words(SceneRail.local(app), Guidance.shown(app))}`} />}</button>
-        : CompassStage.of(app) ? <button type="button" className={`rail-mark opens-compass${SceneRail.mapLit(app) ? ' lit' : ''}`}
+        <Pip.View mark={SceneRail.local(app)} label={`Where you are: ${SceneRail.local(app)?.words ?? ''}`} /></button>
+        : CompassStage.of(app) ? <button type="button" className={`rail-mark opens-compass${SceneRail.map(app) ? ' lit' : ''}`}
           data-action="compass" data-key="m" aria-label="The compass: the way out, and the ways in here" aria-pressed={app.state.exploring === 'go'}
           onClick={() => Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go')}>
           <Glyphs.View id="the_compass" className="rail-glyph" />
-          {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>
-        : <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit' : ''}`}
+          <Pip.View mark={SceneRail.map(app)} /></button>
+        : <button type="button" className={`rail-mark${SceneRail.map(app) ? ' lit' : ''}`}
           data-action="mode" data-view="map" data-key="m" aria-label="The map"
           onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" />
-          {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>}
+          <Pip.View mark={SceneRail.map(app)} /></button>}
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book"
         onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
       </button>
@@ -105,18 +102,19 @@ export class SceneRail {
   // Its pip (see Pip): lit, of the tone of what the rows it opens bear (see SceneRail.go), and a companion's icon
   // where one of them is someone who might join; none with nothing; and the whole mark lowered (dim) with nothing new.
   // Never what its rows are not (the owner, 17 November: a companion on Go… and on none of the rows under it).
-  static Mark({ app, part, glyph, words, standing, companion }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
-    glyph: string; words: string; standing: Standing; companion?: boolean }) {
+  static Mark({ app, part, glyph, words, standing }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
+    glyph: string; words: string; standing: Standing }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
+    const companion = !!lit?.companion;
     const said = shut ? `${words}: ${shut}` : 'dim' in standing ? `${words}: ${Signs.idle} for now`
       : companion ? `${words}: ${Signs.sensed('companionship')}` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
       + `${'dim' in standing ? ' dim' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
-        data-condition={Pip.condition({ idle: 'dim' in standing })} data-tone={lit} data-companion={companion || undefined}
+        data-condition={Pip.condition({ idle: 'dim' in standing })} data-tone={lit?.tone} data-companion={companion || undefined}
       aria-expanded={app.state.exploring === part} aria-label={said} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" />
-      {!shut && <Pip.View fill={lit && `var(--tone-${lit})`} companion={companion} />}
+      {!shut && <Pip.View mark={lit} />}
     </button>;
   }
   // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way the place leads with; dim where
@@ -126,8 +124,8 @@ export class SceneRail {
     if (!ways.length) { return { shut: 'no way on from here' }; }
     // Lit by what the rows it opens bear (Wayfinder.bears), the first of them by the one precedence: not by the
     // promoted lens, whose four were not the rows shown (the owner, 18 November), nor by somewhere not yet been.
-    const tone = Pip.tone([...new Set(ways.flatMap(w => Wayfinder.bears(app, w).aspects))], Guidance.shown(app));
-    if (tone) { return { lit: tone }; }
+    const lit = Attest.of(ways.flatMap(w => Wayfinder.bears(app, w).witnesses), Guidance.shown(app));
+    if (lit) { return { lit }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
   // Whether the aim's way is among them: the aim's next step, where it is known and is a way; where none is known, a
@@ -142,25 +140,26 @@ export class SceneRail {
   static look(app: ReaderApp): Standing {
     const hand = AtHand.of(app), glance = app.state.frame?.leaf.glance;
     if (!hand.some(h => h.choices.some(c => !c.disabled))) { return { shut: 'nothing here to look at more closely' }; }
-    const tone = Pip.tone([...new Set(hand.flatMap(h => AtHand.bears(app, h)))], Guidance.shown(app));
-    if (tone) { return { lit: tone }; }
+    const lit = Attest.of(hand.flatMap(h => AtHand.bears(app, h)), Guidance.shown(app));
+    if (lit) { return { lit }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
   }
   // Whether one of the ways Go… opens bears someone who might join (see Wayfinder.bears).
   static joins(app: ReaderApp): boolean {
-    return Wayfinder.ways(app).some(w => Wayfinder.bears(app, w).companion);
+    const go = SceneRail.go(app);
+    return 'lit' in go && !!go.lit?.companion;
   }
   // The map, where a journey there is the aim's next step, and the way is shown.
   // Back from the map, the scene it returns to: its pip the tone of what that scene leads with here (its four, less
   // the journeys the map itself is for), never inferred apart from it (the owner's trust contracts, 18 November, C:
   // "Put away the map" had been blank beside a place with something to do).
-  static local(app: ReaderApp): Aspect[] {
-    const acts = app.state.frame?.leaf.glance?.acts ?? [];
-    return [...new Set(acts.filter(a => !a.choice.startsWith('travel:')).flatMap(a => a.aspects))];
+  static local(app: ReaderApp): Attested | undefined { return Attest.local(app.state.frame?.leaf?.glance, Guidance.shown(app)); }
+  // The map's mark: the aim's gold where a journey across the country is its next step (that act its witness).
+  static map(app: ReaderApp): Attested | undefined {
+    const g = app.state.frame?.leaf.glance, around = app.state.frame?.screen.around ?? [];
+    const next = g?.acts.find(a => a.continues && a.choice.startsWith('travel:') && !around.some(d => `travel:${d.id}` === a.choice));
+    const mark = Attest.of([Attest.witness(g, next?.choice)], Guidance.shown(app));
+    return mark?.tone === 'gold' ? mark : undefined;
   }
-  static here(app: ReaderApp): Tone | undefined { return Pip.tone(SceneRail.local(app), Guidance.shown(app)); }
-  static mapLit(app: ReaderApp): boolean {
-    return Guidance.shown(app) && !!app.state.frame?.leaf.glance?.acts.some(a => a.continues && a.choice.startsWith('travel:')
-      && !(app.state.frame?.screen.around ?? []).some(d => `travel:${d.id}` === a.choice));
-  }
+  static mapLit(app: ReaderApp): boolean { return !!SceneRail.map(app); }
 }
