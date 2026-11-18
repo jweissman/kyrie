@@ -42,6 +42,10 @@ html, body { overflow: hidden; }
 /* Arriving: what the stage now shows rises into its light. */
 .frame > * { animation: arrive var(--settle) var(--ease) both; }
 @keyframes arrive { from { opacity: 0; } }
+/* But not from one step of creation to the next: each step is a page of its own, and arriving it faded the whole page
+   (the country, the question, the rows) to nothing and back at every choice (the owner's cold play, 17 November, FM-01:
+   "the entire page appeared to fade out and then flash back into view"). The step's words change in place. */
+.frame > .creation.composed { animation: none; }
 
 /* ---- The title: the whole screen, dark; the painting comes up behind the name; the ways in, centred. ---- */
 .title-page { position: relative; height: 100dvh; display: grid; place-items: center; padding: 0 20px; max-width: none;

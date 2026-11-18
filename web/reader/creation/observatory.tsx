@@ -27,19 +27,26 @@ export class Observatory {
     return tall ? { box: `${Observatory.cx - 594} -1204 1188 2200`, align: 'xMidYMax slice' }
       : { box: '0 0 1600 1000', align: 'xMidYMid slice' };
   }
+  // The whole ring in view, at the left of the page beside the rows, below the question.
+  static wheel(): { box: string; align: string } {
+    const { cx, cy, r, field } = Observatory, m = field * .75, size = 2 * (r + m);
+    return { box: `${cx - r - m} ${cy - r - m - size * .14} ${size * 2.1} ${size * 1.14}`, align: 'xMinYMid meet' };
+  }
   // How far the far field slides as the ring turns a degree (a sign is thirty: over a third of what is in sight).
   static readonly pan = 18;
-  static View({ signs, focus, chosen, flare, onFocus, onChoose }: { signs: Sign[]; focus?: string; chosen?: string;
-    flare?: string; onFocus: (id: string) => void; onChoose: (id: string) => void }) {
+  // whole: the twelve at once round the still ring, each where it always stands, the one considered lit (the owner,
+  // 17 November, FM-02: all twelve signs at once, the zodiac and its rows in step; a fixed set's instrument).
+  static View({ signs, focus, chosen, flare, onFocus, onChoose, whole }: { signs: Sign[]; focus?: string;
+    chosen?: string; flare?: string; onFocus: (id: string) => void; onChoose: (id: string) => void; whole?: boolean }) {
     const turned = useRef(0), at = Math.max(0, signs.findIndex(s => s.id === focus)), step = 360 / Math.max(1, signs.length);
-    // The nearest way round to the sign: the ring never spins the long way past eleven months.
-    const want = -at * step, now = turned.current;
-    turned.current = now + ((((want - now) % 360) + 540) % 360) - 180;
+    // The nearest way round to the sign: the ring never spins the long way past eleven months; whole, it stands still.
+    const want = whole ? 0 : -at * step, now = turned.current;
+    turned.current = whole ? 0 : now + ((((want - now) % 360) + 540) % 360) - 180;
     const { cx, cy } = Observatory, pan = turned.current * Observatory.pan;
     const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const view = Observatory.view();
+    const view = whole ? Observatory.wheel() : Observatory.view();
     return (
-      <div className="observatory" aria-hidden="true">
+      <div className={`observatory${whole ? ' whole' : ''}`} aria-hidden="true">
         <SkyCanvas.View pan={pan} still={still} />
         <svg viewBox={view.box} preserveAspectRatio={view.align} focusable="false">
           <Observatory.Defs />
@@ -47,7 +54,7 @@ export class Observatory {
           <g className="obs-ring" style={{ transformOrigin: `${cx}px ${cy}px` }}>
             <circle className="obs-arc" cx={cx} cy={cy} r={Observatory.r} />
             {signs.map((s, i) => <Observatory.Figure key={s.id} sign={s} angle={i * step} lit={s.id === focus}
-              chosen={s.id === chosen} flare={s.id === flare} onFocus={onFocus} onChoose={onChoose} />)}
+              chosen={s.id === chosen} flare={s.id === flare} onFocus={onFocus} onChoose={onChoose} upright={whole} />)}
           </g>
           </g>
         </svg>
@@ -68,13 +75,16 @@ export class Observatory {
   }
   // One constellation at its place on the ring, upright at the top of it, as a star atlas draws one (OR-17): the figure
   // it is named for engraved faintly about its stars, the lines that join them, then its stars by magnitude and colour.
-  static Figure({ sign, angle, lit, chosen, flare, onFocus, onChoose }: { sign: Sign; angle: number; lit: boolean;
-    chosen: boolean; flare: boolean; onFocus: (id: string) => void; onChoose: (id: string) => void }) {
+  // upright: stood upright where it stands on the ring (the still wheel), not turned with it.
+  static Figure({ sign, angle, lit, chosen, flare, onFocus, onChoose, upright }: { sign: Sign; angle: number;
+    lit: boolean; chosen: boolean; flare: boolean; onFocus: (id: string) => void; onChoose: (id: string) => void;
+    upright?: boolean }) {
     const { cx, cy, r, field } = Observatory, star = (k: number) => sign.stars[k] ?? [0, 0, 1];
     const p = (k: number) => [(star(k)[0]! - .5) * field, (star(k)[1]! - .5) * field] as const;
     const cls = ['obs-sign', lit ? 'lit' : '', chosen ? 'chosen' : '', flare ? 'flare' : ''].filter(Boolean).join(' ');
     return (
-      <g className={cls} data-sign={sign.id} transform={`rotate(${angle} ${cx} ${cy}) translate(${cx} ${cy - r})`}
+      <g className={cls} data-sign={sign.id}
+        transform={`rotate(${angle} ${cx} ${cy}) translate(${cx} ${cy - r})${upright ? ` rotate(${-angle})` : ''}`}
         onMouseEnter={() => onFocus(sign.id)} onClick={() => onChoose(sign.id)}>
         <circle className="obs-hit" r={field * .62} />
         {sign.figure && <path className="obs-figure" d={sign.figure}

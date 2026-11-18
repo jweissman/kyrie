@@ -134,7 +134,8 @@ export class CreationFlow {
         ...CreationFlow.entry(`ancestry:${a.id}`) })) },
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
       // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
-      { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', chosen: m.sign, cards: c.signs.map(x => ({
+      // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
+      { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
         say: x.line })) },
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
