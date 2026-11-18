@@ -66,7 +66,7 @@
    "ends": "{target} thaws."
   },
   "entangled": {
-   "begins": "{target} is caught fast.",
+   "begins": "{target} is tangled: slower to strike, and easier to hit.",
    "ends": "{target} pulls free."
   },
   "stun": {
@@ -587,7 +587,8 @@
   },
   "shred": {
    "begins": "{target}'s armour is torn open.",
-   "ends": "{target}'s armour is whole again."
+   "ends": "{target}'s armour is whole again.",
+   "held": "{target}'s armour holds."
   },
   "sunmarked": {
    "begins": "{target} is marked by the sun.",

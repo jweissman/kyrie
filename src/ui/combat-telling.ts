@@ -244,6 +244,10 @@ export class CombatTelling {
     if (e.against === 'infected') { return `${CombatTelling.whose(who, 'wound')} stays clean.`; }
     // Not "is not bleeding", which reads as news of how they are (the cold evaluation).
     if (e.against === 'bleed') { return `${who} does not bleed from it.`; }
+    // In the condition's own words where it has them: "Wenna shrugs off the armor shred" had named a rule the player
+    // was never told (cold play 4, CL-48); "Wenna's armour holds."
+    const held = e.against ? CombatPresenter.told(e.against, 'held') : undefined;
+    if (held) { return held.replaceAll('{target}', who); }
     // A state held off is said of the blow that would have laid it, as the bleeding is: "The old buck rat is not
     // stunned." had read as news when nothing was told trying to stun it (cold play 5, CL-37).
     return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what} by it.` : `${who} shrugs off the ${what}.`;

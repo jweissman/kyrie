@@ -12,9 +12,11 @@ export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
   // In the condition's own words, else the voice table's (data/voice/conditions.json): never its name and duration
   // ("Hild gains inspired for 3h": the cold playtest, CO-10).
-  static told(id: string, when: 'begins' | 'ends'): string | undefined {
+  // held: what is said where a save held it off ("{target}'s armour holds."), where the voice table has it.
+  static told(id: string, when: 'begins' | 'ends' | 'held'): string | undefined {
     const resolved = Canon.resolve('conditions', id), voice = voiced.conditions as Record<string, Record<string, string>>;
-    return Canon.conditions[resolved]?.[when] ?? voice[resolved]?.[when] ?? voice[id]?.[when];
+    const own = when === 'held' ? undefined : Canon.conditions[resolved]?.[when];
+    return own ?? voice[resolved]?.[when] ?? voice[id]?.[when];
   }
   // The dice behind a blow, for the chronicle: the roll, then each adjustment. A foe's hit points are not said: how it
   // stands is told in words on its card (the owner, 7 November); only one of the company's is counted here.

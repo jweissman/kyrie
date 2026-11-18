@@ -55,7 +55,7 @@ describe('the odds of a blow, and what a fight says', () => {
       { type: 'damage', turn: 1, actor: 'w', target: 'f', rolled: 5, amount: 5, hp: 20 },
       { type: 'save', turn: 1, actor: 'w', target: 'f', rolled: 18, difficulty: 15, success: true, against: 'shred' },
     ];
-    expect(CombatTelling.exchanges(events, state)[0]!.text).toContain('shrugs off the armor shred');
+    expect(CombatTelling.exchanges(events, state)[0]!.text).toContain("The Wet's armour holds.");
   });
   // A save held against a condition the same blow then lays on by another way is not told: "shrugs off the poison" had
   // come a breath before "is poisoned" (Mission 20's sixth round, J 47).

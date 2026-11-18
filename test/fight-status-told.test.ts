@@ -31,7 +31,7 @@ describe('a fight\'s status against its telling', () => {
     const held: CombatEvent = { type: 'save', turn: 2, actor: 'x', target: 'r', rolled: 18, difficulty: 15,
       success: true, kind: 'reflex', against: 'shred' };
     const told = (events: CombatEvent[]) => CombatTelling.exchanges(events, state).map(t => t.text).join(' ');
-    expect(told([shredded, held])).not.toMatch(/shrugs off/);
-    expect(told([held])).toMatch(/shrugs off/);
+    expect(told([shredded, held])).not.toMatch(/armour holds/);
+    expect(told([held])).toMatch(/armour holds/);
   });
 });
