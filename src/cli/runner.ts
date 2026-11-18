@@ -35,6 +35,8 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
   amid?: true; broken?: string[]; end?: true; ending?: { title: string; lines: string[] };
+  // What the company has to spend, every turn (cold play 2, CL-06: no turn had said what was in the purse).
+  purse?: { coin: number; rations: number };
   // Of the four, those that act on the aim followed's next step (the glance's lead, US-07; see RunnerLed).
   led?: string[];
   // Instruments (the experience measures): where the company stands, what the act just done changed beyond time and
@@ -72,6 +74,7 @@ export class Runner {
     const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
+      purse: { coin: screen.purse.coin, rations: screen.purse.rations },
       ...aim ? { aim: Typography.plain(aim.text) } : {}, ...screen.aims?.length ? { aims: screen.aims.map(a => ({
         id: a.id, text: Typography.plain(a.text), ...a.followed ? { followed: true as const } : {} })) } : {},
       ...g?.need?.length ? { need: g.need } : {}, ...g?.next ? { next: Runner.next(g.next) } : {},
@@ -114,7 +117,10 @@ export class Runner {
   private static choice(screen: Screen, names: Map<string, string>, o: Glanced): Offered {
     // A thing looked at is called by what is done to it ("Take a steel coin"), not by its name alone.
     const named = o.for && names.get(o.for), id = Runner.way(screen, (named && o.for) || (o.command ?? o.choice));
-    const own = !named && (/#look$/.test(o.choice) || Runner.opener(screen, o.choice)) ? names.get(id) : undefined;
+    // A talk's row that does another act in its place (led for what is inside it) is called by that act's own words:
+    // "Talk to the factor" had sold the crown (cold play 2, CL-05).
+    const talking = o.type === 'talk' && !/^talk_to\(/.test(id), opener = Runner.opener(screen, o.choice);
+    const own = !named && (talking || /#look$/.test(o.choice) || opener) ? names.get(id) : undefined;
     return { id, label: Typography.plain(named || own || o.label), aspects: o.aspects, type: o.type,
       ...o.minutes ? { minutes: o.minutes } : {}, marks: o.marks.map(m => m.kind),
       ...o.bearing ? { bearing: o.bearing } : {} };

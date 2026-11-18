@@ -227,7 +227,7 @@ Module belongings "What the company carries" {
     Resolve realize(ware, carrier, actor).
     On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by pays(buyer, form).
       Increase quantity(actor, gold) by pays(buyer, form). }
-    Result "{buyer} takes {ware}, and counts out the coin for it.".
+    Result "{buyer} takes {ware} and pays you {pays(buyer, form)} coin for it.".
   }
   Action sell_valuable(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Sell {ware} to {buyer}" {
     Time 3 minutes.
@@ -239,7 +239,7 @@ Module belongings "What the company carries" {
     Resolve realize(ware, carrier, actor).
     On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form).
       Increase quantity(actor, gold) by dealerPays(form). }
-    Result "{buyer} turns {ware} over in the light, names a price, and counts out the coin.".
+    Result "{buyer} looks {ware} over and pays you {dealerPays(form)} coin for it.".
   }
   Action sell_ware(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, trade: tradeclass, site: place) "Sell {ware} to {buyer}" {
     Time 3 minutes.
@@ -251,7 +251,7 @@ Module belongings "What the company carries" {
     Resolve realize(ware, carrier, actor).
     On success { Assert keeps(buyer, ware). Assert realized(ware). Decrease quantity(buyer, gold) by dealerPays(form).
       Increase quantity(actor, gold) by dealerPays(form). }
-    Result "{buyer} looks {ware} over, names a price, and counts out the coin.".
+    Result "{buyer} looks {ware} over and pays you {dealerPays(form)} coin for it.".
   }
   // A dealer without the coin for a treasure still says what it is worth, and whether to wait or go elsewhere.
   Action appraise(actor: group, ware: item, form: itemkind, carrier: member, buyer: group, site: place) "Show {ware} to {buyer}" {
