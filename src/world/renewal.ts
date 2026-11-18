@@ -10,6 +10,7 @@ import { WorldAssembler, type Entry, type Placement } from './world-assembler';
 import type { DeemValue } from 'deem';
 import type { Predicate } from '../lang/module';
 import type { World } from '../lang/world';
+import { RegionKey } from './region-key';
 
 // A country goes on after its first troubles: what goes on in its towns that it did not draw at the start (a fever, a
 // drover missing, players stuck at the inn) begins on the third morning, and another every other morning after, while
@@ -38,7 +39,8 @@ export class Renewal {
   static async draw(seed: string, base: BundleSource, options: { region?: Record<string, DeemValue>; name?: string },
     n: number): Promise<{ requests: BundleRequest[]; source: BundleSource } | undefined> {
     const region = WorldAssembler.region(seed, [0, 0], options.region);
-    if (options.name && region.name !== options.name) { return undefined; }
+    // A save from before the heartland's countries were called in Common names it by its key (OR-82).
+    if (options.name && region.name !== options.name && RegionKey.of(region) !== options.name) { return undefined; }
     region.further = Countries.further(region, seed);
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };

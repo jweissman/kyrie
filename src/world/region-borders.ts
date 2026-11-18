@@ -124,7 +124,7 @@ export class RegionBorders {
     const provinces = (region.provinces ?? []).map(p => Provinces.country(p.country));
     const noticed = [...Object.values(region.beyond ?? {}), ...provinces].filter(n => n?.notice)
       .map(n => n!.name).sort();
-    const first = noticed[RegionBorders.hash(region.name) % Math.max(1, noticed.length)];
+    const first = noticed[RegionBorders.hash(RegionKey.of(region)) % Math.max(1, noticed.length)];
     return beyond.name === first ? region.settlements : region.settlements.slice(1);
   }
   private static hash(text: string): number {

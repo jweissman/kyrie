@@ -15,6 +15,7 @@ import { OriginPrologue } from './origin-prologue';
 import { SettlementWriter } from './settlement-writer';
 import { RegionUndertown } from './region-undertown';
 import { AtlasOrigins } from './origin-atlas';
+import { RegionKey } from './region-key';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -113,7 +114,7 @@ export class Origins {
   private static prologue(bound: Bound, region: Region): { lines: string[]; inn: [string, string] } | undefined {
     const s = region.settlements.find(x => x.id === bound.start.approach?.settlement);
     if (!s || !bound.imports.approach || !SettlementWriter.rooms(region, s).taproom) { return undefined; }
-    const lines = OriginPrologue.lines(region.name, { approach: 'approach', inn: 'inn', home: s.name, folk: region.ancestry });
+    const lines = OriginPrologue.lines(RegionKey.of(region), { approach: 'approach', inn: 'inn', home: s.name, folk: region.ancestry });
     return lines.length ? { lines, inn: this.inn(s) } : undefined;
   }
   private static inn(s: Settlement): [string, string] { return [`region.${s.id}_taproom`, 'place']; }
@@ -351,7 +352,7 @@ export class Origins {
       : [...others].sort((a, b) => this.away(region, s, a) - this.away(region, s, b))[0];
     if (!s || !dest) { return undefined; }
     const { start, approach } = this.arriving(region, s), after = this.after(region, dest);
-    const sender = (tables.senders as string[])[region.name.length % tables.senders.length]!;
+    const sender = (tables.senders as string[])[RegionKey.of(region).length % tables.senders.length]!;
     const values = { ...this.approach(region, s), destname: dest.name, merchant: dest.merchant, sender,
       trade: SettlementWriter.trade(dest).role, after: after.said };
     return { values, start,
