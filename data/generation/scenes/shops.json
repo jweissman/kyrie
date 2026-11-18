@@ -16,7 +16,7 @@
     "fabrics": { "role": "clothier", "room": "{keeper}'s cloth-hall", "painting": "merchant",
       "scene": "Bolts of cloth stand on end along the walls, and cured hides hang from the beams." },
     "general": { "role": "general dealer", "room": "{keeper}'s general store", "painting": "shopkeeper",
-      "scene": "Sacks stand on the floor and shelves climb to the beams, and the counter is worn into a dip in the middle by years of things set down on it. The air smells of meal, soap and lamp-oil." },
+      "scene": "Sacks stand on the floor and shelves climb to the beams, and the counter is worn into a dip in the middle by years of things set down on it. The air smells of tallow, rope and sacking." },
     "herbs": { "role": "herbalist", "room": "{keeper}'s herb-shop", "painting": "herbalist",
       "scene": "Bunches of drying herbs hang from every beam, so that you walk in stooping, and the air is thick with sage, mint and wormwood." },
     "jewelry": { "role": "jeweller", "room": "{keeper}'s jewel-shop", "painting": "jeweler", "stones": 3,
