@@ -50,7 +50,7 @@ Module drove "The held drove" {
     State shut "A tally-book bound in sheepskin lies open on the counter, under Mardle's hand.".
   }
   Discovery found_drowned "Four drowned bullocks lie in the Black Rhyne behind the pens, Brynach brands on their flanks." {
-    Found by searching rhyne "Down where the bank has slumped, under the black water, something big and dark: a bullock, and another beyond it, four in all, the brand of a Brynach drove burnt into each flank. They have been there days.".
+    Found by searching rhyne "Down where the bank has slumped, under the black water, something big and dark: a bullock, and another beyond it, four in all, the brand of a Brynach drove burnt into each flank. They have been there since last night.".
   }
 
   Topic clerk_count_t with clerk "Ask Mardle how many head crossed" when not knows(actor, found_drowned) and not freed(party) and not sent(party) once {
@@ -58,7 +58,7 @@ Module drove "The held drove" {
     On discuss { Assert knows(actor, clerk_count). }
   }
   Topic bran_count_t with bran "Ask Bran what happened" when not freed(party) once {
-    Says "Bran looks up slowly. 'Thirty-six crossed. Four went into the Rhyne, a mile short of here, when the bank gave under them. Ask the boy. And I'd pay the tenth on thirty-six without a word if it were the Rì's tenth.' He looks past you at the counter. 'It is not the Rì's. Ask how many droves Mardle has found four short this year.'".
+    Says "Bran looks up slowly. 'Thirty-six crossed. Four went into the Black Rhyne behind the pens, when the bank gave under them. Ask the boy. And I'd pay the tenth on thirty-six without a word if it were the Rì's tenth.' He looks past you at the counter. 'It is not the Rì's. Ask how many droves Mardle has found four short this year.'".
     On discuss { Assert knows(actor, bran_count). }
   }
   Topic owain_count_t with owain "Ask Owain how many head came down" when not freed(party) once {
@@ -68,7 +68,9 @@ Module drove "The held drove" {
   Topic keeper_drove with keeper "Ask {keeper} about the drover the customs-men hold" when not freed(party) once {
     Says "{keeper} lowers their voice. 'Third drove this year Mardle has found four short. The reeve takes his word: he keeps the Rì's book, and she has the sea-gate to think of. Nobody here will cross him. Nobody here sells cattle.'".
   }
-  Action read_book(actor: group, site: place) "Look over Mardle's shoulder at the tally-book" {
+  // Mardle shows the line himself (clerk_count_t), so what can fail is seeing what is wrong with it, not reading it
+  // (cold play 3, CL-27: the book turned to be read, then a look at it failed).
+  Action read_book(actor: group, site: place) "Look closely at the ink on Bran's line" {
     Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, customs) and knows(actor, clerk_count)
       and not knows(actor, altered) and not knows(actor, found_drowned) and not freed(actor) and not sent(actor) and not counted(actor).
@@ -76,7 +78,11 @@ Module drove "The held drove" {
     On success { Assert knows(actor, altered). Assert counted(actor). }
     On failure { Assert counted(actor). }
     Result "The line for Bran's drove reads forty, in a good round hand. But the ink of the four is blacker than the ink of the rest, and under it, where the nib scratched, is the tail of a three and the curl of a six.".
-    Otherwise "Mardle closes the book on his finger before you have read a line. 'The Rì's book, friend.'".
+    Otherwise "The line reads forty, in a good round hand. You see nothing wrong with it before Mardle closes the book. 'The Rì's book, friend.'".
+  }
+  // Bran's lead put to the man it is about (CL-27: "ask how many droves Mardle has found four short" had no topic).
+  Topic clerk_short_t with clerk "Ask Mardle how many droves he has found four short this year" when knows(actor, bran_count) and not knows(actor, altered) and not freed(party) and not sent(party) once {
+    Says "'Every drove that was four short,' says Mardle. His finger stays on the line in the book, and he does not look at you.".
   }
   Topic pay_fine with clerk "Pay Mardle the twelve crowns, and have Bran let out" when not freed(party) and not sent(party) and quantity(actor, gold) >= 12 once {
     Says "Mardle counts the coins twice and writes in the book. The grille opens. Bran comes out stooping, straightens, and looks at Mardle a long moment before he looks at you. 'He'll do it to the next drove,' he says.".
