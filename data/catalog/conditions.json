@@ -483,6 +483,29 @@
         "notes": "Orsino's asleep (no actions; its sleep save), and the SRD's Sleep's waking (mission-22/srd-proving-cases.md, case 14): a blow that wounds a sleeper and leaves them standing wakes them (its onAttacked hook, answering harm from another creature). Omitted: the sleeper helpless, and waking by a slap or a noise."
       }
     },
+    "calmed": {
+      "name": "Calmed",
+      "description": "Quieted by a calm laid on them: does nothing until harm or a blow breaks it.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "noActions": true
+      },
+      "hooks": {
+        "onAttacked": [
+          { "kind": "remove", "status": "calmed", "target": "self" }
+        ]
+      },
+      "saveKind": "will",
+      "begins": "A calm settles on {target}.",
+      "ends": "The calm on {target} breaks.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:calm-emotions",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Calm Emotions' calm (mission-22/srd-proving-cases.md, case 24): no actions, and any harm or blow from another breaks it (its onAttacked hook, as asleep's). Converted: the SRD's calmed may defend itself and do anything not violent; Kyr's does nothing. Omitted: a blow on one breaking it on every calmed creature."
+      }
+    },
     "heartened": {
       "name": "Heartened",
       "description": "Steadied against dread: +4 against fear.",

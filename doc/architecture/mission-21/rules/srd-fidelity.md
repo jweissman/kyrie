@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 28 pass in structure
-(level, school), 17 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-16 proved in play identity.** Creatures with one (71): 2 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 29 pass in structure
+(level, school), 18 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+17 proved in play identity.** Creatures with one (71): 2 in structure (Hit
 Dice, armour), 1 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (543 groups).
 
 | creatures, field exact or converted | hitDice 4 | armour 4 | attacks 18 | hit 7 | defences 1 | specials 0 | saves 1 | of 71 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 46 | school 71 | dice 10 | type 13 | save 33 | dc 14 | attack 104 | target 71 | duration 43 | of 119 |
+| spells, field exact or converted | level 46 | school 72 | dice 10 | type 13 | save 33 | dc 15 | attack 104 | target 72 | duration 44 | of 119 |
 
 ## Creatures, most met first
 
@@ -111,7 +111,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → one | ✗ 3 rounds → long |
 | burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| calm_emotions | calm-emotions | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ all → burst | ✗ 3 rounds → long |
+| calm_emotions | calm-emotions | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
 | cause_blindness | blindness-deafness | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 17 → 15 | ✓ | ✓ | ✗ 5 rounds → long |
 | chain_lightning | chain-lightning | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
 | charm | charm-person | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 19 → 14 | ✓ | ✓ | ✗ 3 rounds → long |

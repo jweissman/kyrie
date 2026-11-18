@@ -774,6 +774,36 @@ caster; +1 at every casting level converted (the SRD's to the fifth), as case 19
 No recommendation: option 1 is the SRD's and its draw by rank moves only gainers and losers, but the 48 losers are
 the installed divine casters of every country, seven of a1's among them; the lead's call, as case 10's was.
 
+
+### 24. Calm Emotions by the SRD's numbers (18 November): adapted
+
+Orsino's Calm Emotions laid its calm on every foe: immune to fear and madness, +1 to hit and +2 to Will saves, a boon
+to those it was cast at. Spec: `test/calm-emotions` (2 cases; with Orsino's entry put back, both fail).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- second level, divine, Nature, and the SRD's school, enchantment, beside its domain (exact);
+- a burst (the ability's own `area`): everyone in the place it falls on but the caster, friend or foe (exact);
+- a Will save to negate (exact), at case 7's difficulty for a second-level spell (converted: 16 at a third-level caster
+  of Wisdom 16);
+- whoever fails is calmed (a new condition, `calmed`: `noActions`, and the asleep condition's `onAttacked` hook, so
+  any harm or blow from another breaks it): it does nothing until then;
+- three rounds, the census's caster's (the third level), at every casting level (converted: the SRD's lasts while its
+  caster concentrates, up to a round a level; Kyr's casters do not concentrate).
+
+**Converted:** the SRD's calmed creature may defend itself and do what is not violent; Kyr's does nothing, as a
+sleeper does (Kyr's fight has no turn between a blow and none). **Omitted:** a blow on one calmed creature breaking
+the calm on all of them; the fear, confusion and morale bonuses it suppresses; the undead's and constructs' proof
+against the mind (its save is Will, as Hold Person's in case 18); spell resistance.
+
+**The census.** No draw moves: no level, domain or tradition changed, and the creation cards are the same (the
+wildcaller's has it at the second level, castable from the third). A wildcaller knows it one in three (.33 at the
+first level, .34 at the seventh), a vitalist .04 and .12, a cleric of a drawn domain .08 and .15. Of 2,232 installed
+classed creatures one knows it (thorn's tower necromancer), as before; no kind casts it by its nature, and no calling
+teaches it. What moves is every casting: a hold on the place's foes and friends alike in place of a boon to the foes.
+The tactics weigh a condition that takes turns at eighteen (as Sleep's and Hold Person's), where Orsino's calm on
+foes weighed six; less fifteen for each friend the burst would catch (Tactics.friendly), so a caster whose own side
+stands in the place seldom casts it, and one whose side does not casts it oftener than before.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

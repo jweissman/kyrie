@@ -397,6 +397,36 @@
         "notes": "The SRD's Bless (doc/architecture/mission-22/srd-proving-cases.md, case 17): the caster and every ally, first level, its school the SRD's enchantment beside its domain. Converted: the whole company, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Kept: Orsino's blessed (+1 to hit and +1 damage; Divine Favor and Neptune's Blessing lay it too), where the SRD's is +1 to hit and to saves against fear. Before, Orsino's one ally for three rounds."
       }
     },
+    "calm_emotions": {
+      "name": "Calm Emotions",
+      "kind": "spell",
+      "description": "A calm falls on the place you aim it at: friend or foe, whoever does not shake it off stands quiet and does nothing, until a blow breaks it.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "calmed",
+          "duration": 3,
+          "target": "enemies",
+          "save": {
+            "kind": "will",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "12 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "area": "burst",
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 2, "domain": "nature", "school": "enchantment" },
+      "source": {
+        "orsino": "divineSpell:calm_emotions",
+        "srd35": "spell:calm-emotions",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Calm Emotions (doc/architecture/mission-22/srd-proving-cases.md, case 24): second level, its school enchantment beside Nature, a burst (everyone in the place it falls on, friend or foe), a Will save to negate at case 7's difficulty for a second-level spell; whoever fails is calmed, doing nothing, until harm or a blow from another breaks it (the calmed condition). Converted: three rounds, the census's caster's (the third level), at every casting level, for the SRD's concentration up to a round a level (Kyr's casters do not concentrate); a calmed creature does nothing, where the SRD's may defend itself (Kyr's fight has no action between a blow and none). Omitted: a blow on one breaking it on all; the fear, confusion and morale it suppresses; the undead's and constructs' proof against the mind (its save is Will, as Hold Person's); spell resistance. Before, Orsino's calm on every foe, against 15 + the caster's level: a boon to them (immune to fear and madness, +1 to hit, +2 to Will saves)."
+      }
+    },
     "remove_fear": {
       "name": "Remove Fear",
       "kind": "spell",

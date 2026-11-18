@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 748,
-    "adapted": 401,
+    "faithful": 747,
+    "adapted": 402,
     "represented": 4,
-    "kyr": 569,
+    "kyr": 570,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 228,
-      "adapted": 24,
+      "faithful": 227,
+      "adapted": 25,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -970,7 +970,7 @@
       "faithful": 125,
       "adapted": 29,
       "represented": 0,
-      "kyr": 44,
+      "kyr": 45,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -10400,7 +10400,7 @@
   {
    "id": "ability:calm_emotions",
    "title": "Calm Emotions",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"
   },
@@ -11871,6 +11871,13 @@
    "id": "condition:calm",
    "title": "Calm",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:calmed",
+   "title": "Calmed",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },

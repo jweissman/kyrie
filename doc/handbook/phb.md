@@ -7375,11 +7375,13 @@ Everyone but you where it bursts, friend or foe is entangled for 3 turns (a Dext
 
 ##### Calm Emotions
 
-*Faithful · level 2 divine spell, nature domain* · `ability:calm_emotions`
+*Adapted · level 2 divine spell, enchantment, nature domain* · `ability:calm_emotions`
 
-Every enemy gains calm for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Calm: +1 to hit, +2 to will saves, immune to fear, immune to insanity. A divine spell of the second level. Takes a second-level slot.
+Everyone but you where it bursts, friend or foe is calmed for 3 turns (a Wisdom save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Calmed: cannot act; and when attacked, end calmed on whoever has it. A divine spell of the second level. Takes a second-level slot.
 
-> Soothe strong emotions in a group of creatures.
+> A calm falls on the place you aim it at: friend or foe, whoever does not shake it off stands quiet and does nothing, until a blow breaks it.
+
+*Adapted: The SRD's Calm Emotions (doc/architecture/mission-22/srd-proving-cases.md, case 24): second level, its school enchantment beside Nature, a burst (everyone in the place it falls on, friend or foe), a Will save to negate at case 7's difficulty for a second-level spell; whoever fails is calmed, doing nothing, until harm or a blow from another breaks it (the calmed condition). Converted: three rounds, the census's caster's (the third level), at every casting level, for the SRD's concentration up to a round a level (Kyr's casters do not concentrate); a calmed creature does nothing, where the SRD's may defend itself (Kyr's fight has no action between a blow and none). Omitted: a blow on one breaking it on all; the fear, confusion and morale it suppresses; the undead's and constructs' proof against the mind (its save is Will, as Hold Person's); spell resistance. Before, Orsino's calm on every foe, against 15 + the caster's level: a boon to them (immune to fear and madness, +1 to hit, +2 to Will saves).*
 
 ##### Chaotic Surge
 
@@ -9504,6 +9506,18 @@ Takes 1d3 (1–3) fire damage each turn.
 +1 to hit, +2 to will saves, immune to fear, immune to insanity.
 
 > At peace and untroubled by fear or madness.
+
+### Calmed
+
+*Kyr · lasts the fight at most* · `condition:calmed`
+
+- Resisted by: a will save
+
+Cannot act.
+
+> Quieted by a calm laid on them: does nothing until harm or a blow breaks it.
+
+*Adapted: The SRD's Calm Emotions' calm (mission-22/srd-proving-cases.md, case 24): no actions, and any harm or blow from another breaks it (its onAttacked hook, as asleep's). Converted: the SRD's calmed may defend itself and do anything not violent; Kyr's does nothing. Omitted: a blow on one breaking it on every calmed creature.*
 
 ### Candlelit
 
