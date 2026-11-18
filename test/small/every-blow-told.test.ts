@@ -33,4 +33,12 @@ describe('every blow of a turn told', () => {
   it('says a blow that landed and did no harm did none', () => {
     expect(told(blow('claws', true, 0, 9))).toBe('The claws of the keeper of the vault catch Wenna, to no harm.');
   });
+  // A state a blow would have laid, held off, is said of the blow (cold play 5, CL-37: "The old buck rat is not
+  // stunned." after a blow that was not told trying to stun it).
+  it('says a state held off as the blow\'s', () => {
+    const save = { type: 'save', turn: 2, actor: 'g', target: 'w', rolled: 15, difficulty: 10, success: true,
+      against: 'stunned' } as unknown as CombatEvent;
+    expect(told([...blow('claws', true, 3, 6), save])).toContain('Wenna is not stunned by it.');
+  });
 });
+

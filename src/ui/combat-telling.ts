@@ -229,7 +229,9 @@ export class CombatTelling {
     if (e.against === 'infected') { return `${CombatTelling.whose(who, 'wound')} stays clean.`; }
     // Not "is not bleeding", which reads as news of how they are (the cold evaluation).
     if (e.against === 'bleed') { return `${who} does not bleed from it.`; }
-    return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
+    // A state held off is said of the blow that would have laid it, as the bleeding is: "The old buck rat is not
+    // stunned." had read as news when nothing was told trying to stun it (cold play 5, CL-37).
+    return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what} by it.` : `${who} shrugs off the ${what}.`;
   }
   // Whose a blow or a wound is: "Naivara's dagger", "the wolves' bite", and of one of a band, "the bite of the second
   // of the agile cave spiders" (it had been "the second of the agile cave spiders's bite": play 9).
