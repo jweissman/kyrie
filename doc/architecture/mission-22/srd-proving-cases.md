@@ -575,6 +575,55 @@ has a fair save, and another each turn: a hostile Law cleric's hold is no longer
 **Dropped:** the paralysis immunities (air affinity, illusory) no longer stop it: it is a Will save, as the SRD's
 mind-affecting hold is. **Omitted:** spell resistance; the held helpless. No draw moves (no level changed).
 
+
+### 19. Shield of Faith by the SRD's numbers (18 November): adapted
+
+Spec: `test/shield-of-faith` (2 cases; with Orsino's entry put back, it is a second-level spell laying its shielded,
+and both fail).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- first level (Orsino's second), divine, Law, and the SRD's school, abjuration, beside its domain (exact);
+- on the caster or one ally, never a foe (Kyr's `ally`: the SRD's creature touched; exact);
+- two harder to hit (a new condition, `shield_of_faith`, `ac -2`), added to worn armour as the SRD's deflection is:
+  Kyr's armour class adds every condition's `ac` to the body armour's (exact);
+- **+2 at every casting level** (converted: the SRD's grows a point each six levels, to +5 at the eighteenth; Kyr's
+  conditions do not grow with the caster, as case 14's durations do not);
+- a minute, ten rounds, at every casting level (converted, as Bless's in case 17);
+- its save the SRD's harmless one (converted: none is made by whoever takes it willingly).
+
+**Dropped:** Orsino's shielded (one harder to hit, ten hit points more, +1 against magic) is no longer what Shield of
+Faith lays; Orsino's abyssal shield still lays it. No new modifier: the condition is the existing `ac`.
+
+**The census** (200 humans for each calling and level, before and after; Shield of Faith's rate):
+
+| Calling, level | Moved | Before | After |
+|---|---|---|---|
+| cleric, oathkeeper (Law), 1 | 75.5 % | .56 | .59 |
+| cleric, oathkeeper, 7 | 75.5 % | .58 | .60 |
+| cleric, vitalist, 1 / 7 | 17 / 16 % | .07 / .23 | .15 / .28 |
+| cleric, domain drawn, 1 / 7 | 21.5 / 16.5 % | .10 / .24 | .18 / .28 |
+| cleric, the other ten domains, 1–7 | 12.5–25.5 % | .07–.23 | .14–.29 |
+| mage, bard, every level | 0 % | 0 | 0 |
+
+- An oathkeeper's first pick of its domain is now Shield of Faith or Protection from Evil, one in two each, where
+  Shield of Faith had been one of its two second-level Law spells beside Hold Person (so its second-level Law pick is
+  now always Hold Person): three in four oathkeepers move, a few more of them knowing it.
+- Every other cleric may draw it among its open first-level picks, where it had been a second-level pick: each who
+  moved gained or lost it, or a spell it displaced. A cleric who knew it could cast it from the third level; now from
+  the first.
+- **The creation cards** (FirstSpells.picks, what a player is shown): the oathkeeper's first-level picks now open
+  with Shield of Faith, in Rejuvenate's place, and Healing Touch takes its second-level place; the deathspeaker's and the stormcaller's gain it
+  in place of Barkskin and Anoint. The vitalist's, the first cleric way, does not move.
+- **The installed casters** of a1 and the six fidelity countries (2,232 classed creatures): six move, each gaining
+  Shield of Faith and losing nothing: a1's and wren's s1 Anselm, kite's and thorn's fellowship heir, thorn's keep
+  chaplain and wren's fellowship head.
+
+**Where it is met.** A first-level cleric who draws it (an oathkeeper one in two), the oathkeeper, deathspeaker and
+stormcaller creation cards, and every Law cleric of the first level or more who prepares it. A hostile cleric's
+companions are two harder to hit for ten rounds.
+
+**Omitted:** spell resistance (harmless); its growth with the casting level (above).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

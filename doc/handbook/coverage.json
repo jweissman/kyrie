@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 751,
-    "adapted": 398,
+    "faithful": 750,
+    "adapted": 399,
     "represented": 4,
-    "kyr": 567,
+    "kyr": 568,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 231,
-      "adapted": 21,
+      "faithful": 230,
+      "adapted": 22,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -970,7 +970,7 @@
       "faithful": 125,
       "adapted": 29,
       "represented": 0,
-      "kyr": 42,
+      "kyr": 43,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -10363,6 +10363,13 @@
    "section": "magic/spells-divine/spells-divine-1"
   },
   {
+   "id": "ability:shield",
+   "title": "Shield of Faith",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-1"
+  },
+  {
    "id": "ability:smite",
    "title": "Smite Evil",
    "status": "faithful",
@@ -10491,13 +10498,6 @@
   {
    "id": "ability:shadow_bind",
    "title": "Shadow Bind",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-divine/spells-divine-2"
-  },
-  {
-   "id": "ability:shield",
-   "title": "Shield of Faith",
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"
@@ -12900,6 +12900,13 @@
    "id": "condition:shapechanged",
    "title": "shapechanged",
    "status": "unsupported",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:shield_of_faith",
+   "title": "Shield of Faith",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },

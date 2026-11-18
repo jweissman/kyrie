@@ -355,7 +355,8 @@
   "cure_serious": "test/cure-wounds.test.ts",
   "cure_critical": "test/cure-wounds.test.ts",
   "bless": "test/bless.test.ts",
-  "hold_person": "test/hold-person.test.ts"
+  "hold_person": "test/hold-person.test.ts",
+  "shield": "test/shield-of-faith.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -395,6 +396,11 @@
   },
   "hold_person": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "shield": {
+   "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19)",
+   "dc": "harmless: none is made (srd-proving-cases.md, case 19)",
+   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
   },
   "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"

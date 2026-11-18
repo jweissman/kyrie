@@ -7325,6 +7325,16 @@ You are hidden for 3 turns; you are fox's cunning for 3 turns. Hidden: 4 harder 
 
 > Wrap yourself in shadows, increasing your stealth and cunning.
 
+##### Shield of Faith
+
+*Adapted · level 1 divine spell, abjuration, law domain* · `ability:shield`
+
+One ally gains shield of faith for 10 turns. Shield of Faith: 2 harder to hit. A divine spell of the first level. Takes a first-level slot.
+
+> A shimmer of faith stands about you or a companion, turning blows aside for a minute.
+
+*Adapted: The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). Converted: +2 at every casting level, the SRD's to the fifth (it grows a point each six levels to +5; Kyr's conditions do not grow with the caster); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps.*
+
 ##### Smite Evil
 
 *Faithful · level 1 divine spell, war domain* · `ability:smite`
@@ -7482,14 +7492,6 @@ One ally is fireproof for 3 turns. Fireproof: resists 50% of fire. A divine spel
 One enemy is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it); it gains slow for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
 
 > Bind an enemy with shadowy tendrils.
-
-##### Shield of Faith
-
-*Faithful · level 2 divine spell, law domain* · `ability:shield`
-
-One ally is shielded for 10 turns. Shielded: 1 harder to hit, +1 against magic, 10 more hit points (spent first). A divine spell of the second level. Takes a second-level slot.
-
-> Divine power protects you or an ally with a shimmering shield.
 
 ##### Spike Growth
 
@@ -10766,6 +10768,16 @@ Resists 50% of necrotic, immune to charm.
 *Left out — displayClass: Presentation only.*
 
 *Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Shield of Faith
+
+*Kyr · lasts the fight at most* · `condition:shield_of_faith`
+
+2 harder to hit.
+
+> A shimmer of faith turns blows aside: two harder to hit, whatever armour is worn.
+
+*Adapted: The SRD's Shield of Faith's deflection (mission-22/srd-proving-cases.md, case 19): +2 to armour class (Kyr's armour class descends, so ac -2), added to worn armour as a deflection is. Converted: +2 at every casting level (the SRD's grows a point each six levels to +5). Orsino's Shield of Faith had laid its shielded, which its abyssal shield still lays.*
 
 ### Shielded
 

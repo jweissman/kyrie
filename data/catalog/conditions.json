@@ -483,6 +483,23 @@
         "notes": "Orsino's asleep (no actions; its sleep save), and the SRD's Sleep's waking (mission-22/srd-proving-cases.md, case 14): a blow that wounds a sleeper and leaves them standing wakes them (its onAttacked hook, answering harm from another creature). Omitted: the sleeper helpless, and waking by a slap or a noise."
       }
     },
+    "shield_of_faith": {
+      "name": "Shield of Faith",
+      "description": "A shimmer of faith turns blows aside: two harder to hit, whatever armour is worn.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "ac": -2
+      },
+      "begins": "A shimmer of faith stands about {target}.",
+      "ends": "The shimmer about {target} fades.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:shield-of-faith",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Shield of Faith's deflection (mission-22/srd-proving-cases.md, case 19): +2 to armour class (Kyr's armour class descends, so ac -2), added to worn armour as a deflection is. Converted: +2 at every casting level (the SRD's grows a point each six levels to +5). Orsino's Shield of Faith had laid its shielded, which its abyssal shield still lays."
+      }
+    },
     "death_ward": {
       "name": "Death Ward",
       "description": "Warded against death's own powers: the dark's harm does not touch the warded, and nothing takes a level of them.",
