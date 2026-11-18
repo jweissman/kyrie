@@ -1,4 +1,27 @@
-# Sprint 1 — Observe a cold player; repair the first passage
+# Sprint 2 — Make one first hour worth completing
+
+Dates: 19–26 November 2026 (planning-report.md §7). Sprint 1 is closed: its board is kept below.
+Goal: the golden route gives the player a clear desire, an intelligible first step, meaningful preparation, a
+consequential expedition and a reason to return or continue, for the representative and the alternate character.
+Measured first by a sixth robot cold play on the revision after Sprint 1's landings (the same route and protocol,
+against 6.5), then by the beat map below.
+
+| ID | Kind | Why in this sprint | Acceptance | Owner | State |
+|---|---|---|---|---|---|
+| S2-1 | Investigation (E2) | Sprint 1's fixes must be measured, not assumed | Cold play 6 (the drove life, the representative character) at the revision after the 18 November landings; report in cold/, defects registered | lead (an agent plays) | to start |
+| S2-2 | Investigation (E2) | The plan's first step: know the route before changing it | A beat map of the golden route for both characters (offers, acts, telling, aims, resources, harm, persistent facts against the eight beats) | lead | to start |
+| S2-3 | Defect (E2) | FH-05, HP-01, HP-02: aims before desire | A new aim only once its desire is met or work sought; the beat map's aim count before and after | lead | to start |
+| S2-4 | Story (E2) | One preparation that changes the odds (beat 3) | One ordinary act (asking, buying, recruiting, learning) measurably changes the expedition, for both characters | lead | to start |
+| S2-5 | Story (E2) | Beats 7–8, partly met | A decision changes a person, place or opportunity; the return is a changed reception; pinned through save and resume | lead | to start |
+| S2-6 | Defect (E2) | CB-01, CB-03: the alternate character's viability | The mage's route viable by preparation, avoidance or help, a warning naming help that can be had | lead | to start |
+
+Stop rule (the plan's): no generalized career, faction, crafting or quest system to mend a missing beat. Running
+beside it: one SRD slice at a time (SR-01); the maturity track paused after its step 2 except where the route needs it,
+and its compatibility harness (MT-06) before any change that moves generated worlds.
+
+---
+
+# Sprint 1 — Observe a cold player; repair the first passage (closed 18 November)
 
 Dates: 18–25 November 2026 (planning-report.md §6). Sprint 0 is closed: its board is kept below.
 Goal: a cold player reaches the first meaningful action without accidental interruption, unexplained control changes
@@ -10,14 +33,22 @@ as fast as possible.
 | ID | Kind | Why in this sprint | Acceptance | Owner | State |
 |---|---|---|---|---|---|
 | S1-1 | Investigation (E1) | Cold play 3 (6/10) named the causes; the fixes must be measured, not assumed | A fourth robot cold play of the golden route on the deployed revision, by the protocol below, its report in mission-22/cold/ and its defects registered | lead (an agent plays) | done (18 Nov): cold play 4 at f087ede1, **6.5/10** (cold play 3: 6; cold/cold-4-report.md): three stories finished, each by a clue found; its one change, every scene says in its own prose what is there and what is happening; 30 defects as CL-42..CL-50 |
-| S1-2 | Defects (E1) | Cold play 3's top causes: the four not leading with the pursuit, unwarned and untold harm, money and prices unsaid | CL-12, CL-13, CL-14, CL-17, CL-18, CL-22, CL-24, CL-25, CL-29 fixed and pinned; CL-04 and CL-05 closed on their pins | lead | in progress: all fixed and pinned (18 Nov) but CL-25's "Tell the reeve how Mardle counts" among the rest |
+| S1-2 | Defects (E1) | Cold play 3's top causes: the four not leading with the pursuit, unwarned and untold harm, money and prices unsaid | CL-12, CL-13, CL-14, CL-17, CL-18, CL-22, CL-24, CL-25, CL-29 fixed and pinned; CL-04 and CL-05 closed on their pins | lead | done (18 Nov): all fixed and pinned; CL-25 fixed |
 | S1-3 | Obligation (E2) | TO-03/TO-06/OR-23/OR-77: the passage from studio to first scene is judged in motion | One deployed recording (frames) of studio → title → creation → setting out → first scene at a laptop's size and a phone's: no flash, no flicker, no unexplained black; findings registered | lead | done (18 Nov): recordings/s1-3-opening.md: no flash, no flicker, the painting up behind "Telling where you are"; the one defect left is setting out's length (10.8 s laptop, 7.8 s phone: OR-08, OR-23) |
 | S1-4 | Investigation (E1) | One player is an anecdote | A second robot cold player on the alternate character (elf mage, a life of learning: the scholar's, which begins at Gatesend) on the same revision | lead (an agent plays) | done (18 Nov): cold play 5 at f087ede1, **6.5/10** (cold/cold-5-report.md): the gate shut by search, light and a hired hand with no fight; loses on a world that does not answer what was done; 43 defects as CL-32..CL-41. Triage of both plays (at most three causes): the scene says what is there and what happens (CL-42, with CL-44's king), the world answers what was done (CL-32), gold that loops and the wall (CL-34, CL-33); and the chest that refuses its clue (CL-43, P0) at once |
-| S1-5 | Defect (E1) | DN-06, only for the first passage | The opening's lines the cold players quote as generic or obstructive rewritten (the wagoner done: OR-75) | lead | partly |
+| S1-5 | Defect (E1) | DN-06, only for the first passage | The opening's lines the cold players quote as generic or obstructive rewritten (the wagoner done: OR-75) | lead | carried into Sprint 2 where the route needs it: the wagoner (OR-75), the scholar's arrival (CL-41), the search and the store (CL-39, CL-50), the fight's words (CL-48) done 18 Nov |
 
 Capacity reserve: defects that block the cold players only.
 Running beside the sprint, on the owner's word of 18 November: the SRD spell slices (SR-01) and the variety
 experiment (OR-84), one agent each; neither touches the golden route.
+
+
+**Closed 18 November.** Two robot cold plays at 6.5/10 (cold play 3 had 6); the passage recorded without flash or
+flicker; every input answered at once and a long press's commit held (OR-91); the cold plays' triage (CL-32..CL-50)
+worked beside the owner's P0s (the trust contracts, the riddle as an engine focus, the false gold). Not met, and not
+this sprint's to meet: setting out's length (10.8 s laptop, 7.8 s phone; warm start 6.2 → 4.7 s by compiling once) and
+FH-01 (no person has played: the owner's to recruit, Sprint 3). Live rows rose from 417 to 465 in the sprint, the cold
+plays and the trust contracts registering faster than the burn-down: noted, not the measure (planning-report.md §13).
 
 ---
 
