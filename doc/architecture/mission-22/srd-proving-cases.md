@@ -1120,3 +1120,11 @@ be claimed from the catalogue.
 - **Charm Person**: the SRD's numbers would lower its difficulty and lengthen it to the fight, but Orsino's charmed
   changes allegiance, where the SRD's subject only takes the caster for a friend: a decision before a slice.
 
+### The lead's decisions on cases 25–29 (18 November)
+
+The census's recommendations are taken: Orsino's ghoul, the zombie, the rat, the cave spider and the wolf stay as they
+stand, said so in the fidelity ledger; no placed SRD kind met in pairs moves until the ecology prices a company of one
+(CB-01, CB-03). The barrow ghoul (case 25) runs by the SRD's numbers. The next creature slices are kinds met deeper than
+the first hour, each fought where it is placed (the great barrow's mummy first); the barrow ghoul for the newcomers'
+single ghouls (w5, w6, e1) only after a placement review, never in the ossuary.
+
