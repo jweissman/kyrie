@@ -72,8 +72,11 @@ export class ModuleAssembly {
       if (!entity || typeof name !== 'string' || !name.length) { throw new Error('Invalid generated entity label'); }
       entity.name = name;
     }
+    // Checked once, with each pressure's measure, outcome and goal a well-formed predicate over it: the whole module,
+    // the shared rules' every declaration with it, had been checked again after it was instantiated, which settles
+    // only its dice (AX-03; that each install checks the shared rules at all: test/shared-validity).
     const compiler = new ModuleCompiler(RuntimeCapabilities.signatures);
-    const instance = compiler.instantiate(module, seed);
+    const instance = compiler.instantiate(module, seed, this.predicates(definition));
     for (const p of instance.module.pursuits ?? []) {
       const owner = definition.actors.find(a => a.id === p.actor)
         ?? definition.extensions?.find(e => e.actor === p.actor);
@@ -83,7 +86,7 @@ export class ModuleAssembly {
     }
     Discovery.validate(instance.module, new World(instance.module, instance.world), manifest.imports);
     definition.schemas = structuredClone(instance.module.actions);
-    this.readOnly(instance, definition, compiler);
+    this.readOnly(instance, definition);
     return { ...instance, campaign: definition };
   }
   // A situation joined to its ruleset, with its information, discoveries and generated facts and measures.
@@ -145,8 +148,8 @@ export class ModuleAssembly {
     return out as T;
   }
   // Nothing a module does may write what the campaign projects or keeps: creatures' facts, the clock, records and
-  // pressures; and every pressure, outcome and goal must be a well-formed predicate over the module.
-  private static readOnly(instance: Instance, definition: CampaignDefinition, compiler: ModuleCompiler) {
+  // pressures; and every pressure is one of its entities (each a well-formed predicate over it: see `predicates`).
+  private static readOnly(instance: Instance, definition: CampaignDefinition) {
     // Each said with what writes it (Quittance's friction 2: "which statement?").
     const writes = [...new Set(instance.module.actions.flatMap(a => [...a.success, ...a.failure]
       .filter(c => EngineOwned.actions.has(c.call.name)).map(c => `${a.schema ?? a.id} writes ${c.call.name}`)))];
@@ -158,17 +161,18 @@ export class ModuleAssembly {
     if (capable.length || instance.module.initial.some(c => c.call.name === 'capable')) {
       throw new Error(`Creature capabilities are read-only projections: ${capable.join(', ') || 'Initially'} sets capable`);
     }
-    // Each pressure's measure, outcome and goal a well-formed predicate over the module, checked with it once.
-    const predicates: Predicate[] = [...definition.pressures.map(pressure => ({ kind: 'compare' as const,
-      operator: '>=' as const, left: pressure.measure, right: ModuleWriter.number(0) })),
-    ...definition.outcomes.map(o => o.predicate), ...definition.actors.flatMap(a =>
-      a.goals.flatMap(g => [g.when, g.target, ...(g.urgent ? [g.urgent.when] : [])]))];
-    if (predicates.length) { compiler.validate(instance.module, predicates); }
     for (const pressure of definition.pressures) {
       if (!instance.module.entities.some(e => e.id === pressure.id && e.type === 'pressure')) {
         throw new Error('Unknown pressure');
       }
     }
+  }
+  // Each pressure's measure, outcome and goal: each must be a well-formed predicate over the module, checked with it.
+  private static predicates(definition: CampaignDefinition): Predicate[] {
+    return [...definition.pressures.map(pressure => ({ kind: 'compare' as const,
+      operator: '>=' as const, left: pressure.measure, right: ModuleWriter.number(0) })),
+    ...definition.outcomes.map(o => o.predicate), ...definition.actors.flatMap(a =>
+      a.goals.flatMap(g => [g.when, g.target, ...(g.urgent ? [g.urgent.when] : [])]))];
   }
   // Controllers for the manifest's actors, the company and declared people, with their goals and pursuits.
   private static actors(order: AdventureManifest['actors']['order'], module: Module): CampaignActor[] {
