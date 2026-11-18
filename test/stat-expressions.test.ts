@@ -49,9 +49,14 @@ describe('a stat block read over its context', () => {
         'variation t_grown: armour bonus 1d4 throws dice']);
     } finally { variations.t_grown = was; }
   });
+  // A placed record may state a natural weapon's damage as dice of its own (the barrow ghoul's claws of 1d3,
+  // srd-proving-cases.md case 25), which no context moves; none reads its context.
   it('is declared by no record a world places', () => {
-    const records: { hitDice?: string }[] = [...Object.values(Canon.species).map(s => s.statistics ?? {}),
+    const records: { hitDice?: string; damage?: Record<string, string>; armorBonus?: string }[] = [
+      ...Object.values(Canon.species).map(s => s.statistics ?? {}),
       ...Object.entries(CreatureVariants.variations).filter(([id]) => id !== 't_grown').map(([, v]) => v)];
-    expect(records.filter(r => 'damage' in r || 'armorBonus' in r || /#/.test(r.hitDice ?? ''))).toEqual([]);
+    expect(records.filter(r => [...Object.values(r.damage ?? {}), r.armorBonus ?? '', r.hitDice ?? '']
+      .some(x => /#/.test(x)) || 'armorBonus' in r)).toEqual([]);
+    expect(records.filter(r => r.damage).map(r => r.damage)).toEqual([{ claws: '1d3' }]);
   });
 });

@@ -816,6 +816,91 @@ The tactics weigh a condition that takes turns at eighteen (as Sleep's and Hold 
 foes weighed six; less fifteen for each friend the burst would catch (Tactics.friendly), so a caster whose own side
 stands in the place seldom casts it, and one whose side does not casts it oftener than before.
 
+## The creatures (18 November): SR-02
+
+The creature slices follow the spell slices' rule (rules/proof-slices.md): a kind is moved only where the player meets
+it, the fight's telling explains it, and what it moves is measured. **The census** for each: every hostile group of
+a1, iscoed (the golden route, begun as its representative warrior) and the six fidelity countries, as real play
+installs them (546 + 72 groups: `placed.ts`), and every group holding the kind fought where it is placed, by four
+first-level human companies of 20 or 40 seeds each (a warrior alone, a warrior and a cleric, a thief alone, a mage
+alone), both sides chosen by the battle's own tactics: placements.md's method and verdicts (**trivial**: a warrior
+alone wins 90 % or more for 15 % harm or less and the pair 95 %; **lethal**: a warrior alone under half or the pair
+under 70 %). Each cell is **win · median rounds · median harm · a death**. The scripts are in
+/var/tmp/kyrie/srdc-scratch (scratch, not kept).
+
+### 25. The ghoul (18 November): the barrow ghoul by the SRD's numbers; Orsino's ghoul stopped by the census
+
+The most met kind with an SRD counterpart: 12 of a1's 88 hostile groups and 49 of the six countries' dens. Two bodies
+answer to the SRD ghoul. **Orsino's ghoul** (`ghoul`) is every one of those meetings but one: ten hit points and three
+a level, one claw of 1d4, cloth, and Curse, Scream, Life Drain and Paralyzing Touch. **The barrow ghoul**
+(`ghoul/barrow`, a breed over it) is the SRD's stat block, placed by hand once in each country, alone: the keeper of
+the sealed vault under the first town (`s1_u_keeper`, undertown.kyrt), the fight cold play 3's warrior died in.
+
+**The barrow ghoul, moved** (spec: `test/barrow-ghoul` (4 cases; with the old breed put back, three fail)). Until now it
+had the SRD's Hit Dice, scores, routine and paralysis, but wore hide (AC 6), clawed for the catalog's 1d4, struck by
+its Strength and saved by its scores and level. Now, by the breed alone (data/catalog/variations.json, no new field):
+- 2d12, thirteen hit points at every rank; its scores (exact, as before);
+- a bite of 1d6 and two claws of 1d3 (exact: the breed's `damage`, dice of its own that no context moves, which
+  test/stat-expressions now allows a placed record), each paralysing as it lands (Fortitude 12, three turns, as
+  before);
+- its blows struck at the SRD's +2 (exact for the bite: a fixed stat block's `attackBonus`, as rat/cellar's), so
+  it hits SRD AC 15 two times in five where it had one in two;
+- saves of +0, +2 and +5 (exact: the block's `saves`);
+- AC 14 as Westernesse 7 (converted: the SRD's natural armour 2 and Dexterity 2 are Westernesse's Dexterity modifier of
+  15 alone, so it wears nothing).
+
+**Adapted:** the claws are struck at the bite's +2, where the SRD's secondary claws are at +0 (a fixed block has one
+bonus). **Omitted:** ghoul fever (a disease by days the engine has no clock for: its play identity stays unassessed),
+turn resistance, elves' immunity. The census grades it S✓ R✓ I–; with the rat, two of 71 creatures now pass in
+resolution, and one of a1's 88 placed groups is SRD-faithful (1 % of the six countries' meetings).
+
+**What it moves:** the vault alone, in all eight worlds; no other installed group holds it (it is `unplaced`). The
+challenge table measures it again: 2 at its first level, 3 at its fifth (it had been 4 and 5), a second-level
+warrior's match; test/srd-challenge follows. The vault, its keeper as placed (level 2, 13 hit points), 40 seeds:
+
+| Company | Level 1, before | Level 1, after | Level 2, before | Level 2, after |
+|---|---|---|---|---|
+| Warrior alone | 28% · 3 · 100% · 73% | 43% · 4 · 100% · 57% | 35% · 4 · 100% · 65% | 68% · 4 · 17% · 33% |
+| Warrior + cleric | 78% · 2 · 27% · 33% | 93% · 2 · 9% · 8% | 93% · 2 · 10% · 15% | 98% · 2 · 5% · 10% |
+| Thief alone | 5% · 5 · 100% · 95% | 5% · 5 · 100% · 95% | 5% · 5 · 100% · 95% | 5% · 5 · 100% · 95% |
+| Mage alone | 0% · – · 100% · 100% | 3% · 3 · 100% · 98% | 0% · – · 100% · 100% | 3% · 3 · 100% · 98% |
+
+The first hour is kinder, not deadlier: the keeper that killed cold play 3's lone warrior now loses to a lone
+first-level warrior two times in five, and the room's company (the second level the town's comment asks for) wins two
+in three; still marked as a fight that could be lost, still warned and left by the stair (test/small/vault-told).
+No kept trace or golden-route spec reaches the vault; test/traces' wren-tower-climbed fails at its first step on
+origin/main as it stands, before this change, and is not this slice's.
+
+**Orsino's ghoul, stopped by the census.** Put in its place everywhere it is met (the SRD's ghoul, as the barrow
+ghoul now is), it moves 74 of the eight worlds' placed groups (a1 12, iscoed 5, kite 2, thorn 3, wren 8, kahitude 12,
+mere 22, ember 2), and every one becomes lethal. 20 seeds:
+
+| Placed as | Where (groups) | Orsino's: warrior / pair / thief | SRD ghoul: warrior / pair / thief | SRD body, no paralysis: warrior / pair / thief |
+|---|---|---|---|---|
+| 2 × ghoul L1 | 26: the dead and denned of w3–w6 and e1; iscoed's bone hall (the golden route's) | 65 / 100 / 15 % | 10 / 45 / 0 % | 25 / 75 / 0 % |
+| 1 × ghoul L1–L3 | 24: the ossuary (`s1_u_dead`, every world), the newcomers of w5, w6, e1 | 90–100 / 100 / 0–45 % | 35 / 95 / 5 % | 80 / 100 / 5 % |
+| 3 × ghoul L2–L3 | 8: the barrow halls' and haulage's newcomers, wren's household | 0–35 / 15–75 / 0 % | 0 / 15 / 0 % | 15 / 15 / 0 % |
+| 4 × ghoul L4 | 8: the Bound Howe's household | 0 / 0 / 0 % | 0 / 0 / 0 % | 0 / 0 / 0 % |
+
+The SRD ghoul's thirteen hit points do not grow with the level it is placed at, so the higher-level placements lose
+hit points (19 → 13 at the third), but its three blows a round and its paralysis outweigh that wherever two are met.
+Iscoed's bone hall, which the golden route's Wenna and Carlin won in cold plays 2 and 4, goes from a pair's 100 % to
+45 %. This is the withdrawal of 13 November measured again on today's engine (srd-invariants.md, Withdrawn), and it
+is the CB-01/CB-03 concern: the slice would make the first hour markedly deadlier for a lone first-level character.
+
+**The options:**
+1. **The SRD's whole** in Orsino's place: every ghoul placement lethal, the golden route's bone hall among them.
+2. **The SRD's body without its paralysis** (Orsino's Paralyzing Touch dropped too): a single ghoul a fair fight
+   (80 % for a warrior alone), every pair lethal (25 %). Its resolution would still fail (no paralysis is a special
+   it lacks, which the census does not grade, but the body would pass): measured, not recommended.
+3. **The SRD ghoul by number:** keep Orsino's ghoul in every brood and replace only the singles (the ossuary's one,
+   the newcomers' one) with the barrow ghoul, each a placement review (placements.md's flag on w5/w6/e1's newcomers).
+   A single SRD ghoul is a 35–43 % fight for a lone first-level warrior: the ossuary is the first town's first room.
+4. **Orsino's ghoul as it stands** (the barrow ghoul the SRD's, placed once and alone).
+
+Recommended: 4, now, with 3 for the newcomers' singles of w5, w6 and e1 (met by a second-level company) once their
+placement is reviewed, never the ossuary's. **A decision for the lead.**
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -877,7 +962,8 @@ be claimed from the catalogue.
 - **The 33 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
   summoning, item creation, target forms, world magic and transformations), and none may be faked as data.
 - **The creatures.** 1 of 71 passes in resolution (rat/cellar); placed kinds keep Orsino's bodies by the lead's
-  ruling (srd-invariants.md: the ghoul's withdrawal). The challenge table's re-measure at 48 fights a level
+  ruling (srd-invariants.md: the ghoul's withdrawal). Since 18 November they go by proof slices of their own (SR-02,
+  cases 25 on). The challenge table's re-measure at 48 fights a level
   (CB-21) comes before any placed creature is moved.
 - **DC conversion for every spell with a save.** Case 7's rule (the SRD's and half the casting level) is now the
   migration's: each spell moved takes it, and its census row says so.

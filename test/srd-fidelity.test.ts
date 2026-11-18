@@ -22,10 +22,11 @@ describe('the SRD fidelity census', () => {
     expect(Object.entries(concordance.spells).filter(([id, s]) => !Canon.abilities[id]?.spell || !spells[s]))
       .toEqual([]);
   });
-  it('reads a stat block as the SRD gives it: the barrow ghoul\'s Hit Dice exact, its claws not', () => {
+  it('reads a stat block as the SRD gives it: the barrow ghoul\'s Hit Dice and claws exact, Orsino\'s ghoul\'s not', () => {
     const ghoul = CreatureFidelity.row('ghoul/barrow');
     expect(ghoul.hitDice).toEqual({ verdict: 'exact', ours: '2d12', theirs: '2d12' });
-    expect(ghoul.attacks).toEqual({ verdict: 'differs', ours: '1d4 1d4 1d6', theirs: '1d3 1d3 1d6' });
+    expect(ghoul.attacks).toEqual({ verdict: 'exact', ours: '1d3 1d3 1d6', theirs: '1d3 1d3 1d6' });
+    expect(CreatureFidelity.row('ghoul').attacks).toEqual({ verdict: 'differs', ours: '1d4', theirs: '1d3 1d3 1d6' });
     expect(CreatureFidelity.row('rat').hitDice.verdict).toBe('orsino');
     expect(CreatureFidelity.row('golem/flesh').defences.verdict).toBe('exact');
   });
