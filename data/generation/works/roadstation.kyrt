@@ -321,7 +321,7 @@
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }
 --- echo carters 1
-  Topic {w}_echo with {teller} "Ask {{teller}} about the road they came by" when not knows(actor, {w}_named) once {
+  Topic {w}_echo with {teller} "Ask {{teller}} about the road in" when not knows(actor, {w}_named) once {
     Says "'Along the old road?' says {{teller}}. 'There is a paved road, God knows from when, that runs straight for no reason, out in {where}. It goes to a stage-house, empty. Some say a ghost keeps the books. I say if it's a ghost, it keeps them well.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }

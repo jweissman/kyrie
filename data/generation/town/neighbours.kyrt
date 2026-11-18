@@ -34,7 +34,7 @@
   Topic {t}_merchant_oak with {t}_merchant "Ask {{t}_merchant} how trade is" when true once {
     Says "'Dear,' says {{t}_merchant}. 'The wardens cannot cut the good oak, so the sheds buy it from me at a price I am ashamed of. Hesper Lowe at the landing came in last week with a handful of copper and a drawing of a bell, and I could not sell them what they wanted for anything the sheds would pay. There is a girl who will either be a great founder or drown in her own furnace.'".
   }
-  Topic {t}_traveller_rival with {t}_traveller "Ask {{t}_traveller} what they think of the scholar" when true once {
+  Topic {t}_traveller_rival with {t}_traveller "Ask {{t}_traveller} about the scholar upstairs" when true once {
     Says "{{t}_traveller} laughs without malice. 'Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, and pay us both.'".
   }
   Person {t}_anselm "Brother Anselm Tarr" at {t}_shrine {

@@ -55,7 +55,7 @@ Module world_services "Lodging, goods and camping" {
       and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, healing) and quantity(actor, gold) >= fee(service).
     Time 6. Resolve recover(actor).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
-    Result "{healer} cleans and dresses every wound in the company.".
+    Result "{healer} cleans and dresses your wounds.".
   }
   // A priest who can call the dead back (Orsino's Raise Dead) does it at the shrine, for a great price, through a
   // night's vigil: the companion comes back weak, with half their health, and what killed them gone.
