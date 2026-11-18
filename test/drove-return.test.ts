@@ -1,0 +1,36 @@
+import { describe, expect, it } from 'bun:test';
+import { readFileSync } from 'node:fs';
+import { PlayTool } from '../src/cli/play-tool';
+import { Runner, type Said } from '../src/cli/runner';
+import { ModuleWriter } from '../src/lang/module-writer';
+
+// The golden route's return beat for the drove life (Sprint 2, S2-5; mission-22/beat-map.md): cold play 4 freed Bran
+// at its twelfth line, and then the drove dropped out of the story, the landing knew nothing of it, and the road west
+// was a line said once. Played on from there by the labels the runner offers, as a player would.
+const lines = readFileSync('doc/architecture/mission-22/cold/cold-4-lines.txt', 'utf8').split('\n').filter(Boolean);
+const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
+const offered = (s: Said) => [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]);
+describe('the drove life, after Bran is let out', () => {
+  it('takes the drove to the sales, is answered at the landing, and is given the road west', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const r = new Runner(journey.session), c = journey.session.campaign;
+    for (const line of lines.slice(0, 12)) { said(await r.ask(line)); }
+    const take = async (label: RegExp) => {
+      const s = r.said(), o = offered(s).find(x => label.test(x.label));
+      if (!o) { throw new Error(`not offered: ${label} (${offered(s).map(x => x.label).join(' | ')})`); }
+      return said(await r.ask(JSON.stringify({ act: o.id })));
+    };
+    const coin = () => c.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
+    await take(/^To the drove pens/);
+    const before = coin(), sold = await take(/^Help Bran take the drove to the sales/);
+    expect(sold.scene.lines.join(' ')).toContain('For the four you found');
+    expect(coin()).toBe(before + 4);
+    expect(said(await take(/^Ask Bran about the work in Brynach/)).scene.lines.join(' ')).toContain('The old road west');
+    await take(/^To the landing at Porthalen/);
+    await take(/^Into the Stone Horn/);
+    const food = c.world.number(ModuleWriter.call('quantity', 'party', 'rations'));
+    const heard = await take(/what the waterfront is saying/);
+    expect(heard.scene.lines.join(' ')).toContain('got the Brynach drover out');
+    expect(c.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(food + 1);
+  }, 240000);
+});

@@ -7,6 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
+  Relation sold(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -31,7 +32,8 @@ Module drove "The held drove" {
   Observe pens_watered at pens when not freed(party) and watered(party) "Thirty-six black bullocks of the fells stand quiet at the rails, steaming, their trough full.".
   Observe owain_water near owain of owain when at(owain, pens) and not freed(party) "{owain} is carrying water to them a bucket at a time, in a cloak too big for him.".
   Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "{owain} stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
-  Observe pens_after at pens when freed(party) "The pens are churned and empty. The drove has gone on to the sales.".
+  Observe pens_freed at pens when freed(party) and not sold(party) and not fined(party) "Bran is in among the bullocks, counting them again with a hand on each back.".
+  Observe pens_after at pens when freed(party) and (sold(party) or fined(party)) "The pens are churned and empty. The drove has gone on to the sales.".
   // A sign, for anyone who looks, that something lies in the water to be searched for (CL-04: the search had sat in the
   // rest at the one place it mattered).
   Observe rhyne_sign at rhyne as sign when not knows(party, found_drowned) "Where the bank has slumped, something big and dark lies just under the black water, and the smell is worst there.".
@@ -110,6 +112,23 @@ Module drove "The held drove" {
   Rule bran_thanks when freed(party) and not thanked(party) says "'Now I sell them, and drink, and go home,' says Bran. 'Up the drove road to Caer Brynach, four days with an empty drove.' He grips your hand like a gate-post. 'Come up the pass. There's work in Brynach for anyone who'll stand by a drover, and the lord pays for a sword: something has been at the cattle on the high pasture. Say Bran ap Ifor sent you.'" teaches road_west { Assert thanked(party). }
 
   Rule bran_out when freed(party) and at(bran, customs) { Assert at(bran, pens). }
+  // What was done answered where it was done (Sprint 2, S2-5; cold play 4: Bran's "sell, drink, go home" went
+  // nowhere, the drove dropped out of the story, and nothing at the landing knew the drover was out): the drove taken
+  // to the sales with him, his share for the four found; the landing heard of it; the road west said as his own.
+  Action drive_to_sales(actor: group, site: place) "Help Bran take the drove to the sales" {
+    Time 1 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pens) and at(bran, pens) and freed(actor)
+      and not fined(actor) and not sold(actor).
+    Result "Thirty-six bullocks through the lanes to the sale-yard, Owain at the back with a stick. They go at a good price. Bran pays you out of it in the yard: four coin. 'For the four you found,' he says.".
+    On success { Assert sold(actor). Increase quantity(actor, gold) by 4. }
+  }
+  Topic keeper_after with keeper "Ask {keeper} what the waterfront is saying" when freed(party) once {
+    Says "'That you got the Brynach drover out from under Mardle,' says {keeper}. 'Third drove this year he's had four short of.' {keeper} puts a loaf on the counter and pushes it across. 'For the road. Nobody here would cross him.'".
+    On discuss { Increase quantity(actor, rations) by 1. }
+  }
+  Topic bran_west with bran "Ask Bran about the work in Brynach" when freed(party) and (sold(party) or fined(party)) once {
+    Says "'The old road west,' says Bran, 'past the march-stone and up the pass. Four days to Caer Brynach.' He points with his whole arm, the way a drover does. 'Something takes the beasts off the high pasture at night, and leaves nothing. The lord pays a sword. Ask for me.'".
+  }
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
 
   Milestone m_freed "saw Bran ap Ifor let out of the customs-house" worth 150 when freed(party).
