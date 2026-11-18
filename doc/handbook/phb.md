@@ -7707,11 +7707,13 @@ Heal one ally for 1d8 + 1 per caster level, to 5. A divine spell of the first le
 
 ##### Protection from Evil
 
-*Faithful · level 1 divine spell, law domain* · `ability:protection_from_evil`
+*Adapted · level 1 divine spell, abjuration, law domain* · `ability:protection_from_evil`
 
-One ally is protected for 3 turns; that ally gains courage for 3 turns. Protected: resists 50% of necrotic, immune to charm. Courage: +2 to every save, immune to fear. A divine spell of the first level. Takes a first-level slot.
+One ally is warded from evil for 10 turns. Warded from evil: 2 harder to hit, +2 to every save, immune to charm. A divine spell of the first level. Takes a first-level slot.
 
-> Grant immunity to charm and fear for 6 rounds.
+> A ward of faith stands about one of the company: blows turn aside from it, harm finds it steadier, and no voice can bend its will, for a minute.
+
+*Adapted: The SRD's Protection from Evil (doc/architecture/mission-22/srd-proving-cases.md, case 32): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), warded (the warded_from_evil condition): two harder to hit by a deflection that adds to worn armour, +2 to every save, and proof against charm (the SRD's mental control). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Adapted: against every foe, where the SRD's is against the evil (Kyr's fight does not ask a foe's alignment). Omitted: the summoned creatures' touch it keeps off. Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's protected and courage for three rounds: proof against charm and fear, half of necrotic harm, +2 to saves, and no ward against blows.*
 
 ##### Pure Beam
 
@@ -11506,6 +11508,16 @@ Immune to poison.
 +1 against magic, 14 + 2 × level more hit points (spent first), resists 15% of fire, resists 15% of cold, resists 15% of lightning, resists 50% of force.
 
 > A magical ward providing protection.
+
+### Warded from evil
+
+*Kyr · lasts the fight at most* · `condition:warded_from_evil`
+
+2 harder to hit, +2 to every save, immune to charm.
+
+> A ward of faith stands about them: two harder to hit, +2 to every save, and no voice can bend their will.
+
+*Adapted: The SRD's Protection from Evil's ward (mission-22/srd-proving-cases.md, case 32): +2 to armour class by a deflection (Kyr's armour class descends, so ac -2), +2 to every save (the SRD's resistance bonus), and proof against charm (its mental control). Adapted: against every foe, where the SRD's is against the evil; it adds to Shield of Faith's deflection, where the SRD's two deflections do not stack.*
 
 ### Warding Glyph
 

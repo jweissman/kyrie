@@ -367,7 +367,8 @@
   "terror": "test/cause-fear.test.ts",
   "remove_fear": "test/remove-fear.test.ts",
   "calm_emotions": "test/calm-emotions.test.ts",
-  "entangle": "test/entangle.test.ts"
+  "entangle": "test/entangle.test.ts",
+  "protection_from_evil": "test/protection-from-evil.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -427,6 +428,11 @@
   },
   "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "protection_from_evil": {
+   "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32)",
+   "dc": "harmless: none is made (srd-proving-cases.md, case 32)",
+   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
   },
   "entangle": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",

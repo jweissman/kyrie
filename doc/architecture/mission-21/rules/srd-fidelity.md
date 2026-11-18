@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 30 pass in structure
-(level, school), 19 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-18 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 31 pass in structure
+(level, school), 20 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+19 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 46 | school 73 | dice 10 | type 13 | save 33 | dc 16 | attack 104 | target 72 | duration 45 | of 119 |
+| spells, field exact or converted | level 46 | school 74 | dice 10 | type 13 | save 34 | dc 17 | attack 104 | target 72 | duration 46 | of 119 |
 
 ## Creatures, most met first
 
@@ -189,7 +189,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | polymorph | polymorph | S✗ RU I– | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✗ 23 → · | ✗ none → melee touch | ✓ | ✗ 5 rounds → long |
 | prayer | prayer | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → enchantment | – | – | – | – | ✓ | ✗ all → burst | ✗ 3 rounds → 5 rounds |
 | prismatic_spray | prismatic-spray | S✗ R✗ I– | ✗ 2 → 7 | ✓ | – | – | – | – | ✓ | ✗ several → cone | ✓ |
-| protection_from_evil | protection-from-evil | S✗ R✗ I– | ✓ | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 14 | ✓ | ✓ | ✗ 3 rounds → long |
+| protection_from_evil | protection-from-evil | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32) | ≈ harmless: none is made (srd-proving-cases.md, case 32) | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | protection_from_fire | protection-from-energy | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → long |
 | raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | ✓ | ✓ |
 | ray_of_frost | ray-of-frost | S✗ R✗ I– | ✗ 2 → 0 | ✓ | ✗ 7/7/7/7 → 2/2/2/2 | ✓ | – | – | ✗ none → ranged touch | ✓ | ✓ |

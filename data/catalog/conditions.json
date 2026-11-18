@@ -523,6 +523,25 @@
         "notes": "The SRD's Remove Fear's courage (mission-22/srd-proving-cases.md, case 21): +4 against fear (Kyr's fear save, made with Wisdom), the SRD's morale bonus; it ends with the fight."
       }
     },
+    "warded_from_evil": {
+      "name": "Warded from evil",
+      "description": "A ward of faith stands about them: two harder to hit, +2 to every save, and no voice can bend their will.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "ac": -2,
+        "saveVersusAll": 2,
+        "immune": ["charm"]
+      },
+      "begins": "A ward of faith stands about {target}.",
+      "ends": "The ward about {target} fades.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:protection-from-evil",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Protection from Evil's ward (mission-22/srd-proving-cases.md, case 32): +2 to armour class by a deflection (Kyr's armour class descends, so ac -2), +2 to every save (the SRD's resistance bonus), and proof against charm (its mental control). Adapted: against every foe, where the SRD's is against the evil; it adds to Shield of Faith's deflection, where the SRD's two deflections do not stack."
+      }
+    },
     "shield_of_faith": {
       "name": "Shield of Faith",
       "description": "A shimmer of faith turns blows aside: two harder to hit, whatever armour is worn.",

@@ -1144,6 +1144,37 @@ level, and a lone warrior against two zombies and such a cleric; 40 seeds): the 
 level and 100 % at the third; the lone warrior 25 % and 30 %, before and after. The longer hold and the easier save
 weigh about even.
 
+### 32. Protection from Evil by the SRD's numbers (18 November): adapted
+
+Orsino's Protection from Evil (`protection_from_evil`, a first-level spell of Law, on the caster or one ally) laid
+protected and courage for three rounds: proof against charm and fear, half of necrotic harm, +2 to every save, and no
+ward against blows. The SRD's is the same level, on the creature touched, a minute a level: +2 to armour class by a
+deflection and +2 to saves against the evil, and proof against mental control. Now (data/catalog/abilities.json, a
+hand entry over Orsino's; data/catalog/conditions.json, `warded_from_evil`, new; spec: `test/protection-from-evil`
+(2; Orsino's entry put back fails both)):
+- first level, its school abjuration beside Law;
+- on the caster or one ally, its save the SRD's harmless one (made by none who takes it willingly, as Shield of
+  Faith's, case 19);
+- warded: two harder to hit by a deflection added to worn armour (Shield of Faith's `ac`), +2 to every save
+  (`saveVersusAll`, the SRD's resistance bonus), proof against charm (the SRD's mental control);
+- a minute, ten rounds, at every casting level (converted: case 14's rule).
+
+**Adapted:** against every foe, where the SRD's is against the evil (Kyr's fight does not ask a foe's alignment); its
+deflection adds to Shield of Faith's, where the SRD's two deflections do not stack. **Omitted:** the summoned
+creatures' touch it keeps off. Orsino's proof against fear and its half of necrotic harm are gone (the SRD's has
+neither). The census grades it S✓ R✓ I✓: 31 of 119 spells pass in structure, 20 in resolution.
+
+**What it moves:** no draw (its level and domain are as they were: 0 of 19,200 drawn casters and 0 of 2,233 installed
+classed creatures move; two in five oathkeepers and one in ten other clerics know it, as before), and no creation
+card (the oathkeeper's and the veneficium's offer it, as before). Seven installed casters know it: a1's and wren's
+Anselm, kite's and thorn's fellowship heirs, wren's fellowship head, thorn's keep chaplain, and wren's tower
+necromancer.
+Fought with it cast at the caster's first turn on its warrior (a warrior and a cleric who knows it against two wolves of
+their level, and a lone warrior against two wolves and such a cleric; 100 seeds): the company wins 97 → 98 % at the
+first level and 100 % at the third, as before; the lone warrior against it 28 → 25 % at the first level and 32 → 24 %
+at the third (the warded companion is two harder to hit for the whole fight, where Orsino's ward did nothing to a
+blow and lasted three rounds). A little harder against a warded foe, never markedly.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

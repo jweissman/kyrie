@@ -545,6 +545,23 @@
         "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
       }
     },
+    "protection_from_evil": {
+      "name": "Protection from Evil",
+      "kind": "spell",
+      "description": "A ward of faith stands about one of the company: blows turn aside from it, harm finds it steadier, and no voice can bend its will, for a minute.",
+      "effects": [
+        { "kind": "apply", "status": "warded_from_evil", "duration": 10, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 1, "domain": "law", "school": "abjuration" },
+      "source": {
+        "orsino": "divineSpell:protection_from_evil",
+        "srd35": "spell:protection-from-evil",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Protection from Evil (doc/architecture/mission-22/srd-proving-cases.md, case 32): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), warded (the warded_from_evil condition): two harder to hit by a deflection that adds to worn armour, +2 to every save, and proof against charm (the SRD's mental control). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Adapted: against every foe, where the SRD's is against the evil (Kyr's fight does not ask a foe's alignment). Omitted: the summoned creatures' touch it keeps off. Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's protected and courage for three rounds: proof against charm and fear, half of necrotic harm, +2 to saves, and no ward against blows."
+      }
+    },
     "hold_person": {
       "name": "Hold Person",
       "kind": "spell",

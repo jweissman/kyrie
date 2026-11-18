@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 746,
-    "adapted": 403,
+    "faithful": 745,
+    "adapted": 404,
     "represented": 4,
-    "kyr": 606,
+    "kyr": 607,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 226,
-      "adapted": 26,
+      "faithful": 225,
+      "adapted": 27,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -983,7 +983,7 @@
       "faithful": 125,
       "adapted": 29,
       "represented": 0,
-      "kyr": 45,
+      "kyr": 46,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -10602,7 +10602,7 @@
   {
    "id": "ability:protection_from_evil",
    "title": "Protection from Evil",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-1"
   },
@@ -13431,6 +13431,13 @@
    "id": "condition:warded",
    "title": "Warded",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:warded_from_evil",
+   "title": "Warded from evil",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },
