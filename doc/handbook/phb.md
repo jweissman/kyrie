@@ -7663,6 +7663,16 @@ One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and n
 
 *Adapted: The SRD's Cause Fear (doc/architecture/mission-22/srd-proving-cases.md, case 20): first level, its school necromancy beside Death, one foe of five Hit Dice or fewer (a pool of five on one: HitDicePool), a save against fear (made with Wisdom, the SRD's Will) at case 7's difficulty for a first-level spell; whoever fails is afraid three rounds, whoever saves one (the save's lesser hold: the SRD's partial). Converted: three rounds for the SRD's 1d4 (its mean, 2.5, rounded up: Kyr's durations are not rolled). Kept: Orsino's fear (−2 to hit, −2 to every save, −1 to every roll, slower), the same for the failed and the saved, where the SRD's frightened flees and its shaken does not (Kyr's afraid do not flee; their penalties are near the shaken's). Omitted: the living only (Kyr's undead are not proof against fear), and spell resistance. Before, Orsino's second level, any one foe, three rounds against 15 + the caster's level, or none for whoever saved.*
 
+##### Command
+
+*Adapted · level 1 divine spell, enchantment, law domain* · `ability:command`
+
+One enemy is prone for a turn (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Prone: Dexterity −2, cannot act. A divine spell of the first level. Takes a first-level slot.
+
+> One word, spoken with the god's authority: Fall! Whoever does not shake it off throws themselves down and loses their turn.
+
+*Adapted: The SRD's Command (doc/architecture/mission-22/srd-proving-cases.md, case 33): first level (Orsino's fifth), its school enchantment beside Law, one foe, a Will save to negate at case 7's difficulty for a first-level spell, and one round: the SRD's 'Fall', whoever fails prone (the prone condition: they lose their turn, Dexterity two less). Adapted: the one command of the SRD's five that Kyr's fight can hold (approach, drop, flee and halt want movement, things in hand, or a flight that is not leaving the fight). Omitted: its language and the mindless's proof (its save is Will, as Hold Person's); spell resistance. Before, Orsino's fifth level, a Will save against 20, and two rounds fleeing: the foe gone from the fight.*
+
 ##### Confuse
 
 *Faithful · level 1 divine spell, chaos domain* · `ability:confuse`
@@ -8236,14 +8246,6 @@ You are charming for 3 turns. Charming: Charisma +3, Intelligence +2, Wisdom +1;
 4d6 (4–24) necrotic damage to one enemy (halved if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it); it is frozen for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Frozen: Dexterity −5, cannot act. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Unleash a blast of chilling energy.
-
-##### Command
-
-*Faithful · level 5 divine spell, law domain* · `ability:command`
-
-One enemy is fleeing for 2 turns (a Wisdom save against 20 avoids it). Fleeing: tries only to get away. A divine spell of the fifth level. Takes a fifth-level slot.
-
-> Give an instruction.
 
 ##### Greater Rejuvenate
 

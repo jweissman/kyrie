@@ -368,7 +368,8 @@
   "remove_fear": "test/remove-fear.test.ts",
   "calm_emotions": "test/calm-emotions.test.ts",
   "entangle": "test/entangle.test.ts",
-  "protection_from_evil": "test/protection-from-evil.test.ts"
+  "protection_from_evil": "test/protection-from-evil.test.ts",
+  "command": "test/command-fall.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -427,6 +428,9 @@
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
   },
   "chain_lightning": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "command": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   },
   "protection_from_evil": {

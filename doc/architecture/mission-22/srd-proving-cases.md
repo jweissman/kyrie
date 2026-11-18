@@ -1175,6 +1175,35 @@ first level and 100 % at the third, as before; the lone warrior against it 28 �
 at the third (the warded companion is two harder to hit for the whole fight, where Orsino's ward did nothing to a
 blow and lasted three rounds). A little harder against a warded foe, never markedly.
 
+### 33. Command by the SRD's numbers (18 November): adapted
+
+Orsino's Command (`command`, a fifth-level spell of Law) laid fleeing for two rounds on one foe that failed a Will save
+against 20: the foe gone from the fight when the next round began. The SRD's is a first-level enchantment, one round,
+Will negates, one of five words: approach, drop, fall, flee, halt. Now (data/catalog/abilities.json, a hand entry over
+Orsino's; spec: `test/command-fall` (2; Orsino's entry put back fails both)):
+- first level (Orsino's fifth), its school enchantment beside Law;
+- one foe, a Will save at case 7's difficulty for a first-level spell (15 for a third-level cleric of Wisdom 16);
+- "Fall": whoever fails is prone (Orsino's condition: Dexterity two less, and it loses its turn) for one round, its
+  next turn lost whether that comes in this round or the next, and it stays in the fight.
+
+**Adapted:** the one word of the five Kyr's fight can hold (approach, drop, flee and halt want movement, things in hand,
+or a flight that is not leaving the fight). **Omitted:** the language it needs and the mindless's proof (its save is
+Will, as Hold Person's); spell resistance. The census grades it S✓ R✓ I✓: 32 of 119 spells pass in structure, 21 in
+resolution.
+
+**What it moves:** the draw, by the draw by rank (case 11): only the casters who gain it, 1,545 of 19,200 drawn clerics
+(an oathkeeper in three, a seventh to a sixth of the other ways at the third level and above, a sixteenth at the
+first), each giving up the spell it displaces; mages and bards none. Seven of 2,233 installed classed creatures gain
+it and lose none (a1's and wren's Anselm, kite's and thorn's fellowship heirs, wren's fellowship head, thorn's keep
+chaplain, wren's tower necromancer). **The oathkeeper's creation card moves:** Shield of Faith, Command, Protection
+from Evil, Hold Person, Holy Wrath and Consecrated Ground, where it offered Heat Drain and Healing Touch in place of
+Command and Holy Wrath (FirstSpells.picks). The mind destroyer, the deep mine's keeper at the ninth level, knows it by
+nature: a company of the first three levels loses to it before and after (20 seeds). Fought with it cast at the
+caster's first turn (100 seeds), the company of a warrior and a cleric against two wolves of their level wins 99 %
+before and after (someone down 12 → 9 % at the first level, 11 → 3 % at the third); a lone warrior against two wolves
+and such a cleric 21 → 22 % and 18 → 23 % (the word costs the cleric its turn). test/reactions' flight is now proved
+by Turn Undead, the one spell left that turns a foe to flight.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

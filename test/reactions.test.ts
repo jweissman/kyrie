@@ -69,20 +69,22 @@ describe('reactions', () => {
 });
 
 describe('flight, death and return', () => {
-  it('sends a commanded foe out of the fight at the next round, alive', () => {
-    const wolves = [Scene.wolf('a', { wisdom: 1 }), Scene.wolf('b', { wisdom: 1 })];
-    const battle = Scene.battle([Scene.caster('priest', 'command'), ...wolves], 'command');
+  // A turned foe (Command made its foe flee until it became the SRD's, srd-proving-cases.md case 33: now it is the
+  // undead turned that flee).
+  it('sends a turned foe out of the fight at the next round, alive', () => {
+    const dead = (id: string): Fighter => ({ ...Scene.content.creature('zombie', id, 'goblins'), abilities: [], hp: 60,
+      maxHp: 60, wisdom: 1 });
+    const battle = Scene.battle([Scene.caster('priest', 'turn_undead'), dead('a'), dead('b')], 'command');
     Scene.until(battle, 'priest');
-    Scene.use(battle, 'command', 'a');
+    battle.step(battle.legalCommands().find(c => c.ability === 'turn_undead')!);
     for (let i = 0; i < 6 && battle.state.combatants.some(f => f.id === 'a'); i++) {
       const legal = battle.legalCommands();
       battle.step(legal.find(c => c.ability === 'defend') ?? legal[0]!);
     }
     const fled = battle.events.find(e => e.type === 'flee' && e.actor === 'a');
-    if (battle.events.some(e => e.type === 'status' && e.target === 'a' && e.detail === 'fleeing')) {
-      expect(fled).toBeDefined();
-      expect(battle.participants.find(p => p.creatureId === 'a')).toBeDefined();
-    }
+    expect(battle.events.some(e => e.type === 'status' && e.target === 'a' && e.detail === 'fleeing')).toBe(true);
+    expect(fled).toBeDefined();
+    expect(battle.participants.find(p => p.creatureId === 'a')).toBeDefined();
   });
   it('raises a fallen ally with half its health', () => {
     const fallen = { ...Scene.warrior('fallen'), hp: 0 };

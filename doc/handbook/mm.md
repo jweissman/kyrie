@@ -117,7 +117,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Mind Melt: 2d6 (2–12) psychic damage to every enemy (may leave whoever it hurts confused: a Wisdom save against 15 avoids it; may leave whoever it hurts insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Command: One enemy is fleeing for 2 turns (a Wisdom save against 20 avoids it). Fleeing: tries only to get away. A divine spell of the fifth level. Takes a fifth-level slot.
+Command: One enemy is prone for a turn (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Prone: Dexterity −2, cannot act. A divine spell of the first level. Takes a first-level slot.
 
 Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 

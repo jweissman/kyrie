@@ -562,6 +562,35 @@
         "notes": "The SRD's Protection from Evil (doc/architecture/mission-22/srd-proving-cases.md, case 32): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), warded (the warded_from_evil condition): two harder to hit by a deflection that adds to worn armour, +2 to every save, and proof against charm (the SRD's mental control). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Adapted: against every foe, where the SRD's is against the evil (Kyr's fight does not ask a foe's alignment). Omitted: the summoned creatures' touch it keeps off. Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's protected and courage for three rounds: proof against charm and fear, half of necrotic harm, +2 to saves, and no ward against blows."
       }
     },
+    "command": {
+      "name": "Command",
+      "kind": "spell",
+      "description": "One word, spoken with the god's authority: Fall! Whoever does not shake it off throws themselves down and loses their turn.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "prone",
+          "duration": 1,
+          "target": "enemy",
+          "save": {
+            "kind": "will",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 1, "domain": "law", "school": "enchantment" },
+      "source": {
+        "orsino": "divineSpell:command",
+        "srd35": "spell:command",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Command (doc/architecture/mission-22/srd-proving-cases.md, case 33): first level (Orsino's fifth), its school enchantment beside Law, one foe, a Will save to negate at case 7's difficulty for a first-level spell, and one round: the SRD's 'Fall', whoever fails prone (the prone condition: they lose their turn, Dexterity two less). Adapted: the one command of the SRD's five that Kyr's fight can hold (approach, drop, flee and halt want movement, things in hand, or a flight that is not leaving the fight). Omitted: its language and the mindless's proof (its save is Will, as Hold Person's); spell resistance. Before, Orsino's fifth level, a Will save against 20, and two rounds fleeing: the foe gone from the fight."
+      }
+    },
     "hold_person": {
       "name": "Hold Person",
       "kind": "spell",
