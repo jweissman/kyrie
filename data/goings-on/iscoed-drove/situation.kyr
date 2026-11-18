@@ -38,8 +38,12 @@ Module drove "The held drove" {
   Observe rhyne_scene at rhyne when true "A dyke of black water between steep banks, the far bank slumped into it where the sea came over in the winter. The smell reaches you before the sight does.".
 
   Person clerk "Silas Mardle" at customs { Role "the Rì's customs clerk at Porthalen, who counts every beast that crosses the march". Pronouns he. Peaceable. Manner proud. }
-  Person bran "Bran ap Ifor" at customs { Role "the Brynach lead-drover, held behind the customs-house grille". Pronouns he. Peaceable. Manner stoic. }
-  Person owain "Owain" at green { Role "Bran's drover's boy, fourteen, who came down with the drove". Pronouns he. Peaceable. }
+  // Known to a company that came down with the drove (the drove road's origin: Owain its kin), not met as a stranger
+  // (cold play 3, CL-26: Owain, "your cousin", and Bran had both greeted it as someone they had never seen).
+  Person bran "Bran ap Ifor" at customs { Role "the Brynach lead-drover, held behind the customs-house grille". Pronouns he. Peaceable. Manner stoic.
+    Greets "Bran looks up through the grille and knows you. 'You came,' he says. 'Good. Listen.'" when kin(party, owain). }
+  Person owain "Owain" at green { Role "Bran's drover's boy, fourteen, who came down with the drove". Pronouns he. Peaceable.
+    Greets "Owain is at your side at once. 'What do we do?' he asks." when kin(party, owain). }
   // The boy waits on the landing for whoever will listen, and goes back to the beasts once someone has.
   Rule owain_to_pens when knows(party, boy_count) and at(owain, green) and not freed(party) and not sent(party) { Assert at(owain, pens). }
   Thing book "Mardle's tally-book" at customs {
