@@ -1,5 +1,6 @@
 import type { Module } from '../../src/lang/module';
 import { BuildStamp } from '../../src/session/build-stamp';
+import { TextHash } from '../../src/lang/text-hash';
 
 // Parsed Kyr kept in the browser between visits, as a process with a file system keeps it on disk (ParseStore): a new
 // game had parsed every adventure and rule afresh, every time, and that was most of Setting out's wait (M19-49). Kept
@@ -40,17 +41,8 @@ export class ParseKeep {
     } catch { return new ParseKeep(undefined, new Map(), new Map()); }
   }
   private static made(this: void, r: IDBOpenDBRequest) { r.result.createObjectStore('parsed'); }
-  // A text's hash and length: two texts alike in both are taken for the same (53 bits, and the length besides).
-  static hash(text: string): string {
-    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
-    for (let i = 0; i < text.length; i++) {
-      const c = text.charCodeAt(i);
-      h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677);
-    }
-    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return `${(4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36)}.${text.length.toString(36)}`;
-  }
+  // A text's hash and length (see TextHash).
+  static hash(text: string): string { return TextHash.of(text); }
   get(key: string): Module | undefined {
     const h = ParseKeep.hash(key), found = this.kept.get(h);
     if (found) { this.touch(h); }

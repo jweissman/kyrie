@@ -13,7 +13,9 @@ import type { Module } from './module';
 // build's stamp, so that each deploy reads afresh (AX-09).
 export class ParseStore {
   private constructor(private readonly dir: string, private readonly version: string) {}
-  static readonly sources = ['src/lang', 'src/information', 'src/canon', 'data/catalog'];
+  // And what a module's own files are compiled by, kept beside their parses (see CompiledModules).
+  static readonly sources = ['src/lang', 'src/information', 'src/canon', 'data/catalog',
+    'src/campaign/module-bundle.ts', 'src/campaign/module-shadow.ts', 'src/campaign/compiled-modules.ts'];
   static open(root = process.cwd()): ParseStore | undefined {
     if (process.env.KYRIE_PARSE_STORE === '0' || !existsSync(join(root, 'src/lang/Kyr.ohm'))) { return undefined; }
     const hash = createHash('sha1');
@@ -45,6 +47,7 @@ export class ParseStore {
   }
   private static files(dir: string): string[] {
     if (!existsSync(dir)) { return []; }
+    if (!statSync(dir).isDirectory()) { return [dir]; }
     return readdirSync(dir).flatMap(name => {
       const path = join(dir, name);
       return statSync(path).isDirectory() ? this.files(path) : /\.(ts|ohm|json)$/.test(name) ? [path] : [];

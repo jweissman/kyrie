@@ -15,6 +15,7 @@ import type { Entity, Module } from '../lang/module';
 import { Superseded } from '../lang/superseded';
 import { Bringing } from '../lang/bringing';
 import { ModuleShadow } from './module-shadow';
+import { CompiledModules, type Compiled } from './compiled-modules';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
@@ -324,19 +325,17 @@ export class ModuleBundle {
       return result.value;
     });
     const files = [...situationPaths, ...rulePaths].map((p, i) => ({ path: p, text: texts[i]! }));
-    // Its own files first, each read among every kind they declare (see `own`), and then the shared rules.
-    const own = files.slice(0, situationPaths.length), mine = this.own(own);
-    const seed = RandomStreams.key(options.seed, 'module', mine[0]!.id, request.randomIdentity ?? '');
+    // Its own files first, each read among every kind they declare (see `own`), and then the shared rules; or its own
+    // as they were compiled before beside the same rules (see CompiledModules).
+    const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
+    const key = CompiledModules.key(CompiledModules.edition(rules.map(f => f.text)), own.map(f => f.text));
+    const kept = CompiledModules.get(key), mine = kept ? [] : this.own(own);
+    const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart(request.context, options.people), now: options.elapsed ?? 0 }),
     imports: manifest.imports ?? [] };
-    const combined = this.shared(files.slice(situationPaths.length));
-    // What the module names that the shared rules name too is its own, within it (see ModuleShadow).
-    const parsed = this.merge(mine);
-    const shadowed = ModuleShadow.shared(parsed, combined), told = ModuleShadow.told(shadowed);
-    const composed = ModuleShadow.apart(shadowed.functions.length
-      ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
-    shadowed);
+    const combined = this.shared(rules);
+    const { module: composed, told } = kept ?? this.compiled(key, own, mine, combined);
     ModuleBundle.sized(composed, options.party);
     // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
@@ -360,6 +359,17 @@ export class ModuleBundle {
     if (manifest.experience) { draft.experience = manifest.experience; }
     if (request.chapter) { draft.chapter = true; }
     return draft;
+  }
+  // A module's own files joined, and what it names that the shared rules name too made its own, within it (see
+  // ModuleShadow); kept by its texts and the rules' edition.
+  private static compiled(key: string, own: SourceFile[], mine: Module[], combined: Module): Compiled {
+    const parsed = this.merge(mine), shadowed = ModuleShadow.shared(parsed, combined);
+    const module = ModuleShadow.apart(shadowed.functions.length
+      ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
+    shadowed);
+    const compiled = { module, id: mine[0]!.id, told: ModuleShadow.told(shadowed) };
+    CompiledModules.set(key, compiled);
+    return compiled;
   }
   // A company of one to three is of as many as are chosen for it, within those: a campaign of three had been refused
   // a module written for one ("Choose 1 companions"), and the Lull kept a copy of its company for its tests (its F12,

@@ -7,6 +7,8 @@
 export type Stage =
   // Kyr text parsed, and parses taken from the cache (in the process or on disk) instead.
   | 'parse' | 'parse kept'
+  // A module's own files compiled before (joined and shadowed), taken from where its parses are kept.
+  | 'compiled kept'
   // A module bundle loaded and compiled, by its id (the canon, data/imbar, is `canon`).
   | 'install'
   // Deem: a creature generated; a country drawn; a whole world composed around it; a campaign's kits composed into
