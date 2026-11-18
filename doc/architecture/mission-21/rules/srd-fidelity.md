@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 29 pass in structure
-(level, school), 18 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-17 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 30 pass in structure
+(level, school), 19 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+18 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 46 | school 72 | dice 10 | type 13 | save 33 | dc 15 | attack 104 | target 72 | duration 44 | of 119 |
+| spells, field exact or converted | level 46 | school 73 | dice 10 | type 13 | save 33 | dc 16 | attack 104 | target 72 | duration 45 | of 119 |
 
 ## Creatures, most met first
 
@@ -144,7 +144,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✓ | ✗ 42 → 22 | ✓ | ✓ | ✗ 3 rounds → long |
 | earthquake | earthquake | S✗ R✗ I– | ✗ 4 → 7 | ✓ | ✗ 13.5/13.5/13.5/13.5 → 28/28/28/28 | – | ✗ wisdom negates → · | ✗ 15 → · | ✓ | ✓ | ✗ 3 rounds → 1 rounds |
 | enlarge | enlarge-person | S✗ R✗ I– | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 14 | ✓ | ✓ | ✗ 3 rounds → long |
-| entangle | entangle | S✗ R✗ I– | ✓ | ✗ · → transmutation | – | – | ✓ | ✗ 16 → 14 | ✓ | ✓ | ✗ 3 rounds → long |
+| entangle | entangle | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | false_life | false-life | S✗ R✗ I– | ✗ 4 → 2 | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✓ | ✓ |
 | fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ burst → one | ✓ |

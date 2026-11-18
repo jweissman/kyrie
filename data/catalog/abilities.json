@@ -516,6 +516,35 @@
         "notes": "The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). Converted: +2 at every casting level, the SRD's to the fifth (it grows a point each six levels to +5; Kyr's conditions do not grow with the caster); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps."
       }
     },
+    "entangle": {
+      "name": "Tangling Vines",
+      "kind": "spell",
+      "description": "Grass, weeds and roots rise where you point and wrap whoever stands there, friend or foe: whoever does not spring clear is held fast, striking and dodging badly, for a minute.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "entangled",
+          "duration": 10,
+          "target": "enemies",
+          "save": {
+            "kind": "reflex",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 1, "domain": "nature", "school": "transmutation" },
+      "source": {
+        "orsino": "divineSpell:entangle",
+        "srd35": "spell:entangle",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
+      }
+    },
     "hold_person": {
       "name": "Hold Person",
       "kind": "spell",

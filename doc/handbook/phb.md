@@ -7769,11 +7769,13 @@ One ally gains shield of faith for 10 turns. Shield of Faith: 2 harder to hit. A
 
 ##### Tangling Vines
 
-*Faithful · level 1 divine spell, nature domain* · `ability:entangle`
+*Adapted · level 1 divine spell, transmutation, nature domain* · `ability:entangle`
 
-Everyone but you where it bursts, friend or foe is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine spell of the first level. Takes a first-level slot.
+Everyone but you where it bursts, friend or foe is entangled for 10 turns (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine spell of the first level. Takes a first-level slot.
 
-> Summon vines to entangle your foes.
+> Grass, weeds and roots rise where you point and wrap whoever stands there, friend or foe: whoever does not spring clear is held fast, striking and dodging badly, for a minute.
+
+*Adapted: The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level.*
 
 ##### Venomous Bite
 

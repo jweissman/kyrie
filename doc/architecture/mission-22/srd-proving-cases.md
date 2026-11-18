@@ -1117,6 +1117,33 @@ third-level mummy (90 % at the third) win 10 % (25 %), and the three of the firs
 Recommended: 2. **A decision for the lead.** The SRD prices its CR 5 for four of the fifth level; the halls are met by
 the first to third.
 
+### 31. Entangle by the SRD's numbers (18 November): adapted
+
+Orsino's Tangling Vines (`entangle`, a first-level spell of Nature) was a burst (the rules' areas make it one) that
+held whoever failed a Reflex save against 15 and the caster's whole level for three rounds. The SRD's Entangle is the
+same level and the same save, a minute a level. Now (data/catalog/abilities.json, a hand entry over Orsino's; spec:
+`test/entangle` (2; Orsino's entry put back fails both)):
+- first level, its school transmutation beside Nature (the SRD's druid and ranger spell; Kyr's nature clerics cast it);
+- a burst on friend and foe, as it was;
+- a Reflex save at case 7's difficulty for a first-level spell (11, the casting score's modifier and half the casting
+  level: 15 for a third-level cleric of Wisdom 16, where Orsino's was 18);
+- whoever fails entangled (Orsino's condition, kept: two worse to hit, Dexterity five less, slower to act; the SRD's
+  is −2 and −4) for a minute, ten rounds at every casting level (converted: case 14's rule).
+
+**Omitted:** the plants it needs (Kyr's field does not say what grows there); the vines trying again each round at
+whoever slipped them (a persistent area: proof-slices.md, do not cross yet); the half speed of whoever saved and the
+check to tear free (Kyr's fight has no movement). The census grades it S✓ R✓ I✓ (its difficulty exact at the
+census's caster): 30 of 119 spells pass in structure, 19 in resolution.
+
+**What it moves:** no draw (its level and domain are as they were: 0 of 19,200 drawn casters move, and 0 of 2,233
+installed classed creatures in a1 and the six countries; a third of wildcallers and a sixth of other clerics know it,
+as before), and no creation card (the wildcaller's offers it, as before). Four installed casters know it, none of them
+a foe the first hour meets alone (a1's fellowship head, kite's traveller, kahitude's keep chaplain, mere's preacher).
+Fought with it cast at the caster's first turn (a warrior and a cleric who knows it against two zombies of their
+level, and a lone warrior against two zombies and such a cleric; 40 seeds): the company wins 100 → 98 % at the first
+level and 100 % at the third; the lone warrior 25 % and 30 %, before and after. The longer hold and the easier save
+weigh about even.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
