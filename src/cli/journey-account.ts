@@ -48,10 +48,11 @@ export class JourneyAccount {
   private static placeName(s: AccountStep, last?: Place): string {
     return s.lines[0]?.split(' · ')[0] ?? last?.name ?? s.at ?? 'somewhere';
   }
-  // Each sentence told, by the step it was first told in: a sentence told again names that step.
+  // Each sentence told, by the step it was first told in: a sentence told again names that step (a fight's blows and
+  // its tally of wounds, told turn by turn, aside).
   static repeats(steps: AccountStep[]): Map<string, number> {
     const first = new Map<string, number>();
-    for (const s of steps) {
+    for (const s of steps.filter(x => x.moment !== 'fight')) {
       for (const sentence of s.prose.flatMap(l => ProseProvenance.sentences(l))) {
         const key = ProseProvenance.key(sentence);
         if (!first.has(key)) { first.set(key, s.n); }
