@@ -34,6 +34,9 @@ export type Why =
   // The place: whoever is the life of it, one of its own acts, a sign not seen before, someone with something to ask,
   // something not looked at closely.
   | 'life' | 'own' | 'sign' | 'asked' | 'unlooked' | 'wonder'
+  // Whoever the company is talking with: what is next to ask them (the reeve's own topics had stood in the rest while
+  // she was spoken to: cold play 4, CL-49).
+  | 'talking'
   // What was won, put to use: someone here who buys a treasure the company carries; someone who adds to what it can do
   // (a lesson, a spell) for what it can pay.
   | 'spoils' | 'means'

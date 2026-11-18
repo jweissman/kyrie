@@ -17,9 +17,11 @@ describe('the runner holds what is said to someone under their talk', () => {
     expect(turn.offer.rest.filter(o => /^Ask Kynes/.test(o.label))).toEqual([]);
     expect(turn.offer.rest.length).toBeLessThan(60);
     expect(turn.offer.rest.find(o => o.id === 'talk:region__s1_innkeeper')?.label).toBe('Talk to Kynes');
-    // Turned to (no time), what can be said to him leads the rest, talk before trade.
+    // Turned to (no time), he is told, not the taproom again, and what can be said to him leads, talk before trade
+    // ("Talk to the factor" had told the green whole: cold play 4, CL-49).
     const his = said(await r.ask(JSON.stringify({ act: 'talk:region__s1_innkeeper' })));
-    const labels = his.offer.rest.map(o => o.label);
+    expect([his.moment, his.scene.lines[0]]).toEqual(['inspect', 'Kynes:']);
+    const labels = [...his.offer.primary, ...his.offer.rest].map(o => o.label);
     expect(labels).toContain('Ask Kynes about the drover the customs-men hold');
     expect(labels.slice(0, 3).every(l => /^Ask Kynes/.test(l))).toBe(true);
     // Asked something, the talk holds; gone elsewhere, it is folded again.

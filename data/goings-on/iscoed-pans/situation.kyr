@@ -22,7 +22,7 @@ Module pans "The cold pans" {
   Passage staithe_lane "the lane down to the staithe" is passage between fuelgreen and staithe.
   Item sacks "two sacks of charcoal" is fuel_sack_kind at staithe.
 
-  Observe cold_sign at green as sign when not fuelled(party) and not spoiled(party) "Over the salt-houses only one chimney is smoking, thin and grey. A salter stands in a doorway looking up the river with his arms folded." teaches cold.
+  Observe cold_sign at green as sign when not fuelled(party) and not spoiled(party) "Over the salt-houses only one chimney is smoking, thin and grey. A salter stands in a doorway with his arms folded, looking up the river for the fuel boat from {fuelvillage}, two days late." teaches cold.
   Observe boiling_cold at boiling when not fuelled(party) and not spoiled(party) "Three iron pans the size of a cart-floor stand over brick hearths, the brine in them grey and still. Only one hearth is lit, low, fed with broken barrel-staves. A crust of salt is setting on the cold ones like ice.".
   Observe boiling_hot at boiling when fuelled(party) "All three hearths roar. The brine seethes in the pans and the air is thick with steam and the smell of the sea, and a man with a long wooden rake draws the white salt up onto the boards to drain.".
   Observe boiling_spoiled at boiling when spoiled(party) "The pans are cold and the brine in them has gone to a brown scum. Two men are tipping it out into the ditch, and nobody is speaking.".

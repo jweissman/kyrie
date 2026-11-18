@@ -8,7 +8,7 @@ import { Runner, type Said } from '../src/cli/runner';
 // the king answers his crown being lifted (CL-44). The play is replayed by its own lines, as the cold player sent them.
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-4-lines.txt', 'utf8').split('\n').filter(Boolean);
 describe('the golden route, after the fourth cold play', () => {
-  const told: Said[] = [];
+  const told: Said[] = [], byLine: (Said | undefined)[] = [];
   let first: Said;
   let runner: Runner;
   // Each turn said, up to the crown taken (the cold play's 90th line), and the lines each said.
@@ -18,6 +18,7 @@ describe('the golden route, after the fourth cold play', () => {
     first = runner.said();
     for (const line of lines.slice(0, 90)) {
       const s = await runner.ask(line);
+      byLine.push('error' in s ? undefined : s);
       if (!('error' in s)) { told.push(s); }
     }
   }, 240000);
@@ -66,5 +67,19 @@ describe('the golden route, after the fourth cold play', () => {
     expect(told[0]!.scene.lines.some(l => owain.test(l))).toBe(true);
     expect(told[1]!.scene.lines.some(l => owain.test(l) || l.startsWith('Patch barks'))).toBe(false);
     expect(told.filter(s => text(s).includes('does not look pleased')).length).toBeLessThanOrEqual(1);
+  });
+  // CL-45: asking Owain on the landing had made aims of the salt-pans and the sea-gate from signs never said; CL-49:
+  // the reeve's own topics had stood in the rest while she was spoken to (the 14th line greets her, the 15th tells her
+  // of Mardle).
+  it('says the signs an act on the landing learns from, and leads by whom the company is speaking with', () => {
+    const owain = text(byLine[0]);
+    expect(owain).toContain('looking up the river for the fuel boat from Reedbridge, two days late');
+    expect(owain).toContain('the reeve’s seal at its foot');
+    expect(byLine[0]!.aims?.map(a => a.text).join(' ')).toContain('sea-gate at Gatesend');
+    const led = (s: Said | undefined) => s!.offer.primary.map(o => o.id);
+    expect(led(byLine[13])[0]).toMatch(/^gate__reeve_/);
+    expect(led(byLine[14])[0]).toMatch(/^gate__reeve_/);
+    // And Gwil Pryce, greeted with nothing to say to him, says what his boats are for.
+    expect(led(byLine[16])).toContain('gate__wright_boats');
   });
 });

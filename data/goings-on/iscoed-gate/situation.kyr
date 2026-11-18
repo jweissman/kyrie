@@ -181,6 +181,12 @@ Module gate "The last sea-gate" {
   Person wright "Gwil Pryce" at green { Role "a boat-wright on the landing, who builds the flat fen-boats the eel-men pole". Pronouns he. Peaceable. Manner cheerful. }
   Entity boat_offer: fact "Gwil Pryce, the boat-wright on Porthalen's landing, sells a fen-boat with its pole for thirty coin: it goes where no road does, by the cuts and the meres.".
   Observe wright_sign at green as sign when not boated(party) and not knows(party, boat_offer) "On the landing a man is caulking the seams of a flat-bottomed boat no longer than a cart, and three more stand finished on trestles with a chalked price on each: thirty." teaches boat_offer.
+  // Spoken to with less than thirty coin, he had greeted the company "You look like a person with a question" and had
+  // nothing to say (cold play 4, CL-49): he says what his boats are for, and what one costs.
+  Topic wright_boats with wright "Ask Gwil Pryce what his boats are for" when not boated(party) once {
+    Says "Gwil slaps the hull on the nearest trestle. 'Fen-boats. Flat as a door, draw a hand of water. The eel-men pole them up the cuts and over the meres, where there's no road and never will be. Thirty coin, and the pole with it.' He squints out over the levels. 'Since the sea-gate went, there's more water out there than there's been in my life.'".
+    On discuss { Assert knows(actor, boat_offer). }
+  }
   Action buy_boat(actor: group, site: place) "Buy one of Gwil's fen-boats, thirty coin" {
     Speaker wright. Time 20 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and quantity(actor, gold) >= 30 and not boated(actor).

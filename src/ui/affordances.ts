@@ -35,6 +35,8 @@ export interface Reading {
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
+  // Whom the last act, done where the company stands, spoke to (see TalkingWith).
+  talking?: string;
   // Who could join the company (see Companions); the places one way off where the company perceives someone who might
   // (see Perception).
   // sensed: each way along which someone who might join is perceived, with the words its row says of them.
@@ -192,7 +194,7 @@ export class Affordances {
     // Blue is for a question whose answer teaches the company something, not for any word to be had of them (the
     // wagoner's "Offer him a hand" had drawn him blue).
     const learned = (person ? fresh : leaves).find(c => c.teaches && !r.done.has(c.command!));
-    const joining = leaves.find(c => r.schema.get(c.command!) === 'recruit')
+    const next = this.next(s, r, learned, fresh), joining = leaves.find(c => r.schema.get(c.command!) === 'recruit')
       ?? leaves.find(c => r.willing?.has(c.command!) && !r.done.has(c.command!));
     const whys: Why[] = [...answer ? ['answer' as const] : [], ...named ? ['named' as const] : [], ...kin ? ['kin' as const] : [],
       ...held ? ['held' as const] : [],
@@ -211,7 +213,7 @@ export class Affordances {
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       // So with a thing to read that would tell the company something (the eel-wife's notice on Tessary's Landgate
       // board, the adventure's hook, had been only under `all`: M21's playability list, PL-16).
-      ...(person ? s.asked && !talked : true) && learned ? ['asked' as const] : [],
+      ...this.spokenWhys({ learned, next, unmet: person ? !!s.asked && !talked : true }),
       ...feature && looked ? ['unlooked' as const] : [], ...this.wonder(s.id, !!person, leaves),
       ...person && joining ? this.joins(s.id, r) : []];
     const needs = this.served(leaves, r);
@@ -223,7 +225,7 @@ export class Affordances {
     const within: Partial<Record<Why, string>> = { ...answer?.command ? { answer: answer.command } : {},
       ...kept ? { named: kept, kin: kept, held: kept } : {}, ...moving[0] ? { advance: moving[0].command! } : {},
       ...take ? { spoils: take, ...!moving[0] ? { advance: take } : {} } : {},
-      ...learned ? { asked: learned.command! } : {}, ...joining ? { companion: joining.command! } : {},
+      ...this.spoken({ learned, next }), ...joining ? { companion: joining.command! } : {},
       ...looked ? { unlooked: looked.command! } : {}, ...person ? this.owedFor(s, leaves, screen) : {},
       // A sign seen in them is had by looking closer, or by what is led with them (making much of the grey dog).
       ...r.signs.has(s.id) && (looked?.command ?? this.command(opener))
@@ -507,6 +509,17 @@ export class Affordances {
   }
   // A way's acts gone by in turn, never one that is grave or a risk: the speaking door's first word had been pressed
   // at random, as the way's next act (the owner, 12 November).
+  // Spoken to just now, what is next to ask them: what would teach, else anything not yet said to them.
+  private static next(s: SceneSubject, r: Reading, learned: Choice | undefined, fresh: Choice[]): Choice | undefined {
+    return s.kind === 'person' && r.talking === s.id ? learned ?? fresh.find(c => !r.done.has(c.command!)) : undefined;
+  }
+  // Something to learn of them is asked for: by greeting someone not yet met, by asking whoever is spoken to.
+  private static spokenWhys(at: { learned?: Choice; next?: Choice; unmet: boolean }): Why[] {
+    return [...(at.unmet || at.next) && at.learned ? ['asked' as const] : [], ...at.next ? ['talking' as const] : []];
+  }
+  private static spoken(at: { learned?: Choice; next?: Choice }): Partial<Record<Why, string>> {
+    return { ...at.learned ? { asked: at.learned.command! } : {}, ...at.next ? { talking: at.next.command! } : {} };
+  }
   // An opener's own command is its talk where it has one, and never a trade: done by a headless player, "Talk to
   // Mik", once he had been spoken to, had bought a coil of rope, a torch, rashers of bacon, ten times over (the
   // runner's blind walk, 15 November: TB-04).

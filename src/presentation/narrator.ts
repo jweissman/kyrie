@@ -19,6 +19,7 @@ import { Likenesses } from './likenesses';
 import { LensSubjects } from './lens-subjects';
 import { Glance } from './glance'; import { Instruments } from './instruments';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
+import { TaughtSigns } from './taught-signs';
 import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
@@ -101,6 +102,7 @@ export class Narrator {
     if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     exchange?.lines.push(...altered.map(o => ({ text: Narration.sentence(FictionalTime.prose(o.text)), kind: 'change' as const })));
+    if (exchange) { TaughtSigns.tell(exchange.lines, TaughtSigns.of(campaign, screen, told, defs)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
     // Nor is what it told again by another name, now that what it taught names it (a doorway seen from a tower, known
     // then for the ruin it is).

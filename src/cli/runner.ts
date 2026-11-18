@@ -197,7 +197,7 @@ export class Runner {
     // An opener taken opens: its rows offered, no time (the page draws them; the runner had done its first).
     const opener = all.find(x => x.id === asked.act && x.opens);
     if (opener) { return this.opened(opener, screen); }
-    if (asked.act.startsWith('talk:')) { this.with = asked.act.slice(5); return this.said('look'); }
+    if (asked.act.startsWith('talk:')) { this.with = asked.act.slice(5); return this.talk(screen, this.with); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (asked.act.startsWith('follow:')) { this.now = undefined; await this.session.leg(asked.act); return this.said('look'); }
     const talking = /^talk_to\(([^)]+)\)$/.exec(asked.act)?.[1]
@@ -269,6 +269,18 @@ export class Runner {
   }
   // An opener opened: its rows, the four first, where the company stands; nothing led nor gilded but as they are.
   // One with a focus reads it out whole, and every row of it is led with: a riddle and all its answers (CL-34).
+  // A talk taken up again, as the page opens it: who is spoken to and what can be seen of them now, with what can be
+  // said to them, not the place again ("Talk to the factor" had told the green whole: cold play 4, CL-49).
+  private talk(screen: Screen, who: string): Said {
+    const said = this.said('look'), p = screen.people.find(x => x.id === who);
+    if (!p) { return said; }
+    const seen = (p.says?.length ? p.says : [p.name]).map(l => Typography.plain(l));
+    const lines = [`${p.name.split(', ')[0]}:`, ...seen], whose = RunnerTalks.whose(screen, said.offer.rest);
+    const primary = said.offer.rest.filter(o => whose.get(o.id) === who).slice(0, 4);
+    const rest = [...said.offer.primary, ...said.offer.rest.filter(o => !primary.includes(o))];
+    return { ...said, moment: 'inspect', scene: { lines, prose: seen },
+      offer: primary.length ? { ...said.offer, primary, rest } : said.offer };
+  }
   private opened(opener: Offered, screen: Screen): Said {
     const rows = opener.opens ?? [], g = this.glanced(), says = opener.says ? [Typography.plain(opener.says)] : [];
     const four = opener.says ? rows.length : 4, primary = rows.slice(0, four);

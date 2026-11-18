@@ -22,7 +22,7 @@ import { Outmatched } from './outmatched'; import { CompanyRecall } from './comp
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
-import { PlayerView } from './player-view';
+import { PlayerView } from './player-view'; import { TalkingWith } from './talking-with';
 import type { Told } from './narrator';
 
 // What the narrator hands the glance: the lines it tells of the place now, whether the company has been here before,
@@ -187,7 +187,7 @@ export class Glance {
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
       pointed: at.pointed, ...Outmatched.reading(campaign, screen),
-      done: new Set(commands.filter(c => recall.did(here, c))),
+      done: new Set(commands.filter(c => recall.did(here, c))), ...TalkingWith.of(campaign, at.told),
       talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
         hurt: new Set(screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.id)),
