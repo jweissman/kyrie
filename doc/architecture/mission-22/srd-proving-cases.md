@@ -1326,3 +1326,11 @@ stand, said so in the fidelity ledger; no placed SRD kind met in pairs moves unt
 the first hour, each fought where it is placed (the great barrow's mummy first); the barrow ghoul for the newcomers'
 single ghouls (w5, w6, e1) only after a placement review, never in the ossuary.
 
+### The lead's decisions on cases 30–34 (18 November)
+
+The royal mummy (case 30) runs by the SRD's numbers, as landed: on the golden route a company that flees gets away and
+one that fights goes down, before and after. The halls' five mummies stay Orsino's (as the SRD's, a first-level warrior
+and cleric win 80 → 10 %); the waterworks' keeper stays Orsino's until the keepers' levels are reviewed (case 34).
+The oathkeeper's creation card offering Command and Holy Wrath (case 33) is accepted: what a first-level oathkeeper
+knows is the SRD's first level.
+
