@@ -27,8 +27,23 @@ export class Carriers {
     const room = loads.filter(l => Carriers.fits(world, l.member, kind));
     const able = room.length ? room : loads;
     const least = [...able].sort((a, b) => a.items.length - b.items.length)[0], own = able.find(l => l === loads[0]);
-    const mine = own && least && own.items.length - least.items.length < Carriers.burdened ? own : least;
+    const mine = own && least && !Carriers.laden(world, own, least) ? own : least;
     return (same && able.includes(same) ? same : mine)?.member;
+  }
+  // Whether the one the player plays carries far more than another: by how much of what each can carry is taken up,
+  // where the world weighs things, else by how many things each has. Counted, a warrior come up out of a barrow with
+  // a rope, a potion and a pair of bracers had been handed nothing bought after, every ware "for Carlin", a hireling
+  // carrying a third of what she could (cold play 4, CL-50).
+  static readonly heavier = 0.25;
+  private static laden(world: World, own: { member: string; items: string[] },
+    least: { member: string; items: string[] }): boolean {
+    if (!world.module.measures?.some(m => m.name === 'capacity')) {
+      return own.items.length - least.items.length >= Carriers.burdened;
+    }
+    return Carriers.share(world, own.member) - Carriers.share(world, least.member) >= Carriers.heavier;
+  }
+  private static share(world: World, member: string): number {
+    return world.number(ModuleWriter.call('carried', member)) / Math.max(1, world.number(ModuleWriter.call('capacity', member)));
   }
   private static fits(world: World, member: string, kind?: string): boolean {
     if (!world.module.measures?.some(m => m.name === 'capacity')) { return true; }

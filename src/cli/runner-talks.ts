@@ -14,10 +14,14 @@ export class RunnerTalks {
     const theirs = rest.filter(o => talking && whose.get(o.id) === talking);
     const out: Offered[] = [...theirs.filter(o => !paid.has(o.id)), ...theirs.filter(o => paid.has(o.id))];
     const led = new Set(primary.map(o => whose.get(o.id) && /^talk_to\(/.test(o.id) ? whose.get(o.id) : ''));
-    const told = new Set<string>();
+    // What also stands under a thing here is the thing's as much as theirs, as the page holds it: a ware, bought off
+    // the shelf it is on (the general store at Porthalen had shown its haggling and none of its buying, folded under
+    // Marjory Ashby's talk: cold play 4, CL-50).
+    const told = new Set<string>(), shelved = new Set(screen.things.flatMap(t => this.flat(t.acts))
+      .flatMap(a => a.command ? [a.command] : []));
     for (const o of rest.filter(x => !theirs.includes(x))) {
       const p = whose.get(o.id);
-      if (!p || !many.has(p)) { out.push(o); continue; }
+      if (!p || !many.has(p) || shelved.has(o.id)) { out.push(o); continue; }
       if (told.has(p) || led.has(p)) { continue; }
       told.add(p);
       const own = rest.find(x => x.id === `talk_to(${p})`), name = screen.people.find(x => x.id === p)!.name;
