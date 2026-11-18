@@ -6,6 +6,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Pip } from './pip';
+import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emphasis } from '../../../src/presentation/emphasis';
 import { Guidance } from '../guidance';
 import { GlanceStage } from './glance';
@@ -39,7 +40,9 @@ export class AtHand {
             <button type="button" className={`ah-row${h === chosen ? ' chosen' : ''}`} data-pick={h.id}
               aria-pressed={h === chosen} onClick={() => AtHand.pick(app, h)}>
               {Typography.curl(Words.upper(h.name))}
-              {AtHand.tone(app, h) && <Pip.View fill={`var(--tone-${AtHand.tone(app, h)})`} />}</button></li>)}</ul>
+              {(AtHand.tone(app, h) || AtHand.bears(app, h).includes('companionship'))
+                && <Pip.View fill={AtHand.tone(app, h) && `var(--tone-${AtHand.tone(app, h)})`}
+                  companion={AtHand.bears(app, h).includes('companionship')} />}</button></li>)}</ul>
         </nav>
         <AtHand.Pane app={app} draw={draw} held={chosen ?? done} />
       </div>
@@ -133,12 +136,16 @@ export class AtHand {
   // The tone of what the glance leads with in it, as the Look mark on the rail is lit by it: the mark had been green,
   // and nothing in the list said which thing (the owner's player report, 12 November).
   static tone(app: ReaderApp, h: Held): string | undefined {
+    return Pip.tone(AtHand.bears(app, h), Guidance.shown(app));
+  }
+  // What a thing's row bears, and all Look… is lit by (see SceneRail.look): what the glance leads with in it; the aim's
+  // gold only where it is the aim's next step, as the scene draws it (the speaking door had been gold on the scene and
+  // blue in Look…: round 11, T 33–34).
+  static bears(app: ReaderApp, h: Held): Aspect[] {
     const ids = new Set([...h.choices.map(c => c.id), ...h.opens]);
     const led = app.state.frame?.leaf.glance?.acts.find(a => ids.has(GlanceStage.choice(app, a.choice)?.id ?? '')
       && a.aspects.length);
-    // In the aim's gold where it is the aim's next step, as the scene draws it (the speaking door had been gold on the
-    // scene and blue in Look…: round 11, T 33–34).
-    return led ? Pip.tone(led.aspects, !!led.continues && Guidance.shown(app)) : undefined;
+    return (led?.aspects ?? []).filter(a => a !== 'undertaking' || led?.continues);
   }
   // The one the glance leads with, where it leads with something at hand.
   static led(app: ReaderApp, held: Held[]): Held | undefined {

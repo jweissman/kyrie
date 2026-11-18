@@ -33,9 +33,9 @@ export class SceneRail {
       <nav {...PageFrame.slot('rail')} className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
         <SceneRail.Talk app={app} />
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
-          companion={SceneRail.companion(app, 'places')} />
+          companion={SceneRail.joins(app)} />
         <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)}
-          companion={SceneRail.companion(app, 'things')} />
+          companion={AtHand.of(app).some(h => AtHand.bears(app, h).includes('companionship'))} />
         {/* Each in its own place whether it can be done or not, shut and saying why when not: the rail's marks had moved
             under the finger as the Search came and went, and a touch for the Eye opened Go (round 7, both players). */}
         <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
@@ -102,7 +102,7 @@ export class SceneRail {
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
   }
-  // Its pip (see Pip): lit, of the tone of what its own four rows are (see SceneRail.lit), and a companion's icon
+  // Its pip (see Pip): lit, of the tone of what the rows it opens bear (see SceneRail.go), and a companion's icon
   // where one of them is someone who might join; none with nothing; and the whole mark lowered (dim) with nothing new.
   // Never what its rows are not (the owner, 17 November: a companion on Go… and on none of the rows under it).
   static Mark({ app, part, glyph, words, standing, companion }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
@@ -124,9 +124,9 @@ export class SceneRail {
   static go(app: ReaderApp): Standing {
     const ways = Wayfinder.ways(app), idle = new Set(app.state.frame?.leaf.glance?.idle ?? []);
     if (!ways.length) { return { shut: 'no way on from here' }; }
-    // Lit by what its own four rows are, the first of them by the one precedence: not by there being somewhere not yet
-    // been, which early on is everywhere.
-    const tone = SceneRail.lit(app, 'places');
+    // Lit by what the rows it opens bear (Wayfinder.bears), the first of them by the one precedence: not by the
+    // promoted lens, whose four were not the rows shown (the owner, 18 November), nor by somewhere not yet been.
+    const tone = Pip.tone([...new Set(ways.flatMap(w => Wayfinder.bears(app, w).aspects))], Guidance.shown(app));
     if (tone) { return { lit: tone }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
@@ -142,18 +142,13 @@ export class SceneRail {
   static look(app: ReaderApp): Standing {
     const hand = AtHand.of(app), glance = app.state.frame?.leaf.glance;
     if (!hand.some(h => h.choices.some(c => !c.disabled))) { return { shut: 'nothing here to look at more closely' }; }
-    const tone = SceneRail.lit(app, 'things');
+    const tone = Pip.tone([...new Set(hand.flatMap(h => AtHand.bears(app, h)))], Guidance.shown(app));
     if (tone) { return { lit: tone }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
   }
-  // A lens's colour: the first, by the one precedence, of what its four rows are (Lensed.aspects); the aim's gold only
-  // where the page shows the way (see Guidance).
-  static lit(app: ReaderApp, lens: 'places' | 'things'): Tone | undefined {
-    return Pip.tone(app.state.frame?.leaf.glance?.lenses?.[lens]?.aspects, Guidance.shown(app));
-  }
-  // Whether one of a lens's four rows is someone who might join, or the way to them.
-  static companion(app: ReaderApp, lens: 'places' | 'things'): boolean {
-    return !!app.state.frame?.leaf.glance?.lenses?.[lens]?.aspects.includes('companionship');
+  // Whether one of the ways Go… opens bears someone who might join (see Wayfinder.bears).
+  static joins(app: ReaderApp): boolean {
+    return Wayfinder.ways(app).some(w => Wayfinder.bears(app, w).companion);
   }
   // The map, where a journey there is the aim's next step, and the way is shown.
   static mapLit(app: ReaderApp): boolean {

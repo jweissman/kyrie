@@ -9,6 +9,7 @@ import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { Glyphs } from '../creation/glyphs';
 import type { Tone } from '../../../src/presentation/emphasis';
+import type { Aspect } from '../../../src/presentation/glance-types';
 import { Pip } from './pip';
 import { Signs } from '../../../src/presentation/signs';
 
@@ -68,8 +69,8 @@ export class Wayfinder {
     // (the owner, 12 November: a mark lit, and nothing inside it said which).
     // The aim's gold on the way that is its next step, or, where none is known, on the way it goes by: never on a way
     // on while the step is here (see SceneRail.goes).
-    const next = GlanceStage.next(app), aimed = w.aim === 'followed' && (!next || next === w.c.id || next === w.way.id);
-    const tone = aimed ? undefined : Wayfinder.tone(app, w);
+    const borne = Wayfinder.bears(app, w), aimed = borne.aimed;
+    const tone = aimed ? undefined : Pip.tone(borne.aspects, false);
     return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
       + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id} data-act={w.c.id}
       style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
@@ -91,16 +92,19 @@ export class Wayfinder {
   // perceives along it (see Perception), never a thing to be done from here. Faint is not dim: dim is a way with
   // nothing new for now, faint something sensed off along it.
   static Marks({ app, way: w }: { app: ReaderApp; way: Way }) {
-    const to = Wayfinder.to(w), sensed = app.state.frame?.leaf.glance?.sensed?.find(x => x.to === to
-      || w.holds?.includes(x.to));
+    const to = Wayfinder.to(w), sensed = Wayfinder.sensed(app, w);
     // A walk about the town is a journey in the engine's words, and no going over into other country.
     const walk = (app.state.frame?.screen.around ?? []).some(d => d.id === to);
     const crosses = !!w.exit?.crosses || (w.c.id.startsWith('travel:') && !w.exit && !walk);
     const said = sensed && (sensed.far === 1 ? 'someone who might join you' : 'perhaps someone, farther on');
-    if (!crosses && !sensed) { return <span className="wf-marks" />; }
+    // Someone who would join, by the act the place leads with by this way (not perceived: offered).
+    const joins = !sensed && Wayfinder.bears(app, w).companion;
+    if (!crosses && !sensed && !joins) { return <span className="wf-marks" />; }
     return <span className="wf-marks">
       {sensed && <span className="wf-mark sensed">
         <Pip.View fill={Pip.fill([sensed.aspect], false)} companion={sensed.aspect === 'companionship'} faint /><span className="said sr-only">{said}</span></span>}
+      {joins && <span className="wf-mark joins"><Pip.View companion /><span className="said sr-only">
+        someone who might join you</span></span>}
       {crosses && <Glyphs.View id="journey" className="wf-mark journey" label="into the next stretch of country" />}
     </span>;
   }
@@ -259,9 +263,26 @@ export class Wayfinder {
   // The way the aim followed goes by first, where one does (see Glance.aimed); another aim's is not offered unasked.
   // The tone of what the place leads with that goes by a way (its chief aspect, never the aim's: that is Wayfinder.aimed).
   static tone(app: ReaderApp, w: Way): Tone | undefined {
-    const ids = new Set([w.c.id, w.way.id]), led = app.state.frame?.leaf.glance?.acts.find(a => ids.has(a.choice)
-      || ids.has(GlanceStage.choice(app, a.choice)?.id ?? ''));
+    const led = Wayfinder.led(app, w);
     return led ? Pip.tone(led.aspects, false) : undefined;
+  }
+  static led(app: ReaderApp, w: Way) {
+    const ids = new Set([w.c.id, w.way.id]);
+    return app.state.frame?.leaf.glance?.acts.find(a => ids.has(a.choice) || ids.has(GlanceStage.choice(app, a.choice)?.id ?? ''));
+  }
+  static sensed(app: ReaderApp, w: Way) {
+    const to = Wayfinder.to(w);
+    return app.state.frame?.leaf.glance?.sensed?.find(x => x.to === to || w.holds?.includes(x.to));
+  }
+  // What a way's row bears, and all Go… is lit by (the owner, 18 November: Go… gold and with a companion, and no row
+  // under it either): the aim's gold where it is the aim's next step, or, none known, the way it goes by (never on a
+  // way on while the step is here: see SceneRail.goes); else what the place leads with by it, never another aim's
+  // gold; a companion where one is perceived along it or the act it leads with is someone who would join.
+  static bears(app: ReaderApp, w: Way): { aimed: boolean; aspects: Aspect[]; companion: boolean } {
+    const next = GlanceStage.next(app), aimed = w.aim === 'followed' && (!next || next === w.c.id || next === w.way.id);
+    const led = aimed ? [] : (Wayfinder.led(app, w)?.aspects ?? []).filter(a => a !== 'undertaking');
+    const companion = Wayfinder.sensed(app, w)?.aspect === 'companionship' || led.includes('companionship');
+    return { aimed, aspects: aimed ? ['undertaking'] : led, companion };
   }
   static aimed(ways: Way[]): Way | undefined {
     return ways.filter(w => w.aim === 'followed').sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))[0];

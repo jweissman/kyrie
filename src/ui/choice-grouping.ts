@@ -367,7 +367,10 @@ export class ChoiceGrouping {
     // owner's play, 31 October); one about no one and nothing in view is something the company does here.
     const onWay = Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.passageOf.has(v))?.[1];
-    if (subject) { this.insert(this.slot(out.targets, subject), path, leaf); }
+    // Under whoever it is done to, named without them ("Make much of" under Moss); standing alone, by its own whole
+    // name ("Make much of Moss"): three animals' rows in one offer had read "Make much of" three times (FM-07).
+    const whole = path.length === 1 && !leaf.alone ? { ...leaf, alone: row.choice.name } : leaf;
+    if (subject) { this.insert(this.slot(out.targets, subject), path, whole); }
     else if (onWay) {
       this.exit(out, context.passageOf.get(onWay)!, { acts: [], path: this.under(onWay, path, context), leaf });
     }

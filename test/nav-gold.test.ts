@@ -90,10 +90,9 @@ describe('Go… and the gold, for a player come home', () => {
     expect(page.preview()).toBe('');
     // Go… is the rail's (amendment 6), not one of the glance's openers, and is not lit as the aim's.
     expect(page.rest()).not.toMatch(/opens-go/);
-    // Lit as its own rows are, never otherwise (the owner, 17 November: a mark says what the rows under it are): gold
-    // exactly where the places lens holds the aim's next step.
-    const places = page.app.state.frame!.leaf.glance!.lenses!.places;
-    expect(SceneRail.go(page.app)).toEqual(places.aspects.includes('undertaking') ? { lit: 'gold' } : {});
+    // Lit as its own rows are, never otherwise (the owner, 17 and 18 November: a mark says what the rows under it
+    // are): no row the aim's, so Go… is not gold (it had been, by the promoted lens, over these rows).
+    expect(SceneRail.go(page.app)).not.toEqual({ lit: 'gold' });
   }, 60000);
 
   it('goes by a way at one click, to a part of the town at its own open place, which has been', async () => {

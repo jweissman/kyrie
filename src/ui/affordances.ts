@@ -518,7 +518,9 @@ export class Affordances {
     // Nor a grave act, which the gold would have the company guess at (see command).
     const again = !!command && at.r.done.has(command) && at.r.schema.get(command) !== 'go' && !command.startsWith('travel:');
     const whys = again || this.risky(c) || !command ? at.whys.filter(w => w !== 'toward') : at.whys;
-    return { choice: c.id, label: c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
+    // Called as it is standing alone, out of whoever's pane it belongs to: three animals' "Make much of" in one offer
+    // had been three rows of the same words (FM-07; Act.alone, as Promotion's other rows are called).
+    return { choice: c.id, label: c.alone ?? c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
       ...at.subject ? { subject: at.subject } : {},
       ...at.leaves && Object.keys(at.leaves).length ? { leaves: at.leaves } : {},
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
