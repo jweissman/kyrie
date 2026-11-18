@@ -93,6 +93,9 @@ export class Runner {
   // the screen had been built up to five times a turn, most of an act's time). Kept while the world it was built of
   // is the world (a world changed is a new one: an act, or a change made from outside, as a spec's coin).
   private now?: { world: object; screen: Screen; glance?: { of: Leaf['glance'] }; names?: Map<string, string> };
+  // The narrator's leaf the last turn said was told from, for a review of the journey (src/cli/journey-review.ts).
+  private leafed?: Leaf;
+  get leaf(): Leaf | undefined { return this.leafed; }
   constructor(private current: PlaySession) {}
   get session(): PlaySession { return this.current; }
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
@@ -101,7 +104,7 @@ export class Runner {
   // The turn as it stands: arriving (the first, and after a move), or what came of the last act.
   said(turned: Turned = !this.told || this.told.moved ? 'arrive' : 'act'): Said {
     const c = this.campaign, now = this.standing, screen = now.screen, leaf = this.scene.leaf(c, screen, this.told);
-    now.glance = { of: leaf.glance };
+    now.glance = { of: leaf.glance }; this.leafed = leaf;
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };

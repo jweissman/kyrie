@@ -41,6 +41,9 @@ export type Happening = { id: string; text: string; kind: 'event'; rivals?: stri
 // One watch of the world after the player's action: every NPC acts or continues what it is doing, then each rule
 // fires once in authored order. A rule with ?variables fires once for every binding that satisfies it.
 export class CampaignTick {
+  // Whoever watches the rules fire, for a review of a journey (src/cli/review-observer.ts): each rule's id, with its
+  // binding's instance, and what it changed, in the words of CampaignEvent.changes. Unset in play: nothing is kept.
+  static witness?: (rule: string, changes: string[]) => void;
   // The clock after a watch passes: its reading, dark() from nine in the evening until six in the morning, and the
   // watch's die (dice(clock), 1 to 100, drawn from the campaign's seed) for whatever is left to chance: a wandering
   // band on a road, the weather turning.
@@ -197,6 +200,8 @@ export class CampaignTick {
       // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
       // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
       host.commitWorld(next);
+      CampaignTick.witness?.(Object.keys(binding).length ? `${rule.id}@${Object.values(binding).join(',')}` : rule.id,
+        next.changes(prior));
       if (rule.say && this.heard(host, rule, [began, prior, next], binding)) {
         // One told for each binding it fires for (each member polled), as an observation near a variable is seen once
         // for each thing it is near: an instance's id is its rule's and the binding's (aye@roll).
