@@ -1,4 +1,27 @@
-# Sprint 0 — Restore planning control
+# Sprint 1 — Observe a cold player; repair the first passage
+
+Dates: 18–25 November 2026 (planning-report.md §6). Sprint 0 is closed: its board is kept below.
+Goal: a cold player reaches the first meaningful action without accidental interruption, unexplained control changes
+or a transition that breaks confidence; and their top causes of confusion are fixed.
+As held by the owner (18 November, night): no new commissions; robot cold plays first (agents only: the game is not
+ready for people), fix their top causes, deployed recordings, a second cold player; close the sprint and the register
+as fast as possible.
+
+| ID | Kind | Why in this sprint | Acceptance | Owner | State |
+|---|---|---|---|---|---|
+| S1-1 | Investigation (E1) | Cold play 3 (6/10) named the causes; the fixes must be measured, not assumed | A fourth robot cold play of the golden route on the deployed revision, by the protocol below, its report in mission-22/cold/ and its defects registered | lead (an agent plays) | queued: after the landing of S1-2 |
+| S1-2 | Defects (E1) | Cold play 3's top causes: the four not leading with the pursuit, unwarned and untold harm, money and prices unsaid | CL-12, CL-13, CL-14, CL-17, CL-18, CL-22, CL-24, CL-25, CL-29 fixed and pinned; CL-04 and CL-05 closed on their pins | lead | in progress: all fixed and pinned (18 Nov) but CL-25's "Tell the reeve how Mardle counts" among the rest |
+| S1-3 | Obligation (E2) | TO-03/TO-06/OR-23/OR-77: the passage from studio to first scene is judged in motion | One deployed recording (frames) of studio → title → creation → setting out → first scene at a laptop's size and a phone's: no flash, no flicker, no unexplained black; findings registered | lead | open |
+| S1-4 | Investigation (E1) | One player is an anecdote | A second robot cold player on the alternate character (elf mage, the weir life) on the same revision | lead (an agent plays) | open |
+| S1-5 | Defect (E1) | DN-06, only for the first passage | The opening's lines the cold players quote as generic or obstructive rewritten (the wagoner done: OR-75) | lead | partly |
+
+Capacity reserve: defects that block the cold players only.
+Running beside the sprint, on the owner's word of 18 November: the SRD spell slices (SR-01) and the variety
+experiment (OR-84), one agent each; neither touches the golden route.
+
+---
+
+# Sprint 0 — Restore planning control (closed 17 November)
 
 Dates: 17–19 November 2026 (two days)
 Goal: one trustworthy live-item view, and the exact first-hour test route and player protocol chosen, before further

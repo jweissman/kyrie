@@ -56,6 +56,7 @@ export class Offers {
     const shown = new Set(led.map(o => o.choice)), types = new Set(led.map(o => o.type));
     // Then the leading way, then the rest in the scene's order: each of a type the four do not yet hold.
     const order = [...ways.flatMap(w => byChoice.get(w) ?? []), ...[...live].sort((a, b) => a.order - b.order)];
+    const acted = led.some(o => !['talk', 'go', 'journey'].includes(o.type));
     const fill: Offered[] = [], waitsOnly = live.filter(c => this.types[c.kind] !== 'other' || c.whys.length)
       .every(c => this.types[c.kind] === 'wait');
     // Of a kind not yet shown first; and where the scene has fewer than four kinds, the next of any (four waits in a
@@ -70,7 +71,12 @@ export class Offers {
         // A second wait beside the first is the same choice told twice ("Wait", "Wait an hour": M22's review), its
         // lengths the Wait lens's; only where waiting is all there is to do are the waits the four.
         const again = !distinct && type === 'wait' && types.has('wait') && !waitsOnly;
-        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again) { continue; }
+        // Nor, beside an act the place is led with, a way for no more than being untaken, as Promotion holds it: "To
+        // the taproom of the Stone Horn" had filled the four at the customs-house, beside Bran's line to read, from
+        // the third turn on (cold plays 2 and 3, CL-25).
+        const idle = (type === 'go' || type === 'journey') && c.whys.length > 0
+          && c.whys.every(w => w === 'unvisited') && acted;
+        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }

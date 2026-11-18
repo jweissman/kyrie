@@ -271,7 +271,8 @@ export class Promotion {
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,
   // and so may a place with nothing else); two ways; one of the place's own; a way not yet taken only while fewer than
-  // two are led with.
+  // two are led with, and none of them an act: beside Bran's line to read, "To the taproom of the Stone Horn" had led
+  // from the third turn on for no reason a player could see (cold plays 2 and 3, CL-25).
   private static room(x: { c: Candidate; best: Why }, picked: Promoted[],
     at: { taken: { ways: number; own: number; plates: number; by: Map<string, number> }; s: Situation; lone: boolean }):
     boolean {
@@ -283,7 +284,7 @@ export class Promotion {
     if ((at.taken.by.get(subject) ?? 0) >= most) { return false; }
     if (this.way(c) && !['retreat', 'opened'].includes(x.best) && at.taken.ways >= 2) { return false; }
     if (x.best === 'own' && at.taken.own >= 1) { return false; }
-    return x.best !== 'unvisited' || picked.length - at.taken.plates < 2;
+    return x.best !== 'unvisited' || picked.length - at.taken.plates < 2 && picked.length === at.taken.plates + at.taken.ways;
   }
   // The reasons it may be led with for, as what it is allows: never a wait (but for first light, in the dark with
   // nothing to give light), or studying; a step across the country only toward the aim shown (REV-08: from the edge of

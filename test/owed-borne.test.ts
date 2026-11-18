@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { PlayerView } from '../src/presentation/player-view';
 import { Glanced } from './support/glanced';
+import { Voice } from '../src/narrative/voice';
+import { VoiceContext } from '../src/narrative/voice-context';
 
 // What is green inside a talk is green outside it (the owner, 18 November: the wagoner's thanks, two coins, drawn green
 // in his talk, and neither his likeness nor his row in the scene said so): someone with something for the company now
@@ -18,6 +20,11 @@ describe('a payoff inside a talk is borne outside it', () => {
       expect(glance.lenses.people.promoted.find(a => a.subject === who)?.aspects).toContain('payoff');
       // And it is for the act that pays: the page finds it inside.
       expect(glance.acts.find(a => a.subject === who)?.inside?.map(i => i.command)).toContain('origin__carter_thanks');
+      // And spoken to, they take it as that, not as a stranger with a question (cold play 3, CL-22: Leif grinning
+      // "before you have said anything at all" after the solemn reckoning he had paid for).
+      const context = VoiceContext.of(g.campaign, { kind: 'address', actor: who }, new Set());
+      expect(context.owing).toBe('yes');
+      expect(Voice.tiers('address', context)[0]!.map(l => l.id).every(id => id.startsWith('address.owing.'))).toBe(true);
     }
   }, 120000);
 });

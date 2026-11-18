@@ -66,13 +66,14 @@ describe('the first town’s neighbours', () => {
     expect(j.campaign.world.one('at', r('s1_iv'))).toBe('region__e1_office');
   }, 180000);
 
-  it('has a death with three readings: the bruise, the tally-stick, and what is told to whom', async () => {
+  // The dead man's count is on a wax tablet, not a second tally-stick in a town where Bran's is (CL-29).
+  it('has a death with three readings: the bruise, the wax tablet, and what is told to whom', async () => {
     const j = await start();
     Placed.at(j, r('s1_shrine'));
     await j.play('Look under the cloth');
     expect(Placed.holds(j, 'knows', 'party', r('s1_death_bruise'))).toBe(true);
     Placed.at(j, r('s1_taproom'));
-    await j.play('Read the notches on the tally-stick');
+    await j.play('Read the strokes on the wax tablet');
     expect(Placed.holds(j, 'knows', 'party', r('s1_death_oak_fact'))).toBe(true);
     Placed.at(j, r('s1_green'));
     await j.play('Tell Aldous Fenn what the dead man');

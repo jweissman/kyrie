@@ -133,26 +133,26 @@
   }
   Observe {t}_dead_learned at {t}_shrine of {t}_dead as reading when state({t}_dead, seen) "He was hit, or fell against something hard, before he went in the water; and he had walked a long way on wet ground." teaches {t}_death_bruise.
   Entity {t}_death_bruise: fact "Joss Hatherly, a wood-warden's scaler, was found drowned at the landing with a bruise over one ear and silt in his boots: he had walked from further up the river than the landing.".
-  Thing {t}_tally "a notched tally-stick" at {t}_taproom {
-    State shut "A hazel tally-stick lies behind the bar where the innkeeper put it, cut with fine notches in rows, marks on the flat in the wardens' hand.".
+  Thing {t}_tally "a wax tablet in a wooden case" at {t}_taproom {
+    State shut "A wax tablet in a wooden case lies behind the bar where the innkeeper put it, its wax scratched with strokes in rows, marks beside them in the wardens' hand.".
     State read "Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant's trade-mark, as the sheds know it.".
-    Change read "Read the notches on the tally-stick" from shut to read.
+    Change read "Read the strokes on the wax tablet" from shut to read.
   }
   Observe {t}_tally_learned at {t}_taproom of {t}_tally as reading when state({t}_tally, read) "The dead man kept the count of oak cut behind the Hall's chain, and who bought it." teaches {t}_death_oak_fact.
-  Entity {t}_death_oak_fact: fact "Joss Hatherly's tally-stick records oak felled by night in the road-wood and sold under the merchant's pierced-circle mark: somebody was cutting behind the chain, and selling.".
+  Entity {t}_death_oak_fact: fact "Joss Hatherly's wax tablet records oak felled by night in the road-wood and sold under the merchant's pierced-circle mark: somebody was cutting behind the chain, and selling.".
   Topic {t}_keeper_last with {t}_innkeeper "Ask {{t}_innkeeper} about the dead man's last night" when true once {
-    Says "'Hatherly drank two ales and paid for neither,' says {{t}_innkeeper}, 'and put his tally-stick down on the bar and said he would be back for it before the dawn bell. He had a look on him like a man who has done sums and not liked the answer.' A pause. 'He was sober. Whatever else they say, he was sober.'".
+    Says "'Hatherly drank two ales and paid for neither,' says {{t}_innkeeper}, 'and put his tablet down on the bar and said he would be back for it before the dawn bell. He had a look on him like a man who has done sums and not liked the answer.' A pause. 'He was sober. Whatever else they say, he was sober.'".
     On discuss { Assert knows(actor, {t}_death_sober). }
   }
-  Entity {t}_death_sober: fact "The innkeeper says Hatherly was sober the night he died, and meant to come back for his tally-stick before dawn.".
-  Topic {t}_merchant_oak_ask with {t}_merchant "Ask {{t}_merchant} about Hatherly's tally-stick" when knows(party, {t}_death_oak_fact) once {
+  Entity {t}_death_sober: fact "The innkeeper says Hatherly was sober the night he died, and meant to come back for his tablet before dawn.".
+  Topic {t}_merchant_oak_ask with {t}_merchant "Ask {{t}_merchant} about Hatherly's wax tablet" when knows(party, {t}_death_oak_fact) once {
     Says "{{t}_merchant} does not look at the stick. 'Anyone can cut a mark,' says {{t}_merchant}. 'It is a circle with a hole in it; the children draw it in the dust.' A long moment. 'I bought oak. I asked where it came from and was told the wardens had a licence. I am a trader. I do not walk the woods.' It is exactly what a guilty man says, and what an honest one does.".
   }
   Topic {t}_priest_accident with {t}_priest "Tell {{t}_priest} that it was a drunkard's fall" when state({t}_dead, seen) and not {t}_death_told(party) once {
     Says "{{t}_priest} closes the book. 'If that is what you say,' they say, 'it is what will be said at the grave, and it will be a mercy to his daughter, who has the tally of his debts and does not need the tally of his sins.' They do not meet your eye. 'I hope you are right.'".
     On discuss { Assert {t}_death_accident(party). Assert {t}_death_told(party). }
   }
-  Topic {t}_reeve_oak_told with {t}_reeve "Tell {{t}_reeve} what the dead man's tally-stick says" when knows(party, {t}_death_oak_fact) and not {t}_death_told(party) once {
+  Topic {t}_reeve_oak_told with {t}_reeve "Tell {{t}_reeve} what the dead man's tablet says" when knows(party, {t}_death_oak_fact) and not {t}_death_told(party) once {
     Says "{{t}_reeve} takes the stick as if it were hot. 'The *Hall's* oak,' he says. 'Behind the Hall's own chain, felled by night, and sold under a mark the whole river knows.' He turns it. 'Joss kept the count. Joss was going to bring it to me.' He sits down. 'I will not accuse anyone I cannot prove it of. But I will ask the merchant to my table, and I will not sit on the side of the table nearest the door.'".
     On discuss { Assert {t}_death_oak(party). Assert {t}_death_told(party). Increase quantity(actor, gold) by 15. }
   }

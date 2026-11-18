@@ -740,6 +740,30 @@
         "kind": "person"
       },
       "text": "‘You,’ [say|says] {actor}. It is not a welcome."
+    },
+    {
+      "id": "address.owing.first",
+      "when": {
+        "owing": "yes",
+        "moment": "first"
+      },
+      "text": "{Actor} [look|looks] up as you come, and [read|reads] in your face that it is done."
+    },
+    {
+      "id": "address.owing.first.2",
+      "when": {
+        "owing": "yes",
+        "moment": "first"
+      },
+      "text": "{Actor} [set|sets] down what {they} [are|is] doing. ‘Well?’"
+    },
+    {
+      "id": "address.owing.again",
+      "when": {
+        "owing": "yes",
+        "moment": "again"
+      },
+      "text": "{Actor} [stand|stands] when {they} [see|sees] you. ‘You’re back. Tell me.’"
     }
   ]
 }

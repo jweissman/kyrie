@@ -17,8 +17,10 @@ describe('a facet drawn is a promise the act keeps', () => {
     });
   }
   it('is broken where an act is drawn for what it does not bring', async () => {
-    const fork = async () => (await Atlas.start('payoff', 'green')).session;
-    const read = await RunnerFidelity.of((await Atlas.start('payoff', 'green')).glance, fork,
+    // Where the payoff lies on the lane, the green has nothing but the way there: a way untaken pads the four only
+    // beside no act (CL-25).
+    const fork = async () => (await Atlas.start('payoff', 'lane')).session;
+    const read = await RunnerFidelity.of((await Atlas.start('payoff', 'lane')).glance, fork,
       { payoff: ['go(t__g_l,t__lane)'] });
     expect(read.broken).toEqual(['To the lane: drawn payoff, brought none']);
   });

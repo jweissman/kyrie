@@ -134,9 +134,14 @@ export class RegionSites {
   // The way to a site, as the innkeeper tells it or as it is seen from somewhere high (see RegionSights): through its
   // wild country landmark by landmark to where its track starts, or where its track goes from. Named as the company
   // knows it when it reads it: the way to a timbered adit, or to Obscurusport once named.
+  // Where another's track starts there too, it says so: from the tower the dam and the long mound had been told by the
+  // same words, and read as a copy (cold play 3, CL-19).
   static way(seat: Seat, region: Region): string {
     const id = seat.site.id, zone = RegionGeography.atlas(region).zones.find(z => z.id === seat.site.zone);
-    return zone ? `The way to {${id}}: ${RegionZones.route(region, zone, seat.site.part ?? 0)}, where the track to it starts.`
+    const beside = zone && region.sites.find(s => s.id !== id && !s.work?.great && s.zone === zone.id
+      && (s.part ?? 0) === (seat.site.part ?? 0));
+    return zone ? `The way to {${id}}: ${RegionZones.route(region, zone, seat.site.part ?? 0)}, where the track to it starts`
+      + `${beside ? `, beside the track to {${beside.id}}` : ''}.`
       : `The way to {${id}}: the track to it goes from {${this.start(seat, region).from}}.`;
   }
   // The site's place and the track to it.

@@ -67,7 +67,7 @@ describe('somewhere high', () => {
       'To the north-west, not far off: a square doorway in a hillside in Birchwood.',
       'You know it by its look: that is Palelake.', 'It is your wayfinding that makes it out.',
       'The way to a square doorway in a hillside in Birchwood: to the edge of Birchwood by Newmeet, and on to the old bank,'
-      + ' where the track to it starts.']);
+      + ' where the track to it starts, beside the track to a toll-house by the water.']);
     expect(lines.filter(l => /^To the /.test(l))).toHaveLength(6);
     expect(lines.at(-1)).toBe('The way down is the stair you came up.');
     // Named, the doorway is somewhere to go into: an aim (the expedition diagnosis, change 1).
@@ -93,7 +93,7 @@ describe('somewhere high', () => {
     await GeneratedWorld.travel(s, 's1_shrine');
     await High.page(s, 'Climb the tower and look out over Newmeet');
     expect(ScreenModel.build(c).knowledge.map(k => k.text)).toContain('The way to Palelake: to the edge of Birchwood by'
-      + ' Newmeet, and on to the old bank, where the track to it starts.');
+      + ' Newmeet, and on to the old bank, where the track to it starts, beside the track to a toll-house by the water.');
     await GeneratedWorld.travel(s, 'z1_heart');
     expect(ScreenModel.build(c).exits.filter(e => e.destination.id === 'region__w3').map(e => e.destination.name))
       .toEqual(['Palelake']);

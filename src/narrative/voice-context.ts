@@ -1,6 +1,7 @@
 import { Canon } from '../canon/canon';
 import { ModuleWriter } from '../lang/module-writer';
 import { Narrator } from '../presentation/narrator';
+import { Owed } from '../ui/owed';
 import type { Campaign } from '../campaign/campaign';
 import type { Happening } from './happening';
 
@@ -18,7 +19,7 @@ export class VoiceContext {
     const place = world.one('at', company), shelter = (place && Narrator.shelter(campaign, place)) ?? 'outdoors';
     return { bond: this.bond(campaign, actor, company), manner: this.manner(campaign, actor),
       pronoun: this.pronoun(campaign, actor, kind), kind, ...species ? { species: this.base(species) } : {},
-      ...this.temper(campaign, actor), ...this.mood(campaign, actor),
+      ...this.temper(campaign, actor), ...this.mood(campaign, actor), ...this.owing(campaign, h),
       // Under the ground (or the sea) there is no hour to speak of: clerks in a lamp-lit hall under the sea said "Mind
       // how you go in the dark" (What Tessary Owes, W19).
       time: world.test(ModuleWriter.call('dark')) && shelter !== 'underground' ? 'night' : 'day',
@@ -63,6 +64,12 @@ export class VoiceContext {
   private static holds(campaign: Campaign, name: string, ...args: string[]): boolean {
     return campaign.world.module.relations.some(r => r.name === name)
       && campaign.world.test(ModuleWriter.call(name, ...args));
+  }
+  // Whether they have something for the company now (see Owed): the job it was sent on done, the wagoner's two coin.
+  // Spoken to, they take it as that, not as a stranger with a question: after the solemn reckoning in the catacombs,
+  // Leif had grinned "before you have said anything at all" (cold play 3, CL-22). Asked only of a greeting.
+  private static owing(campaign: Campaign, h: Happening): { owing?: string } {
+    return h.actor && ['greet', 'address'].includes(h.kind) && Owed.of(campaign).has(h.actor) ? { owing: 'yes' } : {};
   }
   // The temper a group has of its own (a place's dwellers: wary, territorial), which colours how it takes anything.
   private static temper(campaign: Campaign, actor: string): { temper?: string } {

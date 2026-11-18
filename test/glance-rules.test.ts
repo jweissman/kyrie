@@ -80,9 +80,12 @@ describe('the glance ranks', () => {
     const ways = ['a', 'b', 'c'].map(id => Made.c(`exit:${id}`, ['named'], { kind: 'way' }));
     expect(Made.ids(ways)).toEqual(['exit:a', 'exit:b']);
   });
-  it('leads with a way not yet taken only in a settlement, only while fewer than two are led with', () => {
+  // And never beside an act: beside Bran's line to read, "To the taproom of the Stone Horn" had led from the third turn
+  // on for no reason a player could see (cold plays 2 and 3, CL-25).
+  it('leads with a way not yet taken only in a settlement, and only beside nothing but ways and talks', () => {
     const lane = Made.c('exit:lane', ['unvisited'], { kind: 'way', minutes: 2 });
-    expect(Made.ids([Made.c('dog', ['sign']), lane])).toEqual(['dog', 'exit:lane']);
+    expect(Made.ids([lane])).toEqual(['exit:lane']);
+    expect(Made.ids([Made.c('dog', ['sign']), lane])).toEqual(['dog']);
     expect(Made.ids([Made.c('dog', ['sign']), Made.c('cat', ['sign']), lane])).toEqual(['dog', 'cat']);
     // Outside a settlement, or with a danger here, it is not led as new; where nothing else is led, it is the way on,
     // plainly, with nothing said of it (round 7: a scene with nothing more to do had shown nothing at all).

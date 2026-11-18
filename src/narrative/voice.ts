@@ -60,7 +60,7 @@ export class Voice {
     const sizes = [...new Set(lines.map(l => this.closeness(l)))].sort((a, b) => b - a);
     return sizes.map(n => lines.filter(l => this.closeness(l) === n));
   }
-  static readonly weights: Record<string, number> = { bond: 2, temper: 3, mood: 3 };
+  static readonly weights: Record<string, number> = { bond: 2, temper: 3, mood: 3, owing: 3 };
   private static closeness(line: VoiceLine): number {
     return Object.keys(line.when ?? {}).reduce((n, key) => n + (this.weights[key] ?? 1), 0);
   }
