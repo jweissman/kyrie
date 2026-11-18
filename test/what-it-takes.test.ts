@@ -95,7 +95,8 @@ describe('what it takes, as the page tells it', () => {
     const coin = () => s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')), before = coin();
     const told = await Barrow.take(s, /^Sell a jade idol to Mik$/);
     expect(offered?.note).toStartWith(`${coin() - before} coin`);
-    expect(told).toContain('Mik turns a jade idol over in the light');
+    // And says what it paid (cold play 2, CL-06).
+    expect(told).toContain(`Mik looks a jade idol over and pays you ${coin() - before} coin for it.`);
     expect(told).not.toContain('set down');
   }, 60000);
   it('lets what waits in the next room be heard before the company is in it', async () => {
