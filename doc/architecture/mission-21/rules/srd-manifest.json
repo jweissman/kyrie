@@ -1,0 +1,9583 @@
+[
+ {
+  "id": "acid-arrow",
+  "name": "Acid Arrow",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [
+   "attack.rangedTouch"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 2",
+  "mapped": "acid_arrow"
+ },
+ {
+  "id": "acid-fog",
+  "name": "Acid Fog",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6, Water 7"
+ },
+ {
+  "id": "acid-splash",
+  "name": "Acid Splash",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm"
+  ],
+  "missing": [
+   "attack.rangedTouch"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 0"
+ },
+ {
+  "id": "aid",
+  "name": "Aid",
+  "school": "enchantment",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 2, Good 2, Luck 2"
+ },
+ {
+  "id": "air-walk",
+  "name": "Air Walk",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [
+   "attack.meleeTouch"
+  ],
+  "grade": "E0",
+  "levels": "Air 4, Clr 4, Drd 4"
+ },
+ {
+  "id": "alarm",
+  "name": "Alarm",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Rgr 1, Sor/Wiz 1"
+ },
+ {
+  "id": "align-weapon",
+  "name": "Align Weapon",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2"
+ },
+ {
+  "id": "alter-self",
+  "name": "Alter Self",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "effect.transform"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "analyze-dweomer",
+  "name": "Analyze Dweomer",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal",
+   "target.object"
+  ],
+  "missing": [
+   "effect.reveal",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "animal-growth",
+  "name": "Animal Growth",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5, Rgr 4, Sor/Wiz 5"
+ },
+ {
+  "id": "animal-messenger",
+  "name": "Animal Messenger",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Drd 2, Rgr 1"
+ },
+ {
+  "id": "animal-shapes",
+  "name": "Animal Shapes",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "effect.transform"
+  ],
+  "grade": "E0",
+  "levels": "Animal 7, Drd 8"
+ },
+ {
+  "id": "animal-trance",
+  "name": "Animal Trance",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.concentration",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Drd 2"
+ },
+ {
+  "id": "animate-dead",
+  "name": "Animate Dead",
+  "school": "necromancy",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Clr 3, Death 3, Sor/Wiz 4",
+  "mapped": "animate_dead"
+ },
+ {
+  "id": "animate-objects",
+  "name": "Animate Objects",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Chaos 6, Clr 6"
+ },
+ {
+  "id": "animate-plants",
+  "name": "Animate Plants",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Drd 7, Plant 7"
+ },
+ {
+  "id": "animate-rope",
+  "name": "Animate Rope",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "attack.rangedTouch",
+   "duration.converted",
+   "effect.world",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "effect.world",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "antilife-shell",
+  "name": "Antilife Shell",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Animal 6, Clr 6, Drd 6"
+ },
+ {
+  "id": "antimagic-field",
+  "name": "Antimagic Field",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Magic 6, Protection 6, Sor/Wiz 6"
+ },
+ {
+  "id": "antipathy",
+  "name": "Antipathy",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 9, Sor/Wiz 8"
+ },
+ {
+  "id": "antiplant-shell",
+  "name": "Antiplant Shell",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 4"
+ },
+ {
+  "id": "arcane-eye",
+  "name": "Arcane Eye",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "arcane-lock",
+  "name": "Arcane Lock",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "arcane-mark",
+  "name": "Arcane Mark",
+  "school": "universal",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 0"
+ },
+ {
+  "id": "arcane-sight",
+  "name": "Arcane Sight",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "arcane-sight-greater",
+  "name": "Arcane Sight, Greater",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "astral-projection",
+  "name": "Astral Projection",
+  "school": "necromancy",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 9, Sor/Wiz 9, Travel 9"
+ },
+ {
+  "id": "atonement",
+  "name": "Atonement",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Drd 5"
+ },
+ {
+  "id": "augury",
+  "name": "Augury",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E1",
+  "levels": "Clr 2",
+  "mapped": "augury"
+ },
+ {
+  "id": "awaken",
+  "name": "Awaken",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5"
+ },
+ {
+  "id": "baleful-polymorph",
+  "name": "Baleful Polymorph",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "bane",
+  "name": "Bane",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 1",
+  "mapped": "mass_curse"
+ },
+ {
+  "id": "banishment",
+  "name": "Banishment",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Sor/Wiz 7"
+ },
+ {
+  "id": "barkskin",
+  "name": "Barkskin",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Drd 2, Rgr 2, Plant 2",
+  "mapped": "barkskin"
+ },
+ {
+  "id": "bears-endurance",
+  "name": "Bear’s Endurance",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Drd 2, Rgr 2, Sor/Wiz 2"
+ },
+ {
+  "id": "bears-endurance-mass",
+  "name": "Bear’s Endurance, Mass",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Drd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "bestow-curse",
+  "name": "Bestow Curse",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 3, Sor/Wiz 4",
+  "mapped": "curse"
+ },
+ {
+  "id": "binding",
+  "name": "Binding",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "black-tentacles",
+  "name": "Black Tentacles",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "blade-barrier",
+  "name": "Blade Barrier",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 6, Good 6, War 6",
+  "mapped": "blade_barrier"
+ },
+ {
+  "id": "blasphemy",
+  "name": "Blasphemy",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Evil 7"
+ },
+ {
+  "id": "bless",
+  "name": "Bless",
+  "school": "enchantment",
+  "family": "protection",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Clr 1, Pal 1",
+  "mapped": "bless"
+ },
+ {
+  "id": "bless-water",
+  "name": "Bless Water",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1, Pal 1"
+ },
+ {
+  "id": "bless-weapon",
+  "name": "Bless Weapon",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [
+   "attack.meleeTouch"
+  ],
+  "grade": "E0",
+  "levels": "Pal 1"
+ },
+ {
+  "id": "blight",
+  "name": "Blight",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 4, Sor/Wiz 5"
+ },
+ {
+  "id": "blindness-deafness",
+  "name": "Blindness/Deafness",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Clr 3, Sor/Wiz 2",
+  "mapped": "cause_blindness"
+ },
+ {
+  "id": "blink",
+  "name": "Blink",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "blur",
+  "name": "Blur",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Brd 2, Sor/Wiz 2",
+  "mapped": "blur"
+ },
+ {
+  "id": "break-enchantment",
+  "name": "Break Enchantment",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel",
+   "review.text"
+  ],
+  "missing": [
+   "effect.dispel",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Clr 5, Luck 5, Pal 4, Sor/Wiz 5"
+ },
+ {
+  "id": "bulls-strength",
+  "name": "Bull’s Strength",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Drd 2, Pal 2, Sor/Wiz 2, Strength 2"
+ },
+ {
+  "id": "bulls-strength-mass",
+  "name": "Bull’s Strength, Mass",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Drd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "burning-hands",
+  "name": "Burning Hands",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.cone",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Fire 1, Sor/Wiz 1",
+  "mapped": "burning_hands"
+ },
+ {
+  "id": "call-lightning",
+  "name": "Call Lightning",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.line",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 3"
+ },
+ {
+  "id": "call-lightning-storm",
+  "name": "Call Lightning Storm",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.line",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5"
+ },
+ {
+  "id": "calm-animals",
+  "name": "Calm Animals",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Animal 1, Drd 1, Rgr 1"
+ },
+ {
+  "id": "calm-emotions",
+  "name": "Calm Emotions",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Brd 2, Clr 2, Law 2",
+  "mapped": "calm_emotions"
+ },
+ {
+  "id": "cats-grace",
+  "name": "Cat’s Grace",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Drd 2, Rgr 2, Sor/Wiz 2"
+ },
+ {
+  "id": "cats-grace-mass",
+  "name": "Cat’s Grace, Mass",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Drd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "cause-fear",
+  "name": "Cause Fear",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Brd 1, Clr 1, Death 1, Sor/Wiz 1",
+  "mapped": "terror"
+ },
+ {
+  "id": "chain-lightning",
+  "name": "Chain Lightning",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.chain",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Air 6, Sor/Wiz 6",
+  "mapped": "chain_lightning"
+ },
+ {
+  "id": "changestaff",
+  "name": "Changestaff",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 7"
+ },
+ {
+  "id": "chaos-hammer",
+  "name": "Chaos Hammer",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Chaos 4"
+ },
+ {
+  "id": "charm-animal",
+  "name": "Charm Animal",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "charm-monster",
+  "name": "Charm Monster",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 4"
+ },
+ {
+  "id": "charm-monster-mass",
+  "name": "Charm Monster, Mass",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 6, Sor/Wiz 8",
+  "mapped": "mass_charm"
+ },
+ {
+  "id": "charm-person",
+  "name": "Charm Person",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 1, Sor/Wiz 1",
+  "mapped": "charm"
+ },
+ {
+  "id": "chill-metal",
+  "name": "Chill Metal",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2"
+ },
+ {
+  "id": "chill-touch",
+  "name": "Chill Touch",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "circle-of-death",
+  "name": "Circle of Death",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "clairaudience-clairvoyance",
+  "name": "Clairaudience/Clairvoyance",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Knowledge 3, Sor/Wiz 3"
+ },
+ {
+  "id": "clenched-fist",
+  "name": "Clenched Fist",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8, Strength 8"
+ },
+ {
+  "id": "cloak-of-chaos",
+  "name": "Cloak of Chaos",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Chaos 8, Clr 8"
+ },
+ {
+  "id": "clone",
+  "name": "Clone",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "cloudkill",
+  "name": "Cloudkill",
+  "school": "conjuration",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Sor/Wiz 5",
+  "mapped": "cloudkill"
+ },
+ {
+  "id": "color-spray",
+  "name": "Color Spray",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "area.cone",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "command",
+  "name": "Command",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Clr 1",
+  "mapped": "command"
+ },
+ {
+  "id": "command-greater",
+  "name": "Command, Greater",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5"
+ },
+ {
+  "id": "command-plants",
+  "name": "Command Plants",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 4, Plant 4, Rgr 3"
+ },
+ {
+  "id": "command-undead",
+  "name": "Command Undead",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "commune",
+  "name": "Commune",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5"
+ },
+ {
+  "id": "commune-with-nature",
+  "name": "Commune with Nature",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Animal 5, Drd 5, Rgr 4"
+ },
+ {
+  "id": "comprehend-languages",
+  "name": "Comprehend Languages",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Clr 1, Sor/Wiz 1"
+ },
+ {
+  "id": "cone-of-cold",
+  "name": "Cone of Cold",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.cone",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Sor/Wiz 5, Water 6",
+  "mapped": "cone_of_cold"
+ },
+ {
+  "id": "confusion",
+  "name": "Confusion",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 3, Sor/Wiz 4, Trickery 4",
+  "mapped": "confusion"
+ },
+ {
+  "id": "confusion-lesser",
+  "name": "Confusion, Lesser",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Brd 1",
+  "mapped": "confuse"
+ },
+ {
+  "id": "consecrate",
+  "name": "Consecrate",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2"
+ },
+ {
+  "id": "contact-other-plane",
+  "name": "Contact Other Plane",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "duration.concentration",
+   "effect.contact"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "contagion",
+  "name": "Contagion",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 3, Destruction 3, Drd 3, Sor/Wiz 4",
+  "mapped": "contagion"
+ },
+ {
+  "id": "contingency",
+  "name": "Contingency",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "continual-flame",
+  "name": "Continual Flame",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Sor/Wiz 2"
+ },
+ {
+  "id": "control-plants",
+  "name": "Control Plants",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Drd 8, Plant 8"
+ },
+ {
+  "id": "control-undead",
+  "name": "Control Undead",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 7",
+  "mapped": "control_undead"
+ },
+ {
+  "id": "control-water",
+  "name": "Control Water",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Drd 4, Sor/Wiz 6, Water 4"
+ },
+ {
+  "id": "control-weather",
+  "name": "Control Weather",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Air 7, Clr 7, Drd 7, Sor/Wiz 7"
+ },
+ {
+  "id": "control-winds",
+  "name": "Control Winds",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Air 5, Drd 5"
+ },
+ {
+  "id": "create-food-and-water",
+  "name": "Create Food and Water",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3"
+ },
+ {
+  "id": "create-greater-undead",
+  "name": "Create Greater Undead",
+  "school": "necromancy",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Death 8, Sor/Wiz 8"
+ },
+ {
+  "id": "create-undead",
+  "name": "Create Undead",
+  "school": "necromancy",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Death 6, Evil 6, Sor/Wiz 6"
+ },
+ {
+  "id": "create-water",
+  "name": "Create Water",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Clr 0, Drd 0, Pal 1"
+ },
+ {
+  "id": "creeping-doom",
+  "name": "Creeping Doom",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 7"
+ },
+ {
+  "id": "crushing-despair",
+  "name": "Crushing Despair",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.cone",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 4"
+ },
+ {
+  "id": "crushing-hand",
+  "name": "Crushing Hand",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9, Strength 9"
+ },
+ {
+  "id": "cure-critical-wounds",
+  "name": "Cure Critical Wounds",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Brd 4, Clr 4, Drd 5, Healing 4",
+  "mapped": "cure_critical"
+ },
+ {
+  "id": "cure-critical-wounds-mass",
+  "name": "Cure Critical Wounds, Mass",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 8, Drd 9, Healing 8"
+ },
+ {
+  "id": "cure-light-wounds",
+  "name": "Cure Light Wounds",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Brd 1, Clr 1, Drd 1, Healing 1, Pal 1, Rgr 2",
+  "mapped": "cure"
+ },
+ {
+  "id": "cure-light-wounds-mass",
+  "name": "Cure Light Wounds, Mass",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 5, Clr 5, Drd 6, Healing 5"
+ },
+ {
+  "id": "cure-minor-wounds",
+  "name": "Cure Minor Wounds",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Clr 0, Drd 0",
+  "mapped": "cure_minor"
+ },
+ {
+  "id": "cure-moderate-wounds",
+  "name": "Cure Moderate Wounds",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Brd 2, Clr 2, Drd 3, Healing 2, Pal 3, Rgr 3",
+  "mapped": "cure_moderate"
+ },
+ {
+  "id": "cure-moderate-wounds-mass",
+  "name": "Cure Moderate Wounds, Mass",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 6, Clr 6, Drd 7"
+ },
+ {
+  "id": "cure-serious-wounds",
+  "name": "Cure Serious Wounds",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Brd 3, Clr 3, Drd 4, Pal 4, Rgr 4, Healing 3",
+  "mapped": "cure_serious"
+ },
+ {
+  "id": "cure-serious-wounds-mass",
+  "name": "Cure Serious Wounds, Mass",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 7, Drd 8"
+ },
+ {
+  "id": "curse-water",
+  "name": "Curse Water",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "dancing-lights",
+  "name": "Dancing Lights",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Brd 0, Sor/Wiz 0",
+  "mapped": "dancing_lights"
+ },
+ {
+  "id": "darkness",
+  "name": "Darkness",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Clr 2, Sor/Wiz 2",
+  "mapped": "create_darkness"
+ },
+ {
+  "id": "darkvision",
+  "name": "Darkvision",
+  "school": "transmutation",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Rgr 3, Sor/Wiz 2"
+ },
+ {
+  "id": "daylight",
+  "name": "Daylight",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E1",
+  "levels": "Brd 3, Clr 3, Drd 3, Pal 3, Sor/Wiz 3",
+  "mapped": "daylight"
+ },
+ {
+  "id": "daze",
+  "name": "Daze",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "daze-monster",
+  "name": "Daze Monster",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "death-knell",
+  "name": "Death Knell",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Death 2"
+ },
+ {
+  "id": "death-ward",
+  "name": "Death Ward",
+  "school": "necromancy",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Clr 4, Death 4, Drd 5, Pal 4",
+  "mapped": "death_ward"
+ },
+ {
+  "id": "deathwatch",
+  "name": "Deathwatch",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "area.cone",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "deep-slumber",
+  "name": "Deep Slumber",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "deeper-darkness",
+  "name": "Deeper Darkness",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3"
+ },
+ {
+  "id": "delay-poison",
+  "name": "Delay Poison",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "duration.converted",
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Clr 2, Drd 2, Pal 2, Rgr 1"
+ },
+ {
+  "id": "delayed-blast-fireball",
+  "name": "Delayed Blast Fireball",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "demand",
+  "name": "Demand",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "desecrate",
+  "name": "Desecrate",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Evil 2"
+ },
+ {
+  "id": "destruction",
+  "name": "Destruction",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Death 7"
+ },
+ {
+  "id": "detect-animals-or-plants",
+  "name": "Detect Animals or Plants",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "detect-chaos",
+  "name": "Detect Chaos",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "detect-evil",
+  "name": "Detect Evil",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "detect-good",
+  "name": "Detect Good",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "detect-law",
+  "name": "Detect Law",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "detect-magic",
+  "name": "Detect Magic",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Clr 0, Drd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "detect-poison",
+  "name": "Detect Poison",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 0, Drd 0, Pal 1, Rgr 1, Sor/Wiz 0"
+ },
+ {
+  "id": "detect-scrying",
+  "name": "Detect Scrying",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.burst",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "detect-secret-doors",
+  "name": "Detect Secret Doors",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Knowledge 1, Sor/Wiz 1"
+ },
+ {
+  "id": "detect-snares-and-pits",
+  "name": "Detect Snares and Pits",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "detect-thoughts",
+  "name": "Detect Thoughts",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Knowledge 2, Sor/Wiz 2",
+  "mapped": "mind_reading"
+ },
+ {
+  "id": "detect-undead",
+  "name": "Detect Undead",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.cone",
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1, Pal 1, Sor/Wiz 1"
+ },
+ {
+  "id": "dictum",
+  "name": "Dictum",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Law 7"
+ },
+ {
+  "id": "dimension-door",
+  "name": "Dimension Door",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4, Travel 4"
+ },
+ {
+  "id": "dimensional-anchor",
+  "name": "Dimensional Anchor",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "attack.rangedTouch",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Sor/Wiz 4"
+ },
+ {
+  "id": "dimensional-lock",
+  "name": "Dimensional Lock",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Sor/Wiz 8"
+ },
+ {
+  "id": "diminish-plants",
+  "name": "Diminish Plants",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 3, Rgr 3"
+ },
+ {
+  "id": "discern-lies",
+  "name": "Discern Lies",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Pal 3"
+ },
+ {
+  "id": "discern-location",
+  "name": "Discern Location",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal",
+   "target.object"
+  ],
+  "missing": [
+   "effect.reveal",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Knowledge 8, Sor/Wiz 8"
+ },
+ {
+  "id": "disguise-self",
+  "name": "Disguise Self",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1, Trickery 1"
+ },
+ {
+  "id": "disintegrate",
+  "name": "Disintegrate",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Destruction 7, Sor/Wiz 6",
+  "mapped": "disintegrate"
+ },
+ {
+  "id": "dismissal",
+  "name": "Dismissal",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Sor/Wiz 5"
+ },
+ {
+  "id": "dispel-chaos",
+  "name": "Dispel Chaos",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "duration.converted",
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Law 5, Pal 4"
+ },
+ {
+  "id": "dispel-evil",
+  "name": "Dispel Evil",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Good 5, Pal 4"
+ },
+ {
+  "id": "dispel-good",
+  "name": "Dispel Good",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "duration.converted",
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Evil 5"
+ },
+ {
+  "id": "dispel-law",
+  "name": "Dispel Law",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "duration.converted",
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "effect.dispel",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Chaos 5, Clr 5"
+ },
+ {
+  "id": "dispel-magic",
+  "name": "Dispel Magic",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E1",
+  "levels": "Brd 3, Clr 3, Drd 4, Magic 3, Pal 3, Sor/Wiz 3",
+  "mapped": "dispel_magic"
+ },
+ {
+  "id": "dispel-magic-greater",
+  "name": "Dispel Magic, Greater",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Clr 6, Drd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "displacement",
+  "name": "Displacement",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "disrupt-undead",
+  "name": "Disrupt Undead",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 0"
+ },
+ {
+  "id": "disrupting-weapon",
+  "name": "Disrupting Weapon",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5"
+ },
+ {
+  "id": "divination",
+  "name": "Divination",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Knowledge 4"
+ },
+ {
+  "id": "divine-favor",
+  "name": "Divine Favor",
+  "school": "evocation",
+  "family": "protection",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Clr 1, Pal 1",
+  "mapped": "divine_favor"
+ },
+ {
+  "id": "divine-power",
+  "name": "Divine Power",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Clr 4, War 4",
+  "mapped": "divine_power"
+ },
+ {
+  "id": "dominate-animal",
+  "name": "Dominate Animal",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Animal 3, Drd 3"
+ },
+ {
+  "id": "dominate-monster",
+  "name": "Dominate Monster",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 9",
+  "mapped": "domination"
+ },
+ {
+  "id": "dominate-person",
+  "name": "Dominate Person",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 4, Sor/Wiz 5",
+  "mapped": "dominate_person"
+ },
+ {
+  "id": "doom",
+  "name": "Doom",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "dream",
+  "name": "Dream",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "eagles-splendor",
+  "name": "Eagle’s Splendor",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Clr 2, Pal 2, Sor/Wiz 2"
+ },
+ {
+  "id": "eagles-splendor-mass",
+  "name": "Eagle’s Splendor, Mass",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Clr 6, Sor/Wiz 6"
+ },
+ {
+  "id": "earthquake",
+  "name": "Earthquake",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "review.text"
+  ],
+  "missing": [
+   "review.text"
+  ],
+  "grade": "E1",
+  "levels": "Clr 8, Destruction 8, Drd 8, Earth 7",
+  "mapped": "earthquake"
+ },
+ {
+  "id": "elemental-swarm",
+  "name": "Elemental Swarm",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Air 9, Drd 9, Earth 9, Fire 9, Water 9"
+ },
+ {
+  "id": "endure-elements",
+  "name": "Endure Elements",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Drd 1, Pal 1, Rgr 1, Sor/Wiz 1, Sun 1"
+ },
+ {
+  "id": "energy-drain",
+  "name": "Energy Drain",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 9, Sor/Wiz 9"
+ },
+ {
+  "id": "enervation",
+  "name": "Enervation",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "enlarge-person",
+  "name": "Enlarge Person",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 1, Strength 1",
+  "mapped": "enlarge"
+ },
+ {
+  "id": "enlarge-person-mass",
+  "name": "Enlarge Person, Mass",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "entangle",
+  "name": "Entangle",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Drd 1, Plant 1, Rgr 1",
+  "mapped": "entangle"
+ },
+ {
+  "id": "enthrall",
+  "name": "Enthrall",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Clr 2"
+ },
+ {
+  "id": "entropic-shield",
+  "name": "Entropic Shield",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Luck 1"
+ },
+ {
+  "id": "erase",
+  "name": "Erase",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "ethereal-jaunt",
+  "name": "Ethereal Jaunt",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 7, Sor/Wiz 7"
+ },
+ {
+  "id": "etherealness",
+  "name": "Etherealness",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 9, Sor/Wiz 9"
+ },
+ {
+  "id": "expeditious-retreat",
+  "name": "Expeditious Retreat",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "explosive-runes",
+  "name": "Explosive Runes",
+  "school": "abjuration",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell",
+   "review.text",
+   "target.object"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell",
+   "review.text",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "eyebite",
+  "name": "Eyebite",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "fabricate",
+  "name": "Fabricate",
+  "school": "transmutation",
+  "family": "creation",
+  "needs": [
+   "effect.create",
+   "review.text"
+  ],
+  "missing": [
+   "effect.create",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "faerie-fire",
+  "name": "Faerie Fire",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1"
+ },
+ {
+  "id": "false-life",
+  "name": "False Life",
+  "school": "necromancy",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Sor/Wiz 2",
+  "mapped": "false_life"
+ },
+ {
+  "id": "false-vision",
+  "name": "False Vision",
+  "school": "illusion",
+  "family": "divination",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5, Trickery 5"
+ },
+ {
+  "id": "fear",
+  "name": "Fear",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "area.cone",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 4"
+ },
+ {
+  "id": "feather-fall",
+  "name": "Feather Fall",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "feeblemind",
+  "name": "Feeblemind",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "find-the-path",
+  "name": "Find the Path",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Clr 6, Drd 6, Knowledge 6, Travel 6"
+ },
+ {
+  "id": "find-traps",
+  "name": "Find Traps",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2"
+ },
+ {
+  "id": "finger-of-death",
+  "name": "Finger of Death",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Drd 8, Sor/Wiz 7",
+  "mapped": "finger_of_death"
+ },
+ {
+  "id": "fire-seeds",
+  "name": "Fire Seeds",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6, Fire 6, Sun 6"
+ },
+ {
+  "id": "fire-shield",
+  "name": "Fire Shield",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Fire 5, Sor/Wiz 4, Sun 4"
+ },
+ {
+  "id": "fire-storm",
+  "name": "Fire Storm",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 8, Drd 7, Fire 7",
+  "mapped": "fire_storm"
+ },
+ {
+  "id": "fire-trap",
+  "name": "Fire Trap",
+  "school": "abjuration",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Sor/Wiz 4"
+ },
+ {
+  "id": "fireball",
+  "name": "Fireball",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Sor/Wiz 3",
+  "mapped": "fireball"
+ },
+ {
+  "id": "flame-arrow",
+  "name": "Flame Arrow",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "flame-blade",
+  "name": "Flame Blade",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2"
+ },
+ {
+  "id": "flame-strike",
+  "name": "Flame Strike",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Drd 4, Sun 5, War 5"
+ },
+ {
+  "id": "flaming-sphere",
+  "name": "Flaming Sphere",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "flare",
+  "name": "Flare",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Drd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "flesh-to-stone",
+  "name": "Flesh to Stone",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 6",
+  "mapped": "flesh_to_stone"
+ },
+ {
+  "id": "floating-disk",
+  "name": "Floating Disk",
+  "school": "evocation",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "fly",
+  "name": "Fly",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Sor/Wiz 3, Travel 3",
+  "mapped": "flight"
+ },
+ {
+  "id": "fog-cloud",
+  "name": "Fog Cloud",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Sor/Wiz 2, Water 2"
+ },
+ {
+  "id": "forbiddance",
+  "name": "Forbiddance",
+  "school": "abjuration",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6"
+ },
+ {
+  "id": "forcecage",
+  "name": "Forcecage",
+  "school": "evocation",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "forceful-hand",
+  "name": "Forceful Hand",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "foresight",
+  "name": "Foresight",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal",
+   "review.text"
+  ],
+  "missing": [
+   "effect.reveal",
+   "review.text"
+  ],
+  "grade": "E1",
+  "levels": "Drd 9, Knowledge 9, Sor/Wiz 9",
+  "mapped": "foresight"
+ },
+ {
+  "id": "foxs-cunning",
+  "name": "Fox’s Cunning",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "foxs-cunning-mass",
+  "name": "Fox’s Cunning, Mass",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "freedom",
+  "name": "Freedom",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9"
+ },
+ {
+  "id": "freedom-of-movement",
+  "name": "Freedom of Movement",
+  "school": "abjuration",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 4, Clr 4, Drd 4, Luck 4, Rgr 4"
+ },
+ {
+  "id": "freezing-sphere",
+  "name": "Freezing Sphere",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "gaseous-form",
+  "name": "Gaseous Form",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Air 3, Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "gate",
+  "name": "Gate",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.summon",
+   "review.text"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.summon",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 9, Sor/Wiz 9"
+ },
+ {
+  "id": "geas-lesser",
+  "name": "Geas, Lesser",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 4"
+ },
+ {
+  "id": "geas-quest",
+  "name": "Geas/Quest",
+  "school": "enchantment",
+  "family": "damage",
+  "needs": [
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 6, Clr 6, Sor/Wiz 6"
+ },
+ {
+  "id": "gentle-repose",
+  "name": "Gentle Repose",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Sor/Wiz 3"
+ },
+ {
+  "id": "ghost-sound",
+  "name": "Ghost Sound",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "ghoul-touch",
+  "name": "Ghoul Touch",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 2",
+  "mapped": "paralyzing_touch"
+ },
+ {
+  "id": "giant-vermin",
+  "name": "Giant Vermin",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Drd 4"
+ },
+ {
+  "id": "glibness",
+  "name": "Glibness",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3"
+ },
+ {
+  "id": "glitterdust",
+  "name": "Glitterdust",
+  "school": "conjuration",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "globe-of-invulnerability",
+  "name": "Globe of Invulnerability",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Sor/Wiz 6",
+  "mapped": "invulnerability"
+ },
+ {
+  "id": "globe-of-invulnerability-lesser",
+  "name": "Globe of Invulnerability, Lesser",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "glyph-of-warding",
+  "name": "Glyph of Warding",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.condition",
+   "review.text"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "review.text"
+  ],
+  "grade": "E1",
+  "levels": "Clr 3",
+  "mapped": "glyph_of_warding"
+ },
+ {
+  "id": "glyph-of-warding-greater",
+  "name": "Glyph of Warding, Greater",
+  "school": "abjuration",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "review.text"
+  ],
+  "missing": [
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6"
+ },
+ {
+  "id": "good-hope",
+  "name": "Good Hope",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3"
+ },
+ {
+  "id": "goodberry",
+  "name": "Goodberry",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Drd 1",
+  "mapped": "goodberry"
+ },
+ {
+  "id": "grasping-hand",
+  "name": "Grasping Hand",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7, Strength 7"
+ },
+ {
+  "id": "grease",
+  "name": "Grease",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "guards-and-wards",
+  "name": "Guards and Wards",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "review.text"
+  ],
+  "missing": [
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "guidance",
+  "name": "Guidance",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.reveal",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 0, Drd 0"
+ },
+ {
+  "id": "gust-of-wind",
+  "name": "Gust of Wind",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.line",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "hallow",
+  "name": "Hallow",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Drd 5"
+ },
+ {
+  "id": "hallucinatory-terrain",
+  "name": "Hallucinatory Terrain",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "halt-undead",
+  "name": "Halt Undead",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "harm",
+  "name": "Harm",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 6, Destruction 6",
+  "mapped": "harm"
+ },
+ {
+  "id": "haste",
+  "name": "Haste",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Brd 3, Sor/Wiz 3",
+  "mapped": "haste"
+ },
+ {
+  "id": "heal",
+  "name": "Heal",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Clr 6, Drd 7, Healing 6",
+  "mapped": "heal"
+ },
+ {
+  "id": "heal-mass",
+  "name": "Heal, Mass",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Clr 9, Healing 9",
+  "mapped": "mass_heal"
+ },
+ {
+  "id": "heal-mount",
+  "name": "Heal Mount",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Pal 3"
+ },
+ {
+  "id": "heat-metal",
+  "name": "Heat Metal",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Sun 2"
+ },
+ {
+  "id": "helping-hand",
+  "name": "Helping Hand",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3"
+ },
+ {
+  "id": "heroes-feast",
+  "name": "Heroes’ Feast",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Clr 6"
+ },
+ {
+  "id": "heroism",
+  "name": "Heroism",
+  "school": "enchantment",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 3"
+ },
+ {
+  "id": "heroism-greater",
+  "name": "Heroism, Greater",
+  "school": "enchantment",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 6"
+ },
+ {
+  "id": "hide-from-animals",
+  "name": "Hide From Animals",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "hide-from-undead",
+  "name": "Hide From Undead",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1"
+ },
+ {
+  "id": "hideous-laughter",
+  "name": "Hideous Laughter",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 2"
+ },
+ {
+  "id": "hold-animal",
+  "name": "Hold Animal",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Animal 2, Drd 2, Rgr 2",
+  "mapped": "hold_animal"
+ },
+ {
+  "id": "hold-monster",
+  "name": "Hold Monster",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Law 6, Sor/Wiz 5"
+ },
+ {
+  "id": "hold-monster-mass",
+  "name": "Hold Monster, Mass",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9"
+ },
+ {
+  "id": "hold-person",
+  "name": "Hold Person",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Brd 2, Clr 2, Sor/Wiz 3",
+  "mapped": "hold_person"
+ },
+ {
+  "id": "hold-person-mass",
+  "name": "Hold Person, Mass",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "hold-portal",
+  "name": "Hold Portal",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "holy-aura",
+  "name": "Holy Aura",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Good 8"
+ },
+ {
+  "id": "holy-smite",
+  "name": "Holy Smite",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Good 4",
+  "mapped": "holy_wrath"
+ },
+ {
+  "id": "holy-sword",
+  "name": "Holy Sword",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [
+   "attack.meleeTouch"
+  ],
+  "grade": "E0",
+  "levels": "Pal 4"
+ },
+ {
+  "id": "holy-word",
+  "name": "Holy Word",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Good 7"
+ },
+ {
+  "id": "horrid-wilting",
+  "name": "Horrid Wilting",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8, Water 8"
+ },
+ {
+  "id": "hypnotic-pattern",
+  "name": "Hypnotic Pattern",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "hypnotism",
+  "name": "Hypnotism",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "ice-storm",
+  "name": "Ice Storm",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Drd 4, Sor/Wiz 4, Water 5",
+  "mapped": "ice_storm"
+ },
+ {
+  "id": "identify",
+  "name": "Identify",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal",
+   "target.object"
+  ],
+  "missing": [
+   "effect.reveal",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Magic 2, Sor/Wiz 1"
+ },
+ {
+  "id": "illusory-script",
+  "name": "Illusory Script",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "illusory-wall",
+  "name": "Illusory Wall",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "imbue-with-spell-ability",
+  "name": "Imbue with Spell Ability",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Magic 4"
+ },
+ {
+  "id": "implosion",
+  "name": "Implosion",
+  "school": "evocation",
+  "family": "control",
+  "needs": [
+   "duration.concentration",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 9, Destruction 9",
+  "mapped": "implosion"
+ },
+ {
+  "id": "imprisonment",
+  "name": "Imprisonment",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9"
+ },
+ {
+  "id": "incendiary-cloud",
+  "name": "Incendiary Cloud",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Fire 8, Sor/Wiz 8"
+ },
+ {
+  "id": "inflict-critical-wounds",
+  "name": "Inflict Critical Wounds",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Destruction 4"
+ },
+ {
+  "id": "inflict-critical-wounds-mass",
+  "name": "Inflict Critical Wounds, Mass",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 8"
+ },
+ {
+  "id": "inflict-light-wounds",
+  "name": "Inflict Light Wounds",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 1, Destruction 1"
+ },
+ {
+  "id": "inflict-light-wounds-mass",
+  "name": "Inflict Light Wounds, Mass",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Destruction 5"
+ },
+ {
+  "id": "inflict-minor-wounds",
+  "name": "Inflict Minor Wounds",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 0"
+ },
+ {
+  "id": "inflict-moderate-wounds",
+  "name": "Inflict Moderate Wounds",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2"
+ },
+ {
+  "id": "inflict-moderate-wounds-mass",
+  "name": "Inflict Moderate Wounds, Mass",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 6"
+ },
+ {
+  "id": "inflict-serious-wounds",
+  "name": "Inflict Serious Wounds",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3"
+ },
+ {
+  "id": "inflict-serious-wounds-mass",
+  "name": "Inflict Serious Wounds, Mass",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 7"
+ },
+ {
+  "id": "insanity",
+  "name": "Insanity",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 7",
+  "mapped": "insanity"
+ },
+ {
+  "id": "insect-plague",
+  "name": "Insect Plague",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Drd 5"
+ },
+ {
+  "id": "instant-summons",
+  "name": "Instant Summons",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon",
+   "target.object"
+  ],
+  "missing": [
+   "effect.summon",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "interposing-hand",
+  "name": "Interposing Hand",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "invisibility",
+  "name": "Invisibility",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Sor/Wiz 2, Trickery 2",
+  "mapped": "invisibility"
+ },
+ {
+  "id": "invisibility-greater",
+  "name": "Invisibility, Greater",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "invisibility-mass",
+  "name": "Invisibility, Mass",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "invisibility-purge",
+  "name": "Invisibility Purge",
+  "school": "evocation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 3"
+ },
+ {
+  "id": "invisibility-sphere",
+  "name": "Invisibility Sphere",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "iron-body",
+  "name": "Iron Body",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Earth 8, Sor/Wiz 8"
+ },
+ {
+  "id": "ironwood",
+  "name": "Ironwood",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6"
+ },
+ {
+  "id": "irresistible-dance",
+  "name": "Irresistible Dance",
+  "school": "enchantment",
+  "family": "protection",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 8"
+ },
+ {
+  "id": "jump",
+  "name": "Jump",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1, Sor/Wiz 1"
+ },
+ {
+  "id": "keen-edge",
+  "name": "Keen Edge",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "knock",
+  "name": "Knock",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 2",
+  "mapped": "knock"
+ },
+ {
+  "id": "know-direction",
+  "name": "Know Direction",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Drd 0"
+ },
+ {
+  "id": "legend-lore",
+  "name": "Legend Lore",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Knowledge 7, Sor/Wiz 6"
+ },
+ {
+  "id": "levitate",
+  "name": "Levitate",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "light",
+  "name": "Light",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E1",
+  "levels": "Brd 0, Clr 0, Drd 0, Sor/Wiz 0",
+  "mapped": "conjure_light"
+ },
+ {
+  "id": "lightning-bolt",
+  "name": "Lightning Bolt",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.line",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Sor/Wiz 3",
+  "mapped": "lightning_bolt"
+ },
+ {
+  "id": "limited-wish",
+  "name": "Limited Wish",
+  "school": "universal",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "liveoak",
+  "name": "Liveoak",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6"
+ },
+ {
+  "id": "locate-creature",
+  "name": "Locate Creature",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "locate-object",
+  "name": "Locate Object",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Clr 3, Sor/Wiz 2, Travel 2"
+ },
+ {
+  "id": "longstrider",
+  "name": "Longstrider",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1, Travel 1"
+ },
+ {
+  "id": "lullaby",
+  "name": "Lullaby",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0"
+ },
+ {
+  "id": "mage-armor",
+  "name": "Mage Armor",
+  "school": "conjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Sor/Wiz 1",
+  "mapped": "armor"
+ },
+ {
+  "id": "mage-hand",
+  "name": "Mage Hand",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.concentration",
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "mages-disjunction",
+  "name": "Mage’s Disjunction",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "area.burst",
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Magic 9, Sor/Wiz 9"
+ },
+ {
+  "id": "mages-faithful-hound",
+  "name": "Mage’s Faithful Hound",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "mages-lucubration",
+  "name": "Mage’s Lucubration",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Wiz 6"
+ },
+ {
+  "id": "mages-magnificent-mansion",
+  "name": "Mage’s Magnificent Mansion",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "mages-private-sanctum",
+  "name": "Mage’s Private Sanctum",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "mages-sword",
+  "name": "Mage’s Sword",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "magic-aura",
+  "name": "Magic Aura",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest",
+   "target.object"
+  ],
+  "missing": [
+   "effect.manifest",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Magic 1, Sor/Wiz 1"
+ },
+ {
+  "id": "magic-circle-against-chaos",
+  "name": "Magic Circle Against Chaos",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Law 3, Pal 3, Sor/Wiz 3"
+ },
+ {
+  "id": "magic-circle-against-evil",
+  "name": "Magic Circle Against Evil",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Good 3, Pal 3, Sor/Wiz 3"
+ },
+ {
+  "id": "magic-circle-against-good",
+  "name": "Magic Circle Against Good",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Evil 3, Sor/Wiz 3"
+ },
+ {
+  "id": "magic-circle-against-law",
+  "name": "Magic Circle Against Law",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Chaos 3, Clr 3, Sor/Wiz 3"
+ },
+ {
+  "id": "magic-fang",
+  "name": "Magic Fang",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "magic-fang-greater",
+  "name": "Magic Fang, Greater",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Drd 3, Rgr 3"
+ },
+ {
+  "id": "magic-jar",
+  "name": "Magic Jar",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "magic-missile",
+  "name": "Magic Missile",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Sor/Wiz 1",
+  "mapped": "magic_missile"
+ },
+ {
+  "id": "magic-mouth",
+  "name": "Magic Mouth",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 2"
+ },
+ {
+  "id": "magic-stone",
+  "name": "Magic Stone",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Drd 1, Earth 1"
+ },
+ {
+  "id": "magic-vestment",
+  "name": "Magic Vestment",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 3, Strength 3, War 3"
+ },
+ {
+  "id": "magic-weapon",
+  "name": "Magic Weapon",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Pal 1, Sor/Wiz 1, War 1"
+ },
+ {
+  "id": "magic-weapon-greater",
+  "name": "Magic Weapon, Greater",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 4, Pal 3, Sor/Wiz 3"
+ },
+ {
+  "id": "major-creation",
+  "name": "Major Creation",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "effect.create",
+   "target.object"
+  ],
+  "missing": [
+   "effect.create",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "major-image",
+  "name": "Major Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "grade": "E1",
+  "levels": "Brd 3, Sor/Wiz 3",
+  "mapped": "image"
+ },
+ {
+  "id": "make-whole",
+  "name": "Make Whole",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2"
+ },
+ {
+  "id": "mark-of-justice",
+  "name": "Mark of Justice",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Pal 4"
+ },
+ {
+  "id": "maze",
+  "name": "Maze",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 8",
+  "mapped": "maze"
+ },
+ {
+  "id": "meld-into-stone",
+  "name": "Meld Into Stone",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 3, Drd 3"
+ },
+ {
+  "id": "mending",
+  "name": "Mending",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Clr 0, Drd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "message",
+  "name": "Message",
+  "school": "transmutation",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "meteor-swarm",
+  "name": "Meteor Swarm",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 9",
+  "mapped": "meteor_swarm"
+ },
+ {
+  "id": "mind-blank",
+  "name": "Mind Blank",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Protection 8, Sor/Wiz 8",
+  "mapped": "mind_blank"
+ },
+ {
+  "id": "mind-fog",
+  "name": "Mind Fog",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "minor-creation",
+  "name": "Minor Creation",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create",
+   "target.object"
+  ],
+  "missing": [
+   "effect.create",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "minor-image",
+  "name": "Minor Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Sor/Wiz 2",
+  "mapped": "minor_image"
+ },
+ {
+  "id": "miracle",
+  "name": "Miracle",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 9, Luck 9"
+ },
+ {
+  "id": "mirage-arcana",
+  "name": "Mirage Arcana",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "mirror-image",
+  "name": "Mirror Image",
+  "school": "illusion",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Brd 2, Sor/Wiz 2",
+  "mapped": "mirror_image"
+ },
+ {
+  "id": "misdirection",
+  "name": "Misdirection",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest",
+   "target.object"
+  ],
+  "missing": [
+   "effect.manifest",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "mislead",
+  "name": "Mislead",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Luck 6, Sor/Wiz 6, Trickery 6"
+ },
+ {
+  "id": "mnemonic-enhancer",
+  "name": "Mnemonic Enhancer",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Wiz 4"
+ },
+ {
+  "id": "modify-memory",
+  "name": "Modify Memory",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4"
+ },
+ {
+  "id": "moment-of-prescience",
+  "name": "Moment of Prescience",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Luck 8, Sor/Wiz 8"
+ },
+ {
+  "id": "mount",
+  "name": "Mount",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "move-earth",
+  "name": "Move Earth",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "neutralize-poison",
+  "name": "Neutralize Poison",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "duration.converted",
+   "effect.dispel",
+   "target.object"
+  ],
+  "missing": [
+   "effect.dispel",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Clr 4, Drd 3, Pal 4, Rgr 3"
+ },
+ {
+  "id": "nightmare",
+  "name": "Nightmare",
+  "school": "illusion",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 5, Sor/Wiz 5",
+  "mapped": "nightmare"
+ },
+ {
+  "id": "nondetection",
+  "name": "Nondetection",
+  "school": "abjuration",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal",
+   "target.object"
+  ],
+  "missing": [
+   "effect.reveal",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Rgr 4, Sor/Wiz 3, Trickery 3"
+ },
+ {
+  "id": "obscure-object",
+  "name": "Obscure Object",
+  "school": "abjuration",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Clr 3, Sor/Wiz 2"
+ },
+ {
+  "id": "obscuring-mist",
+  "name": "Obscuring Mist",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Air 1, Clr 1, Drd 1, Sor/Wiz 1, Water 1",
+  "mapped": "obscuring_mist"
+ },
+ {
+  "id": "open-close",
+  "name": "Open/Close",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "orders-wrath",
+  "name": "Order’s Wrath",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Law 4"
+ },
+ {
+  "id": "overland-flight",
+  "name": "Overland Flight",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "owls-wisdom",
+  "name": "Owl’s Wisdom",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Drd 2, Pal 2, Rgr 2, Sor/Wiz 2"
+ },
+ {
+  "id": "owls-wisdom-mass",
+  "name": "Owl’s Wisdom, Mass",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Drd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "pass-without-trace",
+  "name": "Pass Without Trace",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "passwall",
+  "name": "Passwall",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "permanency",
+  "name": "Permanency",
+  "school": "universal",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "permanent-image",
+  "name": "Permanent Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "persistent-image",
+  "name": "Persistent Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "phantasmal-killer",
+  "name": "Phantasmal Killer",
+  "school": "illusion",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "phantom-steed",
+  "name": "Phantom Steed",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "phantom-trap",
+  "name": "Phantom Trap",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "target.object"
+  ],
+  "missing": [
+   "effect.manifest",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "phase-door",
+  "name": "Phase Door",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7, Travel 8"
+ },
+ {
+  "id": "planar-ally",
+  "name": "Planar Ally",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6"
+ },
+ {
+  "id": "planar-ally-greater",
+  "name": "Planar Ally, Greater",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8"
+ },
+ {
+  "id": "planar-ally-lesser",
+  "name": "Planar Ally, Lesser",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4"
+ },
+ {
+  "id": "planar-binding",
+  "name": "Planar Binding",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "planar-binding-greater",
+  "name": "Planar Binding, Greater",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "planar-binding-lesser",
+  "name": "Planar Binding, Lesser",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "plane-shift",
+  "name": "Plane Shift",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 5, Sor/Wiz 7",
+  "mapped": "plane_shift"
+ },
+ {
+  "id": "plant-growth",
+  "name": "Plant Growth",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 3, Plant 3, Rgr 3"
+ },
+ {
+  "id": "poison",
+  "name": "Poison",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Drd 3"
+ },
+ {
+  "id": "polar-ray",
+  "name": "Polar Ray",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 8",
+  "mapped": "polar_ray"
+ },
+ {
+  "id": "polymorph",
+  "name": "Polymorph",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.transform"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 4",
+  "mapped": "polymorph"
+ },
+ {
+  "id": "polymorph-any-object",
+  "name": "Polymorph Any Object",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "effect.transform",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8, Trickery 8"
+ },
+ {
+  "id": "power-word-blind",
+  "name": "Power Word Blind",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7, War 7"
+ },
+ {
+  "id": "power-word-kill",
+  "name": "Power Word Kill",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 9, War 9",
+  "mapped": "death"
+ },
+ {
+  "id": "power-word-stun",
+  "name": "Power Word Stun",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8, War 8"
+ },
+ {
+  "id": "prayer",
+  "name": "Prayer",
+  "school": "enchantment",
+  "family": "protection",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 3, Pal 3",
+  "mapped": "prayer"
+ },
+ {
+  "id": "prestidigitation",
+  "name": "Prestidigitation",
+  "school": "universal",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Sor/Wiz 0"
+ },
+ {
+  "id": "prismatic-sphere",
+  "name": "Prismatic Sphere",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Protection 9, Sor/Wiz 9, Sun 9"
+ },
+ {
+  "id": "prismatic-spray",
+  "name": "Prismatic Spray",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.cone",
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 7",
+  "mapped": "prismatic_spray"
+ },
+ {
+  "id": "prismatic-wall",
+  "name": "Prismatic Wall",
+  "school": "abjuration",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create",
+   "review.text"
+  ],
+  "missing": [
+   "effect.create",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "produce-flame",
+  "name": "Produce Flame",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "attack.rangedTouch",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Fire 2"
+ },
+ {
+  "id": "programmed-image",
+  "name": "Programmed Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "project-image",
+  "name": "Project Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 7"
+ },
+ {
+  "id": "protection-from-arrows",
+  "name": "Protection From Arrows",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "protection-from-chaos",
+  "name": "Protection From Chaos",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Law 1, Pal 1, Sor/Wiz 1"
+ },
+ {
+  "id": "protection-from-energy",
+  "name": "Protection From Energy",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Clr 3, Drd 3, Luck 3, Protection 3, Rgr 2, Sor/Wiz 3",
+  "mapped": "protection_from_fire"
+ },
+ {
+  "id": "protection-from-evil",
+  "name": "Protection From Evil",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Clr 1, Good 1, Pal 1, Sor/Wiz 1",
+  "mapped": "protection_from_evil"
+ },
+ {
+  "id": "protection-from-good",
+  "name": "Protection From Good",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Evil 1, Sor/Wiz 1"
+ },
+ {
+  "id": "protection-from-law",
+  "name": "Protection From Law",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Chaos 1, Clr 1, Sor/Wiz 1"
+ },
+ {
+  "id": "protection-from-spells",
+  "name": "Protection From Spells",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Magic 8, Sor/Wiz 8"
+ },
+ {
+  "id": "prying-eyes",
+  "name": "Prying Eyes",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "prying-eyes-greater",
+  "name": "Prying Eyes, Greater",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "purify-food-and-drink",
+  "name": "Purify Food and Drink",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 0, Drd 0"
+ },
+ {
+  "id": "pyrotechnics",
+  "name": "Pyrotechnics",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "quench",
+  "name": "Quench",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Drd 3"
+ },
+ {
+  "id": "rage",
+  "name": "Rage",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 3"
+ },
+ {
+  "id": "rainbow-pattern",
+  "name": "Rainbow Pattern",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "duration.converted",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "raise-dead",
+  "name": "Raise Dead",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.world"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Clr 5",
+  "mapped": "raise_dead"
+ },
+ {
+  "id": "ray-of-enfeeblement",
+  "name": "Ray of Enfeeblement",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "attack.rangedTouch",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 1",
+  "mapped": "weakness"
+ },
+ {
+  "id": "ray-of-exhaustion",
+  "name": "Ray of Exhaustion",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "attack.rangedTouch",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "ray-of-frost",
+  "name": "Ray of Frost",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 0",
+  "mapped": "ray_of_frost"
+ },
+ {
+  "id": "read-magic",
+  "name": "Read Magic",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0, Clr 0, Drd 0, Pal 1, Rgr 1, Sor/Wiz 0"
+ },
+ {
+  "id": "reduce-animal",
+  "name": "Reduce Animal",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Rgr 3"
+ },
+ {
+  "id": "reduce-person",
+  "name": "Reduce Person",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "reduce-person-mass",
+  "name": "Reduce Person, Mass",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "refuge",
+  "name": "Refuge",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Sor/Wiz 9"
+ },
+ {
+  "id": "regenerate",
+  "name": "Regenerate",
+  "school": "conjuration",
+  "family": "healing",
+  "needs": [
+   "effect.heal"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 7, Drd 9, Healing 7"
+ },
+ {
+  "id": "reincarnate",
+  "name": "Reincarnate",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 4"
+ },
+ {
+  "id": "remove-blindness-deafness",
+  "name": "Remove Blindness/Deafness",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Pal 3"
+ },
+ {
+  "id": "remove-curse",
+  "name": "Remove Curse",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Clr 3, Pal 3, Sor/Wiz 4"
+ },
+ {
+  "id": "remove-disease",
+  "name": "Remove Disease",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E1",
+  "levels": "Clr 3, Drd 3, Rgr 3",
+  "mapped": "cure_disease"
+ },
+ {
+  "id": "remove-fear",
+  "name": "Remove Fear",
+  "school": "abjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E3",
+  "levels": "Brd 1, Clr 1",
+  "mapped": "remove_fear"
+ },
+ {
+  "id": "remove-paralysis",
+  "name": "Remove Paralysis",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Pal 2"
+ },
+ {
+  "id": "repel-metal-or-stone",
+  "name": "Repel Metal or Stone",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.line",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 8"
+ },
+ {
+  "id": "repel-vermin",
+  "name": "Repel Vermin",
+  "school": "abjuration",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Clr 4, Drd 4, Rgr 3"
+ },
+ {
+  "id": "repel-wood",
+  "name": "Repel Wood",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "area.line",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6, Plant 6"
+ },
+ {
+  "id": "repulsion",
+  "name": "Repulsion",
+  "school": "abjuration",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Protection 7, Sor/Wiz 6"
+ },
+ {
+  "id": "resilient-sphere",
+  "name": "Resilient Sphere",
+  "school": "evocation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "resist-energy",
+  "name": "Resist Energy",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Clr 2, Drd 2, Fire 3, Pal 2, Rgr 1, Sor/Wiz 2",
+  "mapped": "resist_fire"
+ },
+ {
+  "id": "resistance",
+  "name": "Resistance",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Brd 0, Clr 0, Drd 0, Pal 1, Sor/Wiz 0"
+ },
+ {
+  "id": "restoration",
+  "name": "Restoration",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E1",
+  "levels": "Clr 4, Pal 4",
+  "mapped": "restoration"
+ },
+ {
+  "id": "restoration-greater",
+  "name": "Restoration, Greater",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E1",
+  "levels": "Clr 7",
+  "mapped": "major_restoration"
+ },
+ {
+  "id": "restoration-lesser",
+  "name": "Restoration, Lesser",
+  "school": "conjuration",
+  "family": "removal",
+  "needs": [
+   "effect.dispel"
+  ],
+  "missing": [
+   "effect.dispel"
+  ],
+  "grade": "E1",
+  "levels": "Clr 2, Drd 2, Pal 1",
+  "mapped": "minor_restoration"
+ },
+ {
+  "id": "resurrection",
+  "name": "Resurrection",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E2",
+  "levels": "Clr 7",
+  "mapped": "resurrect"
+ },
+ {
+  "id": "reverse-gravity",
+  "name": "Reverse Gravity",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 8, Sor/Wiz 7"
+ },
+ {
+  "id": "righteous-might",
+  "name": "Righteous Might",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "effect.transform"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Strength 5"
+ },
+ {
+  "id": "rope-trick",
+  "name": "Rope Trick",
+  "school": "transmutation",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "rusting-grasp",
+  "name": "Rusting Grasp",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "target.object"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 4"
+ },
+ {
+  "id": "sanctuary",
+  "name": "Sanctuary",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 1, Protection 1"
+ },
+ {
+  "id": "scare",
+  "name": "Scare",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "scintillating-pattern",
+  "name": "Scintillating Pattern",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "scorching-ray",
+  "name": "Scorching Ray",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "screen",
+  "name": "Screen",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8, Trickery 7"
+ },
+ {
+  "id": "scrying",
+  "name": "Scrying",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.reveal",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Clr 5, Drd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "scrying-greater",
+  "name": "Scrying, Greater",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.reveal",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Clr 7, Drd 7, Sor/Wiz 7"
+ },
+ {
+  "id": "sculpt-sound",
+  "name": "Sculpt Sound",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3"
+ },
+ {
+  "id": "searing-light",
+  "name": "Searing Light",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.rangedTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.rangedTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Sun 3"
+ },
+ {
+  "id": "secret-chest",
+  "name": "Secret Chest",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "secret-page",
+  "name": "Secret Page",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "secure-shelter",
+  "name": "Secure Shelter",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "see-invisibility",
+  "name": "See Invisibility",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 2"
+ },
+ {
+  "id": "seeming",
+  "name": "Seeming",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "sending",
+  "name": "Sending",
+  "school": "evocation",
+  "family": "communication",
+  "needs": [
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Sor/Wiz 5"
+ },
+ {
+  "id": "sepia-snake-sigil",
+  "name": "Sepia Snake Sigil",
+  "school": "conjuration",
+  "family": "control",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [
+   "attack.meleeTouch"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "sequester",
+  "name": "Sequester",
+  "school": "abjuration",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "shades",
+  "name": "Shades",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9"
+ },
+ {
+  "id": "shadow-conjuration",
+  "name": "Shadow Conjuration",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "shadow-conjuration-greater",
+  "name": "Shadow Conjuration, Greater",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "shadow-evocation",
+  "name": "Shadow Evocation",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "shadow-evocation-greater",
+  "name": "Shadow Evocation, Greater",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "shadow-walk",
+  "name": "Shadow Walk",
+  "school": "illusion",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 6"
+ },
+ {
+  "id": "shambler",
+  "name": "Shambler",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Drd 9, Plant 9"
+ },
+ {
+  "id": "shapechange",
+  "name": "Shapechange",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "effect.transform"
+  ],
+  "grade": "E1",
+  "levels": "Animal 9, Drd 9, Sor/Wiz 9",
+  "mapped": "shapechange"
+ },
+ {
+  "id": "shatter",
+  "name": "Shatter",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Chaos 2, Clr 2, Destruction 2, Sor/Wiz 2"
+ },
+ {
+  "id": "shield",
+  "name": "Shield",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "shield-of-faith",
+  "name": "Shield of Faith",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E3",
+  "levels": "Clr 1",
+  "mapped": "shield"
+ },
+ {
+  "id": "shield-of-law",
+  "name": "Shield of Law",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "review.text"
+  ],
+  "missing": [
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Law 8"
+ },
+ {
+  "id": "shield-other",
+  "name": "Shield Other",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 2, Pal 2, Protection 2"
+ },
+ {
+  "id": "shillelagh",
+  "name": "Shillelagh",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1"
+ },
+ {
+  "id": "shocking-grasp",
+  "name": "Shocking Grasp",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 1",
+  "mapped": "shocking_grasp"
+ },
+ {
+  "id": "shout",
+  "name": "Shout",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.cone",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Sor/Wiz 4"
+ },
+ {
+  "id": "shout-greater",
+  "name": "Shout, Greater",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.cone",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 8"
+ },
+ {
+  "id": "shrink-item",
+  "name": "Shrink Item",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "silence",
+  "name": "Silence",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.manifest",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.manifest",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Clr 2",
+  "mapped": "silence"
+ },
+ {
+  "id": "silent-image",
+  "name": "Silent Image",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "simulacrum",
+  "name": "Simulacrum",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "slay-living",
+  "name": "Slay Living",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Death 5"
+ },
+ {
+  "id": "sleep",
+  "name": "Sleep",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E3",
+  "levels": "Brd 1, Sor/Wiz 1",
+  "mapped": "sleep"
+ },
+ {
+  "id": "sleet-storm",
+  "name": "Sleet Storm",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Drd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "slow",
+  "name": "Slow",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Brd 3, Sor/Wiz 3",
+  "mapped": "slow"
+ },
+ {
+  "id": "snare",
+  "name": "Snare",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm"
+  ],
+  "missing": [
+   "attack.meleeTouch"
+  ],
+  "grade": "E0",
+  "levels": "Rgr 2, Drd 3"
+ },
+ {
+  "id": "soften-earth-and-stone",
+  "name": "Soften Earth and Stone",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Earth 2"
+ },
+ {
+  "id": "solid-fog",
+  "name": "Solid Fog",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "song-of-discord",
+  "name": "Song of Discord",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5"
+ },
+ {
+  "id": "soul-bind",
+  "name": "Soul Bind",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 9, Sor/Wiz 9"
+ },
+ {
+  "id": "sound-burst",
+  "name": "Sound Burst",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Clr 2"
+ },
+ {
+  "id": "speak-with-animals",
+  "name": "Speak with Animals",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Drd 1, Rgr 1"
+ },
+ {
+  "id": "speak-with-dead",
+  "name": "Speak with Dead",
+  "school": "necromancy",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3"
+ },
+ {
+  "id": "speak-with-plants",
+  "name": "Speak with Plants",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4, Drd 3, Rgr 2"
+ },
+ {
+  "id": "spectral-hand",
+  "name": "Spectral Hand",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "spell-immunity",
+  "name": "Spell Immunity",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 4, Protection 4, Strength 4"
+ },
+ {
+  "id": "spell-immunity-greater",
+  "name": "Spell Immunity, Greater",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8"
+ },
+ {
+  "id": "spell-resistance",
+  "name": "Spell Resistance",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 5, Magic 5, Protection 5"
+ },
+ {
+  "id": "spell-turning",
+  "name": "Spell Turning",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Luck 7, Magic 7, Sor/Wiz 7",
+  "mapped": "spellturning"
+ },
+ {
+  "id": "spellstaff",
+  "name": "Spellstaff",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6"
+ },
+ {
+  "id": "spider-climb",
+  "name": "Spider Climb",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Drd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "spike-growth",
+  "name": "Spike Growth",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Drd 3, Rgr 2",
+  "mapped": "spike_growth"
+ },
+ {
+  "id": "spike-stones",
+  "name": "Spike Stones",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 4, Earth 4"
+ },
+ {
+  "id": "spiritual-weapon",
+  "name": "Spiritual Weapon",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, War 2"
+ },
+ {
+  "id": "statue",
+  "name": "Statue",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "effect.transform"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "status",
+  "name": "Status",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2"
+ },
+ {
+  "id": "stinking-cloud",
+  "name": "Stinking Cloud",
+  "school": "conjuration",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 3"
+ },
+ {
+  "id": "stone-shape",
+  "name": "Stone Shape",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Drd 3, Earth 3, Sor/Wiz 4"
+ },
+ {
+  "id": "stone-tell",
+  "name": "Stone Tell",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6"
+ },
+ {
+  "id": "stone-to-flesh",
+  "name": "Stone to Flesh",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "area.burst",
+   "effect.transform",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.transform",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 6",
+  "mapped": "stone_to_flesh"
+ },
+ {
+  "id": "stoneskin",
+  "name": "Stoneskin",
+  "school": "abjuration",
+  "family": "protection",
+  "needs": [
+   "duration.converted",
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E1",
+  "levels": "Drd 5, Earth 6, Sor/Wiz 4, Strength 6",
+  "mapped": "stoneskin"
+ },
+ {
+  "id": "storm-of-vengeance",
+  "name": "Storm of Vengeance",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "effect.harm",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Drd 9, Clr 9"
+ },
+ {
+  "id": "suggestion",
+  "name": "Suggestion",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 3"
+ },
+ {
+  "id": "suggestion-mass",
+  "name": "Suggestion, Mass",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 5, Sor/Wiz 6"
+ },
+ {
+  "id": "summon-instrument",
+  "name": "Summon Instrument",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Brd 0"
+ },
+ {
+  "id": "summon-monster-i",
+  "name": "Summon Monster I",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 1, Clr 1, Sor/Wiz 1",
+  "mapped": "summon_monster"
+ },
+ {
+  "id": "summon-monster-ii",
+  "name": "Summon Monster II",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Clr 2, Sor/Wiz 2",
+  "mapped": "summon_monster_ii"
+ },
+ {
+  "id": "summon-monster-iii",
+  "name": "Summon Monster III",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 3, Clr 3, Sor/Wiz 3",
+  "mapped": "summon_monster_iii"
+ },
+ {
+  "id": "summon-monster-iv",
+  "name": "Summon Monster IV",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 4, Clr 4, Sor/Wiz 4",
+  "mapped": "summon_monster_iv"
+ },
+ {
+  "id": "summon-monster-ix",
+  "name": "Summon Monster IX",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Chaos 9, Clr 9, Evil 9, Good 9, Law 9, Sor/Wiz 9"
+ },
+ {
+  "id": "summon-monster-v",
+  "name": "Summon Monster V",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 5, Clr 5, Sor/Wiz 5",
+  "mapped": "summon_monster_v"
+ },
+ {
+  "id": "summon-monster-vi",
+  "name": "Summon Monster VI",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 6, Clr 6, Sor/Wiz 6",
+  "mapped": "summon_monster_vi"
+ },
+ {
+  "id": "summon-monster-vii",
+  "name": "Summon Monster VII",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Clr 7, Sor/Wiz 7",
+  "mapped": "summon_monster_vii"
+ },
+ {
+  "id": "summon-monster-viii",
+  "name": "Summon Monster VIII",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Sor/Wiz 8"
+ },
+ {
+  "id": "summon-natures-ally-i",
+  "name": "Summon Nature’s Ally I",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 1, Rgr 1"
+ },
+ {
+  "id": "summon-natures-ally-ii",
+  "name": "Summon Nature’s Ally II",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Rgr 2"
+ },
+ {
+  "id": "summon-natures-ally-iii",
+  "name": "Summon Nature’s Ally III",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 3, Rgr 3"
+ },
+ {
+  "id": "summon-natures-ally-iv",
+  "name": "Summon Nature’s Ally IV",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Animal 4, Drd 4, Rgr 4"
+ },
+ {
+  "id": "summon-natures-ally-ix",
+  "name": "Summon Nature’s Ally IX",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 9"
+ },
+ {
+  "id": "summon-natures-ally-v",
+  "name": "Summon Nature’s Ally V",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5"
+ },
+ {
+  "id": "summon-natures-ally-vi",
+  "name": "Summon Nature’s Ally VI",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6"
+ },
+ {
+  "id": "summon-natures-ally-vii",
+  "name": "Summon Nature’s Ally VII",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Drd 7"
+ },
+ {
+  "id": "summon-natures-ally-viii",
+  "name": "Summon Nature’s Ally VIII",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.converted",
+   "effect.summon"
+  ],
+  "missing": [
+   "effect.summon"
+  ],
+  "grade": "E0",
+  "levels": "Animal 8, Drd 8"
+ },
+ {
+  "id": "summon-swarm",
+  "name": "Summon Swarm",
+  "school": "conjuration",
+  "family": "summoning",
+  "needs": [
+   "duration.concentration",
+   "effect.summon"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.summon"
+  ],
+  "grade": "E1",
+  "levels": "Brd 2, Drd 2, Sor/Wiz 2",
+  "mapped": "summon_vermin"
+ },
+ {
+  "id": "sunbeam",
+  "name": "Sunbeam",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.line",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 7, Sun 7"
+ },
+ {
+  "id": "sunburst",
+  "name": "Sunburst",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Drd 8, Sor/Wiz 8, Sun 8",
+  "mapped": "sunburst"
+ },
+ {
+  "id": "symbol-of-death",
+  "name": "Symbol of Death",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Sor/Wiz 8"
+ },
+ {
+  "id": "symbol-of-fear",
+  "name": "Symbol of Fear",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Sor/Wiz 6"
+ },
+ {
+  "id": "symbol-of-insanity",
+  "name": "Symbol of Insanity",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Clr 8, Sor/Wiz 8",
+  "mapped": "symbol_of_insanity"
+ },
+ {
+  "id": "symbol-of-pain",
+  "name": "Symbol of Pain",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Sor/Wiz 5"
+ },
+ {
+  "id": "symbol-of-persuasion",
+  "name": "Symbol of Persuasion",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Sor/Wiz 6"
+ },
+ {
+  "id": "symbol-of-sleep",
+  "name": "Symbol of Sleep",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Sor/Wiz 5"
+ },
+ {
+  "id": "symbol-of-stunning",
+  "name": "Symbol of Stunning",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Sor/Wiz 7"
+ },
+ {
+  "id": "symbol-of-weakness",
+  "name": "Symbol of Weakness",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 7, Sor/Wiz 7"
+ },
+ {
+  "id": "sympathetic-vibration",
+  "name": "Sympathetic Vibration",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6"
+ },
+ {
+  "id": "sympathy",
+  "name": "Sympathy",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 9, Sor/Wiz 8"
+ },
+ {
+  "id": "telekinesis",
+  "name": "Telekinesis",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "telekinetic-sphere",
+  "name": "Telekinetic Sphere",
+  "school": "evocation",
+  "family": "control",
+  "needs": [
+   "duration.converted",
+   "effect.condition",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "telepathic-bond",
+  "name": "Telepathic Bond",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "teleport",
+  "name": "Teleport",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5, Travel 5"
+ },
+ {
+  "id": "teleport-greater",
+  "name": "Teleport, Greater",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7, Travel 7"
+ },
+ {
+  "id": "teleport-object",
+  "name": "Teleport Object",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "teleportation-circle",
+  "name": "Teleportation Circle",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.travel",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9"
+ },
+ {
+  "id": "temporal-stasis",
+  "name": "Temporal Stasis",
+  "school": "transmutation",
+  "family": "control",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "time-stop",
+  "name": "Time Stop",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 9, Trickery 9",
+  "mapped": "time_stop"
+ },
+ {
+  "id": "tiny-hut",
+  "name": "Tiny Hut",
+  "school": "evocation",
+  "family": "creation",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Brd 3, Sor/Wiz 3"
+ },
+ {
+  "id": "tongues",
+  "name": "Tongues",
+  "school": "divination",
+  "family": "communication",
+  "needs": [
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Clr 4, Sor/Wiz 3"
+ },
+ {
+  "id": "touch-of-fatigue",
+  "name": "Touch of Fatigue",
+  "school": "necromancy",
+  "family": "control",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 0"
+ },
+ {
+  "id": "touch-of-idiocy",
+  "name": "Touch of Idiocy",
+  "school": "enchantment",
+  "family": "world",
+  "needs": [
+   "attack.meleeTouch",
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "transformation",
+  "name": "Transformation",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "transmute-metal-to-wood",
+  "name": "Transmute Metal to Wood",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 7"
+ },
+ {
+  "id": "transmute-mud-to-rock",
+  "name": "Transmute Mud to Rock",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "transmute-rock-to-mud",
+  "name": "Transmute Rock to Mud",
+  "school": "transmutation",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "review.text"
+  ],
+  "missing": [
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5, Sor/Wiz 5"
+ },
+ {
+  "id": "transport-via-plants",
+  "name": "Transport via Plants",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 6"
+ },
+ {
+  "id": "trap-the-soul",
+  "name": "Trap the Soul",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 8"
+ },
+ {
+  "id": "tree-shape",
+  "name": "Tree Shape",
+  "school": "transmutation",
+  "family": "transformation",
+  "needs": [
+   "duration.converted",
+   "effect.transform"
+  ],
+  "missing": [
+   "effect.transform"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2, Rgr 3"
+ },
+ {
+  "id": "tree-stride",
+  "name": "Tree Stride",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Drd 5, Rgr 4"
+ },
+ {
+  "id": "true-resurrection",
+  "name": "True Resurrection",
+  "school": "conjuration",
+  "family": "world",
+  "needs": [
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 9"
+ },
+ {
+  "id": "true-seeing",
+  "name": "True Seeing",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "duration.converted",
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E1",
+  "levels": "Clr 5, Drd 7, Knowledge 5, Sor/Wiz 6",
+  "mapped": "true_sight"
+ },
+ {
+  "id": "true-strike",
+  "name": "True Strike",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 1"
+ },
+ {
+  "id": "undeath-to-death",
+  "name": "Undeath to Death",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Sor/Wiz 6"
+ },
+ {
+  "id": "undetectable-alignment",
+  "name": "Undetectable Alignment",
+  "school": "abjuration",
+  "family": "divination",
+  "needs": [
+   "effect.reveal",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.reveal",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Clr 2, Pal 2"
+ },
+ {
+  "id": "unhallow",
+  "name": "Unhallow",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Drd 5"
+ },
+ {
+  "id": "unholy-aura",
+  "name": "Unholy Aura",
+  "school": "abjuration",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.world",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 8, Evil 8"
+ },
+ {
+  "id": "unholy-blight",
+  "name": "Unholy Blight",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Evil 4"
+ },
+ {
+  "id": "unseen-servant",
+  "name": "Unseen Servant",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "vampiric-touch",
+  "name": "Vampiric Touch",
+  "school": "necromancy",
+  "family": "damage",
+  "needs": [
+   "attack.meleeTouch",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "attack.meleeTouch",
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 3",
+  "mapped": "life_drain"
+ },
+ {
+  "id": "veil",
+  "name": "Veil",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.concentration",
+   "duration.converted",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "effect.manifest",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Brd 6, Sor/Wiz 6"
+ },
+ {
+  "id": "ventriloquism",
+  "name": "Ventriloquism",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 1, Sor/Wiz 1"
+ },
+ {
+  "id": "virtue",
+  "name": "Virtue",
+  "school": "transmutation",
+  "family": "protection",
+  "needs": [
+   "effect.condition"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 0, Drd 0, Pal 1"
+ },
+ {
+  "id": "vision",
+  "name": "Vision",
+  "school": "divination",
+  "family": "divination",
+  "needs": [
+   "effect.reveal"
+  ],
+  "missing": [
+   "effect.reveal"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "wail-of-the-banshee",
+  "name": "Wail of the Banshee",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Death 9, Sor/Wiz 9"
+ },
+ {
+  "id": "wall-of-fire",
+  "name": "Wall of Fire",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.concentration",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "duration.concentration",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5, Fire 4, Sor/Wiz 4"
+ },
+ {
+  "id": "wall-of-force",
+  "name": "Wall of Force",
+  "school": "evocation",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "wall-of-ice",
+  "name": "Wall of Ice",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 4"
+ },
+ {
+  "id": "wall-of-iron",
+  "name": "Wall of Iron",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "review.text"
+  ],
+  "missing": [
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 6"
+ },
+ {
+  "id": "wall-of-stone",
+  "name": "Wall of Stone",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "effect.create",
+   "review.text"
+  ],
+  "missing": [
+   "effect.create",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Clr 5, Drd 6, Earth 5, Sor/Wiz 5"
+ },
+ {
+  "id": "wall-of-thorns",
+  "name": "Wall of Thorns",
+  "school": "conjuration",
+  "family": "creation",
+  "needs": [
+   "duration.converted",
+   "effect.create"
+  ],
+  "missing": [
+   "effect.create"
+  ],
+  "grade": "E0",
+  "levels": "Drd 5, Plant 5"
+ },
+ {
+  "id": "warp-wood",
+  "name": "Warp Wood",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2"
+ },
+ {
+  "id": "water-breathing",
+  "name": "Water Breathing",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world"
+  ],
+  "missing": [
+   "effect.world"
+  ],
+  "grade": "E0",
+  "levels": "Clr 3, Drd 3, Sor/Wiz 3, Water 3"
+ },
+ {
+  "id": "water-walk",
+  "name": "Water Walk",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 3, Rgr 3"
+ },
+ {
+  "id": "waves-of-exhaustion",
+  "name": "Waves of Exhaustion",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "area.cone",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 7"
+ },
+ {
+  "id": "waves-of-fatigue",
+  "name": "Waves of Fatigue",
+  "school": "necromancy",
+  "family": "world",
+  "needs": [
+   "area.cone",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 5"
+ },
+ {
+  "id": "web",
+  "name": "Web",
+  "school": "conjuration",
+  "family": "damage",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.harm"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Sor/Wiz 2"
+ },
+ {
+  "id": "weird",
+  "name": "Weird",
+  "school": "illusion",
+  "family": "damage",
+  "needs": [
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E1",
+  "levels": "Sor/Wiz 9",
+  "mapped": "weird"
+ },
+ {
+  "id": "whirlwind",
+  "name": "Whirlwind",
+  "school": "evocation",
+  "family": "damage",
+  "needs": [
+   "duration.converted",
+   "effect.harm",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Air 8, Drd 8"
+ },
+ {
+  "id": "whispering-wind",
+  "name": "Whispering Wind",
+  "school": "transmutation",
+  "family": "communication",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.contact"
+  ],
+  "missing": [
+   "effect.contact"
+  ],
+  "grade": "E0",
+  "levels": "Brd 2, Sor/Wiz 2"
+ },
+ {
+  "id": "wind-walk",
+  "name": "Wind Walk",
+  "school": "transmutation",
+  "family": "movement",
+  "needs": [
+   "duration.converted",
+   "effect.travel"
+  ],
+  "missing": [],
+  "grade": "E0",
+  "levels": "Clr 6, Drd 7"
+ },
+ {
+  "id": "wind-wall",
+  "name": "Wind Wall",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "duration.converted",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Air 2, Clr 3, Drd 3, Rgr 2, Sor/Wiz 3"
+ },
+ {
+  "id": "wish",
+  "name": "Wish",
+  "school": "universal",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell",
+   "review.text"
+  ],
+  "grade": "E0",
+  "levels": "Sor/Wiz 9"
+ },
+ {
+  "id": "wood-shape",
+  "name": "Wood Shape",
+  "school": "transmutation",
+  "family": "world",
+  "needs": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Drd 2"
+ },
+ {
+  "id": "word-of-chaos",
+  "name": "Word of Chaos",
+  "school": "evocation",
+  "family": "world",
+  "needs": [
+   "area.burst",
+   "effect.world",
+   "resist.spell"
+  ],
+  "missing": [
+   "effect.world",
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Chaos 7, Clr 7"
+ },
+ {
+  "id": "word-of-recall",
+  "name": "Word of Recall",
+  "school": "conjuration",
+  "family": "movement",
+  "needs": [
+   "effect.travel",
+   "target.object"
+  ],
+  "missing": [
+   "target.object"
+  ],
+  "grade": "E0",
+  "levels": "Clr 6, Drd 8"
+ },
+ {
+  "id": "zone-of-silence",
+  "name": "Zone of Silence",
+  "school": "illusion",
+  "family": "illusion",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.manifest"
+  ],
+  "missing": [
+   "effect.manifest"
+  ],
+  "grade": "E0",
+  "levels": "Brd 4"
+ },
+ {
+  "id": "zone-of-truth",
+  "name": "Zone of Truth",
+  "school": "enchantment",
+  "family": "control",
+  "needs": [
+   "area.burst",
+   "duration.converted",
+   "effect.condition",
+   "resist.spell"
+  ],
+  "missing": [
+   "resist.spell"
+  ],
+  "grade": "E0",
+  "levels": "Clr 2, Pal 2"
+ }
+]
