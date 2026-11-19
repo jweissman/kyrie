@@ -11,6 +11,8 @@ export type Attributes = Record<Attribute, number>;
 export interface ConditionInstance {
   id: string; remaining: number; source?: string; clock?: 'owner-turn' | 'world-time' | 'until-removed';
   by?: string; tempHp?: number; images?: number; waits?: boolean;
+  // What it was laid with, its caster's throw (see ConditionAmount).
+  amount?: number;
   // The save its holder makes again on each turn it loses to it, a success ending it (see ShakingOff).
   again?: { kind: string; difficulty: number };
 }

@@ -1999,6 +1999,34 @@ it, friend and foe, ten minutes a level. Not taken here: it moves the four cards
 tactics would cast it at foes as if concealing them helped (they weigh any condition laid on a foe as a gain); a
 decision for the lead, with the tactics' weighing of a boon laid on a foe.
 
+### 58. A condition's amount by its caster, and Ray of Enfeeblement by the SRD's resolution (19 November): adapted
+
+Named by the last report as the route Ray of Enfeeblement waited on (case 35's list; "What remains"). Spec:
+`test/ray-of-enfeeblement` (3).
+
+**The mechanic built** (`ConditionAmount`, src/rules/condition-amount.ts): an apply effect may name an `amount`,
+thrown by its caster's values as it is laid (as temporary hit points and images are) and kept with the condition held;
+a condition's `perAmount` modifiers are counted that many times beside its own (scores, saves and the numeric
+modifiers only: the canon refuses any other kind there). Gathered modifiers are gathered again when an amount differs.
+The book says it ("one enemy is enfeebled by 1d6 + min(5, half the caster level) for 10 turns at the first casting
+level…").
+
+**The spell** (a hand entry over Orsino's Weakness, named Ray of Enfeeblement; the hand condition `enfeebled`, so
+Orsino's `weakened`, which Mass and Major Weakness lay, is untouched):
+- one foe a ranged touch lands on (exact), no save (exact), spell resistance answering it (exact);
+- 1d6 off its Strength and a point each two casting levels, to five more at the tenth (exact), Strength never below
+  one;
+- a minute a casting level (exact: Lasting).
+
+**Kept:** Orsino's second level (the SRD's first would move the necromancers' draws and a first-level card: the lead's
+stabilization). **Omitted:** its range. Before: Orsino's Weakness, Strength two less and two less harm a blow for
+three rounds, a Fortitude save against 14 and the caster's level. The census grades it S✗ R✓ I✓ (its level): 37 of
+119 pass in resolution.
+
+**What it moves:** no draw or card (its level and school unchanged). Two installed casters know it, thorn's and mere's
+howe scholars (third-level mages of the Bound Howe's camp); no first-hour fight. A fifth-level caster's ray at a
+first-level wolf: 3 to 8 off its Strength for fifty rounds where the touch lands.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -2071,8 +2099,8 @@ be claimed from the catalogue.
   have lasted turns (FieldUse.cast), so Sleep's ten rounds are ten watches, where the SRD's minute is less than one.
   The rule is case 1's and Items.use's; changing it moves the undertown's sleepers and wants its own census.
 - **Touch attacks:** built (case 35, Shocking Grasp by it); Ghoul Touch (case 36), Acid Arrow (case 44) and Ray of
-  Frost (case 45) by it, and Vampiric Touch (case 52). Ray of Enfeeblement waits for a condition's amount thrown by
-  its caster (1d6 + 1 each two levels off Strength).
+  Frost (case 45) by it, and Vampiric Touch (case 52). Ray of Enfeeblement by a condition's amount thrown by
+  its caster (case 58), at Orsino's second level.
 - **The cure family's levels** (case 16): Moderate, Serious and Critical at the SRD's 2, 3 and 4 wait on the preset
   companion cleric's spells (world-assembler), which are chosen by level.
 - **Charm Person**: the SRD's numbers would lower its difficulty and lengthen it to the fight, but Orsino's charmed

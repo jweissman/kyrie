@@ -187,7 +187,8 @@ export class AbilityUse {
     // A perk can make one ability hit harder (a thieves' guild's backstab).
     const harms = effect.kind === 'damage' || effect.kind === 'drain';
     const harder = actor && options.ability && harms ? Perks.abilityDamage(actor.traits, options.ability) : 1;
-    const roll = 'amount' in effect && effect.kind !== 'summon' ? Math.floor((harms
+    const thrown = 'amount' in effect && effect.kind !== 'summon' && effect.kind !== 'apply';
+    const roll = thrown ? Math.floor((harms
       ? expressions.harm(effect.amount, values) : expressions.amount(effect.amount, values)) * harder) : 0;
     let amount = Chain.amount(effect, roll, target, context);
     const rolled = amount;

@@ -6709,6 +6709,16 @@ On 7 + round((level / 2)) different enemies, drawn at random, each the next of t
 
 *Adapted: Orsino reads the count "=7 + round(#level / 2)" with parseInt, finds no number and touches no one; Kyr evaluates it as written.*
 
+##### Ray of Enfeeblement
+
+*Adapted · level 2 arcane spell, necromancy* · `ability:weakness`
+
+One enemy is enfeebled by 1d6 + min(5, half the caster level) for 10 turns at the first casting level, 100 turns at the tenth (only if a ranged touch attack lands, worn armour not counting). Enfeebled: sapped by a ray: weaker by as much as the ray took. An arcane spell of the second level. Takes a second-level slot.
+
+> A ray from your hand saps one foe it strikes: 1d6 off its Strength, and a point more for every two levels you have, to five more, for a minute for every level.
+
+*Adapted: The SRD's Ray of Enfeeblement (doc/architecture/mission-22/srd-proving-cases.md, case 58) by its resolution: one foe a ranged touch lands on (Touch), no save, spell resistance answering it, 1d6 off its Strength and a point each two casting levels, to +5 at the tenth (an amount its caster throws: ConditionAmount, the enfeebled condition), a minute a casting level (Lasting). Kept: Orsino's second level (the SRD's first would move the necromancers' draws). Before, Orsino's Weakness: Strength two less and two less harm a blow for three rounds, a Fortitude save against 14 + the caster's level.*
+
 ##### Slow
 
 *Faithful · level 2 arcane spell, transmutation* · `ability:slow`
@@ -6724,14 +6734,6 @@ Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the ca
 Call one of: chimera, locatah, nightmare, owlbear, pegasus, unicorn, wendigo, yrthak, dryad, lillend, nymph, pixie, satyr, sprite, to fight for you until the fight ends. An arcane spell of the second level. Takes a second-level slot.
 
 > Summon a random monster (beast or fey type) to fight for you.
-
-##### Weakness
-
-*Faithful · level 2 arcane spell, necromancy* · `ability:weakness`
-
-One enemy is weakened for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Weakened: −2 damage, Strength −2. An arcane spell of the second level. Takes a second-level slot.
-
-> Sap the strength of an enemy, reducing their damage output.
 
 #### Level 3
 
@@ -10280,6 +10282,12 @@ Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4
 *Not playable — onEnemyEnter: Kyr cannot tell when an enemy does "Enter".*
 
 *Adapted: Defined inline by an Orsino ability; Kyr names it after its display name.*
+
+### Enfeebled
+
+*Kyr · lasts the fight at most* · `condition:enfeebled`
+
+> Sapped by a ray: weaker by as much as the ray took.
 
 ### Engulfed
 

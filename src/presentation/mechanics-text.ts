@@ -80,7 +80,7 @@ export class MechanicsText {
     const to = typeof again === 'string' ? again : again ? 'each of them' : e.target === 'random enemies' && e.count
       ? e.count.kind === 'literal' && e.count.value === 1 ? 'a random enemy'
         : `${this.amount(e.count, actor)} different enemies, drawn at random` : this.targets[e.target];
-    const amount = 'amount' in e && e.kind !== 'summon' ? this.amount(e.amount, actor) : '';
+    const amount = 'amount' in e && e.kind !== 'summon' && e.amount ? this.amount(e.amount, actor) : '';
     const text = (() => {
       switch (e.kind) {
         case 'attack': return `weapon attack against ${to}${e.spillover ? ', carrying a killing blow on to another' : ''}`;
@@ -96,7 +96,8 @@ export class MechanicsText {
         case 'defend': return 'guard until your next turn';
         case 'flee': return `try to get away from the fight (${MechanicsText.flight()})`;
         case 'apply': return `${this.holds(e.target === 'self' ? 'you' : to, e.status)} `
-          + `${this.conditionName(e.status)} ${this.duration(e.duration, e.clock).replace(/^(\d)/, 'for $1')
+          + `${this.conditionName(e.status)}${amount ? ` by ${amount}` : ''} ${this.duration(e.duration, e.clock)
+            .replace(/^(\d)/, 'for $1')
             .replace(/^a /, 'for a ')}`;
         case 'remove': return `end ${e.status ? this.conditionName(e.status)
           : (e.pattern ?? 'what holds them').toLowerCase().split('|').join(', ').replace(/, ([^,]*)$/, ' or $1')} on ${to}`;

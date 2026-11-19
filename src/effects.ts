@@ -20,6 +20,7 @@ import { GatheredModifiers } from './gathered-modifiers';
 import { SaveOutcome } from './rules/save-outcome';
 import { Lasting } from './rules/lasting';
 import { Images } from './rules/images';
+import { ConditionAmount } from './rules/condition-amount';
 import type { Attribute } from './creature';
 
 export interface EffectContext {
@@ -437,16 +438,16 @@ export class Effects {
     const pool = status.modifiers.tempHp && context.expressions
       ? context.expressions.number(status.modifiers.tempHp, Effects.context(context.actor ?? target)) : 0;
     const images = Images.laid(status.modifiers.images, context, target);
+    const amount = ConditionAmount.laid(effect.amount, context.expressions, Effects.context(context.actor ?? target));
     // A perk can make every status its holder applies last longer (a troupe's resonant harmony), and a flame they
     // light burn longer, by hours of six watches (the Lantern's gift: OR-118).
     const at = context.actor?.environment ? { environment: context.actor.environment } : {};
     const longer = context.actor ? Perks.bonus(context.actor.traits, 'spellDuration', at) + (status.grants?.includes('flame')
       ? Perks.bonus(context.actor.traits, 'light', at) * (effect.clock === 'world-time' ? 6 : 1) : 0) : 0;
-    target.statuses.push({ id: effect.status, remaining: rounds + longer,
-      ...effect.clock ? { clock: effect.clock } : {},
+    target.statuses.push({ id: effect.status, remaining: rounds + longer, ...effect.clock ? { clock: effect.clock }: {},
       ...!effect.clock && context.actor && context.actor.id !== target.id ? { waits: true } : {},
       ...context.source ? { source: context.source.id } : {}, ...context.actor ? { by: context.actor.id } : {},
-      ...pool ? { tempHp: pool } : {}, ...images ? { images } : {} });
+      ...pool ? { tempHp: pool } : {}, ...images ? { images } : {}, ...amount ? { amount } : {} });
     Effects.detail(context, target, { type: 'status', detail: effect.status, amount: rounds,
       ...effect.clock ? { clock: effect.clock } : {} });
   }

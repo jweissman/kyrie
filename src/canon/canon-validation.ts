@@ -64,8 +64,7 @@ export class CanonValidation {
   private fail(where: string, message: string) { this.problems.push(`${where}: ${message}`); }
   private identities() {
     const entityFamilies = { ability: Object.keys(Canon.abilities), item: Object.keys(Canon.items),
-      skill: Object.keys(Canon.skills),
-      deity: Object.keys(Canon.deities), plant: Object.keys(Canon.plants) };
+      skill: Object.keys(Canon.skills), deity: Object.keys(Canon.deities), plant: Object.keys(Canon.plants) };
     this.disjoint(entityFamilies);
     this.disjoint({ ancestry: Object.keys(Canon.ancestries), species: Object.keys(Canon.species),
       class: Object.keys(Canon.classes) });
@@ -294,7 +293,8 @@ export class CanonValidation {
       if (!['persistent', 'encounter'].includes(c.lifetime)) { this.fail(`condition ${id}`, `unknown lifetime ${c.lifetime}`); }
       if (c.trigger && !Canon.rules.damageTypes.includes(c.trigger)) { this.fail(`condition ${id}`, `unknown trigger ${c.trigger}`); }
       if (c.compel && !Canon.abilities[c.compel]) { this.fail(`condition ${id}`, `compels unknown ability ${c.compel}`); }
-      this.modifiers(`condition ${id}`, c.modifiers);
+      this.modifiers(`condition ${id}`, { ...c.perAmount, ...c.modifiers });
+      for (const k of ModifierSet.uncounted(c.perAmount)) { this.fail(`condition ${id}`, `perAmount cannot count ${k}`); }
     }
   }
   private items() {

@@ -82,6 +82,10 @@ export class ModifierSet {
     }
     return out;
   }
+  // What a condition's perAmount names that cannot be counted (see ConditionAmount): only scores, saves and numbers.
+  static uncounted(m: Modifiers | undefined): string[] {
+    return Object.keys(m ?? {}).filter(k => !['attributes', 'saves', ...ModifierSet.numeric].includes(k));
+  }
   static validate(m: Modifiers, where: string, vocabulary: { saveKinds: string[]; damageTypes: string[] }) {
     for (const key of Object.keys(m)) {
       if (!ModifierSet.keys.includes(key)) { throw new Error(`${where}: unknown modifier ${key}`); }

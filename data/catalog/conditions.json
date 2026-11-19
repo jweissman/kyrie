@@ -570,6 +570,21 @@
         "notes": "The SRD's Acid Arrow's acid that stays (srd-proving-cases.md, case 44): 2d4 acid at the end of each round it lasts, laid for a round every three casting levels (Lasting). It sets off none of Orsino's acid burn, which the SRD's has not."
       }
     },
+    "enfeebled": {
+      "name": "Enfeebled",
+      "description": "Sapped by a ray: weaker by as much as the ray took.",
+      "lifetime": "encounter",
+      "modifiers": {},
+      "perAmount": { "attributes": { "strength": -1 } },
+      "begins": "{target} sags, the strength going out of their arms.",
+      "ends": "{target}'s strength comes back.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:ray-of-enfeeblement",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Ray of Enfeeblement's penalty (srd-proving-cases.md, case 58): a point of Strength off for each point it was laid with (ConditionAmount), which its caster throws as it lays it; Strength never below one (Effects.scores)."
+      }
+    },
     "concealed": {
       "name": "Concealed",
       "description": "Blurred and wavering: one blow in five meant for them goes astray.",

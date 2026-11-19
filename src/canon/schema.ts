@@ -36,6 +36,8 @@ export interface Condition {
   compel?: string; forceTarget?: true;
   // Whoever applied it stands in front of its holder: a blow aimed at the holder strikes them instead.
   guard?: true;
+  // What each point of the amount it was laid with adds (see ConditionAmount: Ray of Enfeeblement's Strength −1).
+  perAmount?: Modifiers;
   // Levels taken (energy drain): its holder stands as many levels lower as it counts, until it is lifted.
   drains?: true;
   stacking?: 'source-refresh'; omits?: Omissions; unsupported?: Omissions; source?: Source;

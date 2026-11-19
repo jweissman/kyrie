@@ -3,6 +3,7 @@ import { ModifierSet, type Modifiers } from './rules/modifiers';
 import { CanonRuntime } from './canon/canon-runtime';
 import { KindDefenses } from './kind-defenses';
 import { Content } from './content';
+import { ConditionAmount } from './rules/condition-amount';
 
 // What a fighter's modifiers were gathered from, and what they came to.
 interface Gathered {
@@ -20,7 +21,8 @@ interface Gathered {
 export class GatheredModifiers {
   private static readonly kept = new WeakMap<Fighter, Gathered>();
   static of(fighter: Fighter): Modifiers {
-    const statuses = fighter.statuses.map(s => s.id).join(' '), kept = GatheredModifiers.kept.get(fighter);
+    const statuses = fighter.statuses.map(s => s.amount ? `${s.id}:${s.amount}` : s.id).join(' ');
+    const kept = GatheredModifiers.kept.get(fighter);
     const equipment = fighter.equipment as Fighter['equipment'] | undefined;
     if (kept && kept.statuses === statuses && kept.environment === fighter.environment
       && kept.equipment === fighter.equipment && kept.weapon === equipment?.weapon && kept.worn === equipment?.modifiers
@@ -39,9 +41,12 @@ export class GatheredModifiers {
       if (!condition || !Object.hasOwn(Content.statuses, id)) { throw new Error(`Unknown status ${id}`); }
       return condition.modifiers;
     });
+    // What a condition laid with an amount adds for it (see ConditionAmount).
+    const counted = fighter.statuses.filter(s => s.amount)
+      .map(s => ConditionAmount.added(Content.statuses[s.id]?.perAmount, s));
     const at = { ...fighter.environment ? { environment: fighter.environment } : {},
       ...fighter.equipment?.weapon ? { weapon: fighter.equipment.weapon } : {} };
-    return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,
+    return ModifierSet.sum([...conditions, ...counted, ...CanonRuntime.passives(fighter.traits, at).modifiers,
       fighter.equipment?.modifiers ?? {}, ...KindDefenses.fractions(fighter)]);
   }
   // Frozen through, as far as what it holds is its own (the turn-end harms it lists are the canon's own, and left be).

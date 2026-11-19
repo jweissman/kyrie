@@ -60,7 +60,7 @@ describe('the SRD fidelity census', () => {
     expect(SpellFidelity.row('ray_of_frost', 'ray-of-frost').attack)
       .toEqual({ verdict: 'exact', ours: 'ranged touch', theirs: 'ranged touch' });
     expect(SpellFidelity.row('weakness', 'ray-of-enfeeblement').attack)
-      .toEqual({ verdict: 'differs', ours: 'none', theirs: 'ranged touch' });
+      .toEqual({ verdict: 'exact', ours: 'ranged touch', theirs: 'ranged touch' });
     expect(SpellFidelity.row('magic_missile', 'magic-missile').dc.verdict).toBe('n/a');
     // A burst made a cone is seen.
     const coned = { ...Canon.abilities.cloudkill!, area: 'cone' as const };
@@ -70,12 +70,12 @@ describe('the SRD fidelity census', () => {
     expect(CreatureFidelity.row('rat').hit).toEqual({ verdict: 'differs', ours: '20%', theirs: '50%' });
     const rows = [...SpellFidelity.rows(), ...CreatureFidelity.rows()];
     // Proved only where the concordance names a focused test: the SRD rat's, and the spells moved by cases 7, 9, 12,
-    // 14 to 24, 31 to 33, 35, 36, 38 to 40, 42, 44, 45, 48 to 50, 52 and 55.
+    // 14 to 24, 31 to 33, 35, 36, 38 to 40, 42, 44, 45, 48 to 50, 52, 55 and 58.
     expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort()).toEqual(['acid_arrow', 'armor', 'barkskin', 'bless', 'blur',
       'burning_hands',
       'calm_emotions', 'chain_lightning', 'command', 'cone_of_cold', 'cure', 'cure_critical', 'cure_disease', 'cure_moderate', 'cure_serious', 'divine_favor',
       'entangle', 'fireball', 'flesh_to_stone', 'hold_animal', 'hold_person', 'life_drain', 'lightning_bolt', 'magic_missile', 'mass_curse', 'mirror_image', 'paralyzing_touch', 'protection_from_evil', 'rat/cellar', 'ray_of_frost', 'remove_fear', 'resist_fire', 'shield',
-      'shocking_grasp', 'sleep', 'terror']);
+      'shocking_grasp', 'sleep', 'terror', 'weakness']);
     expect(SpellFidelity.row('cloudkill', 'cloudkill').grades).toEqual({ structural: 'fail', resolution: 'fail',
       identity: 'unassessed' });
     expect(SpellFidelity.row('fireball', 'fireball').grades).toEqual({ structural: 'pass', resolution: 'pass',
