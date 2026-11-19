@@ -84,7 +84,8 @@ export class ModifierSet {
   }
   // What a condition's perAmount names that cannot be counted (see ConditionAmount): only scores, saves and numbers.
   static uncounted(m: Modifiers | undefined): string[] {
-    return Object.keys(m ?? {}).filter(k => !['attributes', 'saves', ...ModifierSet.numeric].includes(k));
+    return Object.entries(m ?? {}).filter(([k, v]) => !['attributes', 'saves', ...ModifierSet.numeric].includes(k)
+      && !(ModifierSet.dice.includes(k as DiceModifier) && typeof v === 'number')).map(([k]) => k);
   }
   static validate(m: Modifiers, where: string, vocabulary: { saveKinds: string[]; damageTypes: string[] }) {
     for (const key of Object.keys(m)) {

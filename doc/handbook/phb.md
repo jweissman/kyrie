@@ -7499,11 +7499,11 @@ One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's
 
 *Adapted · cantrip divine spell, evocation, war domain* · `ability:divine_favor`
 
-You are blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine cantrip, cast at will.
+You are blessed by max(0, min(2, floor(castingLevel / 3) - 1)) for 10 turns. Blessed: +1 to hit, +1 damage. A divine cantrip, cast at will.
 
-> Call on your god's favour: for a minute you strike truer and harder.
+> Call on your god's favour: for a minute you strike truer and harder, by one, two from the sixth level, three from the ninth.
 
-*Adapted: The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); the SRD's +1 each three casting levels to +3 converted to +1 at every level. Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds.*
+*Adapted: The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); and a point more of each at the sixth casting level and the ninth, to +3 (the SRD's +1 each three casting levels; exact since case 60: an amount its caster throws, ConditionAmount). Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds.*
 
 ##### Gloom
 
@@ -9919,11 +9919,13 @@ Takes 1 bleed damage each turn.
 
 ### Blessed
 
-*Faithful · lasts the fight at most* · `condition:blessed`
+*Adapted · lasts the fight at most* · `condition:blessed`
 
 +1 to hit, +1 damage.
 
 > Favored by divine forces, gaining enhanced combat abilities.
+
+*Adapted: Orsino's blessed, +1 to hit and +1 damage, and as much again for each it was laid with (perAmount: Divine Favor's +1 each three casting levels to +3, srd-proving-cases.md case 60). Bless and Neptune's Blessing lay the one alone.*
 
 ### Blinded
 

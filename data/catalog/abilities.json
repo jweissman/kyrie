@@ -493,11 +493,11 @@
     "divine_favor": {
       "name": "Divine Favor",
       "kind": "spell",
-      "description": "Call on your god's favour: for a minute you strike truer and harder.",
+      "description": "Call on your god's favour: for a minute you strike truer and harder, by one, two from the sixth level, three from the ninth.",
       "effects": [
         {
           "kind": "apply",
-          "status": "blessed",
+          "status": "blessed", "amount": {"kind": "deem", "expression": "max(0, min(2, floor(#castingLevel / 3) - 1))"},
           "duration": 10,
           "target": "self"
         }
@@ -514,7 +514,7 @@
         "srd35": "spell:divine-favor",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); the SRD's +1 each three casting levels to +3 converted to +1 at every level. Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds."
+        "notes": "The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); and a point more of each at the sixth casting level and the ninth, to +3 (the SRD's +1 each three casting levels; exact since case 60: an amount its caster throws, ConditionAmount). Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds."
       }
     },
     "armor": {

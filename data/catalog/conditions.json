@@ -599,6 +599,18 @@
         "notes": "Orsino's barkskin, two harder to hit (the SRD's natural armour +2, added to worn armour), and a point more for each it was laid with (perAmount: the SRD's Barkskin grows a point each three casting levels past the third, to +5 at the twelfth; srd-proving-cases.md case 59). A consumable that lays it lays the two alone."
       }
     },
+    "blessed": {
+      "name": "Blessed",
+      "description": "Favored by divine forces, gaining enhanced combat abilities.",
+      "lifetime": "encounter",
+      "modifiers": { "toHit": 1, "bonusDamage": 1 },
+      "perAmount": { "toHit": 1, "bonusDamage": 1 },
+      "source": {
+        "orsino": "status:blessed",
+        "fidelity": "adapted",
+        "notes": "Orsino's blessed, +1 to hit and +1 damage, and as much again for each it was laid with (perAmount: Divine Favor's +1 each three casting levels to +3, srd-proving-cases.md case 60). Bless and Neptune's Blessing lay the one alone."
+      }
+    },
     "concealed": {
       "name": "Concealed",
       "description": "Blurred and wavering: one blow in five meant for them goes astray.",

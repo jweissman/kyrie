@@ -7,7 +7,7 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Ancestries, callings, backgrounds and formations | 52 faithful, 249 adapted, 415 kyr, 5 not playable, 4 unreachable, 11 orsino data only |
 | Character creation | 16 faithful, 26 adapted, 1 kyr |
 | Progression, feats and high levels | 211 faithful, 48 adapted, 4 kyr, 33 not playable |
-| Action timing, reactions, conditions, costs and targeting | 174 faithful, 34 adapted, 58 kyr, 21 not playable |
+| Action timing, reactions, conditions, costs and targeting | 173 faithful, 35 adapted, 58 kyr, 21 not playable |
 | Spells: traditions, slots, durations and unusual magic | 208 faithful, 44 adapted, 4 kyr, 30 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 37 faithful, 6 adapted, 7 represented, 12 not playable |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 74 kyr, 4 not playable, 104 orsino data only |
@@ -77,7 +77,7 @@ Handbook sections: `phb:advancement`, `phb:feats`, `phb:magic`.
 
 ## Action timing, reactions, conditions, costs and targeting
 
-Entries: 174 faithful, 34 adapted, 58 kyr, 21 not playable.
+Entries: 173 faithful, 35 adapted, 58 kyr, 21 not playable.
 
 **What Orsino defines.** Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.
 
