@@ -2,10 +2,9 @@
    the scene's acts, a conversation's, the map's menu, a fight's moves and creation's rows, answers the hand and the keys
    in one way. Its layout stays its family's (menu.css, creation.css); what it does in each state is said here once.
    - at rest: undressed; its mark a short line at the left, quiet;
-   - under the hand: a light tint of its tone over the ground, and nothing else;
-   - where the keys are (or what is considered): a deeper tint, the words white, and the mark grown to the row's height
-     in its tone at full light (ivory where it is nothing in particular), so the keys' place is never mistaken for where
-     the hand happens to be (button-discovery.md §3: they had looked the same);
+   - under the hand: nothing (the owner, 18 November);
+   - where the keys are (or what is considered): a deeper tint, the words white, and the mark at full light in its own
+     fill, never replaced (an Atlas mark had turned dark under the hand: the owner, 18 November);
    - pressed or held: deeper, at once;
    - taken (the engine answering): kept pressed, and the other rows quiet after a glance (80 ms, so a quick answer does
      not flicker);
@@ -19,17 +18,15 @@
    light changes. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row > .row-mark {
   transform: none; opacity: .72; transition: opacity var(--row-out) var(--ease); }
-/* Under the hand (once it has moved since the screen changed: IG-18). */
-:root:not([data-still]) :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  .choice-row.choice-row:hover:not(.shut, [disabled], [aria-disabled="true"]) {
-  background-color: color-mix(in oklab, var(--row-tone) var(--row-hover), transparent); transition: none; }
+/* Under the hand: nothing (the owner, 18 November: restraint; a long press says itself at once, and a row's colour is
+   never replaced as the hand passes over it). */
 /* Where the keys are, or what is considered. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(.sel, :focus-visible, [data-considered]):not(.shut, [disabled], [aria-disabled="true"]) {
   background-color: color-mix(in oklab, var(--row-tone) var(--row-lit), transparent); color: #fff; transition: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-holding], [data-taken]) > .row-mark {
-  opacity: 1; transition: none; background: color-mix(in oklab, var(--row-tone) 88%, white); }
+  opacity: 1; transition: none; }
 /* Pressed, held, taken: deeper, at once. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(:active, [data-holding], [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {

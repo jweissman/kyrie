@@ -114,6 +114,11 @@ export class ReaderOpening {
   // The press shown at once, never waiting on the engine (the grammar: focus and choosing answer in the same frame):
   // the card chosen, the field it names set, two rolls changed over; what the choice settles besides comes back with
   // the engine's state and replaces this.
+  private static toggled(step: { picked?: string[]; many?: number }, value: string): string[] {
+    const picked = step.picked ?? [];
+    return picked.includes(value) ? picked.filter(id => id !== value)
+      : picked.length < (step.many ?? 0) ? [...picked, value] : picked;
+  }
   private pressed(step: CreationChoice, value: string) {
     const s = this.app.state, creation = s.creation, member = s.party[0];
     if (!creation || !member) { return; }
@@ -125,7 +130,10 @@ export class ReaderOpening {
     if (a && b && rolled?.[a] !== undefined && rolled[b] !== undefined) {
       now.rolled = { ...rolled, [a]: rolled[b]!, [b]: rolled[a]! };
     }
-    const steps = creation.steps.map(x => x.id === step ? { ...x, chosen: value } : x), why = step === 'why' ? { origin: value } : {};
+    // At a step of many a card is taken or let go at once, and the page stays; its last card goes on.
+    const here = creation.steps.find(x => x.id === step), toggle = !!here?.many && value !== here.cards.at(-1)?.id;
+    const steps = creation.steps.map(x => x.id !== step ? x : toggle ? { ...x, picked: ReaderOpening.toggled(x, value) }
+      : { ...x, chosen: value }), why = step === 'why' ? { origin: value } : {};
     // Where the making goes, as the engine said it would: a card chosen at the step asked (or a name drawn at the name)
     // goes on, back goes back; the engine's answer then stands in its place.
     // A step whose next hangs on the choice (CreationStep.leads) waits for the engine to say where it goes.
@@ -133,7 +141,7 @@ export class ReaderOpening {
     // comes next (CreationStep.leads): the press is answered at once, and nothing else is taken meanwhile (the owner,
     // 18 November: "a 'locked/committed' state of the menu item that says the final value has been accepted").
     const leads = step === creation.at && !!creation.steps.find(x => x.id === step)?.leads;
-    const on = (step === creation.at && step !== 'name' && !leads) || (step === 'drawn' && creation.at === 'name')
+    const on = (step === creation.at && step !== 'name' && !leads && !toggle) || (step === 'drawn' && creation.at === 'name')
       || step === 'onward';
     const at = step === 'back' ? creation.back ?? creation.at : on ? creation.on : creation.at;
     this.app.setState({ creation: { ...creation, steps, at, ...why }, party: [now, ...s.party.slice(1)], ...why,

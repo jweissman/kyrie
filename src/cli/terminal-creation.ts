@@ -34,15 +34,17 @@ export class TerminalCreation {
     this.say(`\n${Typography.plain(step.ask)}`);
     let group: string | undefined;
     // The four the step leads with, and the rest under `more`, numbered as they stand (the owner, 14 November).
-    const shown = step.cards.length > 4 && !this.all ? step.cards.slice(0, 4) : step.cards;
+    const shown = step.cards.length > 4 && !this.all && !step.all ? step.cards.slice(0, 4) : step.cards;
     shown.forEach((c, i) => {
       if (c.group && c.group !== group) { group = c.group; this.say(`  ${Typography.plain(group)}`); }
       const sign = c.emblem && Signs.emblem(c.emblem);
       this.say(`  ${i + 1}. ${sign ? `${sign} ` : ''}${Typography.plain(c.name)}${c.line ? ` — ${Typography.plain(c.line)}` : ''}`
-        + `${c.shut ? ` (${c.shut})` : ''}${c.id === step.chosen ? ' *' : ''}`);
+        + `${c.shut ? ` (${c.shut})` : ''}${c.id === step.chosen || step.picked?.includes(c.id) ? ' *' : ''}`);
     });
     if (shown.length < step.cards.length) { this.say(`  (${step.cards.length - shown.length} more: more)`); }
-    const fallback = step.cards.find(c => c.id === step.chosen && !c.shut) ?? step.cards.find(c => !c.shut)!;
+    // Enter takes the card chosen already, or the first; at a step of many its last, which goes on.
+    const last = step.many ? step.cards.at(-1) : undefined;
+    const fallback = last ?? step.cards.find(c => c.id === step.chosen && !c.shut) ?? step.cards.find(c => !c.shut)!;
     for (;;) {
       const answer = (await this.input.ask('> '))?.trim() ?? '';
       if (answer === 'more' && shown.length < step.cards.length) {
@@ -67,12 +69,15 @@ export class TerminalCreation {
   static menu(step: CreationStep): Menu {
     const rows: Row[] = step.cards.map(c => {
       const sign = c.emblem && Signs.emblem(c.emblem);
-      return { id: c.id, label: Typography.plain(c.name), ...sign ? { icon: sign } : {},
+      const taken = step.picked?.includes(c.id) ? ' *' : '';
+      return { id: c.id, label: `${Typography.plain(c.name)}${taken}`, ...sign ? { icon: sign } : {},
         ...c.line ? { note: Typography.plain(c.line) } : {}, ...c.group ? { group: Typography.plain(c.group) } : {},
         ...c.shut ? { shut: `${c.shut}.` } : {}, about: c.text ? [Typography.plain(c.text)] : [] };
     });
-    const chosen = step.chosen ?? step.cards.find(c => !c.shut)?.id;
-    return { title: Typography.plain(step.ask), rows: rows.slice(0, 4), rest: rows.slice(4),
+    // At a step of many the focus is on going on, once it can be gone on (CreationStep.many).
+    const last = step.many ? step.cards.at(-1) : undefined, at = step.all ? rows.length : 4;
+    const chosen = (last && !last.shut ? last.id : undefined) ?? step.chosen ?? step.cards.find(c => !c.shut)?.id;
+    return { title: Typography.plain(step.ask), rows: rows.slice(0, at), rest: rows.slice(at),
       ...chosen ? { focus: chosen } : {} };
   }
   static readonly left = 'The player left before setting out.';

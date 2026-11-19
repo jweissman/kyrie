@@ -48,9 +48,11 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // leads: what the next step asks hangs on the card chosen here (the sign's gifts, the calling's art, the kind's
 // trades), so a client waits for the engine's answer before going on, never showing the next step as it stood before.
 // emblems: each card's emblem is drawn beside its name, whatever the step is drawn as (a school's, a spell's school).
+// many: how many are taken at the step (a caster's first spells), each card a press that takes it or lets it go
+// (picked: those taken), and the last card the one that goes on with them.
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
-  all?: boolean; write?: string; roll?: string; leads?: boolean; emblems?: boolean;
+  all?: boolean; write?: string; roll?: string; leads?: boolean; emblems?: boolean; many?: number; picked?: string[];
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -269,6 +271,12 @@ export class CreationFlow {
     if (step === 'roll') { if (here === 'trade') { this.dealt++; } else { this.rolls++; } return; }
     // A card shut is not taken (a way the people may not take, a spell that would leave none of the art).
     if (step === here && this.steps().find(x => x.id === here)?.cards.find(c => c.id === value)?.shut) { return; }
+    // At a step of many, a card is taken or let go and the flow stays; its last card goes on (see CreationSpells).
+    if (step === here && CreationSpells.is(step)) {
+      if (value === CreationSpells.done) { this.move(1); return; }
+      CreationSpells.settle(this.member, this.catalog, value);
+      return;
+    }
     // A card chosen at the step asked goes on to the next; a name being written, or a choice behind Details, does not.
     if ((step === here && step !== 'name') || (step === 'drawn' && here === 'name')) { this.settled(step, value); this.move(1); return; }
     this.settled(step, value);
@@ -279,7 +287,6 @@ export class CreationFlow {
     if (step === 'weapon') { m.weapon = value; return; }
     if (step === 'drawn') { m.name = value; this.named = false; return; }
     if (step === 'spells') { m.spells = value.split(',').filter(Boolean); return; }
-    if (CreationSpells.is(step)) { CreationSpells.settle(m, this.catalog, step, value); return; }
     if (step === 'place') { this.place(value); return; }
     if (step === 'reroll') { this.reroll(); return; }
     if (step === 'trade') {

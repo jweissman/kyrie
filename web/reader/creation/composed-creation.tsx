@@ -72,6 +72,8 @@ export class ComposedCreation {
     const [lit, consider] = useState(first), [flare, flared] = useState<string>(), leaving = useRef(false);
     useEffect(() => { ComposedCreation.focus(); }, []);
     const choose = (id: string) => {
+      // At a step of many a press takes a card or lets it go, and the page stays (see CreationSpells).
+      if (step.many && id !== step.cards.at(-1)?.id) { app.opening.choose(step.id, id); return; }
       if (leaving.current) { return; }
       leaving.current = true;
       // A card chosen goes on, as the engine has it (a name of the list is drawn, and borne as the list's).
@@ -93,6 +95,7 @@ export class ComposedCreation {
       header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>{!sky && entry}</>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options committed={app.state.waiting} offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
+        {...step.many ? { picked: step.picked ?? [], learn: step.cards.at(-1)?.id } : {}}
         consider={row} choose={choose} list={step.present === 'list' || (sky && !!step.all)}
         after={<><ComposedCreation.Own app={app} step={step} onward={onward} />{sky && entry}</>} />} />;
   }
@@ -139,9 +142,11 @@ export class ComposedCreation {
     return [zoom, (id: string) => { consider(id); if (sky && moved.current) { zoomed(id); idle(); } }, out];
   }
   static readonly idle = 3000;
-  static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list, committed }: { committed?: string; offer: Offer; more: number;
-    unfold: () => void; chosen?: string; lit: string; consider: (id: string) => void; choose: (id: string) => void;
-    after?: ReactNode; list?: boolean }) {
+  // picked: at a step of many, those taken: each a press that takes or lets go, and only learn (its last card) held.
+  static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list, committed, picked, learn }: {
+    committed?: string; offer: Offer; more: number; unfold: () => void; chosen?: string; lit: string;
+    consider: (id: string) => void; choose: (id: string) => void; after?: ReactNode; list?: boolean; picked?: string[];
+    learn?: string }) {
     // Folded, More… is the fourth row (the owner, 17 November: never more than four in view).
     const all = offer.options, per = !offer.all && all.length > ComposedCreation.folded ? ComposedCreation.folded - 1
       : ComposedCreation.folded;
@@ -156,7 +161,8 @@ export class ComposedCreation {
     const rest = !folds ? [] : [<ComposedRow.View key="more" option={{ id: 'more', name: 'More…',
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
     const rows = shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined}
-      chosen={chosen === o.id} lit={lit === o.id} taken={committed === o.id} hold onConsider={consider}
+      chosen={chosen === o.id || !!picked?.includes(o.id)} lit={lit === o.id} taken={committed === o.id}
+      hold={!picked || o.id === learn} onConsider={consider}
       onChoose={id => choose(id)} />);
     // A list is one of the four, its options set close together in it (creation's one dense menu: a people's names).
     return (
