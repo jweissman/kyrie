@@ -44,7 +44,7 @@
   Thing {w}_cage "the iron lift-cage" on {w}_shaft {
     State jammed blocking "The lift-cage is somewhere at the bottom of the shaft; its chains are rusted fast on the great wheel.".
     State working "The lift-cage rides the shaft on its chains, and the great wheel is free to wind it up and let it down.".
-    Change free "Break the rust off the wheel and wind the lift-cage up" from jammed to working needing brawn.
+    Change free "Break the rust off the wheel and wind the lift-cage up" from jammed to working needing brawn or crowbar.
   }
   Event {w}_cage_wound beside {w}_shaft when state({w}_cage, working) "The rust cracks off the axle, and the great wheel turns: the lift-cage comes up the shaft on its chains, groaning, to the lift-head.".
   Initially Assert unlit({w}_adit). Initially Assert unlit({w}_head). Initially Assert unlit({w}_fall).
