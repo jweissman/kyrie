@@ -135,7 +135,9 @@ export class ScreenModel {
       .flatMap(name => world.related(name).filter(r => r.args[1] === actor).map(r => r.args[0]!)) : []);
   }
   // Family are named as what they are to you: "Ion, your brother", not "Ion, the drover's son".
-  private static called(w: Campaign['world'], id: string, name: string): string {
+  // What a role names said by name ("the fuel boatman of Tolleth", not "of {region__s5}": the cold pans, 19 November).
+  private static called(w: Campaign['world'], id: string, raw: string): string {
+    const name = raw.includes('{') ? ObservationText.render(raw, w, false) : raw;
     const kinship = w.module.relations.some(r => r.name === 'kinship') ? w.one('kinship', id) : undefined;
     const word = kinship && w.module.entities.find(e => e.id === kinship)?.name;
     return word ? `${name.split(', ')[0]}, ${word}` : name;

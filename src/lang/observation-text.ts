@@ -110,7 +110,11 @@ export class ObservationText {
   }
   private static present(world: World, e: Entity): Entity {
     const role = e.roles?.find(r => world.test(r.when)), now = role ? { ...e, name: role.name } : e;
-    return now.alias || (now.type !== 'group' && now.name.includes('{')) ? { ...now, name: this.label(world, e.id) } : now;
+    if (now.alias || (now.type !== 'group' && now.name.includes('{'))) { return { ...now, name: this.label(world, e.id) }; }
+    // Someone's whole name, their role and all, with what the role names filled in: "Ianto, the fuel boatman of
+    // Tolleth", not "of {region__s5}" (the cold pans, 19 November: a label keeps only the name before the comma).
+    return now.type === 'group' && now.name.includes('{')
+      ? { ...now, name: this.map(now.name, call => World.format(call), ref => this.label(world, ref)) } : now;
   }
   // A measure in it is read with what its rule bound ("{gold(?g)}" was read of nobody, and said 0: the architecture
   // review's A17), and in words where it says so: "I've lost one to them so far", not 1 (play 9).

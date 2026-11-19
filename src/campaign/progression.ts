@@ -7,6 +7,7 @@ import type { Change } from '../lang/module';
 import type { CampaignDefinition, InstalledModule } from './definition';
 import type { ModuleStatus } from './campaign-types';
 import { Milestones } from '../lang/milestones';
+import { ObservationText } from '../lang/observation-text';
 
 export class Progression {
   // Each installed module's standing: failed by an unmet pressure, succeeded by its goal, or still active.
@@ -72,7 +73,10 @@ export class Progression {
       if (m.worth <= 0 || !this.earned(world, m.id, award.own, by)) { continue; }
       const from = award.events.length;
       FieldUse.grant(award.store, award.party, m.worth, award.events);
-      for (const e of award.events.slice(from)) { if (e.type === 'gain') { e.detail = `experience: ${m.title}`; } }
+      // Its title said as any authored text is, the names its roles were bound to filled in: "kept Holgar's pans
+      // burning", not "kept {region__s1_merchant}'s pans burning" (the cold pans, 19 November).
+      const title = ObservationText.render(m.title, world, false);
+      for (const e of award.events.slice(from)) { if (e.type === 'gain') { e.detail = `experience: ${title}`; } }
     }
   }
   private static earned(world: World, id: string, own: boolean | undefined,

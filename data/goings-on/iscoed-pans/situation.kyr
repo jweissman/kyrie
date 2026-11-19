@@ -8,7 +8,7 @@ Module pans "The cold pans" {
   Place fuelgreen "The green at the fuel village" is room.
   Entity trader: group "The salter".
   Relation fuelled(group). Relation spoiled(group). Relation hired(group). Relation paid(group). Relation asked(group).
-  Relation carted(group).
+  Relation carted(group). Relation shared(group). Relation laidoff(group).
 
   Entity cold: fact "{trader}'s salt-pans at {town} are going cold: the fuel boat from {fuelvillage} is two days late, and the brine spoils if the fires are out three days.".
   Initially Assert established(cold).
@@ -61,10 +61,37 @@ Module pans "The cold pans" {
     Result "{trader} goes out onto the quay and stands looking at the heaped boat for a long moment. 'The whole load,' {trader} says. 'A month.' Fifteen coin on the boards, slowly. 'There's three a shift for you here, whenever you want it. And I'll remember it.'".
     On success { Assert fuelled(actor). Assert paid(actor). Increase quantity(actor, gold) by 15. Assert knows(actor, work). }
   }
-  // An ordinary livelihood: a shift at the pans, paid, once the fires are lit.
+  // A second claim on the boat (the owner's structural critique, 18 November, and mission-22/story-sheets.md, the cold
+  // pans' sheet: the salter, the boatman and the village had all wanted the same thing, and the boat was a delivery).
+  // Ffion's pans stand cold beside the salter's, and Ianto has always sold to the bigger man first: the whole load is
+  // the salter's season and her rakers laid off, a third of it two smaller seasons and the salter's grudge.
+  Person ffion "Ffion Wyn" at green { Role "a salter of {town}, whose pans stand cold beside {trader}'s". Pronouns she. Peaceable. Manner grim. }
+  Entity ffion_need: fact "Ffion Wyn's pans at {town} are cold too, and the fuel boat has always gone to {trader} first; she would pay a fair price for a third of it.".
+  Topic ffion_cold with ffion "Ask Ffion about her pans" when not fuelled(party) and not spoiled(party) once {
+    Says "'Cold as {trader}'s, and colder,' says Ffion. 'When the boat comes, the boat is his. Ianto has always sold to him first: he's the bigger man, and pays on the nail.' She looks up the quay at her own dead chimney. 'My rakers have had nothing since the feast. Two days more and I let them go. If a third of that load came my way, I'd give a fair price for it.'".
+    On discuss { Assert knows(actor, ffion_need). }
+  }
+  Rule rakers_off when not fuelled(party) and not spoiled(party) and not laidoff(party) and watch(clock) >= 216 says "Ffion Wyn has laid off her rakers. They stand on the quay in a knot, owed since the feast, watching the river for a boat." { Assert laidoff(party). }
+  Action share_load(actor: group, site: place) "Tell {trader} the fuel boat is at the quay, and that a third of it is Ffion's" {
+    Speaker trader. Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and carted(actor) and knows(actor, ffion_need) and not fuelled(party) and not spoiled(party).
+    Result "{trader} goes out onto the quay and looks at the heaped boat, and then along it at Ffion's cold chimney, and for a long moment says nothing. 'A third,' {trader} says. 'You're free with my fuel.' Ten coin on the boards, not fifteen, and no word of work after. By evening two chimneys are smoking over the salt-houses.".
+    On success { Assert fuelled(actor). Assert paid(actor). Assert shared(actor). Increase quantity(actor, gold) by 10. }
+  }
+  Topic ffion_shared with ffion "Ask Ffion how her pans go" when shared(party) once {
+    Says "'Burning,' says Ffion, 'and my rakers back at them, and paid.' She counts four coin into your hand. 'For the third. {trader} won't forget it, and nor will I.'".
+    On discuss { Increase quantity(actor, gold) by 4. }
+  }
+  Topic ffion_left with ffion "Ask Ffion how her pans go" when fuelled(party) and not shared(party) once {
+    Says "'Cold,' says Ffion. 'The boat came, and it went to {trader}, as it always does. My rakers have gone up the river road to look for work.' She does not look at you.".
+  }
+  Observe pans_shared at green when shared(party) "Over the salt-houses two chimneys are smoking, and Ffion's rakers are on the quay with their rakes over their shoulders.".
+  Observe pans_whole at green when fuelled(party) and not shared(party) and knows(party, ffion_need) "Over the salt-houses {trader}'s chimneys are smoking. The pans beside them are cold, and nobody stands at Ffion's door.".
+  // An ordinary livelihood: a shift at the pans, paid, once the fires are lit by one the salter will hire (not one who
+  // gave a third of his fuel away).
   Action shift(actor: group, site: place) "Work a shift at the pans for {trader}" {
     Time 8 hours.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, boiling) and fuelled(actor) and not dark().
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, boiling) and fuelled(actor) and knows(actor, work) and not dark().
     Result "You rake salt until your shoulders burn and feed the hearths until your face does, and at the end of it {trader} counts three coin into your hand without a word.".
     On success { Increase quantity(actor, gold) by 3. Assert hired(actor). }
   }
