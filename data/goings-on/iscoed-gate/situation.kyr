@@ -114,8 +114,11 @@ Module gate "The last sea-gate" {
     Says "The reeve hears it out without a word. 'Third drove this year,' she says at last. 'I had wondered why the Brynach men stopped selling here.' She writes something on her tablet and underlines it. 'He keeps the Rì's book, and I keep the Rì's march. I will have the book off him by the quarter-day.'".
     On discuss { Assert mardleTold(actor). }
   }
+  // Shown the sawn pin, she comes out to the gate herself, and is there when Ifan's boat comes (ST-03's collision).
+  Relation reeveWarned(group). Relation reeveSaw(group).
   Topic reeve_cut with reeve "Show the reeve the pawl's sawn pin" when knows(actor, cut) once {
-    Says "The reeve's face does not change, but she goes very still. 'Sawn,' she says. 'Then someone wants the fen wet, or the gate open. The cut runs under the bank to the sea, and a boat could come and go by it at night with no customs-man the wiser.' She looks toward the waterfront. 'Keep that to yourself until I know who.'".
+    Says "The reeve's face does not change, but she goes very still. 'Sawn,' she says. 'Then someone wants the fen wet, or the gate open. The cut runs under the bank to the sea, and a boat could come and go by it at night with no customs-man the wiser.' She looks toward the waterfront. 'Keep that to yourself until I know who. I will be out at the gate myself before the tide.'".
+    On discuss { Assert reeveWarned(actor). }
   }
   Rule floods when not mended(party) and not flooded(party) and watch(clock) >= 864 says "The spring tide comes in on the full moon, high and grey, and does not stop at the sea-bank. By morning the fen behind {hamlet} is under water to the ridge." {
     Assert flooded(party). Assert stale(failing).
@@ -278,18 +281,39 @@ Module gate "The last sea-gate" {
   Thing ifanboat "Ifan Rhys's boat, under the shut gate" nowhere {
     State waiting "Below the slot Ifan Rhys holds his boat against the shut gate with the pole, and waits.".
   }
-  Rule boat_comes when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. He looks up at you through the slot in the floor and does not call out." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). Assert at(ifanboat, gatehouse). }
+  Rule boat_comes when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) and not reeveWarned(party) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. He looks up at you through the slot in the floor and does not call out." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). Assert at(ifanboat, gatehouse). }
+  // With the reeve come out to the gate, the boat is let through or turned back in front of her.
+  Rule boat_watched when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) and reeveWarned(party) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. Behind you the door bangs: the reeve has ridden out to see the gate for herself, as she said she would, and she stands at the slot beside you, looking down at him." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). Assert at(ifanboat, gatehouse). Retract at(reeve, green). Assert at(reeve, gatehouse). }
   Action let_through(actor: group, site: place) "Wind the gate up a tide's height and let Ifan's boat through" {
     Time 30 minutes.
-    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor) and not turnedBack(actor).
+    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not at(reeve, gatehouse) and not letThrough(actor) and not turnedBack(actor).
     Result "The drum takes the chain up a turn, the boat slides through on the last of the flood, and you wind it down again. Ifan lifts a hand from the pole as he passes under. Nobody else sees it.".
     On success { Retract at(ifanboat, gatehouse). Assert letThrough(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
   }
+  Action let_through_seen(actor: group, site: place) "Wind the gate up a tide's height and let Ifan's boat through" {
+    Time 30 minutes.
+    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and at(reeve, gatehouse) and not letThrough(actor) and not turnedBack(actor).
+    Result "The drum takes the chain up a turn, and the boat slides through on the last of the flood under the reeve's eyes. Ifan does not lift his hand this time. 'So that is who,' says the reeve, and writes on her tablet, and rides back to {town} without another word to you.".
+    On success { Retract at(ifanboat, gatehouse). Assert letThrough(actor). Assert reeveSaw(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). Retract at(reeve, gatehouse). Assert at(reeve, green). }
+  }
   Action turn_back(actor: group, site: place) "Keep the gate shut, and tell Ifan to take his boat back down the cut" {
     Time 10 minutes.
-    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor) and not turnedBack(actor).
+    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not at(reeve, gatehouse) and not letThrough(actor) and not turnedBack(actor).
     Result "Ifan looks at the shut gate a long moment, then at you. 'Then the reeve's clerk eats this winter,' he says, 'and my children don't.' He turns the boat in the cut with one push and is gone into the dark.".
     On success { Retract at(ifanboat, gatehouse). Assert turnedBack(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
+  }
+  Action turn_back_seen(actor: group, site: place) "Keep the gate shut, and tell Ifan to take his boat back down the cut" {
+    Time 10 minutes.
+    Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and at(reeve, gatehouse) and not letThrough(actor) and not turnedBack(actor).
+    Result "Ifan looks up at the shut gate, and at the reeve beside you, a long moment. 'Ifan Rhys,' says the reeve, and writes it down. 'The Rì's toll on every sack since the new moon, or the boat.' He turns the boat in the cut with one push and is gone into the dark, and the reeve rides back to {town}.".
+    On success { Retract at(ifanboat, gatehouse). Assert turnedBack(actor). Assert reeveSaw(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). Retract at(reeve, gatehouse). Assert at(reeve, green). }
+  }
+  // What the reeve, having seen it, says of it after (her own topic at {town}).
+  Topic reeve_let with reeve "Ask the reeve about Ifan Rhys's boat" when letThrough(actor) and reeveSaw(actor) once {
+    Says "'You wound the Rì's gate up for a smuggler,' says the reeve, 'in front of the Rì's reeve.' She does not raise her voice. 'The thirty crowns are for a gate that shuts, and it shuts. Do not ask me for anything else this quarter.'".
+  }
+  Topic reeve_turned with reeve "Ask the reeve about Ifan Rhys's boat" when turnedBack(actor) and reeveSaw(actor) once {
+    Says "'Ifan Rhys will pay the toll on every sack since the new moon, or lose the boat,' says the reeve. 'His children will be hungry this winter. That is his doing, not yours.' She looks at you a moment longer. 'But it was you at the gate.'".
   }
   // The cold pans' fuel boat poled down the cut by day (data/goings-on/iscoed-pans): on the eel-men's water, seen.
   Relation ifanPoled(group).

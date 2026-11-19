@@ -67,7 +67,8 @@ against the scenario's source as it stands, then gives what would make the sente
 - **A collision (5).** The crisis is at the gate, with the eel-man, Nest and (if sent for) the reeve present: winding
   the gate shut is done in front of them.
   Built in part (18–19 November): Ifan's boat comes up the cut against the shut gate, and letting it through a tide or
-  turning it back are chosen in the scene's four, about the boat (test/sea-gate-claim); Nest and the reeve are not there.
+  turning it back are chosen in the scene's four, about the boat (test/sea-gate-claim); shown the sawn pin, the reeve
+  rides out and is there, and the choice is made in front of her. Nest is not there.
 - **A choice with a cost (6).** Shut it and expose them (the hamlet's eel-men lose the cut's money; the reeve trusts
   the company); shut it and let the last boat through first (the eel-man's family keeps its winter; the reeve is not
   told); or bargain, as the Wardens' wall says the sea is bargained with (a tide a month left open, by agreement).

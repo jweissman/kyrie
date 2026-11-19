@@ -4,7 +4,7 @@
 // food, and the first line it was told. A beat map is read against the eight beats by an editor; this is its record.
 //   bun scripts/beat-map.ts <lines.txt> <world> <as> [turns]
 // A kept play is from before the rooms under the first town had what lives in them come at the company: those are
-// set aside (test/support/before-rooms), as the kept plays' own specs set them, so its lines replay as they were played.
+// set aside (test/support/before-rooms), as the kept plays' own specs set them: its lines replay as they were played.
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';

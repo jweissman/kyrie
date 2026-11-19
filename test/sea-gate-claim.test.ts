@@ -27,6 +27,21 @@ describe('the last sea-gate, shut', () => {
     expect(c.world.test(ModuleWriter.call('gate__turnedBack', 'party'))).toBe(true);
     expect(c.world.test(ModuleWriter.call('gate__mended', 'party'))).toBe(true);
   }, 240000);
+  // The collision (ST-03): shown the sawn pin, the reeve rides out to the gate herself, and the boat is let through in
+  // front of her; she knows who, then, and goes back to the landing to say so.
+  it('has the reeve at the gate when the boat comes, if she was shown the pin', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
+    const r = new Runner(journey.session), c = journey.session.campaign;
+    for (const line of lines.slice(0, 23)) { said(await r.ask(line)); }
+    c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('gate__reeveWarned', 'party') }]));
+    const s = said(await r.ask(lines[23]!));
+    expect(s.scene.lines.join(' ')).toContain('the reeve has ridden out to see the gate for herself');
+    const four = s.offer.primary.flatMap(o => [o, ...o.opens ?? []]);
+    const through = four.find(o => /^Wind the gate up a tide.s height/.test(o.label))!;
+    expect(said(await r.ask(JSON.stringify({ act: through.id }))).scene.lines.join(' ')).toContain('So that is who');
+    expect(c.world.test(ModuleWriter.call('gate__reeveSaw', 'party'))).toBe(true);
+    expect(c.world.test(ModuleWriter.call('at', 'gate__reeve', 'region__s1_green'))).toBe(true);
+  }, 240000);
   // ST-04: how Bran was got out reaches the gate. With Mardle shown up the smugglers have lost the man they paid, and
   // are at the gatehouse a day sooner (the second morning, not the third).
   it('hears of the gatehouse prowled a day sooner once Mardle is shown up', async () => {
