@@ -1,0 +1,17 @@
+import sys,json
+full = len(sys.argv)>1
+for l in sys.stdin:
+  try: d=json.loads(l)
+  except Exception: print("RAW",l[:2000]); continue
+  print("== turn",d.get("turn"),d.get("moment"),"| at",d.get("at"),"|",d.get("you"),"| purse",d.get("purse"))
+  for x in d.get("scene",{}).get("lines",[]): print("  >",x)
+  for k in d:
+    if k not in ("turn","moment","scene","offer","purse","you","aim","aims","at"): print("  ["+k+"]",json.dumps(d[k],ensure_ascii=False)[:1500])
+  print("  aims:",[(a["id"],a["text"]) for a in d.get("aims",[])])
+  o=d.get("offer",{})
+  for a in o.get("primary",[]): print("  P",a["id"],"|",a["label"],a.get("aspects"),a.get("marks") or "", a.get("minutes",""))
+  rest=o.get("rest",[])
+  for a in rest:
+    if not full and (a["id"].startswith(("travel:","put_item","prepare_spell","wait","haggle_item","gather(","pet(","light_item"))): continue
+    print("  R",a["id"],"|",a["label"],a.get("aspects") or "",a.get("marks") or "",a.get("minutes",""))
+  if not full: print("  (+%d hidden routine rests)"%sum(1 for a in rest if a["id"].startswith(("travel:","put_item","prepare_spell","wait","haggle_item","gather(","pet(","light_item"))))

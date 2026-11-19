@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# A cold play, set up and run (mission-22/current-sprint.md's player protocol, S0-5; the blind robot player of cold plays
+# 4 to 6): a worktree at the revision played, the runner started on it and fed one move at a time from lines.txt, the
+# player's tools (send.sh, show.py) and the protocol's prompt written to a play directory, and the player started:
+# none (the prompt printed, for a person or another agent), claude (`claude -p`, its tools held to the two helpers and
+# the log and report: blind by what it can do, not only by what it is asked), or codex (`codex exec`, blind by the
+# prompt alone). What it leaves: lines.txt (the replayable record: commit it as cold-N-lines.txt), log.md, report.md.
+#   scripts/cold-play.sh --n 7 --world iscoed --as human/warrior/Wenna [--rev origin/main] [--agent none|claude|codex]
+#     [--turns 120] [--dir /var/tmp/kyrie/cold/7]
+#   scripts/cold-play.sh --stop /var/tmp/kyrie/cold/7
+set -euo pipefail
+here="$(cd "$(dirname "$0")" && pwd)"; repo="$(cd "$here/.." && pwd)"; kit="$here/cold-play"
+n=""; world=""; as=""; rev="origin/main"; agent="none"; turns=120; dir=""; stop=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --n) n="$2"; shift 2 ;; --world) world="$2"; shift 2 ;; --as) as="$2"; shift 2 ;; --rev) rev="$2"; shift 2 ;;
+    --agent) agent="$2"; shift 2 ;; --turns) turns="$2"; shift 2 ;; --dir) dir="$2"; shift 2 ;;
+    --stop) stop="$2"; shift 2 ;;
+    *) echo "unknown argument: $1" >&2; exit 2 ;;
+  esac
+done
+# Stopping: the runner's whole process group (the tail and the game), by the id it was started under.
+if [ -n "$stop" ]; then
+  if [ -f "$stop/runner.pgid" ]; then kill -- "-$(cat "$stop/runner.pgid")" 2>/dev/null || true; rm -f "$stop/runner.pgid"; fi
+  echo "stopped: $stop"; exit 0
+fi
+[ -n "$n" ] && [ -n "$world" ] && [ -n "$as" ] || { sed -n '2,12p' "$0"; exit 2; }
+dir="${dir:-/var/tmp/kyrie/cold/$n}"; tree="/var/tmp/kyrie/cold/$n-tree"
+mkdir -p "$dir"
+# The revision played, in a tree of its own (never the owner's checkout), built as the page would be.
+git -C "$repo" fetch -q origin || true
+if [ -d "$tree" ]; then git -C "$tree" checkout -q --detach "$rev"; else git -C "$repo" worktree add -q --detach "$tree" "$rev"; fi
+if [ ! -e "$tree/node_modules" ]; then ln -s "$repo/node_modules" "$tree/node_modules"; fi
+( cd "$tree" && bun run web:build > /dev/null 2>&1 )
+played="$(git -C "$tree" rev-parse --short HEAD)"
+cp "$kit/send.sh" "$kit/show.py" "$dir/"; chmod +x "$dir/send.sh"
+: > "$dir/lines.txt"; : > "$dir/out.jsonl"; : > "$dir/err.txt"
+sed -e "s#{DIR}#$dir#g" -e "s#{N}#$n#g" -e "s#{TURNS}#$turns#g" "$kit/prompt.md" > "$dir/prompt.md"
+printf 'world %s, as %s, at %s (%s)\n' "$world" "$as" "$played" "$rev" > "$dir/played.txt"
+# The runner, fed from lines.txt one line at a time, in a process group of its own so that --stop ends it whole.
+setsid bash -c "cd '$tree' && tail -n +1 -f '$dir/lines.txt' | bin/kyrie run --world '$world' --as '$as' \
+  > '$dir/out.jsonl' 2> '$dir/err.txt'" < /dev/null > /dev/null 2>&1 &
+echo $! > "$dir/runner.pgid"
+for _ in $(seq 1 300); do [ -s "$dir/out.jsonl" ] && break; sleep 0.5; done
+[ -s "$dir/out.jsonl" ] || { echo "the runner did not answer: $dir/err.txt" >&2; "$0" --stop "$dir"; exit 1; }
+echo "cold play $n: $(cat "$dir/played.txt"); play directory $dir"
+case "$agent" in
+  none)
+    cat "$dir/prompt.md"; echo; echo "When it is done: $0 --stop $dir" ;;
+  claude)
+    claude -p "$(cat "$dir/prompt.md")" --output-format text \
+      --allowedTools "Bash($dir/send.sh:*)" "Bash(python3 $dir/show.py:*)" \
+      "Write($dir/log.md)" "Edit($dir/log.md)" "Write($dir/report.md)" > "$dir/agent.txt" 2>&1 || true
+    "$0" --stop "$dir"; echo "report: $dir/report.md" ;;
+  codex)
+    ( cd "$dir" && codex exec "$(cat "$dir/prompt.md")" > "$dir/agent.txt" 2>&1 ) || true
+    "$0" --stop "$dir"; echo "report: $dir/report.md" ;;
+  *) echo "unknown agent: $agent" >&2; "$0" --stop "$dir"; exit 2 ;;
+esac

@@ -98,6 +98,10 @@ invitations stand in the world whichever life begins.
 
 Three cold participants: one for diagnosis (Sprint 1), two for confirmation (Sprints 3 and 5). Recruiting them is the
 owner's. Blind agents (OB-17) play the same protocol through the runner as a cheaper first pass, never instead of a person.
+A blind agent's play is set up and run by `scripts/cold-play.sh --n <n> --world <w> --as <race/calling/name[/past]>
+[--rev <rev>] [--agent none|claude|codex]`: a worktree at the revision, the runner fed from the play's lines.txt, the
+player's two tools and this prompt (scripts/cold-play/prompt.md); `--agent claude` holds the player to those tools,
+so it is blind by what it can do. `--stop <dir>` ends the runner.
 
 **The prompt, read once and not explained:** "This is a game in development. Please play it as you would any game you
 had just found, for as long as you want to, up to an hour. Think aloud if you can. I won't help unless you ask, and
