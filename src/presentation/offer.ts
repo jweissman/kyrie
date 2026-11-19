@@ -29,9 +29,9 @@ export interface Offer { primary: Offered[]; rest: Offered[] }
 // One attention hierarchy for every surface and both clients (the owner, 14 November: four promoted everywhere, the
 // rest reachable, the terminal and the page agreeing on which four and what they mean). The scene's four are the acts
 // the place leads with for their reasons (Promotion.pick: the urgent, the aim, the company's needs, the place's own),
-// then, to make four, its leading way and the best of the rest by the scene's order, each of a type not yet shown, so
-// that the four are four different things to do. A surface of its own (creation's cards, a talk's questions, a
-// fight's hand) ranks its own, and is offered the same way (see Offers.ranked).
+// then, toward four, its leading way and the best of the rest that have a reason, by the scene's order, each of a type
+// not yet shown, so that the four are different things to do; fewer, where fewer have a reason. A surface of its
+// own (creation's cards, a talk's questions, a fight's hand) ranks its own, and is offered alike (Offers.ranked).
 export class Offers {
   static readonly four = 4;
   static readonly types: Record<Kind, ActType> = { talk: 'talk', attack: 'fight', act: 'act', search: 'search',
@@ -62,6 +62,7 @@ export class Offers {
     const acted = led.some(o => !['talk', 'go', 'journey'].includes(o.type));
     const fill: Offered[] = [], waitsOnly = live.filter(c => this.types[c.kind] !== 'other' || c.whys.length)
       .every(c => this.types[c.kind] === 'wait');
+    const bare = !led.length && !live.some(c => c.whys.length);
     // Of a kind not yet shown first; and where the scene has fewer than four kinds, the next of any (four waits in a
     // bare loft are four choices, not one).
     for (const distinct of [true, false]) {
@@ -79,7 +80,13 @@ export class Offers {
         // the third turn on (cold plays 2 and 3, CL-25).
         const idle = (type === 'go' || type === 'journey') && c.whys.length > 0
           && c.whys.every(w => w === 'unvisited') && acted;
-        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle
+        // Nor anything with no reason to be led here: fewer than four rather than filler (GRAMMAR: "none is made up").
+        // A quarter of the four's rows had been reasonless, daylight torches and plain waits among them, and a reasoned
+        // act a cap passed over had given way to "Wait a while" (the atlas study, §2.4 and §5.3: AT-01). Only where
+        // waiting is all there is to do, or nothing here has a reason at all (a bare loft), is a wait the four's. The
+        // leading way is the glance's own (Glance.ways: the way on, or back in, PL-26).
+        const reasonless = !c.whys.length && !waitsOnly && !(bare && type === 'wait') && !ways.includes(c.choice);
+        if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle || reasonless
           || held.has(c.command ?? '')) { continue; }
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
@@ -191,7 +198,7 @@ export class Offers {
   // gold aside (gold is only the followed aim's next step, which is among the acts).
   private static candidate(c: Candidate): Offered {
     return { choice: c.choice, ...c.command ? { command: c.command } : {}, label: c.label, type: this.types[c.kind],
-      aspects: Aspects.of(c.whys, c.marks, c.visited === true).filter(a => a !== 'undertaking'), marks: c.marks,
+      aspects: Aspects.of(c.whys, c.marks, c.visited === true, !!c.teaches).filter(a => a !== 'undertaking'), marks: c.marks,
       ...c.minutes ? { minutes: c.minutes } : {} };
   }
 }

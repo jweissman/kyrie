@@ -360,12 +360,11 @@ export class Promotion {
       ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {},
       ...whys.includes('advance') && why !== 'advance' ? { advances: true as const } : {} };
   }
-  // What it is to the company. The place's own act that teaches it something (the notice on the well-post, read) is
-  // something to learn, blue, not only something worth a look (the owner, 12 November: a bare link that "clearly gives
-  // you a clue").
+  // What it is to the company. What is worth a look that teaches it something (the notice on the well-post, read; the
+  // dead man's tablet) is something to learn, blue, not only something worth a look (the owner, 12 November: a bare
+  // link that "clearly gives you a clue"); nothing else is (see Aspects).
   private static aspects(c: Candidate, why: Why, whys: Why[]): Aspect[] {
-    const all = Aspects.of([why, ...whys.filter(w => w !== why)], c.marks, c.visited === true);
-    return why === 'own' && c.teaches ? ['knowledge', ...all.filter(a => a !== 'exploration' && a !== 'knowledge')] : all;
+    return Aspects.of([why, ...whys.filter(w => w !== why)], c.marks, c.visited === true, !!c.teaches);
   }
   // Of an opener, each act within it a reason is for, with the aspects those reasons give it, best first: so that what
   // its likeness is drawn as is found again within it (the owner, 12 November: a blue pip, and no blue question).

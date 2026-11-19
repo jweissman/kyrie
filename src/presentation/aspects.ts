@@ -12,7 +12,10 @@ export class Aspects {
     advance: 'undertaking', named: 'undertaking', toward: 'undertaking', about: 'undertaking', bound: 'undertaking', kin: 'undertaking',
     danger: 'danger', warned: 'danger',
     spoils: 'payoff', owed: 'payoff', means: 'payoff', companion: 'companionship', help: 'companionship',
-    sign: 'knowledge', unlooked: 'knowledge', asked: 'knowledge',
+    // Something to learn is a question whose answer teaches (asked). A sign seen, or a thing not looked at yet, or the
+    // first try at a way barred is worth a look, and something to learn only where the act it is led for teaches (see
+    // of): petting the grey dog for its sign, heaving the portcullis up, had been drawn blue (the atlas study: AT-01).
+    sign: 'exploration', unlooked: 'exploration', asked: 'knowledge',
     // A marvel of the place (a standing stone that hums, a spring that sings): the uncanny, violet.
     wonder: 'wonder',
     // What is worth going to see: a way not taken, further in, the place's own doings, an aim heard of and not
@@ -26,9 +29,13 @@ export class Aspects {
   // is a way whose mouth shows that something lies in wait in there, to a company that can see it (Marks: lurks).
   // visited: the place it leads to has been gone to; going further in or onward there is a way, but not a discovery,
   // which an exploration promises (PB-24: "To the great hall", four turns running, brought nothing new).
-  static of(whys: Why[], marks: Mark[], visited = false): Aspect[] {
-    const seen = [...whys.filter(w => !visited || !['deeper', 'onward'].includes(w)).flatMap(w => this.by[w] ?? []),
+  // teaches: doing it teaches the company something (Choice.teaches: a notice read, a reading's state reached, a look
+  // that tells what a thing is); led for what is worth a look here, it is something to learn instead.
+  static readonly looked: readonly Why[] = ['own', 'sign', 'unlooked'];
+  static of(whys: Why[], marks: Mark[], visited = false, teaches = false): Aspect[] {
+    const learned = teaches && whys.some(w => this.looked.includes(w));
+    const seen = [...learned ? ['knowledge' as const] : [], ...whys.filter(w => !visited || !['deeper', 'onward'].includes(w)).flatMap(w => this.by[w] ?? []),
       ...marks.some(m => ['fight', 'trap', 'heard', 'lurks'].includes(m.kind)) ? ['danger' as const] : []];
-    return seen.filter((a, i) => seen.indexOf(a) === i);
+    return seen.filter((a, i) => seen.indexOf(a) === i && !(learned && a === 'exploration'));
   }
 }

@@ -529,6 +529,13 @@ time passes a watch at a time, and its success applies only if it runs its cours
 
 ### Objects: inside, hidden, trapped, tried
 
+A thing can be a marvel (`Marvel.`): the uncanny, a stone that hums or a door that speaks. Whatever acts meet it are
+drawn violet, the atlas's wonder, and nothing else is (its id's spelling counts for nothing; AT-01,
+`test/small/marvel-typed`). A reading teaches what its author says it does: a Change to a thing's read state, and an
+`Observe … as reading when state(thing, read) … teaches fact`, draw the change as something to learn, blue; so does a
+look closely that an observation on `tried(thing, looking)` teaches by. Nothing else is blue but a question that
+teaches.
+
 A thing can hold others (`Holds.`), and a state flagged `closed` keeps what it holds out of sight and reach. Items
 and things can start inside one (`in chest`), and anything can be `hidden until` a fact the company learns; a
 discovery can be `Found by searching` a place (optionally `with` a skill), and is then seen there from that time on.

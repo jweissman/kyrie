@@ -186,7 +186,7 @@ export class Glance {
       sensed: Perception.notes(campaign, at.sensed), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
-      pointed: at.pointed, ...Outmatched.reading(campaign, screen),
+      pointed: at.pointed, marvels: Affordances.marvels(campaign.world), ...Outmatched.reading(campaign, screen),
       done: new Set(commands.filter(c => recall.did(here, c))), ...TalkingWith.of(campaign, at.told),
       ...Acquainted.of(campaign, screen, recall), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,

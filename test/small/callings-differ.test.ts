@@ -10,19 +10,22 @@ import { RunnerExperience } from '../../src/cli/runner-experience';
 // opportunities: the matrix's lives had all been warriors (creation's default dwarf), an instrument's defect found
 // first. In the laboratory, walked curious, each pair of these three sees twenty acts or more the other does not (25,
 // 30 and 31 on 6da486ca). Opportunities are acts on their targets, by command, never labels; a walk that chooses
-// differently goes differently too, so this is a floor under the callings' difference, not its measure.
+// differently goes differently too, so this is a floor under the callings' difference, not its measure. Forty turns:
+// in thirty, the warrior and the thief had parted only by what the four were filled with for no reason (the vault and
+// its keeper, gone to from a filler row; 27 apart, then 15 once the four were filled only by reason, AT-01; 29 in
+// forty).
 describe('three callings in the laboratory', () => {
   it('each see acts the others do not', async () => {
     const seen = new Map<string, Set<string>>();
     for (const calling of ['warrior', 'thief', 'mage']) {
       const { journey } = await PlayTool.start(PlayTool.parse([Laboratory.file, '--as', `human/${calling}/Wynn`]));
-      seen.set(calling, new Set(RunnerExperience.of(await RunnerWalk.run(new Runner(journey.session), 'curious', 30, 4))
+      seen.set(calling, new Set(RunnerExperience.of(await RunnerWalk.run(new Runner(journey.session), 'curious', 40, 4))
         .keys));
     }
     const apart = (a: string, b: string) => [...seen.get(a)!].filter(k => !seen.get(b)!.has(k)).length;
     for (const [a, b] of [['warrior', 'thief'], ['warrior', 'mage'], ['thief', 'mage']] as const) {
       expect(apart(a, b) + apart(b, a)).toBeGreaterThanOrEqual(20);
     }
-    // Three laboratory lives walked thirty turns each: about five seconds here, past bun's default on CI's machines.
-  }, 20000);
+    // Three laboratory lives walked forty turns each: about seven seconds here, past bun's default on CI's machines.
+  }, 30000);
 });

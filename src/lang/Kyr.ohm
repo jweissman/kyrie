@@ -40,8 +40,10 @@ Kyr {
             | kwIn ident -- in
             | "nowhere" -- nowhere
   ThingKind = "is" ident
-  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | TriesPart | PersonKnown
+  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | MarvelPart | TriesPart | PersonKnown
   HoldsPart = "Holds" "."
+  // A marvel of the place, the uncanny (a stone that hums, a door that speaks): violet, the atlas's wonder (AT-01).
+  MarvelPart = "Marvel" "."
   TriesPart = "Tries" ident ("," ident)* "."
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous" | "closed"

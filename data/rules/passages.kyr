@@ -24,6 +24,8 @@ Module world_passages "Passages, obstacles and the condition of things" {
   // A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls);
   // one that strikes a member strikes that one (a lesson for the mage, not whoever the dice choose: BOF-37).
   Relation strikes(hazard, entity).
+  // A marvel, the uncanny, as its author declares it (`Marvel.`): a thing a company may meet and wonder at.
+  Relation marvel(entity).
   // What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
   Kind verb. Relation probeable(entity). Relation suits(entity, verb). Relation tried(entity, verb).
   // What a try or a search can find (LookAnswers, the engine's): a thing with states or contents, or one something

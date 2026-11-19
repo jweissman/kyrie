@@ -81,7 +81,7 @@ export class RegionMarvels {
     // whose power the game cannot yet bring about (Orsino's arcane symbols, whose focus also gives spell slots) is
     // met, and does nothing, rather than fail when it is touched.
     return [...power ? [`  Hazard ${id}_power ${q(this.upper(w.name))} means ${q(w.effect!)}.`] : [],
-      `  Thing ${id} ${q(w.name)} at ${room} is scenery {`,
+      `  Thing ${id} ${q(w.name)} at ${room} is scenery {`, '    Marvel.',
       `    State unwoken ${q(w.seen)}.`,
       `    State woken ${q(w.after)}.`,
       `    Change meet ${q(`${w.verb} ${w.name}`)} from unwoken to woken.`, '  }',

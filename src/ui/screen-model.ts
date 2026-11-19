@@ -45,12 +45,12 @@ export class ScreenModel {
   static build(campaign: Campaign): Screen { return Costs.time('screen', () => ScreenModel.built(campaign)); }
   private static built(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
-    const names = new KnownNames(campaign), prices = this.prices(world);
+    const names = new KnownNames(campaign), prices = this.prices(world), module = campaign.module;
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
-      world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign),
+      world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), module,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);

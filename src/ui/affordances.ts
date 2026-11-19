@@ -6,6 +6,7 @@ import type { Candidate, Kind } from './promotion';
 import { Marks } from './marks';
 import { SceneModel, type Scene, type SceneSubject } from './scene';
 import type { ExitRow, Screen } from './screen-types';
+import type { World } from '../lang/world';
 
 // What the glance reads the page's choices with, besides the screen: each command's action as the rules declare it
 // (its kind, what it is done to, whether it is written to be asked of someone), what the company's aims name, the way
@@ -34,6 +35,8 @@ export interface Reading {
   back?: string; here: string;
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
+  // The marvels its author declares (`Marvel.`: marvel(thing)), by id.
+  marvels?: Set<string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
   // Whom the company has met, or has by name (see Acquainted): anyone else is led as talking to them (Doable.called).
   known?: Set<string>;
@@ -216,7 +219,7 @@ export class Affordances {
       // So with a thing to read that would tell the company something (the eel-wife's notice on Tessary's Landgate
       // board, the adventure's hook, had been only under `all`: M21's playability list, PL-16).
       ...this.spokenWhys({ learned, next, unmet: person ? !!s.asked && !talked : true }),
-      ...feature && looked ? ['unlooked' as const] : [], ...this.wonder(s.id, !!person, leaves),
+      ...feature && looked ? ['unlooked' as const] : [], ...this.wonder(s.id, { person: !!person, leaves, r }),
       ...person && joining ? this.joins(s.id, r) : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
@@ -388,10 +391,16 @@ export class Affordances {
   private static joins(id: string, r: Reading): Why[] {
     return [...r.companions?.has(id) ? ['companion' as const] : [], ...r.help?.who === id ? ['help' as const] : []];
   }
-  // A marvel of the place (a generated `wonder_…` thing) that can be met: the uncanny, whatever else it is.
-  private static wonder(id: string, person: boolean, leaves: Choice[]): Why[] {
-    const meets = leaves.some(c => c.command && !c.disabled && !/^look_closely/.test(c.command));
-    return !person && meets && /(^|_)wonder_[a-z0-9]/.test(id) ? ['wonder'] : [];
+  // A marvel of the place that can be met: the uncanny, whatever else it is. As its author declares it (`Marvel.`),
+  // never by its id's spelling: the one producer had been `wonder_…`, which only the generators write, and no authored
+  // marvel could be violet (the atlas study: AT-01).
+  private static wonder(id: string, at: { person: boolean; leaves: Choice[]; r: Reading }): Why[] {
+    const meets = at.leaves.some(c => c.command && !c.disabled && !/^look_closely/.test(c.command));
+    return !at.person && meets && !!at.r.marvels?.has(id) ? ['wonder'] : [];
+  }
+  // The marvels the world's authors declare (`Marvel.`), by id.
+  static marvels(world: World): Set<string> {
+    return new Set(world.relates('marvel') ? world.related('marvel').map(m => m.args[0]!) : []);
   }
   // The town a way goes into, by name, where the company is not in it already; new, until it has been.
   private static entered(screen: Screen, dest: string): string | undefined {

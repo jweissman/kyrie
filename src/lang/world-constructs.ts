@@ -16,6 +16,8 @@ export interface ThingSpec {
   guards?: string[];
   // Not perceived or reachable until the company knows this fact; holds: things can be put inside it.
   hidden?: string; holds?: boolean;
+  // A marvel of the place, its author's word for the uncanny: drawn violet wherever it can be met (see Affordances).
+  marvel?: boolean;
   // Ways of trying it its author offers besides those its look suits (Tries pushing: a bell can be rung).
   tries?: string[];
   // What it is called while something holds, in place of its name (Known as "the carved wall" until a trap's
@@ -298,6 +300,7 @@ export class WorldConstructs {
     if (t.site?.anchor === 'on' && t.site.from) { this.assert(module, 'barsFrom', t.id, t.site.from); }
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
+    if (t.marvel) { this.assert(module, 'marvel', t.id); }
     // Anything a company can handle can be tried, in the ways that suit it; scenery only in the ways its author
     // offers (`Tries looking` had offered no way to look at the snow on a fell: Hessel's friction 20, HSL-19).
     const tries = t.type === 'group' ? [] : t.type === 'scenery' ? t.tries ?? [] : this.tries(t);

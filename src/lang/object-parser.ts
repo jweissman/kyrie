@@ -47,6 +47,7 @@ export class ObjectParser {
     else if (part.field === 'hurts') { spec.hurts = part.value as ThingSpec['hurts']; }
     else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
     else if (part.field === 'holds') { spec.holds = true; }
+    else if (part.field === 'marvel') { spec.marvel = true; }
     else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
     else if (part.field === 'roles') {
       const { role, when } = part.value as { role: string; when: Predicate };
@@ -60,6 +61,7 @@ export class ObjectParser {
       ...why.children.length ? { why: ModuleParser.ast(why.children[0]!) as string } : {} };
   }
   static HoldsPart(_holds: Node, _dot: Node): Field { return { field: 'holds', value: true }; }
+  static MarvelPart(_marvel: Node, _dot: Node): Field { return { field: 'marvel', value: true }; }
   // FoundBy = "Found" "by" "searching" ident FoundWith? string? "."
   static found(place: Node, skill: Node, text: Node): Field {
     return { field: 'found', value: { place: place.sourceString,

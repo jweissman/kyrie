@@ -13,7 +13,8 @@ import { GlanceStage } from '../../web/reader/stage/glance';
 // and the page agreeing on which four): the scene at rest draws the glance's offer as its numbered rows, one to four,
 // each by the act it does (data-act), the same four the terminal leads with, whether or not the page's menu has a
 // choice of its own for it (talking to someone here, which the page otherwise draws by their likeness). The yard of
-// test/small/offer-four, with a well, a dog, a carter, a gate and a door.
+// test/small/offer-four, with a well, a dog, a carter, a gate and a door, and three more things of the place's own to
+// do: the four are filled only from what has a reason to be led (AT-01), and the carter and the ways have none.
 const yard = `
   Place yard "the yard" is room at 0, 0 outdoors.
   Place lane "the lane" is room at 0, 1 outdoors.
@@ -21,6 +22,12 @@ const yard = `
   Passage gate "the yard gate" is path between yard and lane.
   Passage door "the back door" is path between yard and kitchen.
   Thing well "the well" at yard { State full "The well is full.". Change draw "Draw a bucket" from full to full. }
+  Thing pail "a pail" at yard { State dry "A dry pail.". State wet "A wet pail.".
+    Change dip "Dip the pail" from dry to wet. }
+  Thing bench "a bench" at yard { State bare "A bench.". State swept "A swept bench.".
+    Change sweep "Sweep the bench" from bare to swept. }
+  Thing hatch "a hatch" at yard { State shut "A hatch, shut.". State open "A hatch, open.".
+    Change lift "Lift the hatch" from shut to open. }
   Person dog "Fly" at yard { Role "the yard dog". Species dog. Peaceable. }
   Person wat "Wat" at yard { Role "the carter". Ancestry human. Peaceable. Pronouns he. }
   Company party "You" of 1 at yard.`;

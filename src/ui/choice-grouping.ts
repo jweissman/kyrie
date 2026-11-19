@@ -1,5 +1,6 @@
 import { NewsFold } from './news-fold';
-import type { Change, Operator, Predicate } from '../lang/module';
+import type { Change, Module, Operator, Predicate } from '../lang/module';
+import { Teaching } from './teaching';
 import { PurchaseCompare } from './purchase-compare';
 import { PronounWords } from './pronoun-words';
 import type { World } from '../lang/world';
@@ -58,6 +59,8 @@ export interface GroupingContext {
   struck?: Set<string>;
   // What someone of the company has on or in hand, by the item's id: sold, it is asked about first.
   worn?: Set<string>;
+  // The module, by which an act's success is read for what it shows that teaches (see Teaching).
+  module?: Module;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -271,14 +274,15 @@ export class ChoiceGrouping {
     return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };
   }
   // The act itself: its command, or why it cannot be done now; and what kind of act it is, either way.
-  private static withheld(row: Row) {
+  private static withheld(row: Row, module?: Module) {
     const does = row.action.schema ?? row.action.id;
     const targets = Object.entries(row.action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => v);
     return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
       ...targets.length ? { targets } : {},
       ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {},
-      ...ChoiceGrouping.teaches(row.action.success ?? []) ? { teaches: true } : {} };
+      ...ChoiceGrouping.teaches(row.action.success ?? [])
+        || (module && Teaching.shows(module, row.action.success ?? [], row.action.bindings)) ? { teaches: true } : {} };
   }
   // Whether an act's success teaches the company something: it comes to know a fact the act does not itself make so.
   // Knowing what it has just done is its record, not learning: the road's meetings (`Assert wayIn(cart_bargained).
@@ -297,7 +301,7 @@ export class ChoiceGrouping {
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const minutes = context.world ? ActionTime.minutes(action, context.world) : choice.time * 10;
-    const leaf = { ...ChoiceGrouping.withheld(row), minutes,
+    const leaf = { ...ChoiceGrouping.withheld(row, context.module), minutes,
       ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
