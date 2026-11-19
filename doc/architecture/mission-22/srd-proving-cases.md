@@ -1664,6 +1664,34 @@ only a fight past its tenth round at a caster of the second level or more is tou
 caster. The kept traces, march-journey, march-told and tend-here hold. Not run here (each over thirty seconds, CI's):
 hessel, ombra-mage, ombra-cleric, deep-barrow, advancement, parliament-of-books-stacks.
 
+### 47. The bone hound, and the skeleton's template (19 November): mapped; its defenses stopped by the census
+
+Two placed kinds had no concordance entry: the bone hound (`hound/skeletal`, the hound under Orsino's skeletal
+template, the bone_hound of the dens, the barrow halls and the mines) and the cave hound (`hound/cave`). Each now has
+one: the bone hound the SRD's **wolf skeleton** (the nearest of its skeletons to a hound), the cave hound the riding
+dog, as the hound is. The census grades both (74 creatures where 72): the bone hound differs in armour (Westernesse 8,
+the SRD's 6), its chance to hit (50 %, the SRD's 40 %) and its defences (none, the SRD's damage reduction 5/bludgeoning
+and immunity to cold); its blows and saves are the SRD's already.
+
+**The skeleton's defenses, measured and not landed.** The SRD's skeleton template gives every skeleton reduction 5
+unless bludgeoning and immunity to cold. Kyr's `skeletal` variation is that template for every kind it is laid on (the
+bone hounds and the Bound Howe's mounts), so the defenses would go on the variation. Fought where placed (the eight
+worlds' groups; 40 seeds; won · median harm · a death, for a lone first-level warrior, then a first-level warrior and
+cleric):
+
+| Placed as | Groups | As it stands | With 5/bludgeoning and cold |
+|---|---|---|---|
+| 2 × bone hound L1 (iscoed's w3–w6 and e1 dens: the golden route's country) | 5 | 93 % · 8–15 % · 8 %; 98–100 % | 57–60 % · 33–50 % · 40–43 %; 93–95 % |
+| 2 × bone hound L2 (iscoed's newcomers) | 3 | 80 % · 19 % · 20 %; 95 % | 55 % · 58 % · 45 %; 85 % |
+| 3 × bone hound L2 (the halls, the ossuary, the haulage) | 5 | 50 % · 100 % · 50 %; 85 % | 18 % · 100 % · 83 %; 68 % |
+| 3 × skeletal horse L4 (the Bound Howe's mounts) | 8 | 28 % · 73 % dead; 73 % | 23 % · 78 % dead; 43 % |
+
+A warrior's battleaxe is slashing; only the cleric's staff passes the reduction. A lone first-level warrior's death
+against iscoed's denned pairs would go from one in twelve to two in five: markedly deadlier in the first hour, so by
+the brief (keep the first hour survivable) it does not land. **For the owner:** the SRD's answer to a skeleton is a
+blunt weapon (a mace, a staff, a club); whether the first hour should teach that (a warning before a barrow's dens, a
+club to hand at the first town) is a design choice, not the SRD's. Until then the bone hound keeps Orsino's template.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

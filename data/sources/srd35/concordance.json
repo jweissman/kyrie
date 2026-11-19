@@ -225,6 +225,14 @@
   },
   "zombie": {
    "srd": "human-commoner-zombie"
+  },
+  "hound/skeletal": {
+   "srd": "wolf-skeleton",
+   "notes": "The bone hound (a hound under the skeletal template): the SRD's wolf skeleton, the nearest of its skeletons to a hound."
+  },
+  "hound/cave": {
+   "srd": "dog-riding",
+   "notes": "The cave hound, a breed of the hound: the SRD's riding dog, as the hound is."
   }
  },
  "spells": {
