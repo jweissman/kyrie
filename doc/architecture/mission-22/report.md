@@ -201,6 +201,52 @@ became, and its pin:
   SRD's numbers; the spell draw by rank (adding a spell moves only who gains it) on a branch, then the levels.
 - **Kyr's coordinates** (OR-66): what reads them and what could replace them, a decision recorded.
 
+## 19 November: where M22 stands
+
+Written for the owner, against the brief's six acceptance items and the asks since 17 November. Player acceptance is
+still not claimed: no person has played the first hour (FH-01; one independent human session is planned once AT-07's
+M22 steps have landed).
+
+**Main.** Green and deployed at ae8e24d02, its full run (suite, long descents, browser specs) green, the first fully
+green full run since the morning's landings broke it. A day of red came from landing content and SRD slices whose
+fallout only the full run sees; the landing tool now runs CI's type-aware lint too, and world-moving work is held until
+a full run is green (scripts/landing, doc/architecture/landing.md).
+
+**The acceptance items, briefly.**
+1. *A reviewed, unedited deployed recording*: met as a process (three blind reviews, 17 November); not as a verdict.
+   Nothing since has been re-recorded; S3-0 asks for one clean run of the eight beats per character.
+2. *One coherent primary interaction*: holds and long-press commitments (OR-111), the page inventing no controls
+   (OR-94, P0, partly: 53 page-made buttons, being burnt now with AT-07's steps), a person's own deed among the four.
+3. *A normative, implemented Atlas*: the marks now read the very rows they open (LensRows.borne, b7387454) and the
+   words are never tinted (AT-03). The owner's playtest of 19 November shows the class is not closed: the
+   investigation (doc/architecture/reviews/opportunity-architecture-2026-11-19.md) finds a container lit by its own
+   reasons in 49 of 130 led openers, and one control opening two containers. Its M22 steps 1–4 are the first priority;
+   the Offering tree, bounded reachability and `--why indicator` are M23's.
+4. *Performance*: an act a quarter cheaper headless (cold play 6: 223 → 163 ms median), a fight's first frame about
+   100 ms (OR-114 closed); ordinary acts still over 150 ms (OR-91, partly), the remainder named.
+5. *Real progress in the SRD, authorability, density and backlog*:
+   - SRD: spells passing in resolution 23 → 37 of 119 (cases 35–61: touch attacks, spell resistance, durations by
+     level, concealment, a caster-set condition amount, heals weighed by what they mend); creatures barely begun
+     (3 of 75 in resolution). Owner ruling: SRD-accurate changes accepted as a general matter.
+   - Density (the owner's content thread, 19 November): the written undertown (drain, undercroft, the lettered flag's
+     puzzle, the vault) is now reached by the gold, five guidance faults mended at their causes; fights in the debt
+     walk's first sixty acts 3 → 5, finds that send the company back up (scripts/first-quarter.ts,
+     content-thread.md). Far short of the owner's 3–10x.
+6. *A reconciled register*: 905 → 910 rows, live 488 (18 Nov) → 419; no live row unchecked since 11 November; the
+   deferred re-triaged (11 reopened, 39 kept as M23 candidates with reasons, not to be promoted automatically).
+
+**The maturity thread.** Steps 2–6 are met by the track's own rule (a working slice and its invariant spec), MT-09
+(the riot that never broke) fixed, the office lint advisory (MT-10). But the plan audit counted their yield: they
+closed only their own rows and three more. The track was re-ordered toward register zero on 19 November: step 1
+(the presenter, OR-94, now with AT-07's steps), per-act cost (done in part), a lead is not an aim, one route finder
+(being built), the lint's own findings in data (MT-11, MT-12: done on a branch, held because it moves layouts).
+
+**Sprints.** Sprint 2 closed honestly (its goal not shown by one clean run); Sprint 3 open on the planning report's §8.
+
+**What remains partial, and the owner's priorities (19 November):** opportunity construction and the `Doable`
+boundary first, then route finding and undertaking semantics, then bounded burn-down; a green, stable handoff without
+expanding the mission.
+
 ## What remains partial
 
 - **A place, the map's cards and the Book drawn by PageFrame's component**, not only marked by it: their compositions
