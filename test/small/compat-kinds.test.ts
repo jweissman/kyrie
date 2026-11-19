@@ -30,6 +30,16 @@ describe('the compatibility harness says what kind of change a revision made', (
     expect(CompatCompare.verdict(fs)).toBe('presentation-only');
     expect(fs.map(f => f.where)).toEqual(['cold-5 step 1 {"act":"fight:defend:region__party_1"}']);
   });
+  // A topic's answer no pinned journey asks (S2-4's innkeeper) is still a change of what the world says.
+  it('calls words no journey meets presentation-only, and a word more additive', () => {
+    const said = { ...world, words: { 'act w8_rumour': 'Go in daylight.' } };
+    const told = { ...said, words: { 'act w8_rumour': 'Go in daylight. My grandmother used to say it.' } };
+    expect(CompatCompare.verdict(CompatCompare.compare(snap('b', said, journey), snap('t', told, journey))))
+      .toBe('presentation-only');
+    const more = { ...said, words: { ...said.words, 'observe vault_hum': 'A hum.' } };
+    expect(CompatCompare.verdict(CompatCompare.compare(snap('b', said, journey), snap('m', more, journey)))).toBe('additive');
+    expect(CompatCompare.verdict(CompatCompare.compare(base, snap('t', told, journey)))).toBe('same');
+  });
   it('calls faster roads world-moving, and names the replay step they break', () => {
     const roads = { ...world, passages: { region__r1_out_s1: 'region__s1 - region__r1, 60 min',
       region__r1_out_s4: 'region__r1 - region__s4, 50 min' } };

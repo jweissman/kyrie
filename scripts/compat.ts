@@ -6,7 +6,7 @@
 //   bun scripts/compat.ts snapshot --out s.json [--saves dir] [--quick]
 //   bun scripts/compat.ts compare base.json [now.json]   (no now: this tree's, drawn now; --out keeps it)
 //   --findings f.json: every finding, not the first few; --examples n: how many of each world and journey
-// A base revision without the harness has it copied in (the harness reads only what the play tool and runner read).
+// A base revision has this tree's harness copied in (the harness reads only what the play tool and runner read).
 import { existsSync } from 'node:fs';
 import { cp, mkdir, readFile, rm, symlink, readdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -48,7 +48,9 @@ class Compat {
     const made = !existsSync(base);
     if (made) { await this.checkout(base, dir); }
     try {
-      for (const f of this.own.filter(f => !existsSync(join(dir, f)))) { await cp(f, join(dir, f)); }
+      // The harness is always this tree's, so that a base is measured as this tree is (a base with an older harness had
+      // kept no words, and was compared on fewer things).
+      for (const f of this.own) { await cp(f, join(dir, f)); }
       const out = join(scratch, 'base.json'), saves = join(scratch, 'base-saves');
       await rm(saves, { recursive: true, force: true });
       const p = Bun.spawn(['bun', 'scripts/compat.ts', 'snapshot', '--out', out, '--saves', saves, '--label', base,

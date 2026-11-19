@@ -49,6 +49,17 @@ export class CompatCompare {
         out.push({ kind: 'world-moving', where, text: `${what} ${id} gone (${was[id]})` });
       }
     }
+    // What is said: a line changed or gone is how it is told, one more is the module grown (both only where the base
+    // kept its words).
+    if (b.words && w.words) {
+      for (const [id, v] of Object.entries(w.words)) {
+        if (!(id in b.words)) { out.push({ kind: 'additive', where, text: `${id} says: ${v.slice(0, 80)}` }); }
+        else if (b.words[id] !== v) { out.push({ kind: 'presentation-only', where, text: `${id} says otherwise` }); }
+      }
+      for (const id of Object.keys(b.words).filter(id => !(id in w.words!))) {
+        out.push({ kind: 'presentation-only', where, text: `${id} no longer said` });
+      }
+    }
     return out;
   }
   private static set(xs: string[]): Record<string, string> { return Object.fromEntries(xs.map(x => [x, 'a place'])); }

@@ -14,8 +14,10 @@ import { CompatJourneys } from './compat-journeys';
 import { PlayTool } from './play-tool';
 
 // A world as it was drawn: ids sorted, each a line that says it (a passage: its ends and minutes; a person: where).
+// words: what its module says, by the id that says it (a topic's or an act's answer, an observation, a rule's line),
+// so that words no pinned journey meets are compared too (S2-4's innkeeper had come out the same).
 export interface WorldShot { name: string; places: string[]; passages: Record<string, string>;
-  people: Record<string, string>; placements: Record<string, string> }
+  people: Record<string, string>; placements: Record<string, string>; words?: Record<string, string> }
 // One step of a journey: the line or step sent, whether it was taken (or why not), and what the turn then was.
 export interface StepShot { line: string; ok: boolean; error?: string; rows: string[]; lines: string[];
   digest: string; at?: string }
@@ -63,7 +65,14 @@ export class CompatSnapshot {
       passages[id] = `${r.args[1]} - ${r.args[2]}, ${ActionTime.passage(w, id)} min`;
     }
     for (const id of c.readout.creatures.map(x => x.id).sort()) { people[id] = w.one('at', id) ?? 'nowhere'; }
-    return { places, passages, people };
+    return { places, passages, people, words: CompatSnapshot.words(c) };
+  }
+  private static words(c: Campaign): Record<string, string> {
+    const m = c.module, out: Record<string, string> = {};
+    for (const a of m.actions) { if (a.report) { out[`act ${a.id}`] = a.report; } }
+    for (const o of m.observations ?? []) { out[`observe ${o.id}`] = o.text; }
+    for (const r of m.rules ?? []) { if (r.say) { out[`rule ${r.id}`] = r.say; } }
+    return out;
   }
   private static placed(ps: Placement[]): Record<string, string> {
     const out: Record<string, string> = {};
