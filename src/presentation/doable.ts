@@ -3,7 +3,8 @@ import type { Screen } from '../ui/screen-types';
 import { Attending } from '../ui/attention';
 import { SceneModel } from '../ui/scene';
 import { Attest, type Witness } from './attest';
-import type { Glance, Lens, Promoted } from './glance-types';
+import type { Aspect, Glance, Lens, Promoted } from './glance-types';
+import { Fold } from './fold';
 
 // One resolution from the engine's offer to rows that can be done (mission-22/doable-design.md, TB-12): what each
 // offered choice is, what taking it does, and what it opens, read once from the scene the page draws its menu from
@@ -53,6 +54,12 @@ export class Doable {
   private static valid(glance: Offered, screen: Screen, id: string, at: { command?: string; label: string }):
     Row | undefined {
     try { return this.rowOf(glance, screen, id, at); } catch { return undefined; }
+  }
+  // What a row bears, as every client draws it: the fold of its leaves (Fold.of, an opener by its rows), the aim's
+  // gold aside (only the four carry it). The terminal colours its rest by this, as the page does (AT-07 step 4).
+  static borne(glance: Offered, screen: Screen, id: string): Aspect[] {
+    const leaves = Fold.of(glance, this.read(glance, screen).at.tree.get(id), id, false);
+    return [...new Set(leaves.flatMap(l => l.witnesses.flatMap(w => w.aspects)))];
   }
   // Every row, an opener's within it after it.
   static flat(rows: readonly Row[]): Row[] { return rows.flatMap(r => [r, ...this.flat(r.opens ?? [])]); }

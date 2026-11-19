@@ -31,7 +31,8 @@ export class TerminalDoable {
   static kinds(glance: Glance | undefined, screen: Screen)
     : { aspects: Map<string, Aspect[]>; types: Map<string, ActType> } {
     const offer = glance?.offer, key = this.keyed(glance, screen);
-    const aspects = new Map((offer?.rest ?? []).map(o => [key(o), o.aspects]));
+    // Each by what it bears (Doable.borne), as the page folds it: never the offer's words for it read apart.
+    const aspects = new Map((offer?.rest ?? []).map(o => [key(o), Doable.borne(glance!, screen, o.choice)]));
     const types = new Map([...offer?.primary ?? [], ...offer?.rest ?? []].map(o => [key(o), o.type]));
     for (const x of (glance?.acts ?? []).flatMap(a => (a.inside ?? []).map(i => [i.command, a.choice] as const))) {
       if (!types.has(x[0])) { types.set(x[0], types.get(x[1]) ?? 'talk'); }

@@ -376,7 +376,7 @@ export class Promotion {
   // its likeness is drawn as is found again within it (the owner, 12 November: a blue pip, and no blue question).
   // borne: an act inside that bears what the opener is drawn as and nothing it is led for (the place's own act: AT-07),
   // so that no client does the opener by it (see Doable.row).
-  private static inside(c: Candidate, whys: Why[]): { command: string; aspects: Aspect[]; borne?: true }[] {
+  static inside(c: Candidate, whys: Why[]): { command: string; aspects: Aspect[]; borne?: true }[] {
     const out: { command: string; aspects: Aspect[]; borne?: true }[] = [];
     for (const w of whys) {
       const command = c.leaves?.[w], aspect = Aspects.by[w], borne = w === 'own';

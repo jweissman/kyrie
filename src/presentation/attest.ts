@@ -28,7 +28,7 @@ export interface Attested {
   readonly witnesses: readonly Witness[];
   readonly [issued]: true;
 }
-export type Projected = Partial<Pick<Glance, 'acts' | 'lenses' | 'likenesses' | 'sensed' | 'following' | 'aimed' | 'lead'>>;
+export type Projected = Partial<Pick<Glance, 'acts' | 'lenses' | 'likenesses' | 'sensed' | 'following' | 'aimed' | 'lead' | 'offer'>>;
 
 export class Attest {
   // Read once for each glance (a glance is drawn again whenever the world, what the company knows or the aim followed
@@ -46,6 +46,13 @@ export class Attest {
       add(this.make(a.choice, a.aspects, 'direct'));
       // An opener (a talk) attests each act inside it that it is led for.
       for (const i of a.inside ?? []) { add(this.make(i.command, i.aspects, 'direct')); }
+    }
+    // Every other row the scene offers (Offers.scene: a four filled from the rest, and the rest), by what the offer
+    // finds it is to the company: one owner of a rest row's colour, which the terminal had drawn and the page had not
+    // (AT-07 §1.2: 123 rows at the drove road). An act the glance leads with keeps its own.
+    for (const o of [...g.offer?.primary ?? [], ...g.offer?.rest ?? []]) {
+      if (!out.has(o.choice)) { add(this.make(o.choice, o.aspects, 'direct')); }
+      for (const i of o.inside ?? []) { if (!out.has(i.command)) { add(this.make(i.command, i.aspects, 'direct')); } }
     }
     // A likeness is attested by the engine's one value for it (Likenesses, M21's PL-32), never composed again from
     // the acts about them.
@@ -76,7 +83,7 @@ export class Attest {
     const own = acts.filter(a => a.choice === c.id).flatMap(a => index.get(a.choice) ?? []);
     // What an opener is led for, inside it, whether the four lead with it or a lens does (AT-07: an opener of the
     // things lens lit, its acts plain).
-    const openers = [...acts, ...Object.values(g?.lenses ?? {}).flatMap(l => l.promoted)];
+    const openers = [...acts, ...Object.values(g?.lenses ?? {}).flatMap(l => l.promoted), ...g?.offer?.rest ?? []];
     const inside = [...new Set(openers.flatMap(a => (a.inside ?? []).filter(x => Emphasis.is(c, x.command))
       .flatMap(x => index.get(x.command) ?? [])))];
     const next = acts.filter(a => a.continues && Emphasis.is(c, a.for)).map(a => this.make(a.choice, ['undertaking'], 'direct'));

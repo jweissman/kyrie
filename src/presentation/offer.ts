@@ -1,5 +1,5 @@
 import { Headings } from '../ui/headings';
-import type { Candidate, Kind } from '../ui/promotion';
+import { Promotion, type Candidate, type Kind } from '../ui/promotion';
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import { Patience } from '../ui/patience';
@@ -19,6 +19,9 @@ export type ActType = 'talk' | 'fight' | 'act' | 'search' | 'go' | 'journey' | '
 export interface Offered {
   choice: string; command?: string; for?: string; label: string; type: ActType; aspects: Aspect[]; marks: Mark[];
   continues?: true; minutes?: number; bearing?: Bearing;
+  // Within an opener, the act each of its reasons is for (Promotion.inside), as the four's are: what it is drawn as is
+  // borne by a row inside it, or by none (AT-07 I2).
+  inside?: Promoted['inside'];
 }
 // A way's bearing in a site (see Offers.borne).
 export type Bearing = 'frontier' | 'retreat' | 'return';
@@ -197,7 +200,9 @@ export class Offers {
   // A choice offered for no reason the place leads with: what it is to the company is its reasons' aspects, the aim's
   // gold aside (gold is only the followed aim's next step, which is among the acts).
   private static candidate(c: Candidate): Offered {
+    const inside = Promotion.inside(c, c.whys);
     return { choice: c.choice, ...c.command ? { command: c.command } : {}, label: c.label, type: this.types[c.kind],
+      ...inside.length ? { inside } : {},
       aspects: Aspects.of(c.whys, c.marks, c.visited === true, !!c.teaches).filter(a => a !== 'undertaking'), marks: c.marks,
       ...c.minutes ? { minutes: c.minutes } : {} };
   }
