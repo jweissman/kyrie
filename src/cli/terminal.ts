@@ -7,7 +7,7 @@ import { CheckpointStore } from '../session/checkpoint-store';
 import { TerminalMenus, type Journeyed } from './terminal-menus';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
-import { Obituary } from '../narrative/obituary';
+import { TerminalEnding } from './terminal-ending';
 import { TerminalSigns, type Signed } from './terminal-signs';
 import { Stopwatch } from '../stopwatch';
 import { Emphasis } from '../presentation/emphasis';
@@ -44,6 +44,8 @@ interface Listed { id: string; name: string; time: number; targets?: string[]; a
 // else… has them.
 interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
   lens?: { name: Lens; more: number }; opened?: string; says?: string }
+// How a play is shown: its scene (a walk keeps its own), with profile, and saved as asked.
+interface Played { scene?: TerminalScene; profile?: boolean; saveAs?: boolean }
 // Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
 interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
@@ -271,40 +273,40 @@ export class Terminal {
     if (!aims.length) { console.log('No aim is held.'); }
   }
   // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk); with
-  // profile, each act says what it took: the world's turn and the telling of it.
-  static async play(session: PlaySession,
-    o: { input?: Asking; scene?: TerminalScene; profile?: boolean; saveAs?: boolean } = {}) {
-    const input = o.input ?? TerminalInput.open(), human = TerminalInput.picks(input);
+  // profile, each act says what it took: the world's turn and the telling of it. Ended, begun again (TerminalEnding).
+  static async play(session: PlaySession, o: Played & { input?: Asking } = {}) {
+    const input = o.input ?? TerminalInput.open();
+    try {
+      for (let at: PlaySession | undefined = session; at;) { at = await this.played(at, input, o); }
+    } finally { input.close(); }
+  }
+  private static async played(session: PlaySession, input: Asking, o: Played): Promise<PlaySession | undefined> {
+    const human = TerminalInput.picks(input);
     // The human mode shows the instruments that bear on the moment in its picker, each to be read on asking.
     const scene = o.scene ?? new TerminalScene(TerminalColour.depth(), { instruments: !human, picked: human });
     const turn: Turn = { scene, ...o.profile ? { profile: {} } : {}, ...o.saveAs ? { saveAs: true } : {},
       ...human ? { width: Terminal.columns } : {} };
-    try {
-      while (session.campaign.running) {
-        if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
-        const { screen, leaf } = turn.current;
-        const offered = this.foreground(session, leaf.glance, screen,
-          { talking: turn.talking, lens: turn.lens, opened: turn.opened });
-        if (turn.talking && !offered.talk) { turn.talking = undefined; }
-        this.next(leaf.glance?.next, screen, { all: offered.all, human });
-        const answer = human ? await this.picked(input, offered, { turn, session })
-          : await this.typed(input, offered, turn);
-        if (answer === null) { return; }
-        if (typeof answer === 'string' && await this.aside(session, answer, offered.all, { turn, input })) { continue; }
-        const choice = typeof answer === 'string' ? this.chosen(offered, answer) : answer;
-        if (!choice) {
-          console.log('Choose a number, or type a choice as it is written (all lists every one; ? the commands).');
-          continue;
-        }
-        turn.focus = undefined;
-        if (!await this.act(session, choice, turn, input)) { return; }
+    while (session.campaign.running) {
+      if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
+      const { screen, leaf } = turn.current;
+      const offered = this.foreground(session, leaf.glance, screen,
+        { talking: turn.talking, lens: turn.lens, opened: turn.opened });
+      if (turn.talking && !offered.talk) { turn.talking = undefined; }
+      this.next(leaf.glance?.next, screen, { all: offered.all, human });
+      const answer = human ? await this.picked(input, offered, { turn, session })
+        : await this.typed(input, offered, turn);
+      if (answer === null) { return undefined; }
+      if (typeof answer === 'string' && await this.aside(session, answer, offered.all, { turn, input })) { continue; }
+      const choice = typeof answer === 'string' ? this.chosen(offered, answer) : answer;
+      if (!choice) {
+        console.log('Choose a number, or type a choice as it is written (all lists every one; ? the commands).');
+        continue;
       }
-      this.scene(session, turn);
-      // How it ended, as the page's last page tells it (AB-04: only that it had).
-      const ending = Obituary.ending(session.campaign);
-      console.log(['', TerminalColour.bold(ending.title, TerminalColour.depth()), ...ending.lines, '', 'The story has ended.']
-        .join('\n'));
-    } finally { input.close(); }
+      turn.focus = undefined;
+      if (!await this.act(session, choice, turn, input)) { return undefined; }
+    }
+    this.scene(session, turn);
+    return TerminalEnding.told(session, input);
   }
   // A measure a person reads at, on a wide terminal too.
   static columns(): number { return Math.min(process.stdout.columns || 80, 100); }
