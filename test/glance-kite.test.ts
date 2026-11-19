@@ -48,13 +48,14 @@ describe('kite at a glance', () => {
     expect(Glanced.sentences(glance.sight!.text)).toBeLessThanOrEqual(2);
     expect(glance.life).toMatchObject({ subject: 'drover__son', text: expect.stringMatching(/^Your brother is sitting on a rail/) });
     expect(glance.acts.map(a => [a.choice, a.why, a.note])).toEqual([
-      ['drover__son#talk', 'kin', 'your brother'],
+      // The aim's way first, gold (the owner, 18 November: a golden option first), then the brother.
       ['exit:region__s5_s2_way', 'named', 'your aim'],
+      ['drover__son#talk', 'kin', 'your brother'],
       // The notice of what is under the town, the town's own (OWN-57), before the grey dog's sign; the brother is
       // talked to by his plate, so the dog is the third on the page (M19-24); Wynn the carter is not led with.
       ['company/1:Read the notice on the well-post', 'own', undefined],
       ['drover__dog/0:Make much of the grey dog', 'sign', undefined]]);
-    expect(glance.acts[1]!.facets).toEqual(['here', 'aimed']);
+    expect(glance.acts[0]!.facets).toEqual(['here', 'aimed']);
     // The taproom the dog lies at the door of is named: first of the ways rowed.
     expect(glance.ways[0]).toBe('exit:region__s2_taproom');
     const words = Kite.g.words();
@@ -64,7 +65,7 @@ describe('kite at a glance', () => {
   it('stays where it is on a wait: what was done leads, and the place is not told again', async () => {
     const glance = await Kite.g.choose(/^wait(\(|$)/);
     expect([glance.arrival, glance.sight, glance.life]).toEqual(['stay', undefined, undefined]);
-    expect(glance.acts[0]!.choice).toBe('drover__son#talk');
+    expect(glance.acts.slice(0, 2).map(a => a.choice)).toEqual(['exit:region__s5_s2_way', 'drover__son#talk']);
   });
   it('at the bridge the aim names, searches it, and has the ruts that run off the road', async () => {
     const glance = await Kite.g.to('region__s5_s2_way');
@@ -83,7 +84,7 @@ describe('kite at a glance', () => {
     expect(glance.sight?.text).toBe('The road runs down between the houses of Brightbridge and straight into the Redwater, and comes out on the far bank dark with wet.');
     expect(glance.life).toBeUndefined();
     expect(Kite.g.words().glance).toBeLessThan(first.glance);
-    expect(glance.acts.slice(0, 2).map(a => a.why)).toEqual(['kin', 'named']);
+    expect(glance.acts.slice(0, 2).map(a => a.why)).toEqual(['named', 'kin']);
     Kite.drawn(Kite.g, glance);
   });
   it('at nightfall leads with the aim, marked for the dark, and the way to a bed', async () => {

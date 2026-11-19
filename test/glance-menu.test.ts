@@ -39,10 +39,11 @@ describe('the menu at a glance', () => {
     Menus.check(g);
     await g.choose(/,region__s2_green\)$/);
     Menus.check(g);
-    // Talking to your brother is led with among the rest, the keys' 1, as well as by his likeness (the owner, 12
-    // November: someone with something for the company is among the few things led with, not only on the picture).
-    expect([Menus.ids(g.frame())[0], [...MenuModel.build(g.frame(), 'here', []).leading ?? []]])
-      .toEqual(['drover__son#talk', ['drover__son#talk']]);
+    // Talking to your brother is led with among the rest, the keys' 2 after the aim's gold way out (the owner, 18
+    // November), as well as by his likeness (the owner, 12 November: someone with something for the company is among
+    // the few things led with, not only on the picture).
+    expect([Menus.ids(g.frame()).slice(0, 2), [...MenuModel.build(g.frame(), 'here', []).leading ?? []]])
+      .toEqual([[MenuModel.country.id, 'drover__son#talk'], ['drover__son#talk']]);
     expect(MenuModel.build(g.frame(), 'here', []).sheets!.look).toContain('drover__son#talk');
     await g.to('region__w11');
     Menus.check(g);
