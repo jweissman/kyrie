@@ -139,8 +139,16 @@ export class ComposedCreation {
         if (held) { idle(); } else { zoomed(undefined); }
       }, ComposedCreation.idle);
     };
-    return [zoom, (id: string) => { consider(id); if (sky && moved.current) { zoomed(id); idle(); } }, out];
+    // Drawn up only once the hand or the keys rest on a row a moment: passing over the rows had begun a zoom at each,
+    // the sky lurching from one to the next (OR-96).
+    const rest = useRef(0);
+    const drawUp = (id: string) => {
+      window.clearTimeout(rest.current);
+      rest.current = window.setTimeout(() => { zoomed(id); idle(); }, ComposedCreation.rest);
+    };
+    return [zoom, (id: string) => { consider(id); if (sky && moved.current) { drawUp(id); } }, out];
   }
+  static readonly rest = 140;
   static readonly idle = 3000;
   // picked: at a step of many, those taken: each a press that takes or lets go, and only learn (its last card) held.
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list, committed, picked, learn }: {
