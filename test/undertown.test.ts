@@ -64,6 +64,9 @@ describe('under the town the company begins in', () => {
     // (A warrior and a cleric: since a foe brought to nothing stays down (CO-05), the dice fall otherwise, and a lone
     // first-level warrior falls to the dead that turn on the living once their raiser is down.)
     const s = await Town.start(true), c = s.campaign;
+    // The crypt's bats, which come down at a light, are another fight than this one's (19 November).
+    const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('region__s1_u_came', 'region__s1_u_crypt_bats') }]));
     await Town.take(s, /^Take the shrine porch/, /^Ask .* about the noises/, /^Take the shrine porch/,
       /^Take the lych-gate/);
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__s1_u_dead_robbed'))).toBe(true);

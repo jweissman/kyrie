@@ -180,7 +180,8 @@ export class AimAdvances {
       const free = this.free.bind(this, new Set((act.parameters ?? []).map(x => x.name)));
       // Only an act that brings about this very thing (a fact, a place, a thing named), never one that tells anyone
       // anything ("knows(?actor, ?statement)"), which had made every fact a priest could tell the aim's.
-      const brings = act.success.some(c => c.call && this.named(free(c.call)) && direct.some(w => this.meets(free(c.call!), w)));
+      const brings = act.success.some(c => c.call && this.named(free(c.call))
+        && direct.some(w => this.meets(free(c.call!), w)));
       if (brings) {
         const needs: Call[] = [];
         this.reads(act.requires, needs);

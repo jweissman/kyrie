@@ -47,6 +47,15 @@ export class AimRoute {
     const first = Itineraries.plan(campaign, out)?.legs[0]?.to;
     return screen.exits.find(e => e.destination.id === first)?.id;
   }
+  // The ways toward the aim, with its ways on (see onward) where the company stands at the place it is gone to by:
+  // inside a site, beside the rest; elsewhere, in place of them. At the quarry pit, toward a gallery no known way
+  // reached, the way had been the town's quarter's heart, the green, and from the green the pit again (the first
+  // quarter hour's census, 19 November).
+  static join(campaign: Campaign, screen: Screen, toward: Map<string, string>, at: { open: boolean; within: boolean }) {
+    const on = at.open ? this.onward(campaign, screen) : [];
+    if (on.length && !at.within) { toward.clear(); }
+    for (const id of on) { toward.set(id, 'toward'); }
+  }
   // At the place the aim is gone to by, the ways on from it not yet taken that go down or in: what its author meant by
   // it ("toward the dead by the churchyard": the churchyard gone to, and the crypt under it found from there). The
   // churchyard had led only back to the gate-yard, "another aim", and down to the crypt as one way among others.

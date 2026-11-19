@@ -18,6 +18,8 @@
   Relation {t}_u_paid(entity). Relation {t}_u_done(entity). Relation {t}_u_given(entity).
   // Which way down the old ways were first said to go on by: the room the job that said so ended in (see below).
   Relation {t}_u_onward_by(entity).
+  // Whether what lives in a room under the town has come at the company already (it comes once, as it is come on).
+  Relation {t}_u_came(entity).
   // A job half paid for (done, its cause not yet seen to) is paid only the rest when it is finished (REV-21: the
   // half and then the whole had both been paid).
   Relation {t}_u_halved(entity).
@@ -463,6 +465,13 @@
     says "{{t}_merchant} has been to look at the corn-store door. 'New bolts,' {{t}_merchant} says, and nods once." {
     Assert {t}_u_mended({t}_u_store_lock).
   }
+  // Not every rat keeps to the runs: a few are always out on the cellar floor at the spilled grain, and go for what
+  // comes down the trapdoor (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
+  Person {t}_u_cellar_rats "the rats on the cellar floor" at {t}_u_cellar {
+    Role "rats out of the runs at the spilled grain, bold enough to go for a boot". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_cellar.
+  }
+  Initially Set encounterXp({t}_u_cellar_rats) to 30.
+  Rule {t}_u_cellar_rats_come when at(party, {t}_u_cellar) and able({t}_u_cellar_rats) and not {t}_u_came({t}_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert assails({t}_u_cellar_rats, party). Assert {t}_u_came({t}_u_cellar_rats). }
 --- yard dead
   // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
   // them with a black candle in the ossuary; the churchyard, the crypt and the lodger at the inn say so to whoever
@@ -586,6 +595,13 @@
   Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) toward {t}_priest "Tell {{t}_priest} at {{priestat}} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
 >> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
   Rule {t}_u_dead_onward when ({t}_u_paid({t}_u_dead_job) or ({t}_u_done({t}_u_dead_job) and not {t}_u_given({t}_u_dead_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_ossuary). }
+  // The crypt's own, before the ossuary: bats in its vault that the raiser's comings and goings have kept stirred, and
+  // that come down at a light (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
+  Person {t}_u_crypt_bats "the bats in the crypt" at {t}_u_crypt {
+    Role "bats roosting in the crypt's vault, that wheel down shrieking when a light comes in". Species bat. Numbers {pack}. Level 1. Temperament territorial. Lair {t}_u_crypt.
+  }
+  Initially Set encounterXp({t}_u_crypt_bats) to 30.
+  Rule {t}_u_crypt_bats_come when at(party, {t}_u_crypt) and able({t}_u_crypt_bats) and not {t}_u_came({t}_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert assails({t}_u_crypt_bats, party). Assert {t}_u_came({t}_u_crypt_bats). }
 --- pit spiders
   // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
@@ -681,6 +697,20 @@
   Objective {t}_u_spiders_job_owed when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) toward {t}_innkeeper "Tell {{t}_innkeeper} at {{innkeeperat}} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
 >> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} for the gate key.'
   Rule {t}_u_spiders_onward when ({t}_u_paid({t}_u_spiders_job) or ({t}_u_done({t}_u_spiders_job) and not {t}_u_given({t}_u_spiders_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_gallery). }
+  // What feeds under the web: carrion beetles in the adit, at what the spiders let fall; and the old cutting's cracked
+  // roof, shored with the quarrymen's timbers or passed under at a risk (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
+  Person {t}_u_adit_beetles "the carrion beetles in the adit" at {t}_u_adit {
+    Role "carrion beetles as big as rats, feeding on what the spiders let fall from the web". Species beetle. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_adit.
+  }
+  Initially Set encounterXp({t}_u_adit_beetles) to 40.
+  Rule {t}_u_adit_beetles_come when at(party, {t}_u_adit) and able({t}_u_adit_beetles) and not {t}_u_came({t}_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert assails({t}_u_adit_beetles, party). Assert {t}_u_came({t}_u_adit_beetles). }
+  Thing {t}_u_cutting_roof "the roof of the old cutting" on {t}_u_gallery_way {
+    State loose dangerous "Stones have come down from the roof of the cutting, and more hang cracked above it.".
+    State shored "A prop of old timber holds up the cracked roof of the cutting.".
+    Hurts with {t}_u_cutting_fall when loose then loose.
+    Change shore "Shore up the cracked roof with the quarrymen's old timbers" from loose to shored needing brawn.
+  }
+  Hazard {t}_u_cutting_fall "Stone falling from the cutting's roof" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
@@ -767,6 +797,15 @@
     Found by searching {t}_u_drain "Something wedged in the drain, where the water left it.".
   }
   Item {t}_u_drain_purse "a mouldy purse" is steel_coin at {t}_u_drain hidden until {t}_u_drain_cache_found.
+  // The culvert down from the runs breathes out the drain's foul air, until the cellar's trapdoor is propped open and
+  // the air moves (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
+  Thing {t}_u_culvert_air "the air in the culvert" on {t}_u_drain_way {
+    State foul dangerous "The culvert breathes out a stink of old water and rot that catches in the throat.".
+    State clear "Air moves down the culvert now, from the cellar above.".
+    Hurts with {t}_u_drain_foul when foul then foul.
+    Change prop "Prop the trapdoor open above and let the air down the culvert" from foul to clear needing brawn.
+  }
+  Hazard {t}_u_drain_foul "The foul air of the culvert" means "Deal (1d4) poison damage to ally unless constitution save against (11).".
 --- vault
   // The lettered flag is a lock with no keyhole (the owner, 8 November: a dungeon has at least one puzzle). Its ring of
   // letters is the makers' own, and the same ring is cut, smaller, in each of the three ways down to it, over the

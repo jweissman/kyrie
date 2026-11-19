@@ -357,7 +357,7 @@ export class Glance {
     const within = AimLeads.within(campaign, screen, aims.named);
     // Where what the aim waits on is hidden elsewhere and the way there is known, that way is the aim's, and no other.
     const toward = sought ? new Map([[sought, 'toward' as const]]) : this.toward(campaign, screen, aims);
-    for (const id of sought || !within ? [] : AimRoute.onward(campaign, screen)) { toward.set(id, 'toward'); }
+    AimRoute.join(campaign, screen, toward, { open: !sought, within: !!within });
     if (inward.size) {
       for (const [id] of toward) { if (screen.exits.find(e => e.id === id)?.bearing) { toward.delete(id); } }
     }

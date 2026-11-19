@@ -57,8 +57,13 @@ export class FirstQuarter {
     const lead = Number(this.option(process.argv, '--lead', '0'));
     for (let step = 0; step < steps && c.running; step++) {
       // A player follows the first aim they hold, as Follow this is chosen.
-      const aims = Undertakings.held(c);
-      if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, aims[0]!.id); }
+      // A player follows the first aim they hold, as Follow this is chosen; and, turned back from a step they will not
+      // take yet (a fight the page reckons deadly), going to and fro, the next.
+      const aims = Undertakings.held(c), was = out.slice(-4).map(x => x.place);
+      const fro = was.length === 4 && was[0] === was[2] && was[1] === was[3] && was[0] !== was[1];
+      const next = fro ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
+      if (next) { Undertakings.follow(c, next.id); }
+      else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, aims[0]!.id); }
       const move = player.next(AutoplayRun.situation(s, step, true, 'undertaking'));
       if (!move) { break; }
       const fights = metrics.fights;
