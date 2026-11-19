@@ -173,12 +173,13 @@ jobs:
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
   # Two shards since the place's new grammar (6 November): the whole had passed in thirty minutes and then outgrew them.
+  # Three since 19 November: each of two had come to thirty minutes, the second cut off at its limit.
   browser:
-    name: browser specs ${{ matrix.shard }}/2
+    name: browser specs ${{ matrix.shard }}/3
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    strategy: { fail-fast: false, matrix: { shard: [1, 2] } }
+    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3] } }
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
@@ -194,10 +195,10 @@ jobs:
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
-      - run: bun test --shard=${{ matrix.shard }}/2 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --shard=${{ matrix.shard }}/3 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
       - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 2" --none-skipped
+        run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 3" --none-skipped
   # The reference first hour played through the page by its leads alone, a picture of every step kept as the run's
   # artifact (test/reference-hour.test.ts): evidence of where the page stops leading, read by a person, not a gate.
   tour:
