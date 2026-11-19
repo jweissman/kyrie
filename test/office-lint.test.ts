@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'bun:test';
 import { KyrLint } from '../src/cli/kyr-lint';
 import { OfficeLint } from '../src/cli/office-lint';
@@ -21,7 +22,9 @@ describe('the office lint', () => {
     expect(offices[0]!.message).toStartWith('Porthalen (region__s1) has 2 holding the office of reeve');
     expect(offices[0]!.message).toContain('"Aldous Fenn" ("reeve of the wood-wardens")');
     expect(offices[0]!.message).toContain('by data/generation/town/outskirts-deep.kyrt:141');
-    expect(offices[0]!.message).toContain('"Reeve Annis Talfryn" (titled "Reeve Annis Talfryn"), '
-      + 'data/goings-on/iscoed-gate/situation.kyr:25');
+    // At the line that declares her, wherever the gate's file has it now (it had moved under the reeve at the gate).
+    const gate = 'data/goings-on/iscoed-gate/situation.kyr';
+    const line = readFileSync(gate, 'utf8').split('\n').findIndex(l => /^\s*Person reeve\b/.test(l)) + 1;
+    expect(offices[0]!.message).toContain(`"Reeve Annis Talfryn" (titled "Reeve Annis Talfryn"), ${gate}:${line}`);
   }, 120000);
 });

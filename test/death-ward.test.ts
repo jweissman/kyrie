@@ -19,8 +19,12 @@ const touched = (ward: boolean, seed = 'wraith') => {
   const s = new CreatureStore([hero(ward), c.createCreature('wraith', { raceId: 'wraith', level: 3 }, 'wraith')]);
   const b = Battle.encounter(s, [{ creatureId: 'wraith', team: 'goblins' }, { creatureId: 'hero', team: 'fighters' }],
     { seed, maxTurns: 400 });
+  // Until a touch has landed (a save against it, or a level gone): the drain is a touch that can miss since the
+  // SRD's touches (cases 35 and 52), and the first two at this seed do.
   const drains = () => b.events.filter(e => e.type === 'action' && e.command.ability === 'energy_drain').length;
-  for (let i = 0; i < 200 && !b.state.outcome && drains() < 2; i++) {
+  const landed = () => b.events.some(e => e.type === 'save' && e.kind === 'drain')
+    || s.get('hero').state.conditions.some(x => x.id === 'drained');
+  for (let i = 0; i < 400 && !b.state.outcome && !landed() && drains() < 12; i++) {
     b.step(b.state.actor === 'hero' ? b.legalCommands().find(x => x.ability === 'wait')! : b.chosen());
   }
   const events = b.events, state = b.state;
@@ -32,7 +36,7 @@ const on = (events: CombatEvent[], type: string) => events.filter(e => e.type ==
 describe('Death Ward', () => {
   it('keeps every level of the warded through a wraith\'s touch, told as an immunity', () => {
     const { events, state, drained } = touched(true);
-    expect(events.filter(e => e.type === 'action' && e.command.ability === 'energy_drain').length).toBe(2);
+    expect(events.filter(e => e.type === 'action' && e.command.ability === 'energy_drain').length).toBeGreaterThan(0);
     expect(drained).toBe(0);
     const kept = on(events, 'save').filter(e => e.type === 'save' && e.kind === 'drain');
     expect(kept.length).toBeGreaterThan(0);
