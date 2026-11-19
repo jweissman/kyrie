@@ -43,7 +43,6 @@ export class ThingStage {
           <p className="away"><Act.View choice={examined.back} draw={draw}>← Turn back to {Typography.curl(
             frame.screen.place.name)}</Act.View></p>
         </div>
-        <button type="button" className="close" data-action="back" aria-label="Turn away" onClick={app.back}>×</button>
       </div>
     );
   }
