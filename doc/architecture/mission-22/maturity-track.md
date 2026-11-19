@@ -219,7 +219,11 @@ it moves, and its rows are MT-01.. in the open register.
   19 November (mt-7): recommended content lint-clean (fourteen warnings mended), and the three drawn worlds from 221
   warnings to 44 (a staging the draw did not choose said as advice, DrawnChoice; five repeated roles, two aims with no
   target and the factors' buy-back mended; compat `same`); the rest registered (MT-11's levels, MT-12's aims). A
-  nightly `kyr-lint` job runs both.
+  nightly `kyr-lint` job runs both. Beside them: `unpaid` (R43, a purse that cannot pay) and the site kinds said in
+  all three places (R39, SiteKindLint), closing AB-14 with R42 and R59's growth advice. Not taken: the study's "a
+  generated scene beside an authored replacement" (R34): of 19 generated scenes with an authored line at their place
+  in a1, iscoed and kite, most are additions (a milestone by a road); the conflict (the Howe's mound, w13) wants the
+  site's scene importable for `instead of`, a mechanism before a lint.
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`, and `--dependents` (mt-6); see the step).
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;
