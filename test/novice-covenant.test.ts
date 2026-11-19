@@ -92,11 +92,13 @@ describe('the page\'s word for a fight is the fight the company would fight', ()
     expect(ours[0]!.state.inventory?.map(i => i.definition)).toEqual(carried);
     expect(foes[0]!.state.inventory ?? []).toEqual([]);
   });
-  // Forty fights fought out, some two seconds alone and past bun's five under a loaded suite: seeded, so only slow.
+  // Eighty fights fought out, some seconds under a loaded suite: seeded, so only slow. Forty of each, where twenty had
+  // put the warrior's 'grave' one fight past its band once the tactics weighed a heal by what it mends (17 of 20 won;
+  // 67 of 100: srd-proving-cases.md case 54).
   it('and its word agrees with how such a fight goes', () => {
     for (const [seed, foes] of [['arms', 1], ['pair', 2]] as const) {
       const said = DangerSense.of(Covenant.fight(seed, foes)).danger, [low, high] = Covenant.range[said];
-      const won = Covenant.won(seed, foes, 20);
+      const won = Covenant.won(seed, foes, 40);
       expect([seed, said, won >= low - 0.2 && won <= high + 0.2]).toEqual([seed, said, true]);
     }
   }, 30000);

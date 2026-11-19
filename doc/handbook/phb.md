@@ -7481,11 +7481,13 @@ End poison or diseased on one ally. A divine cantrip, cast at will.
 
 ##### Cure Minor Wounds
 
-*Faithful · cantrip divine spell, life domain* · `ability:cure_minor`
+*Adapted · cantrip divine spell, conjuration, life domain* · `ability:cure_minor`
 
-Heal one ally for 1d4 (1–4). A divine cantrip, cast at will.
+Heal one ally for 1. A divine cantrip, cast at will.
 
-> Bind minor injuries.
+> Bind a scratch or a bruise: one point.
+
+*Adapted: The SRD's Cure Minor Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 51): a cantrip, one point on one ally, its school the SRD's conjuration beside its domain. Out of a fight it mends each member once between rests, as every healing cantrip (Tended). Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half). Before, Orsino's 1d4.*
 
 ##### Curse
 

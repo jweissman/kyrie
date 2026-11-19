@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 724,
-    "adapted": 423,
+    "faithful": 723,
+    "adapted": 424,
     "represented": 4,
     "kyr": 614,
     "unsupported": 66,
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 208,
-      "adapted": 44,
+      "faithful": 207,
+      "adapted": 45,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10385,7 +10385,7 @@
   {
    "id": "ability:cure_minor",
    "title": "Cure Minor Wounds",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-0"
   },
