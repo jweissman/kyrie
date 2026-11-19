@@ -1951,6 +1951,24 @@ no installed creature (none of the eight worlds' knows it), no first-hour fight.
 level who has learned it (the Orsino world's scene that teaches it), and by the discerner (a cave kind, which casts at
 its own Hit Dice: never below the eleventh).
 
+### 56. The earlier elemental spells' harm, setting off nothing (19 November): adapted; Burning Hands held
+
+Case 44's `triggers: false` (the SRD's harm lays no condition by its kind, where Orsino's fire burns and its cold
+freezes) on the elemental spells migrated before it. Ray of Frost, Acid Arrow and Vampiric Touch had it already.
+
+**Landed** (each a hand entry's harm, its note saying so): Fireball (no burning), Cone of Cold (no freezing), and
+Lightning Bolt, Chain Lightning and Shocking Grasp, whose electricity set nothing off already (Orsino's paralysis
+answers its `lightning`, not Kyr's `electric`), declared so. **What it moves:** no draw, card or installed creature
+(none of the eight worlds' installed creatures knows Burning Hands, Fireball or Cone of Cold), no first-hour fight.
+A caster who knows only the spell, every slot spent on it (100 seeds, won %, before → after): a fifth-level mage's
+Fireball against three fifth-level rats 100 → 100, two wolves 25 → 27, two ghouls 9 → 2; a ninth-level mage's Cone
+of Cold against three rats 100 → 100, two wolves 45 → 38, two ghouls 12 → 11. The specs of each spell hold.
+
+**Held** (the lead's stabilization: it moves a first-hour caster): **Burning Hands**, a first-level evoker's.
+Measured the same way at the first level: three rats 77 → 68 %, two wolves 6 → 1 %, two ghouls 0 → 0 %; Orsino's
+burning (a Fortitude save or 1d3 a turn for the fight) is a share of a first-level evoker's harm. To land with a
+green main and the lead's word.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
