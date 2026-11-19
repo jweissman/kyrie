@@ -11,6 +11,12 @@ Module gate "The last sea-gate" {
   Initially Assert established(failing). Initially Assert established(tide).
   Entity cut: fact "The pin that held the sea-gate's pawl was sawn through, not worn: someone wanted the gate at {hamlet} to stand open.".
   Entity tide: fact "The spring tide comes six days from your coming to Iscoed, at the full moon.".
+  // What the cold pans' module (data/goings-on/iscoed-pans, installed before this one) keeps of the cut: clear once the
+  // gate is wound shut, the sea off it (ST-04); and what came of the fuel boat, for the reeve's tally and Ifan.
+  Entity cutclear: fact "The cut clear". Entity poledword: fact "The fuel boat poled down the cut".
+  Entity saltwhole: fact "The whole load to the salter". Entity saltshared: fact "The load shared".
+  Entity saltlost: fact "The brine spoiled".
+  Relation saltWritten(group).
 
   Kind pawl_kind "the sea-gate's pawl" is gear worth 6 weighing 6 described "A tooth of bronze-shod iron as long as a forearm, curved to fit a ratchet, with a hole through its heel where a pin went. The Water-Wardens' mark, a wave inside a ring, is cut into its face.".
   Place bank "the sea-bank at {hamlet}" is room within hamlet at 4, 0.
@@ -51,7 +57,7 @@ Module gate "The last sea-gate" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gatehouse) and holding(actor, pawl_kind)
       and not mended(actor) and not flooded(actor).
     Resolve check(actor, brawn, dc_fair).
-    On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). }
+    On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). Assert knows(actor, cutclear). }
     On failure { Assert gateTried(actor). }
     Result "The pawl drops into its socket with a sound like a bell. Then the long work: the windlass bars, a turn and a rest and a turn, the chain coming up wet out of the slot link by link, the pawl clacking over the ratchet. Below, at last, something enormous seats itself in stone, and the mill-race sound stops.".
     // With more than one on the bars, it is not one pair of arms that fails (cold play 5, CL-39's 11: Gesk hauling
@@ -67,17 +73,36 @@ Module gate "The last sea-gate" {
       and knows(actor, tides) and not mended(actor) and not flooded(actor)
       and ((hour(clock) >= 4 and hour(clock) < 7) or (hour(clock) >= 16 and hour(clock) < 19)).
     Result "With the sea gone out from under it, the drum comes round as easily as a well-winch. The pawl drops in with a sound like a bell, and clacks over the ratchet tooth by tooth, and below, something enormous seats itself in stone. The mill-race sound stops.".
-    On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). }
+    On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). Assert knows(actor, cutclear). }
   }
-  Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) once {
+  // The claim, and with it what came of the cold pans' fuel boat (data/goings-on/iscoed-pans; ST-04): which pans burned
+  // is the salt the reeve writes into her tally before it goes north (what the Exchange reads of a tally past the march
+  // is its own: WD-16).
+  Topic claim with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) and not knows(actor, saltwhole) and not knows(actor, saltshared) and not knows(actor, saltlost) once {
     Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.'".
     On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). Give tally_case to actor. Assert knows(actor, road_north). }
+  }
+  Topic claim_whole with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) and knows(actor, saltwhole) once {
+    Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.' Before she seals the tally she adds a line to it in her own hand, reading it out as she writes: 'Salt of {town}: one salter's pans, a month's boiling; Ffion Wyn's, none.' She seals it. 'A short march. The Exchange will price Iscoed's jar as dear as ever, and thank me for it.'".
+    On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). Give tally_case to actor. Assert knows(actor, road_north). Assert saltWritten(actor). }
+  }
+  Topic claim_shared with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) and knows(actor, saltshared) once {
+    Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.' Before she seals the tally she adds a line to it in her own hand, reading it out as she writes: 'Salt of {town}: two salters' pans, a fortnight's boiling each, and every raker paid.' She seals it. 'Less salt than a month of the one, and more mouths fed. The Exchange sets its price on the salt, not the mouths.'".
+    On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). Give tally_case to actor. Assert knows(actor, road_north). Assert saltWritten(actor). }
+  }
+  Topic claim_lost with reeve "Tell the reeve the sea-gate at Gatesend shuts" when mended(party) and not gateClaimed(actor) and knows(actor, saltlost) once {
+    Says "The reeve rides out to see for herself before she pays, and stands on the sea-bank a long while with the wind in her cloak. Then thirty crowns, counted out on the gatehouse sill. 'The fen owes you,' she says. 'So do I. When the tally goes up to the Tower of the Scales this quarter, I will need someone to carry it who knows what the sea costs.' Before she seals the tally she adds a line to it in her own hand, reading it out as she writes: 'Salt of {town}: the brine spoiled for want of fuel, the season lost.' She seals it without looking at you. 'The Exchange will set Iscoed's price on what is left, and what is left is dear.'".
+    On discuss { Increase quantity(actor, gold) by 30. Assert gateClaimed(actor). Give tally_case to actor. Assert knows(actor, road_north). Assert saltWritten(actor). }
   }
   // The reason to go north: the reeve's quarter-tally for the Exchange in Dun Rìerdan, carried by one who knows what
   // the sea costs (see data/goings-on/rierdan-scales).
   Entity road_north: fact "The reeve's quarter-tally goes north up the salt road to the Exchange in the Tower of the Scales, in Dun Rìerdan, where the salt price of the realm is set.".
   Entity tally_kept: fact "".
   Item tally_case "the reeve's quarter-tally, in a scroll-case" is scrollcase at gatehouse hidden until tally_kept.
+  // The pans settled after the claim, while the tally is still in hand: she has it back to write the salt in.
+  Rule salt_whole heard at green when at(party, green) and holding(party, scrollcase) and knows(party, saltwhole) and at(reeve, green) and not saltWritten(party) says "The reeve has the tally back off you a moment and adds a line in her own hand, reading it out as she writes: 'Salt of {town}: one salter's pans, a month's boiling; Ffion Wyn's, none.' She gives it back. 'A short march. The Exchange will price Iscoed's jar as dear as ever, and thank me for it.'" { Assert saltWritten(party). }
+  Rule salt_shared heard at green when at(party, green) and holding(party, scrollcase) and knows(party, saltshared) and at(reeve, green) and not saltWritten(party) says "The reeve has the tally back off you a moment and adds a line in her own hand, reading it out as she writes: 'Salt of {town}: two salters' pans, a fortnight's boiling each, and every raker paid.' She gives it back. 'Less salt than a month of the one, and more mouths fed. The Exchange sets its price on the salt, not the mouths.'" { Assert saltWritten(party). }
+  Rule salt_lost heard at green when at(party, green) and holding(party, scrollcase) and knows(party, saltlost) and at(reeve, green) and not saltWritten(party) says "The reeve has the tally back off you a moment and adds a line in her own hand, reading it out as she writes: 'Salt of {town}: the brine spoiled for want of fuel, the season lost.' She gives it back without looking at you. 'The Exchange will set Iscoed's price on what is left, and what is left is dear.'" { Assert saltWritten(party). }
   Objective north_aim when knows(party, road_north) and holding(party, scrollcase) toward town "Take the reeve's tally north up the salt road to the Tower of the Scales in Dun Rìerdan.".
   // What the drove's inquiry found, for the reeve to hear (data/goings-on/iscoed-drove): Mardle told the company to
   // trouble her with nothing, and she had no word to say of it (the second cold play, CL-03); not once she has heard it
@@ -261,6 +286,9 @@ Module gate "The last sea-gate" {
     Result "Ifan looks at the shut gate a long moment, then at you. 'Then the reeve's clerk eats this winter,' he says, 'and my children don't.' He turns the boat in the cut with one push and is gone into the dark.".
     On success { Assert turnedBack(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
   }
+  // The cold pans' fuel boat poled down the cut by day (data/goings-on/iscoed-pans): on the eel-men's water, seen.
+  Relation ifanPoled(group).
+  Rule ifan_poled heard at hamletgreen when knows(party, poledword) and at(party, hamletgreen) and at(ifan, hamletgreen) and not boatCome(party) and not ifanPoled(party) says "Ifan Rhys looks up from his trap as you come along the lane. 'You poled Ianto's boat down our cut in broad day,' he says. 'Half {hamlet} watched you go by. Next time you're on our water, ask.'" { Assert ifanPoled(party). }
   Rule ifan_after when letThrough(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys is mending a trap at his door. He nods to you as you pass, as one eel-man to another, and says nothing of boats." { Assert ifanMet(party). }
   Rule ifan_cold when turnedBack(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys's door is shut, and his nets are off the fence. A child on the step watches you all the way along the lane." { Assert ifanMet(party). }
   Goal mended(party).

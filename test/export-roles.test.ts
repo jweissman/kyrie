@@ -44,8 +44,16 @@ describe('typed exports', () => {
     expect(Object.entries(imports).filter(([, ref]) => ref.startsWith('drove.'))
       .map(([name, ref]) => [name, gate.roles![name]!.type, exported[ref.split('.')[1]!]]))
       .toEqual([['forged', 'fact', 'fact'], ['freedword', 'fact', 'outcome'], ['drovedrowned', 'fact', 'fact'],
-        ['clerkgone', 'fact', 'outcome'], ['clerkkept', 'fact', 'outcome'], ['ruledword', 'fact', 'outcome']]);
-    const installed = [{ id: 'drove', exported } as unknown as InstalledModule];
+        ['clerkgone', 'fact', 'outcome'], ['clerkkept', 'fact', 'outcome'],
+        ['ruledword', 'fact', 'outcome']]);
+    // And of the cold pans, installed before it (ST-04): the cut clear for the boat, and what came of the boat.
+    const pans = ModuleExports.declared(Exporting.json('data/goings-on/iscoed-pans/module.json').exports);
+    expect(Object.entries(imports).filter(([, ref]) => ref.startsWith('pans.'))
+      .map(([name, ref]) => [name, gate.roles![name]!.type, pans[ref.split('.')[1]!]]))
+      .toEqual([['poledword', 'fact', 'outcome'], ['saltwhole', 'fact', 'outcome'], ['saltshared', 'fact', 'outcome'],
+        ['saltlost', 'fact', 'outcome'], ['cutclear', 'fact', 'fact']]);
+    const installed = [{ id: 'drove', exported } as unknown as InstalledModule,
+      { id: 'pans', exported: pans } as unknown as InstalledModule];
     expect(() => ModuleExports.bound('gate', gate.roles, imports, installed)).not.toThrow();
     // The drove's tally-book saying it was a participant, the gate's composition with it is refused by the roles.
     const wrong = [{ id: 'drove', exported: { ...exported, altered: 'participant' } } as unknown as InstalledModule];

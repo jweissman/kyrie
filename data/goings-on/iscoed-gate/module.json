@@ -18,7 +18,12 @@
     "freedword",
     "clerkgone",
     "clerkkept",
-    "ruledword"
+    "ruledword",
+    "poledword",
+    "saltwhole",
+    "saltshared",
+    "saltlost",
+    "cutclear"
   ],
   "roles": {
     "party": {
@@ -52,6 +57,21 @@
       "type": "fact"
     },
     "ruledword": {
+      "type": "fact"
+    },
+    "poledword": {
+      "type": "fact"
+    },
+    "saltwhole": {
+      "type": "fact"
+    },
+    "saltshared": {
+      "type": "fact"
+    },
+    "saltlost": {
+      "type": "fact"
+    },
+    "cutclear": {
       "type": "fact"
     }
   },

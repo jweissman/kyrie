@@ -42,6 +42,26 @@
   "exports": {
     "cold": "cold",
     "work": "work",
-    "boiling": "boiling"
+    "boiling": "boiling",
+    "poled": {
+      "entity": "poled",
+      "role": "outcome"
+    },
+    "salt_whole": {
+      "entity": "salt_whole",
+      "role": "outcome"
+    },
+    "salt_shared": {
+      "entity": "salt_shared",
+      "role": "outcome"
+    },
+    "salt_lost": {
+      "entity": "salt_lost",
+      "role": "outcome"
+    },
+    "cut_clear": {
+      "entity": "cut_clear",
+      "role": "fact"
+    }
   }
 }

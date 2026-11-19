@@ -14,6 +14,15 @@ Module pans "The cold pans" {
   Initially Assert established(cold).
   Entity boatman: fact "The fuel boat is at {fuelvillage}'s staithe, full: Ianto, its boatman, has broken his arm.".
   Entity work: fact "{trader} pays a hand three coin a shift to rake salt and keep the fires at the pans.".
+  // The cut is the sea-gate's cut (ST-04; mission-22/story-sheets.md, the cold pans' sheet): the sea up it since the
+  // pawl's pin was sawn, and Gatesend's eel-men running their boats up it at night. Shut, it runs out clean at the ebb
+  // (cut_clear: the gate's module, installed after this one, teaches it as the gate is wound shut); what came of the
+  // boat is the salt in the reeve's tally and a fuel boat seen on the eel-men's water (the gate's, which reads these).
+  Entity cut_clear: fact "With the sea-gate at Gatesend shut, the sea is off the sluice-cut, and it runs out clean at the ebb.".
+  Entity poled: fact "You poled Ianto's fuel boat down the sluice-cut by daylight, where Gatesend's eel-men run their boats at night.".
+  Entity salt_whole: fact "The fuel boat's whole load went to {trader}'s pans, and Ffion Wyn's stayed cold.".
+  Entity salt_shared: fact "The fuel boat's load was shared, two parts to {trader}'s pans and a third to Ffion Wyn's.".
+  Entity salt_lost: fact "{trader}'s brine spoiled for want of fuel, and the season's salt with it.".
 
   Kind fuel_sack_kind "a sack of charcoal" is gear worth 1 weighing 20 described "A sack of charcoal from the ridge, black to the touch and lighter than it looks, tied at the neck with a twist of reed.".
   Place boiling "the boiling-house behind the salt-house" is room within town at 5, 5.
@@ -38,28 +47,44 @@ Module pans "The cold pans" {
     Says "'Broke it on the windlass, loading her,' says Ianto, and nods at the arm. 'She's full. Two sacks would keep his fires a day or two; the whole load, a month. I can't pole her down with one arm, and nobody here will take her through the sluice-cut since the water went wrong.' He looks at you. 'You could carry two. Or pole her, if you've done it.'".
     On discuss { Assert knows(actor, boatman). }
   }
+  // Why nobody at the staithe will take her through: they have been told not to (the sheet's opposing claim).
+  Topic ianto_cut with ianto "Ask Ianto why nobody will take her through the cut" when knows(actor, boatman) and not fuelled(party) and not knows(actor, cut_clear) once {
+    Says "'Since the sea-gate at Gatesend went, the sea comes up the cut on every tide, and the eel-men with it,' says Ianto. 'They run their boats up it at night, and they don't care for a boat on it by day. Ifan Rhys came up this staithe at the new moon and said so, civil as you like.' He spits into the river. 'Nobody here has crossed Ifan Rhys yet. And the silt's bad where the sea comes in.'".
+  }
+  Topic ianto_shut with ianto "Ask Ianto why nobody will take her through the cut" when knows(actor, boatman) and not fuelled(party) and knows(actor, cut_clear) once {
+    Says "'The eel-men of Gatesend, that run the cut at night,' says Ianto. 'Ifan Rhys said a boat on it by day was a boat that saw things.' He looks down the river. 'But they say the sea-gate's shut again. Then the sea's off the cut, and she'll go down clean at the ebb, with nobody's boats on it to see.'".
+  }
   // Poled down, the whole load comes to the pans; carried, two sacks and a day's walk.
   Action pole_boat(actor: group, site: place) "Pole Ianto's fuel boat down the cut to {town}" {
     Speaker ianto. Time 3 hours.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, staithe) and knows(actor, boatman)
-      and not fuelled(actor) and not spoiled(actor) and not carted(actor).
+      and not fuelled(actor) and not spoiled(actor) and not carted(actor) and not knows(actor, cut_clear).
     Resolve check(actor, brawn, dc_fair).
-    On success { Assert carted(actor). Assert at(actor, boiling). }
+    On success { Assert carted(actor). Assert at(actor, boiling). Assert knows(actor, poled). }
     On failure { Assert carted(actor). }
     Result "The boat is heavy and the cut is half-silted where the sluice has let the sea in, and twice you ground her on the mud and lever her off with the pole. But by the afternoon she noses into {town}'s quay, low in the water, and men come running from the salt-house.".
     Otherwise "Where the old sluice has let the sea into the cut, the boat goes hard aground on the mud and will not come off. You leave her there, and Ianto shakes his head. Two sacks will still go, carried.".
+  }
+  // With the sea-gate shut the sea is off the cut, and the boat comes down it without grounding (the sheet's handoff
+  // in from the gate: shut, the cut is passable; open, it grounds).
+  Action pole_shut(actor: group, site: place) "Pole Ianto's fuel boat down the cut to {town}" {
+    Speaker ianto. Time 3 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, staithe) and knows(actor, boatman)
+      and not fuelled(actor) and not spoiled(actor) and not carted(actor) and knows(actor, cut_clear).
+    Result "With the sea-gate at Gatesend shut, the sea is off the cut, and at the ebb the water runs out of it clean and brown over the silt. The boat is heavy, but she does not ground once, and by the afternoon she noses into {town}'s quay, low in the water, and men come running from the salt-house. A man mending a trap on the bank at Gatesend watches you all the way past.".
+    On success { Assert carted(actor). Assert at(actor, boiling). Assert knows(actor, poled). }
   }
   Action give_sacks(actor: group, site: place) "Give {trader} the charcoal" {
     Speaker trader. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and holding(actor, fuel_sack_kind) and not fuelled(party) and not spoiled(party).
     Result "{trader} has the sacks open before they are off your back, and the fires in the boiling-house going within the hour. 'Two days,' {trader} says, 'and the boat after, Ianto or no Ianto.' Eight coin on the boards. 'There's three a shift for you here, whenever you want it.'".
-    On success { Spend fuel_sack_kind from actor. Assert fuelled(actor). Increase quantity(actor, gold) by 8. Assert knows(actor, work). }
+    On success { Spend fuel_sack_kind from actor. Assert fuelled(actor). Increase quantity(actor, gold) by 8. Assert knows(actor, work). Assert knows(actor, salt_whole). }
   }
   Action boat_come(actor: group, site: place) "Tell {trader} the fuel boat is at the quay" {
     Speaker trader. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and carted(actor) and not fuelled(party) and not spoiled(party).
     Result "{trader} goes out onto the quay and stands looking at the heaped boat for a long moment. 'The whole load,' {trader} says. 'A month.' Fifteen coin on the boards, slowly. 'There's three a shift for you here, whenever you want it. And I'll remember it.'".
-    On success { Assert fuelled(actor). Assert paid(actor). Increase quantity(actor, gold) by 15. Assert knows(actor, work). }
+    On success { Assert fuelled(actor). Assert paid(actor). Increase quantity(actor, gold) by 15. Assert knows(actor, work). Assert knows(actor, salt_whole). }
   }
   // A second claim on the boat (the owner's structural critique, 18 November, and mission-22/story-sheets.md, the cold
   // pans' sheet: the salter, the boatman and the village had all wanted the same thing, and the boat was a delivery).
@@ -76,7 +101,7 @@ Module pans "The cold pans" {
     Speaker trader. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and carted(actor) and knows(actor, ffion_need) and not fuelled(party) and not spoiled(party).
     Result "{trader} goes out onto the quay and looks at the heaped boat, and then along it at Ffion's cold chimney, and for a long moment says nothing. 'A third,' {trader} says. 'You're free with my fuel.' Ten coin on the boards, not fifteen, and no word of work after. By evening two chimneys are smoking over the salt-houses.".
-    On success { Assert fuelled(actor). Assert paid(actor). Assert shared(actor). Increase quantity(actor, gold) by 10. }
+    On success { Assert fuelled(actor). Assert paid(actor). Assert shared(actor). Increase quantity(actor, gold) by 10. Assert knows(actor, salt_shared). }
   }
   Topic ffion_shared with ffion "Ask Ffion how her pans go" when shared(party) once {
     Says "'Burning,' says Ffion, 'and my rakers back at them, and paid.' She counts four coin into your hand. 'For the third. {trader} won't forget it, and nor will I.'".
@@ -95,7 +120,7 @@ Module pans "The cold pans" {
     Result "You rake salt until your shoulders burn and feed the hearths until your face does, and at the end of it {trader} counts three coin into your hand without a word.".
     On success { Increase quantity(actor, gold) by 3. Assert hired(actor). }
   }
-  Rule spoils when not fuelled(party) and not spoiled(party) and watch(clock) >= 432 says "Word comes up from the waterfront: {trader}'s fires are out, and the brine in the pans has spoiled. There will be no salt from {trader}'s pans this season." {
+  Rule spoils when not fuelled(party) and not spoiled(party) and watch(clock) >= 432 says "Word comes up from the waterfront: {trader}'s fires are out, and the brine in the pans has spoiled. There will be no salt from {trader}'s pans this season." teaches salt_lost {
     Assert spoiled(party). Assert stale(cold).
   }
   Milestone m_fuelled "kept {trader}'s pans burning" worth 100 when fuelled(party).

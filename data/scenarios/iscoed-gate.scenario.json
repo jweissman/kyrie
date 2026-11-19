@@ -28,7 +28,12 @@
         "drovedrowned": "drove.found_drowned",
         "clerkgone": "drove.mardle_shown",
         "clerkkept": "drove.mardle_paid",
-        "ruledword": "drove.reeve_ruled"
+        "ruledword": "drove.reeve_ruled",
+        "poledword": "pans.poled",
+        "saltwhole": "pans.salt_whole",
+        "saltshared": "pans.salt_shared",
+        "saltlost": "pans.salt_lost",
+        "cutclear": "pans.cut_clear"
       }
     }
   ],

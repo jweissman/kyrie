@@ -106,6 +106,11 @@ against the scenario's source as it stands, then gives what would make the sente
   the salt price under Iscoed's jar at the Tower (ST-04).
 - **The handoff (ST-04).** In from the gate: shut, the cut is passable at ebb and the boat comes down; open, it grounds.
   Out to the Tower: which pans burned is the salt in the reeve's tally.
+  Built (19 November): Ianto names who keeps the boat off the cut (Ifan Rhys, on the staithe at the new moon); the gate
+  wound shut teaches the cut clear, and the boat comes down it with no check; poled down it by day, Ifan says so at his
+  door; and the reeve writes which pans burned into her tally, at the claim or after it (test/pans-cut). The gate's
+  module is installed after the pans', so the gate reads the pans and teaches what the pans read (an import runs one
+  way only). What the Exchange reads of that line past the march is the Tower's sheet's open half (WD-16).
 
 ## The Tower of the Scales (data/goings-on/rierdan-scales/situation.kyr)
 
@@ -136,5 +141,5 @@ against the scenario's source as it stands, then gives what would make the sente
 ## Next
 
 The four sheets are written. ST-02 (the drove: the clock, the fear, the collision before the reeve, the aftermaths) and
-ST-03 (the gate's claim and crisis) are built from theirs; the cold pans' rebuild and the Tower's reckoning are open, in
-that order, measured by the beat map and the next cold play.
+ST-03 (the gate's claim and crisis) are built from theirs; the cold pans' second claim and their handoff to the gate and
+the tally are built (19 November); the Tower's reckoning past the march is open (WD-16), measured by the next cold play.
