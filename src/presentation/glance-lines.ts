@@ -125,6 +125,10 @@ export class GlanceLines {
     const warner = screen.warned && people.find(p => p.id === screen.warned!.id);
     if (warner) { return { text: this.curl(warner.says?.[0] ?? this.here(warner)), subject: warner.id }; }
     const fresh = this.fresh.bind(this, first, at.recall);
+    // Something heard from the next room, which the way there is marked by: the barrow's whetstone had been held for a
+    // look, the north recess marked heard and nothing heard in the prose (cold play 4, CL-48).
+    const sound = at.kept.find(l => this.def(at.defs, l.id)?.aspect === 'sound' && fresh(l.text));
+    if (sound) { return { id: sound.id, text: this.curl(sound.text) }; }
     const stake = people.find(p => p.stake && p.says?.some(fresh));
     if (stake) { return { text: this.curl(stake.says!.find(fresh)!), subject: stake.id }; }
     const busy = first ? people.find(p => p.kind === 'person' && p.activity) : undefined;

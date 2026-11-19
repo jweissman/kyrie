@@ -90,4 +90,11 @@ describe('the golden route, after the fourth cold play', () => {
     expect(labels(byLine[0]).join(' ')).not.toContain('Ask the factor');
     expect(labels(at('drove__customs'))).toContain('Ask Bran what happened');
   });
+  // CL-48's 21: the north recess marked heard, and what is heard from it held for a look; it is said on coming.
+  it('says what is heard along a way marked heard, on coming to it', () => {
+    const chamber = at('region__w8_barrow_chamber')!;
+    expect(chamber.offer.rest.some(o => o.marks.includes('heard'))).toBe(true);
+    expect(text(chamber)).toContain('From the north recess comes the scrape of a whetstone on steel');
+    expect(text(at('region__w8_halls_stair_foot'))).toContain('From the hall of the bones comes a cold');
+  });
 });
