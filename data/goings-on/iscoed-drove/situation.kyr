@@ -186,7 +186,9 @@ Module drove "The held drove" {
 
   Milestone m_freed "saw Bran ap Ifor let out of the customs-house" worth 150 when freed(party).
   Milestone m_turned "showed what was under the clerk's forty" worth 100 when turned(clerk).
-  Objective held_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, boy_count) and not knows(party, found_drowned) and not knows(party, altered) toward owain by pens "Ask Owain how many head came down: the customs clerk says four were hidden from the toll.".
+  // The aims say what has been told and no more (cold play 4, CL-45): the clerk's charge as the charge Bran is held on,
+  // not as what happened; the clerk by his office until he is met; both ways the proof can be said.
+  Objective held_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, boy_count) and not knows(party, found_drowned) and not knows(party, altered) toward owain by pens "Ask Owain how many head came down: Bran is held for four short of the customs clerk's count.".
   Action water_drove(actor: group, site: place) "Water the drove from the pens' trough" {
     Time 1 hours.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pens) and not watered(actor) and not freed(actor) and not sent(actor).
@@ -194,7 +196,7 @@ Module drove "The held drove" {
     On success { Assert watered(actor). }
   }
   Objective held_rhyne when not sent(party) and knows(party, boy_count) and not knows(party, found_drowned) and not knows(party, altered) and not freed(party) toward rhyne by pens "Search the Black Rhyne behind the pens for the four that went in.".
-  Objective held_proof when not sent(party) and (knows(party, found_drowned) or knows(party, altered)) and not freed(party) toward customs "Tell Mardle at the customs-house what you found, and have Bran let out.".
+  Objective held_proof when not sent(party) and (knows(party, found_drowned) or knows(party, altered)) and not freed(party) toward customs "Tell the customs clerk what you found, at his counter or before the reeve on the green, and have Bran let out.".
   // The inquiry is the thread followed first; minding the drove and hearing Bran stand beside it (the second cold
   // play: with the drove first, the search of the rhyne was never led, CL-04).
   // Bran is to be heard behind the grille, said from the first beside the boy's count; the drove is watered at the

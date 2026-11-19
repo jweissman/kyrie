@@ -23,6 +23,9 @@ describe('what was found against Mardle, said before the reeve', () => {
     const r = new Runner(journey.session), c = journey.session.campaign;
     const holds = (f: string, ...a: string[]) => c.world.test(ModuleWriter.call(f, ...a));
     for (const line of lines.slice(0, 7)) { said(await r.ask(line)); }
+    // The aim says both ways the proof can be said, and names the clerk by his office (CL-45).
+    expect((r.said().aims ?? []).map(a => a.text)).toContain('Tell the customs clerk what you found, at his counter or '
+      + 'before the reeve on the green, and have Bran let out.');
     await take(r, /^To the drove pens/);
     await take(r, /^To the landing at Porthalen/);
     const told = (await take(r, before)).scene.lines.join(' ');

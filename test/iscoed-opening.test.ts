@@ -44,7 +44,7 @@ describe('the reference start, Iscoed', () => {
     async () => {
       const j = await Iscoed.begin('drove');
       await j.play('Ask Owain how many head came down', 'To the drove pens', 'To the Black Rhyne', 'Search');
-      expect(Iscoed.aims(j)).toMatch(/Tell Mardle/);
+      expect(Iscoed.aims(j)).toMatch(/Tell the customs clerk what you found/);
       await j.play('To the drove pens', 'To the landing', 'To the customs-house', 'Tell Mardle where the four bullocks are');
       expect(j.latest).toMatch(/Let him out/);
       expect(Iscoed.aims(j)).not.toMatch(/Bran/);
