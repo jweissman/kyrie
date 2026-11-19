@@ -87,8 +87,9 @@ export class BoardField {
   }
   // The board, given where the company is bound as the maps know it (see whither), and the way a journey went, that
   // your mark walk it, and the page be told when it has.
-  static View({ region, chosen, choose, bound, face, walking, walked, point, courses, dress }: { region: RegionChart;
-    chosen?: string; choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: number[];
+  static View({ region, chosen, choose, bound, face, walking, learned, walked, point, courses, dress }: {
+    region: RegionChart; chosen?: string; choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string;
+    walking?: number[]; learned?: number[];
     walked?: () => void; point?: (id?: string) => void; courses?: Courses; dress?: Dress }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     // The board as it stood before the land changed under it, kept drawn until the new one is (it had gone black for
@@ -142,7 +143,7 @@ export class BoardField {
     const done = useRef(walked); done.current = walked;
     useEffect(() => {
       if (!walking || able && !ready) { return; }
-      const ms = board.current?.walk(walking) ?? 0, at = setTimeout(() => done.current?.(), ms);
+      const ms = board.current?.walk(walking, learned) ?? 0, at = setTimeout(() => done.current?.(), ms);
       return () => { clearTimeout(at); };
     }, [walking, ready, able]);
     if (!able) {

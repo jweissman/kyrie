@@ -90,7 +90,7 @@ export interface AppState {
   focused?: string[];
   // A journey made on the map: the way it went, to the hex it came to (the town, or where on the road it was stopped),
   // your mark walking it before what came of it is told, and told when it has (see JourneyCourse).
-  walking?: { way: number[]; done: () => void };
+  walking?: { way: number[]; done: () => void; known?: number[] };
   // The choices that are open, showing what can be done with them (what to say to someone, what to buy).
   open: string[];
   // Whether the keys are being used: only then is the choice they are on shown.
@@ -326,7 +326,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       // the way travel is done).
       const fromScene = !!journey && !this.state.outdoors && this.state.view !== 'map';
       const walked = journey && !fromScene ? JourneyCourse.of(frame, next) : undefined;
-      if (walked) { await this.walk(walked); }
+      if (walked) { await this.walk(walked, next.screen.region?.land?.known); }
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
@@ -380,10 +380,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   // The map up and your mark walked there, for as long as the board takes to walk it (no time at all where it does
   // not move: no drawing, or reduced motion), and never longer than a board that is slow to come up is waited for.
-  private walk(way: number[]): Promise<void> {
+  private walk(way: number[], known?: number[]): Promise<void> {
     const { promise, resolve } = Promise.withResolvers<void>();
     setTimeout(resolve, ReaderApp.longest);
-    this.setState({ outdoors: true, view: 'here', exploring: undefined, walking: { way, done: resolve } });
+    this.setState({ outdoors: true, view: 'here', exploring: undefined, walking: { way, done: resolve, ...known ? { known } : {} } });
     return promise;
   }
   static readonly longest = 6000;

@@ -17,14 +17,14 @@ export class BoardKnowing {
   readonly origin = new Vector2(-BoardKnowing.MARGIN, -BoardKnowing.MARGIN);
   readonly size: Vector2;
   private from: number[];
-  private readonly to: number[];
+  private to: number[];
   private readonly delay: number[];
   private readonly canvas = document.createElement('canvas');
   // Each hex drawn hard, then softened onto the mask at once; and the grey each was last drawn in.
   private readonly hard = document.createElement('canvas');
   private readonly drawn: Int16Array;
   private drawnAt = -Infinity;
-  constructor(private readonly grid: HexGrid, known: number[], key: string, here?: number) {
+  constructor(private readonly grid: HexGrid, known: number[], private readonly key: string, here?: number) {
     const before = new Set(BoardKnowing.last.get(key) ?? known), after = new Set(known);
     BoardKnowing.last.set(key, known);
     this.from = this.levels(before); this.to = this.levels(after);
@@ -53,6 +53,19 @@ export class BoardKnowing {
     if (!moving) { this.from = [...this.to]; }
     if (!moving || t - this.drawnAt >= BoardKnowing.EVERY) { this.draw(); this.drawnAt = t; }
     return moving;
+  }
+  // The country a journey came to know, lit as your mark passes it (the owner's play of 18 November, OR-112: "not
+  // all at the end"): each hex newly known when the walk is nearest it, t seconds into the board's arrivals, the walk
+  // taking ms; and remembered as known, so that the map drawn after does not bring it in again.
+  along(known: number[], way: number[], t: number, ms: number): void {
+    this.from = Array.from(this.now); this.to = this.levels(new Set(known));
+    BoardKnowing.last.set(this.key, known);
+    const points = way.map(c => this.grid.centres[c]!);
+    for (const c of this.grid.cells) {
+      if (this.from[c] === this.to[c]) { continue; }
+      const p = this.grid.centres[c]!, d = points.map(q => q.distanceTo(p)), i = d.indexOf(Math.min(...d));
+      this.delay[c] = t + (i / Math.max(1, points.length - 1)) * ms / 1000 - 0.4;
+    }
   }
   // At once, for whoever has asked for less motion.
   settle(): void { this.now.set(this.to); this.from = [...this.to]; this.draw(); }

@@ -48,7 +48,10 @@ case "$agent" in
   none)
     cat "$dir/prompt.md"; echo; echo "When it is done: $0 --stop $dir" ;;
   claude)
-    claude -p "$(cat "$dir/prompt.md")" --output-format text \
+    # Where the shell has no claude on its path (a session's own shell), the local install's.
+    cl=$(command -v claude || echo "$HOME/.claude/local/claude")
+    # A model named, an older install's own default being retired (COLD_MODEL to play another).
+    "$cl" -p "$(cat "$dir/prompt.md")" --model "${COLD_MODEL:-claude-sonnet-5-5}" --output-format text \
       --allowedTools "Bash($dir/send.sh:*)" "Bash(python3 $dir/show.py:*)" \
       "Write($dir/log.md)" "Edit($dir/log.md)" "Write($dir/report.md)" > "$dir/agent.txt" 2>&1 || true
     "$0" --stop "$dir"; echo "report: $dir/report.md" ;;

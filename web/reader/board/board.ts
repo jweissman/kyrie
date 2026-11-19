@@ -220,11 +220,14 @@ export class Board implements BoardApi {
   }
   // Your mark walked hex by hex along the way a journey went, the view brought to where it came; how long it takes, if
   // it walks at all (not where nothing moves: see still).
-  walk(way: number[]): number {
+  // What the journey came to know (known) is lit as the mark goes by it.
+  walk(way: number[], known?: number[]): number {
     const to = way.at(-1);
     if (to === undefined || way.length < 2 || this.still) { return 0; }
     const ms = this.labels.walk(way.map(c => new Vector3(this.grid.centres[c]!.x, this.ground.levels[c]! + 0.03,
       this.grid.centres[c]!.y)));
+    const t = this.began === undefined ? 0 : Math.max(0, performance.now() - this.began) / 1000;
+    if (known) { this.knowing.along(known, way, t, ms); }
     this.view.show(this.grid.centres[to]!, this.hereAt()); this.dirty = true;
     return ms;
   }

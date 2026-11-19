@@ -22,7 +22,8 @@ import { Tone } from './tone';
 interface Go { commit: () => void; busy: () => boolean }
 export class Hold {
   static readonly ms = 520;
-  private static at?: { button: HTMLElement; go: Go; timer: number; started: number; key?: string };
+  private static at?: { button: HTMLElement; go: Go; timer: number; started: number; key?: string;
+    from?: [number, number] };
   // The one row that says "Hold" (the owner, 18 November, OR-87: "it should only be active on one thing at a time"):
   // the last let go early, until the hand, the keys or the focus go to another, or it fades.
   private static hinted?: { button: HTMLElement; timer: number };
@@ -36,7 +37,7 @@ export class Hold {
   static props(app: ReaderApp, c: Choice) {
     // Asked of the app when the hold is done, not when the row is drawn: a page drawn apart from a running app (a
     // sheet rendered for its words) has none to bind.
-    return Hold.bind(() => app.choose(c), () => Hold.pending(app));
+    return Hold.bind(() => app.choose(c, true), () => Hold.pending(app));
   }
   // A row of the page's own drawing (ChoiceRow.Button: the map's Travel to, Go on to) that takes an engine's choice:
   // held where the choice is, else taken at a touch.
@@ -49,15 +50,16 @@ export class Hold {
   // hold and ring, for the hand, a touch and the keys, and an assistive technology's click done at once.
   static bind(commit: () => void, busy: () => boolean = Hold.never) {
     const go: Go = { commit, busy };
-    return { 'data-hold': 'sustained', onPointerDown: Hold.down.bind(null, go), onPointerUp: Hold.stop,
-      onPointerLeave: Hold.stop, onPointerCancel: Hold.stop, onKeyDown: Hold.keyed.bind(null, go),
+    return { 'data-hold': 'sustained', onPointerDown: Hold.down.bind(null, go), onPointerUp: Hold.unpressed,
+      onPointerLeave: Hold.left, onPointerCancel: Hold.unpressed, onKeyDown: Hold.keyed.bind(null, go),
       onKeyUp: Hold.unkeyed, onClick: Hold.clicked.bind(null, go), onContextMenu: Hold.swallow };
   }
   // A key held from elsewhere (Enter on the keys' highlight, a digit: see ReaderKeys): held on the act's own button.
   static key(app: ReaderApp, c: Choice, key: string): boolean {
     if (!Hold.holds(c)) { return false; }
     const button = document.querySelector<HTMLElement>(`[data-act="${CSS.escape(c.id)}"][data-hold]`);
-    if (button) { Hold.start(button, { commit: app.choose.bind(app, c), busy: Hold.pending.bind(null, app) }, key); }
+    const go = { commit: app.choose.bind(app, c, true), busy: Hold.pending.bind(null, app) };
+    if (button) { Hold.start(button, go, key); }
     return !!button;
   }
   // Let go of a key: the hold it began is let go too.
@@ -89,12 +91,21 @@ export class Hold {
     // drawn round the finger, larger than it, so that it is seen (the owner, 17 November: on a phone it was gone).
     e.currentTarget.dataset.by = e.pointerType;
     Hold.start(e.currentTarget, go);
-    if (Hold.at) { Reticle.show(e.clientX, e.clientY, Hold.time(), e.pointerType === 'touch'); }
+    if (Hold.at) { Hold.at.from = [e.clientX, e.clientY]; Reticle.show(e.clientX, e.clientY, Hold.time(), e.pointerType === 'touch'); }
   }
   private static keyed(go: Go, e: KeyboardEvent<HTMLElement>) {
     if (e.key !== 'Enter' && e.key !== ' ') { return; }
     e.preventDefault(); e.stopPropagation();
     if (!e.repeat) { e.currentTarget.dataset.by = 'key'; Hold.start(e.currentTarget, go, e.key); }
+  }
+  // The hand let go or gone from the row: a hold the hand began is let go. One the keys began is the keys' to let go
+  // (the map moving under a mouse at rest had passed the row out from under the pointer, ending a hold by Enter).
+  private static unpressed() { if (Hold.at && !Hold.at.key) { Hold.stop(); } }
+  // Gone from the row only where the hand has moved: the map shifting under a hand at rest as the hold began had
+  // passed the row out from under it, and the journey held for was let go (OR-111).
+  private static left(e: PointerEvent<HTMLElement>) {
+    const from = Hold.at?.from;
+    if (!from || Math.hypot(e.clientX - from[0], e.clientY - from[1]) > 12) { Hold.unpressed(); }
   }
   private static unkeyed(e: KeyboardEvent<HTMLElement>) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); Hold.stop(); }
@@ -132,6 +143,8 @@ export class Hold {
   static stop() {
     const at = Hold.at;
     if (!at) { return; }
+    // Held the whole time, its timer only late (a page busy drawing the map): done, not let go.
+    if (performance.now() - at.started >= Hold.time()) { Hold.done(); return; }
     window.clearTimeout(at.timer);
     Hold.at = undefined;
     const got = Math.min(1, (performance.now() - at.started) / Hold.time());
