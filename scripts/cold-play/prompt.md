@@ -12,4 +12,5 @@ Keep a think-aloud log as you play in {DIR}/log.md (a line or two per turn or gr
 ## What I wanted  (numbered: the goals you formed yourself, and what became of each)
 ## Defects  (numbered, each with the turn: "T12: …" — anything confusing, contradictory, broken, dull, or unfair, quoting the words)
 ## What worked  (numbered)
+## Surprise  (what did you encounter here that you did not expect fantasy, or this game, to contain? say so plainly if nothing)
 Then reply with the report's text.
