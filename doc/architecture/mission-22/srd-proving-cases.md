@@ -1339,6 +1339,54 @@ kinds that have it as their own: Orsino's ghoul (and the spirit and the discerne
 So no first-hour fight moves; deeper, a ghoul that touches and misses holds nobody, where Orsino's touch always
 reached its save.
 
+### 37. Ray of Frost and Acid Arrow: stopped by the census, a decision for the lead (19 November)
+
+Both want only case 35's touch now (a ranged touch), and both are on a first-hour creation card. Neither is migrated:
+each moves a level, and the level moves a card and every caster of a school.
+
+**Ray of Frost.** The SRD's is a cantrip: a ranged touch for 1d3 cold. Orsino's (`ray_of_frost`) is a second-level
+evocation, 2d6 cold, no attack roll, a second-level pick on the evoker's card.
+- At the SRD's cantrip level, **every evoker** knows it (an evoker knows every cantrip of its school: .53 → 1.00 at
+  every level), every other specialist loses it from its draws (.07–.20 → 0), drawn-school mages .13–.24 → .13; 1,786
+  of 19,200 drawn mages move.
+- **38 of the 2,233 installed classed creatures gain it** (an installed caster prepares every cantrip of its
+  tradition: SpellSelection.prepare), 6 of them a1's: the s1 undertown's raiser, the s1 iv's mage, the s3 traveller,
+  the arcology's quill, the Bound Howe's scholar and the fellowship's warden. The first town's raiser and the iv's mage
+  are first-hour fights, and each would have a free 1d3 shot to spend its turns on.
+- The evoker's card loses it at the second level (Prismatic Spray and Mind Blank beside Sound Lance).
+- At Orsino's second level by the SRD's resolution, 1d3 for a second-level slot is worth less than the cantrips the
+  evoker already has: not recommended.
+
+**Acid Arrow.** The SRD's is second level: a ranged touch for 2d4 acid, and 2d4 more each round for a round each
+three casting levels. Orsino's (`acid_arrow`) is first level, 1d4 acid, no attack roll, **the conjurer's first
+pick**.
+- At the SRD's second level, conjurers move 58.5–59 % (.49–.51 know it → .33–.36), drawn-school mages 16–20.5 %;
+  1,178 of 19,200 drawn mages move.
+- **The conjurer's card loses its first-level harm**: its first-level picks become Summon Vermin, Thunderclap and
+  Blur, and Acid Arrow goes to the second level in place of Summon Monster. A player's first conjurer could not
+  cast it until the third level.
+- 6 installed classed creatures lose it (one each in a1, kite, thorn and ember, two in kahitude): the s1 iv's mage of
+  four worlds and the arcology's quill.
+- Its lingering acid wants a duration by casting level (a round each three), which conditions do not have (case
+  14's open item): a fixed one more round at every level would be converted.
+- Orsino's acid sets off its acid burn (a Fortitude save against 15, 1d6 a turn) on whoever it hurts, as its
+  lightning sets off paralysis (case 35); the SRD's arrow has none. Kyr has no second acid, as it has electric beside
+  lightning, so either option carries Orsino's burn or wants the trigger's exception named.
+
+**The options, for each:**
+1. **The SRD's whole** (Ray of Frost a cantrip; Acid Arrow second level, its lingering acid converted to one round).
+   Moves the cards and draws above, and the installed casters named.
+2. **The SRD's resolution at Orsino's level** (the ranged touch and the SRD's dice; structure fails, said, as
+   Divine Favor's in case 23). Ray of Frost: not recommended (1d3 for a second-level slot). Acid Arrow at the first
+   level: 2d4 acid on a ranged touch (about one in two lands on the first hour's foes, for 5 where Orsino's sure 1d4
+   was 2.5), no lingering acid at the first and second casting levels, as the SRD's has none there; no card or draw
+   moves.
+3. **Orsino's, as they stand.**
+
+Recommended: Acid Arrow by 2 (the conjurer keeps its first pick, and the touch and dice are the SRD's); Ray of Frost
+by 3 until the installed casters' cantrips are reviewed (a free 1d3 shot for every hostile arcane caster of the first
+town is a change of the first hour's fights, not a slice). **A decision for the lead.**
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
