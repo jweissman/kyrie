@@ -13,6 +13,8 @@ import { AdventureNames } from './adventure-names';
 import type { Module } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
 import { ExportRoles } from './export-roles';
+import { LintSource } from './lint-source';
+import { WorldAssembler } from '../world/world-assembler';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
 // nothing (a rule that may be meant: see CampaignLint.anchors).
@@ -123,21 +125,35 @@ export class KyrLint {
     }
     return results;
   }
+  // Generated worlds, each as drawn from its seed for the assembler's own company, so that the standing scenarios
+  // it places (data/situations: the Gathering, the arcology) are linted as they are played, not only the campaigns.
+  static async worlds(seeds: string[]): Promise<Record<string, Finding[]>> {
+    const results: Record<string, Finding[]> = {};
+    for (const seed of seeds) {
+      const world = await WorldAssembler.assemble(seed, NodeBundleSource.shared, {});
+      LintSource.drawn.add(world.path);
+      results[world.path] = await this.campaign(world.path, world.source);
+    }
+    return results;
+  }
   static async main(args: string[]): Promise<number> {
     if (args.includes('--inventory')) { console.log(this.inventory().join('\n')); return 0; }
     // Every module's exports and the role each plays (see ExportRoles).
     if (args.includes('--exports')) { return ExportRoles.main(args); }
     // Errors only, for an author who wants to know whether it loads and plays (the Book of Faces' BOF-14).
     const verbose = args.includes('--verbose'), only = args.includes('--errors');
-    const results = await this.run(args.filter(a => !a.startsWith('--')));
+    const seeds = args.flatMap((a, i) => args[i - 1] === '--world' ? [a] : []);
+    const results = seeds.length ? await this.worlds(seeds)
+      : await this.run(args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--world'));
     let failed = false;
     for (const [where, findings] of Object.entries(results)) {
       const errors = findings.filter(f => f.level === 'error').length;
       const warnings = findings.filter(f => f.level === 'warning').length, advice = findings.length - errors - warnings;
-      const recommended = this.recommended.includes(where);
-      const tag = recommended ? 'recommended' : where === 'vocabulary' ? 'repository' : 'legacy';
+      // A drawn world is told in full, as recommended content is, but held to its errors only.
+      const recommended = this.recommended.includes(where), drawn = seeds.length > 0;
+      const tag = recommended ? 'recommended' : drawn ? 'drawn' : where === 'vocabulary' ? 'repository' : 'legacy';
       console.log(`${where} [${tag}]: ${errors} errors, ${warnings} warnings${advice ? `, ${advice} to look at` : ''}`);
-      for (const f of findings.filter(x => x.level === 'error' || (!only && (verbose || recommended)))) {
+      for (const f of findings.filter(x => x.level === 'error' || (!only && (verbose || recommended || drawn)))) {
         console.log(`  ${f.level} ${f.check}: ${f.where === where ? '' : `${f.where}: `}${f.message}`);
       }
       // An error fails the lint in any campaign (an author's own, run as a check before play); recommended content
