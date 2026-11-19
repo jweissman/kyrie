@@ -17,12 +17,14 @@ describe('the aim\'s continuation', () => {
     const tower = { ...act('tower', ['undertaking']), why: 'about' as const }, priest = { ...act('priest', ['undertaking']), why: 'named' as const };
     expect(Promotion.continued([tower, priest]).filter(a => a.continues).map(a => a.choice)).toEqual(['priest']);
   });
-  it('stands among the rest where the place puts it, the same each time, after what will not wait', () => {
+  // The owner, 18 November: "If a golden option exists, it should be first" (it had stood among the rest where the
+  // place put it, after what will not wait).
+  it('stands first, ahead of what will not wait, in every place', () => {
     const acts = Promotion.continued([act('urgent', [], 0), act('x', ['undertaking']), act('y', ['knowledge']),
       act('z', ['exploration'])]);
     const places = ['crypt', 'yard', 'green', 'quay', 'mill', 'well'].map(k => Guidance.placed(acts, 1, k));
-    expect(places.every(p => p[0]!.choice === 'urgent' && p.length === 4)).toBe(true);
-    expect(new Set(places.map(p => p.findIndex(a => a.continues))).size).toBeGreaterThan(1);
+    expect(places.every(p => p[0]!.choice === 'x' && p[0]!.continues && p[1]!.choice === 'urgent' && p.length === 4))
+      .toBe(true);
     expect(Guidance.placed(acts, 1, 'crypt')).toEqual(Guidance.placed(acts, 1, 'crypt'));
   });
   it('is drawn in gold only where the way is shown, and otherwise as what else it is', () => {

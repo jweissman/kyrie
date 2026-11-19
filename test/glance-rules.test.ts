@@ -16,19 +16,21 @@ class Made {
 }
 
 describe('the glance ranks', () => {
-  it('urgent, then the aim, then need, then the place, three at most', () => {
+  // The aim's step first (the owner, 18 November: "If a golden option exists, it should be first"), then what will not
+  // wait, then need, then the place.
+  it('the aim, then urgent, then need, then the place, three at most', () => {
     const cands = [Made.c('dog', ['sign']), Made.c('bread', ['hungry'], { kind: 'eat' }), Made.c('brother', ['kin']),
       Made.c('answer', ['answer']), Made.c('swing', ['own'])];
     const picked = Promotion.pick(cands, Made.calm);
-    expect(picked.map(p => p.choice)).toEqual(['answer', 'brother', 'bread']);
-    expect(picked.map(p => [p.why, p.tier])).toEqual([['answer', 0], ['kin', 1], ['hungry', 2]]);
-    expect(picked[1]!.facets).toEqual(['here', 'aimed']);
-    expect(picked[0]!.facets).toContain('urgent');
+    expect(picked.map(p => p.choice)).toEqual(['brother', 'answer', 'bread']);
+    expect(picked.map(p => [p.why, p.tier])).toEqual([['kin', 1], ['answer', 0], ['hungry', 2]]);
+    expect(picked[0]!.facets).toEqual(['here', 'aimed']);
+    expect(picked[1]!.facets).toContain('urgent');
   });
   it('takes one choice for each subject, and pads nothing', () => {
     const cands = [Made.c('wat#talk', ['kin'], { subject: 'wat' }), Made.c('wat/coat', ['own'], { subject: 'wat' }),
       Made.c('gate', ['named'], { kind: 'way', subject: undefined })];
-    expect(Made.ids(cands)).toEqual(['wat#talk', 'gate']);
+    expect(Made.ids(cands)).toEqual(['gate', 'wat#talk']);
     expect(Made.ids([Made.c('one', ['life'])])).toEqual(['one']);
     expect(Made.ids([Made.c('known', [], { known: true })])).toEqual([]);
   });
@@ -98,7 +100,8 @@ describe('the glance ranks', () => {
   it('leads first with what the last act opened, past the two ways', () => {
     const ways = [Made.c('exit:shop', ['named'], { kind: 'way' }), Made.c('exit:store', ['unvisited'], { kind: 'way' }),
       Made.c('exit:corn', ['opened', 'unvisited'], { kind: 'way' })];
-    expect(Made.ids(ways)[0]).toBe('exit:corn');
+    // Second to the aim's way, which is first (the owner's rule of 18 November).
+    expect(Made.ids(ways).slice(0, 2)).toEqual(['exit:shop', 'exit:corn']);
   });
   it('breaks ties by the authored order, and is the same every time', () => {
     const cands = [Made.c('first', ['asked']), Made.c('second', ['asked']), Made.c('third', ['asked']),

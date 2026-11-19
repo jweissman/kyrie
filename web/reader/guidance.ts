@@ -10,17 +10,11 @@ export class Guidance {
     if (app.props?.query?.get('guide') !== 'quiet') { return true; }
     return (app.state.frame?.screen.party ?? []).some(m => m.calling === 'cleric');
   }
-  // The continuation among the rest, where its place is fixed by where the company is and what it follows, not always
-  // first: the first button is not always the right one.
-  static placed(acts: Promoted[], urgent: number, key: string): Promoted[] {
-    const next = acts.find(a => a.continues), rest = acts.filter(a => a !== next);
-    if (!next || acts.indexOf(next) < urgent || rest.length <= urgent) { return acts; }
-    const at = urgent + this.hash(key) % (rest.length - urgent + 1);
-    return [...rest.slice(0, at), next, ...rest.slice(at)];
-  }
-  private static hash(key: string): number {
-    let h = 2166136261;
-    for (let i = 0; i < key.length; i++) { h = Math.imul(h ^ key.charCodeAt(i), 16777619); }
-    return h >>> 0;
+  // The continuation first, ahead of what will not wait (the owner, 18 November: "If a golden option exists, it should
+  // be first"; it had been set among the rest by a hash of the place, so that the first button was not always the right
+  // one). The engine orders it so (Promotion.continued); kept here for the page's order and the keys' to agree.
+  static placed(acts: Promoted[], _urgent: number, _key: string): Promoted[] {
+    const next = acts.find(a => a.continues);
+    return next ? [next, ...acts.filter(a => a !== next)] : acts;
   }
 }

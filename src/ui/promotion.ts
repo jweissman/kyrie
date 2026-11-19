@@ -260,10 +260,12 @@ export class Promotion {
   // The followed aim's next step is the one act in its gold: any other it bears on is led for what else it is, or as
   // something worth going to see (the owner, 12 November: gold on the ways and the looking at once had named no next
   // step, and the thread was lost).
+  // And it is first of the four, wherever it was ranked (the owner, 18 November: "If a golden option exists, it should
+  // be first").
   static continued(acts: Promoted[]): Promoted[] {
     const next = acts.filter(a => a.aspects.includes('undertaking'))
       .sort((a, b) => this.continuance(a) - this.continuance(b))[0];
-    return acts.map(a => {
+    return this.goldFirst(acts.map(a => {
       if (a === next) { return { ...a, continues: true as const }; }
       const rest = Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted;
       if (!a.aspects.includes('undertaking')) { return a.continues ? rest : a; }
@@ -272,7 +274,11 @@ export class Promotion {
         .filter(x => x.aspects.length);
       // The way back is neutral, as a need is (see Aspects): not "worth a look" for having been the aim's way.
       return { ...rest, aspects: aspects.length || a.why === 'retreat' ? aspects : ['exploration'], ...inside ? { inside } : {} };
-    });
+    }));
+  }
+  private static goldFirst(acts: Promoted[]): Promoted[] {
+    const i = acts.findIndex(a => a.continues);
+    return i <= 0 ? acts : [acts[i]!, ...acts.slice(0, i), ...acts.slice(i + 1)];
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,
   // and so may a place with nothing else); two ways; one of the place's own; a way not yet taken only while fewer than
