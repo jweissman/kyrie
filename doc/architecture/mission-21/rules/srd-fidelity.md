@@ -16,7 +16,7 @@ concordance names (proof-slices.md: the five pieces of evidence).
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 60 % of meetings are with a
 kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
-| creatures, field exact or converted | hitDice 5 | armour 6 | attacks 23 | hit 9 | defences 5 | specials 0 | saves 4 | of 75 |
+| creatures, field exact or converted | hitDice 5 | armour 6 | attacks 23 | hit 9 | defences 4 | specials 0 | saves 4 | of 75 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | spells, field exact or converted | level 56 | school 83 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
 
@@ -38,7 +38,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | boar | boar | 1/9 | S✗ R✗ I– | O | ✗ 7 → 5 | ✓ | ✗ 55% → 50% | – | ✗ · → ferocity | ✗ +1/+3/+3 → +6/+3/+2 |
 | hound | dog-riding | 2/8 | S✗ R✗ I– | O | ✗ 9 → 5 | ✓ | ✓ | – | – | ✗ +0/+2/+3 → +5/+5/+1 |
 | crocodile | crocodile | 1/7 | S✗ R✗ I– | O | ✗ 4 → 6 | ✗ 1d6 → 1d8 | ✗ 20% → 60% | – | ✗ · → improved grab | ✗ +3/+3/+0 → +6/+4/+2 |
-| hound/skeletal | wolf-skeleton | 1/7 | S✗ R✗ I– | O | ✗ 8 → 6 | ✓ | ✗ 50% → 40% | ✓ | – | ✓ |
+| hound/skeletal | wolf-skeleton | 1/7 | S✗ R✗ I– | O | ✗ 8 → 6 | ✓ | ✗ 50% → 40% | ✗ · → immunity cold, reduction 5/bludgeoning | – | ✓ |
 | centipede/great | monstrous-centipede-medium | 1/6 | S✗ R✗ I– | O | ✗ 10 → 7 | ✓ | ✗ 30% → 40% | – | O | ✗ +0/-1/-1 → +2/+2/+0 |
 | ghoul/barrow | ghoul | 1/6 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | – | ✗ paralysis → ghoul fever, paralysis | ✓ |
 | mouther | gibbering-mouther | 1/6 | S✗ R✗ I– | O | ✗ 5 → 2 | ✓ | ✗ 55% → 50% | ✗ · → reduction 5/bludgeoning | O | ✗ +8/+5/+6 → +7/+4/+5 |

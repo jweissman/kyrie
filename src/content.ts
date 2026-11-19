@@ -20,6 +20,7 @@ import { Fighting } from './rules/fighting';
 import type { Fighter } from './model';
 import { GenerationSetting } from './generation-setting';
 import { CreatureVariants } from './creature-variants';
+import { SkeletalHold } from './rules/skeletal-hold';
 import { SkyGifts } from './rules/sky-gifts';
 const { tables, templates } = GenerationSetting;
 
@@ -155,7 +156,7 @@ export class Content {
   }
   private created(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
     // A kind by a name it was once known by (organisms.json's grey wolf is the wolf: data/catalog/aliases.json).
-    const context = asked.raceId ? { ...asked, raceId: Canon.resolve('species', asked.raceId) as RaceId } : asked;
+    const context = SkeletalHold.of(asked.raceId ? { ...asked, raceId: Canon.resolve('species', asked.raceId) as RaceId } : asked);
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
     const speciesFamily = context.raceId && Canon.isBody(context.raceId)
       ? context.raceId : undefined;

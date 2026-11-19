@@ -131,8 +131,9 @@ Module bound_howe "The Bound Howe" {
   }
   Initially Set encounterXp(household) to 240.
   Initially Assert serves(household, king).
+  // Held (srd-proving-cases.md case 53): the mounts keep Orsino's skeletal defenses, so four of the fourth level take the horse-hall.
   Person mounts "the king's dead horses" at horses {
-    Role "the king's mounts, picketed in bone and bronze". Species horse. Undead skeletal. Numbers 3. Level 4. Temperament territorial. Lair horses.
+    Role "the king's mounts, picketed in bone and bronze". Species horse. Undead skeletal_held. Numbers 3. Level 4. Temperament territorial. Lair horses.
     State starved "Three horses stand picketed along the hall in full harness, nothing left of them but bone and the green bronze of their bits. Their long heads have turned toward the door. Before each is an empty manger, and they are pawing at the stone.".
     State fed "The dead horses stand quiet at their mangers, their heads lowered over the barley. Their jaws do not move. The bells on the pickets hang still.".
     State down "Three heaps of horse-bones lie in their harness along the hall, and the bells on the pickets are still.".

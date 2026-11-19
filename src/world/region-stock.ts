@@ -5,7 +5,6 @@ import { Challenge } from './challenge';
 import { RegionWeather } from './region-weather';
 import type { Region, Site } from './region-writer';
 import { RegionKey } from './region-key';
-import { Canon } from '../canon/canon';
 
 // What a makers' work holds besides what its plan wrote: its rooms had been bare but for one keeper and two
 // treasures, five to nine rooms with nothing in them (the owner, 31 October: interiors thin, secrets and treasure too
@@ -37,18 +36,9 @@ export class RegionStock {
     // One is called as one ("the cave hound", not "the hounds" said of one: the candidate journey of 6 November).
     const label = count > 1 ? beast.label : beast.role.replace(/^(a|an) /, 'the ');
     return [`  Person ${site.id}_denned ${q(label)} at ${room} {`,
-      `    Role ${q(`${beast.role}, denned in a room of ${site.name}`)}. Species ${RegionStock.held(beast.species)}. Numbers ${count}. Level 1. Temperament territorial. Lair ${room}.`
+      `    Role ${q(`${beast.role}, denned in a room of ${site.name}`)}. Species ${beast.species}. Numbers ${count}. Level 1. Temperament territorial. Lair ${room}.`
         + (beast.variations ?? []).map(v => ` Variant ${v}.`).join(''),
       '  }'];
-  }
-  // A first den's skeletal beasts (iscoed's bone-hound pairs) without the SRD skeleton's reduction 5/bludgeoning and
-  // proof against cold, held until a blunt weapon is on offer in the first town (srd-proving-cases.md case 53): the
-  // same kind under skeletal_held, its twin without them, named beside it (data/catalog/aliases.json: bone_hound_held).
-  static held(species: string): string {
-    if (!Canon.resolve('species', species).split('/').includes('skeletal')) { return species; }
-    const twin = `${species}_held`;
-    if (!Canon.isSpecies(twin)) { throw new Error(`${species} dens in a first room, and has no held twin ${twin}`); }
-    return twin;
   }
   // How many den in a work's room: half a den's number, and never one alone where two are still within a first den's
   // danger (PL-07, the lead's decision of 13 November: a first-level warrior beat every denned single in a1 every

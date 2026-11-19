@@ -46,7 +46,6 @@
     "cave_hound": "hound/cave",
     "stag": "deer/male",
     "bone_hound": "hound/skeletal",
-    "bone_hound_held": "hound/skeletal_held",
     "bronze_construct": "golem/bronze/custodian"
   },
   "habitats": {

@@ -1690,7 +1690,7 @@ A warrior's battleaxe is slashing; only the cleric's staff passes the reduction.
 against iscoed's denned pairs would go from one in twelve to two in five: markedly deadlier in the first hour, so by
 the brief (keep the first hour survivable) it does not land. **For the owner:** the SRD's answer to a skeleton is a
 blunt weapon (a mace, a staff, a club); whether the first hour should teach that (a warning before a barrow's dens, a
-club to hand at the first town) is a design choice, not the SRD's. Until then the bone hound keeps Orsino's template. (Decided 19 November: landed, the first den's pairs held; case 53.)
+club to hand at the first town) is a design choice, not the SRD's. Until then the bone hound keeps Orsino's template. (Decided 19 November: landed, held below the fourth level and on the howe's mounts; case 53.)
 
 ### 48. An effect's kind read from a body, and Hold Animal by the SRD's numbers (19 November): adapted
 
@@ -1841,12 +1841,12 @@ S✓ R✓ I✓: 35 of 119 pass in resolution, 44 in structure.
   10 → 0 %); it is met by no first-hour company.
 - test/monster-powers fights its vampire at the fifth level, where it casts a third-level spell.
 
-### 53. The skeleton's defenses (19 November): adapted, a first-hour pair held
+### 53. The skeleton's defenses (19 November): adapted, held below the fourth level
 
 Case 47's measured slice, landed by the lead's ruling of 19 November: the SRD skeleton template's damage reduction
-5/bludgeoning and immunity to cold on every skeletal kind, but the first hour's denned bone-hound pairs on Iscoed's
-golden route, **adapted: first-hour pair held until a blunt weapon is on offer in the first town**. Spec:
-`test/skeletal-defenses` (3).
+5/bludgeoning and immunity to cold on the skeletal kinds, **adapted: a skeletal kind placed for a company of the first
+three levels keeps Orsino's defenses until a blunt weapon is on offer in the first town** (the lead's rule, the same
+day, widening the first ruling's hold on the first hour's denned pairs). Spec: `test/skeletal-defenses` (3).
 
 **The variation** (`skeletal`, data/catalog/variations.json):
 - damage reduction 5 unless bludgeoning, and immunity to cold (exact: a club's blow passes, a blade's and a point's
@@ -1858,45 +1858,28 @@ golden route, **adapted: first-hour pair held until a blunt weapon is on offer i
   50 → 40 %, are left).
 
 **The route:** a template that is a stat block now makes the kind composed with it, as a variation that is one does
-(Content.created, CreatureVariants.borne): the Bound Howe's mounts (`Species horse. Undead skeletal.`) are the
-skeletal horse, with its defenses, where the template had laid only its traits and scores.
+(Content.created, CreatureVariants.borne): a horse made skeletal is the skeletal horse, with its defenses.
 
-**The hold** (`skeletal_held`, the same template without the SRD's defenses and with Orsino's Bone Resilience, never
-drawn as a template; `bone_hound_held` in aliases.json): a work's den at the first level (RegionStock.den, `Level 1`)
-of a skeletal kind is written as its held twin (RegionStock.held), and a skeletal kind with no twin there is an error.
-Only Iscoed's five denned pairs are such dens in the eight worlds. The newcomers who take a cleared work later
-(RegionRenewal, second and third level) are not held.
+**The hold** (`skeletal_held`: the same template without the SRD's defenses and with Orsino's Bone Resilience, never
+drawn as a template; SkeletalHold, src/rules/skeletal-hold.ts): a creature of the third level or lower made of a
+skeletal kind, by its kind (the bone hound), a template (a den's dead drawn in a barrow or a ruin, RegionEcology.variant)
+or a variation, is made under the twin. It is read where every creature is made (Content.created), so it holds the
+denned first-level pairs, the newcomers who retake a cleared work (second and third level), a den's drawn dead, the
+unquiet tower's watchdog (second level) and, by the same reading of the rule (their level, not their site), the
+halls' and haulage's second- and third-level triples. **The Bound Howe's mounts** (fourth level) are held by name
+(`Undead skeletal_held` in its situation), so four of the fourth level take the horse-hall as before
+(test/bound-howe-under, as it was).
 
-**The census:** the bone hound passes in defences (5 of 74 where 4); Orsino's skeletal template is graded adapted
-in the coverage report.
+**The census:** the bone hound still differs in defences (the census makes it at its first level, where it is held);
+Orsino's skeletal template is graded adapted in the coverage report.
 
-**What it moves** (placed-dr against placed-base, the eight worlds; 40 seeds; lone first-level warrior won · a death,
-then a first-level warrior and cleric won · a death):
-
-| Placed as | Groups | Before | After |
-|---|---|---|---|
-| 2 × bone hound L1, denned (iscoed w3–w6, e1) | 5 | 93 % · 8 %; 98–100 % · 5–8 % | held: the same, to the seed |
-| 2 × bone hound L2, newcomers (iscoed w3, w4, w6) | 3 | 80 % · 20 %; 95 % · 8 % | 55 % · 45 %; 88 % · 15 % |
-| 2 × bone hound L3, newcomers (iscoed w5, e1) | 2 | 78 % · 23 %; 93 % · 13 % | 38 % · 63 %; 85 % · 28 % |
-| 3 × bone hound L2 (the halls, the ossuary, the haulage) | 5 | 50 % · 50 %; 88 % · 23 % | 18 % · 83 %; 68 % · 43 % |
-| 3 × bone hound L3 (ember's kings' door) | 1 | 40 % · 60 %; 73 % · 38 % | 15 % · 85 %; 48 % · 55 % |
-| 1 × great bone hound L5 (the embalmers' halls) | 2 | 78 % · 23 %; 95 % · 15 % | 43 % · 57 %; 90 % · 20 % |
-| 3 × skeletal horse L4 (the Bound Howe's mounts, all eight) | 8 | 28 % · 73 %; 75 % · 35 % | 23 % · 78 %; 50 % · 63 % |
-
-**21 placed groups move, 5 are held.** A lone first-level thief or mage, already near-certain to lose to each moved
-group (0–8 %), now loses every one. The warrior's battleaxe is slashing; the cleric's staff passes the reduction. Not
-placed in the eight worlds and moved where they are: the unquiet tower's watchdog (a second-level bone hound) and any
-den's dead beasts drawn skeletal in a barrow or a ruin (RegionEcology.variant; none in the eight). The second-level
-newcomers of Iscoed's golden route are the move nearest the first hour (a lone warrior's death one in five → nearly
-one in two), met only once a company has cleared a work and some nights have passed.
-
-**The Bound Howe moves.** Fought in the howe itself (test/bound-howe-under, kahitude, four of warrior, cleric, thief
-and mage), the mounts take long enough to put down that the bells wake the king's riders (two sixth-level revenants)
-into the fight: four of the fourth level, who had taken the horse-hall with no one down, now all go down, and so do
-four of the fifth; four of the sixth take it with one down. In the arena alone (no riders), four of the fourth level
-still win 98 % (100 % before). The spec now says four of the sixth; the howe's asking level was already register
-§45's balance question. **For the lead:** if the howe should still be taken at the fourth level, its mounts could be
-held as the first den's are (`Undead skeletal_held`), a non-SRD choice.
+**What it moves** (the eight worlds' placed groups, before and after; 40 seeds; a lone first-level warrior won · a
+death, then a first-level warrior and cleric won · a death): of the 26 placed groups with a skeletal kind, **24 are
+held** and fight as before, to the seed: iscoed's five denned pairs (93 % · 8 %), its second- and third-level newcomers
+(80 % · 20 %; 78 % · 23 %), the halls' triples (50 % · 50 %), ember's kings' door (40 % · 60 %) and the eight howes'
+mounts (28 % · 73 %). **Two move:** the great bone hound of the fifth level in kahitude's and mere's embalmers' halls,
+78 % · 23 % → 43 % · 57 % for a lone warrior, 95 % · 15 % → 90 % · 20 % for a warrior and cleric; no first-hour
+company meets it. The warrior's battleaxe is slashing; the cleric's staff passes the reduction.
 
 ### 54. A heal weighed by what it mends, and Cure Minor Wounds: measured, held for a green main (19 November)
 
