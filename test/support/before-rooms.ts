@@ -1,12 +1,12 @@
 import type { PlaySession } from '../../src/session/play-session';
 import { ModuleWriter } from '../../src/lang/module-writer';
 
-// A recorded play kept from before the rooms under the first town had what lives in them come at the company (19
-// November: the cellar's rats, the crypt's bats, the adit's beetles): replayed line for line, an assault nobody met
-// then stalls it, and what they change of a room's offer moves it. Set aside, the play is the one it was; what it
-// pins is still its own.
+// A recorded play kept from before the rooms under the first town had what lives in them come at the company, and
+// before the one on the green who would come along (19 November: the cellar's rats, the crypt's bats, the adit's
+// beetles, the hand): replayed line for line, an assault nobody met then stalls it, and what they change of a room's
+// offer moves it. Set aside, the play is the one it was; what it pins is still its own.
 export class BeforeRooms {
-  static readonly came = ['cellar_rats', 'crypt_bats', 'adit_beetles'];
+  static readonly came = ['cellar_rats', 'crypt_bats', 'adit_beetles', 'hand'];
   // In whichever town the company begins (the rooms are under that town's, its relation named for it).
   static set(s: PlaySession): PlaySession {
     const c = s.campaign, ids = new Set(c.module.entities.map(e => e.id));

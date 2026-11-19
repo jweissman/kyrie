@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
+import { BeforeRooms } from './support/before-rooms';
 
 // The fourth cold play of the golden route (mission-22/cold/cold-4-report.md), its one change held where it was met:
 // every scene says, in its own prose and the first time it is seen, what is there and what is happening (CL-42), and
@@ -14,7 +15,7 @@ describe('the golden route, after the fourth cold play', () => {
   // Each turn said, up to the crown taken (the cold play's 90th line), and the lines each said.
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    runner = new Runner(journey.session);
+    runner = new Runner(BeforeRooms.set(journey.session));
     first = runner.said();
     for (const line of lines.slice(0, 90)) {
       const s = await runner.ask(line);

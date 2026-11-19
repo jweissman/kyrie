@@ -17,7 +17,7 @@
   // share of the load for it, walk on; or, while his back is to you, take something off it. What was done goes into
   // {home} with him.
   Person carter "the wagoner" at {approach} {
-    Role "a wagoner hauling meal into {home}". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
+    Role "a wagoner hauling meal into {home}". Ancestry {folk}. Calling warrior. Level 1. Peaceable. Pronouns he. Manner grim.
     // Spoken to once the wheel is out, not as a stranger's: "If it's trouble, I have enough of my own" had greeted
     // whoever had just got him out of the ditch (three cold rounds running: R3-C, R4-E 18, R4-F 19).
     Greets "The wagoner wipes his hands on his coat. 'Thank you,' he says." when state(cart, righted).
@@ -91,6 +91,12 @@
     Says "'Meal for {home},' he says. 'I'm late with it already. Three days on the road, and the wheel goes in the ditch a mile from town. Can you give me a hand?'".
   }
   // In {home}, at the inn, what was done on the road is remembered.
+  // Helped out of the ditch, he would come along: what was done on the road is who will walk beside the company (the owner, 19 November: the very first choices, to help someone or not and to go with companions or alone, the one
+  // met on the road someone who could come along; AT-08).
+  Topic carter_come with carter "Ask the wagoner whether he would come with you" when at(carter, {inn}) and (wayIn(cart_righted) or wayIn(cart_bargained)) and not willing(carter, actor) and not travelsWith(carter, actor) once {
+    Says "The wagoner turns his cup on the board. 'The meal's sold. The cart can stand till market day. I've a strong back, and I know the roads. I'll come.'".
+    On discuss { Assert willing(carter, actor). Set hire(carter) to 0. }
+  }
   Topic carter_inn with carter "Sit with the wagoner" when at(carter, {inn}) and wayIn(cart_righted) once {
     Says "'Here's the one,' says the wagoner to the room, and pushes a bowl along the board to you. 'Got me out of the ditch at the top of the hill. Eat.' He knows the road and the town both. He talks while you eat.".
     On discuss { Retract hungry(actor). }
@@ -99,7 +105,7 @@
   // A poacher's boy with a hare in a snare and the keeper up the road: talk the keeper past him, hold him for the
   // keeper, buy the hare, or walk on. A liar's tongue is tried; anyone can be honest, or buy, or go by.
   Person poacher "the boy" at {approach} {
-    Role "a boy down in the bracken with a hare in a snare". Ancestry {folk}. Peaceable. Pronouns he. Manner proud.
+    Role "a boy down in the bracken with a hare in a snare". Ancestry {folk}. Calling thief. Level 1. Peaceable. Pronouns he. Manner proud.
   }
   Observe meeting near poacher when not answered(party) "A boy is kneeling in the bracken by the road. He has a hare in a wire snare. Up the road a man whistles twice and calls a dog. It is the gamekeeper, and the hare is his master's. If the keeper finds the boy with it, the boy will be taken for a poacher. The boy holds the hare against his chest and looks at you.".
   Entity hare_hidden: fact "On the way into {home} you stood in the road and talked the keeper past a poacher's boy.".
@@ -137,6 +143,12 @@
     Retract at(poacher, {approach}). Assert at(poacher, {inn}).
   }
   Rule poacher_taken when wayIn(hare_given) and at(poacher, {approach}) { Retract at(poacher, {approach}). }
+  // Hidden from the keeper, he would come along (the owner, 19 November: the very first choices, to help someone or not and to go with companions or alone, the one
+  // met on the road someone who could come along; AT-08).
+  Topic poacher_come with poacher "Ask the boy whether he would come with you" when at(poacher, {inn}) and wayIn(hare_hidden) and not willing(poacher, actor) and not travelsWith(poacher, actor) once {
+    Says "The boy looks at you a long moment. 'Nobody here wants me. I can go quiet. I hit what I throw at. I'll come.'".
+    On discuss { Assert willing(poacher, actor). Set hire(poacher) to 0. }
+  }
   Topic poacher_inn with poacher "Sit with the boy" when at(poacher, {inn}) and wayIn(hare_hidden) once {
     Says "He sits down beside you on the bench. 'That was my brother's,' he says. He puts a sling on the board in front of you, the stones in a twist of cloth. 'He's no use for it now. You keep it.' Then he is gone again, with half your bread.".
     On discuss { Give sling to actor. }
@@ -145,7 +157,7 @@
   // A pedlar being robbed on the road: stand up to the two men, buy them off, help yourself with them, or keep to the
   // far side and walk on. What a pedlar's pack holds goes to whoever ends up with it; the pedlar tells the inn.
   Person pedlar "the pedlar" at {approach} {
-    Role "a pedlar sitting in the ditch with a hand to his head". Ancestry {folk}. Peaceable. Pronouns he. Manner stoic.
+    Role "a pedlar sitting in the ditch with a hand to his head". Ancestry {folk}. Calling bard. Level 1. Peaceable. Pronouns he. Manner stoic.
   }
   Observe meeting near pedlar when not answered(party) "Two men are robbing a pedlar: they have his pack open in the middle of the road, and are going through it. The pedlar sits in the ditch with a hand to his head, blood between the fingers. One of them holds a lantern up to the light and laughs. Then they see you, and stop laughing. They wait to see what you are.".
   Entity pack_saved: fact "On the way into {home} you stood up to two men robbing a pedlar on the road.".
@@ -176,6 +188,12 @@
   }
   Rule pedlar_goes_on when answered(party) and at(pedlar, {approach}) and not at(party, {approach}) {
     Retract at(pedlar, {approach}). Assert at(pedlar, {inn}).
+  }
+  // His pack saved on the road, he would come along (the owner, 19 November: the very first choices, to help someone or not and to go with companions or alone, the one
+  // met on the road someone who could come along; AT-08).
+  Topic pedlar_come with pedlar "Ask the pedlar whether he would come with you" when at(pedlar, {inn}) and (wayIn(pack_saved) or wayIn(pack_shared)) and not willing(pedlar, actor) and not travelsWith(pedlar, actor) once {
+    Says "The pedlar touches the bandage on his head. 'The pack can wait with the innkeeper. I know every road hereabouts. I'd sooner walk with someone who stops for a man in a ditch.'".
+    On discuss { Assert willing(pedlar, actor). Set hire(pedlar) to 0. }
   }
   Topic pedlar_inn with pedlar "Sit with the pedlar" when at(pedlar, {inn}) and (wayIn(pack_saved) or wayIn(pack_bought)) once {
     Says "The pedlar has a clean bandage round his head and a jug in front of him, and pushes it across. 'They'll not be back on this road while you're on it,' he says. 'That's worth a drink.' He knows every door in {home} that buys, and which of them pays.".

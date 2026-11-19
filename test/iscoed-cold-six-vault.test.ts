@@ -15,8 +15,10 @@ describe('the sealed vault, after the sixth cold play', () => {
   let runner: Runner, vault: Said, first: Said;
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    // The first day as a fresh start has it, what beginning again is held to (the one on the green among it); the kept
+    // play itself replayed with the arrivals set aside.
+    first = new Runner(journey.session).said();
     runner = new Runner(BeforeRooms.set(journey.session));
-    first = runner.said();
     for (const line of lines.slice(0, lines.indexOf('{"act":"attack(region__s1_u_keeper)"}'))) {
       const s = await runner.ask(line);
       if (!('error' in s)) { vault = s; }
