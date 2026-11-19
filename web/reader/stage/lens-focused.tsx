@@ -35,13 +35,16 @@ export class LensFocused {
       <ul className="acts lens-rest">{rows.map(r => <li key={LensFocus.unit(r) ? r.key : r.choice}
         {...LensFocus.unit(r) ? {} : { 'data-subject': r.subject }}>
         {LensFocus.unit(r) ? <LensFocused.Unit unit={r} gilded={gilded} focus={focus}
-          witnesses={r.acts.flatMap(x => LensRows.borne(app, lens, x.choice, GlanceStage.choice) ?? [])} />
+          witnesses={LensFocused.borne(app, lens, r)} />
           : <GlanceStage.LensRow app={app} draw={draw} act={r} lens={lens} />}</li>)}
         {view.leave && <li><ChoiceRow.Button className="leave-focus" data={{ action: 'defocus' }}
           onClick={() => focus()} plain="neutral" label="Leave it for now" /></li>}
+        {/* Marked by the fold of the rows it turns to, the pages not in view (AT-07 §5 step 3, I5): what the lens's
+            mark holds from a later page is promised here, never only on the mark. */}
         {paged.pages > 1 && <li><ChoiceRow.Button className="lens-page"
           data={{ action: 'lens-page', page: String(paged.at + 1), pages: String(paged.pages) }}
-          onClick={() => turn(paged.at + 1)} plain="neutral" label="More…"
+          onClick={() => turn(paged.at + 1)} {...ChoiceRow.mark(Attest.of(view.rows.filter(r => !rows.includes(r))
+            .flatMap(r => LensFocused.borne(app, lens, r)), gilded))} label="More…"
           aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
       </ul>
     </div>;
@@ -56,6 +59,10 @@ export class LensFocused {
     const seen = said ? [said] : lensed.subjects?.[thing]?.seen ?? [];
     return seen.length ? <div className="lens-seen focus-said" data-subject={thing}>
       {seen.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div> : null;
+  }
+  // The witnesses a row of the lens bears: its own act's, or every act gathered in it.
+  static borne(app: ReaderApp, lens: Lens, r: ReturnType<typeof LensFocus.of>['rows'][number]): Witness[] {
+    return (LensFocus.unit(r) ? r.acts : [r]).flatMap(x => LensRows.borne(app, lens, x.choice, GlanceStage.choice) ?? []);
   }
   // The engine's focus on the opener that holds these acts, where one does (Choice.focus).
   static focus(app: ReaderApp, ids: string[]): string | undefined {

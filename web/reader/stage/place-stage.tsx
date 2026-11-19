@@ -14,6 +14,9 @@ import { Told } from './told';
 import { GlanceStage } from './glance';
 import { Raised } from './raised';
 import { ThingStage } from './thing-stage';
+import { ChoiceRow } from './choice-row';
+import { Attest } from '../../../src/presentation/attest';
+import { Guidance } from '../guidance';
 
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
@@ -188,9 +191,19 @@ export class PlaceStage {
     // What it reads out whole, before its rows, where it has a focus: the riddle over its answers (CL-34).
     return <div ref={at} className="unfolded-group">
       {c.focus && <p className="focus-said"><Told.Said text={c.focus} /></p>}
-      {rest.length > 0 && <Act.List choices={rest} draw={draw} className="column unfolded" />}
+      {rest.length > 0 && <ul className="acts column unfolded">{rest.map(k => <li key={k.id}>
+        <PlaceStage.Within choice={k} draw={draw} /></li>)}</ul>}
       {alike.length > 0 && <ThingStage.Choices choices={alike} draw={draw} />}
     </div>;
+  }
+  // A row inside an opener, marked by its own witnesses (Attest.within: what the opener is led for, found again on the
+  // act that bears it), never the opener's (AT-07 §5 step 3: Act.List had drawn them with no indicator at all, so an
+  // opener lit worth a look or blue opened onto plain rows). What it opens in turn, beneath it.
+  static Within({ choice: k, draw }: { choice: Choice; draw: Draw }) {
+    const indicator = Attest.of(Attest.within(draw.app.state.frame?.leaf.glance, k), Guidance.shown(draw.app));
+    return <><ChoiceRow.Act choice={k} draw={draw} {...ChoiceRow.mark(indicator)}
+      label={Typography.curl(k.alone ?? Words.shown(k.label))} {...k.note ? { aside: Typography.curl(k.note) } : {}} />
+      {k.children && draw.open.has(k.id) && <Act.List choices={k.children} draw={draw} className="column" />}</>;
   }
   // The largest run of choices worded alike but for one part ("Press the word …"): three at least, or none.
   private static alike(choices: Choice[]): Choice[] {

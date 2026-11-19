@@ -104,8 +104,11 @@ export class TalkStage {
                   plain="neutral" label={talk.leave.label} /></li>}
               {/* The page turned last, below the acts, which run 1 to 4 without a gap (M22's review: 1, 2, 3, the
                   pager, 4). */}
+              {/* Marked by the fold of what it turns to (AT-07 §5 step 3): Trade's services, and the topics not in view. */}
               {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
-                onClick={() => turn(paged.at + 1)} plain="neutral"
+                onClick={() => turn(paged.at + 1)} {...ChoiceRow.mark(Attest.of([...focus.salient, ...trades
+                  ? ['trade' as const] : [], ...focus.more].filter(x => !paged.shown.includes(x))
+                  .flatMap(x => x === 'trade' ? focus.services.flatMap(drawn) : drawn(x)), gilded))}
                 label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
                 aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
             </ol>
