@@ -7,7 +7,7 @@
 //   bun scripts/first-quarter.ts [--seeds iscoed] [--origins drove,debt,kin,herbs,order,wanderer] [--steps 60]
 //     [--calling warrior] [--timeline] [--lead N]
 import { AutoplayRun } from '../src/autoplay/run';
-import { AutoPlayer } from '../src/autoplay/player';
+import { AutoPlayer, type Move } from '../src/autoplay/player';
 import { Draw } from '../src/autoplay/draw';
 import { Undertakings } from '../src/presentation/undertakings';
 import { ScreenModel } from '../src/ui/screen-model';
@@ -64,7 +64,8 @@ export class FirstQuarter {
       const next = fro ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
       if (next) { Undertakings.follow(c, next.id); }
       else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, aims[0]!.id); }
-      const move = player.next(AutoplayRun.situation(s, step, true, 'undertaking'));
+      const sit = AutoplayRun.situation(s, step, true, 'undertaking');
+      const move = this.rest(s, sit.offered) ?? player.next(sit);
       if (!move) { break; }
       const fights = metrics.fights;
       try { await AutoplayRun.apply(s, move, player, metrics); } catch { break; }
@@ -90,6 +91,14 @@ export class FirstQuarter {
     const c = s.campaign, screen = ScreenModel.build(c), g = Narrator.leaf(c, screen).glance;
     return `  lead ${JSON.stringify(AimLeading.of(c, screen))} gold ${JSON.stringify(g?.acts.filter(a => a.continues)
       .map(a => [a.choice, a.why]))}`;
+  }
+  // Hurt to under half, a careful player rests where a rest is offered before going on (the walker rests only in the
+  // dark, and a lone warrior hurt by the adit's beetles and roof had gone on into the spiders' gallery and died).
+  static rest(s: PlaySession, offered: { id: string }[]): Move | undefined {
+    const c = s.campaign, me = c.readout.creatures.find(x => c.tickState.current.partyIds.includes(x.id));
+    const hurt = !!me && me.state.hp < me.base.maxHp / 2;
+    const rest = hurt ? offered.find(o => /^(rest|camp|take_lodging|sleep)/.test(o.id)) : undefined;
+    return rest ? { kind: 'command', id: rest.id } : undefined;
   }
   static timeline(q: Quarter): string {
     return [`## ${q.seed}/${q.origin}`, ...q.steps.map(x => `${String(x.step).padStart(2)} ${String(x.minute).padStart(5)}m `
