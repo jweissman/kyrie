@@ -1729,6 +1729,38 @@ structure.
 - **A kept trace re-digested:** wren-tower-climbed (wren's installed clerics lose the cantrip, so the drawn world
   underneath is other from the first step); the same commands come to the same place, watch and words.
 
+### 49. Blur by the SRD's numbers (19 November): adapted
+
+Case 41's Blur, held for the lead (it moves two creation cards), taken by the owner's ruling. Spec: `test/blur` (2).
+
+**The spell** (a hand entry over Orsino's; the hand condition `concealed`, so Orsino's `blurred`, which two of its
+other abilities, an animal's and the Book of Faces lay, is untouched):
+- second level (Orsino's first), arcane, illusion (exact);
+- on the caster or one ally (exact: the creature touched), its save the SRD's harmless one (converted, as case 19's);
+- concealment, one blow in five that would land going astray (converted: Westernesse's evasion of 3, a hit turned on
+  d20 at or above 17, where the SRD rolls its 20 % before the attack);
+- a minute a casting level (exact: Lasting).
+
+**Omitted:** whoever sees through it. Before: Orsino's first level, on the caster alone, three rounds of one harder to
+hit, +2 against magic and an evasion of 10 (eleven hits in twenty turned). The census grades it S✓ R✓ I✓: 33 of 119
+pass in resolution, 42 in structure.
+
+**The census** (scratch /var/tmp/kyrie/srd6-scratch):
+- 1,556 of 19,200 drawn mages move (8.1 %): illusionists 98–100 % (every one knew it, .47–.48 now), drawn-school mages
+  18.5–24 %, conjurers at the first level 13.5 %; no cleric or bard.
+- **Two creation cards move:** the illusionist's first-level picks are Firebolt, Mage Armor and Drench (Blur gives
+  way), and Blur is a second-level pick beside Mirror Image and Confusion (Ghoul Touch gives way); the conjurer's
+  first-level picks are Summon Vermin, Thunderclap and Mage Armor (Blur gives way).
+- **The installed casters:** three of 2,233 lose it and none gain it: thorn's fellowship head, wren's first-town iv
+  mage and mere's undertown raiser.
+- **A lone first-level illusionist or conjurer** as drawn (100 seeds, before → after): against three rats 43 → 48 %
+  and 42 → 42 %; two zombies 3 → 5 % and 4 → 4 %; a ghoul 3 → 4 % and 22 → 21 %; two wolves 2 → 3 % and 3 → 3 %.
+  The tactics did not spend a turn on Orsino's Blur; the first hour is no deadlier.
+- **Where play goes moves once:** the Book of Faces' Master of Measures (Thole) teaches Mage Armor, Blur and Mirror
+  Image; a first-level mage who takes Blur from him now learns it for later, as Mirror Image, and the lesson prepared
+  at once is Mage Armor. test/ombra-mage trains Mage Armor and then Blur (learned, not prepared). wren-tower-climbed
+  re-digested (wren's iv mage loses Blur): the same place, watch and words.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

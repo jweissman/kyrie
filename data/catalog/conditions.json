@@ -570,6 +570,20 @@
         "notes": "The SRD's Acid Arrow's acid that stays (srd-proving-cases.md, case 44): 2d4 acid at the end of each round it lasts, laid for a round every three casting levels (Lasting). It sets off none of Orsino's acid burn, which the SRD's has not."
       }
     },
+    "concealed": {
+      "name": "Concealed",
+      "description": "Blurred and wavering: one blow in five meant for them goes astray.",
+      "lifetime": "encounter",
+      "modifiers": { "evasion": 3 },
+      "begins": "{target} blurs and wavers, hard to make out.",
+      "ends": "{target} is plain to see again.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:blur",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's concealment (srd-proving-cases.md, case 49), as Blur lays it: a 20 % miss chance, Westernesse's evasion of 3 (a hit turned on d20 at or above 17, four in twenty)."
+      }
+    },
     "fire_resistant": {
       "name": "Fire-Resistant",
       "description": "Fire's heat is held off: ten less from each burn.",

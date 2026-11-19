@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 60 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 41 pass in structure
-(level, school), 32 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 31 proved in play identity.** Creatures with one (74):
+**Spells with an SRD counterpart (119 of 286 catalog spells): 42 pass in structure
+(level, school), 33 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+target, duration), 32 proved in play identity.** Creatures with one (74):
 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 22 | hit 9 | defences 4 | specials 0 | saves 4 | of 74 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 53 | school 81 | dice 13 | type 13 | save 37 | dc 24 | attack 108 | resist 16 | target 74 | duration 54 | of 119 |
+| spells, field exact or converted | level 54 | school 81 | dice 13 | type 13 | save 38 | dc 25 | attack 108 | resist 16 | target 75 | duration 55 | of 119 |
 
 ## Creatures, most met first
 
@@ -113,7 +113,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | barkskin | barkskin | S✗ R✗ I– | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | – | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ · → yes | ✗ self → burst | ✗ 3 rounds → long |
 | bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ✓ |
-| blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
+| blur | blur | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 49) | ≈ harmless: none is made (srd-proving-cases.md, case 49) | ✓ | – | ✓ | ✓ |
 | burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | calm_emotions | calm-emotions | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
 | cause_blindness | blindness-deafness | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 17 → 15 | ✓ | ✗ · → yes | ✓ | ✗ 5 rounds → long |

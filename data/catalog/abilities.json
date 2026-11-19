@@ -473,6 +473,23 @@
         "notes": "The SRD's Mage Armor by its resolution (doc/architecture/mission-22/srd-proving-cases.md, case 22, the owner's word of 18 November: option 2): the caster or one ally, a +4 armour bonus of force that does not add to worn armour, no temporary hit points. Kept: Orsino's school, abjuration, where the SRD's is conjuration (the school moves abjurers' and conjurers' draws). Converted: the fight, twenty rounds, where the SRD's is an hour a level. Before, Orsino's on the caster alone, four harder to hit over worn armour, and twenty temporary hit points."
       }
     },
+    "blur": {
+      "name": "Blur",
+      "kind": "spell",
+      "description": "The one you touch, yourself or a companion, blurs and wavers: one blow in five meant for them goes astray, for a minute for every level you have.",
+      "effects": [
+        { "kind": "apply", "status": "concealed", "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 2, "school": "illusion" },
+      "source": {
+        "orsino": "arcaneSpell:blur",
+        "srd35": "spell:blur",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Blur (doc/architecture/mission-22/srd-proving-cases.md, case 49): second level (Orsino's first), illusion, on the caster or one ally (the creature touched), concealment for a minute a casting level (Lasting): one blow in five that would land goes astray (concealed, an evasion of 3: Westernesse's evasion turns a hit on d20 at or above 20 less it). Converted: concealment's miss chance as Westernesse's evasion, rolled after a hit where the SRD's is rolled before it, the same one in five. Omitted: the creatures that see through it (true seeing). Before, Orsino's first level, on the caster alone, three rounds of one harder to hit, +2 against magic and an evasion of 10."
+      }
+    },
     "bless": {
       "name": "Bless",
       "kind": "spell",

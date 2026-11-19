@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 731,
-    "adapted": 416,
+    "faithful": 730,
+    "adapted": 417,
     "represented": 4,
-    "kyr": 612,
+    "kyr": 613,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 213,
-      "adapted": 39,
+      "faithful": 212,
+      "adapted": 40,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -983,7 +983,7 @@
       "faithful": 123,
       "adapted": 29,
       "represented": 0,
-      "kyr": 51,
+      "kyr": 52,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -9550,13 +9550,6 @@
    "section": "magic/spells-arcane/spells-arcane-1"
   },
   {
-   "id": "ability:blur",
-   "title": "Blur",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-1"
-  },
-  {
    "id": "ability:burning_hands",
    "title": "Burning Hands",
    "status": "adapted",
@@ -9686,6 +9679,13 @@
    "id": "ability:augury",
    "title": "Augury",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-2"
+  },
+  {
+   "id": "ability:blur",
+   "title": "Blur",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-2"
   },
@@ -12198,6 +12198,13 @@
   {
    "id": "condition:acid_clinging",
    "title": "Clinging Acid",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:concealed",
+   "title": "Concealed",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"

@@ -388,7 +388,8 @@
   "entangle": "test/entangle.test.ts",
   "protection_from_evil": "test/protection-from-evil.test.ts",
   "command": "test/command-fall.test.ts",
-  "hold_animal": "test/hold-animal.test.ts"
+  "hold_animal": "test/hold-animal.test.ts",
+  "blur": "test/blur.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -488,6 +489,10 @@
   },
   "hold_animal": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
+  },
+  "blur": {
+   "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 49)",
+   "dc": "harmless: none is made (srd-proving-cases.md, case 49)"
   }
  }
 }

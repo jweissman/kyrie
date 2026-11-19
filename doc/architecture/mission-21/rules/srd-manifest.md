@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 87, E2 1, E3 31.
+**605 records**, every one visible: E0 486, E1 86, E2 1, E3 32.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 207.
 
 ## By family
@@ -99,7 +99,7 @@ become ready).
 | blight | Blight | Drd 4, Sor/Wiz 5 | damage | E0 | — | — |
 | blindness-deafness | Blindness/Deafness | Brd 2, Clr 3, Sor/Wiz 2 | control | E1 | — | cause_blindness |
 | blink | Blink | Brd 3, Sor/Wiz 3 | damage | E0 | — | — |
-| blur | Blur | Brd 2, Sor/Wiz 2 | protection | E1 | — | blur |
+| blur | Blur | Brd 2, Sor/Wiz 2 | protection | E3 | — | blur |
 | break-enchantment | Break Enchantment | Brd 4, Clr 5, Luck 5, Pal 4, Sor/Wiz 5 | removal | E0 | effect.dispel, review.text | — |
 | bulls-strength | Bull’s Strength | Clr 2, Drd 2, Pal 2, Sor/Wiz 2, Strength 2 | protection | E0 | — | — |
 | bulls-strength-mass | Bull’s Strength, Mass | Clr 6, Drd 6, Sor/Wiz 6 | protection | E0 | — | — |

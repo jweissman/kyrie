@@ -6453,14 +6453,6 @@ One ally is warded for 20 turns. Warded: +1 against magic, 14 + 2 × level more 
 
 > Conjure a magical absorption ward.
 
-##### Blur
-
-*Faithful · level 1 arcane spell, illusion* · `ability:blur`
-
-You are blurred for 3 turns. Blurred: 1 harder to hit, +10 evasion, +2 against magic. An arcane spell of the first level. Takes a first-level slot.
-
-> You are out of focus, making it harder for enemies to hit you.
-
 ##### Burning Hands
 
 *Adapted · level 1 arcane spell, evocation* · `ability:burning_hands`
@@ -6626,6 +6618,16 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to
 You are augured for 3 turns; you gain sage's insight for 3 turns. Augured: +5 initiative, +2 to every roll, +2 to every save. Sage's Insight: +2 to every roll, +3 to every save, Intelligence +4, spells 2 harder to resist. An arcane spell of the second level. Takes a second-level slot.
 
 > Receive a cryptic omen that grants you augmented perception and insight.
+
+##### Blur
+
+*Adapted · level 2 arcane spell, illusion* · `ability:blur`
+
+One ally is concealed for 10 turns at the first casting level, 100 turns at the tenth. Concealed: +3 evasion. An arcane spell of the second level. Takes a second-level slot.
+
+> The one you touch, yourself or a companion, blurs and wavers: one blow in five meant for them goes astray, for a minute for every level you have.
+
+*Adapted: The SRD's Blur (doc/architecture/mission-22/srd-proving-cases.md, case 49): second level (Orsino's first), illusion, on the caster or one ally (the creature touched), concealment for a minute a casting level (Lasting): one blow in five that would land goes astray (concealed, an evasion of 3: Westernesse's evasion turns a hit on d20 at or above 20 less it). Converted: concealment's miss chance as Westernesse's evasion, rolled after a hit where the SRD's is rolled before it, the same one in five. Omitted: the creatures that see through it (true seeing). Before, Orsino's first level, on the caster alone, three rounds of one harder to hit, +2 against magic and an evasion of 10.*
 
 ##### Chill Blood
 
@@ -10044,6 +10046,14 @@ Charisma +3, Intelligence +2, Wisdom +1.
 Takes 2d4 (2–8) acid damage each turn.
 
 > Acid clings and eats at them: 2d4 at the end of each of their turns.
+
+### Concealed
+
+*Kyr · lasts the fight at most* · `condition:concealed`
+
++3 evasion.
+
+> Blurred and wavering: one blow in five meant for them goes astray.
 
 ### Confused
 

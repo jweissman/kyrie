@@ -133,15 +133,16 @@ describe('The Fit', () => {
     const lessons = g.j.choices().filter(c => /Train/.test(c.label));
     expect(lessons.length).toBeGreaterThan(0);
     const before = g.gold();
-    await g.play('Train.{1,3}Blur');
+    // Mage Armor is the first-level one since Blur went to the SRD's second (srd-proving-cases.md, case 49).
+    await g.play('Train.{1,3}Mage Armor');
     expect(g.gold()).toBe(before - 3);
     expect(g.holds('mg_taught', 'party')).toBe(true);
     expect(g.holds('handReady', 'party', 'hand_likeness')).toBe(true);
-    expect(g.j.choices().some(c => /prepare spells.*› Blur/i.test(c.full))).toBe(true);
-    // The second-level lesson is real, but cannot be prepared by a first-level mage.
-    await g.play('Train.{1,3}Mirror Image');
-    expect(g.page).toMatch(/learn Mirror Image/);
-    expect(g.j.choices().some(c => /prepare spells.*› Mirror Image/i.test(c.full))).toBe(false);
+    expect(g.j.choices().some(c => /prepare spells.*› Mage Armor/i.test(c.full))).toBe(true);
+    // A second-level lesson (Blur, as Mirror Image) is real, but cannot be prepared by a first-level mage.
+    await g.play('Train.{1,3}Blur');
+    expect(g.page).toMatch(/learn Blur/);
+    expect(g.j.choices().some(c => /prepare spells.*› Blur/i.test(c.full))).toBe(false);
     // On the ninth night, at the Urn, it is cast on the Offices.
     await drawing(g);
     expect(g.j.matches('Cast the Likeness of Measure').length).toBe(1);
