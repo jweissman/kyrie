@@ -1,6 +1,8 @@
 import type { Call, Module, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { EngineOwned } from '../lang/engine-owned';
+import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 // An act, as far as its condition and its own parameters.
 export interface DrawnAct { requires: Predicate; parameters?: { name: string }[] }
@@ -15,7 +17,7 @@ export class DrawnChoice {
   static readonly moved: ReadonlySet<string> = new Set(['at', 'on', 'carries', 'holding', 'keeps', 'quantity',
     ...EngineOwned.rules]);
   private readonly changed: Set<string>;
-  constructor(module: Module, private readonly world: World, private readonly company?: string) {
+  constructor(private readonly module: Module, private readonly world: World, private readonly company?: string) {
     this.changed = DrawnChoice.changed(module);
   }
   // The first fact of the act's condition, named of no parameter of its own, that is false, held of something else
@@ -35,7 +37,28 @@ export class DrawnChoice {
   private chosen(c: Call, not: boolean, own: Set<string>): boolean {
     if (DrawnChoice.moved.has(c.name) || c.args.some(a => own.has(a) || a.startsWith('?'))) { return false; }
     if (this.changed.has(`${not ? 'retract' : 'assert'} ${c.name}`) || this.world.test(c) !== not) { return false; }
-    return not || this.world.related(c.name).length > 0;
+    return not || this.world.related(c.name).length > 0 || this.alternative(c) || DrawnChoice.begun().has(c.name);
+  }
+  // Another of the module's own unary or n-ary facts of the same kinds, held of the same things, that nothing in play
+  // changes either: the draw chose among them (a den's beasts wild, unquiet or stubborn: smoke_out waits on wild where
+  // the den drew outlaws, lay_to_rest on unquiet where it drew a pack).
+  private alternative(c: Call): boolean {
+    const own = c.name.includes('__') ? c.name.slice(0, c.name.indexOf('__') + 2) : undefined;
+    const types = this.module.relations.find(r => r.name === c.name)?.types;
+    return !!own && !!types && this.module.relations.some(r => r.name !== c.name && r.name.startsWith(own)
+      && r.types.join() === types.join() && !this.changed.has(`assert ${r.name}`) && !this.changed.has(`retract ${r.name}`)
+      && this.world.test({ ...c, name: r.name }));
+  }
+  // The facts a life begins with (data/origins/<id>/origin.kyr's `Initially Assert`): a drawn world holds the origin
+  // its company chose, so an act that waits on another's (the fever's mother_sent, on expects(mother, party), the
+  // herb-wife's errand) is a choice made at creation, not one nothing makes.
+  private static origins?: Set<string>;
+  static begun(dir = join(import.meta.dir, '../../data/origins')): ReadonlySet<string> {
+    if (this.origins) { return this.origins; }
+    const files = existsSync(dir) ? readdirSync(dir).map(d => join(dir, d, 'origin.kyr')).filter(f => existsSync(f)) : [];
+    const text = files.map(f => readFileSync(f, 'utf8')).join('\n');
+    this.origins = new Set([...text.matchAll(/Initially Assert (\w+)\(/g)].map(m => m[1]!));
+    return this.origins;
   }
   // Every relation an act or a rule of the module asserts or retracts somewhere, as "assert name", "retract name".
   static changed(module: Module): Set<string> {

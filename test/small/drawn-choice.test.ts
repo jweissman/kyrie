@@ -46,4 +46,28 @@ describe('a staging the draw did not choose', () => {
       'warning: action t__feast has no possible target in this world',
       'warning: action t__gloat has no possible target in this world']);
   });
+  // Its beasts wild, unquiet or stubborn, a den drew one; the acts of the two it did not draw wait on a fact held of
+  // nothing, beside the one it did (MT-02's den smoke_out and lay_to_rest). And a life the company did not begin (the
+  // herb-wife's errand, expects(mother, party)) is a choice made at creation (the fever's mother_sent).
+  it('is said of an alternative the draw left false beside one it chose, and of a life not begun', async () => {
+    const den = `
+  Place den "the den" is room at 0, 0.
+  Company party "You" of 1 at den.
+  Entity beasts: group "the beasts". Entity mother: group "the mother".
+  Relation wild(group). Relation unquiet(group). Relation stubborn(group). Relation driven(group).
+  Initially Assert stubborn(beasts).
+  Action smoke_out(actor: group, site: place) "Smoke them out" {
+    Requires at(actor, site) and wild(beasts).
+    On success { Assert driven(beasts). }
+  }
+  Action chase(actor: group, site: place) "Chase them" { Requires at(actor, site) and driven(beasts). }
+  Action sent(actor: group, site: place) "Ask after the child" { Requires at(actor, site) and expects(mother, actor). }
+  Goal false.`;
+    const l = new CampaignLint('tiny', (await Tiny.start(den)).session);
+    l.applicability();
+    expect(l.findings.filter(f => f.check === 'applicability').map(f => `${f.level}: ${f.message}`).sort()).toEqual([
+      'advice: action t__sent waits on expects, not so in this world, and nothing makes it so',
+      'advice: action t__smoke_out waits on t__wild, not so in this world, and nothing makes it so']);
+    // (chase waits on what an act makes, so it has a target; the alternatives are only those nothing changes.)
+  });
 });
