@@ -6,7 +6,8 @@ for l in sys.stdin:
   print("== turn",d.get("turn"),d.get("moment"),"| at",d.get("at"),"|",d.get("you"),"| purse",d.get("purse"))
   for x in d.get("scene",{}).get("lines",[]): print("  >",x)
   for k in d:
-    if k not in ("turn","moment","scene","offer","purse","you","aim","aims","at"): print("  ["+k+"]",json.dumps(d[k],ensure_ascii=False)[:1500])
+    # The runner's instruments (what an act changed, what still holds) are the measures', never the player's (CL-61).
+    if k not in ("turn","moment","scene","offer","purse","you","aim","aims","at","changed","kept"): print("  ["+k+"]",json.dumps(d[k],ensure_ascii=False)[:1500])
   print("  aims:",[(a["id"],a["text"]) for a in d.get("aims",[])])
   o=d.get("offer",{})
   for a in o.get("primary",[]): print("  P",a["id"],"|",a["label"],a.get("aspects"),a.get("marks") or "", a.get("minutes",""))
