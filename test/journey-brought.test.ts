@@ -6,7 +6,6 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Narrator } from '../src/presentation/narrator';
 import { ScreenModel } from '../src/ui/screen-model';
-import { TravelCensus } from '../scripts/travel-census';
 
 // A journey's telling carries what each leg brought (TR-01, CL-38): the runner, the terminal and the page tell a
 // journey by its last leg's telling, and what came on the legs before it had been told nowhere: cold play 5's mage's
@@ -28,7 +27,9 @@ describe('a journey told', () => {
   // Its counterexample is the same journey told by its last leg alone, the event in the campaign's record.
   it('tells the pedlar seen on the way, where the journey goes on past them', async () => {
     const s = (await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna']))).journey.session;
-    const c = s.campaign, stone = TravelCensus.far(c, 3).find(d => /Cloudreach/.test(d.name))!;
+    // Cloudreach's march-stone by its name: ten hexes off since AR-21's one way-finder, past the census's six to eight.
+    const c = s.campaign, screen = ScreenModel.build(c), stone = [...screen.destinations ?? [], ...screen.roads ?? [],
+      ...screen.mapped ?? []].find(d => /Cloudreach/.test(d.name))!;
     const before = PlayerView.observe(c), event = await s.leg(`travel:${stone.id}`);
     const passed = s.journeyed!.legs.find(l => /pedlar/.test(l.passed ?? ''))!;
     expect(passed).toBeDefined();
