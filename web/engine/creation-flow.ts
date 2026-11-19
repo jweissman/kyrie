@@ -45,8 +45,9 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // rest reachable); a client shows the first four and offers the rest, numbered as they stand, unless all (every card
 // at once: they are few, or a list). write: a field to write one's own in, by its placeholder; roll: the act that
 // deals another hand of the cards, by its aside.
-// leads: what the next step asks hangs on the card chosen here (the calling's art, the kind's trades), so a client
-// waits for the engine's answer before going on, never showing the next step as it stood before.
+// leads: what the next step asks hangs on the card chosen here (the calling's art, the kind's trades, the names for
+// how one presents), so a client waits for the engine's answer before going on, never showing the next step as it
+// stood before.
 // emblems: each card's emblem is drawn beside its name, whatever the step is drawn as (a school's, a spell's school).
 // many: how many are taken at the step (a caster's first spells), each card a press that takes it or lets it go
 // (picked: those taken), and the last card the one that goes on with them.
@@ -94,7 +95,9 @@ export class CreationFlow {
     return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step),
       ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
-  static readonly leading: CreationStepId[] = ['calling', 'specialty', 'before'];
+  // How one presents leads too: the names asked next are drawn for it, and the page going on before the engine's answer
+  // had shown the hand drawn before (a woman's names) and then swapped in the new (OR-119: the names page flickering).
+  static readonly leading: CreationStepId[] = ['calling', 'specialty', 'before', 'presenting'];
   // Where the making stands: the step asked now (the first until another), or setting out.
   current(): CreationStepId | 'go' {
     const ids = this.steps().map(x => x.id);
