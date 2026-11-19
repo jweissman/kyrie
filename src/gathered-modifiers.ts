@@ -46,7 +46,7 @@ export class GatheredModifiers {
   }
   // Frozen through, as far as what it holds is its own (the turn-end harms it lists are the canon's own, and left be).
   private static frozen(m: Modifiers): Modifiers {
-    for (const key of ['saves', 'attributes', 'resistances', 'immune', 'onTurnEnd'] as const) {
+    for (const key of ['saves', 'attributes', 'resistances', 'immune', 'onTurnEnd', 'resist'] as const) {
       if (m[key]) { Object.freeze(m[key]); }
     }
     return Object.freeze(m);

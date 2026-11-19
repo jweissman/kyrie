@@ -24,6 +24,9 @@ export interface Modifiers {
   // An armour of force (the SRD's Mage Armor, case 22): body armour of that much where it is better than what is worn,
   // never added to it; of two, the better (see Fighting.armorClass).
   force?: number;
+  // A flat resistance to a kind of harm (the SRD's Resist Energy, srd-proving-cases.md case 38): that much off each
+  // blow of it, after any fraction; of two sources, the better for each kind, never summed (the SRD's rule).
+  resist?: Record<string, number>;
   // Orsino's flee status: a foe so marked leaves the fight when the next round begins.
   flee?: boolean;
   // Orsino's invisible: no one picks it out as the one foe they go for, unless they see the invisible (truesight).
@@ -44,7 +47,7 @@ export class ModifierSet {
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
     'controlledActions', 'flee', 'invisible', 'seeInvisible'];
   static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, ...ModifierSet.flags, 'saves', 'attributes',
-    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force'];
+    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force', 'resist'];
   // Orsino's gatherEffects: numbers add, maps add per key, flags and lists accumulate.
   static sum(list: Modifiers[]): Modifiers {
     const out: Modifiers = {};
@@ -68,6 +71,7 @@ export class ModifierSet {
       for (const key of ModifierSet.flags) { if (m[key]) { out[key] = true; } }
       if (m.onTurnEnd?.length) { out.onTurnEnd = [...out.onTurnEnd ?? [], ...m.onTurnEnd]; }
       if (m.force !== undefined) { out.force = Math.max(out.force ?? 0, m.force); }
+      for (const [k, v] of Object.entries(m.resist ?? {})) { (out.resist ??= {})[k] = Math.max(out.resist[k] ?? 0, v); }
     }
     return out;
   }
@@ -91,6 +95,11 @@ export class ModifierSet {
       if (type !== 'all' && !vocabulary.damageTypes.includes(type)) { throw new Error(`${where}: unknown damage type ${type}`); }
       // Orsino allows resistances beyond ±1: above 1 still leaves nothing, below −1 multiplies the damage further.
       if (!Number.isFinite(value)) { throw new Error(`${where}: resistance must be a number`); }
+    }
+    for (const [type, value] of Object.entries(m.resist ?? {})) {
+      if (!vocabulary.damageTypes.includes(type) || !Number.isSafeInteger(value) || value <= 0) {
+        throw new Error(`${where}: a flat resistance is a whole number off a known harm`);
+      }
     }
     for (const p of m.onTurnEnd ?? []) {
       if (!['damage', 'heal'].includes(p.kind) || typeof p.amount !== 'string' || !p.amount.trim()

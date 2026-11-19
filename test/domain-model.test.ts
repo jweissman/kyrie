@@ -101,7 +101,9 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const picks = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'];
     const novice = Probe.creature('novice', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'], spells: picks });
     expect(novice.base.abilities).toEqual(['defend', 'cure_minor', 'sanctify', ...picks]);
-    expect(Canon.abilities.resist_fire!.spell).toEqual({ tradition: 'divine', level: 2, domain: 'life' });
+    // The SRD's abjuration beside Life since srd-proving-cases.md case 38.
+    expect(Canon.abilities.resist_fire!.spell).toEqual({ tradition: 'divine', level: 2, domain: 'life',
+      school: 'abjuration' });
     expect(source('divineSpell:resist_fire').domain).toBe('life');
     const plan = SpellSelection.plan(Canon.traits.vitalist!);
     expect(plan.levels.map(l => l.count)).toEqual([3, 2, 1]);
@@ -140,8 +142,9 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const ally = Probe.creature('ally', { classId: 'warrior', raceId: 'human', traits: ['brave'] });
     Spellcasting.prepare(elder.state, 1, 'prayer', 'resist_fire');
     const { recipient } = Probe.cast(elder, 'resist_fire', ally);
-    expect(recipient.statuses.map(s => s.id)).toEqual(['fireproof']);
-    expect(Effects.modifiers(recipient).resistances?.fire).toBe(0.5);
+    // Resist Fire by the SRD's resolution (srd-proving-cases.md case 38): ten off each burn, where Orsino's was half.
+    expect(recipient.statuses.map(s => s.id)).toEqual(['fire_resistant']);
+    expect(Effects.modifiers(recipient).resist?.fire).toBe(10);
     expect(Canon.traits.fire_affinity!.category).toBe('affinity');
     const salamander = CombatProjection.fighter(Probe.creature('sal', { classId: 'warrior', raceId: 'human',
       traits: ['brave'] }), 'fighters');

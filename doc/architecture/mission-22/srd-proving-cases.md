@@ -1387,6 +1387,40 @@ Recommended: Acid Arrow by 2 (the conjurer keeps its first pick, and the touch a
 by 3 until the installed casters' cantrips are reviewed (a free 1d3 shot for every hostile arcane caster of the first
 town is a change of the first hour's fights, not a slice). **A decision for the lead.**
 
+### 38. Resist Energy against fire, and a flat resistance laid by a spell (19 November): adapted
+
+Orsino's Resist Fire is the SRD's Resist Energy chosen against fire, at its level already (the second). A typed flat
+resistance existed for a creature's kind (the SRD adaptation briefing's defenses: fire 10), never for a condition, so
+a spell could only lay Orsino's fraction. Spec: `test/resist-energy` (3 cases).
+
+**The mechanic built: a flat resistance in the modifiers** (`resist`, src/rules/modifiers.ts), `{ fire: 10 }`:
+- that much off each blow of the kind, after any fraction, as a kind's flat resistance is (Defenses.mitigate reads
+  both: `Defenses.flat`);
+- of two sources the better for each kind, never summed (the SRD's rule; ModifierSet.sum takes the greater);
+- told as a defense that held ("…keeps off 10"), the event's account naming it (DefenseTelling);
+- a condition, a trait or a thing worn may carry it; the canon refuses one that is not a whole number off a known harm.
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json; the hand condition `fire_resistant`):
+- second level, divine, Life, and the SRD's school, abjuration, beside its domain (exact);
+- on the caster or one ally (exact: the creature touched), its save the SRD's harmless one (converted, as case 32's);
+- ten off each blow of fire (exact at the first six casting levels);
+- the fight, twenty rounds (the census's long: the SRD's ten minutes a level). It persists past a fight for what is
+  left of its rounds, as the fireproof ward does, so it may be laid before one (FieldUse, as before).
+
+**Converted:** ten at every casting level, where the SRD's is twenty from the seventh and thirty from the eleventh (a
+condition's amount does not read its caster); fire alone, where the SRD's caster chooses the energy (Orsino's spell
+is the fire one: a cold or acid one would be a spell of its own). **Adapted:** the twenty rounds are rounds of
+fighting, however long between them. **Omitted:** spell resistance. Before: Orsino's fireproof, half of fire's harm,
+for three rounds. Against a blow of 14 fire, Orsino's ward let 7 through and the SRD's lets 4; against 30, 15 and 20;
+with both, 5. The census grades it S✓ R✓ I✓: 26 of 119 pass in resolution now.
+
+**The census.** No draw or card moves (its level and domain are Orsino's; a divine spell's school draws nothing). A
+vitalist knows it about one time in five (.19 at the first level, .23 at the seventh), every other cleric .06–.14.
+None of the 2,233 installed classed creatures of a1 and the six fidelity countries knows it, and no creation card
+holds it. What moves is every casting, and the specs that cast it as a cleric's preset spell: `test/domain-model` and
+`test/causal-integration` now read `fire_resistant` (twenty rounds, ten off) where they read Orsino's `fireproof`.
+The Fire's law (case 4: one fire a turn) is still held off by it.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

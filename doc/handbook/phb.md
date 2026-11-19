@@ -7945,11 +7945,13 @@ One ally is fireproof for 3 turns. Fireproof: resists 50% of fire. A divine spel
 
 ##### Resist Fire
 
-*Faithful · level 2 divine spell, life domain* · `ability:resist_fire`
+*Adapted · level 2 divine spell, abjuration, life domain* · `ability:resist_fire`
 
-One ally is fireproof for 3 turns. Fireproof: resists 50% of fire. A divine spell of the second level. Takes a second-level slot.
+One ally is fire-resistant for 20 turns. Fire-Resistant: 10 less fire from each blow. A divine spell of the second level. Takes a second-level slot.
 
-> Grant an ally resistance to fire damage for 5 rounds.
+> Lay a hand on yourself or one of the company, and fire's heat is held off them for the fight: ten less from every burn.
+
+*Adapted: The SRD's Resist Energy, against fire (doc/architecture/mission-22/srd-proving-cases.md, case 38): second level, its school abjuration beside Life, on the caster or one ally (the creature touched), fire-resistant: ten off each blow of fire (a flat resistance, the new resist modifier). Converted: ten at every casting level (the SRD's twenty from the seventh and thirty from the eleventh omitted: a condition's amount does not read its caster); the fight, twenty rounds, where the SRD's is ten minutes a level; fire alone, where the SRD's caster chooses the energy. Its save is the SRD's harmless one. Before, Orsino's fireproof (half of fire's harm) for three rounds.*
 
 ##### Shadow Bind
 
@@ -10420,6 +10422,14 @@ Dexterity +2, Charisma +1.
 > Suffering from severe cognitive impairment.
 
 *Not playable — mayUseItems: Kyr does not execute this Orsino effect yet.*
+
+### Fire-Resistant
+
+*Kyr · lasts beyond a fight* · `condition:fire_resistant`
+
+10 less fire from each blow.
+
+> Fire's heat is held off: ten less from each burn.
 
 ### Fireproof
 

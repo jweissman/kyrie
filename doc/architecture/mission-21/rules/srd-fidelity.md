@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 35 pass in structure
-(level, school), 25 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-24 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 36 pass in structure
+(level, school), 26 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+25 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 49 | school 77 | dice 11 | type 13 | save 35 | dc 20 | attack 106 | target 73 | duration 49 | of 119 |
+| spells, field exact or converted | level 49 | school 78 | dice 11 | type 13 | save 36 | dc 21 | attack 106 | target 73 | duration 50 | of 119 |
 
 ## Creatures, most met first
 
@@ -194,7 +194,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | ✓ | ✓ |
 | ray_of_frost | ray-of-frost | S✗ R✗ I– | ✗ 2 → 0 | ✓ | ✗ 7/7/7/7 → 2/2/2/2 | ✓ | – | – | ✗ none → ranged touch | ✓ | ✓ |
 | remove_fear | remove-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | ✓ | ✓ |
-| resist_fire | resist-energy | S✗ R✗ I– | ✓ | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 15 | ✓ | ✓ | ✗ 3 rounds → long |
+| resist_fire | resist-energy | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38) | ≈ harmless: none is made (srd-proving-cases.md, case 38) | ✓ | ✓ | ✓ |
 | restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
 | resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✓ | ✓ |
 | shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |

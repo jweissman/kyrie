@@ -542,6 +542,20 @@
         "notes": "The SRD's Protection from Evil's ward (mission-22/srd-proving-cases.md, case 32): +2 to armour class by a deflection (Kyr's armour class descends, so ac -2), +2 to every save (the SRD's resistance bonus), and proof against charm (its mental control). Adapted: against every foe, where the SRD's is against the evil; it adds to Shield of Faith's deflection, where the SRD's two deflections do not stack."
       }
     },
+    "fire_resistant": {
+      "name": "Fire-Resistant",
+      "description": "Fire's heat is held off: ten less from each burn.",
+      "lifetime": "persistent",
+      "modifiers": { "resist": { "fire": 10 } },
+      "begins": "A cool stillness settles about {target}, and the heat is held off.",
+      "ends": "The stillness about {target} is gone, and the heat comes back.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:resist-energy",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Resist Energy against fire (srd-proving-cases.md, case 38): ten off each blow of fire, after any fraction, the better of two such resistances and never both (Defenses.mitigate). It persists past a fight's end for what is left of its rounds, as the fireproof ward does, so it may be laid before a fight (FieldUse). Converted: ten at every casting level, where the SRD's is twenty from the seventh and thirty from the eleventh."
+      }
+    },
     "mage_armored": {
       "name": "Mage-Armored",
       "description": "An unseen armour of force: as good as a mail coat, worn over nothing.",

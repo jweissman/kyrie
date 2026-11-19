@@ -56,6 +56,11 @@ export class Defenses {
     return Object.entries(resistances ?? {}).map(([to, amount]) => ({ kind: 'resistance', to: [to], amount,
       mode: 'fraction' }) as Defense);
   }
+  // A holder's flat resistances (a condition's or a thing worn's `resist`: Resist Energy's ten) as defenses, each one
+  // kind of harm, the best of each met with a kind's own as any flat resistance is (see mitigate).
+  static flat(resist: Record<string, number> | undefined): Defense[] {
+    return Object.entries(resist ?? {}).map(([to, amount]) => ({ kind: 'resistance', to: [to], amount, mode: 'flat' }));
+  }
   static mitigate(blow: Blow, modifiers: Modifiers, defenses: readonly Defense[] = []): Mitigated {
     const bonus = blow.bonus;
     let damage = Math.max(0, blow.amount + bonus);
@@ -70,7 +75,7 @@ export class Defenses {
     const resistance = Defenses.fraction(modifiers, blow.type, blow.physical);
     if (resistance > 0) { damage = Math.floor(damage * (1 - Math.min(1, resistance))); }
     else if (resistance < 0) { damage = Math.floor(damage * (1 + Math.abs(resistance))); }
-    const flat = Math.max(0, ...defenses.filter(d => d.kind === 'resistance' && d.mode === 'flat'
+    const flat = Math.max(0, ...[...defenses, ...Defenses.flat(modifiers.resist)].filter(d => d.kind === 'resistance' && d.mode === 'flat'
       && Defenses.selects(d.to, blow.type, blow.physical))
       .map(d => Defenses.amount((d as { amount: number | string }).amount, blow.evaluate)));
     if (flat > 0 && damage > 0) { guarded.push({ defense: 'resistance', amount: Math.min(flat, damage), to: blow.type }); }

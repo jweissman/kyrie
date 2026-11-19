@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 94, E2 1, E3 24.
+**605 records**, every one visible: E0 486, E1 93, E2 1, E3 25.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 78.
 
 ## By family
@@ -486,7 +486,7 @@ become ready).
 | repel-wood | Repel Wood | Drd 6, Plant 6 | object | E0 | target.object | — |
 | repulsion | Repulsion | Clr 7, Protection 7, Sor/Wiz 6 | control | E0 | resist.spell | — |
 | resilient-sphere | Resilient Sphere | Sor/Wiz 4 | control | E0 | resist.spell | — |
-| resist-energy | Resist Energy | Clr 2, Drd 2, Fire 3, Pal 2, Rgr 1, Sor/Wiz 2 | protection | E1 | — | resist_fire |
+| resist-energy | Resist Energy | Clr 2, Drd 2, Fire 3, Pal 2, Rgr 1, Sor/Wiz 2 | protection | E3 | — | resist_fire |
 | resistance | Resistance | Brd 0, Clr 0, Drd 0, Pal 1, Sor/Wiz 0 | protection | E0 | — | — |
 | restoration | Restoration | Clr 4, Pal 4 | removal | E1 | effect.dispel | restoration |
 | restoration-greater | Restoration, Greater | Clr 7 | removal | E1 | effect.dispel | major_restoration |

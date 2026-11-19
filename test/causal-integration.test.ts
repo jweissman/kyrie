@@ -113,20 +113,21 @@ it('preserves a timed spell through field use and consumes its duration only at 
   Spellcasting.prepare(hero.state, 1, 'prayer', 'resist_fire');
   const store = new CreatureStore([hero, enemy]);
   FieldUse.perform(store, ['hero'], { ability: 'resist_fire', caster: 'hero', target: 'hero', seed: 'cast' });
-  // Orsino's buff lasts three rounds unless the spell says otherwise; a second-level spell spends a second-level slot.
-  expect(store.get('hero').state.conditions[0]).toMatchObject({ id: 'fireproof', remaining: 3 });
+  // Resist Fire lasts the fight, twenty rounds (srd-proving-cases.md case 38: Orsino's fireproof had lasted three); a
+  // second-level spell spends a second-level slot.
+  expect(store.get('hero').state.conditions[0]).toMatchObject({ id: 'fire_resistant', remaining: 20 });
   expect(store.get('hero').state.slots).toEqual(hero.state.slots!.map((n, i) => i === 1 ? n - 1 : n));
   const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' }, { creatureId: 'enemy', team: 'goblins' }],
     { seed: 'turns' });
   // The first round's start ticks every untimed condition once (Combat.round), before anyone acts.
-  expect(store.get('hero').state.conditions[0]!.remaining).toBe(2);
+  expect(store.get('hero').state.conditions[0]!.remaining).toBe(19);
   while (!battle.state.outcome && battle.state.actor !== 'hero') {
     const legal = battle.legalCommands();
     battle.step(legal.find(c => c.ability === 'defend') ?? legal.find(c => c.ability === 'wait') ?? legal[0]!);
   }
-  expect(store.get('hero').state.conditions[0]!.remaining).toBe(2);
+  expect(store.get('hero').state.conditions[0]!.remaining).toBe(19);
   battle.close();
-  expect(store.get('hero').state.conditions[0]!.remaining).toBe(2);
+  expect(store.get('hero').state.conditions[0]!.remaining).toBe(19);
 });
 
 it('connects an ordinary object transition, equipment, a witnessed attack and a lasting service consequence', async () => {

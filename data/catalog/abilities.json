@@ -598,6 +598,23 @@
         "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
       }
     },
+    "resist_fire": {
+      "name": "Resist Fire",
+      "kind": "spell",
+      "description": "Lay a hand on yourself or one of the company, and fire's heat is held off them for the fight: ten less from every burn.",
+      "effects": [
+        { "kind": "apply", "status": "fire_resistant", "duration": 20, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 2, "domain": "life", "school": "abjuration" },
+      "source": {
+        "orsino": "divineSpell:resist_fire",
+        "srd35": "spell:resist-energy",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Resist Energy, against fire (doc/architecture/mission-22/srd-proving-cases.md, case 38): second level, its school abjuration beside Life, on the caster or one ally (the creature touched), fire-resistant: ten off each blow of fire (a flat resistance, the new resist modifier). Converted: ten at every casting level (the SRD's twenty from the seventh and thirty from the eleventh omitted: a condition's amount does not read its caster); the fight, twenty rounds, where the SRD's is ten minutes a level; fire alone, where the SRD's caster chooses the energy. Its save is the SRD's harmless one. Before, Orsino's fireproof (half of fire's harm) for three rounds."
+      }
+    },
     "protection_from_evil": {
       "name": "Protection from Evil",
       "kind": "spell",

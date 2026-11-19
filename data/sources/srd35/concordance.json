@@ -354,6 +354,7 @@
   "divine_favor": "test/divine-favor.test.ts",
   "shocking_grasp": "test/shocking-grasp.test.ts",
   "paralyzing_touch": "test/ghoul-touch.test.ts",
+  "resist_fire": "test/resist-energy.test.ts",
   "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
@@ -420,6 +421,10 @@
   "bless": {
    "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+  },
+  "resist_fire": {
+   "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38)",
+   "dc": "harmless: none is made (srd-proving-cases.md, case 38)"
   },
   "paralyzing_touch": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",

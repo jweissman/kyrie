@@ -26,7 +26,7 @@ export class ConditionSense {
     const heals = (m.onTurnEnd ?? []).some(p => p.kind === 'heal');
     return Math.sign(m.toHit ?? 0) + damage - Math.sign(m.ac ?? 0) + Math.sign(m.evasion ?? 0)
       + Math.sign(m.allRolls ?? 0) + Math.sign(m.saveVersusAll ?? 0) + sum(m.saves) + sum(m.attributes)
-      + sum(m.resistances) + (m.immune?.length ?? 0) + (m.tempHp ? 1 : 0) + (heals ? 1 : 0)
+      + sum(m.resistances) + sum(m.resist) + (m.immune?.length ?? 0) + (m.tempHp ? 1 : 0) + (heals ? 1 : 0)
       - (m.noActions && !heals ? 2 : 0) - (m.noSpellcasting ? 1 : 0);
   }
 }

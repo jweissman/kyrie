@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 739,
-    "adapted": 409,
+    "faithful": 738,
+    "adapted": 410,
     "represented": 4,
-    "kyr": 608,
+    "kyr": 609,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 220,
-      "adapted": 32,
+      "faithful": 219,
+      "adapted": 33,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -983,7 +983,7 @@
       "faithful": 124,
       "adapted": 29,
       "represented": 0,
-      "kyr": 47,
+      "kyr": 48,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -10770,7 +10770,7 @@
   {
    "id": "ability:resist_fire",
    "title": "Resist Fire",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"
   },
@@ -12514,6 +12514,13 @@
    "id": "condition:feebleminded",
    "title": "Feebleminded",
    "status": "unsupported",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:fire_resistant",
+   "title": "Fire-Resistant",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },

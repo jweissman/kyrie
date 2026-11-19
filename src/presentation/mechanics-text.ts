@@ -225,6 +225,7 @@ export class MechanicsText {
       out.push(r >= 1 ? `immune to ${type}` : r > 0 ? `resists ${Math.round(r * 100)}% of ${type}`
         : `takes ${Math.round(-r * 100)}% more ${type}`);
     }
+    for (const [type, n] of Object.entries(m.resist ?? {})) { out.push(`${n} less ${type} from each blow`); }
     for (const type of m.immune ?? []) { out.push(`immune to ${type}`); }
     if (m.noActions) { out.push('cannot act'); }
     if (m.noSpellcasting) { out.push('cannot cast spells'); }
