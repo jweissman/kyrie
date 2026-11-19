@@ -44,8 +44,9 @@ export class SceneRail {
         {/* An attention, never a second place to commit: the glass turns the scene to what can be searched and looked at (the
             Look lens, where the search leads); "Search here" is done by the one foreground, never from the rail (the
             owner, 15 November: every act through one of the four). */}
-        {search ? <button type="button" className="rail-mark by-glyph" data-action="explore" aria-label="Search: look closely" onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
-          : <button type="button" className="rail-mark by-glyph" disabled aria-label="Search: nothing here to search"><Glyphs.View id="search" className="rail-glyph" /></button>}
+        <button type="button" className="rail-mark by-glyph" {...search ? { 'data-action': 'explore' } : {}}
+          disabled={!search} aria-label={search ? 'Search: look closely' : 'Search: nothing here to search'}
+          onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
         <span className="rail-gap" aria-hidden="true" />
         <SceneRail.Books app={app} />
       </nav>
@@ -81,25 +82,30 @@ export class SceneRail {
   // had its own bar of Map and Book across its top).
   static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
     const marks = <>
-      {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
-        aria-label="The map: back to where you are" data-tone={SceneRail.local(app)?.tone} onClick={() => app.outdoor(false)}>
-        <Glyphs.View id="the_map" className="rail-glyph" />
-        <Pip.View mark={SceneRail.local(app)} label={`Where you are: ${SceneRail.local(app)?.words ?? ''}`} /></button>
-        : CompassStage.of(app) ? <button type="button" className={`rail-mark opens-compass${SceneRail.map(app) ? ' lit' : ''}`}
-          data-action="compass" data-key="m" aria-label="The compass: the way out, and the ways in here" aria-pressed={app.state.exploring === 'go'}
-          onClick={() => Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go')}>
-          <Glyphs.View id="the_compass" className="rail-glyph" />
-          <Pip.View mark={SceneRail.map(app)} /></button>
-        : <button type="button" className={`rail-mark${SceneRail.map(app) ? ' lit' : ''}`}
-          data-action="mode" data-view="map" data-key="m" aria-label="The map"
-          onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" />
-          <Pip.View mark={SceneRail.map(app)} /></button>}
+      <SceneRail.MapMark app={app} onMap={onMap} />
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book"
         onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
       </button>
     </>;
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
+  }
+  // The map's one mark, as it stands: on the map, pressed, back to where the company is; inside an enclosed place, the
+  // compass (the places lens, the way out at its foot); else the map, lit where a journey is the aim's next step.
+  static MapMark({ app, onMap }: { app: ReaderApp; onMap?: boolean }) {
+    const local = onMap ? SceneRail.local(app) : undefined, lit = onMap ? undefined : SceneRail.map(app);
+    const compass = !onMap && !!CompassStage.of(app), going = app.state.exploring === 'go';
+    const mark = onMap ? { className: 'rail-mark pressed', 'data-action': 'back-to-place', 'aria-pressed': true,
+      'aria-label': 'The map: back to where you are', 'data-tone': local?.tone, glyph: 'the_map',
+      go: () => app.outdoor(false) }
+      : compass ? { className: `rail-mark opens-compass${lit ? ' lit' : ''}`, 'data-action': 'compass', 'data-key': 'm',
+        'aria-label': 'The compass: the way out, and the ways in here', 'aria-pressed': going, glyph: 'the_compass',
+        go: () => Explorer.open(app, going ? undefined : 'go') }
+      : { className: `rail-mark${lit ? ' lit' : ''}`, 'data-action': 'mode', 'data-view': 'map', 'data-key': 'm',
+        'aria-label': 'The map', glyph: 'the_map', go: () => app.show('map') };
+    const { glyph, go, ...attrs } = mark;
+    return <button type="button" {...attrs} onClick={go}><Glyphs.View id={glyph} className="rail-glyph" />
+      {onMap ? <Pip.View mark={local} label={`Where you are: ${local?.words ?? ''}`} /> : <Pip.View mark={lit} />}</button>;
   }
   // Its pip (see Pip): lit, of the tone of what the rows it opens bear (see SceneRail.go), and a companion's icon
   // where one of them is someone who might join; none with nothing; and the whole mark lowered (dim) with nothing new.
