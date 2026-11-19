@@ -19,7 +19,8 @@
   // Which way down the old ways were first said to go on by: the room the job that said so ended in (see below).
   Relation {t}_u_onward_by(entity).
   // Whether what lives in a room under the town has come at the company already: once, when the company has stood
-  // there a while (lingered: searching, lighting, waiting), not as it passes through.
+  // there a while (lingered: searching, lighting, waiting), not as it passes through. Until then it is nowhere, out of
+  // sight in the runs, the roof or the dark (a walk through the empty room had stopped at it: main's browser specs).
   Relation {t}_u_came(entity).
   // A job half paid for (done, its cause not yet seen to) is paid only the rest when it is finished (REV-21: the
   // half and then the whole had both been paid).
@@ -468,11 +469,11 @@
   }
   // Not every rat keeps to the runs: a few are always out on the cellar floor at the spilled grain, and go for what
   // comes down the trapdoor (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
-  Person {t}_u_cellar_rats "the rats on the cellar floor" at {t}_u_cellar {
+  Person {t}_u_cellar_rats "the rats on the cellar floor" nowhere {
     Role "rats out of the runs at the spilled grain, bold enough to go for a boot". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_cellar.
   }
   Initially Set encounterXp({t}_u_cellar_rats) to 30.
-  Rule {t}_u_cellar_rats_come when at(party, {t}_u_cellar) and lingered(party) >= 1 and able({t}_u_cellar_rats) and not {t}_u_came({t}_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert assails({t}_u_cellar_rats, party). Assert {t}_u_came({t}_u_cellar_rats). }
+  Rule {t}_u_cellar_rats_come when at(party, {t}_u_cellar) and lingered(party) >= 1 and able({t}_u_cellar_rats) and not {t}_u_came({t}_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert at({t}_u_cellar_rats, {t}_u_cellar). Assert assails({t}_u_cellar_rats, party). Assert {t}_u_came({t}_u_cellar_rats). }
 --- yard dead
   // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
   // them with a black candle in the ossuary; the churchyard, the crypt and the lodger at the inn say so to whoever
@@ -598,11 +599,11 @@
   Rule {t}_u_dead_onward when ({t}_u_paid({t}_u_dead_job) or ({t}_u_done({t}_u_dead_job) and not {t}_u_given({t}_u_dead_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_ossuary). }
   // The crypt's own, before the ossuary: bats in its vault that the raiser's comings and goings have kept stirred, and
   // that come down at a light (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
-  Person {t}_u_crypt_bats "the bats in the crypt" at {t}_u_crypt {
+  Person {t}_u_crypt_bats "the bats in the crypt" nowhere {
     Role "bats roosting in the crypt's vault, that wheel down shrieking when a light comes in". Species bat. Numbers {pack}. Level 1. Temperament territorial. Lair {t}_u_crypt.
   }
   Initially Set encounterXp({t}_u_crypt_bats) to 30.
-  Rule {t}_u_crypt_bats_come when at(party, {t}_u_crypt) and lingered(party) >= 1 and able({t}_u_crypt_bats) and not {t}_u_came({t}_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert assails({t}_u_crypt_bats, party). Assert {t}_u_came({t}_u_crypt_bats). }
+  Rule {t}_u_crypt_bats_come when at(party, {t}_u_crypt) and lingered(party) >= 1 and able({t}_u_crypt_bats) and not {t}_u_came({t}_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert at({t}_u_crypt_bats, {t}_u_crypt). Assert assails({t}_u_crypt_bats, party). Assert {t}_u_came({t}_u_crypt_bats). }
 --- pit spiders
   // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
@@ -700,11 +701,11 @@
   Rule {t}_u_spiders_onward when ({t}_u_paid({t}_u_spiders_job) or ({t}_u_done({t}_u_spiders_job) and not {t}_u_given({t}_u_spiders_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_gallery). }
   // What feeds under the web: carrion beetles in the adit, at what the spiders let fall; and the old cutting's cracked
   // roof, shored with the quarrymen's timbers or passed under at a risk (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
-  Person {t}_u_adit_beetles "the carrion beetles in the adit" at {t}_u_adit {
+  Person {t}_u_adit_beetles "the carrion beetles in the adit" nowhere {
     Role "carrion beetles as big as rats, feeding on what the spiders let fall from the web". Species beetle. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_adit.
   }
   Initially Set encounterXp({t}_u_adit_beetles) to 40.
-  Rule {t}_u_adit_beetles_come when at(party, {t}_u_adit) and lingered(party) >= 1 and able({t}_u_adit_beetles) and not {t}_u_came({t}_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert assails({t}_u_adit_beetles, party). Assert {t}_u_came({t}_u_adit_beetles). }
+  Rule {t}_u_adit_beetles_come when at(party, {t}_u_adit) and lingered(party) >= 1 and able({t}_u_adit_beetles) and not {t}_u_came({t}_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert at({t}_u_adit_beetles, {t}_u_adit). Assert assails({t}_u_adit_beetles, party). Assert {t}_u_came({t}_u_adit_beetles). }
 
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.

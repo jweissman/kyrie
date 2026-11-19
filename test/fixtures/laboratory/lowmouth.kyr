@@ -210,11 +210,11 @@ Module lab "The undercroft at Lowmouth" {
     says "{low_merchant} has been to look at the corn-store door. 'New bolts,' {low_merchant} says, and nods once." {
     Assert low_u_mended(low_u_store_lock).
   }
-  Person low_u_cellar_rats "the rats on the cellar floor" at low_u_cellar {
+  Person low_u_cellar_rats "the rats on the cellar floor" nowhere {
     Role "rats out of the runs at the spilled grain, bold enough to go for a boot". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_cellar.
   }
   Initially Set encounterXp(low_u_cellar_rats) to 30.
-  Rule low_u_cellar_rats_come when at(party, low_u_cellar) and lingered(party) >= 1 and able(low_u_cellar_rats) and not low_u_came(low_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert assails(low_u_cellar_rats, party). Assert low_u_came(low_u_cellar_rats). }
+  Rule low_u_cellar_rats_come when at(party, low_u_cellar) and lingered(party) >= 1 and able(low_u_cellar_rats) and not low_u_came(low_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert at(low_u_cellar_rats, low_u_cellar). Assert assails(low_u_cellar_rats, party). Assert low_u_came(low_u_cellar_rats). }
   Observe low_u_yard_scene at low_u_yard as fixture when true "Old stones lean in the grass. In the corner by the wall, a low stone door goes into the ground. Its iron ring is bright where someone has pulled at it lately.".
   Entity low_u_dead_robbed: fact "Someone has been opening graves in the churchyard by night, and going down into the catacombs.".
   Entity low_u_dead_raised: fact "The dead under the churchyard have been raised. A ring of chalk and the ends of black candles are on the crypt floor.".
@@ -309,11 +309,11 @@ Module lab "The undercroft at Lowmouth" {
   }
   Objective low_u_dead_job_owed when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_paid(low_u_dead_job) toward low_priest "Tell {low_priest} at {low_chapel} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
   Rule low_u_dead_onward when (low_u_paid(low_u_dead_job) or (low_u_done(low_u_dead_job) and not low_u_given(low_u_dead_job))) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). Assert low_u_onward_by(low_u_ossuary). }
-  Person low_u_crypt_bats "the bats in the crypt" at low_u_crypt {
+  Person low_u_crypt_bats "the bats in the crypt" nowhere {
     Role "bats roosting in the crypt's vault, that wheel down shrieking when a light comes in". Species bat. Numbers 2. Level 1. Temperament territorial. Lair low_u_crypt.
   }
   Initially Set encounterXp(low_u_crypt_bats) to 30.
-  Rule low_u_crypt_bats_come when at(party, low_u_crypt) and lingered(party) >= 1 and able(low_u_crypt_bats) and not low_u_came(low_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert assails(low_u_crypt_bats, party). Assert low_u_came(low_u_crypt_bats). }
+  Rule low_u_crypt_bats_come when at(party, low_u_crypt) and lingered(party) >= 1 and able(low_u_crypt_bats) and not low_u_came(low_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert at(low_u_crypt_bats, low_u_crypt). Assert assails(low_u_crypt_bats, party). Assert low_u_came(low_u_crypt_bats). }
   Observe low_u_pit_scene at low_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces. At the bottom a square adit goes back into the rock behind a barred gate. A board on the gate says KEEP OUT in three hands.".
   Observe low_u_husks at low_u_adit when able(low_u_spiders) "Things hang in the web across the cutting ahead, wrapped grey and sucked dry. A fox, a dog, something the size of a calf. Whatever strung it takes prey that big.".
   Person low_u_spiders "the spider in the old workings" at low_u_gallery {
@@ -387,11 +387,11 @@ Module lab "The undercroft at Lowmouth" {
   }
   Objective low_u_spiders_job_owed when low_u_done(low_u_spiders_job) and state(low_u_eggs, burnt) and not low_u_paid(low_u_spiders_job) toward low_innkeeper "Tell {low_innkeeper} at {low_taproom} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
   Rule low_u_spiders_onward when (low_u_paid(low_u_spiders_job) or (low_u_done(low_u_spiders_job) and not low_u_given(low_u_spiders_job))) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). Assert low_u_onward_by(low_u_gallery). }
-  Person low_u_adit_beetles "the carrion beetles in the adit" at low_u_adit {
+  Person low_u_adit_beetles "the carrion beetles in the adit" nowhere {
     Role "carrion beetles as big as rats, feeding on what the spiders let fall from the web". Species beetle. Numbers 1. Level 1. Temperament territorial. Lair low_u_adit.
   }
   Initially Set encounterXp(low_u_adit_beetles) to 40.
-  Rule low_u_adit_beetles_come when at(party, low_u_adit) and lingered(party) >= 1 and able(low_u_adit_beetles) and not low_u_came(low_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert assails(low_u_adit_beetles, party). Assert low_u_came(low_u_adit_beetles). }
+  Rule low_u_adit_beetles_come when at(party, low_u_adit) and lingered(party) >= 1 and able(low_u_adit_beetles) and not low_u_came(low_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert at(low_u_adit_beetles, low_u_adit). Assert assails(low_u_adit_beetles, party). Assert low_u_came(low_u_adit_beetles). }
   Place low_u_drain "the old drain" is room within low at 0, 5 underground 2 down.
   Passage low_u_drain_way "a culvert going down" is crawl between low_u_warren and low_u_drain.
   Entity low_u_onward: fact "".
