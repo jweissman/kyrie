@@ -186,7 +186,7 @@
     On discuss { Assert {t}_iv_asked(party). }
   }
   Topic {t}_iv_hill with {t}_iv "Ask Isaure Venn about the old stones on the hill" when {t}_iv_asked(party) once {
-    Says "'Twice,' she says. 'And turned back twice by the dark and once by a boy who said the lights had faces. The dais has letters along it that I can read from the foot of the steps and cannot reach. The hall is the first makers', and the *letters* are cut over something earlier, rubbed out. I want to know what was rubbed out. Will you come? I will pay what I have. It is not much and it is mostly paper.'".
+    Says "'Three times,' she says. 'Turned back twice by the dark and once by a boy who said the lights had faces. The dais has letters along it that I can read from the foot of the steps and cannot reach. The hall is the first makers', and the *letters* are cut over something earlier, rubbed out. I want to know what was rubbed out. Will you come? I will pay what I have. It is not much and it is mostly paper.'".
   }
   Topic {t}_iv_join with {t}_iv "Agree to take Isaure Venn up the hill, and see what comes of it" when {t}_iv_asked(party) once {
     Says "Isaure Venn is on her feet before you have finished, tying a scarf round a satchel that is already tied. 'Now,' she says. 'Before I think better of it.'".

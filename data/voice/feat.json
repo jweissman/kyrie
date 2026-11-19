@@ -5,7 +5,7 @@
     { "id": "feat.lockwork.1", "when": { "capability": "lockwork" }, "text": "You work a bent pin and a thin blade into the lock and feel for its wards one at a time, with an ear to the way you came, until the last of them gives." },
     { "id": "feat.lockwork.2", "when": { "capability": "lockwork" }, "text": "It is an old lock and a stiff one. You take your time over it, by feel, and it turns at last with a sound like a knuckle cracking." },
     { "id": "feat.lockwork.3", "when": { "capability": "lockwork" }, "text": "The wards are crude and the spring is tired; it takes a pin, a breath held, and a quarter-turn more than it should." },
-    { "id": "feat.brawn.1", "when": { "capability": "brawn" }, "text": "You set your shoulder to it and heave. Wood groans and iron shrieks, and the noise of it goes further than you would like." },
+    { "id": "feat.brawn.1", "when": { "capability": "brawn" }, "text": "You set your shoulder to it and heave. Something gives with a groan, and the noise of it goes further than you would like." },
     { "id": "feat.brawn.2", "when": { "capability": "brawn" }, "text": "It holds, and holds, and then it does not, all at once, with a crack that anyone near will have heard." },
     { "id": "feat.lore.1", "when": { "capability": "lore" }, "text": "The letters are worn shallow, but they are letters you have met before in older books; you read them slowly, under your breath, and they hold together." },
     { "id": "feat.lore.2", "when": { "capability": "lore" }, "text": "It takes a while, and a finger along each line, but the old hand is one you were taught, and it gives up its sense." },

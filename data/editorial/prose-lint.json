@@ -4,6 +4,8 @@
     "data/origins/**/*.kyr", "data/origins/**/*.kyrt", "data/origins/**/*.json"],
   "owned": ["^data/origins/(drove|pans|weir)/"],
   "banned": [
+    { "pattern": "\\b(\\w+), as if someone had \\1\\b", "why": "a simile that says the thing again (cold play 2, CL-11's prose slips)",
+      "evidence": "The floor is swept, as if someone had swept it. (data/generation/deep/barrow.json's hall of the bones before 19 November)" },
     { "phrase": "in a slither of", "why": "a decorative noun phrase where the event (the meal spilled) is not said",
       "evidence": "With the wagoner roaring at the wheel, the cart comes up out of the ditch in a slither of meal. (data/origins/prologue.kyrt; the owner, 17 November night: 'the imagery is strained, the physical event is obscured, and the sentence sounds unpleasant')" },
     { "pattern": "\\bwith the air of (a|an|one)\\b", "why": "the narrator judging what someone is like instead of saying what they do (narratology.md's banned table, 7 November)",
