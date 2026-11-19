@@ -7,7 +7,7 @@ export class Toast {
     return (
       <div className="toast" role="alert" data-id="error">
         <p>{app.state.error}</p>
-        <button type="button" onClick={app.dismiss} aria-label="Dismiss">×</button>
+        <button type="button" data-action="dismiss" onClick={app.dismiss} aria-label="Dismiss">×</button>
       </div>
     );
   }

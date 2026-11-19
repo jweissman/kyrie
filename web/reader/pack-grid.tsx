@@ -55,7 +55,7 @@ export class PackGrid {
       </>;
     const classes = `pack-tile${chosen ? ' chosen' : ''}`;
     if (c.children) { return <Act.View choice={c} draw={draw} quiet variant="glyph" className={classes}>{body}</Act.View>; }
-    return <button type="button" className={classes} data-pick={c.id} aria-pressed={chosen}
+    return <button type="button" className={classes} data-action="consider-item" data-pick={c.id} aria-pressed={chosen}
       onClick={() => app.setState({ hovered: c.id })}>{body}</button>;
   }
   // Its kind's entry in the encyclopedia, opened beside the game, not instead of it (M19-147: nothing in play led to

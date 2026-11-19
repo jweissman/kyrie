@@ -72,7 +72,7 @@ export class Wayfinder {
     // on while the step is here (see SceneRail.goes).
     const borne = Wayfinder.bears(app, w), aimed = borne.aimed;
     const tone = aimed ? undefined : Attest.of(borne.witnesses, false)?.tone;
-    return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
+    return <button type="button" data-action="way-row" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
       + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id} data-act={w.c.id}
       style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
       // Dim says what it means, once, where it is: never shut, nor far, but nothing new there for now. data-condition={Pip.condition({ idle: dim })}

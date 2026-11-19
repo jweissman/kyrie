@@ -10,7 +10,7 @@ export class CampaignPage {
       <div className="opening campaign-page" data-mode="campaigns">
         <main className="campaign-sheet">
           <header className="opening-head">
-            <button type="button" className="back" onClick={app.opening.title}>Kyr</button>
+            <button type="button" className="back" data-action="back-to-title" onClick={app.opening.title}>Kyr</button>
             <h1>Where will the company go?</h1>
           </header>
           <ol className="cards">

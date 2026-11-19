@@ -13,7 +13,7 @@ export class CompanyPage {
       <div className="opening company-page" data-mode="create">
         <main className="company-sheet">
           <header className="opening-head">
-            <button type="button" className="back" onClick={app.opening.campaigns}>{setting.title}</button>
+            <button type="button" className="back" data-action="back-to-campaigns" onClick={app.opening.campaigns}>{setting.title}</button>
             <h1>{setting.pitch.heading}</h1>
           </header>
           <div className="prose"><p>{setting.pitch.text}</p></div>

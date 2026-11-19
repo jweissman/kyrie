@@ -174,7 +174,7 @@ export class CharacterPage {
   static Can({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
     const [read, setRead] = useState<string>(), sheet = m.sheet, shown = m.abilities.find(a => a.id === read);
     return <section className="can"><h3>Can do</h3>
-      <ul className="chips">{m.abilities.map(a => <li key={a.id}><button type="button" aria-pressed={a.id === read}
+      <ul className="chips">{m.abilities.map(a => <li key={a.id}><button type="button" data-action="ability" aria-pressed={a.id === read}
         onClick={() => setRead(a.id === read ? undefined : a.id)}>{a.emblem && <Glyphs.View id={a.emblem}
           className="spell-glyph" />}{a.name}
         {a.price && <small>{a.price}{CharacterPage.yet(m, a.price)}</small>}</button></li>)}</ul>

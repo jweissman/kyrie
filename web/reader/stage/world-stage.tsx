@@ -142,7 +142,7 @@ export class WorldStage {
   static Still({ subject: x, fell, children }: { subject: SceneSubject; fell: string; children: ReactNode }) {
     const [told, tell] = useState(false), why = WorldStage.why(x);
     useEffect(() => { if (!told) { return; } const t = setTimeout(() => tell(false), 3200); return () => clearTimeout(t); }, [told]);
-    return <button type="button" className={`portrait still${fell}${told ? ' told' : ''}`} aria-disabled="true"
+    return <button type="button" data-action="likeness-still" className={`portrait still${fell}${told ? ' told' : ''}`} aria-disabled="true"
       aria-label={`${x.name}: ${why}`} onClick={() => tell(true)}>{children}
       {told && <span className="still-why" role="status">{why}</span>}</button>;
   }

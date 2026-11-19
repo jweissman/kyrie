@@ -102,7 +102,7 @@ export class SceneRail {
       : { className: `rail-mark${lit ? ' lit' : ''}`, 'data-action': 'mode', 'data-view': 'map', 'data-key': 'm',
         'aria-label': 'The map', glyph: 'the_map', go: () => app.show('map') };
     const { glyph, go, ...attrs } = mark;
-    return <button type="button" {...attrs} onClick={go}><Glyphs.View id={glyph} className="rail-glyph" />
+    return <button type="button" data-control="map-mark" {...attrs} onClick={go}><Glyphs.View id={glyph} className="rail-glyph" />
       {onMap ? <Pip.View mark={local} label={`Where you are: ${local?.words ?? ''}`} /> : <Pip.View mark={lit} />}</button>;
   }
   // Its pip (see Pip): lit, of the tone of what the rows it opens bear (see SceneRail.go), and a companion's icon

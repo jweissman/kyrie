@@ -30,7 +30,7 @@ export class Lenses {
         {tiles.map(t => <li key={t.id}>
           {/* One with a picture is its face and name; one without, its name and pip alone (a chip), with the way's
               direction where it goes out of the place. */}
-          <button type="button" className={`lens-tile${t.picture ? '' : ' bare'}${t.chosen ? ' chosen' : ''}`
+          <button type="button" data-action="lens-tile" className={`lens-tile${t.picture ? '' : ' bare'}${t.chosen ? ' chosen' : ''}`
             + `${t.dim ? ' dim' : ''}`} data-tile={t.id} {...t.act ? { 'data-act': t.act } : {}} aria-pressed={t.chosen}
             onClick={t.pick}>
             {t.picture ? <span className="lens-face" aria-hidden="true"><img src={t.picture} alt="" decoding="async" /></span>

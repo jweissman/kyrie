@@ -67,7 +67,7 @@ export class ChoiceRow {
     expanded?: boolean; act?: string; shut?: boolean; own?: ButtonHTMLAttributes<HTMLButtonElement> & Record<string, unknown>;
     ref?: Ref<HTMLButtonElement>;
     events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
-    return <button ref={ref} type="button" className={ChoiceRow.classes(className, shut)} {...ChoiceRow.data(data, act)}
+    return <button ref={ref} type="button" data-control="row" className={ChoiceRow.classes(className, shut)} {...ChoiceRow.data(data, act)}
       {...shut ? { 'aria-disabled': true } : {}}
       {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} {...own}
       {...shut ? { onClick: ChoiceRow.nothing } : onClick ? { onClick } : {}}><ChoiceRow.Parts {...parts} /></button>;
