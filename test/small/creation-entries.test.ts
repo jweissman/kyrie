@@ -39,10 +39,12 @@ describe('the entry beside a choice', () => {
     expect(warrior.after).toMatch(/^And Defend, as every calling\. Later, by level: Dig In \(3\)/);
   });
 
-  it('says a gift by its rule and its sign, and a trade by what it adds, its coin and its skills', () => {
+  it('says a sign\'s gifts by their rules, and a trade by what it adds, its coin and its skills', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
     flow.choose('sign', 'sign_bear');
-    expect(card(flow.steps(), 'gift').facts).toEqual([['Of', 'The Waking Bear, Thaw']]);
+    // Both gifts are the sign's (OR-117: given with it, no step of their own), said on its entry by their rules.
+    expect(card(flow.steps(), 'sign', 'sign_bear').facts).toContainEqual(['Gifts', 'Unturned and Hard to fell']);
+    expect(card(flow.steps(), 'sign', 'sign_bear').rules).toContain('Hard to fell: +2 against death.');
     flow.choose('calling', 'warrior');
     flow.choose('before', 'arms');
     const trade = card(flow.steps(), 'trade', 'champion');

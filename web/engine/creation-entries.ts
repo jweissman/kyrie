@@ -65,14 +65,6 @@ export class CreationEntries {
           later.length ? `Later, by level: ${Words.listed(later)}.` : ''].filter(Boolean).join(' ') };
     });
   }
-  // A gift of the sky: its rule as its line in play, the sign it is of, and the rule in whole where it says more.
-  static gift(sign: Catalog['signs'][number], g: Catalog['signs'][number]['gifts'][number]): CreationEntry {
-    return CreationEntries.once(`gift:${g.id}`, () => {
-      const rule = HandbookText.trait(g.id).map(r => r.replace(`${g.name}: `, ''));
-      return { play: Words.upper(g.does.replace(/\.$/, '')), facts: [['Of', `${sign.name.replace(/^the /, 'The ')}, ${sign.month}`]],
-        rules: rule.filter(r => r.replace(/\.$/, '') !== g.does.replace(/\.$/, '')) };
-    })!;
-  }
   // A trade: what it adds to the qualities and its coin, as its line in play; what it brings and carries, and the
   // calling it is kept for.
   static trade(b: Catalog['backgrounds'][number]): CreationEntry {
