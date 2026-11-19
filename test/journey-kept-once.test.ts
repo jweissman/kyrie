@@ -14,6 +14,9 @@ describe('a journey', () => {
     await new Promise(r => setTimeout(r, 2000));
     const far = [...first.screen.destinations ?? [], ...first.screen.roads ?? []].at(-1)!;
     const before = saves, went = await host.handle({ kind: 'travel', destination: far.id }) as Frame;
+    // Kept when it is done, on a loaded runner more than a second after (the full run, 19 Nov): waited for,
+    // then a while more for any second keeping.
+    for (let i = 0; i < 100 && saves === before; i++) { await new Promise(r => setTimeout(r, 100)); }
     await new Promise(r => setTimeout(r, 1000));
     expect(went.travel!.legs.length).toBeGreaterThan(1);
     expect(saves - before).toBe(1);
