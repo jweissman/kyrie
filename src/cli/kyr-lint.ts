@@ -15,6 +15,7 @@ import { EngineOwned } from '../lang/engine-owned';
 import { ExportRoles } from './export-roles';
 import { LintSource } from './lint-source';
 import { OfficeLint } from './office-lint';
+import { SiteKindLint } from './site-kind-lint';
 import { WorldAssembler } from '../world/world-assembler';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
@@ -119,7 +120,8 @@ export class KyrLint {
   }
   static async run(paths: string[]) {
     const results: Record<string, Finding[]> = { vocabulary: this.vocabulary(), names: AdventureNames.clashes()
-      .map(message => ({ level: 'error', check: 'names', where: 'data/adventures', message })) };
+      .map(message => ({ level: 'error', check: 'names', where: 'data/adventures', message })),
+    sites: SiteKindLint.findings(SiteKindLint.read(this.root)) };
     for (const path of paths.length ? paths : this.campaigns()) {
       try { results[path] = await this.campaign(path); }
       catch (e) {
@@ -156,7 +158,8 @@ export class KyrLint {
       const warnings = findings.filter(f => f.level === 'warning').length, advice = findings.length - errors - warnings;
       // A drawn world is told in full, as recommended content is, but held to its errors only.
       const recommended = this.recommended.includes(where), drawn = seeds.length > 0;
-      const tag = recommended ? 'recommended' : drawn ? 'drawn' : where === 'vocabulary' ? 'repository' : 'legacy';
+      const tag = recommended ? 'recommended' : drawn ? 'drawn'
+        : ['vocabulary', 'sites'].includes(where) ? 'repository' : 'legacy';
       console.log(`${where} [${tag}]: ${errors} errors, ${warnings} warnings${advice ? `, ${advice} to look at` : ''}`);
       for (const f of findings.filter(x => x.level === 'error' || (!only && (verbose || recommended || drawn)))) {
         console.log(`  ${f.level} ${f.check}: ${f.where === where ? '' : `${f.where}: `}${f.message}`);
