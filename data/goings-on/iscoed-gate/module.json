@@ -17,7 +17,8 @@
     "forged",
     "freedword",
     "clerkgone",
-    "clerkkept"
+    "clerkkept",
+    "ruledword"
   ],
   "roles": {
     "party": {
@@ -48,6 +49,9 @@
       "type": "fact"
     },
     "clerkkept": {
+      "type": "fact"
+    },
+    "ruledword": {
       "type": "fact"
     }
   },

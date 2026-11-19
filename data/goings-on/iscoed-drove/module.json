@@ -71,6 +71,10 @@
     "mardle_paid": {
       "entity": "mardle_paid",
       "role": "outcome"
+    },
+    "reeve_ruled": {
+      "entity": "reeve_ruled",
+      "role": "outcome"
     }
   }
 }

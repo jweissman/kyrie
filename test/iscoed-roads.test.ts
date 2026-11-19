@@ -27,6 +27,8 @@ describe('the roads out of Iscoed', () => {
     await Road.reach(j, 'Rìerdan', 'Dun Rìerdan');
     await j.play('To the counting-floor', 'Give Iolo the reeve\'s tally from Iscoed');
     expect(j.latest).toMatch(/Red is for people we will answer for/);
+    // What every tally holds, and no chain the company did not make: this one let no clerk go (story-sheets.md).
+    expect([/the fen dry/.test(j.latest), /a clerk turned out/.test(j.latest)]).toEqual([true, false]);
   }, 240000);
   it('takes Bran\'s word west to the drovers\' hall at the pass, where the high pasture is spoken of', async () => {
     const j = await Road.begin();

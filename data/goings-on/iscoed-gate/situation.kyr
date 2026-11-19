@@ -80,11 +80,12 @@ Module gate "The last sea-gate" {
   Item tally_case "the reeve's quarter-tally, in a scroll-case" is scrollcase at gatehouse hidden until tally_kept.
   Objective north_aim when knows(party, road_north) and holding(party, scrollcase) toward town "Take the reeve's tally north up the salt road to the Tower of the Scales in Dun Rìerdan.".
   // What the drove's inquiry found, for the reeve to hear (data/goings-on/iscoed-drove): Mardle told the company to
-  // trouble her with nothing, and she had no word to say of it (the second cold play, CL-03).
+  // trouble her with nothing, and she had no word to say of it (the second cold play, CL-03); not once she has heard it
+  // herself, on the green (ruledword: ST-02's collision).
   Entity drovedrowned: fact "The drowned four". Entity forged: fact "The count written over". Entity freedword: fact "Bran out".
-  Entity clerkgone: fact "Mardle shown up". Entity clerkkept: fact "Mardle paid off".
+  Entity clerkgone: fact "Mardle shown up". Entity clerkkept: fact "Mardle paid off". Entity ruledword: fact "Ruled before the reeve".
   Relation mardleTold(group).
-  Topic reeve_mardle with reeve "Tell the reeve how Mardle counts the droves" when knows(actor, freedword) and (knows(actor, drovedrowned) or knows(actor, forged)) and not mardleTold(actor) once {
+  Topic reeve_mardle with reeve "Tell the reeve how Mardle counts the droves" when knows(actor, freedword) and (knows(actor, drovedrowned) or knows(actor, forged)) and not knows(actor, ruledword) and not mardleTold(actor) once {
     Says "The reeve hears it out without a word. 'Third drove this year,' she says at last. 'I had wondered why the Brynach men stopped selling here.' She writes something on her tablet and underlines it. 'He keeps the Rì's book, and I keep the Rì's march. I will have the book off him by the quarter-day.'".
     On discuss { Assert mardleTold(actor). }
   }

@@ -27,7 +27,8 @@
         "freedword": "drove.road_west",
         "drovedrowned": "drove.found_drowned",
         "clerkgone": "drove.mardle_shown",
-        "clerkkept": "drove.mardle_paid"
+        "clerkkept": "drove.mardle_paid",
+        "ruledword": "drove.reeve_ruled"
       }
     }
   ],
