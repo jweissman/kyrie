@@ -180,10 +180,15 @@ export class DangerSense {
   }
   // One fight played out: whether the company won it, who of it fell, and how hurt it came out.
   private static trial(ours: Creature[], foes: Creature[], seed: string, place: Place): Trial {
-    const store = new CreatureStore(structuredClone([...ours, ...foes]));
+    // (The store copies what it is given.)
+    const store = new CreatureStore([...ours, ...foes]);
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
-      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: FightOdds.turns, ...place });
-    while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); }
+      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: FightOdds.turns, ...place,
+      rehearsed: true });
+    // Fought until nothing is left to do, which is when it has ended (its state a copy made once a turn, not twice).
+    for (let legal = battle.legalCommands(); legal.length; legal = battle.legalCommands()) {
+      battle.step(Tactics.choose(battle.state, battle.plain(legal)));
+    }
     const bite = this.blows(battle, new Set(ours.map(c => c.id)), new Set(foes.map(f => f.id)));
     // The last foe running off is the company's fight won, not lost (three rats with a flee in them, beaten in play,
     // had been reckoned "more than you can take": a1's corn-store, 3 November).

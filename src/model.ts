@@ -62,6 +62,8 @@ export interface Fighter {
 export type Moment = 'seen' | 'sprung';
 export interface Scenario {
   id: string; combatants: Fighter[]; abilities: ArenaAbility[]; moment?: Moment; terms?: Terms;
+  // Played out only to be reckoned, never kept step by step (see Battle's rehearsed).
+  rehearsed?: boolean;
 }
 // What a fight is for, when it is not lives, as the world says of the band fought (core.kyr): a bout to yielding, over
 // at the first fall and killing nobody (yields); a band that breaks and runs when half of it is down (breaks).

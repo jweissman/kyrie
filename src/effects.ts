@@ -7,16 +7,16 @@ import { LevelDrain } from './rules/level-drain'; import { Flames } from './rule
 import { Summoning } from './summoning';
 import { Content } from './content';
 import { Canon } from './canon/canon';
-import { CanonRuntime } from './canon/canon-runtime';
 import { Perks } from './rules/perks';
 import type { Condition, HookKey } from './canon/schema';
 import type { Area, Effect } from './lang/parse';
 import type { Expressions } from './expressions';
 import type { CombatEvent, Fighter } from './model';
 import { Fighting, type Combatant } from './rules/fighting';
-import { ModifierSet, type Dice, type Modifiers } from './rules/modifiers';
+import type { Dice, Modifiers } from './rules/modifiers';
 import { KindDefenses, type Hit } from './kind-defenses';
 import { PlaceLaws } from './rules/place-laws';
+import { GatheredModifiers } from './gathered-modifiers';
 import { SaveOutcome } from './rules/save-outcome';
 import type { Attribute } from './creature';
 
@@ -72,15 +72,8 @@ export class Effects {
     return s.clock === 'world-time' || s.clock === 'until-removed' || Effects.status(s.id).lifetime === 'persistent';
   }
   static skips(id: string): boolean { return Effects.status(id).modifiers.noActions === true; }
-  // Orsino's gatherEffects: conditions held, the traits the creature has, its equipment and its kind's resistances,
-  // and those of what varies it (the frost's proof against cold, what the dead are hurt by).
-  static modifiers(fighter: Fighter): Modifiers {
-    const conditions = [...new Set(fighter.statuses.map(s => s.id))].map(id => Effects.status(id).modifiers);
-    const at = { ...fighter.environment ? { environment: fighter.environment } : {},
-      ...fighter.equipment?.weapon ? { weapon: fighter.equipment.weapon } : {} };
-    return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,
-      fighter.equipment?.modifiers ?? {}, ...KindDefenses.fractions(fighter)]);
-  }
+  // Orsino's gatherEffects (see GatheredModifiers).
+  static modifiers(fighter: Fighter): Modifiers { return GatheredModifiers.of(fighter); }
   static hooks(fighter: Fighter, key: HookKey): Effect[] {
     return [...[...new Set(fighter.statuses.map(s => s.id))].flatMap(id => Effects.status(id).hooks?.[key] ?? []),
       ...fighter.equipment?.hooks?.[key] ?? []];

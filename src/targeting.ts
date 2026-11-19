@@ -1,5 +1,5 @@
 import type { Fighter } from './model';
-import type { Target } from './lang/parse';
+import type { ArenaAbility, Target } from './lang/parse';
 import { Effects } from './effects';
 
 export class Targeting {
@@ -21,6 +21,21 @@ export class Targeting {
       }
       return enemy ? !friend && f.id !== actor.id : friend || f.id === actor.id;
     });
+  }
+  // Whom each of an ability's effects can be aimed at, of the kind it needs when the whole ability needs one (charm on
+  // people, turn undead on the dead), by id; none if any reaches no one, when the ability is not offered at all.
+  // Reckoned once an ability: it had been reckoned again for every fighter weighed as a target, most of the time a
+  // forecast's trials spent (OR-114).
+  static reach(effects: ArenaAbility['effects'], actor: Fighter, fighters: Fighter[]):
+    Map<ArenaAbility['effects'][number], Set<string>> | undefined {
+    const kind = effects.every(effect => effect.targetTrait), reach = new Map<ArenaAbility['effects'][number], Set<string>>();
+    for (const effect of effects) {
+      const ids = new Set(Targeting.candidates(effect.target, actor, fighters)
+        .filter(f => !kind || f.traits?.includes(effect.targetTrait!)).map(f => f.id));
+      if (!ids.size) { return undefined; }
+      reach.set(effect, ids);
+    }
+    return reach;
   }
   static selected(target: Target): boolean { return ['enemy', 'ally', 'dead ally'].includes(target); }
 }

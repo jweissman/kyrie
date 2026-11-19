@@ -37,16 +37,20 @@ export class Battle {
   private impulse?: Command;
   // A fight that came at the company, seen as it began: the company acts first in the first round, and can get back
   // the way it came for certain (PT-10). Rounds begun, and how often the company has tried to run and been held.
-  private readonly moment?: Moment;
+  // A fight played out only to be reckoned (DangerSense's trials) keeps nothing of itself until it ends: the battle
+  // never reads back what it keeps, and keeping every step had been a sixth of a forecast's time (OR-114).
+  private readonly moment?: Moment; private readonly rehearsed: boolean;
   private rounds = 0; private held = 0;
   // What the fight is for when it is not lives (see Morale), who stood as it began, and whether the band broke.
   private readonly terms: NonNullable<Scenario['terms']>;
   private readonly upright: Set<string>;
   // And what was said in the fights before this one, so that it is not said again in it (see Barks).
   private broke = false; private barked: string[] = [];
+  // The ability lists found sound, by their length then (see validate).
+  private static readonly sound = new WeakMap<ArenaAbility[], number>();
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
-    this.moment = scenario.moment;
+    this.moment = scenario.moment; this.rehearsed = !!scenario.rehearsed;
     this.fighters = structuredClone(scenario.combatants);
     this.terms = scenario.terms ?? {}; this.upright = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.id));
     // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied. What
@@ -84,8 +88,8 @@ export class Battle {
   private static holding(id: string) { return { id, remaining: 1, clock: 'until-removed' as const, source: Battle.held }; }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
     options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[];
-      weary?: string[]; ready?: string[]; dark?: string[]; moment?: Moment; terms?: Scenario['terms'] }):
-    Battle {
+      weary?: string[]; ready?: string[]; dark?: string[]; moment?: Moment; terms?: Scenario['terms'];
+      rehearsed?: boolean }): Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
       // The laws of the place hold for everyone in the fight, for as long as it lasts.
@@ -102,7 +106,8 @@ export class Battle {
           ...options.environment ? { environment: options.environment } : {} };
       });
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities,
-        ...options.moment ? { moment: options.moment } : {}, ...options.terms ? { terms: options.terms } : {} },
+        ...options.moment ? { moment: options.moment } : {}, ...options.terms ? { terms: options.terms } : {},
+        ...options.rehearsed ? { rehearsed: true } : {} },
       options.seed, options.maxTurns ?? 500, lease);
     } catch (error) { lease.release(); throw error; }
   }
@@ -114,7 +119,7 @@ export class Battle {
       f.statuses.filter(s => Effects.status(s.id).lifetime === 'encounter')));
   }
   private commit() {
-    if (!this.lease) { return; }
+    if (!this.lease || (this.rehearsed && !this.outcome)) { return; }
     const creatures = this.lease.creatures.map(original => {
       const fighter = [...this.fighters, ...this.departed].find(f => f.id === original.id)!;
       const creature = CombatProjection.creature(fighter, original);
@@ -130,14 +135,17 @@ export class Battle {
   private validate() {
     const ids = new Set(this.fighters.map(f => f.id));
     if (ids.size !== this.fighters.length || !ids.size) { throw new Error('Combatants need unique IDs'); }
-    const abilityIds = this.abilities.map(a => a.id);
-    if (new Set(abilityIds).size !== abilityIds.length) { throw new Error('Abilities need unique IDs'); }
+    const abilityIds = this.abilities.map(a => a.id), known = new Set(abilityIds);
+    if (known.size !== abilityIds.length) { throw new Error('Abilities need unique IDs'); }
     for (const f of this.fighters) {
       if (![f.hp, f.maxHp, f.speed, f.strength, f.mana, f.maxMana].every(n => Number.isSafeInteger(n) && n >= 0)
         || f.maxHp < 1 || f.hp > f.maxHp || f.mana > f.maxMana || !['fighters', 'goblins'].includes(f.team)
-        || f.abilities.some(id => !abilityIds.includes(id))) { throw new Error(`Invalid combatant ${f.id}`); }
+        || f.abilities.some(id => !known.has(id))) { throw new Error(`Invalid combatant ${f.id}`); }
       f.statuses.forEach(s => Effects.status(s.id));
     }
+    // The catalog's abilities, never changed, are found sound once, not again for every fight (a forecast's trials
+    // are a dozen fights: OR-114); a fight's own (what the company carries to use up) are looked at every time.
+    if (Battle.sound.get(this.abilities) === this.abilities.length) { return; }
     for (const ability of this.abilities) {
       if (!ability.effects.length && ability.id !== 'wait') { throw new Error(`Empty ability ${ability.id}`); }
       for (const n of [ability.cost ?? 0, ability.cooldown ?? 0]) {
@@ -145,6 +153,7 @@ export class Battle {
       }
       ability.effects.forEach(effect => Effects.validate(effect, abilityIds));
     }
+    if (this.abilities === Content.abilities) { Battle.sound.set(this.abilities, this.abilities.length); }
   }
   get state(): BattleState {
     return { combatants: structuredClone(this.fighters), turn: this.turn,
@@ -238,23 +247,17 @@ export class Battle {
   private winding(actor: Fighter, command: Command): boolean {
     return !!actor.windup && actor.windup.ability === command.ability && actor.windup.target === command.target;
   }
-  // Whom an effect can be aimed at, of the kind it needs when the whole ability needs one.
-  private reachable(effect: ArenaAbility['effects'][number], actor: Fighter, kind: boolean): Fighter[] {
-    return Targeting.candidates(effect.target, actor, this.fighters)
-      .filter(f => !kind || f.traits?.includes(effect.targetTrait!));
-  }
   private commandsFor(actor: Fighter): Command[] {
     const taunters = actor.statuses.filter(s => Effects.status(s.id).forceTarget && s.by)
       .map(s => s.by!).filter(id => this.fighters.some(f => f.id === id && f.hp > 0));
     const commands = this.usable(actor).flatMap(ability => {
       const selected = ability.effects.filter(effect => Targeting.selected(effect.target));
-      // An ability that only works on one kind of creature (charm on people, turn undead on the dead) is offered
-      // only against that kind, and not at all when there is none.
-      const kind = ability.effects.every(effect => effect.targetTrait);
-      if (ability.effects.some(effect => !this.reachable(effect, actor, kind).length)) { return []; }
+      // Whom each effect reaches, of the kind it needs (see Targeting.reach).
+      const reach = Targeting.reach(ability.effects, actor, this.fighters);
+      if (!reach) { return []; }
       // An area is aimed at a place a foe stands in, by the first foe there (see Positions).
-      const targets = selected.length ? this.fighters.filter(t => selected.every(effect =>
-        this.reachable(effect, actor, kind).some(f => f.id === t.id))) : Positions.aims(actor, this.fighters, ability);
+      const targets = selected.length ? this.fighters.filter(t => selected.every(e => reach.get(e)!.has(t.id)))
+        : Positions.aims(actor, this.fighters, ability);
       const aimed = HitDicePool.aims(ability, actor, targets, this.fighters);
       return aimed.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
     });
