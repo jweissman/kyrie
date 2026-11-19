@@ -41,7 +41,8 @@ describe('blue, only for what teaches', () => {
     const t = await Tiny.start(lane);
     const tablet = led(t, /t__tablet/)!;
     expect(tablet.aspects).toContain('knowledge');
-    expect(tablet.inside).toContainEqual({ command: 'change_thing(t__tablet_read)', aspects: ['knowledge'] });
+    // The reading inside bears the lesson (and, the place's own act, worth a look, which has no tone: AT-07).
+    expect(tablet.inside?.find(i => i.command === 'change_thing(t__tablet_read)')?.aspects).toContain('knowledge');
     await t.perform('change_thing(t__tablet_read)');
     expect(t.world.test({ kind: 'call', name: 'knows', args: [t.campaign.playerActor!, 't__oak'] })).toBe(true);
   });

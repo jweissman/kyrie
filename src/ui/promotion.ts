@@ -374,15 +374,21 @@ export class Promotion {
   }
   // Of an opener, each act within it a reason is for, with the aspects those reasons give it, best first: so that what
   // its likeness is drawn as is found again within it (the owner, 12 November: a blue pip, and no blue question).
-  private static inside(c: Candidate, whys: Why[]): { command: string; aspects: Aspect[] }[] {
-    const out: { command: string; aspects: Aspect[] }[] = [];
+  // borne: an act inside that bears what the opener is drawn as and nothing it is led for (the place's own act: AT-07),
+  // so that no client does the opener by it (see Doable.row).
+  private static inside(c: Candidate, whys: Why[]): { command: string; aspects: Aspect[]; borne?: true }[] {
+    const out: { command: string; aspects: Aspect[]; borne?: true }[] = [];
     for (const w of whys) {
-      const command = c.leaves?.[w], aspect = Aspects.by[w];
+      const command = c.leaves?.[w], aspect = Aspects.by[w], borne = w === 'own';
       // What is next to ask whoever is spoken to is found inside their talk, drawn by nothing of its own.
       if (!command || (!aspect && w !== 'talking')) { continue; }
       const at = out.find(x => x.command === command);
-      if (!at) { out.push({ command, aspects: aspect ? [aspect] : [] }); continue; }
+      if (!at) {
+        out.push({ command, aspects: aspect ? [aspect] : [], ...borne ? { borne: true as const } : {} });
+        continue;
+      }
       if (aspect && !at.aspects.includes(aspect)) { at.aspects.push(aspect); }
+      if (!borne) { delete at.borne; }
     }
     return out;
   }

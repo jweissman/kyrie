@@ -77,7 +77,8 @@ export interface Promoted {
   unmet?: true;
   // Within an opener, the act each of its aspects is for, best first (see Promotion.inside): the page draws each where
   // the player finds it, the topic that teaches in blue, the asking to come along in rose.
-  inside?: { command: string; aspects: Aspect[] }[];
+  // borne: an act that bears what the opener is drawn as, and nothing it is led for (Promotion.inside).
+  inside?: { command: string; aspects: Aspect[]; borne?: true }[];
   label: string;
   why: Why; facets: Facet[]; tier: Tier;
   // Drawn for an aim held and not followed (why held): which aim, by id (see Undertakings.heldFor).

@@ -74,8 +74,11 @@ export class Attest {
   static within(g: Projected | undefined, c: Choice): Witness[] {
     const acts = g?.acts ?? [], index = g ? this.index(g) : new Map<string, Witness>();
     const own = acts.filter(a => a.choice === c.id).flatMap(a => index.get(a.choice) ?? []);
-    const inside = acts.flatMap(a => (a.inside ?? []).filter(x => Emphasis.is(c, x.command))
-      .flatMap(x => index.get(x.command) ?? []));
+    // What an opener is led for, inside it, whether the four lead with it or a lens does (AT-07: an opener of the
+    // things lens lit, its acts plain).
+    const openers = [...acts, ...Object.values(g?.lenses ?? {}).flatMap(l => l.promoted)];
+    const inside = [...new Set(openers.flatMap(a => (a.inside ?? []).filter(x => Emphasis.is(c, x.command))
+      .flatMap(x => index.get(x.command) ?? [])))];
     const next = acts.filter(a => a.continues && Emphasis.is(c, a.for)).map(a => this.make(a.choice, ['undertaking'], 'direct'));
     return [...own.map(w => acts.some(a => a.choice === c.id && a.continues) ? w : this.less(w, 'undertaking')!), ...inside, ...next];
   }

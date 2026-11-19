@@ -2,6 +2,7 @@ import type { Mark, Why } from '../presentation/glance-types';
 import { Attending } from './attention';
 import type { Choice } from './choice-list';
 import { AimRoute } from '../presentation/aim-route';
+import { Leaves } from './leaves';
 import type { Candidate, Kind } from './promotion';
 import { Marks } from './marks';
 import { SceneModel, type Scene, type SceneSubject } from './scene';
@@ -236,16 +237,16 @@ export class Affordances {
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
       : this.unasked(fresh, r, fresh_);
     // The act within that each reason is for, so that the page finds it again inside (see Promotion.inside).
-    const kept = (kin || named || held) && asked?.command, take = spoils
+    const kept = (kin || named || held) && (asked?.command ?? fresh_?.command), take = spoils
       ? leaves.find(c => /^(take_item|take_out)\(/.test(c.command!))?.command : undefined;
     const within: Partial<Record<Why, string>> = { ...answer?.command ? { answer: answer.command } : {},
       ...kept ? { named: kept, kin: kept, held: kept } : {}, ...moving[0] ? { advance: moving[0].command! } : {},
       ...take ? { spoils: take, ...!moving[0] ? { advance: take } : {} } : {},
       ...this.spoken({ learned, next }), ...joining ? { companion: joining.command! } : {},
       ...looked ? { unlooked: looked.command! } : {}, ...person ? this.owedFor(s, leaves, screen) : {},
-      // A sign seen in them is had by looking closer, or by what is led with them (making much of the grey dog).
-      ...r.signs.has(s.id) && (looked?.command ?? this.command(opener))
-        ? { sign: looked?.command ?? this.command(opener)! } : {},
+      ...Leaves.sign(s, { opener: this.command(opener), looked, leaves, r }),
+      // The place's own act within (AT-07: the cart in the ditch lit worth a look, and nothing inside it).
+      ...Leaves.own(leaves, r),
       ...Object.fromEntries(needs.flatMap(n => n.choice?.command ? [[n.why, n.choice.command]] : [])) };
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], leaves: within, notes: {
@@ -302,10 +303,9 @@ export class Affordances {
       // Before the aim: going on with nothing to see by is going on into the dark.
       ...light ? [{ why: 'dark' as const, note: `a light: ${this.priced(light)}`, choice: light }] : [],
       ...hand ? [{ why: 'companion' as const, note: `would join you${this.fee(hand)}`, choice: hand }] : [],
-      ...cure ? [{ why: 'hurt' as const, note: this.priced(cure) }] : [],
-      ...sale ? [{ why: 'spoils' as const, note: this.priced(sale) }] : [],
-      ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]
-        : []];
+      ...cure ? [{ why: 'hurt' as const, note: this.priced(cure), choice: cure }] : [],
+      ...sale ? [{ why: 'spoils' as const, note: this.priced(sale), choice: sale }] : [],
+      ...lesson ? [{ why: 'means' as const, choice: lesson, note: `a lesson in ${this.lesson(lesson)}` }] : []];
   }
   // Whether a place is, or holds, something the aim names, by the world's nesting (never by its id's spelling: the road
   // between Fearnmaere and Brockminster, region__s2_s5_way, had been "in" Fearnmaere, region__s2).
@@ -323,6 +323,7 @@ export class Affordances {
     return fee && /coin$/.test(fee) ? `, ${fee}` : '';
   }
   // Its price said after it, unless its own words say it already ("Ask Ebba for healing, 2 coin": CL-24).
+  private static lesson(c: Choice): string { return c.label.replace(/^Train (\S+ )?(in )?| — .+$/g, ''); }
   private static priced(c: Choice): string {
     const fee = c.note?.split(' · ')[0], said = !!fee && c.label.endsWith(fee);
     return `${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}${fee && /coin$/.test(fee) && !said ? `, ${fee}` : ''}`;
@@ -392,6 +393,7 @@ export class Affordances {
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
     return [this.candidate(town ? { ...c, label: `Enter ${town}` } : c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
+      ...tried ? Leaves.tries(c, whys) : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
         help: 'someone who would go with you', ...r.sensed?.has(dest) ? { companion: r.sensed.get(dest)! } : {},
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
@@ -505,10 +507,7 @@ export class Affordances {
     return !!touched && [...at.threats ?? []].some(t => touched.has(t));
   }
   // One of the place's own acts not done here (not a topic: what is asked of someone is theirs).
-  private static ownWhy(choices: Choice[], r: Reading): Why[] {
-    return choices.some(c => c.command && (c.own || r.authored.has(c.command)) && !r.speakers.has(c.command)
-      && !r.done.has(c.command)) ? ['own'] : [];
-  }
+  private static ownWhy(choices: Choice[], r: Reading): Why[] { return Leaves.owned(choices, r) ? ['own'] : []; }
   // A thing at a place the aim names is not the aim's for being there: what its act brings about must be what the aim
   // waits on (see AimAdvances), as the ruts the father's cart went off by are. A town's own trouble at the old place a
   // debt is to be paid from (the cairn of offerings at Seolforfyrd, and at Tenebraetumulo for the oxen) had taken the

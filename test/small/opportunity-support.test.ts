@@ -40,10 +40,10 @@ const party = [{ name: 'Brann', raceId: 'human', classId: 'warrior' }];
 const worlds = async () => Promise.all([yard, lane].map(kyr => Tiny.start(kyr, { party })));
 
 describe('what a container promises is borne within it', () => {
-  it.failing('every led opener\'s aspects by an act inside it (P1)', async () => {
+  it('every led opener\'s aspects by an act inside it (P1)', async () => {
     for (const t of await worlds()) { expect(SupportCheck.openers(t.glance, t.screen)).toEqual([]); }
   });
-  it.failing('every likeness\'s aspects by a row of its subject (P2)', async () => {
+  it('every likeness\'s aspects by a row of its subject (P2)', async () => {
     for (const t of await worlds()) { expect(SupportCheck.likenesses(t.glance, t.screen)).toEqual([]); }
   });
   it('every row has words, and does or opens something (P3)', async () => {
