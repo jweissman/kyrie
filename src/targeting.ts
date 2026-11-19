@@ -6,7 +6,7 @@ export class Targeting {
   // A creature whose allegiance has changed (Orsino's charm) sees its own side as the enemy and the other as friends;
   // to everyone else it is still on the side it began on.
   static candidates(target: Target, actor: Fighter, fighters: Fighter[]): Fighter[] {
-    const turned = !!Effects.modifiers(actor).changeAllegiance;
+    const own = Effects.modifiers(actor), turned = !!own.changeAllegiance, sees = !!own.seeInvisible;
     return fighters.filter(f => {
       const friend = (f.team === actor.team) !== turned;
       if (target === 'dead ally') { return f.hp === 0 && friend; }
@@ -16,7 +16,7 @@ export class Targeting {
       const enemy = ['enemy', 'enemies', 'random enemy', 'random enemies'].includes(target);
       // The one foe gone for is never one unseen (Orsino's invisible), unless the invisible are seen; what falls on
       // every foe falls on them too.
-      if (target === 'enemy' && !friend && Effects.modifiers(f).invisible && !Effects.modifiers(actor).seeInvisible) {
+      if (target === 'enemy' && !friend && !sees && Effects.modifiers(f).invisible) {
         return false;
       }
       return enemy ? !friend && f.id !== actor.id : friend || f.id === actor.id;
