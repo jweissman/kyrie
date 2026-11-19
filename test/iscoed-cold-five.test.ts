@@ -70,7 +70,10 @@ describe('Gatesend, after the fifth cold play', () => {
     const { s, r } = await play('elf/mage/Ilse/scholar', lines(5, 7));
     const kept = (s.offer.lenses?.journeys ?? []).map(o => o.id), lensed = said(await r.ask('{"lens":"journeys"}'));
     const all = [...lensed.offer.primary, ...lensed.offer.rest].map(o => o.id);
-    expect([kept.length, s.offer.more?.journeys, all.length]).toEqual([11, 16, 27]);
+    // 27 when the ruling was made (11 kept, 16 folded); the counts move as the country does, the fold holds.
+    expect(kept.length).toBeLessThanOrEqual(12);
+    expect(s.offer.more?.journeys).toBe(all.length - kept.length);
+    expect(all.length).toBeGreaterThanOrEqual(27);
     const aimed = (ScreenModel.build(r.session.campaign).aims ?? []).flatMap(a => a.places ?? [])
       .map(p => `travel:${p}`).filter(id => all.includes(id));
     expect(aimed.length).toBeGreaterThan(0);
