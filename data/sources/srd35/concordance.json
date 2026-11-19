@@ -387,7 +387,8 @@
   "calm_emotions": "test/calm-emotions.test.ts",
   "entangle": "test/entangle.test.ts",
   "protection_from_evil": "test/protection-from-evil.test.ts",
-  "command": "test/command-fall.test.ts"
+  "command": "test/command-fall.test.ts",
+  "hold_animal": "test/hold-animal.test.ts"
  },
  "conversions": {
   "magic_missile": {
@@ -484,6 +485,9 @@
   "sleep": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+  },
+  "hold_animal": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   }
  }
 }

@@ -65,7 +65,7 @@ export class AbilityUse {
       : Targeting.selected(effect.target) ? candidates.filter(f => f.id === targetId) : candidates;
     const kind = effect.targetTrait, chained = actor && effect.chain
       ? Chain.targets(effect, chosen, { actor, context, expressions }) : chosen;
-    return HitDicePool.held(effect, kind ? chained.filter(f => f.traits?.includes(kind)) : chained);
+    return HitDicePool.held(effect, kind ? chained.filter(f => Targeting.bears(f, kind)) : chained);
   }
   // Orsino's randomEnemies: distinct living enemies, as many as the count (one for a random enemy), from the seed.
   private static draw(effect: Effect, candidates: Fighter[], expressions: Expressions,

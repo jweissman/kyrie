@@ -724,6 +724,37 @@
         "notes": "The SRD's Command (doc/architecture/mission-22/srd-proving-cases.md, case 33): first level (Orsino's fifth), its school enchantment beside Law, one foe, a Will save to negate at case 7's difficulty for a first-level spell, and one round: the SRD's 'Fall', whoever fails prone (the prone condition: they lose their turn, Dexterity two less). Adapted: the one command of the SRD's five that Kyr's fight can hold (approach, drop, flee and halt want movement, things in hand, or a flight that is not leaving the fight). Omitted: its language and the mindless's proof (its save is Will, as Hold Person's). Before, Orsino's fifth level, a Will save against 20, and two rounds fleeing: the foe gone from the fight. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
       }
     },
+    "hold_animal": {
+      "name": "Hold Animal",
+      "kind": "spell",
+      "description": "Hold a beast where it stands, unable to move or act, a turn for each level you have; each turn it may tear free of it.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "paralyzed",
+          "duration": { "kind": "deem", "expression": "#castingLevel" },
+          "target": "enemy",
+          "targetTrait": "animal",
+          "save": {
+            "kind": "will",
+            "again": true,
+            "difficulty": {
+              "kind": "deem",
+              "expression": "12 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 2, "domain": "law", "school": "enchantment", "resistance": true },
+      "source": {
+        "orsino": "divineSpell:hold_animal",
+        "srd35": "spell:hold-animal",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Hold Animal (doc/architecture/mission-22/srd-proving-cases.md, case 48), Hold Person's for an animal: one animal (a body of the animal kind: Targeting.bears), second level (the SRD's druid's; Orsino's a cantrip), its school enchantment beside Law (Kyr's casts it as a cleric of Law), a Will save to negate at case 7's difficulty, and a new save on each turn the held one loses to it, a success ending it (ShakingOff), for a round a casting level (Lasting). Spell resistance answers it. Omitted: the held helpless. Before, Orsino's cantrip, three rounds against 15 + the caster's level saved with Strength, which fell on no Kyr animal (none bore the animal trait it wanted)."
+      }
+    },
     "hold_person": {
       "name": "Hold Person",
       "kind": "spell",

@@ -7525,14 +7525,6 @@ Every enemy gains despair for 3 turns (a Wisdom save against 15 + level + the ca
 
 > Create a strong gust of wind that knocks back an enemy.
 
-##### Hold Animal
-
-*Faithful · cantrip divine spell, law domain* · `ability:hold_animal`
-
-One enemy is paralyzed for 3 turns (only animal creatures; a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine cantrip, cast at will.
-
-> Paralyze a small animal for a short duration.
-
 ##### Ire
 
 *Faithful · cantrip divine spell, chaos domain* · `ability:ire`
@@ -7892,6 +7884,16 @@ One ally gains death ward for 3 turns. Death Ward: +5 against death, immune to n
 Heal one ally for 1d8 + level. A divine spell of the second level. Takes a second-level slot.
 
 > Heal yourself or an ally with a touch.
+
+##### Hold Animal
+
+*Adapted · level 2 divine spell, enchantment, law domain* · `ability:hold_animal`
+
+One enemy is paralyzed for a turn at the first casting level, 10 turns at the tenth (only animal creatures; a Wisdom save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it, and is made again on each turn it holds, a success ending it). Paralyzed: Strength −5, Dexterity −5, cannot act. A divine spell of the second level. Takes a second-level slot.
+
+> Hold a beast where it stands, unable to move or act, a turn for each level you have; each turn it may tear free of it.
+
+*Adapted: The SRD's Hold Animal (doc/architecture/mission-22/srd-proving-cases.md, case 48), Hold Person's for an animal: one animal (a body of the animal kind: Targeting.bears), second level (the SRD's druid's; Orsino's a cantrip), its school enchantment beside Law (Kyr's casts it as a cleric of Law), a Will save to negate at case 7's difficulty, and a new save on each turn the held one loses to it, a success ending it (ShakingOff), for a round a casting level (Lasting). Spell resistance answers it. Omitted: the held helpless. Before, Orsino's cantrip, three rounds against 15 + the caster's level saved with Strength, which fell on no Kyr animal (none bore the animal trait it wanted).*
 
 ##### Hold Person
 

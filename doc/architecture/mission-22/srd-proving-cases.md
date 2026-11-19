@@ -1692,6 +1692,43 @@ the brief (keep the first hour survivable) it does not land. **For the owner:** 
 blunt weapon (a mace, a staff, a club); whether the first hour should teach that (a warning before a barrow's dens, a
 club to hand at the first town) is a design choice, not the SRD's. Until then the bone hound keeps Orsino's template.
 
+### 48. An effect's kind read from a body, and Hold Animal by the SRD's numbers (19 November): adapted
+
+Case 41's Hold Animal, held for the lead, taken by the owner's ruling. Looking at it found that **Orsino's Hold Animal
+fell on no one**: an effect's `targetTrait` (the SRD's "one animal", "one humanoid", "undead") was read only from a
+creature's traits, and no Kyr animal bears an `animal` trait (people bear `humanoid` by their ancestry, the dead
+`undead`). Spec: `test/hold-animal` (3 cases).
+
+**The mechanic built** (`Targeting.bears`, src/targeting.ts): a creature is of the kind an effect wants if it bears it
+as a trait, or if its body is of that kind or type (a wolf is an animal and a beast). Read by what an ability is
+offered against and by whom it falls on, one route. Besides Hold Animal it wakes Orsino's Animate Animal (a dead
+animal of the caster's own side raised), which had likewise fallen on none; and the one body of the humanoid type,
+the yuan-ti, now answers the twelve spells that want a humanoid (Hold Person, Charm Person, Ghoul Touch among them).
+
+**The spell** (a hand entry over Orsino's), Hold Person's for an animal:
+- second level (the SRD's druid's; Orsino's a cantrip), divine, Law, and the SRD's school, enchantment (exact);
+- one animal (exact), a Will save to negate at case 7's difficulty, saved again each turn it loses (case 18's
+  shaking off), spell resistance answering it (case 43);
+- paralysed a round a casting level (exact: Lasting, case 44).
+
+**Omitted:** the held helpless. Before: Orsino's Law cantrip, three rounds against 15 + the caster's level saved with
+Strength, which nothing could be aimed at. The census grades it S✓ R✓ I✓: 32 of 119 pass in resolution, 41 in
+structure.
+
+**The census** (the lead's pools; scratch /var/tmp/kyrie/srd6-scratch):
+- 2,003 of 19,200 drawn casters move (10.4 %), all clerics: **every oathkeeper** loses it as a cantrip (1.00 → .53,
+  a second-level spell now drawn by rank), other clerics gain it at the second level (.04 at the first, .08 → .20 for
+  drawn domains by the seventh).
+- **The oathkeeper's creation card moves:** Hold Animal at the second level in place of Holy Wrath (Shield of Faith,
+  Command and Protection from Evil at the first, Hold Person and Consecrated Ground beside it).
+- **The installed casters:** 51 of 2,233 lose the cantrip (3–12 in each world), none gain it. It had fallen on no
+  one, so none of their fights moves.
+- **The first hour:** a lone first-level oathkeeper as drawn never cast Orsino's (the tactics never found a target):
+  against two wolves 41 %, three rats 79 %, two zombies 63 % before, and its cantrips no longer include it. The first
+  town's raiser and iv mage, who know Animate Animal, fought as installed (60 seeds): every cell as before.
+- **A kept trace re-digested:** wren-tower-climbed (wren's installed clerics lose the cantrip, so the drawn world
+  underneath is other from the first step); the same commands come to the same place, watch and words.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 732,
-    "adapted": 415,
+    "faithful": 731,
+    "adapted": 416,
     "represented": 4,
     "kyr": 612,
     "unsupported": 66,
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 214,
-      "adapted": 38,
+      "faithful": 213,
+      "adapted": 39,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10425,13 +10425,6 @@
    "section": "magic/spells-divine/spells-divine-0"
   },
   {
-   "id": "ability:hold_animal",
-   "title": "Hold Animal",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-divine/spells-divine-0"
-  },
-  {
    "id": "ability:ire",
    "title": "Ire",
    "status": "faithful",
@@ -10715,6 +10708,13 @@
    "id": "ability:healing_touch",
    "title": "Healing Touch",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-2"
+  },
+  {
+   "id": "ability:hold_animal",
+   "title": "Hold Animal",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-2"
   },

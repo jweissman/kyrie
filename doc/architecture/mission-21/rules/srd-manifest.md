@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 88, E2 1, E3 30.
+**605 records**, every one visible: E0 486, E1 87, E2 1, E3 31.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 207.
 
 ## By family
@@ -307,7 +307,7 @@ become ready).
 | hide-from-animals | Hide From Animals | Drd 1, Rgr 1 | world | E0 | effect.world | — |
 | hide-from-undead | Hide From Undead | Clr 1 | world | E0 | effect.world | — |
 | hideous-laughter | Hideous Laughter | Brd 1, Sor/Wiz 2 | control | E0 | review.text | — |
-| hold-animal | Hold Animal | Animal 2, Drd 2, Rgr 2 | control | E1 | — | hold_animal |
+| hold-animal | Hold Animal | Animal 2, Drd 2, Rgr 2 | control | E3 | — | hold_animal |
 | hold-monster | Hold Monster | Brd 4, Law 6, Sor/Wiz 5 | control | E0 | — | — |
 | hold-monster-mass | Hold Monster, Mass | Sor/Wiz 9 | control | E0 | — | — |
 | hold-person | Hold Person | Brd 2, Clr 2, Sor/Wiz 3 | control | E3 | — | hold_person |
