@@ -3,7 +3,7 @@ import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses, type Recovery } from './rules/daily-uses';
-import { LevelDrain } from './rules/level-drain';
+import { LevelDrain } from './rules/level-drain'; import { Flames } from './rules/flames';
 import { Summoning } from './summoning';
 import { Content } from './content';
 import { Canon } from './canon/canon';
@@ -431,8 +431,10 @@ export class Effects {
     // same spell cast again each round (a red dragon frozen throughout by a first-level mage's frostbite).
     if (Effects.skips(effect.status) && target.statuses.some(s => s.id === effect.status)) { return; }
     const status = Effects.status(effect.status);
-    target.statuses = target.statuses.filter(s => s.id !== effect.status
-      || (status.stacking === 'source-refresh' && s.source !== context.source?.id));
+    // A flame in hand is one: a lantern lit puts out the candle that burned (see Flames).
+    const out = Flames.out(target.statuses, effect.status);
+    target.statuses = target.statuses.filter(s => !out.includes(s) && (s.id !== effect.status
+      || (status.stacking === 'source-refresh' && s.source !== context.source?.id)));
     const pool = status.modifiers.tempHp && context.expressions
       ? context.expressions.number(status.modifiers.tempHp, Effects.context(context.actor ?? target)) : 0;
     // A perk can make every status its holder applies last longer (a troupe's resonant harmony).

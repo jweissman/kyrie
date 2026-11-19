@@ -101,4 +101,13 @@ describe('the drove road, after the fourth cold play', () => {
     const cook = journey.session.campaign.module.actions.find(a => a.id === 'region__s4_manor_cook_key_first');
     expect(cook?.speaker).toBe('region__s4_manor_cook');
   }, 180000);
+  // CL-38 (its 26 and 42): the lantern lit in the Hall kitchen while the candle of the rat-runs burned, both burning;
+  // and Siphon Life prepared in Light's place "ready after the next rest", where at the 33rd line it had been at once.
+  it('puts the candle out for the lantern, and says why a spell prepared waits for a rest', async () => {
+    const { r, journey } = await play('elf/mage/Ilse/scholar', lines(5, 68));
+    const ilse = journey.session.campaign.readout.creatures.find(c => c.name === 'Ilse')!;
+    expect(ilse.state.conditions.map(c => c.id).filter(id => /lit$/.test(id))).toEqual(['lamplit']);
+    const prepared = text(said(await r.ask(lines(5, 69).at(-1)!)));
+    expect(prepared).toContain('Siphon Life will be ready after the next rest: Light had been cast from that slot.');
+  }, 180000);
 });

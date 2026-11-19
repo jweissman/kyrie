@@ -184,11 +184,13 @@ export class FieldUse {
     const [caster, tier, outgoing, incoming] = args;
     const index = Number(tier.split('_')[1]) - 1, lease = store.acquire([caster]);
     try {
-      const c = lease.creatures[0]!, name = Content.abilities.find(a => a.id === incoming)?.name ?? incoming;
+      const c = lease.creatures[0]!, [name, was] = [incoming, outgoing]
+        .map(id => Content.abilities.find(a => a.id === id)?.name ?? id);
       const now = Spellcasting.prepare(c.state, index, outgoing, incoming);
       lease.commit([c]);
-      return [{ type: 'gain', turn: 0, actor: caster, target: caster,
-        detail: now ? `${name} is ready` : `${name} will be ready after the next rest` }];
+      // Why not at once, where the same act had made a spell ready at once before (cold play 5, CL-38).
+      return [{ type: 'gain', turn: 0, actor: caster, target: caster, detail: now ? `${name} is ready`
+        : `${name} will be ready after the next rest: ${was} had been cast from that slot` }];
     } finally { lease.release(); }
   }
   // A healing, a cleansing, a lasting ward; or a raising of the dead as themselves (Raise Dead, Resurrection: not one
