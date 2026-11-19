@@ -100,8 +100,10 @@ export class Act {
         onClick={Act.open.bind(null, app)}>{label}<kbd>{key.toUpperCase()}</kbd></button></li>)}</ul>
     );
   }
+  // Taken by its id, as the engine named it (data-choice), never by its place in the menu, which may have changed
+  // since it was drawn (AT-07 I3: navigation by identity).
   private static click(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
-    const i = Number(e.currentTarget.dataset.index), choice = app.menu.choices[i];
+    const id = e.currentTarget.dataset.choice, i = app.menu.choices.findIndex(c => c.id === id), choice = app.menu.choices[i];
     if (choice) { app.setState({ cursor: i, keyed: false }); app.choose(choice, e.currentTarget.dataset.held !== undefined); }
   }
   private static direct(app: ReaderApp, c: Choice, e: MouseEvent<HTMLButtonElement>) {

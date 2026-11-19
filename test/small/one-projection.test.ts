@@ -29,9 +29,12 @@ const read = async (kind: Kind, at: Where, aim: boolean) => {
   return {
     page: page.map(a => a.inside?.[0]?.command ?? Projected.page(app, a)),
     terminal: TerminalDoable.led(g.glance, g.screen), runner: runner.map(o => o.id),
-    // What the page's four do when pressed (GlanceStage.acted): a fold by its first.
-    pressed: page.map(a => { const c = MenuModel.lead(app.menu, a.choice); return c ? GlanceStage.acted(a, c).command
-      ?? a.choice : a.command ?? a.choice; }),
+    // What the page's four do when pressed (GlanceStage.acted): as the engine's one row says (Doable).
+    pressed: page.map(a => {
+      const c = MenuModel.lead(app.menu, a.choice);
+      return c ? GlanceStage.acted(app, a, c).command ?? a.choice : a.command ?? a.choice;
+    }),
+    led: page.map(a => a.inside?.[0]?.command),
     meaning: page.map(a => [...a.aspects].sort().join(',')), gold: page.map(a => !!a.continues),
     runnerMeaning: runner.map(o => [...o.aspects].sort().join(',')),
   };
@@ -50,12 +53,13 @@ describe('one projection', () => {
       }
     }
   }
-  // Negative space (TB-12): the page's four still do a fold by its first row (GlanceStage.acted, the owner's 15
-  // November "no compound menus": "Wait a while" waits a while), where the runner and the terminal list the opener
-  // with its rows; at a1's speaking door that first is "Push and pull" (CL-34). Which folds the four may do at once is
-  // the page's step of the design, to be decided.
-  it.failing('presses alike on the page', async () => {
-    const r = await read('companion', 'green', true);
-    expect(r.pressed).toEqual(r.runner);
+  // Pressed alike (TB-12, AT-07 step 4): each of the page's four does what the engine's one row for it does (Doable),
+  // none a fold done by its first row as the page had (CL-34: "Push and pull" at the speaking door). A talk the runner
+  // names by what it is led for within is opened on the page, that question its first row (Doable's for).
+  it('presses alike on the page', async () => {
+    for (const [kind, at] of [['companion', 'green'], ['sign', 'lane'], ['payoff', 'green']] as [Kind, Where][]) {
+      const r = await read(kind, at, true);
+      expect(r.pressed.map((p, i) => r.led[i] && r.runner[i] === r.led[i] ? r.led[i] : p)).toEqual(r.runner);
+    }
   });
 });

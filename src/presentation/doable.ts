@@ -33,8 +33,26 @@ export class Doable {
   // Any choice of the scene as a row, offered or not (an act the glance leads with that the offer leaves out, an act a
   // lens holds within an opener).
   static one(glance: Offered, screen: Screen, id: string, command?: string): Row {
+    return this.rowOf(glance, screen, id, { command });
+  }
+  private static rowOf(glance: Offered, screen: Screen, id: string, as: { command?: string; label?: string }): Row {
     const { at, lensOf } = this.read(glance, screen), lens = lensOf.get(id);
-    return this.row(id, at.tree.get(id)?.label ?? id, { ...at, ...lens ? { lens } : {}, command });
+    return this.row(id, at.tree.get(id)?.label ?? as.label ?? id,
+      { ...at, ...lens ? { lens } : {}, command: as.command });
+  }
+  // A row the page's menu holds no choice for (a talk it draws by a likeness, a lens's act inside an opener not
+  // opened), as a choice to be drawn and taken: made of the row made here (made: worded, doing what is offered), never
+  // of the page's own; one refused is none, and is not drawn (AT-07 I3, step 4).
+  static choice(glance: Offered, screen: Screen, id: string, at: { command?: string; label: string; shut?: string }):
+    Choice | undefined {
+    const row = this.valid(glance, screen, id, at);
+    const shut = row?.shut ?? at.shut;
+    return row?.does || shut ? { id: row!.id, label: row!.called ?? row!.label, tone: 'thing',
+      ...row!.does ? { command: row!.does } : {}, ...shut ? { disabled: shut } : {} } : undefined;
+  }
+  private static valid(glance: Offered, screen: Screen, id: string, at: { command?: string; label: string }):
+    Row | undefined {
+    try { return this.rowOf(glance, screen, id, at); } catch { return undefined; }
   }
   // Every row, an opener's within it after it.
   static flat(rows: readonly Row[]): Row[] { return rows.flatMap(r => [r, ...this.flat(r.opens ?? [])]); }

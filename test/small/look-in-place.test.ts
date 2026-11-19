@@ -1,44 +1,66 @@
 import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import type { Choice } from '../../src/ui/choice-list';
 import type { Promoted } from '../../src/presentation/glance-types';
-import type { ReaderApp } from '../../web/reader/reader-app';
+import { Doable } from '../../src/presentation/doable';
+import type { AppState, ReaderApp } from '../../web/reader/reader-app';
+import { MenuModel } from '../../web/reader/menu-model';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
+import { Tiny } from '../support/tiny';
+import { Glanced } from '../support/glanced';
 
 // A thing's look among the scene's four never turns the page to the thing (the lens step's regression, found twice
 // in the browser: Low Water's channel head and What Tessary Owes's notice, where the thing's page was left open
-// with only Back on it). It had been an opener that showed its acts beneath it; it is now the act it leads with,
-// done at once. Held here without a browser.
-const look: Choice = { id: 'gate#look', label: 'Look at the channel head', tone: 'thing', command: 'look_at(gate)',
-  children: [{ id: 'gate#look/0', label: 'Gauge the Fulling', tone: 'thing', command: 'gauge(gate)' }] };
-const promoted: Promoted = { choice: 'gate#look', label: 'Look at the channel head', why: 'present', facets: ['here'],
-  tier: 4, aspects: [], marks: [] };
-const render = (open: string[]) => {
-  const choices = open.includes(look.id) ? [look, ...look.children!] : [look];
-  const app = { state: { keyed: false, cursor: 0, open, frame: { leaf: { glance: { acts: [] } }, screen: {} } },
-    menu: { choices }, props: { query: new URLSearchParams() }, choose: () => undefined } as unknown as ReaderApp;
-  return renderToStaticMarkup(createElement(GlanceStage.Acts, { app, draw: Act.draw(app), acts: [promoted] }));
-};
+// with only Back on it). It does what the engine's one row for it does (Doable, TB-12; AT-07 step 4): the one act
+// under it where it holds only that, done at once; else it opens in place, under its own words. It is never done by
+// its first act, a guess of the page's own (CL-34: the speaking door's look done as "Push and pull").
+class Page {
+  constructor(public state: AppState) {}
+  get menu() { return MenuModel.build(this.state.frame, 'here', this.state.open); }
+  get app(): ReaderApp { return this as unknown as ReaderApp; }
+  setState(patch: Partial<AppState>) { this.state = { ...this.state, ...patch }; }
+  choose() { /* nothing is done from here */ }
+  static of(t: Tiny): Page {
+    return new Page({ frame: Glanced.of(t.session).frame(), view: 'here', open: [], cursor: 0, member: '' } as
+      unknown as AppState);
+  }
+}
+const lane = `
+  Place lane "the lane" is room at 0, 0 outdoors.
+  Thing well "a well" at lane {
+    State full "A well, its bucket down.".
+    State drawn "The bucket is up.".
+    Change draw "Draw up the bucket" from full to drawn.
+  }
+  Thing tablet "a wax tablet" at lane {
+    State shut "A wax tablet lies on the step.".
+    State read "Rows of notches.".
+    State broken "The tablet is in pieces.".
+    Change read "Read the strokes" from shut to read.
+    Change smash "Smash the tablet" from shut to broken.
+  }
+  Company party "You" of 1 at lane.
+  Goal false.`;
+const led = (choice: string, more: Partial<Promoted> = {}): Promoted => ({ choice, label: choice, why: 'present',
+  facets: ['here'], tier: 4, aspects: [], marks: [], ...more });
 
 describe('a thing\'s look among the four', () => {
-  // Now the act it leads with, done at once (the owner, 15 November: no compound clusters for perceiving): the row
-  // is that act, its own words, never a row that opens a cluster, and still never the thing's page.
-  it('is the act it leads with, done at once, and never turns the page to the thing', () => {
-    const html = render([]);
-    const row = /<button[^>]*data-act="gate#look\/0"[^>]*>/.exec(html)?.[0] ?? '';
-    expect(row).not.toBe('');
-    expect(row).not.toContain('aria-expanded');
-    expect(html).toContain('Gauge the Fulling');
-    expect(html).not.toMatch(/data-act="gate#look"/);
+  it('is the one act under it, done at once, where it holds only that', async () => {
+    const t = await Tiny.start(lane), page = Page.of(t), look = GlanceStage.choice(page.app, 't__well#look')!;
+    const done = GlanceStage.acted(page.app, led(look.id), look);
+    expect(done.command).toBe(Doable.one(t.glance, t.screen, look.id).does!);
+    expect(done.id).not.toBe(look.id);
   });
-  it('stays the look itself where it leads no act, and leads with the act it names where it leads one', () => {
-    const bare: Choice = { id: 'gate#look', label: 'Look at the channel head', tone: 'thing', command: 'look_at(gate)' };
-    expect(GlanceStage.acted(promoted, bare)).toBe(bare);
-    expect(GlanceStage.acted(promoted, look).id).toBe('gate#look/0');
-    const two: Choice = { ...look, children: [...look.children!, { id: 'gate#look/1', label: 'Oil it', tone: 'thing',
-      command: 'oil(gate)' }] };
-    expect(GlanceStage.acted({ ...promoted, for: 'oil(gate)' }, two).id).toBe('gate#look/1');
+  it('opens in place where it holds more, never done by its first act, and never turns the page', async () => {
+    const t = await Tiny.start(lane), page = Page.of(t), look = GlanceStage.choice(page.app, 't__tablet#look')!;
+    expect(look.children?.length).toBeGreaterThan(1);
+    expect(GlanceStage.acted(page.app, led(look.id), look)).toBe(look);
+    // Led for one of its acts, it still opens, that act first under it (Doable's for), as the terminal lists it.
+    const read = look.children!.find(k => /Read/.test(k.label))!;
+    expect(GlanceStage.acted(page.app, led(look.id, { for: read.command! }), look)).toBe(look);
+    const html = renderToStaticMarkup(createElement(GlanceStage.Acts, { app: page.app, draw: Act.draw(page.app),
+      acts: [led(look.id)] }));
+    expect(/<button[^>]*data-act="t__tablet#look"[^>]*aria-expanded/.test(html)).toBe(true);
   });
 });

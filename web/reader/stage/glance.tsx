@@ -329,10 +329,11 @@ export class GlanceStage {
         {...risks ? { aside: Typography.curl(risks) } : {}} />
         <PlaceStage.Opened choice={c} draw={draw} /></>;
     }
-    const own: Choice = { id: a.choice, label: a.label, tone: 'way', ...a.command ? { command: a.command } : {},
-      ...a.disabled ? { disabled: a.disabled } : {} };
+    // Else the engine's one row for it (Doable), never a choice of the page's own; none where it is refused.
+    const own = c ?? GlanceStage.made(app, a.choice, { label: a.label, command: a.command, shut: a.disabled });
+    if (!own) { return null; }
     return <ChoiceRow.Button className={a.disabled ? 'shut' : ''} data={{ choice: a.choice }} act={a.choice} {...mark}
-      onClick={() => { if (!a.disabled) { app.choose(c ?? own); } }} label={Typography.curl(a.label)}
+      onClick={() => { if (!a.disabled && !own.disabled) { app.choose(own); } }} label={Typography.curl(a.label)}
       {...a.disabled ? { aside: Typography.curl(a.disabled) } : {}} />;
   }
   // A notice put up here and not yet read, met on the scene itself (M19-86: the notice that sets a town's jobs had been
@@ -526,21 +527,21 @@ export class GlanceStage {
       </section>
     );
   }
-  // A thing's look among the four, with acts beneath it, is the act it leads with, done at once, not a row that opens a
-  // cluster of them (the owner, 15 November: "compound command clusters" for perceiving; one flat list of acts, composed).
-  // The rest of what can be done with the thing is the Look lens's. A look with nothing led stays what it is.
-  static acted(a: Promoted, c: Choice): Choice {
-    // A fold in the foreground is the one act it leads with, in its own words (the owner, 15 November: no compound
-    // menus; "Wait a while" waits a while, and the other measures of time are the time lens's).
-    // One with a focus (a riddle on a door) is no act of its own: it opens, and reads out (CL-34).
-    if (c.focus) { return c; }
-    if (c.children?.length && !c.command && !/#look$/.test(c.id)) {
-      const first = Attending.all(c.children).find(k => k.command && !k.children?.length && !k.disabled);
-      return first ? { ...first, label: c.label } : c;
-    }
-    if (!/#look$/.test(c.id) || !c.children?.length) { return c; }
-    const leaves = Attending.all(c.children).filter(k => k.command && !k.children?.length), want = a.for ?? a.inside?.[0]?.command;
-    return leaves.find(k => k.command === want) ?? leaves[0] ?? c;
+  // What a row of the four does, as the engine's one row for it says (Doable, TB-12; AT-07 step 4): its command, or
+  // the one act under an opener that holds only that (the well's look, drawing a bucket); else it opens, in place,
+  // the act it is led for first. The page had guessed again here: a commandless opener done by its first row under the
+  // opener's words ("Push and pull" at the speaking door, CL-34), a look by its first act where it led none.
+  static acted(app: ReaderApp, a: Promoted, c: Choice): Choice {
+    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    if (c.focus || !c.children?.length || !g || !screen) { return c; }
+    const does = Doable.one(g, screen, c.id, a.command).does;
+    if (!does || c.command === does) { return c; }
+    return Attending.all(c.children ?? []).find(k => k.command === does && !k.children?.length) ?? c;
+  }
+  // A row the menu holds no choice for, as the engine's one row makes it (Doable.choice), or none where it refuses it.
+  static made(app: ReaderApp, id: string, at: { label: string; command?: string; shut?: string }): Choice | undefined {
+    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    return g && screen ? Doable.choice(g, screen, id, at) : undefined;
   }
   // How a fight would go, said as a line of its own: "beyond you", alone in the danger box, had read as a stray
   // fragment (round 9, Q 69).
@@ -552,8 +553,8 @@ export class GlanceStage {
     // likeness) is drawn as its own row and done by its command, so that the four are the engine's four.
     const shown = acts.flatMap(a => {
       const c = GlanceStage.choice(app, a.choice) ?? app.menu.choices.find(m => !!a.command && m.command === a.command)
-        ?? (a.command ? { id: a.choice, label: a.label, tone: 'thing' as const, command: a.command } : undefined);
-      return c ? [{ a, c: GlanceStage.acted(a, c) }] : [];
+        ?? GlanceStage.made(app, a.choice, a);
+      return c ? [{ a, c: GlanceStage.acted(app, a, c) }] : [];
     }).filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
     return (
@@ -576,7 +577,7 @@ export class GlanceStage {
           {/* A thing's look among the four opens what can be done with it in place, under it, as the things lens does:
               chosen, it had turned the page to the thing, and done there the thing's page had stayed with only Back
               on it (Low Water's channel head, What Tessary Owes's notice). */}
-          {(/#look$/.test(c.id) || c.focus) && c.children?.length ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
+          {(c.focus || (/#look$/.test(c.id) && !c.command)) && c.children?.length ? <ChoiceRow.Button className={`led-act${tone ? ` tone-${tone}` : ''}`}
             data={{ action: 'choice', choice: c.id }} act={c.id} expanded={draw.open.has(c.id)} number={i + 1}
             onClick={() => app.setState({ open: draw.open.has(c.id) ? app.state.open.filter(o => o !== c.id)
               : [...app.state.open, c.id] })}

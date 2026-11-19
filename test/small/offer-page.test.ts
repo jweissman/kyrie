@@ -52,8 +52,8 @@ describe('the page\'s four', () => {
       ? r[1]!.startsWith(offered[i]!.choice.replace(/#look$/, '/'))
       : r[1] === offered[i]!.choice || r[1]!.startsWith(`${offered[i]!.choice}/`));
     expect(does).toEqual(offered.map(() => true));
-    // And the terminal leads with the same four, by the commands they do, an opener by its own id (TB-12: the page's
-    // four still do a fold by its first, GlanceStage.acted; see test/small/one-projection).
+    // And the terminal leads with the same four, by the commands they do, an opener by its own id (TB-12; the page's
+    // four press as Doable's rows do, GlanceStage.acted: see test/small/one-projection).
     // (One with a single act under it is that act: the well's look, drawing a bucket.)
     const listed = offered.map(o => {
       const c = MenuModel.lead(menu, o.choice), kids = c?.children ?? [];

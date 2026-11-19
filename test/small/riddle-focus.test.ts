@@ -57,7 +57,7 @@ describe('the speaking door, focused', () => {
     expect(a.continues).toBe(true);
     expect(a.command).toBeUndefined();
     const c = MenuModel.lead(app.menu, door)!;
-    expect(GlanceStage.acted(a, c)).toBe(c);
+    expect(GlanceStage.acted(app, a, c)).toBe(c);
     expect(c.focus).toContain(question);
     expect(c.children!.filter(k => /^Press the word/.test(k.label))).toHaveLength(4);
     expect(MenuModel.lead(app.menu, 'exit:region__w2_stair')?.disabled).toBe('The speaking door bars the way.');
