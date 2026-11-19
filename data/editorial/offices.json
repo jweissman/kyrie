@@ -1,0 +1,18 @@
+{
+  "about": "The offices a town has one holder of, for `kyrie lint --world` (src/cli/office-lint.ts): someone titled with one (\"Reeve Annis Talfryn\"), whose role begins with one (\"the reeve of Iscoed\", \"reeve of the wood-wardens\") or whose id ends in one (s2_reeve) holds it in the town they stand in; two in one town are a warning. Each says what the office is, as the warning tells it.",
+  "offices": {
+    "reeve": "a town has one of, to answer for it to its lord",
+    "portreeve": "a port has one of, to answer for it to its lord",
+    "headman": "a village has one of, to speak for it",
+    "headwoman": "a village has one of, to speak for it",
+    "mayor": "a town has one of, at the head of its council",
+    "bailiff": "a town has one of, to keep its lord's peace and rents",
+    "constable": "a town has one of, to keep its watch",
+    "harbourmaster": "a harbour has one of, to keep its berths and dues",
+    "sheriff": "a shire has one of, and a town at most one",
+    "abbot": "an abbey has one of",
+    "abbess": "an abbey has one of",
+    "prior": "a priory has one of",
+    "prioress": "a priory has one of"
+  }
+}

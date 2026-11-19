@@ -187,7 +187,8 @@ it moves, and its rows are MT-01.. in the open register.
 - Step 1: the riddle (CL-34) in hand; OR-94 and OR-95 landed 18 November.
 - Step 2: landed 18 November (lint-1: R26/R86/R42); 19 November `kyrie lint --world <seed>` lints a drawn world's
   standing scenarios at their lines in data/ (test/drawn-lint), and found the Gathering's riot that never breaks
-  (MT-09), mended 19 November (mt-6) and classified by the harness.
+  (MT-09), mended 19 November (mt-6) and classified by the harness. Beside it (mt-6) the office lint (MT-10, the
+  study's G begun): a drawn world's towns warned of two holders of one office, each at its line (Porthalen's reeves).
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`; see the step).
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;

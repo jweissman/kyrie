@@ -14,6 +14,7 @@ import type { Module } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
 import { ExportRoles } from './export-roles';
 import { LintSource } from './lint-source';
+import { OfficeLint } from './office-lint';
 import { WorldAssembler } from '../world/world-assembler';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
@@ -112,6 +113,8 @@ export class KyrLint {
     lint.anchors(); lint.targets(); lint.keeps(); lint.movers(); lint.endings(); lint.writeOnly(); lint.commitments();
     lint.skies();
     AuthorLint.run(lint);
+    // A drawn world's towns, where generated people and every module placed there each say who holds what.
+    if (LintSource.drawn.has(path)) { await OfficeLint.run(lint, source); }
     return lint.findings;
   }
   static async run(paths: string[]) {
