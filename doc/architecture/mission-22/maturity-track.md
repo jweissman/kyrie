@@ -229,3 +229,22 @@ it moves, and its rows are MT-01.. in the open register.
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;
   counted conversation (R57, R60) landed 19 November (mt-6); R89's suspension and R41's hours open.
 - Step 6: landed 18 November (scripts/compat.ts; see the step).
+
+## Revised order (19 November, on the plan audit)
+
+The plan audit (audit-plan-2026-11-19.md §3) counted what each step closes: steps 2–6, landed, closed only their own
+rows and three more (AB-14, CN-02, MT-09); landing every step as written would close some 20–25 of 442 live rows. The
+track is re-ordered toward register zero, still subordinate to play, each step's rule unchanged (a proving slice and
+a construction invariant):
+
+1. **Step 1 finished** (Sprint 4's core): OR-94 to its allowed set, one-projection's folds, digits through the row.
+2. **P, per-act cost** (OR-114, OR-91, AX-05: one cause, the screen built per act). No world moves; two P0s.
+3. **L, a lead is not an aim** (HP-01, FH-05, OR-74, CP-13, US-07, OA-10, NP-03), from HP-01's template. World-moving:
+   compat first.
+4. **R, one route finder, then travel leg by leg in the page** (AR-21, OPR-01, CL-34, OR-113, TR-01).
+5. **2′, the lint's own findings fixed in data** (MT-11, MT-12, AU-15).
+6. **Steps 7, then 8,** each by its study's proof.
+7. **Steps 2–6 closed** on rule 2 (each has its working slice and invariant spec); their extensions moved to M23.
+
+Running beside: a verify-or-close day over the 155 live rows not checked since 11 November (no code); the browser
+and phone sweep on CI; the danger census and typed fight telling in the combat lane beside SR-01.

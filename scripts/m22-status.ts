@@ -51,7 +51,7 @@ export class MissionStatus {
   // The sprint board's rows and the maturity track's, by their own state words.
   static board(rows: Row[]): string[] {
     const text = readFileSync(this.sprint, 'utf8'), current = /^# Sprint (\d+)/m.exec(text)?.[1];
-    const sprint = text.split('\n').filter(l => /^\| S\d+-\d+ \|/.test(l));
+    const sprint = text.split('\n').filter(l => /^\| S\d+-[A-Z0-9]+ \|/.test(l));
     const mine = sprint.filter(l => l.startsWith(`| S${current}-`)).map(l => {
       const cells = l.split('|').map(x => x.trim());
       return `${cells[1]}: ${(/^(met|done|partly|open|carried|deferred)/i.exec(cells.at(-2) ?? '')?.[1] ?? '?')}`;

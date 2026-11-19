@@ -1,4 +1,33 @@
-# Sprint 2 — Make one first hour worth completing
+# Sprint 3 — A second cold player can rely on what Westernesse shows and says
+
+Dates: 19–26 November 2026 (planning-report.md §8). Opened 19 November on the plan audit
+(audit-plan-2026-11-19.md): Sprint 2 is closed, its board kept below. Goal (§8, unchanged): opportunity marks, prose,
+paintings, danger and consequences neither contradict nor over-promise the state beneath them. Beside it, on the
+owner's word of 19 November: a focused drill into the live P0s, and the maturity track in its revised order
+(maturity-track.md, "Revised order").
+
+| ID | Kind | Why in this sprint | Acceptance | Owner | State |
+|---|---|---|---|---|---|
+| S3-0 | Investigation | Sprint 2's goal not yet shown by one clean run | One recorded clean run (`bin/kyrie review record`) of the eight beats for the warrior (drove) and the mage (weir), kept as traces, each beat named at its step | lead | open |
+| S3-1 | Investigation (E1) | OB-05, OB-17, FH-01 | Cold play 8, a robot on the deployed build (closes OB-05); a person if the owner recruits (§8 step 1); the post-play questions on marks and colours as §8 lists them | lead (an agent plays) | open |
+| S3-2 | Investigation (E3) | AP-01, PB-24 | The false-promise corpus: cold plays 2–8, each case recording state, signal, act, result, contract (§8 step 2); `scripts/promise-fidelity.ts` on iscoed | lead | open |
+| S3-3 | Defect (E3) | PB-24, AP-07, CL-33, HP-01 | Each corpus cause repaired in the projection, not in CSS (§8 step 3); HP-01's notice the first | lead | open |
+| S3-4 | Defect (E3) | NP-01, NP-02, OA-13, CO-17 | The golden route's cases only: narration bound to perception, a painting removed where it contradicts (§8 steps 4–5) | lead | open |
+| S3-5 | Story (E3) | WM-01, FH-08, CL-09, CL-46, CP-04 | The return verified: the dead do not speak, completed facts do not reset, a deed is attributed at its time; through save and resume (§8 step 6) | lead | open |
+| S3-P | Defect (P0 drill) | OR-114, OR-91, OR-94, OPR-01 | Per-act cost (one cause: the screen built per act); the page's own buttons to the allowed set; one route finder for the gold after Ironkeep. Each P0 closed with its spec | lead | open |
+
+Capacity reserve: CL rows from cold play 8; SI-08 (a look before a one-way drop) and AP-13 (danger remembered), the
+lone-novice deaths. Not in Sprint 3: WD-16, careers. Carried from Sprint 2: HP-01 (S2-3's remainder, in S3-3), Nest at
+the gate (ST-03), WD-16 (to MT-07 or M23), CL-31 (re-blocked on AT-02, the atlas hold lifted on 18 November).
+
+---
+
+# Sprint 2 — Make one first hour worth completing (closed 19 November)
+
+Closed 19 November (audit-plan-2026-11-19.md §2): every row that can be met under the stop rule is met or reduced to
+a one-file remainder; the goal is not yet shown by one clean run (S3-0), and two of the last three cold plays died
+suddenly (S3's reserve). S2-1's text still names CL-52 open: it is fixed.
+
 
 Dates: 19–26 November 2026 (planning-report.md §7). Sprint 1 is closed: its board is kept below.
 Goal: the golden route gives the player a clear desire, an intelligible first step, meaningful preparation, a
