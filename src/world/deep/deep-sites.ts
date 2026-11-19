@@ -200,12 +200,20 @@ export class DeepSites {
     return /^under /.test(where) ? `It is ${where}, below the vault.` : `It is out in ${where}.`;
   }
   // When it is brought home: the innkeeper who told of it hears what the company brought up, and keeps it a night.
+  // Their words hold it in their hands, so they are said only while the company has it: Kynes had looked a long while
+  // at a crown sold an hour before to the company's head (cold play 2, CL-09). Sold, it is heard of, not handled.
   private static home(purpose: DeepPurpose, values: Record<string, string>): string[] {
-    const q = this.q, w = values.w!, k = values.keeper!, home = purpose.hook.home;
+    const q = this.q, w = values.w!, k = values.keeper!, home = purpose.hook.home, kind = purpose.objective.kind;
     if (!home || !purpose.objective.goal) { return []; }
-    return [`  Topic ${w}_home with ${k} ${q(`Tell {${k}} what you brought up out of ${values.name}`)} when ${w}_raised() once {`,
+    const tell = q(`Tell {${k}} what you brought up out of ${values.name}`), told = `not ${w}_home_told()`;
+    const gone = `{${k}} hears it all out, and asks where it is now, and is told. 'Well. Tonight you eat and sleep on`
+      + ` the house all the same, and I will be telling this in the taproom for a year.'`;
+    return [`  Relation ${w}_home_told().`,
+      `  Topic ${w}_home with ${k} ${tell} when ${w}_raised() and holding(actor, ${kind}) and ${told} once {`,
       `    Says ${q(home.replaceAll('{keeper}', `{${k}}`).replaceAll('{name}', values.name!))}.`,
-      `    On discuss { Assert onTheHouse(${k}, actor). }`, '  }'];
+      `    On discuss { Assert onTheHouse(${k}, actor). Assert ${w}_home_told(). }`, '  }',
+      `  Topic ${w}_home_sold with ${k} ${tell} when ${w}_raised() and not holding(actor, ${kind}) and ${told} once {`,
+      `    Says ${q(gone)}.`, `    On discuss { Assert onTheHouse(${k}, actor). Assert ${w}_home_told(). }`, '  }'];
   }
   // What a deep site holds that no catalog does: its ore, and what the makers died for.
   private static kinds(purpose: DeepPurpose, left: Valuable[]): string[] {
