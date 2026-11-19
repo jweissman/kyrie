@@ -86,8 +86,10 @@ describe('the golden route, after the fourth cold play', () => {
   // met is led as talking to them, the question after it; Bran, whom the aim names, is asked by name.
   it('leads someone not yet met as talking to them, the question after it', () => {
     const labels = (s: Said | undefined) => s!.offer.primary.map(o => o.label);
-    expect(labels(byLine[0])).toContain('Talk to the factor — ask about the king-barrow');
-    expect(labels(byLine[0]).join(' ')).not.toContain('Ask the factor');
+    // The company's head is called by its kingdom, not "the factor", beside Aster of the Exchange (CL-49's 12).
+    expect(labels(byLine[0])).toContain('Talk to the Guldríce agent — ask about the king-barrow');
+    expect(labels(byLine[0]).join(' ')).not.toContain('Ask the Guldríce agent');
+    expect(labels(byLine[0]).join(' ')).not.toContain('the factor');
     expect(labels(at('drove__customs'))).toContain('Ask Bran what happened');
   });
   // CL-48's 21: the north recess marked heard, and what is heard from it held for a look; it is said on coming.

@@ -43,7 +43,7 @@
     },
     "princes": {
       "founding": ["market", "harbour", "crossing"],
-      "office": "the factor",
+      "office": "the {kingdom} agent",
       "role": "who keeps the books of the {kingdom} company",
       "calling": "",
       "manner": "acerbic",

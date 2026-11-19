@@ -43,20 +43,23 @@ export class DeepRivals {
     return [...this.head(r, power, purpose), ...this.delving(r, power, layout),
       ...this.end(r, power, { layout, raises: !!(purpose.objective.goal && purpose.objective.raised) })];
   }
-  // The head, at the settlement's heart, with the coin to pay for the prize: what they want, and an advance. Of the
-  // settlement's own people, and of the power's calling if that people has it (an elf is no cleric), else their own.
+  // The head, at the settlement's heart, with the coin to pay for the prize: what they want, and an advance. Called by
+  // their office, of their kingdom where that tells them apart: "the factor" of a company stood on Porthalen's green
+  // while Aster, a factor of the Founders' Exchange, sat in the taproom, and were taken for one (cold play 4, CL-49).
+  // Of the settlement's own people, and of the power's calling if that people has it (an elf is no cleric), else
+  // their own.
   private static head(r: Rivals, power: Power, purpose: DeepPurpose): string[] {
     const q = this.q, { id, head, seat, values } = r, w = values.w!, folk = seat.folk ?? 'human';
     const calling = power.calling && Canon.ancestries[folk]?.classes.includes(power.calling) ? power.calling : '';
     const story = purpose.objective.goal ? ` Assert knows(actor, ${w}_story).` : '';
     return [`  Entity ${id}: ambition ${q(this.fill(power.band, r))}.`,
-      `  Person ${head} ${q(power.office)} at ${seat.id}_green { Role ${q(this.fill(power.role, r))}.`
+      `  Person ${head} ${q(this.fill(power.office, r))} at ${seat.id}_green { Role ${q(this.fill(power.role, r))}.`
         + ` Ancestry ${folk}.${calling ? ` Calling ${calling}.` : ''} Peaceable.`
         + ` Manner ${power.manner}. }`,
       `  Initially Assert pursues(${head}, ${id}). Initially Set stageDue(${id}) to ${this.first}.`
         + ` Initially Set pace(${id}) to ${this.pace}.`,
       `  Initially Set quantity(${head}, gold) to ${r.raised + 100}. Initially Set pays(${head}, ${r.kind}) to ${r.price}.`,
-      `  Entity ${id}_offer: fact ${q(`${this.upper(power.office)} at ${seat.name} wants ${r.prize}, and will pay for it.`)}.`,
+      `  Entity ${id}_offer: fact ${q(`${this.upper(this.fill(power.office, r))} at ${seat.name} wants ${r.prize}, and will pay for it.`)}.`,
       // Not asked, nor an advance to go down, with the prize in hand: the head had said "Bring me the crown" to one
       // holding it, and offered "something to go down with" to one come up (cold play 4's 26, CL-46).
       `  Topic ${id}_asked with ${head} ${q(`Ask {${head}} about ${purpose.hook.topic}`)} when not holding(actor, ${r.kind}) once {`,
