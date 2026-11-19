@@ -57,3 +57,17 @@ leaves its play). The undertown's new rooms have moved both plays: the warrior's
   consequence kept through a save and resume (test/drove-resumed).
 - The replay itself had ended the runner where cold play 5's next line was a follow during a fight (TB-13, fixed); the
   compatibility harness (MT-06) replaying the same lines had failed on it too.
+
+## 19 November, later: the kept plays replayed with the new rooms set aside
+
+`scripts/beat-map.ts` now sets aside what came into the first town's rooms on 19 November (test/support/before-rooms,
+as the kept plays' own specs do), and the maps run as the plays did: the warrior's to the crown fight (T90, as on 18
+November: the king's fight is not the recorded one), the mage's to its end (two lines refused and passed over, a talk
+already open at T28 and the steward's house at T87). Raw maps: /var/tmp/kyrie/m22/beat-warrior-burn7.txt and
+beat-mage-burn7.txt. One line refused in the warrior's at T21 is the news of the lands beyond, now one sampled question
+and not each by name (the owner, 17 November); the play goes on past it.
+
+- **Aims (S2-3).** Warrior: 2 at T0, 4 from T1 to T8, 2–3 after, to T90. Mage: 1 at T0, 4 at T1 (the notice's three,
+  HP-01), 5 at T11 (who sawed the pin, from the pin read), 6 at T16 (the road-wood's paper, asked of Aldous Fenn), 7 at
+  T60 (the Posts' office, asked of the steward), to the end. Every aim after T1 comes of a question the company put or
+  a thing it found; the notice's three are the one cause left (HP-01, the undertown's template).

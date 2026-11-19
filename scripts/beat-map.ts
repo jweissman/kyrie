@@ -3,11 +3,14 @@
 // them, and each turn's state: where the company is, the aims held and those new this turn, its coin, its hurts, its
 // food, and the first line it was told. A beat map is read against the eight beats by an editor; this is its record.
 //   bun scripts/beat-map.ts <lines.txt> <world> <as> [turns]
+// A kept play is from before the rooms under the first town had what lives in them come at the company: those are
+// set aside (test/support/before-rooms), as the kept plays' own specs set them, so its lines replay as they were played.
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Campaign } from '../src/campaign/campaign';
+import { BeforeRooms } from '../test/support/before-rooms';
 
 export class BeatMap {
   static async main(argv: string[]): Promise<number> {
@@ -15,7 +18,7 @@ export class BeatMap {
     if (!file || !world || !as) { console.log('bun scripts/beat-map.ts <lines.txt> <world> <as> [turns]'); return 2; }
     const lines = readFileSync(file, 'utf8').split('\n').filter(Boolean).slice(0, Number(n ?? 200));
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', world, '--as', as]));
-    const r = new Runner(journey.session), c = journey.session.campaign;
+    const r = new Runner(BeforeRooms.set(journey.session)), c = journey.session.campaign;
     let held = new Set((r.said().aims ?? []).map(a => a.text));
     console.log(`T0 ${BeatMap.state(c)} | aims ${held.size}: ${[...held].join(' / ')}`);
     for (const [i, line] of lines.entries()) {
