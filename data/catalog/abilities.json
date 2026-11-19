@@ -995,6 +995,30 @@
         "notes": "The SRD's Ray of Frost (doc/architecture/mission-22/srd-proving-cases.md, case 45): a cantrip (Orsino's second level), evocation, one foe a ranged touch attack lands on (Touch), 1d3 cold; spell resistance answers it (SpellResistance). Its cold sets off none of Orsino's freezing (triggers: false), which the SRD's has not. Omitted: its range. Before, Orsino's sure 2d6 cold on one foe at the second level."
       }
     },
+    "life_drain": {
+      "name": "Vampiric Touch",
+      "kind": "spell",
+      "description": "Your touch draws the life out of a foe, 1d6 for every two levels you have, to ten, and what you draw mends you.",
+      "effects": [
+        {
+          "kind": "drain",
+          "amount": { "kind": "deem", "expression": "roll(min(floor(#castingLevel / 2), 10), 6)" },
+          "damageType": "necrotic",
+          "target": "enemy",
+          "touch": "melee",
+          "triggers": false
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 3, "domain": "death", "school": "necromancy", "resistance": true },
+      "source": {
+        "orsino": "divineSpell:life_drain",
+        "srd35": "spell:vampiric-touch",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Vampiric Touch (doc/architecture/mission-22/srd-proving-cases.md, case 52), Orsino's Life Drain: third level (the SRD's wizard's; Orsino's second), necromancy beside Death (Kyr's casts it as a cleric of Death, and the dead as their own), one foe a melee touch lands on (Touch), 1d6 negative energy (Kyr's necrotic) every two casting levels to 10d6, no save, spell resistance answering it; its harm sets off none of Orsino's necrotic disease (triggers: false). Converted: what it draws mends its caster (Kyr's drain), where the SRD's gives as many temporary hit points for an hour. Before, Orsino's 1d6 necrotic at every level, no touch, negated by a magic save against 15."
+      }
+    },
     "shocking_grasp": {
       "name": "Shocking Grasp",
       "kind": "spell",

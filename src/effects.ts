@@ -351,7 +351,7 @@ export class Effects {
       }
       case 'damage': Effects.damage(target, KindDefenses.blow(effect, rolled), context); break;
       case 'drain': {
-        const dealt = Effects.damage(target, { amount: rolled, type: effect.damageType ?? 'necrotic' }, context);
+        const dealt = Effects.damage(target, KindDefenses.blow(effect, rolled, 'necrotic'), context);
         // What was drawn heals a drainer who is still alive (a shield that answered the blow could have killed it,
         // and the draining raised it: the review's A5).
         if (actor && actor.hp > 0) { Effects.hp(actor, dealt, context, true); }

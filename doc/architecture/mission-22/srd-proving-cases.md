@@ -1807,6 +1807,40 @@ against what a blow would do (an engine change of the tactics', to be measured o
 SRD's point costs a lone vitalist nothing. Out of a fight, Tend (case 41's concern) would mend each member one point
 between rests where it mends 1d4.
 
+### 52. Vampiric Touch by the SRD's numbers (19 November): adapted
+
+Orsino's Life Drain is the SRD's Vampiric Touch, named in case 35 as waiting for the touch. It is a power of nine kinds
+of the dead (the ghoul, the spirit, the wraith, the revenant, the banshee, the mummy, the lich, the vampire, the
+wendigo) and of the vampiric template, and a Death spell of clerics. Spec: `test/vampiric-touch` (2).
+
+**The spell** (a hand entry over Orsino's, named Vampiric Touch):
+- third level (the SRD's wizard's; Orsino's second), divine, Death, and the SRD's school, necromancy (exact; Kyr's
+  casts it as a cleric of Death, and the dead as their own);
+- one foe a melee touch lands on (exact), 1d6 negative energy (Kyr's necrotic) every two casting levels to 10d6
+  (exact: nothing at the first casting level), no save (exact), spell resistance answering it;
+- its harm sets off none of Orsino's necrotic disease (case 44's `triggers: false`, now read by a drain too).
+
+**Converted:** what it draws mends its caster (Kyr's drain), where the SRD's gives as many temporary hit points for an
+hour. Before: Orsino's 1d6 necrotic at every level, no touch, a magic save against 15 negating it. The census grades it
+S✓ R✓ I✓: 35 of 119 pass in resolution, 44 in structure.
+
+**The census** (scratch /var/tmp/kyrie/srd6-scratch):
+- 2,073 of 19,200 drawn clerics move (10.8 %): every deathspeaker (it is their domain's: 1.00 → .53–.54, now drawn by
+  rank among the third level's), drawn domains 17.5–25 % (.17–.27 → .05–.15); no mage or bard.
+- **The deathspeaker's creation card moves:** Vampiric Touch is a third-level pick (Protection from Darkness takes
+  its second-level place).
+- **The installed casters:** none of the 2,233 moves.
+- **The kinds that know it**, every placement of the eight worlds fought by the four first-level companies (20 seeds,
+  won · someone down for a lone warrior / a warrior and cleric / a thief / a mage): the first hour's ghouls (first and
+  second level) as before, in every cell (a kind casts at its own Hit Dice, and those do not reach a third-level
+  spell). Deeper, most are kinder: a single third-level ghoul 85·15 / 100·10 / 10·90 / 5·95 → 90·10 / 100·0 /
+  20·80 / 20·80; the spirits' third-level pairs 30·70 / 90·70 → 65·35 / 100·10 for the warrior and the pair; the
+  wraiths' pairs 5 → 25 % for a lone warrior; a single fifth-level revenant 45 → 80 %; the halls' third-level mummy
+  35 → 60 %. One is deadlier: the thirteenth-level revenant of eight worlds' deep sites, which a first-level warrior
+  and cleric won 70 % of the time against Orsino's drain, wins 25 % against the SRD's 6d6 touch (a lone warrior
+  10 → 0 %); it is met by no first-hour company.
+- test/monster-powers fights its vampire at the fifth level, where it casts a third-level spell.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -1879,7 +1913,8 @@ be claimed from the catalogue.
   have lasted turns (FieldUse.cast), so Sleep's ten rounds are ten watches, where the SRD's minute is less than one.
   The rule is case 1's and Items.use's; changing it moves the undertown's sleepers and wants its own census.
 - **Touch attacks:** built (case 35, Shocking Grasp by it); Ghoul Touch (case 36), Acid Arrow (case 44) and Ray of
-  Frost (case 45) by it. Vampiric Touch and Ray of Enfeeblement wait for slices of their own.
+  Frost (case 45) by it, and Vampiric Touch (case 52). Ray of Enfeeblement waits for a condition's amount thrown by
+  its caster (1d6 + 1 each two levels off Strength).
 - **The cure family's levels** (case 16): Moderate, Serious and Critical at the SRD's 2, 3 and 4 wait on the preset
   companion cleric's spells (world-assembler), which are chosen by level.
 - **Charm Person**: the SRD's numbers would lower its difficulty and lengthen it to the fight, but Orsino's charmed

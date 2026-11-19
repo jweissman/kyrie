@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 85, E2 1, E3 33.
+**605 records**, every one visible: E0 486, E1 84, E2 1, E3 34.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 207.
 
 ## By family
@@ -628,7 +628,7 @@ become ready).
 | unholy-aura | Unholy Aura | Clr 8, Evil 8 | world | E0 | effect.world, review.text | — |
 | unholy-blight | Unholy Blight | Evil 4 | damage | E0 | — | — |
 | unseen-servant | Unseen Servant | Brd 1, Sor/Wiz 1 | creation | E0 | effect.create | — |
-| vampiric-touch | Vampiric Touch | Sor/Wiz 3 | damage | E1 | — | life_drain |
+| vampiric-touch | Vampiric Touch | Sor/Wiz 3 | damage | E3 | — | life_drain |
 | veil | Veil | Brd 6, Sor/Wiz 6 | illusion | E0 | duration.concentration, effect.manifest | — |
 | ventriloquism | Ventriloquism | Brd 1, Sor/Wiz 1 | illusion | E0 | effect.manifest | — |
 | virtue | Virtue | Clr 0, Drd 0, Pal 1 | protection | E0 | — | — |

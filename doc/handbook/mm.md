@@ -1940,7 +1940,7 @@ Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
 Poison Bite: 1d4 (1–4) poison damage to one enemy (may leave whoever it hurts poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -2943,7 +2943,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2974,7 +2974,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Paralyzing Touch: One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
@@ -3007,7 +3007,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
 
@@ -3048,7 +3048,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Bane: Every enemy is baned for 10 turns at the first casting level, 100 turns at the tenth (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
 
@@ -3088,7 +3088,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 > A barrow's dead warden, risen to drain the living and lull them to sleep.
 
@@ -3113,7 +3113,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
@@ -3150,7 +3150,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
@@ -3185,7 +3185,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Energy drain: Weapon attack against one enemy; take a level from it, until a restoration. Again after 3 turns.
 
@@ -3319,7 +3319,7 @@ Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. A
 
 Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost. Again after 3 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
 
 Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
 
@@ -3370,7 +3370,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | blighted | corruption | blighted | something has got into it: patchy, weeping, and wrong in the way it moves | Constitution +1, Charisma -3, Poison lineage | #habitat == 'barrow' \|\| #habitat == 'ruin' |
 | skeletal | undeath | skeletal | bare bone held together by what raised it, nothing in its eye-pits but a faint light | Strength -2, Constitution -3, Undead Nature, Bone Resilience | only by an author |
 | spectral | undeath | spectral | a cold grey shape of what it was, which blows go through | Undead Nature, Ethereal Form | only by an author |
-| vampiric | undeath | vampiric | pale and red-mouthed, quicker than it was alive, and hungry for blood | Strength +1, Dexterity +1, Charisma +2, Wisdom +1, Constitution -1, Undead Nature, Regeneration, Life Drain, Charm Person, Dominate Person | only by an author |
+| vampiric | undeath | vampiric | pale and red-mouthed, quicker than it was alive, and hungry for blood | Strength +1, Dexterity +1, Charisma +2, Wisdom +1, Constitution -1, Undead Nature, Regeneration, Vampiric Touch, Charm Person, Dominate Person | only by an author |
 | zombie | undeath | rotting | dead flesh walking, slow and stinking, falling apart as it comes | Dexterity -2, Intelligence -4, Wisdom -2, Undead Nature, Infect | only by an author |
 | custodian | role | custodian | set to keep a place, with a sweep of the arm and a chain for whoever will not go | Sweeping Strike | only by an author |
 | clay | material | clay | made of clay: red-brown, smooth when wet and cracking when dry | Constitution +2, Dexterity -1 | only by an author |

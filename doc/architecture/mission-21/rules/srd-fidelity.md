@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 60 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 43 pass in structure
-(level, school), 34 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 33 proved in play identity.** Creatures with one (74):
+**Spells with an SRD counterpart (119 of 286 catalog spells): 44 pass in structure
+(level, school), 35 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+target, duration), 34 proved in play identity.** Creatures with one (74):
 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 22 | hit 9 | defences 4 | specials 0 | saves 4 | of 74 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 55 | school 82 | dice 13 | type 13 | save 38 | dc 25 | attack 108 | resist 16 | target 76 | duration 56 | of 119 |
+| spells, field exact or converted | level 56 | school 83 | dice 14 | type 13 | save 38 | dc 25 | attack 109 | resist 17 | target 76 | duration 56 | of 119 |
 
 ## Creatures, most met first
 
@@ -170,7 +170,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | invisibility | invisibility | S✗ R✗ I– | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ one → self | ✗ 3 rounds → long |
 | invulnerability | globe-of-invulnerability | S✗ RU I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | – | ✗ self → one | ✗ 5 rounds → long |
 | knock | knock | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✗ · → several | ✓ |
-| life_drain | vampiric-touch | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → necromancy | ✗ 3.5/3.5/3.5/3.5 → 0/7/17.5/35 | – | ✗ wisdom negates → · | ✗ 15 → · | ✗ none → melee touch | ✗ · → yes | ✓ | ✓ |
+| life_drain | vampiric-touch | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | – | – | ✓ | ✓ | ✓ | ✓ |
 | lightning_bolt | lightning-bolt | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
 | magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
 | major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | – | ✓ | ✗ instant → long |

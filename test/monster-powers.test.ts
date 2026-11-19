@@ -6,9 +6,9 @@ import type { CombatEvent } from '../src/model';
 // What makes a monster other than a large animal (the owner, 6 November): its own powers by its kind, cast without a
 // calling's slots when they are ready and resting after (a ghoul's paralysing touch, a vampire's drain), and what it
 // is by nature at the end of its turn (Orsino's regeneration, which had been kept and never run).
-const fight = (kind: string, seed: string) => {
+const fight = (kind: string, seed: string, level = 3) => {
   const c = new Content(`powers-${seed}`);
-  const foe = { ...c.creature(kind, 'foe', 'goblins', 3), hp: 200, maxHp: 200 };
+  const foe = { ...c.creature(kind, 'foe', 'goblins', level), hp: 200, maxHp: 200 };
   const hero = { ...c.character('warrior', 'hero', 'fighters'), level: 3, hp: 300, maxHp: 300 };
   const b = new Battle({ id: 'p', combatants: [hero, foe], abilities: Content.abilities }, seed, 60);
   for (let i = 0; i < 24 && !b.state.outcome; i++) { b.step(b.chosen()); }
@@ -27,8 +27,9 @@ describe('a monster\'s own powers', () => {
     }
     expect(events.some(e => e.type === 'save' && e.target === 'hero')).toBe(true);
   });
+  // Its drain is Vampiric Touch, a third-level spell since srd-proving-cases.md case 52: one of the fifth casts it.
   it('lets a vampire drain, and regenerate at the end of its turns', () => {
-    const events = fight('vampire', 'vampire');
+    const events = fight('vampire', 'vampire', 5);
     expect(used(events)).toContain('life_drain');
     expect(events.some(e => e.type === 'heal' && e.target === 'foe')).toBe(true);
   });

@@ -390,7 +390,8 @@
   "command": "test/command-fall.test.ts",
   "hold_animal": "test/hold-animal.test.ts",
   "blur": "test/blur.test.ts",
-  "barkskin": "test/barkskin.test.ts"
+  "barkskin": "test/barkskin.test.ts",
+  "life_drain": "test/vampiric-touch.test.ts"
  },
  "conversions": {
   "magic_missile": {

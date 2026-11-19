@@ -7925,14 +7925,6 @@ You gain ion shield for 3 turns. Ion Shield: when attacked, 1d6 + level electric
 
 > Create a shield of ionized air that damages attackers.
 
-##### Life Drain
-
-*Faithful · level 2 divine spell, death domain* · `ability:life_drain`
-
-Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
-
-> Drain life from an enemy, healing yourself for damage dealt.
-
 ##### Minor Restoration
 
 *Faithful · level 2 divine spell, life domain* · `ability:minor_restoration`
@@ -8132,6 +8124,16 @@ Call one of: bear, wolf, eagle, to fight for you until the fight ends. A divine 
 Every enemy is fleeing for 2 turns (only undead creatures; a Wisdom save against 25 avoids it). Fleeing: tries only to get away. A divine spell of the third level. Takes a third-level slot.
 
 > The dead recoil from your holy presence.
+
+##### Vampiric Touch
+
+*Adapted · level 3 divine spell, necromancy, death domain* · `ability:life_drain`
+
+Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+
+> Your touch draws the life out of a foe, 1d6 for every two levels you have, to ten, and what you draw mends you.
+
+*Adapted: The SRD's Vampiric Touch (doc/architecture/mission-22/srd-proving-cases.md, case 52), Orsino's Life Drain: third level (the SRD's wizard's; Orsino's second), necromancy beside Death (Kyr's casts it as a cleric of Death, and the dead as their own), one foe a melee touch lands on (Touch), 1d6 negative energy (Kyr's necrotic) every two casting levels to 10d6, no save, spell resistance answering it; its harm sets off none of Orsino's necrotic disease (triggers: false). Converted: what it draws mends its caster (Kyr's drain), where the SRD's gives as many temporary hit points for an hour. Before, Orsino's 1d6 necrotic at every level, no touch, negated by a magic save against 15.*
 
 #### Level 4
 

@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 729,
-    "adapted": 418,
+    "faithful": 728,
+    "adapted": 419,
     "represented": 4,
     "kyr": 613,
     "unsupported": 66,
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 211,
-      "adapted": 41,
+      "faithful": 210,
+      "adapted": 42,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10740,13 +10740,6 @@
    "section": "magic/spells-divine/spells-divine-2"
   },
   {
-   "id": "ability:life_drain",
-   "title": "Life Drain",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-divine/spells-divine-2"
-  },
-  {
    "id": "ability:minor_restoration",
    "title": "Minor Restoration",
    "status": "faithful",
@@ -10911,6 +10904,13 @@
    "id": "ability:turn_undead",
    "title": "Turn Undead",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-3"
+  },
+  {
+   "id": "ability:life_drain",
+   "title": "Vampiric Touch",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-3"
   },

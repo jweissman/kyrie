@@ -26,8 +26,8 @@ export class KindDefenses {
     return [...Object.keys(kind).length ? [{ resistances: kind }] : [], ...varied];
   }
   // A harm's blow: its amount and kind, and whether its kind sets off what it triggers (see Effect's triggers).
-  static blow(e: Extract<Effect, { kind: 'damage' }>, amount: number): Hit {
-    return { amount, type: e.damageType, triggers: e.triggers };
+  static blow(e: Extract<Effect, { kind: 'damage' | 'drain' }>, amount: number, otherwise = 'physical'): Hit {
+    return { amount, type: e.damageType ?? otherwise, triggers: e.triggers };
   }
   // What its defenses did to a blow, for the event's account: what held, and what a tag passed.
   static account(m: Mitigated): Pick<Mitigated, 'guarded' | 'bypassed'> {

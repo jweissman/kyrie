@@ -277,6 +277,9 @@ export class MechanicsText {
       const [, most, sides, rest] = levelled, also = rest ? ` + ${this.amount({ kind: 'deem', expression: rest }, actor)}` : '';
       return `1d${sides} per caster level, to ${most}d${sides}${also}`;
     }
+    // A die every so many caster levels, to a cap (Vampiric Touch's roll(min(floor(#castingLevel / 2), 10), 6)).
+    const every = amount.expression.match(/^roll\(min\(floor\(#castingLevel \/ (\d+)\), (\d+)\), (\d+)\)$/);
+    if (every) { return `1d${every[3]} per ${every[1]} caster levels, to ${every[2]}d${every[3]}`; }
     if (/cappedLevel/.test(amount.expression)) {
       return amount.expression.replace(/cappedLevel\((\d+)\)/g, '1 per caster level, to $1');
     }
