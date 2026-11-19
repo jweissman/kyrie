@@ -314,7 +314,9 @@ export class Campaign implements WatchHost {
     const { npc, happenings, interrupted } = pass;
     if (deferred && !leg) { success &&= !interrupted; this.apply(action, success); }
     if (leg) { success &&= Journey.landed(this, action, leg, 'turned' in pass); }
-    if (interrupted) { response = interrupted; }
+    // Cut short, an activity's own words are not said; an act done at once was done, and is told before who fell on the
+    // company for it (a warning-off failed had been only "The footpads come at you!": CL-10).
+    if (interrupted) { response = !deferred && response ? `${response} ${interrupted}` : interrupted; }
     if (!interrupted && !this.shelter(action, combat, success)) { success = false; response = 'Your shelter becomes unsafe before recovery is complete. Time and the shared ration are spent, but health and mana are not restored.'; }
     const standing = CommandResolutions.survived(action, this.creatures.live, this.definition && this.live,
       this.module.entities);

@@ -219,7 +219,10 @@ export class ActionFeedbackView {
     // of it is told before the fight, not lost (two cold players learned the brood was burned only from the reward).
     const split = event.prelude?.fought ?? 0, onset = event.prelude?.response;
     if (!event.prelude) { return this.blows(event.combat, before, names); }
-    return [...this.blows(event.combat.slice(0, split), before, names), ...onset ? [onset] : [],
+    // And the roll of what was done, before what came of it: a warning-off failed into a fight told no roll (CL-10).
+    const rolled = event.combat.slice(0, split).filter(e => e.type === 'check')
+      .map(e => CombatPresenter.format(e, names));
+    return [...this.blows(event.combat.slice(0, split), before, names), ...rolled, ...onset ? [onset] : [],
       ...this.blows(event.combat.slice(split), before, names)];
   }
   private static blows(events: CampaignEvent['combat'], before: PlayerSnapshot,

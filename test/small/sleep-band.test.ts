@@ -85,8 +85,9 @@ describe('Sleep cast over a band outside a fight', () => {
     const told = t.campaign.events.flatMap(e => e.combat), cast = told.findIndex(e => e.type === 'action');
     expect(told.slice(cast, cast + 4).filter(e => e.type === 'save' && e.immune).length).toBe(3);
     expect(band(t).some(c => c.state.conditions.some(s => s.id === 'asleep'))).toBe(false);
-    // The fight they began, there and then.
-    expect(t.campaign.events.find(e => /lull/.test(e.action))!.response).toBe('The barrow dead come at you!');
+    // The fight they began, there and then, after the casting is said (CL-10: it had been put over by the onset).
+    expect(t.campaign.events.find(e => /lull/.test(e.action))!.response)
+      .toBe('Ysabel speaks the words of Sleep over the run. The barrow dead come at you!');
     expect(fell(t)).toBe(true);
   });
 });
