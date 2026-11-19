@@ -23,6 +23,7 @@ export class InspectTool {
   private static readonly most = 4000;
   static async main(args: string[], print: (line: string) => void = console.log): Promise<number> {
     if (args[0] === '--why') { return WhyTool.main(args.slice(1), print); }
+    if (args[0] === '--dependents') { return WhyTool.main(['dependents', ...args.slice(1)], print); }
     const o = PlayTool.parse(args), [pattern, ...steps] = o.steps;
     if ((!o.campaign && !o.world && !o.part) || !pattern) {
       print('usage: kyrie inspect <campaign.json> | --world <seed> "<pattern>" [--seed s] [--steps steps.json] [step ...]');

@@ -59,6 +59,7 @@ export class KyrieCli {
     '           bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]',
     '           bin/kyrie inspect <campaign.json | module.kyr> | --world <seed> "<choice>" [--seed s] [--steps steps.json] [step ...]',
     '           bin/kyrie inspect --why fact|placement <campaign.json> | --world <seed> "at(x, ?)" | <id> [step ...]',
+    '           bin/kyrie inspect --dependents <campaign.json> | --world <seed> <symbol> (what reads, writes or names it)',
     '           bin/kyrie play scene|character <id> --in <adventure> [--context name] [step ...] [--keep name]',
     '           bin/kyrie keep <transcript.json> <name> (a game saved from the browser, kept as a test)',
     '           bin/kyrie countries [--diff [before.json]] [seed ...] (where each authored country lies; what a change moves)',

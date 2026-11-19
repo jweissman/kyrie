@@ -95,8 +95,23 @@ it moves, and its rows are MT-01.. in the open register.
    placed with nothing fixed under three seeds, the draw said the binder's own; the generator found for the two
    slice lines). Nothing moves: command-line only (DrawnWorld.drawn keeps the assembler's source and report for it).
    Open: `why action` is `kyrie inspect` as it was; a placement made by the world's assembler (WorldAssembler's
-   scenarios) keeps no candidates, so it is told by its bindings and eligibility only; `dependents <symbol>` (§7.1's
-   fourth) not begun.
+   scenarios) keeps no candidates, so it is told by its bindings and eligibility only.
+
+   **Dependents landed 19 November** (mt-6; `src/cli/why-dependents.ts`), §7.1's fourth question:
+
+       bin/kyrie inspect --dependents <campaign.json> | --world <seed> <symbol>
+
+   A symbol (an id, or a module's own name where it is one: `mob` is `walk__mob`) is told by its declaration (with the
+   generator's template for a generated line), each module that imports it as a name of its own (by the requests'
+   imports and the exporter's exports), each act, rule, pursuit, observation and aim that reads it or changes it (a
+   change naming it: asserted, retracted, set, moved or taught), each at its declaration, and the tests and presenters
+   of the repository that name it outright. Nothing is played. Proving slice: `--world a1 mob`, the three riot rules
+   that loose the crowd (gathering.kyr:262, 264, 266) and nothing that reads it; `--world iscoed altered`, imported
+   as the gate's `forged`, read by seven (the clerk's topic and its again, the proof, the reeve's telling, three aims)
+   and taught by reading the ink. Invariant: test/small/dependents (a one-module world: a relation's changer and its
+   two readers at their lines; a person moved by a rule and named by nothing else). Open: a test or presenter that
+   names a symbol by its own name (Walking.at(j, 'mob')) is not found; templates are found only as the writer of the
+   declaration.
 5. **Routes and pursuits (F).** A `Route` form compiled into the pursuits and clock rules there are, introduced only
    after two current modules' hand-written schedules compile to the same Kyr; then counted conversation (R57, R60).
    Invariant: the two modules' kept journeys unchanged.
@@ -190,7 +205,7 @@ it moves, and its rows are MT-01.. in the open register.
   (MT-09), mended 19 November (mt-6) and classified by the harness. Beside it (mt-6) the office lint (MT-10, the
   study's G begun): a drawn world's towns warned of two holders of one office, each at its line (Porthalen's reeves).
 - Step 3: landed 18 November (typed exports; see the step).
-- Step 4: landed 19 November (`kyrie inspect --why fact|placement`; see the step).
+- Step 4: landed 19 November (`kyrie inspect --why fact|placement`, and `--dependents` (mt-6); see the step).
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;
   counted conversation open.
 - Step 6: landed 18 November (scripts/compat.ts; see the step).

@@ -4,20 +4,27 @@
 // instance, or a place something was placed at) by WhyPlacement.
 //   bin/kyrie inspect --why fact <campaign.json> | --world <seed> "at(region__s1_merchant, ?)" [step ...]
 //   bin/kyrie inspect --why placement <campaign.json> | --world <seed> <id> [step ...]
+//   bin/kyrie inspect --dependents <campaign.json> | --world <seed> <symbol>   (see WhyDependents: nothing is played)
 import { PlayTool } from './play-tool';
 import { WhyFact } from './why-fact';
 import { WhyPlacement } from './why-placement';
 import { WhySources } from './why-sources';
+import { WhyDependents } from './why-dependents';
 
 export class WhyTool {
   static readonly usage = 'usage: kyrie inspect --why fact|placement <campaign.json> | --world <seed> "<fact>" | <id>'
-    + ' [--seed s] [--steps steps.json] [step ...]';
+    + ' [--seed s] [--steps steps.json] [step ...]; kyrie inspect --dependents <campaign.json> | --world <seed> <symbol>';
   static async main(args: string[], print: (line: string) => void = console.log): Promise<number> {
     const [kind, ...rest] = args, o = PlayTool.parse(rest), [what, ...steps] = o.steps;
     const asked = kind === 'fact' && what ? WhyFact.parse(what) : undefined;
-    if ((!o.campaign && !o.world && !o.part) || !what || (kind !== 'placement' && !asked)) { print(this.usage); return 1; }
+    const placed = kind === 'placement' || kind === 'dependents';
+    if ((!o.campaign && !o.world && !o.part) || !what || (!placed && !asked)) { print(this.usage); return 1; }
     const started = await PlayTool.start(o), j = started.journey;
     const sources = started.source ? new WhySources(j.session.scenario, started.source, j.session.seed) : undefined;
+    if (kind === 'dependents') {
+      for (const line of await WhyDependents.report(j.campaign.module, sources, what)) { print(line); }
+      return 0;
+    }
     const all = [...started.lead, ...await PlayTool.steps(o.file), ...steps];
     try {
       const fact = asked && WhyFact.resolved(j.campaign.world, asked);
