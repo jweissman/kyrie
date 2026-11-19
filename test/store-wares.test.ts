@@ -17,7 +17,8 @@ describe('the general store at Porthalen', () => {
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared);
     const r = new Runner(s);
     const store = said(await r.ask(act('go(region__s1_general_door,region__s1_general)')));
-    expect(store.scene.lines.join(' ')).toContain('For meal and lamp-oil, folk go to the chandler’s.');
+    // That food is not bought here, naming no tradesman a town may lack (a drawn town's descriptions, test/named-held).
+    expect(store.scene.lines.join(' ')).toContain('Meal and lamp-oil are not sold here.');
     const buys = [...store.offer.primary, ...store.offer.rest].filter(o => o.id.startsWith('buy_item('));
     expect(buys.map(o => o.label)).toContainEqual(expect.stringMatching(/^Buy a backpack/));
     for (const line of ['go(region__s1_general_door,region__s1_green)', 'go(region__s1_inn_door,region__s1_taproom)',
