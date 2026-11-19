@@ -441,13 +441,13 @@ Module lab "The undercroft at Lowmouth" {
     Found by searching low_u_drain "On the keystone where the drain meets the old work, a ring of letters cut small, three of them worn deep.".
   }
   Action low_u_flag_pressed(actor: group, site: place) "Press the three deep-cut letters on the flag, as the ring below has them" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and knows(actor, low_u_letters) and not knows(actor, low_u_vault_found).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and knows(actor, low_u_letters) and not knows(actor, low_u_vault_found) and not benighted(actor).
     Time 1.
     On success { Assert knows(actor, low_u_vault_found). }
     Result "One, then the next, then the last. Each gives a little under your thumb, with a click somewhere under the floor. The flag sinks a finger's width, and slides aside on its own weight. Under it, a stair goes down into the dark.".
   }
   Action low_u_flag_read(actor: group, site: place) "Read the ring of letters on the flag" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and capable(actor, lore) and not knows(actor, low_u_letters) and not knows(actor, low_u_vault_found).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_undercroft) and capable(actor, lore) and not knows(actor, low_u_letters) and not knows(actor, low_u_vault_found) and not benighted(actor).
     Time 1.
     Resolve check(actor, lore, dc_fair).
     On success { Assert knows(actor, low_u_letters). }

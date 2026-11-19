@@ -770,14 +770,16 @@
     Found by searching {t}_u_brood "Under the webs, on the one dressed stone in the chamber's wall, a ring of letters is cut small. Three of them are worn deep.".
     Found by searching {t}_u_drain "On the keystone where the drain meets the old work, a ring of letters cut small, three of them worn deep.".
   }
+  // Pressing the letters, or reading them, wants them seen: in the undercroft's pitch dark they had been offered to be
+  // pressed (cold play 6). Levering the flag up is done by feel.
   Action {t}_u_flag_pressed(actor: group, site: place) "Press the three deep-cut letters on the flag, as the ring below has them" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and knows(actor, {t}_u_letters) and not knows(actor, {t}_u_vault_found).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and knows(actor, {t}_u_letters) and not knows(actor, {t}_u_vault_found) and not benighted(actor).
     Time 1.
     On success { Assert knows(actor, {t}_u_vault_found). }
     Result "One, then the next, then the last. Each gives a little under your thumb, with a click somewhere under the floor. The flag sinks a finger's width, and slides aside on its own weight. Under it, a stair goes down into the dark.".
   }
   Action {t}_u_flag_read(actor: group, site: place) "Read the ring of letters on the flag" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and capable(actor, lore) and not knows(actor, {t}_u_letters) and not knows(actor, {t}_u_vault_found).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and capable(actor, lore) and not knows(actor, {t}_u_letters) and not knows(actor, {t}_u_vault_found) and not benighted(actor).
     Time 1.
     Resolve check(actor, lore, dc_fair).
     On success { Assert knows(actor, {t}_u_letters). }

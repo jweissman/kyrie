@@ -44,6 +44,10 @@ describe('the golden route, after the sixth cold play', () => {
     expect(aims(38)).not.toContain('lettered');
     expect(aims(38)).not.toContain('Something is under the floor');
     expect(aims(39)).toContain('Something is under the floor');
+    // And the letters are pressed only where they can be seen: not in the undercroft's pitch dark, once the candle is.
+    const all = (n: number) => [...at[n - 1]!.offer.primary, ...at[n - 1]!.offer.rest].map(o => o.id);
+    expect(all(38)).not.toContain('region__s1_u_flag_pressed(party,region__s1_u_undercroft)');
+    expect(all(39)).toContain('region__s1_u_flag_pressed(party,region__s1_u_undercroft)');
     // CL-55: the receipt, then what is read in it, in its own capitals; not read out again on coming back; the body,
     // then what it says.
     const receipt = at[3]!.scene.lines;
