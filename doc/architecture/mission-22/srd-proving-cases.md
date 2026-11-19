@@ -2054,6 +2054,21 @@ number in a dice modifier (bonusDamage) is allowed where it is a number. Spec: t
 **What it moves:** nothing below the sixth casting level: Divine Favor is a War cantrip, cast by first-hour warbringers
 at +1 as before; no installed caster (all of the third level or lower), draw or card moves. Still S✓ R✓ I✓.
 
+### 61. The concordance's placed gaps (19 November): the mouther mapped; the rest have no SRD counterpart
+
+Every kind placed in the eight worlds' hostile groups (a1, iscoed, kite, thorn, wren, kahitude, mere, ember; 724
+groups) was read against the concordance. One more has an SRD counterpart: **Orsino's Mouther, the SRD's gibbering
+mouther** (a1 once, the six countries' dens six times). The census grades it (75 creatures where 74): S✗ R✗, its
+armour (Westernesse 5, the SRD's 2), chance to hit (55 %, 50 %), defences (none; the SRD's 5/bludgeoning) and saves
+differ; not moved (its SRD body, 4d8+24 and six bites, is no first-level meeting).
+
+The others placed and unmapped, by how often met, have none in the SRD: the revenant (94), hook-claw (70),
+sail-wing (42), spirit (38), hollow stalker (33), the jewel, crystal, mud and ice elementals (32: the SRD has only the
+four elements), the eel (28), the skeletal horse (24: the SRD has no horse skeleton), the curlew (16), the bomb (16),
+the slump (14), the wisp (14: a summoned mote, not the will-o'-wisp), the banshee (14), the phylactery (9), the
+automaton (8), the marl pike and the shore brooder (7 each), the mind destroyer (6), and a few birds and devices. The
+young owlbear is a module's own kind (the circus menagerie).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
