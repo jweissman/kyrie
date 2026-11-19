@@ -34,7 +34,7 @@ export class InformationView {
     const local = entities.filter(e => perceiving && location && this.test(world, 'at', e.id, location.id));
     const choices = this.choices(campaign).map(choice => choice.public);
     // Places and people as the company would name them (the architecture review's A13).
-    return { actor, elapsed: campaign.state.elapsed,
+    return { actor, elapsed: campaign.readout.elapsed,
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id) } } : {}),
       people: local.filter(e => e.type === 'group').map(e => ({ id: e.id, name: ObservationText.label(world, e.id) })),
       sources: local.filter(e => e.type === 'source' && this.test(world, 'noticeable', e.id))

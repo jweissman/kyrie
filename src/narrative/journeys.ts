@@ -51,7 +51,7 @@ export class Journeys {
         [string, Record<string, string>]],
       ...(march || chart) && !again ? [['journey-land', march?.land ?? this.ground(campaign, chart!, { way, from, to })] as
         [string, Record<string, string>]] : [],
-      ...!FictionalTime.dark(start, campaign.state.night) && FictionalTime.dark(event.elapsed, campaign.state.night)
+      ...!FictionalTime.dark(start, campaign.readout.night) && FictionalTime.dark(event.elapsed, campaign.readout.night)
         ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...again ? [] : this.arrival(campaign, to, ticks)];
     // The land is not told again as it was told a leg or two back (the river crossed twice over in one journey).

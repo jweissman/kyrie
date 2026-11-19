@@ -111,7 +111,7 @@ export class Sittings {
   // not the first town's innkeeper in every world, and those the world comes to hold later (a country drawn beyond
   // the march) change no one's held before. The first town's innkeeper had been the tavernkeeper's in every world.
   private static sole(campaign: Campaign, ids: string[], creatures: Map<string, Creature>): Map<string, string> {
-    const first = new Map<string, string>(), seed = campaign.state.seed;
+    const first = new Map<string, string>(), seed = campaign.readout.seed;
     for (const id of ids) {
       const work = Likeness.work(this.asked(campaign, id, creatures));
       if (work && !first.has(work) && Sittings.hash(`${seed}\u0000${id}`) % 4 === 0) { first.set(work, id); }
@@ -129,7 +129,7 @@ export class Sittings {
     const sole = !at.sole || !Likeness.work(asked) ? undefined : at.sole.has(id);
     // A generated country's people are keyed by its world too: by id alone, the first town's innkeeper of every world
     // (region__s1_innkeeper) had been one face, the art-dealer's (CO-03).
-    const key = id.startsWith('region__') ? `${campaign.state.seed}:${id}` : id;
+    const key = id.startsWith('region__') ? `${campaign.readout.seed}:${id}` : id;
     return Likeness.of({ ...asked, key, taken: at.taken, ...at.held ? { held: at.held } : {},
       ...sole !== undefined ? { sole } : {} });
   }

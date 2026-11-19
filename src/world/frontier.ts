@@ -141,7 +141,7 @@ export class Frontier {
   private readonly ahead = new Map<string, ReturnType<typeof WorldAssembler.beyond>>();
   private async drawn(campaign: Campaign, x: number, y: number, keep = false) {
     const installed = new Set(campaign.installed);
-    const at = { x, y, calendar: campaign.state.calendar, exclude: await this.placed(installed),
+    const at = { x, y, calendar: campaign.readout.calendar, exclude: await this.placed(installed),
       named: this.named(campaign, [x, y]), taken: this.works(campaign), held: Sittings.held(campaign),
       first: this.first(campaign) };
     const key = JSON.stringify(at);

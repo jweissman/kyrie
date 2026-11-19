@@ -262,7 +262,7 @@ export class Journey {
   get latest(): string { return this.taken.slice(this.played).map(t => `[${t.label}] ${t.page}`).join('\n'); }
   private played = 0;
   watch(): number { return this.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
-  minutes(): number { return this.watch() * 10 + (this.campaign.state.minutes ?? 0); }
+  minutes(): number { return this.watch() * 10 + (this.campaign.readout.minutes ?? 0); }
   // A relation, query or measure by its name in the world, or in an installed module's (complete is
   // lowwater__complete), and nothing by a name nothing has: a misnamed one had been simply false (Quittance's 9).
   holds(name: string, ...args: string[]): boolean { return this.campaign.world.test(this.named(name, args)); }
