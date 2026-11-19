@@ -21,7 +21,9 @@ export class RunnerFidelity {
     companionship: /^(\+ (willing|companion|memberOf)\(|- willing\()/,
     // (Or its standing toward the company: let be, warned off, coming at it: a band talked round or not.)
     danger: /^[+-] (able|awake|hostile|fighting|engaged|tolerates|warned|assails)\(/,
-    exploration: /^\+ (been|knows)\(party, /,
+    // (Or what lives there coming at the company as it arrives: the cellar's rats, met at the foot of the trapdoor, are
+    // what going down brought, the arrival told with the fight: 19 November.)
+    exploration: /^(\+ (been|knows)\(party, |[+-] assails\()/,
     // A wonder met is woken (or its power taken up): the thing's own state changes, or what it gives.
     wonder: /^[+-] (state\(|strikes\()/,
   };
