@@ -9,6 +9,9 @@
   max-height: calc(100dvh - max(72px, 9vh) - 84px - var(--safe-b)); overflow: hidden; z-index: 1; color: var(--ivory); }
 .composed .creation-entry h2 { margin: 0 0 8px; font: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase;
   color: var(--accent); }
+.composed .creation-entry .entry-play { margin: 0 0 12px; display: grid; grid-template-columns: 7.5em 1fr; gap: 10px;
+  font: 400 15px/1.5 var(--do); }
+.composed .creation-entry .entry-play > span { font: 500 12px/1.75 var(--do); letter-spacing: .06em; color: var(--dim); }
 .composed .creation-entry dl { margin: 0 0 12px; display: grid; gap: 6px; }
 .composed .creation-entry dl > div { display: grid; grid-template-columns: 7.5em 1fr; gap: 10px; }
 .composed .creation-entry dt { font: 500 12px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
@@ -20,6 +23,7 @@
   color: var(--dim); }
 .composed .creation-entry .entry-group ul { list-style: none; padding: 0; color: var(--ivory); }
 .composed .creation-entry .entry-group b { font-weight: 500; }
+.composed .creation-entry .entry-group li > span { color: var(--dim); }
 .composed .creation-entry .entry-glyph { width: 18px; height: 18px; margin: 0 8px -4px 0; fill: none; stroke: currentColor;
   stroke-width: 1.5; opacity: .85; }
 .composed .creation-entry .entry-after { margin: 10px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }

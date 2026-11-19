@@ -6,6 +6,7 @@ import { Words } from '../reader/words';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
 import { CreationSpells, type SpellStepId } from './creation-spells';
+import { CreationEntries } from './creation-entries';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
@@ -18,10 +19,12 @@ export interface CreationCard {
   id: string; name: string; line?: string; text?: string; group?: string; shut?: string; emblem?: string;
   aside?: string; say?: string; entry?: CreationEntry;
 }
+// play: what it is in play, in a line (a people's qualities as a stat line, a calling's hit die and armour: see
+// CreationEntries), set under its name.
 // groups: things listed under the entry, a heading over each, each by its emblem, its name and a line (the spells a
 // school sets out knowing, at will and at first level); after: a line under them (those known now, cast later).
 export interface CreationEntry {
-  facts: [string, string][]; rules: string[];
+  facts: [string, string][]; rules: string[]; play?: string;
   groups?: { heading: string; rows: { id: string; name: string; line: string; emblem?: string }[] }[]; after?: string;
 }
 // How a step is best drawn, a hint every client may take or leave (the owner, 17 November: the engine says the
@@ -154,16 +157,16 @@ export class CreationFlow {
         .map(o => ({ id: o.id, name: o.title, line: o.choice, emblem: o.id })) },
       { id: 'you', ask: 'Choose your ancestry', present: 'cards', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id,
         name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
-        ...CreationFlow.entry(`ancestry:${a.id}`) })) },
+        ...CreationFlow.has(CreationEntries.people(a)) })) },
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
       // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
       // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
-        say: x.line, ...CreationFlow.entry(`sign:${x.id}`) })) },
+        say: x.line, ...CreationFlow.has(CreationEntries.reference(`sign:${x.id}`)) })) },
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
-          text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.entry(`class:${x.id}`) })) },
+          text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.has(CreationEntries.calling(x)) })) },
       ...this.specialty(), ...this.spells(),
       // Every kind of life at once, each said by what it is and beside it the reference's entry (the owner, 18
       // November, OR-88: "it's reasonable to show all of them rather than force multiple pages… some indication from
@@ -205,7 +208,7 @@ export class CreationFlow {
   static readonly asks: Record<string, string> = { mage: 'Which art did you learn?', cleric: 'What does your god keep?' };
   // A way as the reference has it (the spells one who takes it sets out knowing listed under it: CreationSpells.shown).
   private static way(t: Catalog['callings'][number]['specializations'][number]): CreationEntry {
-    const found = CreationFlow.entry(`trait:${t.id}`).entry ?? { facts: [], rules: [] };
+    const found = CreationEntries.reference(`trait:${t.id}`) ?? { facts: [], rules: [] };
     return { facts: found.facts, rules: t.rules?.length ? t.rules : found.rules };
   }
   // The trade within the kind of life chosen (once it is chosen), asked in the kind's own words ("What did you do on
@@ -222,7 +225,8 @@ export class CreationFlow {
     const hand = CreationDefaults.hand(of, this.dealt, CreationFlow.trades);
     return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, chosen: was!.id,
       ...hand.length < of.length ? { roll: 'other trades' } : {}, cards: hand.map(b => ({ id: b.id, emblem: `life_${kind.id}`,
-        name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.` })) }];
+        name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.`,
+        entry: CreationEntries.trade(b) })) }];
   }
   static readonly trades = 8;
   // The life chosen, in a few sentences, its way in its noun, as setting out tells it: "An elf abjurer. Before this,
@@ -354,23 +358,7 @@ export class CreationFlow {
   private given(): boolean { return !!this.setting.origins?.find(o => o.id === this.origin)?.background; }
   static readonly presenting = [['she', 'A woman', 'she, her'], ['he', 'A man', 'he, him'],
     ['they', 'Neither', 'they, them']] as const;
-  // A people's or a calling's entry in the reference, as the handbook writes it from the catalog (one source: the
-  // Player's Handbook and the encyclopedia read the same).
-  private static entries?: Map<string, NonNullable<CreationCard['entry']>>;
-  // The handbook's chapters are written once: they had been written again for every card of every step, several times
-  // a choice, and a choice had taken 90–200 ms to answer (the owner, 18 November: "these screens should be preparable
-  // in milliseconds").
-  private static entry(id: string): Pick<CreationCard, 'entry'> {
-    CreationFlow.entries ??= CreationFlow.written();
-    const found = CreationFlow.entries.get(id);
-    return found ? { entry: found } : {};
-  }
-  private static written(): Map<string, NonNullable<CreationCard['entry']>> {
-    const callings = CompanyChapters.callings();
-    const all = [...CompanyChapters.ancestries().entries ?? [], ...callings.entries ?? [],
-      ...(callings.sections ?? []).flatMap(x => x.entries ?? []), ...CompanyChapters.signs().entries ?? []];
-    return new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));
-  }
+  private static has(entry?: CreationEntry): Pick<CreationCard, 'entry'> { return entry ? { entry } : {}; }
   // A people's or a calling's aside and sentence: its line beside it, and the first sentence of its words.
   private static said(x: { line?: string; text?: string }): Pick<CreationCard, 'aside' | 'say'> {
     const first = x.text && (/^.+?[.!?](?=\s|$)/.exec(x.text)?.[0] ?? x.text);
