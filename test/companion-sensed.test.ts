@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Campaign } from '../src/campaign/campaign';
 import { Glanced } from './support/glanced';
+import { BeforeRooms } from './support/before-rooms';
 
 // What the world offers, what a company perceives of it, and what can be done are kept apart (the owner, 11 November).
 // In one world, unchanged, the traveller at Thornhaven's inn could join the company. Where the company stands beside
@@ -11,10 +12,11 @@ import { Glanced } from './support/glanced';
 // perceives nothing, unless it has a Gregarious reach (three places: a perk not yet in the game, given here as a
 // capability); at the inn, she is led with as a companion, with what else she is.
 class Inn {
+  // The one traveller perceived, alone: the one on the green who would come along (AT-08, 19 November) set aside, as
+  // the kept plays set the first town's new arrivals aside.
   static async start() {
-    return DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }],
-      standing: [] },
-      NodeBundleSource.shared);
+    return BeforeRooms.set(await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+      classId: 'warrior' }], standing: [] }, NodeBundleSource.shared));
   }
   static put(c: Campaign, place: string) {
     c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },
