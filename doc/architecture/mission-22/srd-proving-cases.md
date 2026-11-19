@@ -2043,6 +2043,17 @@ the twelfth and the eighteenth). **What it moves:** nothing below the sixth cast
 before: no first-hour fight, no installed caster (all of the third level or lower), no draw or card. Each still S✓ R✓
 I✓ in the census.
 
+### 60. Divine Favor growing with the caster (19 November): its conversion made exact
+
+Case 23 kept Divine Favor's +1 at every casting level, the SRD's growing a point each three. By case 58's amount it
+now lays Orsino's blessed (+1 to hit and damage) and as much again for each of `max(0, min(2, floor(#castingLevel / 3)
+- 1))`: +1 to the fifth casting level, +2 from the sixth, +3 from the ninth (the SRD's luck bonus, exact). Orsino's
+blessed is a hand entry naming it, with its perAmount; Bless and Neptune's Blessing lay the one alone. Counting a
+number in a dice modifier (bonusDamage) is allowed where it is a number. Spec: test/divine-favor reads the growth.
+
+**What it moves:** nothing below the sixth casting level: Divine Favor is a War cantrip, cast by first-hour warbringers
+at +1 as before; no installed caster (all of the third level or lower), draw or card moves. Still S✓ R✓ I✓.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

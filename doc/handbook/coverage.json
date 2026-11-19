@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 725,
-    "adapted": 422,
+    "faithful": 724,
+    "adapted": 423,
     "represented": 4,
     "kyr": 614,
     "unsupported": 66,
@@ -980,8 +980,8 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 122,
-      "adapted": 30,
+      "faithful": 121,
+      "adapted": 31,
       "represented": 0,
       "kyr": 53,
       "unsupported": 18,
@@ -12093,7 +12093,7 @@
   {
    "id": "condition:blessed",
    "title": "Blessed",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },
