@@ -10,12 +10,14 @@ import { AimAdvances } from './aim-advances';
 import { Undertakings } from './undertakings';
 import { CompanyRecall } from './company-recall';
 import { KnownWays } from '../ui/known-ways';
+import { AimMeans } from './aim-means';
 
 // Where the next step of the aim followed was learned (US-07, PD-08): the way its author says it is gone to by, not
 // yet taken (route); what it is toward, not yet come to (toward); at it, where what it waits on is hidden (hidden) or
 // to be learned (taught) or come to (beyond) further in, or what bars the way there (barred); or nothing further in,
 // its business here (here).
-export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'deeper' | 'here';
+// Or, with every way into it the company knows shut for what it has not got, whoever sells what would open one (means).
+export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'deeper' | 'means' | 'here';
 // The aim followed, and its next step: one record for every reader, heard (the aim), where the step comes from
 // (source) and the step itself (next: the places, people or things it is taken to or done with).
 export interface AimLead { aim: string; source: LeadSource; next: string[] }
@@ -53,9 +55,10 @@ export class AimLeading {
     // hold gone into from its porch had led back to the porch).
     const within = this.within(campaign, screen, def);
     if (!this.at(campaign, screen, named) && !this.entered(campaign, screen, named)) {
-      return within ?? { aim, source: 'toward', next: [...named] };
+      return within ?? AimMeans.lead(campaign, def, named) ?? { aim, source: 'toward', next: [...named] };
     }
-    return within ?? this.deeper(campaign, screen, named, aim) ?? { aim, source: 'here', next: [screen.place.id] };
+    return within ?? this.deeper(campaign, screen, named, aim) ?? AimMeans.lead(campaign, def, named)
+      ?? { aim, source: 'here', next: [screen.place.id] };
   }
   // Inside a site gone into from a place the aim names (Ironkeep's gate-passage, from the room before its gate): on
   // the aim's ground still, never led back out to the mouth (the gold had gone in and straight out again).

@@ -17,6 +17,9 @@ export class AimRoute {
   // Where what the aim waits on lies here to be found or learned, here is all it names (AimLeading.lies).
   static routed(campaign: Campaign, screen: Screen, aimed: Set<string>): Set<string> {
     if (AimLeading.lies(campaign, screen)) { return new Set([screen.place.id]); }
+    // The way in shut for want of something, whoever sells it, where they are: the aim's, and nothing else it names.
+    const lead = AimLeading.of(campaign, screen);
+    if (lead?.source === 'means') { aimed = new Set(lead.next.flatMap(id => [id, campaign.world.one('at', id) ?? id])); }
     const by = AimLeading.route(campaign, screen)?.next ?? [];
     // Out of an enclosed place toward what it names, or where its author says it is gone to by (the courier's town).
     const toward = by.length ? new Set([...aimed, ...by]) : aimed, out = this.outward(campaign, screen, toward);
