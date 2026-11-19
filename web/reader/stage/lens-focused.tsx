@@ -24,7 +24,7 @@ export class LensFocused {
   static View({ app, draw, lens, lensed, acts }: { app: ReaderApp; draw: Draw; lens: Lens; lensed: Lensed;
     acts: LensAct[] }) {
     const [page, turn] = useState(0);
-    const view = LensFocus.of(acts, app.state.focused ?? [], s => GlanceStage.named(app, s));
+    const view = LensFocus.of(acts, app.state.focused ?? [], s => GlanceStage.named(app, s), LensRows.part(app, lens));
     // Paged, the row that turns the page is the fourth (never more than four in view).
     const paged = Paging.of(view.rows, GlanceStage.per, page), rows = paged.shown;
     const gilded = Guidance.shown(app);

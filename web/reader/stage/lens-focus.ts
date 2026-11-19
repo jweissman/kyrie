@@ -10,11 +10,16 @@ export type Row = LensAct | Unit;
 // than one act is one row that focuses it, its acts then the rows; and on that thing, a run of acts alike (the words
 // pressed on a speaking door, "Press the word …") that does not fit is one row in turn, its acts then the four. A
 // focus that names nothing here any longer (the door opened) is gone. leave: whether "Leave it for now" has room.
+// A part a lens's act is gathered under where they do not fit (a quarter of the town another way lies in): its key and
+// what its row says.
+export type Part = (a: LensAct) => { key: string; name: string } | undefined;
 export class LensFocus {
   static readonly room = 4;
-  static of(acts: LensAct[], focus: readonly string[], name: (subject: string) => string):
+  // part: where the acts do not fit, the part of the town each goes to, gathered as one row (AT-04's stopgap: the
+  // places lens at Porthalen's landing ten pages long, every way in the town one row).
+  static of(acts: LensAct[], focus: readonly string[], name: (subject: string) => string, part?: Part):
     { rows: Row[]; focused: string[]; leave: boolean } {
-    let rows: Row[] = LensFocus.things(acts, name);
+    let rows: Row[] = LensFocus.things(acts, name, part);
     const focused: string[] = [];
     for (const key of focus) {
       const unit = rows.find((r): r is Unit => LensFocus.unit(r) && r.key === key);
@@ -26,12 +31,16 @@ export class LensFocus {
   }
   static unit(r: Row): r is Unit { return 'key' in r; }
   // Each thing with more than one act as one row, where the acts do not fit the four as they are.
-  private static things(acts: LensAct[], name: (subject: string) => string): Row[] {
+  private static things(acts: LensAct[], name: (subject: string) => string, part?: Part): Row[] {
     if (acts.length <= LensFocus.room) { return acts; }
-    const by = new Map<string, LensAct[]>();
-    for (const a of acts) { const k = a.subject ?? a.choice; by.set(k, [...by.get(k) ?? [], a]); }
-    return [...by].map(([subject, of]) => of.length === 1 ? of[0]!
-      : LensFocus.made(`thing:${subject}`, `${name(subject) || of[0]!.label}…`, of));
+    const by = new Map<string, LensAct[]>(), called = new Map<string, string>();
+    for (const a of acts) {
+      const q = part?.(a), k = q ? q.key : `thing:${a.subject ?? a.choice}`;
+      if (q) { called.set(k, q.name); }
+      by.set(k, [...by.get(k) ?? [], a]);
+    }
+    return [...by].map(([key, of]) => of.length === 1 ? of[0]!
+      : LensFocus.made(key, `${called.get(key) ?? (name(key.slice('thing:'.length)) || of[0]!.label)}…`, of));
   }
   // A run of acts alike (one stem, a word apart) as one row, where the thing's acts do not fit the four.
   private static alike(acts: LensAct[], key: string): Row[] {

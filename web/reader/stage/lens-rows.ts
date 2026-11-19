@@ -2,7 +2,9 @@ import type { Glance, Lens, LensAct, Lensed, Promoted } from '../../../src/prese
 import { Attest, type Witness } from '../../../src/presentation/attest';
 import type { ReaderApp } from '../reader-app';
 import type { Choice } from '../../../src/ui/choice-list';
-import { LensFocus } from './lens-focus';
+import type { Screen } from '../../../src/ui/screen-types';
+import type { QuarterRow } from '../../../src/ui/quarters';
+import { LensFocus, type Part } from './lens-focus';
 import { Selection } from './lens-selection';
 
 // What a lens draws, row by row, and the witnesses of the marks those rows bear: one selection, read by the lens as
@@ -78,8 +80,25 @@ export class LensRows {
     if (!lensed) { return []; }
     const drawn = LensRows.of(app, lens, lensed, choice);
     if (!LensRows.focused(app, drawn)) { return drawn.all.flatMap(a => LensRows.each(app, lens, choice, a)); }
-    return LensFocus.of(drawn.all, [], s => s).rows.flatMap(r => LensFocus.unit(r)
+    return LensFocus.of(drawn.all, [], s => s, LensRows.part(app, lens)).rows.flatMap(r => LensFocus.unit(r)
       ? r.acts.flatMap(x => LensRows.each(app, lens, choice, x)) : LensRows.each(app, lens, choice, r));
+  }
+  // The quarter of the town a way of the places lens goes into, where it is not the one the company is in: such ways,
+  // where they do not fit, are one row for the quarter, focused to its ways (AT-04's stopgap; the Wayfinder had set a
+  // town out by its quarters, and the lens that replaced it listed every way in the town one row each).
+  // The lens's ranked four stay rows of their own; the rest of the company's own quarter is one row too.
+  static part(app: ReaderApp, lens: Lens): Part | undefined {
+    const screen = app.state.frame?.screen, quarters = screen?.quarters ?? [];
+    return lens === 'places' && screen && quarters.length ? LensRows.quarter.bind(null, screen, quarters) : undefined;
+  }
+  // And a way out of the town into the country about it, or over into the next stretch of it: one row, beyond.
+  private static quarter(screen: Screen, quarters: QuarterRow[], a: LensAct): ReturnType<Part> {
+    if ('why' in a) { return undefined; }
+    const exit = screen.exits.find(e => a.choice === e.id || a.choice.startsWith(`${e.id}/`));
+    const dest = exit?.destination.id ?? (a.choice.startsWith('travel:') ? a.choice.slice('travel:'.length) : undefined);
+    const q = dest ? quarters.find(x => x.places.includes(dest)) : undefined;
+    if (q) { return { key: `quarter:${q.id}`, name: q.here ? `About ${q.name}` : q.name }; }
+    return !exit || exit.crosses || !exit.local ? { key: 'quarter:', name: 'Beyond the town' } : undefined;
   }
   private static each(app: ReaderApp, lens: Lens, choice: Named, a: { choice: string }): Witness[] {
     const w = LensRows.borne(app, lens, a.choice, choice);
