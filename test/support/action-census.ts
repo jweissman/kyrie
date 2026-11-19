@@ -119,7 +119,10 @@ export class ActionCensus {
           && (cs.display === 'contents' ? e.childElementCount > 0 : r.height > 1);
       }).length;
       const header = shown('header'), narrative = shown('narrative');
-      return header === 1 && narrative <= 1 ? [] : [{ surface, text: `${header} headers, ${narrative} narratives` }];
+      // The opening's page after its beats has no header of its own, its chapter said on the pages before (097c3a55).
+      const headers = surface === 'opening:after' ? [0, 1] : [1];
+      return headers.includes(header) && narrative <= 1 ? []
+        : [{ surface, text: `${header} headers, ${narrative} narratives` }];
     }, surface);
   }
   // The opening as a player walks it: the title, each step of a life, setting out, the opening's pages, and the

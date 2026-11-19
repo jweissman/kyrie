@@ -62,7 +62,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     const acts = () => page.evaluate(() => [...document.querySelectorAll('[data-act]')]
       .filter(e => (e as HTMLElement).offsetParent !== null).map(e => e.getAttribute('data-act')!));
     const before = await acts(), told = (await driver.inspect()).log.length;
-    expect(before.some(a => /Wait|Make camp|light_item/.test(a))).toBe(true);
+    // The surroundings: whatever the place leads with before the door is attended to (since AT-01 the four hold only
+    // what has a reason, not a wait or a camp).
+    const around = before.filter(a => !/Press the word/.test(a));
+    const back = (now: string[]) => around.some(a => now.includes(a));
+    expect(around.length).toBeGreaterThan(0);
     await driver.inLens('look', /speak|say|word/i, /door/i);
     // Its words over the lens's pages, each once, each an act the observation holds; never the surroundings' acts.
     const focused: string[] = [];
@@ -71,15 +75,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     const words = [...new Set(focused.filter(a => /Press the word/.test(a)))];
     expect(words).toHaveLength(4);
     expect(focused.filter(a => /Press the word/.test(a))).toHaveLength(4);
-    expect(focused.some(a => /Wait|Make camp|light_item/.test(a))).toBe(false);
+    expect(back(focused)).toBe(false);
     expect(words.every(a => observed.includes(a) || /Press the word/.test(a))).toBe(true);
     expect((await driver.inspect()).log.length).toBe(told);
     expect(await page.evaluate(() => document.body.innerText)).not.toContain('The door swings open.');
     // Escape goes back out a level at a time (the words, the door), then puts the lens away.
-    for (let i = 0; i < 3 && !(await acts()).some(a => /Wait|Make camp|light_item/.test(a)); i++) {
+    for (let i = 0; i < 3 && !back(await acts()); i++) {
       await page.keyboard.press('Escape'); await driver.settle();
     }
-    expect((await acts()).some(a => /Wait|Make camp|light_item/.test(a))).toBe(true);
+    expect(back(await acts())).toBe(true);
     expect(errors).toEqual([]);
   }, 120000);
 });

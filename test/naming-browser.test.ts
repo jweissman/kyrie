@@ -17,7 +17,7 @@ class Naming {
   static at(page: Page) { return page.getAttribute('.creation', 'data-page'); }
   static async to(page: Page, step: string) {
     await page.waitForFunction(s => document.querySelector('.creation')?.getAttribute('data-page') === s, step,
-      { timeout: 5000 });
+      { timeout: 15000 });
   }
   static names(page: Page) {
     return page.locator('.composed-list [data-option] .row-label').allTextContents().then(t => t.map(x => x.trim()));

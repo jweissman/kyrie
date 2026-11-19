@@ -35,9 +35,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a recorded step shown by the page',
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 }, { site, query: '' });
     const scene = await JourneyScene.show(page, await readFile(file, 'utf8'));
     const kept = JourneyRead.read(dir).steps[1]!;
-    expect(kept.said.scene.prose.join(' ')).toContain('You put an ear to the portcullis');
-    expect(scene.after).toContain('You put an ear to the portcullis');
-    expect(scene.before).not.toContain('You put an ear to the portcullis');
+    // What the capture kept of the step (the barred way's first try, whichever the page leads with: AT-01 moved it from
+    // listening at the portcullis to trying it), told by the page after it and not before.
+    const first = kept.said.scene.prose.join(' ').match(/^[^.]*/)![0];
+    expect(first).toMatch(/portcullis/);
+    expect(scene.after).toContain(first);
+    expect(scene.before).not.toContain(first);
     expect(errors).toEqual([]);
   }, 180000);
 });
