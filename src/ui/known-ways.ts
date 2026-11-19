@@ -1,0 +1,144 @@
+import type { Campaign } from '../campaign/campaign';
+import type { Entity } from '../lang/module';
+import { ObservationText } from '../lang/observation-text';
+import { EntityIndex } from '../lang/entity-index';
+import { Spatial } from '../spatial';
+import { VisitedPlaces } from '../presentation/visited-places';
+import { ChartModel } from './chart-model';
+import { LandModel } from './land-model';
+import { Overland } from './overland';
+import type { WayInfo } from './passage-model';
+
+// One leg of a journey: by what way, from where to where, and how long it takes.
+export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
+// The nearest way to a place: its minutes and its legs, and how many of them go onto or off a road.
+export interface Way { minutes: number; legs: Leg[]; roads: number }
+// What a search goes by: only ways open now (clear), across the open country besides (roam), the ways something
+// bars besides (barred), never one that needs what the company has not got (able); within one area (area), so many
+// legs at most (legs), and its first leg only to one of these (first).
+export interface Over {
+  clear?: boolean; roam?: boolean; barred?: boolean; able?: boolean; area?: string; legs?: number;
+  first?: ReadonlySet<string>;
+}
+// Every place reached from one, in the order settled, with its nearest way.
+export interface Tree { order: string[]; best: Map<string, Way>; reach?: Set<string> }
+
+// The one way-finder over the ways the company knows (AR-21): those it has walked from, been told of, the country's
+// roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways). Every
+// route the engine lays is laid by it: the journey's legs (Itineraries), the gold's step toward an aim (Glance), what
+// an aim's lead reckons nearest (AimLeading), the way out of an enclosed place (AimRoute); and the map draws the
+// journey's stops. So the way led, the way drawn and the way walked are one. Its measure is the minutes a way takes
+// as the company reckons them (Overland), and a road counts only where it shortens the way: of two ways as quick, the
+// one that goes onto no road (the owner, 19 November: routes "double back to touch a road then leave it", which is
+// not a real speedup), then the one of fewer legs (OR-35). Never through a place the company does not know: a way
+// leads only from somewhere it has been or has been told of.
+export class KnownWays {
+  private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[]; roam?: WayInfo[] }>();
+  // The known ways from each place (see Itineraries.graph).
+  static graph(campaign: Campaign, clear = false, roam = false, barred = false): Map<string, WayInfo[]> {
+    const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
+    let kept = this.read.get(world);
+    if (kept?.at !== at) {
+      kept = { at, ways: this.chart(campaign).ways(VisitedPlaces.of(campaign, actor)) };
+      this.read.set(world, kept);
+    }
+    if (roam) {
+      kept.roam ??= [...this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true),
+        ...Overland.unseen(campaign)];
+    }
+    const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
+    for (const w of ways) {
+      if ((w.status === 'blocked' && !barred) || (clear && w.status !== 'open')) { continue; }
+      // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it. But from
+      // out on the open country it crosses what it knows of it, back to a way (over the march, from a hex beside the
+      // march-stone, nothing on the map had a way to it: the owner, OWN-43).
+      if (!roam && LandModel.tract.test(w.to) && !LandModel.tract.test(w.from)) { continue; }
+      if (!(graph.get(w.from) ?? []).some(x => x.passage === w.passage && x.to === w.to)) {
+        graph.set(w.from, [...graph.get(w.from) ?? [], w]);
+      }
+    }
+    return graph;
+  }
+  // Each way by the name the company knows it by, as the page names it.
+  private static chart(campaign: Campaign): ChartModel {
+    return new ChartModel(campaign.world, campaign.playerActor!, ObservationText.presented(campaign.world));
+  }
+  // The nearest way from a place to the first place settled that satisfies `to` (not the place itself), or none.
+  static way(campaign: Campaign, from: string, to: (id: string) => boolean, over: Over = {}): Way | undefined {
+    const tree = this.tree(campaign, from, over), at = tree.order.find(id => id !== from && to(id));
+    return at === undefined ? undefined : tree.best.get(at);
+  }
+  // The first place on that way.
+  static first(campaign: Campaign, from: string, to: (id: string) => boolean, over: Over = {}): string | undefined {
+    return this.way(campaign, from, to, over)?.legs[0]?.to;
+  }
+  // The places on the way from one place to another, the first first (both ends), or none.
+  static places(campaign: Campaign, from: string, to: string, over: Over = {}): string[] {
+    if (from === to) { return [from]; }
+    const legs = this.way(campaign, from, id => id === to, over)?.legs;
+    return legs ? [from, ...legs.map(l => l.to)] : [];
+  }
+  // The nearest way from a place to every place it reaches, each settled in order of its minutes: searched once for
+  // each state of the world and each kind of search, not once for every place asked of (the map's every area and mark
+  // had each run the whole search, two thirds of a waited hour's time: Mission 21's validation profile).
+  private static readonly trees = new WeakMap<object, Map<string, Tree>>();
+  static tree(campaign: Campaign, from: string, over: Over = {}): Tree {
+    const world = campaign.world, key = `${campaign.playerActor}:${campaign.history.length}:${from}:${this.key(over)}`;
+    const kept = this.trees.get(world) ?? new Map<string, Tree>();
+    this.trees.set(world, kept);
+    const known = kept.get(key);
+    if (known) { return known; }
+    const tree = this.search(campaign, from, over);
+    kept.set(key, tree);
+    return tree;
+  }
+  private static key(o: Over): string {
+    return [o.clear, o.roam, o.barred, o.able].map(Number).join('') + `|${o.area ?? ''}|${o.legs ?? ''}|`
+      + [...o.first ?? []].sort().join(',');
+  }
+  private static search(campaign: Campaign, from: string, over: Over): Tree {
+    const graph = this.graph(campaign, over.clear, over.roam, over.barred), order: string[] = [];
+    const best = new Map<string, Way>([[from, { minutes: 0, legs: [], roads: 0 }]]), done = new Set<string>();
+    const roads = this.roads(campaign), byId = EntityIndex.of(campaign.module.entities).byId;
+    for (const open = [from]; open.length;) {
+      open.sort((a, b) => this.sooner(best.get(a)!, best.get(b)!));
+      const at = open.shift()!, so = best.get(at)!;
+      if (done.has(at)) { continue; }
+      done.add(at); order.push(at);
+      if (over.legs !== undefined && so.legs.length >= over.legs) { continue; }
+      for (const w of graph.get(at) ?? []) {
+        if (!this.takes(w, { over, at, from, byId })) { continue; }
+        const leg = Overland.minutes(campaign, w), was = best.get(w.to);
+        const next = { minutes: so.minutes + leg, roads: so.roads + (roads.has(w.to) ? 1 : 0),
+          legs: [...so.legs, { passage: w.passage, way: w.name, from: at, to: w.to, minutes: leg }] };
+        if (was && this.sooner(was, next) <= 0) { continue; }
+        best.set(w.to, next);
+        if (!open.includes(w.to)) { open.push(w.to); }
+      }
+    }
+    return { order, best };
+  }
+  // Whether a search goes by a way: not one that needs what the company has not (able), out of the area it keeps to,
+  // nor, as its first leg, to anywhere but where it may first go.
+  private static takes(w: WayInfo, at: { over: Over; at: string; from: string; byId: Map<string, Entity> }): boolean {
+    const { over } = at;
+    return !(over.able && w.status === 'needs') && !(over.first && at.at === at.from && !over.first.has(w.to))
+      && (!over.area || this.within(at.byId, w.to, over.area));
+  }
+  // Which of two ways is the quicker; of two as quick, the one onto fewer roads, then the one of fewer legs.
+  static sooner(a: Way, b: Way): number {
+    return a.minutes - b.minutes || a.roads - b.roads || a.legs.length - b.legs.length;
+  }
+  static within(byId: Map<string, Entity>, id: string, place: string): boolean {
+    return id === place || Spatial.ancestry(byId, id).some(e => e.id === place);
+  }
+  // The roads of the country as places (a road is one place, its stretches each a way onto it): read once a module.
+  private static readonly roadsOf = new WeakMap<object, Set<string>>();
+  private static roads(campaign: Campaign): Set<string> {
+    const m = campaign.module, kept = this.roadsOf.get(m);
+    if (kept) { return kept; }
+    const roads = new Set(Object.values(m.charts ?? {}).flatMap(c => Object.keys(c.roads ?? {})));
+    this.roadsOf.set(m, roads);
+    return roads;
+  }
+}

@@ -51,7 +51,7 @@ export class ChartModel {
   private static readonly read = new WeakMap<object, Map<string, WayInfo[]>>();
   private read(visited: Set<string>, roam: boolean): WayInfo[] {
     const model = new PassageModel(this.world, this.actor, this.entities);
-    const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model),
+    const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model, visited),
       ...this.kind(model, ChartModel.roads), ...this.across(model, visited, roam)];
     if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
     return [...seen, ...this.kind(model, ChartModel.regional)];
@@ -60,13 +60,16 @@ export class ChartModel {
   // by landmark (leadsVia); and the ways into a place the company has been told of, from where its own track starts,
   // and into the wild country it is said to lie in, as far as its edge. Before, a starting town told of seventeen
   // things, and only the two march-stones could be set out for (M16).
-  private toldWays(model: PassageModel): WayInfo[] {
+  // Not from under the ground where the company has not been: a crawl from a cave beside a town into a barrow told of
+  // is no way the company knows of, and the journey had gone by it (AR-21's one way-finder, test/small/one-way-finder).
+  private toldWays(model: PassageModel, visited: Set<string>): WayInfo[] {
     const w = this.world;
     const passages = new Set([...this.directions(),
       ...w.related('leadsTo').filter(r => this.knows(r.args[0]!)).flatMap(r => Spatial
         .ancestry(this.entities, r.args[1]!).filter(e => e.id === r.args[1] || e.space?.kind === 'wilderness')
         .flatMap(e => this.into(e.id)))]);
-    return w.related('connects').filter(c => passages.has(c.args[0]!))
+    return w.related('connects').filter(c => passages.has(c.args[0]!)
+      && (visited.has(c.args[1]!) || this.entities.get(c.args[1]!)?.space?.shelter !== 'underground'))
       .flatMap(c => model.ways(c.args[1]!).filter(x => x.passage === c.args[0] && x.to === c.args[2]));
   }
   // Across the open country the company knows (see LandModel.explored): the ways between any two stretches of it it

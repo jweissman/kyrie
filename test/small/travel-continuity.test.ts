@@ -69,9 +69,12 @@ describe('a journey travelled', () => {
   // A pedlar seen far off on the sheep-track, with nothing to be had of them but news, is told with the leg it was
   // seen on and the journey goes on: it had stopped this one at the fourth leg, to be set out on again. Its
   // counterexample is the same leg with something there that asks the player (Travel.weighty): it would stop.
+  // Cloudreach's march-stone by its name: laid since AR-21 by no second road it only touched (as quick across the
+  // country), it is ten hexes off, past the census's six to eight.
   it('goes on past what asks nothing of the player, and tells it with the leg', async () => {
     const s = await Walked.start(), c = s.campaign;
-    const stone = TravelCensus.far(c, 3).find(d => /Cloudreach/.test(d.name))!;
+    const screen = ScreenModel.build(c), stone = [...screen.destinations ?? [], ...screen.roads ?? [],
+      ...screen.mapped ?? []].find(d => /Cloudreach/.test(d.name))!;
     const done = await Travel.go({ campaign: c, perform: (command: string) => s.perform(command) }, stone.id);
     const met = done.legs.find(l => /pedlar/.test(l.passed ?? ''));
     expect(met).toBeDefined();

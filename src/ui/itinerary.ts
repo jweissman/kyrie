@@ -5,7 +5,6 @@ import { ModuleWriter } from '../lang/module-writer';
 import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
 import { LandModel } from './land-model';
-import { ChartModel } from './chart-model';
 import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { Spatial } from '../spatial';
@@ -15,9 +14,9 @@ import { RegionIds } from '../world/region-ids';
 import { EntityIndex } from '../lang/entity-index';
 import { Overland } from './overland';
 import { Costs } from '../costs';
+import { KnownWays, type Leg, type Tree } from './known-ways';
 
-// One leg of a journey: by what way, from where to where, and how long it takes.
-export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
+export type { Leg } from './known-ways';
 // The way to a known place over ways the company knows: the place asked for, the room the way comes to, its legs in
 // order, and the time they take together; or, where the way there is not known, toward it, as far as the wild country
 // it is said to lie in (`toward` names it).
@@ -25,16 +24,7 @@ export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; 
 
 // The way to somewhere known, over the ways the company knows: those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways).
-// Every place reached from here, in the order settled, with its nearest way.
-interface Tree { order: string[]; best: Map<string, { minutes: number; legs: Leg[] }>; reach?: Set<string> }
 export class Itineraries {
-  // The known ways, from each place; or only those open now, with nothing in the way and nothing to risk (a ford in
-  // spate is risked, not taken). Read once for each state of the world and of where the company has been, for every
-  // place it plans for (the page plans for each place it knows of).
-  private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[]; roam?: WayInfo[] }>();
-  // roam: with every way across the open country besides, walked or not, for a journey toward a place seen (see
-  // Itineraries.seen).
-  // barred: with the ways something bars besides (a locked door): what the compass says stands in the way out.
   // The known ways the company could take now, or risk, or fight its way through: not one that needs what it has not
   // got (a chimney to climb, without climbing or a rope). Read for the rest of a site to go on toward: the hobs' hold's
   // chimney, known once the smoke-hole was looked up (AT-01: the look teaches), had been "the rest of it" from the
@@ -42,34 +32,12 @@ export class Itineraries {
   static able(campaign: Campaign): Map<string, WayInfo[]> {
     return new Map([...this.graph(campaign)].map(([from, ways]) => [from, ways.filter(w => w.status !== 'needs')]));
   }
+  // The known ways from each place; or only those open now, with nothing in the way and nothing to risk (a ford in
+  // spate is risked, not taken); roam: with every way across the open country besides, walked or not, for a journey
+  // toward a place seen (see seen); barred: with the ways something bars besides (a locked door), what the compass
+  // says stands in the way out (see KnownWays).
   static graph(campaign: Campaign, clear = false, roam = false, barred = false): Map<string, WayInfo[]> {
-    const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
-    let kept = this.read.get(world);
-    if (kept?.at !== at) {
-      kept = { at, ways: this.chart(campaign).ways(VisitedPlaces.of(campaign, actor)) };
-      this.read.set(world, kept);
-    }
-    if (roam) {
-      kept.roam ??= [...this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true),
-        ...Overland.unseen(campaign)];
-    }
-    const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
-    for (const w of ways) {
-      if ((w.status === 'blocked' && !barred) || (clear && w.status !== 'open')) { continue; }
-      // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it. But from
-      // out on the open country it crosses what it knows of it, back to a way (over the march, from a hex beside the
-      // march-stone, nothing on the map had a way to it: the owner, OWN-43).
-      if (!roam && LandModel.tract.test(w.to) && !LandModel.tract.test(w.from)) { continue; }
-      if (!(graph.get(w.from) ?? []).some(x => x.passage === w.passage && x.to === w.to)) {
-        graph.set(w.from, [...graph.get(w.from) ?? [], w]);
-      }
-    }
-    return graph;
-  }
-  // Each way by the name the company knows it by, as the page names it, so a leg is told the same wherever it is said
-  // (the Bound card read "Next, by the track to {region__w9} to a lone tower": the navigation review).
-  private static chart(campaign: Campaign): ChartModel {
-    return new ChartModel(campaign.world, campaign.playerActor!, ObservationText.presented(campaign.world));
+    return KnownWays.graph(campaign, clear, roam, barred);
   }
   // Whether a place is one the company may strike out across the open country toward: a stretch of it chosen on the
   // map, something it has seen from high ground (RegionTracts), or somewhere it has been (the way home). Toward a
@@ -146,41 +114,9 @@ export class Itineraries {
     return { id: destination, to: at, name: ObservationText.label(world, destination), legs: so.legs,
       minutes: so.minutes };
   }
-  // The nearest way from here to every place the company can reach, each settled in order of its minutes: searched
-  // once for each state of the world and each kind of graph, not once for every place a page plans for. The map's
-  // every area and mark had each run the whole search from here, two thirds of a waited hour's time (Mission 21's
-  // validation profile); with no way taking less than nothing, the first settled within a place is its route as before.
-  private static readonly trees = new WeakMap<object, Map<string, Tree>>();
+  // The nearest way from here to every place the company can reach (see KnownWays.tree).
   private static tree(campaign: Campaign, here: string, clear: boolean, roam: boolean): Tree {
-    const world = campaign.world, key = `${campaign.playerActor}:${campaign.history.length}:${here}:${clear}:${roam}`;
-    const kept = this.trees.get(world) ?? new Map<string, Tree>();
-    this.trees.set(world, kept);
-    const known = kept.get(key);
-    if (known) { return known; }
-    const graph = this.graph(campaign, clear, roam), order: string[] = [];
-    const best = new Map<string, { minutes: number; legs: Leg[] }>([[here, { minutes: 0, legs: [] }]]);
-    const open = [here];
-    while (open.length) {
-      open.sort((a, b) => this.sooner(best.get(a)!, best.get(b)!));
-      const at = open.shift()!, so = best.get(at)!;
-      order.push(at);
-      for (const w of graph.get(at) ?? []) {
-        const leg = Overland.minutes(campaign, w), was = best.get(w.to);
-        const next = { minutes: so.minutes + leg, legs: [...so.legs, { passage: w.passage, way: w.name, from: at,
-          to: w.to, minutes: leg }] };
-        if (was && this.sooner(was, next) <= 0) { continue; }
-        best.set(w.to, next);
-        if (!open.includes(w.to)) { open.push(w.to); }
-      }
-    }
-    const tree = { order: [...new Set(order)], best };
-    kept.set(key, tree);
-    return tree;
-  }
-  // Which of two ways is the quicker; of two as quick, the one of fewer legs: across a wood, the way round it by the
-  // open ground had been taken as often as the straight way, as long and two hexes further (OR-35).
-  private static sooner(a: { minutes: number; legs: Leg[] }, b: { minutes: number; legs: Leg[] }): number {
-    return a.minutes - b.minutes || a.legs.length - b.legs.length;
+    return KnownWays.tree(campaign, here, { clear, roam });
   }
   // Whether the company stands inside a place's site: the ruin behind its door, or a site gone into from it.
   private static inside(byId: Map<string, Entity>,
