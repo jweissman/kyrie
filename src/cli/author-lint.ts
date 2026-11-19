@@ -14,7 +14,7 @@ export class AuthorLint {
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
-    this.nearWay(lint); this.unheard(lint); this.untied(lint); this.neverThere(lint);
+    this.nearWay(lint); this.unheard(lint); this.untied(lint); this.neverThere(lint); this.unpaid(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -28,6 +28,27 @@ export class AuthorLint {
         if (asked.includes(`"name":"${c.call.name}"`) || JSON.stringify(c.value) === '{"kind":"number","value":0}') { continue; }
         lint.add('advice', 'lowered', `Action ${a.id} lowers ${c.call.name} without asking how much there is: below `
           + 'nothing it is not offered at all; write `Decrease … by … or to nothing`, or ask for enough in its condition');
+      }
+    }
+  }
+  // An act or topic that takes coin (or any count) from someone other than the one who acts, without asking that they
+  // have it, is never offered where they have less and nothing gives them more, and nothing says why (the Kyr
+  // requests' R43: an innkeeper paying eight he has not got). `… or to nothing`, or asking it, is the author's choice.
+  static unpaid(lint: CampaignLint) {
+    const world = lint.world, company = lint.session.campaign.playerActor;
+    const given = JSON.stringify([lint.module.actions, lint.module.rules ?? [], lint.module.initial]);
+    for (const a of lint.module.actions.filter(x => x.id.includes('__'))) {
+      const asked = JSON.stringify(a.requires), own = new Set((a.parameters ?? []).map(p => p.name));
+      for (const c of a.success) {
+        if (c.kind !== 'decrease' || c.toNothing || c.call.name !== 'quantity') { continue; }
+        const [who, what] = c.call.args as [string, string];
+        if (own.has(who) || who === company || asked.includes(`"name":"quantity","args":["${who}"`)) { continue; }
+        const has = world.number(c.call), takes = world.number(c.value);
+        // (Nor one given to them in play: the Book of Faces' Rill, paid forty for her boat, sells it back for one.)
+        if (has >= takes || given.includes(`"kind":"increase","call":${JSON.stringify(c.call)}`)) { continue; }
+        lint.add('warning', 'unpaid', `${a.topic ? 'Topic' : 'Action'} ${a.id} takes ${takes} ${what} from ${who}, who `
+          + `has ${has}: it is not offered while they have less; ask quantity(${who}, ${what}) >= ${takes}, or write `
+          + '`Decrease … or to nothing`');
       }
     }
   }
