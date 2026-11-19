@@ -10,6 +10,7 @@ import type { Region, Settlement } from './region-writer';
 export interface Common { name: string; feature: string; affix: string }
 interface Lexicon {
   heartland: string[]; generics: { when: string[]; weight: number; words: string[] }[]; wet: string[];
+  ours: { names: string[] };
   qualifiers: Record<string, string[]>; trades: Record<string, string[]>; said: Record<string, string>;
   land: Record<string, Record<string, string>>;
 }
@@ -98,14 +99,15 @@ export class CommonNames {
   }
   // Two words made one name the way such names are made: no word twice (Fenfen), no vowel run on from a final "e"
   // (Stoneedge), one "h" where "sh" meets another (Ashurst, Rushurst), and no letter doubled where the words meet
-  // otherwise (Newworth, Elmmere, Highholm, Birchholt). Which words, and whether they may be joined, is Kyrie's; the
-  // name is said by the languages library's Common, as every tongue's names are (the owner, 31 October: OWN-51).
+  // otherwise (Newworth, Elmmere, Highholm, Birchholt), and none our own world has made its own (Hollywood: CO-11).
+  // Which words, and whether they may be joined, is Kyrie's; the name is said by the languages library's Common, as
+  // every tongue's names are (the owner, 31 October: OWN-51).
   static readonly tongue = tongues.getDictionary('common');
   private static joined(q: string, w: string): Common[] {
     if (q.startsWith(w) || w.startsWith(q) || (q.endsWith('e') && /^[aeiou]/.test(w))) { return []; }
     const merged = q.endsWith('sh') && w.startsWith('h');
     if (q.at(-1) === w[0] && !merged) { return []; }
     const name = this.tongue.translate(...[q, merged ? w.slice(1) : w] as Parameters<typeof this.tongue.translate>);
-    return [{ name, feature: q, affix: w }];
+    return this.lexicon.ours.names.includes(name) ? [] : [{ name, feature: q, affix: w }];
   }
 }

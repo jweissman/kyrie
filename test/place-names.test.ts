@@ -65,6 +65,14 @@ describe('generated places are named in their folk\'s tongue', () => {
     expect(first).toMatchObject({ name: 'Hawkhaven', feature: 'hawk', affix: 'haven' });
     expect(first).not.toHaveProperty('gloss');
   }, 60000);
+  // CO-11: a cold player laughed at a statue cut from the first tree felled in Hollywood. No name our own world has
+  // made its own is made, whatever its two words; the next is taken.
+  it('never makes a name our own world has given a meaning to', () => {
+    expect(CommonNames.land('wood', 'holly', 'forest')).toEqual([]);
+    expect(CommonNames.land('wood', 'oak', 'forest')).toEqual(['Oakwood']);
+    expect(CommonNames.meant({ feature: 'winter', affix: 'fell' })).toEqual([]);
+    expect(CommonNames.meant({ feature: 'raven', affix: 'holm' })).toEqual([]);
+  });
   // OWN-16 and OWN-30: the heartland's settlements in one human tradition, plain names after their lie and life.
   it('names each settlement of the heartland for what it lies by or is there for, and none like another', () => {
     for (const region of Regions.heartland()) {

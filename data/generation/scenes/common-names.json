@@ -25,6 +25,8 @@
     { "when": ["village"], "weight": 1.5, "words": ["ton", "ham", "by", "stead", "thorpe"] },
     { "when": ["hamlet"], "weight": 1.5, "words": ["cote", "stead", "thwaite", "green"] }
   ],
+  "ours": { "about": "Names our own world has already given a meaning to, which a traveller would hear as that (a cold player laughed at a statue cut from the first tree felled in Hollywood: CO-11): never made, the next name taken instead.",
+    "names": ["Hollywood", "Winterfell", "Ravenholm"] },
   "wet": ["ford", "bridge", "mouth", "meet", "fall", "dale", "vale", "brook", "bourne", "mill", "holm"],
   "qualifiers": {
     "forest": ["thorn", "oak", "ash", "elm", "alder", "birch", "hazel", "holly", "willow", "yew", "rowan", "fern",
