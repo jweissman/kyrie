@@ -26,7 +26,8 @@ describe('Command, by the SRD\'s numbers', () => {
   it('is a first-level enchantment of Law at one foe, saved against with Will at case 7\'s difficulty', () => {
     const e = word.effects[0] as { target?: string; save?: { kind: string }; status?: string; duration?: number };
     expect([word.spell, e.target, e.save?.kind, e.status, e.duration]).toEqual([
-      { tradition: 'divine', level: 1, domain: 'law', school: 'enchantment' }, 'enemy', 'will', 'prone', 1]);
+      { tradition: 'divine', level: 1, domain: 'law', school: 'enchantment', resistance: true }, 'enemy', 'will', 'prone',
+      1]);
     const rolls = saves(battle('a').step({ actor: 'cleric', ability: 'command', target: 'g1' }));
     expect(rolls.map(r => r.type === 'save' && [r.target, r.difficulty])).toEqual([['g1', 15]]);
   });

@@ -9,8 +9,9 @@ import { SpellResolution } from './srd-spell-resolution';
 // A catalog spell against its Revised 3.5 SRD entry (data/sources/srd35, the concordance names which), field by
 // field: its level on its tradition's list, its school, its harm's dice (their mean at caster levels 1, 5, 10 and 20)
 // and kind, its save (the score it is made with, and what a success saves) and that save's difficulty, how it is
-// aimed (an attack, a touch, a ray, or none), what it falls on (itself, one, several, a cone, a burst, a line), and how
-// long what it lays lasts. Each field is exact, converted (by a rule it names), differs (both values said), or n/a.
+// aimed (an attack, a touch, a ray, or none), whether spell resistance answers it, what it falls on (itself, one,
+// several, a cone, a burst, a line), and how long what it lays lasts. Each field is exact, converted (by a rule it
+// names), differs (both values said), or n/a.
 // The fields are graded three ways (the reviewer's atlas): structural (level and school), resolution (what is rolled
 // and what it does), and play identity (the behaviours that make it recognisable, proved by a focused test the
 // concordance names; unassessed until one does).
@@ -22,7 +23,7 @@ export interface SrdSpell {
   heal?: { dice: string; plus?: string; max?: string };
 }
 export interface Field { verdict: Verdict; ours: string; theirs: string }
-export const spellFields = ['level', 'school', 'dice', 'type', 'save', 'dc', 'attack', 'target', 'duration'] as const;
+export const spellFields = ['level', 'school', 'dice', 'type', 'save', 'dc', 'attack', 'resist', 'target', 'duration'] as const;
 export type Grade = 'pass' | 'fail' | 'unsupported' | 'unassessed' | 'proved';
 export interface Grades { structural: Grade; resolution: Grade; identity: Grade }
 export type SpellRow = { id: string; srd: string; grades: Grades } & Record<typeof spellFields[number], Field>;
@@ -34,7 +35,7 @@ export class SpellFidelity {
   static readonly conversions = (concordance as { conversions?: Record<string, Record<string, string>> })
     .conversions ?? {};
   static readonly structural = ['level', 'school'] as const;
-  static readonly resolution = ['dice', 'type', 'save', 'dc', 'attack', 'target', 'duration'] as const;
+  static readonly resolution = ['dice', 'type', 'save', 'dc', 'attack', 'resist', 'target', 'duration'] as const;
   static readonly levels = [1, 5, 10, 20];
   static rows(): SpellRow[] {
     return Object.entries(this.map).filter(([id]) => Canon.abilities[id]?.spell).map(([id, key]) => this.row(id, key));
@@ -44,6 +45,7 @@ export class SpellFidelity {
     const fields = { level: this.level(ability, s), school: this.same(ability.spell!.school ?? '', s.school),
       dice: this.dice(ability, s), type: this.type(ability, s), save: this.save(ability, s),
       dc: this.measured(r.dc(ability, s, level)), attack: this.measured(r.attack(ability, s)),
+      resist: this.resist(ability, s),
       target: this.measured(r.target(id, ability, s)), duration: this.same(this.lasts(ability), this.theirs(s)) };
     for (const [field, rule] of Object.entries(this.conversions[id] ?? {})) {
       const f = fields[field as keyof typeof fields];
@@ -126,6 +128,12 @@ export class SpellFidelity {
       ? { verdict: 'converted', ours: `${kind} ${outcome}`, theirs } : field;
   }
   static readonly plain = ['fortitude', 'reflex', 'will', 'magic'];
+  // Whether it allows spell resistance (see SpellResistance): the SRD's "Yes" where the first thing it says is not
+  // harmless nor of objects only (Kyr's fight holds no objects), against the spell's own `resistance`.
+  private static resist(a: Ability, s: SrdSpell): Field {
+    const theirs = /^yes\s*(;|$)/i.test(s.sr.trim()) ? 'yes' : '';
+    return this.same(a.spell?.resistance ? 'yes' : '', theirs);
+  }
   // How long what it lays lasts: at once, a number of rounds (at caster level 5), or past the fight.
   private static lasts(a: Ability): string {
     const laid = a.effects?.find(e => e.kind === 'apply') as { duration?: number | string } | undefined;

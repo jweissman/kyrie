@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 315,
+    "kyr": 316,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 283,
+      "kyr": 284,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15684,6 +15684,13 @@
   {
    "id": "rule:world_passages.changedBy",
    "title": "changedBy",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.forcing",
+   "title": "forcing",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

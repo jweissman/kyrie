@@ -6,8 +6,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 38 pass in structure
-(level, school), 29 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-28 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+(level, school), 29 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+target, duration), 28 proved in play identity.** Creatures with one (72):
+4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -15,9 +16,9 @@ concordance names (proof-slices.md: the five pieces of evidence).
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 55 % of meetings are with a
 kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
-| creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
+| creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 4 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 50 | school 80 | dice 11 | type 13 | save 37 | dc 23 | attack 106 | target 74 | duration 52 | of 119 |
+| spells, field exact or converted | level 50 | school 80 | dice 11 | type 13 | save 37 | dc 23 | attack 106 | resist 14 | target 74 | duration 52 | of 119 |
 
 ## Creatures, most met first
 
@@ -56,10 +57,10 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | golem/iron | iron-golem | 0/1 | S✗ R✗ I– | O | ✗ 6 → -9 | ✗ 1d6 → 2d10 2d10 | ✗ 55% → 95% | ✗ · → reduction 15/adamantine | O | ✗ +7/-2/+1 → +6/+5/+6 |
 | wyvern | wyvern | 0/1 | S✗ R✗ I– | O | ✗ -4 → 3 | ✗ 1d6 → 1d6 1d8 1d8 2d6 2d6 2d8 | ✗ 95% → 80% | – | O | ✗ +11/+11/+12 → +7/+6/+6 |
 | badger | badger | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 25% → 50% | – | ✗ · → rage | ✗ -1/-1/-1 → +4/+5/+1 |
-| balor | balor | 0/0 | S✗ R✗ I– | O | ✗ 4 → -14 | ✗ 1d4 → · | – | ✗ · → immunity fire, immunity lightning, reduction 15/cold_iron, resistance acid 10 | O | ✗ +5/+5/+2 → +22/+19/+19 |
+| balor | balor | 0/0 | S✗ R✗ I– | O | ✗ 4 → -14 | ✗ 1d4 → · | – | ✗ SR 28 → SR 28, immunity fire, immunity lightning, reduction 15/cold_iron, resistance acid 10 | O | ✗ +5/+5/+2 → +22/+19/+19 |
 | cat | cat | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 40% → 50% | – | – | ✗ +3/+0/+1 → +2/+4/+1 |
 | chimera | chimera | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 1d6 1d6 1d8 1d8 2d6 | ✗ 65% → 90% | – | O | ✗ +2/+2/-2 → +9/+7/+6 |
-| deva | angel-astral-deva | 0/0 | S✗ R✗ I– | O | ✗ 0 → -8 | ✗ 1d8 → · | – | ✗ · → immunity acid, immunity cold, reduction 10/evil, resistance lightning 10 | O | ✗ +4/+6/+10 → +14/+12/+12 |
+| deva | angel-astral-deva | 0/0 | S✗ R✗ I– | O | ✗ 0 → -8 | ✗ 1d8 → · | – | ✗ SR 30 → SR 30, immunity acid, immunity cold, reduction 10/evil, resistance lightning 10 | O | ✗ +4/+6/+10 → +14/+12/+12 |
 | dog | dog | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d6 → 1d4 | ✗ 50% → 40% | – | – | ✗ +1/+0/-1 → +4/+5/+1 |
 | dryad | dryad | 0/0 | S✗ R✗ I– | O | ✓ | ✓ | ✗ 35% → 60% | ✗ · → reduction 5/cold_iron | O | ✗ +1/+5/+2 → +3/+8/+6 |
 | eagle | eagle | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d8 → 1d4 1d4 1d4 | ✗ 25% → 45% | – | – | ✗ -1/+0/-1 → +3/+4/+2 |
@@ -77,148 +78,148 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | lion | lion | 0/0 | S✗ R✗ I– | O | ✗ 9 → 6 | ✗ 1d6 → 1d4 1d4 1d8 | ✗ 40% → 65% | – | ✗ · → improved grab, pounce, rake 1d4+2 | ✗ +2/+2/-1 → +6/+7/+2 |
 | lizard | lizard | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d6 → 1d4 | ✗ 25% → 50% | – | – | ✗ -1/-1/-1 → +2/+4/+1 |
 | locatah | locathah | 0/0 | S✗ R✗ I– | O | ✗ 4 → 7 | ✗ 1d4 → 1d8 | ✓ | – | O | ✗ +1/+3/+1 → +3/+1/+1 |
-| marilith | marilith | 0/0 | S✗ R✗ I– | O | ✗ 4 → -8 | ✗ 1d4 → 2d6 2d6 2d6 2d6 2d6 2d6 4d6 | ✗ 60% → 95% | ✗ · → immunity lightning, immunity poison, reduction 10/good, resistance acid 10 | O | ✗ +4/+5/+2 → +19/+14/+14 |
+| marilith | marilith | 0/0 | S✗ R✗ I– | O | ✗ 4 → -8 | ✗ 1d4 → 2d6 2d6 2d6 2d6 2d6 2d6 4d6 | ✗ 60% → 95% | ✗ SR 25 → SR 25, immunity lightning, immunity poison, reduction 10/good, resistance acid 10 | O | ✗ +4/+5/+2 → +19/+14/+14 |
 | monkey | monkey | 0/0 | S✗ R✗ I– | O | ✗ 9 → 7 | ✗ 1d6 → 1d3 | ✗ 20% → 50% | – | – | ✗ -1/+2/+1 → +2/+4/+1 |
 | nightmare | nightmare | 0/0 | S✗ R✗ I– | O | ✗ 7 → -3 | ✗ 1d4 → 1d8 1d8 1d8 | ✗ 60% → 75% | – | O | ✗ +2/+3/-2 → +8/+7/+6 |
 | nymph | nymph | 0/0 | S✗ R✗ I– | O | ✗ 7 → 4 | ✓ | ✗ 35% → 60% | ✗ · → reduction 10/cold_iron | O | ✗ +1/+2/+4 → +7/+12/+12 |
 | owl | owl | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
 | pegasus | pegasus | 0/0 | S✗ R✗ I– | O | ✗ 6 → 7 | ✗ 1d2 → 1d3 1d6 1d6 | ✗ 25% → 65% | – | O | ✗ +0/+4/+2 → +7/+6/+4 |
-| pixie | pixie | 0/0 | S✗ R✗ I– | O | ✗ 4 → 5 | ✓ | ✗ 35% → 55% | ✗ · → reduction 10/cold_iron | O | ✗ +1/+5/+2 → +0/+6/+4 |
+| pixie | pixie | 0/0 | S✗ R✗ I– | O | ✗ 4 → 5 | ✓ | ✗ 35% → 55% | ✗ SR 15 → SR 15, reduction 10/cold_iron | O | ✗ +1/+5/+2 → +0/+6/+4 |
 | pony | pony | 0/0 | S✗ R✗ I– | O | ✗ 11 → 8 | ✗ 1d2 → 1d3 1d3 | ✗ 30% → 15% | – | – | ✗ +0/-1/-1 → +4/+4/+0 |
-| pseudodragon | pseudodragon | 0/0 | S✗ R✗ I– | O | ✗ 7 → 3 | ✗ 1d6 → 1d3 | ✗ 30% → 50% | E  SR 19 | ✗ · → poison | ✗ +0/+0/+0 → +4/+5/+4 |
+| pseudodragon | pseudodragon | 0/0 | S✗ R✗ I– | O | ✗ 7 → 3 | ✗ 1d6 → 1d3 | ✗ 30% → 50% | ✓ | ✗ · → poison | ✗ +0/+0/+0 → +4/+5/+4 |
 | rat/cellar | rat | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ |
 | raven | raven | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 | ✗ 25% → 50% | – | – | ✗ -1/+0/-1 → +2/+4/+2 |
 | rhino | rhinoceros | 0/0 | S✗ R✗ I– | O | ✗ 7 → 5 | ✗ 1d4 → 2d6 | ✗ 35% → 95% | – | O | ✗ -1/+3/+0 → +11/+6/+3 |
 | satyr | satyr | 0/0 | S✗ R✗ I– | O | ✗ 5 → 6 | ✗ 1d4 → 1d4 1d6 | ✗ 35% → 40% | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +2/+5/+5 |
-| solar | angel-solar | 0/0 | S✗ R✗ I– | O | ✗ 0 → -14 | ✗ 1d8 → · | – | ✗ · → immunity acid, immunity cold, reduction 15/epic, regeneration 15, resistance lightning 10 | O | ✗ +4/+6/+9 → +18/+18/+20 |
+| solar | angel-solar | 0/0 | S✗ R✗ I– | O | ✗ 0 → -14 | ✗ 1d8 → · | – | ✗ SR 32 → SR 32, immunity acid, immunity cold, reduction 15/epic, regeneration 15, resistance lightning 10 | O | ✗ +4/+6/+9 → +18/+18/+20 |
 | spider/great | monstrous-spider-medium | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✓ | ✗ 55% → 50% | – | O | ✗ +1/+1/+3 → +4/+3/+0 |
 | tiger | tiger | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d4 → 1d8 1d8 2d6 | ✗ 50% → 75% | – | ✗ · → improved grab, pounce, rake 1d8+3 | ✗ +1/+3/+3 → +8/+7/+3 |
-| titan | titan | 0/0 | S✗ R✗ I– | O | ✗ 2 → -17 | ✗ 1d10 → · | – | ✗ · → reduction 15/lawful | O | ✗ +10/+4/+7 → +26/+13/+21 |
+| titan | titan | 0/0 | S✗ R✗ I– | O | ✗ 2 → -17 | ✗ 1d10 → · | – | ✗ SR 32 → SR 32, reduction 15/lawful | O | ✗ +10/+4/+7 → +26/+13/+21 |
 | unicorn | unicorn | 0/0 | S✗ R✗ I– | ✓ | ✗ 2 → 3 | ✓ | ✗ 70% → 85% | ✗ immunity poison, reduction 10/magic, resistance acid 10, resistance cold 10, resistance electric 10, resistance lightning 10 → immunity poison | O | ✗ +10/+8/+10 → +9/+7/+6 |
 | whale | whale | 0/0 | S✗ R✗ I– | O | ✗ 8 → 5 | ✗ 1d4 → 2d6 | ✗ 40% → 90% | – | – | ✗ +2/+2/+2 → +11/+8/+5 |
-| xill | xill | 0/0 | S✗ R✗ I– | O | ✗ 10 → 1 | ✗ 1d4 → 1d4 1d4 | ✗ 25% → 55% | E  SR 21 | ✗ · → implant, improved grab, paralysis | ✗ +0/-1/+2 → +6/+7/+5 |
+| xill | xill | 0/0 | S✗ R✗ I– | O | ✗ 10 → 1 | ✗ 1d4 → 1d4 1d4 | ✗ 25% → 55% | ✓ | ✗ · → implant, improved grab, paralysis | ✗ +0/-1/+2 → +6/+7/+5 |
 | yrthak | yrthak | 0/0 | S✗ R✗ I– | O | ✗ 8 → 3 | ✗ 1d4 → 1d6 1d6 2d8 | ✗ 50% → 95% | – | ✗ · → explosion, sonic lance | ✗ +2/-1/+0 → +11/+10/+5 |
 
 ## Spells
 
-| spell | SRD | grades | level | school | dice | type | save | dc | attack | target | duration |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| acid_arrow | acid-arrow | S✗ R✗ I– | ✗ 1 → 2 | ✓ | ✗ 2.5/2.5/2.5/2.5 → 5/5/5/5 | ✓ | – | – | ✗ none → ranged touch | ✓ | ✗ instant → 1 rounds |
-| animate_dead | animate-dead | S✗ R✗ I– | ✗ 3 → 4 | ✓ | – | – | – | – | ✓ | ✗ one → several | ✓ |
-| armor | mage-armor | S✓ R✓ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | ✓ | ✓ |
-| augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
-| barkskin | barkskin | S✗ R✗ I– | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | – | ✓ | ✗ self → one | ✗ 3 rounds → long |
-| blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ self → burst | ✗ 3 rounds → long |
-| bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → one | ✗ 3 rounds → long |
-| burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| calm_emotions | calm-emotions | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
-| cause_blindness | blindness-deafness | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 17 → 15 | ✓ | ✓ | ✗ 5 rounds → long |
-| chain_lightning | chain-lightning | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
-| charm | charm-person | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 19 → 14 | ✓ | ✓ | ✗ 3 rounds → long |
-| cloudkill | cloudkill | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 4.5/4.5/4.5/4.5 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 18 | ✓ | ✓ | ✗ 3 rounds → long |
-| command | command | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ |
-| cone_of_cold | cone-of-cold | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
-| confuse | confusion-lesser | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | ✓ | ✗ 3 rounds → 1 rounds |
-| confusion | confusion | S✗ R✗ I– | ✗ 3 → 4 | ✗ illusion → enchantment | – | – | ✓ | ✗ 25 → 17 | ✓ | ✗ one → burst | ✗ 3 rounds → 5 rounds |
-| conjure_light | light | S✗ R✗ I– | ✗ 1 → 0 | ✓ | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
-| contagion | contagion | S✗ R✗ I– | ✗ 7 → 4 | ✓ | ✗ 28/32/37/47 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 17 | ✓ | ✗ all → one | ✗ 3 rounds → instant |
-| control_undead | control-undead | S✗ R✗ I– | ✗ 6 → 7 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ all → several | ✗ 3 rounds → long |
-| create_darkness | darkness | S✗ R✗ I– | ✓ | ✗ · → evocation | – | – | ✗ dexterity negates → · | ✗ 18 → · | ✓ | ✗ all → one | ✗ 3 rounds → long |
-| cure | cure-light-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | ✓ | ✓ |
-| cure_critical | cure-critical-wounds | S✗ R✓ I✓ | ✗ 6 → 4 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | ✓ | ✓ |
-| cure_disease | remove-disease | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 42) | ≈ harmless: none is made (srd-proving-cases.md, case 42) | ✓ | ✓ | ✓ |
-| cure_minor | cure-minor-wounds | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ · → wisdom half | ✗ · → 13 | ✓ | ✓ | ✓ |
-| cure_moderate | cure-moderate-wounds | S✗ R✓ I✓ | ✗ 3 → 2 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | ✓ | ✓ |
-| cure_serious | cure-serious-wounds | S✗ R✓ I✓ | ✗ 4 → 3 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | ✓ | ✓ |
-| curse | bestow-curse | S✗ R✗ I– | ✗ 0 → 3 | ✗ · → necromancy | – | – | ✓ | ✗ 15 → 16 | ✓ | ✓ | ✗ 3 rounds → long |
-| dancing_lights | dancing-lights | S✗ R✗ I– | ✓ | ✗ illusion → evocation | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | ✗ all → burst | ✗ 3 rounds → long |
-| daylight | daylight | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → evocation | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ wisdom half → · | ✗ 15 → · | ✗ none → melee touch | ✗ all → one | ✗ instant → long |
-| death | power-word-kill | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → enchantment | – | – | ✗ constitution negates → · | ✗ 37 → · | ✓ | ✓ | ✓ |
-| death_ward | death-ward | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → necromancy | – | – | ✗ · → wisdom negates | ✗ · → 17 | ✓ | ✓ | ✗ 3 rounds → long |
-| disintegrate | disintegrate | S✗ R✗ I– | ✗ 5 → 6 | ✗ evocation → transmutation | ✗ 35/35/35/35 → 7/35/70/140 | – | ✗ wisdom half → constitution negates | ✗ 15 → 19 | ✗ none → ranged touch | ✓ | ✓ |
-| dispel_magic | dispel-magic | S✗ RU I– | ✗ 2 → 3 | ✓ | – | – | – | – | ✓ | ✗ · → one | ✓ |
-| divine_favor | divine-favor | S✓ R✓ I✓ | ≈ Orsino's, a War cantrip, kept by the lead's decision and the owner's word (srd-proving-cases.md, case 23) | ✓ | – | – | – | – | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| divine_power | divine-power | S✗ RU I– | ✗ 8 → 4 | ✗ · → evocation | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
-| dominate_person | dominate-person | S✗ R✗ I– | ✓ | ✗ necromancy → enchantment | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✓ | ✗ 10 rounds → long |
-| domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✓ | ✗ 42 → 22 | ✓ | ✓ | ✗ 3 rounds → long |
-| earthquake | earthquake | S✗ R✗ I– | ✗ 4 → 7 | ✓ | ✗ 13.5/13.5/13.5/13.5 → 28/28/28/28 | – | ✗ wisdom negates → · | ✗ 15 → · | ✓ | ✓ | ✗ 3 rounds → 1 rounds |
-| enlarge | enlarge-person | S✗ R✗ I– | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 14 | ✓ | ✓ | ✗ 3 rounds → long |
-| entangle | entangle | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| false_life | false-life | S✗ R✗ I– | ✗ 4 → 2 | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✓ | ✓ |
-| fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ burst → one | ✓ |
-| fireball | fireball | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
-| flesh_to_stone | flesh-to-stone | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 29 → 19 | ✓ | ✓ | ✗ 10 rounds → instant |
-| flight | fly | S✓ R✗ I– | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → long |
-| foresight | foresight | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✗ one → self | ✗ 3 rounds → long |
-| glyph_of_warding | glyph-of-warding | S✗ R✗ I– | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | – | ✗ none → melee touch | ✗ self → one | ✗ 3 rounds → long |
-| goodberry | goodberry | S✗ RU I– | ✗ 0 → 1 | ✗ · → transmutation | – | – | – | – | ✗ none → melee touch | ✗ · → one | ✗ instant → long |
-| harm | harm | S✗ R✗ I– | ✓ | ✗ · → necromancy | ✗ 23/31/41/61 → · | – | ✓ | ✗ 15 → 19 | ✗ none → melee touch | ✓ | ✓ |
-| haste | haste | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
-| heal | heal | S✗ R✗ I– | ✗ 5 → 6 | ✗ · → conjuration | ✗ 19/23/28/38 → · | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | ✓ | ✓ |
-| hold_animal | hold-animal | S✗ R✗ I– | ✗ 0 → 2 | ✗ · → enchantment | – | – | ≈ paralyze negates | ✗ 18 → 15 | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
-| hold_person | hold-person | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
-| holy_wrath | holy-smite | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → evocation | ✗ 10.5/10.5/10.5/10.5 → 0/9/22.5/22.5 | – | ✗ wisdom half → wisdom negates | ✗ 15 → 17 | ✓ | ✓ | ✗ 3 rounds → instant |
-| ice_storm | ice-storm | S✗ R✗ I– | ✗ 6 → 4 | ✓ | ✗ 26/26/26/26 → 10.5/10.5/10.5/10.5 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✓ | ✓ | ✗ instant → long |
-| image | major-image | S✗ RU I– | ✗ 4 → 3 | ✓ | – | – | – | ✗ · → 16 | ✓ | ✗ · → one | ✗ instant → long |
-| implosion | implosion | S✗ R✗ I– | ✓ | ✗ · → evocation | ✗ 35/35/35/35 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 22 | ✓ | ✓ | ✗ instant → long |
-| insanity | insanity | S✗ R✗ I– | ✗ 5 → 7 | ✗ necromancy → enchantment | – | – | ✓ | ✗ 31 → 20 | ✓ | ✓ | ✗ 3 rounds → instant |
-| invisibility | invisibility | S✗ R✗ I– | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ one → self | ✗ 3 rounds → long |
-| invulnerability | globe-of-invulnerability | S✗ RU I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ 5 rounds → long |
-| knock | knock | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✗ · → several | ✓ |
-| life_drain | vampiric-touch | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → necromancy | ✗ 3.5/3.5/3.5/3.5 → 0/7/17.5/35 | – | ✗ wisdom negates → · | ✗ 15 → · | ✗ none → melee touch | ✓ | ✓ |
-| lightning_bolt | lightning-bolt | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ |
-| magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
-| major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | ✓ | ✗ instant → long |
-| mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ all → several | ✗ 3 rounds → long |
-| mass_curse | bane | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ≈ every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| mass_heal | heal-mass | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → conjuration | ✗ 14.5/18.5/23.5/33.5 → · | – | ✗ · → wisdom negates | ✗ · → 22 | ✓ | ✗ all → several | ✓ |
-| maze | maze | S✓ RU I– | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✗ 33 → · | ✓ | ✓ | ✓ |
-| meteor_swarm | meteor-swarm | S✗ R✗ I– | ✗ 7 → 9 | ✓ | ✗ 28/28/28/28 → 7/7/7/7 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✗ several → burst | ✓ |
-| mind_blank | mind-blank | S✗ R✗ I– | ✗ 2 → 8 | ✗ divination → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 21 | ✓ | ✓ | ✗ 10 rounds → long |
-| mind_reading | detect-thoughts | S✗ RU I– | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → cone | ✗ 3 rounds → long |
-| minor_image | minor-image | S✗ RU I– | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → 15 | ✓ | ✗ · → one | ✗ instant → long |
-| minor_restoration | restoration-lesser | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✓ | ✓ |
-| mirror_image | mirror-image | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| nightmare | nightmare | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✗ 31 → 18 | ✓ | ✓ | ✗ 3 rounds → instant |
-| obscuring_mist | obscuring-mist | S✗ R✗ I– | ✗ 3 → 1 | ✓ | – | – | – | – | ✓ | ✗ self → burst | ✗ 5 rounds → long |
-| paralyzing_touch | ghoul-touch | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ≈ six rounds: the SRD's 1d6+2, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 36) |
-| plane_shift | plane-shift | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → several | ✓ |
-| polar_ray | polar-ray | S✗ R✗ I– | ✗ 6 → 8 | ✓ | ✗ 27/27/27/27 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✓ | ✓ |
-| polymorph | polymorph | S✗ RU I– | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✗ 23 → · | ✗ none → melee touch | ✓ | ✗ 5 rounds → long |
-| prayer | prayer | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → enchantment | – | – | – | – | ✓ | ✗ all → burst | ✗ 3 rounds → 5 rounds |
-| prismatic_spray | prismatic-spray | S✗ R✗ I– | ✗ 2 → 7 | ✓ | – | – | – | – | ✓ | ✗ several → cone | ✓ |
-| protection_from_evil | protection-from-evil | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32) | ≈ harmless: none is made (srd-proving-cases.md, case 32) | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| protection_from_fire | protection-from-energy | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | ✓ | ✗ 3 rounds → long |
-| raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | ✓ | ✓ |
-| ray_of_frost | ray-of-frost | S✗ R✗ I– | ✗ 2 → 0 | ✓ | ✗ 7/7/7/7 → 2/2/2/2 | ✓ | – | – | ✗ none → ranged touch | ✓ | ✓ |
-| remove_fear | remove-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | ✓ | ✓ |
-| resist_fire | resist-energy | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38) | ≈ harmless: none is made (srd-proving-cases.md, case 38) | ✓ | ✓ | ✓ |
-| restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✗ · → one | ✗ instant → long |
-| resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✓ | ✓ |
-| shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| shield | shield-of-faith | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19) | ≈ harmless: none is made (srd-proving-cases.md, case 19) | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| shocking_grasp | shocking-grasp | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ |
-| silence | silence | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ all → burst | ✗ 3 rounds → long |
-| sleep | sleep | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| slow | slow | S✗ R✗ I– | ✗ 2 → 3 | ✓ | – | – | ✗ dexterity negates → wisdom negates | ✗ 19 → 16 | ✓ | ✗ all → one | ✗ 4 rounds → 5 rounds |
-| spellturning | spell-turning | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
-| spike_growth | spike-growth | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → transmutation | ✗ 7/7/7/7 → 2.5/2.5/2.5/2.5 | – | ✓ | ✗ 20 → 16 | ✓ | ✗ burst → one | ✗ 3 rounds → long |
-| stone_to_flesh | stone-to-flesh | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → constitution negates | ✗ · → 19 | ✓ | ✗ one → burst | ✓ |
-| stoneskin | stoneskin | S✗ R✗ I– | ✗ 3 → 5 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✗ self → one | ✗ 3 rounds → long |
-| summon_monster | summon-monster-i | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → 5 rounds |
-| summon_monster_ii | summon-monster-ii | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
-| summon_monster_iii | summon-monster-iii | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
-| summon_monster_iv | summon-monster-iv | S✗ R✗ I– | ✗ 6 → 4 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
-| summon_monster_v | summon-monster-v | S✗ R✗ I– | ✗ 7 → 5 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
-| summon_monster_vi | summon-monster-vi | S✗ R✗ I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | ✗ self → several | ✗ instant → 5 rounds |
-| summon_monster_vii | summon-monster-vii | S✗ R✗ I– | ✗ 9 → 7 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → 5 rounds |
-| summon_vermin | summon-swarm | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | – | – | ✓ | ✗ self → one | ✗ instant → long |
-| sunburst | sunburst | S✗ R✗ I– | ✗ 5 → 8 | ✗ · → evocation | ✗ 14/14/14/14 → 21/21/21/21 | – | ✗ wisdom half → dexterity negates | ✗ 15 → 21 | ✓ | ✓ | ✓ |
-| symbol_of_insanity | symbol-of-insanity | S✗ R✗ I– | ✓ | ✗ illusion → enchantment | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ all → one | ✗ 3 rounds → long |
-| terror | cause-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ three rounds for whoever fails, one for whoever saves: the SRD's 1d4, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 20) |
-| time_stop | time-stop | S✗ RU I– | ✗ 8 → 9 | ✓ | – | – | – | – | ✓ | ✓ | ✗ 1 rounds → long |
-| true_sight | true-seeing | S✗ R✗ I– | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | ✓ | ✗ 3 rounds → long |
-| weakness | ray-of-enfeeblement | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | ✗ constitution negates → · | ✗ 15 → · | ✗ none → ranged touch | ✓ | ✗ 3 rounds → long |
-| weird | weird | S✓ RU I– | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → 22 | ✓ | ✗ · → several | ✓ |
+| spell | SRD | grades | level | school | dice | type | save | dc | attack | resist | target | duration |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| acid_arrow | acid-arrow | S✗ R✗ I– | ✗ 1 → 2 | ✓ | ✗ 2.5/2.5/2.5/2.5 → 5/5/5/5 | ✓ | – | – | ✗ none → ranged touch | – | ✓ | ✗ instant → 1 rounds |
+| animate_dead | animate-dead | S✗ R✗ I– | ✗ 3 → 4 | ✓ | – | – | – | – | ✓ | – | ✗ one → several | ✓ |
+| armor | mage-armor | S✓ R✓ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✓ | ✓ |
+| augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → instant |
+| barkskin | barkskin | S✗ R✗ I– | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | – | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
+| blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ · → yes | ✗ self → burst | ✗ 3 rounds → long |
+| bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
+| burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| calm_emotions | calm-emotions | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
+| cause_blindness | blindness-deafness | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 17 → 15 | ✓ | ✗ · → yes | ✓ | ✗ 5 rounds → long |
+| chain_lightning | chain-lightning | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
+| charm | charm-person | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 19 → 14 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
+| cloudkill | cloudkill | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 4.5/4.5/4.5/4.5 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 18 | ✓ | – | ✓ | ✗ 3 rounds → long |
+| command | command | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| cone_of_cold | cone-of-cold | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
+| confuse | confusion-lesser | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | – | ✓ | ✗ 3 rounds → 1 rounds |
+| confusion | confusion | S✗ R✗ I– | ✗ 3 → 4 | ✗ illusion → enchantment | – | – | ✓ | ✗ 25 → 17 | ✓ | ✗ · → yes | ✗ one → burst | ✗ 3 rounds → 5 rounds |
+| conjure_light | light | S✗ R✗ I– | ✗ 1 → 0 | ✓ | – | – | – | – | ✓ | – | ✗ · → one | ✗ instant → long |
+| contagion | contagion | S✗ R✗ I– | ✗ 7 → 4 | ✓ | ✗ 28/32/37/47 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 17 | ✓ | ✗ · → yes | ✗ all → one | ✗ 3 rounds → instant |
+| control_undead | control-undead | S✗ R✗ I– | ✗ 6 → 7 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → yes | ✗ all → several | ✗ 3 rounds → long |
+| create_darkness | darkness | S✗ R✗ I– | ✓ | ✗ · → evocation | – | – | ✗ dexterity negates → · | ✗ 18 → · | ✓ | – | ✗ all → one | ✗ 3 rounds → long |
+| cure | cure-light-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_critical | cure-critical-wounds | S✗ R✓ I✓ | ✗ 6 → 4 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_disease | remove-disease | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 42) | ≈ harmless: none is made (srd-proving-cases.md, case 42) | ✓ | – | ✓ | ✓ |
+| cure_minor | cure-minor-wounds | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ · → wisdom half | ✗ · → 13 | ✓ | – | ✓ | ✓ |
+| cure_moderate | cure-moderate-wounds | S✗ R✓ I✓ | ✗ 3 → 2 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_serious | cure-serious-wounds | S✗ R✓ I✓ | ✗ 4 → 3 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| curse | bestow-curse | S✗ R✗ I– | ✗ 0 → 3 | ✗ · → necromancy | – | – | ✓ | ✗ 15 → 16 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
+| dancing_lights | dancing-lights | S✗ R✗ I– | ✓ | ✗ illusion → evocation | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | – | ✗ all → burst | ✗ 3 rounds → long |
+| daylight | daylight | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → evocation | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ wisdom half → · | ✗ 15 → · | ✗ none → melee touch | – | ✗ all → one | ✗ instant → long |
+| death | power-word-kill | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → enchantment | – | – | ✗ constitution negates → · | ✗ 37 → · | ✓ | ✗ · → yes | ✓ | ✓ |
+| death_ward | death-ward | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → necromancy | – | – | ✗ · → wisdom negates | ✗ · → 17 | ✓ | – | ✓ | ✗ 3 rounds → long |
+| disintegrate | disintegrate | S✗ R✗ I– | ✗ 5 → 6 | ✗ evocation → transmutation | ✗ 35/35/35/35 → 7/35/70/140 | – | ✗ wisdom half → constitution negates | ✗ 15 → 19 | ✗ none → ranged touch | ✗ · → yes | ✓ | ✓ |
+| dispel_magic | dispel-magic | S✗ RU I– | ✗ 2 → 3 | ✓ | – | – | – | – | ✓ | – | ✗ · → one | ✓ |
+| divine_favor | divine-favor | S✓ R✓ I✓ | ≈ Orsino's, a War cantrip, kept by the lead's decision and the owner's word (srd-proving-cases.md, case 23) | ✓ | – | – | – | – | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| divine_power | divine-power | S✗ RU I– | ✗ 8 → 4 | ✗ · → evocation | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → 5 rounds |
+| dominate_person | dominate-person | S✗ R✗ I– | ✓ | ✗ necromancy → enchantment | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✗ · → yes | ✓ | ✗ 10 rounds → long |
+| domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✓ | ✗ 42 → 22 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
+| earthquake | earthquake | S✗ R✗ I– | ✗ 4 → 7 | ✓ | ✗ 13.5/13.5/13.5/13.5 → 28/28/28/28 | – | ✗ wisdom negates → · | ✗ 15 → · | ✓ | – | ✓ | ✗ 3 rounds → 1 rounds |
+| enlarge | enlarge-person | S✗ R✗ I– | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 14 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
+| entangle | entangle | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| false_life | false-life | S✗ R✗ I– | ✗ 4 → 2 | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → long |
+| finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✗ · → yes | ✓ | ✓ |
+| fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ · → yes | ✗ burst → one | ✓ |
+| fireball | fireball | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
+| flesh_to_stone | flesh-to-stone | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 29 → 19 | ✓ | ✗ · → yes | ✓ | ✗ 10 rounds → instant |
+| flight | fly | S✓ R✗ I– | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✗ · → 16 | ✓ | – | ✓ | ✗ 3 rounds → long |
+| foresight | foresight | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✗ one → self | ✗ 3 rounds → long |
+| glyph_of_warding | glyph-of-warding | S✗ R✗ I– | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | – | ✗ none → melee touch | – | ✗ self → one | ✗ 3 rounds → long |
+| goodberry | goodberry | S✗ RU I– | ✗ 0 → 1 | ✗ · → transmutation | – | – | – | – | ✗ none → melee touch | ✗ · → yes | ✗ · → one | ✗ instant → long |
+| harm | harm | S✗ R✗ I– | ✓ | ✗ · → necromancy | ✗ 23/31/41/61 → · | – | ✓ | ✗ 15 → 19 | ✗ none → melee touch | ✗ · → yes | ✓ | ✓ |
+| haste | haste | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | – | ✓ | ✗ 3 rounds → 5 rounds |
+| heal | heal | S✗ R✗ I– | ✗ 5 → 6 | ✗ · → conjuration | ✗ 19/23/28/38 → · | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | – | ✓ | ✓ |
+| hold_animal | hold-animal | S✗ R✗ I– | ✗ 0 → 2 | ✗ · → enchantment | – | – | ≈ paralyze negates | ✗ 18 → 15 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → 5 rounds |
+| hold_person | hold-person | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
+| holy_wrath | holy-smite | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → evocation | ✗ 10.5/10.5/10.5/10.5 → 0/9/22.5/22.5 | – | ✗ wisdom half → wisdom negates | ✗ 15 → 17 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → instant |
+| ice_storm | ice-storm | S✗ R✗ I– | ✗ 6 → 4 | ✓ | ✗ 26/26/26/26 → 10.5/10.5/10.5/10.5 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✓ | ✗ · → yes | ✓ | ✗ instant → long |
+| image | major-image | S✗ RU I– | ✗ 4 → 3 | ✓ | – | – | – | ✗ · → 16 | ✓ | – | ✗ · → one | ✗ instant → long |
+| implosion | implosion | S✗ R✗ I– | ✓ | ✗ · → evocation | ✗ 35/35/35/35 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 22 | ✓ | ✗ · → yes | ✓ | ✗ instant → long |
+| insanity | insanity | S✗ R✗ I– | ✗ 5 → 7 | ✗ necromancy → enchantment | – | – | ✓ | ✗ 31 → 20 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → instant |
+| invisibility | invisibility | S✗ R✗ I– | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ one → self | ✗ 3 rounds → long |
+| invulnerability | globe-of-invulnerability | S✗ RU I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | – | ✗ self → one | ✗ 5 rounds → long |
+| knock | knock | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✗ · → several | ✓ |
+| life_drain | vampiric-touch | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → necromancy | ✗ 3.5/3.5/3.5/3.5 → 0/7/17.5/35 | – | ✗ wisdom negates → · | ✗ 15 → · | ✗ none → melee touch | ✗ · → yes | ✓ | ✓ |
+| lightning_bolt | lightning-bolt | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
+| magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
+| major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | – | ✓ | ✗ instant → long |
+| mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ · → yes | ✗ all → several | ✗ 3 rounds → long |
+| mass_curse | bane | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| mass_heal | heal-mass | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → conjuration | ✗ 14.5/18.5/23.5/33.5 → · | – | ✗ · → wisdom negates | ✗ · → 22 | ✓ | – | ✗ all → several | ✓ |
+| maze | maze | S✓ RU I– | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✗ 33 → · | ✓ | ✗ · → yes | ✓ | ✓ |
+| meteor_swarm | meteor-swarm | S✗ R✗ I– | ✗ 7 → 9 | ✓ | ✗ 28/28/28/28 → 7/7/7/7 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✗ · → yes | ✗ several → burst | ✓ |
+| mind_blank | mind-blank | S✗ R✗ I– | ✗ 2 → 8 | ✗ divination → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 21 | ✓ | – | ✓ | ✗ 10 rounds → long |
+| mind_reading | detect-thoughts | S✗ RU I– | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ self → cone | ✗ 3 rounds → long |
+| minor_image | minor-image | S✗ RU I– | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → 15 | ✓ | – | ✗ · → one | ✗ instant → long |
+| minor_restoration | restoration-lesser | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✓ | ✓ |
+| mirror_image | mirror-image | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| nightmare | nightmare | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✗ 31 → 18 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → instant |
+| obscuring_mist | obscuring-mist | S✗ R✗ I– | ✗ 3 → 1 | ✓ | – | – | – | – | ✓ | – | ✗ self → burst | ✗ 5 rounds → long |
+| paralyzing_touch | ghoul-touch | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ six rounds: the SRD's 1d6+2, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 36) |
+| plane_shift | plane-shift | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → yes | ✗ · → several | ✓ |
+| polar_ray | polar-ray | S✗ R✗ I– | ✗ 6 → 8 | ✓ | ✗ 27/27/27/27 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✗ · → yes | ✓ | ✓ |
+| polymorph | polymorph | S✗ RU I– | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✗ 23 → · | ✗ none → melee touch | – | ✓ | ✗ 5 rounds → long |
+| prayer | prayer | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → enchantment | – | – | – | – | ✓ | ✗ · → yes | ✗ all → burst | ✗ 3 rounds → 5 rounds |
+| prismatic_spray | prismatic-spray | S✗ R✗ I– | ✗ 2 → 7 | ✓ | – | – | – | – | ✓ | ✗ · → yes | ✗ several → cone | ✓ |
+| protection_from_evil | protection-from-evil | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32) | ≈ harmless: none is made (srd-proving-cases.md, case 32) | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| protection_from_fire | protection-from-energy | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | – | ✓ | ✗ 3 rounds → long |
+| raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | – | ✓ | ✓ |
+| ray_of_frost | ray-of-frost | S✗ R✗ I– | ✗ 2 → 0 | ✓ | ✗ 7/7/7/7 → 2/2/2/2 | ✓ | – | – | ✗ none → ranged touch | ✗ · → yes | ✓ | ✓ |
+| remove_fear | remove-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✓ | ✓ |
+| resist_fire | resist-energy | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38) | ≈ harmless: none is made (srd-proving-cases.md, case 38) | ✓ | – | ✓ | ✓ |
+| restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | – | ✗ · → one | ✗ instant → long |
+| resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | – | ✓ | ✓ |
+| shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → long |
+| shield | shield-of-faith | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19) | ≈ harmless: none is made (srd-proving-cases.md, case 19) | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| shocking_grasp | shocking-grasp | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ |
+| silence | silence | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ · → yes | ✗ all → burst | ✗ 3 rounds → long |
+| sleep | sleep | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| slow | slow | S✗ R✗ I– | ✗ 2 → 3 | ✓ | – | – | ✗ dexterity negates → wisdom negates | ✗ 19 → 16 | ✓ | ✗ · → yes | ✗ all → one | ✗ 4 rounds → 5 rounds |
+| spellturning | spell-turning | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → long |
+| spike_growth | spike-growth | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → transmutation | ✗ 7/7/7/7 → 2.5/2.5/2.5/2.5 | – | ✓ | ✗ 20 → 16 | ✓ | ✗ · → yes | ✗ burst → one | ✗ 3 rounds → long |
+| stone_to_flesh | stone-to-flesh | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → constitution negates | ✗ · → 19 | ✓ | ✗ · → yes | ✗ one → burst | ✓ |
+| stoneskin | stoneskin | S✗ R✗ I– | ✗ 3 → 5 | ✗ · → abjuration | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
+| summon_monster | summon-monster-i | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | – | – | ✓ | – | ✗ self → one | ✗ instant → 5 rounds |
+| summon_monster_ii | summon-monster-ii | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | – | – | ✓ | – | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_iii | summon-monster-iii | S✗ R✗ I– | ✗ 5 → 3 | ✓ | – | – | – | – | ✓ | – | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_iv | summon-monster-iv | S✗ R✗ I– | ✗ 6 → 4 | ✓ | – | – | – | – | ✓ | – | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_v | summon-monster-v | S✗ R✗ I– | ✗ 7 → 5 | ✓ | – | – | – | – | ✓ | – | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_vi | summon-monster-vi | S✗ R✗ I– | ✗ 8 → 6 | ✓ | – | – | – | – | ✓ | – | ✗ self → several | ✗ instant → 5 rounds |
+| summon_monster_vii | summon-monster-vii | S✗ R✗ I– | ✗ 9 → 7 | ✓ | – | – | – | – | ✓ | – | ✗ self → one | ✗ instant → 5 rounds |
+| summon_vermin | summon-swarm | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | – | – | ✓ | – | ✗ self → one | ✗ instant → long |
+| sunburst | sunburst | S✗ R✗ I– | ✗ 5 → 8 | ✗ · → evocation | ✗ 14/14/14/14 → 21/21/21/21 | – | ✗ wisdom half → dexterity negates | ✗ 15 → 21 | ✓ | ✗ · → yes | ✓ | ✓ |
+| symbol_of_insanity | symbol-of-insanity | S✗ R✗ I– | ✓ | ✗ illusion → enchantment | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ · → yes | ✗ all → one | ✗ 3 rounds → long |
+| terror | cause-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ three rounds for whoever fails, one for whoever saves: the SRD's 1d4, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 20) |
+| time_stop | time-stop | S✗ RU I– | ✗ 8 → 9 | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 1 rounds → long |
+| true_sight | true-seeing | S✗ R✗ I– | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | – | ✓ | ✗ 3 rounds → long |
+| weakness | ray-of-enfeeblement | S✗ R✗ I– | ✗ 2 → 1 | ✓ | – | – | ✗ constitution negates → · | ✗ 15 → · | ✗ none → ranged touch | ✗ · → yes | ✓ | ✗ 3 rounds → long |
+| weird | weird | S✓ RU I– | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → 22 | ✓ | ✗ · → yes | ✗ · → several | ✓ |

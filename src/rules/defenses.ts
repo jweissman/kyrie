@@ -11,7 +11,9 @@ export type Defense =
   | { kind: 'immunity'; to: DamageSelector[] }
   | { kind: 'resistance'; to: DamageSelector[]; amount: number | string; mode: 'flat' | 'fraction' }
   | { kind: 'reduction'; amount: number | string; unless?: string[]; to?: DamageSelector[] }
-  | { kind: 'regeneration'; amount: number | string; stoppedBy?: DamageSelector[] };
+  | { kind: 'regeneration'; amount: number | string; stoppedBy?: DamageSelector[] }
+  // Spell resistance: a spell that allows it falls on this one only past a caster's check (see SpellResistance).
+  | { kind: 'spellResistance'; amount: number };
 // What a defense did to one blow, for the account: what it kept off, or which tag passed it.
 export interface Guarded { defense: 'immunity' | 'resistance' | 'reduction'; amount: number; to?: string; by?: string }
 export interface Mitigated {
@@ -30,7 +32,7 @@ interface Blow {
 // Temporary hit points, hit points and regeneration's eligibility follow in Effects. Nothing here rolls a die unless a
 // defense's amount is dice, and then by the caller's stream.
 export class Defenses {
-  static readonly kinds = ['immunity', 'resistance', 'reduction', 'regeneration'];
+  static readonly kinds = ['immunity', 'resistance', 'reduction', 'regeneration', 'spellResistance'];
   static readonly modes = ['flat', 'fraction'];
   // Whether a selector names this kind of harm.
   static selects(to: DamageSelector[] | undefined, type: string, physical: string[]): boolean {

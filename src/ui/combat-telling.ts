@@ -232,6 +232,7 @@ export class CombatTelling {
       case 'flee': return e.success ? `${this.name(e.actor)} gets away.` : `${this.name(e.actor)} tries to get away, and cannot.`;
       case 'expire': return CombatPresenter.told(e.detail, 'ends')?.replace('{target}', this.name(e.target));
       case 'end': case 'attack': case 'action': case 'initiative': case 'remove': return undefined;
+      case 'resist': return CombatPresenter.format(e, this.state, false);
       default: return CombatPresenter.format(e, this.state);
     }
   }

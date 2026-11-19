@@ -1500,6 +1500,9 @@
         "base": 0,
         "perLevel": 10
       },
+      "defenses": [
+        { "kind": "spellResistance", "amount": 19 }
+      ],
       "source": {
         "orsino": "animal:pseudodragon",
         "fidelity": "faithful",

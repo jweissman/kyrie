@@ -6467,7 +6467,7 @@ You are blurred for 3 turns. Blurred: 1 harder to hit, +10 evasion, +2 against m
 
 > A fan of flame leaps from your fingertips, 1d4 for every level you have, to five, on everyone between you and where you aim it, friend or foe; whoever throws themselves clear takes half.
 
-*Adapted: The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; setting things alight. Before, Orsino's second level and 2d6 on every foe, no save.*
+*Adapted: The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: setting things alight. Before, Orsino's second level and 2d6 on every foe, no save. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Charm Person
 
@@ -6527,7 +6527,7 @@ One ally is mage-armored for 20 turns. Mage-Armored: an unseen armour of force: 
 
 > A dart of force springs from your hand and strikes unerringly, and another for every two levels you have past the first, to five.
 
-*Adapted: The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: spell resistance and Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random.*
+*Adapted: The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Second Sight
 
@@ -6545,7 +6545,7 @@ One ally gains second sight for 3 turns. Second Sight: +5 to hit, +10 evasion. A
 
 > Your hand crackles with lightning, 1d6 for every level you have, to five, on the one you touch: their armour does not turn your hand aside, only their quickness.
 
-*Adapted: The SRD's Shocking Grasp (doc/architecture/mission-22/srd-proving-cases.md, case 35): first level (Orsino's second), 1d6 electricity a casting level to 5d6 at the fifth (by #castingLevel), on one foe a melee touch attack lands on (Touch: worn armour, hide and an armour of force do not count). Omitted: spell resistance; the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a weapon's weight); holding the charge. Its harm is Kyr's electric, as Lightning Bolt's: Orsino's lightning may paralyse, which the SRD's has not. Before, Orsino's 2d6 lightning on one foe, no attack roll.*
+*Adapted: The SRD's Shocking Grasp (doc/architecture/mission-22/srd-proving-cases.md, case 35): first level (Orsino's second), 1d6 electricity a casting level to 5d6 at the fifth (by #castingLevel), on one foe a melee touch attack lands on (Touch: worn armour, hide and an armour of force do not count). Omitted: the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a weapon's weight); holding the charge. Its harm is Kyr's electric, as Lightning Bolt's: Orsino's lightning may paralyse, which the SRD's has not. Before, Orsino's 2d6 lightning on one foe, no attack roll. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Shrieking Missile
 
@@ -6571,7 +6571,7 @@ Everyone but you where it bursts, friend or foe is asleep for 10 turns (4 Hit Di
 
 > A drowsiness falls on the place you aim it at: of everyone there, friend or foe, the least first, it lays four Hit Dice of them asleep, and none of five or more; whoever shakes it off stays awake, and a blow wakes a sleeper.
 
-*Adapted: The SRD's Sleep (doc/architecture/mission-22/srd-proving-cases.md, case 14): first level, a burst (the rules' areas: everyone in the place it falls on, friend or foe), four Hit Dice of them, fewest first, none of five or more (HitDicePool; a Kyr creature's Hit Dice are its level), a Will save to negate (the sleep save, made with Wisdom, which the undead are proof against), at case 7's difficulty for a first-level spell. A blow that wounds wakes the sleeper (the asleep condition's own). Converted: a minute, ten rounds, at every casting level (Kyr's durations do not grow with the caster: the SRD's is a minute a level); outside a fight, ten watches (FieldUse). Omitted: spell resistance; the sleeper helpless (a blow at one is an ordinary blow); the nearest first among equals (the fight's order). Before, Orsino's third level, every foe, three rounds, against 16 + the caster's level.*
+*Adapted: The SRD's Sleep (doc/architecture/mission-22/srd-proving-cases.md, case 14): first level, a burst (the rules' areas: everyone in the place it falls on, friend or foe), four Hit Dice of them, fewest first, none of five or more (HitDicePool; a Kyr creature's Hit Dice are its level), a Will save to negate (the sleep save, made with Wisdom, which the undead are proof against), at case 7's difficulty for a first-level spell. A blow that wounds wakes the sleeper (the asleep condition's own). Converted: a minute, ten rounds, at every casting level (Kyr's durations do not grow with the caster: the SRD's is a minute a level); outside a fight, ten watches (FieldUse). Omitted: the sleeper helpless (a blow at one is an ordinary blow); the nearest first among equals (the fight's order). Before, Orsino's third level, every foe, three rounds, against 16 + the caster's level. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Spark
 
@@ -6683,7 +6683,7 @@ One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch att
 
 > Your touch stiffens a living person where they stand, unable to move or act, for a little while; a hardy one shakes it off at once. Their armour does not turn your hand aside, only their quickness.
 
-*Adapted: The SRD's Ghoul Touch (doc/architecture/mission-22/srd-proving-cases.md, case 36): second level, necromancy, one humanoid a melee touch attack lands on (Touch), paralysed unless a Fortitude save at case 7's difficulty for a second-level spell negates it. Converted: six rounds, the SRD's 1d6+2, its mean rounded up (Kyr's durations are not rolled). Omitted: spell resistance; the stench that sickens those beside the paralysed; the undead's and elves' proof against it beyond the humanoid it wants. Before, Orsino's three rounds on one humanoid against 14 + the caster's level, saved with Strength, no attack roll.*
+*Adapted: The SRD's Ghoul Touch (doc/architecture/mission-22/srd-proving-cases.md, case 36): second level, necromancy, one humanoid a melee touch attack lands on (Touch), paralysed unless a Fortitude save at case 7's difficulty for a second-level spell negates it. Converted: six rounds, the SRD's 1d6+2, its mean rounded up (Kyr's durations are not rolled). Omitted: the stench that sickens those beside the paralysed; the undead's and elves' proof against it beyond the humanoid it wants. Before, Orsino's three rounds on one humanoid against 14 + the caster's level, saved with Strength, no attack roll. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Prismatic Spray
 
@@ -6779,7 +6779,7 @@ One enemy is weakened for 3 turns (a Constitution save against 18 + level + the 
 
 > A bead of fire flies to where you aim it and bursts, 1d6 for every level you have, to ten, on everyone in the place it bursts in, friend or foe; whoever throws themselves clear takes half.
 
-*Adapted: The SRD's Fireball (doc/architecture/mission-22/srd-proving-cases.md, case 12): third level, 1d6 fire a casting level to 10d6 at the tenth (by #castingLevel), a burst (the rules' areas: everyone in the place it bursts in), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; the bead's range and setting things alight. Before, Orsino's fourth level and 6d6, a magic save against 15.*
+*Adapted: The SRD's Fireball (doc/architecture/mission-22/srd-proving-cases.md, case 12): third level, 1d6 fire a casting level to 10d6 at the tenth (by #castingLevel), a burst (the rules' areas: everyone in the place it bursts in), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: the bead's range and setting things alight. Before, Orsino's fourth level and 6d6, a magic save against 15. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Fly
 
@@ -6805,7 +6805,7 @@ One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arca
 
 > A stroke of lightning runs from your hand in a line, 1d6 for every level you have, to ten, through the one you aim it at and the first in its way before and beyond, friend or foe; whoever throws themselves clear takes half.
 
-*Adapted: The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Its level the SRD's third since case 12 (Orsino's had been the fourth). Omitted: spell resistance; the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not.*
+*Adapted: The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Its level the SRD's third since case 12 (Orsino's had been the fourth). Omitted: the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Major Ward
 
@@ -6975,7 +6975,7 @@ On one enemy, one of these, drawn at random: 4d6 (4–24) fire damage to it (hal
 
 > Cold bursts from your hands in a cone, 1d6 for every level you have, to fifteen, on everyone it catches, friend or foe; whoever throws themselves clear takes half.
 
-*Adapted: The SRD's Cone of Cold (doc/architecture/mission-22/srd-proving-cases.md, case 7): fifth level, 1d6 cold a casting level to 15d6 at the fifteenth (by #castingLevel), a cone (the rules' areas: every place from the caster out to where it is aimed, friend or foe), a Reflex save for half. Converted: the save's difficulty is the SRD's 10 + the spell's level + the casting score's modifier, and half the casting level, since a Westernesse save adds the saver's whole level where the SRD's base save adds about half of it (18 for a ninth-level caster of 16 is 22). Omitted: spell resistance, which Westernesse has not yet. Before, Orsino's 3d12 on 1d6 + half the level foes drawn at random, a magic save against 15.*
+*Adapted: The SRD's Cone of Cold (doc/architecture/mission-22/srd-proving-cases.md, case 7): fifth level, 1d6 cold a casting level to 15d6 at the fifteenth (by #castingLevel), a cone (the rules' areas: every place from the caster out to where it is aimed, friend or foe), a Reflex save for half. Converted: the save's difficulty is the SRD's 10 + the spell's level + the casting score's modifier, and half the casting level, since a Westernesse save adds the saver's whole level where the SRD's base save adds about half of it (18 for a ninth-level caster of 16 is 22). Before, Orsino's 3d12 on 1d6 + half the level foes drawn at random, a magic save against 15. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Disintegrate
 
@@ -7085,7 +7085,7 @@ Call one of: balor, fiend, ifrit, marilith, angel, archon, deva, solar, of level
 
 > A stroke of lightning leaps from your hand to the foe you aim it at, 1d6 for every level you have, to twenty, and from them to as many other foes as you have levels, each taking half what the first took; whoever throws themselves clear takes half.
 
-*Adapted: The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Omitted: spell resistance. Orsino's had no effect Kyr could run (its cascade: unsupported).*
+*Adapted: The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Orsino's had no effect Kyr could run (its cascade: unsupported). Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Control Undead
 
@@ -7663,7 +7663,7 @@ Every enemy is baned for 10 turns (a Wisdom save against 11 + the casting score'
 
 > Fill your foes with dread for a minute: their blows go wider, and fear finds them easier; whoever stands firm against it is untouched.
 
-*Adapted: The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: spell resistance; the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level.*
+*Adapted: The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Barkskin
 
@@ -7699,7 +7699,7 @@ One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest first, and n
 
 > Fill one foe of five Hit Dice or fewer with dread: afraid for a few rounds, or for one if they master it.
 
-*Adapted: The SRD's Cause Fear (doc/architecture/mission-22/srd-proving-cases.md, case 20): first level, its school necromancy beside Death, one foe of five Hit Dice or fewer (a pool of five on one: HitDicePool), a save against fear (made with Wisdom, the SRD's Will) at case 7's difficulty for a first-level spell; whoever fails is afraid three rounds, whoever saves one (the save's lesser hold: the SRD's partial). Converted: three rounds for the SRD's 1d4 (its mean, 2.5, rounded up: Kyr's durations are not rolled). Kept: Orsino's fear (−2 to hit, −2 to every save, −1 to every roll, slower), the same for the failed and the saved, where the SRD's frightened flees and its shaken does not (Kyr's afraid do not flee; their penalties are near the shaken's). Omitted: the living only (Kyr's undead are not proof against fear), and spell resistance. Before, Orsino's second level, any one foe, three rounds against 15 + the caster's level, or none for whoever saved.*
+*Adapted: The SRD's Cause Fear (doc/architecture/mission-22/srd-proving-cases.md, case 20): first level, its school necromancy beside Death, one foe of five Hit Dice or fewer (a pool of five on one: HitDicePool), a save against fear (made with Wisdom, the SRD's Will) at case 7's difficulty for a first-level spell; whoever fails is afraid three rounds, whoever saves one (the save's lesser hold: the SRD's partial). Converted: three rounds for the SRD's 1d4 (its mean, 2.5, rounded up: Kyr's durations are not rolled). Kept: Orsino's fear (−2 to hit, −2 to every save, −1 to every roll, slower), the same for the failed and the saved, where the SRD's frightened flees and its shaken does not (Kyr's afraid do not flee; their penalties are near the shaken's). Omitted: the living only (Kyr's undead are not proof against fear). Before, Orsino's second level, any one foe, three rounds against 15 + the caster's level, or none for whoever saved. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Command
 
@@ -7709,7 +7709,7 @@ One enemy is prone for a turn (a Wisdom save against 11 + the casting score's mo
 
 > One word, spoken with the god's authority: Fall! Whoever does not shake it off throws themselves down and loses their turn.
 
-*Adapted: The SRD's Command (doc/architecture/mission-22/srd-proving-cases.md, case 33): first level (Orsino's fifth), its school enchantment beside Law, one foe, a Will save to negate at case 7's difficulty for a first-level spell, and one round: the SRD's 'Fall', whoever fails prone (the prone condition: they lose their turn, Dexterity two less). Adapted: the one command of the SRD's five that Kyr's fight can hold (approach, drop, flee and halt want movement, things in hand, or a flight that is not leaving the fight). Omitted: its language and the mindless's proof (its save is Will, as Hold Person's); spell resistance. Before, Orsino's fifth level, a Will save against 20, and two rounds fleeing: the foe gone from the fight.*
+*Adapted: The SRD's Command (doc/architecture/mission-22/srd-proving-cases.md, case 33): first level (Orsino's fifth), its school enchantment beside Law, one foe, a Will save to negate at case 7's difficulty for a first-level spell, and one round: the SRD's 'Fall', whoever fails prone (the prone condition: they lose their turn, Dexterity two less). Adapted: the one command of the SRD's five that Kyr's fight can hold (approach, drop, flee and halt want movement, things in hand, or a flight that is not leaving the fight). Omitted: its language and the mindless's proof (its save is Will, as Hold Person's). Before, Orsino's fifth level, a Will save against 20, and two rounds fleeing: the foe gone from the fight. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Confuse
 
@@ -7845,7 +7845,7 @@ Everyone but you where it bursts, friend or foe is calmed for 3 turns (a Wisdom 
 
 > A calm falls on the place you aim it at: friend or foe, whoever does not shake it off stands quiet and does nothing, until a blow breaks it.
 
-*Adapted: The SRD's Calm Emotions (doc/architecture/mission-22/srd-proving-cases.md, case 24): second level, its school enchantment beside Nature, a burst (everyone in the place it falls on, friend or foe), a Will save to negate at case 7's difficulty for a second-level spell; whoever fails is calmed, doing nothing, until harm or a blow from another breaks it (the calmed condition). Converted: three rounds, the census's caster's (the third level), at every casting level, for the SRD's concentration up to a round a level (Kyr's casters do not concentrate); a calmed creature does nothing, where the SRD's may defend itself (Kyr's fight has no action between a blow and none). Omitted: a blow on one breaking it on all; the fear, confusion and morale it suppresses; the undead's and constructs' proof against the mind (its save is Will, as Hold Person's); spell resistance. Before, Orsino's calm on every foe, against 15 + the caster's level: a boon to them (immune to fear and madness, +1 to hit, +2 to Will saves).*
+*Adapted: The SRD's Calm Emotions (doc/architecture/mission-22/srd-proving-cases.md, case 24): second level, its school enchantment beside Nature, a burst (everyone in the place it falls on, friend or foe), a Will save to negate at case 7's difficulty for a second-level spell; whoever fails is calmed, doing nothing, until harm or a blow from another breaks it (the calmed condition). Converted: three rounds, the census's caster's (the third level), at every casting level, for the SRD's concentration up to a round a level (Kyr's casters do not concentrate); a calmed creature does nothing, where the SRD's may defend itself (Kyr's fight has no action between a blow and none). Omitted: a blow on one breaking it on all; the fear, confusion and morale it suppresses; the undead's and constructs' proof against the mind (its save is Will, as Hold Person's). Before, Orsino's calm on every foe, against 15 + the caster's level: a boon to them (immune to fear and madness, +1 to hit, +2 to Will saves). Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Chaotic Surge
 
@@ -7897,7 +7897,7 @@ One enemy is paralyzed for 5 turns (only humanoid creatures; a Wisdom save again
 
 > Hold a person where they stand, unable to move or act; each turn the held one may tear free of it.
 
-*Adapted: The SRD's Hold Person (doc/architecture/mission-22/srd-proving-cases.md, case 18): one humanoid, second level, its school enchantment beside Law, a Will save to negate at case 7's difficulty, and a new save on each turn the held one loses to it, a success ending it (ShakingOff). Converted: five rounds, a fifth-level caster's, at every casting level (the SRD's is a round a level). Omitted: spell resistance; the held helpless. Before, Orsino's three rounds against 20 + the caster's level, saved with Strength, once.*
+*Adapted: The SRD's Hold Person (doc/architecture/mission-22/srd-proving-cases.md, case 18): one humanoid, second level, its school enchantment beside Law, a Will save to negate at case 7's difficulty, and a new save on each turn the held one loses to it, a success ending it (ShakingOff). Converted: five rounds, a fifth-level caster's, at every casting level (the SRD's is a round a level). Omitted: the held helpless. Before, Orsino's three rounds against 20 + the caster's level, saved with Strength, once. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
 ##### Holy Wrath
 

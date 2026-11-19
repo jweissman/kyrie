@@ -1538,6 +1538,45 @@ A vitalist knows it .37 at the seventh level, every other cleric .14–.18; none
 creatures knows it. The Parliament of Books teaches it (Orme's leaf). Nothing that is cast moves: the removal is
 Orsino's.
 
+### 43. Spell resistance (19 November): built, the resist stage
+
+The capability the manifest found most wanted: `resist.spell` blocked 197 of the unmapped SRD records, 129 of them
+alone. Proof-slices.md forbade an `sr` field until it rolls, is told and changes resolution; it now does all three.
+Engine-pressure.md §4's resist stage, in the SRD's order (attack, spell resistance, save, effect). Spec:
+`test/spell-resistance` (5 cases).
+
+**The mechanic built** (`SpellResistance`, src/rules/spell-resistance.ts):
+- a creature's spell resistance is a typed defense of its kind (`{ "kind": "spellResistance", "amount": 15 }`, beside
+  reduction and regeneration; a variation may carry one), the best of them; the canon refuses one that is not a whole
+  number;
+- a spell allows it by its `spell.resistance` (the SRD's "Spell Resistance: Yes": never a harmless one, never one of
+  objects alone);
+- such a spell is checked once a casting against each creature it would fall on that has some, after its touch lands
+  (case 35) and before any save: the caster's d20 and casting level against the resistance (exact);
+- a check that fails leaves that one untouched by every effect of the spell; one that succeeds lets it fall as written;
+- told as the caster's try ("The pixie resists the mage's spell, untouched by it"), the event (`resist`) carrying the
+  die, the level and the resistance; the chronicle gives the dice;
+- the monster manual says it ("Defenses: resists spells (19)").
+
+**The data:** the fourteen migrated spells the SRD lets spell resistance answer now say so (Burning Hands, Calm
+Emotions, Chain Lightning, Command, Cone of Cold, Fireball, Hold Person, Lightning Bolt, Magic Missile, Bane, Ghoul
+Touch, Shocking Grasp, Sleep, Cause Fear), each one's note rid of its "Omitted: spell resistance". Plane Shift, whose
+SRD entry allows it, keeps none (Kyr's casts it only on a willing company). The eight kinds whose SRD counterpart has
+spell resistance carry the SRD's (exact): the pixie 15, the pseudodragon 19, the xill 21, the marilith 25, the balor
+28, the astral deva 30, the solar and the titan 32.
+
+**The census.** A new graded field, `resist`, in a spell's resolution (srd-fidelity.md): the fourteen exact, and no
+spell that passed in resolution fails (29 of 119, as before). The creatures' defences read the SRD's spell resistance
+(no longer the census's E): the pseudodragon and the xill now pass in defences (4 of 72 where 2). The manifest's
+present capabilities gain `resist.spell`: **E0 records ready for a family adapter 78 → 207** (control 8 → 69, damage
+23 → 74, protection 30 → 42, movement 8 → 13).
+
+**What it moves:** nothing met in the first hour. None of the eight kinds is placed in a1 or the six countries' dens
+(each met 0/0); a creature of the company has no spell resistance, so no spell cast at the company moves. A spell
+cast at one of the eight now asks the check: a first-level mage gets past a pixie's 15 seven times in twenty (d20 +
+1), a ninth-level one three times in four; a balor's 28 wants a 19 or a 20 from a ninth-level caster. No trace, card
+or draw moves.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -1594,8 +1633,7 @@ be claimed from the catalogue.
 - **Burning Hands and Fireball, and Lightning Bolt's level:** done (case 12), by the draw by rank (case 11).
 - **The chain and Chain Lightning:** done (case 15). Orsino's other four cascading spells (bolt, electric_arc,
   shock_pulse, static_shock) wait: each enters a draw, which since case 11 moves only the casters who gain one.
-- **Spell resistance.** Not rolled anywhere. Proof-slices.md forbids an `sr` field until it rolls, is told and
-  changes resolution: it is §4 of engine-pressure.md (one resolution pipeline), not a data edit.
+- **Spell resistance:** built (case 43): rolled, told, and a failure leaves its creature untouched.
 - **The 33 unsupported**, by the causes above: each cause is an engine capability (statuses' modifiers, phantasmal
   summoning, item creation, target forms, world magic and transformations), and none may be faked as data.
 - **The creatures.** 3 of 72 pass in resolution (rat/cellar, the barrow ghoul, the royal mummy); placed kinds keep Orsino's bodies by the lead's

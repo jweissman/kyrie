@@ -23,7 +23,8 @@ export class SrdManifest {
   // and the melee and ranged touch (srd-proving-cases.md case 35). Everything else a record needs is missing, and
   // blocks it.
   static readonly present = new Set(['area.burst', 'area.cone', 'area.line', 'area.chain', 'effect.harm', 'effect.heal',
-    'effect.condition', 'effect.travel', 'duration.converted', 'attack.meleeTouch', 'attack.rangedTouch']);
+    'effect.condition', 'effect.travel', 'duration.converted', 'attack.meleeTouch', 'attack.rangedTouch',
+    'resist.spell']);
   // Families by name first (what a spell is for), then by its fields.
   static readonly named: [string, RegExp][] = [
     ['healing', /^heal|cure minor|raise dead|resurrection|reincarnate|heroes' feast|goodberry/i],

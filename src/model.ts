@@ -101,6 +101,9 @@ export type CombatEvent = (
     tool?: number; using?: string }
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }
+  // A caster's check against a creature's spell resistance: d20 and casting level against it (see SpellResistance).
+  | { type: 'resist'; turn: number; actor: string; target: string; die: number; level: number; rolled: number;
+    difficulty: number; success: boolean }
   | { type: 'windup' | 'interrupt'; turn: number; actor: string; target: string; detail: string }
   // A creature answers what another did (Orsino's reactions), by the key that set it off.
   | { type: 'react'; turn: number; actor: string; target: string; detail: string }

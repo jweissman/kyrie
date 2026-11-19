@@ -13,7 +13,7 @@ import type { Grades } from './srd-spell-fidelity';
 // field, as a fighter made of it at as many levels as it has Hit Dice (one if it grows as Orsino's do): its Hit Dice
 // as written; its armour class as Westernesse reads the SRD's (21 less it: AC 14 is 7); its routine of blows by their
 // dice (a body's own Strength is added in play, so the SRD's bonus is not compared); its defences (reduction and what
-// passes it, flat resistances, energy immunities, regeneration; spell resistance the engine has none of); its special
+// passes it, flat resistances, energy immunities, regeneration, spell resistance: SpellResistance); its special
 // attacks, as the concordance records which a conversion carries; and its saves, as Westernesse rolls them (the score
 // and the level) against the SRD's three. Each exact, differs, orsino (no SRD value taken: Orsino's own), or engine
 // (the SRD's needs what Westernesse lacks).
@@ -85,13 +85,13 @@ export class CreatureFidelity {
     const theirs = [...m.reduction.map(r => `reduction ${r.amount}/${r.unless.map(u => u.replace(' ', '_')).sort()
       .join('+') || '-'}`), ...Object.entries(m.resistance).map(([k, n]) => `resistance ${this.energy(k)} ${n}`),
       ...m.immunity.map(k => this.energy(k)).filter(k => damage.includes(k)).map(k => `immunity ${k}`),
-      ...m.regeneration ? [`regeneration ${m.regeneration}`] : []].sort();
+      ...m.regeneration ? [`regeneration ${m.regeneration}`] : [], ...m.sr ? [`SR ${m.sr}`] : []].sort();
     const said = ours.flatMap(d => d.kind === 'reduction' ? [`reduction ${d.amount}/${[...d.unless ?? []].sort().join('+') || '-'}`]
       : d.kind === 'resistance' ? d.to.map(t => d.mode === 'flat' ? `resistance ${String(t)} ${d.amount}` : `fraction ${String(t)} ${d.amount}`)
-        : d.kind === 'immunity' ? d.to.map(t => `immunity ${String(t)}`) : [`regeneration ${d.amount}`])
+        : d.kind === 'immunity' ? d.to.map(t => `immunity ${String(t)}`)
+          : d.kind === 'spellResistance' ? [`SR ${d.amount}`] : [`regeneration ${d.amount}`])
       .filter(x => !/resistance electric /.test(x) || !theirs.includes(x.replace('electric', 'lightning'))).sort();
-    const cell = this.cell([...new Set(said)].join(', '), theirs.join(', '));
-    return m.sr && cell.verdict !== 'differs' ? { ...cell, verdict: 'engine', theirs: `${cell.theirs} SR ${m.sr}` } : cell;
+    return this.cell([...new Set(said)].join(', '), theirs.join(', '));
   }
   // Its special attacks: each the SRD gives it carried by the conversion (the concordance says how), and no ability of
   // Orsino's beside them.

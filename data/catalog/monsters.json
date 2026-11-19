@@ -214,7 +214,13 @@
         "orsino": "monsterType:Balor",
         "fidelity": "adapted",
         "notes": "Composed by OrsinoMonsters (demon class, Balor type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 28
+        }
+      ]
     },
     "banshee": {
       "name": "Banshee",
@@ -535,7 +541,13 @@
         "orsino": "monsterType:Deva",
         "fidelity": "adapted",
         "notes": "Composed by OrsinoMonsters (celestial class, Deva type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 30
+        }
+      ]
     },
     "discerner": {
       "name": "Discerner",
@@ -1098,7 +1110,13 @@
         "orsino": "monsterType:Marilith",
         "fidelity": "adapted",
         "notes": "Composed by OrsinoMonsters (demon class, Marilith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 25
+        }
+      ]
     },
     "mephit": {
       "name": "Mephit",
@@ -1585,7 +1603,13 @@
         "orsino": "monsterType:Pixie",
         "fidelity": "adapted",
         "notes": "Composed by OrsinoMonsters (fey class, Pixie type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 15
+        }
+      ]
     },
     "revenant": {
       "name": "Revenant",
@@ -1765,7 +1789,13 @@
         "orsino": "monsterType:Solar",
         "fidelity": "adapted",
         "notes": "Composed by OrsinoMonsters (celestial class, Solar type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 32
+        }
+      ]
     },
     "spirit": {
       "name": "Spirit",
@@ -1926,7 +1956,13 @@
         "orsino": "monsterType:Titan",
         "fidelity": "adapted",
         "notes": "Composed by OrsinoMonsters (giant class, Titan type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 32
+        }
+      ]
     },
     "vampire": {
       "name": "Vampire",
@@ -2510,7 +2546,13 @@
       "source": {
         "kyr": true,
         "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
-      }
+      },
+      "defenses": [
+        {
+          "kind": "spellResistance",
+          "amount": 21
+        }
+      ]
     },
     "yrthak": {
       "name": "Yrthak",

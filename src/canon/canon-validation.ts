@@ -384,18 +384,19 @@ export class CanonValidation {
   // harm named by damage types (or physical, all), its amounts numbers or dice, and what passes a reduction one of the
   // attack tags or a damage type. A defense nothing would read is refused, never kept inert.
   private defenses(where: string, defenses: Species['defenses']) {
-    const fields: Record<string, string[]> = { immunity: ['kind', 'to'], resistance: ['kind', 'to', 'amount', 'mode'],
-      reduction: ['kind', 'amount', 'unless', 'to'], regeneration: ['kind', 'amount', 'stoppedBy'] };
+    const fields: Record<string, string> = { immunity: 'to', resistance: 'to amount mode', reduction: 'amount unless to',
+      regeneration: 'amount stoppedBy', spellResistance: 'amount' };
     const harms = ['all', ...Canon.rules.damageTypes], tags = [...Canon.rules.combat.defenses.attackTags, ...harms];
     for (const d of defenses ?? []) {
       const said = `${where}: defense ${JSON.stringify(d)}`;
       if (!fields[d.kind]) { this.problems.push(`${said}: unknown kind`); continue; }
-      const extra = Object.keys(d).filter(k => !fields[d.kind]!.includes(k));
+      const extra = Object.keys(d).filter(k => !['kind', ...fields[d.kind]!.split(' ')].includes(k));
       if (extra.length) { this.problems.push(`${said}: unknown field ${extra.join(', ')}`); }
       const named = [...'to' in d ? d.to ?? [] : [], ...'stoppedBy' in d ? d.stoppedBy ?? [] : []];
       for (const h of named.filter(h => !harms.includes(h))) { this.problems.push(`${said}: unknown damage type ${h}`); }
       if ((d.kind === 'immunity' || d.kind === 'resistance') && !d.to?.length) { this.problems.push(`${said}: names no harm`); }
       if ('amount' in d && !Amounts.valid(d.amount)) { this.problems.push(`${said}: amount is not a number or dice`); }
+      if (d.kind === 'spellResistance' && !Number.isSafeInteger(d.amount)) { this.problems.push(`${said}: not whole`); }
       if (d.kind === 'resistance' && !['flat', 'fraction'].includes(d.mode)) { this.problems.push(`${said}: unknown mode`); }
       if (d.kind === 'resistance' && d.mode === 'fraction' && typeof d.amount !== 'number') {
         this.problems.push(`${said}: a fraction is a number`);

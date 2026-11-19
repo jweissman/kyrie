@@ -46,6 +46,8 @@ export interface EffectContext {
   aim?: { area: Area; at: string };
   // An ability another one casts (Orsino's cast effect) costs nothing.
   free?: boolean;
+  // A spell that allows spell resistance being cast: whom it has got past, or not, checked once each (SpellResistance).
+  resisting?: Map<string, boolean>;
   // Outside a fight (a hazard met, a shrine's touch, a thing used in the field): what lasts a fight does not begin.
   field?: boolean;
   // Runs a lapsing condition's effects (set by the battle, which knows how to resolve them).

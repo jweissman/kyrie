@@ -138,7 +138,7 @@ export class MonsterManual {
     return (defenses ?? []).flatMap(d => d.kind === 'immunity' ? [`immune to ${d.to.join(', ')}`]
       : d.kind === 'resistance' ? d.mode === 'flat' ? [`${d.to.join(', ')} ${d.amount} off each blow`] : []
         : d.kind === 'reduction' ? [`turns ${d.amount} of a blow${d.unless?.length ? ` unless ${d.unless.join(' or ')}` : ''}`]
-          : [`mends ${d.amount} a turn${d.stoppedBy?.length ? ` unless struck by ${d.stoppedBy.join(' or ')}` : ''}`])
+          : d.kind === 'spellResistance' ? [`resists spells (${d.amount})`] : [`mends ${d.amount} a turn${d.stoppedBy?.length ? ` unless struck by ${d.stoppedBy.join(' or ')}` : ''}`])
       .join('; ');
   }
   static resistances(r: Record<string, number>): string {

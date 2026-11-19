@@ -89,7 +89,8 @@ export interface Ability {
   cost?: number; recharge?: number;
   // A big blow a creature must wind up for a turn first ("rears up on its hind legs"); stun it and it is lost.
   windup?: string;
-  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string };
+  // resistance: it allows spell resistance (the SRD's "Spell Resistance: Yes", not harmless: see SpellResistance).
+  spell?: { tradition: 'arcane' | 'divine'; level: number; school?: string; domain?: string; resistance?: boolean };
   // Orsino's ability level gate for a technique (a level-2 skill such as Meditate).
   level?: number;
   // Orsino's spell save: offensive spells whose damage halves or negates give each target a save first.

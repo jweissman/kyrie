@@ -28,7 +28,7 @@ const of = (events: CombatEvent[], type: 'attack' | 'save' | 'status') => events
 describe('Ghoul Touch, by the SRD\'s numbers', () => {
   it('is a second-level necromancy on one humanoid, six rounds, a Fortitude save at the SRD\'s difficulty', () => {
     const e = touch.effects[0]!;
-    expect(touch.spell).toEqual({ tradition: 'arcane', level: 2, school: 'necromancy' });
+    expect(touch.spell).toEqual({ tradition: 'arcane', level: 2, school: 'necromancy', resistance: true });
     expect([e.kind, e.target, e.targetTrait, e.touch, e.save?.kind]).toEqual(['apply', 'enemy', 'humanoid', 'melee',
       'fortitude']);
     expect(e.kind === 'apply' && e.duration).toBe(6);

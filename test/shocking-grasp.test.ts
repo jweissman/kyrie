@@ -44,7 +44,7 @@ describe('the touch', () => {
 });
 describe('Shocking Grasp, by the SRD\'s numbers', () => {
   it('is a first-level evocation, 1d6 a casting level to five, said as a touch', () => {
-    expect(grasp.spell).toEqual({ tradition: 'arcane', level: 1, school: 'evocation' });
+    expect(grasp.spell).toEqual({ tradition: 'arcane', level: 1, school: 'evocation', resistance: true });
     expect(Creation.spellbook('arcane', 1, 'evocation')).toContain('shocking_grasp');
     const e = grasp.effects[0]!, expression = e.kind === 'damage' && e.amount.kind === 'deem' ? e.amount.expression : '';
     expect([1, 3, 5, 6, 20].map(castingLevel => Amounts.mean(expression, { castingLevel })))

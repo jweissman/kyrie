@@ -1352,7 +1352,7 @@ Go over the whole of the place, a little at a time: the ground, the walls, the b
 - Takes: 10 minutes
 - Costs: 1
 
-Where nothing reads a search of the place, it finds nothing, and says so: twelve of fourteen searches in the boredom census's walks (a cloth-hall, a bakehouse, a byre) ended on the plain words, twenty minutes gone and nothing said of what came of them (BO-03).
+Where nothing reads a search of the place, it finds nothing, and says so: twelve of fourteen searches in the boredom census's walks (a cloth-hall, a bakehouse, a byre) ended on the plain words, twenty minutes gone and nothing said of what came of them (BO-03). The place last, where what its name says of where it lies can trail it ("the Black Rhyne, behind the pens"): put before "with care", it read as a name pasted into the sentence (cold play 4, CL-47's 7).
 
 > Needs: able(actor); at(actor, site); at(witness, site); noticeable(witness); intact(witness); destructible(witness)
 
@@ -1986,7 +1986,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 38 | 2 | 24 | 0 | 6 |
+| 8 | 38 | 2 | 25 | 0 | 6 |
 
 #### scenery
 
@@ -2146,6 +2146,12 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 Who last changed a thing by one of its own changes, so that a rule can ask who did it: Bettany opening her own lockbox had been taken for someone at it in front of her (What Tessary Owes' W15).
 
+#### forcing
+
+*Kyr · query(a: group, c: change, t: entity, o: condition)* · `rule:world_passages.forcing`
+
+Forcing what bars a way, where the company holds its key: a padlock's hasp had been offered to wrench out, and the padlock to pick, to a company with the key in hand (cold play 5, CL-36's 14). A change that needs nothing (a latch lifted) is still anyone's.
+
 #### change thing
 
 *Kyr · action (group, change, entity, condition, condition)* · `rule:world_passages.change_thing`
@@ -2154,7 +2160,7 @@ Who last changed a thing by one of its own changes, so that a rule can ask who d
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (forcing(actor, how, thing, origin)); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
 
 > Then: Assert state(thing, result). Assert changedBy(thing, actor).
 
@@ -2168,7 +2174,7 @@ Who last changed a thing by one of its own changes, so that a rule can ask who d
 
 What it takes is used up doing it.
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (forcing(actor, how, thing, origin)); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
 
 > Then: Assert state(thing, result). Assert changedBy(thing, actor).
 
@@ -2182,7 +2188,7 @@ What it takes is used up doing it.
 
 Said by the thing's own name ("the Abbess's Eye is used up", not "Elen's the Abbess's Eye").
 
-> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
+> Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (withheld(how)); not (forcing(actor, how, thing, origin)); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
 
 > Then: Assert state(thing, result). Assert changedBy(thing, actor). Decrease quantity(actor, spent) by 1.
 

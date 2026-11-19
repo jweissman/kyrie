@@ -67,6 +67,13 @@ export class CombatPresenter {
     return `${actor} ${event.success ? 'makes' : 'fails'} the ${event.skill} check (${[`d20 ${event.die}`, ...terms]
       .join(' + ')} = ${event.rolled} against ${event.difficulty}).`;
   }
+  // A caster's check against spell resistance (see SpellResistance): the spell turned, or got past it.
+  private static resisted(event: Extract<CombatEvent, { type: 'resist' }>, actor: string, target: string,
+    dice: boolean): string {
+    const rolled = dice ? ` (d20 ${event.die} + level ${event.level} = ${event.rolled} against ${event.difficulty})` : '';
+    return `${event.success ? `${actor}'s spell gets past ${target}'s resistance`
+      : `${target} resists ${actor}'s spell, untouched by it`}${rolled}.`;
+  }
   private static foe(event: { target: string }, state: BattleState): boolean {
     return state.combatants.find(f => f.id === event.target)?.team === 'goblins';
   }
@@ -99,6 +106,7 @@ export class CombatPresenter {
       case 'death': return `${actor} falls.`;
       case 'defend': return `${actor} guards.`;
       case 'intercept': return `${actor} steps in front of ${target}.`;
+      case 'resist': return this.resisted(event, actor, target, dice);
       case 'windup': return `${actor} ${event.detail}, ready to strike ${target} next turn.`;
       case 'interrupt': return `${actor} loses the ${event.detail.toLowerCase()} it was gathering.`;
       case 'skip': return `${actor} cannot act.`;

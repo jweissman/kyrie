@@ -27,7 +27,8 @@ const cast = (seed: string) => {
 describe('Bane, by the SRD\'s numbers', () => {
   it('is a first-level enchantment of Death at every foe, saved against as fear at the SRD\'s difficulty', () => {
     expect(bane.name).toBe('Bane');
-    expect(bane.spell).toEqual({ tradition: 'divine', level: 1, domain: 'death', school: 'enchantment' });
+    expect(bane.spell).toEqual({ tradition: 'divine', level: 1, domain: 'death', school: 'enchantment',
+      resistance: true });
     const e = bane.effects[0]!, d = e.save!.difficulty;
     expect([e.kind, e.target, e.kind === 'apply' && e.status, e.kind === 'apply' && e.duration, e.save!.kind])
       .toEqual(['apply', 'enemies', 'baned', 10, 'fear']);

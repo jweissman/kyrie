@@ -234,6 +234,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 - Qualities: rolled (3d6 each)
 - Attack: claws, 1d4 slashing
 - Hide: Chitin Armor, armour 2
+- Defenses: resists spells (21)
 - Worth: 120 + 40 experience a level
 
 > Xills are extraplanar beings with insect-like features and a penchant for ambushing travelers. They are known for their agility and deadly combat skills. Malevolent in the extreme, xills are known for brutality and totalitarianism. They combine a healthy dose of evil with a keen love of cruelty.
@@ -2105,6 +2106,7 @@ Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necroti
 - Qualities: strength 20, dexterity 19, constitution 16, intelligence 15, wisdom 23, charisma 21
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
+- Defenses: resists spells (30)
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 450 + 50 experience a level
 
@@ -2138,6 +2140,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Qualities: strength 22, dexterity 20, constitution 16, intelligence 15, wisdom 22, charisma 22
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
+- Defenses: resists spells (32)
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 450 + 50 experience a level
 
@@ -2267,6 +2270,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Qualities: strength 20, dexterity 17, constitution 17, intelligence 12, wisdom 11, charisma 9
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
+- Defenses: resists spells (28)
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 400 + 50 experience a level
 
@@ -2358,6 +2362,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Qualities: strength 19, dexterity 18, constitution 16, intelligence 12, wisdom 11, charisma 9
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
+- Defenses: resists spells (25)
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 400 + 50 experience a level
 
@@ -2440,6 +2445,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Qualities: strength 8, dexterity 7, constitution 8, intelligence 8, wisdom 8, charisma 8
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Defenses: resists spells (19)
 - Found in: wood, heights
 - Worth: 10 experience a level
 
@@ -2687,6 +2693,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Qualities: strength 9, dexterity 18, constitution 10, intelligence 11, wisdom 12, charisma 18
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Defenses: resists spells (15)
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: grove
 - Worth: 250 + 50 experience a level
@@ -2849,6 +2856,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Qualities: strength 30, dexterity 16, constitution 27, intelligence 16, wisdom 18, charisma 17
 - Attack: greatsword, 1d10 slashing
 - Hide: Chain Mail, armour 5
+- Defenses: resists spells (32)
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 500 + 50 experience a level
 

@@ -7,6 +7,7 @@ import { Positions } from './rules/positions';
 import { HitDicePool } from './rules/hit-dice-pool';
 import { Chain } from './rules/chain';
 import { Touch } from './rules/touch';
+import { SpellResistance } from './rules/spell-resistance';
 import { Images } from './rules/images';
 import { ShakingOff } from './rules/shaking-off';
 import { Volley } from './rules/volley';
@@ -82,7 +83,7 @@ export class AbilityUse {
   static perform(ability: ArenaAbility, chosenId: string, expressions: Expressions, context: EffectContext) {
     AbilityUse.validate(ability, context);
     const actor = context.actor, outer = context.drawn, aimed = context.aim, area = actor && Positions.area(ability);
-    const laid = context.applies; context.applies = AbilityUse.lays(ability.effects);
+    const laid = context.applies, resisting = context.resisting; context.applies = AbilityUse.lays(ability.effects);
     context.drawn = undefined; context.aim = area ? { area, at: chosenId } : undefined;
     const targetId = AbilityUse.guarded(ability, chosenId, context);
     context.expressions = expressions;
@@ -101,7 +102,7 @@ export class AbilityUse {
         actor.cooldowns[ability.id] = Math.max(ability.cooldown ?? 0, rests) + 1;
       }
     }
-    context.spell = !!ability.spell;
+    context.spell = !!ability.spell; context.resisting = ability.spell?.resistance ? new Map() : undefined;
     context.events.push({ type: 'action', turn: context.turn,
       command: { actor: actor?.id ?? Effects.sourceId(context), ability: ability.id, target: chosenId },
       source: context.source ?? { id: actor!.id, kind: 'ability' } });
@@ -133,7 +134,7 @@ export class AbilityUse {
     }
     if (applied) { PerkTriggers.after(ability, actor, alive, context); }
     Reactions.cast(ability, actor, context);
-    context.drawn = outer; context.aim = aimed; context.applies = laid;
+    context.drawn = outer; context.aim = aimed; context.applies = laid; context.resisting = resisting;
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
   }
@@ -176,6 +177,8 @@ export class AbilityUse {
     if (effect.kind === 'attack') { return AbilityUse.attack(actor!, target, context, effect.spillover === true) && 'full'; }
     // A touch spell falls only where its touch lands (see Touch).
     if (!Touch.lands(effect, actor, target, context)) { return false; }
+    // A spell that allows spell resistance falls only on one whose resistance it gets past (see SpellResistance).
+    if (!SpellResistance.overcomes(target, context)) { return false; }
     if (effect.kind === 'random' || effect.kind === 'cycle') { return CompoundEffects.one(effect, target, options); }
     if (effect.kind === 'cast') { return CompoundEffects.cast(effect, target, options); }
     if (effect.kind === 'apply' && effect.save && options.resisted) { return false; }
