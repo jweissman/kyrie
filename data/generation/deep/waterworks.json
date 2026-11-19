@@ -121,7 +121,7 @@
   "keeper": {
     "species": "water_elemental",
     "label": "the still water",
-    "role": "what the Water-Wardens read in the still water, which reads back",
+    "role": "what the Water-Wardens read, which reads back",
     "level": 8,
     "temperament": "territorial",
     "refuge": "source",

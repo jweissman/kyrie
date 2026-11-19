@@ -58,14 +58,14 @@ Module factors "The factor who buys old bronze" {
     Description "Twelve teeth at a pound apiece. Anything the factor is holding will be sold back, at a profit.".
     Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and keeps(factor, ware) and itemKind(ware, bell_teeth) and quantity(actor, gold) >= 14 and not suspects(factor, actor).
     Time 2 minutes.
-    On success { Decrease quantity(actor, gold) by 14. Increase quantity(factor, gold) by 14. Retract keeps(factor, ware). Assert keeps(actor, ware). Set dueAt(factor) to 0. Assert suspects(factor, actor). }
+    On success { Decrease quantity(actor, gold) by 14. Increase quantity(factor, gold) by 14. Retract keeps(factor, ware). Give ware to actor. Set dueAt(factor) to 0. Assert suspects(factor, actor). }
     Result "{factor} weighs it in front of you, to the ounce, and writes the sum in the ledger, and gives you the lot in a sack. 'Fourteen,' says {factor}. 'I would have paid nine for them if you had come last week.' The pen stays a moment over the ledger. It writes your description in the margin.".
   }
   Action buy_back_dear(actor: group, site: place, ware: item) "Buy {ware} back from {factor}, at the price of a customer who asks questions" {
     Description "Twenty-two coin. The factor knows what you are about.".
     Requires able(actor) and company(actor) and at(actor, site) and at(factor, site) and keeps(factor, ware) and itemKind(ware, bell_teeth) and quantity(actor, gold) >= 22 and suspects(factor, actor) and not carterGone(carter).
     Time 2 minutes.
-    On success { Decrease quantity(actor, gold) by 22. Increase quantity(factor, gold) by 22. Retract keeps(factor, ware). Assert keeps(actor, ware). Set dueAt(factor) to 0. }
+    On success { Decrease quantity(actor, gold) by 22. Increase quantity(factor, gold) by 22. Retract keeps(factor, ware). Give ware to actor. Set dueAt(factor) to 0. }
     Result "{factor} names the price without looking up. 'Twenty-two,' says {factor}. 'It is the price for those who have asked me where it came from.' It is a very reasonable voice. It is the voice of someone who has made a note of your face and of the hour.".
   }
   // What the factor does about being asked: she knows what is said at her table and what her carter and hands see,

@@ -110,4 +110,4 @@
     Says "'The howe at {name} keeps the old bound, out in {where},' says {{priest}}. 'The stone across its door was set there for a reason. If ever you hear it has been moved, come and tell me.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }
-  Objective {w}_unsealed when state({w}_seal, rolled) and knows(party, {w}_named) "The seal-stone of {name} has been rolled aside. The dead in it may walk at night.".
+  Objective {w}_unsealed when state({w}_seal, rolled) and knows(party, {w}_named) toward {w}_dead "The seal-stone of {name} has been rolled aside. The dead in it may walk at night.".

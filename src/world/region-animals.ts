@@ -29,10 +29,12 @@ export class RegionAnimals {
       const kinds = RegionEcology.seen(new Set([...RegionGrowth.habitats(region, [c]), ...country]));
       if (!kinds.length) { return []; }
       const [species, s] = new Draw(`${RegionKey.of(region)}:animal:${c}`).weighted(kinds.map(k => [k, k[1].abundance!] as const));
-      const name = s.name.toLowerCase();
-      return KyrTemplates.fill(lines, { a: `wa${c}`, tract: RegionTracts.id(c), species,
-        name: `${/^[aeiou]/.test(name) ? 'an' : 'a'} ${name}`,
-        looks: (s.looks ?? s.description).replace(/^./, ch => ch.toLowerCase()).replace(/\.$/, '') });
+      const name = s.name.toLowerCase(), called = `${/^[aeiou]/.test(name) ? 'an' : 'a'} ${name}`;
+      // Said after its name, so not its name again: "a beetle, as big as a hand", where the record's own looks begin
+      // "A beetle as big as a hand" (kyrie lint's role: "a beetle, a beetle as big as a hand").
+      const looks = (s.looks ?? s.description).replace(/^./, ch => ch.toLowerCase()).replace(/\.$/, '');
+      return KyrTemplates.fill(lines, { a: `wa${c}`, tract: RegionTracts.id(c), species, name: called,
+        looks: looks.startsWith(`${called} `) ? looks.slice(called.length + 1) : looks });
     });
   }
 }

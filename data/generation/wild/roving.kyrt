@@ -18,7 +18,7 @@
 --- any pedlar 3
   // A pedlar on the drove-ways, with a pack and the news: asked, tells of a place off the roads, and the way to it.
   Person {r} "a pedlar" at {home} {
-    Role "a pedlar with a pack on a frame and a staff, walking the drove-ways between the farms". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful.
+    Role "with a pack on a frame and a staff, walking the drove-ways between the farms". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful.
   }
   Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
     says "A pedlar is coming the other way along the sheep-track, bent under a pack on a frame, and lifts {his} staff to you from a long way off." {
@@ -37,7 +37,7 @@
 --- any shepherd 3
   // A shepherd after a ewe gone astray: found by searching where {he} says, she is worth a cheese and a coin or two.
   Person {r} "a shepherd" at {home} {
-    Role "a shepherd with a crook and a young dog at heel, looking about as if for something lost". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner stoic.
+    Role "with a crook and a young dog at heel, looking about as if for something lost". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner stoic.
   }
   Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
     says "A whistle, and a young dog comes bounding at you through the grass and stops short, and behind it a shepherd, crook in hand, who calls it off and looks you over." {

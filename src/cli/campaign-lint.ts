@@ -9,6 +9,7 @@ import { parseAbility } from '../lang/parse';
 import type { Entity, Module } from '../lang/module';
 import { EndingOrder } from '../lang/ending-order';
 import type { World } from '../lang/world';
+import { DrawnChoice } from './drawn-choice';
 import type { Finding } from './kyr-lint';
 import { CommitmentLint } from './commitment-lint';
 import { LintSource } from './lint-source';
@@ -211,8 +212,11 @@ export class CampaignLint {
       if (early) { this.add('warning', 'ending', `${late.id} is never reached: ${early.id} comes first, and holds whenever it does`); }
     });
   }
+  // What a way asks, and what stands on it: the Bound Howe's straight way across the grey grass, whose grass hurts, is
+  // the other choice beside the sunwise way round, not its twin.
   private needs(way: string): string {
-    return this.relations('needs').filter(r => r.args[0] === way).map(r => r.args[1]).join(',');
+    return [...this.relations('needs').filter(r => r.args[0] === way).map(r => r.args[1]),
+      ...this.relations('on').filter(r => r.args[1] === way).map(r => `on ${r.args[0]}`)].join(',');
   }
   passages() {
     const seen = new Map<string, string>(), kinds = new Set<string>();
@@ -224,7 +228,8 @@ export class CampaignLint {
       // A way that goes one way only is not its own return (Low Water's 17: the way back from the still water was
       // reported as a duplicate of the way down to it).
       const key = this.oneWay(way, a, b) ? `${a}>${b}` : [a, b].sort().join('|');
-      // Two ways between the same places are alternatives only if they ask for different things (a rope, a lock).
+      // Two ways between the same places are alternatives only if they ask for different things (a rope, a lock) or
+      // something stands on one.
       if (seen.has(key) && seen.get(key) !== way && this.needs(way) === this.needs(seen.get(key)!)) {
         this.add('warning', 'passage', `${way} duplicates ${seen.get(key)} between ${a} and ${b}`);
       }
@@ -287,13 +292,17 @@ export class CampaignLint {
     const failed = new Map<string, string>();
     const grounded = ActionSchemas.targeted(this.module, this.session.campaign.actors, failed);
     for (const [id, why] of failed) { this.add('error', 'applicability', `action ${id} cannot be grounded: ${why}`); }
+    const chosen = new DrawnChoice(this.module, this.world, this.session.campaign.playerActor);
     for (const schema of this.session.campaign.schemas.filter(x => x.id.includes('__'))) {
       if (grounded.has(schema.id)) { continue; }
       // One that waits on a world event (befell) no module of this world brings about is meant to wait: advice, not a
-      // warning on every reader of a canonical event (register M19-177).
-      const waits = CampaignLint.befell(schema.requires);
-      this.add(waits ? 'advice' : 'warning', 'applicability', waits
-        ? `action ${schema.id} waits on a world event this world has not brought about` : `action ${schema.id} has no possible target in this world`);
+      // warning on every reader of a canonical event (register M19-177); so is one of a staging the draw did not
+      // choose (DrawnChoice).
+      const waits = CampaignLint.befell(schema.requires), drawn = chosen.of(schema);
+      this.add(waits || drawn ? 'advice' : 'warning', 'applicability', waits
+        ? `action ${schema.id} waits on a world event this world has not brought about`
+        : drawn ? `action ${schema.id} waits on ${drawn}, not so in this world, and nothing makes it so`
+          : `action ${schema.id} has no possible target in this world`);
     }
   }
   private static befell(p: unknown): boolean {

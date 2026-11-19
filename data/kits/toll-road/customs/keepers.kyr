@@ -90,7 +90,7 @@ Module toll_customs "Customs-men on the road" {
   // take prisoners, not lives: beaten, you wake in the lord's lockup all the same, the worse for it (see Mercy).
   Place hall "The lord's hall" is room.
   Person riders "the lord's riders" at hall {
-    Role "the lord's riders, sent after whoever turned on his toll". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Role "sent after whoever turned on his toll". Ancestry human. Calling warrior. Level 2. Numbers 3.
     Called "Aldred", "Wace", "Hubert".
     State waiting "Three riders in the lord's colours wait on the green by their horses, watching the road.".
   }
