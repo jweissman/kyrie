@@ -54,6 +54,9 @@ Module gate "The last sea-gate" {
     On success { Spend pawl_kind from actor. Assert mended(actor). Assert knows(actor, shut). }
     On failure { Assert gateTried(actor). }
     Result "The pawl drops into its socket with a sound like a bell. Then the long work: the windlass bars, a turn and a rest and a turn, the chain coming up wet out of the slot link by link, the pawl clacking over the ratchet. Below, at last, something enormous seats itself in stone, and the mill-race sound stops.".
+    // With more than one on the bars, it is not one pair of arms that fails (cold play 5, CL-39's 11: Gesk hauling
+    // beside her, the failure still said "more weight than yours").
+    Otherwise "The drum will not come round, though every one of you is on the bars. You hang there until your arms shake, and the chain slips back a link at a time. It wants more weight than you have between you, or a fresh try." when count(memberOf(?m, party)) > 1.
     Otherwise "The drum will not come round. You hang on the bar until your arms shake and the chain slips back a link at a time. It wants more weight than yours, or a fresh try.".
   }
   // The wardens' own way, for one without the arms for it: at low water the sea is off the gate, and it comes round
