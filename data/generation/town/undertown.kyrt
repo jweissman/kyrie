@@ -474,6 +474,16 @@
   }
   Initially Set encounterXp({t}_u_cellar_rats) to 30.
   Rule {t}_u_cellar_rats_come when at(party, {t}_u_cellar) and lingered(party) >= 1 and able({t}_u_cellar_rats) and not {t}_u_came({t}_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert at({t}_u_cellar_rats, {t}_u_cellar). Assert assails({t}_u_cellar_rats, party). Assert {t}_u_came({t}_u_cellar_rats). }
+  // What the rats found first under the sacks: a strongbox someone hid down here, its corner gnawed. Not the
+  // merchant's, who says whose it was when asked: a room with something in it that sends the company back up (the owner, 19 November: rooms with nothing in them, and quests that do not circle back).
+  Discovery {t}_u_cellar_box "Under the gnawed sacks, a little iron strongbox, its corner chewed through." {
+    Found by searching {t}_u_cellar "Under the gnawed sacks in the corner, the edge of an iron box.".
+  }
+  Item {t}_u_cellar_purse "an old corn-factor's purse" is steel_coin at {t}_u_cellar hidden until {t}_u_cellar_box.
+  Topic {t}_u_cellar_box_asked with {t}_merchant "Ask {{t}_merchant} about the strongbox under the cellar sacks" when knows(actor, {t}_u_cellar_box) once {
+    Says "{{t}_merchant} turns the empty box over and laughs once. 'Not mine. The old corn-factor kept the store before me. He went off owing half the town. Keep what was in it. If he comes asking, you never saw it.'".
+    On discuss { Increase quantity(actor, gold) by 2. }
+  }
 --- yard dead
   // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
   // them with a black candle in the ossuary; the churchyard, the crypt and the lodger at the inn say so to whoever
@@ -604,6 +614,15 @@
   }
   Initially Set encounterXp({t}_u_crypt_bats) to 30.
   Rule {t}_u_crypt_bats_come when at(party, {t}_u_crypt) and lingered(party) >= 1 and able({t}_u_crypt_bats) and not {t}_u_came({t}_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert at({t}_u_crypt_bats, {t}_u_crypt). Assert assails({t}_u_crypt_bats, party). Assert {t}_u_came({t}_u_crypt_bats). }
+  // Dropped by the coffins: the inn's own brass token, of the kind given to a lodger for the back stair. Whoever comes
+  // down here lodges at the inn; the innkeeper says who, asked of it, so the crypt sends the company back up (the owner, 19 November: rooms with nothing in them, and quests that do not circle back).
+  Discovery {t}_u_crypt_token "By the coffins, a brass token stamped with the inn's sign: a lodger's, for the back stair." {
+    Found by searching {t}_u_crypt "In the dust by the pushed coffins, a small brass token.".
+  }
+  Topic {t}_u_crypt_token_asked with {t}_innkeeper "Show {{t}_innkeeper} the brass token from the crypt" when knows(actor, {t}_u_crypt_token) and not knows(actor, {t}_u_dead_lodger) once {
+    Says "{{t}_innkeeper} turns the token over. 'That's my back-stair token. The man in the back room has it. He has been here a fortnight and pays in old coin. He goes out after dark. He comes in before light with grave-dirt on his boots.'".
+    On discuss { Assert knows(actor, {t}_u_dead_lodger). }
+  }
 --- pit spiders
   // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what

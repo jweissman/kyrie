@@ -215,6 +215,14 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_cellar_rats) to 30.
   Rule low_u_cellar_rats_come when at(party, low_u_cellar) and lingered(party) >= 1 and able(low_u_cellar_rats) and not low_u_came(low_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert at(low_u_cellar_rats, low_u_cellar). Assert assails(low_u_cellar_rats, party). Assert low_u_came(low_u_cellar_rats). }
+  Discovery low_u_cellar_box "Under the gnawed sacks, a little iron strongbox, its corner chewed through." {
+    Found by searching low_u_cellar "Under the gnawed sacks in the corner, the edge of an iron box.".
+  }
+  Item low_u_cellar_purse "an old corn-factor's purse" is steel_coin at low_u_cellar hidden until low_u_cellar_box.
+  Topic low_u_cellar_box_asked with low_merchant "Ask {low_merchant} about the strongbox under the cellar sacks" when knows(actor, low_u_cellar_box) once {
+    Says "{low_merchant} turns the empty box over and laughs once. 'Not mine. The old corn-factor kept the store before me. He went off owing half the town. Keep what was in it. If he comes asking, you never saw it.'".
+    On discuss { Increase quantity(actor, gold) by 2. }
+  }
   Observe low_u_yard_scene at low_u_yard as fixture when true "Old stones lean in the grass. In the corner by the wall, a low stone door goes into the ground. Its iron ring is bright where someone has pulled at it lately.".
   Entity low_u_dead_robbed: fact "Someone has been opening graves in the churchyard by night, and going down into the catacombs.".
   Entity low_u_dead_raised: fact "The dead under the churchyard have been raised. A ring of chalk and the ends of black candles are on the crypt floor.".
@@ -314,6 +322,13 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_crypt_bats) to 30.
   Rule low_u_crypt_bats_come when at(party, low_u_crypt) and lingered(party) >= 1 and able(low_u_crypt_bats) and not low_u_came(low_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert at(low_u_crypt_bats, low_u_crypt). Assert assails(low_u_crypt_bats, party). Assert low_u_came(low_u_crypt_bats). }
+  Discovery low_u_crypt_token "By the coffins, a brass token stamped with the inn's sign: a lodger's, for the back stair." {
+    Found by searching low_u_crypt "In the dust by the pushed coffins, a small brass token.".
+  }
+  Topic low_u_crypt_token_asked with low_innkeeper "Show {low_innkeeper} the brass token from the crypt" when knows(actor, low_u_crypt_token) and not knows(actor, low_u_dead_lodger) once {
+    Says "{low_innkeeper} turns the token over. 'That's my back-stair token. The man in the back room has it. He has been here a fortnight and pays in old coin. He goes out after dark. He comes in before light with grave-dirt on his boots.'".
+    On discuss { Assert knows(actor, low_u_dead_lodger). }
+  }
   Observe low_u_pit_scene at low_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces. At the bottom a square adit goes back into the rock behind a barred gate. A board on the gate says KEEP OUT in three hands.".
   Observe low_u_husks at low_u_adit when able(low_u_spiders) "Things hang in the web across the cutting ahead, wrapped grey and sucked dry. A fox, a dog, something the size of a calf. Whatever strung it takes prey that big.".
   Person low_u_spiders "the spider in the old workings" at low_u_gallery {
