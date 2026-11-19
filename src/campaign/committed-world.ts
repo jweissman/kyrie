@@ -24,6 +24,12 @@ export class CommittedWorld {
     });
     return due.length ? world.apply(due.map(call => ({ kind: 'assert' as const, call }))) : world;
   }
+  // Another campaign's world, for a copy of it (Campaign.fork) whose state is a copy of that one's, under the copy's
+  // module: held as it is until the copy commits another.
+  share(current: { world: WorldState }, module: Module, world: World): World {
+    this.viewed = { state: current.world, module, world: world.withModule(module) }; this.stale = false;
+    return this.viewed.world;
+  }
   // The world's facts, written into the state if they are not there already.
   keep(current: { world: WorldState }) {
     if (!this.stale || !this.viewed) { return; }

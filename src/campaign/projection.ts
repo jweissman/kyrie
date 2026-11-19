@@ -26,6 +26,22 @@ export class Projection {
     this.seen = projected; this.store = store; this.revision = store.version;
     return projected;
   }
+  // As it stands, for a copy of the campaign (Campaign.fork) playing in the same world under its own module, with a
+  // copy of its creatures: an actor stands projected where it stood here, while each of its members' records is
+  // the same in the copy as it was here (a copy's record is made again as it is taken in, and is compared, not
+  // assumed). Not as it stands where it does not stand for this world and these creatures: then all of it again.
+  forked(world: World, was: CreatureStore, to: { world: World; store: CreatureStore }): Projection {
+    const copy = new Projection(), store = to.store;
+    if (this.seen !== world || this.store !== was || this.revision !== was.version) { return copy; }
+    copy.seen = to.world; copy.store = store; copy.revision = store.version;
+    for (const [id, input] of this.inputs) {
+      const members = input.members.map(c => store.peek(c.id));
+      if (members.every((c, i) => JSON.stringify(c) === JSON.stringify(input.members[i]))) {
+        copy.inputs.set(id, { ...input, members });
+      }
+    }
+    return copy;
+  }
   private dirty(world: World, actors: readonly CampaignActor[], store: CreatureStore): CampaignActor[] {
     const seen = this.seen;
     const all = !seen || seen.module !== world.module || !seen.sameLine(world);

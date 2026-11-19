@@ -1,4 +1,3 @@
-import { ScreenModel } from '../ui/screen-model';
 import { AimSaid } from '../presentation/aim-said';
 import type { CreatureGenerationContext } from '../content';
 import { Costs } from '../costs';
@@ -185,7 +184,10 @@ export class PlaySession {
     if (aim && !Undertakings.held(this.campaign).some(o => o.id === aim)) { throw new Error(`No aim ${aim} is held`); }
     Undertakings.follow(this.campaign, aim || undefined);
     this.steps.push({ command: `follow:${aim}`, digest: Digest.of(this.campaign) });
-    const text = ScreenModel.build(this.campaign).aims?.find(a => a.id === aim)?.text ?? aim;
+    // The aim in the words the screen gives it (its aims are these), not a whole screen built for them: the page builds
+    // the screen as the command ends, and every follow had built it twice (OR-91).
+    const view = PlayerView.observe(this.campaign), aims = Undertakings.shown(this.campaign, view.objectives ?? [],
+      view.location?.id ?? '').aims, text = aims?.find(a => a.id === aim)?.text ?? aim;
     return { action: 'follow', elapsed: 0, changes: [], result: 'success', combat: [],
       response: aim ? `You set your mind to it: ${AimSaid.title(text)}.` : 'You set your mind to nothing in particular.' };
   }

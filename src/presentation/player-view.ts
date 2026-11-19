@@ -4,23 +4,19 @@ import { ItemCatalog } from '../item-catalog';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { LocalObservations } from '../campaign/local-observations';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
-import type { Call, Change, Entity, MovementMode } from '../lang/module';
+import type { Call, Entity, MovementMode } from '../lang/module';
 import type { Operator } from '../campaign/planner';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
 import { Discovery } from '../information/discovery';
-import { CombatPresenter } from '../ui/combat-presenter';
-import { CombatProjection } from '../combat-projection';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ObservationText } from '../lang/observation-text';
 import { AimWords } from './aim-words';
-import { Spoken } from './spoken';
-import { VisitedPlaces } from './visited-places';
 import { Agency } from '../campaign/agency';
 import { ActionTime } from '../campaign/action-time';
 import { ChoiceWording } from './choice-wording';
 import { Masked } from './masked'; import { EntityIndex } from '../lang/entity-index';
-import { Frozen } from './frozen';
+import { Frozen } from './frozen'; import { Costs } from '../costs'; import { Chronicle } from './chronicle';
 import { CompanyKnowledge } from './company-knowledge';
 import { CompanyMap } from './company-map'; import { Undertakings } from './undertakings';
 
@@ -78,6 +74,9 @@ export interface PlayerSnapshot {
   };
 }
 export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' | 'observation' | 'discovery' | 'event'; text: string; detail: string[] }
+// What the company perceives of one world, kept with what it was worked out of (see PlayerView.observe).
+interface Observed { campaign: Campaign; key: string; store: object; version: number; last?: CampaignEvent;
+  snapshot?: PlayerSnapshot; chronicle?: readonly ChronicleEntry[] }
 
 // Player-safe projection of an omniscient campaign. Kyr has no declared observability, so this applies one
 // conservative, documented locality policy: the player actor's own facts, its location, co-located entities,
@@ -201,10 +200,18 @@ export class PlayerView {
   }
   // What the company perceives turns on the world and, beside it, the campaign's clock, creatures and log. A page asks
   // it of one world several times (before a command, after it, in the command's feedback, for its screen), so it is
-  // worked out once for each, and given frozen: no reader may change what the next is given.
-  private static readonly observed = new WeakMap<World, { campaign: Campaign; key: string; store: object;
-    version: number; last?: CampaignEvent; snapshot: PlayerSnapshot }>();
+  // worked out once for each, and given frozen: no reader may change what the next is given. And what has happened, as
+  // the company has it (see chronicle), turns on no more, and is kept with it: read again from the whole log, by the
+  // command's feedback and again for the page, every act (OR-91).
+  private static readonly observed = new WeakMap<World, Observed>();
   static observe(campaign: Campaign): PlayerSnapshot {
+    return this.kept(campaign).snapshot ??= Costs.time('observe', () => Frozen.deep(this.perceive(campaign)));
+  }
+  static chronicle(campaign: Campaign): readonly ChronicleEntry[] {
+    const actor = this.actor(campaign);
+    return this.kept(campaign).chronicle ??= Frozen.deep(Chronicle.of(campaign, actor, this.labels(campaign)));
+  }
+  private static kept(campaign: Campaign): Observed {
     const world = campaign.world, kept = this.observed.get(world), store = campaign.tickState.creatures;
     const read = campaign.readout, last = campaign.history.at(-1);
     // And the aim followed, which the player changes without changing the world: kept from before Follow this, the
@@ -212,10 +219,9 @@ export class PlayerView {
     const key = `${read.elapsed}:${read.minutes ?? 0}:${campaign.history.length}:${campaign.installations.length}`
       + `:${campaign.running}:${campaign.tickState.current.following?.id ?? ''}`;
     if (kept?.campaign === campaign && kept.key === key && kept.store === store && kept.version === store.version
-      && kept.last === last) { return kept.snapshot; }
-    const snapshot = Frozen.deep(this.perceive(campaign));
-    this.observed.set(world, { campaign, key, store, version: store.version, last, snapshot });
-    return snapshot;
+      && kept.last === last) { return kept; }
+    const now = { campaign, key, store, version: store.version, last }; this.observed.set(world, now);
+    return now;
   }
   private static perceive(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
@@ -377,65 +383,5 @@ export class PlayerView {
     // not the company's (the review's A20).
     if (explained.selected) { return text; }
     return this.test(world, 'talks', id) ? `${text}, but no way is open to them` : undefined;
-  }
-  private static change(change: Change, labels: Map<string, string>): string {
-    const call = { ...change.call, args: change.call.args.map(id => labels.get(id) ?? id) };
-    return ModuleWriter.change({ ...change, call } as Change);
-  }
-  // Rebuilt from the authoritative event log, so it is identical after save/restore and in every host.
-  static chronicle(campaign: Campaign): ChronicleEntry[] {
-    const actor = this.actor(campaign), labels = this.labels(campaign), entries: ChronicleEntry[] = [];
-    const at = new Map<string, string>();
-    for (const c of campaign.module.initial) {
-      if (c.kind === 'assert' && c.call.name === 'at') { at.set(c.call.args[0]!, c.call.args[1]!); }
-    }
-    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds);
-    const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
-    let previous = 0;
-    const perceived = new Set<string>();
-    for (const event of campaign.history) {
-      entries.push(this.playerEntry(campaign, event, previous, { labels, names }));
-      VisitedPlaces.moves(event.changes.filter(line => line.includes(`at(${actor}, `)), at);
-      const here = at.get(actor);
-      for (const decision of event.npc ?? []) {
-        const before = at.get(decision.actor);
-        VisitedPlaces.moves(decision.changes, at);
-        // What the company saw as it happened, as the runtime decided then; a game kept before that, by where the
-        // company was. An undertaking obstructed is told by what came of it, if its author said, and not as done.
-        const seen = decision.seen ?? (!!here && (before === here || at.get(decision.actor) === here));
-        const act = campaign.operator(decision.action), obstructed = decision.goal === 'obstructed';
-        if (!seen || (obstructed && !act?.otherwise)) { continue; }
-        // Told in its author's words or not at all: an act with none had been told by its label, the player's
-        // imperative under whoever did it ("The raiding party: Fall on You", UNT-108, NP-13); what it changed is the
-        // scene's to show.
-        const told = obstructed ? act!.otherwise : act?.seen;
-        if (!told) { continue; }
-        entries.push({ at: decision.elapsed ?? event.elapsed, kind: 'npc',
-          text: ObservationText.render(told, campaign.world), detail: [] });
-      }
-      VisitedPlaces.moves(event.changes, at);
-      for (const m of deadlines.filter(m => m.deadline! > previous && m.deadline! <= event.elapsed)) {
-        entries.push({ at: m.deadline!, kind: 'world', detail: [],
-          text: `Deadline reached: ${m.pressures.map(id => labels.get(id) ?? id).join(', ')} (${m.name})` });
-      }
-      // The chronicle is what happened; what places and people look like is the scene's to tell.
-      for (const o of (event.perceptions ?? []).filter(p => p.kind !== 'observation')) {
-        if (!perceived.has(`${o.id}:${o.text}`)) {
-          perceived.add(`${o.id}:${o.text}`);
-          entries.push({ at: event.elapsed, kind: o.kind, text: o.text, detail: [] });
-        }
-      }
-      previous = event.elapsed;
-    }
-    return entries;
-  }
-  private static playerEntry(campaign: Campaign, event: CampaignEvent, previous: number, { labels, names }: {
-    labels: Map<string, string>; names: Parameters<typeof CombatPresenter.format>[1]; }): ChronicleEntry {
-    const action = campaign.operator(event.action);
-    const declared = action ? (event.result === 'success' ? action.success : action.failure) : [];
-    return { at: previous, kind: 'player',
-      text: `${action?.name ?? event.action}${event.result === 'failure' ? ' — failed' : ''}`,
-      detail: [...Spoken.told(campaign, event, labels), ...event.combat.map(c => CombatPresenter.format(c, names)),
-        ...(campaign.module.observations?.length ? [] : declared.map(change => this.change(change, labels)))] };
   }
 }

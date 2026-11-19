@@ -4,9 +4,12 @@ import { KeptPredicates } from '../lang/kept-predicates';
 import { ObservationText } from '../lang/observation-text';
 import { ItemNames } from '../item-names';
 import { LocalObservations } from '../campaign/local-observations';
-import type { Entity, Predicate } from '../lang/module';
+import type { Entity, Module, Predicate } from '../lang/module';
+import { WorldReads } from '../lang/world-reads';
 import type { World } from '../lang/world';
 
+// The ways from a place as read, and the names they read (none where they read everything: see WorldReads).
+interface Read { ways: readonly WayInfo[]; reads?: string[]; stamped?: number[] }
 export type WayStatus = 'open' | 'blocked' | 'hazard' | 'guarded' | 'needs';
 export interface WayInfo {
   passage: string; name: string; from: string; to: string; oneWay: boolean; status: WayStatus;
@@ -61,24 +64,49 @@ export class PassageModel {
       && this.world.test(x.when));
     return o ? ObservationText.render(o.text, this.world) : undefined;
   }
+  // In the pitch dark what bars a way is felt or heard, not seen as it looks (A Winter in Carth's friction 11).
+  private dark(): boolean {
+    return this.world.declares('benighted') && this.world.test(this.call('benighted', this.actor));
+  }
   visible(passage: string): boolean { return this.world.test(this.call('visibleTo', passage, this.actor)); }
   // The ways from a place, read once for each world and company (a world does not change; another is built for each
   // state): the page, its chart, its itineraries and the road ahead each ask of them, the chart and the itineraries of
   // every place the company knows. Asked afresh each time, they were three quarters of every turn in A Parliament
   // of Books, whose city has eighty rooms. For reading only.
-  private static readonly read = new WeakMap<World, Map<string, readonly WayInfo[]>>();
+  // And kept from one world to the next of its line, of the same module, while nothing they read has been written and
+  // every way is still called what it was (see WorldReads): the ways of the whole open country, which a journey plans
+  // over, had been read again for every act, though an act changes few of them (OR-91: about 50 ms of an act's 245).
+  private static readonly read = new WeakMap<World, Map<string, Read>>();
+  private static readonly lasting = new WeakMap<Module, Map<string, Read>>();
   ways(from: string): readonly WayInfo[] {
     if (!this.supported()) { return []; }
     let kept = PassageModel.read.get(this.world);
     if (!kept) { kept = new Map(); PassageModel.read.set(this.world, kept); }
-    const key = `${this.actor}\u0000${from}`;
-    let ways = kept.get(key);
-    if (!ways) {
-      ways = this.world.relatedTo('connects', from).filter(r => this.visible(r.args[0]!))
-        .map(r => this.way(r.args[0]!, from, r.args[2]!));
-      kept.set(key, ways);
+    const key = `${this.actor}\u0000${from}`, now = kept.get(key);
+    const had = now && this.named(now) ? now : this.lasted(key);
+    if (had) {
+      if (had.reads) { WorldReads.note(had.reads); } else { WorldReads.all(); }
+      kept.set(key, had);
+      return had.ways;
+    }
+    const { value: ways, reads } = WorldReads.of(() => this.world.relatedTo('connects', from)
+      .filter(r => this.visible(r.args[0]!)).map(r => this.way(r.args[0]!, from, r.args[2]!)));
+    const read: Read = { ways, ...reads ? { reads, stamped: this.world.stamped(reads) } : {} };
+    kept.set(key, read);
+    if (reads) {
+      const lasting = PassageModel.lasting.get(this.world.module) ?? new Map<string, Read>();
+      PassageModel.lasting.set(this.world.module, lasting.set(key, read));
     }
     return ways;
+  }
+  // The ways read in an earlier world of this one's line, if nothing they read has been written since.
+  private lasted(key: string): Read | undefined {
+    const was = PassageModel.lasting.get(this.world.module)?.get(key);
+    return was?.reads && this.world.agrees(was.reads, was.stamped) && this.named(was) ? was : undefined;
+  }
+  // Whether each way is called as these entities call it (the company's names for things: see ObservationText).
+  private named(read: Read): boolean {
+    return read.ways.every(w => (this.entities.get(w.passage)?.name ?? w.passage) === w.name);
   }
   private way(passage: string, from: string, to: string): WayInfo {
     const base = { passage, name: this.entities.get(passage)?.name ?? passage, from, to,
@@ -88,9 +116,8 @@ export class PassageModel {
     // architecture review's H5: a keyholder's way was told barred beside a Go across it).
     const blocker = this.first(this.all(`blocker:${passage}:${this.actor}`, this.call('on', '?t', passage),
       this.call('state', '?t', '?s'), this.call('blocksWhen', '?t', '?s'), ...this.unless('opens', this.actor, '?t')));
-    // In the pitch dark what bars a way is felt or heard, not seen as it looks (A Winter in Carth's friction 11).
-    const dark = this.world.declares('benighted') && this.world.test(this.call('benighted', this.actor));
     if (blocker) {
+      const dark = this.dark();
       const t = blocker['?t']!;
       return { ...base, status: 'blocked', via: this.label(t),
         reason: (dark ? undefined : this.describe(t)) ?? PassageModel.inTheWay(this.label(t), dark) };
@@ -107,7 +134,7 @@ export class PassageModel {
       this.call('at', '?g', '?p'), this.call('connects', passage, '?p', '?q'), ...this.unless('allied', '?g', this.actor),
       ...this.unless('tolerates', '?g', this.actor)));
     if (guard) {
-      const g = guard['?g']!;
+      const g = guard['?g']!, dark = this.dark();
       return { ...base, status: 'guarded', via: this.label(g), reason: dark
         ? `In the dark you can hear ${this.label(g)} there.` : this.describe(g) ?? `${this.label(g)} bars the way.` };
     }

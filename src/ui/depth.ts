@@ -10,13 +10,15 @@ interface Way { passage: string; from: string; to: string }
 // site below the one before; the least any way to it gives. Nothing for a place above the ground.
 export class Depth {
   private static readonly down = new Set(['way_stair', 'way_steps', 'way_ladder', 'way_shaft']);
-  // Reckoned once for a module's places: the ways between them do not change from one command to the next.
-  private static readonly cache = new WeakMap<Map<string, Entity>, Map<string, number>>();
+  // Reckoned once for a module's places: the ways between them do not change from one command to the next. Kept by the
+  // module's own entities, not the company's names for them (ObservationText.presented, made again whenever it learns
+  // a name), which differ only in their names: reckoned again in the crypt for every act it learned anything (OR-91).
+  private static readonly cache = new WeakMap<readonly Entity[], Map<string, number>>();
   private constructor(private readonly entities: Map<string, Entity>, private readonly world: World) {}
   static of(entities: Map<string, Entity>, world: World, id: string): number | undefined {
     if (entities.get(id)?.space?.shelter !== 'underground') { return undefined; }
-    let depths = this.cache.get(entities);
-    if (!depths) { depths = new Depth(entities, world).reckon(); this.cache.set(entities, depths); }
+    let depths = this.cache.get(world.module.entities);
+    if (!depths) { depths = new Depth(entities, world).reckon(); this.cache.set(world.module.entities, depths); }
     return Math.max(1, depths.get(id) ?? 1);
   }
   private under(id: string): boolean { return this.entities.get(id)?.space?.shelter === 'underground'; }

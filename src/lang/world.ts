@@ -5,7 +5,7 @@ import { RelationViews } from './relation-views';
 import { Asking } from './asking';
 import { QueryModes } from './query-modes';
 import { Counts } from './counts';
-import { Displaced } from './displaced';
+import { Displaced } from './displaced'; import { WorldReads } from './world-reads';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -56,11 +56,11 @@ export class World {
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
   // Every fact and measure, as the world holds them: for reading only (`snapshot` is a copy to keep or change).
   get view(): Readonly<WorldState> {
-    this.memoSnapshot ??= { relations: this.allFacts(), measures: this.allMeasures() };
+    WorldReads.all(); this.memoSnapshot ??= { relations: this.allFacts(), measures: this.allMeasures() };
     return this.memoSnapshot;
   }
   get snapshot(): WorldState {
-    this.memoSnapshot ??= { relations: this.allFacts(), measures: this.allMeasures() };
+    WorldReads.all(); this.memoSnapshot ??= { relations: this.allFacts(), measures: this.allMeasures() };
     return { relations: this.memoSnapshot.relations.map(World.copy),
       measures: this.memoSnapshot.measures.map(m => ({ call: World.copy(m.call), value: m.value })) };
   }
@@ -68,20 +68,20 @@ export class World {
   // cheaper than `snapshot`, which copies every fact.
   // Read by views kept with the relation's facts, which forked worlds share (see RelationViews).
   related(name: string, first?: string): readonly Call[] {
-    const facts = this.byName.get(name);
+    const facts = this.facts(name);
     if (!facts) { return RelationViews.none; }
     return first === undefined ? RelationViews.list(facts) : RelationViews.by(facts, 0, first);
   }
   // The facts of one relation whose second argument is this one (`ownedItem(?, member)`): for reading only.
   relatedTo(name: string, second: string): readonly Call[] {
-    const facts = this.byName.get(name);
+    const facts = this.facts(name);
     return facts ? RelationViews.by(facts, 1, second) : RelationViews.none;
   }
   // The other party of a fact that relates this one to one other (`at(party, ?)`): the first, if there are several.
   one(name: string, first: string): string | undefined { return this.related(name, first)[0]?.args[1]; }
   // Every value of one measure, as the world holds them: for reading only.
   measured(name: string): readonly Measure[] {
-    const values = this.measuresByName.get(name);
+    const values = this.values(name);
     return values ? RelationViews.list(values) : RelationViews.none;
   }
   // Every fact whose first argument is this one, and every measure, relation by relation as the world holds them
@@ -100,10 +100,10 @@ export class World {
     return next;
   }
   // The names of the relations it holds facts of, in the order it holds them.
-  relationNames(): string[] { return [...this.byName.keys()]; }
-  of(first: string): Call[] { return [...this.byName.keys()].flatMap(name => this.related(name, first)); }
+  relationNames(): string[] { WorldReads.all(); return [...this.byName.keys()]; }
+  of(first: string): Call[] { return this.relationNames().flatMap(name => this.related(name, first)); }
   measuresOf(first: string): Measure[] {
-    return [...this.measuresByName.values()].flatMap(values => RelationViews.by(values, 0, first));
+    WorldReads.all(); return [...this.measuresByName.values()].flatMap(values => RelationViews.by(values, 0, first));
   }
   // Whether the module declares this relation; or this relation or query.
   relates(name: string): boolean { return World.index(this.module).relations.has(name); }
@@ -112,12 +112,15 @@ export class World {
     return signatures.relations.has(name) || signatures.queries.has(name);
   }
   // Whether the fact with this key (see `key`) currently holds.
-  holds(key: string): boolean { return this.byName.get(World.nameOf(key))?.has(key) ?? false; }
+  holds(key: string): boolean { return this.facts(World.nameOf(key))?.has(key) ?? false; }
   // A key's relation or measure name: a key is the JSON of [name, ...args], and no name holds a quote.
   private static nameOf(key: string): string { return key.slice(2, key.indexOf('"', 2)); }
-  private allFacts(): Call[] { return [...this.byName.values()].flatMap(m => [...m.values()]); }
+  private allFacts(): Call[] { WorldReads.all(); return [...this.byName.values()].flatMap(m => [...m.values()]); }
   private allMeasures(): Measure[] { return [...this.measuresByName.values()].flatMap(m => [...m.values()]); }
-  private measure(call: Call): Measure | undefined { return this.measuresByName.get(call.name)?.get(World.key(call)); }
+  private measure(call: Call): Measure | undefined { return this.values(call.name)?.get(World.key(call)); }
+  // A name's facts, or its values, as read (see WorldReads).
+  private facts(name: string) { WorldReads.saw(name); return this.byName.get(name); }
+  private values(name: string) { WorldReads.saw(name); return this.measuresByName.get(name); }
   static key(call: Call): string { return JSON.stringify([call.name, ...call.args]); }
   static format(call: Call): string { return `${call.name}(${call.args.join(', ')})`; }
   private static index(module: Module): Signatures {
@@ -237,7 +240,7 @@ export class World {
         if (!signatures.relations.has(call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
         // Two parties distinct, a thing within an area: computed, not stored for every pair.
         if (ComputedRelations.has(call.name)) { return ComputedRelations.test(this, call); }
-        return this.byName.get(call.name)?.has(World.key(call)) ?? false;
+        return this.facts(call.name)?.has(World.key(call)) ?? false;
       }
       case 'compare': {
         const left = this.number(predicate.left, bindings), right = this.number(predicate.right, bindings);
@@ -365,12 +368,12 @@ export class World {
   // The world's content, as a short key: the same for worlds with the same facts and measures, different (but for a
   // chance of about one in 2^64) for any others. Read at once from the sums kept as facts are written.
   key(): string {
-    return `${this.count}.${this.measureCount}.${(this.sums[0] >>> 0).toString(36)}.${(this.sums[1] >>> 0)
+    WorldReads.all(); return `${this.count}.${this.measureCount}.${(this.sums[0] >>> 0).toString(36)}.${(this.sums[1] >>> 0)
       .toString(36)}`;
   }
   // Whether another world holds exactly the same facts and measures: a full comparison, not a key's.
   sameAs(other: World): boolean {
-    if (this.count !== other.count || this.measureCount !== other.measureCount) { return false; }
+    WorldReads.all(); if (this.count !== other.count || this.measureCount !== other.measureCount) { return false; }
     for (const [name, facts] of this.byName) {
       const theirs = other.byName.get(name);
       if (theirs === facts) { continue; }
@@ -394,15 +397,15 @@ export class World {
   }
   // Every fact and measure as a line, sorted; or only those of some names.
   describe(names?: Set<string>): string[] {
-    const facts = names ? [...names].flatMap(n => [...this.byName.get(n)?.values() ?? []]) : this.allFacts();
-    const measures = names ? [...names].flatMap(n => [...this.measuresByName.get(n)?.values() ?? []])
+    const facts = names ? [...names].flatMap(n => [...this.facts(n)?.values() ?? []]) : this.allFacts();
+    const measures = names ? [...names].flatMap(n => [...this.values(n)?.values() ?? []])
       : this.allMeasures();
     return [...facts.map(World.format), ...measures.map(entry => `${World.format(entry.call)} = ${entry.value}`)].sort();
   }
   // What changed from an earlier world to this one, as the changes that make the one the other: facts taken away, then
   // facts written, then measures set; only the names whose maps the two do not share are looked at.
   changesSince(prior: World): Change[] {
-    const retracted: Change[] = [], asserted: Change[] = [], set: Change[] = [];
+    WorldReads.all(); const retracted: Change[] = [], asserted: Change[] = [], set: Change[] = [];
     for (const name of new Set([...prior.byName.keys(), ...this.byName.keys()])) {
       const was = prior.byName.get(name), is = this.byName.get(name);
       if (was === is) { continue; }
@@ -422,7 +425,7 @@ export class World {
   // and not the other, or of another value (one gone to nothing among them). A name either shares with the other is
   // passed over at once.
   differing(prior: World, names: readonly string[]): Call[] {
-    const out: Call[] = [];
+    WorldReads.note(names); const out: Call[] = [];
     for (const name of names) {
       const was = prior.byName.get(name), is = this.byName.get(name);
       if (was !== is) {

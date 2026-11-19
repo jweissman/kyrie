@@ -2,7 +2,7 @@ import { ModuleParser } from './module-parser';
 import type { Call, Entity } from './module';
 import { ModuleWriter } from './module-writer';
 import { World } from './world';
-import { Reads } from './reads';
+import { Reads } from './reads'; import { WorldReads } from './world-reads';
 import { KyrText } from './kyr-text';
 
 // How a measure in a text asks to be said: in words ("one", not "1"), as a time of day, and with the one of two forms
@@ -103,7 +103,10 @@ export class ObservationText {
     const entities = world.module.entities, kept = this.presentations.get(entities);
     const naming = kept?.size === entities.length ? kept.naming : [...this.naming,
       ...Reads.names(world.module, entities.flatMap(e => e.roles?.map(r => r.when) ?? []))];
-    if (kept?.size === entities.length && world.agrees(naming, kept.stamped)) { return kept.presented; }
+    // What it read, read again where it is kept (see WorldReads).
+    if (kept?.size === entities.length && world.agrees(naming, kept.stamped)) {
+      WorldReads.note(naming); return kept.presented;
+    }
     const presented = new Map(entities.map(e => [e.id, this.present(world, e)]));
     this.presentations.set(entities, { size: entities.length, naming, stamped: world.stamped(naming), presented });
     return presented;

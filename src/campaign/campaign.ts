@@ -38,8 +38,7 @@ export class Campaign implements WatchHost {
   // A check made to come out so, for a test (see Checks.make; Journey.roll).
   forced?: 'pass' | 'fail';
   private definition?: CampaignDefinition;
-  private observations: Record<string, number> = {};
-  private executing = false;
+  private observations: Record<string, number> = {}; private executing = false;
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
@@ -94,15 +93,18 @@ export class Campaign implements WatchHost {
   // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
   // top-level arrays, and copies all mutable state; its own kinds are the catalogs', before its creatures, whose
   // things are of them, are taken in (a campaign loaded before another reset them carried an unknown trowel).
+  // The world it is played in is shared, under the copy's own module (a world is never changed), and so is what of it
+  // is projected for whom: the copy's first act had projected every actor's facts again (OR-91, about 240 ms).
   private fork(): Campaign {
     this.keepFacts();
-    const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays;
+    const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays, world = this.world;
     LocalKinds.activate(this.module.catalog, copy);
-    Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
-      current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),
+    const compiled = arrays(this.compiled), current = structuredClone(this.current);
+    const creatures = new CreatureStore(this.creatures.snapshot), committed = new CommittedWorld();
+    Object.assign(copy, { compiled, definition: this.definition && arrays(this.definition), current, creatures,
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
-      executing: false, committed: new CommittedWorld(), projection: new Projection(),
-      grounding: new CampaignGrounding() });
+      executing: false, committed, grounding: new CampaignGrounding(), projection: this.projection
+        .forked(world, this.creatures, { world: committed.share(current, compiled, world), store: creatures }) });
     return copy;
   }
   private static async assemble(path: string, seed: string, source: BundleSource, at: Assembly): Promise<Campaign> {
