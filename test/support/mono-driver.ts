@@ -30,10 +30,16 @@ export class MonoDriver {
   }
   // A choice that is held (a card, a way in, a night's rest) is held as a player holds it: the key down as long as
   // it takes.
+  // Let go once the page says the hold is done (its mark gone from the root), not after a fixed while: on a loaded
+  // runner the key's press is taken late, and a key let go at 700 ms had ended a hold not yet full (nightly, 19 Nov).
   static async hold(page: Page, selector: string) {
     await page.locator(selector).first().focus();
-    await page.keyboard.down('Enter'); await page.waitForTimeout(700); await page.keyboard.up('Enter');
+    await page.keyboard.down('Enter'); await page.waitForTimeout(700);
+    await page.waitForFunction(() => !('holding' in document.documentElement.dataset), null, { timeout: 5000 })
+      .catch(MonoDriver.none);
+    await page.keyboard.up('Enter');
   }
+  private static none(): void { /* the hold not seen to end: let go as before */ }
   // A control pressed as a player would: held by the hand where it is held (a journey set out on, OR-111), else
   // clicked.
   static async press(page: Page, selector: string) {

@@ -74,9 +74,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     expect(await page.textContent('.composed .ask')).toBe('Halloran');
     // Back, and one of the list taken instead.
     await page.keyboard.press('Escape'); await Naming.to(page, 'name');
-    // The names' own words drawn, not only their rows (on a phone the list had two rows and one label: CI, 19 Nov).
-    await page.waitForFunction(() => document.querySelectorAll('.composed-list [data-option] .row-label').length >= 2);
-    const chosen = (await Naming.names(page))[1]!;
+    // The second name, read from its row as it is drawn (the list is drawn again as it comes: a label read after a
+    // count had found none, CI, 19 Nov).
+    const chosen = String(await (await page.waitForFunction(() =>
+      document.querySelectorAll('.composed-list [data-option]')[1]?.getAttribute('data-option') || false)).jsonValue());
     await MonoDriver.hold(page, `.composed-list [data-option="${chosen}"]`);
     await Naming.to(page, 'go');
     expect(await page.textContent('.composed .ask')).toBe(chosen);
