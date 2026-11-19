@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 36 pass in structure
-(level, school), 26 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-25 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 37 pass in structure
+(level, school), 27 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+26 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 49 | school 78 | dice 11 | type 13 | save 36 | dc 21 | attack 106 | target 73 | duration 50 | of 119 |
+| spells, field exact or converted | level 50 | school 79 | dice 11 | type 13 | save 36 | dc 22 | attack 106 | target 74 | duration 51 | of 119 |
 
 ## Creatures, most met first
 
@@ -172,7 +172,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
 | major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | ✓ | ✗ instant → long |
 | mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ all → several | ✗ 3 rounds → long |
-| mass_curse | bane | S✗ R✗ I– | ✗ 3 → 1 | ✗ · → enchantment | – | – | ✓ | ✗ 16 → 14 | ✓ | ✗ all → one | ✗ 3 rounds → long |
+| mass_curse | bane | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ≈ every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | mass_heal | heal-mass | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → conjuration | ✗ 14.5/18.5/23.5/33.5 → · | – | ✗ · → wisdom negates | ✗ · → 22 | ✓ | ✗ all → several | ✓ |
 | maze | maze | S✓ RU I– | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✗ 33 → · | ✓ | ✓ | ✓ |
 | meteor_swarm | meteor-swarm | S✗ R✗ I– | ✗ 7 → 9 | ✓ | ✗ 28/28/28/28 → 7/7/7/7 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✗ several → burst | ✓ |

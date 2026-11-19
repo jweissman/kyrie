@@ -2276,11 +2276,11 @@ Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest 
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
-Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
+Bane: Every enemy is baned for 10 turns (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
-> A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Mass Curse.
+> A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Bane.
 
 *Left out — field:monsterGold: Orsino's 3d10 gold for the kill is not carried.*
 
@@ -3042,7 +3042,7 @@ Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level 
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
+Bane: Every enemy is baned for 10 turns (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
 
 Reckless Attack: Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Reckless: −2 to hit, 2 easier to hit. Again after 3 turns.
 
@@ -3050,7 +3050,7 @@ Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immun
 
 Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
-> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Mass Curse and Reckless Attack.
+> An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Bane and Reckless Attack.
 
 *Left out — trait:cursed: Kyr has no cursed.*
 

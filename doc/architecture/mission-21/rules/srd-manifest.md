@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 93, E2 1, E3 25.
+**605 records**, every one visible: E0 486, E1 92, E2 1, E3 26.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 78.
 
 ## By family
@@ -84,7 +84,7 @@ become ready).
 | augury | Augury | Clr 2 | divination | E1 | effect.reveal | augury |
 | awaken | Awaken | Drd 5 | world | E0 | effect.world, resist.spell | — |
 | baleful-polymorph | Baleful Polymorph | Drd 5, Sor/Wiz 5 | transformation | E0 | effect.transform, resist.spell | — |
-| bane | Bane | Clr 1 | control | E1 | resist.spell | mass_curse |
+| bane | Bane | Clr 1 | control | E3 | resist.spell | mass_curse |
 | banishment | Banishment | Clr 6, Sor/Wiz 7 | control | E0 | resist.spell | — |
 | barkskin | Barkskin | Drd 2, Rgr 2, Plant 2 | protection | E1 | — | barkskin |
 | bears-endurance | Bear’s Endurance | Clr 2, Drd 2, Rgr 2, Sor/Wiz 2 | protection | E0 | resist.spell | — |

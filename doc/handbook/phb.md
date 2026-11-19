@@ -7653,6 +7653,16 @@ Every ally is anointed for 5 turns. Anointed: +1 to hit, +1 damage, +2 to every 
 
 > Hurl a bolt of water at an enemy.
 
+##### Bane
+
+*Adapted · level 1 divine spell, enchantment, death domain* · `ability:mass_curse`
+
+Every enemy is baned for 10 turns (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
+
+> Fill your foes with dread for a minute: their blows go wider, and fear finds them easier; whoever stands firm against it is untouched.
+
+*Adapted: The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: spell resistance; the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level.*
+
 ##### Barkskin
 
 *Faithful · level 1 divine spell, nature domain* · `ability:barkskin`
@@ -8060,14 +8070,6 @@ Every enemy is weakened for 3 turns (a Wisdom save against 15 + level + the cast
 1d12 (1–12) psychic damage to one enemy (halved if resisted; may leave whoever it hurts confused: a Wisdom save against 15 avoids it; may leave whoever it hurts insane: an Intelligence save against 15 avoids it); it is confused for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it); it gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it); it is stunned for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it); it is distracted for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. Stunned: −2 to every roll, cannot act. Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the third level. Takes a third-level slot.
 
 > Whisper maddening secrets to an enemy.
-
-##### Mass Curse
-
-*Faithful · level 3 divine spell, death domain* · `ability:mass_curse`
-
-Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
-
-> Your venomous words fill your enemies with a sense of doom.
 
 ##### Rally the Faithful
 
@@ -9832,6 +9834,14 @@ Cannot act.
 +5 initiative, +2 to every roll, +2 to every save.
 
 > Blessed with foresight and clarity of mind.
+
+### Baned
+
+*Kyr · lasts the fight at most* · `condition:baned`
+
+−1 to hit, −1 against fear.
+
+> A dread is on them: their blows go wider, and fear finds them easier.
 
 ### Barkskin
 

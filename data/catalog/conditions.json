@@ -542,6 +542,20 @@
         "notes": "The SRD's Protection from Evil's ward (mission-22/srd-proving-cases.md, case 32): +2 to armour class by a deflection (Kyr's armour class descends, so ac -2), +2 to every save (the SRD's resistance bonus), and proof against charm (its mental control). Adapted: against every foe, where the SRD's is against the evil; it adds to Shield of Faith's deflection, where the SRD's two deflections do not stack."
       }
     },
+    "baned": {
+      "name": "Baned",
+      "description": "A dread is on them: their blows go wider, and fear finds them easier.",
+      "lifetime": "encounter",
+      "modifiers": { "toHit": -1, "saves": { "fear": -1 } },
+      "begins": "A dread settles on {target}.",
+      "ends": "The dread on {target} lifts.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:bane",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Bane (srd-proving-cases.md, case 39): −1 to hit, and −1 on saves against fear (the SRD's morale penalty, on its attack rolls and its saves against fear)."
+      }
+    },
     "fire_resistant": {
       "name": "Fire-Resistant",
       "description": "Fire's heat is held off: ten less from each burn.",

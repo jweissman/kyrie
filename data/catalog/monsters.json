@@ -170,7 +170,7 @@
       "name": "Balor",
       "type": "demon",
       "kind": "monster",
-      "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Mass Curse.",
+      "description": "A demon of Orsino's bestiary. It fights with claws, armoured in leather armor, and knows Curse, Terror, Burning Hands and Bane.",
       "looks": "A huge winged fiend wreathed in flame, red-skinned and horned, a whip of fire in one hand and a sword in the other.",
       "portrait": "monsters/balor",
       "statistics": {
@@ -1263,7 +1263,7 @@
       "name": "Mummy",
       "type": "undead",
       "kind": "monster",
-      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Mass Curse and Reckless Attack.",
+      "description": "An undead of Orsino's bestiary. It fights with claws, armoured in clothing, and knows Curse, Scream, Life Drain, Bane and Reckless Attack.",
       "looks": "A dead body bound in brown linen, the wrappings loose and stained, reaching out with dried hands.",
       "portrait": "monsters/mummy",
       "statistics": {

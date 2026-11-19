@@ -1421,6 +1421,42 @@ holds it. What moves is every casting, and the specs that cast it as a cleric's 
 `test/causal-integration` now read `fire_resistant` (twenty rounds, ten off) where they read Orsino's `fireproof`.
 The Fire's law (case 4: one fire a turn) is still held off by it.
 
+### 39. Bane by the SRD's numbers (19 November): adapted
+
+Orsino's Mass Curse is the SRD's Bane, a first-level cleric spell kept at Orsino's third. Moved to the SRD's level by
+the draw by rank (case 11), as Command was (case 33). Spec: `test/bane` (2 cases).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json; the hand condition `baned`):
+- named Bane; first level (Orsino's third), divine, Death, and the SRD's school, enchantment, beside its domain
+  (exact);
+- every foe (converted: the SRD's are the foes within fifty feet; Kyr's field has no distances, as Bless's in case
+  17);
+- a Will save to negate (exact: the fear save, made with Wisdom, so a ward against fear, Remove Fear's, helps against
+  it, as the SRD's morale bonus does) at case 7's difficulty for a first-level spell (exact at the census's caster);
+- whoever fails is baned: −1 to hit and −1 on saves against fear (exact);
+- a minute, ten rounds, at every casting level (converted, case 14's rule).
+
+**Omitted:** spell resistance; the SRD's Bane dispelling Bless. Before: Orsino's cursed (−1 to every score) for
+three rounds on every foe against 15 + the caster's level, at the third level. The census grades it S✓ R✓ I✓: 27 of
+119 pass in resolution now.
+
+**The census** (the lead's pools, 200 humans for each calling and level; scratch /var/tmp/kyrie/srd5-scratch):
+- 1,989 of 19,200 drawn casters move (10.4 %), all clerics, none a mage or bard. A cleric of any other way gains it
+  at the first level, one time in ten (.10–.14, where none knew it before the fifth); a deathspeaker, whose domain it
+  is, moves 60 % (.52 knew it as a third-level spell from the first, .35–.38 now draw it among the first level's).
+- **The deathspeaker's creation card moves:** Bane among its first-level picks with Darkbolt and Cause Fear
+  (Rejuvenate gives way), and Healing Touch at the second level in place of Protection from Darkness.
+- **The installed casters** of a1 and the six fidelity countries (2,233 classed creatures): six gain it and none lose
+  anything: a1's s2 preacher, wren's and ember's keep chaplains, kahitude's and ember's s1 Anselm, ember's fellowship
+  recorder.
+- **The kinds that know it:** Orsino's mummy (the halls' five of the dens) and the balor. The mummies' placements fought
+  before and after (20 seeds, the four first-level companies): every cell the same but a pair's death against the
+  third-level embalmers, 45 → 40 %.
+- **Fights:** a first-level cleric beside a warrior casts it in every fight against three rats (won 100 %) or two
+  zombies (95 %); a fifth-level one against three zombies or two wolves wins as with Orsino's curse (100 %), and a
+  hostile one against a lone warrior is as deadly as Orsino's (33–35 %): −1 to hit for a minute weighs about what −1 to
+  every score weighed for three rounds.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

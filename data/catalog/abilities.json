@@ -598,6 +598,35 @@
         "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
       }
     },
+    "mass_curse": {
+      "name": "Bane",
+      "kind": "spell",
+      "description": "Fill your foes with dread for a minute: their blows go wider, and fear finds them easier; whoever stands firm against it is untouched.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "baned",
+          "duration": 10,
+          "target": "enemies",
+          "save": {
+            "kind": "fear",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 1, "domain": "death", "school": "enchantment" },
+      "source": {
+        "orsino": "divineSpell:mass_curse",
+        "srd35": "spell:bane",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: spell resistance; the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level."
+      }
+    },
     "resist_fire": {
       "name": "Resist Fire",
       "kind": "spell",

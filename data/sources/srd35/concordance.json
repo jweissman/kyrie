@@ -355,6 +355,7 @@
   "shocking_grasp": "test/shocking-grasp.test.ts",
   "paralyzing_touch": "test/ghoul-touch.test.ts",
   "resist_fire": "test/resist-energy.test.ts",
+  "mass_curse": "test/bane.test.ts",
   "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
@@ -420,6 +421,10 @@
   },
   "bless": {
    "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
+   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+  },
+  "mass_curse": {
+   "target": "every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39)",
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
   },
   "resist_fire": {
