@@ -11,6 +11,7 @@ import { Guidance } from '../guidance';
 import { PageFrame } from '../page-frame';
 import { Paging } from '../paging';
 import { Attending } from '../../../src/ui/attention';
+import { LensRows } from './lens-rows';
 
 // A lens whose acts do not fit its four, drawn by focus (see LensFocus): each thing with more than one act one row,
 // chosen to focus it; on it, a run of acts alike one row (a riddle's words, "Press the word…"); focused, the four are
@@ -26,7 +27,7 @@ export class LensFocused {
     const view = LensFocus.of(acts, app.state.focused ?? [], s => GlanceStage.named(app, s));
     // Paged, the row that turns the page is the fourth (never more than four in view).
     const paged = Paging.of(view.rows, GlanceStage.per, page), rows = paged.shown;
-    const gilded = Guidance.shown(app), aspects = new Map(lensed.promoted.map(p => [p.choice, p.aspects]));
+    const gilded = Guidance.shown(app);
     const focus = (key?: string) => app.setState({ focused: key ? [...view.focused, key] : view.focused.slice(0, -1) });
     return <div {...PageFrame.slot('menu')} className={`lens lens-${lens} lens-focus`} data-lens={lens}
       data-focus={view.focused.at(-1)}>
@@ -34,8 +35,8 @@ export class LensFocused {
       <ul className="acts lens-rest">{rows.map(r => <li key={LensFocus.unit(r) ? r.key : r.choice}
         {...LensFocus.unit(r) ? {} : { 'data-subject': r.subject }}>
         {LensFocus.unit(r) ? <LensFocused.Unit unit={r} gilded={gilded} focus={focus}
-          witnesses={r.acts.flatMap(x => Attest.witness(app.state.frame?.leaf.glance, x.choice) ?? [])} />
-          : <GlanceStage.LensRow app={app} draw={draw} act={r} aspects={aspects.get(r.choice)} />}</li>)}
+          witnesses={r.acts.flatMap(x => LensRows.borne(app, lens, x.choice, GlanceStage.choice) ?? [])} />
+          : <GlanceStage.LensRow app={app} draw={draw} act={r} lens={lens} />}</li>)}
         {view.leave && <li><ChoiceRow.Button className="leave-focus" data={{ action: 'defocus' }}
           onClick={() => focus()} plain="neutral" label="Leave it for now" /></li>}
         {paged.pages > 1 && <li><ChoiceRow.Button className="lens-page"
@@ -68,7 +69,7 @@ export class LensFocused {
     witnesses: Witness[] }) {
     const indicator = Attest.of(witnesses, gilded);
     return <ChoiceRow.Button className="focus-row" data={{ action: 'focus', choice: unit.key }}
-      onClick={() => focus(unit.key)} {...indicator?.tone ? { indicator } : { plain: 'neutral' as const }}
+      onClick={() => focus(unit.key)} {...ChoiceRow.mark(indicator)}
       label={Typography.curl(unit.name)} />;
   }
 }

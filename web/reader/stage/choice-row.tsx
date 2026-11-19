@@ -26,6 +26,10 @@ export class ChoiceRow {
   private static readonly plains: Record<Plain, string> = { neutral: 'var(--row-neutral)', chosen: 'var(--accent, #d9b46a)',
     blow: 'var(--ember)', knowing: 'var(--tone-blue)',
     every: 'linear-gradient(to bottom, var(--tone-gold), var(--tone-red), var(--tone-blue), var(--tone-green), var(--tone-violet))' };
+  // A row's mark from an indicator: it, where it has a tone or a companion; the neutral line under it, or alone.
+  static mark(indicator: Attested | undefined): Pick<RowParts, 'indicator' | 'plain'> {
+    return { ...indicator ? { indicator } : {}, plain: 'neutral' };
+  }
   private static nothing(): void { /* a shut row says why, and does nothing */ }
   // The inside, the same everywhere; the older classes kept beside the new so that what reads them still finds them.
   static Parts({ indicator, plain, label, aside, number, extra, glyph }: RowParts) {
@@ -34,7 +38,9 @@ export class ChoiceRow {
       {fill && <i className={`prism-bar row-mark${!indicator?.tone && plain === 'neutral' ? ' neutral' : ''}`}
         style={{ '--prism': fill } as CSSProperties} data-witness={indicator?.witnesses.map(w => w.id).join(' ') || undefined}
         {...indicator?.tone ? { role: 'img', 'aria-label': indicator.words } : { 'aria-hidden': true }} />}
-      <span className="n row-label">{glyph && <Glyphs.View id={glyph} className="row-glyph" />}{label}</span>
+      {/* A companion is its icon alone, beside the words, wherever the row's indicator has one (TP-03). */}
+      <span className="n row-label">{glyph && <Glyphs.View id={glyph} className="row-glyph" />}{label}
+        {indicator?.companion && <Glyphs.View id="companion" className="led-icon" label="could join you" />}</span>
       {aside && <span className="why-said row-aside">{aside}</span>}
       {extra}
       {number !== undefined && <kbd className="key row-key" aria-hidden="true">{number}</kbd>}

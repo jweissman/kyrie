@@ -17,7 +17,9 @@ import { Glanced } from './support/glanced';
 // A mark of the rail says only what the rows it opens bear (the owner, 18 November: Go… gold and with a companion's
 // icon, and no row under it either, again; the mark had read the promoted lens, the drawer the Wayfinder's own ways).
 // Along the drove road, after every act: the colour on Go… and on Look… is the first, by the one precedence, of the
-// colours on their rows, and a companion on the mark is on one of the rows.
+// colours on their rows, and a companion on the mark is on one of the rows; the lens's too, and a row gathered by
+// focus's (the owner, 19 November: a companion on Go… over a lens of ten pages, the shrine's and the Stone Horn's
+// rows drawn plain; the mark had read every page, and the lens drew none of them with their companion).
 class Page {
   constructor(public state: AppState) {}
   get menu() { return MenuModel.build(this.state.frame, 'here', this.state.open); }
@@ -43,16 +45,18 @@ class Page {
     return { tone: order.find(t => tones.includes(t!)), companion: rows.some(r => /pip-icon companion/.test(r)) };
   }
   // The lens a touch opens, as the scene draws it (GlanceStage.Lens), and the tones its rows are drawn in.
-  lens(part: 'go' | 'look'): { tone?: string } | undefined {
+  lens(part: 'go' | 'look', focused?: string): { tone?: string; companion: boolean; units: string[] } | undefined {
     const lens = part === 'go' ? 'places' : 'things';
     if (!this.state.frame?.leaf.glance?.lenses?.[lens]) { return undefined; }
     const was = this.state;
-    this.setState({ exploring: part, focused: undefined });
+    this.setState({ exploring: part, focused: focused ? [focused] : undefined });
     const html = renderToStaticMarkup(createElement(GlanceStage.Lens,
       { app: this.app, draw: Act.draw(this.app), lens }));
     this.state = was;
     const tones = [...html.matchAll(/--prism:var\(--tone-(\w+)\)/g)].map(m => m[1]!);
-    return { tone: Emphasis.precedence.map(a => Emphasis.tones[a]).find(t => tones.includes(t!)) };
+    return { tone: Emphasis.precedence.map(a => Emphasis.tones[a]).find(t => tones.includes(t!)),
+      companion: /could join you/.test(html),
+      units: [...html.matchAll(/data-action="focus" data-choice="([^"]+)"/g)].map(m => m[1]!) };
   }
   check(at: string) {
     const go = Page.mark(renderToStaticMarkup(createElement(SceneRail.Mark, { app: this.app, part: 'go', glyph: 'go_on',
@@ -60,13 +64,31 @@ class Page {
     // The places lens is what Go… opens where the glance has one (the owner, 18 November: Go… gold over a lens of two
     // rows, neither gold); the Wayfinder's list where it has none.
     const drawn = this.lens('go');
-    if (drawn) { expect({ at, tone: go.tone }).toEqual({ at, tone: drawn.tone }); }
+    if (drawn) { expect({ at, ...go }).toEqual({ at, tone: drawn.tone, companion: drawn.companion }); }
     else { expect({ at, ...go }).toEqual({ at, ...Page.rows(this.html(Wayfinder.View), 'wf-row') }); }
     const look = SceneRail.look(this.app);
     if ('shut' in look) { return; }
     const things = this.lens('look') ?? { tone: Page.rows(this.html(AtHand.View), 'ah-row').tone };
     const lit: string | undefined = 'lit' in look ? look.lit?.tone : undefined;
     expect({ at, tone: lit }).toEqual({ at, tone: things.tone });
+    this.gathered(at);
+  }
+  // A row gathered by focus ("The door…") bears what the rows it opens bear, and nothing else (the owner, 19 November:
+  // a row gold, and no gold among what it opened).
+  gathered(at: string) {
+    for (const part of ['go', 'look'] as const) {
+      const drawn = this.lens(part);
+      for (const key of drawn?.units ?? []) {
+        const was = this.state;
+        this.setState({ exploring: part, focused: undefined });
+        const row = renderToStaticMarkup(createElement(GlanceStage.Lens, { app: this.app, draw: Act.draw(this.app),
+          lens: part === 'go' ? 'places' : 'things' })).split(`data-choice="${key}"`)[1]!.split('</button>')[0]!;
+        this.state = was;
+        const inside = this.lens(part, key)!, tone = /--prism:var\(--tone-(\w+)\)/.exec(row)?.[1];
+        expect({ at, key, tone, companion: /could join you/.test(row) })
+          .toEqual({ at, key, tone: inside.tone, companion: inside.companion });
+      }
+    }
   }
 }
 

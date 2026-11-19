@@ -151,8 +151,11 @@ export class SceneRail {
   // The witnesses of the rows a touch opens: the lens's, where the scene draws it as the engine's lens (LensRows);
   // else the panel's own (without, where Go… opens the Wayfinder's list).
   private static opened(app: ReaderApp, lens: 'places' | 'things', without: Witness[]): Witness[] {
-    return app.state.frame?.leaf.glance?.lenses?.[lens] && SceneRail.on(app) && !Look.is('attend')
-      ? LensRows.marks(app, lens, GlanceStage.choice) : without;
+    return SceneRail.lensed(app, lens) ? LensRows.marks(app, lens, GlanceStage.choice) : without;
+  }
+  // Whether a touch opens the engine's lens (else the panel's own list): the strip's tiles over it are marked from it.
+  static lensed(app: ReaderApp, lens: 'places' | 'things'): boolean {
+    return !!app.state.frame?.leaf.glance?.lenses?.[lens] && SceneRail.on(app) && !Look.is('attend');
   }
   // Whether one of the ways Go… opens bears someone who might join (see Wayfinder.bears).
   static joins(app: ReaderApp): boolean {

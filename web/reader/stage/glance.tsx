@@ -3,7 +3,7 @@ import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
 import { useLayoutEffect, useRef, type ReactNode, type RefObject } from 'react';
 import { Glyphs } from '../creation/glyphs';
-import type { Aspect, Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
+import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp } from '../reader-app';
@@ -293,9 +293,9 @@ export class GlanceStage {
       {/* Only the acts, each in words that stand alone: no heading among them (the owner, 15 November: text between
           the acts, a category marker, should never be in the list; "Talk to Wellby" under WELLBY). */}
       {opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>
-        {inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} /></li>)}</ul>)}
+        {inside(o).map(l => <li key={l.choice}><GlanceStage.LensRow app={app} draw={draw} act={l} lens={lens} /></li>)}</ul>)}
       {flat.length > 0 && <ul className="acts lens-rest">{flat.map(a =>
-        <li key={a.choice} data-subject={a.subject}><GlanceStage.LensRow app={app} draw={draw} act={a} /></li>)}</ul>}
+        <li key={a.choice} data-subject={a.subject}><GlanceStage.LensRow app={app} draw={draw} act={a} lens={lens} /></li>)}</ul>}
     </div>;
   }
   // A lens's rest by what it is done to (see LensRows.grouped).
@@ -327,8 +327,10 @@ export class GlanceStage {
   }
   // One of a lens's rest: the menu's own choice where it is one (its keys, its mark); else the act as the lens names it.
   // aspects: what it is, where the lens promoted it (its mark, as the four's are).
-  static LensRow({ app, draw, act: a, aspects }: { app: ReaderApp; draw: Draw; act: LensAct; aspects?: Aspect[] }) {
-    const c = GlanceStage.choice(app, a.choice), mark = aspects?.length ? GlanceStage.marked(app, a.choice, true) : {};
+  // Its mark, the lens's one witness for the row (LensRows.borne), as the rail's mark reads it.
+  static LensRow({ app, draw, act: a, lens }: { app: ReaderApp; draw: Draw; act: LensAct; lens: Lens }) {
+    const c = GlanceStage.choice(app, a.choice);
+    const mark = ChoiceRow.mark(Attest.of([LensRows.borne(app, lens, a.choice, GlanceStage.choice)], Guidance.shown(app)));
     // What it risks said on it, as the four say theirs (a way with no coming back).
     const [going, how] = Words.going(a.label);
     const risks = [how ?? '', ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
@@ -356,8 +358,7 @@ export class GlanceStage {
   static marked(app: ReaderApp, choice: string, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
     const g = app.state.frame?.leaf.glance, w = Attest.witness(g, choice) ?? Attest.within(g, GlanceStage.choice(app, choice)
       ?? { id: choice, label: '' } as Choice)[0];
-    const indicator = Attest.of([w], gilded && Guidance.shown(app));
-    return indicator?.tone ? { indicator } : { plain: 'neutral' };
+    return ChoiceRow.mark(Attest.of([w], gilded && Guidance.shown(app)));
   }
   static yours(app: ReaderApp, acts: Promoted[], drawn: (Choice | undefined)[]): Choice | undefined {
     const lead = acts.find(a => a.tier > 0 && !a.exit && !a.choice.startsWith('travel:') && !a.subject);
@@ -455,13 +456,12 @@ export class GlanceStage {
     const name = Words.short(x.name);
     return label.toLowerCase().includes(Words.bare(name).toLowerCase()) ? undefined : Words.upper(name);
   }
-  // What a choice's own glyphs say apart from its colour: someone who could join you, and going over into the next
-  // stretch of country (not a walk about the town), whatever else it is (the owner, 11 November).
-  static Icons({ app, a, c }: { app: ReaderApp; a: Promoted; c: Choice }) {
+  // What a choice's own glyphs say apart from its colour: going over into the next stretch of country (not a walk about
+  // the town), whatever else it is (the owner, 11 November); someone who could join you is its indicator's (ChoiceRow).
+  static Icons({ app, c }: { app: ReaderApp; c: Choice }) {
     const screen = app.state.frame!.screen, walk = (screen.around ?? []).some(d => `travel:${d.id}` === c.id);
     const crosses = (c.id.startsWith('travel:') && !walk) || !!screen.exits.find(e => e.id === c.id)?.crosses;
     return <>
-      {a.aspects.includes('companionship') && <Glyphs.View id="companion" className="led-icon" label="could join you" />}
       {crosses && <Glyphs.View id="journey" className="led-icon" label="into the next stretch of country" />}
     </>;
   }
@@ -618,7 +618,7 @@ export class GlanceStage {
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`
               + `${a.afar ? ' afar' : ''}`}
             {...parts}
-            label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></>}
+            label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} c={c} /></>}
             aside={note && GlanceStage.aside(note)}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />}
           <PlaceStage.Opened choice={c} draw={draw} />

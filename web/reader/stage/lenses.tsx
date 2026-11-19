@@ -2,7 +2,10 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Pip } from './pip';
-import type { Attested } from '../../../src/presentation/attest';
+import { Attest, type Attested } from '../../../src/presentation/attest';
+import { LensRows } from './lens-rows';
+import { SceneRail } from './scene-rail';
+import { Guidance } from '../guidance';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
 import { Wayfinder } from './wayfinder';
@@ -48,7 +51,7 @@ export class Lenses {
     return Wayfinder.ways(app).map((w): Tile => ({ id: w.c.id, name: GlanceStage.short(w.name),
       glyph: Signs.way(w.whither, !!w.c.disabled),
       // Of the way's witnesses (Wayfinder.bears): the aim's gold, what it is led with, who is perceived along it.
-      ...Wayfinder.mark(app, w) ? { mark: Wayfinder.mark(app, w)! } : {},
+      ...Lenses.mark(app, 'places', w.c.id, Wayfinder.mark(app, w)),
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
       // Touched, a way is gone by, as a likeness touched is spoken to (the owner, 12 November: a place's badge did not
       // go there); its row in Go's list still says what it is first.
@@ -56,12 +59,18 @@ export class Lenses {
       .sort((a, b) => Number(!a.mark?.tone) - Number(!b.mark?.tone) || Number(b.mark?.tone === 'gold') - Number(a.mark?.tone === 'gold'))
       .slice(0, Lenses.most);
   }
+  // A tile's mark: of its rows in the engine's lens where that is what the touch opens (SceneRail.lensed), else the
+  // panel's own list's (Wayfinder, AtHand): the strip says nothing the rows under it do not.
+  private static mark(app: ReaderApp, lens: 'places' | 'things', key: string, own: Attested | undefined): { mark?: Attested } {
+    const mark = SceneRail.lensed(app, lens) ? Attest.of(LensRows.about(app, lens, key, GlanceStage.choice), Guidance.shown(app)) : own;
+    return mark ? { mark } : {};
+  }
   // The things at hand, by their pictures where the place's people or things have one.
   private static things(app: ReaderApp): Tile[] {
     const subjects = app.menu.scene?.subjects ?? [];
     return AtHand.of(app).map(h => {
-      const picture = subjects.find(x => x.id === h.id)?.portrait?.src, mark = AtHand.mark(app, h);
-      return { id: h.id, name: h.name, ...picture ? { picture } : {}, ...mark ? { mark } : {},
+      const picture = subjects.find(x => x.id === h.id)?.portrait?.src;
+      return { id: h.id, name: h.name, ...picture ? { picture } : {}, ...Lenses.mark(app, 'things', h.id, AtHand.mark(app, h)),
         chosen: app.state.hovered === h.id, pick: () => AtHand.pick(app, h) };
     });
   }

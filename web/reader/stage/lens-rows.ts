@@ -4,6 +4,7 @@ import type { ReaderApp } from '../reader-app';
 import type { Choice } from '../../../src/ui/choice-list';
 import { LensFocus } from './lens-focus';
 import { Selection } from './lens-selection';
+import { Paging } from '../paging';
 
 // What a lens draws, row by row, and the witnesses of the marks those rows bear: one selection, read by the lens as
 // it draws (GlanceStage.Lens) and by the rail's mark that opens it (SceneRail.go, SceneRail.look), so the mark can be
@@ -50,18 +51,37 @@ export class LensRows {
     const w = Attest.witness(g, id) ?? Attest.within(g, c ?? { id, label: '' } as Choice)[0];
     return gilded ? w : Attest.less(w, 'undertaking');
   }
-  // The witnesses of every mark the lens draws: the four's, gold where they carry the aim on; drawn by focus, each
-  // unit's acts and each promoted row's; the rest bear none (see GlanceStage.LensRow).
-  static marks(app: ReaderApp, lens: Lens, choice: Named): Witness[] {
-    const g = app.state.frame?.leaf.glance, lensed = g?.lenses?.[lens];
+  // The one witness a lens's row is drawn with, wherever it is drawn (among the four, as a rest row, inside a thing
+  // gathered by focus) and whatever reads it (the rail's mark, the strip's tile): the glance's for its choice, its
+  // gold only where it carries the aim on (the owner, 19 November: a gathered row gold, and nothing gold once it was
+  // opened; a companion on Go… and on no row of its lens: each drawer had made its own).
+  static borne(app: ReaderApp, lens: Lens, id: string, choice: Named): Witness | undefined {
+    const g = app.state.frame?.leaf.glance;
+    const on = [...g?.acts ?? [], ...g?.lenses?.[lens]?.promoted ?? []].some(a => a.choice === id && a.continues);
+    return LensRows.witness(g, choice(app, id), id, on);
+  }
+  // The witnesses of a way or thing's rows in the lens (its choice, or the acts done to it): a tile over the painting
+  // is marked by these where the lens is what opens, never by a derivation of its own.
+  static about(app: ReaderApp, lens: Lens, key: string, choice: Named): Witness[] {
+    const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return []; }
-    const drawn = LensRows.of(app, lens, lensed, choice), promoted = new Set(lensed.promoted.map(p => p.choice));
-    if (!LensRows.focused(app, drawn)) {
-      return drawn.promoted.flatMap(p => LensRows.witness(g, choice(app, p.choice), p.choice, !!p.continues) ?? []);
-    }
-    // As it opens, focused on nothing: a unit marked by every act in it, a row by its own where it was promoted.
-    return LensFocus.of(drawn.all, [], s => s).rows.flatMap(r => LensFocus.unit(r)
-      ? r.acts.flatMap(x => Attest.witness(g, x.choice) ?? [])
-      : promoted.has(r.choice) ? LensRows.witness(g, choice(app, r.choice), r.choice, true) ?? [] : []);
+    return LensRows.of(app, lens, lensed, choice).all.filter(a => a.choice === key || a.subject === key)
+      .flatMap(a => LensRows.borne(app, lens, a.choice, choice) ?? []);
+  }
+  // The witnesses of every mark the lens draws as it opens, focused on nothing: each row's, a row gathered by focus
+  // marked by every act in it, and only of the rows in view (its first page: a mark had been lit by a row three pages
+  // on).
+  static marks(app: ReaderApp, lens: Lens, choice: Named): Witness[] {
+    const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
+    if (!lensed) { return []; }
+    const drawn = LensRows.of(app, lens, lensed, choice);
+    if (!LensRows.focused(app, drawn)) { return drawn.all.flatMap(a => LensRows.each(app, lens, choice, a)); }
+    const rows = Paging.of(LensFocus.of(drawn.all, [], s => s).rows, LensRows.per, 0).shown;
+    return rows.flatMap(r => LensFocus.unit(r) ? r.acts.flatMap(x => LensRows.each(app, lens, choice, x))
+      : LensRows.each(app, lens, choice, r));
+  }
+  private static each(app: ReaderApp, lens: Lens, choice: Named, a: { choice: string }): Witness[] {
+    const w = LensRows.borne(app, lens, a.choice, choice);
+    return w ? [w] : [];
   }
 }
