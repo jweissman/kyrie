@@ -1898,6 +1898,38 @@ still win 98 % (100 % before). The spec now says four of the sixth; the howe's a
 §45's balance question. **For the lead:** if the howe should still be taken at the fourth level, its mounts could be
 held as the first den's are (`Undead skeletal_held`), a non-SRD choice.
 
+### 54. A heal weighed by what it mends, and Cure Minor Wounds: measured, held for a green main (19 November)
+
+Case 51's way through, built and measured, and **held** by the lead's stabilization of 19 November (a slice that
+moves first-hour fights or casters waits for main to be green). The change is kept as a patch,
+/var/tmp/kyrie/srd7-scratch/heal-weighting-and-cmw.patch (src/tactics.ts and the hand entry in abilities.json).
+
+**The tactics' change** (Tactics.score): a heal on an ally weighed by the least of the ally's hurt, ten, and **what it
+mends on the average** (its dice at their mean at the caster's values, `Tactics.mends`), three a point, where it was
+weighed by the hurt alone. A cure of 1d8+1 weighs as before on anyone five down; a cantrip of 1d4 weighs six, less
+than a blow (ten), and is cast only when nothing else is.
+
+**Cure Minor Wounds by the SRD's numbers** (case 51's hand entry: a cantrip, one point, conjuration beside Life):
+under the weighed tactics it is never chosen over a blow in a fight, so the SRD's point costs the vitalist nothing:
+every cell below is the same with Orsino's 1d4 and with the SRD's one point.
+
+**Every caster way, before → after** (a lone first-level caster as drawn, 100 seeds, won %; then beside a first-level
+warrior; the eight mage schools, twelve cleric ways and the bard; only the cells that move by more than two points):
+
+| Way | Alone | Beside a warrior |
+|---|---|---|
+| vitalist | three rats 89 → 84; two zombies 67 → 74; two wolves 42 → 49; a ghoul 94 → 93 | as before (±1) |
+| cherubist | three rats 92 → 88; two zombies 71 → 76; a ghoul 98 → 95 | three wolves 92 → 87 |
+| lightbringer | three rats 85 → 82; two wolves 50 → 47 | as before (±1) |
+| every other way, the mages, the bard | within two points | within two points |
+
+The heals cast fall to a tenth for the vitalist (156 → 19 in a hundred fights against two wolves) and to none for the
+lightbringer, whose healing is a cantrip. **The worst move is five points** (the vitalist against three rats, the
+cherubist and a warrior against three wolves), at the edge of the lead's "a few"; against the harder groups the
+vitalist gains seven. **Not landed:** it moves first-hour fights, so it waits for a green main and the lead's word.
+Out of a fight, Tend (FieldUse) is untouched by the tactics, so the SRD's point would heal one between rests where
+1d4 healed 2.5 (test/tend-here and test/small/tended read it; to be measured with the landing).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
