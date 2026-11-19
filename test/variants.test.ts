@@ -9,9 +9,9 @@ import { Canon } from '../src/canon/canon';
 import type { Region, Site } from '../src/world/region-writer';
 
 // What makes one creature of a kind other than the rest: Orsino's aspects (a venomous wolf has a poisonous bite and
-// a tougher hide) and its undead templates (a skeletal wolf is undead, brittle, and shrugs off arrows). An author
-// writes them in a Person; a den draws them, an aspect by rarity, and in a barrow or a ruin sometimes the dead of the
-// beast, which rites lay down.
+// a tougher hide) and its undead templates (a skeletal wolf is undead and bloodless, and a blow but a club's loses
+// five against it). An author writes them in a Person; a den draws them, an aspect by rarity, and in a barrow or a
+// ruin sometimes the dead of the beast, which rites lay down.
 describe('a creature other than its kind', () => {
   it('is written as an aspect or as the dead of its kind, and is made so', () => {
     const m = ModuleParser.parse(`Module t "T" {
@@ -28,7 +28,7 @@ describe('a creature other than its kind', () => {
     const skeletal = new Content('x').createCreature('w', { raceId: 'wolf', template: 'skeletal' }, 'w');
     expect(venomous.base.abilities).toContain('poison_bite');
     expect(venomous.base.constitution).toBeGreaterThan(plain.base.constitution);
-    expect(skeletal.traits).toEqual(expect.arrayContaining(['undead', 'skeletal']));
+    expect(skeletal.traits).toEqual(expect.arrayContaining(['undead', 'bloodless']));
     expect(skeletal.base.strength).toBeLessThan(plain.base.strength);
     expect(() => new Content('x').createCreature('w', { raceId: 'wolf', aspect: 'purple' }, 'w')).toThrow(/purple/);
   });

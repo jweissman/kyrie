@@ -8,6 +8,17 @@
       "modifiers": {},
       "source": { "kyr": true, "notes": "Kyr's own: for the kinds that rise again (a troll, some of the dead); no kind bears it yet." }
     },
+    "bloodless": {
+      "name": "Bloodless",
+      "category": "nature",
+      "description": "Bare bone, with nothing in it to bleed.",
+      "modifiers": {
+        "immune": [
+          "bleed"
+        ]
+      },
+      "source": { "kyr": true, "notes": "The skeletal's (srd-proving-cases.md case 53): Orsino's Bone Resilience less its half of every point's blow and twice of every club's, which the SRD skeleton's damage reduction 5/bludgeoning stands for." }
+    },
     "deep_water": {
       "name": "Of deep water",
       "category": "nature",

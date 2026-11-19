@@ -59,7 +59,7 @@ describe('the bestiary', () => {
   it('makes the dead of any kind by Orsino\'s templates, which are variations, with what the dead are hurt by', () => {
     expect(CreatureVariants.templates).toEqual(['skeletal', 'spectral', 'vampiric', 'zombie']);
     const hound = made('bone_hound');
-    expect([hound.variations, hound.traits]).toEqual([['skeletal'], expect.arrayContaining(['undead', 'skeletal'])]);
+    expect([hound.variations, hound.traits]).toEqual([['skeletal'], expect.arrayContaining(['undead', 'bloodless'])]);
     const resist = (kind: string) => Effects.modifiers(CombatProjection.fighter(made(kind), 'goblins')).resistances ?? {};
     expect([resist('bone_hound').radiant, resist('hound').radiant ?? 0]).toEqual([-1, 0]);
     // The frost's proof against cold is the frost's (its trait, frost_adapted): any frost creature has it.
