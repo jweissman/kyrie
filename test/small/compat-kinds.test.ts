@@ -30,6 +30,15 @@ describe('the compatibility harness says what kind of change a revision made', (
     expect(CompatCompare.verdict(fs)).toBe('presentation-only');
     expect(fs.map(f => f.where)).toEqual(['cold-5 step 1 {"act":"fight:defend:region__party_1"}']);
   });
+  // A room moved to a floor of its own (MT-11's keep: the lord's chamber up the stair) is layout: world-moving, where
+  // the place had been the same place by its id alone.
+  it('calls a place moved within another or sheltered otherwise world-moving', () => {
+    const laid = { ...world, within: { region__s1: 'within region', region__s4: 'within region', region__r1: 'within region' } };
+    const moved = { ...laid, within: { ...laid.within, region__r1: 'within region__s4, indoors' } };
+    const fs = CompatCompare.compare(snap('b', laid, journey), snap('m', moved, journey));
+    expect(fs).toEqual([{ kind: 'world-moving', where: 'iscoed/weir',
+      text: 'place region__r1: within region -> within region__s4, indoors' }]);
+  });
   // A topic's answer no pinned journey asks (S2-4's innkeeper) is still a change of what the world says.
   it('calls words no journey meets presentation-only, and a word more additive', () => {
     const said = { ...world, words: { 'act w8_rumour': 'Go in daylight.' } };

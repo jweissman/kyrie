@@ -36,7 +36,8 @@ export class CompatCompare {
   static world(b: WorldShot, w: WorldShot): Finding[] {
     const where = w.name, out: Finding[] = [];
     const parts: [string, Record<string, string>, Record<string, string>][] = [
-      ['place', this.set(b.places), this.set(w.places)], ['passage', b.passages, w.passages],
+      ['place', this.set(b.places, w.within && b.within), this.set(w.places, b.within && w.within)],
+      ['passage', b.passages, w.passages],
       ['person', b.people, w.people], ['placement', b.placements, w.placements]];
     for (const [what, was, is] of parts) {
       for (const [id, v] of Object.entries(is)) {
@@ -62,7 +63,10 @@ export class CompatCompare {
     }
     return out;
   }
-  private static set(xs: string[]): Record<string, string> { return Object.fromEntries(xs.map(x => [x, 'a place'])); }
+  // A place by where it lies where both snapshots say so (a snapshot from before said only which there were).
+  private static set(xs: string[], within?: Record<string, string>): Record<string, string> {
+    return Object.fromEntries(xs.map(x => [x, within?.[x] ?? 'a place']));
+  }
   static journey(b: JourneyShot, j: JourneyShot, grew: boolean): Finding[] {
     const out: Finding[] = [];
     let moved = false, other = false, after = 0;

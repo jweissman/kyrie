@@ -40,6 +40,8 @@ Module silent_lord "The silent lord" {
   Place ward_l "The outer ward" is level within hold.
   Place keep_l "The keep itself" is level within hold.
   Place below_l "Below the keep" is level within hold.
+  // Up the stairs from the hall (MT-11: the stairs had gone nowhere higher): the solar and the guest chamber.
+  Place upper_l "The top of the keep" is level within hold.
 
   Place gatehouse "the gatehouse" is room within ward_l at 1, 2 indoors.
   Place ward "the ward" is room within ward_l at 1, 1 outdoors.
@@ -53,8 +55,8 @@ Module silent_lord "The silent lord" {
   Place kitchen "the kitchen" is room within keep_l at 0, 1 indoors.
   Place chapel "the chapel" is room within keep_l at 2, 1 indoors.
   Place chancery "the chancery" is room within keep_l at 2, 0 indoors.
-  Place solar "the lord's solar" is room within keep_l at 1, 0 indoors.
-  Place guest "the guest chamber" is room within keep_l at 0, 0 indoors.
+  Place solar "the lord's solar" is room within upper_l at 1, 0 indoors.
+  Place guest "the guest chamber" is room within upper_l at 0, 0 indoors.
 
   Place undercroft "the undercroft" is room within below_l at 1, 1 underground.
   Place strongroom "the strong-room" is room within below_l at 0, 1 underground.

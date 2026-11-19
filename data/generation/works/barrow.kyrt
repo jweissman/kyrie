@@ -88,7 +88,8 @@
   Observe {w}_answered at {w}_passage as revelation when state({w}_flute_bone, played) "Then, from very far off, faint as breath, another flute answers: from {greatwhere}, where the greatest of the barrows of {epithet} must lie." teaches {greatfound}.
 --- successors robbed 2
   Observe {w}_robbed at {w}_right when true "The kingdom of {successors} knew there was gold in the old mounds: a robbers' shaft comes down through the roof here, and the pots along the wall are smashed. The robbers left the bones.".
-  Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 0 underground.
+  // On the crown of the mound, in the open; the shaft from it goes down into the chamber (MT-11).
+  Place {w}_shaft_top "the robbers' hole" is room within {w}_site at 2, 0 outdoors.
   Passage {w}_robbers "the robbers' shaft" is shaft between {w}_shaft_top and {w}_right needing rope or climbing.
   Passage {w}_hole "the hole in the top of the mound" is path between {w} and {w}_shaft_top.
   Observe {w}_hole_scene at {w}_shaft_top when true "A hole has been cut through the turf on the crown of the mound, and under it a shaft goes down between the roofing stones, about a rope's length.".

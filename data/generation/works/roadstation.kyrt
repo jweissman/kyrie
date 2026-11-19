@@ -28,18 +28,21 @@
   }
 --- base
   Place {w}_site "{name}" is site within {land} at {x}, {y}.
-  Place {w}_gate "the carriage-arch" is room within {w}_site at 0, 1 indoors.
-  Place {w}_yard "the yard" is room within {w}_site at 1, 1 outdoors.
-  Place {w}_stable "the long stable" is room within {w}_site at 0, 2 indoors.
-  Place {w}_granary "the granary" is room within {w}_site at 1, 2 indoors.
-  Place {w}_hall "the posting-hall" is room within {w}_site at 2, 1 indoors.
-  Place {w}_office "the stationmaster's office" is room within {w}_site at 2, 0 indoors.
-  Place {w}_strong "the fisc-room" is room within {w}_site at 3, 0 underground.
-  Place {w}_shrine "the way-shrine" is room within {w}_site at 3, 1 indoors.
-  Place {w}_baths "the bath-house" is room within {w}_site at 2, 2 indoors.
-  Place {w}_stoke "the stokehold" is room within {w}_site at 3, 2 underground.
-  Place {w}_cistern "the cistern" is room within {w}_site at 1, 3 underground.
-  Place {w}_roof "the signal-roof" is room within {w}_site at 1, 0 outdoors.
+  // The station on the ground, the signal-roof up its stair (MT-11).
+  Place {w}_ground "the yard and the halls" is level within {w}_site.
+  Place {w}_upper "the roof" is level within {w}_site.
+  Place {w}_gate "the carriage-arch" is room within {w}_ground at 0, 1 indoors.
+  Place {w}_yard "the yard" is room within {w}_ground at 1, 1 outdoors.
+  Place {w}_stable "the long stable" is room within {w}_ground at 0, 2 indoors.
+  Place {w}_granary "the granary" is room within {w}_ground at 1, 2 indoors.
+  Place {w}_hall "the posting-hall" is room within {w}_ground at 2, 1 indoors.
+  Place {w}_office "the stationmaster's office" is room within {w}_ground at 2, 0 indoors.
+  Place {w}_strong "the fisc-room" is room within {w}_ground at 3, 0 underground.
+  Place {w}_shrine "the way-shrine" is room within {w}_ground at 3, 1 indoors.
+  Place {w}_baths "the bath-house" is room within {w}_ground at 2, 2 indoors.
+  Place {w}_stoke "the stokehold" is room within {w}_ground at 3, 2 underground.
+  Place {w}_cistern "the cistern" is room within {w}_ground at 1, 3 underground.
+  Place {w}_roof "the signal-roof" is room within {w}_upper at 1, 0 outdoors.
   Passage {w}_arch "the inner arch" is arch between {w}_gate and {w}_yard.
   Passage {w}_stable_door "the stable doors" is doorway between {w}_yard and {w}_stable.
   Passage {w}_granary_door "the granary door" is door between {w}_yard and {w}_granary.
