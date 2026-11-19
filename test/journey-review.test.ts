@@ -47,6 +47,8 @@ describe('a journey reviewed', () => {
     const refused = review.steps.find(s => s.error)!;
     expect([refused.chosen?.command, refused.after, refused.chosen?.from])
       .toEqual(['drove__clerk#talk', undefined, 'not in the scene before']);
+    expect([refused.consequential, refused.delta.aims, refused.events])
+      .toEqual([false, { taken: [], retired: [] }, []]);
   });
   it('counts consequential steps in order, and not an aim followed nor a look', () => {
     const [followed, ...rest] = review.steps, look = review.steps.find(s => s.line === '{"look":true}')!;

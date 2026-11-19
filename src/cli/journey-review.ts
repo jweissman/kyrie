@@ -65,7 +65,7 @@ export class JourneyReview {
     const mark = this.runner.session.transcript.steps.length;
     if ('error' in out) {
       const delta = new ReviewDelta(campaign, new ReviewProvenance(campaign)).of({ before: was, after: was, events: [],
-        fired: [], frames: [before, undefined] });
+        fired: [], frames: [before, before] });
       this.steps.push({ n, line, before: before.n, ...chosen ? { chosen } : {}, error: out.error, events: [], delta,
         consequential: false, mark });
       return;
