@@ -1898,11 +1898,10 @@ still win 98 % (100 % before). The spec now says four of the sixth; the howe's a
 §45's balance question. **For the lead:** if the howe should still be taken at the fourth level, its mounts could be
 held as the first den's are (`Undead skeletal_held`), a non-SRD choice.
 
-### 54. A heal weighed by what it mends, and Cure Minor Wounds: measured, held for a green main (19 November)
+### 54. A heal weighed by what it mends, and Cure Minor Wounds by the SRD's point (19 November): adapted, landed
 
-Case 51's way through, built and measured, and **held** by the lead's stabilization of 19 November (a slice that
-moves first-hour fights or casters waits for main to be green). The change is kept as a patch,
-/var/tmp/kyrie/srd7-scratch/heal-weighting-and-cmw.patch (src/tactics.ts and the hand entry in abilities.json).
+Case 51's way through, built and measured, held for a green main, then **landed by the lead's decision** the same
+day (its own commit, the measures re-run on the branch as it then stood: every cell the same as first measured).
 
 **The tactics' change** (Tactics.score): a heal on an ally weighed by the least of the ally's hurt, ten, and **what it
 mends on the average** (its dice at their mean at the caster's values, `Tactics.mends`), three a point, where it was
@@ -1926,9 +1925,12 @@ warrior; the eight mage schools, twelve cleric ways and the bard; only the cells
 The heals cast fall to a tenth for the vitalist (156 → 19 in a hundred fights against two wolves) and to none for the
 lightbringer, whose healing is a cantrip. **The worst move is five points** (the vitalist against three rats, the
 cherubist and a warrior against three wolves), at the edge of the lead's "a few"; against the harder groups the
-vitalist gains seven. **Not landed:** it moves first-hour fights, so it waits for a green main and the lead's word.
-Out of a fight, Tend (FieldUse) is untouched by the tactics, so the SRD's point would heal one between rests where
-1d4 healed 2.5 (test/tend-here and test/small/tended read it; to be measured with the landing).
+vitalist gains seven. **Moved besides:** a warrior's choice to drink a healing draught weighs the same way (ItemCatalog.used reads as an
+ability), so test/novice-covenant's warrior against one man in arms wins 17 of 20 where it won 16 (67 of 100, its
+'grave' band 25–60 % and its slack of 20): the spec now fights forty of each, 31 of 40 won. Out of a fight, Tend
+(FieldUse) is untouched by the tactics, so the SRD's point heals one between rests where 1d4 healed 2.5; test/tend-here
+and test/small/tended hold. The census grades Cure Minor Wounds S✓ (conjuration beside Life); its harm to the undead
+omitted.
 
 ### 55. Flesh to Stone by the SRD's numbers (19 November): adapted, a slice that moves nothing
 

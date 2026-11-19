@@ -1,6 +1,23 @@
 {
   "about": "Abilities: what a creature can choose to do. Orsino skills and spells are generated into data/catalog/orsino/abilities.json; this file holds Kyr's own abilities and adaptations. kind is technique, spell (with tradition, level and school or domain; a spell spends one slot) or natural. effect is written in the Kyr effect language; effects is the typed form.",
   "abilities": {
+    "cure_minor": {
+      "name": "Cure Minor Wounds",
+      "kind": "spell",
+      "description": "Bind a scratch or a bruise: one point.",
+      "effects": [
+        { "kind": "heal", "amount": { "kind": "literal", "value": 1 }, "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 0, "domain": "life", "school": "conjuration" },
+      "source": {
+        "orsino": "divineSpell:cure_minor",
+        "srd35": "spell:cure-minor-wounds",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Cure Minor Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 51): a cantrip, one point on one ally, its school the SRD's conjuration beside its domain. Out of a fight it mends each member once between rests, as every healing cantrip (Tended). Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half). Before, Orsino's 1d4."
+      }
+    },
     "weakness": {
       "name": "Ray of Enfeeblement",
       "kind": "spell",

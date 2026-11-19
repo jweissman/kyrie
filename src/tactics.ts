@@ -34,6 +34,17 @@ export class Tactics {
     return ability.effects.reduce((n, e) => n + (e.kind !== 'damage' && e.kind !== 'drain' || !e.amount ? 0
       : Tactics.reckoner.harm(Tactics.highest(e.amount), Effects.context(actor))), 0);
   }
+  // What a heal mends on the average, its dice at their mean at the actor's values (a cure of one point mends one: a
+  // hurt vitalist had spent every turn on its one-point cantrip, srd-proving-cases.md case 51).
+  private static mends(amount: Amount, actor: Fighter): number {
+    return Tactics.reckoner.harm(Tactics.mean(amount), Effects.context(actor));
+  }
+  private static mean(amount: Amount): Amount {
+    if (amount.kind === 'literal') { return amount; }
+    const means = amount.expression.replace(/(\d*)d(\d+)/g,
+      (_, n: string, d: string) => `(${Number(n || 1) * (Number(d) + 1) / 2})`);
+    return { kind: 'deem', expression: `round(${means})` };
+  }
   private static highest(amount: Amount): Amount {
     return amount.kind === 'literal' ? amount : { kind: 'deem', expression:
       amount.expression.replace(/(\d*)d(\d+)/g, (_, n: string, d: string) => `(${Number(n || 1) * Number(d)})`) };
@@ -64,7 +75,7 @@ export class Tactics {
           break;
         }
         case 'enervate': score += target.team !== actor.team ? 15 : 0; break;
-        case 'heal': score += Math.min(target.maxHp - target.hp, 10) * 3; break;
+        case 'heal': score += Math.min(target.maxHp - target.hp, Tactics.mends(effect.amount, actor), 10) * 3; break;
         case 'revive': score += 40; break;
         case 'remove': score += target.statuses.some(s => s.id === effect.status) ? 20 : 0; break;
         case 'apply':
