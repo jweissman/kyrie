@@ -24,6 +24,12 @@ export class CompatJourneys {
     { name: 'cold-5', world: 'iscoed/weir', args: ['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar'],
       file: 'doc/architecture/mission-22/cold/cold-5-lines.txt' },
   ];
+  // The clock's own journey: a1 left to itself to the eleventh day, a wait a day, and the tenth's afternoon in two, so
+  // that what the standing scenarios do on their clocks is compared (the Walk's riot at two and its Reckoning at four:
+  // MT-09's mending moved nothing the company's journeys reach), not only what a company does. Not quick: 80 s.
+  static readonly clock = ['--world', 'a1', ...Array.from({ length: 9 }, (_, i) => `==day ${i + 2} 08:00`),
+    '==day 10 15:00', '==day 10 17:00', '==day 11 08:00'];
+  static async clocked(saves?: string): Promise<JourneyShot> { return this.played('clock/a1', this.clock, saves); }
   // quick: only the kept plays of a campaign (a generated world's are drawn, the slow part).
   static async traces(o: { quick: boolean; saves?: string }): Promise<JourneyShot[]> {
     const out: JourneyShot[] = [];
@@ -42,7 +48,10 @@ export class CompatJourneys {
     const steps: StepShot[] = [];
     let s = r.said();
     for (const line of sent) {
-      const x = await r.ask(line);
+      // A line the runner throws at (a "follow" sent while a fight is under way: cold-4 at HEAD of 19 November) ends
+      // the journey there, as a kept trace's first failure does, and is said as the step's error.
+      const x = await r.ask(line).catch((e: unknown) => ({ threw: e instanceof Error ? e.message : String(e) }));
+      if ('threw' in x) { steps.push(this.step(line, s, session, `threw: ${x.threw}`)); break; }
       if (!('error' in x)) { s = x; }
       steps.push(this.step(line, s, session, 'error' in x ? x.error : undefined));
     }

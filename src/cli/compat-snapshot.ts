@@ -48,6 +48,7 @@ export class CompatSnapshot {
       journeys.push(await CompatJourneys.lines(c, journey.session, o));
     }
     journeys.push(...await CompatJourneys.traces(o));
+    if (!o.quick) { journeys.push(await CompatJourneys.clocked(o.saves)); }
     return { version: 1, label: o.label, quick: o.quick, worlds, journeys };
   }
   // A drawn world's layout, and its placements as the assembler made them (drawn again: it is deterministic).

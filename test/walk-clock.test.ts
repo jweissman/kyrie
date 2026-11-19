@@ -15,5 +15,9 @@ describe('the Walk of the Milestones: its clock runs without the company', () =>
     seen.push(`d11 strife=${Walking.measure(j, 'strife', 'walk')} ending=${Walking.drawn(j, 'ending').join()} chalk=${['a','b','c','d'].map(x => Walking.state(j, `chalk_${x}`)).join()} notice=${['a','b','c','d'].map(x => Walking.state(j, `notice_${x}`)).join()} chair=${Walking.state(j, 'bench_chair')} door=${Walking.state(j, `station_door_${f}`)}`);
     console.log(placed.bindings, seen.join('\n'));
     expect(Walking.drawn(j, 'ending')).toEqual(['e_riot']);
+    // The riot breaks at two in the afternoon on the tenth day, and the crowd is on the flashpoint's green (MT-09: it
+    // had asked where the mob was, and the mob was nowhere, so the Reckoning came without it).
+    expect(Walking.holds(j, 'mob_loosed', 'walk')).toBe(true);
+    expect(Walking.at(j, 'mob')).toBe(`region__${placed.bindings[f]}_green`);
   }, 600000);
 });

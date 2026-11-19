@@ -127,10 +127,12 @@ export class KyrLint {
   }
   // Generated worlds, each as drawn from its seed for the assembler's own company, so that the standing scenarios
   // it places (data/situations: the Gathering, the arcology) are linted as they are played, not only the campaigns.
-  static async worlds(seeds: string[]): Promise<Record<string, Finding[]>> {
+  // (A source of its own for a spec that puts a mistake back: test/drawn-lint.)
+  static async worlds(seeds: string[], source: BundleSource = NodeBundleSource.shared)
+    : Promise<Record<string, Finding[]>> {
     const results: Record<string, Finding[]> = {};
     for (const seed of seeds) {
-      const world = await WorldAssembler.assemble(seed, NodeBundleSource.shared, {});
+      const world = await WorldAssembler.assemble(seed, source, {});
       LintSource.drawn.add(world.path);
       results[world.path] = await this.campaign(world.path, world.source);
     }

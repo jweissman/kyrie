@@ -259,11 +259,11 @@ Module walk "The Walk of the Milestones" {
     says "At noon the Brethren set their staves across the Station arch, shoulder to shoulder, and say a word together. Whoever was going to the Station is not going. It is a thing that was always going to be said, and has been." { Increase strife(walk) by 2. Assert gaunt_counted(walk). }
   Rule gaunt_down_rule when gaunt_here(walk) and not gaunt_down(walk) and not able(gaunt) and not able(staves) { Assert gaunt_down(walk). }
   Rule interdict_counts when day(clock) >= 10 and hour(clock) >= 12 and not interdict_counted(walk) and (interdict(walk_a) or interdict(walk_b) or interdict(walk_c) or interdict(walk_d)) { Increase strife(walk) by 1. Assert interdict_counted(walk). }
-  Rule riot_breaks when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_b) and at(mob, ?m)
+  Rule riot_breaks when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_b)
     says "At two in the afternoon the Gathering turns. Nobody sees the first stone. A stall goes over, and then another, and the crowd that was a Walk this morning is, between one breath and the next, a thing with a great many arms." { Assert mob_loosed(walk). Assert at(mob, green_b). }
-  Rule riot_breaks_c when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_c) and at(mob, ?m)
+  Rule riot_breaks_c when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_c)
     says "At two in the afternoon the Gathering turns. Nobody sees the first stone. A stall goes over, and then another, and the crowd that was a Walk this morning is, between one breath and the next, a thing with a great many arms." { Assert mob_loosed(walk). Assert at(mob, green_c). }
-  Rule riot_breaks_d when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_d) and at(mob, ?m)
+  Rule riot_breaks_d when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_d)
     says "At two in the afternoon the Gathering turns. Nobody sees the first stone. A stall goes over, and then another, and the crowd that was a Walk this morning is, between one breath and the next, a thing with a great many arms." { Assert mob_loosed(walk). Assert at(mob, green_d). }
 
   // ---- The Reckoning: at four in the afternoon on the tenth day. Exclusive, in order of what the strife makes of it.

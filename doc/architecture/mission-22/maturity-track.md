@@ -173,6 +173,13 @@ it moves, and its rows are MT-01.. in the open register.
    - Seen on the way: at HEAD the fourth cold play's own lines break at step 27, its journey to Gatesend turned
      aside to the barrow, so lines 28 on are refused or sent into a fight and its save cannot be taken; its spec
      plays only its first twelve.
+   **The clock's journey, 19 November** (mt-6): `clock/a1`, a1 left to its clock to the eleventh day (a wait a day, the
+   tenth's afternoon in two), so that what the standing scenarios do on their clocks is compared and not only what a
+   company does; and a cold line the runner throws at (cold-4's `follow` sent mid-fight, at HEAD) ends that journey
+   as its error, where it had ended the snapshot. Its first use was MT-09 (the Gathering's riot, which had asked where
+   the mob was): `additive`, clock/a1 alone from step 10 (`==day 10 15:00`), the state other at the same watch and
+   place, every row, line and save as before. A digest says the state differs, not whether a fact was added or
+   changed, so such a change where nothing else moved is said additive; that is open.
 7. **Social facts into the ledger (E)** and **8. qualitative placement (D)**, after 6, each by its study proof.
 
 ## Begun
@@ -180,7 +187,7 @@ it moves, and its rows are MT-01.. in the open register.
 - Step 1: the riddle (CL-34) in hand; OR-94 and OR-95 landed 18 November.
 - Step 2: landed 18 November (lint-1: R26/R86/R42); 19 November `kyrie lint --world <seed>` lints a drawn world's
   standing scenarios at their lines in data/ (test/drawn-lint), and found the Gathering's riot that never breaks
-  (MT-09).
+  (MT-09), mended 19 November (mt-6) and classified by the harness.
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`; see the step).
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;
