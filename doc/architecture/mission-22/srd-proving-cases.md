@@ -1969,6 +1969,36 @@ Measured the same way at the first level: three rats 77 → 68 %, two wolves 6 �
 burning (a Fortitude save or 1d3 a turn for the fight) is a share of a first-level evoker's harm. To land with a
 green main and the lead's word.
 
+### 57. Concealment as a fight rule, and Blur's miss chance by the SRD (19 November): built; Blur exact
+
+Named by the last report as the route that unblocks Darkness and Blur's miss chance as the SRD has it. Spec:
+`test/concealment` (3).
+
+**The mechanic built** (`concealment`, a modifier: Fighting.attack, Fighting.chance):
+- a holder's concealment is the chance in a hundred that a blow which lands at it misses after all (the SRD's miss
+  chance: Blur's 20, Darkness's 20, total concealment's 50); of two sources the better holds, never summed (the
+  SRD's rule; ModifierSet.sum);
+- thrown on d100 once a blow or a touch has landed (the SRD rolls it beside the attack; Kyr throws it only on a hit,
+  so a fight with no one concealed throws nothing more), a throw at or under the chance a miss;
+- the forecast on the aim multiplies by what is left (Blur: four in five of what would land);
+- told as the blow's: "Brann's battleaxe goes wide of the wolf, hard to make out" (the event's `concealed`); the book
+  says it ("a blow that lands at them misses 20 times in a hundred"), and the handbook's rules of the fight.
+
+**Blur** (case 49) now lays the SRD's concealment exactly (`concealed`: 20), where it had been converted to
+Westernesse's evasion of 3 (four hits in twenty turned: the same one in five). The census already graded it
+S✓ R✓ I✓; its note's conversion is gone.
+
+**What it moves:** no odds anywhere (Blur turns one hit in five, as it did). A fight in which a blurred one is hit
+throws d100 where evasion threw a d20, so its later dice differ; two installed casters know Blur (iscoed's tower
+necromancer and kahitude's howe scholar, both of the third level), and their specs hold (bound-howe-under,
+unquiet-tower-talk). No draw or card moves. Orsino's own `blurred` (an evasion of 10) is untouched.
+
+**What it unblocks:** Darkness (case 41's Create Darkness): a second-level burst laying concealment 20 on everyone in
+it, friend and foe, ten minutes a level. Not taken here: it moves the four cards that hold it at the second level
+(shadowmancer, stormcaller, veneficium, warbringer) from a hold on every foe to a shadow over both sides, and the
+tactics would cast it at foes as if concealing them helped (they weigh any condition laid on a foe as a gain); a
+decision for the lead, with the tactics' weighing of a boon laid on a foe.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

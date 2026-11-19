@@ -6235,7 +6235,7 @@ A stone found is cut or rough, of a size, and clear or clouded: a huge flawless 
 
 A fight begins when someone sets on someone else: the company, or anything it meets. Each round every creature still standing rolls initiative (d20, plus its Dexterity modifier and any initiative bonus), and acts in that order. Conditions without a clock tick down as each round begins.
 
-To hit, roll d20 at or above THAC0, less the defender's armour class, less your to-hit (Strength modifier, or Dexterity with a missile weapon, plus to-hit bonuses). A natural 1 always misses; a 20, less any critical range bonus, is a critical. A defender with evasion then rolls d20 against 20 less its evasion to turn the hit aside. Armour class descends: 10, less the armour's value, less Dexterity modifier, plus armour class effects.
+To hit, roll d20 at or above THAC0, less the defender's armour class, less your to-hit (Strength modifier, or Dexterity with a missile weapon, plus to-hit bonuses). A natural 1 always misses; a 20, less any critical range bonus, is a critical. A defender with evasion then rolls d20 against 20 less its evasion to turn the hit aside; one concealed (a blur) rolls d100, and the hit misses at or under its concealment's chance. Armour class descends: 10, less the armour's value, less Dexterity modifier, plus armour class effects.
 
 Each creature has one action a turn. Haste adds one; slow takes one away, but never the last. A confused creature falls on something it could do, at random. A charmed creature takes its own side for the enemy; a dominated one answers to the other side.
 
@@ -6623,11 +6623,11 @@ You are augured for 3 turns; you gain sage's insight for 3 turns. Augured: +5 in
 
 *Adapted · level 2 arcane spell, illusion* · `ability:blur`
 
-One ally is concealed for 10 turns at the first casting level, 100 turns at the tenth. Concealed: +3 evasion. An arcane spell of the second level. Takes a second-level slot.
+One ally is concealed for 10 turns at the first casting level, 100 turns at the tenth. Concealed: a blow that lands at them misses 20 times in a hundred. An arcane spell of the second level. Takes a second-level slot.
 
 > The one you touch, yourself or a companion, blurs and wavers: one blow in five meant for them goes astray, for a minute for every level you have.
 
-*Adapted: The SRD's Blur (doc/architecture/mission-22/srd-proving-cases.md, case 49): second level (Orsino's first), illusion, on the caster or one ally (the creature touched), concealment for a minute a casting level (Lasting): one blow in five that would land goes astray (concealed, an evasion of 3: Westernesse's evasion turns a hit on d20 at or above 20 less it). Converted: concealment's miss chance as Westernesse's evasion, rolled after a hit where the SRD's is rolled before it, the same one in five. Omitted: the creatures that see through it (true seeing). Before, Orsino's first level, on the caster alone, three rounds of one harder to hit, +2 against magic and an evasion of 10.*
+*Adapted: The SRD's Blur (doc/architecture/mission-22/srd-proving-cases.md, case 49): second level (Orsino's first), illusion, on the caster or one ally (the creature touched), concealment for a minute a casting level (Lasting): one blow in five that would land goes astray (concealed: the SRD's 20 % miss chance, thrown on d100 once a blow lands, exact since case 57; it had been Westernesse's evasion of 3, the same one in five). Omitted: the creatures that see through it (true seeing). Before, Orsino's first level, on the caster alone, three rounds of one harder to hit, +2 against magic and an evasion of 10.*
 
 ##### Chill Blood
 
@@ -10057,7 +10057,7 @@ Takes 2d4 (2–8) acid damage each turn.
 
 *Kyr · lasts the fight at most* · `condition:concealed`
 
-+3 evasion.
+A blow that lands at them misses 20 times in a hundred.
 
 > Blurred and wavering: one blow in five meant for them goes astray.
 

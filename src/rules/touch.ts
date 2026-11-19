@@ -14,11 +14,12 @@ export class Touch {
     if (!effect.touch || !actor || !context.expressions) { return true; }
     if (Images.intercepted(actor, target, context, effect.touch === 'ranged')) { return false; }
     const expressions = context.expressions;
-    const roll = Fighting.touch(Effects.combatant(actor), Effects.combatant(target), () => expressions.number('1d20'),
-      effect.touch === 'ranged');
+    const roll = Fighting.touch(Effects.combatant(actor), Effects.combatant(target),
+      sides => expressions.number(`1d${sides}`), effect.touch === 'ranged');
     context.events.push({ type: 'attack', turn: context.turn, actor: actor.id, target: target.id, die: roll.die,
       need: roll.need, toHit: roll.toHit, armorClass: roll.armorClass, weapon: '', touch: effect.touch,
-      success: roll.success, critical: false, ...roll.evasion?.evaded ? { evaded: true } : {} });
+      success: roll.success, critical: false, ...roll.evasion?.evaded ? { evaded: true } : {},
+      ...roll.concealment?.missed ? { concealed: true } : {} });
     return roll.success;
   }
   // The chance one of an ability's touches lands on a target, before the die (the aim's odds); none if it has none.

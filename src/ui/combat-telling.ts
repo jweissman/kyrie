@@ -183,6 +183,7 @@ export class CombatTelling {
     // evaluation; "the risen dead's claws catches Maren": play 8).
     const many = natural && /(?<!s)s$/.test(weapon);
     if (!attack.success) {
+      if (attack.concealed) { return `${natural ? how : CombatTelling.whose(actor, weapon || 'blow')} goes wide of ${target}, hard to make out.`; }
       if (attack.evaded) { return `${target} slips aside from ${natural ? how : CombatTelling.whose(actor, weapon || 'blow')}.`; }
       return natural ? `${how} ${many ? 'miss' : 'misses'} ${target}.`
         : `${actor} ${kind === 'ranged' ? 'shoots at' : 'strikes at'} ${target} and misses.`;
