@@ -906,6 +906,30 @@
         "notes": "The SRD's Acid Arrow (doc/architecture/mission-22/srd-proving-cases.md, case 44): second level (Orsino's first), conjuration, one foe a ranged touch attack lands on (Touch), 2d4 acid, and the acid clinging (acid_clinging: 2d4 acid at the end of its holder's turn) for a round every three casting levels, to six at the eighteenth (Lasting: none at the first and second). No spell resistance (the SRD's). Its acid sets off none of Orsino's acid burn (triggers: false), which the SRD's has not. Omitted: the arrow's range. Before, Orsino's sure 1d4 acid on one foe at the first level, and its acid burn."
       }
     },
+    "ray_of_frost": {
+      "name": "Ray of Frost",
+      "kind": "spell",
+      "description": "A ray of freezing air and ice springs from your finger at one foe: 1d3 cold if it strikes.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "1d3" },
+          "damageType": "cold",
+          "target": "enemy",
+          "touch": "ranged",
+          "triggers": false
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 0, "school": "evocation", "resistance": true },
+      "source": {
+        "orsino": "arcaneSpell:ray_of_frost",
+        "srd35": "spell:ray-of-frost",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Ray of Frost (doc/architecture/mission-22/srd-proving-cases.md, case 45): a cantrip (Orsino's second level), evocation, one foe a ranged touch attack lands on (Touch), 1d3 cold; spell resistance answers it (SpellResistance). Its cold sets off none of Orsino's freezing (triggers: false), which the SRD's has not. Omitted: its range. Before, Orsino's sure 2d6 cold on one foe at the second level."
+      }
+    },
     "shocking_grasp": {
       "name": "Shocking Grasp",
       "kind": "spell",

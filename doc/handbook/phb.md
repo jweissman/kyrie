@@ -6407,6 +6407,16 @@ You are minor warded for 10 turns. Minor Warded: +1 against magic, 7 + level mor
 
 > Create a small magical barrier to protect against harm.
 
+##### Ray of Frost
+
+*Adapted · cantrip arcane spell, evocation* · `ability:ray_of_frost`
+
+1d3 (1–3) cold damage to one enemy (only if a ranged touch attack lands, worn armour not counting; may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane cantrip, cast at will.
+
+> A ray of freezing air and ice springs from your finger at one foe: 1d3 cold if it strikes.
+
+*Adapted: The SRD's Ray of Frost (doc/architecture/mission-22/srd-proving-cases.md, case 45): a cantrip (Orsino's second level), evocation, one foe a ranged touch attack lands on (Touch), 1d3 cold; spell resistance answers it (SpellResistance). Its cold sets off none of Orsino's freezing (triggers: false), which the SRD's has not. Omitted: its range. Before, Orsino's sure 2d6 cold on one foe at the second level.*
+
 ##### Scald
 
 *Faithful · cantrip arcane spell, evocation* · `ability:scald`
@@ -6696,14 +6706,6 @@ On 7 + round((level / 2)) different enemies, drawn at random, each the next of t
 > A dazzling array of multicolored beams springs from your hand.
 
 *Adapted: Orsino reads the count "=7 + round(#level / 2)" with parseInt, finds no number and touches no one; Kyr evaluates it as written.*
-
-##### Ray of Frost
-
-*Faithful · level 2 arcane spell, evocation* · `ability:ray_of_frost`
-
-2d6 (2–12) cold damage to one enemy (may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
-
-> Fire a dazzling blue ray of cold energy at a target.
 
 ##### Slow
 

@@ -1616,6 +1616,35 @@ for Acid Arrow carried Orsino's burn; now neither does.
   against three rats 36 %, two zombies 17 %, a ghoul 20 %; Thunderclap, the card's harm now, 66 %, 16 %, 26 %. The
   first hour is no deadlier for a player's conjurer; the four worlds' iv mages are a little kinder.
 
+### 45. Ray of Frost by the SRD's numbers (19 November): adapted
+
+Case 37's other held slice, taken by the owner's ruling of 19 November. Spec: `test/ray-of-frost` (2 cases).
+
+**The spell** (a hand entry over Orsino's): a cantrip (Orsino's second level), arcane, evocation (exact); one foe a
+ranged touch lands on (exact), 1d3 cold (exact); spell resistance answers it (case 43); its cold sets off none of
+Orsino's freezing (case 44's `triggers: false`). **Omitted:** its range. Before: Orsino's sure 2d6 cold at the second
+level. The census grades it S✓ R✓ I✓: 31 of 119 pass in resolution, 40 in structure.
+
+**The census** (the lead's pools; scratch /var/tmp/kyrie/srd6-scratch):
+- 1,761 of 19,200 drawn mages move (9.2 %): **every evoker knows it** (an evoker knows every cantrip of its school:
+  .53–.55 → 1.00 at every level), other specialists lose it from their draws (.06–.20 → 0), drawn-school mages
+  .12–.24 → .13; no cleric or bard.
+- **The evoker's creation card moves:** its second-level picks are Prismatic Spray, Mind Blank and Sound Lance (Ray
+  of Frost gives way); a first-level evoker has it from the first, as a cantrip.
+- **38 of the 2,233 installed classed creatures gain it** (an installed caster prepares every cantrip of its
+  tradition), five or six in each world: the first town's undertown raiser and its iv mage in all seven, the Bound
+  Howe's scholar and the arcology's quill in all seven, wren's and ember's tower necromancer, kite's and thorn's
+  fellowship warden, and a traveller or a scholar here and there. None loses anything.
+- **The first-hour fights** that hold the two the first town meets, a1's undertown raiser (a second-level mage) and
+  iv mage (first level), fought as installed by first-level companies (60 seeds each, won / someone down): before
+  and after alike, the raiser 95/5 % for a lone warrior, 100/2 % a warrior and cleric, 55/45 % a thief, 18/82 % a
+  mage; the iv mage 92/8, 98/2, 52/48 and 25/75 %. The battle's tactics spend a hostile caster's turns on its other
+  spells, so a free 1d3 shot moves none of them.
+- **A kept trace re-digested:** `test/fixtures/traces/wren-tower-climbed.transcript.json` (scripts/redigest-trace):
+  wren's casters who gain the cantrip make the drawn world underneath other from the first step; the same commands
+  come to the same place, watch and words. test/small/spell-school-glyphs reads the evoker's cantrips (Frostbite,
+  Ray of Frost, Scald), and test/srd-fidelity Ray of Frost's ranged touch.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -1687,8 +1716,8 @@ be claimed from the catalogue.
 - **The field's clock** (case 14): a hostile spell cast at a band outside a fight lasts as many watches as it would
   have lasted turns (FieldUse.cast), so Sleep's ten rounds are ten watches, where the SRD's minute is less than one.
   The rule is case 1's and Items.use's; changing it moves the undertown's sleepers and wants its own census.
-- **Touch attacks:** built (case 35, Shocking Grasp by it). Ray of Frost, Acid Arrow, Ghoul Touch and their like
-  each wait for a slice of their own: each moves a level, and so a draw.
+- **Touch attacks:** built (case 35, Shocking Grasp by it); Ghoul Touch (case 36), Acid Arrow (case 44) and Ray of
+  Frost (case 45) by it. Vampiric Touch and Ray of Enfeeblement wait for slices of their own.
 - **The cure family's levels** (case 16): Moderate, Serious and Critical at the SRD's 2, 3 and 4 wait on the preset
   companion cleric's spells (world-assembler), which are chosen by level.
 - **Charm Person**: the SRD's numbers would lower its difficulty and lengthen it to the fight, but Orsino's charmed

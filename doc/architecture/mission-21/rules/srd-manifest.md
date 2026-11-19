@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 89, E2 1, E3 29.
+**605 records**, every one visible: E0 486, E1 88, E2 1, E3 30.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 207.
 
 ## By family
@@ -467,7 +467,7 @@ become ready).
 | raise-dead | Raise Dead | Clr 5 | healing | E1 | — | raise_dead |
 | ray-of-enfeeblement | Ray of Enfeeblement | Sor/Wiz 1 | control | E1 | — | weakness |
 | ray-of-exhaustion | Ray of Exhaustion | Sor/Wiz 3 | control | E0 | — | — |
-| ray-of-frost | Ray of Frost | Sor/Wiz 0 | damage | E1 | — | ray_of_frost |
+| ray-of-frost | Ray of Frost | Sor/Wiz 0 | damage | E3 | — | ray_of_frost |
 | read-magic | Read Magic | Brd 0, Clr 0, Drd 0, Pal 1, Rgr 1, Sor/Wiz 0 | divination | E0 | effect.reveal | — |
 | reduce-animal | Reduce Animal | Drd 2, Rgr 3 | world | E0 | effect.world | — |
 | reduce-person | Reduce Person | Sor/Wiz 1 | transformation | E0 | effect.transform | — |

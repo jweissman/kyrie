@@ -57,7 +57,7 @@ describe('the schools\' emblems', () => {
     expect(school.cards.every(c => c.emblem === c.id && Emblems.has(c.id) || c.id === 'generalist')).toBe(true);
     const evoker = school.cards.find(c => c.id === 'evoker')!.entry!;
     const [atWill, first] = evoker.groups!;
-    expect(atWill!.rows.map(r => r.name)).toEqual(['Frostbite', 'Scald']);
+    expect(atWill!.rows.map(r => r.name)).toEqual(['Frostbite', 'Ray of Frost', 'Scald']);
     expect(first!.rows.length).toBe(3);
     expect([...atWill!.rows, ...first!.rows].every(r => r.line && r.emblem && Emblems.has(r.emblem))).toBe(true);
     expect(evoker.after).toMatch(/^Every mage knows Light too\. Later: /);
