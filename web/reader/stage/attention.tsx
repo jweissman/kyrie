@@ -54,8 +54,10 @@ export class Attention {
           aside={r.note && Typography.curl(r.note)} />
         {r.chosen && chosen && <Attention.Unfolded draw={draw} held={chosen} />}
       </li>)}
-      {pages > 1 && <li><button type="button" className="quiet-word attention-all" data-action="lens-page"
-        data-page={at + 1} data-pages={pages} onClick={() => turn(at + 1)}>{`More ${lens}… ${at + 1} of ${pages}`}</button></li>}
+      {/* The row that turns the page: a row of the lens, as LensFocused's is, never a word of the page's own (OR-94). */}
+      {pages > 1 && <li><ChoiceRow.Button className="attention-all lens-page"
+        data={{ action: 'lens-page', page: String(at + 1), pages: String(pages) }} onClick={() => turn(at + 1)}
+        plain="neutral" label={`More ${lens}…`} aside={`${at + 1} of ${pages}`} /></li>}
     </ol>;
   }
   // A thing chosen, unfolded under its own row: what more there is to see of it, and what can be done with it.

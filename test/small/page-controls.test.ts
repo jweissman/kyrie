@@ -11,12 +11,11 @@ const ceiling: Record<string, number> = {
   'web/reader/companion-card.tsx': 1, 'web/reader/company-page.tsx': 5,
   'web/reader/creation/composed-creation.tsx': 1, 'web/reader/encyclopedia-overlay.tsx': 1,
   'web/reader/map-view.tsx': 1, 'web/reader/pack-grid.tsx': 1, 'web/reader/route-card.tsx': 1,
-  'web/reader/sheet.tsx': 1, 'web/reader/stage/act.tsx': 2, 'web/reader/stage/at-hand.tsx': 1,
-  'web/reader/stage/attention.tsx': 1, 'web/reader/stage/book-stage.tsx': 2, 'web/reader/stage/choice-row.tsx': 1,
-  'web/reader/stage/explorer.tsx': 2, 'web/reader/stage/fight-stage.tsx': 3, 'web/reader/stage/lenses.tsx': 1,
-  'web/reader/stage/scene-rail.tsx': 8, 'web/reader/stage/stage.tsx': 2, 'web/reader/stage/thing-stage.tsx': 1,
-  'web/reader/stage/told.tsx': 1, 'web/reader/stage/wayfinder.tsx': 2, 'web/reader/stage/world-stage.tsx': 3,
-  'web/reader/title-page.tsx': 1, 'web/reader/toast.tsx': 1,
+  'web/reader/sheet.tsx': 1, 'web/reader/stage/act.tsx': 2, 'web/reader/stage/book-stage.tsx': 2,
+  'web/reader/stage/choice-row.tsx': 1, 'web/reader/stage/explorer.tsx': 2, 'web/reader/stage/fight-stage.tsx': 3,
+  'web/reader/stage/lenses.tsx': 1, 'web/reader/stage/scene-rail.tsx': 8, 'web/reader/stage/stage.tsx': 2,
+  'web/reader/stage/thing-stage.tsx': 1, 'web/reader/stage/told.tsx': 1, 'web/reader/stage/wayfinder.tsx': 2,
+  'web/reader/stage/world-stage.tsx': 3, 'web/reader/title-page.tsx': 1, 'web/reader/toast.tsx': 1,
 };
 
 describe('the page\'s own controls', () => {

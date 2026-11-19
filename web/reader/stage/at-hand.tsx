@@ -5,6 +5,7 @@ import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
+import { ChoiceRow } from './choice-row';
 import { Pip } from './pip';
 import { Attest, type Attested, type Witness } from '../../../src/presentation/attest';
 import { Guidance } from '../guidance';
@@ -36,10 +37,9 @@ export class AtHand {
       <div className="at-hand" data-region="at-hand">
         <nav className="ah-list" aria-label="What is at hand">
           <ul>{held.map(h => <li key={h.id}>
-            <button type="button" className={`ah-row${h === chosen ? ' chosen' : ''}`} data-pick={h.id}
-              aria-pressed={h === chosen} onClick={() => AtHand.pick(app, h)}>
-              {Typography.curl(Words.upper(h.name))}
-              <Pip.View mark={AtHand.mark(app, h)} /></button></li>)}</ul>
+            <ChoiceRow.Button className={`ah-row${h === chosen ? ' chosen' : ''}`} data={{ pick: h.id }}
+              own={{ 'aria-pressed': h === chosen }} onClick={() => AtHand.pick(app, h)}
+              {...ChoiceRow.mark(AtHand.mark(app, h))} label={Typography.curl(Words.upper(h.name))} /></li>)}</ul>
         </nav>
         <AtHand.Pane app={app} draw={draw} held={chosen ?? done} />
       </div>
