@@ -76,6 +76,11 @@ export class JourneyCourse {
   private static between(region: RegionChart, stop: string, next: string, last: number): number[] {
     const from = JourneyCourse.area(region, stop), to = JourneyCourse.area(region, next);
     if (from === to) { const c = JourneyCourse.cell(region, next); return c === undefined ? [] : [c]; }
+    // Onto a road from a stretch of it the journey stands on: joined there, not at the road's own middle (a1's way
+    // to the lone tower had been drawn from the road's stretch at 129 down to 189 and back up the road, 169, 149,
+    // 129, before it left it at 109: what is walked is the road from where it was joined).
+    const joined = JourneyCourse.tract(region, stop) !== undefined && JourneyCourse.road(region, to, last, last);
+    if (joined) { return []; }
     const e = region.edges.find(x => x.course?.length
       && (x.from === from && x.to === to || x.from === to && x.to === from));
     if (e) {

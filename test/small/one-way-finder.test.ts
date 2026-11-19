@@ -29,7 +29,7 @@ const land = (road: number, off = road) => {
     Place barrow "Lacrimerecs" is site within region at 5, 0.
     Place mouth "a door of stone in a long mound" is room within barrow at 0, 0 outdoors.
     Passage tl_mouth "the way across country" is overland between t5 and mouth taking 10 minutes.
-    Place drove "the drove" is wilderness within region at 2, 0.
+    Place drove "the drove" is wilderness within region at 0, 0.
     Place drove_way "the drove road" is room within drove at 1, 1.
     Passage road_hithe "the drove road" is road between green and drove_way taking ${road} minutes.
     Passage tr1_way "the road, west" is overland between t1 and drove_way taking ${Math.round(road / 2)} minutes.
@@ -71,6 +71,11 @@ describe('one way-finder', () => {
     const first = plan(t).legs[0]!;
     expect(t.gold.some(a => a.choice === 'travel:t__barrow' || a.choice === `exit:${first.to}`)).toBe(true);
     expect(KnownWays.first(t.campaign, 't__t0', id => id === 't__mouth', { clear: true, roam: true })).toBe(first.to);
+    // From the second stretch, onto the road where it crosses it, and along it: drawn from there, not from where the
+    // map draws the road's own country (its west end), back over the stretch just crossed.
+    await t.perform('go(t__tw0_1,t__t1)');
+    expect(plan(t).legs.map(l => l.to)).toEqual(['t__drove_way', 't__t4', 't__t5', 't__mouth']);
+    expect(JourneyCourse.planned(t.screen, 't__barrow')).toEqual([1, 2, 3, 4, 5]);
   });
   it('goes onto a road only where it shortens the way', async () => {
     // As long as the five stretches it passes (70 and 60 against 160 and the step out onto the first), the road is not

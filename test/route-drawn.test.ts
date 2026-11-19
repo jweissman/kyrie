@@ -8,6 +8,7 @@ import { Travel } from '../src/session/travel';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Itineraries } from '../src/ui/itinerary';
 import type { Frame } from '../web/engine/protocol';
+import { AutoplayRun } from '../src/autoplay/run';
 
 // The way the map draws before setting out is the way the journey goes (the owner, 10 November: the journey had not
 // followed the route shown): the map had drawn its own shortest way over the hexes, and the journey went by the
@@ -29,6 +30,17 @@ describe('a way drawn on the map', () => {
     expect(at.every(i => i >= 0)).toBe(true);
     expect(at).toEqual([...at].sort((a, b) => a - b));
     expect(course.at(-1)).toBe(cell(plan!.stops!.at(-1)!));
+  }, 120000);
+  // Onto a road from a stretch it crosses, the way is drawn along the road from there: a1's way from Mik's
+  // salt-house (the debt) to the lone tower, onto the Deepwater road at the stretch 129 and off it at 109 by the
+  // tower's track, had been drawn down to the road's crossing at 189 and back up it, 169, 149, 129 (the owner, 19
+  // November: routes that double back). Through a town where two roads meet, the way still goes in and out by it.
+  it('goes along a road from where it is joined, never back over it', async () => {
+    const s = await AutoplayRun.start({ seed: 'a1', origin: 'debt', policy: 'gold', steps: 1,
+      protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior' } });
+    const screen = ScreenModel.build(s.campaign), course = JourneyCourse.planned(screen, 'region__w9')!;
+    expect(course.slice(-3)).toEqual([129, 109, 118]);
+    expect(new Set(course).size).toBe(course.length);
   }, 120000);
   // And the journey made goes by those same stops, the walk drawn after it over the very hexes drawn before it (the
   // owner, 11 November, again: travel had not seemed to follow the way shown). Stopped short, it says why.
