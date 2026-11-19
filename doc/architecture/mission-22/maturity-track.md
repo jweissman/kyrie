@@ -216,6 +216,10 @@ it moves, and its rows are MT-01.. in the open register.
   standing scenarios at their lines in data/ (test/drawn-lint), and found the Gathering's riot that never breaks
   (MT-09), mended 19 November (mt-6) and classified by the harness. Beside it (mt-6) the office lint (MT-10, the
   study's G begun): a drawn world's towns warned of two holders of one office, each at its line (Porthalen's reeves).
+  19 November (mt-7): recommended content lint-clean (fourteen warnings mended), and the three drawn worlds from 221
+  warnings to 44 (a staging the draw did not choose said as advice, DrawnChoice; five repeated roles, two aims with no
+  target and the factors' buy-back mended; compat `same`); the rest registered (MT-11's levels, MT-12's aims). A
+  nightly `kyr-lint` job runs both.
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`, and `--dependents` (mt-6); see the step).
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;

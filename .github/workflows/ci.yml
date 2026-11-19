@@ -1,8 +1,9 @@
 # Kyrie's checks. On every push and pull request: lint and types, the player contracts and small worlds, the page
 # booted in Chromium, and the whole suite in sixteen balanced shards, the gate a deploy waits on (pages.yml). Nightly
-# and on demand besides: the long descents, the browser specs and the reference hour. Every skipped spec is listed in
-# the run's summary, and a failing spec turns its job red. Deem and the languages package are pinned in package.json
-# (github:owner/name#commit) and installed by bun from the lockfile, so a clean clone needs no sibling checkouts.
+# and on demand besides: the long descents, the Kyr lint, the browser specs and the reference hour. Every skipped
+# spec is listed in the run's summary, and a failing spec turns its job red. Deem and the languages package are pinned
+# in package.json (github:owner/name#commit) and installed by bun from the lockfile, so a clean clone needs no sibling
+# checkouts.
 # Orsino, whose registry one spec regenerates byte for byte, is checked out beside Kyrie at the revision the registry
 # names. See doc/architecture/verification.md and mission-21/validation-plan.md.
 name: CI
@@ -172,6 +173,29 @@ jobs:
         env: { KYRIE_LONG: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
+  # The Kyr lint, nightly and on demand, not on the push lane (about a minute for every campaign, 19 s a drawn world):
+  # every campaign held to errors and recommended content to warnings too (clean since 19 November, mt-7); the drawn
+  # worlds a1, iscoed and kite held to errors, their warnings told in the log (MT-02: 44 left, each registered).
+  kyr-lint:
+    name: kyr lint, campaigns and drawn worlds
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs, as the other jobs keep it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+      - run: bin/kyrie lint
+      - if: always()
+        run: bin/kyrie lint --world a1 --world iscoed --world kite
   # Two shards since the place's new grammar (6 November): the whole had passed in thirty minutes and then outgrew them.
   # Three since 19 November: each of two had come to thirty minutes, the second cut off at its limit.
   browser:
