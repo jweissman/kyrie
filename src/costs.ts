@@ -17,7 +17,11 @@ export type Stage =
   // A campaign loaded and a session started; a screen built; what is told and led with (the glance). A session's
   // start is its campaign's load and the record begun beside it, so the two are nearly one figure: the session's own
   // share is what it is less the campaign's.
-  | 'campaign' | 'session' | 'screen' | 'leaf';
+  | 'campaign' | 'session' | 'screen' | 'leaf'
+  // Within a turn: what the company perceives worked out (PlayerView.observe, not taken from what it kept), the glance
+  // (within the leaf), the ways set out on (Itineraries.shown, within the screen), and a command done (the engine's own
+  // act, a fight's waits on its controller within it).
+  | 'observe' | 'glance' | 'itinerary' | 'act';
 export interface Cost { n: number; ms: number; bytes: number; ids: string[] }
 export type Tally = Partial<Record<Stage, Cost>>;
 export class Costs {

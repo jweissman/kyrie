@@ -14,6 +14,7 @@ import { SiteScale } from './site-scale';
 import { RegionIds } from '../world/region-ids';
 import { EntityIndex } from '../lang/entity-index';
 import { Overland } from './overland';
+import { Costs } from '../costs';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
 export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
@@ -245,7 +246,8 @@ export class Itineraries {
   // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
   // other places of the town it is in, further than a step.
   // And every other place the map draws (see mapped).
-  static shown(campaign: Campaign, names: Map<string, Entity>,
+  static shown(...a: Parameters<typeof Itineraries.showing>) { return Costs.time('itinerary', () => this.showing(...a)); }
+  private static showing(campaign: Campaign, names: Map<string, Entity>,
     region?: RegionChart): Pick<Screen, 'destinations' | 'roads' | 'around' | 'mapped'> {
     if (!campaign.running) { return { destinations: [], roads: [], around: [], mapped: [] }; }
     // From an enclosed place, nothing overland: the way out is walked first (CN-02; see Compass). Inside a building

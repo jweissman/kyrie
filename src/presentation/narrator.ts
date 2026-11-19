@@ -153,7 +153,8 @@ export class Narrator {
       ...journey.length ? { journey } : {}, ...seen.roll && presence.includes(seen.roll) ? { roll: seen.roll } : {},
     });
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
-    const glance = Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening });
+    const glance = Costs.time('glance', () => Glance.of(campaign, screen, told,
+      { kept, known, changed: fresh, opened: !!opening }));
     const whole = { ...glance, ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) };
     return { ...Introduced.said(leaf, glance, screen), instruments: Instruments.of(campaign, screen),
       glance: Likenesses.with(LensSubjects.with(campaign, screen, whole), screen) };
