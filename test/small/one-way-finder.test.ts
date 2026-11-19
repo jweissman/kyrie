@@ -3,6 +3,7 @@ import { Tiny } from '../support/tiny';
 import { Itineraries } from '../../src/ui/itinerary';
 import { KnownWays } from '../../src/ui/known-ways';
 import { AimLeading } from '../../src/presentation/aim-lead';
+import { AimRoute } from '../../src/presentation/aim-route';
 import { JourneyCourse } from '../../web/reader/journey-course';
 
 // One way-finder (AR-21): the gold's step, the itinerary's legs and the way the map draws are one way, laid over the
@@ -88,5 +89,40 @@ describe('one way-finder', () => {
     // Nor does an aim's lead reckon by it (AimLeading.way had gone by every way the world joins).
     expect(AimLeading.way(t.campaign, 't__green', 't__mouth')).not.toContain('t__cave');
     expect(t.gold.map(a => a.choice)).not.toContain('exit:t__cave');
+  });
+});
+
+// From an enclosed place the way out toward someone an aim names goes to where they are only where the company has
+// been: the miller stands at a mill told of and never come to, and the taproom's door is not his way (AimRoute's
+// outward had read where he truly was: the opportunity architecture's knowledge boundary).
+const town = (miller: 'mill' | 'yard') => Tiny.start(`
+  Place town "Hithe" is settlement.
+  Place taproom "the taproom" is room within town at 0, 0 indoors.
+  Place yard "the yard" is room within town at 0, 1 outdoors.
+  Place lane "the lane" is room within town at 1, 1 outdoors.
+  Place mill "the mill" is room within town at 2, 1 outdoors.
+  Passage door "the door" is door between taproom and yard.
+  Passage gate "the gate" is gate between yard and lane.
+  Passage track "the track" is path between lane and mill.
+  Entity mill_told: fact "a mill down the lane".
+  Initially Assert established(mill_told). Initially Assert leadsTo(mill_told, mill).
+  Initially Assert knows(party, mill_told).
+  Person miller "Odo the miller" at ${miller} { Role "the miller". }
+  Objective flour when true toward miller "Ask Odo for flour.".
+  Company party "You" of 1 at taproom.
+  Goal false.`);
+describe('the way out toward someone', () => {
+  it('goes where the company has been, never to where they truly stand unknown to it', async () => {
+    const unknown = (await town('mill')).follow('flour');
+    // The yard walked and the mill told of, a way to it is known (by the yard, the gate and the lane's track).
+    await unknown.perform('go(t__door,t__yard)');
+    await unknown.perform('go(t__door,t__taproom)');
+    expect(AimRoute.routed(unknown.campaign, unknown.screen, new Set(['t__miller']))).toEqual(new Set(['t__miller']));
+    const known = (await town('yard')).follow('flour');
+    await known.perform('go(t__door,t__yard)');
+    await known.perform('go(t__door,t__taproom)');
+    // Seen in the yard, he is gone to there: the door out is the aim's.
+    expect(AimRoute.routed(known.campaign, known.screen, new Set(['t__miller'])))
+      .toEqual(new Set(['t__miller', 't__yard']));
   });
 });

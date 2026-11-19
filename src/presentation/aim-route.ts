@@ -6,6 +6,7 @@ import { Itineraries } from '../ui/itinerary';
 import { EntityIndex } from '../lang/entity-index';
 import { AimLeading } from './aim-lead';
 import { CompanyRecall } from './company-recall';
+import { VisitedPlaces } from './visited-places';
 
 // The way an aim is gone to by, where its author says (Objective … toward … by …): part of what it names until the
 // company is past it (see Glance's reading).
@@ -30,10 +31,13 @@ export class AimRoute {
     // Not where a way or a walk from here goes to it itself (from the chandlery, the walk to the churchyard).
     const direct = [...screen.exits.map(e => e.destination.id), ...(screen.around ?? []).map(d => d.id)];
     if (direct.some(id => named.has(id))) { return undefined; }
+    const been = VisitedPlaces.of(campaign, campaign.playerActor!);
     for (const id of named) {
-      // Someone it names is gone to where they are (Glen, at his forge in Brightford).
-      const to = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id) ?? id;
-      const legs = id === campaign.playerActor ? [] : Itineraries.plan(campaign, to)?.legs ?? [];
+      // Someone it names is gone to where they are (Glen, at his forge in Brightford), where the company has been:
+      // never to where they truly stand unknown to it (the opportunity architecture's knowledge boundary, AR-21).
+      const to = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id);
+      const legs = id === campaign.playerActor || !to || (to !== id && !been.has(to)) ? []
+        : Itineraries.plan(campaign, to)?.legs ?? [];
       const out = legs.find(l => !Itineraries.enclosed(campaign, l.to));
       if (out) { return out.to; }
     }
