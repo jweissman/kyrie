@@ -273,18 +273,23 @@ Module gate "The last sea-gate" {
   Rule ifan_warned when knows(party, clerkkept) and ifanAsked(party) and not ifanSaid(party) says "'The clerk at {town} sent word you'd be along,' Ifan adds, still not looking up. 'Said you were the paying kind.'" { Assert ifanSaid(party). }
   Rule ifan_unpaid when knows(party, clerkgone) and ifanHeard(party) and not ifanSaid(party) says "'And Mardle's gone,' says Ifan. 'There was a man at the customs-house who could be talked to. You saw to that. So now it is the gate, or it is nothing.'" { Assert ifanSaid(party). }
   Rule cursing when not mended(party) and not flooded(party) and prowled(party) and not cursed(party) and watch(clock) >= 576 says "The eel-men of {hamlet} will not go near the gatehouse now. Someone has told them a drowned warden walks the sea-bank at night, and Ifan Rhys tells it loudest." { Assert cursed(party). }
-  Rule boat_comes when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. He looks up at you through the slot in the floor and does not call out." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). }
+  // The crisis's two choices are made about the boat under the gate, where the scene's four are chosen (ST-03): as his,
+  // beside his talk, they had been had only by talking to him (CL-54's opener).
+  Thing ifanboat "Ifan Rhys's boat, under the shut gate" nowhere {
+    State waiting "Below the slot Ifan Rhys holds his boat against the shut gate with the pole, and waits.".
+  }
+  Rule boat_comes when mended(party) and not flooded(party) and not boatCome(party) and at(party, gatehouse) says "Below the gatehouse a flat-bottomed boat noses up the sluice-cut against the shut gate, low in the water with sacks, and Ifan Rhys at the pole. He looks up at you through the slot in the floor and does not call out." { Assert boatCome(party). Retract at(ifan, hamletgreen). Assert at(ifan, gatehouse). Assert at(ifanboat, gatehouse). }
   Action let_through(actor: group, site: place) "Wind the gate up a tide's height and let Ifan's boat through" {
     Time 30 minutes.
     Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor) and not turnedBack(actor).
     Result "The drum takes the chain up a turn, the boat slides through on the last of the flood, and you wind it down again. Ifan lifts a hand from the pole as he passes under. Nobody else sees it.".
-    On success { Assert letThrough(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
+    On success { Retract at(ifanboat, gatehouse). Assert letThrough(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
   }
   Action turn_back(actor: group, site: place) "Keep the gate shut, and tell Ifan to take his boat back down the cut" {
     Time 10 minutes.
     Requires able(actor) and at(actor, site) and at(actor, gatehouse) and boatCome(actor) and not letThrough(actor) and not turnedBack(actor).
     Result "Ifan looks at the shut gate a long moment, then at you. 'Then the reeve's clerk eats this winter,' he says, 'and my children don't.' He turns the boat in the cut with one push and is gone into the dark.".
-    On success { Assert turnedBack(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
+    On success { Retract at(ifanboat, gatehouse). Assert turnedBack(actor). Retract at(ifan, gatehouse). Assert at(ifan, hamletgreen). }
   }
   // The cold pans' fuel boat poled down the cut by day (data/goings-on/iscoed-pans): on the eel-men's water, seen.
   Relation ifanPoled(group).

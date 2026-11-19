@@ -17,11 +17,11 @@ describe('the last sea-gate, shut', () => {
     let s: Said | undefined;
     for (const line of lines.slice(0, 24)) { s = said(await r.ask(line)); }
     expect(s!.scene.lines.join(' ')).toContain('Ifan Rhys at the pole');
-    // Its two choices are Ifan's, under his name (the runner opens him by talking to him: CL-54's opener).
-    s = said(await r.ask(JSON.stringify({ act: 'talk_to(gate__ifan)' })));
-    const labels = offered(s).map(o => o.label);
+    // Its two choices are in the four, about the boat under the gate (ST-03: they had been Ifan's, beside his talk,
+    // reached only by talking to him).
+    const four = s!.offer.primary.flatMap(o => [o, ...o.opens ?? []]), labels = four.map(o => o.label);
     expect(labels).toContain("Wind the gate up a tide's height and let Ifan's boat through");
-    const back = offered(s).find(o => /^Keep the gate shut, and tell Ifan/.test(o.label))!;
+    const back = four.find(o => /^Keep the gate shut, and tell Ifan/.test(o.label))!;
     const turned = said(await r.ask(JSON.stringify({ act: back.id })));
     expect(turned.scene.lines.join(' ')).toContain('the reeve');
     expect(c.world.test(ModuleWriter.call('gate__turnedBack', 'party'))).toBe(true);
