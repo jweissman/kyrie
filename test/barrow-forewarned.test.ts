@@ -70,4 +70,18 @@ describe('the king-barrow, asked about before setting out', () => {
     expect(hall.scene.lines.join(' ')).toContain('The king sits up on his bier');
     expect(offered(r.said()).map(o => o.label)).not.toContain('Collect the crown of the first king for Wenna');
   }, 240000);
+  // CB-15: the clue has its use before the blows. Carried and not readied, the jar is offered to ready in the hall
+  // while the king sits up, and readied there, he goes back from it; it is not among a fight's acts once one is begun.
+  it('readied in the king\'s hall as he sits up, sends him back before any blow', async () => {
+    const { r, c } = await Barrow.begin();
+    Barrow.enter(c, 'region__w8_halls_embalmers');
+    said(await r.ask(JSON.stringify({ look: true })));
+    await Barrow.take(r, /^Collect a jar of noonlight/);
+    Barrow.enter(c, 'region__w8_grave_antechamber');
+    said(await r.ask(JSON.stringify({ look: true })));
+    expect((await Barrow.take(r, /^To the king's hall$/)).scene.lines.join(' ')).toContain('The king sits up on his bier');
+    const readied = await Barrow.take(r, /^Equip a jar of noonlight/);
+    expect(readied.scene.lines.join(' ')).toContain('goes back from it, step by step, into the deep grave');
+    expect(offered(r.said()).map(o => o.label)).toContain('Collect the crown of the first king for Wenna');
+  }, 240000);
 });
