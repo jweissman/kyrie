@@ -64,6 +64,20 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(text(s)).toContain('it is the tune the kitchen boy hums at the Hall');
     expect(text(s)).not.toMatch(/Wimble's four notes|answered question|dressed limestone/);
   }, 240000);
+  // CL-33: at the gate-well 27 journeys had been the rest's (14 "Set out for …", 12 "To the …"); the rest keeps the
+  // roads leaving, where an aim names, where gone before and the nearest three, the others behind the journeys lens.
+  it('folds the journeys at the gate-well behind their lens, never one an aim names', async () => {
+    const { s, r } = await play('elf/mage/Ilse/scholar', lines(5, 7));
+    const kept = (s.offer.lenses?.journeys ?? []).map(o => o.id), lensed = said(await r.ask('{"lens":"journeys"}'));
+    const all = [...lensed.offer.primary, ...lensed.offer.rest].map(o => o.id);
+    expect([kept.length, s.offer.more?.journeys, all.length]).toEqual([11, 16, 27]);
+    const aimed = (ScreenModel.build(r.session.campaign).aims ?? []).flatMap(a => a.places ?? [])
+      .map(p => `travel:${p}`).filter(id => all.includes(id));
+    expect(aimed.length).toBeGreaterThan(0);
+    expect(aimed.filter(id => !kept.includes(id))).toEqual([]);
+    expect(s.offer.rest.map(o => o.id)).not.toContain('travel:region__s5');
+    expect('error' in await r.ask(JSON.stringify({ act: 'travel:region__s5' }))).toBe(false);
+  }, 180000);
 });
 // The fourth cold play's threads (CL-46): Bran says what he will do himself, the boy has his answer once Bran is out,
 // and the reeve says why nobody in Gatesend will go into the gatehouse.

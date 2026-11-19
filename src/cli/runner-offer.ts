@@ -4,6 +4,7 @@ import type { Lens } from '../presentation/glance-types';
 import { Offers, type Offered as Glanced } from '../presentation/offer';
 import { Doable, type Row } from '../presentation/doable';
 import { Typography } from '../presentation/typography';
+import { JourneyFold } from '../presentation/journey-fold';
 import { RunnerTalks } from './runner-talks';
 import type { Offered, Said } from './runner';
 
@@ -20,8 +21,10 @@ type Glance = NonNullable<Leaf['glance']>;
 export class RunnerOffer {
   static readonly order: Kept[] = ['things', 'people', 'places', 'time', 'gear', 'journeys'];
   // The offer, and every row it holds before the talks are folded (what can be asked for by its id).
+  // journeys: every journey, those kept in the rest first; folded ones are under too (offered, as the page's map
+  // offers them), and counted in the offer's more.
   static of(screen: Screen, g: Leaf['glance'], names: Map<string, string>, talking?: string)
-    : { offer: Said['offer']; under: Offered[] } {
+    : { offer: Said['offer']; under: Offered[]; journeys: Offered[] } {
     const rows = g ? Doable.of(g, screen) : [], at = this.at(g, rows, names);
     const primary = rows.filter(r => r.led).flatMap(r => this.row(r, at));
     const lens = new Map<string, Lens>(), seen = new Set(primary.map(o => o.id));
@@ -32,9 +35,13 @@ export class RunnerOffer {
       if (k.lens) { lens.set(o.id, k.lens); }
       return [o];
     }));
-    const rest = [...RunnerTalks.talks(screen, under, primary, talking), ...this.journeys(screen, g, [...primary,
+    const all = [...RunnerTalks.talks(screen, under, primary, talking), ...this.journeys(screen, g, [...primary,
       ...under])];
-    return { offer: { primary, ...this.grouped(screen, rest, { lens, talking }) }, under };
+    const kept = JourneyFold.kept(screen, g?.compass?.out);
+    const folded = all.filter(o => o.type === 'journey' && !JourneyFold.keeps(kept, o.id)), rest = all
+      .filter(o => !folded.includes(o)), grouped = this.grouped(screen, rest, { lens, talking });
+    return { offer: { primary, ...grouped, ...folded.length ? { more: { journeys: folded.length } } : {} },
+      under: [...under, ...folded], journeys: [...grouped.lenses.journeys ?? [], ...folded] };
   }
   // A lens's own acts, ranked as the scene's are, each as a row that can be done.
   static lensed(screen: Screen, g: Glance, names: Map<string, string>, lens: Lens): Said['offer'] {
@@ -87,7 +94,7 @@ export class RunnerOffer {
   }
   // The rest by lens, in the order they are met (the one talked with first, CL-07), and flat in that order.
   private static grouped(screen: Screen, rest: Offered[], at: { lens: Map<string, Lens>; talking?: string })
-    : Pick<Said['offer'], 'rest' | 'lenses'> {
+    : { rest: Offered[]; lenses: Partial<Record<Kept, Offered[]>> } {
     const whose = RunnerTalks.whose(screen, rest);
     const order = at.talking ? ['people' as const, ...this.order.filter(k => k !== 'people')] : this.order;
     const lenses = order.map(k => [k, rest.filter(o => this.where(o, at.lens, whose) === k)] as const)

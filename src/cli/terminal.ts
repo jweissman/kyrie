@@ -4,6 +4,7 @@ import { TerminalBooks } from './terminal-books';
 import { TerminalWidth } from './terminal-width';
 import { TerminalSlots } from './terminal-slots';
 import { CheckpointStore } from '../session/checkpoint-store';
+import { JourneyFold } from '../presentation/journey-fold';
 import { TerminalMenus, type Journeyed } from './terminal-menus';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
@@ -66,7 +67,7 @@ interface Turn {
 // PlayerView decides what is legal, ScreenModel/Narrator what the player knows, and PlaySession performs every act.
 export class Terminal {
   static readonly commands = 'Commands: a number · things · people · places · time · here · all · look · map · character'
-    + ' · aims · follow <n> · save [path] · q';
+    + ' · aims · follow <n> · journeys · save [path] · q';
   static readonly lenses = new Set(['things', 'people', 'places', 'time', 'here']);
   // A fight's turn, as TerminalFight takes it (typed, or picked in the human mode).
   static command(state: BattleState, legal: Command[], input: Asking, onward?: () => void): Promise<Command | null> {
@@ -245,33 +246,6 @@ export class Terminal {
     rows.forEach((c, i) => console.log(TerminalColour.choice(i + 1,
       `${Typography.plain(c.name)}${c.time ? ` · ${c.time} min` : ''}`, { ...c.signed, aspects: c.aspects ?? [] }, depth)));
   }
-  // A journey's legs, one line each, and why it stopped short, as the page's map tells them.
-  private static journey(session: PlaySession) {
-    const done = session.journeyed, here = session.campaign.module.entities;
-    for (const leg of done?.legs ?? []) {
-      const to = here.find(e => e.id === session.campaign.world.one('at', session.campaign.playerActor ?? 'party'));
-      console.log(`  … ${leg.said}${leg === done!.legs.at(-1) && to ? ` (${to.name})` : ''}`);
-    }
-    if (done?.stopped) { console.log(`  ${done.stopped}.`); }
-  }
-  // The aims held, as the Notes list them, and the one followed; `follow <n>` chooses one, as Follow this does.
-  private static async aims(session: PlaySession, answer: string) {
-    const aims = ScreenModel.build(session.campaign).aims ?? [];
-    const n = Number(answer.slice(6).trim()) - 1;
-    if (answer.startsWith('follow')) {
-      if (!aims[n]) { console.log('Follow which? (see aims)'); return; }
-      await session.leg(`follow:${aims[n].id}`);
-      return;
-    }
-    if (answer === 'unfollow') { await session.leg('follow:'); return; }
-    // Under the story each is part of, then the rest (see Stories), numbered as they are followed by.
-    aims.forEach((a, i) => {
-      const under = a.story?.title ?? 'Besides', was = aims[i - 1]?.story?.title ?? (i ? 'Besides' : undefined);
-      if (under !== was) { console.log(Typography.plain(under)); }
-      console.log(`  ${i + 1}. ${a.followed ? '(followed) ' : ''}${Typography.plain(a.text)}`);
-    });
-    if (!aims.length) { console.log('No aim is held.'); }
-  }
   // A walk passes its own input and scene, to answer as a player would and read what was told (TerminalWalk); with
   // profile, each act says what it took: the world's turn and the telling of it. Ended, begun again (TerminalEnding).
   static async play(session: PlaySession, o: Played & { input?: Asking } = {}) {
@@ -331,8 +305,9 @@ export class Terminal {
     : Promise<Listed | string | null> {
     if (!turn.spaced) { console.log(''); turn.spaced = true; }
     if (offered.says) { TerminalDoable.heading(offered).forEach(l => console.log(l)); }
+    const folded = this.folded(offered.all, turn.current);
     const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
-      all: offered.rest ? [...offered.first, ...offered.rest] : offered.all,
+      all: offered.rest ? [...offered.first, ...offered.rest] : offered.all.filter(c => !folded.has(c.id)),
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
       ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
@@ -353,6 +328,12 @@ export class Terminal {
     const picked = await input.pick({ title: 'Where to?', rows: ways, back: 'here' });
     if (!picked) { return null; }
     return 'command' in picked ? 'here' : offered.all.find(c => c.id === picked.choice) ?? 'here';
+  }
+  // The journeys folded out of the whole list, there through journeys and the map, as the page's map keeps them
+  // (CL-33).
+  private static folded(all: Listed[], at: Turn['current']): Set<string> {
+    return at ? JourneyFold.folded(all.filter(c => c.journey && c.journey !== 'onward'), at.screen,
+      at.leaf.glance?.compass?.out) : new Set();
   }
   // Whom the company is speaking with, by the name the screen gives them.
   private static whom(screen: Screen | undefined, id: string): string | undefined {
@@ -379,13 +360,19 @@ export class Terminal {
     if (answer === 'aims' && TerminalInput.picks(input)) {
       return this.aside(session, await this.aim(session, input), all, { turn, input });
     }
-    if (answer === 'aims') { await this.aims(session, answer); return true; }
+    if (answer === 'aims') { await TerminalBooks.aims(session, answer); return true; }
     if (/^(follow \d+|unfollow)$/.test(answer)) {
-      await this.aims(session, answer);
+      await TerminalBooks.aims(session, answer);
       turn.current = undefined; turn.told = undefined; turn.attended = true;
       return true;
     }
-    if (answer === 'all' || answer === 'more') { console.log('\nAll legal interactions'); this.choices(all); return true; }
+    if (answer === 'all' || answer === 'more' || answer === 'journeys') {
+      const folded = this.folded(all, turn.current), every = answer === 'journeys';
+      console.log(every ? '\nJourneys' : '\nAll legal interactions');
+      this.choices(all.filter(c => every ? c.journey : !folded.has(c.id)));
+      if (folded.size && !every) { console.log(`(+${folded.size} more journeys: journeys)`); }
+      return true;
+    }
     if (answer === 'save' && turn.saveAs) {
       return this.aside(session, `save ${await input.ask('Save to (a path): ') ?? ''}`, all, { turn, input });
     }
@@ -441,7 +428,7 @@ export class Terminal {
         return command;
       });
       if (turn.profile) { turn.profile.world = performance.now() - began; }
-      if (choice.id.startsWith('travel:')) { this.journey(session); }
+      if (choice.id.startsWith('travel:')) { TerminalBooks.legs(session); }
       const after = PlayerView.observe(session.campaign);
       const feedback = ActionFeedbackView.read(session.campaign, event, before);
       const moved = before.location?.id !== after.location?.id;
