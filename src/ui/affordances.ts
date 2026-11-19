@@ -35,6 +35,8 @@ export interface Reading {
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
+  // Whom the company has met, or has by name (see Acquainted): anyone else is led as talking to them (Doable.called).
+  known?: Set<string>;
   // Whom the last act, done where the company stands, spoke to (see TalkingWith).
   talking?: string;
   // Who could join the company (see Companions); the places one way off where the company perceives someone who might
@@ -556,6 +558,7 @@ export class Affordances {
     // had been three rows of the same words (FM-07; Act.alone, as Promotion's other rows are called).
     return { choice: c.id, label: c.alone ?? c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
       ...at.subject ? { subject: at.subject } : {},
+      ...at.kind === 'talk' && at.subject && at.r.known && !at.r.known.has(at.subject) ? { unmet: true as const } : {},
       ...at.leaves && Object.keys(at.leaves).length ? { leaves: at.leaves } : {},
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
       order: 0, marks: this.marksOf(c, command), ...c.minutes ? { minutes: c.minutes } : {},

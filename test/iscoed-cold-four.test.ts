@@ -82,4 +82,12 @@ describe('the golden route, after the fourth cold play', () => {
     // And Gwil Pryce, greeted with nothing to say to him, says what his boats are for.
     expect(led(byLine[16])).toContain('gate__wright_boats');
   });
+  // CL-45's (4), the lead's ruling: the factor's question had been led on the landing before he was named; someone not
+  // met is led as talking to them, the question after it; Bran, whom the aim names, is asked by name.
+  it('leads someone not yet met as talking to them, the question after it', () => {
+    const labels = (s: Said | undefined) => s!.offer.primary.map(o => o.label);
+    expect(labels(byLine[0])).toContain('Talk to the factor — ask about the king-barrow');
+    expect(labels(byLine[0]).join(' ')).not.toContain('Ask the factor');
+    expect(labels(at('drove__customs'))).toContain('Ask Bran what happened');
+  });
 });

@@ -14,9 +14,10 @@ import type { Glance, Lens, Promoted } from './glance-types';
 // are led with that, as the page draws it (Promoted.inside, TB-01). only: an opener with one thing to do under it,
 // which is that thing (its words the thing's own; a client that knows the act's full words says those). says: what
 // opening it reads out, whole, before its rows (a riddle on a door, its rows the answers: Choice.focus, CL-34).
+// called: what a row led for an act within it is called where that act's own words would not do (see called).
 export interface Row {
   id: string; label: string; does?: string; opens?: Row[]; for?: string; lens?: Lens; led?: true; only?: true;
-  says?: string; witnesses: Witness[];
+  says?: string; called?: string; witnesses: Witness[];
 }
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>;
 interface Read { tree: Map<string, Choice>; acts: Map<string, Promoted>; glance: Offered; lens?: Lens; led?: boolean;
@@ -58,8 +59,11 @@ export class Doable {
     const witnesses = [Attest.witness(at.glance, id), ...c ? Attest.within(at.glance, c) : []]
       .filter((w): w is Witness => !!w);
     const led = act?.inside?.[0]?.command ?? act?.for;
+    const asked = act?.unmet && led && c
+      ? Attending.all(c.children ?? []).find(k => k.command === led)?.label : undefined;
     const base = { id, label: c?.alone ?? label, witnesses, ...at.lens ? { lens: at.lens } : {},
-      ...at.led ? { led: true as const } : {}, ...led ? { for: led } : {} };
+      ...at.led ? { led: true as const } : {}, ...led ? { for: led } : {},
+      ...asked ? { called: this.called(c?.alone ?? c?.label ?? label, asked) } : {} };
     const kids = c?.children ?? [];
     // A row with a command does it, even where acts hang under it (a way with a door to listen at is gone by).
     // One offered by its command, outside the scene's tree (a light, a set-down, a wait), does that command.
@@ -78,6 +82,15 @@ export class Doable {
     const one = only.length === 1 ? only[0] : undefined;
     if (one?.does && !c?.focus) { return { ...base, label: one.label, does: one.does, only: true }; }
     return { ...base, opens, ...c?.focus ? { says: c.focus } : {} };
+  }
+  // A talk led for a question to someone not yet met is talking to them, the question after it: "Ask the factor about
+  // the king-barrow", led on the landing before anyone had said who the factor was, had asked a stranger by a title
+  // (cold play 4, CL-45; cold play 5, CL-36: Gek). "Talk to the factor — ask about the king-barrow".
+  static called(talk: string, question: string): string {
+    const whom = /^Talk to (.+)$/.exec(talk)?.[1], by = [whom, whom?.split(' ')[0]].find(w => w
+      && question.startsWith(`Ask ${w} `));
+    return `${talk} — ${by ? `ask ${question.slice(`Ask ${by} `.length)}`
+      : `${question.charAt(0).toLowerCase()}${question.slice(1)}`}`;
   }
   // What taking a row does at once, where it does anything: its command; an opener none (it opens).
   static does(rows: readonly Row[], id: string): string | undefined {

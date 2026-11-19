@@ -58,7 +58,7 @@ export class RunnerOffer {
   }
   // A row led with: as what it is led for, as an opener with its rows, or as the act it does.
   private static row(r: Row, at: At, entry: Glanced | undefined = at.entries.get(r.id)): Offered[] {
-    if (r.for && at.names.has(r.for)) { return [this.made(r.for, at.names.get(r.for)!, entry)]; }
+    if (r.for && at.names.has(r.for)) { return [this.made(r.for, r.called ?? at.names.get(r.for)!, entry)]; }
     if (!r.opens) { return [this.one(r, at, entry, entry)].flatMap(o => o ?? []); }
     const opens = this.leaves(r).flatMap(k => this.one(k, at, undefined, entry) ?? []);
     return opens.length ? [{ ...this.made(r.id, r.label, entry), opens, ...r.says ? { says: r.says } : {} }] : [];

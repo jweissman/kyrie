@@ -8,6 +8,7 @@ import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp } from '../reader-app';
 import { Attending } from '../../../src/ui/attention';
+import { Doable } from '../../../src/presentation/doable';
 import { Typography } from '../../../src/presentation/typography';
 import { MenuModel } from '../menu-model';
 import { Aims } from '../aims';
@@ -637,6 +638,9 @@ export class GlanceStage {
   static readonly aimWords = /^(your aim|toward your aim|where your aim is)$/;
   // As the player would say it: "Make much of the grey dog", "Look at the fresh ruts".
   static label(app: ReaderApp, a: Promoted, c: Choice): string {
+    // Someone not yet met, led for a question: talking to them, the question after it (see Doable.called, CL-45).
+    const asked = a.unmet ? GlanceStage.within(a, c) : undefined;
+    if (asked) { return Doable.called(c.alone ?? c.label, asked); }
     if (c.alone) { return c.alone; }
     const subject = a.subject && app.menu.scene?.subjects.find(x => x.id === a.subject);
     if (subject && /#look$/.test(c.id)) { return `Look at ${subject.name.replace(/^(The|A|An|Some) /, m => m.toLowerCase())}`; }
@@ -648,13 +652,17 @@ export class GlanceStage {
   // mark says whole); for what is found by turning to someone or something, what it is (the ruts, to follow).
   static note(a: Promoted, c: Choice, label: string): string | undefined {
     // Within a talk, what it is led for first (the question that teaches, the asking to come along: Promoted.inside).
-    const within = a.for ?? a.inside?.[0]?.command ?? a.command;
-    const inside = within && within !== c.command
-      ? Attending.all(c.children ?? []).find(k => k.command === within)?.label : undefined;
+    const inside = a.unmet ? undefined : GlanceStage.within(a, c);
     // Its first letter lowered as an aside's is, never the names in it ("ask brother anselm": M22's review).
     const lowered = inside && `${inside.charAt(0).toLowerCase()}${inside.slice(1)}`;
     const note = a.note ?? lowered, said = [label, ...a.marks.map(m => m.said)].join(' ').toLowerCase();
     return note && !said.includes(note.toLowerCase()) ? note : undefined;
+  }
+  // The words of what a talk is led for within it (the question that teaches, the asking to come along).
+  static within(a: Promoted, c: Choice): string | undefined {
+    const within = a.for ?? a.inside?.[0]?.command ?? a.command;
+    return within && within !== c.command
+      ? Attending.all(c.children ?? []).find(k => k.command === within)?.label : undefined;
   }
   // The quiet row: the nearest ways the glance rows (across the open country, the compass).
   static Row({ app, draw, glance: g }: { app: ReaderApp; draw: Draw; glance: Glance }) {

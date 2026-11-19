@@ -16,6 +16,8 @@ export interface Candidate {
   // The page's own id for it (an opener for what is nested under one: a topic under "Talk to Wat").
   choice: string; label: string; command?: string; for?: string; subject?: string; exit?: string;
   kind: Kind; whys: Why[];
+  // Someone the company has not yet met (spoken with, or answered by).
+  unmet?: true;
   // The reason's words, by reason ("your brother", "the way you came").
   notes?: Partial<Record<Why, string>>;
   // For an opener, the act within it each reason is for, by reason (the topic that teaches, the asking to come along).
@@ -352,7 +354,7 @@ export class Promotion {
     const inside = this.inside(c, [why, ...whys.filter(w => w !== why)]);
     return { choice: c.choice, ...inside.length ? { inside } : {}, ...c.command ? { command: c.command } : {},
       ...c.for ? { for: c.for } : {},
-      ...c.subject ? { subject: c.subject } : {},
+      ...c.subject ? { subject: c.subject } : {}, ...c.unmet ? { unmet: true as const } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
       aspects: this.aspects(c, why, whys), ...note ? { note } : {}, marks: c.marks,
       ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {},

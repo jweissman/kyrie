@@ -19,7 +19,7 @@ import { Undertakings } from './undertakings';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
 import { Perception } from './perception'; import { Companions } from './companions';
 import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
-import { DecisionFrame } from './decision-frame';
+import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerView } from './player-view'; import { TalkingWith } from './talking-with';
@@ -188,7 +188,7 @@ export class Glance {
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
       pointed: at.pointed, ...Outmatched.reading(campaign, screen),
       done: new Set(commands.filter(c => recall.did(here, c))), ...TalkingWith.of(campaign, at.told),
-      talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))), idle,
+      ...Acquainted.of(campaign, screen, recall), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
         hurt: new Set(screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.id)),
         night: screen.expedition.daylight === 'night',
