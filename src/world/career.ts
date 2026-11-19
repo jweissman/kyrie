@@ -8,6 +8,9 @@ import { RegionUndertown } from './region-undertown';
 import { Vantage } from './vantage';
 import { WorldGrid } from './world-grid';
 import { WorldShape } from './world-shape';
+import { RegionGeography } from './region-geography';
+import { RegionBorders } from './region-borders';
+import { Borders, type Side } from './land/borders';
 
 export interface Dragon { at: [number, number]; name: string; bearing: string }
 type Files = Record<string, string>;
@@ -77,10 +80,13 @@ export class Career {
     const home = region.settlements.find(s => s.id === at.home) ?? region.settlements[0];
     if (!home || !RegionUndertown.noticed(region, home)) { return undefined; }
     const q = this.q, d = dragon, price = data.rewards.dragon, dir = `${at.root}/career`;
+    const hunt = this.way(region, d.at), seat = WorldShape.seat('dun_ri'), city = seat && this.way(region, seat);
+    const ways: Record<string, string> = { ...hunt ? { hunt } : {}, ...city ? { city } : {} };
     const said = `By the Rì's hand: whoever slays ${d.name}, the dragon of the high country ${d.bearing} of here, and `
       + `brings word of it to the royal game-warden at Dun Rìerdan, shall be knighted and paid ${price} crowns.`;
     this.module(at.files, dir, [`Module career "The Rì's commission" {`, '  Entity party: group "You".',
       '  Place green "the green" is room.', '  Entity notice: fact "The town\'s notice".',
+      ...Object.keys(ways).map(w => `  Place ${w} "the march" is room.`),
       `  Entity commission: fact ${q(said)}.`,
       `  Entity slain: fact ${q(`${d.name}, the dragon of the high country, slain by your company in a fight.`)}.`,
       `  Entity knighted: fact ${q(`You are a knight of the Rì's, dubbed at the Llys of Dun Rìerdan for slaying ${d.name}.`)}.`,
@@ -94,13 +100,33 @@ export class Career {
         + ' and not knows(actor, commission).',
       `    Time 1. On success { Assert knows(actor, commission). }`, `    Result ${q(`Under the town's notices, a sheet `
         + `under the Rì's seal. ${said}`)}.`, '  }',
-      `  Objective dragon when knows(party, commission) and not knows(party, paid) ${q(`Slay ${d.name}, the dragon of `
-        + `the high country ${d.bearing} of here, and bring word of it to the royal game-warden at Dun Rìerdan: `
-        + `knighthood and ${price} crowns.`)}.`, '  Goal false.', '}', ''].join('\n'),
-    { ...this.roles(['green', 'notice'], { green: 'place' }),
+      ...this.aims(d, price, ways), '  Goal false.', '}', ''].join('\n'),
+    { ...this.roles(['green', 'notice', ...Object.keys(ways)], { green: 'place', hunt: 'place', city: 'place' }),
       exports: { commission: 'commission', slain: 'slain', knighted: 'knighted', paid: 'paid' } });
     return { id: this.id, bundle: `${dir}/module.json`, imports: { party: 'region.party', green: `region.${home.id}_green`,
-      notice: `region.${home.id}_u_notice` } };
+      notice: `region.${home.id}_u_notice`,
+      ...Object.fromEntries(Object.entries(ways).map(([n, w]) => [n, `region.${w}`])) } };
+  }
+  // The aim, toward the first step the company knows of each half of it (MT-12: it had led nowhere, about the
+  // commission alone): the march of the first country on the dragon's side until it is slain, then the march toward Dun
+  // Rìerdan; the lair and the warden are in countries not yet drawn, so nothing nearer is known from here.
+  private static aims(d: Dragon, price: number, ways: Record<string, string>): string[] {
+    const q = this.q, [hunt, city] = ['hunt', 'city'].map(w => ways[w] ? ` toward ${w}` : '');
+    return [`  Objective dragon when knows(party, commission) and not knows(party, slain) and not knows(party, paid)`
+      + `${hunt} ${q(`Slay ${d.name}, the dragon of the high country ${d.bearing} of here, and bring word of it `
+      + `to the royal game-warden at Dun Rìerdan: knighthood and ${price} crowns.`)}.`,
+    `  Objective dragon_told when knows(party, slain) and not knows(party, paid)${city} ${q(`${d.name} is `
+      + `dead. Bring word of it to the royal game-warden at Dun Rìerdan: knighthood and ${price} crowns.`)}.`];
+  }
+  // The room at the end of the first country's road out on the side toward a country of the grid (the side it lies
+  // furthest toward first, then the other), if a road goes out that side and not down to a sea.
+  static way(region: Region, [x, y]: [number, number]): string | undefined {
+    const borders = RegionGeography.atlas(region).borders ?? [];
+    const sides = (Object.keys(Borders.steps) as Side[])
+      .map(side => ({ side, steps: x * Borders.steps[side][0] + y * Borders.steps[side][1] }))
+      .filter(s => s.steps > 0).sort((a, b) => b.steps - a.steps).map(s => s.side);
+    const b = sides.map(side => borders.find(o => o.side === side)).find(o => o && !region.beyond?.[o.side]?.sea);
+    return b && RegionBorders.room(b);
   }
   // The dragon, written into its country when that is drawn: at its den, taking from the country about it once a day
   // while it lives, whatever the company does; and its death in a fight the company won taught as the commission's.

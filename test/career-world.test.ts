@@ -34,6 +34,11 @@ describe('the hunter\'s career in a world', () => {
     const aims = (PlayerView.observe(j.campaign).objectives ?? []).map(o => o.text);
     expect(aims).toEqual(expect.arrayContaining([expect.stringMatching(/^Ask Mik/),
       expect.stringMatching(/^Slay Old Brennoch, the dragon of the high country north-west of here/)]));
+    // Toward the first step the company knows of (MT-12: about the commission alone, it had led nowhere): the march
+    // on the dragon's side; once it is slain, the march toward Dun Rìerdan, north.
+    const toward = (id: string) => j.campaign.module.objectives?.find(o => o.id === id)?.toward;
+    expect(toward('career__dragon')).toEqual([expect.stringMatching(/^region__edge_(north|west)$/)]);
+    expect(toward('career__dragon_told')).toEqual(['region__edge_north']);
   }, 120000);
   it('places one dragon in each world, in the nearest mountain country beyond the first', () => {
     for (const seed of ['a1', 'kite', 'thorn']) {

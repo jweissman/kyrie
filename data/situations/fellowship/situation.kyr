@@ -191,6 +191,8 @@ Module fellowship "The fellowship and its halls" {
     On discuss { Assert mended(order). Increase quantity(actor, gold) by 24. Spend fellowship_tally_kind from actor. }
   }
   Observe seat_mended at hall_a when mended(order) "The fourth column of the roll is ticked in the head's thin brown ink, all the way to the foot, and the sheet that was squared up on the table has gone.".
-  Objective carry when knows(party, rumour) and not mended(order) "{order} has a hall that will not answer the roll.".
+  // Toward the head, at the seat, who charges the company and lays the halves together (MT-12: it had been about the
+  // order, a fact, and led nowhere).
+  Objective carry when knows(party, rumour) and not mended(order) toward head "{order} has a hall that will not answer the roll.".
   Goal mended(order).
 }
