@@ -34,7 +34,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a lens, paged', () => {
       const pages = Number(await pager.getAttribute('data-pages')), seen = new Set<string>();
       expect(pages).toBeGreaterThan(1);
       for (let at = 0; at < pages; at++) {
-        const ids = await page.locator('.glance .lens [data-act]').evaluateAll(es => es.map(e => e.getAttribute('data-act') ?? ''));
+        // Its rows: acts, and the rows that gather acts by focus (a thing, a quarter of the town: AT-04's stopgap),
+        // which do nothing of their own; a page of a town's ways may be all of those.
+        const ids = await page.locator('.glance .lens :is([data-act], [data-action="focus"])')
+          .evaluateAll(es => es.map(e => e.getAttribute('data-act') ?? e.getAttribute('data-choice') ?? ''));
         expect(ids.length).toBeGreaterThan(0);
         expect(ids.length).toBeLessThanOrEqual(4);
         for (const id of ids) { seen.add(id); }
