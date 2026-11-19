@@ -14,6 +14,9 @@ import { Held } from '../web/reader/stage/held';
 // in it: the outcome, the wounds and what was gained were never seen together. The page now holds the fight once it
 // has ended, the last blows, how it ended and what it was worth, until the player goes on; and the place does not
 // tell the blows again. Wenna, made hard to kill, sees off the bone hounds in a1's barrow halls.
+// The halls' hounds are skeletal and above the third level, so a blade does them half harm since the SRD's skeleton
+// (case 53): the fights here run about twice as long as they did, and each is given five minutes (main's full run, 19
+// November: one had timed out at two on a loaded runner).
 class Hounds {
   // Each turn of Wenna's is fought as the page would have her, or as the player chooses (a blow struck).
   static async host(seen: Frame[] = [], hp = 300, choice?: string) {
@@ -52,7 +55,7 @@ describe('a fight the company begins', () => {
     await Hounds.attack(host, session);
     const opened = seen.find(f => f.combat)!.opening;
     expect(opened.filter(l => before.includes(l))).toEqual([]);
-  }, 120000);
+  }, 300000);
 });
 
 describe('a fight that has ended', () => {
@@ -77,7 +80,7 @@ describe('a fight that has ended', () => {
     // The next command's page is the place's.
     expect((await host.handle({ kind: 'perform', command: 'wait' }) as Frame)
       .combat).toBeUndefined();
-  }, 120000);
+  }, 300000);
 });
 
 // A fight that ended the story turned the page to its end as the last blow was struck: the act last chosen in it, and
@@ -102,5 +105,5 @@ describe('a fight that ends the story', () => {
     expect(Held.page(frame)).toBe('combat');
     expect(ChoiceList.all(ChoiceList.combat(fight)).map(c => c.label)).toEqual(['Go on']);
     expect(Held.page({ ...frame, combat: undefined })).toBe('fallen');
-  }, 120000);
+  }, 300000);
 });
