@@ -347,6 +347,7 @@
           "kind": "damage",
           "amount": { "kind": "deem", "expression": "roll(cappedLevel(20), 6)" },
           "damageType": "electric",
+          "triggers": false,
           "target": "enemy",
           "chain": { "count": { "kind": "deem", "expression": "cappedLevel(20)" }, "ratio": 0.5 },
           "save": {
@@ -366,7 +367,7 @@
         "srd35": "spell:chain-lightning",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Orsino's had no effect Kyr could run (its cascade: unsupported). Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
+        "notes": "The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Orsino's had no effect Kyr could run (its cascade: unsupported). Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43). Its lightning sets off nothing by its kind (the SRD's harm lays nothing by its kind: triggers false, srd-proving-cases.md case 56)."
       }
     },
     "cure_disease": {
@@ -894,6 +895,7 @@
           "kind": "damage",
           "amount": { "kind": "deem", "expression": "roll(cappedLevel(15), 6)" },
           "damageType": "cold",
+          "triggers": false,
           "target": "enemies",
           "save": {
             "kind": "reflex",
@@ -912,7 +914,7 @@
         "srd35": "spell:cone-of-cold",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Cone of Cold (doc/architecture/mission-22/srd-proving-cases.md, case 7): fifth level, 1d6 cold a casting level to 15d6 at the fifteenth (by #castingLevel), a cone (the rules' areas: every place from the caster out to where it is aimed, friend or foe), a Reflex save for half. Converted: the save's difficulty is the SRD's 10 + the spell's level + the casting score's modifier, and half the casting level, since a Westernesse save adds the saver's whole level where the SRD's base save adds about half of it (18 for a ninth-level caster of 16 is 22). Before, Orsino's 3d12 on 1d6 + half the level foes drawn at random, a magic save against 15. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
+        "notes": "The SRD's Cone of Cold (doc/architecture/mission-22/srd-proving-cases.md, case 7): fifth level, 1d6 cold a casting level to 15d6 at the fifteenth (by #castingLevel), a cone (the rules' areas: every place from the caster out to where it is aimed, friend or foe), a Reflex save for half. Converted: the save's difficulty is the SRD's 10 + the spell's level + the casting score's modifier, and half the casting level, since a Westernesse save adds the saver's whole level where the SRD's base save adds about half of it (18 for a ninth-level caster of 16 is 22). Before, Orsino's 3d12 on 1d6 + half the level foes drawn at random, a magic save against 15. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43). Its cold sets off none of Orsino's freezing (the SRD's harm lays nothing by its kind: triggers false, srd-proving-cases.md case 56)."
       }
     },
     "lightning_bolt": {
@@ -924,6 +926,7 @@
           "kind": "damage",
           "amount": { "kind": "deem", "expression": "roll(cappedLevel(10), 6)" },
           "damageType": "electric",
+          "triggers": false,
           "target": "enemies",
           "save": {
             "kind": "reflex",
@@ -942,7 +945,7 @@
         "srd35": "spell:lightning-bolt",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Its level the SRD's third since case 12 (Orsino's had been the fourth). Omitted: the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
+        "notes": "The SRD's Lightning Bolt (doc/architecture/mission-22/srd-proving-cases.md, case 9): 1d6 electricity a casting level to 10d6 at the tenth (by #castingLevel), a line (the rules' areas: the one aimed at, and the first standing in each place the line crosses from the caster out to the far end, friend or foe), a Reflex save for half at the SRD's difficulty for a third-level spell and half the casting level (case 7's conversion). Its level the SRD's third since case 12 (Orsino's had been the fourth). Omitted: the SRD's bolt setting things alight and breaking through barriers. Before, Orsino's 3d8 on two foes drawn at random, a magic save against 15, and paralysis on a second save, which the SRD's has not. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43). Its lightning sets off nothing by its kind (the SRD's harm lays nothing by its kind: triggers false, srd-proving-cases.md case 56)."
       }
     },
     "burning_hands": {
@@ -1062,6 +1065,7 @@
           "kind": "damage",
           "amount": { "kind": "deem", "expression": "roll(cappedLevel(5), 6)" },
           "damageType": "electric",
+          "triggers": false,
           "target": "enemy",
           "touch": "melee"
         }
@@ -1073,7 +1077,7 @@
         "srd35": "spell:shocking-grasp",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Shocking Grasp (doc/architecture/mission-22/srd-proving-cases.md, case 35): first level (Orsino's second), 1d6 electricity a casting level to 5d6 at the fifth (by #castingLevel), on one foe a melee touch attack lands on (Touch: worn armour, hide and an armour of force do not count). Omitted: the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a weapon's weight); holding the charge. Its harm is Kyr's electric, as Lightning Bolt's: Orsino's lightning may paralyse, which the SRD's has not. Before, Orsino's 2d6 lightning on one foe, no attack roll. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
+        "notes": "The SRD's Shocking Grasp (doc/architecture/mission-22/srd-proving-cases.md, case 35): first level (Orsino's second), 1d6 electricity a casting level to 5d6 at the fifth (by #castingLevel), on one foe a melee touch attack lands on (Touch: worn armour, hide and an armour of force do not count). Omitted: the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a weapon's weight); holding the charge. Its harm is Kyr's electric, as Lightning Bolt's: Orsino's lightning may paralyse, which the SRD's has not. Before, Orsino's 2d6 lightning on one foe, no attack roll. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43). Its lightning sets off nothing by its kind (the SRD's harm lays nothing by its kind: triggers false, srd-proving-cases.md case 56)."
       }
     },
     "fireball": {
@@ -1085,6 +1089,7 @@
           "kind": "damage",
           "amount": { "kind": "deem", "expression": "roll(cappedLevel(10), 6)" },
           "damageType": "fire",
+          "triggers": false,
           "target": "enemies",
           "save": {
             "kind": "reflex",
@@ -1103,7 +1108,7 @@
         "srd35": "spell:fireball",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Fireball (doc/architecture/mission-22/srd-proving-cases.md, case 12): third level, 1d6 fire a casting level to 10d6 at the tenth (by #castingLevel), a burst (the rules' areas: everyone in the place it bursts in), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: the bead's range and setting things alight. Before, Orsino's fourth level and 6d6, a magic save against 15. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
+        "notes": "The SRD's Fireball (doc/architecture/mission-22/srd-proving-cases.md, case 12): third level, 1d6 fire a casting level to 10d6 at the tenth (by #castingLevel), a burst (the rules' areas: everyone in the place it bursts in), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: the bead's range and setting things alight. Before, Orsino's fourth level and 6d6, a magic save against 15. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43). Its fire sets off none of Orsino's burning (the SRD's harm lays nothing by its kind: triggers false, srd-proving-cases.md case 56)."
       }
     },
     "conjure_light": {
