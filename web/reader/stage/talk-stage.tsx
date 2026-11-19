@@ -19,6 +19,8 @@ import { AimNear } from '../aim-near';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
 import { Attest, type Witness } from '../../../src/presentation/attest';
+import { Fold, type Leaf } from '../../../src/presentation/fold';
+import { Attending } from '../../../src/ui/attention';
 import { ChoiceRow } from './choice-row';
 import { PageFrame } from '../page-frame';
 import { Check } from './check';
@@ -106,14 +108,19 @@ export class TalkStage {
                   pager, 4). */}
               {/* Marked by the fold of what it turns to (AT-07 §5 step 3): Trade's services, and the topics not in view. */}
               {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
-                onClick={() => turn(paged.at + 1)} {...ChoiceRow.mark(Attest.of([...focus.salient, ...trades
+                onClick={() => turn(paged.at + 1)} {...ChoiceRow.mark(Fold.mark([...focus.salient, ...trades
                   ? ['trade' as const] : [], ...focus.more].filter(x => !paged.shown.includes(x))
-                  .flatMap(x => x === 'trade' ? focus.services.flatMap(drawn) : drawn(x)), gilded))}
+                  .flatMap(x => x === 'trade' ? focus.services : [x]).flatMap(x => TalkStage.leaves(x, drawn)), gilded))}
                 label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
                 aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
             </ol>
           </div>} />
     );
+  }
+  // What a reply bears, as leaves of a fold (Fold): itself, or what it opens.
+  static leaves(c: Choice, drawn: (c: Choice) => Witness[]): Leaf[] {
+    return c.children?.length && !c.command ? Attending.all(c.children).filter(k => !k.children?.length)
+      .map(k => Fold.leaf(k, drawn(k))) : [Fold.leaf(c, drawn(c))];
   }
   // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
   static ungilded(a: Promoted): Promoted {

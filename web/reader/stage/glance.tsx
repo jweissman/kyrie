@@ -30,7 +30,7 @@ import { Wayfinder } from './wayfinder';
 import { Scrolled } from './scrolled';
 import { Attention } from './attention';
 import { ChoiceRow, type RowParts } from './choice-row';
-import { Attest } from '../../../src/presentation/attest';
+import { Fold } from '../../../src/presentation/fold';
 import { CompassStage } from './compass-stage';
 import { Look } from '../look';
 import { Signs } from '../../../src/presentation/signs';
@@ -319,7 +319,7 @@ export class GlanceStage {
   // Its mark, the lens's one witness for the row (LensRows.borne), as the rail's mark reads it.
   static LensRow({ app, draw, act: a, lens }: { app: ReaderApp; draw: Draw; act: LensAct; lens: Lens }) {
     const c = GlanceStage.choice(app, a.choice);
-    const mark = ChoiceRow.mark(Attest.of([LensRows.borne(app, lens, a.choice, GlanceStage.choice)], Guidance.shown(app)));
+    const mark = ChoiceRow.mark(Fold.mark(LensRows.leaves(app, lens, a.choice, GlanceStage.choice), Guidance.shown(app)));
     // What it risks said on it, as the four say theirs (a way with no coming back).
     const [going, how] = Words.going(a.label);
     const risks = [how ?? '', ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
@@ -344,10 +344,11 @@ export class GlanceStage {
   // touch of its own, as an unread notice is: led with and drawn nowhere but Look…, the reference tour had stopped at
   // it (Mission 20).
   // A row's mark: the indicator of the glance's witness for the choice it is (Attest), else the neutral line.
+  // An opener among them by the fold of its rows (Fold), never its own reasons.
   static marked(app: ReaderApp, choice: string, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
-    const g = app.state.frame?.leaf.glance, w = Attest.witness(g, choice) ?? Attest.within(g, GlanceStage.choice(app, choice)
-      ?? { id: choice, label: '' } as Choice)[0];
-    return ChoiceRow.mark(Attest.of([w], gilded && Guidance.shown(app)));
+    const g = app.state.frame?.leaf.glance;
+    return ChoiceRow.mark(Fold.mark(LensRows.leavesOf(g, GlanceStage.choice(app, choice), choice, true),
+      gilded && Guidance.shown(app)));
   }
   static yours(app: ReaderApp, acts: Promoted[], drawn: (Choice | undefined)[]): Choice | undefined {
     const lead = acts.find(a => a.tier > 0 && !a.exit && !a.choice.startsWith('travel:') && !a.subject);

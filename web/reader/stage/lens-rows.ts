@@ -5,6 +5,8 @@ import type { Choice } from '../../../src/ui/choice-list';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { QuarterRow } from '../../../src/ui/quarters';
 import { LensFocus, type Part } from './lens-focus';
+import { Fold, type Leaf } from '../../../src/presentation/fold';
+import { Attending } from '../../../src/ui/attention';
 import { Selection } from './lens-selection';
 
 // What a lens draws, row by row, and the witnesses of the marks those rows bear: one selection, read by the lens as
@@ -58,24 +60,32 @@ export class LensRows {
   // opened; a companion on Go… and on no row of its lens: each drawer had made its own).
   // An act within an opener the menu does not hold unopened (a tablet's reading, gathered by focus) is known by the
   // lens's own command for it, so that what the opener is led for is found on it (AT-07: the gathered tablets plain).
-  static borne(app: ReaderApp, lens: Lens, id: string, choice: Named): Witness | undefined {
+  // A row that opens rows of its own (a talk, a thing's look) is marked by the fold of those rows, never by its own
+  // reasons (Fold; AT-07 I1, I2): what it says is in it, is.
+  static leaves(app: ReaderApp, lens: Lens, id: string, choice: Named): Leaf[] {
     const g = app.state.frame?.leaf.glance, lensed = g?.lenses?.[lens];
     const on = [...g?.acts ?? [], ...lensed?.promoted ?? []].some(a => a.choice === id && a.continues);
     const command = Object.values(lensed?.leaves ?? {}).flat().find(a => a.choice === id)?.command;
-    return LensRows.witness(g, choice(app, id) ?? (command ? { id, label: '', command } as Choice : undefined), id, on);
+    return LensRows.leavesOf(g, choice(app, id) ?? (command ? { id, label: '', command } as Choice : undefined), id, on);
+  }
+  static leavesOf(g: Glance | undefined, c: Choice | undefined, id: string, gilded: boolean): Leaf[] {
+    if (c?.children?.length && !c.command) {
+      return Attending.all(c.children).filter(k => !k.children?.length).map(k => Fold.leaf(k, Attest.within(g, k)));
+    }
+    return [Fold.leaf(c ?? { id }, [LensRows.witness(g, c, id, gilded)])];
   }
   // The witnesses of a way or thing's rows in the lens (its choice, or the acts done to it): a tile over the painting
   // is marked by these where the lens is what opens, never by a derivation of its own.
-  static about(app: ReaderApp, lens: Lens, key: string, choice: Named): Witness[] {
+  static about(app: ReaderApp, lens: Lens, key: string, choice: Named): Leaf[] {
     const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return []; }
     return LensRows.of(app, lens, lensed, choice).all.filter(a => a.choice === key || a.subject === key)
-      .flatMap(a => LensRows.borne(app, lens, a.choice, choice) ?? []);
+      .flatMap(a => LensRows.leaves(app, lens, a.choice, choice));
   }
   // The witnesses of every mark the lens draws as it opens, focused on nothing: each row's, a row gathered by focus
   // marked by every act in it, on every page: a later page's are promised on the row that turns to it, which is marked
   // by their fold (AT-07 §5 step 3, I5; a mark had been lit by a row three pages on, and nothing in view said so).
-  static marks(app: ReaderApp, lens: Lens, choice: Named): Witness[] {
+  static marks(app: ReaderApp, lens: Lens, choice: Named): Leaf[] {
     const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return []; }
     const drawn = LensRows.of(app, lens, lensed, choice);
@@ -100,8 +110,7 @@ export class LensRows {
     if (q) { return { key: `quarter:${q.id}`, name: q.here ? `About ${q.name}` : q.name }; }
     return !exit || exit.crosses || !exit.local ? { key: 'quarter:', name: 'Beyond the town' } : undefined;
   }
-  private static each(app: ReaderApp, lens: Lens, choice: Named, a: { choice: string }): Witness[] {
-    const w = LensRows.borne(app, lens, a.choice, choice);
-    return w ? [w] : [];
+  private static each(app: ReaderApp, lens: Lens, choice: Named, a: { choice: string }): Leaf[] {
+    return LensRows.leaves(app, lens, a.choice, choice);
   }
 }

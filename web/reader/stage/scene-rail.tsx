@@ -12,6 +12,7 @@ import { Guidance } from '../guidance';
 import { Signs } from '../../../src/presentation/signs';
 import { Pip } from './pip';
 import { Attest, type Attested, type Witness } from '../../../src/presentation/attest';
+import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { LensRows } from './lens-rows';
 import { Look } from '../look';
 import { WorldStage } from './world-stage';
@@ -131,7 +132,7 @@ export class SceneRail {
     // Lit by what the rows it opens bear, as the places lens draws them (LensRows), the first of them by the one
     // precedence: never by a way the lens does not draw (the owner, 18 November: Go… gold, and neither of its two
     // rows, "to the fellside" and "Open the world map", gold; it had been lit from the page's own list of ways).
-    const lit = Attest.of(SceneRail.opened(app, 'places', Wayfinder.ways(app).flatMap(w => Wayfinder.bears(app, w)
+    const lit = Fold.mark(SceneRail.opened(app, 'places', Wayfinder.ways(app).flatMap(w => Wayfinder.bears(app, w)
       .witnesses)), Guidance.shown(app));
     if (lit) { return { lit }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
@@ -141,14 +142,15 @@ export class SceneRail {
   static look(app: ReaderApp): Standing {
     const hand = AtHand.of(app), glance = app.state.frame?.leaf.glance;
     if (!hand.some(h => h.choices.some(c => !c.disabled))) { return { shut: 'nothing here to look at more closely' }; }
-    const lit = Attest.of(SceneRail.opened(app, 'things', hand.flatMap(h => AtHand.bears(app, h))), Guidance.shown(app));
+    const lit = Fold.mark(SceneRail.opened(app, 'things', hand.flatMap(h => AtHand.bears(app, h))), Guidance.shown(app));
     if (lit) { return { lit }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
   }
-  // The witnesses of the rows a touch opens: the lens's, where the scene draws it as the engine's lens (LensRows);
-  // else the panel's own (without, where Go… opens the Wayfinder's list).
-  private static opened(app: ReaderApp, lens: 'places' | 'things', without: Witness[]): Witness[] {
-    return SceneRail.lensed(app, lens) ? LensRows.marks(app, lens, GlanceStage.choice) : without;
+  // The leaves of the rows a touch opens, which its mark is the fold of (Fold): the lens's, where the scene draws it as
+  // the engine's lens (LensRows); else, in the attend look, each way's or thing's row (without).
+  private static opened(app: ReaderApp, lens: 'places' | 'things', without: Witness[]): Leaf[] {
+    return SceneRail.lensed(app, lens) ? LensRows.marks(app, lens, GlanceStage.choice)
+      : without.map(w => Fold.leaf({ id: w.id }, [w]));
   }
   // Whether a touch opens the engine's lens (else the panel's own list): the strip's tiles over it are marked from it.
   static lensed(app: ReaderApp, lens: 'places' | 'things'): boolean {

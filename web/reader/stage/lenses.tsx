@@ -2,7 +2,8 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Pip } from './pip';
-import { Attest, type Attested } from '../../../src/presentation/attest';
+import type { Attested } from '../../../src/presentation/attest';
+import { Fold } from '../../../src/presentation/fold';
 import { LensRows } from './lens-rows';
 import { SceneRail } from './scene-rail';
 import { Guidance } from '../guidance';
@@ -62,7 +63,7 @@ export class Lenses {
   // A tile's mark: of its rows in the engine's lens where that is what the touch opens (SceneRail.lensed), else the
   // panel's own list's (Wayfinder, AtHand): the strip says nothing the rows under it do not.
   private static mark(app: ReaderApp, lens: 'places' | 'things', key: string, own: Attested | undefined): { mark?: Attested } {
-    const mark = SceneRail.lensed(app, lens) ? Attest.of(LensRows.about(app, lens, key, GlanceStage.choice), Guidance.shown(app)) : own;
+    const mark = SceneRail.lensed(app, lens) ? Fold.mark(LensRows.about(app, lens, key, GlanceStage.choice), Guidance.shown(app)) : own;
     return mark ? { mark } : {};
   }
   // The things at hand, by their pictures where the place's people or things have one.
