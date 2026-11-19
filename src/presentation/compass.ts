@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import { ObservationText } from '../lang/observation-text';
 import { Itineraries } from '../ui/itinerary';
+import { KnownWays } from '../ui/known-ways';
 import type { Screen } from '../ui/screen-types';
 import type { WayInfo } from '../ui/passage-model';
 import type { Glance, Route } from './glance-types';
@@ -27,30 +28,21 @@ export class Compass {
   // The nearest place not enclosed, by the known ways, and the route there; where none is open, by the ways something
   // bars too, and what bars the first of them (the crypt's stone door, locked, between the ossuary and the churchyard).
   private static out(campaign: Campaign, screen: Screen): Route | undefined {
-    const open = this.nearest(campaign, screen.place.id, Itineraries.graph(campaign));
+    const open = this.nearest(campaign, screen.place.id, false);
     if (open) { return this.route(campaign, open.to); }
-    const shut = this.nearest(campaign, screen.place.id, Itineraries.graph(campaign, false, false, true));
+    const shut = this.nearest(campaign, screen.place.id, true);
     const bar = shut?.ways.find(w => w.status === 'blocked');
     if (!shut || !bar) { return undefined; }
     return { to: shut.to, name: ObservationText.label(campaign.world, shut.to), ways: shut.ways.map(w => w.name),
       minutes: 0, barred: bar.reason ?? bar.name };
   }
-  private static nearest(campaign: Campaign, here: string, graph: Map<string, WayInfo[]>):
+  // By the one way-finder (KnownWays), the ways as the graph searched has them (their status and what bars them).
+  private static nearest(campaign: Campaign, here: string, barred: boolean):
     { to: string; ways: WayInfo[] } | undefined {
-    const best = new Map<string, { minutes: number; ways: WayInfo[] }>([[here, { minutes: 0, ways: [] }]]);
-    const open = [here];
-    while (open.length) {
-      open.sort((a, b) => best.get(a)!.minutes - best.get(b)!.minutes);
-      const at = open.shift()!, so = best.get(at)!;
-      if (at !== here && !Itineraries.enclosed(campaign, at)) { return { to: at, ways: so.ways }; }
-      for (const w of graph.get(at) ?? []) {
-        const minutes = so.minutes + Itineraries.minutes(campaign, w.passage);
-        if ((best.get(w.to)?.minutes ?? Infinity) <= minutes) { continue; }
-        best.set(w.to, { minutes, ways: [...so.ways, w] });
-        if (!open.includes(w.to)) { open.push(w.to); }
-      }
-    }
-    return undefined;
+    const legs = KnownWays.way(campaign, here, id => !Itineraries.enclosed(campaign, id), { barred })?.legs;
+    const graph = Itineraries.graph(campaign, false, false, barred);
+    return legs?.length ? { to: legs.at(-1)!.to, ways: legs.map(l => (graph.get(l.from) ?? [])
+      .find(w => w.passage === l.passage && w.to === l.to)!) } : undefined;
   }
   private static route(campaign: Campaign, to: string): Route | undefined {
     const plan = Itineraries.plan(campaign, to);
