@@ -21,11 +21,15 @@ interface Read {
   // twice, with no news since, has nothing to go back for (the page had led a company from the churchyard to the
   // corn-store and back for days; a candle bought between is no reason to go back).
   acts: number; stay: number; idle: Map<string, { at: number; times: number }>;
+  // What it tried where and failed at, and how often the company had grown when it did (someone joined, a level): a
+  // try failed is done until the company is more than it was (the sea-gate's windlass, too stiff for a mage alone, had
+  // dropped from the four for good though Gesk had been hired to put his back to it: cold play 5's 10, CL-33).
+  failed: Map<string, Map<string, number>>; grown: number;
 }
 export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
   private constructor(private readonly r: Read, private readonly lastly: { talked: Set<string>; done: Set<string>;
-    from?: string; came?: string; left?: string; acted?: boolean }) {}
+    from?: string; came?: string; left?: string; acted?: boolean; grown: number }) {}
   // In an enclosed place (indoors, under the ground, in a building or a site: one rule with the compass, see
   // Itineraries.enclosed), the way the company came, open to it, for the page to keep in sight beside Go… (PR-08: five
   // cold players in three rounds could not find the way back or up, and walked out step by step through Go…; inside a
@@ -40,7 +44,8 @@ export class CompanyRecall {
     let r = this.logs.get(log);
     if (!r || r.actor !== actor || log.length - 1 < r.read || (r.read > 0 && log[r.read - 1] !== r.last)) {
       r = { actor, read: 0, at: new Map(), visited: new Set(), seen: new Set(), texts: new Set(), talked: new Set(),
-        done: new Map(), spoke: new Map(), acts: 0, stay: 0, idle: new Map() };
+        done: new Map(), spoke: new Map(), acts: 0, stay: 0, idle: new Map(), failed: new Map(),
+        grown: 0 };
       for (const c of campaign.module.initial) {
         if (c.kind === 'assert' && c.call.name === 'at') { r.at.set(c.call.args[0]!, c.call.args[1]!); }
       }
@@ -58,14 +63,18 @@ export class CompanyRecall {
     const moved = !!last && !!from && last.changes.includes(`- at(${actor}, ${from})`);
     const came = moved ? from : r.came, left = moved && !r.stay ? from : undefined;
     return new CompanyRecall(r, { talked, done, ...from ? { from } : {}, ...came ? { came } : {},
-      ...left ? { left } : {}, acted: !!last && !moved && CompanyRecall.news(last) });
+      ...left ? { left } : {}, acted: !!last && !moved && CompanyRecall.news(last), grown: r.grown
+        + (last && this.grew(last) ? 1 : 0) });
   }
   // One command: what it was done to, where, and what it showed; and where it left the company.
   private static take(campaign: Campaign, r: Read, event: CampaignEvent) {
     const here = r.at.get(r.actor), whom = this.whom(campaign, event.action);
     if (whom) { r.talked.add(whom); }
     if (whom && here) { r.spoke.set(whom, here); }
-    if (here) { r.done.set(here, (r.done.get(here) ?? new Set()).add(event.action)); }
+    if (here && event.result === 'failure') {
+      r.failed.set(here, (r.failed.get(here) ?? new Map()).set(event.action, r.grown));
+    } else if (here) { r.done.set(here, (r.done.get(here) ?? new Set()).add(event.action)); }
+    if (CompanyRecall.grew(event)) { r.grown++; }
     for (const p of event.perceptions ?? []) { r.seen.add(p.id); r.texts.add(p.text); }
     VisitedPlaces.moves(event.changes, r.at);
     const there = r.at.get(r.actor);
@@ -84,6 +93,10 @@ export class CompanyRecall {
     const op = campaign.operator(action), b = op?.bindings ?? {};
     if (op?.speaker) { return op.speaker; }
     return op?.schema === 'talk_to' ? b.person : op?.schema === 'ask' ? b.informant : undefined;
+  }
+  // Whether a command made the company more than it was: someone come along, a level gained.
+  private static grew(event: CampaignEvent): boolean {
+    return event.changes.some(c => /^\+ (memberOf|travelsWith)\(|\blevel\(/.test(c));
   }
   // Whether a command brought the company news: something it knows now, someone with it, a level gained.
   private static news(event: CampaignEvent): boolean {
@@ -115,7 +128,8 @@ export class CompanyRecall {
   // Whether it has done this here, the last command included.
   did(place: string, command: string): boolean {
     const done = [...this.r.done.get(place) ?? [], ...this.lastly.from === place ? this.lastly.done : []];
-    return done.some(d => CompanyRecall.same(command, d));
+    const failed = [...this.r.failed.get(place) ?? []].flatMap(([d, at]) => at === this.lastly.grown ? [d] : []);
+    return [...done, ...failed].some(d => CompanyRecall.same(command, d));
   }
   // Whether a command as the page offers it is one done: the same, or the same act with the page's arguments among the
   // engine's, in order (the page leaves out those its label does not show, the company first): "work_keep(innkeeper)"
