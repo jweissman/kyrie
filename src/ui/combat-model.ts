@@ -9,6 +9,7 @@ import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
 import { HitDicePool } from '../rules/hit-dice-pool';
 import { Touch } from '../rules/touch';
+import { Images } from '../rules/images';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
@@ -145,8 +146,10 @@ export class CombatModel {
       : []).sort((a, b) => Math.abs(b) - Math.abs(a))[0] ?? 0;
     const against = strongest >= 1 ? 'immune' : strongest > 0 ? 'resists' : strongest < 0 ? 'vulnerable' : '';
     const blow = target && ability.effects.some(e => e.kind === 'attack');
-    const odds = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target))
+    const struck = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target))
       : target && Touch.chance(ability.effects, actor, target);
+    // An attack falls on its target, not an image of it, one time in as many as there are and it (see Images).
+    const odds = struck === undefined || !target ? struck : struck * Images.share(target);
     // An area is aimed at a place, and says whom it would catch there, friend or foe.
     const area = target && Positions.area(ability);
     // A pool of Hit Dice (Sleep's) names only those it would hold.
@@ -167,7 +170,8 @@ export class CombatModel {
   private static said(e: CombatEvent, state: BattleState): string {
     if (e.type === 'attack') {
       const verb = e.success ? e.critical ? 'critically hits' : 'hits' : e.evaded ? 'is evaded by' : 'misses';
-      return `${this.name(state, e.actor)} ${verb} ${this.name(state, e.target)} (rolled ${e.die}, needed ${e.need}).`;
+      const what = `${e.image ? 'an image of ' : ''}${this.name(state, e.target)}`;
+      return `${this.name(state, e.actor)} ${verb} ${what} (rolled ${e.die}, needed ${e.need}).`;
     }
     if (e.type === 'initiative') { return `The order: ${e.order.map(o => this.name(state, o.id)).join(', ')}.`; }
     if (e.type === 'damage') {

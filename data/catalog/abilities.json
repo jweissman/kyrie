@@ -598,6 +598,23 @@
         "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
       }
     },
+    "mirror_image": {
+      "name": "Mirror Image",
+      "kind": "spell",
+      "description": "Figments of you stand all about you for a minute, 1d4 of them and one more for every three levels you have; a blow or a touch meant for you may fall on one of them instead, and a figment struck is gone.",
+      "effects": [
+        { "kind": "apply", "status": "mirror_images", "duration": 10, "target": "self" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 2, "school": "illusion" },
+      "source": {
+        "orsino": "arcaneSpell:mirror_image",
+        "srd35": "spell:mirror-image",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Mirror Image (doc/architecture/mission-22/srd-proving-cases.md, case 40): second level, illusion, on the caster, 1d4 images and one each three casting levels to eight (by #castingLevel, thrown as it is cast); each attack roll at the caster falls on the caster or an image, each as likely, and one at an image is struck as though it wore nothing, a hit putting it out (Images). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: the images' moving within five feet; a foe that cannot see being fooled the less; the images' own size. Before, Orsino's two harder to hit, +2 to every save and an evasion of 15, for three rounds."
+      }
+    },
     "mass_curse": {
       "name": "Bane",
       "kind": "spell",

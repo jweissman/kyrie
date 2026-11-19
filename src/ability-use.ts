@@ -7,6 +7,7 @@ import { Positions } from './rules/positions';
 import { HitDicePool } from './rules/hit-dice-pool';
 import { Chain } from './rules/chain';
 import { Touch } from './rules/touch';
+import { Images } from './rules/images';
 import { ShakingOff } from './rules/shaking-off';
 import { Volley } from './rules/volley';
 import type { Expressions } from './expressions';
@@ -226,6 +227,7 @@ export class AbilityUse {
     AbilityUse.hooks(actor, 'onAttack', actor, context);
     if (actor.hp === 0 || target.hp === 0) { return false; }
     const attacker = Effects.combatant(actor);
+    if (Images.intercepted(actor, target, context, attacker.weapon.missile === true)) { return false; }
     const roll = Fighting.attack(attacker, Effects.combatant(target), () => expressions.number('1d20'));
     context.events.push({ type: 'attack', turn: context.turn, actor: actor.id, target: target.id, die: roll.die,
       need: roll.need, toHit: roll.toHit, armorClass: roll.armorClass, weapon: attacker.weapon.id,

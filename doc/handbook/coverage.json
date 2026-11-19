@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 737,
-    "adapted": 411,
+    "faithful": 735,
+    "adapted": 412,
     "represented": 4,
-    "kyr": 610,
+    "kyr": 611,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 218,
-      "adapted": 34,
+      "faithful": 217,
+      "adapted": 35,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -980,10 +980,10 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 124,
+      "faithful": 123,
       "adapted": 29,
       "represented": 0,
-      "kyr": 49,
+      "kyr": 50,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -9727,7 +9727,7 @@
   {
    "id": "ability:mirror_image",
    "title": "Mirror Image",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-2"
   },
@@ -12940,7 +12940,7 @@
   {
    "id": "condition:mirror_images",
    "title": "Mirror Images",
-   "status": "faithful",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },

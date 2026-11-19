@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 92, E2 1, E3 26.
+**605 records**, every one visible: E0 486, E1 91, E2 1, E3 27.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 78.
 
 ## By family
@@ -401,7 +401,7 @@ become ready).
 | minor-image | Minor Image | Brd 2, Sor/Wiz 2 | illusion | E1 | duration.concentration, effect.manifest | minor_image |
 | miracle | Miracle | Clr 9, Luck 9 | world | E0 | effect.world, resist.spell, review.text | — |
 | mirage-arcana | Mirage Arcana | Brd 5, Sor/Wiz 5 | illusion | E0 | duration.concentration, effect.manifest | — |
-| mirror-image | Mirror Image | Brd 2, Sor/Wiz 2 | protection | E1 | — | mirror_image |
+| mirror-image | Mirror Image | Brd 2, Sor/Wiz 2 | protection | E3 | — | mirror_image |
 | misdirection | Misdirection | Brd 2, Sor/Wiz 2 | illusion | E0 | effect.manifest, target.object | — |
 | mislead | Mislead | Brd 5, Luck 6, Sor/Wiz 6, Trickery 6 | illusion | E0 | duration.concentration, effect.manifest | — |
 | mnemonic-enhancer | Mnemonic Enhancer | Wiz 4 | world | E0 | effect.world | — |

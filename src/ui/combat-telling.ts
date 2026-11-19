@@ -157,14 +157,22 @@ export class CombatTelling {
     // November); a number is what the die gave it, not the little left to take (BP-02).
     const weight = damage?.amount ? `, for ${CombatTelling.blow(damage)}`
       : damage && !damage.amount && attack ? ', to no harm' : '';
-    const landed = attack ? attack.success ? `, and it lands${weight}` : ', and misses' : '';
+    const landed = attack?.image ? CombatTelling.imaged(attack)
+      : attack ? attack.success ? `, and it lands${weight}` : ', and misses' : '';
     // What came to nothing says so: "Ithil uses Soot Cloud." was all a cloud of soot told, with nothing hidden for it
     // to show (the play-structure investigation's PT-23).
     const nothing = !attack && !rest.some(e => e.type !== 'initiative' && e.type !== 'end') ? ', to no effect' : '';
     return [`${actor} uses ${ability}${target}${landed}${nothing}.`, ...more];
   }
+  // An attack that fell on one of its target's images (see Images): it puts the image out, or goes through nothing.
+  private static imaged(attack: Of<'attack'>): string {
+    return `, and it falls on an image${attack.success ? ', which vanishes' : ' and misses it'}`;
+  }
   private blow(kind: string, attack: Of<'attack'>, damage?: Harm): string {
     const actor = this.name(attack.actor), target = this.name(attack.target);
+    if (attack.image) {
+      return `${actor} ${kind === 'ranged' ? 'shoots at' : 'strikes at'} ${target}${CombatTelling.imaged(attack)}.`;
+    }
     const held = this.fighter(attack.actor)?.equipment?.weapon;
     // The blow's own weapon: a ghoul's claws and its bite are one routine, told each by its own.
     const own = !attack.weapon || !held || attack.weapon === held.id;

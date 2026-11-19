@@ -570,6 +570,19 @@
         "notes": "The SRD's Resist Energy against fire (srd-proving-cases.md, case 38): ten off each blow of fire, after any fraction, the better of two such resistances and never both (Defenses.mitigate). It persists past a fight's end for what is left of its rounds, as the fireproof ward does, so it may be laid before a fight (FieldUse). Converted: ten at every casting level, where the SRD's is twenty from the seventh and thirty from the eleventh."
       }
     },
+    "mirror_images": {
+      "name": "Mirror Images",
+      "description": "Figments of their maker stand all about them, and blows meant for them fall on the figments.",
+      "lifetime": "encounter",
+      "modifiers": { "images": "1d4 + floor(cappedLevel(12) / 3)" },
+      "source": {
+        "orsino": "status:mirror_images",
+        "kyr": true,
+        "srd35": "spell:mirror-image",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Mirror Image (srd-proving-cases.md, case 40): 1d4 images and one each three casting levels, to eight; each attack roll at the holder falls on it or an image, each as likely, and a hit on an image puts it out (Images). Before, Orsino's two harder to hit, +2 to every save and an evasion of 15."
+      }
+    },
     "mage_armored": {
       "name": "Mage-Armored",
       "description": "An unseen armour of force: as good as a mail coat, worn over nothing.",

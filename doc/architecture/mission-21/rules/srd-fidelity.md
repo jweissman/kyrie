@@ -6,8 +6,8 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 37 pass in structure
-(level, school), 27 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-26 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+(level, school), 28 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+27 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 50 | school 79 | dice 11 | type 13 | save 36 | dc 22 | attack 106 | target 74 | duration 51 | of 119 |
+| spells, field exact or converted | level 50 | school 79 | dice 11 | type 13 | save 36 | dc 22 | attack 106 | target 74 | duration 52 | of 119 |
 
 ## Creatures, most met first
 
@@ -180,7 +180,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | mind_reading | detect-thoughts | S✗ RU I– | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✗ self → cone | ✗ 3 rounds → long |
 | minor_image | minor-image | S✗ RU I– | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → 15 | ✓ | ✗ · → one | ✗ instant → long |
 | minor_restoration | restoration-lesser | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | ✓ | ✓ |
-| mirror_image | mirror-image | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| mirror_image | mirror-image | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | nightmare | nightmare | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✗ 31 → 18 | ✓ | ✓ | ✗ 3 rounds → instant |
 | obscuring_mist | obscuring-mist | S✗ R✗ I– | ✗ 3 → 1 | ✓ | – | – | – | – | ✓ | ✗ self → burst | ✗ 5 rounds → long |
 | paralyzing_touch | ghoul-touch | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ≈ six rounds: the SRD's 1d6+2, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 36) |

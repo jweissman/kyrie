@@ -217,6 +217,8 @@ export class MechanicsText {
         : this.amount({ kind: 'deem', expression: String(m.tempHp) }, actor);
       out.push(`${hp} more hit points (spent first)`);
     }
+    // How many is the spell's to say (its description: 1d4 and one each three levels); its formula reads badly.
+    if (m.images) { out.push('images of them, each as likely as they to take a blow or a touch, one struck gone'); }
     if (m.extraAttacksPerTurn) { out.push(`${m.extraAttacksPerTurn} more ${m.extraAttacksPerTurn === 1 ? 'blow' : 'blows'} a turn`); }
     if (m.criticalRangeIncrease) { out.push(`a telling blow on ${20 - m.criticalRangeIncrease} or more`); }
     if (m.bonusSpellDC) { out.push(`spells ${m.bonusSpellDC} harder to resist`); }

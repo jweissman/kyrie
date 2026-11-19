@@ -16,6 +16,8 @@ export interface Modifiers {
   reflectDamagePercent?: number;
   resistances?: Record<string, number>; immune?: string[]; noActions?: boolean; noSpellcasting?: boolean;
   bonusHealing?: Dice; bonusSpellDC?: number; tempHp?: string; onTurnEnd?: Periodic[];
+  // Figments that take blows meant for their holder, thrown as the condition is laid (see Images).
+  images?: string;
   // Added to the harm of every spell its bearer casts (Orsino's bonusSpellDamage: a singing stone's one).
   bonusSpellDamage?: number;
   // Orsino's turn structure: actions a turn beyond the one (haste +1, slow −1, never fewer than one); acting at random
@@ -47,7 +49,7 @@ export class ModifierSet {
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
     'controlledActions', 'flee', 'invisible', 'seeInvisible'];
   static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, ...ModifierSet.flags, 'saves', 'attributes',
-    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force', 'resist'];
+    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force', 'resist', 'images'];
   // Orsino's gatherEffects: numbers add, maps add per key, flags and lists accumulate.
   static sum(list: Modifiers[]): Modifiers {
     const out: Modifiers = {};

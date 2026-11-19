@@ -6667,11 +6667,13 @@ One ally gains mind blank for 10 turns. Mind Blank: +2 to will saves, resists 50
 
 ##### Mirror Image
 
-*Faithful · level 2 arcane spell, illusion* · `ability:mirror_image`
+*Adapted · level 2 arcane spell, illusion* · `ability:mirror_image`
 
-You gain mirror images for 3 turns. Mirror Images: 2 harder to hit, +15 evasion, +2 to every save. An arcane spell of the second level. Takes a second-level slot.
+You gain mirror images for 10 turns. Mirror Images: images of them, each as likely as they to take a blow or a touch, one struck gone. An arcane spell of the second level. Takes a second-level slot.
 
-> Illusory duplicates confound attackers
+> Figments of you stand all about you for a minute, 1d4 of them and one more for every three levels you have; a blow or a touch meant for you may fall on one of them instead, and a figment struck is gone.
+
+*Adapted: The SRD's Mirror Image (doc/architecture/mission-22/srd-proving-cases.md, case 40): second level, illusion, on the caster, 1d4 images and one each three casting levels to eight (by #castingLevel, thrown as it is cast); each attack roll at the caster falls on the caster or an image, each as likely, and one at an image is struck as though it wore nothing, a hit putting it out (Images). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: the images' moving within five feet; a foe that cannot see being fooled the less; the images' own size. Before, Orsino's two harder to hit, +2 to every save and an evasion of 15, for three rounds.*
 
 ##### Paralyzing Touch
 
@@ -10925,11 +10927,11 @@ Resists 50% of psychic, immune to charm, immune to insanity, immune to fear, imm
 
 ### Mirror Images
 
-*Faithful · lasts the fight at most* · `condition:mirror_images`
+*Kyr · lasts the fight at most* · `condition:mirror_images`
 
-2 harder to hit, +15 evasion, +2 to every save.
+Images of them, each as likely as they to take a blow or a touch, one struck gone.
 
-> Illusory duplicates make you harder to hit.
+> Figments of their maker stand all about them, and blows meant for them fall on the figments.
 
 ### Mocked
 

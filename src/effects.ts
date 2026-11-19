@@ -18,6 +18,7 @@ import { KindDefenses, type Hit } from './kind-defenses';
 import { PlaceLaws } from './rules/place-laws';
 import { GatheredModifiers } from './gathered-modifiers';
 import { SaveOutcome } from './rules/save-outcome';
+import { Images } from './rules/images';
 import type { Attribute } from './creature';
 
 export interface EffectContext {
@@ -430,6 +431,7 @@ export class Effects {
       || (status.stacking === 'source-refresh' && s.source !== context.source?.id)));
     const pool = status.modifiers.tempHp && context.expressions
       ? context.expressions.number(status.modifiers.tempHp, Effects.context(context.actor ?? target)) : 0;
+    const images = Images.laid(status.modifiers.images, context, target);
     // A perk can make every status its holder applies last longer (a troupe's resonant harmony), and a flame they
     // light burn longer, by hours of six watches (the Lantern's gift: OR-118).
     const at = context.actor?.environment ? { environment: context.actor.environment } : {};
@@ -439,7 +441,7 @@ export class Effects {
       ...effect.clock ? { clock: effect.clock } : {},
       ...!effect.clock && context.actor && context.actor.id !== target.id ? { waits: true } : {},
       ...context.source ? { source: context.source.id } : {}, ...context.actor ? { by: context.actor.id } : {},
-      ...pool ? { tempHp: pool } : {} });
+      ...pool ? { tempHp: pool } : {}, ...images ? { images } : {} });
     Effects.detail(context, target, { type: 'status', detail: effect.status, amount: effect.duration,
       ...effect.clock ? { clock: effect.clock } : {} });
   }

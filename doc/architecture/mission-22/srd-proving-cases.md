@@ -1457,6 +1457,38 @@ three rounds on every foe against 15 + the caster's level, at the third level. T
   hostile one against a lone warrior is as deadly as Orsino's (33–35 %): −1 to hit for a minute weighs about what −1 to
   every score weighed for three rounds.
 
+### 40. Mirror Image, and figments that take blows (19 November): adapted
+
+Orsino's Mirror Image was a bundle of numbers (two harder to hit, +2 to every save, an evasion of 15: four hits in
+five turned aside, for three rounds), which the census passed in structure and failed only for its duration. The
+SRD's is a count of images, each one blow's worth. A second-level pick on the illusionist's creation card, and taught
+in two adventures (the Parliament of Books' mirror, the Book of Faces' Thole). Spec: `test/mirror-image` (3 cases).
+
+**The mechanic built: images** (`Images`, src/rules/images.ts; a condition's `images` modifier, dice thrown as the
+condition is laid by its caster's values, as temporary hit points are; the instance keeps the count):
+- each attack roll made at the holder, a weapon's blow or a touch (case 35), first falls at random on the holder or
+  on one of its images, each as likely;
+- one that falls on an image is struck at it as though it wore nothing (the SRD's image AC is 10, its size and its
+  maker's Dexterity); a hit puts that image out, a miss does nothing; the holder is not struck either way;
+- when the last is gone the condition ends, told as it ends ("Bram's images vanish");
+- harm without an attack roll (a burst, a missile, a save) passes them by;
+- told as the blow's own: "Dain strikes at Bram, and it falls on an image, which vanishes"; "… uses Cleave on Bram,
+  and it falls on an image and misses it". The aim's odds on the holder are the blow's share that reaches it.
+
+**The spell** (a hand entry over Orsino's, and over its condition):
+- second level, arcane, illusion, on the caster (exact);
+- 1d4 images and one each three casting levels, to eight (exact: thrown as it is cast);
+- a minute, ten rounds, at every casting level (converted, case 14's rule).
+
+**Omitted:** the images' moving within five feet; a foe that cannot see being fooled the less; spells cast at an
+image. The census grades it S✓ R✓ I✓: 28 of 119 pass in resolution now.
+
+**The census.** No draw or card moves (its level and school are Orsino's). Of the 2,233 installed classed creatures
+of a1 and the six fidelity countries one knows it, kahitude's Bound Howe scholar. A hostile third-level mage who casts
+it beside two third-level zombies against a warrior and a mage of the company: the company wins 60 % (Orsino's, 68 %);
+a company's mage who casts it is as safe as before (98 %). What moves is every casting: a few blows absorbed, then
+none, where Orsino's turned four hits in five for three rounds.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

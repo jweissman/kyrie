@@ -1,5 +1,6 @@
 import { Effects, type EffectContext } from '../effects';
 import { Fighting } from './fighting';
+import { Images } from './images';
 import type { Effect } from '../lang/parse';
 import type { Fighter } from '../model';
 
@@ -11,6 +12,7 @@ import type { Fighter } from '../model';
 export class Touch {
   static lands(effect: Effect, actor: Fighter | undefined, target: Fighter, context: EffectContext): boolean {
     if (!effect.touch || !actor || !context.expressions) { return true; }
+    if (Images.intercepted(actor, target, context, effect.touch === 'ranged')) { return false; }
     const expressions = context.expressions;
     const roll = Fighting.touch(Effects.combatant(actor), Effects.combatant(target), () => expressions.number('1d20'),
       effect.touch === 'ranged');
