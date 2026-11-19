@@ -1456,6 +1456,9 @@ three rounds on every foe against 15 + the caster's level, at the third level. T
   zombies (95 %); a fifth-level one against three zombies or two wolves wins as with Orsino's curse (100 %), and a
   hostile one against a lone warrior is as deadly as Orsino's (33–35 %): −1 to hit for a minute weighs about what −1 to
   every score weighed for three rounds.
+- **A kept trace re-digested:** `test/fixtures/traces/wren-tower-climbed.transcript.json`, three digests
+  (scripts/redigest-trace): wren's keep chaplain now knows Bane, so the drawn world underneath is other from the first
+  step; the same commands come to the same place, watch and words. test/traces passes (3), as before the slice.
 
 ### 40. Mirror Image, and figments that take blows (19 November): adapted
 
