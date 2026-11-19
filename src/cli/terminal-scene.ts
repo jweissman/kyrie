@@ -52,8 +52,9 @@ export class TerminalScene {
     const whole = turned === 'look', day = screen.date?.short ?? `Day ${FictionalTime.day(screen.elapsed)}`;
     const time = this.fresh('time', `${day}, ${FictionalTime.part(screen.elapsed)}`, whole);
     const place = this.fresh('place', screen.place.name, whole), weather = this.fresh('weather', screen.weather, whole);
-    // The hour itself only on a look: the part of the day is what changes how a place is.
-    const when = whole ? screen.clock : time;
+    // The hour itself only on a look: the part of the day is what changes how a place is. On the one calendar: a
+    // look had said "Day 1, 12:18 p.m." under "17 Smoke, afternoon" (cold play 4, CL-47's 6).
+    const when = whole ? screen.clock.replace(/^Day \d+(?=, )/, day) : time;
     // The place as a heading, in the stage's ivory, the day and the weather quiet beside it, a faint rule under it
     // where there is colour (headless, the line alone).
     const d = this.depth, named = turned === 'act' ? undefined : place ?? screen.place.name;

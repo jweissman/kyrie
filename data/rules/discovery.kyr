@@ -80,9 +80,11 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     // Where nothing reads a search of the place, it finds nothing, and says so: twelve of fourteen searches in the
     // boredom census's walks (a cloth-hall, a bakehouse, a byre) ended on the plain words, twenty minutes gone and
     // nothing said of what came of them (BO-03).
-    Result "You search {site} with care, a little at a time. Nothing is hidden here but what you can already see." when
+    // The place last, where what its name says of where it lies can trail it ("the Black Rhyne, behind the pens"): put
+    // before "with care", it read as a name pasted into the sentence (cold play 4, CL-47's 7).
+    Result "With care, a little at a time, you search {site}. Nothing is hidden here but what you can already see." when
       not answers(site, rummaging) and not searchedAnywhere().
-    Result "You search {site} with care, a little at a time.".
+    Result "With care, a little at a time, you search {site}.".
   }
   Action destroy_source(actor: group, witness: source, site: place) "Destroy {witness}" {
     Result "You destroy {witness}.".
