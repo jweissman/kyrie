@@ -150,14 +150,20 @@ export class DeepSites {
         + ` and memberOf(?m, ?c) and onslaught(${id}, ?o) says ${k.robbed ? q(k.robbed) : '"{?o}"'} {`
         + ` Assert assails(${id}, ?c). Retract warned(${id}, ?c). }`];
   }
-  // Where the makers left what the keeper cannot bear, and what reading their words tells of it.
+  // Where the makers left what the keeper cannot bear, and what reading their words tells of it. Once it is known, by
+  // whatever way (the innkeeper's saying before setting out, the words cut below, the priest won over), it is an aim
+  // toward the room it lies in until it is carried: asking before setting out had told the company of it and changed
+  // nothing the descent then offered (Sprint 2, S2-4: the warrior's preparation counted for nothing).
   private static bane(purpose: DeepPurpose, layout: DeepLayout): string[] {
     const b = purpose.bane, room = b && layout.levels.flatMap(l => l.rooms).find(r => r.role === b.role);
     if (!b || !room) { return []; }
-    const q = this.q, id = `${layout.site}_bane`;
+    const q = this.q, id = `${layout.site}_bane`, o = purpose.objective;
     const name = b.like?.name ?? DeepRooms.called(b.item);
+    const until = o.goal && o.raised ? ` and not ${layout.site}_raised()` : '';
     return [`  Entity ${id}: fact ${q(b.fact)}.`, `  Item ${id}_item ${q(name)} is ${b.item} at ${room.id}.`,
-      `  Observe ${id}_seen at ${room.id} when at(${id}_item, ${room.id}) ${q(b.seen)}.`];
+      `  Observe ${id}_seen at ${room.id} when at(${id}_item, ${room.id}) ${q(b.seen)}.`,
+      ...b.aim ? [`  Objective ${id}_aim when knows(party, ${id}) and not holding(party, ${b.item})${until}`
+        + ` toward ${room.id} ${q(b.aim)}.`] : []];
   }
   // Bringing up what they died for: to be done once its story is known, and told when it is done, which is when it
   // is first in daylight (come out by night, at first light, wherever the company then is).
