@@ -71,6 +71,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     await page.fill('[data-field="name"]', 'Halloran');
     await page.keyboard.press('Enter');
     await Naming.to(page, 'go');
+    // The page's step comes a moment before its words on a loaded runner (the full run, 19 Nov).
+    await page.waitForFunction(() => document.querySelector('.composed .ask')?.textContent === 'Halloran', null,
+      { timeout: 10000 }).catch(() => undefined);
     expect(await page.textContent('.composed .ask')).toBe('Halloran');
     // Back, and one of the list taken instead.
     await page.keyboard.press('Escape'); await Naming.to(page, 'name');
