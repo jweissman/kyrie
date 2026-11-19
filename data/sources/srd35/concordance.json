@@ -142,6 +142,10 @@
   "owl": {
    "srd": "owl"
   },
+  "mouther": {
+   "srd": "gibbering-mouther",
+   "notes": "Orsino's Mouther, the aberration of mouths and tentacles: the SRD's gibbering mouther."
+  },
   "owlbear": {
    "srd": "owlbear"
   },
