@@ -93,7 +93,9 @@ describe('the factor who buys old bronze', () => {
     const town = (w.report.placements.find(p => p.scenario === 'factors')!.bindings as { town: string }).town;
     await GeneratedWorld.travel(s, `${town}_taproom`);
     await World.choose(s, /back from .* at fourteen to the pound/);
-    expect(World.holds(s, 'keeps', 'party', 'plongman__teeth')).toBe(true);
+    // Given, carried by one of the company (the buy-back had only said the company kept it, and it carried nothing:
+    // the maturity track's lint round, 19 November).
+    expect(s.campaign.readout.creatures.some(x => x.state.inventory?.some(i => i.id === 'plongman__teeth'))).toBe(true);
     // The eight days sat out at the march-stone, out of the way of the town's own troubles (the Bound Howe's
     // Spade-Company, standing in the country since the adventure branch, had come at a company waiting in the taproom).
     await GeneratedWorld.travel(s, 'gate_longman');

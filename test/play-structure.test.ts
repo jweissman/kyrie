@@ -194,9 +194,11 @@ describe('a site\'s worthiest band', () => {
   // on his half-proof hide no longer make him bleed: to a fresh warrior alone he is more than he can take, too.
   it('is no walkover for a fresh warrior when above it, and more than a mage can take', async () => {
     const warrior = await Played.worthiest('cov7', 'warrior'), mage = await Played.worthiest('cov7', 'mage');
-    expect(warrior.find(b => b.name?.startsWith('the barrow-king'))?.reckoning)
-      .toEqual({ danger: 'deadly', text: 'It is more than you can take. It will be long: your weapons barely bite '
-        + 'it; fire or radiant would serve better.' });
+    // No walkover, and long: hard at the least, his drain the SRD's Vampiric Touch now (case 52), kinder than
+    // Orsino's Life Drain was, so he is no longer always beyond a fresh warrior alone.
+    const kingW = warrior.find(b => b.name?.startsWith('the barrow-king'))?.reckoning;
+    expect(['hard', 'grave', 'deadly']).toContain(kingW?.danger ?? '');
+    expect(kingW?.text).toContain('It will be long: your weapons barely bite it; fire or radiant would serve better.');
     // A mage's fire bites it, as a blade bites it by half (a mummy's resistances: the fresh playtest of 7 November);
     // but her blows for nothing no longer set it burning or bleeding either (R9-06), and he is beyond her again. Grave
     // at the least: a first-level mage once reckoned deadly here could cast only the spell each slot had been prepared
