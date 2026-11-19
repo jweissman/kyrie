@@ -18,10 +18,12 @@ import type { Glance, Lens, Promoted } from './glance-types';
 export interface Row {
   id: string; label: string; does?: string; opens?: Row[]; for?: string; lens?: Lens; led?: true; only?: true;
   says?: string; called?: string; witnesses: Witness[];
+  // Why it cannot be done now (Choice.disabled): a row that neither does nor opens anything says why.
+  shut?: string;
 }
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>;
 interface Read { tree: Map<string, Choice>; acts: Map<string, Promoted>; glance: Offered; lens?: Lens; led?: boolean;
-  command?: string }
+  command?: string; legal?: Set<string> }
 interface Kept { rows: Row[]; at: Omit<Read, 'lens' | 'led' | 'command'>; lensOf: Map<string, Lens> }
 
 export class Doable {
@@ -43,13 +45,34 @@ export class Doable {
     this.index(tree, [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...scene.you]);
     const lensOf = new Map<string, Lens>(Object.entries(glance.lenses ?? {}).flatMap(([lens, l]) =>
       [...l.promoted.map(p => p.choice), ...l.rest.map(r => r.choice)].map(id => [id, lens as Lens] as const)));
-    const acts = new Map(glance.acts.map(a => [a.choice, a])), at = { tree, acts, glance };
+    const acts = new Map(glance.acts.map(a => [a.choice, a]));
+    const at = { tree, acts, glance, legal: this.legal(glance, tree) };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
     const rows = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(o.choice, o.label,
       { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command }));
     const read = { rows, at, lensOf };
     this.kept.set(glance, read);
     return read;
+  }
+  // The commands a row may do: a choice's of the scene, or one the glance offers by its command (a light, a wait, a
+  // journey), or a book's (view:).
+  private static legal(glance: Offered, tree: Map<string, Choice>): Set<string> {
+    return new Set([...[...tree.values()].flatMap(c => c.command ?? []), ...glance.acts.flatMap(a => a.command ?? []),
+      ...[...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].flatMap(o => o.command ?? []),
+      ...Object.values(glance.lenses ?? {}).flatMap(l => [...l.promoted, ...l.rest]).flatMap(a => a.command ?? [])]);
+  }
+  // The one way a row is made (AT-07 I3): it has words; what it does is a command the engine offers; and a row that
+  // neither does nor opens anything says why it cannot be done. Anything else is refused here, never drawn blank or
+  // inert (the owner's playtest, 19 November, AT-04: a row with no words that went back to the landing).
+  static made(r: Row, legal: ReadonlySet<string>): Row {
+    if (!r.label.trim()) { throw new Error(`Doable: ${r.id} has no words`); }
+    if (r.does && !legal.has(r.does) && !/^(travel|view):/.test(r.does)) {
+      throw new Error(`Doable: ${r.id} does ${r.does}, which nothing here offers`);
+    }
+    if (!r.does && !r.opens?.length && !r.shut) {
+      throw new Error(`Doable: ${r.id} does nothing, opens nothing, and says nothing of why`);
+    }
+    return r;
   }
   private static index(tree: Map<string, Choice>, cs: Choice[]): void {
     for (const c of cs) { tree.set(c.id, c); this.index(tree, c.children ?? []); }
@@ -65,7 +88,8 @@ export class Doable {
       ? Attending.all(c.children ?? []).find(k => k.command === led)?.label : undefined;
     const base = { id, label: c?.alone ?? label, witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led ? { for: led } : {},
-      ...asked ? { called: this.called(c?.alone ?? c?.label ?? label, asked) } : {} };
+      ...asked ? { called: this.called(c?.alone ?? c?.label ?? label, asked) } : {},
+      ...c?.disabled ? { shut: c.disabled } : {} }, legal = at.legal ?? new Set<string>();
     const kids = c?.children ?? [];
     // A row with a command does it, even where acts hang under it (a way with a door to listen at is gone by).
     // One offered by its command, outside the scene's tree (a light, a set-down, a wait), does that command.
@@ -73,7 +97,7 @@ export class Doable {
     // HexBoundary) and the page's map does: walked as a way, a cold play's journey had not been offered (cold play 4).
     const offered = act?.command ?? at.command, journey = offered?.startsWith('travel:') ? offered : undefined;
     const does = journey ?? (c ? c.command ?? act?.command : offered ?? id);
-    if (c?.command || !kids.length) { return { ...base, ...does ? { does } : {} }; }
+    if (c?.command || !kids.length) { return this.made({ ...base, ...does ? { does } : {} }, legal); }
     // An opener opens: what the engine leads it for first, then the rest in the scene's order.
     const first = new Set([act?.for, ...(act?.inside ?? []).map(i => i.command)].filter((x): x is string => !!x));
     const ordered = [...kids.filter(k => first.has(k.command ?? '')), ...kids.filter(k => !first.has(k.command ?? ''))];
@@ -82,8 +106,8 @@ export class Doable {
     // opening it ("the sea-gate's pawl", gold at the gate-well, is collecting it: cold play 5, CL-33).
     const only = this.flat(opens).filter(r => !r.opens);
     const one = only.length === 1 ? only[0] : undefined;
-    if (one?.does && !c?.focus) { return { ...base, label: one.label, does: one.does, only: true }; }
-    return { ...base, opens, ...c?.focus ? { says: c.focus } : {} };
+    if (one?.does && !c?.focus) { return this.made({ ...base, label: one.label, does: one.does, only: true }, legal); }
+    return this.made({ ...base, opens, ...c?.focus ? { says: c.focus } : {} }, legal);
   }
   // A talk led for a question to someone not yet met is talking to them, the question after it: "Ask the factor about
   // the king-barrow", led on the landing before anyone had said who the factor was, had asked a stranger by a title

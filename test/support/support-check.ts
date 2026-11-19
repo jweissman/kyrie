@@ -47,11 +47,11 @@ export class SupportCheck {
       return missing.length ? [`${who}: ${missing.join(', ')}`] : [];
     });
   }
-  // P3: every row of every client: words, and a command or rows to open (a shut act's reason is step 4's: Doable.Row
-  // has no shut yet).
+  // P3: every row of every client: words, and a command, rows to open, or why it cannot be done (Doable.made refuses
+  // any other, so this holds by construction).
   static rows(g: Glance, screen: Screen): string[] {
     return Doable.flat(Doable.of(g, screen)).flatMap(r => [
       ...r.label.trim() ? [] : [`${r.id}: no words`],
-      ...r.does || r.opens?.length ? [] : [`${r.id}: does nothing and opens nothing`]]);
+      ...r.does || r.opens?.length || r.shut ? [] : [`${r.id}: does nothing, opens nothing, says nothing`]]);
   }
 }
