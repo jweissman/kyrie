@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
@@ -133,8 +133,8 @@ export class Wayfinder {
         {c.disabled && <p className="wf-shut">{Typography.curl(Words.upper(c.disabled))}</p>}
         {(c.marks ?? []).map(m => <p key={m.kind} className={`wf-risk${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Typography.curl(Words.upper(m.said))}</p>)}
-        {[...Wayfinder.goings(c), ...Wayfinder.opens(app, w)].map(g => <Wayfinder.Go key={g.id} app={app} draw={draw}
-          choice={g}>{g === c ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}</Wayfinder.Go>)}
+        {[...Wayfinder.goings(c), ...Wayfinder.opens(app, w)].map(g => <Act.View key={g.id} choice={g} draw={draw} quiet
+          className="wf-go">{g === c ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}</Act.View>)}
       </aside>
     );
   }
@@ -152,16 +152,6 @@ export class Wayfinder {
     const all = (cs: Choice[]): Choice[] => cs.flatMap(c => [c, ...all(c.children ?? [])]);
     return all(SceneSurface.choices(app)).filter(c => !c.disabled && c.command && commands.has(c.command))
       .filter((c, i, cs) => cs.findIndex(x => x.command === c.command) === i);
-  }
-  // A going: as the menu has it where it does; else done by its own command, and what it risks or cannot undo said
-  // under it when it is first chosen, as on any choice (see Act.View): a way that asks again had said nothing.
-  static Go({ app, draw, choice: c, children }: { app: ReaderApp; draw: Draw; choice: Choice; children: ReactNode }) {
-    if (draw.index.has(c.id)) { return <Act.View choice={c} draw={draw} quiet className="wf-go">{children}</Act.View>; }
-    const asks = Act.asks(c);
-    return <button type="button" className="act choice-row wf-go" data-action="go" data-choice={c.id} data-act={c.id}
-      onClick={() => app.choose(c)}>
-      {children}{asks && app.state.confirming === c.id && <span className="grave-said" role="alert">
-        {Typography.curl(Act.asked(asks, !!c.grave))}</span>}</button>;
   }
   static readonly how: Record<string, string> = { Up: 'up', Down: 'down', Into: 'in', Out: 'out', Away: 'away from here',
     On: 'on', To: '' };

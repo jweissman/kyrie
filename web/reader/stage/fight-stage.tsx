@@ -172,8 +172,9 @@ export class FightStage {
           : <p className="intent-held" aria-hidden="true">{'\u00a0'}</p>)}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
         {target && <span className="chance">{Typography.curl(target.note?.split(' · ')[0] ?? '')}</span>}
-        {target && app && <button type="button" className="pick" data-action="target" data-choice={target.id} data-act={target.id}
-          aria-label={Typography.curl(target.label)} onClick={() => app.choose(target)} />}
+        {/* The reticle over the card: the act's own target, drawn as every choice is (OR-94). */}
+        {target && app && <Act.View choice={target} draw={Act.draw(app)} quiet variant="glyph" className="pick"
+          said={Typography.curl(target.label)}><></></Act.View>}
       </li>
     );
   }

@@ -186,9 +186,7 @@ export class WorldStage {
     const fell = x.state ? ` fallen ${x.state}` : '';
     if (!into) { return <WorldStage.Still subject={x} fell={fell}>{body}</WorldStage.Still>; }
     // An animal's own page is the page's to open (no command of the engine's), and is opened as one.
-    return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet variant="glyph" className={`portrait${fell}`}>{body}</Act.View>
-      : <button type="button" className={`act act-glyph portrait${fell}`} data-action="look-at" data-choice={into.id} data-act={into.id}
-        onClick={() => draw.app.choose(into)}>{body}</button>;
+    return <Act.View choice={into} draw={draw} quiet variant="glyph" className={`portrait${fell}`}>{body}</Act.View>;
   }
   // What touching a likeness opens: talking to a person; an animal's or a creature's own page, with what can be done
   // with it (meeting a danger, fighting it, among it).
@@ -268,10 +266,9 @@ export class WorldStage {
     const entry = WorldStage.entry(app);
     if (!entry) { return null; }
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
-    return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id} data-act={c.id}
-      onClick={() => { app.choose(c); }}>
+    return <Act.View choice={c} draw={Act.draw(app)} quiet variant="glyph" className="enter entrance">
       <Pip.View mark={Attest.of([Attest.witness(app.state.frame?.leaf.glance, a.choice)], gilded)} />
-      {Typography.curl(a.label)}</button>;
+      {Typography.curl(a.label)}</Act.View>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let
   // the company by unanswered, nightfall), else that something here is dangerous; never a chance the game does not

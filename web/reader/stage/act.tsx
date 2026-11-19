@@ -25,9 +25,12 @@ export class Act {
   // variant: how the one action system draws it (Mission 21's CN-04: every act in the world one system, never a link):
   // a row (ChoiceRow's look: the default), or a glyph (a likeness, a rail mark, a thing in the pack), which keeps its
   // own picture but carries the same marks (data-act, its id).
-  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row' }: { choice: Choice;
+  // said: its name to a reader, where it is drawn by its picture alone (a reticle on a foe's card).
+  // A choice the menu does not hold (a way of the Wayfinder's, the way into a town, a likeness's look) is drawn by it
+  // too, and chosen as itself: the page draws no engine choice by a button of its own (OR-94).
+  static View({ choice: c, draw, className, children, marked, quiet, number, variant = 'row', said }: { choice: Choice;
     draw: Draw; className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number;
-    variant?: 'row' | 'glyph' }) {
+    variant?: 'row' | 'glyph'; said?: string }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
     // Every act commits at a tap or its key, a sustained one too (the owner's play of the live build, IG-07: a hold had
     // done nothing at a click and showed a tenth of a second of its mark on release). A cost felt in the hand is for
@@ -46,7 +49,8 @@ export class Act {
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-act={c.id} data-index={i}
         data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
-        aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} onClick={Act.click.bind(null, draw.app)}
+        aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} aria-label={said}
+        onClick={i >= 0 ? Act.click.bind(null, draw.app) : Act.direct.bind(null, draw.app, c)}
         {...held}>
         {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
           && !warned && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
@@ -99,6 +103,9 @@ export class Act {
   private static click(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     const i = Number(e.currentTarget.dataset.index), choice = app.menu.choices[i];
     if (choice) { app.setState({ cursor: i, keyed: false }); app.choose(choice, e.currentTarget.dataset.held !== undefined); }
+  }
+  private static direct(app: ReaderApp, c: Choice, e: MouseEvent<HTMLButtonElement>) {
+    app.choose(c, e.currentTarget.dataset.held !== undefined);
   }
   private static open(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) { app.show(e.currentTarget.dataset.view as View); }
 }
