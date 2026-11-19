@@ -25,8 +25,9 @@ describe('one place, two pairs of eyes', () => {
     const [ranger, mage] = [await Two.at('_smoke', 'human', 'ranger'), await Two.at('_smoke', 'elf', 'mage')];
     expect([ranger.signs, mage.signs]).toEqual([0, 1]);
     const [r, m] = [await Two.at('_trodden', 'human', 'ranger'), await Two.at('_trodden', 'elf', 'mage')];
-    expect(m.leads.join(' | ')).toMatch(/bound-marks on the seal-stone \[exploration\]/);
+    expect(m.leads.join(' | ')).toMatch(/bound-marks on the seal-stone \[exploration,knowledge\]/);
     expect(r.leads.join(' | ')).not.toMatch(/bound-marks/);
-    expect(r.leads.join(' | ')).toMatch(/look at the seal-stone \[knowledge\]/);
+    // A look that teaches nothing is exploration, not knowledge (AT-01: blue only for what teaches).
+    expect(r.leads.join(' | ')).toMatch(/look at the seal-stone \[exploration\]/);
   }, 240000);
 });

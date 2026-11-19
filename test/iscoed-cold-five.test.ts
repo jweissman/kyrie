@@ -94,7 +94,7 @@ describe('Gatesend, after the fifth cold play', () => {
     const notices = (s: Said) => s.offer.primary.filter(o => /notice|proclamation/i.test(o.label));
     const look = said(await run.r.ask('{"look":true}'));
     expect(look.scene.lines.filter(l => /notice.*by the well/.test(l))).toHaveLength(1);
-    expect(text(look)).toContain('clerk’s own trestle at the edge of the green');
+    expect(text(look)).toContain('nailed to the clerk’s own trestle, under the shire-reeve’s mark');
     expect(notices(run.s)).toHaveLength(1);
     let s = run.s;
     for (const line of lines(5, 12)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }

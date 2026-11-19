@@ -35,7 +35,9 @@ describe('the howe sealed from within (a1) and left broken (d4): the laws hold e
     await j.play('To the gallery of kings');
     await j.fight('Attack');
     expect(Howe.holds(j, 'dead', R('household'))).toBe(true);
-    expect(Howe.downed(j)).toBeLessThan(2);
+    // At most half of them down: since Command is the SRD's (first level, a fall prone: SR-01's case 33, 18 Nov), the
+    // household's priest lays one more of the four low than when it had been fifth.
+    expect(Howe.downed(j)).toBeLessThanOrEqual(2);
   }, 300000);
 
   it('opens to a greeting a warrior was taught, and to the roll called into a door that is already open', async () => {

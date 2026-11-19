@@ -32,7 +32,9 @@ import type { CreatureStore } from '../src/creature-store';
 // the same.) (The king-barrow's riddle casket at the king's door became the sites commission's order chest, 16 Nov,
 // d7a68cb3: the word pressed and the idol taken from the casket were dropped from a1's record.) (Since a road's hexes
 // are timed along it from its way room (OR-35), thorn's toll is kept on another road than the one to Merscstede, the
-// hours from its market being what they are, and the record pays no toll there.)
+// hours from its market being what they are, and the record pays no toll there.) (Since one flame is held at a time
+// (CL-38, 18 Nov: a torch lit puts out the lamp that burned beside it), wren's torch burns out at the ore bin and a
+// candle is lit there before the star-iron is collected.)
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);

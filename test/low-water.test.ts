@@ -224,6 +224,7 @@ describe('a greeting of one\'s own', () => {
     await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Sounding', "Cantor's room", 'Talk to Cantor');
     expect(greeted().join(' ')).toContain('does not get up from the clavichord');
     await j.play('Take your leave', 'Talk to Cantor');
-    expect(greeted()).toEqual([]);
+    // Only that she turns to the company (CL-54: a return had said nothing at all), no stock line.
+    expect(greeted()).toEqual(['Cantor Sabeth Orr turns to you.']);
   }, 120000);
 });

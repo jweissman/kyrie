@@ -61,8 +61,9 @@ describe('the glance in other countries', () => {
     expect(g.glance.acts.map(a => [a.choice, a.why])).toEqual([['exit:region__s5_green', 'toward'],
       ['origin__carter#talk', 'life'], ['origin__cart#look', 'own']]);
     const yard = await g.perform(g.glance.acts[0]!.command!);
-    expect(yard.acts.slice(0, 2).map(a => [a.choice, a.why])).toEqual([['drover__son#talk', 'kin'],
-      ['exit:region__s4_s5_way', 'named']]);
+    // The aim's gold way first (the owner, 18 November: a golden option first), then the brother.
+    expect(yard.acts.slice(0, 2).map(a => [a.choice, a.why])).toEqual([['exit:region__s4_s5_way', 'named'],
+      ['drover__son#talk', 'kin']]);
     await Seen.walk('thorn');
   }, 180000);
 });
