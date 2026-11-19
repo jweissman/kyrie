@@ -106,7 +106,7 @@
 --- successors forgotten 1
   Observe {w}_forgotten at {w}_stair when true "Nobody has been down here in a long time. The dust on the treads has no footprints in it but the rats'.".
 --- present frogs 2
-  Person {w}_frogs "frogs as big as dogs" at {w}_hall {
+  Person {w}_frogs "the frogs as big as dogs" at {w}_hall {
     Role "frogs as big as dogs, lying in the black water". Species frog. Numbers 3. Level 1. Temperament ambush.
     Comes "The water between the pillars bursts open and something wet and heavy is on you.".
   }

@@ -94,7 +94,7 @@
     Found by searching {t}_stones_tree "Where a root has heaved up the turf there is a gap, and in it, green with age, a bronze bracelet: an offering of somebody's, before there was a {town}.".
   }
 --- dome wisps 3
-  Person {t}_stones_wisps "lights in the dome" at {t}_stones_dome {
+  Person {t}_stones_wisps "the lights in the dome" at {t}_stones_dome {
     Role "pale lights that go round and round the empty graves of the dome after dark". Species wisp. Numbers 2. Level 1. Temperament territorial. Lair {t}_stones_dome.
     Seen when hour(clock) >= 19 or hour(clock) < 6.
     Warns "Two pale lights come off the empty slabs and go round you, slowly, at the height a man carries a candle. The air goes cold.".

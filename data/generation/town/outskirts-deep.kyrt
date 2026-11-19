@@ -40,7 +40,7 @@
     Says "'The steward,' says {{t}_manor_cook}, 'has counted the spoons every night for eleven years. There are fourteen. There have always been fourteen. I have asked her what she thinks will happen to the fifteenth.' She lifts a pan, looks at it, puts it down. 'She is a good woman and I would not give her my gravy.'".
   }
   // A small trouble to be got out of the way for a cook who will not ask: the rats in her cellar.
-  Person {t}_manor_rats "rats in the cellar" at {t}_manor_cellar {
+  Person {t}_manor_rats "the rats in the cellar" at {t}_manor_cellar {
     Role "rats grown bold on the Hall's apples, that have come up from the old wall behind the racks". Species rat. Numbers 3. Level 1. Temperament territorial. Lair {t}_manor_cellar.
     Warns "The racks shiver. Three brown rats the length of your forearm come out of the dark behind the barrels and do not run.".
   }
@@ -212,7 +212,7 @@
   Initially Set encounterXp({t}_stones_warden) to 120.
   Observe {t}_stones_warden_sign at {t}_stones_dome as sign noticed by perception when able({t}_stones_warden) "A groove is worn from the dome's centre-slab to the edge of the floor, as if something heavy had been dragged back and forth along it for a very long time.".
 --- under bats 2
-  Person {t}_stones_bats "bats in the undercroft" at {t}_stones_under {
+  Person {t}_stones_bats "the bats in the undercroft" at {t}_stones_under {
     Role "a colony of bats in the roof of the undercroft, which wheel down when a light comes in". Species bat. Numbers 6. Level 1. Temperament territorial. Lair {t}_stones_under.
     Warns "The roof comes alive, leather and squeal, a cloud of bats with the light in their eyes.".
   }

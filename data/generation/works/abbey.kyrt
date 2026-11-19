@@ -99,7 +99,7 @@
     On discuss { Assert knows(actor, {makersfact}). }
   }
 --- present wisps 1
-  Person {w}_wisps "lights in the cloister" at {w}_cloister {
+  Person {w}_wisps "the lights in the cloister" at {w}_cloister {
     Role "pale lights that go round and round the cloister walks, as the brothers did". Species wisp. Numbers 2. Level 1. Temperament wary. Lair {w}_cloister.
     Warns "Two pale lights come along the cloister walk toward you, slowly, at the height a man carries a candle.".
   }
