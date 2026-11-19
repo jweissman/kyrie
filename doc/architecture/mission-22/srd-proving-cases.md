@@ -1787,6 +1787,26 @@ the caster alone, three rounds. The census grades it S✓ R✓ I✓: 34 of 119 p
 - **A lone first-level wildcaller or oceanist** as drawn (100 seeds, before → after): against three rats 92 → 95 %
   and 87 → 87 %; two zombies 76 → 80 % and 65 → 65 %; two wolves 50 → 56 % and 38 → 38 %. No deadlier.
 
+### 51. Cure Minor Wounds: stopped by the census (19 November)
+
+Case 41's Cure Minor Wounds, the vitalist's (the first cleric way's) cantrip, tried by the SRD's numbers under the
+owner's ruling: a cantrip, one point on one ally, conjuration beside Life (Orsino's 1d4). Written and measured, not
+landed. A lone first-level vitalist as drawn (100 seeds, before → after, won · someone down):
+
+| Against | Orsino's 1d4 | The SRD's one point |
+|---|---|---|
+| Three rats | 89 % · 11 % | 80 % · 20 % |
+| Two zombies | 67 % · 33 % | 56 % · 44 % |
+| Two wolves | 42 % · 58 % | 36 % · 64 % |
+
+The cause is the battle's tactics, not the point: a hurt vitalist spends its turn on its healing cantrip whatever it
+heals (97–156 casts in a hundred fights, where it struck 193–288 times), so a cure of one point is a turn lost. A lone
+first-level vitalist's first hour would be markedly deadlier (a death against two zombies one in three → near one in
+two), so by the brief it does not land. **What would let it land:** the tactics weighing a heal by what it mends
+against what a blow would do (an engine change of the tactics', to be measured over every caster), after which the
+SRD's point costs a lone vitalist nothing. Out of a fight, Tend (case 41's concern) would mend each member one point
+between rests where it mends 1d4.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
