@@ -41,3 +41,19 @@ ends there; the mage's holds to the end but for one line.
 S2-5 first (the warrior's return: Bran, the drove, the landing, Brynach), then S2-4 (one preparation for the barrow),
 with S2-3 (aims) carried by CL-45's fix and measured on these maps again; S2-6 holds on this route. Cold play 6 (S2-1)
 measures the whole.
+
+## 19 November: measured again (S2-3, S2-4, S2-5)
+
+The same lines replayed at ea874f27 (raw maps kept in the burn-6 scratch; not re-run here past the point each replay
+leaves its play). The undertown's new rooms have moved both plays: the warrior's replay leaves cold play 4 at T21
+(the Long Man's word no longer offered), the mage's at T28 (the merchant's talk), so only those prefixes compare.
+
+- **Aims (S2-3).** Warrior: 2 at T0, 4 from T1 to T8, 2–3 after Bran is out, as on 18 November; each new aim arrives
+  with what it comes of told in the same turn. Mage: 1 at T0, 4 at T1 from the notice, 6 by T16, as before. The notice's
+  three held jobs (HP-01) are the one cause left, in the undertown's template.
+- **Preparation (S2-4).** Asked before setting out, the bane is now an aim toward the embalmers' room; with the jar
+  carried, the king is passed without a fight (test/barrow-forewarned).
+- **Return (S2-5).** The drove's evidence said before the reeve, a ruling with a cost (test/drove-reeve), and the
+  consequence kept through a save and resume (test/drove-resumed).
+- The replay itself had ended the runner where cold play 5's next line was a follow during a fight (TB-13, fixed); the
+  compatibility harness (MT-06) replaying the same lines had failed on it too.
