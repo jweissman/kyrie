@@ -70,8 +70,10 @@ Module quittance "Quittance" {
     Greets "A tall man in a hat-band as long as a flag stands at the horse's head, looking at the Teagues' door with the expression of a man who has not yet been paid. 'Skillicorn,' he says. 'Funerals. Mr Teague is the third this month who would not go in the ordinary box.'".
     Greets again "'Still unburied,' says Mr Skillicorn, with feeling.".
   }
-  Pursuit wk_to_wake for wk_fettiplace "going up to the wake for the widows' statements" priority 10 when watch(clock) >= 162 and watch(clock) < 336 seeks at(wk_fettiplace, teague_front).
-  Pursuit wk_to_row for wk_fettiplace "going home to write it up" priority 10 when watch(clock) >= 336 seeks at(wk_fettiplace, provid_counter).
+  Route wk_to for wk_fettiplace priority 10 {
+    wake "going up to the wake for the widows' statements" at teague_front from watch 162.
+    row "going home to write it up" at provid_counter from watch 336.
+  }
 
   Thing wk_cage "Fusby's cage" at teague_front {
     State covered "The cage on its stand has a green baize cloth over it, and under the cloth something is cracking seeds with deliberation.".

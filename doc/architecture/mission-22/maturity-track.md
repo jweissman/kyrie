@@ -100,6 +100,24 @@ it moves, and its rows are MT-01.. in the open register.
 5. **Routes and pursuits (F).** A `Route` form compiled into the pursuits and clock rules there are, introduced only
    after two current modules' hand-written schedules compile to the same Kyr; then counted conversation (R57, R60).
    Invariant: the two modules' kept journeys unchanged.
+
+   **Route landed 19 November** (`src/lang/routes.ts`; the grammar's `Route`). Someone who keeps a round on the clock:
+
+       Route riders for riders priority 5 when not riders_gone(party) {
+         scar "riding the Scar road" at lookout from watch 12.
+         ford "riding down to the ford" at ford_stones from watch 80. }
+
+   lowered as the parser reads it into a `Pursuit {route}_{leg}` for each leg, sought from its watch until the next
+   leg's (the last for good), its window first and the route's condition after, joined to the right as "a and b and c"
+   is; a leg whose watch does not rise fails at its line. No scheduler of its own: the pursuits are the ones there
+   were. The two modules whose schedules were such pursuits written by hand, Sallowfield's riders (four legs, a
+   condition) and Quittance's Fettiplace at the wake (two, none), now say a Route, and compile to those pursuits key
+   for key (test/small/clock-routes keeps the hand-written lines of 19 November and compares the JSON of both), so no
+   journey or save can move: test/sallowfield (49) and test/quittance-wake (20) pass. In the authoring guide
+   ("Someone on an errand of their own"). Open: the moving target (R54: wrongboat's sixty `hunt_bess_*` pursuits,
+   one per place the company can stand, want `seeks at(bess, ?p)` bound to the company); a route suspended while
+   its walker is occupied (R89's proposal); a route by day and hour rather than watch (R41's `Keeps … from … to`);
+   the arcology's rival stages, whose legs also change the world, stay rules; then counted conversation (R57, R60).
 6. **Compatibility harness (§7.4).** For the pinned worlds and journeys: command ids and presenter rows, save restore,
    placement commitments and replay digest, compared and classified additive, presentation-only, world-moving,
    save-breaking or replay-breaking. This is what lets TR-03's faster roads come back with its replays classified.
@@ -155,4 +173,5 @@ it moves, and its rows are MT-01.. in the open register.
 - Step 2: started 18 November (an agent, R26/R86/R42).
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`; see the step).
+- Step 5: the Route landed 19 November (Sallowfield, Quittance); R54's moving target and counted conversation open.
 - Step 6: landed 18 November (scripts/compat.ts; see the step).

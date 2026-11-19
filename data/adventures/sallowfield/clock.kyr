@@ -49,10 +49,12 @@ Module sallowfield "Three Nights at Sallowfield" {
   // anyone is about: a man posted at the ford or the bridge, a fire, a lantern. An empty ford means an easy town.
   // The riders ride the valley, Scar to ford, and are seen where they are: the lookout in the morning, the standing
   // stone at noon, the east road in the afternoon, the middle stone at dusk. They stay at the stone till they have looked.
-  Pursuit riders_scar for riders "riding the Scar road" priority 5 when watch(clock) >= 12 and watch(clock) < 48 and not riders_gone(party) seeks at(riders, lookout).
-  Pursuit riders_stone for riders "riding down to the standing stone" priority 5 when watch(clock) >= 48 and watch(clock) < 66 and not riders_gone(party) seeks at(riders, parley_stone).
-  Pursuit riders_road for riders "riding the east road" priority 5 when watch(clock) >= 66 and watch(clock) < 80 and not riders_gone(party) seeks at(riders, east_road).
-  Pursuit riders_ford for riders "riding down to the ford" priority 5 when watch(clock) >= 80 and not riders_gone(party) seeks at(riders, ford_stones).
+  Route riders for riders priority 5 when not riders_gone(party) {
+    scar "riding the Scar road" at lookout from watch 12.
+    stone "riding down to the standing stone" at parley_stone from watch 48.
+    road "riding the east road" at east_road from watch 66.
+    ford "riding down to the ford" at ford_stones from watch 80.
+  }
   Observe crowther_four near crowther when riders_gone(party) "'Four,' says Crowther, and holds up four fingers, and puts one down. 'There were three, on the Scar road. There was a fourth this morning, with a slate.'".
 
   Query watchedFord() means (posted(?v, ford_stones) and at(?v, ford_stones) and able(?v)) or (posted(?v, bridge) and at(?v, bridge) and able(?v)) or at(party, ford_stones) or at(party, bridge) or at(party, ford_meadow).

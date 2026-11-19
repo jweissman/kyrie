@@ -1152,6 +1152,19 @@ plan with the errand itself: `… seeks at(ianthe, guild_hall) using go planning
 lovers' schedules had been teleporting rules; `probes/errand-elsewhere`). Without `planning`, someone looks four
 ways ahead, and an errand further off is never begun.
 
+Someone who keeps a round on the clock (riders seen at the lookout in the morning and at the ford at dusk; a clerk at
+the wake until he goes home to write it up) is a `Route`: a leg for each place, each from the watch it begins, while
+the route's condition (if it has one) holds. It is a pursuit for each leg, `riders_scar` and so on, each sought from
+its watch until the next leg's, the last for good; nothing else keeps the time (Sallowfield's riders and Quittance's
+wake had written those pursuits by hand, each repeating its window: test/small/clock-routes). A leg's watches rise.
+
+```text
+  Route riders for riders priority 5 when not riders_gone(party) {
+    scar "riding the Scar road" at lookout from watch 12.
+    ford "riding down to the ford" at ford_stones from watch 80.
+  }
+```
+
 A Peaceable person goes about their errands and comes at nobody, whatever their kind's temper; one who is to turn (the
 young bloods, once the hold is roused) stops being peaceable when a rule retracts `peaceable(bloods)` (Thrume's F2).
 

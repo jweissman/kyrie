@@ -8,6 +8,7 @@ import { Endings, type EndingSpec } from './endings';
 import { Chapters, type ChapterSpec } from './chapters';
 import { Promises, type PromiseSpec } from './promises';
 import { Occasions, type OccasionSpec } from './occasions';
+import { Routes, type RouteSpec } from './routes';
 import { Milestones, type MilestoneSpec } from './milestones';
 
 type Field = { field: string; value: unknown };
@@ -65,6 +66,7 @@ export class ModuleDeclarations {
       case 'chapter': Chapters.lower(module, value as ChapterSpec); break;
       case 'promise': Promises.lower(module, value as PromiseSpec); break;
       case 'occasion': Occasions.lower(module, value as OccasionSpec); break;
+      case 'route': Routes.lower(module, value as RouteSpec); break;
       case 'milestone': Milestones.lower(module, value as MilestoneSpec); break;
       case 'objective': (module.objectives ??= []).push(value as NonNullable<Module['objectives']>[number]); break;
       case 'place': case 'hazard': module.entities.push(value as Module['entities'][number]); break;

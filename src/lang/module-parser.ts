@@ -11,7 +11,7 @@ import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { Vocabularies } from './vocabulary';
-import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
+import { ModuleDeclarations } from './module-declarations'; import { Routes } from './routes'; import { ActionParts } from './action-parts';
 import { Superseded } from './superseded'; import { Bringing } from './bringing'; import { ObjectiveParser } from './objective-parser';
 
 type Node = ohm.Node;
@@ -85,7 +85,7 @@ export class ModuleParser {
     Operand_given: StatementParser.Given, Restore: StatementParser.Restore, Slay: StatementParser.Slay,
     Operand_count: StatementParser.Count,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
-    ...PersonParser.actions,
+    ...PersonParser.actions, ...Routes.actions,
   });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
   // may have put other kinds in their place, and the files read after it place things of these kinds.
