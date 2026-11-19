@@ -563,9 +563,9 @@
     "barkskin": {
       "name": "Barkskin",
       "kind": "spell",
-      "description": "The skin of the one you touch, yourself or a companion, thickens and toughens like bark: two harder to hit, for ten minutes for every level you have.",
+      "description": "The skin of the one you touch, yourself or a companion, thickens and toughens like bark: two harder to hit, and a point more for every three levels you have past the third, to five, for ten minutes for every level you have.",
       "effects": [
-        { "kind": "apply", "status": "barkskin", "duration": { "kind": "deem", "expression": "100 * #castingLevel" }, "target": "ally" }
+        { "kind": "apply", "status": "barkskin", "amount": {"kind": "deem", "expression": "min(3, floor(max(0, #castingLevel - 3) / 3))"}, "duration": { "kind": "deem", "expression": "100 * #castingLevel" }, "target": "ally" }
       ],
       "cost": 1,
       "spell": { "tradition": "divine", "level": 2, "domain": "nature", "school": "transmutation" },
@@ -574,7 +574,7 @@
         "srd35": "spell:barkskin",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Barkskin (doc/architecture/mission-22/srd-proving-cases.md, case 50): second level (the SRD's druid's; Orsino's first), its school transmutation beside Nature, on the caster or one ally (the creature touched), Orsino's barkskin (two harder to hit, added to worn armour: the SRD's natural armour +2) for ten minutes a casting level, a hundred rounds (Lasting). Converted: +2 at every casting level, where the SRD's grows a point each three levels past the third to +5 (a condition's amount does not read its caster); it lasts the fight. Before, Orsino's first level, on the caster alone, three rounds."
+        "notes": "The SRD's Barkskin (doc/architecture/mission-22/srd-proving-cases.md, case 50): second level (the SRD's druid's; Orsino's first), its school transmutation beside Nature, on the caster or one ally (the creature touched), Orsino's barkskin (two harder to hit, added to worn armour: the SRD's natural armour +2) for ten minutes a casting level, a hundred rounds (Lasting). And a point more each three casting levels past the third, to +5 at the twelfth (exact since case 59: an amount its caster throws, ConditionAmount); it lasts the fight. Before, Orsino's first level, on the caster alone, three rounds."
       }
     },
     "bless": {
@@ -676,9 +676,9 @@
     "shield": {
       "name": "Shield of Faith",
       "kind": "spell",
-      "description": "A shimmer of faith stands about you or a companion, turning blows aside for a minute.",
+      "description": "A shimmer of faith stands about you or a companion, turning blows aside: two harder to hit, and a point more for every six levels you have, to five, for a minute for every level.",
       "effects": [
-        { "kind": "apply", "status": "shield_of_faith", "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "ally" }
+        { "kind": "apply", "status": "shield_of_faith", "amount": {"kind": "deem", "expression": "min(3, floor(#castingLevel / 6))"}, "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "ally" }
       ],
       "cost": 1,
       "spell": { "tradition": "divine", "level": 1, "domain": "law", "school": "abjuration" },
@@ -687,7 +687,7 @@
         "srd35": "spell:shield-of-faith",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). Converted: +2 at every casting level, the SRD's to the fifth (it grows a point each six levels to +5; Kyr's conditions do not grow with the caster). A minute, ten rounds, a casting level (exact since case 46: Lasting). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps."
+        "notes": "The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). And a point more each six casting levels, to +5 at the eighteenth (exact since case 59: an amount its caster throws, ConditionAmount). A minute, ten rounds, a casting level (exact since case 46: Lasting). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps."
       }
     },
     "entangle": {

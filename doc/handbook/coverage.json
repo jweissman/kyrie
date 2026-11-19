@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 726,
-    "adapted": 421,
+    "faithful": 725,
+    "adapted": 422,
     "represented": 4,
     "kyr": 614,
     "unsupported": 66,
@@ -980,8 +980,8 @@
      "id": "conditions",
      "title": "Conditions",
      "counts": {
-      "faithful": 123,
-      "adapted": 29,
+      "faithful": 122,
+      "adapted": 30,
       "represented": 0,
       "kyr": 53,
       "unsupported": 18,
@@ -12051,7 +12051,7 @@
   {
    "id": "condition:barkskin",
    "title": "Barkskin",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "conditions"
   },

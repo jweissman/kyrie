@@ -2027,6 +2027,22 @@ three rounds, a Fortitude save against 14 and the caster's level. The census gra
 howe scholars (third-level mages of the Bound Howe's camp); no first-hour fight. A fifth-level caster's ray at a
 first-level wolf: 3 to 8 off its Strength for fifty rounds where the touch lands.
 
+### 59. Barkskin and Shield of Faith growing with the caster (19 November): two conversions made exact
+
+Cases 19 and 50 converted the SRD's growing bonuses to +2 at every casting level, because a condition's amount did
+not read its caster. Case 58 built that (ConditionAmount), so each now lays its +2 and a point more for each of an
+amount its caster throws (the condition's `perAmount`, ac −1):
+- **Barkskin:** a point each three casting levels past the third, to +5 at the twelfth (the SRD's natural armour
+  bonus, exact): `min(3, floor(max(0, #castingLevel - 3) / 3))`. Orsino's barkskin is laid by a consumable too, which
+  lays the two alone; the hand entry over Orsino's condition says so.
+- **Shield of Faith:** a point each six casting levels, to +5 at the eighteenth (the SRD's deflection, exact):
+  `min(3, floor(#castingLevel / 6))`.
+
+Specs: test/barkskin and test/shield-of-faith read the growth (two at the fifth level, three at the sixth, five at
+the twelfth and the eighteenth). **What it moves:** nothing below the sixth casting level, where both are +2 as
+before: no first-hour fight, no installed caster (all of the third level or lower), no draw or card. Each still S✓ R✓
+I✓ in the census.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
