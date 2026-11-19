@@ -1,5 +1,4 @@
 import type { ReaderApp } from '../reader-app';
-import type { Draw } from './act';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
 import { Pastime } from './pastime';
@@ -7,35 +6,11 @@ import { Wayfinder } from './wayfinder';
 
 export type Part = 'go' | 'look' | 'wait';
 
-// What is opened over a place at rest, one at a time, for one purpose, and put away again (Esc, the cross): Go…, the
-// wayfinder (where to go, and nothing else); Look…, the things at hand, each in its own pane; Wait…, letting time pass
-// and what came of it (the owner, 5 November, late: a place is the scene's, a way the wayfinder's, a thing its own;
-// none a catalogue of everything the engine permits). Everyone here is on the picture, however many (see
-// WorldStage.placed).
-// Look… is opened over the picture alone, the place's telling and its other touches (Go…, Wait, Search) still beside
-// it and still to be touched, and put away by its cross as the rest are (the owner's own play, 7 November: after
-// looking, they "could not get back to the actions").
+// What is opened at a place at rest, one at a time, for one purpose, and put away again (Esc, or its mark touched
+// again): Go…, where to go; Look…, the things at hand; Wait…, letting time pass. Each is a lens of the scene's own
+// (GlanceStage.Lens); the panel of its own drawn over the place (Explorer.View, its ✕) is gone with the bounded stage
+// (OR-94).
 export class Explorer {
-  static readonly titles: Record<Part, string> = { go: 'Go', look: 'Look', wait: 'Wait' };
-  static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const frame = app.state.frame!, part = app.state.exploring;
-    if (!frame.leaf.glance || !part) { return null; }
-    return (
-      <div className={`explorer part-${part}`} role="dialog" aria-modal={part !== 'look'}
-        aria-label={`${Explorer.titles[part]}: ${frame.screen.place.name}`} data-region="explorer" data-part={part}>
-        <header className="explorer-head">
-          <p className="part">{Explorer.titles[part]}</p>
-          <button type="button" className="explorer-shut" data-action="explore-shut" aria-label="Back to the place"
-            onClick={() => app.explore()}>✕</button>
-        </header>
-        <div className="explorer-body">
-          {part === 'go' && <Wayfinder.View app={app} draw={draw} />}
-          {part === 'look' && <AtHand.View app={app} draw={draw} />}
-          {part === 'wait' && <Pastime.View app={app} draw={draw} />}
-        </div>
-      </div>
-    );
-  }
   // After something done in it, what is opened stays only while it has something in it: what was done to the last
   // thing at hand (the cart heaved out of the ditch) is told on the place at rest, not in an empty pane over it.
   static settle(app: ReaderApp) {
