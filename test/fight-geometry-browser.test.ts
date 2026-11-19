@@ -121,8 +121,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
     await page.click('.fight .hand-menu [data-action="attack"]');
     expect(await page.locator('.fight.aiming').count()).toBe(1);
     seen('aiming', await still());
+    // Nothing made see-through to say who is aimed at or whose turn it is, and a foe's card no taller than it needs
+    // (OR-115, the owner's play of 18 November).
+    const looks = await page.evaluate(() => [...document.querySelectorAll('.fight .fighter')].map(f =>
+      [+getComputedStyle(f).opacity, f.closest('.foes') ? f.getBoundingClientRect().height : 0]));
+    expect(looks.filter(([o]) => o! < 1)).toEqual([]);
+    expect(looks.filter(([, h]) => h! > height * .2)).toEqual([]);
+    if (process.env.KYRIE_SHOT) { await page.screenshot({ path: `${process.env.KYRIE_SHOT}/fight-${width}.png` }); }
     const targets = page.locator('.fight .foes .fighter.target');
     expect(await targets.count()).toBeGreaterThan(1);
+    // And unfolded beside Attack, one row for each (OR-116): clicking a card is not the only way to choose.
+    expect(await page.locator('.fight .hand-detail .whom [data-action="whom"]').count()).toBe(await targets.count());
     for (let i = 0; i < await targets.count(); i++) {
       await targets.nth(i).hover(); seen(`the reticle on rat ${i + 1}`, await still());
     }

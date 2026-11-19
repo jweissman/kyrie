@@ -46,7 +46,8 @@
 /* Whose turn it is: the card's own edge lit, and a soft glow; no second ring round it (the owner, 12 November: "weird
    borders around combatants"). */
 .fight .fighter.acting { border-color: var(--accent-line); box-shadow: 0 0 22px rgba(239, 230, 209, .12); }
-.fight .fighter.down { opacity: .45; }
+/* Down: the name struck through and its words dimmed, the face grey; never the card made see-through (OR-115). */
+.fight .fighter.down :is(.n, .tags, .of) { color: var(--dim); }
 .fight .fighter.down .n b { text-decoration: line-through; text-decoration-color: var(--ember); }
 .fight .fighter .n { display: flex; align-items: baseline; gap: 8px; font: 500 16px/1.25 var(--do); margin: 0 0 8px; }
 .fight .fighter .n b { font-weight: 500; flex: 1; min-width: 0; }
@@ -56,6 +57,12 @@
 .fight .fighter .hp { display: block; height: 4px; background: rgba(236, 230, 217, .08); overflow: hidden; }
 .fight .fighter .hp i { display: block; height: 100%; background: var(--life); transition: width var(--settle) var(--ease); }
 .fight .foes .fighter .hp i { background: var(--ember); }
+/* A foe's card no taller than it needs (OR-115, the owner's play of 18 November: the foes' cards too tall): closer set,
+   its intent under what it is with no rule between. */
+.fight .foes .fighter { padding-top: 9px; padding-bottom: 9px; }
+.fight .foes .fighter.faced { --panel: clamp(56px, 22cqw, 96px); min-height: min(var(--panel), calc(var(--frame-h) * .09)); }
+.fight .foes .fighter .n { margin-bottom: 6px; }
+.fight .foes .fighter .tags { margin-top: 5px; }
 /* What they are and are under, each part kept whole on a line where it fits ("human warrior", "badly hurt") and the
    dot between parts never left at the start or end of a line: each part carries its dot before it, and the first on
    each line has it out of sight past the left edge. A part too long for a line of its own wraps under itself. */
@@ -65,10 +72,9 @@
 .fight .fighter .tags .sep { position: absolute; left: 0; width: 1.1em; text-align: center; }
 .fight .fighter .state { color: var(--ivory); }
 .fight .fighter .state:is(.badly-hurt, .near-death, .down, .dying) { color: var(--ember); }
-.fight .fighter .intent { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid var(--edge); font: 400 13px/1.4 var(--do);
-  color: var(--dim); }
+.fight .fighter .intent { margin: 4px 0 0; font: 400 13px/1.4 var(--do); color: var(--dim); }
 .fight .fighter .intent .at { color: var(--ember); font-weight: 600; }
-.fight .fighter .defenses { margin: 6px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--violet); }
+.fight .fighter .defenses { margin: 2px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--violet); }
 /* One of the company by their portrait as the card's left panel: about a quarter of the card and its whole height,
    no shorter than it is wide by a fifth where the stage has the height (a tablet's tall cards), the face kept in sight
    (each portrait is a square of face and shoulders, the face a little right of the middle and high: CompanyPortraits);
@@ -186,7 +192,6 @@
   border: 0; font: var(--t-aside); }
 .fight .moves .move.quiet:hover, .fight .moves .move.quiet:focus-visible { color: var(--ivory); outline: none; }
 .fight .fighter .pick { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
-.fight.aiming .fighter:not(.target) { opacity: .55; }
 
 
 /* ---- Mission 21, step 5: the fight's own composition. ---- */
@@ -214,6 +219,8 @@
 .fight .hand-note { margin: 6px 0 0; min-height: 1.4em; font: var(--t-aside); color: var(--dim); }
 .fight .hand-detail .aiming { display: grid; align-content: start; justify-items: start; gap: var(--s3); }
 .fight .hand-say { margin: 0; font: var(--t-choice); color: var(--ivory); }
+/* Whom, unfolded to the act's right (OR-116): the act's targets as rows of the one height, each its chance beside it. */
+.fight .hand-detail .whom { display: grid; grid-auto-rows: min-content; gap: 6px; justify-self: stretch; max-width: 22rem; }
 /* The quieter rows at the menu's foot: letting the fight go on, pressing on to its end; quieter in colour, not smaller
    (one height in a list: the owner, 15 November). */
 :root .fight .hand-menu .quiet-row.choice-row.choice-row { color: var(--dim); background: none; }
@@ -222,7 +229,7 @@
 .fight > .slot > .status .fight-log-toggle { margin-left: auto; padding: 4px 0; }
 .fight > .slot > .status .standing + .fight-log-toggle { margin-left: var(--s4); }
 /* Whom to choose: a reticle (an outline, which takes no room) on each who can be, its chance pinned over the card's
-   corner, not a line added to it; the rest lowered. Neither gold (the aim's) nor a card made taller. */
+   corner, not a line added to it; the rest as they were, never faded (OR-115). Neither gold (the aim's) nor a card made taller. */
 /* A foe that can be aimed at: edged quietly in the danger's own red, and the one the hand or the keys are on lit in its
    tint, deeper pressed (IG-15: the pointer is the reticle); drawn into the card's own box, nothing moves (CN-06). */
 .fight .fighter.target { cursor: pointer; }
@@ -241,8 +248,7 @@
   /* Who acts in turn is the acting ring's to say on a phone: the chips had taken two rows above the hand. */
   .fight .turn .order { display: none; }
 }
-.fight .fighter .intent-held { visibility: hidden; margin: 8px 0 0; padding-top: 8px; border-top: 1px solid transparent;
-  font: 400 13px/1.4 var(--do); }
+.fight .fighter .intent-held { visibility: hidden; margin: 4px 0 0; font: 400 13px/1.4 var(--do); }
 /* A short screen (an iPad held level, a small laptop): the hand's rows keep the one height every menu has (the owner,
    16 November night), closer together. */
 @media (max-height: 920px) and (min-width: 601px) { .fight .hand-menu { gap: 2px; } }

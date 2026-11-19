@@ -53,15 +53,27 @@ export class FightMoves {
           label={Typography.curl(Words.shown(c.label))} {...c.id === 'fight:auto' ? { extra: <kbd className="row-key">T</kbd> } : {}} />)}
       </div>
       <div className="hand-detail" aria-live="polite">
-        {aiming ? <div className="aiming" role="status">
-          <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: choose whom, on the field.`)}</p>
-          <button type="button" className="move quiet" data-action="unaim" onClick={() => aim()}>Not now <kbd>Esc</kbd></button>
-        </div> : null}
+        {aiming ? <FightMoves.Whom aiming={aiming} app={app} aim={aim} /> : null}
         {/* What the move under the hand does, in the one place it is said: never inside its row. */}
         {said}
       </div>
     </div>;
   }
+  // Whom to aim at, unfolded beside the act (OR-116, the owner's play of 18 November: "Attack unfolds its targets to
+  // its right"): each the act's own target, with how likely it is, as well as the reticle on its card.
+  static Whom({ aiming, app, aim }: { aiming: Aiming; app: ReaderApp; aim: (a?: Aiming) => void }) {
+    return <div className="aiming" role="status">
+      <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: whom?`)}</p>
+      <div className="whom" role="toolbar" aria-label="Whom">
+        {[...aiming.targets].map(([id, t]) => <ChoiceRow.Button key={id} className="move whom-row"
+          data={{ action: 'whom', choice: t.id }} act={t.id} onClick={() => app.choose(t)}
+          label={Typography.curl(Words.upper(FightMoves.whom(t)))} aside={Typography.curl(t.note?.split(' · ')[0] ?? '')} />)}
+      </div>
+      <button type="button" className="move quiet" data-action="unaim" onClick={() => aim()}>Not now <kbd>Esc</kbd></button>
+    </div>;
+  }
+  // A target's name, from its own label ("Strike the first rat" → "the first rat").
+  private static whom(t: Choice): string { return t.alone ?? Words.shown(t.label); }
   // A kind opened (the owner's ruling 2: attending replaces the foreground, more than four are paged, never unfolded):
   // its moves in place of the hand's, in their order (what cannot be done now among them, saying why), as many at a
   // time as the hand has rows, so that the hand holds still (CN-06); turning the page (no act) and Back are beside them,
