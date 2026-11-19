@@ -110,7 +110,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → instant |
 | barkskin | barkskin | S✗ R✗ I– | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | – | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ · → yes | ✗ self → burst | ✗ 3 rounds → long |
-| bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ✓ |
 | blur | blur | S✗ R✗ I– | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ self → one | ✗ 3 rounds → long |
 | burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | calm_emotions | calm-emotions | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
@@ -145,7 +145,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✓ | ✗ 42 → 22 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
 | earthquake | earthquake | S✗ R✗ I– | ✗ 4 → 7 | ✓ | ✗ 13.5/13.5/13.5/13.5 → 28/28/28/28 | – | ✗ wisdom negates → · | ✗ 15 → · | ✓ | – | ✓ | ✗ 3 rounds → 1 rounds |
 | enlarge | enlarge-person | S✗ R✗ I– | ✗ 4 → 1 | ✓ | – | – | ✗ · → constitution negates | ✗ · → 14 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
-| entangle | entangle | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| entangle | entangle | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | false_life | false-life | S✗ R✗ I– | ✗ 4 → 2 | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → long |
 | finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✗ · → yes | ✓ | ✓ |
 | fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ · → yes | ✗ burst → one | ✓ |
@@ -173,7 +173,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | magic_missile | magic-missile | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ≈ every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md) | ✓ |
 | major_restoration | restoration-greater | S✗ R✗ I– | ✗ 9 → 7 | ✗ · → conjuration | ✗ 46/50/55/65 → · | – | – | – | ✓ | – | ✓ | ✗ instant → long |
 | mass_charm | charm-monster-mass | S✗ R✗ I– | ✗ 7 → 8 | ✓ | – | – | ✓ | ✗ 34 → 21 | ✓ | ✗ · → yes | ✗ all → several | ✗ 3 rounds → long |
-| mass_curse | bane | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39) | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| mass_curse | bane | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39) | ✓ |
 | mass_heal | heal-mass | S✗ R✗ I– | ✗ 8 → 9 | ✗ · → conjuration | ✗ 14.5/18.5/23.5/33.5 → · | – | ✗ · → wisdom negates | ✗ · → 22 | ✓ | – | ✗ all → several | ✓ |
 | maze | maze | S✓ RU I– | ✓ | ✓ | – | – | ✗ wisdom negates → · | ✗ 33 → · | ✓ | ✗ · → yes | ✓ | ✓ |
 | meteor_swarm | meteor-swarm | S✗ R✗ I– | ✗ 7 → 9 | ✓ | ✗ 28/28/28/28 → 7/7/7/7 | ✓ | ✗ wisdom half → · | ✗ 15 → · | ✗ none → ranged touch | ✗ · → yes | ✗ several → burst | ✓ |
@@ -181,7 +181,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | mind_reading | detect-thoughts | S✗ RU I– | ✗ 3 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✗ self → cone | ✗ 3 rounds → long |
 | minor_image | minor-image | S✗ RU I– | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → 15 | ✓ | – | ✗ · → one | ✗ instant → long |
 | minor_restoration | restoration-lesser | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | ✗ · → wisdom negates | ✗ · → 15 | ✓ | – | ✓ | ✓ |
-| mirror_image | mirror-image | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| mirror_image | mirror-image | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✓ |
 | nightmare | nightmare | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✗ 31 → 18 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → instant |
 | obscuring_mist | obscuring-mist | S✗ R✗ I– | ✗ 3 → 1 | ✓ | – | – | – | – | ✓ | – | ✗ self → burst | ✗ 5 rounds → long |
 | paralyzing_touch | ghoul-touch | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ six rounds: the SRD's 1d6+2, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 36) |
@@ -190,7 +190,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | polymorph | polymorph | S✗ RU I– | ✗ 5 → 4 | ✓ | – | – | ✗ wisdom negates → · | ✗ 23 → · | ✗ none → melee touch | – | ✓ | ✗ 5 rounds → long |
 | prayer | prayer | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → enchantment | – | – | – | – | ✓ | ✗ · → yes | ✗ all → burst | ✗ 3 rounds → 5 rounds |
 | prismatic_spray | prismatic-spray | S✗ R✗ I– | ✗ 2 → 7 | ✓ | – | – | – | – | ✓ | ✗ · → yes | ✗ several → cone | ✓ |
-| protection_from_evil | protection-from-evil | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32) | ≈ harmless: none is made (srd-proving-cases.md, case 32) | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| protection_from_evil | protection-from-evil | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32) | ≈ harmless: none is made (srd-proving-cases.md, case 32) | ✓ | – | ✓ | ✓ |
 | protection_from_fire | protection-from-energy | S✗ R✗ I– | ✗ 2 → 3 | ✗ · → abjuration | – | – | ✗ · → constitution negates | ✗ · → 16 | ✓ | – | ✓ | ✗ 3 rounds → long |
 | raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | – | ✓ | ✓ |
 | ray_of_frost | ray-of-frost | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ |
@@ -199,7 +199,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | – | ✗ · → one | ✗ instant → long |
 | resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | – | ✓ | ✓ |
 | shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → long |
-| shield | shield-of-faith | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19) | ≈ harmless: none is made (srd-proving-cases.md, case 19) | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| shield | shield-of-faith | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19) | ≈ harmless: none is made (srd-proving-cases.md, case 19) | ✓ | – | ✓ | ✓ |
 | shocking_grasp | shocking-grasp | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ |
 | silence | silence | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ · → yes | ✗ all → burst | ✗ 3 rounds → long |
 | sleep | sleep | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |

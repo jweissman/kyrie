@@ -6,7 +6,8 @@ import { Fighting } from '../src/rules/fighting';
 import type { Fighter } from '../src/model';
 
 // Shield of Faith, the SRD's (doc/architecture/mission-22/srd-proving-cases.md, case 19): the caster or one ally two
-// harder to hit for a minute (ten rounds), a deflection added to worn armour, where Orsino's shielded was one harder to
+// harder to hit for a minute a level (case 46), a deflection added to worn armour, where Orsino's shielded was one
+// harder to
 // hit and ten hit points more. This spec is its play-identity test.
 const c = new Content('faith');
 const hardy = (f: Fighter): Fighter => ({ ...f, level: 3, hp: 300, maxHp: 300 });
@@ -29,13 +30,13 @@ describe('Shield of Faith, by the SRD\'s numbers', () => {
     expect([shield.spell, shield.effects.map(e => [e.kind, e.target])]).toEqual([
       { tradition: 'divine', level: 1, domain: 'law', school: 'abjuration' }, [['apply', 'ally']]]);
   });
-  it('makes the armoured companion two harder to hit, for ten rounds, no hit points more, the slot spent once', () => {
+  it('makes the armoured companion two harder to hit, for thirty rounds at the third level, no hit points more, the slot spent once', () => {
     const b = battle(), before = ac(b, 'warrior'), hp = b.state.combatants.find(f => f.id === 'warrior')!.hp;
     expect(b.state.combatants.find(f => f.id === 'warrior')!.equipment?.armorAc).toBeGreaterThan(0);
     b.step({ actor: 'cleric', ability: 'shield', target: 'warrior' });
     const warrior = b.state.combatants.find(f => f.id === 'warrior')!;
     expect(ac(b, 'warrior')).toBe(before - 2);
-    expect(warrior.statuses.find(s => s.id === 'shield_of_faith')?.remaining).toBe(10);
+    expect(warrior.statuses.find(s => s.id === 'shield_of_faith')?.remaining).toBe(30);
     expect([warrior.hp, warrior.statuses.some(s => s.tempHp)]).toEqual([hp, false]);
     expect(b.state.combatants.find(f => f.id === 'cleric')!.slots).toEqual([0]);
   });

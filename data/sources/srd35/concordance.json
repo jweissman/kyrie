@@ -424,19 +424,14 @@
    "level": "Orsino's, a War cantrip, kept by the lead's decision and the owner's word (srd-proving-cases.md, case 23)"
   },
   "bless": {
-   "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
-   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+   "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)"
   },
   "cure_disease": {
    "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 42)",
    "dc": "harmless: none is made (srd-proving-cases.md, case 42)"
   },
-  "mirror_image": {
-   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
-  },
   "mass_curse": {
-   "target": "every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39)",
-   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+   "target": "every foe: the SRD's are the foes within fifty feet, and Kyr's field has no distances (srd-proving-cases.md, cases 17 and 39)"
   },
   "resist_fire": {
    "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38)",
@@ -463,8 +458,7 @@
   },
   "shield": {
    "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19)",
-   "dc": "harmless: none is made (srd-proving-cases.md, case 19)",
-   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+   "dc": "harmless: none is made (srd-proving-cases.md, case 19)"
   },
   "chain_lightning": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
@@ -474,12 +468,10 @@
   },
   "protection_from_evil": {
    "save": "harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 32)",
-   "dc": "harmless: none is made (srd-proving-cases.md, case 32)",
-   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+   "dc": "harmless: none is made (srd-proving-cases.md, case 32)"
   },
   "entangle": {
-   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",
-   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
   },
   "sleep": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",

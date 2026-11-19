@@ -2047,7 +2047,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns at the first casting level, 100 turns at the tenth. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
@@ -2082,7 +2082,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns at the first casting level, 100 turns at the tenth. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
@@ -2114,7 +2114,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns at the first casting level, 100 turns at the tenth. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
@@ -2148,7 +2148,7 @@ Smite Evil: 1d8 + level radiant damage to one enemy (may leave whoever it hurts 
 
 Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: The whole company is blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
+Bless: The whole company is blessed for 10 turns at the first casting level, 100 turns at the tenth. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
 Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
@@ -2280,7 +2280,7 @@ Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest 
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
-Bane: Every enemy is baned for 10 turns (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
+Bane: Every enemy is baned for 10 turns at the first casting level, 100 turns at the tenth (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -3050,7 +3050,7 @@ Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level 
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Bane: Every enemy is baned for 10 turns (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
+Bane: Every enemy is baned for 10 turns at the first casting level, 100 turns at the tenth (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
 
 Reckless Attack: Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Reckless: −2 to hit, 2 easier to hit. Again after 3 turns.
 

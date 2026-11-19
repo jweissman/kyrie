@@ -8,7 +8,7 @@ import type { CombatEvent, Fighter } from '../src/model';
 
 // Entangle, the SRD's (doc/architecture/mission-22/srd-proving-cases.md, case 31): grass and roots rise in a burst,
 // on friend and foe, a Reflex save at case 7's difficulty for a first-level spell, and whoever fails is held fast,
-// striking and dodging badly, for a minute: ten rounds at every casting level, where Orsino's held three against 15
+// striking and dodging badly, for a minute a casting level (case 46), where Orsino's held three against 15
 // and the caster's whole level. This spec is its play-identity test.
 const c = new Content('entangle');
 const vines = Content.abilities.find(a => a.id === 'entangle')!;
@@ -37,13 +37,13 @@ describe('Entangle, by the SRD\'s numbers', () => {
     expect(rolls.map(r => r.type === 'save' && [r.target, r.difficulty]))
       .toEqual([['warrior', 15], ['g1', 15], ['g2', 15]]);
   });
-  it('holds whoever fails for ten rounds, two worse to hit, and not whoever saves', () => {
+  it('holds whoever fails for a minute a level (thirty rounds at the third), two worse to hit, and not whoever saves', () => {
     const seen = new Set<boolean>();
     for (const seed of ['a', 'b', 'c', 'd', 'e', 'f']) {
       const b = battle(seed), rolls = saves(b.step({ actor: 'cleric', ability: 'entangle', target: 'g1' }));
       const failed = rolls.flatMap(r => r.type === 'save' && !r.success ? [r.target] : []);
       rolls.forEach(r => seen.add(r.type === 'save' && !!r.success));
-      expect(held(b)).toEqual(failed.map(id => [id, 10]));
+      expect(held(b)).toEqual(failed.map(id => [id, 30]));
       for (const id of failed) {
         const f = b.state.combatants.find(x => x.id === id)!, mark = Effects.combatant(b.state.combatants[0]!);
         expect(Fighting.chance(Effects.combatant(f), mark))

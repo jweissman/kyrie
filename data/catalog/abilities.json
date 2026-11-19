@@ -478,7 +478,7 @@
       "kind": "spell",
       "description": "Bless your company, yourself among them: each fights with a divine boon for a minute.",
       "effects": [
-        { "kind": "apply", "status": "blessed", "duration": 10, "target": "party" }
+        { "kind": "apply", "status": "blessed", "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "party" }
       ],
       "cost": 1,
       "spell": { "tradition": "divine", "level": 1, "domain": "life", "school": "enchantment" },
@@ -487,7 +487,7 @@
         "srd35": "spell:bless",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Bless (doc/architecture/mission-22/srd-proving-cases.md, case 17): the caster and every ally, first level, its school the SRD's enchantment beside its domain. Converted: the whole company, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Kept: Orsino's blessed (+1 to hit and +1 damage; Divine Favor and Neptune's Blessing lay it too), where the SRD's is +1 to hit and to saves against fear. Before, Orsino's one ally for three rounds."
+        "notes": "The SRD's Bless (doc/architecture/mission-22/srd-proving-cases.md, case 17): the caster and every ally, first level, its school the SRD's enchantment beside its domain. Converted: the whole company, where the SRD's is those within fifty feet (Kyr's field has no distances). A minute, ten rounds, a casting level (exact since case 46: Lasting). Kept: Orsino's blessed (+1 to hit and +1 damage; Divine Favor and Neptune's Blessing lay it too), where the SRD's is +1 to hit and to saves against fear. Before, Orsino's one ally for three rounds."
       }
     },
     "calm_emotions": {
@@ -574,7 +574,7 @@
       "kind": "spell",
       "description": "A shimmer of faith stands about you or a companion, turning blows aside for a minute.",
       "effects": [
-        { "kind": "apply", "status": "shield_of_faith", "duration": 10, "target": "ally" }
+        { "kind": "apply", "status": "shield_of_faith", "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "ally" }
       ],
       "cost": 1,
       "spell": { "tradition": "divine", "level": 1, "domain": "law", "school": "abjuration" },
@@ -583,7 +583,7 @@
         "srd35": "spell:shield-of-faith",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). Converted: +2 at every casting level, the SRD's to the fifth (it grows a point each six levels to +5; Kyr's conditions do not grow with the caster); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps."
+        "notes": "The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). Converted: +2 at every casting level, the SRD's to the fifth (it grows a point each six levels to +5; Kyr's conditions do not grow with the caster). A minute, ten rounds, a casting level (exact since case 46: Lasting). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps."
       }
     },
     "entangle": {
@@ -594,7 +594,7 @@
         {
           "kind": "apply",
           "status": "entangled",
-          "duration": 10,
+          "duration": { "kind": "deem", "expression": "10 * #castingLevel" },
           "target": "enemies",
           "save": {
             "kind": "reflex",
@@ -612,7 +612,7 @@
         "srd35": "spell:entangle",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level; Kyr's durations do not grow with the caster). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
+        "notes": "The SRD's Entangle (doc/architecture/mission-22/srd-proving-cases.md, case 31): first level, its school transmutation beside Nature, a burst on friend and foe (the rules' areas made Orsino's one), each a Reflex save against case 7's difficulty for a first-level spell or entangled (Orsino's condition: two worse to hit, Dexterity five less, slower to act). A minute, ten rounds, a casting level (exact since case 46: Lasting). Omitted: the plants it needs (Kyr's field does not say what grows there), the vines trying again each round at whoever slipped them (a persistent area: proof-slices.md, do not cross yet), the half speed of whoever saved and the Strength or Escape Artist check to tear free (Kyr's fight has no movement). Before, Orsino's three rounds against 15 and the caster's whole level."
       }
     },
     "mirror_image": {
@@ -620,7 +620,7 @@
       "kind": "spell",
       "description": "Figments of you stand all about you for a minute, 1d4 of them and one more for every three levels you have; a blow or a touch meant for you may fall on one of them instead, and a figment struck is gone.",
       "effects": [
-        { "kind": "apply", "status": "mirror_images", "duration": 10, "target": "self" }
+        { "kind": "apply", "status": "mirror_images", "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "self" }
       ],
       "cost": 1,
       "spell": { "tradition": "arcane", "level": 2, "school": "illusion" },
@@ -629,7 +629,7 @@
         "srd35": "spell:mirror-image",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Mirror Image (doc/architecture/mission-22/srd-proving-cases.md, case 40): second level, illusion, on the caster, 1d4 images and one each three casting levels to eight (by #castingLevel, thrown as it is cast); each attack roll at the caster falls on the caster or an image, each as likely, and one at an image is struck as though it wore nothing, a hit putting it out (Images). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: the images' moving within five feet; a foe that cannot see being fooled the less; the images' own size. Before, Orsino's two harder to hit, +2 to every save and an evasion of 15, for three rounds."
+        "notes": "The SRD's Mirror Image (doc/architecture/mission-22/srd-proving-cases.md, case 40): second level, illusion, on the caster, 1d4 images and one each three casting levels to eight (by #castingLevel, thrown as it is cast); each attack roll at the caster falls on the caster or an image, each as likely, and one at an image is struck as though it wore nothing, a hit putting it out (Images). A minute, ten rounds, a casting level (exact since case 46: Lasting). Omitted: the images' moving within five feet; a foe that cannot see being fooled the less; the images' own size. Before, Orsino's two harder to hit, +2 to every save and an evasion of 15, for three rounds."
       }
     },
     "mass_curse": {
@@ -640,7 +640,7 @@
         {
           "kind": "apply",
           "status": "baned",
-          "duration": 10,
+          "duration": { "kind": "deem", "expression": "10 * #castingLevel" },
           "target": "enemies",
           "save": {
             "kind": "fear",
@@ -658,7 +658,7 @@
         "srd35": "spell:bane",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances); a minute, ten rounds, at every casting level (the SRD's is a minute a level). Omitted: the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
+        "notes": "The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances). A minute, ten rounds, a casting level (exact since case 46: Lasting). Omitted: the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
       }
     },
     "resist_fire": {
@@ -683,7 +683,7 @@
       "kind": "spell",
       "description": "A ward of faith stands about one of the company: blows turn aside from it, harm finds it steadier, and no voice can bend its will, for a minute.",
       "effects": [
-        { "kind": "apply", "status": "warded_from_evil", "duration": 10, "target": "ally" }
+        { "kind": "apply", "status": "warded_from_evil", "duration": { "kind": "deem", "expression": "10 * #castingLevel" }, "target": "ally" }
       ],
       "cost": 1,
       "spell": { "tradition": "divine", "level": 1, "domain": "law", "school": "abjuration" },
@@ -692,7 +692,7 @@
         "srd35": "spell:protection-from-evil",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Protection from Evil (doc/architecture/mission-22/srd-proving-cases.md, case 32): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), warded (the warded_from_evil condition): two harder to hit by a deflection that adds to worn armour, +2 to every save, and proof against charm (the SRD's mental control). Converted: a minute, ten rounds, at every casting level (the SRD's is a minute a level). Adapted: against every foe, where the SRD's is against the evil (Kyr's fight does not ask a foe's alignment). Omitted: the summoned creatures' touch it keeps off. Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's protected and courage for three rounds: proof against charm and fear, half of necrotic harm, +2 to saves, and no ward against blows."
+        "notes": "The SRD's Protection from Evil (doc/architecture/mission-22/srd-proving-cases.md, case 32): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), warded (the warded_from_evil condition): two harder to hit by a deflection that adds to worn armour, +2 to every save, and proof against charm (the SRD's mental control). A minute, ten rounds, a casting level (exact since case 46: Lasting). Adapted: against every foe, where the SRD's is against the evil (Kyr's fight does not ask a foe's alignment). Omitted: the summoned creatures' touch it keeps off. Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's protected and courage for three rounds: proof against charm and fear, half of necrotic harm, +2 to saves, and no ward against blows."
       }
     },
     "command": {

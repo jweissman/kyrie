@@ -6,7 +6,8 @@ import { Fighting } from '../src/rules/fighting';
 import type { Fighter } from '../src/model';
 
 // Protection from Evil, the SRD's (doc/architecture/mission-22/srd-proving-cases.md, case 32): the caster or one ally
-// warded for a minute (ten rounds): two harder to hit by a deflection added to worn armour, +2 to every save, proof
+// warded for a minute a level (ten rounds a casting level, case 46): two harder to hit by a deflection added to worn
+// armour, +2 to every save, proof
 // against charm; where Orsino's was three rounds of proof against charm and fear, half of necrotic harm and +2 to
 // saves, and no ward against blows. This spec is its play-identity test.
 const c = new Content('warded');
@@ -32,7 +33,7 @@ describe('Protection from Evil, by the SRD\'s numbers', () => {
     expect([ward.spell, ward.effects.map(e => [e.kind, e.target])]).toEqual([
       { tradition: 'divine', level: 1, domain: 'law', school: 'abjuration' }, [['apply', 'ally']]]);
   });
-  it('wards the companion ten rounds: two harder to hit, +2 to every save, proof against charm, not fear', () => {
+  it('wards the companion a minute a level (thirty rounds at the third): two harder to hit, +2 to every save, proof against charm, not fear', () => {
     const b = battle(), before = ac(b, 'warrior');
     const saves = (f: Fighter) => ['fortitude', 'reflex', 'will', 'fear'].map(k => Effects.saveModifier(f, k));
     const was = saves(one(b, 'warrior'));
@@ -40,7 +41,7 @@ describe('Protection from Evil, by the SRD\'s numbers', () => {
     const warrior = one(b, 'warrior'), m = Effects.modifiers(warrior);
     expect(ac(b, 'warrior')).toBe(before - 2);
     expect(saves(warrior)).toEqual(was.map(n => n + 2));
-    expect(warrior.statuses.find(s => s.id === 'warded_from_evil')?.remaining).toBe(10);
+    expect(warrior.statuses.find(s => s.id === 'warded_from_evil')?.remaining).toBe(30);
     expect([m.immune, m.resistances?.necrotic]).toEqual([['charm'], undefined]);
     expect(one(b, 'cleric').slots).toEqual([0, 0]);
   });

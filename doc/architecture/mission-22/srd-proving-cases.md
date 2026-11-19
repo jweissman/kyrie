@@ -1645,6 +1645,25 @@ level. The census grades it S✓ R✓ I✓: 31 of 119 pass in resolution, 40 in 
   come to the same place, watch and words. test/small/spell-school-glyphs reads the evoker's cantrips (Frostbite,
   Ray of Frost, Scald), and test/srd-fidelity Ray of Frost's ranged touch.
 
+### 46. A minute a level, by the caster (19 November): six conversions made exact
+
+Case 14's rule converted the SRD's "1 minute/level" to ten rounds at every casting level, because Kyr's durations did
+not grow with the caster. Case 44 built that (Lasting), so the six migrated spells that took the conversion now last
+ten rounds a casting level (`10 * #castingLevel`), the SRD's own: Bless, Bane, Shield of Faith, Protection from Evil,
+Entangle and Mirror Image. The concordance's six duration conversions are gone; the census grades each duration exact
+(each still S✓ R✓ I✓; 31 of 119 pass in resolution, as before). Their specs read thirty rounds at the third casting
+level where they read ten.
+
+**Left as they are:** Sleep (its ten rounds become ten watches cast at a band outside a fight, FieldUse.cast, case 14:
+a minute a level would hold the undertown's sleepers fifty watches at the fifth); Hold Person (a round a level, five at
+the census's caster, and likewise cast at a band); Divine Favor (the SRD's is one minute at every level, exact); Mage
+Armor (an hour a level, the fight as converted).
+
+**What it moves:** each of the six lays a condition of a fight (lifetime encounter), ended when the fight ends, so
+only a fight past its tenth round at a caster of the second level or more is touched; no draw, card or installed
+caster. The kept traces, march-journey, march-told and tend-here hold. Not run here (each over thirty seconds, CI's):
+hessel, ombra-mage, ombra-cleric, deep-barrow, advancement, parliament-of-books-stacks.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

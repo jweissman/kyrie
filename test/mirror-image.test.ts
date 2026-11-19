@@ -31,7 +31,8 @@ const images = (b: Battle) => b.state.combatants.find(f => f.id === 'mage')!.sta
 describe('Mirror Image, by the SRD\'s numbers', () => {
   it('is a second-level illusion on the caster: 1d4 images and one each three casting levels, to eight', () => {
     expect(spell.spell).toEqual({ tradition: 'arcane', level: 2, school: 'illusion' });
-    expect(spell.effects).toEqual([{ kind: 'apply', status: 'mirror_images', duration: 10, target: 'self' }]);
+    expect(spell.effects).toEqual([{ kind: 'apply', status: 'mirror_images',
+      duration: { kind: 'deem', expression: '10 * #castingLevel' }, target: 'self' }]);
     const dice = Content.statuses.mirror_images!.modifiers.images!, e = new Expressions('images');
     const thrown = (castingLevel: number) => [...Array(60).keys()].map(() => e.number(dice, { castingLevel }));
     for (const [level, least, most] of [[1, 1, 4], [3, 2, 5], [12, 5, 8], [20, 5, 8]] as const) {

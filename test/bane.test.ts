@@ -9,7 +9,8 @@ import type { Fighter } from '../src/model';
 
 // Bane by the SRD's numbers (doc/architecture/mission-22/srd-proving-cases.md, case 39), Orsino's Mass Curse: first
 // level, enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom) at case 7's
-// difficulty; whoever fails is baned for a minute, ten rounds: −1 to hit and −1 on saves against fear. Orsino's −1 to
+// difficulty; whoever fails is baned for a minute a casting level (case 46): −1 to hit and −1 on saves against fear.
+// Orsino's −1 to
 // every score for three rounds, at the third level, gone. Its play-identity test.
 const c = new Content('bane');
 const bane = Content.abilities.find(a => a.id === 'mass_curse')!;
@@ -31,11 +32,11 @@ describe('Bane, by the SRD\'s numbers', () => {
       resistance: true });
     const e = bane.effects[0]!, d = e.save!.difficulty;
     expect([e.kind, e.target, e.kind === 'apply' && e.status, e.kind === 'apply' && e.duration, e.save!.kind])
-      .toEqual(['apply', 'enemies', 'baned', 10, 'fear']);
+      .toEqual(['apply', 'enemies', 'baned', { kind: 'deem', expression: '10 * #castingLevel' }, 'fear']);
     expect(Amounts.mean(d.kind === 'deem' ? d.expression : '', { castingLevel: 1, castingScore: 16, bonusSpellDC: 0 }))
       .toBe(14);
   });
-  it('banes each foe who fails, for ten rounds: one worse to hit and against fear; who stands firm is untouched', () => {
+  it('banes each foe who fails, for a minute a level: one worse to hit and against fear; who stands firm is untouched', () => {
     const outcomes = new Set<boolean>();
     for (const seed of ['a', 'b', 'c', 'd']) {
       const { b, events } = cast(seed);
