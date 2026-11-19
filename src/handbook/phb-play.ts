@@ -20,7 +20,8 @@ export class PlayChapters {
         + 'Conditions without a clock tick down as each round begins.',
       'To hit, roll d20 at or above THAC0, less the defender\'s armour class, less your to-hit (Strength modifier, or '
         + 'Dexterity with a missile weapon, plus to-hit bonuses). A natural 1 always misses; a 20, less any critical range '
-        + 'bonus, is a critical. A defender with evasion then rolls d20 against 20 less its evasion to turn the hit aside. '
+        + 'bonus, is a critical. A defender with evasion then rolls d20 against 20 less its evasion to turn the hit aside; '
+        + 'one concealed (a blur) rolls d100, and the hit misses at or under its concealment\'s chance. '
         + 'Armour class descends: 10, less the armour\'s value, less Dexterity modifier, plus armour class effects.',
       'Each creature has one action a turn. Haste adds one; slow takes one away, but never the last. A confused creature '
         + 'falls on something it could do, at random. A charmed creature takes its own side for the enemy; a dominated one '

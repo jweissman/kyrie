@@ -522,7 +522,7 @@
         "srd35": "spell:blur",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Blur (doc/architecture/mission-22/srd-proving-cases.md, case 49): second level (Orsino's first), illusion, on the caster or one ally (the creature touched), concealment for a minute a casting level (Lasting): one blow in five that would land goes astray (concealed, an evasion of 3: Westernesse's evasion turns a hit on d20 at or above 20 less it). Converted: concealment's miss chance as Westernesse's evasion, rolled after a hit where the SRD's is rolled before it, the same one in five. Omitted: the creatures that see through it (true seeing). Before, Orsino's first level, on the caster alone, three rounds of one harder to hit, +2 against magic and an evasion of 10."
+        "notes": "The SRD's Blur (doc/architecture/mission-22/srd-proving-cases.md, case 49): second level (Orsino's first), illusion, on the caster or one ally (the creature touched), concealment for a minute a casting level (Lasting): one blow in five that would land goes astray (concealed: the SRD's 20 % miss chance, thrown on d100 once a blow lands, exact since case 57; it had been Westernesse's evasion of 3, the same one in five). Omitted: the creatures that see through it (true seeing). Before, Orsino's first level, on the caster alone, three rounds of one harder to hit, +2 against magic and an evasion of 10."
       }
     },
     "barkskin": {

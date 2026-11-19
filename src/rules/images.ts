@@ -23,8 +23,8 @@ export class Images {
   static intercepted(actor: Fighter, target: Fighter, context: EffectContext, ranged: boolean): boolean {
     const held = Images.held(target), expressions = context.expressions;
     if (!held?.images || !expressions || expressions.number(`1d${held.images + 1}`) === 1) { return false; }
-    const roll = Fighting.touch(Effects.combatant(actor), Effects.combatant(target), () => expressions.number('1d20'),
-      ranged);
+    const roll = Fighting.touch(Effects.combatant(actor), Effects.combatant(target),
+      sides => expressions.number(`1d${sides}`), ranged);
     if (roll.success) { held.images--; }
     context.events.push({ type: 'attack', turn: context.turn, actor: actor.id, target: target.id, die: roll.die,
       need: roll.need, toHit: roll.toHit, armorClass: roll.armorClass, weapon: '', success: roll.success,

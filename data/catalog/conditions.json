@@ -574,14 +574,14 @@
       "name": "Concealed",
       "description": "Blurred and wavering: one blow in five meant for them goes astray.",
       "lifetime": "encounter",
-      "modifiers": { "evasion": 3 },
+      "modifiers": { "concealment": 20 },
       "begins": "{target} blurs and wavers, hard to make out.",
       "ends": "{target} is plain to see again.",
       "source": {
         "kyr": true,
         "srd35": "spell:blur",
         "conversion": "srd35-westernesse-v1",
-        "notes": "The SRD's concealment (srd-proving-cases.md, case 49), as Blur lays it: a 20 % miss chance, Westernesse's evasion of 3 (a hit turned on d20 at or above 17, four in twenty)."
+        "notes": "The SRD's concealment (srd-proving-cases.md, cases 49 and 57), as Blur lays it: a 20 % miss chance, thrown on d100 after a blow lands (exact; it had been Westernesse's evasion of 3, four hits in twenty turned)."
       }
     },
     "fire_resistant": {

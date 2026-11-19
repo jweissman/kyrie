@@ -27,6 +27,9 @@ export interface Modifiers {
   // An armour of force (the SRD's Mage Armor, case 22): body armour of that much where it is better than what is worn,
   // never added to it; of two, the better (see Fighting.armorClass).
   force?: number;
+  // Concealment (the SRD's, srd-proving-cases.md case 57): the chance in a hundred that a blow which lands at its
+  // holder misses after all (Blur's 20, Darkness's), thrown after the hit; of two sources, the better, never summed.
+  concealment?: number;
   // A flat resistance to a kind of harm (the SRD's Resist Energy, srd-proving-cases.md case 38): that much off each
   // blow of it, after any fraction; of two sources, the better for each kind, never summed (the SRD's rule).
   resist?: Record<string, number>;
@@ -50,7 +53,7 @@ export class ModifierSet {
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
     'controlledActions', 'flee', 'invisible', 'seeInvisible'];
   static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, ...ModifierSet.flags, 'saves', 'attributes',
-    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force', 'resist', 'images'];
+    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force', 'resist', 'images', 'concealment'];
   // Orsino's gatherEffects: numbers add, maps add per key, flags and lists accumulate.
   static sum(list: Modifiers[]): Modifiers {
     const out: Modifiers = {};
@@ -74,6 +77,7 @@ export class ModifierSet {
       for (const key of ModifierSet.flags) { if (m[key]) { out[key] = true; } }
       if (m.onTurnEnd?.length) { out.onTurnEnd = [...out.onTurnEnd ?? [], ...m.onTurnEnd]; }
       if (m.force !== undefined) { out.force = Math.max(out.force ?? 0, m.force); }
+      if (m.concealment !== undefined) { out.concealment = Math.max(out.concealment ?? 0, m.concealment); }
       for (const [k, v] of Object.entries(m.resist ?? {})) { (out.resist ??= {})[k] = Math.max(out.resist[k] ?? 0, v); }
     }
     return out;

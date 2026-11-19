@@ -231,10 +231,12 @@ export class AbilityUse {
     if (actor.hp === 0 || target.hp === 0) { return false; }
     const attacker = Effects.combatant(actor);
     if (Images.intercepted(actor, target, context, attacker.weapon.missile === true)) { return false; }
-    const roll = Fighting.attack(attacker, Effects.combatant(target), () => expressions.number('1d20'));
+    const roll = Fighting.attack(attacker, Effects.combatant(target), () => expressions.number('1d20'),
+      () => expressions.number('1d100'));
     context.events.push({ type: 'attack', turn: context.turn, actor: actor.id, target: target.id, die: roll.die,
       need: roll.need, toHit: roll.toHit, armorClass: roll.armorClass, weapon: attacker.weapon.id,
-      success: roll.success, critical: roll.critical, ...roll.evasion?.evaded ? { evaded: true } : {} });
+      success: roll.success, critical: roll.critical, ...roll.evasion?.evaded ? { evaded: true } : {},
+      ...roll.concealment?.missed ? { concealed: true } : {} });
     if (!roll.success) {
       AbilityUse.hooks(target, 'onMissReceived', actor, context);
       return false;

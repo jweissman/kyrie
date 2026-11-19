@@ -24,6 +24,8 @@ export interface Combatant {
 export interface AttackRoll {
   die: number; need: number; toHit: number; armorClass: number; success: boolean; critical: boolean;
   evasion?: { die: number; need: number; evaded: boolean };
+  // The concealment's throw (d100 at or under its chance misses), when the defender had some and the blow landed.
+  concealment?: { die: number; chance: number; missed: boolean };
 }
 
 // Orsino's Fighting rules (src/orsino/rules/Fighting.ts), with Orsino's numbers.
@@ -50,7 +52,8 @@ export class Fighting {
     return (attacker.fixedToHit ?? this.statMod(missile ? attacker.dexterity : attacker.strength))
       + (attacker.modifiers.toHit ?? 0);
   }
-  static attack(attacker: Combatant, defender: Combatant, roll: () => number): AttackRoll {
+  // A hit at one concealed is thrown for again (percent: d100), and misses at or under the concealment's chance.
+  static attack(attacker: Combatant, defender: Combatant, roll: () => number, percent?: () => number): AttackRoll {
     const toHit = this.toHit(attacker);
     const armorClass = this.armorClass(defender);
     const need = this.thac0(attacker.level) - armorClass - toHit;
@@ -59,6 +62,12 @@ export class Fighting {
     const success = die >= need;
     const critical = success && die >= 20 - (attacker.modifiers.criticalRangeIncrease ?? 0);
     const result: AttackRoll = { die, need, toHit, armorClass, success, critical };
+    const hidden = defender.modifiers.concealment ?? 0;
+    if (success && hidden > 0 && percent) {
+      const thrown = percent();
+      result.concealment = { die: thrown, chance: hidden, missed: thrown <= hidden };
+      if (result.concealment.missed) { result.success = false; result.critical = false; return result; }
+    }
     const evasion = defender.modifiers.evasion ?? 0;
     if (success && evasion) {
       const evade = this.d20(roll, defender.modifiers), needed = 20 - evasion;
@@ -79,15 +88,16 @@ export class Fighting {
       if (die > 1 && die >= need) { hits++; }
       if (evasion && Math.max(1, r + (defender.modifiers.allRolls ?? 0)) >= 20 - evasion) { evades++; }
     }
-    return (hits / 20) * (1 - evades / 20);
+    return (hits / 20) * (1 - Math.min(100, defender.modifiers.concealment ?? 0) / 100) * (1 - evades / 20);
   }
   // A touch (the SRD's melee and ranged touch attacks, srd-proving-cases.md case 35): the attack roll as a blow's, by
   // Strength for a touch and Dexterity for a ranged one, against the one touched as though it wore nothing: its armour,
   // its hide and an armour of force do not count, what it dodges by does (the SRD's touch armour class). A touch
   // spell's die makes no telling blow (Kyr's criticals are a weapon's weight).
-  static touch(attacker: Combatant, defender: Combatant, roll: () => number, ranged: boolean): AttackRoll {
+  // Its throws by their sides: the d20, and a d100 for a concealment (see attack).
+  static touch(attacker: Combatant, defender: Combatant, roll: (sides: number) => number, ranged: boolean): AttackRoll {
     const [hand, bare] = this.touching(attacker, defender, ranged);
-    return { ...this.attack(hand, bare, roll), critical: false };
+    return { ...this.attack(hand, bare, () => roll(20), () => roll(100)), critical: false };
   }
   static touchChance(attacker: Combatant, defender: Combatant, ranged: boolean): number {
     const [hand, bare] = this.touching(attacker, defender, ranged);

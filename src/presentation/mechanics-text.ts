@@ -211,6 +211,7 @@ export class MechanicsText {
     if (m.bonusHealing) { out.push(`+${m.bonusHealing} healing`); }
     if (m.damageReduction) { out.push(`takes ${m.damageReduction} less damage per hit`); }
     if (m.evasion) { out.push(`${signed(m.evasion)} evasion`); }
+    if (m.concealment) { out.push(`a blow that lands at them misses ${m.concealment} times in a hundred`); }
     if (m.initiative) { out.push(`${signed(m.initiative)} initiative`); }
     if (m.allRolls) { out.push(`${signed(m.allRolls)} to every roll`); }
     if (m.saveVersusAll) { out.push(`${signed(m.saveVersusAll)} to every save`); }
