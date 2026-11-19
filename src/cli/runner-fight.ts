@@ -5,6 +5,7 @@ import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../item-names';
 import { CombatChoices } from '../ui/combat-choices';
 import { CombatTelling } from '../ui/combat-telling';
+import { ChoiceList } from '../ui/choice-list';
 import type { ActType } from '../presentation/offer';
 import { ActionFeedbackView, type ActionFeedback } from '../presentation/action-feedback';
 
@@ -61,7 +62,9 @@ export class RunnerFight {
     this.opened = true;
     const events = b.events, told = CombatTelling.since(events, this.from, b.state).map(t => t.text);
     this.from = events.length;
-    const who = b.state.combatants.map(f => `${f.name} ${f.hp}/${f.maxHp}`).join(' · ');
+    // Each side named as a side (cold play 7, CL-60: "Bryn 10/10 · Nettle 6/6 · …" had read a hob as one of the
+    // company).
+    const who = `${RunnerFight.side(b, true)} | against you: ${RunnerFight.side(b, false)}`;
     return [...opening, ...told, who];
   }
   choices(): FightChoice[] {
@@ -76,8 +79,13 @@ export class RunnerFight {
         aspects: c.ability.id === 'flee' ? [] : ['danger'],
         label: RunnerFight.called(b, c.ability, m.target, c.requiresTarget) })));
     const actor = RunnerFight.name(b, state.actor);
+    // Pressed on to its end only where it is as good as won, as the page offers it (ChoiceList.decided; cold play 7,
+    // CL-59: offered among the four from the first round, it took a cleric of ten hit points to death in two).
+    const sides = { foes: state.combatants.filter(f => f.team !== 'fighters'),
+      allies: state.combatants.filter(f => f.team === 'fighters') };
     return [...hand, { id: RunnerFight.auto, label: `Let ${actor} fight this turn`, type: 'fight', aspects: [], marks: [] },
-      { id: RunnerFight.through, label: 'Press on to the end', type: 'fight', aspects: [], marks: [] }];
+      ...ChoiceList.decided(sides) ? [{ id: RunnerFight.through, label: 'Press on to the end', type: 'fight' as const,
+        aspects: [], marks: [] }] : []];
   }
   // The four led with in a fight, as the page's hand leads: the weapon's blow, the way out, this turn, the rest of it.
   offer(): { primary: FightChoice[]; rest: FightChoice[] } {
@@ -91,6 +99,10 @@ export class RunnerFight {
     const carried = ItemCatalog.used(ability.id);
     if (carried) { return `Use ${ItemNames.called(carried.name)}${aimed ? ` on ${RunnerFight.name(b, target)}` : ''}`; }
     return aimed ? `${ability.name} at ${RunnerFight.name(b, target)}` : ability.name;
+  }
+  private static side(b: Battle, ours: boolean): string {
+    return b.state.combatants.filter(f => (f.team === 'fighters') === ours).map(f => `${f.name} ${f.hp}/${f.maxHp}`)
+      .join(' · ');
   }
   private static name(b: Battle, id: string): string { return b.state.combatants.find(f => f.id === id)?.name ?? id; }
   // Why a fight act asked for is not offered: it is another's turn (cold play 3, CL-21: Prepare Charge refused, it

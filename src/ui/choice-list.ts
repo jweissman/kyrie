@@ -384,7 +384,7 @@ export class ChoiceList {
     return [{ id: 'pace', title: 'The fight\'s pace', tone: 'ability', glyph: '⚔', choices }];
   }
   // As good as won: every foe standing at half or less, every one of the company at more than half.
-  static decided(c: Pick<CombatScreen, 'foes' | 'allies'>): boolean {
+  static decided(c: Record<'foes' | 'allies', readonly { hp: number; maxHp: number }[]>): boolean {
     const standing = c.foes.filter(f => f.hp > 0);
     return standing.length > 0 && standing.every(f => f.hp <= f.maxHp / 2) && c.allies.every(f => f.hp > f.maxHp / 2);
   }

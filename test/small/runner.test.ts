@@ -66,7 +66,9 @@ describe('the runner', () => {
     const attack = r.said().offer.primary.find(o => o.type === 'fight')!;
     let turn = said(await r.ask(JSON.stringify({ act: attack.id })));
     expect(turn.moment).toBe('fight');
-    expect(turn.offer.primary.map(o => o.label)).toEqual(expect.arrayContaining(['Flee', 'Press on to the end']));
+    expect(turn.offer.primary.map(o => o.label)).toEqual(expect.arrayContaining(['Flee', 'Let Ama fight this turn']));
+    // Not pressed on to its end before it is as good as won (cold play 7, CL-59), as the page offers it.
+    expect(turn.offer.primary.map(o => o.label)).not.toContain('Press on to the end');
     for (let n = 0; n < 30 && turn.moment === 'fight'; n++) {
       turn = said(await r.ask(JSON.stringify({ act: turn.offer.primary[0]!.id })));
     }
