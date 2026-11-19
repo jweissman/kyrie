@@ -750,6 +750,15 @@ in Sprint 1 (S1-4): its twenty temporary hit points against a first-level abjure
 hour mid-sprint. Taken up again after S1-4, by the recommended option (the SRD's resolution, Orsino's school), measured
 on a1's first-hour fights first.
 
+**Done (18 November, the owner's word: option 2).** Measured first: the first-level abjurer of today's creation does not
+know Mage Armor (its picks are Ward, Minor Ward, Spark and Magebane), and alone it won 90.5 % of 200 fights against three
+rats, with a warrior beside it 100 %; it cast Mage Armor in none, so no first-hour fight of a made mage moves. Built: an
+armour of force (`force`, src/rules/modifiers.ts: body armour of that much where it is better than what is worn, never
+added to it, of two the better; Fighting.armorClass), the hand condition `mage_armored` (+4 of force, no temporary hit
+points), and the hand spell on the caster or one ally, Orsino's school kept, the fight its duration; its harmless save
+declared. Spec: `test/mage-armor` (2); the owner's pin of 15 November (test/small/mage-casts) now offers it on the mage
+or its companion, as Arcane Ward. The census: structure, resolution and identity pass.
+
 ### 23. Divine Favor: stopped by the census, a decision for the lead (18 November)
 
 Not migrated: it moves every installed divine caster. The SRD's Divine Favor is a first-level evocation on the caster,

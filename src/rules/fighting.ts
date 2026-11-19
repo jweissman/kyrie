@@ -37,7 +37,9 @@ export class Fighting {
   }
   // Descending armour class: 10, less the body armour's ac, plus `ac` effects, less the defender's DEX modifier.
   static armorClass(defender: Combatant): number {
-    return 10 - defender.armorAc + (defender.modifiers.ac ?? 0) - this.statMod(defender.dexterity);
+    // Worn armour, or an armour of force where that is better (never both: the SRD's armour bonus does not stack).
+    const armour = Math.max(defender.armorAc, defender.modifiers.force ?? 0);
+    return 10 - armour + (defender.modifiers.ac ?? 0) - this.statMod(defender.dexterity);
   }
   // Fighting.attack: a d20 at or above THAC0 − AC − to-hit hits; a natural 1 always misses; 20 less the critical range
   // increase is a critical; a defender with evasion then rolls d20 at or above 20 − evasion to cancel the hit.

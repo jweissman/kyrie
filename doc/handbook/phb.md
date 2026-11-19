@@ -6493,11 +6493,13 @@ One ally is lit for 2 hours. Lit: A conjured light hangs over its bearer's shoul
 
 ##### Mage Armor
 
-*Faithful · level 1 arcane spell, abjuration* · `ability:armor`
+*Adapted · level 1 arcane spell, abjuration* · `ability:armor`
 
-You are mage-armored for 20 turns. Mage-Armored: 4 harder to hit, 20 more hit points (spent first). An arcane spell of the first level. Takes a first-level slot.
+One ally is mage-armored for 20 turns. Mage-Armored: an unseen armour of force: as good as a mail coat, worn over nothing. An arcane spell of the first level. Takes a first-level slot.
 
-> Arcane force wraps around you, providing magical protection.
+> An unseen armour of force about you or one beside you, as good as a mail coat.
+
+*Adapted: The SRD's Mage Armor by its resolution (doc/architecture/mission-22/srd-proving-cases.md, case 22, the owner's word of 18 November: option 2): the caster or one ally, a +4 armour bonus of force that does not add to worn armour, no temporary hit points. Kept: Orsino's school, abjuration, where the SRD's is conjuration (the school moves abjurers' and conjurers' draws). Converted: the fight, twenty rounds, where the SRD's is an hour a level. Before, Orsino's on the caster alone, four harder to hit over worn armour, and twenty temporary hit points.*
 
 ##### Magic Missile
 
@@ -10713,11 +10715,9 @@ Spells 1 harder to resist.
 
 ### Mage-Armored
 
-*Faithful · lasts the fight at most* · `condition:mage_armored`
+*Kyr · lasts the fight at most* · `condition:mage_armored`
 
-4 harder to hit, 20 more hit points (spent first).
-
-> Protected by magical armor.
+> An unseen armour of force: as good as a mail coat, worn over nothing.
 
 ### Magebane
 

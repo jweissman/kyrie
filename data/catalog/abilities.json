@@ -430,6 +430,32 @@
         "notes": "The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); the SRD's +1 each three casting levels to +3 converted to +1 at every level. Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds."
       }
     },
+    "armor": {
+      "name": "Mage Armor",
+      "kind": "spell",
+      "description": "An unseen armour of force about you or one beside you, as good as a mail coat.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "mage_armored",
+          "duration": 20,
+          "target": "ally"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "arcane",
+        "level": 1,
+        "school": "abjuration"
+      },
+      "source": {
+        "orsino": "arcaneSpell:armor",
+        "srd35": "spell:mage-armor",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Mage Armor by its resolution (doc/architecture/mission-22/srd-proving-cases.md, case 22, the owner's word of 18 November: option 2): the caster or one ally, a +4 armour bonus of force that does not add to worn armour, no temporary hit points. Kept: Orsino's school, abjuration, where the SRD's is conjuration (the school moves abjurers' and conjurers' draws). Converted: the fight, twenty rounds, where the SRD's is an hour a level. Before, Orsino's on the caster alone, four harder to hit over worn armour, and twenty temporary hit points."
+      }
+    },
     "bless": {
       "name": "Bless",
       "kind": "spell",

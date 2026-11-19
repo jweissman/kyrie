@@ -352,6 +352,7 @@
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",
   "divine_favor": "test/divine-favor.test.ts",
+  "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
   "burning_hands": "test/burning-hands-fireball.test.ts",
@@ -403,6 +404,12 @@
   "cure_critical": {
    "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
    "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
+  },
+  "armor": {
+   "school": "Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22)",
+   "duration": "the fight, twenty rounds, where the SRD's is an hour a level (srd-proving-cases.md, case 22)",
+   "save": "harmless: made by none who takes it willingly (srd-proving-cases.md, case 21)",
+   "dc": "harmless: none is made (srd-proving-cases.md, case 21)"
   },
   "divine_favor": {
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)",

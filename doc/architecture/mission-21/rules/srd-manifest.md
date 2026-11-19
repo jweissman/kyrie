@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 97, E2 1, E3 21.
+**605 records**, every one visible: E0 486, E1 96, E2 1, E3 22.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 71.
 
 ## By family
@@ -366,7 +366,7 @@ become ready).
 | locate-object | Locate Object | Brd 2, Clr 3, Sor/Wiz 2, Travel 2 | divination | E0 | effect.reveal | — |
 | longstrider | Longstrider | Drd 1, Rgr 1, Travel 1 | world | E0 | effect.world | — |
 | lullaby | Lullaby | Brd 0 | control | E0 | duration.concentration, resist.spell | — |
-| mage-armor | Mage Armor | Sor/Wiz 1 | protection | E1 | — | armor |
+| mage-armor | Mage Armor | Sor/Wiz 1 | protection | E3 | — | armor |
 | mage-hand | Mage Hand | Brd 0, Sor/Wiz 0 | object | E0 | duration.concentration, target.object | — |
 | mages-disjunction | Mage’s Disjunction | Magic 9, Sor/Wiz 9 | removal | E0 | effect.dispel | — |
 | mages-faithful-hound | Mage’s Faithful Hound | Sor/Wiz 5 | damage | E0 | — | — |

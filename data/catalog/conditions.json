@@ -542,6 +542,23 @@
         "notes": "The SRD's Protection from Evil's ward (mission-22/srd-proving-cases.md, case 32): +2 to armour class by a deflection (Kyr's armour class descends, so ac -2), +2 to every save (the SRD's resistance bonus), and proof against charm (its mental control). Adapted: against every foe, where the SRD's is against the evil; it adds to Shield of Faith's deflection, where the SRD's two deflections do not stack."
       }
     },
+    "mage_armored": {
+      "name": "Mage-Armored",
+      "description": "An unseen armour of force: as good as a mail coat, worn over nothing.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "force": 4
+      },
+      "begins": "An unseen armour of force closes about {target}.",
+      "ends": "The armour of force about {target} is gone.",
+      "source": {
+        "orsino": "status:mage_armored",
+        "kyr": true,
+        "srd35": "spell:mage-armor",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Mage Armor (srd-proving-cases.md, case 22): a +4 armour bonus of force, worn armour's equal, not added to it (Fighting.armorClass); no temporary hit points. Before, Orsino's four harder to hit added to worn armour and twenty temporary hit points."
+      }
+    },
     "shield_of_faith": {
       "name": "Shield of Faith",
       "description": "A shimmer of faith turns blows aside: two harder to hit, whatever armour is worn.",

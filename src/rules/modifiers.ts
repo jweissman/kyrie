@@ -21,6 +21,9 @@ export interface Modifiers {
   // Orsino's turn structure: actions a turn beyond the one (haste +1, slow −1, never fewer than one); acting at random
   // (confused); taking the other side (charmed); and control passing to the other side (dominated).
   extraAttacksPerTurn?: number; randomActions?: boolean; changeAllegiance?: boolean; controlledActions?: boolean;
+  // An armour of force (the SRD's Mage Armor, case 22): body armour of that much where it is better than what is worn,
+  // never added to it; of two, the better (see Fighting.armorClass).
+  force?: number;
   // Orsino's flee status: a foe so marked leaves the fight when the next round begins.
   flee?: boolean;
   // Orsino's invisible: no one picks it out as the one foe they go for, unless they see the invisible (truesight).
@@ -41,7 +44,7 @@ export class ModifierSet {
   static readonly flags: FlagModifier[] = ['noActions', 'noSpellcasting', 'randomActions', 'changeAllegiance',
     'controlledActions', 'flee', 'invisible', 'seeInvisible'];
   static readonly keys = [...ModifierSet.numeric, ...ModifierSet.dice, ...ModifierSet.flags, 'saves', 'attributes',
-    'resistances', 'immune', 'tempHp', 'onTurnEnd'];
+    'resistances', 'immune', 'tempHp', 'onTurnEnd', 'force'];
   // Orsino's gatherEffects: numbers add, maps add per key, flags and lists accumulate.
   static sum(list: Modifiers[]): Modifiers {
     const out: Modifiers = {};
@@ -64,6 +67,7 @@ export class ModifierSet {
       if (m.immune?.length) { out.immune = [...new Set([...out.immune ?? [], ...m.immune])]; }
       for (const key of ModifierSet.flags) { if (m[key]) { out[key] = true; } }
       if (m.onTurnEnd?.length) { out.onTurnEnd = [...out.onTurnEnd ?? [], ...m.onTurnEnd]; }
+      if (m.force !== undefined) { out.force = Math.max(out.force ?? 0, m.force); }
     }
     return out;
   }

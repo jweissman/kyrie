@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 33 pass in structure
-(level, school), 22 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-21 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 34 pass in structure
+(level, school), 23 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+22 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 48 | school 76 | dice 10 | type 13 | save 34 | dc 18 | attack 104 | target 72 | duration 48 | of 119 |
+| spells, field exact or converted | level 48 | school 77 | dice 10 | type 13 | save 35 | dc 19 | attack 104 | target 73 | duration 48 | of 119 |
 
 ## Creatures, most met first
 
@@ -62,7 +62,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | deva | angel-astral-deva | 0/0 | S✗ R✗ I– | O | ✗ 0 → -8 | ✗ 1d8 → · | – | ✗ · → immunity acid, immunity cold, reduction 10/evil, resistance lightning 10 | O | ✗ +4/+6/+10 → +14/+12/+12 |
 | dog | dog | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d6 → 1d4 | ✗ 50% → 40% | – | – | ✗ +1/+0/-1 → +4/+5/+1 |
 | dryad | dryad | 0/0 | S✗ R✗ I– | O | ✓ | ✓ | ✗ 35% → 60% | ✗ · → reduction 5/cold_iron | O | ✗ +1/+5/+2 → +3/+8/+6 |
-| eagle | eagle | 0/0 | S✗ R✗ I– | O | ✗ 12 → 7 | ✗ 1d8 → 1d4 1d4 1d4 | ✗ 25% → 45% | – | – | ✗ -1/+0/-1 → +3/+4/+2 |
+| eagle | eagle | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d8 → 1d4 1d4 1d4 | ✗ 25% → 45% | – | – | ✗ -1/+0/-1 → +3/+4/+2 |
 | elemental/air_element | air-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 1 → 3 | ✓ | ✗ 50% → 70% | – | ✗ · → air mastery, whirlwind | ✗ +4/+6/+3 → +3/+9/+1 |
 | elemental/fire_element | fire-elemental-medium | 0/0 | S✗ R✗ I– | O | ✗ 1 → 5 | ✓ | ✗ 50% → 60% | ✗ · → immunity fire | ✗ · → burn | ✗ +4/+6/+3 → +3/+7/+1 |
 | elephant | elephant | 0/0 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d8 → 2d6 2d6 2d6 | ✗ 30% → 95% | – | O | ✗ +0/+0/+2 → +12/+7/+6 |
@@ -70,7 +70,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | golem/flesh | flesh-golem | 0/0 | S✓ R✗ I– | ✓ | ✓ | ✓ | ✓ | ✓ | ✗ · → berserk | ✗ +9/+9/+10 → +3/+2/+3 |
 | golem/stone | stone-golem | 0/0 | S✗ R✗ I– | O | ✗ 5 → -5 | ✗ 1d6 → 2d10 2d10 | ✗ 55% → 95% | ✗ · → reduction 10/adamantine | O | ✗ +6/-1/+1 → +4/+3/+4 |
 | grey_render | gray-render | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 2d6 | ✗ 35% → 95% | – | O | ✗ +0/+2/+3 → +14/+7/+4 |
-| hawk | hawk | 0/0 | S✗ R✗ I– | O | ✗ 12 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
+| hawk | hawk | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
 | hyena | hyena | 0/0 | S✗ R✗ I– | O | ✗ 13 → 7 | ✓ | ✓ | – | ✗ · → trip | ✗ +2/-2/+0 → +5/+5/+1 |
 | leopard | leopard | 0/0 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d4 → 1d3 1d3 1d6 | ✗ 40% → 60% | – | O | ✗ +3/+1/+0 → +5/+7/+2 |
 | lillend | lillend | 0/0 | S✗ R✗ I– | O | ✗ 10 → 4 | ✗ 1d8 → 1d8 2d6 | ✗ 30% → 85% | ✗ · → immunity poison, resistance fire 10 | O | ✗ +2/+1/+2 → +7/+10/+8 |
@@ -81,13 +81,13 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | monkey | monkey | 0/0 | S✗ R✗ I– | O | ✗ 9 → 7 | ✗ 1d6 → 1d3 | ✗ 20% → 50% | – | – | ✗ -1/+2/+1 → +2/+4/+1 |
 | nightmare | nightmare | 0/0 | S✗ R✗ I– | O | ✗ 7 → -3 | ✗ 1d4 → 1d8 1d8 1d8 | ✗ 60% → 75% | – | O | ✗ +2/+3/-2 → +8/+7/+6 |
 | nymph | nymph | 0/0 | S✗ R✗ I– | O | ✗ 7 → 4 | ✓ | ✗ 35% → 60% | ✗ · → reduction 10/cold_iron | O | ✗ +1/+2/+4 → +7/+12/+12 |
-| owl | owl | 0/0 | S✗ R✗ I– | O | ✗ 12 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
+| owl | owl | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
 | pegasus | pegasus | 0/0 | S✗ R✗ I– | O | ✗ 6 → 7 | ✗ 1d2 → 1d3 1d6 1d6 | ✗ 25% → 65% | – | O | ✗ +0/+4/+2 → +7/+6/+4 |
 | pixie | pixie | 0/0 | S✗ R✗ I– | O | ✗ 4 → 5 | ✓ | ✗ 35% → 55% | ✗ · → reduction 10/cold_iron | O | ✗ +1/+5/+2 → +0/+6/+4 |
 | pony | pony | 0/0 | S✗ R✗ I– | O | ✗ 11 → 8 | ✗ 1d2 → 1d3 1d3 | ✗ 30% → 15% | – | – | ✗ +0/-1/-1 → +4/+4/+0 |
 | pseudodragon | pseudodragon | 0/0 | S✗ R✗ I– | O | ✗ 7 → 3 | ✗ 1d6 → 1d3 | ✗ 30% → 50% | E  SR 19 | ✗ · → poison | ✗ +0/+0/+0 → +4/+5/+4 |
 | rat/cellar | rat | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ |
-| raven | raven | 0/0 | S✗ R✗ I– | O | ✗ 12 → 7 | ✗ 1d4 → 1d2 | ✗ 25% → 50% | – | – | ✗ -1/+0/-1 → +2/+4/+2 |
+| raven | raven | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 | ✗ 25% → 50% | – | – | ✗ -1/+0/-1 → +2/+4/+2 |
 | rhino | rhinoceros | 0/0 | S✗ R✗ I– | O | ✗ 7 → 5 | ✗ 1d4 → 2d6 | ✗ 35% → 95% | – | O | ✗ -1/+3/+0 → +11/+6/+3 |
 | satyr | satyr | 0/0 | S✗ R✗ I– | O | ✗ 5 → 6 | ✗ 1d4 → 1d4 1d6 | ✗ 35% → 40% | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +2/+5/+5 |
 | solar | angel-solar | 0/0 | S✗ R✗ I– | O | ✗ 0 → -14 | ✗ 1d8 → · | – | ✗ · → immunity acid, immunity cold, reduction 15/epic, regeneration 15, resistance lightning 10 | O | ✗ +4/+6/+9 → +18/+18/+20 |
@@ -105,7 +105,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | acid_arrow | acid-arrow | S✗ R✗ I– | ✗ 1 → 2 | ✓ | ✗ 2.5/2.5/2.5/2.5 → 5/5/5/5 | ✓ | – | – | ✗ none → ranged touch | ✓ | ✗ instant → 1 rounds |
 | animate_dead | animate-dead | S✗ R✗ I– | ✗ 3 → 4 | ✓ | – | – | – | – | ✓ | ✗ one → several | ✓ |
-| armor | mage-armor | S✗ R✗ I– | ✓ | ✗ abjuration → conjuration | – | – | ✗ · → wisdom negates | ✗ · → 14 | ✓ | ✗ self → one | ✓ |
+| armor | mage-armor | S✓ R✓ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | ✓ | ✓ |
 | augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | barkskin | barkskin | S✗ R✗ I– | ✗ 1 → 2 | ✗ · → transmutation | – | – | – | – | ✓ | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ self → burst | ✗ 3 rounds → long |

@@ -49,14 +49,15 @@ const at = (c: Choice | undefined): string[] => c?.children?.flatMap(t => t.comm
   ?? (c?.command ? [c.command] : []);
 
 describe('a mage made at creation, against rats', () => {
-  it('is offered Magic Missile at each rat, Mage Armor (on itself, nothing to choose), and Arcane Ward on itself or its companion', () => {
+  // Mage Armor by the SRD's resolution (case 22, 18 November): on the caster or one ally, as Arcane Ward is.
+  it('is offered Magic Missile at each rat, and Mage Armor and Arcane Ward on itself or its companion', () => {
     const battle = fight(), spells = offered(battle);
     expect(battle.state.actor).toBe('wiz');
     for (const name of ['Magic Missile', 'Mage Armor', 'Arcane Ward']) {
       expect([name, spells.get(name)?.disabled]).toEqual([name, undefined]);
     }
     expect(at(spells.get('Magic Missile'))).toEqual(['magic_missile>r1', 'magic_missile>r2']);
-    expect(at(spells.get('Mage Armor'))).toEqual(['armor>']);
+    expect(at(spells.get('Mage Armor')).sort()).toEqual(['armor>pal', 'armor>wiz']);
     expect(at(spells.get('Arcane Ward')).sort()).toEqual(['ward>pal', 'ward>wiz']);
   });
   it('casts each: the missile strikes a rat, the armour is on the mage, the ward on the companion', () => {
