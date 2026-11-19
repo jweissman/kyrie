@@ -416,7 +416,7 @@ export class Glance {
   // the site known of and not yet entered, by the known ways: the rest of the site, not the way out of it.
   private static onward(campaign: Campaign, screen: Screen, at: { byId: Map<string, Entity>; site: string }):
     Set<string> {
-    const visited = new Set(screen.map.filter(p => p.visited).map(p => p.id)), graph = Itineraries.graph(campaign);
+    const visited = new Set(screen.map.filter(p => p.visited).map(p => p.id)), graph = Itineraries.able(campaign);
     const rooms = [...new Set([...graph.values()].flat().map(w => w.to))]
       .filter(id => !visited.has(id) && this.siteOf(at.byId, id) === at.site);
     for (const id of rooms) {

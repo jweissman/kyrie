@@ -34,6 +34,13 @@ export class Itineraries {
   // roam: with every way across the open country besides, walked or not, for a journey toward a place seen (see
   // Itineraries.seen).
   // barred: with the ways something bars besides (a locked door): what the compass says stands in the way out.
+  // The known ways the company could take now, or risk, or fight its way through: not one that needs what it has not
+  // got (a chimney to climb, without climbing or a rope). Read for the rest of a site to go on toward: the hobs' hold's
+  // chimney, known once the smoke-hole was looked up (AT-01: the look teaches), had been "the rest of it" from the
+  // cave mouth, and a company led to the cavern was led back out of it, round and round (test/honest-start).
+  static able(campaign: Campaign): Map<string, WayInfo[]> {
+    return new Map([...this.graph(campaign)].map(([from, ways]) => [from, ways.filter(w => w.status !== 'needs')]));
+  }
   static graph(campaign: Campaign, clear = false, roam = false, barred = false): Map<string, WayInfo[]> {
     const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
     let kept = this.read.get(world);
