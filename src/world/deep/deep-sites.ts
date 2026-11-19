@@ -47,7 +47,8 @@ export class DeepSites {
       ...this.heard(layout, content),
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
-      ...this.bane(purpose, layout), ...this.raised(purpose, layout, values), ...this.hooks(purpose, values),
+      ...this.bane(purpose, layout), ...this.raised(purpose, layout, values),
+      ...this.hooks(purpose, values, this.bane(purpose, layout).length > 0),
       ...DeepArgument.lines(layout, values, purpose),
       ...at.rivals === false ? [] : DeepRivals.lines(region, site, { layout, purpose, values }),
       ...this.land(purpose, layout)];
@@ -172,12 +173,16 @@ export class DeepSites {
   }
   // Who tells of it: the innkeeper and the merchant of the settlement nearest it, each in their own words, and the
   // merchant pays well for its ore.
-  private static hooks(purpose: DeepPurpose, values: Record<string, string>): string[] {
+  // Where it has a bane, the innkeeper's grandmother's saying names it: asking before setting out is the preparation
+  // that changes the descent (Sprint 2, S2-4: the barrow's king could not abide the day, and only the embalmers' words,
+  // far down, said so).
+  private static hooks(purpose: DeepPurpose, values: Record<string, string>, baned: boolean): string[] {
     const q = this.q, w = values.w!, trade = purpose.hook.trade, ore = purpose.ore;
     const [first, second] = purpose.rumours.map(t => t.replaceAll('{name}', values.name!));
+    const saying = baned && purpose.bane ? ` My grandmother used to say it: ${DeepSites.lower(purpose.bane.fact)}` : '';
     return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when not knows(actor, ${w}_named) once {`,
-      `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.'`)}.`,
-      `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }',
+      `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.${saying}'`)}.`,
+      `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found).${saying ? ` Assert knows(actor, ${w}_bane).` : ''} }`, '  }',
       ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
         // What he names, the map names too (he says Lapisrecs; the mound had stayed "a great long mound with a door of
@@ -189,6 +194,7 @@ export class DeepSites {
       ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${Math.max(1, Math.round(ore.worth / 2))}.`] : [],
       ...this.home(purpose, values)];
   }
+  private static lower(text: string): string { return text.charAt(0).toLowerCase() + text.slice(1); }
   // Where the innkeeper says it is: out in the country, or under the town ("It is out in under Lowmouth" was said).
   private static lies(where: string): string {
     return /^under /.test(where) ? `It is ${where}, below the vault.` : `It is out in ${where}.`;
