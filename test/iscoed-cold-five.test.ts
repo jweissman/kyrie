@@ -78,6 +78,43 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(s.offer.rest.map(o => o.id)).not.toContain('travel:region__s5');
     expect('error' in await r.ask(JSON.stringify({ act: 'travel:region__s5' }))).toBe(false);
   }, 180000);
+  // CL-47's 30 (cold play 4's T115): once wound, the gatehouse has the pawl in its socket, not "an empty socket".
+  it('sets the pawl in its socket once the gate is wound', async () => {
+    const { s } = await play('elf/mage/Ilse/scholar', lines(5, 24));
+    expect(text(s)).toContain('the pawl stands in its socket');
+    expect(text(s)).not.toContain('empty socket');
+  }, 180000);
+  // CL-35's 4: three notices at one well (the town's, the clerk's tally, the Rì's proclamation under them); the clerk's
+  // is on his own trestle, and the four never hold two notices.
+  it('has one notice by the well, and never two notice rows in the four', async () => {
+    const run = await play('elf/mage/Ilse/scholar', []);
+    const notices = (s: Said) => s.offer.primary.filter(o => /notice|proclamation/i.test(o.label));
+    const look = said(await run.r.ask('{"look":true}'));
+    expect(look.scene.lines.filter(l => /notice.*by the well/.test(l))).toHaveLength(1);
+    expect(text(look)).toContain('clerk’s own trestle at the edge of the green');
+    expect(notices(run.s)).toHaveLength(1);
+    let s = run.s;
+    for (const line of lines(5, 12)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
+    expect(notices(s).map(o => o.label)).toEqual(['Read the royal proclamation under the notices']);
+  }, 180000);
+  // CL-39's 33, 39, 40: the Hall's music box says whose it is before it is taken, and taking it is no find; the cup
+  // in the undercroft is not drawn as a payoff nor found for experience, and its ring is bare only once it is lifted.
+  it('says the music box is the steward\'s, and lifts the cup from its ring only when it is taken', async () => {
+    const run = await play('elf/mage/Ilse/scholar', lines(5, 84));
+    const box = [...run.s.offer.primary, ...run.s.offer.rest].find(o => o.id.startsWith('take_item(region__s4_manor_box'));
+    expect(box?.label).toContain('the steward of the Hall\'s, not yours');
+    expect(text(await run.ask(box!.id))).not.toMatch(/experience/);
+    let s = run.s;
+    for (const line of lines(5, 94).slice(85)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
+    const look = text(said(await run.r.ask('{"look":true}')));
+    expect(look).toContain('a small bronze cup stands in a ring of dust');
+    expect(look).not.toContain('was lifted');
+    const cup = [...s.offer.primary, ...s.offer.rest].find(o => o.id.startsWith('take_item(region__s4_stones_cup'));
+    expect(cup?.aspects ?? ['none']).not.toContain('payoff');
+    const taken = text(await run.ask(cup!.id));
+    expect(taken).toContain('was lifted');
+    expect(taken).not.toMatch(/experience/);
+  }, 240000);
   // CL-38: a spell prepared in place of one already cast waits for a rest, and its row says so before it is chosen.
   it('says on the row that a spell prepared in place of one cast waits for the next rest', async () => {
     const { s } = await play('elf/mage/Ilse/scholar', lines(5, 8));

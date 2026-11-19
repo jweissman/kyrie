@@ -6,6 +6,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Call, Module, Predicate } from '../lang/module';
 import { World } from '../lang/world';
 import { OutOf } from './out-of';
+import { Treasure } from '../ui/treasure';
 import type { Operator } from '../campaign/planner';
 
 // The last words on a choice, once it is grounded: a way not named twice, nor for where the company stands; what a
@@ -47,6 +48,10 @@ export class ChoiceWording {
     // A spell prepared where the one it replaces was already cast says before it is chosen that it waits for a rest
     // (cold play 5, CL-38: "ready after the next rest" had been said only after the hour was spent).
     if (resolve?.name === 'prepare' && this.spent(campaign, resolve)) { name += ' · ready after the next rest'; }
+    // What is someone else's says so before it is taken (cold play 5, CL-39's 33: the Hall's silver music box had been
+    // "Collect a silver music box for Ilse", nothing said of whose it was until the steward showed the company out).
+    const theirs = resolve?.name === 'acquire' && Treasure.theirs(world, resolve.args[0]!, campaign.playerActor ?? 'party');
+    if (theirs) { name += ` · ${theirs}'s, not yours`; }
     return name;
   }
   // Whether the spell a preparation replaces is no longer ready in its slot (Spellcasting.prepare: ready at once only

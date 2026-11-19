@@ -132,11 +132,16 @@ export class FieldResolver {
     const [id, definition, owner] = call.args as [string, string, string], world = host.world;
     const label = ObservationText.label(world, id);
     const events = Items.take(host.creatures, owner, { id, definition, label });
-    const found = world.relates('valuable') && world.test(ModuleWriter.call('valuable', definition))
+    // Not what is someone else's: the Hall's silver music box, taken off its shelf, had been "found" for 12 experience
+    // (cold play 5, CL-39's 33). Theirs as Treasure.theirs has it: owned outside the company, its owner not routed.
+    const company = host.actors.find(a => a.members.includes(owner)), mine = [company?.id, ...company?.members ?? []];
+    const theirs = world.relates('owns') && world.related('owns').some(r => r.args[1] === id && !mine.includes(r.args[0])
+      && !(world.relates('routed') && world.test(ModuleWriter.call('routed', r.args[0]!))));
+    const found = world.relates('valuable') && world.test(ModuleWriter.call('valuable', definition)) && !theirs
       && !(world.relates('recovered') && world.test(ModuleWriter.call('recovered', id)));
     if (!found) { return events; }
     const worth = world.number(ModuleWriter.call('worth', definition)), from = events.length;
-    FieldUse.grant(host.creatures, host.actors.find(a => a.members.includes(owner))?.members ?? [owner],
+    FieldUse.grant(host.creatures, company?.members ?? [owner],
       Math.floor(worth / 4), events);
     for (const e of events.slice(from)) { if (e.type === 'gain') { e.detail = `experience: found ${label}`; } }
     return events;

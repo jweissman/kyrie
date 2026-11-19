@@ -112,12 +112,20 @@
   Observe {t}_stones_cup_sign at {t}_stones_under when at({t}_stones_cup, {t}_stones_under) "At the foot of the lowest niche a small bronze cup stands in a ring of dust. Of everything in the round room it alone has been set out, as a place is laid for someone; the ring says it has stood so for longer than the Hall has had a name. To lift it would be to take from the dead what the dead were given.".
   Relation {t}_cup_felt(group).
   Rule {t}_cup_taken when holding(party, {t}_stones_cup_kind) and at(party, {t}_stones_under) and not {t}_cup_felt(party) says "The stillness of the undercroft changes the moment the cup is out of its ring: not a sound, nothing moves, but it is no longer the stillness of a place left alone. The bare ring at the foot of the niche waits, exactly the size of what you hold. Whatever sent a boy up the stair with his name gone, you have just done a part of it." { Assert {t}_cup_felt(party). }
-  Kind {t}_stones_cup_kind "a bronze cup of the old stones" is treasure worth 35 weighing 1 described "A shallow bronze cup no bigger than a hand, green with age, with a lip bent from being dropped. It was the offering of the least of the dead, placed at the foot of the niche that is lowest. Taken, it is stolen from the dead; returned, it is only a cup.".
+  // Not a treasure to be found (no find's experience, no payoff drawn on it): the prose says to lift it would be to
+  // take from the dead what they were given (cold play 5, CL-39's 40).
+  Kind {t}_stones_cup_kind "a bronze cup of the old stones" is gear worth 35 weighing 1 described "A shallow bronze cup no bigger than a hand, green with age, with a lip bent from being dropped. It was the offering of the least of the dead, placed at the foot of the niche that is lowest. Taken, it is stolen from the dead; returned, it is only a cup.".
   Item {t}_stones_cup "a bronze cup of the old stones" is {t}_stones_cup_kind at {t}_stones_under.
   Thing {t}_stones_niche "the lowest niche" at {t}_stones_under {
+    State laid "The lowest niche is cut nearer the floor than the others, and shorter: a child's.".
     State bare "At the foot of the lowest niche a ring of dust shows where a small thing stood a long time and was lifted.".
     State restored "The bronze cup stands again in its ring of dust at the foot of the lowest niche.".
     Change set "Set the bronze cup back in its ring of dust" from bare to restored needing {t}_stones_cup_kind.
+  }
+  // The ring is bare only once the cup is out of it: it had been told standing in its ring and lifted from it in one
+  // look (cold play 5, CL-39's 39).
+  Rule {t}_niche_lifted when state({t}_stones_niche, laid) and not at({t}_stones_cup, {t}_stones_under) {
+    Retract state({t}_stones_niche, laid). Assert state({t}_stones_niche, bare).
   }
   Relation {t}_boy_well(group).
   Rule {t}_boy_mends when state({t}_stones_niche, restored) and not {t}_boy_well(party) says "Somewhere above, in the Hall, a boy stops humming." { Assert {t}_boy_well(party). }
