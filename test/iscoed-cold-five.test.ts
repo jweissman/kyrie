@@ -78,6 +78,15 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(s.offer.rest.map(o => o.id)).not.toContain('travel:region__s5');
     expect('error' in await r.ask(JSON.stringify({ act: 'travel:region__s5' }))).toBe(false);
   }, 180000);
+  // CL-38: a spell prepared in place of one already cast waits for a rest, and its row says so before it is chosen.
+  it('says on the row that a spell prepared in place of one cast waits for the next rest', async () => {
+    const { s } = await play('elf/mage/Ilse/scholar', lines(5, 8));
+    const prepare = labels(s).filter(l => /^Have Ilse prepare/.test(l));
+    expect(prepare.filter(l => / in place of Light,/.test(l)).every(l => l.endsWith(' · ready after the next rest')))
+      .toBe(true);
+    expect(prepare.filter(l => / in place of Second Sight,/.test(l)).some(l => l.includes('next rest'))).toBe(false);
+    expect(prepare.length).toBe(6);
+  }, 180000);
 });
 // The fourth cold play's threads (CL-46): Bran says what he will do himself, the boy has his answer once Bran is out,
 // and the reeve says why nobody in Gatesend will go into the gatehouse.

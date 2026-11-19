@@ -44,7 +44,18 @@ export class ChoiceWording {
     // Risking a hazard says what it would do to whoever goes first, once it is understood.
     const hurt = resolve?.name === 'expose' && action.schema === 'risk' ? this.hurt(campaign, action, resolve) : undefined;
     if (hurt) { name += ` · ${hurt}`; }
+    // A spell prepared where the one it replaces was already cast says before it is chosen that it waits for a rest
+    // (cold play 5, CL-38: "ready after the next rest" had been said only after the hour was spent).
+    if (resolve?.name === 'prepare' && this.spent(campaign, resolve)) { name += ' · ready after the next rest'; }
     return name;
+  }
+  // Whether the spell a preparation replaces is no longer ready in its slot (Spellcasting.prepare: ready at once only
+  // in place of one still ready).
+  private static spent(campaign: Campaign, prepare: Call): boolean {
+    const [caster, tier, outgoing] = prepare.args, index = Number(tier?.split('_')[1]) - 1;
+    const member = campaign.world.module.entities.find(e => e.id === caster) as { creatureId?: string } | undefined;
+    const c = campaign.readout.creatures.find(x => x.id === (member?.creatureId ?? caster));
+    return !!c?.state.prepared?.[index]?.includes(outgoing!) && !c.state.ready?.[index]?.includes(outgoing!);
   }
   // "A to B to C", where C ends with B or B with C, is "A to B".
   private static once(name: string): string {
