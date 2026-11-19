@@ -17,16 +17,19 @@ import type { Frame } from '../engine/protocol';
 // put up the moment it arrived, after its fade had already run on mount, so that creation came up over flat dark and
 // the land snapped in a frame later). Until the wanted one is decoded the last one stands, or nothing; the ambient's
 // own opacity transition then brings the first one up.
+// The last stands across the shell's being drawn anew too (the owner, 19 November: certain scenes flickered to dark
+// and then faded in slowly, where most came at once).
 class Plates {
   static readonly loaded = new Set<string>();
+  static shown?: string;
   static useReady(wanted: string | undefined): string | undefined {
-    const [ready, setReady] = useState(() => wanted && Plates.loaded.has(wanted) ? wanted : undefined);
+    const [ready, setReady] = useState(() => wanted && Plates.loaded.has(wanted) ? wanted : Plates.shown);
     useEffect(() => {
-      if (!wanted || Plates.loaded.has(wanted)) { setReady(wanted); return; }
+      if (!wanted || Plates.loaded.has(wanted)) { Plates.shown = wanted; setReady(wanted); return; }
       let live = true;
       const img = new Image();
       img.src = Plates.url(wanted);
-      const done = () => { Plates.loaded.add(wanted); if (live) { setReady(wanted); } };
+      const done = () => { Plates.loaded.add(wanted); Plates.shown = wanted; if (live) { setReady(wanted); } };
       img.decode().then(done, done);
       return () => { live = false; };
     }, [wanted]);
