@@ -585,6 +585,20 @@
         "notes": "The SRD's Ray of Enfeeblement's penalty (srd-proving-cases.md, case 58): a point of Strength off for each point it was laid with (ConditionAmount), which its caster throws as it lays it; Strength never below one (Effects.scores)."
       }
     },
+    "barkskin": {
+      "name": "Barkskin",
+      "description": "Skin hardened like bark.",
+      "lifetime": "encounter",
+      "modifiers": { "ac": -2 },
+      "perAmount": { "ac": -1 },
+      "source": {
+        "orsino": "status:barkskin",
+        "srd35": "spell:barkskin",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "Orsino's barkskin, two harder to hit (the SRD's natural armour +2, added to worn armour), and a point more for each it was laid with (perAmount: the SRD's Barkskin grows a point each three casting levels past the third, to +5 at the twelfth; srd-proving-cases.md case 59). A consumable that lays it lays the two alone."
+      }
+    },
     "concealed": {
       "name": "Concealed",
       "description": "Blurred and wavering: one blow in five meant for them goes astray.",
@@ -650,6 +664,7 @@
       "modifiers": {
         "ac": -2
       },
+      "perAmount": { "ac": -1 },
       "begins": "A shimmer of faith stands about {target}.",
       "ends": "The shimmer about {target} fades.",
       "source": {
@@ -657,7 +672,7 @@
         "srd35": "spell:shield-of-faith",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Shield of Faith's deflection (mission-22/srd-proving-cases.md, case 19): +2 to armour class (Kyr's armour class descends, so ac -2), added to worn armour as a deflection is. Converted: +2 at every casting level (the SRD's grows a point each six levels to +5). Orsino's Shield of Faith had laid its shielded, which its abyssal shield still lays."
+        "notes": "The SRD's Shield of Faith's deflection (mission-22/srd-proving-cases.md, case 19): +2 to armour class (Kyr's armour class descends, so ac -2), added to worn armour as a deflection is. And a point more for each it was laid with (perAmount: the SRD's point each six casting levels, to +5 at the eighteenth, exact since case 59). Orsino's Shield of Faith had laid its shielded, which its abyssal shield still lays."
       }
     },
     "death_ward": {

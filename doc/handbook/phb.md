@@ -7797,11 +7797,11 @@ You are hidden for 3 turns; you are fox's cunning for 3 turns. Hidden: 4 harder 
 
 *Adapted · level 1 divine spell, abjuration, law domain* · `ability:shield`
 
-One ally gains shield of faith for 10 turns at the first casting level, 100 turns at the tenth. Shield of Faith: 2 harder to hit. A divine spell of the first level. Takes a first-level slot.
+One ally gains shield of faith by min(3, floor(castingLevel / 6)) for 10 turns at the first casting level, 100 turns at the tenth. Shield of Faith: 2 harder to hit. A divine spell of the first level. Takes a first-level slot.
 
-> A shimmer of faith stands about you or a companion, turning blows aside for a minute.
+> A shimmer of faith stands about you or a companion, turning blows aside: two harder to hit, and a point more for every six levels you have, to five, for a minute for every level.
 
-*Adapted: The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). Converted: +2 at every casting level, the SRD's to the fifth (it grows a point each six levels to +5; Kyr's conditions do not grow with the caster). A minute, ten rounds, a casting level (exact since case 46: Lasting). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps.*
+*Adapted: The SRD's Shield of Faith (doc/architecture/mission-22/srd-proving-cases.md, case 19): first level, its school abjuration beside Law, on the caster or one ally (the creature touched), two harder to hit by a deflection that adds to worn armour (the shield_of_faith condition). And a point more each six casting levels, to +5 at the eighteenth (exact since case 59: an amount its caster throws, ConditionAmount). A minute, ten rounds, a casting level (exact since case 46: Lasting). Its save is the SRD's harmless one, made by none who takes it willingly. Before, Orsino's second level and its shielded (one harder to hit, ten more hit points and +1 against magic), which Orsino's abyssal shield keeps.*
 
 ##### Smite Evil
 
@@ -7835,11 +7835,11 @@ Everyone but you where it bursts, friend or foe is entangled for 10 turns at the
 
 *Adapted · level 2 divine spell, transmutation, nature domain* · `ability:barkskin`
 
-One ally gains barkskin for 100 turns at the first casting level, 1000 turns at the tenth. Barkskin: 2 harder to hit. A divine spell of the second level. Takes a second-level slot.
+One ally gains barkskin by min(3, floor(max(0, castingLevel - 3) / 3)) for 100 turns at the first casting level, 1000 turns at the tenth. Barkskin: 2 harder to hit. A divine spell of the second level. Takes a second-level slot.
 
-> The skin of the one you touch, yourself or a companion, thickens and toughens like bark: two harder to hit, for ten minutes for every level you have.
+> The skin of the one you touch, yourself or a companion, thickens and toughens like bark: two harder to hit, and a point more for every three levels you have past the third, to five, for ten minutes for every level you have.
 
-*Adapted: The SRD's Barkskin (doc/architecture/mission-22/srd-proving-cases.md, case 50): second level (the SRD's druid's; Orsino's first), its school transmutation beside Nature, on the caster or one ally (the creature touched), Orsino's barkskin (two harder to hit, added to worn armour: the SRD's natural armour +2) for ten minutes a casting level, a hundred rounds (Lasting). Converted: +2 at every casting level, where the SRD's grows a point each three levels past the third to +5 (a condition's amount does not read its caster); it lasts the fight. Before, Orsino's first level, on the caster alone, three rounds.*
+*Adapted: The SRD's Barkskin (doc/architecture/mission-22/srd-proving-cases.md, case 50): second level (the SRD's druid's; Orsino's first), its school transmutation beside Nature, on the caster or one ally (the creature touched), Orsino's barkskin (two harder to hit, added to worn armour: the SRD's natural armour +2) for ten minutes a casting level, a hundred rounds (Lasting). And a point more each three casting levels past the third, to +5 at the twelfth (exact since case 59: an amount its caster throws, ConditionAmount); it lasts the fight. Before, Orsino's first level, on the caster alone, three rounds.*
 
 ##### Calm Emotions
 
@@ -9865,11 +9865,13 @@ Cannot act.
 
 ### Barkskin
 
-*Faithful · lasts the fight at most* · `condition:barkskin`
+*Adapted · lasts the fight at most* · `condition:barkskin`
 
 2 harder to hit.
 
 > Skin hardened like bark.
+
+*Adapted: Orsino's barkskin, two harder to hit (the SRD's natural armour +2, added to worn armour), and a point more for each it was laid with (perAmount: the SRD's Barkskin grows a point each three casting levels past the third, to +5 at the twelfth; srd-proving-cases.md case 59). A consumable that lays it lays the two alone.*
 
 ### Battlecry
 
@@ -11309,7 +11311,7 @@ Resists 50% of necrotic, immune to charm.
 
 > A shimmer of faith turns blows aside: two harder to hit, whatever armour is worn.
 
-*Adapted: The SRD's Shield of Faith's deflection (mission-22/srd-proving-cases.md, case 19): +2 to armour class (Kyr's armour class descends, so ac -2), added to worn armour as a deflection is. Converted: +2 at every casting level (the SRD's grows a point each six levels to +5). Orsino's Shield of Faith had laid its shielded, which its abyssal shield still lays.*
+*Adapted: The SRD's Shield of Faith's deflection (mission-22/srd-proving-cases.md, case 19): +2 to armour class (Kyr's armour class descends, so ac -2), added to worn armour as a deflection is. And a point more for each it was laid with (perAmount: the SRD's point each six casting levels, to +5 at the eighteenth, exact since case 59). Orsino's Shield of Faith had laid its shielded, which its abyssal shield still lays.*
 
 ### Shielded
 
