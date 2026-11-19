@@ -51,6 +51,9 @@ export class AutoPlayer {
   };
   private temper: Temper;
   private readonly tried = new Set<string>();
+  // How often each look has been taken: one the page still leads with is taken once more (a search cut short by what
+  // woke in the drain had never been made again, and the letters cut there never found).
+  private readonly looked = new Map<string, number>();
   constructor(readonly policy: PolicyName, private readonly draw: Draw) {
     this.temper = policy === 'mixed' ? 'wander' : policy;
   }
@@ -64,7 +67,7 @@ export class AutoPlayer {
     if (this.policy === 'mixed' && s.step % AutoPlayer.stretch === 0) { this.temper = this.draw.pick(AutoPlayer.tempers)!; }
     if (!s.offered.length) { return undefined; }
     const move = this.preferred(s) ?? { kind: 'command' as const, id: this.draw.pick(s.offered)!.id };
-    if (move.kind === 'command') { this.tried.add(move.id); }
+    if (move.kind === 'command') { this.tried.add(move.id); this.looked.set(move.id, (this.looked.get(move.id) ?? 0) + 1); }
     return move;
   }
   // How it fights its own turns: as the game's tactics would (as the page's reckoning of a fight assumes), now and
@@ -89,6 +92,14 @@ export class AutoPlayer {
     return this.of(s, 'go').filter(o => !s.visited.has(AutoPlayer.destination(o.id)));
   }
   private preferred(s: Situation): Move | undefined {
+    // One who follows the page takes a step it leads with that is no fight before turning back from a danger: the man
+    // with the black candle's question had been passed by for the way back out, and back in, forty times over (the
+    // first quarter hour's census, 19 November).
+    const step = ['follow', 'silver', 'gold'].includes(this.temper) ? this.followed(s) : undefined;
+    // A fight it leads with is taken unless the page reckons it deadly, as a player who trusts the gold takes it.
+    if (step?.kind === 'command' && (AutoPlayer.kind(step.id) !== 'fight' || s.dangers?.[step.id] !== 'deadly')) {
+      return step;
+    }
     const d = this.draw, careful = this.temper === 'deviate' ? undefined : this.careful(s);
     if (careful) { return careful; }
     switch (this.temper) {
@@ -114,7 +125,7 @@ export class AutoPlayer {
       // led as notice_read(party, green), had never been read, and the priest had no job to give.
       const o = s.offered.find(x => x.id === led) ?? s.offered.find(x => CompanyRecall.same(x.id, led));
       // A look already taken is not taken again: it told what it had (a door looked at ten times).
-      if (o && !(AutoPlayer.kind(o.id) === 'look' && this.tried.has(o.id))) { return this.command(o); }
+      if (o && !(AutoPlayer.kind(o.id) === 'look' && (this.looked.get(o.id) ?? 0) >= 2)) { return this.command(o); }
     }
     return undefined;
   }

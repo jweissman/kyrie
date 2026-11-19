@@ -28,6 +28,7 @@ Module lab "The undercroft at Lowmouth" {
   Initially Set quantity(party, gold) to 6.
   Goal false.
   Relation low_u_paid(entity). Relation low_u_done(entity). Relation low_u_given(entity).
+  Relation low_u_onward_by(entity).
   Relation low_u_halved(entity).
   Place low_u_store "the old corn-store" is room within low at 0, 1 indoors.
   Kind corn_store_key "the corn-store key" like cell_key described "A heavy iron key on a loop of string, with the corn-store's mark burned into its wooden tag.".
@@ -188,7 +189,7 @@ Module lab "The undercroft at Lowmouth" {
   }
   Objective low_u_rats_job_owed when low_u_given(low_u_rats_job) and low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_merchant "Tell {low_merchant} at {low_shop} that the rats and their nest are dealt with. The rest of the pay is yours, and a lantern.".
   Objective low_u_rats_job_owed_whole when low_u_given(low_u_rats_job) and low_u_done(low_u_rats_job) and low_u_nest_cleared(low_u_rats_job) and not low_u_halved(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_merchant "Tell {low_merchant} at {low_shop} that the rats and their nest are dealt with. Ten coin are yours, and a lantern.".
-  Rule low_u_rats_onward when low_u_done(low_u_rats_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Rule low_u_rats_onward when (low_u_paid(low_u_rats_job) or (low_u_done(low_u_rats_job) and not low_u_given(low_u_rats_job))) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). Assert low_u_onward_by(low_u_warren). }
   Relation low_u_docked(entity). Relation low_u_mended(entity). Relation low_u_bait_told(entity).
   Rule low_u_door_docked when low_u_paid(low_u_rats_job) and state(low_u_store_lock, torn) and together(low_merchant, party) and not low_u_docked(low_u_store_lock)
     says "{low_merchant} takes two of the coins back off the counter. 'For my door.'" {
@@ -301,7 +302,7 @@ Module lab "The undercroft at Lowmouth" {
     On discuss { Increase quantity(actor, gold) by 10. Assert low_u_halved(low_u_dead_job). }
   }
   Objective low_u_dead_job_owed when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_paid(low_u_dead_job) toward low_priest "Tell {low_priest} at {low_chapel} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
-  Rule low_u_dead_onward when low_u_done(low_u_dead_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Rule low_u_dead_onward when (low_u_paid(low_u_dead_job) or (low_u_done(low_u_dead_job) and not low_u_given(low_u_dead_job))) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). Assert low_u_onward_by(low_u_ossuary). }
   Observe low_u_pit_scene at low_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces. At the bottom a square adit goes back into the rock behind a barred gate. A board on the gate says KEEP OUT in three hands.".
   Observe low_u_husks at low_u_adit when able(low_u_spiders) "Things hang in the web across the cutting ahead, wrapped grey and sucked dry. A fox, a dog, something the size of a calf. Whatever strung it takes prey that big.".
   Person low_u_spiders "the spider in the old workings" at low_u_gallery {
@@ -374,11 +375,13 @@ Module lab "The undercroft at Lowmouth" {
     On discuss { Spend hobb_knife from actor. Give minor_healing_potion to actor. }
   }
   Objective low_u_spiders_job_owed when low_u_done(low_u_spiders_job) and state(low_u_eggs, burnt) and not low_u_paid(low_u_spiders_job) toward low_innkeeper "Tell {low_innkeeper} at {low_taproom} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
-  Rule low_u_spiders_onward when low_u_done(low_u_spiders_job) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). }
+  Rule low_u_spiders_onward when (low_u_paid(low_u_spiders_job) or (low_u_done(low_u_spiders_job) and not low_u_given(low_u_spiders_job))) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). Assert low_u_onward_by(low_u_gallery). }
   Place low_u_drain "the old drain" is room within low at 0, 5 underground 2 down.
   Passage low_u_drain_way "a culvert going down" is crawl between low_u_warren and low_u_drain.
   Entity low_u_onward: fact "".
-  Objective low_u_onward_sought when low_u_done(low_u_onward) and not been(party, low_u_undercroft) "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_onward_sought when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and low_u_onward_by(low_u_warren) toward low_u_undercroft by low_u_warren "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_onward_sought_yard when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and low_u_onward_by(low_u_ossuary) toward low_u_undercroft by low_u_ossuary "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_onward_sought_pit when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and low_u_onward_by(low_u_gallery) toward low_u_undercroft by low_u_gallery "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
   Objective low_u_floor_sought when knows(party, low_u_flag_seen) and not knows(party, low_u_vault_found) toward low_u_undercroft "Something is under the floor of {low_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place low_u_undercroft "the undercroft" is room within low at 1, 5 underground 2 down.
   Passage low_u_drain_mouth "the mouth of the drain" is passage between low_u_drain and low_u_undercroft.

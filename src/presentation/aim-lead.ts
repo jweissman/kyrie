@@ -32,6 +32,13 @@ export class AimLeading {
     if (!known.has(key)) { known.set(key, this.lead(campaign, screen, def)); }
     return known.get(key);
   }
+  // Whether what the aim followed waits on lies here, to be found or learned: here is then the step, and no way out
+  // toward what the aim names (in the drain, its letters unfound, the way to the undercroft had been gold, and there
+  // the way back to the drain: the first quarter hour's census, 19 November).
+  static lies(campaign: Campaign, screen: Screen): boolean {
+    const lead = this.of(campaign, screen);
+    return !!lead && ['hidden', 'taught'].includes(lead.source) && lead.next[0] === screen.place.id;
+  }
   // The way its author says the aim is gone to by, while it is still to be taken (see AimRoute.routed).
   static route(campaign: Campaign, screen: Screen): AimLead | undefined {
     const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
@@ -100,7 +107,12 @@ export class AimLeading {
     const found = [...AimAdvances.sought(campaign).map(p => ['hidden', p] as const),
       ...AimAdvances.taughtAt(campaign).map(p => ['taught', p] as const),
       ...AimAdvances.unreached(campaign).map(p => ['beyond', p] as const)]
-      .filter(([, p]) => p !== here && sites.has(this.site(byId, p) ?? ''));
+      .filter(([, p]) => sites.has(this.site(byId, p) ?? ''));
+    // Where it lies here, here is the step (the search of this place), never the next place it lies in: in the drain,
+    // its letters unfound, the lead had been the ossuary's, and in the undercroft between them the drain's again (the
+    // first quarter hour's census, 19 November).
+    const own = found.find(([, p]) => p === here);
+    if (own) { return { aim: def.id, source: own[0], next: [here] }; }
     const near = found.map(([source, p]) => ({ source, p, way: this.way(campaign, here, p) }))
       .filter(x => x.way.length > 1).toSorted((a, b) => a.way.length - b.way.length)[0];
     if (!near) { return undefined; }
@@ -108,8 +120,14 @@ export class AimLeading {
     const bar = exit && this.barred(exit) ? this.bar(campaign, here, to) ?? this.done(exit.acts)[0] : undefined;
     return bar ? { aim: def.id, source: 'barred', next: [bar] } : { aim: def.id, source: near.source, next: [near.p] };
   }
+  // The site a place is in; or, under the ground with no site over it, the ground under the place it is within: the
+  // rooms under a town are one site to what an aim waits on there (the first quarter hour's census, 19 November: the
+  // undercroft's flag waiting on letters cut in the drain and the ossuary, and the gold had gone back and forth
+  // between the undercroft and the charnel passage, each place's lead by a different reading).
   private static site(byId: Map<string, Entity>, id: string): string | undefined {
-    return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
+    const line = Spatial.ancestry(byId, id), site = line.find(e => e.space?.kind === 'site')?.id;
+    const under = byId.get(id)?.space?.shelter === 'underground' ? line[1]?.id : undefined;
+    return site ?? (under && `${under}:under`);
   }
   // What stands on the way from one place to the next and bars it now (the speaking door, sealed).
   private static bar(campaign: Campaign, from: string, to: string): string | undefined {

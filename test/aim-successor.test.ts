@@ -22,8 +22,10 @@ describe('a chosen aim, its part done', () => {
     c.commitWorld(c.world.apply([{ kind: 'assert', call: call('knows', 'party', `${t}_rats_source`) },
       { kind: 'assert', call: call(`${t}_done`, `${t}_rats_job`) },
       { kind: 'assert', call: call(`${t}_done`, `${t}_onward`) }]));
-    expect(Undertakings.held(c).map(o => o.id))
-      .toEqual(expect.arrayContaining([`${t}_rats_job_run`, `${t}_onward_sought`]));
+    // The old ways onward are said as the job is paid, and followed on from it then (the first quarter hour's census,
+    // 19 November): not one more aim beside the nest's.
+    expect(Undertakings.held(c).map(o => o.id)).toContain(`${t}_rats_job_run`);
+    expect(Undertakings.held(c).map(o => o.id)).not.toContain(`${t}_onward_sought`);
     Undertakings.after(c, before);
     expect(Undertakings.followed(c)?.id).toBe(`${t}_rats_job_run`);
     expect(Undertakings.chosen(c)).toBe(true);

@@ -86,6 +86,8 @@ export class AimContinuity {
     // gate-well, found there, is taken for it (cold play 5, CL-33: "Collect the sea-gate's pawl" unmarked, the
     // frontier saying nothing here bore on the aim).
     const about = lead.source === 'here' && def ? [...Stakes.read(campaign, def)].filter(id => !byId.get(id)?.space) : [];
+    // Where what it waits on lies here to be found, the search of here acts on it (the drain's letters).
+    const search = AimLeading.lies(campaign, screen);
     const step = new Set([...lead.next, ...about,
       ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
     // Where the step is what bars the way, an act whose site is the bar acts on it too (the speaking door's words).
@@ -97,7 +99,8 @@ export class AimContinuity {
       // A way by where it goes; an act at a way (a look at the door on it) by what it is done to.
       const id = c.command ?? c.choice, way = c.exit && c.kind === 'way' ? ways.get(c.exit) : undefined;
       const far = c.choice.startsWith('travel:') ? c.choice.slice('travel:'.length) : undefined;
-      return (!way && !far && (bound.get(id) ?? []).some(x => step.has(x))) || (!!way && step.has(way))
+      return (search && c.kind === 'search') || (!way && !far && (bound.get(id) ?? []).some(x => step.has(x)))
+        || (!!way && step.has(way))
         || (!!far && [...step].some(x => Itineraries.within(byId, x, far)));
     });
   }

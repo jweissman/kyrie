@@ -12,7 +12,9 @@ export class AimRoute {
   // Where its author says the aim is gone to by (toward the dead by the churchyard), that place too, until the company
   // is in it, at what the aim is toward, or on the way from the one to the other: the churchyard lit from the shrine,
   // and nothing lit back out of the crypt between it and the ossuary the dead are in.
+  // Where what the aim waits on lies here to be found or learned, here is all it names (AimLeading.lies).
   static routed(campaign: Campaign, screen: Screen, aimed: Set<string>): Set<string> {
+    if (AimLeading.lies(campaign, screen)) { return new Set([screen.place.id]); }
     const by = AimLeading.route(campaign, screen)?.next ?? [];
     // Out of an enclosed place toward what it names, or where its author says it is gone to by (the courier's town).
     const toward = by.length ? new Set([...aimed, ...by]) : aimed, out = this.outward(campaign, screen, toward);

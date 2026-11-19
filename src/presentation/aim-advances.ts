@@ -169,9 +169,25 @@ export class AimAdvances {
       const brought = [...rule.effects.flatMap(c => c.call ? [c.call] : []), ...taught];
       if (brought.some(c => read.some(w => this.meets(c, w)))) { this.reads(rule.when, made); }
     }
+    // And an act that brings it about, for what it needs to be known, been to or held first: the lettered flag
+    // pressed lifts it, and pressing it wants the letters known, which are found by searching where they are cut; the
+    // gold had had nothing to go by under the flag but rooms not yet been to (the first quarter hour's census, 19
+    // November). One step back, and only those: what any act needs besides (to be awake, here, able) is no lead.
+    for (const act of module.actions ?? []) {
+      const free = this.free.bind(this, new Set((act.parameters ?? []).map(x => x.name)));
+      if (act.success.some(c => c.call && read.some(w => this.meets(free(c.call!), w)))) {
+        const needs: Call[] = [];
+        this.reads(act.requires, needs);
+        made.push(...needs.filter(c => ['knows', 'been', 'carries'].includes(c.name)).map(free));
+      }
+    }
     const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
     kept.set(def.id, calls);
     return calls;
+  }
+  // An act's call with its own parameters (actor, site) as the unknowns they are.
+  private static free(params: Set<string>, c: Call): Call {
+    return { ...c, args: c.args.map(x => params.has(x) ? `?${x}` : x) };
   }
   private static meets(a: Call, b: Call): boolean {
     return a.name === b.name && a.args.length === b.args.length

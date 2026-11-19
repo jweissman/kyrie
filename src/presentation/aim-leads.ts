@@ -38,8 +38,11 @@ export class AimLeads {
   // Nor, from inside an enclosed place, one outside it: that is the way out toward the aim (see AimRoute.outward).
   static spent(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
     const been = new Set(screen.map.filter(p => p.visited).map(p => p.id)), here = screen.place.id;
-    const inside = Itineraries.enclosed(campaign, here);
-    return new Set([...named].filter(id => id !== here && been.has(id)
+    // Never the place the aim's author says it is gone to by, while that is still to be taken: the rat-runs, been to
+    // for the rats, are the way down to the old drain, and from the corn-merchant's nothing had been gold (the first
+    // quarter hour's census, 19 November).
+    const inside = Itineraries.enclosed(campaign, here), by = new Set(AimLeading.route(campaign, screen)?.next ?? []);
+    return new Set([...named].filter(id => id !== here && been.has(id) && !by.has(id)
       && !(inside && !Itineraries.enclosed(campaign, id)) && !this.there(campaign, id)));
   }
   private static readonly kinds = new WeakMap<object, Map<string, Set<string>>>();

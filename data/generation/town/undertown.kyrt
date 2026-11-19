@@ -16,6 +16,8 @@
   // thousand) comes to the stair below the vault at the second level, not the first (the builder's descent of 8
   // November: a lone warrior cleared the town's ten fights at level one, and died at the first of the deep site).
   Relation {t}_u_paid(entity). Relation {t}_u_done(entity). Relation {t}_u_given(entity).
+  // Which way down the old ways were first said to go on by: the room the job that said so ended in (see below).
+  Relation {t}_u_onward_by(entity).
   // A job half paid for (done, its cause not yet seen to) is paid only the rest when it is finished (REV-21: the
   // half and then the whole had both been paid).
   Relation {t}_u_halved(entity).
@@ -196,7 +198,7 @@
     says "Word goes round {town}: the apprentice of {{t}_merchant} is gone in the night, and the last of the seed-corn with him." {
     Assert {t}_u_apprentice_fled({t}_u_apprentice_job). Assert {t}_u_done({t}_u_apprentice_job). Retract at({t}_u_apprentice, {merchantat}).
   }
-  Rule {t}_u_apprentice_onward when {t}_u_done({t}_u_apprentice_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Rule {t}_u_apprentice_onward when ({t}_u_paid({t}_u_apprentice_job) or ({t}_u_done({t}_u_apprentice_job) and not {t}_u_given({t}_u_apprentice_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_warren). }
   Milestone {t}_u_apprentice_found "found out what was taking the corn-store's grain" worth 120 when {t}_u_apprentice_caught({t}_u_apprentice_job).
   Topic {t}_u_apprentice_paid with {t}_merchant "Ask {{t}_merchant} for the ten coin for the corn-store" when {t}_u_apprentice_exposed({t}_u_apprentice_job) and not {t}_u_paid({t}_u_apprentice_job) once {
     Says "Ten coin are counted out hard, one at a time. A lantern and two flasks of oil are set beside them. 'I'd sooner it had been rats,' says {{t}_merchant}.".
@@ -303,7 +305,7 @@
     says "Word comes round {town}: {{t}_merchant} has laid poison under the grain in the corn-store cellar, as promised. By morning the sacks are no longer slit." {
     Assert {t}_u_runaway_lost({t}_u_runaway_job). Assert {t}_u_done({t}_u_runaway_job). Retract at({t}_u_runaway, {t}_u_warren).
   }
-  Rule {t}_u_runaway_onward when {t}_u_done({t}_u_runaway_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Rule {t}_u_runaway_onward when ({t}_u_paid({t}_u_runaway_job) or ({t}_u_done({t}_u_runaway_job) and not {t}_u_given({t}_u_runaway_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_warren). }
   Milestone {t}_u_runaway_found "found who was at the corn-store's grain, and won her trust" worth 120 when {t}_u_runaway_trusts({t}_u_runaway_job).
   Topic {t}_u_runaway_paid with {t}_merchant "Tell {{t}_merchant} what has been at the grain" when {t}_u_runaway_sheltered({t}_u_runaway_job) and not {t}_u_paid({t}_u_runaway_job) once {
     Says "'A child. On my corn, all winter.' {{t}_merchant} is quiet a while. Ten coin are counted out, and a lantern and two flasks of oil set beside them. 'Tell the priest there's a sack for her at harvest. And not a word of it to the mill.'".
@@ -436,7 +438,7 @@
   Objective {t}_u_rats_job_owed when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} that the rats and their nest are dealt with. The rest of the pay is yours, and a lantern.".
   Objective {t}_u_rats_job_owed_whole when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} that the rats and their nest are dealt with. Ten coin are yours, and a lantern.".
 >> 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
-  Rule {t}_u_rats_onward when {t}_u_done({t}_u_rats_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Rule {t}_u_rats_onward when ({t}_u_paid({t}_u_rats_job) or ({t}_u_done({t}_u_rats_job) and not {t}_u_given({t}_u_rats_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_warren). }
   // By force or by craft, the job is paid, and the merchant remembers which (M21's FF-04). A door torn open is docked
   // from the pay, unless it was mended first; rats laid by ratsbane are smelt on the one who laid it.
   Relation {t}_u_docked(entity). Relation {t}_u_mended(entity). Relation {t}_u_bait_told(entity).
@@ -583,7 +585,7 @@
   }
   Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) toward {t}_priest "Tell {{t}_priest} at {{priestat}} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
 >> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
-  Rule {t}_u_dead_onward when {t}_u_done({t}_u_dead_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Rule {t}_u_dead_onward when ({t}_u_paid({t}_u_dead_job) or ({t}_u_done({t}_u_dead_job) and not {t}_u_given({t}_u_dead_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_ossuary). }
 --- pit spiders
   // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
@@ -678,7 +680,7 @@
   }
   Objective {t}_u_spiders_job_owed when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) toward {t}_innkeeper "Tell {{t}_innkeeper} at {{innkeeperat}} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
 >> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} for the gate key.'
-  Rule {t}_u_spiders_onward when {t}_u_done({t}_u_spiders_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
+  Rule {t}_u_spiders_onward when ({t}_u_paid({t}_u_spiders_job) or ({t}_u_done({t}_u_spiders_job) and not {t}_u_given({t}_u_spiders_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_gallery). }
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
@@ -687,7 +689,15 @@
   // old ways go on; the undercroft they meet in is the next place to go, its floor the next thing to try, its vault's
   // keeper the next to face; and below him the deep site (see RegionUndertown).
   Entity {t}_u_onward: fact "".
-  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
+  // Said as the job is paid (the one who paid says the old ways go on), and so followed on from the job as its next
+  // part, toward the undercroft the three ways meet in: it had come as the job's first half was done, one aim among
+  // the town's with no place it was toward, and the gold had gone up to be paid and off to the next job on the
+  // notice, the drain, the undercroft and the vault under it never led to (the first quarter hour's census, 19
+  // November; the owner: "a random chain of quests that don't circle back"). By the room that job ended in, whose ways
+  // down are then the aim's (AimRoute.onward): toward a place never seen, nothing in the town had been gold.
+  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and {t}_u_onward_by({t}_u_warren) toward {t}_u_undercroft by {t}_u_warren "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_onward_sought_yard when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and {t}_u_onward_by({t}_u_ossuary) toward {t}_u_undercroft by {t}_u_ossuary "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_onward_sought_pit when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and {t}_u_onward_by({t}_u_gallery) toward {t}_u_undercroft by {t}_u_gallery "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
   Objective {t}_u_floor_sought when knows(party, {t}_u_flag_seen) and not knows(party, {t}_u_vault_found) toward {t}_u_undercroft "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
