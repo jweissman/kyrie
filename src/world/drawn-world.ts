@@ -15,11 +15,17 @@ export class DrawnWorld {
   }
   // A watch, where one is kept, times each phase (see Stopwatch: the terminal says them as they begin).
   static async start(seed: string, drawn: Drawn, source: BundleSource, watch?: Stopwatch): Promise<PlaySession> {
+    return (await this.drawn(seed, drawn, source, watch)).session;
+  }
+  // The session, and the world as the assembler made it: its campaign's path, the source its generated modules are
+  // read from, and its report (what `kyrie inspect --why` reads of where a thing came from).
+  static async drawn(seed: string, drawn: Drawn, source: BundleSource, watch?: Stopwatch)
+    : Promise<{ session: PlaySession; world: Awaited<ReturnType<typeof WorldAssembler.assemble>> }> {
     const world = await Stopwatch.in(watch, 'Drawing the country', () =>
       WorldAssembler.assemble(seed, source, this.options(drawn)));
     const session = await Stopwatch.in(watch, 'Composing the world', () =>
       PlaySession.start(world.path, seed, world.source, drawn.origin ? undefined : drawn.party));
-    return Stopwatch.in(watch, 'Readying the borders', () =>
-      session.drawnFor(drawn).extend(new Frontier(seed, source, this.options(drawn))));
+    return { world, session: await Stopwatch.in(watch, 'Readying the borders', () =>
+      session.drawnFor(drawn).extend(new Frontier(seed, source, this.options(drawn)))) };
   }
 }

@@ -19,6 +19,8 @@ import { Journey } from '../session/journey';
 import { SingleModule } from '../campaign/single-module';
 import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
+import type { BundleSource } from '../campaign/bundle-source';
+import type { WorldReport } from '../world/world-assembler';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../web/engine/creation-flow';
 import type { Member } from '../../web/engine/protocol';
@@ -52,7 +54,7 @@ export class PlayTool {
   // into what is to be played (to a scene, or into talk with someone).
   // made: who the player chose to be, where they were asked (see TerminalCreation), in place of --as.
   static async start(o: ReturnType<typeof PlayTool.parse>, watch?: Stopwatch, made?: CreatureGenerationContext)
-    : Promise<{ journey: Journey; lead: string[] }> {
+    : Promise<{ journey: Journey; lead: string[]; source?: BundleSource; report?: WorldReport }> {
     if (o.part) { return PlayParts.start(o.part.kind, o.part.id, o.part.into, o.part.context); }
     const [raceId = 'human', classId = 'ranger', name = 'Aud', backgroundId] =
       (o.as ?? '').split('/').map(x => x.trim() || undefined);
@@ -62,21 +64,22 @@ export class PlayTool {
       // A bare module (site.kyr): played as a campaign of it alone, on the shared rules (see SingleModule).
       if (o.campaign!.endsWith('.kyr')) {
         const one = SingleModule.source(await readFile(o.campaign!, 'utf8'), party);
-        return { journey: await Journey.start(one.campaign, o.seed, { source: one.source }), lead: [] };
+        const journey = await Journey.start(one.campaign, o.seed, { source: one.source });
+        return { journey, lead: [], source: one.source };
       }
-      return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
+      return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [], source: NodeBundleSource.shared };
     }
     // Who --as names is made as creation makes them: the world's rolls placed where the calling wants them (CL-08).
     const one = { name, raceId, classId, rolled: Creation.rolled(o.world, classId),
       ...backgroundId ? { backgroundId } : {} };
     const drawn = { party: [made ?? one], origin: o.origin ?? await PlayTool.given(o.world, made ?? one) };
-    const session = await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch);
+    const { session, world } = await DrawnWorld.drawn(o.world, drawn, NodeBundleSource.shared, watch);
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
     // nor begun by name: --as herbs on a1 had set out with "No aim is held".
     if (!session.campaign.module.entities.some(e => e.id.startsWith('origin__'))) {
       throw new Error(`no ${drawn.origin ? `${drawn.origin} origin` : 'origin'} in ${o.world}`);
     }
-    return { journey: Journey.of(session), lead: [] };
+    return { journey: Journey.of(session), lead: [], source: world.source, report: world.report };
   }
   // Where the world gives a life to begin, by the engine's own creation flow: the country drawn as the page draws it,
   // the past named in --as chosen as its kind, and the circumstance it asks for (see CreationFlow.circumstance).

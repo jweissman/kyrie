@@ -4,7 +4,9 @@
 // being offered, which of its conditions fail, in Kyr with the bindings put in, and what holds instead.
 //   bin/kyrie inspect <campaign.json> "<pattern>" [--seed s] [--steps steps.json] [step ...]
 //   bin/kyrie inspect --world <seed> [--origin o] [--as race/calling/Name] "<pattern>" [step ...]
+// --why first asks instead why a fact holds or a placement won (see WhyTool).
 import { PlayTool } from './play-tool';
+import { WhyTool } from './why-tool';
 import { ActionSchemas } from '../campaign/action-schemas';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
@@ -20,6 +22,7 @@ export class InspectTool {
   // How many bindings are weighed for one action at most.
   private static readonly most = 4000;
   static async main(args: string[], print: (line: string) => void = console.log): Promise<number> {
+    if (args[0] === '--why') { return WhyTool.main(args.slice(1), print); }
     const o = PlayTool.parse(args), [pattern, ...steps] = o.steps;
     if ((!o.campaign && !o.world && !o.part) || !pattern) {
       print('usage: kyrie inspect <campaign.json> | --world <seed> "<pattern>" [--seed s] [--steps steps.json] [step ...]');
