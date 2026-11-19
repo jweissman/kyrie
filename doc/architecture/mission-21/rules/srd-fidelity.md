@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 32 pass in structure
-(level, school), 21 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-20 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 33 pass in structure
+(level, school), 22 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+21 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 47 | school 75 | dice 10 | type 13 | save 34 | dc 18 | attack 104 | target 72 | duration 47 | of 119 |
+| spells, field exact or converted | level 48 | school 76 | dice 10 | type 13 | save 34 | dc 18 | attack 104 | target 72 | duration 48 | of 119 |
 
 ## Creatures, most met first
 
@@ -138,7 +138,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | death_ward | death-ward | S✗ R✗ I– | ✗ 2 → 4 | ✗ · → necromancy | – | – | ✗ · → wisdom negates | ✗ · → 17 | ✓ | ✓ | ✗ 3 rounds → long |
 | disintegrate | disintegrate | S✗ R✗ I– | ✗ 5 → 6 | ✗ evocation → transmutation | ✗ 35/35/35/35 → 7/35/70/140 | – | ✗ wisdom half → constitution negates | ✗ 15 → 19 | ✗ none → ranged touch | ✓ | ✓ |
 | dispel_magic | dispel-magic | S✗ RU I– | ✗ 2 → 3 | ✓ | – | – | – | – | ✓ | ✗ · → one | ✓ |
-| divine_favor | divine-favor | S✗ R✗ I– | ✗ 0 → 1 | ✗ · → evocation | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| divine_favor | divine-favor | S✓ R✓ I✓ | ≈ Orsino's, a War cantrip, kept by the lead's decision and the owner's word (srd-proving-cases.md, case 23) | ✓ | – | – | – | – | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | divine_power | divine-power | S✗ RU I– | ✗ 8 → 4 | ✗ · → evocation | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → 5 rounds |
 | dominate_person | dominate-person | S✗ R✗ I– | ✓ | ✗ necromancy → enchantment | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✓ | ✗ 10 rounds → long |
 | domination | dominate-monster | S✗ R✗ I– | ✗ 7 → 9 | ✗ · → enchantment | – | – | ✓ | ✗ 42 → 22 | ✓ | ✓ | ✗ 3 rounds → long |

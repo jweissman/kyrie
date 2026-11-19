@@ -403,6 +403,33 @@
         "notes": "The SRD's Cure Critical Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 4d8 and a point a casting level, to 20 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (6; the SRD's 4), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 4d8, the same at every level."
       }
     },
+    "divine_favor": {
+      "name": "Divine Favor",
+      "kind": "spell",
+      "description": "Call on your god's favour: for a minute you strike truer and harder.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "blessed",
+          "duration": 10,
+          "target": "self"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 0,
+        "domain": "war",
+        "school": "evocation"
+      },
+      "source": {
+        "orsino": "divineSpell:divine_favor",
+        "srd35": "spell:divine-favor",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); the SRD's +1 each three casting levels to +3 converted to +1 at every level. Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds."
+      }
+    },
     "bless": {
       "name": "Bless",
       "kind": "spell",

@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 98, E2 1, E3 20.
+**605 records**, every one visible: E0 486, E1 97, E2 1, E3 21.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 71.
 
 ## By family
@@ -215,7 +215,7 @@ become ready).
 | disrupt-undead | Disrupt Undead | Sor/Wiz 0 | damage | E0 | attack.rangedTouch, resist.spell | — |
 | disrupting-weapon | Disrupting Weapon | Clr 5 | object | E0 | target.object | — |
 | divination | Divination | Clr 4, Knowledge 4 | divination | E0 | effect.reveal | — |
-| divine-favor | Divine Favor | Clr 1, Pal 1 | protection | E1 | — | divine_favor |
+| divine-favor | Divine Favor | Clr 1, Pal 1 | protection | E3 | — | divine_favor |
 | divine-power | Divine Power | Clr 4, War 4 | world | E1 | effect.world | divine_power |
 | dominate-animal | Dominate Animal | Animal 3, Drd 3 | control | E0 | resist.spell | — |
 | dominate-monster | Dominate Monster | Sor/Wiz 9 | control | E1 | resist.spell | domination |

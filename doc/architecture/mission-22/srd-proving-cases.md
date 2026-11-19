@@ -787,6 +787,13 @@ divine casters would lose it and none gain it, seven of them in a1's first hour,
 meet: the rule of the proof slices (a row only where its behaviour is met) is not served by the move. Its resolution may
 be taken up on its own, at Orsino's level, as Cure Wounds' levels were kept (case 16).
 
+**Done (18 November, the owner's word: "I agree with your recommendations"):** its resolution by the SRD's numbers at
+Orsino's level, a hand entry over Orsino's: blessed alone (the SRD's +1, case 17) on the caster for a minute, ten
+rounds, at every casting level (converted, as case 14's); the SRD's evocation beside its domain; Orsino's keen and
+three rounds gone. Spec: `test/divine-favor` (2; Orsino's entry put back, both fail). The census: structure,
+resolution and identity pass, its level and duration conversions declared. No draw, card or installed creature moves:
+its level is Orsino's.
+
 ### 24. Calm Emotions by the SRD's numbers (18 November): adapted
 
 Orsino's Calm Emotions laid its calm on every foe: immune to fear and madness, +1 to hit and +2 to Will saves, a boon

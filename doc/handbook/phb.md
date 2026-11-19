@@ -7461,11 +7461,13 @@ One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's
 
 ##### Divine Favor
 
-*Faithful · cantrip divine spell, war domain* · `ability:divine_favor`
+*Adapted · cantrip divine spell, evocation, war domain* · `ability:divine_favor`
 
-You are blessed for 3 turns; you are keen weapon for 3 turns. Blessed: +1 to hit, +1 damage. Keen Weapon: +2 to hit, +2 damage, a telling blow on 18 or more. A divine cantrip, cast at will.
+You are blessed for 10 turns. Blessed: +1 to hit, +1 damage. A divine cantrip, cast at will.
 
-> Empower your weapon with divine energy.
+> Call on your god's favour: for a minute you strike truer and harder.
+
+*Adapted: The SRD's Divine Favor (doc/architecture/mission-22/srd-proving-cases.md, case 23, by the owner's word of 18 November): on the caster, +1 to hit and +1 damage (Orsino's blessed, the SRD's +1 luck) for a minute, ten rounds; its school the SRD's evocation beside its domain. Kept: Orsino's level, a War cantrip, where the SRD's is first level (the lead's decision: at the first level 48 installed divine casters would lose it and none gain it); the SRD's +1 each three casting levels to +3 converted to +1 at every level. Before, Orsino's blessed and keen (+2 to hit and damage more, a telling blow on 18) for three rounds.*
 
 ##### Gloom
 

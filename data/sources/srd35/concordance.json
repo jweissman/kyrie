@@ -351,6 +351,7 @@
  "identities": {
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",
+  "divine_favor": "test/divine-favor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
   "burning_hands": "test/burning-hands-fireball.test.ts",
@@ -402,6 +403,10 @@
   "cure_critical": {
    "save": "harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16)",
    "dc": "harmless: none is made by the living (srd-proving-cases.md, case 16)"
+  },
+  "divine_favor": {
+   "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)",
+   "level": "Orsino's, a War cantrip, kept by the lead's decision and the owner's word (srd-proving-cases.md, case 23)"
   },
   "bless": {
    "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
