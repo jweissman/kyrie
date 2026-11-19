@@ -13,6 +13,9 @@ import { Undertakings } from '../src/presentation/undertakings';
 import { ScreenModel } from '../src/ui/screen-model';
 import { AimLeading } from '../src/presentation/aim-lead';
 import { Narrator } from '../src/presentation/narrator';
+import { Stakes } from '../src/ui/stakes';
+import { Itineraries } from '../src/ui/itinerary';
+import type { Objective } from '../src/lang/module';
 import type { PlaySession } from '../src/session/play-session';
 
 interface Step { step: number; command: string; place: string; minute: number; fight: boolean; taken: string[];
@@ -63,7 +66,7 @@ export class FirstQuarter {
       const fro = was.length === 4 && was[0] === was[2] && was[1] === was[3] && was[0] !== was[1];
       const next = fro ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
       if (next) { Undertakings.follow(c, next.id); }
-      else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, aims[0]!.id); }
+      else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, this.nearest(s, aims).id); }
       const sit = AutoplayRun.situation(s, step, true, 'undertaking');
       const move = this.rest(s, sit.offered) ?? player.next(sit);
       if (!move) { break; }
@@ -91,6 +94,16 @@ export class FirstQuarter {
     const c = s.campaign, screen = ScreenModel.build(c), g = Narrator.leaf(c, screen).glance;
     return `  lead ${JSON.stringify(AimLeading.of(c, screen))} gold ${JSON.stringify(g?.acts.filter(a => a.continues)
       .map(a => [a.choice, a.why]))}`;
+  }
+  // The aim a player would take up first: the nearest of those held, where what it is toward or by is reached soonest
+  // (the book's order had sent the drove life to Reedbridge with the notice on the green unread).
+  static nearest(s: PlaySession, aims: Objective[]): Objective {
+    return aims.map(o => ({ o, m: this.far(s, o) })).sort((a, b) => a.m - b.m)[0]!.o;
+  }
+  static far(s: PlaySession, o: Objective): number {
+    const c = s.campaign, here = c.world.one('at', c.playerActor ?? 'party'), t = Stakes.target(c, o);
+    const to = t.routeTo ?? t.actionAt ?? (t.subject && c.world.one('at', t.subject));
+    return !to ? Infinity : to === here ? 0 : Itineraries.plan(c, to)?.minutes ?? Infinity;
   }
   // Hurt to under half, a careful player rests where a rest is offered before going on (the walker rests only in the
   // dark, and a lone warrior hurt by the adit's beetles and roof had gone on into the spiders' gallery and died).

@@ -44,7 +44,7 @@ describe('typed exports', () => {
     expect(Object.entries(imports).filter(([, ref]) => ref.startsWith('drove.'))
       .map(([name, ref]) => [name, gate.roles![name]!.type, exported[ref.split('.')[1]!]]))
       .toEqual([['forged', 'fact', 'fact'], ['freedword', 'fact', 'outcome'], ['drovedrowned', 'fact', 'fact'],
-        ['clerkgone', 'fact', 'outcome'], ['clerkkept', 'fact', 'outcome']]);
+        ['clerkgone', 'fact', 'outcome'], ['clerkkept', 'fact', 'outcome'], ['ruledword', 'fact', 'outcome']]);
     const installed = [{ id: 'drove', exported } as unknown as InstalledModule];
     expect(() => ModuleExports.bound('gate', gate.roles, imports, installed)).not.toThrow();
     // The drove's tally-book saying it was a participant, the gate's composition with it is refused by the roles.
