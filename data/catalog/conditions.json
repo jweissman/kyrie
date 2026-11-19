@@ -556,6 +556,20 @@
         "notes": "The SRD's Bane (srd-proving-cases.md, case 39): −1 to hit, and −1 on saves against fear (the SRD's morale penalty, on its attack rolls and its saves against fear)."
       }
     },
+    "acid_clinging": {
+      "name": "Clinging Acid",
+      "description": "Acid clings and eats at them: 2d4 at the end of each of their turns.",
+      "lifetime": "encounter",
+      "modifiers": { "onTurnEnd": [{ "kind": "damage", "amount": "2d4", "damageType": "acid", "triggers": false }] },
+      "begins": "The acid clings to {target}, smoking.",
+      "ends": "The acid on {target} is spent.",
+      "source": {
+        "kyr": true,
+        "srd35": "spell:acid-arrow",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Acid Arrow's acid that stays (srd-proving-cases.md, case 44): 2d4 acid at the end of each round it lasts, laid for a round every three casting levels (Lasting). It sets off none of Orsino's acid burn, which the SRD's has not."
+      }
+    },
     "fire_resistant": {
       "name": "Fire-Resistant",
       "description": "Fire's heat is held off: ten less from each burn.",

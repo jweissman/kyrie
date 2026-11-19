@@ -1,4 +1,5 @@
 import type { Effect } from '../lang/parse';
+import { Lasting } from './lasting';
 
 // What a success at a save does to what an effect would do: negates it (the default); halves it, for harm only; or,
 // marked `lesser`, leaves what it lays for so many rounds, fewer than its own (the SRD's partial: Cause Fear's round
@@ -11,7 +12,7 @@ export class SaveOutcome {
       throw new Error('Half saves require a damage effect');
     }
     if (save?.lesser !== undefined && (effect.kind !== 'apply' || !Number.isSafeInteger(save.lesser)
-      || save.lesser < 1 || save.lesser >= effect.duration)) {
+      || save.lesser < 1 || save.lesser >= Lasting.at(effect.duration, 1))) {
       throw new Error('A lesser save shortens an applied status');
     }
   }

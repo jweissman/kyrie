@@ -5,9 +5,11 @@ import { Defenses, type Defense, type Mitigated } from './rules/defenses';
 import { Fighting } from './rules/fighting';
 import variations from '../data/catalog/variations.json';
 import type { Fighter } from './model';
+import type { Effect } from './lang/parse';
 
 // A blow as Effects.damage takes it: its amount and kind, what a critical added, and what its weapon carries.
-export interface Hit { amount: number; type: string; critical?: number; tags?: string[] }
+// triggers: false, its kind sets off none of the conditions it triggers (the SRD's harm: see Effect's).
+export interface Hit { amount: number; type: string; critical?: number; tags?: string[]; triggers?: false }
 
 // A fighter's kind's typed defenses as a fight meets them (the SRD adaptation briefing, §3): what a blow carries to
 // them, and its kind's regeneration at the end of its turn. Its kind's fractions are summed into its modifiers with
@@ -22,6 +24,10 @@ export class KindDefenses {
       return r ? [{ resistances: r }] : [];
     });
     return [...Object.keys(kind).length ? [{ resistances: kind }] : [], ...varied];
+  }
+  // A harm's blow: its amount and kind, and whether its kind sets off what it triggers (see Effect's triggers).
+  static blow(e: Extract<Effect, { kind: 'damage' }>, amount: number): Hit {
+    return { amount, type: e.damageType, triggers: e.triggers };
   }
   // What its defenses did to a blow, for the event's account: what held, and what a tag passed.
   static account(m: Mitigated): Pick<Mitigated, 'guarded' | 'bypassed'> {

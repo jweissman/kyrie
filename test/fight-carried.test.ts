@@ -120,7 +120,8 @@ describe('a thing that strengthens spells', () => {
       { creatureId: 'foe', team: 'goblins' }], { seed: 'stone' });
     Carried.toHero(battle, 'mage');
     const spell = battle.legalCommands().find(c => Content.abilities.find(a => a.id === c.ability)?.spell
-      && Content.abilities.find(a => a.id === c.ability)!.effects.some(e => e.kind === 'damage') && c.target === 'foe');
+      && Content.abilities.find(a => a.id === c.ability)!.effects.some(e => e.kind === 'damage' && !e.touch)
+      && c.target === 'foe');
     expect(spell).toBeDefined();
     const cast = battle.step(spell!).filter(e => e.type === 'damage' && e.target === 'foe');
     expect(cast.length).toBeGreaterThan(0);

@@ -6435,14 +6435,6 @@ End hidden or invisible on every enemy. An arcane cantrip, cast at will.
 
 #### Level 1
 
-##### Acid Arrow
-
-*Faithful · level 1 arcane spell, conjuration* · `ability:acid_arrow`
-
-1d4 (1–4) acid damage to one enemy (may leave whoever it hurts acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the first level. Takes a first-level slot.
-
-> An arrow of acid leaps from your hand.
-
 ##### Arcane Ward
 
 *Faithful · level 1 arcane spell, abjuration* · `ability:ward`
@@ -6598,6 +6590,16 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to
 > Create a burst of thunderous sound that damages and deafens enemies nearby.
 
 #### Level 2
+
+##### Acid Arrow
+
+*Adapted · level 2 arcane spell, conjuration* · `ability:acid_arrow`
+
+2d4 (2–8) acid damage to one enemy (only if a ranged touch attack lands, worn armour not counting; may leave whoever it hurts acid burn: a Constitution save against 15 avoids it); it is clinging acid no turns at the first casting level, 3 turns at the tenth. Acid Burn: takes 1d6 (1–6) acid damage each turn. Clinging Acid: takes 2d4 (2–8) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
+
+> An arrow of acid flies from your hand at one foe: 2d4 if the shot lands, and the acid clings and burns 2d4 more at the end of each of its turns, a turn for every three levels you have.
+
+*Adapted: The SRD's Acid Arrow (doc/architecture/mission-22/srd-proving-cases.md, case 44): second level (Orsino's first), conjuration, one foe a ranged touch attack lands on (Touch), 2d4 acid, and the acid clinging (acid_clinging: 2d4 acid at the end of its holder's turn) for a round every three casting levels, to six at the eighteenth (Lasting: none at the first and second). No spell resistance (the SRD's). Its acid sets off none of Orsino's acid burn (triggers: false), which the SRD's has not. Omitted: the arrow's range. Before, Orsino's sure 1d4 acid on one foe at the first level, and its acid burn.*
 
 ##### Acid Spray
 
@@ -10030,6 +10032,14 @@ Charisma +3, Intelligence +2, Wisdom +1.
 +2 to every roll, immune to charm.
 
 > Sharpens the mind and focus.
+
+### Clinging Acid
+
+*Kyr · lasts the fight at most* · `condition:acid_clinging`
+
+Takes 2d4 (2–8) acid damage each turn.
+
+> Acid clings and eats at them: 2d4 at the end of each of their turns.
 
 ### Confused
 

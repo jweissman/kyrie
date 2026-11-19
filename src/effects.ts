@@ -18,6 +18,7 @@ import { KindDefenses, type Hit } from './kind-defenses';
 import { PlaceLaws } from './rules/place-laws';
 import { GatheredModifiers } from './gathered-modifiers';
 import { SaveOutcome } from './rules/save-outcome';
+import { Lasting } from './rules/lasting';
 import { Images } from './rules/images';
 import type { Attribute } from './creature';
 
@@ -148,9 +149,8 @@ export class Effects {
     }
     if (effect.kind === 'apply' && effect.clock !== undefined
       && !['owner-turn', 'world-time', 'until-removed'].includes(effect.clock)) { throw new Error('Unknown condition clock'); }
-    if (effect.kind === 'apply' && (!Number.isSafeInteger(effect.duration) || effect.duration < 1)) {
-      throw new Error('Status duration must be positive');
-    }
+    const lasting = effect.kind === 'apply' ? Lasting.problem(effect.duration) : undefined;
+    if (lasting) { throw new Error(lasting); }
     if (effect.kind === 'learn' && !abilities.includes(effect.ability)) { throw new Error('Unknown taught ability'); }
     // A raising gives back at most the whole of a body's health (150% set 22 of 15, which no store would keep).
     if (effect.kind === 'revive' && effect.percent !== undefined && !(effect.percent > 0 && effect.percent <= 100)) {
@@ -223,7 +223,7 @@ export class Effects {
         ...absorbed ? { absorbed } : {}, ...hit.critical ? { critical: hit.critical } : {},
         ...KindDefenses.account(mitigated) };
     }
-    Effects.aftermath(target, type, context, applied > 0);
+    Effects.aftermath(target, type, context, applied > 0 && hit.triggers !== false);
     if (back > 0) { Effects.damage(actor!, { amount: back, type }, { ...context, actor: target, reflected: true }); }
     return applied;
   }
@@ -313,7 +313,7 @@ export class Effects {
       const amount = /^\d+$/.test(p.amount) ? Number(p.amount)
         : context.expressions!.number(p.amount, Effects.context(target));
       const tick = { ...context, actor: undefined, source: { id: source, kind: 'ability' as const } };
-      if (p.kind === 'damage') { Effects.damage(target, { amount, type: p.damageType! }, tick); }
+      if (p.kind === 'damage') { Effects.damage(target, { amount, type: p.damageType!, triggers: p.triggers }, tick); }
       else { Effects.hp(target, amount, tick, true); }
     }
   }
@@ -349,7 +349,7 @@ export class Effects {
         context.events.push({ type: 'flee', turn: context.turn, actor: Effects.sourceId(context), success: away });
         break;
       }
-      case 'damage': Effects.damage(target, { amount: rolled, type: effect.damageType }, context); break;
+      case 'damage': Effects.damage(target, KindDefenses.blow(effect, rolled), context); break;
       case 'drain': {
         const dealt = Effects.damage(target, { amount: rolled, type: effect.damageType ?? 'necrotic' }, context);
         // What was drawn heals a drainer who is still alive (a shield that answered the blow could have killed it,
@@ -426,6 +426,9 @@ export class Effects {
     // A hold already on is not lengthened: a creature that loses its turns to it is not held a whole fight by the
     // same spell cast again each round (a red dragon frozen throughout by a first-level mage's frostbite).
     if (Effects.skips(effect.status) && target.statuses.some(s => s.id === effect.status)) { return; }
+    // How long it lasts, by its caster's values as it is laid (see Lasting): one that comes to no turns lays nothing.
+    const rounds = Lasting.laid(effect.duration, context.expressions, Effects.context(context.actor ?? target));
+    if (rounds < 1) { return; }
     const status = Effects.status(effect.status);
     // A flame in hand is one: a lantern lit puts out the candle that burned (see Flames).
     const out = Flames.out(target.statuses, effect.status);
@@ -439,12 +442,12 @@ export class Effects {
     const at = context.actor?.environment ? { environment: context.actor.environment } : {};
     const longer = context.actor ? Perks.bonus(context.actor.traits, 'spellDuration', at) + (status.grants?.includes('flame')
       ? Perks.bonus(context.actor.traits, 'light', at) * (effect.clock === 'world-time' ? 6 : 1) : 0) : 0;
-    target.statuses.push({ id: effect.status, remaining: effect.duration + longer,
+    target.statuses.push({ id: effect.status, remaining: rounds + longer,
       ...effect.clock ? { clock: effect.clock } : {},
       ...!effect.clock && context.actor && context.actor.id !== target.id ? { waits: true } : {},
       ...context.source ? { source: context.source.id } : {}, ...context.actor ? { by: context.actor.id } : {},
       ...pool ? { tempHp: pool } : {}, ...images ? { images } : {} });
-    Effects.detail(context, target, { type: 'status', detail: effect.status, amount: effect.duration,
+    Effects.detail(context, target, { type: 'status', detail: effect.status, amount: rounds,
       ...effect.clock ? { clock: effect.clock } : {} });
   }
 }

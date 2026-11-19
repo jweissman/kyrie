@@ -24,7 +24,9 @@ type EffectBody =
   // lifts them (see LevelDrain).
   | { kind: 'enervate'; amount: Amount; target: Target }
   | { kind: 'defend' | 'flee'; target: 'self' }
-  | { kind: 'apply'; status: string; duration: number; clock?: 'owner-turn' | 'world-time' | 'until-removed'; target: Target }
+  // duration: turns, or an expression its caster's values settle as it is laid (see Lasting).
+  | { kind: 'apply'; status: string; duration: number | Amount; clock?: 'owner-turn' | 'world-time' | 'until-removed';
+    target: Target }
   // pattern: Orsino's removeStatus, a case-insensitive pattern over condition names ("hidden|invisible", ".*").
   | { kind: 'remove'; status: string; target: Target; pattern?: string }
   | { kind: 'kill'; target: Target }
@@ -46,8 +48,11 @@ export type Save = { stat?: string; kind?: string; difficulty: Amount; success?:
 // the fewest first (the SRD's Sleep's four: see HitDicePool). chain: a harm that leaps from the one it is aimed at to
 // as many other foes, each struck once, each taking that share of what the first took (see Chain). touch: it falls
 // only on one a touch attack lands on, melee or ranged, rolled before it (the SRD's touch spells: see Touch).
+// triggers: false, its harm's kind sets off none of the conditions that kind triggers (Orsino's acid burn), as the
+// SRD's harm does not.
 export type Effect = EffectBody & { when?: string; save?: Save; onResist?: 'half' | 'negate'; targetTrait?: string;
-  count?: Amount; hitDice?: number; chain?: { count: Amount; ratio: number }; touch?: 'melee' | 'ranged' };
+  count?: Amount; hitDice?: number; chain?: { count: Amount; ratio: number }; touch?: 'melee' | 'ranged';
+  triggers?: false };
 export interface ArenaAbility {
   id: string; name: string; effects: Effect[]; cost?: number; cooldown?: number;
   description?: string;

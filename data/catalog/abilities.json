@@ -876,6 +876,36 @@
         "notes": "The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: setting things alight. Before, Orsino's second level and 2d6 on every foe, no save. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
       }
     },
+    "acid_arrow": {
+      "name": "Acid Arrow",
+      "kind": "spell",
+      "description": "An arrow of acid flies from your hand at one foe: 2d4 if the shot lands, and the acid clings and burns 2d4 more at the end of each of its turns, a turn for every three levels you have.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "2d4" },
+          "damageType": "acid",
+          "target": "enemy",
+          "touch": "ranged",
+          "triggers": false
+        },
+        {
+          "kind": "apply",
+          "status": "acid_clinging",
+          "duration": { "kind": "deem", "expression": "min(floor(#castingLevel / 3), 6)" },
+          "target": "enemy"
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 2, "school": "conjuration" },
+      "source": {
+        "orsino": "arcaneSpell:acid_arrow",
+        "srd35": "spell:acid-arrow",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Acid Arrow (doc/architecture/mission-22/srd-proving-cases.md, case 44): second level (Orsino's first), conjuration, one foe a ranged touch attack lands on (Touch), 2d4 acid, and the acid clinging (acid_clinging: 2d4 acid at the end of its holder's turn) for a round every three casting levels, to six at the eighteenth (Lasting: none at the first and second). No spell resistance (the SRD's). Its acid sets off none of Orsino's acid burn (triggers: false), which the SRD's has not. Omitted: the arrow's range. Before, Orsino's sure 1d4 acid on one foe at the first level, and its acid burn."
+      }
+    },
     "shocking_grasp": {
       "name": "Shocking Grasp",
       "kind": "spell",

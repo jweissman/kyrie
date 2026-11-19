@@ -1577,6 +1577,45 @@ cast at one of the eight now asks the check: a first-level mage gets past a pixi
 1), a ninth-level one three times in four; a balor's 28 wants a 19 or a 20 from a ninth-level caster. No trace, card
 or draw moves.
 
+### 44. A duration by the caster, and Acid Arrow by the SRD's numbers (19 November): adapted
+
+Case 37's Acid Arrow, held for the lead, taken by the owner's ruling of 19 November (an SRD-faithful slice lands
+though it moves a card). It wanted case 35's ranged touch and a duration by casting level, "Kyr's durations do not
+grow with the caster" (case 14's open item). Spec: `test/acid-arrow` (4 cases).
+
+**The mechanic built: a duration by the caster** (`Lasting`, src/rules/lasting.ts). What an effect lays may last a
+number of turns, as before, or an expression its caster's values settle as it is laid, as temporary hit points and
+images are thrown (the SRD's "1 round/level" is `#castingLevel`, "1 minute/level" `10 * #castingLevel`). One that comes
+to no turns lays nothing. A book's line says it at the first casting level and the tenth ("no turns at the first
+casting level, 3 turns at the tenth"); the census reads it at its caster, the fifth; what a creature reads of a
+condition it holds reads it there too. The canon refuses one that never comes to a turn.
+
+**And a harm that sets off nothing** (an effect's or a turn-end tick's `triggers: false`): Orsino's kinds of harm lay
+conditions by themselves (acid its acid burn, cold its freezing); the SRD's do not. Case 37 found that either option
+for Acid Arrow carried Orsino's burn; now neither does.
+
+**The spell** (a hand entry over Orsino's; the hand condition `acid_clinging`):
+- second level (Orsino's first), arcane, conjuration (exact);
+- one foe a ranged touch attack lands on (exact), 2d4 acid (exact);
+- the acid clinging, 2d4 acid at the end of its holder's turn, for a round every three casting levels to six at the
+  eighteenth (exact: none at the first and second);
+- no spell resistance (the SRD's), no acid burn.
+
+**Omitted:** its range. Before: Orsino's sure 1d4 acid at the first level, and its burn (a Fortitude save against
+15, 1d6 a turn). The census grades it S✓ R✓ I✓: 30 of 119 pass in resolution, 39 in structure.
+
+**The census** (the lead's pools, 200 humans for each calling and level; scratch /var/tmp/kyrie/srd6-scratch):
+- 1,178 of 19,200 drawn mages move (6.1 %): conjurers 58.5–59 % (.49–.51 knew it, .33–.36 now), drawn-school mages
+  16–20.5 %, other specialists 8–16 %; no cleric or bard. As case 37 measured.
+- **The conjurer's creation card moves:** its first-level picks are Summon Vermin, Thunderclap and Blur (Acid Arrow
+  gives way), and Acid Arrow is a second-level pick in place of Summon Monster. A player's first conjurer casts it
+  from the third level.
+- **The installed casters** (2,233 classed creatures of a1 and the six countries): six lose it and none gain it: the
+  s1 iv's mage of kite, thorn, kahitude and ember, and the arcology's quill of a1 and kahitude.
+- **A lone first-level conjurer**, fighting with its first-level harm in every slot (100 seeds): Orsino's Acid Arrow
+  against three rats 36 %, two zombies 17 %, a ghoul 20 %; Thunderclap, the card's harm now, 66 %, 16 %, 26 %. The
+  first hour is no deadlier for a player's conjurer; the four worlds' iv mages are a little kinder.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -1642,8 +1681,8 @@ be claimed from the catalogue.
   (CB-21) comes before any placed creature is moved.
 - **DC conversion for every spell with a save.** Case 7's rule (the SRD's and half the casting level) is now the
   migration's: each spell moved takes it, and its census row says so.
-- **Durations that grow with the caster** (cases 14, 17, 18 convert a minute a level, or a round a level, to a fixed
-  count). An apply effect's duration is a number; a duration by `#castingLevel` is an engine change of its own
+- **Durations that grow with the caster:** built (case 44, Lasting). Before it, cases 14, 17, 18 converted a minute a
+  level, or a round a level, to a fixed count. An apply effect's duration is a number; a duration by `#castingLevel` is an engine change of its own
   (Effects.condition, the handbook's words, the census's grading), and with it Death Ward could last a minute a level.
 - **The field's clock** (case 14): a hostile spell cast at a band outside a fight lasts as many watches as it would
   have lasted turns (FieldUse.cast), so Sleep's ten rounds are ten watches, where the SRD's minute is less than one.

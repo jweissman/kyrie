@@ -353,6 +353,7 @@
   "magic_missile": "test/magic-missile.test.ts",
   "divine_favor": "test/divine-favor.test.ts",
   "shocking_grasp": "test/shocking-grasp.test.ts",
+  "acid_arrow": "test/acid-arrow.test.ts",
   "paralyzing_touch": "test/ghoul-touch.test.ts",
   "resist_fire": "test/resist-energy.test.ts",
   "mass_curse": "test/bane.test.ts",

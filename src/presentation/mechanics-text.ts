@@ -1,3 +1,4 @@
+import { Lasting, type Duration } from '../rules/lasting';
 import { Spellcasting } from '../rules/spellcasting';
 import { Content } from '../content';
 import { Deem } from 'deem';
@@ -153,8 +154,14 @@ export class MechanicsText {
     const being = this.conditionName(status).split(/\s+/).some(w => said.test(w));
     return being ? `${who} ${many ? 'are' : 'is'}` : `${who} ${many ? 'gain' : 'gains'}`;
   }
-  static duration(n: number, clock?: string): string {
+  // A duration that grows with its caster is said at the first casting level and the tenth (see Lasting).
+  static duration(d: Duration, clock?: string): string {
     if (clock === 'until-removed') { return 'until it is undone'; }
+    if (Lasting.grows(d)) {
+      const first = this.duration(Lasting.at(d, 1), clock), tenth = this.duration(Lasting.at(d, 10), clock);
+      return `${first.replace(/^0 turns$/, 'no turns')} at the first casting level, ${tenth} at the tenth`;
+    }
+    const n = Lasting.at(d, 1);
     if (clock === 'world-time') { return this.time(n * 10); }
     return n === 1 ? 'a turn' : `${n} turns`;
   }

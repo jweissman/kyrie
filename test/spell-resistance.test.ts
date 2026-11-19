@@ -60,7 +60,7 @@ describe('spell resistance', () => {
   it('is never checked for a creature with none, nor by a spell that does not allow it', () => {
     expect(checks(cast('a', 'magic_missile', 'w').events)).toEqual([]);
     for (const seed of seeds.slice(0, 6)) {
-      const { events } = cast(seed, 'acid_arrow', 'pix');
+      const { events } = cast(seed, 'spark', 'pix');
       expect(checks(events)).toEqual([]);
       expect(harmed(events, 'pix')).toBe(true);
     }

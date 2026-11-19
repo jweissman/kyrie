@@ -1,3 +1,4 @@
+import { Lasting } from '../rules/lasting';
 import { Tended } from '../rules/tended';
 import { Canon } from '../canon/canon';
 import { Spellcasting } from '../rules/spellcasting';
@@ -299,7 +300,7 @@ export class CreatureFacts {
     if (c.state.conditions.some(s => s.id === Canon.rules.combat.ids.slain)) { return a.effects.some(e => e.kind === 'revive'); }
     return a.effects.some(e => (e.kind === 'heal' && c.state.hp < c.base.maxHp)
       || (e.kind === 'remove' && c.state.conditions.some(s => s.id === e.status))
-      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status && s.remaining * 2 > e.duration)));
+      || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status && s.remaining * 2 > Lasting.at(e.duration, Lasting.nominal))));
   }
   // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
   // does, whoever takes it) always does, but one aimed at a foe (a flask of fire to throw) is for a fight, not for one

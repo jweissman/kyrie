@@ -1,7 +1,8 @@
 import type { Attribute } from '../canon/schema';
 
 // Something a condition does at the end of its holder's turn: Orsino's onTurnEnd damage or heal.
-export interface Periodic { kind: 'damage' | 'heal'; amount: string; damageType?: string }
+// triggers: false, its harm sets off no condition by its kind (see Effect's).
+export interface Periodic { kind: 'damage' | 'heal'; amount: string; damageType?: string; triggers?: false }
 
 // Orsino's StatusModifications, restricted to the keys Kyr executes. Keys keep Orsino's names and signs: `ac` is added
 // to armour class, which is better when lower (Orsino's dodge is ac -2); every other number is better when higher.

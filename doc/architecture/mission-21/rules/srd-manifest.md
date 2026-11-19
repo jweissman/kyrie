@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 90, E2 1, E3 28.
+**605 records**, every one visible: E0 486, E1 89, E2 1, E3 29.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 207.
 
 ## By family
@@ -52,7 +52,7 @@ become ready).
 
 | SRD id | Name | Lists | Family | Grade | Missing | Westernesse |
 |---|---|---|---|---|---|---|
-| acid-arrow | Acid Arrow | Sor/Wiz 2 | damage | E1 | — | acid_arrow |
+| acid-arrow | Acid Arrow | Sor/Wiz 2 | damage | E3 | — | acid_arrow |
 | acid-fog | Acid Fog | Sor/Wiz 6, Water 7 | damage | E0 | — | — |
 | acid-splash | Acid Splash | Sor/Wiz 0 | damage | E0 | — | — |
 | aid | Aid | Clr 2, Good 2, Luck 2 | protection | E0 | — | — |

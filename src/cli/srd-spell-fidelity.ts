@@ -1,6 +1,7 @@
 import srd from '../../data/sources/srd35/spells.json';
 import concordance from '../../data/sources/srd35/concordance.json';
 import { Amounts } from '../rules/amounts';
+import { Lasting } from '../rules/lasting';
 import { Canon } from '../canon/canon';
 import type { Ability } from '../canon/schema';
 import type { Effect } from '../lang/parse';
@@ -136,9 +137,10 @@ export class SpellFidelity {
   }
   // How long what it lays lasts: at once, a number of rounds (at caster level 5), or past the fight.
   private static lasts(a: Ability): string {
-    const laid = a.effects?.find(e => e.kind === 'apply') as { duration?: number | string } | undefined;
-    if (!laid) { return 'instant'; }
-    return typeof laid.duration === 'number' && laid.duration < 20 ? `${laid.duration} rounds` : 'long';
+    const laid = a.effects?.find(e => e.kind === 'apply');
+    if (laid?.kind !== 'apply') { return 'instant'; }
+    const rounds = Lasting.at(laid.duration, Lasting.nominal);
+    return rounds < 20 ? `${rounds} rounds` : 'long';
   }
   private static theirs(s: SrdSpell): string {
     const d = s.duration.toLowerCase();

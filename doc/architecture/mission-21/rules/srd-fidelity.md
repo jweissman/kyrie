@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 38 pass in structure
-(level, school), 29 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 28 proved in play identity.** Creatures with one (72):
+**Spells with an SRD counterpart (119 of 286 catalog spells): 39 pass in structure
+(level, school), 30 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+target, duration), 29 proved in play identity.** Creatures with one (72):
 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 4 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 50 | school 80 | dice 11 | type 13 | save 37 | dc 23 | attack 106 | resist 14 | target 74 | duration 52 | of 119 |
+| spells, field exact or converted | level 51 | school 80 | dice 12 | type 13 | save 37 | dc 23 | attack 107 | resist 14 | target 74 | duration 53 | of 119 |
 
 ## Creatures, most met first
 
@@ -104,7 +104,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 
 | spell | SRD | grades | level | school | dice | type | save | dc | attack | resist | target | duration |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| acid_arrow | acid-arrow | S✗ R✗ I– | ✗ 1 → 2 | ✓ | ✗ 2.5/2.5/2.5/2.5 → 5/5/5/5 | ✓ | – | – | ✗ none → ranged touch | – | ✓ | ✗ instant → 1 rounds |
+| acid_arrow | acid-arrow | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | – | ✓ | ✓ |
 | animate_dead | animate-dead | S✗ R✗ I– | ✗ 3 → 4 | ✓ | – | – | – | – | ✓ | – | ✗ one → several | ✓ |
 | armor | mage-armor | S✓ R✓ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✓ | ✓ |
 | augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → instant |
