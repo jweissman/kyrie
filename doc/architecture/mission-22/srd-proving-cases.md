@@ -1258,14 +1258,14 @@ or none placed (the iron golem of ember's smith is CR 13).
 
 The migration strategy's first engine tranche names the melee and ranged touch (attack.meleeTouch,
 attack.rangedTouch) beside spell resistance, and "What remains of the migration" below named touch attacks as a new
-effect before the harm. Shocking Grasp is the touch spell a player's first evoker meets: it is on the evoker's creation card. Spec:
-`test/shocking-grasp` (4 cases).
+effect before the harm. Shocking Grasp is the touch spell a player's first evoker meets: it is on the evoker's
+creation card. Spec: `test/shocking-grasp` (4 cases).
 
 **The mechanic built: the touch** (`Touch`, src/rules/touch.ts; an effect's `touch`, `melee` or `ranged`).
 - Before what the effect does, the caster's d20 against the one touched, as a blow's (Fighting.touch): by Strength
   for a touch, Dexterity for a ranged one, the caster's level as for any blow.
 - The one touched is struck as though it wore nothing: worn armour, a kind's hide and an armour of force (Mage
-  Armor, case 22) do not count; what it dodges by (`ac`, Shield of Faith's two, Mirror Image's evasion) does. This is the
+  Armor, case 22) do not count; what it dodges by (`ac`, Shield of Faith's two, Blur's evasion) does. This is the
   SRD's touch armour class.
 - A miss ends the spell on that one, as a missed blow ends a weapon's; a hit lets the effect fall as written. The
   slot is spent either way.
@@ -1488,6 +1488,33 @@ of a1 and the six fidelity countries one knows it, kahitude's Bound Howe scholar
 it beside two third-level zombies against a warrior and a mage of the company: the company wins 60 % (Orsino's, 68 %);
 a company's mage who casts it is as safe as before (98 %). What moves is every casting: a few blows absorbed, then
 none, where Orsino's turned four hits in five for three rounds.
+
+### 41. The first hour's other low spells: stopped by the census, decisions for the lead (19 November)
+
+Every first- and second-level cleric and mage spell with an SRD counterpart that a first-hour creation card holds, and
+that the engine can now run, has been taken (cases 35, 36, 38–40) or written up (case 37) but these six. Each moves a
+card, a cantrip every caster of a way knows, or a recorded journey; none is migrated. The census is the lead's pools
+(200 humans for each calling and level, before and after; scratch /var/tmp/kyrie/srd5-scratch) and the creation cards
+(FirstSpells.picks).
+
+| Spell | The SRD's | Orsino's | What moving it moves |
+|---|---|---|---|
+| Blur | second level; one creature touched; concealment, one blow in five missing (Kyr's evasion 3); a minute a level | first level; on the caster, three rounds; `blurred`: one harder to hit, +2 against magic, evasion 10 (eleven hits in twenty turned) | **two cards:** the illusionist's first pick (every illusionist knows it: 1.00 → .47) and the conjurer's (Mage Armor takes its place); 13–23.5 % of other mages |
+| Barkskin | second level (druid); one creature touched; +2 natural armour, +1 each three levels past the third, to +5; ten minutes a level | first level, Nature; on the caster, two harder to hit, three rounds | **two cards:** the wildcaller's first-level pick and the oceanist's (Rejuvenate and Shadow Cloak take their places); wildcallers 50 %, other clerics 12.5–15.5 % |
+| Hold Animal | second level (druid); one animal; Will negates; a round a level | a Law cantrip; one animal paralysed three rounds, saved with Strength against 15 + level | **every oathkeeper** (1.00 → .53, its card's second level gains it); 17.5–23 % of other clerics gain it |
+| Cure Minor Wounds | a cantrip; one point | a Life cantrip; 1d4 | every vitalist (the first cleric way) and the 51 of 2,233 installed classed creatures who know it (8 of a1's) heal 1 where it healed 2.5, in a fight and at Tend (a cantrip spends no slot); test/tend-here and test/small/tended read it |
+| Lesser Restoration | second level; ends magical penalties to scores (Kyr's weakened, cursed, fatigue), repairs ability damage, ends fatigue | ends poison, cursed and blinded | the vitalist's second-level pick **loses its cure for poison**, the first hour's spiders' killer; the march's three recorded campaigns (test/fixtures/march) hold it |
+| Darkness (Create Darkness) | second level; an object sheds shadow, concealment to all about it; no save; ten minutes a level | blinds every foe, a Reflex save against 15 + level | **four cards** hold it at the second level (shadowmancer, stormcaller, veneficium, warbringer): a hold on every foe becomes a shadow over both sides |
+
+**The options, for each:** the SRD's whole (moves the above); the SRD's resolution at Orsino's level (Blur and
+Barkskin: no card moves, as Divine Favor in case 23; Hold Animal a cantrip by the SRD's numbers; not open to Cure
+Minor Wounds, Lesser Restoration or Darkness, whose level is the SRD's already); or Orsino's as they stand.
+
+Recommended: Blur and Barkskin by their resolution at Orsino's level (Blur: evasion 3 on one ally, ten rounds;
+Barkskin two harder to hit, adding to armour, on one ally for the fight); Cure Minor Wounds the SRD's (one point is
+what a cantrip is for, and Tend's healing is a rest's to give, not a cantrip's) only with Tend measured first; Lesser
+Restoration and Darkness as they stand until the first hour has another cure for poison and the shadow's concealment
+is a fight rule (the field has no light in a fight); Hold Animal as it stands. **Decisions for the lead.**
 
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
