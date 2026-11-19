@@ -172,11 +172,13 @@ export class ComposedCreation {
       chosen={chosen === o.id || !!picked?.includes(o.id)} lit={lit === o.id} taken={committed === o.id}
       hold={!picked || o.id === learn} onConsider={consider}
       onChoose={id => choose(id)} />);
-    // A list is one of the four, its options set close together in it (creation's one dense menu: a people's names).
+    // A list is one of the four, its options set close together in it (creation's one dense menu: a people's names);
+    // the row that learns a hand stands under it, the step's one way on.
     return (
       <div className={`composed-rows${shown.length > 7 && !list ? ' many' : ''}`} role="menu"
-        {...committed ? { 'aria-busy': true, 'data-committed': committed } : {}}>
-        {list ? <div className="composed-list" data-list>{rows}</div> : rows}
+        {...committed ? { 'aria-busy': true, 'data-committed': committed } : {}} {...picked ? { 'data-many': true } : {}}>
+        {list ? <div className="composed-list" data-list>{learn ? rows.slice(0, -1) : rows}</div> : rows}
+        {list && learn && rows.at(-1)}
         {rest}
         {after}
       </div>
@@ -202,8 +204,8 @@ export class ComposedCreation {
     if (!card?.entry) { return null; }
     return <aside className="creation-entry" data-region="entry" aria-live="polite">
       <h2>{Typography.curl(card.name)}</h2>
-      {card.entry.play && <p className="entry-play"><span>In play</span>{Typography.curl(card.entry.play)}</p>}
-      <dl>{card.entry.facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{Typography.curl(v)}</dd></div>)}</dl>
+      <dl>{card.entry.play && <div className="entry-play"><dt>In play</dt><dd>{Typography.curl(card.entry.play)}</dd></div>}
+        {card.entry.facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{Typography.curl(v)}</dd></div>)}</dl>
       {card.entry.rules.length > 0 && <ul>{card.entry.rules.map(r => <li key={r}>{Typography.curl(r)}</li>)}</ul>}
       {card.entry.groups?.map(g => <section key={g.heading} className="entry-group" aria-label={g.heading}>
         <h3>{g.heading}</h3>

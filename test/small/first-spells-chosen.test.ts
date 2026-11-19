@@ -37,7 +37,7 @@ describe('a caster\'s first spells, chosen', () => {
     expect(learn.cards.some(c => c.id === 'conjure_light')).toBe(false);
     expect(learn.cards.find(c => c.id === 'firebolt')!.entry!.facts).toContainEqual(['Of', 'Evocation']);
     // The hand full: what is not taken is shut until one is let go; the last row learns them, its entry the instrument.
-    expect(learn.cards.find(c => c.id === 'sleep')!.shut).toBe('Your hand is full: let one go');
+    expect(learn.cards.find(c => c.id === 'sleep')!.shut).toBe('Hand full');
     const done = learn.cards.at(-1)!;
     expect([done.id, done.name, done.shut]).toEqual(['learned', 'Learn these three', undefined]);
     expect(done.entry!.groups!.flatMap(g => g.rows.map(r => r.id))).toEqual(expect.arrayContaining(picks.slice(0, 3)));

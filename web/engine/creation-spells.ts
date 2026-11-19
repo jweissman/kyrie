@@ -6,16 +6,18 @@ import { Words } from '../reader/words';
 type Way = Catalog['callings'][number]['specializations'][number];
 export type SpellStepId = 'learn';
 
-// A caster's first spells, chosen all at once (the owner, 18 November: "a multiselect is really the only path forward
-// … you shouldn't have to page through all the spells three at a time"; OR-93 had asked them in turn, a step each):
-// after the art or the god's keeping, one step that asks for as many first-level spells as the rules give a
-// first-level specialist (SpellSelection: three for a mage or a cleric). Each spell open to the way is a row, its own
-// art's first, every one in view; a press takes it or lets it go, and a full hand shuts the rest until one is let go.
-// The spells set out with until then are the way's own picks (FirstSpells.picks), so a life set out at once has what it
-// always had. The last row learns them (a hold, as every choice of creation), shut until the hand is full and has one
-// of the way's own (SpellSelection.validate); its entry is the instrument of what the way sets out knowing, the spells
-// chosen among them (CreationSpells.shown). What is chosen is the protagonist's alone (member.spells); those drawn are
-// unchanged. The spells known from the start of the second and third level are the way's own picks, as before.
+// A caster's first spells, chosen all at once (the owner, 18 November: "a multiselect is really the only path forward …
+// you shouldn't have to page through all the spells three at a time"; OR-93 had asked them in turn, a step each): after
+// the art or the god's keeping, one step that asks for as many first-level spells as the rules give a first-level
+// specialist (SpellSelection: three for a mage or a cleric). Each spell open to the way is a row, its own art's first,
+// every one in view; a press takes it or lets it go, and a full hand shuts the rest until one is let go. The spells set
+// out with until then are the way's own picks (FirstSpells.picks), so a life set out at once has what it always had.
+// The last row learns them (a hold, as every choice of creation), shut until the hand is full and has one of the way's
+// own (SpellSelection.validate), drawn as a list (seventeen to twenty rows, two to a line, all in view on a laptop's
+// screen, as one had not been in a column: OR-98's browser check); its entry is the instrument of what the way sets out
+// knowing, the spells chosen among them (CreationSpells.shown). What is chosen is the protagonist's alone
+// (member.spells); those drawn are unchanged. The spells known from the start of the second and third level are the
+// way's own picks, as before.
 export class CreationSpells {
   static readonly done = 'learned';
   static is(step: string): step is SpellStepId { return step === 'learn'; }
@@ -26,7 +28,7 @@ export class CreationSpells {
     const mine = CreationSpells.mine(m, way), cleric = calling!.id === 'cleric', noun = cleric ? 'prayer' : 'spell';
     const art = first.open.filter(s => first.school.includes(s.id));
     const open = [...art, ...first.open.filter(s => !art.includes(s))], n = Words.many(first.count, noun);
-    return [{ id: 'learn', present: 'rows', emblems: true, all: true, many: first.count, picked: mine,
+    return [{ id: 'learn', present: 'list', emblems: true, all: true, many: first.count, picked: mine,
       ask: `Which ${n} ${cleric ? 'were you taught' : 'did you learn'} first?`,
       cards: [...open.map(s => CreationSpells.card(s, mine, way)), CreationSpells.learned(mine, way, calling!, m)] }];
   }
@@ -54,7 +56,7 @@ export class CreationSpells {
     const taken = mine.includes(s.id), full = mine.length >= way.first!.count, school = way.first!.school;
     const emblem = SpellSchools.emblem(s.id);
     return { id: s.id, name: s.name, say: `${Words.upper(s.line)}.`, ...emblem ? { emblem } : {},
-      ...taken ? { aside: 'learned' } : full ? { shut: 'Your hand is full: let one go' } : {},
+      ...taken ? { aside: 'learned' } : full ? { shut: 'Hand full' } : {},
       entry: { facts: [['Level', 'First'], ...way.of && school.includes(s.id) ? [['Of', Words.upper(way.of)] as [string, string]]
         : []], rules: [`${Words.upper(s.does)}.`, ...s.rules] } };
   }
