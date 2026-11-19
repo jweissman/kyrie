@@ -12,6 +12,7 @@ import { PlaceFacets } from '../../src/presentation/place-facets';
 import { Guidance } from './guidance';
 import { Attest } from '../../src/presentation/attest';
 import { Fold, type Leaf } from '../../src/presentation/fold';
+import { Doable } from '../../src/presentation/doable';
 import { SceneRail } from './stage/scene-rail';
 import { Glyphs } from './creation/glyphs';
 import { Hold } from './instrument/hold';
@@ -36,6 +37,12 @@ export class MapMenu {
   static away(app: ReaderApp): Pick<RowParts, 'indicator' | 'plain'> {
     const indicator = SceneRail.local(app);
     return indicator ? { indicator } : { plain: 'neutral' };
+  }
+  // A road's row as the engine's one row for it makes it (Doable.choice: a journey it offers), or none where refused.
+  static made<T extends { c: Choice }>(app: ReaderApp, screen: Screen, r: T): T[] {
+    const g = app.state.frame?.leaf?.glance;
+    const c = g ? Doable.choice(g, screen, r.c.id, { label: r.c.label, command: r.c.command }) : r.c;
+    return c ? [{ ...r, c: { ...r.c, ...c, tone: r.c.tone } }] : [];
   }
   // A place as the map's board knows it (its mark, its town, its hex: BoardField.whither).
   static whither(screen: Screen, id: string): string {
@@ -100,7 +107,7 @@ export class MapMenu {
     const named = chosen && screen.region ? RouteCard.named(screen.region, chosen, way!).title : undefined;
     const taken = [go?.id, onward?.c.id];
     const facets = PlaceFacets.of(screen, app.state.frame?.leaf?.glance), gilded = Guidance.shown(app);
-    const roads = MapMenu.roads(screen, facets, { taken, chosen })
+    const roads = MapMenu.roads(screen, facets, { taken, chosen }).flatMap(r => MapMenu.made(app, screen, r))
       .slice(0, MapMenu.four - 1 - (go ? 1 : 0) - (onward ? 1 : 0));
     return (
       <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
