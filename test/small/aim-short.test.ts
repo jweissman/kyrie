@@ -18,4 +18,8 @@ describe('an aim as a row says it', () => {
     expect(AimSaid.short('Ask at the customs-house how many head of Bran\'s drove crossed'))
       .toBe('Ask at the customs-house');
   });
+  // An aim that says how things stand is never said by "its verb": "The for a toll he says he paid" (AT-01's census).
+  it('cuts an aim that says how things stand at a joint, not at its first word', () => {
+    expect(AimSaid.short('The toll-boy is in the lockup for a toll he says he paid.')).toBe('The toll-boy is in the lockup');
+  });
 });

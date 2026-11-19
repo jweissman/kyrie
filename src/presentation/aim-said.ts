@@ -27,13 +27,16 @@ export class AimSaid {
     const title = AimSaid.title(aim);
     if (title.length <= room) { return title; }
     const sought = / for ((?:your|his|her|their|the|a|an) [^,;]+)$/.exec(title);
-    const verb = title.split(' ')[0]!;
-    if (sought && `${verb} for ${sought[1]}`.length <= room) { return `${verb} for ${sought[1]}`; }
+    // Only where it begins with what to do: an aim that says how things stand ("The toll-boy is in the lockup for a
+    // toll he says he paid") had read "The for a toll he says he paid" (the atlas census, AT-01).
+    const verb = title.split(' ')[0]!, told = AimSaid.stating.test(verb);
+    if (sought && !told && `${verb} for ${sought[1]}`.length <= room) { return `${verb} for ${sought[1]}`; }
     const joints = [...title.matchAll(AimSaid.joints)]
       .map(m => m.index!).filter(i => i >= 12 && i <= room);
     return joints.length ? title.slice(0, joints.at(-1)) : title;
   }
   static readonly room = 40;
+  static readonly stating = /^(?:the|a|an|your|his|her|their|our|my|this|that|these|those|someone|something)$/i;
   // Where a clause joins: a preposition, or a question's word ("Ask at the customs-house how many head …").
   static readonly joints =
     / (?:between|with|by|from|to|and|for|at|in|on|under|over|past|toward|how|what|who|where|whether|why) /g;
