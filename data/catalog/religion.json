@@ -1,5 +1,5 @@
 {
-  "about": "Theology. A domain is a sphere of divine power with an alignment and a blessing; a deity belongs to one or more domains (Orsino lists some deities under several). spellDomain resolves Orsino's inconsistent names between the deity and spell tables. A deity whose blessing has an effect can bless at a shrine through the devotion rules.",
+  "about": "Theology. A domain is a sphere of divine power with an alignment and a blessing; a deity belongs to one or more domains (Orsino lists some deities under several). spellDomain resolves Orsino's inconsistent names between the deity and spell tables. A deity whose blessing has an effect can bless at a shrine through the devotion rules. A deity's epithet is how its own lore titles it (Danu, Mother of the Gods), said after its name at its shrines in place of a title made from the domain (\"Lord of Nature\": OB-13).",
   "domains": {
     "chaos": {
       "name": "Chaos",
@@ -167,6 +167,7 @@
   "deities": {
     "aengus": {
       "name": "Aengus",
+      "epithet": "the Young Son",
       "domains": [
         "life",
         "magic",
@@ -180,6 +181,7 @@
     },
     "aine": {
       "name": "Aine",
+      "epithet": "Lady of Midsummer",
       "domains": [
         "light",
         "love"
@@ -192,6 +194,7 @@
     },
     "airmid": {
       "name": "Airmid",
+      "epithet": "Keeper of the Herbs",
       "domains": [
         "poison"
       ],
@@ -203,6 +206,7 @@
     },
     "arawn": {
       "name": "Arawn",
+      "epithet": "King of Annwn",
       "domains": [
         "death"
       ],
@@ -214,6 +218,7 @@
     },
     "badb": {
       "name": "Badb",
+      "epithet": "the Battle-Crow",
       "domains": [
         "trickery",
         "war"
@@ -226,6 +231,7 @@
     },
     "balor": {
       "name": "Balor",
+      "epithet": "Lord of the Baleful Eye",
       "domains": [
         "darkness"
       ],
@@ -237,6 +243,7 @@
     },
     "belenus": {
       "name": "Belenus",
+      "epithet": "the Shining One",
       "domains": [
         "light"
       ],
@@ -248,6 +255,7 @@
     },
     "boann": {
       "name": "Boann",
+      "epithet": "Mother of the River",
       "domains": [
         "oceans"
       ],
@@ -259,6 +267,7 @@
     },
     "brigid": {
       "name": "Brigid",
+      "epithet": "the Exalted One",
       "domains": [
         "knowledge",
         "life",
@@ -273,6 +282,7 @@
     },
     "cailleach": {
       "name": "Cailleach",
+      "epithet": "the Old Woman of Winter",
       "domains": [
         "chaos",
         "darkness"
@@ -285,6 +295,7 @@
     },
     "camulus": {
       "name": "Camulus",
+      "epithet": "Champion of the Host",
       "domains": [
         "war"
       ],
@@ -296,6 +307,7 @@
     },
     "ceridwen": {
       "name": "Ceridwen",
+      "epithet": "Keeper of the Cauldron",
       "domains": [
         "knowledge",
         "magic",
@@ -309,6 +321,7 @@
     },
     "cernunnos": {
       "name": "Cernunnos",
+      "epithet": "the Horned One",
       "domains": [
         "nature"
       ],
@@ -320,6 +333,7 @@
     },
     "cliodhna": {
       "name": "Cliodhna",
+      "epithet": "Queen of the Three Birds",
       "domains": [
         "love"
       ],
@@ -331,6 +345,7 @@
     },
     "coventina": {
       "name": "Coventina",
+      "epithet": "Lady of the Holy Spring",
       "domains": [
         "nature"
       ],
@@ -342,6 +357,7 @@
     },
     "dagda": {
       "name": "Dagda",
+      "epithet": "the Good God",
       "domains": [
         "life",
         "order"
@@ -354,6 +370,7 @@
     },
     "danu": {
       "name": "Danu",
+      "epithet": "Mother of the Gods",
       "domains": [
         "light",
         "order"
@@ -366,6 +383,7 @@
     },
     "donn": {
       "name": "Donn",
+      "epithet": "Lord of the House of the Dead",
       "domains": [
         "death"
       ],
@@ -377,6 +395,7 @@
     },
     "epona": {
       "name": "Epona",
+      "epithet": "Lady of the Horses",
       "domains": [
         "nature"
       ],
@@ -388,6 +407,7 @@
     },
     "flidais": {
       "name": "Flidais",
+      "epithet": "Lady of the Wild Herds",
       "domains": [
         "life"
       ],
@@ -399,6 +419,7 @@
     },
     "grannus": {
       "name": "Grannus",
+      "epithet": "Lord of the Healing Springs",
       "domains": [
         "light"
       ],
@@ -410,6 +431,7 @@
     },
     "gwydion": {
       "name": "Gwydion",
+      "epithet": "the Enchanter",
       "domains": [
         "trickery"
       ],
@@ -421,6 +443,7 @@
     },
     "gwyn_ap_nudd": {
       "name": "Gwyn ap Nudd",
+      "epithet": "Leader of the Wild Hunt",
       "domains": [
         "death"
       ],
@@ -432,6 +455,7 @@
     },
     "lir": {
       "name": "Lir",
+      "epithet": "Lord of the Sea",
       "domains": [
         "oceans"
       ],
@@ -443,6 +467,7 @@
     },
     "lugh": {
       "name": "Lugh",
+      "epithet": "the Long-Armed",
       "domains": [
         "knowledge",
         "light",
@@ -457,6 +482,7 @@
     },
     "macha": {
       "name": "Macha",
+      "epithet": "the Seeress",
       "domains": [
         "knowledge"
       ],
@@ -468,6 +494,7 @@
     },
     "morrigan": {
       "name": "Morrigan",
+      "epithet": "the Phantom Queen",
       "domains": [
         "chaos",
         "darkness"
@@ -480,6 +507,7 @@
     },
     "nechtan": {
       "name": "Nechtan",
+      "epithet": "Keeper of the Secret Well",
       "domains": [
         "oceans"
       ],
@@ -491,6 +519,7 @@
     },
     "nodens": {
       "name": "Nodens",
+      "epithet": "the Fisher of the Deep",
       "domains": [
         "nature"
       ],
@@ -502,6 +531,7 @@
     },
     "nuada": {
       "name": "Nuada",
+      "epithet": "the Silver-Handed",
       "domains": [
         "storms",
         "war"
@@ -514,6 +544,7 @@
     },
     "ogma": {
       "name": "Ogma",
+      "epithet": "the Honey-Tongued",
       "domains": [
         "knowledge"
       ],
@@ -525,6 +556,7 @@
     },
     "rhiannon": {
       "name": "Rhiannon",
+      "epithet": "the Great Queen",
       "domains": [
         "love",
         "nature"
@@ -537,6 +569,7 @@
     },
     "taranis": {
       "name": "Taranis",
+      "epithet": "the Thunderer",
       "domains": [
         "storms"
       ],

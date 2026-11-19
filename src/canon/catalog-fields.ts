@@ -31,7 +31,7 @@ const fields = {
   skill: ['name', 'description', 'source', 'rests', 'means'],
   plant: ['name', 'looks', 'habitats', 'source', 'portrait', 'uses', 'abundance', 'stand', 'yields', 'gathered',
     'count', 'cut', 'grounds', 'climates'],
-  deity: ['name', 'domains', 'gender', 'observance', 'blessing', 'source'],
+  deity: ['name', 'epithet', 'domains', 'gender', 'observance', 'blessing', 'source'],
   domain: ['name', 'alignment', 'description', 'spellDomain', 'blessing', 'source'],
   material: ['name', 'kind', 'hardness', 'looks', 'source', 'passes'],
   habitat: ['name', 'orsino', 'covers', 'terrains', 'sites', 'forms', 'water', 'shore'],

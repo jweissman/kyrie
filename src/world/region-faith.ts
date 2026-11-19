@@ -68,10 +68,12 @@ export class RegionFaith {
   }
   // The catalog's id for a god's name: "Gwyn ap Nudd" is gwyn_ap_nudd.
   private static id(name: string): string { return name.toLowerCase().replaceAll(' ', '_'); }
-  // How Orsino titles a god: "Belenus, God of Light"; a god may be Lord, a goddess is Goddess.
+  // How a god is titled: by its own lore's epithet ("Danu, Mother of the Gods"), not one made from its domain ("Lord
+  // of Nature": OB-13); else as Orsino titles one, "Belenus, God of Light", a god Lord or God, a goddess Goddess. The
+  // draw is made either way, so that nothing drawn after it moves.
   private static title(deity: string, domain: string, rng: Expressions): string {
     const female = Canon.deities[deity]?.gender === 'female', word = female ? 'Goddess' : this.pick(['God', 'Lord'], rng);
-    return `${word} of ${Canon.domains[domain]?.name ?? domain}`;
+    return Canon.deities[deity]?.epithet ?? `${word} of ${Canon.domains[domain]?.name ?? domain}`;
   }
   private static pick<T>(list: T[], rng: Expressions): T { return list[rng.number(`1d${list.length}`) - 1]!; }
   // The shrine as Kyr: what stands there, whose it is and what it asks, and how it looks and is kept; in a shrine of

@@ -271,7 +271,8 @@ export interface Domain {
   blessing?: { modifiers: Modifiers; omits?: Omissions; unsupported?: Omissions }; source: Source;
 }
 export interface Deity {
-  name: string; domains: string[]; gender?: string; observance?: string;
+  // epithet: how its own lore titles it ("Mother of the Gods"), said after its name at its shrines (OB-13).
+  name: string; epithet?: string; domains: string[]; gender?: string; observance?: string;
   blessing?: { id: string; name: string; effect: string }; source: Source;
 }
 // A material (data/catalog/materials.json): what it is called, what kind of stuff, how hard (1 soft to 10), and how it

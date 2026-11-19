@@ -34,7 +34,7 @@ describe('a shrine in a generated region', () => {
     const i = cults.findIndex(c => c.name !== 'Belenus'), town = region.settlements[i]!;
     const river = RegionGeography.roads(region).find(r => r.form?.form === 'river'
       && (r.from.id === town.id || r.to.id === town.id))!.form!.name;
-    expect(cults[i]).toMatchObject({ name: 'Boann', title: 'Goddess of Oceans', form: 'fountain' });
+    expect(cults[i]).toMatchObject({ name: 'Boann', title: 'Mother of the River', form: 'fountain' });
     // Its history is the river's: how the shrine came to stand by the ford.
     const told = RegionFaith.tables.shrineHistory.groups.river!.map(t => t.replaceAll('{land}', `the ${river}`)
       .replaceAll('{town}', town.name).replaceAll('{country}', 'fen'));

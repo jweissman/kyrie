@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { RegionFaith, type Cult } from '../../src/world/region-faith';
 import type { Settlement } from '../../src/world/region-writer';
+import { Canon } from '../../src/canon/canon';
 
 // A shrine is named by what its first sentence shows (DN-06, the owner on a1's shrine: "A well-head with a carved lip
 // … : the well-kept fountain of Nodens"). Each seat is tagged with what it is called, [water|well-head]; the frame and
@@ -13,6 +14,15 @@ class Seats {
   static readonly nouns = [...new Set([...this.all.map(s => s.form), ...this.all.flatMap(s => this.called(s.row) ?? []),
     'well-head', 'spring', 'figure', 'pillar', 'standing stone'])];
 }
+// A god is titled by its own lore, not by its domain (OB-13: "Nodens, Lord of Nature", "Boann, Goddess of Oceans").
+describe('a god\'s title', () => {
+  it('is its own epithet, for every god of the pantheon', () => {
+    const made = Object.entries(Canon.deities).filter(([, d]) => !d.name.includes(','))
+      .filter(([, d]) => !d.epithet || /^(God|Goddess|Lord) of [A-Z][a-z]+$/.test(d.epithet)).map(([id]) => id);
+    expect(made).toEqual([]);
+    expect(Canon.deities.danu?.epithet).toBe('Mother of the Gods');
+  });
+});
 describe('a shrine\'s name', () => {
   it('is what its seat shows, and the seat names no other shrine', () => {
     for (const { row } of Seats.all) {
