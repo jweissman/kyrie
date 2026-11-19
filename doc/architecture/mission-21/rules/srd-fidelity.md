@@ -6,8 +6,8 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 60 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 44 pass in structure
-(level, school), 35 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 34 proved in play identity.** Creatures with one (74):
+(level, school), 36 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+target, duration), 35 proved in play identity.** Creatures with one (74):
 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 22 | hit 9 | defences 5 | specials 0 | saves 4 | of 74 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 56 | school 83 | dice 14 | type 13 | save 38 | dc 25 | attack 109 | resist 17 | target 76 | duration 56 | of 119 |
+| spells, field exact or converted | level 56 | school 83 | dice 14 | type 13 | save 38 | dc 26 | attack 109 | resist 18 | target 76 | duration 57 | of 119 |
 
 ## Creatures, most met first
 
@@ -152,7 +152,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✗ · → yes | ✓ | ✓ |
 | fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ · → yes | ✗ burst → one | ✓ |
 | fireball | fireball | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
-| flesh_to_stone | flesh-to-stone | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 29 → 19 | ✓ | ✗ · → yes | ✓ | ✗ 10 rounds → instant |
+| flesh_to_stone | flesh-to-stone | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ instantaneous, the stone lasting: Kyr's petrified lasts the fight it is laid in, its lifetime (srd-proving-cases.md, case 55) |
 | flight | fly | S✓ R✗ I– | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✗ · → 16 | ✓ | – | ✓ | ✗ 3 rounds → long |
 | foresight | foresight | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✗ one → self | ✗ 3 rounds → long |
 | glyph_of_warding | glyph-of-warding | S✗ R✗ I– | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | – | ✗ none → melee touch | – | ✗ self → one | ✗ 3 rounds → long |

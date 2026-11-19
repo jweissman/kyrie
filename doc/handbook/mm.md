@@ -40,7 +40,7 @@ Mind Melt: 2d6 (2–12) psychic damage to every enemy (may leave whoever it hurt
 
 Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 
-Flesh to Stone: One enemy is petrified for 10 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
+Flesh to Stone: One enemy is petrified for 1000 turns (a Constitution save against 16 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 Paralyzing Touch: One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 

@@ -1930,6 +1930,27 @@ vitalist gains seven. **Not landed:** it moves first-hour fights, so it waits fo
 Out of a fight, Tend (FieldUse) is untouched by the tactics, so the SRD's point would heal one between rests where
 1d4 healed 2.5 (test/tend-here and test/small/tended read it; to be measured with the landing).
 
+### 55. Flesh to Stone by the SRD's numbers (19 November): adapted, a slice that moves nothing
+
+Chosen under the lead's stabilization (prefer a slice that moves nothing): a sixth-level spell whose level and school
+are the SRD's already, so no draw moves, and that no installed creature of the eight worlds knows. Spec:
+`test/flesh-to-stone` (2).
+
+**The spell** (a hand entry over Orsino's): sixth level, arcane, transmutation (exact, as Orsino's); one foe (exact);
+a Fortitude save to negate (exact) at case 7's difficulty (16 + the casting score's modifier + half the casting
+level); spell resistance answering it (exact).
+
+**Converted:** the SRD's instantaneous stone, which lasts, is Kyr's petrified for the fight it is laid in (the
+condition's lifetime ends with the fight; Stone to Flesh ends it sooner); written as a thousand rounds, so cast at a
+band outside a fight (FieldUse.cast) it holds them a thousand watches, near enough the SRD's for good. **Omitted:** the
+stone kept past a fight, and the gear turned with its wearer. Before: Orsino's ten rounds against 18 and the caster's
+whole level, no spell resistance. The census grades it S✓ R✓ I✓: 36 of 119 pass in resolution, 35 proved in play.
+
+**What it moves:** no drawn caster's spells (its level and school unchanged), no creation card (a sixth-level spell),
+no installed creature (none of the eight worlds' knows it), no first-hour fight. Met only by a mage of the eleventh
+level who has learned it (the Orsino world's scene that teaches it), and by the discerner (a cave kind, which casts at
+its own Hit Dice: never below the eleventh).
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

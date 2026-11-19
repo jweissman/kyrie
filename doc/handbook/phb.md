@@ -7127,11 +7127,13 @@ End polymorphed or shapechanged on one enemy. An arcane spell of the sixth level
 
 ##### Flesh to Stone
 
-*Faithful · level 6 arcane spell, transmutation* · `ability:flesh_to_stone`
+*Adapted · level 6 arcane spell, transmutation* · `ability:flesh_to_stone`
 
-One enemy is petrified for 10 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
+One enemy is petrified for 1000 turns (a Constitution save against 16 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
 
-> Turn an enemy to stone.
+> Turn one foe to stone where it stands, unless it holds itself together against it; stone it stays until the fight is over.
+
+*Adapted: The SRD's Flesh to Stone (doc/architecture/mission-22/srd-proving-cases.md, case 55): sixth level, transmutation, one creature, a Fortitude save to negate at case 7's difficulty, spell resistance answering it (exact). Converted: its instantaneous, lasting stone is Kyr's petrified for the fight it is laid in (the condition's lifetime ends with the fight; Stone to Flesh ends it sooner). Omitted: the stone kept past the fight, and its gear turned with it. Before, Orsino's ten rounds against 18 + the caster's whole level, no spell resistance.*
 
 ##### Gravity Crush
 
