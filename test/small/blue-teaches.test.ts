@@ -31,8 +31,10 @@ const verge = `
 describe('blue on someone, beside a deed done for them', () => {
   it('is for the question that teaches, and that question teaches', async () => {
     const t = await Tiny.start(verge);
-    const talk = t.glance.acts.find(a => a.subject === 't__carter')!;
+    // The talk, not the deed beside it, led for its own sake, no knowledge (test/small/person-deed-led).
+    const talk = t.glance.acts.find(a => a.choice === 't__carter#talk')!;
     expect(talk.aspects).toContain('knowledge');
+    expect(t.glance.acts.find(a => a.command === 't__lend_hand')?.aspects ?? []).not.toContain('knowledge');
     expect(talk.inside!.filter(i => i.aspects.includes('knowledge')).map(i => i.command)).toEqual(['t__ask_mill']);
     await t.perform('t__ask_mill');
     expect(t.world.test({ kind: 'call', name: 'knows', args: [t.campaign.playerActor!, 't__mill_burned'] })).toBe(true);
@@ -40,7 +42,7 @@ describe('blue on someone, beside a deed done for them', () => {
   it('is gone once the question is asked: the hand is a deed, not something to learn', async () => {
     const t = await Tiny.start(verge);
     await t.perform('t__ask_mill');
-    const talk = t.look().glance.acts.find(a => a.subject === 't__carter');
+    const talk = t.look().glance.acts.find(a => a.choice === 't__carter#talk');
     expect(talk?.aspects ?? []).not.toContain('knowledge');
     expect((talk?.inside ?? []).filter(i => i.aspects.includes('knowledge'))).toEqual([]);
   });

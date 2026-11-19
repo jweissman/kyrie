@@ -114,13 +114,24 @@ export class Affordances {
     if (SceneModel.threat(s)) { return this.threat(s, r); }
     // Talking to them, or looking at it, is one choice; what is done about them stands beside it (see Attending).
     const opener = s.choices.find(c => [`${s.id}#talk`, `${s.id}#look`].includes(c.id));
-    if (opener) { return this.opened(s, opener, screen, r); }
+    if (opener) { return [...this.opened(s, opener, screen, r), ...this.deeds(s, opener, r)]; }
     // An animal, or a creature of no danger: its first gentle act, for what is new about it.
     const gentle = this.gentle(s.choices, r);
     if (!gentle) { return []; }
     const whys: Why[] = [...r.signs.has(s.id) ? ['sign' as const] : [], ...r.life === s.id ? ['life' as const] : [],
       ...this.about([gentle], r) ? ['about' as const] : [], ...this.ownWhy([gentle], r)];
     return [this.candidate(gentle, { subject: s.id, kind: 'act', whys, r })];
+  }
+  // What is done about them beside the talk (letting Ifan's boat through the sea-gate, as he asks): each one of the
+  // place's own acts, led with as such, never only under `all` (ST-03: their talk's replies had been read alone, and a
+  // deed beside it had no candidate). Spoken by them, it is not a topic (see ChoiceGrouping.owned). One for each person
+  // still (see Promotion.room): their talk, or the deed.
+  private static deeds(s: SceneSubject, opener: Choice, r: Reading): Candidate[] {
+    // Not one the aim waits on: the talk is led for it already, by its own words (Holgar's charcoal given had been led
+    // twice in the four, the talk for it and the deed: cold play 7, T25).
+    return s.choices.filter(c => c !== opener && c.deed && c.command && !c.disabled && !r.advances?.has(c.command))
+      .map(c => this.candidate(c, { subject: s.id, kind: 'act', r,
+        whys: [...!r.done.has(c.command!) ? ['own' as const] : [], ...this.about([c], r) ? ['about' as const] : []] }));
   }
   // Who lies dead or down: only what the aim followed waits on done about them (Marsh Howe's den cleared, the search
   // among the zombies' bones for the coin they dragged in, had been only under `all`: PL-25).
