@@ -15,7 +15,7 @@ const fields = {
     'resist', 'requires', 'uses', 'area', 'unsupported', 'source', 'recharges'],
   condition: ['name', 'description', 'lifetime', 'modifiers', 'hooks', 'trigger', 'duration', 'saveKind', 'law',
     'compel', 'forceTarget', 'guard', 'drains', 'stacking', 'omits', 'unsupported', 'source', 'grants', 'begins',
-    'ends', 'unheld'],
+    'ends', 'unheld', 'perAmount'],
   trait: ['name', 'category', 'description', 'modifiers', 'requires', 'perks', 'excludes', 'spellAccess', 'grants',
     'omits', 'unsupported', 'source', 'skills'],
   item: ['name', 'category', 'description', 'value', 'slot', 'use', 'modifiers', 'weapon', 'armor', 'hooks', 'fuel',

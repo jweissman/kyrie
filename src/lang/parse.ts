@@ -25,8 +25,9 @@ type EffectBody =
   | { kind: 'enervate'; amount: Amount; target: Target }
   | { kind: 'defend' | 'flee'; target: 'self' }
   // duration: turns, or an expression its caster's values settle as it is laid (see Lasting).
+  // amount: what it is laid with, thrown by its caster's values (see ConditionAmount).
   | { kind: 'apply'; status: string; duration: number | Amount; clock?: 'owner-turn' | 'world-time' | 'until-removed';
-    target: Target }
+    target: Target; amount?: Amount }
   // pattern: Orsino's removeStatus, a case-insensitive pattern over condition names ("hidden|invisible", ".*").
   | { kind: 'remove'; status: string; target: Target; pattern?: string }
   | { kind: 'kill'; target: Target }

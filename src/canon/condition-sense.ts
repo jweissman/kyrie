@@ -11,7 +11,8 @@ export class ConditionSense {
     if (!c) { return 'neutral'; }
     const m = c.modifiers ?? {};
     if (c.saveKind || 'trigger' in c || (m.onTurnEnd ?? []).some(p => p.kind === 'damage')) { return 'hurt'; }
-    const score = this.weigh(m) + (c.guard ? 1 : 0) + (c.grants?.length ? 1 : 0);
+    // What it lays for each point it was laid with weighs as its own does (an enfeeblement hurts).
+    const score = this.weigh(m) + this.weigh(c.perAmount ?? {}) + (c.guard ? 1 : 0) + (c.grants?.length ? 1 : 0);
     return score > 0 ? 'help' : score < 0 ? 'hurt' : 'neutral';
   }
   static helps(id: string): boolean { return this.tone(id) === 'help'; }
@@ -27,7 +28,7 @@ export class ConditionSense {
     return Math.sign(m.toHit ?? 0) + damage - Math.sign(m.ac ?? 0) + Math.sign(m.evasion ?? 0)
       + Math.sign(m.allRolls ?? 0) + Math.sign(m.saveVersusAll ?? 0) + sum(m.saves) + sum(m.attributes)
       + sum(m.resistances) + sum(m.resist) + (m.immune?.length ?? 0) + (m.tempHp ? 1 : 0) + (m.images ? 1 : 0)
-      + (heals ? 1 : 0)
+      + (heals ? 1 : 0) + (m.concealment ? 1 : 0)
       - (m.noActions && !heals ? 2 : 0) - (m.noSpellcasting ? 1 : 0);
   }
 }

@@ -371,6 +371,7 @@
   "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "flesh_to_stone": "test/flesh-to-stone.test.ts",
+  "weakness": "test/ray-of-enfeeblement.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
   "burning_hands": "test/burning-hands-fireball.test.ts",
   "fireball": "test/burning-hands-fireball.test.ts",

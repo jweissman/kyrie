@@ -1,6 +1,41 @@
 {
   "about": "Abilities: what a creature can choose to do. Orsino skills and spells are generated into data/catalog/orsino/abilities.json; this file holds Kyr's own abilities and adaptations. kind is technique, spell (with tradition, level and school or domain; a spell spends one slot) or natural. effect is written in the Kyr effect language; effects is the typed form.",
   "abilities": {
+    "weakness": {
+      "name": "Ray of Enfeeblement",
+      "kind": "spell",
+      "description": "A ray from your hand saps one foe it strikes: 1d6 off its Strength, and a point more for every two levels you have, to five more, for a minute for every level.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "enfeebled",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d6 + min(5, floor(#castingLevel / 2))"
+          },
+          "duration": {
+            "kind": "deem",
+            "expression": "10 * #castingLevel"
+          },
+          "target": "enemy",
+          "touch": "ranged"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "arcane",
+        "level": 2,
+        "school": "necromancy",
+        "resistance": true
+      },
+      "source": {
+        "orsino": "arcaneSpell:weakness",
+        "srd35": "spell:ray-of-enfeeblement",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Ray of Enfeeblement (doc/architecture/mission-22/srd-proving-cases.md, case 58) by its resolution: one foe a ranged touch lands on (Touch), no save, spell resistance answering it, 1d6 off its Strength and a point each two casting levels, to +5 at the tenth (an amount its caster throws: ConditionAmount, the enfeebled condition), a minute a casting level (Lasting). Kept: Orsino's second level (the SRD's first would move the necromancers' draws). Before, Orsino's Weakness: Strength two less and two less harm a blow for three rounds, a Fortitude save against 14 + the caster's level."
+      }
+    },
     "flesh_to_stone": {
       "name": "Flesh to Stone",
       "kind": "spell",
