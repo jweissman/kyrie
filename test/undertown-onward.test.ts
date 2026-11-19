@@ -23,6 +23,8 @@ describe('the old ways under a town', () => {
     change({ kind: 'assert', call: ModuleWriter.call('region__s1_u_done', 'region__s1_u_rats_job') });
     expect(await aims()).toContain('region__s1_u_onward_sought');
     put('region__s1_u_undercroft');
+    // The floor's aim is the flag's once it is seen, by a light (cold play 6, CL-56: it had come in the pitch dark).
+    change({ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__s1_u_flag_seen') });
     expect(await aims()).toEqual(expect.arrayContaining(['region__s1_u_floor_sought']));
     // The keeper felled: held down by its hit points, which the projection keeps able by.
     type Lease = { creatures: { state: { hp: number } }[]; commit(c: unknown): void; release(): void };
