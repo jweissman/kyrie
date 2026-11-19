@@ -1,6 +1,40 @@
 {
   "about": "Abilities: what a creature can choose to do. Orsino skills and spells are generated into data/catalog/orsino/abilities.json; this file holds Kyr's own abilities and adaptations. kind is technique, spell (with tradition, level and school or domain; a spell spends one slot) or natural. effect is written in the Kyr effect language; effects is the typed form.",
   "abilities": {
+    "flesh_to_stone": {
+      "name": "Flesh to Stone",
+      "kind": "spell",
+      "description": "Turn one foe to stone where it stands, unless it holds itself together against it; stone it stays until the fight is over.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "petrified",
+          "duration": 1000,
+          "target": "enemy",
+          "save": {
+            "kind": "fortitude",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "16 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "arcane",
+        "level": 6,
+        "school": "transmutation",
+        "resistance": true
+      },
+      "source": {
+        "orsino": "arcaneSpell:flesh_to_stone",
+        "srd35": "spell:flesh-to-stone",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Flesh to Stone (doc/architecture/mission-22/srd-proving-cases.md, case 55): sixth level, transmutation, one creature, a Fortitude save to negate at case 7's difficulty, spell resistance answering it (exact). Converted: its instantaneous, lasting stone is Kyr's petrified for the fight it is laid in (the condition's lifetime ends with the fight; Stone to Flesh ends it sooner). Omitted: the stone kept past the fight, and its gear turned with it. Before, Orsino's ten rounds against 18 + the caster's whole level, no spell resistance."
+      }
+    },
     "plane_shift": {
       "name": "Plane Shift",
       "kind": "spell",

@@ -370,6 +370,7 @@
   "cure_disease": "test/remove-disease.test.ts",
   "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
+  "flesh_to_stone": "test/flesh-to-stone.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
   "burning_hands": "test/burning-hands-fireball.test.ts",
   "fireball": "test/burning-hands-fireball.test.ts",
@@ -396,6 +397,10 @@
  "conversions": {
   "magic_missile": {
    "target": "every missile on the one foe chosen, passing on as it falls (rules/magic-missile.md)"
+  },
+  "flesh_to_stone": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",
+   "duration": "instantaneous, the stone lasting: Kyr's petrified lasts the fight it is laid in, its lifetime (srd-proving-cases.md, case 55)"
   },
   "cone_of_cold": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"
