@@ -4,12 +4,12 @@ import { HeldActs, type Host } from './held-acts';
 export type { Host };
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
-import type { WayInfo } from '../ui/passage-model';
 import { Spatial } from '../spatial'; import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Affordances, type Reading } from '../ui/affordances';
 import { Attending } from '../ui/attention';
 import { Itineraries } from '../ui/itinerary'; import { Headings } from '../ui/headings';
+import { KnownWays } from '../ui/known-ways';
 import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { SceneModel, type Scene } from '../ui/scene';
@@ -320,10 +320,9 @@ export class Glance {
       .sort((a, b) => Number(a[1] === 'held') - Number(b[1] === 'held')
         || Number(byId.get(b[0])?.space?.kind === 'room') - Number(byId.get(a[0])?.space?.kind === 'room'))
       .slice(0, 2);
-    const graph = places.length ? Itineraries.graph(campaign) : new Map<string, WayInfo[]>();
     for (const [id, why] of places) {
       const near = !!area && Spatial.ancestry(byId, id).some(e => e.id === area);
-      const first = this.leading(graph, { here, id, byId, ...near ? { area } : {} });
+      const first = this.leading(campaign, { here, id, byId, ...near ? { area } : {} });
       // No known way to it, but a way from here into the site it is in: that (the far end of a hold not yet walked,
       // through its door just opened).
       const site = Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
@@ -370,23 +369,11 @@ export class Glance {
   private static sought(campaign: Campaign, screen: Screen): string | undefined {
     const here = screen.place.id, places = AimAdvances.ahead(campaign).filter(p => p !== here);
     if (!places.length || AimAdvances.sought(campaign).includes(here)) { return undefined; }
-    // Breadth first by the known ways, so the nearest is found first.
-    const graph = Itineraries.graph(campaign), firsts = new Map<string, string>([[here, '']]);
+    // The nearest by the known ways (KnownWays), its first step by a way open now (the bailey's breach down to the door
+    // is barred).
     const open = new Map(screen.exits.filter(e => !e.blocked).map(e => [e.destination.id, e.id]));
-    for (let frontier = [here]; frontier.length;) {
-      const next: string[] = [];
-      for (const from of frontier) {
-        for (const w of graph.get(from) ?? []) {
-          // The first step by a way open now (the bailey's breach down to the door is barred).
-          if (firsts.has(w.to) || (from === here && !open.has(w.to))) { continue; }
-          const first = firsts.get(from) || w.to;
-          if (places.includes(w.to)) { return open.get(first); }
-          firsts.set(w.to, first); next.push(w.to);
-        }
-      }
-      frontier = next;
-    }
-    return undefined;
+    const first = KnownWays.first(campaign, here, id => places.includes(id), { first: new Set(open.keys()) });
+    return first && open.get(first);
   }
   // The ways into a site (a barrow, a cave, a ruin) not yet taken, or further into the one the company is in, by the
   // world's own nesting of its places, never by their names: from its outside its way in, from each room the rooms
@@ -420,52 +407,31 @@ export class Glance {
     const rooms = [...new Set([...graph.values()].flat().map(w => w.to))]
       .filter(id => !visited.has(id) && this.siteOf(at.byId, id) === at.site);
     for (const id of rooms) {
-      const first = this.leading(graph, { here: screen.place.id, id, byId: at.byId, area: at.site });
+      const first = this.leading(campaign,
+        { here: screen.place.id, id, byId: at.byId, area: at.site, able: true });
       const exit = first && screen.exits.find(e => e.destination.id === first && !e.blocked);
       if (exit) { return new Set([`~${exit.id}`]); }
     }
-    return this.outward(graph, screen, at);
+    return this.outward(campaign, screen, at);
   }
   // Nothing in it left to go into: the way back out of it, toward the nearest place outside it (the hobs' hold walked
   // to its last room, and the page had led with nothing at all: Mission 20's honest play).
-  private static outward(graph: Map<string, WayInfo[]>, screen: Screen,
+  private static outward(campaign: Campaign, screen: Screen,
     at: { byId: Map<string, Entity>; site: string }): Set<string> {
-    const firsts = new Map<string, string>([[screen.place.id, '']]);
-    for (let frontier = [screen.place.id]; frontier.length;) {
-      const next: string[] = [];
-      for (const w of frontier.flatMap(from => (graph.get(from) ?? []).map(w => ({ from, w })))) {
-        if (firsts.has(w.w.to)) { continue; }
-        const first = firsts.get(w.from) || w.w.to;
-        if (this.siteOf(at.byId, w.w.to) !== at.site) {
-          const exit = screen.exits.find(e => e.destination.id === first && !e.blocked);
-          return new Set(exit ? [`^${exit.id}`] : []);
-        }
-        firsts.set(w.w.to, first); next.push(w.w.to);
-      }
-      frontier = next;
-    }
-    return new Set();
+    const here = screen.place.id;
+    const first = KnownWays.first(campaign, here, id => this.siteOf(at.byId, id) !== at.site, { able: true });
+    const exit = first && screen.exits.find(e => e.destination.id === first && !e.blocked);
+    return new Set(exit ? [`^${exit.id}`] : []);
   }
   private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
     return Spatial.ancestry(byId, id).find(a => a.space?.kind === 'site')?.id;
   }
-  // The first place on the way to a place: within the area when it lies in it, two legs away at most when not.
-  private static leading(graph: Map<string, WayInfo[]>,
-    at: { here: string; id: string; byId: Map<string, Entity>; area?: string }): string | undefined {
-    const firsts = new Map<string, string>([[at.here, '']]); let frontier = [at.here];
-    for (let legs = 0; frontier.length && (at.area || legs < 2); legs++) {
-      const next: string[] = [];
-      for (const from of frontier) {
-        for (const w of graph.get(from) ?? []) {
-          if (firsts.has(w.to) || (at.area && !Itineraries.within(at.byId, w.to, at.area))) { continue; }
-          const first = firsts.get(from) || w.to;
-          if (Itineraries.within(at.byId, w.to, at.id)) { return first; }
-          firsts.set(w.to, first); next.push(w.to);
-        }
-      }
-      frontier = next;
-    }
-    return undefined;
+  // The first place on the way to a place: within the area when it lies in it, two legs away at most when not; by the
+  // known ways (KnownWays), the quickest first, or only those the company can take now (able).
+  private static leading(campaign: Campaign,
+    at: { here: string; id: string; byId: Map<string, Entity>; area?: string; able?: boolean }): string | undefined {
+    return KnownWays.first(campaign, at.here, id => Itineraries.within(at.byId, id, at.id),
+      { ...at.area ? { area: at.area } : { legs: 2 }, ...at.able ? { able: true } : {} });
   }
   // The signs perceived here not seen before, by whom or what each is of ('' for the place's own).
   private static signs(campaign: Campaign, screen: Screen, recall: CompanyRecall): Map<string, string> {
