@@ -18,7 +18,7 @@ export interface RouteSpec { id: string; actor: string; priority: number; when?:
 export class Routes {
   static readonly actions = { Route: Routes.parse, RouteLegs: Routes.legs, RouteHead: Routes.head,
     RoutePriority: Routes.priority, RouteWhen: Routes.second, RouteLeg: Routes.leg, RoutePlace: Routes.place,
-    RouteFrom: Routes.from };
+    RouteFrom: Routes.from, PursuitAim_company: Routes.company_aim };
   // Route = "Route" RouteHead "{" RouteLegs; RouteLegs = RouteLeg+ "}"
   static parse(_route: Node, head: Node, _open: Node, legs: Node) {
     return { field: 'route', value: { ...Routes.ast(head) as object, legs: Routes.ast(legs) as LegSpec[] } };
@@ -61,8 +61,32 @@ export class Routes {
     const parts = [...window, ...r.when ? [r.when] : []];
     const when = parts.reduceRight((right, left) => ({ kind: 'and', left, right }));
     return { id: `${r.id}_${leg.id}`, actor: r.actor, ...leg.label === undefined ? {} : { label: leg.label },
-      priority: r.priority, when, target: { kind: 'call', name: 'at', args: [r.actor, leg.place] } };
+      priority: r.priority, when, target: Routes.at(r.actor, leg.place) };
   }
+  // PursuitAim = "the" "company" -- company: what a pursuit of the company seeks until its module is whole, anyone
+  // anywhere (so a module read on its own, never joined, has it seek what already holds).
+  static readonly anywhere = ['?who', '?company'];
+  static company_aim(_the: Node, _company: Node): Predicate {
+    return { kind: 'call', name: 'at', args: [...Routes.anywhere] };
+  }
+  private static seeksCompany(p: Pursuit): boolean {
+    return p.target.kind === 'call' && p.target.name === 'at' && p.target.args.join() === Routes.anywhere.join();
+  }
+  // A pursuit of the company, once the module is whole: one for each of its rooms, in the order they are declared,
+  // taken up while its condition holds and the company is there, seeking to be there too (R54: the Wrong Boat's hunt
+  // had been sixty, Bess's thirty and the lads', and a room added was not hunted in until a line was written for it).
+  // The company is in one room at a time, so one of them is taken up at a time.
+  static company(module: Module) {
+    if (!module.pursuits?.some(p => Routes.seeksCompany(p))) { return; }
+    const rooms = module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room').map(e => e.id);
+    module.pursuits = module.pursuits.flatMap(p => !Routes.seeksCompany(p) ? [p] : rooms.map(room => ({ ...p,
+      id: `${p.id}_${room}`, when: Routes.joined(p.when, Routes.at('party', room)), target: Routes.at(p.actor, room) })));
+  }
+  // "a and b" and then c, as the parser reads "a and b and c": c at the end of the rightmost and.
+  private static joined(p: Predicate, c: Predicate): Predicate {
+    return p.kind === 'and' ? { kind: 'and', left: p.left, right: Routes.joined(p.right, c) } : { kind: 'and', left: p, right: c };
+  }
+  private static at(who: string, place: string): Predicate { return { kind: 'call', name: 'at', args: [who, place] }; }
   private static watch(operator: '>=' | '<', n: number): Predicate {
     return { kind: 'compare', left: { kind: 'call', name: 'watch', args: ['clock'] },
       right: { kind: 'number', value: n }, operator };

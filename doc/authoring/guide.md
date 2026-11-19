@@ -1165,6 +1165,11 @@ wake had written those pursuits by hand, each repeating its window: test/small/c
   }
 ```
 
+Someone who comes after the company wherever it is seeks the company: `Pursuit hunt_bess for bess "coming for you"
+priority 8 when huntBess() seeks the company.` is a pursuit for each room of the module (`hunt_bess_quay`, …), taken up
+while its condition holds and the company is in that room, seeking to be there too; a room added is hunted in at once
+(the Wrong Boat's hunt had been sixty lines, a room each for Bess and the lads: test/small/company-pursuit).
+
 A Peaceable person goes about their errands and comes at nobody, whatever their kind's temper; one who is to turn (the
 young bloods, once the hold is roused) stops being peaceable when a rule retracts `peaceable(bloods)` (Thrume's F2).
 

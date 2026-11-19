@@ -19,6 +19,7 @@ import { CompiledModules, type Compiled } from './compiled-modules';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
+import { Routes } from '../lang/routes';
 import { ModuleExports, type ExportEntry } from './module-exports';
 
 export interface BundleRequest {
@@ -163,7 +164,7 @@ export class ModuleBundle {
   // an error.
   private static merge(modules: Module[]): Module {
     const merged = this.joined(modules);
-    WorldConstructs.given(merged);
+    WorldConstructs.given(merged); Routes.company(merged);
     return merged;
   }
   private static joined(modules: Module[]): Module {

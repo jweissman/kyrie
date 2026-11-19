@@ -114,8 +114,16 @@ it moves, and its rows are MT-01.. in the open register.
    condition) and Quittance's Fettiplace at the wake (two, none), now say a Route, and compile to those pursuits key
    for key (test/small/clock-routes keeps the hand-written lines of 19 November and compares the JSON of both), so no
    journey or save can move: test/sallowfield (49) and test/quittance-wake (20) pass. In the authoring guide
-   ("Someone on an errand of their own"). Open: the moving target (R54: wrongboat's sixty `hunt_bess_*` pursuits,
-   one per place the company can stand, want `seeks at(bess, ?p)` bound to the company); a route suspended while
+   ("Someone on an errand of their own").
+
+   **The moving target landed 19 November** (R54): `Pursuit hunt_bess for bess "coming for you" priority 8 when
+   huntBess() seeks the company.` is said again, when the module's files are joined (`Routes.company`, from
+   ModuleBundle's merge), as a pursuit for each of the module's rooms in the order declared: `hunt_bess_<room>`, its
+   condition and `at(party, <room>)`, seeking `at(bess, <room>)`. The Wrong Boat's hunt, sixty hand-written lines (30
+   rooms each for Bess and the lads), is two, and compiles to those sixty key for key (test/small/company-pursuit
+   keeps them); only their order differs (the lockup is declared before the Pelham inn, the lines had it after),
+   which cannot matter, each asking that the company is in its own room, so one is eligible at a time; wrongboat and
+   wrongboat-2 (46) pass. Open: a route suspended while
    its walker is occupied (R89's proposal); a route by day and hour rather than watch (R41's `Keeps … from … to`);
    the arcology's rival stages, whose legs also change the world, stay rules; then counted conversation (R57, R60).
 6. **Compatibility harness (§7.4).** For the pinned worlds and journeys: command ids and presenter rows, save restore,
@@ -173,5 +181,6 @@ it moves, and its rows are MT-01.. in the open register.
 - Step 2: started 18 November (an agent, R26/R86/R42).
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`; see the step).
-- Step 5: the Route landed 19 November (Sallowfield, Quittance); R54's moving target and counted conversation open.
+- Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;
+  counted conversation open.
 - Step 6: landed 18 November (scripts/compat.ts; see the step).
