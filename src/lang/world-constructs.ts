@@ -335,13 +335,18 @@ export class WorldConstructs {
   // teach is asked again: a letter given is not given twice, nor a key asked for. What it taught is no bar to asking
   // again (a topic offered while its fact was unknown had a copy that could never be offered: the architecture
   // review's A19, 10 of Tessary's 82 and 12 of a generated country's 101).
-  static recall(action: Module['actions'][number]): Module['actions'][number][] {
+  // One that says something else again (`Says "…" again "…"`: R60, a person asked the same thing three days later had
+  // only one answer) is asked again for that, whatever it did; it must be a question, to be asked again.
+  static recall(action: Module['actions'][number], says?: string): Module['actions'][number][] {
     const name = typeof action.name === 'string' ? action.name : '';
     const asked = /^(Ask .+?) (about|what|where|who|whom|why|how|whether|if|for|after) /;
-    if (!asked.test(name) || !action.success.every(c => c.kind === 'assert' && WorldConstructs.learnt.has(c.call.name))) {
-      return [];
+    if (says !== undefined && !asked.test(name)) {
+      throw new Error(`Topic ${action.id} says again, but "${name}" is not a question (Ask … about, what, why …)`);
     }
-    return [{ ...structuredClone(action), id: `${action.id}_again`, name: name.replace(asked, '$1 again $2 '),
+    const taught = action.success.every(c => c.kind === 'assert' && WorldConstructs.learnt.has(c.call.name));
+    if (!asked.test(name) || (says === undefined && !taught)) { return []; }
+    return [{ ...structuredClone(action), ...says === undefined ? {} : { report: says },
+      id: `${action.id}_again`, name: name.replace(asked, '$1 again $2 '),
       requires: { kind: 'and', left: WorldConstructs.taught(structuredClone(action.requires), action.success),
         right: { kind: 'call', name: `said_${action.id}`, args: [] } }, success: [], failure: [] }];
   }

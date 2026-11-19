@@ -24,13 +24,15 @@ export class PersonParser {
   // What a topic is beside its words: put once, or once only (never asked again, whatever it did: The Third Night's
   // friction 6, a question whose subject had gone was offered again); grave, as written before its Says or after; the
   // answer to a question the company has been put (`answering ask_bound`).
-  static topic(once: Node, graves: Node[], answering: Node): { once?: true; only?: true; grave?: string;
-    answers?: string } {
+  // And what it says when asked again, where it says otherwise (Says "…" again "…": R60).
+  static topic(once: Node, graves: Node[], answering: Node, again: Node): { once?: true; only?: true; grave?: string;
+    answers?: string; again?: string } {
+    const otherwise = again.children.map(a => ModuleParser.ast(a.children[1]!) as string)[0];
     const grave = graves.flatMap(o => o.children).map(g => (ModuleParser.ast(g) as Field).value as string)[0];
     const answers = answering.children.map(a => ModuleParser.ast(a) as string)[0];
     const only = /\bonly$/.test(once.sourceString.trim());
     return { ...once.children.length ? { once: true } : {}, ...only ? { only: true } : {}, ...grave ? { grave } : {},
-      ...answers ? { answers } : {} };
+      ...answers ? { answers } : {}, ...otherwise === undefined ? {} : { again: otherwise } };
   }
   static readonly actions = {
     PersonTemperament: PersonParser.PersonTemperament, PersonWords: PersonParser.PersonWords,
@@ -107,10 +109,13 @@ export class PersonParser {
     const holds = when.children[0] ? { when: ModuleParser.ast(when.children[0]) as Predicate } : {};
     return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string, ...holds } };
   }
-  // What someone says to a company that comes back (What Tessary Owes' W18).
-  static PersonAgain(_greets: Node, _again: Node, text: Node, _dot: Node): Field {
-    return { field: 'words', value: { kind: 'GreetsAgain', text: ModuleParser.ast(text) as string } };
+  // What someone says to a company that comes back (What Tessary Owes' W18); of several, each with its when, the first
+  // that holds (R57: "Raistrick has opened the book, now that you have found the ash").
+  static PersonAgain(words: Node, when: Node, _dot: Node): Field {
+    const holds = when.children[0] ? { when: ModuleParser.ast(when.children[0]) as Predicate } : {};
+    return { field: 'words', value: { kind: 'GreetsAgain', text: ModuleParser.ast(words) as string, ...holds } };
   }
+  static GreetsAgain(_greets: Node, _again: Node, text: Node): string { return ModuleParser.ast(text) as string; }
   // What a rule says, and what it says each time after the first the company hears it, where that is shorter: a
   // nightly show told in full every night unless the author kept a fact of having seen it, and two rules (Wapshott's
   // Circus friction 26, WPC-26).

@@ -108,7 +108,8 @@ Kyr {
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
   PersonWords = ("Warns" | "Arrives" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Resents" | "Joins" | "Leaves" | "Greets" | "Farewell" | "Likeness") string RoleWhen? "."
-  PersonAgain = "Greets" "again" string "."
+  PersonAgain = GreetsAgain RoleWhen? "."
+  GreetsAgain = "Greets" "again" string
   PersonLeavesTo = "Leaves" LeavesTo RoleWhen? "."
   LeavesTo = string "to" ident
   PersonRemarks = "Remarks at" ident string "."
@@ -137,7 +138,8 @@ Kyr {
   PersonClass = ("Class" | "Calling") ident "."
   PersonLevel = "Level" integer "."
   PersonUses = "Uses" ListOf<ident, ","> "."
-  Topic = "Topic" ident "with" ident TopicTravelling? string TopicAnswering? "when" Predicate TopicOnce? "{" Grave? "Says" string "." Grave? TopicEffects? "}"
+  Topic = "Topic" ident "with" ident TopicTravelling? string TopicAnswering? "when" Predicate TopicOnce? "{" Grave? "Says" string TopicAgain? "." Grave? TopicEffects? "}"
+  TopicAgain = "again" string
   TopicAnswering = "answering" ident
   TopicTravelling = "travelling"
   TopicOnce = "once" TopicOnly?

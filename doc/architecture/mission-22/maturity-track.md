@@ -141,6 +141,18 @@ it moves, and its rows are MT-01.. in the open register.
    wrongboat-2 (46) pass. Open: a route suspended while
    its walker is occupied (R89's proposal); a route by day and hour rather than watch (R41's `Keeps … from … to`);
    the arcology's rival stages, whose legs also change the world, stay rules; then counted conversation (R57, R60).
+
+   **Counted conversation landed 19 November** (mt-6), compiled into what there was. R57: `Greets again "…" when
+   <condition>.`, repeatable, the first that holds said to a company come back: lowered as a second `Greets` with its
+   `when` is (a regreeting of its own, its `_when` query), Telling choosing the first whose when holds where it had
+   taken the one. R60: a topic's `Says "…" again "…".` is put once by that, and the again it already had (the recall
+   of a question put once) answers in the second words, every time after, whatever the first did; a question not
+   worded as one, or `once only`, fails at the load. Proving slice: A Winter in Carth, R57's own reproduction (its
+   return greetings all true of every case): Annis Scaife's now reads the hearth, lit or dark. Invariant:
+   test/small/talk-again (the first holding return greeting, before and after what it reads; an again in its own
+   words, offered again; the two load failures). In the authoring guide. Open: no hand-written pair of topics in data
+   was such a first-and-again (they differ in label and condition), so none was rewritten; R60's "thereafter" (a
+   third answer) not taken; R89's suspension and R41's day-and-hour legs (below).
 6. **Compatibility harness (§7.4).** For the pinned worlds and journeys: command ids and presenter rows, save restore,
    placement commitments and replay digest, compared and classified additive, presentation-only, world-moving,
    save-breaking or replay-breaking. This is what lets TR-03's faster roads come back with its replays classified.
@@ -207,5 +219,5 @@ it moves, and its rows are MT-01.. in the open register.
 - Step 3: landed 18 November (typed exports; see the step).
 - Step 4: landed 19 November (`kyrie inspect --why fact|placement`, and `--dependents` (mt-6); see the step).
 - Step 5: the Route (Sallowfield, Quittance) and the moving target (the Wrong Boat's hunt, R54) landed 19 November;
-  counted conversation open.
+  counted conversation (R57, R60) landed 19 November (mt-6); R89's suspension and R41's hours open.
 - Step 6: landed 18 November (scripts/compat.ts; see the step).

@@ -46,6 +46,7 @@ Module gaunt "A Winter in Carth" {
     Role "the farmer's wife, thin as a lath, with her sleeves rolled and her mouth set" when state(hearth, ablaze) or not nightfall().
     Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "'You'll be the ones the snow brought,' says a woman's voice. 'There's oatmeal in water and there's a turnip, and you're welcome to your share of both, and of the dark. Sit on the floor by the wall. Don't touch the hearth.'".
+    Greets again "'Shut the door,' says Annis Scaife, with her back to the fire as if it might be taken from her. 'It is lit now. Whatever the Ash-reeve says of it, he will say it to all of us.'" when state(hearth, ablaze).
     Greets again "'Well?' says Annis Scaife, not turning from the pot. 'Is there news from the road? I do not ask for good news. I ask whether the road is still there.'".
   }
   Person granny "Old Mother Scaife" at house_place {

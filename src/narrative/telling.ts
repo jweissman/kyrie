@@ -100,10 +100,8 @@ export class Telling {
     // Words said only while something holds (Leaves "…" when …) are not said, nor any others, when they do not; of
     // several, the first that holds (Greets "…" when it is day, Greets "…" when it is night: the Book of Faces'
     // BOF-03).
-    const mine = this.authored[h.kind] && campaign.world.module.relations.some(r => r.name === this.authored[h.kind])
-      ? campaign.world.related(this.authored[h.kind]!).filter(r => r.args[0] === actor).map(r => r.args[1]!) : [];
-    const own = mine.find(w => !campaign.world.module.queries.some(q => q.name === `${w}_when`)
-      || campaign.world.test(ModuleWriter.call(`${w}_when`)));
+    const mine = this.authored[h.kind] ? this.words(campaign, this.authored[h.kind]!, actor) : [];
+    const own = this.holding(campaign, mine);
     if (mine.length && !own) { return undefined; }
     // A farewell of their own is theirs every time; a joining or a parting the first time, and after it, nothing from
     // the tables in another voice (the Grand Tour's 12: a second joining in the tables' words).
@@ -114,10 +112,9 @@ export class Telling {
     if (own && (h.kind === 'join' || h.kind === 'part')) { return undefined; }
     // Someone with their own words of greeting is not given the tables' afterwards: Tessary's corporal and its Factor
     // both said "Back for more of my wisdom", seven manners shared by thirty people (W18). Their own for a return
-    // (Greets again) are said instead, if they have them.
+    // (Greets again) are said instead, if they have them: of several, the first whose when holds (R57).
     if (h.kind === 'greet' || h.kind === 'address') {
-      const again = campaign.world.module.relations.some(r => r.name === 'regreeting')
-        ? campaign.world.one('regreeting', actor) : undefined;
+      const again = this.holding(campaign, this.words(campaign, 'regreeting', actor));
       const words = again && campaign.module.entities.find(e => e.id === again)?.name;
       if (words && context.moment !== 'first') {
         return { id: `own:${again}`, kind: h.kind, actor, text: Voice.render(this.filled(campaign, words), speaking) };
@@ -132,6 +129,15 @@ export class Telling {
     const line = this.choose(Voice.fitting(h.kind, context).filter(l => Voice.fits(l, speaking.many)
       && !(beast && /^['‘"“]/.test(l.text))), memory.key, memory.used);
     return line && { id: line.id, kind: h.kind, actor, text: Voice.render(line.text, speaking) };
+  }
+  // Someone's own words of a kind (greeting, regreeting, parting …), in the order written, and the first that holds.
+  private static words(campaign: Campaign, relation: string, actor: string): string[] {
+    return campaign.world.module.relations.some(r => r.name === relation)
+      ? campaign.world.related(relation).filter(r => r.args[0] === actor).map(r => r.args[1]!) : [];
+  }
+  private static holding(campaign: Campaign, words: string[]): string | undefined {
+    return words.find(w => !campaign.world.module.queries.some(q => q.name === `${w}_when`)
+      || campaign.world.test(ModuleWriter.call(`${w}_when`)));
   }
   static choose(lines: VoiceLine[], key: string, used: Set<string>): VoiceLine | undefined {
     return Editor.choose(lines, key, used);

@@ -82,12 +82,14 @@ export class ModuleDeclarations {
       case 'entity': module.entities.push(value as Module['entities'][number]); break;
       case 'initial': module.initial.push(value as Change); break;
       case 'action': {
-        type Latched = Operator & { once?: boolean; only?: boolean; tried?: boolean };
-        const { once, only, tried, ...action } = value as Latched;
-        const topic = action.topic;
+        type Latched = Operator & { once?: boolean; only?: boolean; tried?: boolean; again?: string };
+        const { once: put, only, tried, again: answer, ...action } = value as Latched;
+        const topic = action.topic, once = put || answer !== undefined;
         // A question put once can be put again, for the same answer and nothing more (M16: topics vanished once asked);
-        // one put once only cannot (The Third Night's friction 6).
-        const again = once && topic && !only ? WorldConstructs.recall(action) : [];
+        // one put once only cannot (The Third Night's friction 6). One that says something else again (Says "…" again
+        // "…": R60) is put once by that, and its again says that, whatever it taught.
+        if (answer !== undefined && only) { throw new Error(`Topic ${action.id} is put once only, and cannot say again`); }
+        const again = once && topic && !only ? WorldConstructs.recall(action, answer) : [];
         if (once) { WorldConstructs.once(module, action); }
         if (tried) { WorldConstructs.tried(module, action); }
         if (action.answers) { WorldConstructs.answer(module, action, action.answers); }

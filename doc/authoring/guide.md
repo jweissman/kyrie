@@ -249,7 +249,9 @@ The words are:
 - `Farewell`: what they say when the company takes its leave of them, every time, in place of the tables' farewells;
 - `Greets`, and `Greets again`: what they say the first time the company speaks to them, and when it comes back. One
   with a `Greets` of their own and no `Greets again` says nothing on a return, rather than a line of the voice
-  tables that thirty others share.
+  tables that thirty others share. Several `Greets again`, each with its `when`, say the first that holds, so that a
+  return is told by what the company has done: `Greets again "'It is lit now,' says Annis." when state(hearth,
+  ablaze).` before the one for every other case.
 
 A creature given no words is told in plain ones: "A grey wolf stands its ground and watches you. It will not have
 you here for long."
@@ -478,7 +480,10 @@ they say back, and what saying it does.
 afterwards as "Ask {priest} again about …", for the same answer and nothing more: a player who has forgotten what was
 said can hear it again (the notes keep it too). One that did anything else (a letter given, a key handed over) is
 not offered again. Only a topic worded as a question ("Ask {priest} about …", "… why …") is offered again; one worded
-otherwise ("Tell …", "Put it to …") goes once said. Write `once only` for a question whose subject can go (a man asked
+otherwise ("Tell …", "Put it to …") goes once said. A question that is answered otherwise the next time says so:
+`Says "'It is the parish's.'" again "'Still the parish's. Still shut.'".` is put once by that, and its "again"
+answers in the second words, every time after, whatever the first did (a question that is not one, or `once only`,
+fails at the load). Write `once only` for a question whose subject can go (a man asked
 why he will not go home, who later does): it is not offered again, and needs no guard of its own to stop being asked.
 A journey step that names the first wording matches the "again" offer once the first is gone, so a step meant to ask
 once comes before anything that would ask it again.
