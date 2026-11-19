@@ -191,6 +191,11 @@
 .fight .moves .move.quiet { cursor: pointer; min-height: 40px; padding: 8px 2px; background: transparent; color: var(--dim);
   border: 0; font: var(--t-aside); }
 .fight .moves .move.quiet:hover, .fight .moves .move.quiet:focus-visible { color: var(--ivory); outline: none; }
+/* Drawn by the one row (OR-94), and still a quiet word: no ground, no edge, no mark. */
+:root .fight .moves .move.quiet.choice-row.choice-row { min-height: 40px; padding: 8px 2px; background: transparent; border: 0;
+  box-shadow: none; color: var(--dim); font: var(--t-aside); width: auto; }
+:root .fight .moves .move.quiet.choice-row.choice-row > .row-mark { display: none; }
+:root .fight .moves .move.quiet.choice-row.choice-row:is(:hover, :focus-visible) { color: var(--ivory); outline: none; }
 .fight .fighter .pick { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
 
 

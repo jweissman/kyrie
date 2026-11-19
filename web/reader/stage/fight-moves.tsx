@@ -69,7 +69,7 @@ export class FightMoves {
           data={{ action: 'whom', choice: t.id }} act={t.id} onClick={() => app.choose(t)}
           label={Typography.curl(Words.upper(FightMoves.whom(t)))} aside={Typography.curl(t.note?.split(' · ')[0] ?? '')} />)}
       </div>
-      <button type="button" className="move quiet" data-action="unaim" onClick={() => aim()}>Not now <kbd>Esc</kbd></button>
+      <FightMoves.Quiet action="unaim" go={() => aim()} label="Not now" />
     </div>;
   }
   // A target's name, from its own label ("Strike the first rat" → "the first rat").
@@ -91,13 +91,20 @@ export class FightMoves {
       </div>
       <div className="hand-detail" aria-live="polite">
         <div className="aiming kind-ways">
-          {paged.pages > 1 && <button type="button" className="move quiet" data-action="more-moves"
-            onClick={() => turn(paged.at + 1)}>{`More ${section.title.toLowerCase()}… ${paged.at + 1} of ${paged.pages}`}</button>}
-          <button type="button" className="move quiet" data-action="panel-back" onClick={close}>Back <kbd>Esc</kbd></button>
+          {paged.pages > 1 && <ChoiceRow.Button className="move quiet" data={{ action: 'more-moves' }}
+            onClick={() => turn(paged.at + 1)} plain="neutral" label={`More ${section.title.toLowerCase()}…`}
+            aside={`${paged.at + 1} of ${paged.pages}`} />}
+          <FightMoves.Quiet action="panel-back" go={close} label="Back" />
         </div>
         {said}
       </div>
     </>;
+  }
+  // Out of aiming, or of a kind opened, a level at a time (Escape does the same): a row of the one menu, quiet beside
+  // the moves (OR-05), never a button of the page's own (OR-94).
+  static Quiet({ action, go, label }: { action: string; go: () => void; label: string }) {
+    return <ChoiceRow.Button className="move quiet" data={{ action }} onClick={go} plain="neutral" label={label}
+      extra={<kbd className="row-key">Esc</kbd>} />;
   }
   private static attack(c: Choice): string {
     return c.command && !c.children ? Words.shown(c.label).replace(/^Strike/, 'Attack') : 'Attack';
