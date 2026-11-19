@@ -19,7 +19,9 @@ export class RunnerPayoff {
     'greeted', '\\w*answered', '\\w*asked', '\\w*noted',
     // What a member could be taught, every ability at once as the experience comes: 68 of them after one act, from
     // breathe_fire to bleat, read as the act's doing (cold play 3, CL-15); a lesson is offered by whoever teaches it.
-    'canTrain'].join('|')})`);
+    'canTrain',
+    // And what would mend one hurt or fallen, every remedy and cure at once (CL-10: a mage fallen alone, 19 of 29).
+    'relieves', 'treatable'].join('|')})`);
   static changed(event: CampaignEvent, act = ''): string[] {
     const touched = [/\bparty\b/, /_member_/, ...(/\((.*)\)/.exec(act)?.[1]?.split(',') ?? []).map(a => a.trim())
       .filter(a => a && !/^(party|region__member_)/.test(a)).map(a => new RegExp(`\\b${a}\\b`))];
