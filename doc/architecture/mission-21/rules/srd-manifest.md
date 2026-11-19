@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 91, E2 1, E3 27.
+**605 records**, every one visible: E0 486, E1 90, E2 1, E3 28.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 78.
 
 ## By family
@@ -478,7 +478,7 @@ become ready).
 | reincarnate | Reincarnate | Drd 4 | healing | E0 | — | — |
 | remove-blindness-deafness | Remove Blindness/Deafness | Clr 3, Pal 3 | removal | E0 | effect.dispel | — |
 | remove-curse | Remove Curse | Brd 3, Clr 3, Pal 3, Sor/Wiz 4 | removal | E0 | effect.dispel | — |
-| remove-disease | Remove Disease | Clr 3, Drd 3, Rgr 3 | removal | E1 | effect.dispel | cure_disease |
+| remove-disease | Remove Disease | Clr 3, Drd 3, Rgr 3 | removal | E3 | effect.dispel | cure_disease |
 | remove-fear | Remove Fear | Brd 1, Clr 1 | removal | E3 | effect.dispel | remove_fear |
 | remove-paralysis | Remove Paralysis | Clr 2, Pal 2 | removal | E0 | effect.dispel | — |
 | repel-metal-or-stone | Repel Metal or Stone | Drd 8 | object | E0 | target.object | — |

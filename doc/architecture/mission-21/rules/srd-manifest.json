@@ -6611,7 +6611,7 @@
   "missing": [
    "effect.dispel"
   ],
-  "grade": "E1",
+  "grade": "E3",
   "levels": "Clr 3, Drd 3, Rgr 3",
   "mapped": "cure_disease"
  },

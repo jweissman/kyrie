@@ -1516,6 +1516,25 @@ what a cantrip is for, and Tend's healing is a rest's to give, not a cantrip's) 
 Restoration and Darkness as they stand until the first hour has another cure for poison and the shadow's concealment
 is a fight rule (the field has no light in a fight); Hold Animal as it stands. **Decisions for the lead.**
 
+### 42. Remove Disease by the SRD's resolution (19 November): adapted
+
+Orsino's Cure Disease already did what the SRD's Remove Disease does: it ends every condition whose harm is disease
+(Effects.removes reads a pattern by a condition's kind of harm as well as its name, so the dead's Infected goes with
+the Diseased). What it lacked was the SRD's school, and its harmless save declared. Spec: `test/remove-disease` (3
+cases): on a companion in a fight it ends the Diseased and the Infected and leaves poison and a blessing; out of a
+fight it is cast from the third level's slot (FieldUse) and ends the Infected.
+
+**The spell** (a hand entry over Orsino's): third level, divine, Life, and the SRD's conjuration beside it (exact);
+on the caster or one ally (exact); at once (exact); its save the SRD's harmless one (converted, as case 32's). Kept:
+Orsino's name, which the dens' Scroll of Cure Disease bears (the scroll's own use ends the Diseased alone, and is not
+this spell). Omitted: the parasites and green slime it kills. The census grades it S✓ R✓ I✓: 29 of 119 pass in
+resolution now.
+
+**The census.** No draw or card moves: its level and domain are Orsino's, and a divine spell's school draws nothing.
+A vitalist knows it .37 at the seventh level, every other cleric .14–.18; none of the 2,233 installed classed
+creatures knows it. The Parliament of Books teaches it (Orme's leaf). Nothing that is cast moves: the removal is
+Orsino's.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

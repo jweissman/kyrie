@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 735,
-    "adapted": 412,
+    "faithful": 734,
+    "adapted": 413,
     "represented": 4,
     "kyr": 611,
     "unsupported": 66,
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 217,
-      "adapted": 35,
+      "faithful": 216,
+      "adapted": 36,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -10840,7 +10840,7 @@
   {
    "id": "ability:cure_disease",
    "title": "Cure Disease",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-3"
   },

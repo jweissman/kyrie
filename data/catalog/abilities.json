@@ -335,6 +335,23 @@
         "notes": "The SRD's Chain Lightning (doc/architecture/mission-22/srd-proving-cases.md, case 15): sixth level, 1d6 electricity a casting level to 20d6 at the twentieth on the one it is aimed at, and a leap to one other foe a casting level, to twenty (the rules' chain: each struck once, in the fight's order, never a friend), each leap half what the first was dealt, rounded down; a Reflex save for half by each, at case 7's difficulty for a sixth-level spell. Adapted: the leaps go to foes in the fight's order (the SRD's caster chooses them, within 30 feet of the first). Omitted: spell resistance. Orsino's had no effect Kyr could run (its cascade: unsupported)."
       }
     },
+    "cure_disease": {
+      "name": "Cure Disease",
+      "kind": "spell",
+      "description": "Lay a hand on yourself or one of the company and drive out every sickness in them: a fever, a rot, the dead's infection.",
+      "effects": [
+        { "kind": "remove", "status": "", "pattern": "disease", "target": "ally" }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "divine", "level": 3, "domain": "life", "school": "conjuration" },
+      "source": {
+        "orsino": "divineSpell:cure_disease",
+        "srd35": "spell:remove-disease",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Remove Disease (doc/architecture/mission-22/srd-proving-cases.md, case 42): third level, its school conjuration beside Life, on the caster or one ally (the creature touched), every disease on them ended (every condition whose harm is disease: the Diseased, the Infected), and nothing else; at once, in a fight or out of one. Its save is the SRD's harmless one. Kept: Orsino's name (the dens' Scroll of Cure Disease is named for it, though the scroll's own use ends the Diseased alone). Omitted: the parasites and green slime it kills; the diseases the SRD says it may not counter, which Kyr has none of. Before, Orsino's the same removal, without the SRD's school."
+      }
+    },
     "cure": {
       "name": "Cure Light Wounds",
       "kind": "spell",

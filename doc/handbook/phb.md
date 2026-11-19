@@ -8033,11 +8033,13 @@ You are consecrated for 25 turns. Consecrated: against an enemy who casts agains
 
 ##### Cure Disease
 
-*Faithful · level 3 divine spell, life domain* · `ability:cure_disease`
+*Adapted · level 3 divine spell, conjuration, life domain* · `ability:cure_disease`
 
 End disease on one ally. A divine spell of the third level. Takes a third-level slot.
 
-> Cure an ally of disease.
+> Lay a hand on yourself or one of the company and drive out every sickness in them: a fever, a rot, the dead's infection.
+
+*Adapted: The SRD's Remove Disease (doc/architecture/mission-22/srd-proving-cases.md, case 42): third level, its school conjuration beside Life, on the caster or one ally (the creature touched), every disease on them ended (every condition whose harm is disease: the Diseased, the Infected), and nothing else; at once, in a fight or out of one. Its save is the SRD's harmless one. Kept: Orsino's name (the dens' Scroll of Cure Disease is named for it, though the scroll's own use ends the Diseased alone). Omitted: the parasites and green slime it kills; the diseases the SRD says it may not counter, which Kyr has none of. Before, Orsino's the same removal, without the SRD's school.*
 
 ##### Cure Moderate Wounds
 
