@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
+import { BeforeRooms } from './support/before-rooms';
 
 // The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed by its own lines: the keeper of
 // the vault under Porthalen paralysed Wenna with its first blow, she never had a turn, and of four rounds she was told
@@ -10,7 +11,7 @@ const lines = readFileSync('doc/architecture/mission-22/cold/cold-6-lines.txt', 
 describe('the golden route, after the sixth cold play', () => {
   it('tells a fight the one who plays had no turn in, blow by blow', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    const r = new Runner(journey.session);
+    const r = new Runner(BeforeRooms.set(journey.session));
     let last: Said | undefined;
     for (const line of lines) {
       if (/^\{"act":"attack\(region__s1_u_keeper\)"\}$/.test(line)) {
@@ -31,7 +32,7 @@ describe('the golden route, after the sixth cold play', () => {
   // the lettered flag is an aim only once it is seen.
   it('talks in one step, and makes aims of what is found once it is found', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    const r = new Runner(journey.session), at: (Said | undefined)[] = [];
+    const r = new Runner(BeforeRooms.set(journey.session)), at: (Said | undefined)[] = [];
     for (const line of lines.slice(0, 39)) { const s = await r.ask(line); at.push('error' in s ? undefined : s); }
     const text = (n: number) => at[n - 1]!.scene.lines.join(' '), aims = (n: number) => at[n - 1]!.aims?.map(a => a.text)
       .join(' ') ?? '';

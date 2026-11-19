@@ -4,6 +4,7 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner } from '../src/cli/runner';
 import { Terminal } from '../src/cli/terminal';
 import type { Asking } from '../src/cli/terminal-input';
+import { BeforeRooms } from './support/before-rooms';
 
 // After a death the terminal had printed the ending, "Begun again, the country is as it was…", and left (cold play 6,
 // CL-53): it offers now what the page and the runner do, to begin again in the same country from its first day, and
@@ -13,7 +14,7 @@ const lines = readFileSync('doc/architecture/mission-22/cold/cold-6-lines.txt', 
 describe('the terminal, after a death', () => {
   it('offers to begin again in this country, and begins again from its first day', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    const runner = new Runner(journey.session), at = runner.said().at, attack = '{"act":"attack(region__s1_u_keeper)"}';
+    const runner = new Runner(BeforeRooms.set(journey.session)), at = runner.said().at, attack = '{"act":"attack(region__s1_u_keeper)"}';
     for (const line of lines.slice(0, lines.indexOf(attack))) { await runner.ask(line); }
     const answers = ['attack(region__s1_u_keeper)'], said: string[] = [], asked: string[] = [];
     let ended = false;
@@ -25,7 +26,8 @@ describe('the terminal, after a death', () => {
     } };
     const log = console.log, table = console.table;
     console.log = (...a: unknown[]) => { said.push(a.join(' ')); }; console.table = () => undefined;
-    try { await Terminal.play(journey.session, { input }); } finally { console.log = log; console.table = table; }
+    try { await Terminal.play(BeforeRooms.set(journey.session), { input }); }
+    finally { console.log = log; console.table = table; }
     const end = said.findIndex(l => l.includes('The story has ended.'));
     expect(end).toBeGreaterThan(0);
     expect(said.slice(end).join('\n')).toContain('1. Begin again in this country, from its first day');

@@ -60,3 +60,15 @@ After these, the debt walk goes rats → paid → corn-store → cellar → runs
 - Quests that circle back: each payer says what comes next (done for the rats), and the three troubles' one story
   (the undercroft they were all dug into) told as it is found.
 - Lone-company balance under more fights: rests (the undercroft), the priest's potions before, not after.
+
+## 19 November, afternoon
+
+- In: the cellar's rats, the crypt's bats and the adit's beetles, each coming at the company once as it arrives; at the
+  route's place, its ways on beside the rest where all else led back (AimRoute.join: the quarry pit). The debt walk:
+  6 fights in its first 47 acts (from 3), the adit and gallery reached.
+- Held back: the culvert's foul air and the cutting's cracked roof (Things with a dangerous state and their risk
+  rows). Their rows moved the kept cold plays' replays (cold 4–6, the terminal's again); they come back with those
+  plays' specs reading rows by what they do, not where they stood. The kept plays set the new arrivals aside
+  (test/support/before-rooms).
+- Still to do: the lone warrior's balance with more fights (the census rests when hurt; the gold does not say so), the
+  drove origin, and quests that circle back.

@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
+import { BeforeRooms } from './support/before-rooms';
 
 // The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed by its own lines to the sealed
 // vault under Porthalen. CL-52: "Attack the keeper of the vault" had been offered with only a danger mark, and a fresh
@@ -14,7 +15,7 @@ describe('the sealed vault, after the sixth cold play', () => {
   let runner: Runner, vault: Said, first: Said;
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    runner = new Runner(journey.session);
+    runner = new Runner(BeforeRooms.set(journey.session));
     first = runner.said();
     for (const line of lines.slice(0, lines.indexOf('{"act":"attack(region__s1_u_keeper)"}'))) {
       const s = await runner.ask(line);

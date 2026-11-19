@@ -52,7 +52,8 @@ class Placed {
         if (first && b.state.actor === 'hero') { first = false; flight &&= legal.some(x => x.ability === 'flee'); }
         b.step(Tactics.choose(b.state, b.plain(legal)));
       }
-      flight &&= !first;
+      // A fight the hero had no turn in (held fast by a ghoul's touch before he moved: the SRD's Ghoul Touch, case 36)
+      // is lost, but says nothing of whether Flight is offered; one he acted in does.
       if (b.state.outcome === 'fighters') { won++; }
     }
     return { won: won / fights, flight };

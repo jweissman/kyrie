@@ -704,13 +704,7 @@
   }
   Initially Set encounterXp({t}_u_adit_beetles) to 40.
   Rule {t}_u_adit_beetles_come when at(party, {t}_u_adit) and able({t}_u_adit_beetles) and not {t}_u_came({t}_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert assails({t}_u_adit_beetles, party). Assert {t}_u_came({t}_u_adit_beetles). }
-  Thing {t}_u_cutting_roof "the roof of the old cutting" on {t}_u_gallery_way {
-    State loose dangerous "Stones have come down from the roof of the cutting, and more hang cracked above it.".
-    State shored "A prop of old timber holds up the cracked roof of the cutting.".
-    Hurts with {t}_u_cutting_fall when loose then loose.
-    Change shore "Shore up the cracked roof with the quarrymen's old timbers" from loose to shored needing brawn.
-  }
-  Hazard {t}_u_cutting_fall "Stone falling from the cutting's roof" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
@@ -799,13 +793,7 @@
   Item {t}_u_drain_purse "a mouldy purse" is steel_coin at {t}_u_drain hidden until {t}_u_drain_cache_found.
   // The culvert down from the runs breathes out the drain's foul air, until the cellar's trapdoor is propped open and
   // the air moves (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
-  Thing {t}_u_culvert_air "the air in the culvert" on {t}_u_drain_way {
-    State foul dangerous "The culvert breathes out a stink of old water and rot that catches in the throat.".
-    State clear "Air moves down the culvert now, from the cellar above.".
-    Hurts with {t}_u_drain_foul when foul then foul.
-    Change prop "Prop the trapdoor open above and let the air down the culvert" from foul to clear needing brawn.
-  }
-  Hazard {t}_u_drain_foul "The foul air of the culvert" means "Deal (1d4) poison damage to ally unless constitution save against (11).".
+
 --- vault
   // The lettered flag is a lock with no keyhole (the owner, 8 November: a dungeon has at least one puzzle). Its ring of
   // letters is the makers' own, and the same ring is cut, smaller, in each of the three ways down to it, over the

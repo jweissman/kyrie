@@ -5,6 +5,7 @@ import { Runner, type Said } from '../src/cli/runner';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { World } from '../src/lang/world';
+import { BeforeRooms } from './support/before-rooms';
 
 // The fifth cold play of the golden route (mission-22/cold/cold-5-report.md, the elf mage from Gatesend) and the
 // fourth's threads (cold-4-report.md), replayed by their own lines: the world answers what the company found and did
@@ -16,7 +17,7 @@ const text = (s: Said) => s.scene.lines.join('\n');
 const labels = (s: Said) => [...s.offer.primary, ...s.offer.rest].map(o => o.label);
 async function play(as: string, acts: string[]) {
   const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
-  const r = new Runner(journey.session);
+  const r = new Runner(BeforeRooms.set(journey.session));
   // The plays' own lines, with the few it sent that were not offered then (an act refused is kept in the log).
   let s = r.said();
   for (const line of acts) { const x = await r.ask(line); if (!('error' in x)) { s = x; } }

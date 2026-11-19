@@ -5,6 +5,7 @@ import { Stakes } from '../ui/stakes';
 import { Itineraries } from '../ui/itinerary';
 import { EntityIndex } from '../lang/entity-index';
 import { AimLeading } from './aim-lead';
+import { CompanyRecall } from './company-recall';
 
 // The way an aim is gone to by, where its author says (Objective … toward … by …): part of what it names until the
 // company is past it (see Glance's reading).
@@ -47,13 +48,16 @@ export class AimRoute {
     const first = Itineraries.plan(campaign, out)?.legs[0]?.to;
     return screen.exits.find(e => e.destination.id === first)?.id;
   }
-  // The ways toward the aim, with its ways on (see onward) where the company stands at the place it is gone to by:
-  // inside a site, beside the rest; elsewhere, in place of them. At the quarry pit, toward a gallery no known way
-  // reached, the way had been the town's quarter's heart, the green, and from the green the pit again (the first
-  // quarter hour's census, 19 November).
+  // The ways toward the aim, and where the company stands at the place it is gone to by, inside a site or where all
+  // else led back where it came from, its ways on (see onward) beside them, in place of that way back. At the quarry
+  // pit, toward a gallery no known way reached, the way had been the green it came from, and from the green the pit
+  // again (the first quarter hour's census, 19 November). Nothing else here is put by (the hobs' ledge, its bell and
+  // the boy, before the toll-hall).
   static join(campaign: Campaign, screen: Screen, toward: Map<string, string>, at: { open: boolean; within: boolean }) {
-    const on = at.open ? this.onward(campaign, screen) : [];
-    if (on.length && !at.within) { toward.clear(); }
+    const came = CompanyRecall.of(campaign).came, back = screen.exits.find(e => e.destination.id === came)?.id;
+    const only = !!back && toward.size === 1 && toward.has(back);
+    const on = at.open && (at.within || only) ? this.onward(campaign, screen) : [];
+    if (on.length && back) { toward.delete(back); }
     for (const id of on) { toward.set(id, 'toward'); }
   }
   // At the place the aim is gone to by, the ways on from it not yet taken that go down or in: what its author meant by
