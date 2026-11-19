@@ -173,18 +173,26 @@ export class AimAdvances {
     // pressed lifts it, and pressing it wants the letters known, which are found by searching where they are cut; the
     // gold had had nothing to go by under the flag but rooms not yet been to (the first quarter hour's census, 19
     // November). One step back, and only those: what any act needs besides (to be awake, here, able) is no lead.
+    // A fact seen or told somewhere is waited on there (taughtAt), never by the act's other way round to it.
+    const taught = new Set([...module.observations ?? [], ...module.rules ?? []].flatMap(o => o.teaches ?? []));
+    const direct = read.filter(w => !(w.name === 'knows' && taught.has(w.args.at(-1) ?? '')));
     for (const act of module.actions ?? []) {
       const free = this.free.bind(this, new Set((act.parameters ?? []).map(x => x.name)));
-      if (act.success.some(c => c.call && read.some(w => this.meets(free(c.call!), w)))) {
+      // Only an act that brings about this very thing (a fact, a place, a thing named), never one that tells anyone
+      // anything ("knows(?actor, ?statement)"), which had made every fact a priest could tell the aim's.
+      const brings = act.success.some(c => c.call && this.named(free(c.call)) && direct.some(w => this.meets(free(c.call!), w)));
+      if (brings) {
         const needs: Call[] = [];
         this.reads(act.requires, needs);
-        made.push(...needs.filter(c => ['knows', 'been', 'carries'].includes(c.name)).map(free));
+        made.push(...needs.filter(c => ['knows', 'been', 'carries'].includes(c.name)).map(free).filter(c => this.named(c)));
       }
     }
     const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
     kept.set(def.id, calls);
     return calls;
   }
+  // Whether a call names what it is of (its last argument), not only who.
+  private static named(c: Call): boolean { return !(c.args.at(-1) ?? '?').startsWith('?'); }
   // An act's call with its own parameters (actor, site) as the unknowns they are.
   private static free(params: Set<string>, c: Call): Call {
     return { ...c, args: c.args.map(x => params.has(x) ? `?${x}` : x) };

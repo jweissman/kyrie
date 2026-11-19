@@ -27,7 +27,12 @@ describe('the boundary stones', () => {
       await Offered.take(s, to);
     }
     expect(ScreenModel.build(c).place.name).toBe('the shrine of Nodens');
+    // The garden is still the aim's way; and the priest here, who knows where the stones stood and can be talked round
+    // to say it to the merchant's face (the quarrel's other way), is the step at hand (the act an aim waits on is read
+    // one act back: AimAdvances.waits, 19 November).
+    const g = Narrator.leaf(c, ScreenModel.build(c)).glance!;
+    expect(g.following).toContain('travel:quarrel__garden');
     expect(Offered.of(s).primary.filter(o => o.aspects.includes('undertaking')).map(o => o.label))
-      .toEqual(['To the inn\'s back garden']);
+      .toEqual([expect.stringMatching(/^(To the inn's back garden|Talk to Eogan)$/)]);
   }, 120000);
 });

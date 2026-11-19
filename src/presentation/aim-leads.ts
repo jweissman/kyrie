@@ -41,7 +41,11 @@ export class AimLeads {
     // Never the place the aim's author says it is gone to by, while that is still to be taken: the rat-runs, been to
     // for the rats, are the way down to the old drain, and from the corn-merchant's nothing had been gold (the first
     // quarter hour's census, 19 November).
-    const inside = Itineraries.enclosed(campaign, here), by = new Set(AimLeading.route(campaign, screen)?.next ?? []);
+    // Only while what it is toward is not yet come to: gone by it to the inn's garden and off to the shrine, the inn
+    // is spent (stones-return).
+    const def = Undertakings.followed(campaign), to = def && Stakes.target(campaign, def)?.actionAt;
+    const by = new Set(to && been.has(to) ? [] : AimLeading.route(campaign, screen)?.next ?? []);
+    const inside = Itineraries.enclosed(campaign, here);
     return new Set([...named].filter(id => id !== here && been.has(id) && !by.has(id)
       && !(inside && !Itineraries.enclosed(campaign, id)) && !this.there(campaign, id)));
   }
