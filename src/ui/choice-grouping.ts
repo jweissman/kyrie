@@ -43,6 +43,8 @@ export interface GroupingContext {
   fees?: Map<string, number>; several?: Set<string>;
   // Where a night in the open costs something, and what, and whether it is night now (see Exposure).
   exposed?: Map<string, string>; night?: boolean;
+  // Where a band lies in wait after dark, and who (see Waylaid).
+  waylaid?: Map<string, string>;
   tell?: (id: string) => string | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
@@ -226,14 +228,13 @@ export class ChoiceGrouping {
     twins.forEach((a, i) => { a.label = labels[i]!; });
   }
   // What a choice risks, said before it is chosen: a night in the open where that costs something, going on into a
-  // bitter night (see Exposure); and a choice that sets someone on the company (a challenge to single combat) is a
-  // fight, weighed up as an attack is (a fresh play took up Sir Hamo's challenge unwarned, a level-one ranger against
-  // a knight, and died in two rounds).
+  // bitter night, or where a band lies in wait after dark (see Exposure); and a choice that sets someone on the
+  // company (a challenge to single combat) is a fight, weighed up as an attack is (a fresh play took up Sir Hamo's
+  // challenge unwarned, a level-one ranger against a knight, and died in two rounds).
   private static warn(leaf: object, action: Operator, context: GroupingContext) {
-    const b = action.bindings ?? {}, exposed = context.exposed?.get(b.site ?? '');
-    if ((action.schema ?? action.id) === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
-    const bitter = context.night && context.exposed?.get(action.movement?.destination ?? b.destination ?? '');
-    if (bitter) { Object.assign(leaf, { grave: Exposure.going(bitter) }); }
+    const b = action.bindings ?? {}, camp = (action.schema ?? action.id) === 'camp';
+    const exposed = Exposure.risked(context, camp, b.site ?? '', action.movement?.destination ?? b.destination ?? '');
+    if (exposed) { Object.assign(leaf, { grave: exposed }); }
     // Selling what someone has on or in hand is asked about first: a bard's only crossbow had gone at one key, and a
     // companion's armour was on the counter with the rest (round 7).
     if (/^sell/.test(action.schema ?? action.id) && b.ware && context.worn?.has(b.ware)) {

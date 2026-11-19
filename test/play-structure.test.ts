@@ -292,7 +292,10 @@ describe('a night in the open', () => {
     GeneratedWorld.put(s, 's1_s3_way');
     await s.leg('wait');
     const camp = ScreenModel.build(s.campaign).camp.flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('camp('));
-    expect(camp?.grave).toMatch(/^The cold on the \S+ comes down after dark, and there is no shelter here\.$/);
+    // And who lies in wait on it after dark, where someone does (CL-58: seed2's raiders keep the same way).
+    const said = (cold: string, way: string) => new RegExp(`^The cold on the \\S+ ${cold}\\.`
+      + `( The [a-z ]+ lie in wait by ${way} way after dark(, and it is dark)?\\.)?$`);
+    expect(camp?.grave).toMatch(said('comes down after dark, and there is no shelter here', 'this'));
     // After dark, the way onto it says so too (the laboratory's mage walked onto it at two hit points, and died).
     GeneratedWorld.put(s, 's1_green');
     // Something may come by on the green before dark (a circus parades there on the first afternoon) and break the
@@ -300,6 +303,6 @@ describe('a night in the open', () => {
     for (let n = 0; n < 4 && !s.campaign.world.test(ModuleWriter.call('dark')); n++) { await s.leg('wait_for_dark'); }
     const onto = ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)))
       .find(c => c.command?.startsWith('go(') && c.command.endsWith(',region__s1_s3_way)'));
-    expect(onto?.grave).toMatch(/^The cold on the \S+ is down already, and there is no shelter there\.$/);
+    expect(onto?.grave).toMatch(said('is down already, and there is no shelter there', 'that'));
   }, 60000);
 });
