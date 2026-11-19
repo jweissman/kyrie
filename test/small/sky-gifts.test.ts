@@ -7,12 +7,15 @@ import { CompanyChapters } from '../../src/handbook/phb-company';
 import { CombatProjection } from '../../src/combat-projection';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../web/engine/creation-flow';
+import { CharacterSheets } from '../../src/presentation/character-sheet';
+import { CreatureStore } from '../../src/creature-store';
 import type { Setting } from '../../web/engine/protocol';
 
 // The sky one is born under gives something, chosen with it (the owner, 18 November, OR-89: "there should probably be
 // perk selection happening when you select a star-sign and some output/descriptor from the encyclopedia about the
-// sign"): each sign two gifts, traits whose rules the game plays; the sign's entry beside it as it is considered; the
-// gift asked of the sign chosen; and a creature made so holds it.
+// sign"): each sign two gifts, traits whose rules the game plays; the sign's entry beside it as it is considered; and
+// (OR-117: "Don't make people choose between the perk options for the birth sign. Just give them both things") no
+// gift asked, a creature made under the sign holding both.
 const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };
 const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading: '', text: '' }, names,
   party: [Creation.protagonist('human', 'flow', names)] };
@@ -29,30 +32,30 @@ describe('the gifts of the sky', () => {
     expect(new Set(sky.signs.flatMap(s => s.gifts)).size).toBe(24);
   });
 
-  it('set the sign\'s entry beside it, and ask the gift of the sign chosen', () => {
+  it('set the sign\'s entry beside it, saying both gifts, and ask no gift: the sign chosen, the calling is next', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
     flow.choose('you', 'human');
     const bear = flow.steps().find(x => x.id === 'sign')!.cards.find(c => c.id === 'sign_bear')!;
-    expect(bear.entry!.facts).toEqual([['Month', 'Thaw'], ['Gifts', 'Unturned or Hard to fell']]);
-    expect(bear.entry!.rules[0]).toBe('Unturned: +2 against fear, +1 against charms.');
+    expect(bear.entry!.facts).toEqual([['Month', 'Thaw'], ['Gifts', 'Unturned and Hard to fell']]);
+    expect(bear.entry!.rules[0]).toBe('Unturned: +2 against fear, +1 against charms. Skilled in brawn.');
     flow.choose('sign', 'sign_bear');
-    const gift = flow.steps().find(x => x.id === 'gift')!;
-    expect([flow.current(), gift.ask, gift.cards.map(c => c.id), flow.member.gift]).toEqual(['gift',
-      'What did the Waking Bear give you?', ['star_unturned', 'star_hard_to_fell'], 'star_unturned']);
-    flow.choose('gift', 'star_hard_to_fell');
-    expect([flow.member.gift, flow.current()]).toEqual(['star_hard_to_fell', 'calling']);
-    // Another sign, its own first gift.
-    flow.choose('sign', 'sign_fox');
-    expect(flow.member.gift).toBe('star_hard_to_pin');
+    expect([flow.current(), flow.steps().map(x => x.id)]).toEqual(['calling', ['you', 'sign', 'calling', 'before',
+      'presenting', 'name']]);
+    expect(Object.hasOwn(flow.member, 'gift')).toBe(false);
   });
 
-  it('is held by the one made with it, and one of another sign is refused', () => {
-    const content = new Content('sky-gifts');
-    const made = content.createCreature('pc', { raceId: 'human', classId: 'warrior', sign: 'sign_hart',
-      gift: 'star_quick' });
-    expect(made.traits).toContain('star_quick');
+  it('are both held by the one made under the sign, and the sheet says both', () => {
+    const made = new Content('sky-gifts').createCreature('pc', { raceId: 'human', classId: 'warrior', sign: 'sign_hart' });
+    expect(made.traits).toEqual(expect.arrayContaining(['star_quick', 'star_wary']));
     expect(Effects.modifiers(CombatProjection.fighter(made, 'fighters')).initiative).toBe(2);
-    expect(() => content.createCreature('pc2', { raceId: 'human', classId: 'warrior', sign: 'sign_hart',
-      gift: 'star_fierce' })).toThrow(/not a gift of sign_hart/);
+    expect(CharacterSheets.sheet(made).born).toEqual({ sign: 'The Hart', gifts: ['Quick: +2 initiative.',
+      'Wary: +2 against what can be dodged. Skilled in woodcraft.'] });
+  });
+
+  it('are all held by one kept from when a gift was chosen, on coming back', () => {
+    const made = new Content('sky-gifts-kept').createCreature('pc', { raceId: 'human', classId: 'warrior', sign: 'sign_fox' });
+    made.traits = made.traits!.filter(t => t !== 'star_sly');
+    const back = new CreatureStore([made]).get('pc');
+    expect(back.traits).toEqual(expect.arrayContaining(['star_hard_to_pin', 'star_sly']));
   });
 });

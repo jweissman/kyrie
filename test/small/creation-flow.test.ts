@@ -53,7 +53,7 @@ describe('making the protagonist', () => {
     const flow = new CreationFlow(setting, Creation.catalog()), ids = () => flow.steps().map(s => s.id);
     // A warrior's way is not asked, but the calling's own until chosen in play; the trade within a kind of life is
     // asked once there is one (OR-90).
-    expect(ids()).toEqual(['you', 'sign', 'gift', 'calling', 'before', 'presenting', 'name']);
+    expect(ids()).toEqual(['you', 'sign', 'calling', 'before', 'presenting', 'name']);
     flow.choose('you', 'elf');
     expect(flow.steps().find(s => s.id === 'calling')!.cards.map(c => c.id)).not.toContain('cleric');
     flow.choose('calling', 'mage');

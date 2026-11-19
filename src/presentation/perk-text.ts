@@ -19,6 +19,7 @@ export class PerkText {
     if (b.search) { out.push(`+${b.search} to searching`); }
     if (b.goldMultiplier) { out.push(b.goldMultiplier === 1.5 ? 'half again as much coin from everything'
       : b.goldMultiplier === 1.1 ? 'a tenth more coin from everything' : `${b.goldMultiplier}× coin from everything`); }
+    if (b.light) { out.push(`their torches, candles and lanterns burn ${b.light === 1 ? 'an hour' : `${b.light} hours`} longer`); }
     if (b.loot) { out.push(`${b.loot} more common supplies from a good search`); }
     if (b.spellDuration) { out.push(`what they cast lasts ${b.spellDuration} turn${b.spellDuration === 1 ? '' : 's'} longer`); }
     for (const [ability, m] of Object.entries(b.abilityDamage ?? {})) {

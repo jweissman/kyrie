@@ -187,7 +187,10 @@
     "star_unturned": {
       "name": "Unturned",
       "category": "sign",
-      "description": "Not to be turned once risen.",
+      "description": "Not to be turned once risen, nor the door they hold.",
+      "skills": [
+        "brawn"
+      ],
       "modifiers": {
         "saves": {
           "fear": 2,
@@ -196,7 +199,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_hard_to_fell": {
@@ -210,7 +213,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_provident": {
@@ -230,7 +233,7 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_patient": {
@@ -244,7 +247,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_quick": {
@@ -256,13 +259,16 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_wary": {
       "name": "Wary",
       "category": "sign",
-      "description": "Out of the way of what comes at them.",
+      "description": "Out of the way of what comes at them, and reads wild country and its beasts.",
+      "skills": [
+        "woodcraft"
+      ],
       "modifiers": {
         "saves": {
           "reflex": 2
@@ -270,27 +276,28 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_lamplit": {
       "name": "Lamplit eye",
       "category": "sign",
-      "description": "Finds what others pass by.",
+      "description": "Finds what others pass by, and their lights burn longer.",
       "modifiers": {},
       "perks": [
         {
           "name": "Lamplit eye",
-          "description": "Finds what others pass by.",
+          "description": "Finds what others pass by, and their lights burn longer.",
           "modifiers": {},
           "bonuses": {
-            "search": 2
+            "search": 2,
+            "light": 1
           }
         }
       ],
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_clear_headed": {
@@ -304,13 +311,16 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_bearing": {
       "name": "Bearing",
       "category": "sign",
-      "description": "Listened to before they speak.",
+      "description": "Listened to before they speak, and heeded after.",
+      "skills": [
+        "persuasion"
+      ],
       "modifiers": {
         "attributes": {
           "charisma": 1
@@ -318,7 +328,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_unswayed": {
@@ -332,7 +342,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_finishing": {
@@ -344,13 +354,16 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_tireless": {
       "name": "Tireless",
       "category": "sign",
-      "description": "Works on when others stop.",
+      "description": "Works on when others stop, at the spade as in the field.",
+      "skills": [
+        "digging"
+      ],
       "modifiers": {
         "attributes": {
           "constitution": 1
@@ -358,7 +371,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_full_hand": {
@@ -378,7 +391,7 @@
       ],
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_strong_back": {
@@ -392,7 +405,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_hard_to_pin": {
@@ -404,13 +417,16 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_sly": {
       "name": "Sly",
       "category": "sign",
-      "description": "Light on their feet and in their fingers.",
+      "description": "Light on their feet and in their fingers, and seldom seen going.",
+      "skills": [
+        "stealth"
+      ],
       "modifiers": {
         "attributes": {
           "dexterity": 1
@@ -418,19 +434,22 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_warm_hands": {
       "name": "Warm hands",
       "category": "sign",
-      "description": "Their care mends more.",
+      "description": "Their care mends more: they set bones and bind wounds.",
+      "skills": [
+        "mending"
+      ],
       "modifiers": {
         "bonusHealing": 1
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_hale": {
@@ -445,13 +464,16 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_calm": {
       "name": "Calm",
       "category": "sign",
-      "description": "Calm when magic is worked on them.",
+      "description": "Calm when magic is worked on them, and sees what others hide under calm.",
+      "skills": [
+        "insight"
+      ],
       "modifiers": {
         "saves": {
           "magic": 2
@@ -459,7 +481,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_steady": {
@@ -473,13 +495,16 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_weathered": {
       "name": "Weathered",
       "category": "sign",
-      "description": "The cold of the open sea is nothing new.",
+      "description": "The cold of the open sea is nothing new, nor finding the way across country.",
+      "skills": [
+        "wayfinding"
+      ],
       "modifiers": {
         "resistances": {
           "cold": 0.25
@@ -487,7 +512,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_restless": {
@@ -499,19 +524,22 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_fierce": {
       "name": "Fierce",
       "category": "sign",
-      "description": "Bites hard for their own.",
+      "description": "Bites hard for their own, and is feared for it.",
+      "skills": [
+        "intimidation"
+      ],
       "modifiers": {
         "bonusDamage": 1
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     },
     "star_keen": {
@@ -523,7 +551,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A gift of the sky one is born under, chosen at creation with the sign (OR-89)."
+        "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
     }
   }

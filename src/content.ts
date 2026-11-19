@@ -49,9 +49,9 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   // The words they are spoken of in, chosen at creation as how they present (a woman, a man, neither): the world's
   // pronouns for them (see CompanyChoices).
   pronouns?: 'she' | 'he' | 'they';
-  // The sign of Imbar's sky they were born under, chosen at creation (data/imbar/sky.json; see CreationFlow), and the
-  // gift of it they chose (one of its two: see SkyGifts), held as a trait.
-  sign?: string; gift?: string;
+  // The sign of Imbar's sky they were born under, chosen at creation (data/imbar/sky.json; see CreationFlow): every
+  // gift of it is theirs, held as a trait (see SkyGifts). A `gift` chosen once, as a sign's gift was, is not read.
+  sign?: string;
   // A kind with Hit Dice has their listed average, unless its dice are rolled from its own seed (the SRD adaptation
   // briefing, §1: an optional rolled-monster mode, the same expression thrown).
   hitPoints?: 'listed' | 'rolled';
@@ -199,7 +199,7 @@ export class Content {
       if (context[key] !== undefined) { creature.base[key] = context[key]!; }
     }
     creature.traits = [...new Set([...chassis.traits, ...TraitGrants.choose(creature, context.traits, stream('traits')),
-      ...TraitGrants.formations(context.formations), ...SkyGifts.held(creature.sign, context.gift, id)])];
+      ...TraitGrants.formations(context.formations), ...SkyGifts.of(creature.sign)])];
     const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, stream('spells'));
     creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
       ...context.abilities ?? []])].filter(a => Creation.executable(a));

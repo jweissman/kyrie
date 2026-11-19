@@ -15,7 +15,7 @@ describe('creation as the engine asks it', () => {
   it('says how each step may be drawn, and with what beside its options', () => {
     const steps = new CreationFlow(setting, Creation.catalog()).steps();
     const of = (id: string) => steps.find(x => x.id === id)!;
-    expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['sign', 'sky'], ['gift', 'rows'], ['calling', 'cards'],
+    expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['sign', 'sky'], ['calling', 'cards'],
       ['before', 'list'], ['presenting', 'rows'], ['name', 'list']]);
     expect(of('presenting').cards.map(c => c.aside)).toEqual(['she, her', 'he, him', 'they, them']);
     expect(of('sign').cards.every(c => c.aside && c.say && /^[A-Z]/.test(c.name))).toBe(true);
@@ -34,7 +34,7 @@ describe('creation as the engine asks it', () => {
     expect(flow.current()).toBe('sign');
     flow.choose('back', '');
     expect(flow.current()).toBe('you');
-    for (const id of ['onward', 'onward', 'onward', 'onward', 'onward', 'onward']) { flow.choose(id as 'onward', ''); }
+    for (const id of ['onward', 'onward', 'onward', 'onward', 'onward']) { flow.choose(id as 'onward', ''); }
     expect(flow.current()).toBe('name');
     // A name being written stays at the name; gone on from, setting out; a name drawn goes on at once.
     flow.choose('name', 'Odri');

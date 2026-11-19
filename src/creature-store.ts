@@ -4,6 +4,7 @@ import { Spellcasting } from './rules/spellcasting';
 import { CreatureSchema, type Creature } from './creature';
 import { CreatureLease } from './creature-lease';
 import { Equality } from './equality';
+import { SkyGifts } from './rules/sky-gifts';
 export { CreatureLease } from './creature-lease';
 
 export class CreatureStore {
@@ -16,8 +17,9 @@ export class CreatureStore {
   constructor(creatures: Creature[] = []) {
     for (const creature of creatures) { this.insert(creature); }
   }
+  // One kept from before every gift of a sign was given holds them all (SkyGifts.borne).
   insert(creature: Creature) {
-    creature = Spellcasting.equip(structuredClone(creature));
+    creature = SkyGifts.borne(Spellcasting.equip(structuredClone(creature)));
     CreatureSchema.validate(creature);
     if (this.records.has(creature.id)) { throw new Error(`Duplicate creature ${creature.id}`); }
     const existingItems = new Set([...this.records.values()].flatMap(c => (c.state.inventory ?? []).map(i => i.id)));

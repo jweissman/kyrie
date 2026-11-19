@@ -268,6 +268,7 @@ export class CanonValidation {
       }
       (t.grants?.abilities ?? []).forEach(a => this.ability(where, a, ['technique', 'spell', 'natural']));
       this.granted(where, t.grants?.abilities ?? []);
+      for (const s of (t.skills ?? []).filter(s => !Canon.skills[s])) { this.fail(where, `grants unknown skill ${s}`); }
       this.modifiers(where, t.modifiers);
     }
   }

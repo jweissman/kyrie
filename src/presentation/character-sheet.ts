@@ -12,6 +12,9 @@ import type { Campaign } from '../campaign/campaign';
 import { ModuleWriter } from '../lang/module-writer';
 import { Openings } from './openings';
 import { MechanicsText } from './mechanics-text';
+import { SkyGifts } from '../rules/sky-gifts';
+import { HandbookText } from '../handbook/text';
+import sky from '../../data/imbar/sky.json';
 
 export interface QualityRow {
   id: Attribute; name: string; score: number; base: number;
@@ -27,6 +30,8 @@ export interface CharacterSheet {
   qualities: QualityRow[]; fighting: Bearing[]; saves: Bearing[]; skills: SkillRow[];
   // A specialist's school or domain, which its first spells are of (Orsino's specialists).
   specialty?: { name: string; about: string; of: string; prayers: boolean };
+  // The sign they were born under and every gift of it, each by its rule (OR-117: "Just give them both things").
+  born?: { sign: string; gifts: string[] };
 }
 // One way to spend a level's development, with what it would change, worked out by doing it to a copy.
 export interface DevelopmentOption {
@@ -88,7 +93,13 @@ export class CharacterSheets {
     return {
       qualities: CreatureSchema.attributes.map(id => ({ id, name: this.names[id], score: scores[id], base: c.base[id],
         fight: Fighting.statMod(scores[id]), check: Math.floor((c.base[id] - 10) / 2), rests: this.rests[id] })),
-      fighting: this.fighting(c), saves: this.saves(c), skills: this.skills(c), ...this.specialty(c) };
+      fighting: this.fighting(c), saves: this.saves(c), skills: this.skills(c), ...this.specialty(c), ...this.born(c) };
+  }
+  // The sign and its gifts as the reference says them ("Quick: +2 initiative.").
+  private static born(c: Creature): Pick<CharacterSheet, 'born'> {
+    const sign = sky.signs.find(s => s.id === c.sign);
+    return sign ? { born: { sign: sign.name.replace(/^the /, 'The '), gifts: SkyGifts.of(c.sign)
+      .map(g => `${Canon.traits[g]?.name ?? g}: ${HandbookText.trait(g).join(' ')}`) } } : {};
   }
   // What a specialist is, by its school or domain: a cleric of the death domain prays curses and drains, which the
   // Bushweald play met under nothing but the calling's "Prayers that heal and protect".
@@ -146,6 +157,7 @@ export class CharacterSheets {
   private static from(c: Creature, id: string): string {
     if ((c.state.skills ?? []).includes(id)) { return 'taken up'; }
     if (Overlays.skills(c).includes(id)) { return 'background'; }
+    if (PartyCapabilities.gifted(id, c)) { return 'sign'; }
     return (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id) ? 'calling' : 'gear';
   }
   // A level's development: what is left to spend, and each way of spending it with what it would change; where the

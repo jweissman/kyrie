@@ -7,7 +7,6 @@ import { Formations } from '../rules/formations';
 import { Canon } from '../canon/canon';
 import { CreatureSchema } from '../creature';
 import { ModuleWriter } from '../lang/module-writer';
-import { SkyGifts } from '../rules/sky-gifts';
 
 // The companions chosen at character creation, checked and written into the first module's company.
 export class CompanyChoices {
@@ -82,7 +81,6 @@ export class CompanyChoices {
         ...(context.rolled ? { rolled: { ...context.rolled } } : {}),
         ...(context.likeness ? { likeness: context.likeness } : {}),
         ...(context.sign ? { sign: context.sign } : {}),
-        ...(context.gift ? { gift: SkyGifts.check(context.sign, context.gift, context.name) } : {}),
         ...(context.pronouns ? { pronouns: context.pronouns } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }

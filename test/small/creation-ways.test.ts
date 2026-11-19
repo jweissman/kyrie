@@ -31,7 +31,7 @@ describe('a life before, and a caster\'s art', () => {
   });
 
   it('asks the trade within the kind chosen, in its words, and the life says it', () => {
-    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['gift', 'star_restless'], ['calling', 'warrior']);
+    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['calling', 'warrior']);
     expect(step(flow, 'trade')).toBeUndefined();
     flow.choose('before', 'water');
     expect(flow.current()).toBe('trade');
@@ -45,7 +45,7 @@ describe('a life before, and a caster\'s art', () => {
   });
 
   it('deals the trades of a large kind a hand at a time', () => {
-    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['gift', 'star_restless'], ['calling', 'warrior'], ['before', 'trade']);
+    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['calling', 'warrior'], ['before', 'trade']);
     const hand = () => step(flow, 'trade')!.cards.map(c => c.id), first = hand();
     expect([first.length <= CreationFlow.trades, step(flow, 'trade')!.roll]).toEqual([true, 'other trades']);
     flow.choose('roll', '');
@@ -53,7 +53,7 @@ describe('a life before, and a caster\'s art', () => {
   });
 
   it('asks a mage the art learnt and a cleric what their god keeps, each way with its entry', () => {
-    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['gift', 'star_restless'], ['calling', 'mage']);
+    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['calling', 'mage']);
     expect(flow.current()).toBe('specialty');
     const school = step(flow, 'specialty')!;
     expect([school.ask, school.cards.length]).toEqual(['Which art did you learn?', 8]);

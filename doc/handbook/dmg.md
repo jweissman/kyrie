@@ -1986,7 +1986,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 37 | 2 | 24 | 0 | 6 |
+| 8 | 38 | 2 | 24 | 0 | 6 |
 
 #### scenery
 
@@ -2029,6 +2029,12 @@ Containment: a thing or item inside another, reachable while that one is not shu
 *Kyr · relation(hazard, entity)* · `rule:world_passages.strikes`
 
 A hazard that strikes a company: the world turns it on one of its members (a trap sprung, a stone that falls); one that strikes a member strikes that one (a lesson for the mage, not whoever the dice choose: BOF-37).
+
+#### marvel
+
+*Kyr · relation(entity)* · `rule:world_passages.marvel`
+
+A marvel, the uncanny, as its author declares it (`Marvel.`): a thing a company may meet and wonder at.
 
 #### verb, probeable, suits, tried
 

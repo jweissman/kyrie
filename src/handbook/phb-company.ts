@@ -97,15 +97,15 @@ export class CompanyChapters {
     return { id: 'backgrounds', title: 'Backgrounds', intro: ['Where a companion comes from: Orsino\'s scores and gold for '
       + 'each, and what the kind of background means in Kyr. A background marked "for" one calling is open only to it.'], sections };
   }
-  // The twelve signs of Imbar's sky, each with its month, what is said of those born under it, and the two gifts one
-  // born under it chooses between at creation (OR-89): creation sets this entry beside the sign considered.
+  // The twelve signs of Imbar's sky, each with its month, what is said of those born under it, and the gifts everyone
+  // born under it has (OR-89, OR-117): creation sets this entry beside the sign considered.
   static signs(): Section {
     const entries = sky.signs.map((s): Entry => ({ id: `sign:${s.id}`, title: s.name.replace(/^the /, 'The '),
       status: 'kyr', kind: `sign of ${s.month}`, text: [s.line],
-      facts: [['Month', s.month], ['Gifts', s.gifts.map(g => Canon.traits[g]?.name ?? g).join(' or ')]],
+      facts: [['Month', s.month], ['Gifts', s.gifts.map(g => Canon.traits[g]?.name ?? g).join(' and ')]],
       rules: s.gifts.map(g => CompanyChapters.gift(g)), refs: s.gifts.map(g => `trait:${g}`) }));
     return { id: 'signs', title: 'Signs of the sky', intro: ['A companion is born under one of the twelve signs of '
-      + 'Imbar\'s sky, one rising in each month, and chooses one of its two gifts.'], entries };
+      + 'Imbar\'s sky, one rising in each month, and has both of its gifts.'], entries };
   }
   // A gift of the sky in a line: its name, then its rule ("Unturned: +2 against fear, +1 against charms.").
   static gift(id: string): string {

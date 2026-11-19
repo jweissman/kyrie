@@ -42,6 +42,7 @@ export class CharacterPage {
             ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
           <CharacterPage.Gauges member={m} />
           {m.sheet?.specialty && <CharacterPage.Specialty who={m.name} specialty={m.sheet.specialty} />}
+          {m.sheet?.born && <CharacterPage.Born born={m.sheet.born} />}
           <CharacterPage.Standing member={m} />
         </header>
         {exchange?.act && CharacterPage.grows.has(exchange.act) && <Told.Happened exchange={exchange} />}
@@ -71,6 +72,10 @@ export class CharacterPage {
   static Specialty({ who, specialty: s }: { who: string; specialty: NonNullable<CharacterSheet['specialty']> }) {
     return <p className="specialty"><b>{s.name}.</b> {Typography.curl(`${s.about} ${who}'s first ${s.prayers
       ? 'prayers' : 'spells'} are of ${s.of}.`)}</p>;
+  }
+  // The sign they were born under and all its gifts: "Born under the Fox. Hard to pin: … Sly: …" (OR-117).
+  static Born({ born: b }: { born: NonNullable<CharacterSheet['born']> }) {
+    return <p className="born"><b>Born under {b.sign.replace(/^The /, 'the ')}.</b> {Typography.curl(b.gifts.join(' '))}</p>;
   }
   // A level's development: what it is, and each way of spending it with what it would change. Without one, how far
   // the next level is and what it will bring.

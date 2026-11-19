@@ -49,7 +49,7 @@ describe('the schools\' emblems', () => {
 
   it('draws each school beside its name, and lists the spells it sets out knowing', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
-    for (const [id, v] of [['you', 'human'], ['sign', 'sign_ship'], ['gift', 'star_restless'], ['calling', 'mage']]) {
+    for (const [id, v] of [['you', 'human'], ['sign', 'sign_ship'], ['calling', 'mage']]) {
       flow.choose(id as never, v!);
     }
     const school = flow.steps().find(x => x.id === 'specialty')!;

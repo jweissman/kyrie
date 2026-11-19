@@ -437,9 +437,11 @@ export class Effects {
       || (status.stacking === 'source-refresh' && s.source !== context.source?.id)));
     const pool = status.modifiers.tempHp && context.expressions
       ? context.expressions.number(status.modifiers.tempHp, Effects.context(context.actor ?? target)) : 0;
-    // A perk can make every status its holder applies last longer (a troupe's resonant harmony).
-    const longer = context.actor ? Perks.bonus(context.actor.traits, 'spellDuration',
-      context.actor.environment ? { environment: context.actor.environment } : {}) : 0;
+    // A perk can make every status its holder applies last longer (a troupe's resonant harmony), and a flame they
+    // light burn longer, by hours of six watches (the Lantern's gift: OR-118).
+    const at = context.actor?.environment ? { environment: context.actor.environment } : {};
+    const longer = context.actor ? Perks.bonus(context.actor.traits, 'spellDuration', at) + (status.grants?.includes('flame')
+      ? Perks.bonus(context.actor.traits, 'light', at) * (effect.clock === 'world-time' ? 6 : 1) : 0) : 0;
     target.statuses.push({ id: effect.status, remaining: effect.duration + longer,
       ...effect.clock ? { clock: effect.clock } : {},
       ...!effect.clock && context.actor && context.actor.id !== target.id ? { waits: true } : {},

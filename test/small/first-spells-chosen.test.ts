@@ -18,7 +18,7 @@ const setting: Setting = { title: 'Marshfen', generated: true, pitch: { heading:
   party: [Creation.protagonist('human', 'spells', names)] };
 const made = (calling: string, way: string) => {
   const flow = new CreationFlow(setting, Creation.catalog());
-  for (const [id, v] of [['you', 'human'], ['sign', 'sign_ship'], ['gift', 'star_restless'], ['calling', calling],
+  for (const [id, v] of [['you', 'human'], ['sign', 'sign_ship'], ['calling', calling],
     ['specialty', way]]) { flow.choose(id as never, v!); }
   return flow;
 };

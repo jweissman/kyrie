@@ -1503,16 +1503,16 @@ Brings stealth, and knows someone who hears news at an inn.
 
 ## Signs of the sky
 
-A companion is born under one of the twelve signs of Imbar's sky, one rising in each month, and chooses one of its two gifts.
+A companion is born under one of the twelve signs of Imbar's sky, one rising in each month, and has both of its gifts.
 
 ### The Waking Bear
 
 *Kyr · sign of Thaw* · `sign:sign_bear`
 
 - Month: Thaw
-- Gifts: Unturned or Hard to fell
+- Gifts: Unturned and Hard to fell
 
-Unturned: +2 against fear, +1 against charms.
+Unturned: +2 against fear, +1 against charms. Skilled in brawn.
 
 Hard to fell: +2 against death.
 
@@ -1523,7 +1523,7 @@ Hard to fell: +2 against death.
 *Kyr · sign of Sowing* · `sign:sign_sower`
 
 - Month: Sowing
-- Gifts: Provident or Patient
+- Gifts: Provident and Patient
 
 Provident: a tenth more coin from everything.
 
@@ -1536,11 +1536,11 @@ Patient: Wisdom +1.
 *Kyr · sign of Blossom* · `sign:sign_hart`
 
 - Month: Blossom
-- Gifts: Quick or Wary
+- Gifts: Quick and Wary
 
 Quick: +2 initiative.
 
-Wary: +2 against what can be dodged.
+Wary: +2 against what can be dodged. Skilled in woodcraft.
 
 > Quick, wary, and lovely when it is not looking.
 
@@ -1549,9 +1549,9 @@ Wary: +2 against what can be dodged.
 *Kyr · sign of Greening* · `sign:sign_lantern`
 
 - Month: Greening
-- Gifts: Lamplit eye or Clear-headed
+- Gifts: Lamplit eye and Clear-headed
 
-Lamplit eye: +2 to searching.
+Lamplit eye: +2 to searching, their torches, candles and lanterns burn an hour longer.
 
 Clear-headed: +2 against madness.
 
@@ -1562,9 +1562,9 @@ Clear-headed: +2 against madness.
 *Kyr · sign of Midsummer* · `sign:sign_crown`
 
 - Month: Midsummer
-- Gifts: Bearing or Unswayed
+- Gifts: Bearing and Unswayed
 
-Bearing: Charisma +1.
+Bearing: Charisma +1. Skilled in persuasion.
 
 Unswayed: +2 against charms.
 
@@ -1575,11 +1575,11 @@ Unswayed: +2 against charms.
 *Kyr · sign of Haysel* · `sign:sign_scythe`
 
 - Month: Haysel
-- Gifts: Finishing stroke or Tireless
+- Gifts: Finishing stroke and Tireless
 
 Finishing stroke: A telling blow on 19 or more.
 
-Tireless: Constitution +1.
+Tireless: Constitution +1. Skilled in digging.
 
 > They finish what others leave standing.
 
@@ -1588,7 +1588,7 @@ Tireless: Constitution +1.
 *Kyr · sign of Harvest* · `sign:sign_sheaf`
 
 - Month: Harvest
-- Gifts: Full hand or Strong back
+- Gifts: Full hand and Strong back
 
 Full hand: 1 more common supplies from a good search.
 
@@ -1601,11 +1601,11 @@ Strong back: Strength +1.
 *Kyr · sign of Leaffall* · `sign:sign_fox`
 
 - Month: Leaffall
-- Gifts: Hard to pin or Sly
+- Gifts: Hard to pin and Sly
 
 Hard to pin: 1 harder to hit.
 
-Sly: Dexterity +1.
+Sly: Dexterity +1. Skilled in stealth.
 
 > Never where they were looked for, and always where they meant to be.
 
@@ -1614,9 +1614,9 @@ Sly: Dexterity +1.
 *Kyr · sign of Smoke* · `sign:sign_hearth`
 
 - Month: Smoke
-- Gifts: Warm hands or Hale
+- Gifts: Warm hands and Hale
 
-Warm hands: +1 healing.
+Warm hands: +1 healing. Skilled in mending.
 
 Hale: +2 against poison, +2 against disease.
 
@@ -1627,9 +1627,9 @@ Hale: +2 against poison, +2 against disease.
 *Kyr · sign of Frost* · `sign:sign_swan`
 
 - Month: Frost
-- Gifts: Calm or Steady
+- Gifts: Calm and Steady
 
-Calm: +2 against magic.
+Calm: +2 against magic. Skilled in insight.
 
 Steady: +2 against stunning.
 
@@ -1640,9 +1640,9 @@ Steady: +2 against stunning.
 *Kyr · sign of Deepwinter* · `sign:sign_ship`
 
 - Month: Deepwinter
-- Gifts: Weathered or Restless
+- Gifts: Weathered and Restless
 
-Weathered: Resists 25% of cold.
+Weathered: Resists 25% of cold. Skilled in wayfinding.
 
 Restless: +1 evasion.
 
@@ -1653,9 +1653,9 @@ Restless: +1 evasion.
 *Kyr · sign of Wolfmoon* · `sign:sign_wolf`
 
 - Month: Wolfmoon
-- Gifts: Fierce or Keen
+- Gifts: Fierce and Keen
 
-Fierce: +1 damage.
+Fierce: +1 damage. Skilled in intimidation.
 
 Keen: +1 to hit.
 
@@ -2087,7 +2087,9 @@ Wisdom: +2 against madness, Wisdom +2, +3 to searching.
 
 +2 against fear, +1 against charms.
 
-> Not to be turned once risen.
+Skilled in brawn.
+
+> Not to be turned once risen, nor the door they hold.
 
 #### Hard to fell
 
@@ -2127,15 +2129,17 @@ Wisdom +1.
 
 +2 against what can be dodged.
 
-> Out of the way of what comes at them.
+Skilled in woodcraft.
+
+> Out of the way of what comes at them, and reads wild country and its beasts.
 
 #### Lamplit eye
 
 *Kyr · sign trait* · `trait:star_lamplit`
 
-Lamplit eye: +2 to searching.
+Lamplit eye: +2 to searching, their torches, candles and lanterns burn an hour longer.
 
-> Finds what others pass by.
+> Finds what others pass by, and their lights burn longer.
 
 #### Clear-headed
 
@@ -2151,7 +2155,9 @@ Lamplit eye: +2 to searching.
 
 Charisma +1.
 
-> Listened to before they speak.
+Skilled in persuasion.
+
+> Listened to before they speak, and heeded after.
 
 #### Unswayed
 
@@ -2175,7 +2181,9 @@ A telling blow on 19 or more.
 
 Constitution +1.
 
-> Works on when others stop.
+Skilled in digging.
+
+> Works on when others stop, at the spade as in the field.
 
 #### Full hand
 
@@ -2207,7 +2215,9 @@ Strength +1.
 
 Dexterity +1.
 
-> Light on their feet and in their fingers.
+Skilled in stealth.
+
+> Light on their feet and in their fingers, and seldom seen going.
 
 #### Warm hands
 
@@ -2215,7 +2225,9 @@ Dexterity +1.
 
 +1 healing.
 
-> Their care mends more.
+Skilled in mending.
+
+> Their care mends more: they set bones and bind wounds.
 
 #### Hale
 
@@ -2231,7 +2243,9 @@ Dexterity +1.
 
 +2 against magic.
 
-> Calm when magic is worked on them.
+Skilled in insight.
+
+> Calm when magic is worked on them, and sees what others hide under calm.
 
 #### Steady
 
@@ -2247,7 +2261,9 @@ Dexterity +1.
 
 Resists 25% of cold.
 
-> The cold of the open sea is nothing new.
+Skilled in wayfinding.
+
+> The cold of the open sea is nothing new, nor finding the way across country.
 
 #### Restless
 
@@ -2263,7 +2279,9 @@ Resists 25% of cold.
 
 +1 damage.
 
-> Bites hard for their own.
+Skilled in intimidation.
+
+> Bites hard for their own, and is feared for it.
 
 #### Keen
 

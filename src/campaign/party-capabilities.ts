@@ -70,9 +70,13 @@ export class PartyCapabilities {
   private static up(c: Creature): boolean {
     return c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));
   }
-  // Trained in a skill: by background or profession, or by having taken it up with a level's development.
+  // Trained in a skill: by background or profession, by having taken it up with a level's development, or by a trait
+  // held that brings it (a sign's gift: one born under the Fox goes unseen).
   private static trained(id: string, c: Creature): boolean {
-    return Overlays.skills(c).includes(id) || (c.state.skills ?? []).includes(id);
+    return Overlays.skills(c).includes(id) || (c.state.skills ?? []).includes(id) || this.gifted(id, c);
+  }
+  static gifted(id: string, c: Pick<Creature, 'traits'>): boolean {
+    return (c.traits ?? []).some(t => Canon.traits[Canon.resolve('traits', t)]?.skills?.includes(id));
   }
   // A condition that brings what it grants though its holder has fallen (a conjured light).
   private static unheld(id: string, c: Creature): boolean {

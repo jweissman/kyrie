@@ -210,8 +210,8 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .character .line-of { font: 400 16px/1.4 var(--do); color: var(--grey); margin: 0 0 18px; }
 .character .line-of .emblem { width: 20px; height: 20px; margin-right: 6px; vertical-align: -4px; fill: none;
   stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.character .specialty { font: 400 16px/1.45 var(--told); margin: -8px 0 18px; max-width: 38em; }
-.character .specialty b { font-weight: 600; }
+.character .specialty, .character .born { font: 400 16px/1.45 var(--told); margin: -8px 0 18px; max-width: 38em; }
+.character .specialty b, .character .born b { font-weight: 600; }
 .character .progress, .character .standing { font: 400 15.5px/1.5 var(--do); color: var(--grey); }
 .character .standing { color: var(--ink); }
 .character h3 { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 30px 0 10px; }
@@ -347,7 +347,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .character .head-of.pc { grid-template-columns: 112px minmax(0, 1fr) minmax(220px, 300px); padding-bottom: 14px; }
 .character .head-of.pc .sat { width: 112px; height: 112px; grid-row: 1 / span 4; align-self: start;
   border: 1px solid var(--accent-line); }
-.character .head-of.faced .specialty, .character .head-of.faced .standing { grid-column: 2; margin: 4px 0 0; font-size: 14.5px; }
+.character .head-of.faced .specialty, .character .head-of.faced .born, .character .head-of.faced .standing { grid-column: 2; margin: 4px 0 0; font-size: 14.5px; }
 .character .head-of .who { font-size: clamp(36px, 4vw, 52px); }
 .character .stat-row { list-style: none; margin: 14px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
   border: 1px solid var(--hair); }

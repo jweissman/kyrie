@@ -85,11 +85,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the sky drawn up to a sign', () => 
     await page.mouse.click(300, 760);
     await settled(page, '');
     expect(await page.getAttribute('.creation', 'data-page')).toBe('sign');
-    // The sign taken, its gift is asked of it as the page first shows it, not of the sign before (CreationStep.leads).
-    const name = (await rows.nth(4).locator('.row-label').textContent())!;
+    // The sign taken, every gift of it is the life's, and the page goes on to the calling (OR-117: no gift asked).
     await MonoDriver.hold(page, '.composed-rows [data-option] >> nth=4');
-    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'gift');
-    expect(await page.locator('h1.ask').textContent()).toBe(`What did ${name.replace(/^The /, 'the ')} give you?`);
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'calling');
+    expect(await page.locator('h1.ask').textContent()).toBe('Choose your calling');
     expect(errors).toEqual([]);
     await page.close();
   }, 200000);

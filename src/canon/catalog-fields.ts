@@ -17,7 +17,7 @@ const fields = {
     'compel', 'forceTarget', 'guard', 'drains', 'stacking', 'omits', 'unsupported', 'source', 'grants', 'begins',
     'ends', 'unheld'],
   trait: ['name', 'category', 'description', 'modifiers', 'requires', 'perks', 'excludes', 'spellAccess', 'grants',
-    'omits', 'unsupported', 'source'],
+    'omits', 'unsupported', 'source', 'skills'],
   item: ['name', 'category', 'description', 'value', 'slot', 'use', 'modifiers', 'weapon', 'armor', 'hooks', 'fuel',
     'charges', 'grants', 'unsupported', 'source', 'tool', 'aids', 'omits', 'rank', 'portrait', 'points', 'tier', 'drops',
     'mass', 'carries'],

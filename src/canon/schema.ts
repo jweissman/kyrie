@@ -46,7 +46,7 @@ export interface Condition {
   // where a torch falls with them.
   unheld?: true;
 }
-// sign: a gift of the sky one is born under, chosen at creation with the sign (see SkyGifts).
+// sign: a gift of the sky one is born under, given with the sign (see SkyGifts).
 export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization' | 'calling'
   | 'sign';
 // What happens when something occurs to a perk's holder: Orsino's onKill, onLevelUp and onOffensiveCasting.
@@ -56,10 +56,11 @@ export interface Triggers {
   onOffensiveCasting?: { amount: string; damageType: string }[];
 }
 // Standing bonuses a perk gives outside the modifier vocabulary: longer statuses the holder applies, more gold from
-// every source, extra finds when searching, more damage from one ability, sharper searching.
+// every source, extra finds when searching, more damage from one ability, sharper searching, and the hours longer a
+// flame the holder lights burns (a torch, a candle, a lantern: the Lantern's gift, OR-118).
 export interface Bonuses {
   spellDuration?: number; goldMultiplier?: number; loot?: number; abilityDamage?: Record<string, number>;
-  search?: number;
+  search?: number; light?: number;
 }
 // One of a trait's statuses (Orsino's trait.statuses): its modifiers, triggers and bonuses, and where or with what it
 // holds (Orsino's whileEnvironment and condition.weapon).
@@ -78,6 +79,8 @@ export interface Trait {
   excludes?: string[];
   spellAccess?: { tradition: 'arcane' | 'divine'; school?: string; domain?: string };
   grants?: { abilities?: string[] }; omits?: Omissions; unsupported?: Omissions; source: Source;
+  // Skills its holder brings as one trained in them (a sign's gift: the Fox's stealth, OR-118), as a background's are.
+  skills?: string[];
 }
 export type AbilityKind = 'technique' | 'spell' | 'natural';
 export interface Ability {

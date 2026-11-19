@@ -29,7 +29,7 @@ export interface CreationEntry {
 // a calling), as rows, as one dense list (the names of a people, creation's one exception to four in view), or as
 // rows over the sky they are signs of (the observatory).
 export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
-export type CreationStepId = 'why' | 'you' | 'sign' | 'gift' | 'calling' | 'specialty' | 'before' | 'trade'
+export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade'
   | 'presenting' | 'name' | SpellStepId;
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
@@ -45,8 +45,8 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // rest reachable); a client shows the first four and offers the rest, numbered as they stand, unless all (every card
 // at once: they are few, or a list). write: a field to write one's own in, by its placeholder; roll: the act that
 // deals another hand of the cards, by its aside.
-// leads: what the next step asks hangs on the card chosen here (the sign's gifts, the calling's art, the kind's
-// trades), so a client waits for the engine's answer before going on, never showing the next step as it stood before.
+// leads: what the next step asks hangs on the card chosen here (the calling's art, the kind's trades), so a client
+// waits for the engine's answer before going on, never showing the next step as it stood before.
 // emblems: each card's emblem is drawn beside its name, whatever the step is drawn as (a school's, a spell's school).
 // many: how many are taken at the step (a caster's first spells), each card a press that takes it or lets it go
 // (picked: those taken), and the last card the one that goes on with them.
@@ -86,8 +86,6 @@ export class CreationFlow {
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
     const signs = catalog.signs, drawn = [...`${setting.title}${member.name ?? ''}`].reduce((n, ch) => n + ch.charCodeAt(0), 0);
     if (signs.length && !this.member.sign) { this.member.sign = signs[drawn % signs.length]!.id; }
-    // And with the first of its gifts until another is chosen.
-    if (!this.member.gift) { this.gifted(); }
     this.drawnSign = this.member.sign;
   }
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
@@ -96,7 +94,7 @@ export class CreationFlow {
     return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step),
       ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
-  static readonly leading: CreationStepId[] = ['sign', 'calling', 'specialty', 'before'];
+  static readonly leading: CreationStepId[] = ['calling', 'specialty', 'before'];
   // Where the making stands: the step asked now (the first until another), or setting out.
   current(): CreationStepId | 'go' {
     const ids = this.steps().map(x => x.id);
@@ -160,7 +158,6 @@ export class CreationFlow {
       { id: 'sign', ask: 'Under which stars were you born?', present: 'sky', all: true, chosen: m.sign, cards: c.signs.map(x => ({
         id: x.id, name: x.name.replace(/^the /, 'The '), line: `${x.month}: ${x.line}`, emblem: x.id, aside: x.month,
         say: x.line, ...CreationFlow.entry(`sign:${x.id}`) })) },
-      ...this.gift(),
       { id: 'calling', ask: 'Choose your calling', present: 'cards', chosen: m.classId, cards: c.callings
         .filter(x => !people || people.callings.includes(x.id)).map(x => ({ id: x.id, name: x.name, line: x.line,
           text: x.text, emblem: x.id, ...CreationFlow.said(x), ...CreationFlow.entry(`class:${x.id}`) })) },
@@ -183,20 +180,6 @@ export class CreationFlow {
         roll: 'other names of your people', cards: CreationDefaults.table(m, this.setting, this.rolls)
           .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
-  }
-  // The gift of the sign chosen, asked of the sign as the sky's own (the owner, 18 November, OR-89: "there should
-  // probably be perk selection happening when you select a star-sign"): its two, each by its sentence and its rule.
-  private gift(): CreationStep[] {
-    const sign = this.catalog.signs.find(x => x.id === this.member.sign);
-    if (!sign?.gifts.length) { return []; }
-    return [{ id: 'gift', ask: `What did ${sign.name} give you?`, present: 'rows', chosen: this.member.gift,
-      cards: sign.gifts.map(g => ({ id: g.id, name: g.name, aside: g.does.replace(/\.$/, ''), say: g.text,
-        emblem: sign.id })) }];
-  }
-  // A sign's first gift, given with it until another is chosen.
-  private gifted() {
-    const first = this.catalog.signs.find(x => x.id === this.member.sign)?.gifts[0]?.id;
-    if (first) { this.member.gift = first; } else { delete this.member.gift; }
   }
   // A caster's school or god's domain, asked as the life knows it (the owner, 18 November, OR-90: "I do feel like
   // we've lost something not putting casters through school/domain selection"): a mage's art, a cleric's god's keeping;
@@ -298,8 +281,7 @@ export class CreationFlow {
       this.named = !!value.trim();
       return;
     }
-    if (step === 'sign') { if (m.sign !== value) { m.sign = value; this.gifted(); } return; }
-    if (step === 'gift') { m.gift = value; return; }
+    if (step === 'sign') { m.sign = value; return; }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
     else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; this.dealt = 0; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }

@@ -123,7 +123,7 @@ export class ReaderOpening {
     const s = this.app.state, creation = s.creation, member = s.party[0];
     if (!creation || !member) { return; }
     const field = ({ you: 'raceId', calling: 'classId', presenting: 'pronouns', weapon: 'weapon', sign: 'sign',
-      gift: 'gift', trade: 'backgroundId' } as Partial<Record<CreationChoice, keyof Member>>)[step];
+      trade: 'backgroundId' } as Partial<Record<CreationChoice, keyof Member>>)[step];
     const named = step === 'name' || step === 'drawn';
     const now = { ...member, ...field ? { [field]: value } : {}, ...named ? { name: value } : {} } as Member;
     const [a, b] = step === 'place' ? value.split(':') : [], rolled = now.rolled as Record<string, number> | undefined;

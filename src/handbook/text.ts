@@ -33,7 +33,9 @@ export class HandbookText {
     const modifiers = MechanicsText.modifiers(t.modifiers ?? {});
     const perks = (t.perks ?? []).filter(p => p.environment || p.weapon || p.triggers || p.bonuses)
       .map(p => PerkText.of(p));
-    return [...modifiers.length ? [`${this.capital(modifiers.join(', '))}.`] : [], ...perks];
+    const skills = (t.skills ?? []).map(s => Canon.skills[s]?.name.toLowerCase() ?? s);
+    return [...modifiers.length ? [`${this.capital(modifiers.join(', '))}.`] : [], ...perks,
+      ...skills.length ? [`Skilled in ${skills.join(' and ')}.`] : []];
   }
   // What using an item does, said from the effect it is written as ("Heal (1d4 + 1) health to ally.").
   static use(effect: string): string {
