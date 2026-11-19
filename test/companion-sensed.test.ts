@@ -30,11 +30,11 @@ describe('a companion perceived', () => {
     const s = await Inn.start(), c = s.campaign, world = Inn.facts(c);
     Inn.put(c, 'region__s1_green');
     let g = Glanced.of(s);
-    // And someone at the shrine, since the adventure branch's integration (12 November).
-    // Each with the one perceived nearest along it (Sensed.who, which the way's row names: OR-68).
+    // Each with the one perceived nearest along it (Sensed.who, which the way's row names: OR-68). Not Anselm at the
+    // shrine (perceived since the adventure branch's integration, 12 November): his asking waits on the company's
+    // knowing of the wayfarer, and until then nothing there can have him (test/small/aspect-truth, 19 November).
     expect(g.glance.sensed?.every(x => !!x.who)).toBe(true);
     expect(g.glance.sensed?.map(({ who: _, ...x }) => x)).toEqual([
-      { to: 'region__s1_shrine', aspect: 'companionship', far: 1 },
       { to: 'region__s1_taproom', aspect: 'companionship', far: 1 }]);
     // Only a way there says so (the Go mark's companion is on its row: the owner, 17 November), never an asking.
     expect(g.glance.acts.filter(a => a.aspects.includes('companionship')).every(a => !!a.exit)).toBe(true);

@@ -275,14 +275,14 @@ export class ChoiceGrouping {
     return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };
   }
   // The act itself: its command, or why it cannot be done now; and what kind of act it is, either way.
-  private static withheld(row: Row, module?: Module) {
+  private static withheld(row: Row, module?: Module, world?: World) {
     const does = row.action.schema ?? row.action.id;
     const targets = Object.entries(row.action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => v);
     return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
       ...targets.length ? { targets } : {},
       ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {},
-      ...ChoiceGrouping.teaches(row.action.success ?? [])
+      ...ChoiceGrouping.teaches(row.action.success ?? [], world)
         || (module && Teaching.shows(module, row.action.success ?? [], row.action.bindings)) ? { teaches: true } : {} };
   }
   // Whether an act's success teaches the company something: it comes to know a fact the act does not itself make so.
@@ -292,17 +292,20 @@ export class ChoiceGrouping {
   // Who it was learned from, or heard of, or read in: the learning's own record (see WorldConstructs.learnt; reading
   // a notice, `learnedFrom`, had stopped counting as learning when PL-03 began reading the record: PL-16).
   static readonly learnt = new Set(['knows', 'toldBy', 'heard', 'learnedFrom', 'readIn']);
-  static teaches(success: readonly Change[]): boolean {
+  // Nor is what the company knows already (the aspect-truth spec, 19 November: a reeve's answer known before it was
+  // asked had been drawn blue, something to learn): only a fact not yet known to the one who would know it.
+  static teaches(success: readonly Change[], world?: World): boolean {
     const made = new Set(success.filter(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name))
       .flatMap(c => c.call.args));
-    return success.some(c => c.kind === 'assert' && c.call.name === 'knows' && !made.has(c.call.args[1] ?? ''));
+    return success.some(c => c.kind === 'assert' && c.call.name === 'knows' && !made.has(c.call.args[1] ?? '')
+      && !world?.test(ModuleWriter.call('knows', ...c.call.args)));
   }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const minutes = context.world ? ActionTime.minutes(action, context.world) : choice.time * 10;
-    const leaf = { ...ChoiceGrouping.withheld(row, context.module), minutes,
+    const leaf = { ...ChoiceGrouping.withheld(row, context.module, context.world), minutes,
       ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
