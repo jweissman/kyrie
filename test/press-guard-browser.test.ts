@@ -74,6 +74,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a press is taken once, on its own s
     // conversation's first reply and another).
     await page.click(talk); await Sent.idle(page); await page.click(leave); await Sent.idle(page);
     let before = await Sent.count(page);
+    // Since the four lead with the aim's gold and fill only with what has a reason (18 November: gold first, AT-01),
+    // the wagoner left is not among them: his row is under Talk on the rail.
+    if (!await page.locator(talk).count()) { await page.click('.rail-mark.opens-talk'); await Sent.idle(page); }
+    before = await Sent.count(page);
     await page.locator(talk).first().focus();
     for (let k = 0; k < 10; k++) { await page.keyboard.down('Enter'); await page.waitForTimeout(40); }
     await page.keyboard.up('Enter'); await Sent.idle(page); await page.waitForTimeout(300);
@@ -87,7 +91,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a press is taken once, on its own s
     await page.mouse.up(); await page.waitForTimeout(400); await Sent.idle(page);
     expect(await Sent.count(page) - before).toBe(1);
     // The place came back under a hand that has not moved: a row under it (its hover forced, wherever the hand rests)
-    // is not lit; the hand moved a little, it is.
+    // is not lit; nor once the hand moves, a hover being shown nowhere (the owner, 18 November, OR-97).
     expect(await page.evaluate(() => document.documentElement.dataset.still)).toBe('');
     const cdp = await context.newCDPSession(page), { root } = await cdp.send('DOM.getDocument');
     const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector: `${talk}` });
@@ -96,7 +100,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a press is taken once, on its own s
     expect(await Sent.ground(page, talk)).toBe(false);
     await page.mouse.move(40, 40, { steps: 2 }); await page.mouse.move(60, 52, { steps: 2 });
     await page.waitForTimeout(200);
-    expect(await Sent.ground(page, talk)).toBe(true);
+    expect(await Sent.ground(page, talk)).toBe(false);
     expect(errors).toEqual([]);
     await context.close();
   }, 300000);

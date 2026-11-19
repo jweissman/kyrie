@@ -31,7 +31,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a lens', () => {
       await page.locator(`.rail-mark.opens-${part}`).first().click(); await driver.settle();
       await LensPages.every(page, async () => {
         stray.push(...(await page.evaluate(() => [...document.querySelectorAll('.glance .do-col *')].filter(e =>
-          !e.children.length && e.textContent?.trim() && !e.closest('[data-act], button'))
+          // What is seen of a thing is said once above the acts, never among them (Glance's lens-seen), not stray.
+          !e.children.length && e.textContent?.trim() && !e.closest('[data-act], button, .lens-seen'))
           .map(e => `${e.className}: ${e.textContent!.trim().slice(0, 60)}`))).map(t => `${part}: ${t}`));
       });
     }
