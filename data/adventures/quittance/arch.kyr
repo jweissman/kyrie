@@ -101,7 +101,7 @@ Module quittance "Quittance" {
     Result "A barge has come in with a load nobody wants to be the one to lift. You put your back to the winch with three lightermen and a boy, and the load, in the end, comes. Tam Ridd watches without comment and lifts the rope. 'Lamprey men,' he tells the Stairs, 'don't pay handling.' By the time you have your breath you are at the top, with a black fish chalked on your sleeve.".
   }
   Action slip_the_stair(actor: group, site: place) "Wait for the tide to turn and slip up the stair behind a barge" {
-    Requires able(actor) and company(actor) and at(actor, towpath) and state(stair_rope, roped) and capable(actor, stealth).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, towpath) and state(stair_rope, roped) and capable(actor, stealth).
     Time 3.
     Resolve check(actor, stealth, dc_fair).
     On success { Assert state(stair_rope, dropped). Assert inCity(actor). Assert entered_water(actor). Assert at(actor, lighter_stairs). }
@@ -123,7 +123,7 @@ Module quittance "Quittance" {
     Result "You ride up between the yews with the blinds down, two of you in the hearse and one, with a good deal of dignity, in the box. At the lodge-gate the porter doffs his hat to the cortege and does not ask to see a certificate. 'You'll be needing the almshouse,' Grieve says, handing the box down, 'if you want somewhere to sit. Nobody asks questions of the very old.'".
   }
   Action mourn_in(actor: group, site: place) "Fall in at the tail of a funeral and walk through the lodge-gate as mourners" {
-    Requires able(actor) and company(actor) and at(actor, mort_road) and not inCity(actor) and capable(actor, performance).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mort_road) and not inCity(actor) and capable(actor, performance).
     Time 20 minutes.
     Resolve check(actor, performance, dc_fair).
     On success { Assert inCity(actor). Assert entered_hearse(actor). Assert at(actor, mort_lodge). }
@@ -131,7 +131,7 @@ Module quittance "Quittance" {
     Otherwise "A woman at the end of the cortege looks at you for a long moment and says, 'And how did you know Albert?' You cannot, on the instant, produce an Albert.".
   }
   Action pick_wicket(actor: group, site: place) "Pick the lock of the gardeners' wicket in the cemetery wall" {
-    Requires able(actor) and company(actor) and at(actor, mort_road) and not inCity(actor) and capable(actor, lockwork).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mort_road) and not inCity(actor) and capable(actor, lockwork).
     Time 6.
     On success { Assert inCity(actor). Assert entered_hearse(actor). Assert at(actor, mort_lodge). }
     Result "The wicket in the cemetery wall has a lock designed to keep out the dead, which are not good at locks. You are in among the yews before the clock has struck the quarter.".
@@ -164,7 +164,7 @@ Module quittance "Quittance" {
     Otherwise "The eldest hears you out. 'That's the worst I've heard this week,' she says, not unkindly. 'A copper, then.'".
   }
   Action climb_gap_wall(actor: group, site: place) "Go over the old wall instead, out of sight of the boys" {
-    Requires able(actor) and company(actor) and at(actor, gap_path) and state(gap_rope, held) and capable(actor, climbing).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gap_path) and state(gap_rope, held) and capable(actor, climbing).
     Time 5.
     On success { Assert inCity(actor). Assert entered_gap(actor). Assert at(actor, wards_gate). }
     Result "The Cinderwall is glass and slag, and the handholds are fused in. You go over in the grey of the light and drop into a lane of timber houses with a hundred fires glowing in the windows. Nobody has seen you, which is slightly depressing.".

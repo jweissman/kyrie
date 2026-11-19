@@ -1,4 +1,5 @@
 import { LocalObservations } from '../campaign/local-observations';
+import { ActionSchemas } from '../campaign/action-schemas';
 import { Sentences } from '../presentation/sentences';
 import { CampaignLint } from './campaign-lint';
 import { ModuleWriter } from '../lang/module-writer';
@@ -182,11 +183,12 @@ export class AuthorLint {
     }
   }
   // A parameter its condition never names is offered for every one of its type in the world: one choice for each
-  // place there is (Half the Hive's 10).
+  // place there is (Half the Hive's 10). Not one its label names, which is a choice among them meant ("Cast the
+  // Lampoon as {form}": the Book of Faces' three shapes).
   static unbound(lint: CampaignLint) {
     for (const a of lint.module.actions.filter(x => x.id.includes('__') && !x.schema)) {
-      const asked = JSON.stringify(a.requires);
-      for (const p of (a.parameters ?? []).filter(x => !asked.includes(`"${x.name}"`))) {
+      const asked = JSON.stringify(a.requires), shown = ActionSchemas.placeholders(a.name);
+      for (const p of (a.parameters ?? []).filter(x => !asked.includes(`"${x.name}"`) && !shown.includes(x.name))) {
         lint.add('warning', 'unbound', `Action ${a.id}: nothing in its condition names ${p.name}, so it is offered `
           + `once for every ${p.type} in the world; ask it (at(actor, ${p.name}), …)`);
       }

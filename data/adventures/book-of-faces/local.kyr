@@ -522,7 +522,7 @@ Module ombra "The Book of Faces" {
     Otherwise "'You are a good sort,' says {sweet}, 'and I am going to win, which is why you are not to worry.' He shakes your hand, with both of his, and goes down the pond to the lane-boards, and does not look back.".
   }
   Action lc_jam_grating(actor: group, site: place) "Jam the grating of lane one, where Gudge's champion will finish" {
-    Requires able(actor) and company(actor) and at(actor, eel_pond) and lcRacePending() and not lcRaceFixed(party) and not lcGudgeAngry(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, eel_pond) and lcRacePending() and not lcRaceFixed(party) and not lcGudgeAngry(party).
     Resolve check(actor, trapwork, dc_fair).
     Time 3.
     On success { Assert lcRaceFixed(actor). }
@@ -531,7 +531,7 @@ Module ombra "The Book of Faces" {
     Otherwise "The bar moves, and the whole grating comes up with it, and {lc_gudge}, on his tub, who has not looked round all day, says without turning his head: 'Put it back.' You put it back. 'I do not want to see you at this pond again,' says the old man, with great calm, to the water.".
   }
   Action lc_swap_eels(actor: group, site: place) "Quietly put Gudge's champion in a slower lane, and a river eel in its place" {
-    Requires able(actor) and company(actor) and at(actor, eel_pond) and lcRacePending() and not lcRaceFixed(party) and not lcGudgeAngry(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, eel_pond) and lcRacePending() and not lcRaceFixed(party) and not lcGudgeAngry(party).
     Resolve check(actor, stealth, dc_hard).
     Time 4.
     On success { Assert lcRaceFixed(actor). }

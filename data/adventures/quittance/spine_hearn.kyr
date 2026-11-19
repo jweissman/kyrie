@@ -31,7 +31,7 @@ Module quittance "Quittance" {
   Observe auberon_lost_scene at hearn_hearth when watch(clock) >= lucidUntil(auberon) "The little red coal glows in the grate, no bigger than a hand. The old man has his own hands to it, and watches it as one watches a sleeping child, and now and then speaks to it.".
 
   Action tend_coal(actor: group, site: place) "Feed the old man's coal a bundle of kindling" {
-    Requires able(actor) and company(actor) and at(actor, hearn_hearth) and holding(actor, hearn_kindling).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hearn_hearth) and holding(actor, hearn_kindling).
     Time 10 minutes.
     On success { Spend hearn_kindling from actor. Set lucidUntil(auberon) to watch(clock) + 6. }
     Result "You lay the sticks on the coal as you would lay them on a sleeping animal, one at a time. It takes slowly, with a small crackle, and a clean yellow flame stands up in the grate. The old man draws a long breath, as if from a depth. 'Ah,' says Auberon Hearn. 'There. That is better. Do sit down.' And his face, in the new light, has gathered itself.".

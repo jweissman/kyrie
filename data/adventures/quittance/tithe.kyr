@@ -24,20 +24,20 @@ Module quittance "Quittance" {
 
   // ── Five ways round it ──────────────────────────────────────────────────────────────────────────────────
   Action evacuate_ward(actor: group, site: place) "Call the Ward out of its houses, street by street, and stand it on the Cinderwall" {
-    Requires able(actor) and company(actor) and at(actor, cinder_ward) and tithePrepared(city) and not titheEvacuated(actor) and not burned(cinder_ward)
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cinder_ward) and tithePrepared(city) and not titheEvacuated(actor) and not burned(cinder_ward)
       and (regard(wardsfolk) >= 2 or entered_gap(actor) or keeper(wards) or pm_court_warned(actor)).
     Time 60 minutes.
     On success { Assert titheEvacuated(actor). }
     Result "It takes an hour, and nobody asks you why. The Wards know a knock at a door in the night: they come down in their nightclothes with their grandmothers on their arms and the clocks under their coats, street by street, to the Cinderwall, and sit along it in rows with the lamps behind them. A woman counts them twice. Nobody is left in the Ward but the cats, and the cats have been asked and have declined.".
   }
   Action brigades_in_one_line(actor: group, site: place) "Bring both brigades to the lane in one line, with the pumps primed" {
-    Requires able(actor) and company(actor) and at(actor, cinder_ward) and tithePrepared(city) and not titheStopped(city) and arc(garrity) >= 1 and (arc(dree) >= 1 or regard(lamprey) >= 2).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cinder_ward) and tithePrepared(city) and not titheStopped(city) and arc(garrity) >= 1 and (arc(dree) >= 1 or regard(lamprey) >= 2).
     Time 45 minutes.
     On success { Assert titheStopped(city). }
     Result "They come up Salt Lane at the double, blue and black, side by side, on the same side of the whitewash, which each captain will later describe as an accident of the lane. Garrity has the pump; Dree has the hose; neither of them is looking at the other. They draw up across the mouth of the lane with the nozzles up, and the Tithe men look at the plates over the doors, and at the two captains, and at the arithmetic, and set down the cans.".
   }
   Action read_the_second_column(actor: group, site: place) "Read the second column of Skelter's book aloud to the Ward and the Tithe men, name by name" {
-    Requires able(actor) and company(actor) and at(actor, cinder_ward) and tithePrepared(city) and not titheStopped(city) and holding(actor, skelter_book) and regard(wardsfolk) >= 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cinder_ward) and tithePrepared(city) and not titheStopped(city) and holding(actor, skelter_book) and regard(wardsfolk) >= 1.
     Time 30 minutes.
     On success { Assert titheStopped(city). Increase argued(city) by 1. }
     Result "You begin with Candlewick Court and the date. You say the nineteen names, which Skelter has written down. The Ward comes out of its doors to listen, one house at a time, until the whole of the black ground is full, and at the thirty-first name a man in the crowd says, quite quietly, 'That's my brother,' and the foreman puts down his can. 'I never knew the names,' he says. 'He said they were empty.'".

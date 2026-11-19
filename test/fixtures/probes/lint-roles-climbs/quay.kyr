@@ -24,6 +24,9 @@ Module p "A quay, a warehouse, and a lady" {
   Rule floor_creaks when at(floor, warehouse) says "The floor creaks." { }
   // A parameter its condition never names (Half the Hive's 10): a finding.
   Action count_crates(actor: group, site: place) "Count the crates" { Requires able(actor). Time 1. }
+  // One its label names is a choice among them, meant (the Book of Faces' "Cast the Lampoon as {form}"): none.
+  Kind tally. Entity by_tens: tally "by tens". Entity by_dozens: tally "by the dozen".
+  Action count_by(actor: group, site: place, way: tally) "Count the crates {way}" { Requires at(actor, site). Time 1. }
   // A word of the trade, not of the engine (its 16): no finding.
   Observe stack at quay when true "Beyond the warehouse stands the engine-house, its stack smoking.".
   // Scenery the place's first sentence is about, with nothing to look at it by (the Lull's 7): a finding.

@@ -113,7 +113,7 @@ Module quittance "Quittance" {
     Otherwise "'The Chief Underwriter,' says Mr Skelter slowly, 'has a very particular hand. This is a good copy.' He does not move.".
   }
   Action take_book(actor: group, site: place) "Take the oilcloth-bound book from Skelter's desk" {
-    Requires able(actor) and company(actor) and at(actor, skelter_room) and state(skelter_desk, open) and not holding(actor, skelter_book) and not at(skelter, skelter_room).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, skelter_room) and state(skelter_desk, open) and not holding(actor, skelter_book) and not at(skelter, skelter_room).
     Time 3 minutes.
     On success { Give skelter_item to actor. }
     Result "You lift the top book from the shelf. Its spine is cracked at a single page.".

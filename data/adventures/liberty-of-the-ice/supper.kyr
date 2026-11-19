@@ -64,7 +64,7 @@ Module pellam "The Liberty of the Ice" {
   // the North Bar from the handshake on, and at one on the last day his men look for the Squire everywhere in Pellam
   // but the Clink.
   Person bar_man "one of Harker's wharf men" at limbo {
-    Role "one of Harker's wharf men, on a keg at the North Bar, watching the road out". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Role "set by Harker to watch the road out from the North Bar". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "The wharf man touches his cap to you. 'Squire,' he says, and does not get off his keg.".
   }
   Initially Assert serves(bar_man, harker).
