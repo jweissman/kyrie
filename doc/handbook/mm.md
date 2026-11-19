@@ -42,7 +42,7 @@ Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + t
 
 Flesh to Stone: One enemy is petrified for 10 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
 
-Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
+Paralyzing Touch: One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
@@ -2968,7 +2968,7 @@ Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level 
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
+Paralyzing Touch: One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -3109,7 +3109,7 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may leave
 
 Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
-Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
+Paralyzing Touch: One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends. Again after 3 turns.
 

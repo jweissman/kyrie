@@ -675,6 +675,37 @@
         "notes": "The SRD's Hold Person (doc/architecture/mission-22/srd-proving-cases.md, case 18): one humanoid, second level, its school enchantment beside Law, a Will save to negate at case 7's difficulty, and a new save on each turn the held one loses to it, a success ending it (ShakingOff). Converted: five rounds, a fifth-level caster's, at every casting level (the SRD's is a round a level). Omitted: spell resistance; the held helpless. Before, Orsino's three rounds against 20 + the caster's level, saved with Strength, once."
       }
     },
+    "paralyzing_touch": {
+      "name": "Paralyzing Touch",
+      "kind": "spell",
+      "description": "Your touch stiffens a living person where they stand, unable to move or act, for a little while; a hardy one shakes it off at once. Their armour does not turn your hand aside, only their quickness.",
+      "effects": [
+        {
+          "kind": "apply",
+          "status": "paralyzed",
+          "duration": 6,
+          "target": "enemy",
+          "targetTrait": "humanoid",
+          "touch": "melee",
+          "save": {
+            "kind": "fortitude",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "12 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 2, "school": "necromancy" },
+      "source": {
+        "orsino": "arcaneSpell:paralyzing_touch",
+        "srd35": "spell:ghoul-touch",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Ghoul Touch (doc/architecture/mission-22/srd-proving-cases.md, case 36): second level, necromancy, one humanoid a melee touch attack lands on (Touch), paralysed unless a Fortitude save at case 7's difficulty for a second-level spell negates it. Converted: six rounds, the SRD's 1d6+2, its mean rounded up (Kyr's durations are not rolled). Omitted: spell resistance; the stench that sickens those beside the paralysed; the undead's and elves' proof against it beyond the humanoid it wants. Before, Orsino's three rounds on one humanoid against 14 + the caster's level, saved with Strength, no attack roll."
+      }
+    },
     "cone_of_cold": {
       "name": "Cone of Cold",
       "kind": "spell",

@@ -353,6 +353,7 @@
   "magic_missile": "test/magic-missile.test.ts",
   "divine_favor": "test/divine-favor.test.ts",
   "shocking_grasp": "test/shocking-grasp.test.ts",
+  "paralyzing_touch": "test/ghoul-touch.test.ts",
   "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",
@@ -419,6 +420,10 @@
   "bless": {
    "target": "the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17)",
    "duration": "a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14)"
+  },
+  "paralyzing_touch": {
+   "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)",
+   "duration": "six rounds: the SRD's 1d6+2, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 36)"
   },
   "hold_person": {
    "dc": "the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7)"

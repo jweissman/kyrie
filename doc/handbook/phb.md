@@ -6675,11 +6675,13 @@ You gain mirror images for 3 turns. Mirror Images: 2 harder to hit, +15 evasion,
 
 ##### Paralyzing Touch
 
-*Faithful · level 2 arcane spell, necromancy* · `ability:paralyzing_touch`
+*Adapted · level 2 arcane spell, necromancy* · `ability:paralyzing_touch`
 
-One enemy is paralyzed for 3 turns (a Strength save against 14 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
+One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
-> Touch an enemy to paralyze them for 2 rounds.
+> Your touch stiffens a living person where they stand, unable to move or act, for a little while; a hardy one shakes it off at once. Their armour does not turn your hand aside, only their quickness.
+
+*Adapted: The SRD's Ghoul Touch (doc/architecture/mission-22/srd-proving-cases.md, case 36): second level, necromancy, one humanoid a melee touch attack lands on (Touch), paralysed unless a Fortitude save at case 7's difficulty for a second-level spell negates it. Converted: six rounds, the SRD's 1d6+2, its mean rounded up (Kyr's durations are not rolled). Omitted: spell resistance; the stench that sickens those beside the paralysed; the undead's and elves' proof against it beyond the humanoid it wants. Before, Orsino's three rounds on one humanoid against 14 + the caster's level, saved with Strength, no attack roll.*
 
 ##### Prismatic Spray
 

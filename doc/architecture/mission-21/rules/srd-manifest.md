@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 95, E2 1, E3 23.
+**605 records**, every one visible: E0 486, E1 94, E2 1, E3 24.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 78.
 
 ## By family
@@ -277,7 +277,7 @@ become ready).
 | geas-quest | Geas/Quest | Brd 6, Clr 6, Sor/Wiz 6 | damage | E0 | — | — |
 | gentle-repose | Gentle Repose | Clr 2, Sor/Wiz 3 | control | E0 | resist.spell | — |
 | ghost-sound | Ghost Sound | Brd 0, Sor/Wiz 0 | illusion | E0 | effect.manifest | — |
-| ghoul-touch | Ghoul Touch | Sor/Wiz 2 | control | E1 | resist.spell | paralyzing_touch |
+| ghoul-touch | Ghoul Touch | Sor/Wiz 2 | control | E3 | resist.spell | paralyzing_touch |
 | giant-vermin | Giant Vermin | Clr 4, Drd 4 | world | E0 | effect.world, resist.spell | — |
 | glibness | Glibness | Brd 3 | control | E0 | — | — |
 | glitterdust | Glitterdust | Brd 2, Sor/Wiz 2 | control | E0 | target.object | — |

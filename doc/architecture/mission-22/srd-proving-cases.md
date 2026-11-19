@@ -1306,6 +1306,39 @@ where a mage opening with Magic Missile wins 42 %, 13 % and 29 %). It grows a di
 with a level of its own to measure (Ray of Frost a cantrip, Acid Arrow the second level, from Orsino's second and
 first); Vampiric Touch (Life Drain) and Ray of Enfeeblement (Weakness) likewise.
 
+### 36. Ghoul Touch by the SRD's numbers (19 November): adapted
+
+Orsino's Paralyzing Touch is the SRD's Ghoul Touch, at the SRD's level already (the second), so it moves no draw or
+card: it is a second-level pick on the illusionist's, the generalist's and the necromancer's creation cards. It is
+case 35's touch put to a hold. Spec: `test/ghoul-touch` (3 cases).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- second level, arcane, necromancy (exact);
+- one humanoid (exact: the SRD's living humanoid, read as the `humanoid` it wants), a melee touch attack (exact);
+- a Fortitude save to negate (exact: made with Constitution, where Orsino's paralysis save was made with Strength),
+  at case 7's difficulty for a second-level spell (converted: 16 at a third-level caster of Intelligence 16);
+- paralysed six rounds (converted: the SRD's 1d6+2, its mean rounded up, as Cause Fear's 1d4 in case 20).
+
+**Omitted:** spell resistance; the stench about the paralysed that sickens whoever stands beside them. Before:
+Orsino's three rounds against 14 + the caster's level, saved with Strength, no attack roll. A miss now lays nothing
+and asks no save. The census grades it S✓ R✓ I✓: 25 of 119 pass in resolution now.
+
+**The census.** No draw or card moves: its level, school and tradition are Orsino's. A drawn mage knows it about one
+time in ten at the first level and one in five at the seventh, a necromancer two in five, as before. None of the
+2,233 installed classed creatures of a1 and the six fidelity countries knows it. What moves is every casting, and the
+kinds that have it as their own: Orsino's ghoul (and the spirit and the discerner), and the wand of paralyzing touch
+(its user's touch). The ghoul's placements fought by the four first-level companies, 20 seeds each, before and after
+(placements.md's method):
+- the first hour's ghouls, of the first and second level (the ossuary's one, the dens' pairs, the newcomers' one, the
+  barrow halls' threes: 53 of the eight worlds' placed groups): unchanged in every cell. A ghoul of those levels
+  does not cast a second-level spell (its casting level is its own);
+- a single third-level ghoul (a1's w6 and e1 newcomers, mere's): a lone warrior 90 → 85 %, a lone mage 10 → 5 %, the
+  pair 100 % as before, a death for the lone warrior 10 → 15 %;
+- the Bound Howe's four fourth-level ghouls: the pair 0 → 5 %; thorn's three of the third level at the kings' door:
+  a lone warrior 0 → 5 %, the pair 20 → 35 %.
+So no first-hour fight moves; deeper, a ghoul that touches and misses holds nobody, where Orsino's touch always
+reached its save.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
