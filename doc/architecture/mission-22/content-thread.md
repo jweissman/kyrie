@@ -72,3 +72,25 @@ After these, the debt walk goes rats → paid → corn-store → cellar → runs
   (test/support/before-rooms).
 - Still to do: the lone warrior's balance with more fights (the census rests when hurt; the gold does not say so), the
   drove origin, and quests that circle back.
+
+## The first choices, the owner's thought (19 November, late)
+
+The owner: the very first choices should be (a) help someone or ignore them, (b) explore a cave and fight or go into
+town, (c) find companions or go alone, very present in the first fifteen minutes; people should talk about the cave;
+the cave deep and explorable by an "Explore…" act that runs a lottery over what is found (room, people, things,
+wonders, treasure); someone recruitable in the very first space; perhaps begin in the dark, a light before anything
+but waiting. "Just some thought": not to displace the priorities (the opportunity architecture, the route finder).
+
+What exists: (a) is the opening's road meeting (data/origins/prologue.kyrt, drawn by seed); (c)'s rules exist (people,
+hirelings: S2-6) but the one met goes on to the inn as a memory, not a companion; (b)'s sites exist, generated whole
+and walked, with no lottery; people already tell of sites when asked of the country.
+
+Proposed, smallest first, each Deem-drawn and seeded:
+1. The one met on the way in recruitable: helped, they offer to come along; robbed or ignored, not (prologue.kyrt,
+   data only).
+2. The cave talked of: the innkeeper and the one met each name the nearest deep site; a lead, never a held aim (HP-01).
+3. "Explore deeper…": a cave's rooms generated as now, but entered by a lottery: each try reveals one hidden room drawn
+   by the world's seed (a band, a find, a wonder, someone lost, a trap), costing time and maybe waking something
+   (rooms.kyrt, hoards.json, powers.json); deterministic, so saves and replays hold. Generation at play time is M23's.
+4. Beginning in the dark: reconciled with the opening's painting (dim, at night), the first act a light that shows the
+   meeting; the owner's word wanted first.
