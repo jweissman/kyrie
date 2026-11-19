@@ -54,8 +54,7 @@ export class FightStage {
             className={`standing ${combat.standing.danger}`} data-region="standing">
             {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}
           {/* The fight so far, a page of the fight's own, read from its head: not a bar across its foot. */}
-          <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
-            onClick={() => show(!log)}>{log ? 'What just happened' : 'The fight so far'}</button></p>}
+          <FightStage.LogMark log={log} show={show} words={log ? 'What just happened' : 'The fight so far'} /></p>}
         narrative={<>{(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
         <div className="sides" ref={sides}>
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
@@ -111,8 +110,7 @@ export class FightStage {
           {log && <FightLog.Memo exchanges={combat.exchanges} />}
           <p className="fight-told-foot">
             {onward && <ChoiceRow.Act choice={onward} draw={draw} label={Typography.curl(onward.label)} />}
-            <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
-              onClick={() => show(!log)}>{log ? 'Put it away' : 'The fight, blow by blow'}</button>
+            <FightStage.LogMark log={log} show={show} words={log ? 'Put it away' : 'The fight, blow by blow'} />
           </p>
         </div>
       </div>
@@ -177,6 +175,12 @@ export class FightStage {
           said={Typography.curl(target.label)}><></></Act.View>}
       </li>
     );
+  }
+  // The fight's own book, its log, opened and put away from its head or its end: an instrument like the book's (OR-94's
+  // allowed set), which reads what happened and does nothing in the world.
+  static LogMark({ log, show, words }: { log: boolean; show: (on: boolean) => void; words: string }) {
+    return <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
+      onClick={() => show(!log)}>{words}</button>;
   }
   // How full a foe's bar is drawn: by its hurt, not its count.
   static band(f: CombatantRow, dark?: boolean): number {
