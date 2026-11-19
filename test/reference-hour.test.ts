@@ -78,7 +78,7 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
       if ((seen.get(key) ?? 0) > 3) { log.push(`  the page leads with ${lead?.choice} again: stopped`); break; }
       log.push(`${step} @${st.place?.name}: lead [${lead?.why ?? '-'}] ${st.choices.find(c => c.id === lead?.choice)?.label ?? lead?.choice ?? '(none)'}`);
       if (!lead) { break; }
-      // A journey is the map's: the Map key is lit, and the map opens with the way chosen (see Stage.mapLed).
+      // A journey is the map's: the Map key is lit, and the map opens with the way chosen (see SceneRail.map).
       if (lead.choice.startsWith('travel:') && !st.choices.some(c => c.id === lead.choice)) {
         log.push(`  the Map key${await page.locator('.corner.icon.led, .rail-mark.lit[data-view="map"]').count() ? ' is lit' : ' is not lit'}`);
         await d.key('m'); await shot('map');

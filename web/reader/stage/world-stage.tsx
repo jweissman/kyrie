@@ -18,7 +18,6 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { PageFrame } from '../page-frame';
-import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
 import { Attest, type Attested } from '../../../src/presentation/attest';
@@ -52,9 +51,7 @@ export class WorldStage {
     const stopped = frame.travel && !frame.travel.arrived, threat = (app.menu.scene?.subjects ?? []).some(x => x.danger);
     // Mission 21's compositions (see Look): one panel holding the place's name, its telling, its menu and its tools
     // (veil, plate); lenses that never open a page (attend).
-    const resting = !overworld && !!frame.leaf.glance && SceneRail.on(app), panel = resting && Look.is('veil', 'plate');
-    // The lenses are the scene's own (GlanceStage.Lens: CN-01): no page of Go, Look or Wait over it.
-    const explorer = false;
+    const resting = !overworld && !!frame.leaf.glance, panel = resting && Look.is('veil', 'plate');
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
@@ -76,17 +73,15 @@ export class WorldStage {
               : <>{/* No "Back out to the map" of the page's own: the engine offers the world map as a row (the
                     owner, 18 November: the page invents no flows or buttons).
                     */}
-                {/* Go, Look and Wait open here, in the scene's own panel, the painting kept (the owner, 11 November:
-                    Look a conversation with the place, not a panel of its own). */}
-                {frame.leaf.glance && explorer && SceneRail.on(app) ? <Explorer.View app={app} draw={draw} />
-                  : frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} apart />
+                {/* Go, Look and Wait are lenses of the scene's own (GlanceStage.Lens: CN-01), the painting kept: no
+                    page of Go, Look or Wait over it (the owner, 11 November: Look a conversation with the place). */}
+                {frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} apart />
                   : <div className="telling"><Told.Place app={app} headed={false}
                     here={<PlaceStage.Here app={app} draw={draw} />} /></div>}</>}
             {panel && <SceneRail.View app={app} draw={draw} />}
           </aside>
-          {!overworld && !SceneRail.on(app) && <Explorer.View app={app} draw={draw} />}
           {resting && !panel && <SceneRail.View app={app} draw={draw} />}
-          {(overworld || !frame.leaf.glance) && SceneRail.on(app) && <SceneRail.Books app={app} alone onMap={overworld} />}
+          {(overworld || !frame.leaf.glance) && <SceneRail.Books app={app} alone onMap={overworld} />}
         </div>
       </article>
     );

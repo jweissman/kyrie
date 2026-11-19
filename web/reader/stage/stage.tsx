@@ -31,9 +31,7 @@ export class Stage {
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
         {/* In the scene first, the map and the book are on its rail (see SceneRail). */}
-        {['explore', 'talk', 'examine'].includes(mode) && !SceneRail.on(app) && <Stage.Corner app={app}
-          full={mode === 'explore'} />}
-        {['talk', 'examine'].includes(mode) && SceneRail.on(app) && <SceneRail.Books app={app} alone />}
+        {['talk', 'examine'].includes(mode) && <SceneRail.Books app={app} alone />}
         <div className="intentions" data-region="choices">
           {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}
@@ -128,44 +126,6 @@ export class Stage {
       Stage.said = hour;
     }
     return Stage.fresher.get(frame)!;
-  }
-  // Whether the aim followed is gone to by the map: a journey, or a way out into the open country, which is crossed on
-  // the map and not offered in Go… (the owner, 8 November: the road the father went out by was led with and nowhere
-  // to be chosen, and nothing pointed to the map).
-  static mapLed(app: ReaderApp): boolean {
-    const frame = app.state.frame, exits = frame?.screen.exits ?? [];
-    return (frame?.leaf.glance?.following ?? []).some(id => id.startsWith('travel:')
-      || exits.find(e => e.id === id)?.transition === 'travel');
-  }
-  // The book in the corner: yourself, the notes, the pack, the map and the story, opened from one control that stands
-  // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H). At a place, the map beside
-  // it: two quiet marks over the painting, not a bar of buttons (amendment 6, A: the top rail reduced; Character and
-  // Book one dossier).
-  static Corner({ app, full }: { app: ReaderApp; full?: boolean }) {
-    const book = (
-      <button type="button" className="corner" data-action="book" onClick={() => app.show('journal')}
-        aria-label="Your book: yourself, your notes, your pack, the map and the story so far">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 5.2C5.9 4.2 8.6 4.3 11 5.6v13.6
-          c-2.4-1.2-5.1-1.3-7.5-.3V5.2zm17 0v13.7c-2.4-1-5.1-.9-7.5.3V5.6c2.4-1.3 5.1-1.4 7.5-.4z" /></svg>
-        <span className="corner-label">Book</span>
-      </button>
-    );
-    if (!full) { return book; }
-    // An aim followed that is gone to by a journey lights the map, where the way to it is (see Act.Sheets).
-    const led = Stage.mapLed(app);
-    return (
-      <nav className="corner-keys" aria-label="Your books">
-        <button type="button" className={`corner icon${led ? ' led' : ''}`} data-action="mode" data-view="map" data-key="m"
-          aria-label="The map"
-          onClick={() => app.show('map')}>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6
-            2.5V6.5zM9 4v13.5M15 6.5V20" /></svg>
-          <span className="corner-label">Map</span>
-        </button>
-        {/* Yourself is a page of the book, one dossier (amendment 6, A); C still opens it there. */}
-        {book}
-      </nav>
-    );
   }
   // Yourself, at a glance: how you are, what ails you, what you have to spend and to eat, and your light if it matters.
   // How you are and what you have, and under it what being down means for whoever is: it had been only in the Book,

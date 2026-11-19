@@ -28,8 +28,6 @@ type Standing = { lit?: Attested } | { dim: true } | { shut: string } | Record<s
 // a web page's bar). Go, Look, Wait and Search open in the scene's own panel (see Explorer); the map and the book are
 // their own. Each says in words what it is, to a pointer and to a reader of the page.
 export class SceneRail {
-  // Whether the scene is drawn first, the rail its touches (?scene=split keeps the bounded stage, and its rows).
-  static on(app: ReaderApp): boolean { return app.props?.query?.get('scene') !== 'split'; }
   static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (
@@ -138,13 +136,6 @@ export class SceneRail {
     if (lit) { return { lit }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
-  // Whether the aim's way is among them: the aim's next step, where it is known and is a way; where none is known, a
-  // way the aim followed goes by. Never Go… in gold while the next step is here (round 10: Go… gold into the keep
-  // while the search at its door was the step).
-  static goes(app: ReaderApp, ways: ReturnType<typeof Wayfinder.ways>): boolean {
-    const next = GlanceStage.next(app);
-    return next ? ways.some(w => w.c.id === next || w.way.id === next) : !!Wayfinder.aimed(ways);
-  }
   // Look: shut with nothing at hand to do anything with; lit by what the glance leads with that is at hand (its tone);
   // dim where the place itself has nothing new (left twice, nothing done, nothing since).
   static look(app: ReaderApp): Standing {
@@ -161,7 +152,7 @@ export class SceneRail {
   }
   // Whether a touch opens the engine's lens (else the panel's own list): the strip's tiles over it are marked from it.
   static lensed(app: ReaderApp, lens: 'places' | 'things'): boolean {
-    return !!app.state.frame?.leaf.glance?.lenses?.[lens] && SceneRail.on(app) && !Look.is('attend');
+    return !!app.state.frame?.leaf.glance?.lenses?.[lens] && !Look.is('attend');
   }
   // Whether one of the ways Go… opens bears someone who might join (see Wayfinder.bears).
   static joins(app: ReaderApp): boolean {

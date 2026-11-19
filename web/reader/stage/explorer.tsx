@@ -1,7 +1,4 @@
-import { Glyphs } from '../creation/glyphs';
 import type { ReaderApp } from '../reader-app';
-import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
 import type { Draw } from './act';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
@@ -104,19 +101,5 @@ export class Explorer {
       return true;
     }
     return /^[1-9]$/.test(key);
-  }
-  // The touch on the place at rest that opens one, said as it is and marked when what is led with is in it; touched
-  // again while it is open (Look…, which leaves the touches in view), it is put away.
-  // An opener in words, or by its glyph where the act is so common words would crowd the scene (Wait: the owner, 6
-  // November), its words then its name to a reader and its title to a pointer.
-  static Opener({ app, part, label, led, glyph, act }: { app: ReaderApp; part: Part; label: string; led?: boolean;
-    glyph?: string; act?: boolean }) {
-    const words = Typography.curl(Words.upper(label));
-    return <button type="button" className={`opener opens-${part}${led ? ' led' : ''}${glyph ? ' by-glyph' : ''}`
-      + `${act ? ' as-act' : ''}`}
-      data-action="explore" data-part={part} aria-haspopup="dialog" aria-expanded={app.state.exploring === part}
-      onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}
-      {...glyph ? { 'aria-label': words, title: words } : {}}>
-      {glyph ? <Glyphs.View id={glyph} className="opener-glyph" /> : words}</button>;
   }
 }

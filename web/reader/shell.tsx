@@ -54,9 +54,9 @@ export class Shell {
       && !!s.setting?.generated;
     const style = { '--plate': plate ? `url(${Plates.url(plate)})` : 'none' } as CSSProperties;
     // The scene first (the owner's amendment 6, A): the painting over the whole screen and what is told and done in
-    // restrained panels over it; ?scene=split keeps the bounded stage it replaced, to compare.
+    // restrained panels over it.
     const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}${approaching ? ' approaching' : ''}`
-      + `${Stage.overworld(app) ? ' overworld' : ''}${app.props.query.get('scene') === 'split' ? '' : ' scene-full'}`
+      + `${Stage.overworld(app) ? ' overworld' : ''} scene-full`
       + `${Guidance.shown(app) ? '' : ' guide-quiet'}`;
     return (
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
@@ -80,10 +80,7 @@ export class Shell {
     if (Stage.prologue(app) && s.frame) { return Shell.way(s.frame, s.setting?.terrain, s.seed); }
     // In the scene first, the place's own painting, so that talk, the dossier and a fight stand in the place, not
     // on the country behind it (amendment 6, A); in the dark, nothing.
-    if (s.phase === 'play' && s.frame && app.props.query.get('scene') !== 'split') {
-      return s.frame.screen.dark ? undefined : Scenery.seen(s.frame.screen);
-    }
-    if (s.phase === 'play' && s.frame) { return Scenery.of(s.frame.screen); }
+    if (s.phase === 'play' && s.frame) { return s.frame.screen.dark ? undefined : Scenery.seen(s.frame.screen); }
     if (s.phase === 'company' && s.setting) { return Scenery.country(s.setting.terrain, s.seed); }
     return Shell.approaching(app) ? s.approach : undefined;
   }

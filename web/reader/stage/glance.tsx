@@ -1,5 +1,4 @@
 import { Foreground } from '../../../src/presentation/foreground';
-import { SceneRail } from './scene-rail';
 import { AimSaid } from '../../../src/presentation/aim-said';
 import { useLayoutEffect, useRef, type ReactNode, type RefObject } from 'react';
 import { Glyphs } from '../creation/glyphs';
@@ -26,8 +25,6 @@ import { Told } from './told';
 import { NextPull } from './next-pull';
 import { SceneSurface } from './scene-surface';
 import { SceneModel } from '../../../src/ui/scene';
-import { AtHand } from './at-hand';
-import { Explorer } from './explorer';
 import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
 import { Scrolled } from './scrolled';
@@ -197,7 +194,7 @@ export class GlanceStage {
   // (the way back, the one way on, a notice, Search) stay as they are.
   static Resting({ app, draw, acts, top, lens }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string;
     lens?: Lens }) {
-    const search = Pastime.search(app), hand = AtHand.of(app), posted = GlanceStage.posted(app);
+    const search = Pastime.search(app), posted = GlanceStage.posted(app);
     // What a touch of its own draws (a notice, the one way on) is not drawn again among what is led with.
     // But the aim's next step is drawn as such where it is, whatever touch would draw it too: at Murkweard's door the
     // gold was the search for the cross, drawn only as the rail's glass with nothing on it (round 10, S; R at
@@ -205,15 +202,14 @@ export class GlanceStage {
     const next = GlanceStage.next(app);
     // A notice the place leads with is one of the things to do, drawn as they are, with what it is at its left (the
     // owner, 12 November: the bare link to the notice on the well-post, which "clearly gives you a clue").
-    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [only?.c.id, search?.id]
+    const only = GlanceStage.only(app), touched = [only?.c.id, search?.id]
       .filter(id => !id || id !== next);
     // The engine's four where it offers them (TB-02), drawn whole, a touch of the place's own among them left out
     // of the touches instead; else the glance's own foreground.
     const offer = GlanceStage.offered(app);
     const shown = offer ?? GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
-    const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
-    const railed = SceneRail.on(app);
+    const yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back); inside an
     // enclosed place the compass stands there instead, the way out and the way on (see CompassStage).
     const compass = CompassStage.of(app), back = compass ? undefined : GlanceStage.back(app, [only?.c, ...drawn]);
@@ -243,15 +239,8 @@ export class GlanceStage {
         {only ? !opened ? null : <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
-          : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}
-        {/* With the rail, the thing at hand is the Look mark's (its pip), not a bare word in the column. */}
-        {found && !railed && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])}
-          act />}
+          : null}
         {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
-        {!railed && hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
-        {!railed && Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
-        {!railed && search && <Act.View choice={search} draw={draw} quiet variant="glyph" className="opener search by-glyph">
-          <Glyphs.View id="search" className="opener-glyph" label="Search" /></Act.View>}
       </p>
     </>;
   }
@@ -365,21 +354,6 @@ export class GlanceStage {
     const c = lead && (app.menu.scene?.you ?? []).find(x => x.id === lead.choice);
     return c && !c.disabled && !drawn.some(d => d?.id === c.id) ? c : undefined;
   }
-  // A find the place leads with (the stolen bell in the hobs' plunder, a treasure in a vault), named on the scene with
-  // its own touch, as an unread notice is: it had been only under Look…, undotted for another aim's, and nothing on the
-  // page said it was there (the reference tour of Mission 20 stopped at it). Look… opens on it (see Explorer.open).
-  static found(app: ReaderApp, hand: ReturnType<typeof AtHand.of>): ReturnType<typeof AtHand.of>[number] | undefined {
-    const h = AtHand.led(app, hand), subject = h && app.menu.scene?.subjects.find(x => x.id === h.id);
-    return subject?.kind === 'thing' ? h : undefined;
-  }
-  // Whether a thing at hand is led with for the aim followed: what that aim names, or is about (see Affordances).
-  static serves(app: ReaderApp, hand: ReturnType<typeof AtHand.of>): boolean {
-    // The aim's one next step, where one is known: else whatever bears on the aim (see GlanceStage.next).
-    const g = app.state.frame?.leaf.glance, next = GlanceStage.next(app), ids = new Set(next ? [next]
-      : (app.menu.leads ?? g?.acts ?? []).filter(a => GlanceStage.aiming.has(a.why))
-        .flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []));
-    return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
-  }
   // The way back from a site or from under the ground, where it is not drawn already (see CompanyRecall.back).
   static back(app: ReaderApp, drawn: (Choice | undefined)[]): Choice | undefined {
     const id = app.state.frame?.leaf.glance?.back, c = id ? GlanceStage.choice(app, id) : undefined;
@@ -390,8 +364,6 @@ export class GlanceStage {
     const a = app.state.frame?.leaf.glance?.acts.find(x => x.continues);
     return a && GlanceStage.choice(app, a.choice)?.id;
   }
-  // The reasons a lead is the aim followed's: what it names, a way toward it, what it is about here.
-  static readonly aiming = new Set(['advance', 'named', 'toward', 'about']);
   // The one way on, where there is only one and it can be taken: offered as itself, not behind Go… (the owner, 6
   // November: two clicks for no choice).
   static only(app: ReaderApp): ReturnType<typeof Wayfinder.ways>[number] | undefined {
