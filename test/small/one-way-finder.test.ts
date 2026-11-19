@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Itineraries } from '../../src/ui/itinerary';
 import { KnownWays } from '../../src/ui/known-ways';
+import { AimLeading } from '../../src/presentation/aim-lead';
 import { JourneyCourse } from '../../web/reader/journey-course';
 
 // One way-finder (AR-21): the gold's step, the itinerary's legs and the way the map draws are one way, laid over the
@@ -84,6 +85,8 @@ describe('one way-finder', () => {
     // The cave's crawl is the shortest way of all (six minutes), but nothing of it is known from the green.
     const t = (await land(20)).follow('barrow');
     expect(stops(t)).not.toContain('t__cave');
+    // Nor does an aim's lead reckon by it (AimLeading.way had gone by every way the world joins).
+    expect(AimLeading.way(t.campaign, 't__green', 't__mouth')).not.toContain('t__cave');
     expect(t.gold.map(a => a.choice)).not.toContain('exit:t__cave');
   });
 });

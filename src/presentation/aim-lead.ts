@@ -9,6 +9,7 @@ import type { ResolvedTarget } from '../ui/objective-target';
 import { AimAdvances } from './aim-advances';
 import { Undertakings } from './undertakings';
 import { CompanyRecall } from './company-recall';
+import { KnownWays } from '../ui/known-ways';
 
 // Where the next step of the aim followed was learned (US-07, PD-08): the way its author says it is gone to by, not
 // yet taken (route); what it is toward, not yet come to (toward); at it, where what it waits on is hidden (hidden) or
@@ -113,7 +114,7 @@ export class AimLeading {
     // first quarter hour's census, 19 November).
     const own = found.find(([, p]) => p === here);
     if (own) { return { aim: def.id, source: own[0], next: [here] }; }
-    const near = found.map(([source, p]) => ({ source, p, way: this.way(campaign, here, p) }))
+    const near = found.map(([source, p]) => ({ source, p, way: this.toward(campaign, here, p) }))
       .filter(x => x.way.length > 1).toSorted((a, b) => a.way.length - b.way.length)[0];
     if (!near) { return undefined; }
     const exit = screen.exits.find(e => e.destination.id === near.way[1]), to = near.way[1]!;
@@ -145,18 +146,24 @@ export class AimLeading {
   private static barred(e: ExitRow): boolean {
     return !e.acts.some(a => a.moves && !a.disabled) && (!!e.blocked || e.acts.some(a => a.disabled));
   }
-  // The places on the shortest way from one place to another, as the world joins them (the first first), or none.
+  // The places on the quickest way from one place to another (the first first), or none: by the ways the company
+  // knows (KnownWays), with those something bars (what bars the first is the step), never through a room it has not
+  // been to nor been told of. Over every way the world joins, the lead had walked rooms not yet come to, toward where
+  // something lay hidden, and named the bar of a door it had never seen (AR-21).
   static way(campaign: Campaign, from: string, to: string): string[] {
-    const next = this.joins(campaign), came = new Map<string, string>([[from, '']]);
-    for (const queue = [from]; queue.length && !came.has(to);) {
-      const here = queue.shift()!;
-      for (const there of next.get(here) ?? []) {
-        if (!came.has(there)) { came.set(there, here); queue.push(there); }
-      }
-    }
-    const on: string[] = [];
-    for (let at = came.has(to) ? to : ''; at; at = came.get(at)!) { on.unshift(at); }
-    return on;
+    return KnownWays.places(campaign, from, to, { barred: true });
+  }
+  // Toward a place in a site by the ways known: there, where they go there; else as far as they go into that site, to
+  // the nearest room of it the company knows of and has not been in (the well-room beyond the hall, from the porch):
+  // the room the aim waits on is said, never the way to it through rooms not yet seen.
+  private static toward(campaign: Campaign, from: string, to: string): string[] {
+    const known = this.way(campaign, from, to);
+    if (known.length) { return known; }
+    const byId = EntityIndex.of(campaign.module.entities).byId, site = this.site(byId, to);
+    const recall = CompanyRecall.of(campaign);
+    const legs = site ? KnownWays.way(campaign, from, id => this.site(byId, id) === site && !recall.been(id),
+      { barred: true })?.legs : undefined;
+    return legs ? [from, ...legs.map(l => l.to)] : [];
   }
   // Where each place's ways go, read once for each world.
   private static readonly joined = new WeakMap<object, Map<string, string[]>>();
