@@ -24,8 +24,10 @@ describe('the page\'s own controls', () => {
     const over: string[] = [];
     for await (const f of new Glob('web/reader/**/*.tsx').scan('.')) {
       const n = (await Bun.file(f).text()).split('<button').length - 1;
-      if (n > (ceiling[f] ?? 0)) { over.push(`${f}: ${n} buttons, at most ${ceiling[f] ?? 0}`); }
+      // And no ceiling left above what is drawn: one burnt down is lowered with it, so the count only goes down.
+      if (n !== (ceiling[f] ?? 0)) { over.push(`${f}: ${n} buttons, the ceiling ${ceiling[f] ?? 0}`); }
     }
     expect(over).toEqual([]);
+    expect(Object.keys(ceiling).filter(f => !Bun.file(f).size)).toEqual([]);
   });
 });

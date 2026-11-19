@@ -60,8 +60,9 @@ export class TalkFocus {
   // six wares and the fold, the sale a trader had promised ("bring me what the old folk buried") was not found for an
   // hour (round 5).
   static parted(services: Choice[]): { sales: Choice[]; rest: Choice[] } {
-    // By what is done (sell, sell_valuable, sell_ware), not by the words.
-    const sales = services.filter(c => !!c.does && /^sell(_|$)/.test(c.does));
+    // By what is done (sell, sell_valuable, sell_ware), not by the words; a treasure shown to a dealer without the coin
+    // for it (appraise, appraise_beyond) is among them, where its sale will be (UI-13).
+    const sales = services.filter(c => !!c.does && /^(sell|appraise)(_|$)/.test(c.does));
     return { sales, rest: services.filter(c => !sales.includes(c)) };
   }
   // Whether saying it pays the company (see Owed).

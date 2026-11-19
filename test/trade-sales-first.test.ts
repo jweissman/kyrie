@@ -12,4 +12,9 @@ describe('a trader\'s services', () => {
     expect([sales.map(x => x.label), rest.map(x => x.label)])
       .toEqual([['Sell a music box', 'Sell a stolen chalice'], ['A bed for the night']]);
   });
+  // A treasure shown to a dealer who has not the coin for it is with the sales, where it will be sold (UI-13).
+  it('puts a treasure shown for its worth among the sales', () => {
+    const shown = { id: 'show', label: 'Show the silver cup to Beak', does: 'appraise' } as Choice;
+    expect(TalkFocus.parted([{ id: 'bed', label: 'A bed for the night' } as Choice, shown]).sales).toEqual([shown]);
+  });
 });
