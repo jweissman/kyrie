@@ -70,7 +70,9 @@ export class SpellLines {
     const what = same ? `${amounts[0]} ${this.list(types.filter(Boolean) as string[])}`
       : this.list(plain.map((_, i) => `${amounts[i]} ${types[i]}`));
     const more = harms.filter(e => e.targetTrait && e !== first).map(e => `${this.amount(e)} more if ${e.targetTrait}`);
-    return [`${what} to ${to}${this.volley(first)}`, ...more].join(', ');
+    // A touch spell's harm wants its touch to land (see Touch): "1d6 lightning to one foe, if the touch lands".
+    const touch = first.touch ? `, if the ${first.touch === 'ranged' ? 'shot' : 'touch'} lands` : '';
+    return [`${what} to ${to}${this.volley(first)}${touch}`, ...more].join(', ');
   }
   // A volley's blows (Volley), as its count comes to by casting level: "once at the first level, five times by the
   // ninth", read from the count it rolls.

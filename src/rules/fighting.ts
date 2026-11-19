@@ -81,6 +81,22 @@ export class Fighting {
     }
     return (hits / 20) * (1 - evades / 20);
   }
+  // A touch (the SRD's melee and ranged touch attacks, srd-proving-cases.md case 35): the attack roll as a blow's, by
+  // Strength for a touch and Dexterity for a ranged one, against the one touched as though it wore nothing: its armour,
+  // its hide and an armour of force do not count, what it dodges by does (the SRD's touch armour class). A touch
+  // spell's die makes no telling blow (Kyr's criticals are a weapon's weight).
+  static touch(attacker: Combatant, defender: Combatant, roll: () => number, ranged: boolean): AttackRoll {
+    const [hand, bare] = this.touching(attacker, defender, ranged);
+    return { ...this.attack(hand, bare, roll), critical: false };
+  }
+  static touchChance(attacker: Combatant, defender: Combatant, ranged: boolean): number {
+    const [hand, bare] = this.touching(attacker, defender, ranged);
+    return this.chance(hand, bare);
+  }
+  private static touching(attacker: Combatant, defender: Combatant, ranged: boolean): [Combatant, Combatant] {
+    return [{ ...attacker, weapon: { ...attacker.weapon, missile: ranged } },
+      { ...defender, armorAc: 0, modifiers: { ...defender.modifiers, force: 0 } }];
+  }
   // Weapon damage after the die: a critical adds max(1, round(damage × 0.2 × max(1, ⌊level / 5⌋))), then the positive
   // STR (melee) or DEX (missile) modifier, then bonusMeleeDamage for melee weapons (Commands.handleAttack).
   // meleeBonus is the attacker's rolled bonusMeleeDamage, which only a melee weapon adds.

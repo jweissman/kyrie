@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 741,
-    "adapted": 407,
+    "faithful": 740,
+    "adapted": 408,
     "represented": 4,
     "kyr": 608,
     "unsupported": 66,
@@ -928,8 +928,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 222,
-      "adapted": 30,
+      "faithful": 221,
+      "adapted": 31,
       "represented": 0,
       "kyr": 4,
       "unsupported": 30,
@@ -9620,6 +9620,13 @@
    "section": "magic/spells-arcane/spells-arcane-1"
   },
   {
+   "id": "ability:shocking_grasp",
+   "title": "Shocking Grasp",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-1"
+  },
+  {
    "id": "ability:shrieking_missile",
    "title": "Shrieking Missile",
    "status": "faithful",
@@ -9741,13 +9748,6 @@
   {
    "id": "ability:ray_of_frost",
    "title": "Ray of Frost",
-   "status": "faithful",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-2"
-  },
-  {
-   "id": "ability:shocking_grasp",
-   "title": "Shocking Grasp",
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-2"

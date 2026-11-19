@@ -32,9 +32,12 @@ export class SpellResolution {
   private static value(text: string, level: number): string {
     try { return String(Amounts.mean(text, this.caster(level))); } catch { return text; }
   }
-  // How it is aimed: Westernesse's spells roll to hit only by an attack effect; the SRD's by a touch or a ray.
+  // How it is aimed: Westernesse's spells roll to hit by an attack effect (a weapon's blow) or by a touch (Touch,
+  // srd-proving-cases.md case 35); the SRD's by a touch or a ray, melee or ranged.
   static attack(a: Ability, s: Srd): Measure {
-    return { ours: a.effects?.some(e => e.kind === 'attack') ? 'attack' : 'none', theirs: s.attack ?? 'none' };
+    const touch = a.effects?.find(e => e.touch)?.touch;
+    return { ours: touch ? `${touch} touch` : a.effects?.some(e => e.kind === 'attack') ? 'attack' : 'none',
+      theirs: s.attack ?? 'none' };
   }
   // What it falls on, as a shape: itself, one, several, a cone, a burst, a line; Westernesse's by its resolved area
   // (its own or the rules' for it) or its target, the SRD's by its target or area line.

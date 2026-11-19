@@ -352,6 +352,7 @@
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",
   "divine_favor": "test/divine-favor.test.ts",
+  "shocking_grasp": "test/shocking-grasp.test.ts",
   "armor": "test/mage-armor.test.ts",
   "cone_of_cold": "test/cone-of-cold.test.ts",
   "lightning_bolt": "test/lightning-bolt.test.ts",

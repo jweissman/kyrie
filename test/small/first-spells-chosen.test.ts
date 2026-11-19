@@ -27,7 +27,8 @@ const step = (flow: CreationFlow, id: string) => flow.steps().find(x => x.id ===
 describe('a caster\'s first spells, chosen', () => {
   it('asks for the whole hand at once, every spell in view, the way\'s own picks taken until others are', () => {
     const flow = made('mage', 'evoker'), picks = FirstSpells.picks('evoker', FirstSpells.own('mage'));
-    const learn = step(flow, 'learn'), school = ['burning_hands', 'firebolt', 'magic_missile', 'spark', 'thunderclap'];
+    // Shocking Grasp at the SRD's first level since srd-proving-cases.md case 35.
+    const learn = step(flow, 'learn'), school = ['burning_hands', 'firebolt', 'magic_missile', 'shocking_grasp', 'spark'];
     expect([flow.current(), learn.ask, learn.many, learn.all, learn.picked]).toEqual(['learn',
       'Which three spells did you learn first?', 3, true, picks.slice(0, 3)]);
     expect(flow.member.spells).toEqual(picks);

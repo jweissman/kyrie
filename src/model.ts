@@ -82,7 +82,9 @@ export type CombatEvent = (
     stoppedBy?: string }
   // Orsino's attack roll: die at or above need hits (need = THAC0 − armourClass − toHit); evasion may cancel a hit.
   | { type: 'attack'; turn: number; actor: string; target: string; die: number; need: number; toHit: number;
-    armorClass: number; weapon: string; success: boolean; critical: boolean; evaded?: boolean }
+    armorClass: number; weapon: string; success: boolean; critical: boolean; evaded?: boolean;
+    // A touch spell's attack (see Touch), no weapon's: melee or ranged.
+    touch?: 'melee' | 'ranged' }
   | { type: 'initiative'; turn: number; order: { id: string; roll: number }[] }
   | { type: 'flee'; turn: number; actor: string; success: boolean }
   | { type: 'save'; turn: number; actor: string; target: string; rolled: number; difficulty: number; success: boolean;

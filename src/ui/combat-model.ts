@@ -8,6 +8,7 @@ import { ConditionSense } from '../canon/condition-sense';
 import type { Battle } from '../battle';
 import { Fighting } from '../rules/fighting';
 import { HitDicePool } from '../rules/hit-dice-pool';
+import { Touch } from '../rules/touch';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 import type { ArenaAbility } from '../lang/parse';
 import { CombatChoices } from './combat-choices';
@@ -144,7 +145,8 @@ export class CombatModel {
       : []).sort((a, b) => Math.abs(b) - Math.abs(a))[0] ?? 0;
     const against = strongest >= 1 ? 'immune' : strongest > 0 ? 'resists' : strongest < 0 ? 'vulnerable' : '';
     const blow = target && ability.effects.some(e => e.kind === 'attack');
-    const odds = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target)) : undefined;
+    const odds = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target))
+      : target && Touch.chance(ability.effects, actor, target);
     // An area is aimed at a place, and says whom it would catch there, friend or foe.
     const area = target && Positions.area(ability);
     // A pool of Hit Dice (Sleep's) names only those it would hold.

@@ -18,11 +18,12 @@ interface Entry { id: string; name: string; levels: string; school: string; fami
 
 export class SrdManifest {
   static readonly spells = (srd as unknown as { spells: Record<string, SrdSpell> }).spells;
-  // What the engine has today (18 November): areas by burst, cone, line and chain, Hit Dice pools, partial and repeated
-  // saves, damage and healing scaled by casting level, conditions with a duration, field casting and planar travel.
-  // Everything else a record needs is missing, and blocks it.
+  // What the engine has today (19 November): areas by burst, cone, line and chain, Hit Dice pools, partial and repeated
+  // saves, damage and healing scaled by casting level, conditions with a duration, field casting and planar travel,
+  // and the melee and ranged touch (srd-proving-cases.md case 35). Everything else a record needs is missing, and
+  // blocks it.
   static readonly present = new Set(['area.burst', 'area.cone', 'area.line', 'area.chain', 'effect.harm', 'effect.heal',
-    'effect.condition', 'effect.travel', 'duration.converted']);
+    'effect.condition', 'effect.travel', 'duration.converted', 'attack.meleeTouch', 'attack.rangedTouch']);
   // Families by name first (what a spell is for), then by its fields.
   static readonly named: [string, RegExp][] = [
     ['healing', /^heal|cure minor|raise dead|resurrection|reincarnate|heroes' feast|goodberry/i],

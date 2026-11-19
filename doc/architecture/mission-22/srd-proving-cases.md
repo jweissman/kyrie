@@ -1254,6 +1254,58 @@ place there; then 2 or 1 by that review. **A decision for the lead.** The other 
 mind destroyer at the ninth level, the singing hall's golem at the eighth) have no SRD counterpart in the concordance,
 or none placed (the iron golem of ember's smith is CR 13).
 
+### 35. The touch, and Shocking Grasp by the SRD's numbers (19 November): adapted
+
+The migration strategy's first engine tranche names the melee and ranged touch (attack.meleeTouch,
+attack.rangedTouch) beside spell resistance, and "What remains of the migration" below named touch attacks as a new
+effect before the harm. Shocking Grasp is the touch spell a player's first evoker meets: it is on the evoker's creation card. Spec:
+`test/shocking-grasp` (4 cases).
+
+**The mechanic built: the touch** (`Touch`, src/rules/touch.ts; an effect's `touch`, `melee` or `ranged`).
+- Before what the effect does, the caster's d20 against the one touched, as a blow's (Fighting.touch): by Strength
+  for a touch, Dexterity for a ranged one, the caster's level as for any blow.
+- The one touched is struck as though it wore nothing: worn armour, a kind's hide and an armour of force (Mage
+  Armor, case 22) do not count; what it dodges by (`ac`, Shield of Faith's two, Mirror Image's evasion) does. This is the
+  SRD's touch armour class.
+- A miss ends the spell on that one, as a missed blow ends a weapon's; a hit lets the effect fall as written. The
+  slot is spent either way.
+- It is told as the spell's own attack, no weapon named ("uses Shocking Grasp on the goblin, and misses"), and the
+  attack event carries `touch`. The aim's odds are the touch's (CombatModel), the plate not counting.
+- The census reads it (SpellResolution.attack: `melee touch`, `ranged touch`); the manifest has both capabilities,
+  so seven unmapped records become ready (71 → 78).
+
+**The spell** (a hand entry over Orsino's, data/catalog/abilities.json):
+- first level, arcane, evocation (exact; Orsino's second);
+- 1d6 electricity a casting level to 5d6 at the fifth (exact);
+- one foe, a melee touch (exact);
+- its harm Kyr's electric, as Lightning Bolt's (case 9): Orsino's lightning may paralyse (its status trigger), which
+  the SRD's grasp does not.
+
+**Omitted:** spell resistance; the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a
+weapon's weight); holding the charge. Before: Orsino's 2d6 lightning on one foe, no attack roll, at the second level.
+The census grades it S✓ R✓ I✓: 24 of 119 pass in resolution now.
+
+**The census** (the lead's pools, 200 humans for each calling and level, before and after; scratch:
+/var/tmp/kyrie/srd5-scratch):
+- Only gainers and losers move, by the draw by rank (case 11): 711 of 19,200 drawn mages (3.7 %). Evokers move
+  26.5–29.5 % (a first-level evoker now knows it .14, where .26 knew it at the second level), other specialists and
+  drawn schools 5–13.5 %; no bard or cleric.
+- **The evoker's creation card moves:** its first-level picks are Burning Hands, Spark and Magic Missile as before,
+  and its second-level picks lose Shocking Grasp for Prismatic Spray beside Ray of Frost and Sound Lance. A player's
+  first evoker chooses among every first-level spell open to the way (case 13's hand), Shocking Grasp now among them.
+- **The installed casters** of a1 and the six fidelity countries (2,233 classed creatures): one moves, kahitude's s5
+  traveller, who gains it in place of Burning Hands. No a1 creature moves.
+
+**Where it is met.** A mage of the first level who chooses or draws it, castable from the first slot (Orsino's needed
+the third level); a hostile evoker or generalist who prepares it. A lone first-level mage who opens with it lands it
+about one time in two on the first hour's rats and zombies, for 1d6: no better than its dagger, as the SRD's grasp is
+at the first level (100 seeds each, the spell cast whenever it can be: three rats 20 %, two zombies 9 %, a ghoul 12 %,
+where a mage opening with Magic Missile wins 42 %, 13 % and 29 %). It grows a die a level to the fifth.
+
+**What it unlocks next:** Ray of Frost, Acid Arrow and Ghoul Touch (Paralyzing Touch) want only the touch now, each
+with a level of its own to measure (Ray of Frost a cantrip, Acid Arrow the second level, from Orsino's second and
+first); Vampiric Touch (Life Drain) and Ray of Enfeeblement (Weakness) likewise.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
@@ -1326,9 +1378,8 @@ be claimed from the catalogue.
 - **The field's clock** (case 14): a hostile spell cast at a band outside a fight lasts as many watches as it would
   have lasted turns (FieldUse.cast), so Sleep's ten rounds are ten watches, where the SRD's minute is less than one.
   The rule is case 1's and Items.use's; changing it moves the undertown's sleepers and wants its own census.
-- **Touch attacks** (Shocking Grasp, Ray of Frost, Acid Arrow and their like: the census's `attack` field). A spell's
-  attack roll against a touch armour class (no body armour) would be a new effect before the harm, its miss ending
-  the spell as a missed blow does; the fight's telling would need to say a touch, not a weapon.
+- **Touch attacks:** built (case 35, Shocking Grasp by it). Ray of Frost, Acid Arrow, Ghoul Touch and their like
+  each wait for a slice of their own: each moves a level, and so a draw.
 - **The cure family's levels** (case 16): Moderate, Serious and Critical at the SRD's 2, 3 and 4 wait on the preset
   companion cleric's spells (world-assembler), which are chosen by level.
 - **Charm Person**: the SRD's numbers would lower its difficulty and lengthen it to the fight, but Orsino's charmed

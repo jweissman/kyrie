@@ -6537,6 +6537,16 @@ One ally gains second sight for 3 turns. Second Sight: +5 to hit, +10 evasion. A
 
 > For a moment, perceive the true nature of things, gaining enhanced evasion and accuracy.
 
+##### Shocking Grasp
+
+*Adapted · level 1 arcane spell, evocation* · `ability:shocking_grasp`
+
+1d6 per caster level, to 5d6 electric damage to one enemy (only if a touch attack lands, worn armour not counting). An arcane spell of the first level. Takes a first-level slot.
+
+> Your hand crackles with lightning, 1d6 for every level you have, to five, on the one you touch: their armour does not turn your hand aside, only their quickness.
+
+*Adapted: The SRD's Shocking Grasp (doc/architecture/mission-22/srd-proving-cases.md, case 35): first level (Orsino's second), 1d6 electricity a casting level to 5d6 at the fifth (by #castingLevel), on one foe a melee touch attack lands on (Touch: worn armour, hide and an armour of force do not count). Omitted: spell resistance; the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a weapon's weight); holding the charge. Its harm is Kyr's electric, as Lightning Bolt's: Orsino's lightning may paralyse, which the SRD's has not. Before, Orsino's 2d6 lightning on one foe, no attack roll.*
+
 ##### Shrieking Missile
 
 *Faithful · level 1 arcane spell, necromancy* · `ability:shrieking_missile`
@@ -6688,14 +6698,6 @@ On 7 + round((level / 2)) different enemies, drawn at random, each the next of t
 2d6 (2–12) cold damage to one enemy (may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 > Fire a dazzling blue ray of cold energy at a target.
-
-##### Shocking Grasp
-
-*Faithful · level 2 arcane spell, evocation* · `ability:shocking_grasp`
-
-2d6 (2–12) lightning damage to one enemy (may leave whoever it hurts paralyzed: a Strength save against 15 avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
-
-> Deliver a jolt of electricity.
 
 ##### Slow
 

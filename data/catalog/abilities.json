@@ -765,6 +765,29 @@
         "notes": "The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: spell resistance; setting things alight. Before, Orsino's second level and 2d6 on every foe, no save."
       }
     },
+    "shocking_grasp": {
+      "name": "Shocking Grasp",
+      "kind": "spell",
+      "description": "Your hand crackles with lightning, 1d6 for every level you have, to five, on the one you touch: their armour does not turn your hand aside, only their quickness.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "roll(cappedLevel(5), 6)" },
+          "damageType": "electric",
+          "target": "enemy",
+          "touch": "melee"
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 1, "school": "evocation" },
+      "source": {
+        "orsino": "arcaneSpell:shocking_grasp",
+        "srd35": "spell:shocking-grasp",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Shocking Grasp (doc/architecture/mission-22/srd-proving-cases.md, case 35): first level (Orsino's second), 1d6 electricity a casting level to 5d6 at the fifth (by #castingLevel), on one foe a melee touch attack lands on (Touch: worn armour, hide and an armour of force do not count). Omitted: spell resistance; the +3 against a foe in metal armour; a touch's critical (Kyr's criticals are a weapon's weight); holding the charge. Its harm is Kyr's electric, as Lightning Bolt's: Orsino's lightning may paralyse, which the SRD's has not. Before, Orsino's 2d6 lightning on one foe, no attack roll."
+      }
+    },
     "fireball": {
       "name": "Fireball",
       "kind": "spell",

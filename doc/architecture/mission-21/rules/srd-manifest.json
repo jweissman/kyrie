@@ -9,9 +9,7 @@
    "duration.converted",
    "effect.harm"
   ],
-  "missing": [
-   "attack.rangedTouch"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Sor/Wiz 2",
   "mapped": "acid_arrow"
@@ -39,9 +37,7 @@
    "attack.rangedTouch",
    "effect.harm"
   ],
-  "missing": [
-   "attack.rangedTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Sor/Wiz 0"
  },
@@ -68,9 +64,7 @@
    "duration.converted",
    "effect.harm"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Air 4, Clr 4, Drd 4"
  },
@@ -263,7 +257,6 @@
    "target.object"
   ],
   "missing": [
-   "attack.rangedTouch",
    "review.text",
    "target.object"
   ],
@@ -684,9 +677,7 @@
    "duration.converted",
    "effect.condition"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Pal 1"
  },
@@ -701,7 +692,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1067,7 +1057,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1722,7 +1711,6 @@
   ],
   "missing": [
    "area.persistent",
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -1790,7 +1778,6 @@
   ],
   "missing": [
    "area.persistent",
-   "attack.meleeTouch",
    "target.object"
   ],
   "grade": "E1",
@@ -2238,7 +2225,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2334,7 +2320,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -2388,7 +2373,6 @@
    "target.object"
   ],
   "missing": [
-   "attack.meleeTouch",
    "effect.dispel",
    "review.text",
    "target.object"
@@ -2487,7 +2471,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2735,7 +2718,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -2890,7 +2872,6 @@
    "target.object"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell",
    "review.text",
    "target.object"
@@ -3087,9 +3068,7 @@
    "duration.converted",
    "effect.harm"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Drd 6, Fire 6, Sun 6"
  },
@@ -3134,7 +3113,6 @@
    "target.object"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell",
    "target.object"
   ],
@@ -3183,7 +3161,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -3453,7 +3430,6 @@
    "effect.world"
   ],
   "missing": [
-   "attack.meleeTouch",
    "effect.world"
   ],
   "grade": "E0",
@@ -3548,7 +3524,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -3640,7 +3615,6 @@
    "review.text"
   ],
   "missing": [
-   "attack.meleeTouch",
    "review.text"
   ],
   "grade": "E1",
@@ -3687,7 +3661,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -3834,7 +3807,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -4155,9 +4127,7 @@
    "duration.converted",
    "effect.harm"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Pal 4"
  },
@@ -4393,7 +4363,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -5344,7 +5313,6 @@
    "review.text"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell",
    "review.text"
   ],
@@ -5990,7 +5958,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6007,7 +5974,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -6025,7 +5991,6 @@
    "effect.transform"
   ],
   "missing": [
-   "attack.meleeTouch",
    "effect.transform"
   ],
   "grade": "E1",
@@ -6196,7 +6161,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "effect.world",
    "resist.spell"
   ],
@@ -6446,9 +6410,7 @@
    "attack.meleeTouch",
    "effect.heal"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E1",
   "levels": "Clr 5",
   "mapped": "raise_dead"
@@ -6465,7 +6427,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -6484,7 +6445,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -6501,7 +6461,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E1",
@@ -6534,7 +6493,6 @@
    "effect.world"
   ],
   "missing": [
-   "attack.meleeTouch",
    "effect.world"
   ],
   "grade": "E0",
@@ -6906,7 +6864,6 @@
    "target.object"
   ],
   "missing": [
-   "attack.meleeTouch",
    "target.object"
   ],
   "grade": "E0",
@@ -6971,7 +6928,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -7054,7 +7010,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.rangedTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -7158,9 +7113,7 @@
    "duration.converted",
    "effect.condition"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Brd 3, Sor/Wiz 3"
  },
@@ -7402,7 +7355,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -7420,11 +7372,10 @@
    "target.object"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell",
    "target.object"
   ],
-  "grade": "E1",
+  "grade": "E3",
   "levels": "Sor/Wiz 1",
   "mapped": "shocking_grasp"
  },
@@ -7540,7 +7491,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -7606,9 +7556,7 @@
    "attack.meleeTouch",
    "effect.harm"
   ],
-  "missing": [
-   "attack.meleeTouch"
-  ],
+  "missing": [],
   "grade": "E0",
   "levels": "Rgr 2, Drd 3"
  },
@@ -7745,7 +7693,6 @@
    "effect.world"
   ],
   "missing": [
-   "attack.meleeTouch",
    "effect.world"
   ],
   "grade": "E0",
@@ -8518,7 +8465,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -8670,7 +8616,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -8732,7 +8677,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -8750,7 +8694,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E0",
@@ -9032,7 +8975,6 @@
    "resist.spell"
   ],
   "missing": [
-   "attack.meleeTouch",
    "resist.spell"
   ],
   "grade": "E1",

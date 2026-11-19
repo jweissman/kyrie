@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 55 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 34 pass in structure
-(level, school), 23 in resolution (harm, kind, save and its difficulty, aim, target, duration),
-22 proved in play identity.** Creatures with one (72): 4 in structure (Hit
+**Spells with an SRD counterpart (119 of 286 catalog spells): 35 pass in structure
+(level, school), 24 in resolution (harm, kind, save and its difficulty, aim, target, duration),
+23 proved in play identity.** Creatures with one (72): 4 in structure (Hit
 Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
@@ -17,7 +17,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 5 | armour 6 | attacks 20 | hit 9 | defences 2 | specials 0 | saves 3 | of 72 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 48 | school 77 | dice 10 | type 13 | save 35 | dc 19 | attack 104 | target 73 | duration 48 | of 119 |
+| spells, field exact or converted | level 49 | school 77 | dice 11 | type 13 | save 35 | dc 19 | attack 105 | target 73 | duration 48 | of 119 |
 
 ## Creatures, most met first
 
@@ -199,7 +199,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | ✓ | ✓ |
 | shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | shield | shield-of-faith | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 19) | ≈ harmless: none is made (srd-proving-cases.md, case 19) | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
-| shocking_grasp | shocking-grasp | S✗ R✗ I– | ✗ 2 → 1 | ✓ | ✗ 7/7/7/7 → 3.5/17.5/17.5/17.5 | ✓ | – | – | ✗ none → melee touch | ✓ | ✓ |
+| shocking_grasp | shocking-grasp | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ |
 | silence | silence | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 18 → 15 | ✓ | ✗ all → burst | ✗ 3 rounds → long |
 | sleep | sleep | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
 | slow | slow | S✗ R✗ I– | ✗ 2 → 3 | ✓ | – | – | ✗ dexterity negates → wisdom negates | ✗ 19 → 16 | ✓ | ✗ all → one | ✗ 4 rounds → 5 rounds |

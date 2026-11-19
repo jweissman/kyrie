@@ -54,8 +54,11 @@ describe('the SRD fidelity census', () => {
     const cloudkill = SpellFidelity.row('cloudkill', 'cloudkill');
     expect(cloudkill.dc).toEqual({ verdict: 'differs', ours: '15', theirs: '18' });
     expect(cloudkill.target).toEqual({ verdict: 'exact', ours: 'burst', theirs: 'burst' });
+    // Shocking Grasp touches since case 35; Ray of Frost, still Orsino's, rolls nothing.
     expect(SpellFidelity.row('shocking_grasp', 'shocking-grasp').attack)
-      .toEqual({ verdict: 'differs', ours: 'none', theirs: 'melee touch' });
+      .toEqual({ verdict: 'exact', ours: 'melee touch', theirs: 'melee touch' });
+    expect(SpellFidelity.row('ray_of_frost', 'ray-of-frost').attack)
+      .toEqual({ verdict: 'differs', ours: 'none', theirs: 'ranged touch' });
     expect(SpellFidelity.row('magic_missile', 'magic-missile').dc.verdict).toBe('n/a');
     // A burst made a cone is seen.
     const coned = { ...Canon.abilities.cloudkill!, area: 'cone' as const };
@@ -65,11 +68,11 @@ describe('the SRD fidelity census', () => {
     expect(CreatureFidelity.row('rat').hit).toEqual({ verdict: 'differs', ours: '20%', theirs: '50%' });
     const rows = [...SpellFidelity.rows(), ...CreatureFidelity.rows()];
     // Proved only where the concordance names a focused test: the SRD rat's, and the spells moved by cases 7, 9, 12,
-    // 14 to 24 and 31 to 33.
+    // 14 to 24, 31 to 33 and 35.
     expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort()).toEqual(['armor', 'bless', 'burning_hands',
       'calm_emotions', 'chain_lightning', 'command', 'cone_of_cold', 'cure', 'cure_critical', 'cure_moderate', 'cure_serious', 'divine_favor',
-      'entangle', 'fireball', 'hold_person', 'lightning_bolt', 'magic_missile', 'protection_from_evil', 'rat/cellar', 'remove_fear', 'shield', 'sleep',
-      'terror']);
+      'entangle', 'fireball', 'hold_person', 'lightning_bolt', 'magic_missile', 'protection_from_evil', 'rat/cellar', 'remove_fear', 'shield',
+      'shocking_grasp', 'sleep', 'terror']);
     expect(SpellFidelity.row('cloudkill', 'cloudkill').grades).toEqual({ structural: 'fail', resolution: 'fail',
       identity: 'unassessed' });
     expect(SpellFidelity.row('fireball', 'fireball').grades).toEqual({ structural: 'pass', resolution: 'pass',

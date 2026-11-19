@@ -6,6 +6,7 @@ import { Targeting } from './targeting';
 import { Positions } from './rules/positions';
 import { HitDicePool } from './rules/hit-dice-pool';
 import { Chain } from './rules/chain';
+import { Touch } from './rules/touch';
 import { ShakingOff } from './rules/shaking-off';
 import { Volley } from './rules/volley';
 import type { Expressions } from './expressions';
@@ -172,6 +173,8 @@ export class AbilityUse {
       if (actor.hp === 0) { return false; }
     }
     if (effect.kind === 'attack') { return AbilityUse.attack(actor!, target, context, effect.spillover === true) && 'full'; }
+    // A touch spell falls only where its touch lands (see Touch).
+    if (!Touch.lands(effect, actor, target, context)) { return false; }
     if (effect.kind === 'random' || effect.kind === 'cycle') { return CompoundEffects.one(effect, target, options); }
     if (effect.kind === 'cast') { return CompoundEffects.cast(effect, target, options); }
     if (effect.kind === 'apply' && effect.save && options.resisted) { return false; }

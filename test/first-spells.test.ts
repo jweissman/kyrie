@@ -36,8 +36,9 @@ describe('the spells shown at creation', () => {
       expect([s.name, s.line, s.does].every(Boolean)).toBe(true);
       expect(`${s.line} ${s.does}`).not.toMatch(/floor|bonusSpellDC|#|undefined/);
       expect(SpellKinds.emblems).toContain(s.kind as typeof SpellKinds.emblems[number]);
+      // A cycle's dice are read as a random's (Prismatic Spray, on the evoker's card since SRD case 35).
       const effects = Content.abilities.find(a => a.id === s.id)!.effects
-        .flatMap(e => e.kind === 'random' ? e.effects : [e]);
+        .flatMap(e => e.kind === 'random' || e.kind === 'cycle' ? e.effects : [e]);
       const rolled = effects.flatMap(e => 'amount' in e && e.amount
         ? [MechanicsText.amount(e.amount, SpellLines.actor)] : []).join(' ').replace(/\s+/g, '');
       for (const die of `${s.line} ${s.does}`.match(/\d+d\d+/g) ?? []) {
