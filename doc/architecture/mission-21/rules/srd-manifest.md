@@ -5,7 +5,7 @@ SRD migration strategy, Phase A). Families are proposed from structured fields, 
 `world` is what no field placed, to be reviewed. Grades: E3 resolution passes and play identity proved, E2
 resolution passes, E1 mapped and castable, E0 unmapped. Do not edit by hand.
 
-**605 records**, every one visible: E0 486, E1 86, E2 1, E3 32.
+**605 records**, every one visible: E0 486, E1 85, E2 1, E3 33.
 Unmapped and needing nothing the engine lacks (E0, ready for a family adapter): 207.
 
 ## By family
@@ -85,7 +85,7 @@ become ready).
 | baleful-polymorph | Baleful Polymorph | Drd 5, Sor/Wiz 5 | transformation | E0 | effect.transform | — |
 | bane | Bane | Clr 1 | control | E3 | — | mass_curse |
 | banishment | Banishment | Clr 6, Sor/Wiz 7 | control | E0 | — | — |
-| barkskin | Barkskin | Drd 2, Rgr 2, Plant 2 | protection | E1 | — | barkskin |
+| barkskin | Barkskin | Drd 2, Rgr 2, Plant 2 | protection | E3 | — | barkskin |
 | bears-endurance | Bear’s Endurance | Clr 2, Drd 2, Rgr 2, Sor/Wiz 2 | protection | E0 | — | — |
 | bears-endurance-mass | Bear’s Endurance, Mass | Clr 6, Drd 6, Sor/Wiz 6 | protection | E0 | — | — |
 | bestow-curse | Bestow Curse | Clr 3, Sor/Wiz 4 | control | E1 | — | curse |

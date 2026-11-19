@@ -7663,14 +7663,6 @@ Every enemy is baned for 10 turns at the first casting level, 100 turns at the t
 
 *Adapted: The SRD's Bane (doc/architecture/mission-22/srd-proving-cases.md, case 39): first level (Orsino's third), its school enchantment beside Death, every foe, a Will save to negate (the fear save, made with Wisdom, which a ward against fear helps) at case 7's difficulty, baned: −1 to hit and −1 on saves against fear. Converted: every foe, where the SRD's is those within fifty feet (Kyr's field has no distances). A minute, ten rounds, a casting level (exact since case 46: Lasting). Omitted: the SRD's dispelling of Bless. Before, Orsino's Mass Curse, cursed (−1 to every score) for three rounds against 15 + the caster's level. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
-##### Barkskin
-
-*Faithful · level 1 divine spell, nature domain* · `ability:barkskin`
-
-You gain barkskin for 3 turns. Barkskin: 2 harder to hit. A divine spell of the first level. Takes a first-level slot.
-
-> Your skin stiffens into tree-bark.
-
 ##### Bless
 
 *Adapted · level 1 divine spell, enchantment, life domain* · `ability:bless`
@@ -7834,6 +7826,16 @@ Everyone but you where it bursts, friend or foe is entangled for 10 turns at the
 > Deal poison damage to an enemy with a venomous strike.
 
 #### Level 2
+
+##### Barkskin
+
+*Adapted · level 2 divine spell, transmutation, nature domain* · `ability:barkskin`
+
+One ally gains barkskin for 100 turns at the first casting level, 1000 turns at the tenth. Barkskin: 2 harder to hit. A divine spell of the second level. Takes a second-level slot.
+
+> The skin of the one you touch, yourself or a companion, thickens and toughens like bark: two harder to hit, for ten minutes for every level you have.
+
+*Adapted: The SRD's Barkskin (doc/architecture/mission-22/srd-proving-cases.md, case 50): second level (the SRD's druid's; Orsino's first), its school transmutation beside Nature, on the caster or one ally (the creature touched), Orsino's barkskin (two harder to hit, added to worn armour: the SRD's natural armour +2) for ten minutes a casting level, a hundred rounds (Lasting). Converted: +2 at every casting level, where the SRD's grows a point each three levels past the third to +5 (a condition's amount does not read its caster); it lasts the fight. Before, Orsino's first level, on the caster alone, three rounds.*
 
 ##### Calm Emotions
 

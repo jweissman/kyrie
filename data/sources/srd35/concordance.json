@@ -389,7 +389,8 @@
   "protection_from_evil": "test/protection-from-evil.test.ts",
   "command": "test/command-fall.test.ts",
   "hold_animal": "test/hold-animal.test.ts",
-  "blur": "test/blur.test.ts"
+  "blur": "test/blur.test.ts",
+  "barkskin": "test/barkskin.test.ts"
  },
  "conversions": {
   "magic_missile": {

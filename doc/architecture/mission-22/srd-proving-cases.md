@@ -1761,6 +1761,32 @@ pass in resolution, 42 in structure.
   at once is Mage Armor. test/ombra-mage trains Mage Armor and then Blur (learned, not prepared). wren-tower-climbed
   re-digested (wren's iv mage loses Blur): the same place, watch and words.
 
+### 50. Barkskin by the SRD's numbers (19 November): adapted
+
+Case 41's Barkskin, held for the lead (it moves two creation cards), taken by the owner's ruling. Spec:
+`test/barkskin` (2).
+
+**The spell** (a hand entry over Orsino's; Orsino's condition `barkskin` kept, which a consumable lays too):
+- second level (the SRD's druid's; Orsino's first), divine, Nature, and the SRD's school, transmutation (exact);
+- on the caster or one ally (exact: the creature touched);
+- two harder to hit, added to worn armour (the SRD's natural armour +2, which stacks with armour worn);
+- ten minutes a casting level, a hundred rounds (exact: Lasting); it lasts the fight (the condition's lifetime).
+
+**Converted:** +2 at every casting level, where the SRD's grows a point each three levels past the third to +5 at the
+twelfth (a condition's amount does not read its caster; +2 is the census's caster's). Before: Orsino's first level, on
+the caster alone, three rounds. The census grades it S✓ R✓ I✓: 34 of 119 pass in resolution, 43 in structure.
+
+**The census** (scratch /var/tmp/kyrie/srd6-scratch):
+- 1,647 of 19,200 drawn clerics move (8.6 %): wildcallers 49.5–51 % (.40–.45 → .33–.36), drawn domains 13.5–19 %,
+  oceanists at the first level 10.5 %; no mage or bard.
+- **Two creation cards move:** the wildcaller's first-level picks are Hornet Swarm, Entangle and Rejuvenate
+  (Barkskin gives way) and Barkskin is a second-level pick in place of Healing Touch; the oceanist's are Aqua Bolt,
+  Rejuvenate and Shadow Cloak (Barkskin gives way).
+- **The installed casters:** four of 2,233 lose it and none gain it: a1's fellowship head, kite's s2 traveller,
+  kahitude's keep chaplain and mere's s2 preacher.
+- **A lone first-level wildcaller or oceanist** as drawn (100 seeds, before → after): against three rats 92 → 95 %
+  and 87 → 87 %; two zombies 76 → 80 % and 65 → 65 %; two wolves 50 → 56 % and 38 → 38 %. No deadlier.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
