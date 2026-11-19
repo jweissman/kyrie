@@ -44,8 +44,9 @@
 .tone-blue { --tone: var(--azure); --tone-glow: rgba(121, 174, 247, .12); }
 .tone-red { --tone: var(--ember); --tone-glow: var(--ember-glow); }
 .tone-violet { --tone: var(--violet); --tone-glow: rgba(180, 156, 255, .12); }
-/* Colour in one place: the indicator at the left (.prism-bar), and a modest tint of the title; the rest neutral. */
-.act.led-act[class*="tone-"] .n { color: color-mix(in oklab, var(--tone) 28%, var(--ivory)); }
+/* Colour in one place: the indicator at the left (.prism-bar); the words ordinary and neutral, never tinted by the
+   aspect (the owner's playtest, 19 November, AT-03: "Atlas colors should belong to semantic indicators, not generally
+   tint menu text"). */
 /* What a mark says in words is not said again as a tag ("a risk" under a fight and how it would go). */
 .act.led-act:has(> .led-mark)::after { content: none; }
 
