@@ -256,7 +256,10 @@ export class Runner {
     return this.said();
   }
   // An aim followed, or none: no world act, no time.
+  // Not while a fight is on, as the page has no aims to follow in one: the session is busy with the fight, and a follow
+  // there had thrown and ended the runner (the beat map replaying cold play 5, 19 November: CL-62).
   private async follow(by: string | number | null): Promise<Said | { error: string }> {
+    if (this.fight.fighting) { return { error: 'not offered in the fight: an aim is followed once it is over' }; }
     const aims = this.standing.screen.aims ?? [];
     const id = typeof by === 'number' ? aims[by - 1]?.id ?? String(by) : by;
     if (id !== null && !aims.some(a => a.id === id)) { return { error: `no aim: ${id}` }; }

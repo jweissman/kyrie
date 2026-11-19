@@ -69,6 +69,9 @@ describe('the runner', () => {
     expect(turn.offer.primary.map(o => o.label)).toEqual(expect.arrayContaining(['Flee', 'Let Ama fight this turn']));
     // Not pressed on to its end before it is as good as won (cold play 7, CL-59), as the page offers it.
     expect(turn.offer.primary.map(o => o.label)).not.toContain('Press on to the end');
+    // An aim followed in a fight is said not to be offered, not thrown (CL-62: it had ended the runner).
+    const followed = await r.ask(JSON.stringify({ follow: 1 }));
+    expect(followed).toEqual({ error: expect.stringMatching(/^not offered in the fight/) });
     for (let n = 0; n < 30 && turn.moment === 'fight'; n++) {
       turn = said(await r.ask(JSON.stringify({ act: turn.offer.primary[0]!.id })));
     }
