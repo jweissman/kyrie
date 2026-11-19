@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
-import type { MonoDriver } from './support/mono-driver';
+import { MonoDriver } from './support/mono-driver';
 import { SafeZone } from './support/safe-zone';
 import { LensPages } from './support/lens-pages';
 
@@ -36,7 +36,8 @@ class Pages {
     await page.click('.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
-    await page.click(row); await this.d.settle();
+    // A journey is held to set out on (OR-111); the driver holds what is held.
+    await this.d.click(row);
   }
 
 }
@@ -105,7 +106,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await page.mouse.click(you.x - 20, you.y + you.height + 72);
       await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
       await p.check('map-chosen');
-      await page.click('.plan [data-action="set-out"]');
+      await MonoDriver.press(page, '.plan [data-action="set-out"]');
       await driver.settle();
       await p.check('hex');
       // Into Millholm's own country (a1: hex 89), as a journey across country comes to it or is stopped in it: the

@@ -13,6 +13,7 @@ import { Guidance } from './guidance';
 import { Attest, type Witness } from '../../src/presentation/attest';
 import { SceneRail } from './stage/scene-rail';
 import { Glyphs } from './creation/glyphs';
+import { Hold } from './instrument/hold';
 
 // The map's menu (the owner, 15 November: crossing roads belong to the map, not to the scene's four; the map is a focus
 // whose menu is drawn as the scene's is): at most four rows, in the one grammar. The chosen place's travel, answering where
@@ -103,13 +104,13 @@ export class MapMenu {
       <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
         {/* The way on in the aim's gold where the journey is the followed aim's (PB-14: it had stayed grey). */}
         {onward && <li><ChoiceRow.Button className="led-act go-on" data={{ action: 'go-on' }} act={onward.c.id}
-          onClick={() => app.choose(onward.c)} {...MapMenu.gold(app, screen, onward.c.id)}
+          {...Hold.row(app, onward.c)} {...MapMenu.gold(app, screen, onward.c.id)}
           label={Typography.curl(`Go on to ${onward.name}`)} /></li>}
         {enter && <li><ChoiceRow.Button className="led-act rc-enter" data={{ action: 'enter', choice: enter.c.id }} act={enter.c.id}
           onClick={() => app.choose(enter.c)} plain="neutral"
           label={Typography.curl(`Enter ${enter.name}`)} /></li>}
         {go && <li><ChoiceRow.Button className={`led-act rc-go${aimed ? ' aimed' : ''}`}
-          data={{ action: 'set-out', choice: go.id }} act={go.id} onClick={() => app.choose(go)}
+          data={{ action: 'set-out', choice: go.id }} act={go.id} {...Hold.row(app, go)}
           {...go ? MapMenu.gold(app, screen, go.id) : { plain: 'neutral' as const }}
           label={Typography.curl(`Travel to ${Words.upper(named ?? go.label)}`)}
           aside={way?.d ? `${aimed ? 'your aim · ' : ''}${Words.span(way.d.minutes)}` : 'across the country'} /></li>}

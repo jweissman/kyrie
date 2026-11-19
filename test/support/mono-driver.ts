@@ -34,6 +34,11 @@ export class MonoDriver {
     await page.locator(selector).first().focus();
     await page.keyboard.down('Enter'); await page.waitForTimeout(700); await page.keyboard.up('Enter');
   }
+  // A control pressed as a player would: held where it is held (a journey set out on, OR-111), else clicked.
+  static async press(page: Page, selector: string) {
+    if (await page.locator(selector).first().getAttribute('data-hold') !== null) { await MonoDriver.hold(page, selector); }
+    else { await page.click(selector); }
+  }
   async key(key: string) { this.presses++; await this.page.keyboard.press(key); await this.settle(); }
   async settle() {
     await this.page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })

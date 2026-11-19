@@ -1,5 +1,5 @@
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
-import type { Choice } from '../../../src/ui/choice-list';
+import { ChoiceList, type Choice } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Reticle } from './reticle';
 import { Tone } from './tone';
@@ -26,7 +26,8 @@ export class Hold {
   // The one row that says "Hold" (the owner, 18 November, OR-87: "it should only be active on one thing at a time"):
   // the last let go early, until the hand, the keys or the focus go to another, or it fades.
   private static hinted?: { button: HTMLElement; timer: number };
-  static holds(c: Choice): boolean { return c.hold === 'sustained' && !c.disabled; }
+  // A journey drawn by the page (the map's, the places lens's) is held by the engine's rule for its command.
+  static holds(c: Choice): boolean { return (c.hold === 'sustained' || ChoiceList.journey(c.command)) && !c.disabled; }
   static time(): number {
     const set = parseInt(document.documentElement.style.getPropertyValue('--hold-ms'), 10);
     return Number.isFinite(set) ? set : Hold.ms;
@@ -36,6 +37,11 @@ export class Hold {
     // Asked of the app when the hold is done, not when the row is drawn: a page drawn apart from a running app (a
     // sheet rendered for its words) has none to bind.
     return Hold.bind(() => app.choose(c), () => Hold.pending(app));
+  }
+  // A row of the page's own drawing (ChoiceRow.Button: the map's Travel to, Go on to) that takes an engine's choice:
+  // held where the choice is, else taken at a touch.
+  static row(app: ReaderApp, c: Choice): { own?: ReturnType<typeof Hold.props>; onClick?: () => void } {
+    return Hold.holds(c) ? { own: Hold.props(app, c) } : { onClick: app.choose.bind(app, c) };
   }
   private static never(): boolean { return false; }
   private static pending(app: ReaderApp): boolean { return !!app.state?.pending; }

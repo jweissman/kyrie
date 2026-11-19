@@ -312,14 +312,14 @@ export class ChoiceList {
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
       ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}),
-      ...ChoiceList.sustained(a.does) ? { hold: 'sustained' as const } : {}, ...SpellSchools.field(a.targets) };
+      ...ChoiceList.sustained(a.does, a.command) ? { hold: 'sustained' as const } : {}, ...SpellSchools.field(a.targets) };
   }
-  // An act of hours and commitment, by its action (resting, camping). A presentation of the act (it is held, not
-  // touched), never game time.
+  // An act of hours and commitment, by its action (resting, camping), or a journey set out on, by its command (the
+  // owner's play of 18 November, OR-111: "You should definitely have to long-press commit to travel somewhere"). A
+  // presentation of the act (it is held, not touched), never game time.
   static readonly sustaining: ReadonlySet<string> = new Set(['rest', 'rest_unfed', 'camp']);
-  static sustained(does?: string): boolean {
-    return !!does && ChoiceList.sustaining.has(does);
-  }
+  static sustained(does?: string, command?: string): boolean { return ChoiceList.sustaining.has(does ?? '') || ChoiceList.journey(command); }
+  static journey(command?: string): boolean { return !!command?.startsWith('travel:'); }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {
     const owners = [...new Set(screen.items.map(i => i.owner))];

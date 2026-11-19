@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
-import type { MonoDriver } from './support/mono-driver';
+import { MonoDriver } from './support/mono-driver';
 import { LensPages } from './support/lens-pages';
 
 // The spatial journey (doc/history/missions/19/spatial-play.md; the owner, 4 November evening): a world moved
@@ -27,7 +27,8 @@ class Walk {
     await page.click('.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
-    await page.click(row); await this.d.settle();
+    // A journey is held to set out on (OR-111); the driver holds what is held.
+    await this.d.click(row);
   }
 
   async page_(): Promise<string> {
@@ -90,7 +91,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     const you = (await page.locator('.board-you').boundingBox())!;
     await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
     await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
-    await page.click('.plan [data-action="set-out"]');
+    await MonoDriver.press(page, '.plan [data-action="set-out"]');
     await driver.settle();
     expect((await driver.inspect()).place?.id).not.toMatch(/^region__s2_/);
     expect(await w.page_()).toContain('scale-board');
@@ -104,7 +105,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     // Back to the town from its card on the map: chosen, travelled to, come to, and entered by its large button.
     await page.waitForSelector('[data-action="map-place"][data-id="region__s2"]', { timeout: 120000 });
     await page.click('[data-action="map-place"][data-id="region__s2"]');
-    await page.click('.enter-card .map-menu [data-action="set-out"]');
+    await MonoDriver.press(page, '.enter-card .map-menu [data-action="set-out"]');
     await driver.settle();
     await page.waitForSelector('.enter-card[data-state="arrived"]', { timeout: 30000 });
     await page.click('[data-action="put-away-map"]');

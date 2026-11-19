@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 
 // The map's board (Mission 18, the owner's addendum), where the browser can draw in three dimensions: the country as
 // hex tiles over the whole map, where you are on it, each town and place known a button reached by the keys, and a
@@ -44,7 +45,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
     expect(await page.textContent('.enter-card')).toContain('Brockfield');
     // Seen is not there: travelled to, come to its gate on the map, then entered (the owner, 5 November).
     expect(await page.locator('.enter-card .map-menu [data-action="enter"]').count()).toBe(0);
-    await page.click('.enter-card .map-menu [data-action="set-out"]');
+    await MonoDriver.press(page, '.enter-card .map-menu [data-action="set-out"]');
     await driver.settle();
     // Come to it, or stopped on the way where the map marks it (kite's bridge over the Redwater): either way the map
     // stays up over where the company is, and it is entered from there.

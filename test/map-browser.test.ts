@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { MonoDriver } from './support/mono-driver';
 
 // The map is a thing to plan with (the play-structure investigation's PT-27: it could not be clicked), and the one
 // map (the owner, 4 November, late): play begins on it, and a place on it is chosen by pointing or by the keys, says
@@ -40,7 +41,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     // How long by the ways the company knows, and when it would come there, set out as facts (see RouteCard).
     expect(card).toMatch(/TimeAbout \d+½? hours?Arrive\d/);
     // Seen is not there: travelled to and come to on the map, still outside it, then entered (the owner, 5 November).
-    await page.click('.enter-card .map-menu [data-action="set-out"]');
+    await MonoDriver.press(page, '.enter-card .map-menu [data-action="set-out"]');
     await driver.settle();
     // Come to it, or stopped on the way where the map marks it (kite's bridge over the Redwater): either way the map
     // stays up over where the company is, and it is entered from there.
@@ -75,7 +76,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     const plan = await page.textContent('.plan');
     expect(plan).toContain('march-stone of');
     expect(plan).toMatch(/By the old road north/);
-    await page.click('.plan [data-action="set-out"]');
+    await MonoDriver.press(page, '.plan [data-action="set-out"]');
     await driver.settle();
     // Gone on with, as the page offers it on the map's card ("Go on to the march-stone of …"), past whatever stops it
     // on the road (something going on there stops a journey, as a toll or nightfall would).

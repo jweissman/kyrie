@@ -58,7 +58,8 @@ class Walk {
     await page.click('.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
-    await page.click(row); await this.d.settle();
+    // A journey is held to set out on (OR-111); the driver holds what is held.
+    await this.d.click(row);
   }
 
   // Into the rats' fight: the salter's job, the corn-store, its cellar lit, the rat-runs.

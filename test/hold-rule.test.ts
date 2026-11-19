@@ -14,6 +14,13 @@ describe('an act held', () => {
       expect([does, ChoiceList.choice(act(does), 'x', 'company').hold]).toEqual([does, 'sustained']);
     }
   });
+  // A journey, by its command (the owner's play of 18 November, OR-111: "You should definitely have to long-press
+  // commit to travel somewhere"); a walk within the place is a touch.
+  it('is a journey set out on, by its command', () => {
+    const go = (command: string): Act => ({ key: command, label: 'Go', command, does: 'travel' });
+    expect(ChoiceList.choice(go('travel:region__s5'), 'x', 'company').hold).toBe('sustained');
+    expect(ChoiceList.choice(go('go(lane,region__s2_green)'), 'x', 'company').hold).toBeUndefined();
+  });
   it('is not a search, a wait, a look or a talk, however long it takes or whatever it is called', () => {
     for (const does of ['search', 'wait', 'wait_watch', 'wait_for_light', 'wait_hour']) {
       expect([does, ChoiceList.choice(act(does), 'x', 'company').hold]).toEqual([does, undefined]);
