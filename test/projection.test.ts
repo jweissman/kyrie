@@ -24,9 +24,10 @@ describe('the projection of creatures into the world', () => {
         await s.leg(c.choice.id);
       }
     } finally { project.mockRestore(); }
-    // Everyone's at first, the campaign's projection being new; after that, only those whose part changed.
+    // Everyone's at first where the campaign's projection is new, or, carried over from the session's fork (OR-91's
+    // per-act cost, 19 November: Projection.forked), already only those whose part changed; after that, only those.
     const [first, ...after] = projected;
-    expect(first).toBe(everyone);
+    expect(first === everyone || first! < everyone / 4).toBe(true);
     expect(after.length).toBeGreaterThan(0);
     expect(Math.max(...after)).toBeLessThan(everyone / 4);
     const save = s.campaign.save(), world = s.campaign.world;
