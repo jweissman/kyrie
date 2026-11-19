@@ -46,7 +46,10 @@ export class CreatureVariants {
     const v = this.variations[id];
     return v?.axis === 'undeath' ? v : undefined;
   }
-  static get templates(): string[] { return Object.keys(this.variations).filter(id => this.template(id)); }
+  // Those drawn for the dead of a den: never one met only where it is named (skeletal_held, a first den's).
+  static get templates(): string[] {
+    return Object.keys(this.variations).filter(id => this.template(id) && !this.variations[id]!.unplaced);
+  }
   // An aspect drawn from a roll of 1 to 100: by rarity, then one of that rarity.
   static draw(roll: number, pick: (n: number) => number): string {
     let left = roll;
@@ -105,6 +108,10 @@ export class CreatureVariants {
     const own = new Set(raceId.split('/').slice(1));
     const stated = ids.filter(id => !own.has(id) && CreatureVariants.stated(id));
     return stated.length && Canon.isBody(raceId) ? [raceId, ...stated].join('/') : raceId;
+  }
+  // What a creature is made with: its variations, and the template that makes it one of the dead.
+  static borne(context: { variations?: string[]; template?: string }): string[] {
+    return [...context.variations ?? [], ...context.template ? [context.template] : []];
   }
   static stated(id: string): boolean {
     const v = this.variations[id];

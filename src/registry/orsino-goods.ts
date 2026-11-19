@@ -106,7 +106,7 @@ export class OrsinoGoods {
       // Thrown at a foe, in a fight (PT-07); not one that harms only a kind of creature, which Kyr's text cannot say.
       case 'damage': return effect.target !== 'enemy' || effect.targetTrait || effect.onResist ? undefined
         : `Deal (${effect.amount.kind === 'literal' ? effect.amount.value : effect.amount.expression}) ${effect.damageType} damage to enemy.`;
-      case 'apply': return effect.save ? undefined : `Apply ${effect.status} to ally for ${effect.duration} turns.`;
+      case 'apply': return effect.save || typeof effect.duration !== 'number' ? undefined : `Apply ${effect.status} to ally for ${effect.duration} turns.`;
       case 'remove': {
         const status = effect.status || this.helpers.status(effect.pattern, from);
         return status ? `Remove ${status} from ally.` : undefined;

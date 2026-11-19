@@ -1076,7 +1076,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 121,
+    "kyr": 122,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1141,7 +1141,7 @@
       "faithful": 26,
       "adapted": 0,
       "represented": 0,
-      "kyr": 9,
+      "kyr": 10,
       "unsupported": 4,
       "unreachable": 0,
       "data-only": 0
@@ -21053,6 +21053,13 @@
   {
    "id": "trait:rises_again",
    "title": "Rises Again",
+   "status": "kyr",
+   "book": "mm",
+   "section": "creature-traits"
+  },
+  {
+   "id": "trait:bloodless",
+   "title": "Bloodless",
    "status": "kyr",
    "book": "mm",
    "section": "creature-traits"

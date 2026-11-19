@@ -3368,7 +3368,8 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | cave | haunt | cave | of the deep dark: pale, long in the leg, at home where nothing sees | Dexterity +1 | #habitat == 'cave' \|\| #habitat == 'barrow' \|\| #habitat == 'ruin' |
 | starving | disposition | starving | ribs showing; it will not wait to be sure of you | Strength -1, Constitution -2, Dexterity +1, Berserker Rage | #habitat == 'snow' \|\| #habitat == 'fells' \|\| #habitat == 'heights' |
 | blighted | corruption | blighted | something has got into it: patchy, weeping, and wrong in the way it moves | Constitution +1, Charisma -3, Poison lineage | #habitat == 'barrow' \|\| #habitat == 'ruin' |
-| skeletal | undeath | skeletal | bare bone held together by what raised it, nothing in its eye-pits but a faint light | Strength -2, Constitution -3, Undead Nature, Bone Resilience | only by an author |
+| skeletal | undeath | skeletal | bare bone held together by what raised it, nothing in its eye-pits but a faint light | Strength -2, Constitution -3, Undead Nature, Bloodless | only by an author |
+| skeletal_held | undeath | skeletal | bare bone held together by what raised it, nothing in its eye-pits but a faint light | Strength -2, Constitution -3, Undead Nature, Bone Resilience | only by an author |
 | spectral | undeath | spectral | a cold grey shape of what it was, which blows go through | Undead Nature, Ethereal Form | only by an author |
 | vampiric | undeath | vampiric | pale and red-mouthed, quicker than it was alive, and hungry for blood | Strength +1, Dexterity +1, Charisma +2, Wisdom +1, Constitution -1, Undead Nature, Regeneration, Vampiric Touch, Charm Person, Dominate Person | only by an author |
 | zombie | undeath | rotting | dead flesh walking, slow and stinking, falling apart as it comes | Dexterity -2, Intelligence -4, Wisdom -2, Undead Nature, Infect | only by an author |
@@ -3810,6 +3811,14 @@ Takes 100% more cold.
 *Kyr · nature trait* · `trait:rises_again`
 
 > Brought down, it may get up again: it saves against death as the company does, and rises (CO-05: a foe brought to nothing is otherwise dead).
+
+### Bloodless
+
+*Kyr · nature trait* · `trait:bloodless`
+
+Immune to bleed.
+
+> Bare bone, with nothing in it to bleed.
 
 ### Of deep water
 

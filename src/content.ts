@@ -165,9 +165,9 @@ export class Content {
     // Every creature is made from its catalog record (the owner, 5 November: one pipeline; Deem's creature grammar,
     // which had made five bodies its own way, is retired): what makes it other than its kind is its variations.
     const stream = this.stream.bind(this, randomIdentity);
-    // A kind given a variation that is a stat block (golem and flesh) is the kind composed with it, as golem/flesh is.
+    // A kind given a variation (or a template: the skeletal) that is a stat block is the kind composed with it.
     const raceId = CreatureVariants.body(context.raceId ?? stream('population').generate('population',
-      context.population ? { population: context.population } : {}).raceId as string, context.variations);
+      context.population ? { population: context.population } : {}).raceId as string, CreatureVariants.borne(context));
     const species = Canon.isBody(raceId);
     if (species && context.classId !== undefined) { throw new Error(`${id}: ${Creation.a(raceId)} is a species and takes no class`); }
     const ancestry = Canon.ancestries[raceId];
