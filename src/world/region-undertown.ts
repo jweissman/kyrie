@@ -35,6 +35,8 @@ export class RegionUndertown {
       // A lone company's pack is two: three rats killed a lone first-level mage two times in three, the first job's
       // very fight (the owner, 15 November: "I died"; 33 % won against three, 65 % against two).
       pack: company > 1 ? '5' : '2', pair: company > 1 ? '3' : '2', runts: company > 1 ? '' : ' Variant runt.',
+      // And what the merchant says of them: "a whole nest" had been two rats of one hit point (cold play 5, CL-37).
+      nestof: company > 1 ? 'a whole nest of them' : 'a couple of them at the least',
       // Nor one spider called the spiders (review A's "the spiders in the old workings lies dead").
       spiders: company > 1 ? 'the spiders' : 'the spider', webbed: company > 1
         ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',

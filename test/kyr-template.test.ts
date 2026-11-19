@@ -22,6 +22,17 @@ describe('a Kyr template', () => {
     expect(RegionUndertown.template.sections.filter(s => s.said.length).map(s => s.option)).toEqual(['apprentice', 'runaway', 'rats',
       'dead', 'spiders']);
   });
+  // What the merchant says of the rats is what is under the corn-store: "a whole nest of them" had been two rats of one
+  // hit point for a lone company (cold play 5, CL-37).
+  it('has the merchant say as many rats as the corn-store holds', () => {
+    const rats = RegionUndertown.template.sections.find(s => s.option === 'rats')!;
+    const said = (company: number) => KyrTemplates.fill(rats.lines, RegionUndertown.values('s1', 'Lowmouth', company,
+      { merchant: 's1_shop', priest: 's1_shrine', innkeeper: 's1_taproom' })).join('\n');
+    expect(said(1)).toContain('Numbers 2.');
+    expect(said(1)).toContain('Rats, a couple of them at the least, and bold with it.');
+    expect(said(3)).toContain('Numbers 5.');
+    expect(said(3)).toContain('Rats, a whole nest of them, and bold with it.');
+  });
   // A group's option fixed, as a kit's author fixes a dimension (Iscoed's first town keeps the corn-store's rats):
   // written in place of the one drawn, and the groups after it drawn as they would have been.
   it('writes the option fixed for its group, and draws the groups after it as before', () => {
