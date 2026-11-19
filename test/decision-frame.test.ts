@@ -33,8 +33,9 @@ describe('the frame after an act, in kite', () => {
       result: 'You arrive at the bridge-foot at Brightbridge.' });
     expect(v.after!.changed[0]).toBe('Now at the bridge-foot at Brightbridge');
     expect(v.after!.changed).toContainEqual(expect.stringMatching(/^Aim: Hobs took a bell/));
-    expect(v.after!.next).toEqual({ command: 'talk_to(drover__son)', label: 'Talk to your brother',
-      choice: 'drover__son#talk', why: 'kin' });
+    // The aim's gold way first (the owner, 18 November: a golden option first), before the brother.
+    expect(v.after!.next).toEqual({ command: 'travel:region__s5_s2_way',
+      label: 'To the bridge over the Redwater by Brightbridge', choice: 'exit:region__s5_s2_way', why: 'named' });
   });
   // A company of one is led to whoever would join it (M19-59: a lone cleric had turned back from every fight of the
   // first town's jobs, never told the traveller at the inn would come): the answer opened it, and the glance leads it.
