@@ -89,12 +89,12 @@ export class TalkStage {
                     Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
                 {focus.answers.length > 0 && <><p className="answering">Your answer</p>
                   <ol className="replies answers" aria-label="Your answer">{focus.answers.map((c, i) => <TalkStage.Reply
-                    key={c.id} choice={c} draw={draw} number={i + 1} aspects={drawn(c)} gilded={gilded} />)}</ol></>}
+                    key={c.id} choice={c} draw={draw} number={i + 1} leaves={TalkStage.leaves(c, drawn)} gilded={gilded} />)}</ol></>}
                 {/* Trade in the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home
                     with what would fetch coin: Mission 20). */}
                 <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} spent={spent} opened={focus.opened}
                   gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={<TalkStage.ToTrade app={app}
-                    witnesses={focus.services.flatMap(drawn)} gilded={gilded} />} />
+                    leaves={focus.services.flatMap(x => TalkStage.leaves(x, drawn))} gilded={gilded} />} />
               </>}
             </div>
             {/* The way out, always in view at the foot (round 5: under the fade at a long counter, half there): Back
@@ -130,15 +130,15 @@ export class TalkStage {
   }
   // Trade, drawn as what the glance found among what is had of them for coin (a bed for the night, what the aim waits
   // on to be sold: Mission 20).
-  static ToTrade({ app, witnesses, gilded }: { app: ReaderApp; witnesses: Witness[]; gilded: boolean }) {
-    const indicator = Attest.of(witnesses, gilded);
+  static ToTrade({ app, leaves, gilded }: { app: ReaderApp; leaves: Leaf[]; gilded: boolean }) {
+    const indicator = Fold.mark(leaves, gilded);
     // A row like the questions, the width of them all (the owner, 16 November: an action is a full-width row), among them.
     return <ChoiceRow.Button className={indicator?.tone === 'gold' ? 'aimed' : ''}
-      data={{ action: 'trade', aspects: TalkStage.aspects(witnesses) || undefined }} onClick={() => app.trade(true)} label="Trade"
+      data={{ action: 'trade', aspects: TalkStage.aspects(leaves) || undefined }} onClick={() => app.trade(true)} label="Trade"
       {...indicator?.tone ? { indicator } : {}} />;
   }
-  static aspects(ws: readonly Witness[] | undefined): string {
-    return [...new Set((ws ?? []).flatMap(w => w.aspects))].join(' ');
+  static aspects(leaves: readonly Leaf[] | undefined): string {
+    return [...new Set((leaves ?? []).flatMap(l => l.witnesses.flatMap(w => w.aspects)))].join(' ');
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
@@ -308,15 +308,15 @@ export class TalkStage {
       <ol className="replies" aria-label={`What you might say to ${name}`}>
         {paged.shown.map((c, i) => c === 'trade' ? <li key="trade" className="to-trade">{trade}</li>
           : <TalkStage.Reply key={c.id} choice={c} draw={draw} number={first + i} asked={spent(c)} fresh={opened.has(c.id)}
-            aspects={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
+            leaves={TalkStage.leaves(c, drawn)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
     </>;
   }
-  static Reply({ choice: c, draw, number, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
-    number?: number; asked?: boolean; fresh?: boolean; aspects?: Witness[]; gilded?: boolean; pays?: boolean }) {
-    const indicator = Attest.of(aspects ?? [], gilded), bar = indicator?.tone, aimed = bar === 'gold';
+  static Reply({ choice: c, draw, number, asked, fresh, leaves, gilded = true, pays }: { choice: Choice; draw: Draw;
+    number?: number; asked?: boolean; fresh?: boolean; leaves?: Leaf[]; gilded?: boolean; pays?: boolean }) {
+    const indicator = Fold.mark(leaves ?? [], gilded), bar = indicator?.tone, aimed = bar === 'gold';
     return (
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
-        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={TalkStage.aspects(aspects) || undefined}
+        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={TalkStage.aspects(leaves) || undefined}
         data-condition={Pip.condition({ spent: asked, fresh })}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
         <ChoiceRow.Act choice={c} draw={draw} number={number}

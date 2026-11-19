@@ -9,6 +9,8 @@ import type { Projected } from '../../src/presentation/attest';
 // act and no gold on the map, and a town with gold in it found only by touching it): the aim followed's places gold,
 // and their town; another aim's worth going to; someone perceived along a way; what the places lens leads with. The
 // map's menu offers them first, gold first, before the nearest roads.
+// Each place's mark is a fold of the first steps toward it (Fold.step, AT-07 §4 I7): the journey the followed aim's
+// route goes by (Glance.following), another aim's way (Glance.aimed), never an aim's naming a place alone.
 const screen = {
   exits: [{ id: 'x_mill', destination: { id: 'mill' } }],
   region: { within: { inn: 'stow' }, areas: [] },
@@ -20,18 +22,25 @@ const screen = {
 } as unknown as Screen;
 const places = { promoted: [{ choice: 'x_mill', exit: 'x_mill', aspects: ['payoff'] }], rest: [],
   aspects: ['payoff'] } as unknown as Lensed;
-const glance = { sensed: [{ to: 'lea', aspect: 'companionship' as const, far: 1 }], lenses: { places } } as unknown as Projected;
+const glance = { sensed: [{ to: 'lea', aspect: 'companionship' as const, far: 1 }], lenses: { places },
+  aimed: ['travel:stow', 'travel:fen'], following: ['travel:stow'] } as unknown as Projected;
 
 describe('what each place is to the company, on the map', () => {
   it('reads the aim, other aims, who is perceived and what the ways are led with', () => {
     const f = PlaceFacets.of(screen, glance), of = (id: string) => PlaceFacets.aspects(f.get(id));
-    expect(of('inn')).toEqual(['undertaking']);
     expect(of('stow')).toEqual(['undertaking']);
+    // The inn the aim names is in Stow, which the journey goes to: it is marked on the map as its town, and only so.
+    expect(of('inn')).toEqual([]);
     expect(of('fen')).toEqual(['exploration']);
     expect(of('lea')).toEqual(['companionship']);
     expect(of('mill')).toEqual(['payoff']);
     // Each by its witnesses (Attest): the aim's place, what is perceived along a way, the way led with.
-    expect(f.get('mill')?.map(w => w.id)).toEqual(['x_mill']);
+    expect(f.get('mill')?.map(l => l.id)).toEqual(['x_mill']);
+    expect(f.get('stow')?.map(l => l.id)).toEqual(['travel:stow']);
+  });
+  it('marks no place an aim names that no step from here goes toward', () => {
+    const f = PlaceFacets.of(screen, { lenses: { places } } as unknown as Projected);
+    expect([...f.keys()]).toEqual(['mill']);
   });
   it('offers them in the map\'s menu by what they are, gold first, before the nearest', () => {
     const f = PlaceFacets.of(screen, glance);

@@ -11,7 +11,7 @@ import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { Signs } from '../../../src/presentation/signs';
 import { Pip } from './pip';
-import { Attest, type Attested, type Witness } from '../../../src/presentation/attest';
+import { Attest, type Attested } from '../../../src/presentation/attest';
 import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { LensRows } from './lens-rows';
 import { Look } from '../look';
@@ -132,8 +132,8 @@ export class SceneRail {
     // Lit by what the rows it opens bear, as the places lens draws them (LensRows), the first of them by the one
     // precedence: never by a way the lens does not draw (the owner, 18 November: Go… gold, and neither of its two
     // rows, "to the fellside" and "Open the world map", gold; it had been lit from the page's own list of ways).
-    const lit = Fold.mark(SceneRail.opened(app, 'places', Wayfinder.ways(app).flatMap(w => Wayfinder.bears(app, w)
-      .witnesses)), Guidance.shown(app));
+    const lit = Fold.mark(SceneRail.opened(app, 'places', ways.flatMap(w => Wayfinder.bears(app, w).leaves)),
+      Guidance.shown(app));
     if (lit) { return { lit }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
@@ -142,15 +142,14 @@ export class SceneRail {
   static look(app: ReaderApp): Standing {
     const hand = AtHand.of(app), glance = app.state.frame?.leaf.glance;
     if (!hand.some(h => h.choices.some(c => !c.disabled))) { return { shut: 'nothing here to look at more closely' }; }
-    const lit = Fold.mark(SceneRail.opened(app, 'things', hand.flatMap(h => AtHand.bears(app, h))), Guidance.shown(app));
+    const lit = Fold.mark(SceneRail.opened(app, 'things', hand.flatMap(h => AtHand.leaves(app, h))), Guidance.shown(app));
     if (lit) { return { lit }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
   }
   // The leaves of the rows a touch opens, which its mark is the fold of (Fold): the lens's, where the scene draws it as
   // the engine's lens (LensRows); else, in the attend look, each way's or thing's row (without).
-  private static opened(app: ReaderApp, lens: 'places' | 'things', without: Witness[]): Leaf[] {
-    return SceneRail.lensed(app, lens) ? LensRows.marks(app, lens, GlanceStage.choice)
-      : without.map(w => Fold.leaf({ id: w.id }, [w]));
+  private static opened(app: ReaderApp, lens: 'places' | 'things', without: Leaf[]): Leaf[] {
+    return SceneRail.lensed(app, lens) ? LensRows.marks(app, lens, GlanceStage.choice) : without;
   }
   // Whether a touch opens the engine's lens (else the panel's own list): the strip's tiles over it are marked from it.
   static lensed(app: ReaderApp, lens: 'places' | 'things'): boolean {
@@ -165,12 +164,14 @@ export class SceneRail {
   // Back from the map, the scene it returns to: its pip the tone of what that scene leads with here (its four, less
   // the journeys the map itself is for), never inferred apart from it (the owner's trust contracts, 18 November, C:
   // "Put away the map" had been blank beside a place with something to do).
-  static local(app: ReaderApp): Attested | undefined { return Attest.local(app.state.frame?.leaf?.glance, Guidance.shown(app)); }
-  // The map's mark: the aim's gold where a journey across the country is its next step (that act its witness).
+  static local(app: ReaderApp): Attested | undefined {
+    return Fold.mark(Fold.led(app.state.frame?.leaf?.glance, GlanceStage.choice.bind(null, app), true), Guidance.shown(app));
+  }
+  // The map's mark: the aim's gold where a journey across the country is its next step (that journey its one leaf).
   static map(app: ReaderApp): Attested | undefined {
     const g = app.state.frame?.leaf.glance, around = app.state.frame?.screen.around ?? [];
     const next = g?.acts.find(a => a.continues && a.choice.startsWith('travel:') && !around.some(d => `travel:${d.id}` === a.choice));
-    const mark = Attest.of([Attest.witness(g, next?.choice)], Guidance.shown(app));
+    const mark = next && Fold.mark([Fold.step(next.choice, [Attest.witness(g, next.choice)])], Guidance.shown(app));
     return mark?.tone === 'gold' ? mark : undefined;
   }
   static mapLit(app: ReaderApp): boolean { return !!SceneRail.map(app); }

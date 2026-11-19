@@ -347,7 +347,7 @@ export class GlanceStage {
   // An opener among them by the fold of its rows (Fold), never its own reasons.
   static marked(app: ReaderApp, choice: string, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
     const g = app.state.frame?.leaf.glance;
-    return ChoiceRow.mark(Fold.mark(LensRows.leavesOf(g, GlanceStage.choice(app, choice), choice, true),
+    return ChoiceRow.mark(Fold.mark(Fold.of(g, GlanceStage.choice(app, choice), choice, true),
       gilded && Guidance.shown(app)));
   }
   static yours(app: ReaderApp, acts: Promoted[], drawn: (Choice | undefined)[]): Choice | undefined {

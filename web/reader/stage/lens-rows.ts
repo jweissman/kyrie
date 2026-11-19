@@ -1,12 +1,10 @@
-import type { Glance, Lens, LensAct, Lensed, Promoted } from '../../../src/presentation/glance-types';
-import { Attest, type Witness } from '../../../src/presentation/attest';
+import type { Lens, LensAct, Lensed, Promoted } from '../../../src/presentation/glance-types';
 import type { ReaderApp } from '../reader-app';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { QuarterRow } from '../../../src/ui/quarters';
 import { LensFocus, type Part } from './lens-focus';
 import { Fold, type Leaf } from '../../../src/presentation/fold';
-import { Attending } from '../../../src/ui/attention';
 import { Selection } from './lens-selection';
 
 // What a lens draws, row by row, and the witnesses of the marks those rows bear: one selection, read by the lens as
@@ -48,12 +46,6 @@ export class LensRows {
     }
     return out;
   }
-  // The witness a row is marked by: the glance's for its choice, or for what is within it; its gold only where the
-  // row carries the aim on (gilded), as the four draw it.
-  static witness(g: Glance | undefined, c: Choice | undefined, id: string, gilded: boolean): Witness | undefined {
-    const w = Attest.witness(g, id) ?? Attest.within(g, c ?? { id, label: '' } as Choice)[0];
-    return gilded ? w : Attest.less(w, 'undertaking');
-  }
   // The one witness a lens's row is drawn with, wherever it is drawn (among the four, as a rest row, inside a thing
   // gathered by focus) and whatever reads it (the rail's mark, the strip's tile): the glance's for its choice, its
   // gold only where it carries the aim on (the owner, 19 November: a gathered row gold, and nothing gold once it was
@@ -66,13 +58,7 @@ export class LensRows {
     const g = app.state.frame?.leaf.glance, lensed = g?.lenses?.[lens];
     const on = [...g?.acts ?? [], ...lensed?.promoted ?? []].some(a => a.choice === id && a.continues);
     const command = Object.values(lensed?.leaves ?? {}).flat().find(a => a.choice === id)?.command;
-    return LensRows.leavesOf(g, choice(app, id) ?? (command ? { id, label: '', command } as Choice : undefined), id, on);
-  }
-  static leavesOf(g: Glance | undefined, c: Choice | undefined, id: string, gilded: boolean): Leaf[] {
-    if (c?.children?.length && !c.command) {
-      return Attending.all(c.children).filter(k => !k.children?.length).map(k => Fold.leaf(k, Attest.within(g, k)));
-    }
-    return [Fold.leaf(c ?? { id }, [LensRows.witness(g, c, id, gilded)])];
+    return Fold.of(g, choice(app, id) ?? (command ? { id, label: '', command } as Choice : undefined), id, on);
   }
   // The witnesses of a way or thing's rows in the lens (its choice, or the acts done to it): a tile over the painting
   // is marked by these where the lens is what opens, never by a derivation of its own.

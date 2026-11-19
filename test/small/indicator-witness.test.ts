@@ -17,7 +17,7 @@ describe('a semantic indicator', () => {
     const tones = files.filter(f => f.startsWith('web/') && !allowed.has(f) && /var\(--tone-|`var\(--tone-\$\{/.test(read(f)));
     expect(tones).toEqual([]);
     // Where a tone is drawn from a variable, it is an indicator's.
-    expect(read('web/reader/stage/wayfinder.tsx')).toMatch(/Attest\.of\(borne\.witnesses/);
+    expect(read('web/reader/stage/wayfinder.tsx')).toMatch(/Fold\.mark\(borne\.leaves/);
   });
   it('is made only of witnesses, whose brand is cast nowhere but where they are issued', () => {
     const cast = files.filter(f => f !== 'src/presentation/attest.ts' && /as (unknown as )?(Witness|Attested)\b/.test(read(f)));

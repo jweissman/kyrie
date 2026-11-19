@@ -4,7 +4,6 @@ import { Attest, type Projected, type Witness } from '../../src/presentation/att
 import { Fold, type Leaf } from '../../src/presentation/fold';
 import type { Promoted } from '../../src/presentation/glance-types';
 import type { Choice } from '../../src/ui/choice-list';
-import { LensRows } from '../../web/reader/stage/lens-rows';
 
 // A container's mark is the fold of its leaves, and can be made no other way (AT-07 §4 I1, I2; the owner, 19
 // November: a container lit by its own reasons must not be constructible). On a synthetic choice hierarchy: an opener
@@ -22,11 +21,11 @@ describe('a container\'s mark', () => {
     // Its own witness says blue and red ...
     expect(Attest.of([Attest.witness(g, 'tablet#look')], true)?.tone).toBe('red');
     // ... and its mark, made of its rows, says nothing: none of them bears either.
-    expect(Fold.mark(LensRows.leavesOf(g as never, opener, opener.id, true), true)).toBeUndefined();
+    expect(Fold.mark(Fold.of(g as never, opener, opener.id, true), true)).toBeUndefined();
   });
   it('is lit by the one row that bears what the opener is led for, and by nothing else', () => {
     const g = led([{ command: 'read(tablet)', aspects: ['knowledge'] }]);
-    const leaves = LensRows.leavesOf(g as never, opener, opener.id, true);
+    const leaves = Fold.of(g as never, opener, opener.id, true);
     expect(leaves.map(l => [l.id, l.witnesses.flatMap(w => w.aspects)])).toEqual([
       ['tablet/0', ['knowledge']], ['tablet/1', []], ['tablet/2', []]]);
     const mark = Fold.mark(leaves, true);
@@ -54,12 +53,41 @@ describe('a container\'s mark', () => {
       if (/Attest\.(of|join)\(/.test(body) || !/Fold\.mark\(/.test(body)) { offending.push(`SceneRail.${m}`); }
     }
     expect(offending).toEqual([]);
-    // What is left to the M23 Atlas work (I1 whole: Attest.of callable inside the offering module only): counted.
-    let left = 0;
-    for await (const f of new Glob('web/reader/**/*.tsx').scan('.')) {
-      left += ((await Bun.file(f).text()).match(/Attest\.(of|join)\(/g) ?? []).length;
+  });
+  it('reaches a way only by what is along it: a step refuses a thing done elsewhere (I7)', () => {
+    const g = { acts: [{ choice: 'tablet/0', aspects: ['knowledge'] }], following: ['x_mill'],
+      sensed: [{ to: 'mill', aspect: 'companionship', far: 2 }] } as unknown as Projected;
+    const step = Fold.step('x_mill', [Attest.witness(g, 'x_mill'), Attest.sensed(g, 'mill')]);
+    expect(Fold.mark([step], true)?.icons.length).toBeGreaterThan(0);
+    expect(Fold.mark([step], true)?.tone).toBe('gold');
+    expect(() => Fold.step('x_mill', [Attest.witness(g, 'tablet/0')])).toThrow(/not along the way/);
+  });
+  it('folds someone by the acts with them: the aim\'s next step alone, else all of them, and a danger seen', () => {
+    const acts = [{ choice: 'cyril#talk', subject: 'cyril', aspects: ['companionship'] },
+      { choice: 'cyril/give', subject: 'cyril', aspects: ['payoff'] }];
+    const none = () => undefined;
+    const plain = { acts, likenesses: { cyril: { aspects: ['companionship', 'payoff'] } } } as unknown as Projected;
+    expect(Fold.likeness(plain, 'cyril', none).map(l => l.id)).toEqual(['cyril#talk', 'cyril/give']);
+    const on = { acts: [...acts, { choice: 'cyril/ask', subject: 'cyril', aspects: ['undertaking'], continues: true }],
+      likenesses: { cyril: { aspects: ['undertaking'], continues: true } } } as unknown as Projected;
+    expect(Fold.mark(Fold.likeness(on, 'cyril', none), true)?.witnesses.map(w => w.id)).toEqual(['cyril/ask']);
+    const threat = { acts: [], likenesses: { wolf: { aspects: ['danger'] } } } as unknown as Projected;
+    expect(Fold.mark(Fold.likeness(threat, 'wolf', none), true)?.tone).toBe('red');
+    // A talk the page draws no row for is folded by what it is led for inside it, never its own reasons.
+    const talk = { acts: [{ choice: 'cyril#talk', subject: 'cyril', aspects: ['knowledge', 'danger'],
+      inside: [{ command: 'ask(cyril)', aspects: ['knowledge'] }] }] } as unknown as Projected;
+    expect(Fold.mark(Fold.likeness(talk, 'cyril', none), true)?.tone).toBe('blue');
+  });
+  it('is made by Fold alone anywhere in the game: no module but the fold calls Attest.of (I1 whole)', async () => {
+    // Every indicator any client draws is a Fold.mark of leaves: the page, the map, the talk, the rail and the engine's
+    // own readings (PlaceFacets) alike. Attest issues witnesses; only the fold makes an indicator of them.
+    const callers: string[] = [];
+    for (const root of ['web', 'src']) {
+      for await (const f of new Glob(`${root}/**/*.{ts,tsx}`).scan('.')) {
+        if (['src/presentation/fold.ts', 'src/presentation/attest.ts'].includes(f)) { continue; }
+        if (/Attest\.(of|join)\(/.test(await Bun.file(f).text())) { callers.push(f); }
+      }
     }
-    expect(left).toBe(LEFT);
+    expect(callers).toEqual([]);
   });
 });
-const LEFT = 16;

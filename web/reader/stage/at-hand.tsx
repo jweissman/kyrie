@@ -7,7 +7,8 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { ChoiceRow } from './choice-row';
 import { Pip } from './pip';
-import { Attest, type Attested, type Witness } from '../../../src/presentation/attest';
+import type { Attested } from '../../../src/presentation/attest';
+import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { Guidance } from '../guidance';
 import { GlanceStage } from './glance';
 import { PlaceStage } from './place-stage';
@@ -51,7 +52,7 @@ export class AtHand {
     const shown = h.choices.filter(c => draw.index.has(c.id)), gilded = Guidance.shown(app);
     // Each act drawn as what the glance found in it, so that the mark on Look… and on the thing's row is found again on
     // the act it is for (the owner, 12 November: green on the rail, and nothing inside said which).
-    const bar = (c: Choice) => Pip.fill(Attest.of(Attest.within(s.frame!.leaf.glance, c), gilded));
+    const bar = (c: Choice) => Pip.fill(Fold.mark(Fold.of(s.frame!.leaf.glance, c, c.id, AtHand.carries(app, c)), gilded));
     return (
       <section className="ah-pane" aria-live="polite" data-held={h.id}>
         <h3>{Typography.curl(Words.upper(h.name))}</h3>
@@ -132,19 +133,18 @@ export class AtHand {
   // The tone of what the glance leads with in it, as the Look mark on the rail is lit by it: the mark had been green,
   // and nothing in the list said which thing (the owner's player report, 12 November).
   static tone(app: ReaderApp, h: Held): string | undefined { return AtHand.mark(app, h)?.tone; }
-  // What a thing's row bears, and all Look… is lit by (see SceneRail.look): what the glance leads with in it; the aim's
-  // gold only where it is the aim's next step, as the scene draws it (the speaking door had been gold on the scene and
-  // blue in Look…: round 11, T 33–34).
-  // What a thing at hand bears, as the glance's witness of the act it leads with there (Attest): its gold only where
-  // that act is the aim's next step.
-  static bears(app: ReaderApp, h: Held): Witness[] {
-    const ids = new Set([...h.choices.map(c => c.id), ...h.opens]), g = app.state.frame?.leaf.glance;
-    const led = g?.acts.find(a => ids.has(GlanceStage.choice(app, a.choice)?.id ?? '') && a.aspects.length);
-    const w = Attest.witness(g, led?.choice);
-    const kept = led?.continues ? w : Attest.less(w, 'undertaking');
-    return kept ? [kept] : [];
+  // What a thing's row bears, and all Look… is lit by (see SceneRail.look): the fold of its acts, each by what the
+  // glance found in it (an opener by its rows: Fold.of), the aim's gold only on the act that is the aim's next step, as
+  // the scene draws it (the speaking door had been gold on the scene and blue in Look…: round 11, T 33–34).
+  static leaves(app: ReaderApp, h: Held): Leaf[] {
+    const g = app.state.frame?.leaf.glance;
+    return h.choices.flatMap(c => Fold.of(g, c, c.id, AtHand.carries(app, c)));
   }
-  static mark(app: ReaderApp, h: Held): Attested | undefined { return Attest.of(AtHand.bears(app, h), Guidance.shown(app)); }
+  // Whether an act carries the followed aim on (its next step), as the glance leads with it.
+  static carries(app: ReaderApp, c: Choice): boolean {
+    return !!app.state.frame?.leaf.glance?.acts.some(a => a.continues && GlanceStage.choice(app, a.choice)?.id === c.id);
+  }
+  static mark(app: ReaderApp, h: Held): Attested | undefined { return Fold.mark(AtHand.leaves(app, h), Guidance.shown(app)); }
   // The one the glance leads with, where it leads with something at hand.
   static led(app: ReaderApp, held: Held[]): Held | undefined {
     const g = app.state.frame?.leaf.glance, leads = new Set((app.menu.leads ?? g?.acts ?? [])

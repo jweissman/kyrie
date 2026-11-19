@@ -3,7 +3,9 @@ import type { ReaderApp } from '../reader-app';
 import { Emblems } from '../../../src/presentation/emblems';
 import { SceneKinds } from '../../../src/ui/scene-kinds';
 import { Pip } from './pip';
-import { Attest, type Attested } from '../../../src/presentation/attest';
+import type { Attested } from '../../../src/presentation/attest';
+import { Fold } from '../../../src/presentation/fold';
+import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { PlaceStage } from './place-stage';
 
@@ -36,9 +38,8 @@ export class PlaceMark {
     return { settlement: 'town', site: 'ruin', wild: 'wild' }[PlaceStage.kind(screen)];
   }
   // What the company knows it can do here, by kind, each once, in the order led.
-  // Of what the place leads with, the glance's witnesses (Attest).
+  // The fold of what the place leads with (Fold.led): each act by its leaves, an opener by its rows.
   static facets(app: ReaderApp): Attested | undefined {
-    const g = app.state.frame?.leaf.glance;
-    return Attest.of((g?.acts ?? []).map(a => Attest.witness(g, a.choice)), Guidance.shown(app));
+    return Fold.mark(Fold.led(app.state.frame?.leaf.glance, GlanceStage.choice.bind(null, app)), Guidance.shown(app));
   }
 }

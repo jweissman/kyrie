@@ -20,7 +20,8 @@ import { GlanceStage } from './glance';
 import { PageFrame } from '../page-frame';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
-import { Attest, type Attested } from '../../../src/presentation/attest';
+import type { Attested } from '../../../src/presentation/attest';
+import { Fold } from '../../../src/presentation/fold';
 import { Standing } from '../../../src/ui/standing';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
@@ -135,7 +136,7 @@ export class WorldStage {
   // (see Guidance). Drawn as one pip by the likeness (see Pip), never composed again here from the glance's acts.
   static seen(app: ReaderApp, x: SceneSubject): Attested | undefined {
     const g = app.state.frame?.leaf.glance, likeness = g?.likenesses?.[x.id];
-    return Attest.of([Attest.subject(g, x.id)], !!likeness?.continues && Guidance.shown(app));
+    return Fold.mark(Fold.likeness(g, x.id, GlanceStage.choice.bind(null, app)), !!likeness?.continues && Guidance.shown(app));
   }
   // A likeness with nothing to open, touched, says why beneath it for a moment, rather than nothing (round 6: three taps
   // on the factor's hands, and on an enemy, did nothing, and nothing said why).
@@ -262,7 +263,7 @@ export class WorldStage {
     if (!entry) { return null; }
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
     return <Act.View choice={c} draw={Act.draw(app)} quiet variant="glyph" className="enter entrance">
-      <Pip.View mark={Attest.of([Attest.witness(app.state.frame?.leaf.glance, a.choice)], gilded)} />
+      <Pip.View mark={Fold.mark(Fold.of(app.state.frame?.leaf.glance, c, a.choice, true), gilded)} />
       {Typography.curl(a.label)}</Act.View>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let

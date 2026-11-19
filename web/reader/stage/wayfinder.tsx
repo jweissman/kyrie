@@ -11,7 +11,8 @@ import { Glyphs } from '../creation/glyphs';
 import type { Tone } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { Guidance } from '../guidance';
-import { Attest, type Attested, type Witness } from '../../../src/presentation/attest';
+import { Attest, type Attested } from '../../../src/presentation/attest';
+import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { Signs } from '../../../src/presentation/signs';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
@@ -71,7 +72,7 @@ export class Wayfinder {
     // The aim's gold on the way that is its next step, or, where none is known, on the way it goes by: never on a way
     // on while the step is here (see SceneRail.goes).
     const borne = Wayfinder.bears(app, w), aimed = borne.aimed;
-    const tone = aimed ? undefined : Attest.of(borne.witnesses, false)?.tone;
+    const tone = aimed ? undefined : Fold.mark(borne.leaves, false)?.tone;
     return <button type="button" data-action="way-row" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
       + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id} data-act={w.c.id}
       style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
@@ -98,8 +99,8 @@ export class Wayfinder {
     const crosses = !!w.exit?.crosses || (w.c.id.startsWith('travel:') && !w.exit && !walk);
     const said = sensed && (sensed.far === 1 ? 'someone who might join you' : 'perhaps someone, farther on');
     // Someone who would join, by the act the place leads with by this way (not perceived: offered).
-    const borne = Attest.of(Wayfinder.bears(app, w).witnesses, false), joins = !sensed && !!borne?.companion;
-    const perceived = Attest.of([Attest.sensed(app.state.frame?.leaf.glance, to)], false);
+    const borne = Fold.mark(Wayfinder.bears(app, w).leaves, false), joins = !sensed && !!borne?.companion;
+    const perceived = Fold.mark([Fold.step(w.c.id, [Attest.sensed(app.state.frame?.leaf.glance, to)])], false);
     if (!crosses && !sensed && !joins) { return <span className="wf-marks" />; }
     return <span className="wf-marks">
       {sensed && <span className="wf-mark sensed">
@@ -254,7 +255,12 @@ export class Wayfinder {
   // The way the aim followed goes by first, where one does (see Glance.aimed); another aim's is not offered unasked.
   // The tone of what the place leads with that goes by a way (its chief aspect, never the aim's: that is Wayfinder.aimed).
   static tone(app: ReaderApp, w: Way): Tone | undefined {
-    return Attest.of([Attest.witness(app.state.frame?.leaf.glance, Wayfinder.led(app, w)?.choice)], false)?.tone;
+    return Fold.mark(Wayfinder.ledLeaves(app, w), false)?.tone;
+  }
+  // The leaves of what the place leads with that goes by a way (a door's words), its gold the next step's alone.
+  static ledLeaves(app: ReaderApp, w: Way): Leaf[] {
+    const a = Wayfinder.led(app, w);
+    return a ? Fold.of(app.state.frame?.leaf.glance, GlanceStage.choice(app, a.choice), a.choice, false) : [];
   }
   static led(app: ReaderApp, w: Way) {
     const ids = new Set([w.c.id, w.way.id]);
@@ -270,16 +276,17 @@ export class Wayfinder {
   // gold; a companion where one is perceived along it or the act it leads with is someone who would join.
   // What a way bears, as witnesses the glance gave (Attest): the aim followed's way, gold; else what it is led with,
   // its gold the next step's alone; and whoever is perceived along it.
-  static bears(app: ReaderApp, w: Way): { aimed: boolean; witnesses: Witness[] } {
+  // As leaves (Fold): the way's own step, with the aim's gold and whoever is perceived along it (directional, Fold.step),
+  // and the leaves of what it is led with.
+  static bears(app: ReaderApp, w: Way): { aimed: boolean; leaves: Leaf[] } {
     const g = app.state.frame?.leaf.glance, next = GlanceStage.next(app);
     const aimed = w.aim === 'followed' && (!next || next === w.c.id || next === w.way.id);
     const toward = aimed ? Attest.witness(g, w.c.id) ?? Attest.witness(g, w.way.id) : undefined;
-    const led = aimed ? undefined : Attest.less(Attest.witness(g, Wayfinder.led(app, w)?.choice), 'undertaking');
-    const sensed = Attest.sensed(g, Wayfinder.to(w));
-    return { aimed: !!toward, witnesses: [toward, led, sensed].filter((x): x is Witness => !!x) };
+    const step = Fold.step(toward?.id ?? w.c.id, [toward, Attest.sensed(g, Wayfinder.to(w))]);
+    return { aimed: !!toward, leaves: [step, ...aimed ? [] : Wayfinder.ledLeaves(app, w)] };
   }
   static mark(app: ReaderApp, w: Way): Attested | undefined {
-    return Attest.of(Wayfinder.bears(app, w).witnesses, Guidance.shown(app));
+    return Fold.mark(Wayfinder.bears(app, w).leaves, Guidance.shown(app));
   }
   static aimed(ways: Way[]): Way | undefined {
     return ways.filter(w => w.aim === 'followed').sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))[0];

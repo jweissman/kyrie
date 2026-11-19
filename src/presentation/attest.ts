@@ -28,7 +28,7 @@ export interface Attested {
   readonly witnesses: readonly Witness[];
   readonly [issued]: true;
 }
-export type Projected = Partial<Pick<Glance, 'acts' | 'lenses' | 'likenesses' | 'sensed' | 'following' | 'lead'>>;
+export type Projected = Partial<Pick<Glance, 'acts' | 'lenses' | 'likenesses' | 'sensed' | 'following' | 'aimed' | 'lead'>>;
 
 export class Attest {
   // Read once for each glance (a glance is drawn again whenever the world, what the company knows or the aim followed
@@ -90,16 +90,14 @@ export class Attest {
     return [...this.within(g, c), ...c.teaches ? [this.make(id, ['knowledge'], 'direct')] : [],
       ...pays ? [this.make(id, ['payoff'], 'direct')] : []];
   }
-  // The place's own: what the scene leads with here, less the journeys across the country (the map's), as the way back
-  // from the map, or any view, carries it (the owner's trust contracts, C: "Put away the map" had been blank beside a
-  // place with something to do).
-  static local(g: Projected | undefined, gilded: boolean): Attested | undefined {
-    return this.of((g?.acts ?? []).filter(a => !a.choice.startsWith('travel:')).map(a => this.witness(g, a.choice)), gilded);
-  }
   // A witness less one of its aspects (a way led with for what is there, its gold the aim's next step's alone): made
   // of one the glance gave, never of nothing.
   static less(w: Witness | undefined, aspect: Aspect): Witness | undefined {
     return w && this.make(w.id, w.aspects.filter(a => a !== aspect), w.kind, w.far);
+  }
+  // A witness of one of its aspects alone (a danger seen in someone, apart from what is done with them), or none.
+  static only(w: Witness | undefined, aspect: Aspect): Witness | undefined {
+    return w?.aspects.includes(aspect) ? this.make(w.id, [aspect], w.kind, w.far) : undefined;
   }
   // The witness the glance gives for an id, or none.
   static witness(g: Projected | undefined, id: string | undefined): Witness | undefined {
@@ -112,7 +110,8 @@ export class Attest {
     return to ? this.witness(g, `sensed:${to}`) : undefined;
   }
   // The indicator these witnesses make: none where there is none, or nothing among them is drawn (a need, the way
-  // back: no aspect). gilded: whether gold is shown at all (the player's Guidance).
+  // back: no aspect). gilded: whether gold is shown at all (the player's Guidance). Called by Fold alone: every
+  // indicator drawn is a fold of leaves (test/small/fold).
   static of(witnesses: readonly (Witness | undefined)[], gilded: boolean): Attested | undefined {
     const ws = witnesses.filter((w): w is Witness => !!w);
     const direct = ws.filter(w => w.kind === 'direct'), aspects = [...new Set(ws.flatMap(w => w.aspects))];
@@ -122,10 +121,6 @@ export class Attest {
     const faint = !direct.length && ws.every(w => w.far !== undefined);
     return { ...shown.tone ? { tone: shown.tone } : {}, icons: shown.icons, companion, faint, witnesses: ws,
       words: Indicator.words(aspects, gilded).join(', ') } as unknown as Attested;
-  }
-  // Several controls' indicators as one (a lens over the rows it opens): the union of their witnesses.
-  static join(marks: readonly (Attested | undefined)[], gilded: boolean): Attested | undefined {
-    return this.of(marks.flatMap(m => m?.witnesses ?? []), gilded);
   }
   // Why an id has no indicator, for development and the contracts' tests.
   static why(g: Projected | undefined, id: string): string {

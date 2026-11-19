@@ -10,7 +10,8 @@ import { PageFrame } from './page-frame';
 import { BoardField } from './board-field';
 import { PlaceFacets } from '../../src/presentation/place-facets';
 import { Guidance } from './guidance';
-import { Attest, type Witness } from '../../src/presentation/attest';
+import { Attest } from '../../src/presentation/attest';
+import { Fold, type Leaf } from '../../src/presentation/fold';
 import { SceneRail } from './stage/scene-rail';
 import { Glyphs } from './creation/glyphs';
 import { Hold } from './instrument/hold';
@@ -21,13 +22,14 @@ import { Hold } from './instrument/hold';
 // it; and Put away the map, the last row always. Choosing a cell on the map is a presentation gesture; each row commits.
 export class MapMenu {
   static readonly four = 4;
-  // A journey's mark: the aim's gold where it goes to a place of the followed aim (its witness: the glance's following
-  // way or the aim's place), else the neutral line.
+  // A journey's mark: the aim's gold where it goes to a place of the followed aim (its leaf: the journey itself, as the
+  // glance's following has it, or a step toward that place that the followed aim's route goes by first), else the
+  // neutral line.
   static gold(app: ReaderApp, screen: Screen, act: string): Pick<RowParts, 'indicator' | 'plain'> {
-    const g = app.state.frame?.leaf?.glance, place = act.replace(/^travel:/, '');
-    const w = Attest.witness(g, act) ?? PlaceFacets.of(screen, g).get(place)
-      ?.find(x => x.aspects.includes('undertaking'));
-    const indicator = Attest.of([w], Guidance.shown(app));
+    const g = app.state.frame?.leaf?.glance, place = act.replace(/^travel:/, ''), own = Attest.witness(g, act);
+    const leaves = own ? [Fold.step(act, [own])] : (PlaceFacets.of(screen, g).get(place) ?? [])
+      .filter(l => l.witnesses.some(w => w.aspects.includes('undertaking')));
+    const indicator = Fold.mark(leaves, Guidance.shown(app));
     return indicator?.tone === 'gold' ? { indicator } : { plain: 'neutral' };
   }
   // Put away the map: the tone of what the place it returns to leads with (SceneRail.local), never its own colour.
@@ -39,17 +41,17 @@ export class MapMenu {
   static whither(screen: Screen, id: string): string {
     return screen.region?.land ? BoardField.whither(screen.region, id) ?? id : id;
   }
-  // A row's mark: the one colour of what the place is, of its witnesses (see PlaceFacets), the aim's gold only where
-  // the way is shown.
-  static marked(witnesses: readonly Witness[] | undefined, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
-    const indicator = Attest.of(witnesses ?? [], gilded);
+  // A row's mark: the one colour of what the place is, the fold of its leaves (see PlaceFacets), the aim's gold only
+  // where the way is shown.
+  static marked(leaves: readonly Leaf[] | undefined, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
+    const indicator = Fold.mark(leaves ?? [], gilded);
     return indicator?.tone ? { indicator } : { plain: 'neutral' };
   }
   // The places to set out for from the map, by what they are to the company first (the aim's gold, then the rest by the
   // one precedence, someone who might join, somewhere worth going), then the nearest (the owner, 17 November: a town
   // with gold in it had to be found by touching it on the map). A place that is something and has no road the page
   // knows is set out for as the map would set out for it (MapView.way), where it can be.
-  static roads(screen: Screen, facets: Map<string, Witness[]>, at: { taken: (string | undefined)[]; chosen?: string }) {
+  static roads(screen: Screen, facets: Map<string, Leaf[]>, at: { taken: (string | undefined)[]; chosen?: string }) {
     const rank = (id: string) => {
       const i = PlaceFacets.order.findIndex(a => PlaceFacets.aspects(facets.get(id)).includes(a));
       return i < 0 ? PlaceFacets.order.length : i;

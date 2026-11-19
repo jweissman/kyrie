@@ -24,7 +24,7 @@ describe('what someone would tell', () => {
     expect(asks.every(c => c.teaches)).toBe(true);
     expect(all.find(c => /^buy_item\(/.test(c.command ?? ''))?.teaches).toBeUndefined();
     const draw = { index: new Map(), open: new Set(), app: { state: {}, numbered: new Map() } } as unknown as Parameters<typeof TalkStage.Reply>[0]['draw'];
-    const marked = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw, aspects: [...Attested_.of(['knowledge'])!.witnesses] }));
+    const marked = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw, leaves: Attested_.leaves(['knowledge']) }));
     expect(marked).toContain('data-aspects="knowledge"');
     expect(marked).toContain('var(--tone-blue)');
     expect(renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw }))).not.toContain('prism-bar');

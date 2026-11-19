@@ -17,7 +17,6 @@ import { ThingStage } from './thing-stage';
 import { ChoiceRow } from './choice-row';
 import { Attest } from '../../../src/presentation/attest';
 import { Fold } from '../../../src/presentation/fold';
-import { LensRows } from './lens-rows';
 import { Guidance } from '../guidance';
 
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
@@ -203,7 +202,7 @@ export class PlaceStage {
   // opener lit worth a look or blue opened onto plain rows). What it opens in turn, beneath it.
   static Within({ choice: k, draw }: { choice: Choice; draw: Draw }) {
     const g = draw.app.state.frame?.leaf.glance;
-    const indicator = Fold.mark(k.children?.length && !k.command ? LensRows.leavesOf(g, k, k.id, true)
+    const indicator = Fold.mark(k.children?.length && !k.command ? Fold.of(g, k, k.id, true)
       : [Fold.leaf(k, Attest.within(g, k))], Guidance.shown(draw.app));
     return <><ChoiceRow.Act choice={k} draw={draw} {...ChoiceRow.mark(indicator)}
       label={Typography.curl(k.alone ?? Words.shown(k.label))} {...k.note ? { aside: Typography.curl(k.note) } : {}} />
