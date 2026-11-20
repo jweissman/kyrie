@@ -7,8 +7,10 @@
 // --as the drove, the golden route's (a world with no wanderer had thrown: the sprint audit, 19 November).
 //   bun scripts/promise-fidelity.ts [worlds=a1,b2,c3,iscoed,laboratory] [turns=20] [--as elf/mage/Ilse/scholar]
 //     [--origin pans]
+//   bun scripts/promise-fidelity.ts --corpus [test/fixtures/promises/corpus.json]   (the false-promise corpus, S3-2)
 import { PlayTool } from '../src/cli/play-tool';
 import { Laboratory } from './laboratory';
+import { PromiseCorpusReplay } from './promise-corpus-replay';
 import { Runner, type Offered, type Said } from '../src/cli/runner';
 import { RunnerFidelity } from '../src/cli/runner-fidelity';
 import { RunnerWalk } from '../src/cli/runner-walk';
@@ -61,6 +63,9 @@ export class PromiseFidelity {
     for (const c of read.chance) { chance.push(`${when} at ${at}: (chance) ${c}`); }
   }
   static async main(argv: string[]) {
+    // The false-promise corpus, its cases replayed on their cold plays' lines (scripts/promise-corpus-replay.ts).
+    const corpus = argv.indexOf('--corpus');
+    if (corpus >= 0) { await PromiseCorpusReplay.main(argv[corpus + 1] ?? 'test/fixtures/promises/corpus.json'); return; }
     const flags = new Map<string, string>(), args: string[] = [];
     for (let i = 0; i < argv.length; i++) {
       if (/^--(as|origin)$/.test(argv[i]!)) { flags.set(argv[i]!.slice(2), argv[++i]!); } else { args.push(argv[i]!); }

@@ -1,0 +1,181 @@
+{
+ "about": "The false-promise corpus (S3-2, planning-report.md §8 step 2): cold plays 2–8's findings where what the page showed promised what the world did not do, each with its state, signal, act, result and the contract it broke, and the check made of that contract on every turn of the play's own lines replayed on today's engine (bun scripts/promise-fidelity.ts --corpus; scripts/promise-corpus.ts). Each case's replayed: what the replay on 20 November found (still broken, with the turn; or not seen, fixed or its moment not come to, as the play's refused lines say).",
+ "cases": [
+  {
+   "id": "PC-01",
+   "play": "cold-2",
+   "source": "cold-2-report.md, 7",
+   "state": "the green at Porthalen, the factor among the people there",
+   "signal": "a row \"Talk to the factor\"",
+   "act": "taking it",
+   "result": "a sale, no conversation",
+   "contract": "a row that says Talk to someone talks to them",
+   "check": "talk-does-talk",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-2 replayed: 107 turns, 53 of its lines refused (the play diverges); no Talk to row did a sale"
+   }
+  },
+  {
+   "id": "PC-02",
+   "play": "cold-4",
+   "source": "cold-4-report.md, 4",
+   "state": "the opening on the green, no factor met or spoken of",
+   "signal": "\"Ask the factor about the king-barrow\" led among the four",
+   "act": "reading it as someone to find",
+   "result": "no factor known to the company",
+   "contract": "someone asked by their title has been met or spoken of first",
+   "check": "named-before-asked",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "still broken",
+    "evidence": "turn 1: \"Talk to the tinker's daughter — ask why she was left behind\" led before the scene's words name her (the runner and the terminal name who is here only by their rows; the page draws her likeness): GR-14"
+   }
+  },
+  {
+   "id": "PC-03",
+   "play": "cold-6",
+   "source": "cold-6-report.md, 5",
+   "state": "from the first turn on, the factor never met",
+   "signal": "\"Ask the factor about the king-barrow\" at the top of the four all game",
+   "act": "-",
+   "result": "never met or heard of",
+   "contract": "someone asked by their title has been met or spoken of first",
+   "check": "named-before-asked",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "still broken",
+    "evidence": "turn 1: the same as PC-02, the tinker's daughter: GR-14"
+   }
+  },
+  {
+   "id": "PC-04",
+   "play": "cold-8",
+   "source": "cold-8-log.md, T1",
+   "state": "after asking Owain",
+   "signal": "\"Talk to the Guldríce agent — ask about the king-barrow\" led",
+   "act": "-",
+   "result": "the agent never met or heard of",
+   "contract": "someone asked by their title has been met or spoken of first",
+   "check": "named-before-asked",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "still broken",
+    "evidence": "turn 1: the same as PC-02 (cold-8 replayed whole, 62 turns, none refused): GR-14"
+   }
+  },
+  {
+   "id": "PC-05",
+   "play": "cold-4",
+   "source": "cold-4-report.md, 19",
+   "state": "after the barrow's fight, the torch out unsaid",
+   "signal": "\"It is pitch dark … do nothing that needs seeing\"",
+   "act": "the chest's and the bosses' acts still offered",
+   "result": "acts that need seeing offered in the dark",
+   "contract": "pitch dark offers nothing that needs seeing",
+   "check": "dark-no-seeing",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-4 replayed: 76 turns, 50 lines refused; no pitch-dark turn led something to see"
+   }
+  },
+  {
+   "id": "PC-06",
+   "play": "cold-5",
+   "source": "cold-5-report.md, 6 (T6, T32: Need: Dark)",
+   "state": "the gate-well, unlit",
+   "signal": "\"It is pitch dark\" and the search led",
+   "act": "Search here",
+   "result": "-",
+   "contract": "pitch dark offers nothing that needs seeing",
+   "check": "dark-no-seeing",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-5 replayed: 94 turns, 2 lines refused; the gate-well lit before it was searched"
+   }
+  },
+  {
+   "id": "PC-07",
+   "play": "cold-5",
+   "source": "cold-5-report.md, 30",
+   "state": "the cook at the Hall, a sale of the pie",
+   "signal": "\"counts out eight silver … you may have the pie instead\"",
+   "act": "the topic",
+   "result": "the purse at 8 coin, no silver, no pie",
+   "contract": "coin said to be counted out is coin in the purse",
+   "check": "purse-as-said",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-5 replayed; no coin said counted out without the purse rising"
+   }
+  },
+  {
+   "id": "PC-08",
+   "play": "cold-5",
+   "source": "cold-5-report.md, 34",
+   "state": "inside the Hall, sent off by the steward",
+   "signal": "\"To the great hall\"",
+   "act": "taking it",
+   "result": "come to the forecourt",
+   "contract": "a row that says To somewhere comes there",
+   "check": "arrive-as-labelled",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "still broken",
+    "evidence": "turn 85: \"To the great hall\" came to \"the forecourt of Gatesend Hall\" (the steward's sending off): GR-15"
+   }
+  },
+  {
+   "id": "PC-09",
+   "play": "cold-5",
+   "source": "cold-5-report.md, 35",
+   "state": "the Hall's kitchen",
+   "signal": "\"Talk to Orla Pennick\"",
+   "act": "taking it",
+   "result": "no line at all",
+   "contract": "talking to someone says something",
+   "check": "talk-says-something",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-5 replayed; every talk said something"
+   }
+  },
+  {
+   "id": "PC-10",
+   "play": "cold-6",
+   "source": "cold-6-report.md, 11",
+   "state": "the green, Owain by",
+   "signal": "\"Talk to your cousin\"",
+   "act": "taking it",
+   "result": "no line at all",
+   "contract": "talking to someone says something",
+   "check": "talk-says-something",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-6 replayed: 30 turns, 13 lines refused; every talk said something"
+   }
+  },
+  {
+   "id": "PC-11",
+   "play": "cold-2",
+   "source": "cold-2-report.md, 6",
+   "state": "the reeve after \"tell the reeve nothing\"",
+   "signal": "\"Talk to Reeve Annis Talfryn\"",
+   "act": "taking it",
+   "result": "no topics",
+   "contract": "talking to someone says something",
+   "check": "talk-says-something",
+   "replayed": {
+    "on": "2026-11-20, s3-run",
+    "status": "not seen",
+    "evidence": "cold-2 replayed (53 lines refused); every talk said something"
+   }
+  }
+ ]
+}
