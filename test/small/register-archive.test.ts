@@ -38,7 +38,13 @@ describe('the register archive', () => {
       'duplicate of ZZ-02 (verified): test/small/own-hex', 'deferred (verified): test/small/own-hex']
       .map(s => RegisterArchive.why(row(s), today).split(':')[0]);
     expect(verdicts).toEqual(['a second reading; held by test/small/own-hex',
-      'closed 18 days ago; held by test/small/own-hex', ...Array<string>(8).fill('stays')]);
+      'closed 18 days ago; held by test/small/own-hex', ...Array<string>(6).fill('stays'),
+      RegisterArchive.duplicate, 'stays']);
+    // Old and settled, apart (the owner, 20 November: "archive old/solved defects"): a duplicate, and a closure from
+    // before proof specs were asked for, once older than the fortnight (undated: of the first compiling); never lately.
+    expect(['fixed: nothing cited', 'fixed (2 Nov): nothing cited', 'duplicate of ZZ-02 (19 Nov)']
+      .map(s => RegisterArchive.why(row(s), today))).toEqual([RegisterArchive.unproved, RegisterArchive.unproved,
+      'stays: duplicate, lately']);
     expect(RegisterArchive.why({ ...row('fixed (19 Nov, verified): test/small/own-hex'), state: 'reference' }, today))
       .toBe('stays: reference');
   });

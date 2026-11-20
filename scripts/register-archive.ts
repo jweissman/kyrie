@@ -37,11 +37,17 @@ export class RegisterArchive {
     return m ? new Date(Date.UTC(2026, this.months[m[2]!]!, Number(m[1]))) : undefined;
   }
   // Why a row may move, or why it may not (a reason that begins "stays").
+  // Old and settled (the owner, 20 November: "archive old/solved defects"): a duplicate, and a row closed before a
+  // proof spec was asked for, once older than the fortnight (an undated one is of the register's first compiling, 11
+  // November or before) moves under a heading of its own that says so (RegisterArchive.apart); a recent one waits.
   static why(row: Pick<Row, 'id' | 'what' | 'status' | 'state' | 'loose'>, today: Date): string {
+    if (row.state === 'duplicate' && !row.loose) {
+      return this.old(row.status, today) ? RegisterArchive.duplicate : 'stays: duplicate, lately';
+    }
     if (row.state !== 'closed' || row.loose) { return `stays: ${row.state}`; }
     if (/^\W*\w+ in part/i.test(row.status)) { return 'stays: met in part'; }
     const specs = ClosureLint.cites(row.status).filter(c => c.spec && c.files.some(f => f.endsWith('.test.ts')));
-    if (!specs.length) { return 'stays: no spec that exists'; }
+    if (!specs.length) { return this.old(row.status, today) ? RegisterArchive.unproved : 'stays: no spec that exists'; }
     const found = ClosureLint.findings(row).filter(f => ClosureLint.evidence.includes(f.kind));
     if (found.length) { return `stays: ${found.map(f => ClosureLint.key(f)).join('; ')}`; }
     const on = this.closedOn(row.status), age = on ? (today.getTime() - on.getTime()) / 86_400_000 : 0;
@@ -60,12 +66,25 @@ export class RegisterArchive {
     });
     return out;
   }
+  // The two kinds of row archived apart from those proved: what each is said to be, and the heading it is kept under.
+  static readonly duplicate = 'a duplicate, older than the fortnight';
+  static readonly unproved = 'closed before a proof spec was asked for, older than the fortnight';
+  static apart(why: string): string | undefined {
+    return why === this.duplicate ? '## Duplicates, archived (20 November)'
+      : why === this.unproved ? '## Closed before proof specs were asked for, archived (20 November)' : undefined;
+  }
+  private static old(status: string, today: Date): boolean {
+    const on = this.closedOn(status);
+    return !on || (today.getTime() - on.getTime()) / 86_400_000 > this.days;
+  }
   static moves(text: string, today: Date): { moves: Move[]; kept: number } {
     const places = this.places(text), moves: Move[] = [];
     const rows = RegisterTickets.rows(text);
     for (const row of rows) {
       const why = this.why(row, today), place = places.get(row.id);
-      if (!why.startsWith('stays') && place) { moves.push({ id: row.id, ...place, why }); }
+      if (!why.startsWith('stays') && place) {
+        moves.push({ id: row.id, ...place, ...this.apart(why) ? { heading: this.apart(why)! } : {}, why });
+      }
     }
     return { moves, kept: rows.length - moves.length };
   }
