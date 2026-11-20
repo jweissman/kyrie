@@ -23,12 +23,15 @@ export class RegionOutskirts {
   static readonly neighbourly = KyrTemplates.parse(neighbours);
   static readonly troubled = KyrTemplates.parse(troubles);
   static readonly contested = KyrTemplates.parse(conflict);
-  static lines(region: Region, s: Settlement): string[] {
+  static lines(region: Region, s: Settlement, company = 3): string[] {
     const history = region.history, makers = history?.makers[0];
     if (!history || !makers) { return []; }
     const values: Record<string, string> = { t: s.id, town: s.name, old: makers.epithet,
       craft: makers.craft, belief: makers.belief, makersfact: `history_${makers.art}`,
-      kingdom: history.successors.name, ...this.sight(region, s) };
+      kingdom: history.successors.name, ...this.sight(region, s),
+      // A colony under the old stones as a pack is under the town: two for one who came alone, never the six that kill
+      // a lone first-level warrior in the undercroft (keyed draws' review, 20 November: kahitude's bats).
+      colony: company > 1 ? '6' : '2' };
     if (!values.sight) { return []; }
     // The deeper layer (outskirts-deep.kyrt) hangs on the first layer's ids; what needs the Empire's posting-house says
     // so itself ("if station") and is written only in a country that has one.

@@ -213,7 +213,7 @@
   Observe {t}_stones_warden_sign at {t}_stones_dome as sign noticed by perception when able({t}_stones_warden) "A groove is worn from the dome's centre-slab to the edge of the floor, as if something heavy had been dragged back and forth along it for a very long time.".
 --- under bats 2
   Person {t}_stones_bats "the bats in the undercroft" at {t}_stones_under {
-    Role "a colony of bats in the roof of the undercroft, which wheel down when a light comes in". Species bat. Numbers 6. Level 1. Temperament territorial. Lair {t}_stones_under.
+    Role "a colony of bats in the roof of the undercroft, which wheel down when a light comes in". Species bat. Numbers {colony}. Level 1. Temperament territorial. Lair {t}_stones_under.
     Warns "The roof comes alive, leather and squeal, a cloud of bats with the light in their eyes.".
   }
   Initially Set encounterXp({t}_stones_bats) to 40.

@@ -3,6 +3,8 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { RegionOutskirts } from '../src/world/region-outskirts';
 
 const start = async (classId = 'warrior', seed = 'kahitude') => Journey.of(await DrawnWorld.start(seed,
   { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human', classId }] }, NodeBundleSource.shared));
@@ -109,4 +111,14 @@ describe('the old stones, below the dome', () => {
     expect(rung + await j.play('Wait › A while')).toMatch(/brick falling out of a wall/);
     expect(Placed.holds(j, 'knows', 'party', r('s1_tunnel_found'))).toBe(true);
   }, 240000);
+});
+
+// The colony under the old stones is as many as the company can meet (keyed draws' review, 20 November): six bats
+// had killed a lone first-level warrior in kahitude's undercroft, where the undertown's packs are two for one alone.
+describe('the bats under the old stones', () => {
+  it('are two for one who came alone and six for a company', () => {
+    const region = WorldAssembler.region('kahitude', [0, 0]), town = region.settlements[0]!;
+    const told = (n: number) => RegionOutskirts.lines(region, town, n).find(l => /Species bat\./.test(l)) ?? '';
+    expect([told(1), told(3)].map(l => /Numbers (\d+)\./.exec(l)?.[1])).toEqual(['2', '6']);
+  });
 });
