@@ -118,6 +118,9 @@ Module belongings "What the company carries" {
       and able(merchant) and not refusesService(merchant, actor) and at(merchant, site) and distinct(actor, merchant) and quantity(actor, gold) >= price(find).
     Resolve purchase(find, form, recipient, actor, merchant).
     On success { Retract at(find, site). Retract forSale(find). Decrease shelf(merchant, form) by 1. }
+    // A lamp sold with nothing to burn in it says so (CL-62: a lantern bought before the gate-well was never offered
+    // as a light, and neither the sale nor the pack said it wanted oil).
+    Result "{merchant} is paid, and {recipient} takes {find}. It burns oil, and none of you carries any." when burns(form, ?oil) and not holding(actor, ?oil).
     Result "{merchant} is paid, and {recipient} takes {find}.".
   }
   Action equip_item(actor: group, tool: item, form: itemkind, wearer: member) "Equip {tool} on {wearer}" {

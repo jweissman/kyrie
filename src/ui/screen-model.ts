@@ -255,7 +255,8 @@ export class ScreenModel {
     const spare = ([[this.count(items, 'torch'), 'torch', 'torches'], [this.count(items, 'candle'), 'candle', 'candles'],
       [this.count(items, 'lamp_oil'), 'flask of oil', 'flasks of oil']] as [number, string, string][])
       .filter(([n]) => n > 0).map(([n, one, many]) => `${n} ${n === 1 ? one : many}`).join(', ');
-    return { light: `${lit.length ? lit.join('; ') : 'Nothing lit'} · ${spare ? `${spare} to spare` : 'nothing to spare'}` };
+    return { light: `${lit.length ? lit.join('; ') : 'Nothing lit'} · ${spare ? `${spare} to spare` : 'nothing to spare'}`
+      + (ItemUses.dry(items.map(i => i.kind)) ? ' · a lamp, and no oil for it' : '') };
   }
   private static count(items: ItemRow[], kind: string): number { return items.filter(i => i.kind === kind).length; }
   // Identical wares on one shelf read as one row with a count; acting on the row acts on one of them.
@@ -433,9 +434,10 @@ export class ScreenModel {
   }
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
     const state = campaign.readout;
-    return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
+    const party = state.creatures.filter(c => state.partyIds.includes(c.id)), carried = ItemUses.carried(party);
+    return party.flatMap(c => (c.state.inventory ?? []).map(i => {
       const d = ItemCatalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
-      const kept = ItemUses.kept(i.definition, acts), points = Seats.line(campaign.world, i.definition);
+      const kept = ItemUses.kept(i.definition, acts, carried), points = Seats.line(campaign.world, i.definition);
       const plate = ItemPlates.kind(i.definition);
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
         description: d.description, ...plate ? { plate } : {},
