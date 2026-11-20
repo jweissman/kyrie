@@ -77,7 +77,8 @@ describe('a journey reviewed', () => {
     for (const l of review.frames.flatMap(f => f.lines).filter(x => x.role !== 'heading')) { expect(md).toContain(`> ${l.text}`); }
     const inspected = ReviewInspector.step(review, 2)!;
     for (const l of review.frames[review.steps[1]!.after!]!.lines) { expect(inspected).toContain(l.text); }
-    expect(inspected).toContain('**→** [primary, named] Ask Owain how many head came down  `drove__owain_count_t`');
+    // Led: the aim followed is to ask Owain, and the topic is said to him (GR-03: a topic is its speaker's).
+    expect(inspected).toContain('**→** [primary, led, named] Ask Owain how many head came down  `drove__owain_count_t`');
   });
   it('keeps the glance\'s reason for each of the four it led with, and what the world withdrew untaken', () => {
     const pens = review.frames.flatMap(f => f.offer).find(o => o.id === 'go(drove__pens_gate,drove__pens)' && o.led);

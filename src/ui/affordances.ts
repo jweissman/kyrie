@@ -466,6 +466,11 @@ export class Affordances {
     // The towns the country's roads go to are set out for as any other (a letter for Elmham, by the ford road).
     const journeys = [...screen.destinations ?? [], ...(screen.roads ?? [])
       .filter(d => !(screen.destinations ?? []).some(x => x.id === d.id))];
+    // Nor set out for where a way from here goes straight to the place the aim names: on the road between Porthalen
+    // and Reedbridge, "To the landing at Porthalen" and "Set out for Porthalen" had both been gold (GR-01: one gold).
+    if (screen.exits.some(e => !e.blocked && r.named.has(e.destination.id) && !r.idle?.has(e.destination.id))) {
+      return [];
+    }
     return journeys.filter(d => !near.has(d.id) && this.within(d.id, r.named, r) && !r.idle?.has(d.id)
       && d.toward?.toLowerCase() !== here).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`,
       kind: 'travel' as const, order: 0, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, minutes: d.minutes,

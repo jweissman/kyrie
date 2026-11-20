@@ -11,7 +11,11 @@ import type { Offered } from './runner';
 // Mistlake, grave and never gold (the lead's ruling, 15 November), and a walk that stood before them had been counted
 // lost. Said with the turn (Said.led), each by what it does; never a reason to gild anything (PB-16b).
 export class RunnerLed {
-  static of(campaign: Campaign, screen: Screen, lead: AimLead | undefined, primary: Offered[]): string[] {
+  // gilt: the glance's acts drawn toward the aim (facet aimed): what the page leads with in gold is led here too, where
+  // the step is the place the company stands in or a way out toward it (GR-03: the reeve's talk at the landing, the
+  // way out of the Wardens' gatehouse, gold on the page and not led in the runner's account).
+  static of(campaign: Campaign, screen: Screen, primary: Offered[],
+    { lead, gilt = [] }: { lead: AimLead | undefined; gilt?: readonly string[] }): string[] {
     if (!lead?.next.length) { return []; }
     const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
     // The step itself, and where it stands (someone or something at a place).
@@ -26,7 +30,8 @@ export class RunnerLed {
       const far = act.startsWith('travel:') ? act.slice('travel:'.length) : undefined;
       // A way is led by where it goes, never by where it leaves: a door of the room the step is in binds that room
       // too, and following an aim already at its place had led out of it and back (the second cold play, CL-03).
-      return (!way && (bound.get(act) ?? []).some(id => step.has(id))) || (!!way && step.has(way))
+      return gilt.includes(o.id) || (!way && (bound.get(act) ?? []).some(id => step.has(id)))
+        || (!!way && step.has(way))
         || (!!far && [...step].some(id => Itineraries.within(byId, id, far)));
     }).map(o => o.does ?? o.id);
   }

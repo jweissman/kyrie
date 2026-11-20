@@ -21,6 +21,8 @@ import { RunnerLines } from './runner-lines';
 import { RunnerAmid } from './runner-amid';
 import { RunnerPayoff } from './runner-payoff';
 import { RunnerLed } from './runner-led';
+import { Glance } from '../presentation/glance';
+import { Promotion } from '../ui/promotion';
 import { RunnerOffer, type Kept } from './runner-offer';
 import { Doable } from '../presentation/doable';
 import { RunnerTalks } from './runner-talks';
@@ -107,14 +109,27 @@ export class Runner {
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
   get scenes(): Presented[] { return this.scene.told.map(t => ({ ...t, sentences: TerminalWalk.count(t.lines) })); }
   private get campaign() { return this.session.campaign; }
+  // A journey just made, said as the page's host says it (EngineHost.travel, Glance.came): where it came, or why it
+  // stopped short ("You are weary", "Night has come on"), which the runner and the terminal had not said (GR-02).
+  private seenJourney?: object;
+  private journeyed(leaf: Leaf, screen: Screen): Leaf {
+    const done = this.session.journeyed;
+    if (!done || done === this.seenJourney || !leaf.glance) { return leaf; }
+    this.seenJourney = done;
+    const to = screen.place.name, travel = { to, arrived: done.arrived, legs: [{ place: to, at: screen.clock }],
+      ...done.stopped ? { stopped: done.stopped } : {} };
+    return done.arrived ? leaf : { ...leaf, glance: Glance.came(leaf.glance, travel) };
+  }
   // The turn as it stands: arriving (the first, and after a move), or what came of the last act.
   said(turned: Turned = !this.told || this.told.moved ? 'arrive' : 'act'): Said {
-    const c = this.campaign, now = this.standing, screen = now.screen, leaf = this.scene.leaf(c, screen, this.told);
+    const c = this.campaign, now = this.standing, screen = now.screen;
+    const leaf = this.journeyed(this.scene.leaf(c, screen, this.told), screen);
     now.glance = { of: leaf.glance }; this.leafed = leaf;
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };
-    const led = RunnerLed.of(c, screen, g?.lead, offer.primary);
+    const led = RunnerLed.of(c, screen, offer.primary, { lead: g?.lead, gilt: (g?.acts ?? [])
+      .filter(a => a.facets?.includes('aimed') && Promotion.continuing.includes(a.why)).map(a => a.choice) });
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
       purse: { coin: screen.purse.coin, rations: screen.purse.rations }, ...Runner.company(screen),
@@ -326,7 +341,7 @@ export class Runner {
   private opened(opener: Offered, screen: Screen): Said {
     const rows = opener.opens ?? [], g = this.glanced(), says = opener.says ? [Typography.plain(opener.says)] : [];
     const four = opener.says ? rows.length : 4, primary = rows.slice(0, four);
-    const led = opener.says ? RunnerLed.of(this.campaign, screen, g?.lead, primary) : [];
+    const led = opener.says ? RunnerLed.of(this.campaign, screen, primary, { lead: g?.lead }) : [];
     return { turn: this.n, moment: 'inspect', scene: { lines: [`${opener.label}:`, ...says], prose: says },
       at: screen.place.id, offer: { primary, rest: rows.slice(four) }, ...led.length ? { led } : {},
       ...Runner.aims(screen), ...g?.continuance ? { going: Runner.going(g.continuance) } : {} };
