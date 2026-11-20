@@ -38,6 +38,8 @@ describe('the road home, on the warrior\'s route', () => {
     expect([at[47]!.at, at[47]!.led]).toEqual(['gate__gatehouse', ['go(gate__gate_door,gate__bank)']]);
     // Step 52, come to the landing: the claim itself, said to the reeve.
     expect([at[51]!.at, at[51]!.led]).toEqual(['region__s1_green', ['gate__claim_whole']]);
+    // And says no need of another aim's there: the corn-store's padlock is nothing to the claim (GR-11).
+    expect(at[51]!.scene.lines.join(' ')).not.toContain('Pick the corn-store padlock');
   });
   it('says why the journey home stopped short', () => {
     expect([at[49]!.at, at[49]!.scene.lines]).toEqual(['region__s5_s2_way', expect.arrayContaining(['You are weary'])]);
