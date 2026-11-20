@@ -1,5 +1,5 @@
 import { Content, type CreatureGenerationContext } from '../content';
-import sky from '../../data/imbar/sky.json';
+import { SettingPort } from '../setting-port';
 import { Likeness } from '../paintings/likeness';
 import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
@@ -61,7 +61,7 @@ export class CompanyChoices {
       // A likeness chosen at creation is a painting of the collection's (see Likeness).
       if (context.likeness && !Likeness.ids.has(context.likeness)) { throw new Error('Unknown likeness'); }
       // So is a sign one of Imbar's sky's (OR-13: chosen at creation, it had reached no creature).
-      if (context.sign && !sky.signs.some(x => x.id === context.sign)) { throw new Error('Unknown sign'); }
+      if (context.sign && !SettingPort.sky.signs.some(x => x.id === context.sign)) { throw new Error('Unknown sign'); }
       // Rolls placed at creation are six, one to each quality, each three dice.
       const rolled = context.rolled;
       if (rolled && (Object.keys(rolled).length !== 6

@@ -14,7 +14,7 @@ import { Openings } from './openings';
 import { MechanicsText } from './mechanics-text';
 import { SkyGifts } from '../rules/sky-gifts';
 import { HandbookText } from '../handbook/text';
-import sky from '../../data/imbar/sky.json';
+import { SettingPort } from '../setting-port';
 
 export interface QualityRow {
   id: Attribute; name: string; score: number; base: number;
@@ -97,7 +97,7 @@ export class CharacterSheets {
   }
   // The sign and its gifts as the reference says them ("Quick: +2 initiative.").
   private static born(c: Creature): Pick<CharacterSheet, 'born'> {
-    const sign = sky.signs.find(s => s.id === c.sign);
+    const sign = SettingPort.sky.signs.find(s => s.id === c.sign);
     return sign ? { born: { sign: sign.name.replace(/^the /, 'The '), gifts: SkyGifts.of(c.sign)
       .map(g => `${Canon.traits[g]?.name ?? g}: ${HandbookText.trait(g).join(' ')}`) } } : {};
   }

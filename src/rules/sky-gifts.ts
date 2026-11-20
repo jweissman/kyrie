@@ -1,4 +1,4 @@
-import sky from '../../data/imbar/sky.json';
+import { SettingPort } from '../setting-port';
 import { Canon } from '../canon/canon';
 
 // What the sky one is born under gives (the owner, 18 November, OR-89: "there should probably be perk selection
@@ -7,7 +7,7 @@ import { Canon } from '../canon/canon';
 // (data/catalog/traits.json), to everyone born under it. A gift is held as any trait is, its modifiers, perks and
 // skills the rules' own.
 export class SkyGifts {
-  static of(sign?: string): string[] { return sky.signs.find(s => s.id === sign)?.gifts ?? []; }
+  static of(sign?: string): string[] { return SettingPort.sky.signs.find(s => s.id === sign)?.gifts ?? []; }
   // One kept before every gift of a sign was given (a game saved holding the one gift chosen) holds them all on coming
   // back: what is missing of its sign's gifts is added to its traits. Nothing else is changed.
   static borne<T extends { sign?: string; traits?: string[] }>(creature: T): T {

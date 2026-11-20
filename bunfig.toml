@@ -1,0 +1,6 @@
+# The setting gives the runtime its parts (src/setting-port.ts, MT-16 S6) before any file run here asks for them: the
+# specs, and the scripts and tools run with bun. The page, the worker and bin/kyrie fill it at their own roots.
+preload = ["./src/canon/setting-install.ts"]
+
+[test]
+preload = ["./src/canon/setting-install.ts"]

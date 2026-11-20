@@ -1,4 +1,4 @@
-import sky from '../data/imbar/sky.json';
+import { SettingPort } from './setting-port';
 import { ItemCatalog } from './item-catalog';
 import { Canon } from './canon/canon';
 import { DailyUses, type Daily } from './rules/daily-uses';
@@ -82,7 +82,7 @@ export class CreatureSchema {
     if (creature.likeness !== undefined && (typeof creature.likeness !== 'string' || !creature.likeness)) {
       throw new Error(`${creature.id}: a likeness is a painting's id`);
     }
-    if (creature.sign !== undefined && !sky.signs.some(x => x.id === creature.sign)) {
+    if (creature.sign !== undefined && !SettingPort.sky.signs.some(x => x.id === creature.sign)) {
       throw new Error(`${creature.id}: a sign is one of Imbar's sky`);
     }
   }

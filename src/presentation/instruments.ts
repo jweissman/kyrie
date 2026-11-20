@@ -1,4 +1,4 @@
-import sky from '../../data/imbar/sky.json';
+import { SettingPort } from '../setting-port';
 import voice from '../../data/voice/instruments.json';
 import { Calendar } from '../campaign/calendar';
 import { PartyCapabilities } from '../campaign/party-capabilities';
@@ -35,7 +35,7 @@ export class Instruments {
     const date = Calendar.date(start, campaign.readout.elapsed);
     const dark = ['night', 'evening'].includes(screen.expedition.daylight);
     // By day there is no moon to read nor stars to name; by night the moon, and the sign to one who knows it.
-    const sign = this.reader(campaign) ? sky.signs.find(s => s.month === date.name) : undefined;
+    const sign = this.reader(campaign) ? SettingPort.sky.signs.find(s => s.month === date.name) : undefined;
     const moon = phases[Math.floor(((date.day - 1) / 30) * phases.length) % phases.length]!;
     const own = sign && this.born(campaign, sign.id);
     const said = !dark ? 'Daylight.'
