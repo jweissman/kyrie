@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'bun:test';
+import { Journey } from '../src/session/journey';
+import { PlaySession } from '../src/session/play-session';
 import { p, R } from './support/repertory';
 
 // The three exploits are keyed to the clock: the rampart at night, the tiltyard by day, the chapel at dusk.
@@ -29,6 +31,22 @@ const toOrlayHall = async (r: R) => {
   await r.play('To the gate of Harrowmere', 'To the Orlay road');
   await r.until(() => r.hour() >= 6 && r.hour() < 19);
   await r.play('To the gate of Orlay', 'To the hall of Orlay');
+};
+// At the inn with the letter, its morning's dice sending the letter off in the wrong basket: the first of the seeds
+// tried under which they do.
+const mixed = async (seed: string) => {
+  const r = await toLetter(seed);
+  await r.play('To the gate of Harrowmere', 'To the Orlay road', 'To the Fox and Feather');
+  const at = JSON.stringify(r.j.session.checkpoint());
+  for (let i = 0; i < 60; i++) {
+    const cp = JSON.parse(at) as ReturnType<PlaySession['checkpoint']>;
+    cp.save.state.seed = `g1:${seed}-mix-${i}`;
+    const tried = new R(Journey.of(PlaySession.resume(cp)));
+    tried.base = r.base;
+    await tried.until(() => tried.holds('e3MixRolled', 'rierdan'));
+    if (tried.holds('e3Mixed', 'rierdan')) { return tried.until(() => tried.hour() >= 6 && tried.hour() < 19); }
+  }
+  throw new Error('no morning of sixty sent the letter off');
 };
 const inn = async (seed: string) => {
   const r = await toLetter(seed);
@@ -81,13 +99,25 @@ describe('The Repertory, 3: The Prince and the Letter', () => {
     expect(r.offers('To the hall of Orlay')).toBe(true);
     expect(r.measure('repertoire', 'rierdan') - r.base).toBe(0);
   }, 290000);
-  it.skip('leaves the larder early for a company that picks the bar loose, once', async () => {
-    const r = await toLetter('rep3k', false);
+  // OA-01: a check, forced each way from the one locked larder (the seed's own luck had drifted under it): a pick that
+  // comes off lets the company out at once, and one that fails leaves no second try.
+  it('leaves the larder early for a company that picks the bar loose, once', async () => {
+    const r = await toLetter('rep3e', false);
     await toOrlayHall(r);
     await r.play('Hand the Margravine of Orlay the letter you were given');
     await r.waits(1);
-    await r.play('Work the bar loose from inside');
-    expect(r.holds('e3Unlocked', 'rierdan')).toBe(true);
+    const locked = JSON.stringify(r.j.session.checkpoint()), pick = 'Work the bar loose from inside';
+    for (const outcome of ['pass', 'fail'] as const) {
+      const at = new R(Journey.of(PlaySession.resume(JSON.parse(locked) as ReturnType<PlaySession['checkpoint']>)));
+      expect([outcome, at.holds('e3Locked', 'rierdan'), at.offers(pick)]).toEqual([outcome, true, true]);
+      at.j.roll(outcome);
+      await at.play(pick);
+      at.j.roll();
+      expect([outcome, at.holds('e3Unlocked', 'rierdan'), at.holds('e3Picked', 'rierdan')])
+        .toEqual([outcome, outcome === 'pass', outcome === 'pass']);
+      expect([outcome, at.offers(pick)]).toEqual([outcome, false]);
+      if (outcome === 'pass') { expect(at.offers('To the hall of Orlay')).toBe(true); }
+    }
   }, 290000);
   it('makes a failed read the worst outcome of the read: three crowns, the Prince kept, the company turned out, and the play not credited', async () => {
     const r = await toLetter('rep3f-2');
@@ -130,8 +160,11 @@ describe('The Repertory, 3: The Prince and the Letter', () => {
     await r.waits(1);
     expect(r.measure('repertoire', 'rierdan') - r.base).toBe(1);
   }, 290000);
-  it.skip('ends in a farce of laundry lists when the morning\'s dice send the letter to Orlay in the wrong basket; the farce is not credited', async () => {
-    const r = await inn('rep3m');
+  // OA-02: the morning's dice are the world's (dice(clock), keyed by the seed and the watch), not a check, so no forced
+  // roll reaches them: the seed's own luck had drifted away from the mix. The company is brought to the inn once, and
+  // its night there is played again under seeds in turn until the dice send the letter off, as R.start keys a spec.
+  it('ends in a farce of laundry lists when the morning\'s dice send the letter to Orlay in the wrong basket; the farce is not credited', async () => {
+    const r = await mixed('rep3m');
     expect(r.holds('e3Mixed', 'rierdan')).toBe(true);
     expect(r.offers('Hand the Margravine of Orlay the letter you were given')).toBe(false);
     await r.play('To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay');
