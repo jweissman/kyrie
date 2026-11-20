@@ -63,8 +63,10 @@ export class ReviewMarkdown {
   }
   private static offered(f: ReviewFrame): string[] {
     const four = f.offer.filter(o => o.group !== 'rest'), rest = f.offer.length - four.length;
-    if (!f.offer.length) { return ['Offered: nothing.']; }
-    return [`Offered: ${four.map(o => `${o.label}${o.led ? ' (led)' : ''}`).join(' · ')}${rest ? ` · and ${rest} more` : ''}.`];
+    const gone = f.withdrawn?.length ? [`Withdrawn: ${f.withdrawn.map(o => o.label).join(' · ')}.`] : [];
+    if (!f.offer.length) { return [...gone, 'Offered: nothing.']; }
+    return [...gone,
+      `Offered: ${four.map(o => `${o.label}${o.led ? ' (led)' : ''}`).join(' · ')}${rest ? ` · and ${rest} more` : ''}.`];
   }
   // What the step changed that the reader should know: what was learned, who went where, what came and went, the aims,
   // and of the world's own doings, what did them.

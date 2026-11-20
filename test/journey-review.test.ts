@@ -74,7 +74,15 @@ describe('a journey reviewed', () => {
     for (const l of review.frames.flatMap(f => f.lines).filter(x => x.role !== 'heading')) { expect(md).toContain(`> ${l.text}`); }
     const inspected = ReviewInspector.step(review, 2)!;
     for (const l of review.frames[review.steps[1]!.after!]!.lines) { expect(inspected).toContain(l.text); }
-    expect(inspected).toContain('**→** [primary] Ask Owain how many head came down  `drove__owain_count_t`');
+    expect(inspected).toContain('**→** [primary, named] Ask Owain how many head came down  `drove__owain_count_t`');
+  });
+  it('keeps the glance\'s reason for each of the four it led with, and what the world withdrew untaken', () => {
+    const pens = review.frames.flatMap(f => f.offer).find(o => o.id === 'go(drove__pens_gate,drove__pens)' && o.led);
+    expect([pens?.why, pens?.note]).toEqual(['named', 'your aim']);
+    const freed = review.steps.find(s => s.chosen?.command === 'drove__show_drowned(party,drove__customs)')!;
+    expect(review.frames[freed.after!]!.withdrawn).toContainEqual({ id: 'talk_to(drove__bran)',
+      label: 'Talk to Bran ap Ifor' });
+    expect(review.frames.filter(f => f.withdrawn).every(f => f.withdrawn!.length)).toBe(true);
   });
   it('knows the Topic that told Owain\'s answer, and the observations of the opening', () => {
     const answer = review.frames[review.steps[1]!.after!]!.lines.find(l => l.text.startsWith('‘Thirty-six,’'))!;

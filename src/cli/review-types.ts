@@ -21,8 +21,10 @@ export interface ToldLine { text: string; role: 'prologue' | 'heading' | 'prose'
   sources: SourceRef[] }
 // A choice as offered, in order: what pulls next, the four (led among them, where the aim followed leads), the rest.
 // Its makers, which are the same wherever it is offered, are kept once for the artifact, by its id (makers).
+// why, note: of one of the four the glance led with, its reason (Promoted.why: named, advance, own…) and that reason
+// in words ("your aim"), as the glance gave them (the AT-09 analysis: the reason had been dropped before the review).
 export interface ReviewChoice { id: string; label: string; group: 'next' | 'primary' | 'rest' | 'fight'; led?: true;
-  aspects?: string[]; aside?: string }
+  aspects?: string[]; aside?: string; why?: string; note?: string }
 export interface Maker { type?: string; exact: Exactness; sources: SourceRef[] }
 // A scene as the player was shown it: when and where, the lines, the offer, the aims, and the world in a word.
 export interface ReviewFrame {
@@ -31,6 +33,9 @@ export interface ReviewFrame {
   aim?: string; aims?: { id: string; text: string; followed?: true }[]; need?: string[];
   purse?: { coin: number; rations: number }; you?: string; company?: string[];
   ending?: { title: string; lines: string[] };
+  // The world's own choices offered in the frame before, at the same place, that the world no longer allows, though
+  // the step did not take them (PlayerView.choices): a way shut by what was learned or by a check failed (AT-09).
+  withdrawn?: { id: string; label: string }[];
   digest: string;
 }
 // What a step did to the world, in its own terms: facts written and taken away, measures changed, what was learned,

@@ -29,6 +29,8 @@ export class JourneyReview {
   private readonly makers: Record<string, Maker> = {};
   private said: Said;
   private consequence = 0;
+  // The world's choices as the last frame was made (ReviewFrame.allowed), for what the next step withdraws.
+  private allowed: ReadonlySet<string> = new Set();
   private constructor(session: PlaySession) {
     this.runner = new Runner(session);
     this.said = this.runner.said();
@@ -70,7 +72,7 @@ export class JourneyReview {
         consequential: false, mark });
       return;
     }
-    const after = this.frame(out, events, false), now = this.runner.session.campaign;
+    const after = this.frame(out, events, false, chosen?.command), now = this.runner.session.campaign;
     const delta = new ReviewDelta(now, new ReviewProvenance(now)).of({ before: same ? was : now.world, after: now.world,
       events, fired, frames: [before, after] });
     const consequential = !!(delta.asserted.length || delta.retracted.length || delta.measures.length
@@ -83,15 +85,18 @@ export class JourneyReview {
   }
   // A turn as a frame: its screen built afresh (ScreenModel reads the world, writes nothing), the narrator's kinds of
   // what it told, and what the terminal said for reference apart from the narration, where the turn is the scene's.
-  private frame(said: Said, events: readonly CampaignEvent[], opening: boolean): Frame {
+  private frame(said: Said, events: readonly CampaignEvent[], opening: boolean, taken?: string): Frame {
     const campaign = this.campaign, screen = ScreenModel.build(campaign), scene = this.runner.scenes.at(-1);
+    const was = this.frames.at(-1), before = was && { frame: was, allowed: this.allowed, ...taken ? { taken } : {} };
     const ours = scene && scene.lines.length === said.scene.prose.length
       && scene.lines.every((l, i) => l === said.scene.prose[i]);
     const kinds = said.moment === 'outcome' ? this.runner.exchange()?.lines : undefined;
     const frame = new ReviewFrame(campaign, this.makers).of(this.frames.length, { said, screen, events,
       ...kinds ? { kinds } : {},
-      ...ours ? { reference: scene.reference } : {}, opening, ...this.runner.leaf ? { leaf: this.runner.leaf } : {} });
+      ...ours ? { reference: scene.reference } : {}, opening, ...this.runner.leaf ? { leaf: this.runner.leaf } : {},
+      ...before ? { before } : {} });
     this.frames.push(frame);
+    this.allowed = ReviewFrame.allowed(campaign);
     return frame;
   }
   private static witnessed(fired: Fired[], rule: string, changes: string[]) { fired.push({ rule, changes }); }

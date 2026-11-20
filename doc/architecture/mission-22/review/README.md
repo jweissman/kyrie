@@ -23,7 +23,7 @@ A review is a directory:
 
 | file | what it is |
 |---|---|
-| `review.json` | **Recorded live**: `JourneyReviewV1` ([src/cli/review-types.ts](../../../../src/cli/review-types.ts)). It holds the revision, the run's arguments, the lines file and the revision it was first played at, and the session transcript. It then holds every scene shown, the opening first, each with its time, place, lines (in order, each with its part and its makers), offer (in order: next, the four, led among them, the rest), aims, purse, company and digest. Each step records the line sent, the scene before it and what the line was in that scene (label and where it stood), the events, the scene after, whether it was consequential, the semantic delta, and each change by what made it. Each choice's makers are kept once, by its id. It is never written over (`--force` records anew). |
+| `review.json` | **Recorded live**: `JourneyReviewV1` ([src/cli/review-types.ts](../../../../src/cli/review-types.ts)). It holds the revision, the run's arguments, the lines file and the revision it was first played at, and the session transcript. It then holds every scene shown, the opening first, each with its time, place, lines (in order, each with its part and its makers), offer (in order: next, the four, led among them, the rest; each of the four the glance led with keeps its reason, `why` and `note`), the rows withdrawn since the scene before (`withdrawn`: the world's choices offered there, at the same place, that the world no longer allows and the step did not take), aims, purse, company and digest. `--roll pass` or `--roll fail` among the run's arguments has every check come out so, in the recording and its replay. Each step records the line sent, the scene before it and what the line was in that scene (label and where it stood), the events, the scene after, whether it was consequential, the semantic delta, and each change by what made it. Each choice's makers are kept once, by its id. It is never written over (`--force` records anew). |
 | `journey.md` | The chronological reading, to read aloud. It is grouped by place. For each step it shows what was told (each line quoted as shown), what was learned, who moved, what came and went, the aims and the time, and what the world's rules and people did. |
 | `findings.md` | How much is known by its making, the lines whose maker is unknown, and the world's changes grouped by what made them. |
 | `replay.json`, `replay.md` | **Replay**: the review's lines played again under the code as it is now, in a game of its own. The review's own transcript is first held to its digests by `PlaySession.replay`, which refuses a step that comes out otherwise. Each step then gets three verdicts of its own: state (digest), offer (the act still offered under its words) and presentation (the lines shown). Both revisions are named. The live recording is untouched. |
@@ -186,7 +186,9 @@ the clause without a comma. `bin/kyrie review step drove-opening 7` shows:
 
    - the place's id and name, the elapsed watch and the clock;
    - the lines in order, each with its part (prologue, heading, prose, reference);
-   - the offer, each choice with its id, label, group, whether it is led, its aspects and its aside;
+   - the offer, each choice with its id, label, group, whether it is led, its aspects and its aside, and of the four
+     the glance led with, its `why` and `note`;
+   - what was withdrawn since the scene before, untaken (`withdrawn`);
    - the aims, what is needed, the purse, who goes with the one who plays, any ending, and the digest.
 
    `Screen` itself is read only for provenance: `observed`, and `says` of the people and things. No UI object is
