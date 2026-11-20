@@ -16,6 +16,9 @@ export interface MonoInspection {
     ways: string[] };
   sheets?: { look: string[]; ways: string[]; more: string[] };
   confirming?: string;
+  // Every id the page can do now (the engine's offer as the page holds it), and the aims as the journal draws them.
+  observed?: string[];
+  aims?: { id: string; text: string; followed?: true; follow?: string }[];
 }
 
 // Drives the Mono client through the keyboard (and optionally the pointer) using semantic ids and labels. It never
@@ -244,6 +247,59 @@ export class MonoDriver {
     if ((await this.inspect()).place?.id === before && await this.page.locator('.wf-go').count()) {
       await this.click('.wf-go');
     }
+  }
+  // A row done by its id as a player reaches it, whatever holds it (GR-24: a page cold play had stopped measuring the
+  // game where its driver could not reach a control): the map opened by its key; a journey the engine leads set out
+  // on from the map, by its own rows (Travel to, Go on, held); an aim followed by its own row; anything else as pick
+  // finds it, in the lens or the view that draws it. Said how it was done: on the page, on the map, or, where no
+  // control a player has was found for something the page can do, by the page's own automation (kyrieMono.act), so
+  // the play goes on and the gap is counted, not lost.
+  async act(id: string): Promise<'page' | 'map' | 'fallback'> {
+    if (id === MonoDriver.map) {
+      if ((await this.inspect()).mode !== 'map') { await this.key('m'); }
+      return 'page';
+    }
+    const state = await this.inspect(), on = state.choices.some(c => c.id === id);
+    if (id.startsWith('travel:') && !on && await this.journey(id)) { return 'map'; }
+    const row = this.page.locator(`[data-choice="${id}"] >> visible=true`).first();
+    if (id.startsWith('follow:') && !on && await row.count()) { await row.click(); await this.settle(); return 'page'; }
+    try { await this.pick(c => c.id === id, id); return 'page'; } catch (e) {
+      const command = MonoDriver.command(state, id);
+      if (!command) { throw e; }
+      await this.page.keyboard.press('Escape').catch(MonoDriver.none);
+      await this.page.evaluate(([c, said]) => (window as unknown as { kyrieMono: { act(c: string, s: string): void } })
+        .kyrieMono.act(c!, said!), [command, MonoDriver.label(state, id)]);
+      await this.settle();
+      return 'fallback';
+    }
+  }
+  static readonly map = 'view:map';
+  // What the page would do for an id, where it can do it: the row's command, or the id itself where it is one.
+  private static command(state: MonoInspection, id: string): string | undefined {
+    const row = [...state.choices, ...state.sections.flatMap(x => x.choices)].find(c => c.id === id);
+    const observed = state.observed ?? [];
+    return row?.command ?? (observed.includes(id) && /^(travel|follow|exit):/.test(id) ? id : undefined);
+  }
+  private static label(state: MonoInspection, id: string): string {
+    return [...state.choices, ...state.sections.flatMap(x => x.choices)].find(c => c.id === id)?.label ?? id;
+  }
+  // A journey set out on from the map, as a player does: the map opened (M), the place gone to among its rows (one
+  // close by entered at a touch; one viewed first, then Travel to, held), or the way on (Go on, held); then the place
+  // come to entered. False where the map does not row it.
+  async journey(id: string): Promise<boolean> {
+    if ((await this.inspect()).mode !== 'map') { await this.key('m'); }
+    const has = async (q: string) => (await this.page.locator(q).count()) > 0;
+    const road = `[data-action="map-road"][data-choice="${id}"]`, view = `[data-action="map-view"][data-choice="${id}"]`;
+    const go = `[data-action="set-out"][data-choice="${id}"]`, on = '[data-action="go-on"]';
+    if (await has(road)) { await this.click(road); } else {
+      if (await has(view)) { await this.click(view); }
+      if (await has(go)) { await MonoDriver.press(this.page, go); } else if (await has(on)) {
+        await MonoDriver.press(this.page, on);
+      } else { await this.key('Escape'); return false; }
+    }
+    await this.settle();
+    await this.enter();
+    return true;
   }
   // Does a choice on show, found by a predicate; arrows bring the highlight to it, then Enter does it.
   // A choice that asks again before it is done (what cannot be undone, a fight that could be lost) is chosen again,
