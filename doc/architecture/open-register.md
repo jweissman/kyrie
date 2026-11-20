@@ -7,6 +7,15 @@ live rows; `--touching <file>` says which features a changed file could touch an
 lists rows with no feature. A new row must be placeable (its id in `rows`, or its prefix in `byPrefix`):
 test/small/register-tickets fails with the row named.
 
+**Closing a row (the sprint audit's lesson, 19 November).** A row is closed (fixed, met, closed) only with one of:
+a spec that tests the row's own claim, named in the status (not a neighbour that passes either way: barrow-forewarned
+passed without the forewarning); or a stated reason it cannot be checked headless and what would prove it (a CI
+browser recording, a human session). Someone other than its closer reads the spec against the claim before it
+counts: another agent, or the lead reading an agent's. A closure on a code read or one walk alone is `partly`.
+Directions and future scope (KX, SS, PG, SR, IM and their kind) are counted apart from defects; the burn-down that
+matters is the first hour's live P0 and P1 rows (`bun scripts/register-tickets.ts`), with 2–3 blind plays at 7/10 or
+more, before a human playtest (the owner, 19 November).
+
 Compiled 11 November 2026, read-only, from the repository at `/var/tmp/kyrie/wt-m20` (main plus local commits through
 `33cf0777`) and the owner's checkout for the risk review. A draft for the M20 handoff. It is not a disposition. It
 claims nothing beyond what the sources say.

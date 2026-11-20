@@ -17,7 +17,8 @@ export class MissionStatus {
   static main(argv: string[]): number {
     const at = argv.indexOf('--families'), families = at < 0 ? 15 : Number(argv[at + 1] ?? 15);
     const rows = RegisterState.rows(readFileSync(this.register, 'utf8'));
-    console.log([...this.overall(rows), '', ...this.families(rows, families), '', ...this.board(rows), '',
+    console.log([...this.overall(rows), '', ...this.played(), '', ...this.families(rows, families), '',
+      ...this.board(rows), '',
       ...this.srd()].join('\n'));
     return 0;
   }
@@ -32,6 +33,19 @@ export class MissionStatus {
       `live by weight: ${heavy('P0')} P0, ${heavy('P1')} P1, ${live.length - heavy('P0') - heavy('P1')} other`,
       `progress: ${Math.round(100 * done / Math.max(1, rows.length))} % of rows done`];
   }
+  // The burn-down that matters (the owner, 19 November): live P0 and P1 rows on the features a player meets in the
+  // first hour, by feature (RegisterTickets' placing), apart from the platform's own and from directions.
+  static readonly met = ['opening', 'creation', 'scene', 'talk', 'fight', 'spells', 'travel', 'undertakings', 'atlas',
+    'discovery', 'company', 'trade', 'consequence', 'time', 'prose', 'page-ui', 'startup'];
+  static played(): string[] {
+    const heavy = RegisterTickets.rows(readFileSync(this.register, 'utf8')).filter(t =>
+      RegisterTickets.live.includes(t.state) && /^P[01]$/.test(t.pri) && this.met.includes(t.feature));
+    const by = [...new Set(heavy.map(t => t.feature))].map(f => [f, heavy.filter(t => t.feature === f).length] as const)
+      .sort((a, b) => b[1] - a[1]).map(([f, n]) => `${f} ${n}`);
+    return ['## What a player meets', `live: ${this.of(heavy, 'P0').length} P0, ${this.of(heavy, 'P1').length} P1 (${by.join(', ')})`,
+      `P0: ${this.of(heavy, 'P0').map(t => t.id).join(', ')}`];
+  }
+  static of<T extends { pri: string }>(rows: T[], p: string): T[] { return rows.filter(t => t.pri === p); }
   static by(rows: Row[], state: string): number { return rows.filter(r => r.state === state).length; }
   static heavy(rows: Row[], p: string): number { return rows.filter(r => new RegExp(`\\b${p}\\b`).test(r.weight)).length; }
   // Live rows by their id's family (CL-, OR-, MT-…), most first: where register zero is furthest.

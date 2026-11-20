@@ -1,0 +1,312 @@
+{
+ "method": "random.Random('closure-sample-2026-11-19'); closed rows from register-tickets --json at 322eb934f",
+ "counts": {
+  "closed": 418,
+  "naming_spec": 208,
+  "no_spec": 210
+ },
+ "no_spec": [
+  {
+   "id": "R10-17",
+   "what": "a1, the debt: once the nearest old place (\u00cdsencepan) is spent, the aim goes on to \"the next old place\", Marsh Howe (region__w10). It is on the company's map, but `Itineraries.destinations` gives no plan to it, so no act sets out for it and the gold is lost at Mik's (gold survey, a1/debt, step 10; also LOST before tonight)",
+   "status": "**fixed** (E208): a way told is a journey over the open country as told \u00b7 held by `told-way`",
+   "feature": "travel"
+  },
+  {
+   "id": "PL-10",
+   "what": "In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light",
+   "status": "fixed; held by `small/gold-fight`",
+   "feature": "undertakings"
+  },
+  {
+   "id": "EX-02",
+   "what": "Three things told apart in the authoritative projection: known progress on the undertaking (an evidenced next step, gold's alone); the unexplored frontier (a reachable way or line of investigation whose contents are unknown); the known retreat or return (a way back to familiar ground). The frontier is a small directional sign or a contextual word, never a new global colour, and never a claim that the objective lies that way. \"Further in\" means an unexplored frontier, lateral as well as deeper \u00b7 Done: Offered.bearing (frontier, retreat, return) in a site or under the ground, typed for every client (Offers.borne); retreats and ways to known ground never held (f5cd97de); held acts say their aim (Promoted.aim). Drawn (play-18): the terminal's row says \"unexplored\" or \"back\" (text only); the page's way row takes the direction sign (in, out) and the same word, both from Signs.bearing by the way's command (test/small/bearing-signs)",
+   "status": "done",
+   "feature": "discovery"
+  },
+  {
+   "id": "AP-10",
+   "what": "\"Offer the heel of a loaf\" lost its horse's name somewhere in presentation; the cause not found",
+   "status": "not reproduced (closed 16 Nov): the general \"whom\" rule of 11 Nov names the recipient; no sighting since. A new sighting is a new row with its seed",
+   "feature": "atlas"
+  },
+  {
+   "id": "FH-23",
+   "what": "Automation skips the prologue; cold rounds must use `&opening`",
+   "status": "decided (16 Nov): a harness rule, kept: a cold round starts with `&opening` so the prologue is played",
+   "feature": "opening"
+  },
+  {
+   "id": "PL-22",
+   "what": "A chest picked open says only \"stands open\": the stolen chalice in it is only under `all`",
+   "status": "fixed: the telling, and the take names what is taken (\"Take a stolen chalice from a chest on the ledge\"); held by `small/opened-box`",
+   "feature": "discovery"
+  },
+  {
+   "id": "SP-08",
+   "what": "Choices grounded afresh in every new world (22 ms in the frontier): never carried after M16",
+   "status": "Dropped, unverified since 6 Nov",
+   "feature": "startup"
+  },
+  {
+   "id": "OR-12",
+   "what": "The way into a band is told only in a room's prose: a band heard behind a way (Marks `heard`) drew no colour, and a silent ambush's sign at the mouth of a way marks nothing (the sites audit, mission-22/sites)",
+   "status": "fixed on m22-sites: a way with something heard in there is red (Aspects.of; small/indicator-condition); the ambush's sign is a fact, lurks(band, place), asserted by DeepSounds, and a way to where something lurks is red to a company that can see the sign, never in the dark (Passages.lurking, Marks `lurks`; small/ambush-marked)",
+   "feature": "atlas"
+  },
+  {
+   "id": "AT-07",
+   "what": "The architecture of opportunities and the Color Atlas, a longer-horizon investigation (the owner's playtest, 19 November): can the engine construct one authoritative, inspectable model of available actions and reachable opportunities from which lenses, menus, navigation, routes and indicators all derive? (1) bottom-up propagation: a container's indicator accumulated from authoritative descendant rows with a traceable witness, robust to pagination, promotion and grouping; executable rows never blank or targetless; (2) derivation from the world: bounded reachability over the action, place, relationship and undertaking graph, limited by knowledge and perception, immediate vs reachable vs contingent, caching and invalidation; an indicator explained by the engine; a synthetic choice hierarchy and a tiny Kyr world as the test basis. A source-grounded report (the pipeline, causes by kind, invariants, the smallest change sequence, M22 maturity vs a later mission), not a rewrite in M22",
+   "status": "met (19 Nov, verified (maturity-next-steps.md)): its M22 part done (the support spec, every aspect-bearing reason with a leaf, opened children with their witnesses, Doable carrying shut acts, rest rows one colour owner, aspect truth); the Offering tree, Known and --why indicator carried as AT-10",
+   "feature": "atlas"
+  },
+  {
+   "id": "PR-07",
+   "what": "\"Story after a reload shows only what happened since\"",
+   "status": "not reproduced (19 Nov, verified): a kahitude debt game walked about the green and the scrivener's, kept and opened again, tells the same story: 6 chronicle entries before and after (PlayerView.chronicle; a probe over PlaySession.resume, 19 Nov)",
+   "feature": "persistence"
+  },
+  {
+   "id": "PL-02",
+   "what": "A journey's fights were fought for the player (headless `travel:` legs used the automatic controller)",
+   "status": "fixed; held by `small/journey-fight`",
+   "feature": "fight"
+  },
+  {
+   "id": "IG-09",
+   "what": "The owner: the one focus mark as a target reticule, everywhere it can be (title, creation, scene, map), in place of the gold bar and the two outlines **Superseded by IG-15** (the owner: the reticle is the pointer, not corner marks), live d148ee97",
+   "status": "superseded",
+   "feature": "opening"
+  },
+  {
+   "id": "CO-10",
+   "what": "Mechanics in the prose: \"gains inspired for 3h\", \"2 true damage\", \"under migraine\", \"You collect a garnet for Hild\", raw `*habit*` asterisks in the Story. The engine's side is partly done: a condition's beginning and ending are told from data/voice/conditions.json where the condition has no words of its own (167 of the 184 without them: all but the planes' and the laws' states, whose words belong with the grand tour), and \"true\" damage is no longer named (test/small/conditions-told). **Raw asterisks closed (16 Nov):** Typography.curl drops a stress mark and keeps the word on every surface that does not set stress apart (talk, the Story), Told.Said still sets it in italics (test/small/typography-stress, told-stress). Still to do: the planes' and laws' 17 (M22, with the grand tour), the collect line \u00b7 **The planes' and laws' done (17 Nov, round 8):** the 17 (two place laws, fifteen planes), the three inline conditions of Orsino abilities (summoning, ticking, the glyph of warding) and the endings of a death and a drain have words in data/voice/conditions.json; test/small/conditions-told now holds every condition of the catalog told in words, beginning and ending (23 were unsaid). Still open: the collect line (\"Collect {find} for {recipient}\", data/rules/belongings.kyr, echoed as the act's words; the page offers it as \"Take\"; 96 spec lines name the label) \u00b7 **The collect line fixed (17 Nov, round 10):** one who came alone is echoed doing a thing, not doing it for themselves (\"Collect a jewelled box\", where a company of two still says for whom): ActionFeedbackView.own drops the clause naming the lone member the act binds; test/small/alone-echo",
+   "status": "fixed (17 Nov: the planes' and laws' words, round 8; the collect line, round 10)",
+   "feature": "talk"
+  },
+  {
+   "id": "PP-04",
+   "what": "The first hour's commonest ordinary passages rewritten plainly, facts and consequences unchanged: the road meeting, the first town's greetings (the reeve, the apprentice, the old woman), the journey's lines, animals' greetings and petting, farewells, haggling, singing for coin, a carrier's wheel, a rumour's naming (\"The fallen walls they speak of is called Fengate\")",
+   "status": "fixed (17 Nov): 47 passages in 11 tables and one engine string; the census before and after in prose-comparison.md",
+   "feature": "prose"
+  },
+  {
+   "id": "BL-01",
+   "what": "The Go lens's \"All 33\" list of ways runs off the bottom of the fixed screen and cannot be scrolled by wheel, arrows or Tab; the inn the rail pointed to (\"a companion, that way\") was among the entries out of reach (found by a back way). An offered act that cannot be reached **Fixed (15 Nov night):** reproduced at a1's camp (25 ways, the last at 1470 px on an 800 px screen, the column fixed at its content and clipped by the glance); a lens unfolded whole now takes what the column has left and scrolls within it (rest.css, only while unfolded: `.do-col:has(.lens-rest)`), the page never scrolling. Held by test/lens-all-browser at 1280\u00d7800 and 820\u00d71180, mutation-checked; rest, safe-zone, glance and steady-start browser specs pass",
+   "status": "fixed",
+   "feature": "company"
+  },
+  {
+   "id": "BP-04",
+   "what": "Warnings the world does not keep (a band that \"will not wait\" lets the company walk past) \u00b7 **Fixed (the lead, 15 Nov night):** the blind playtest's rat was a starving one, told as \"ribs showing; it will not wait to be sure of you\", whose variation gave it no temper of its own, so it met the company as any wary rat. The starving variation is now savage (it falls on whoever comes), and a creature's temper is read of its kind as it is made (CreatureFacts.temperament: a variation's temperament counted, as Parties already did for the composed kind). test/small/starving-will-not-wait, mutation-checked. The authored great creatures all name their temper and are unchanged",
+   "status": "fixed",
+   "feature": "fight"
+  },
+  {
+   "id": "PL-09",
+   "what": "A companion \"binds the hurt\" of a company with nothing wrong but a lit torch: needing care held of any condition",
+   "status": "fixed; held by `small/care`",
+   "feature": "company"
+  },
+  {
+   "id": "T24-10",
+   "what": "The CI never keeps the parse store; every job parses every text",
+   "status": "fixed: the parse store kept between CI runs (`.github/workflows/ci.yml`, actions/cache of node_modules/.cache/kyrie-parse); a process fix",
+   "feature": "startup"
+  },
+  {
+   "id": "OR-20",
+   "what": "A check's dice told as a line of the conversation (\"Nest makes the persuasion check (d20 17 + charisma 0 = 17 against 13).\")",
+   "status": "fixed on m22: a closed How it fell under what came of it, as in a fight (ruling 1; small/talk-how)",
+   "feature": "talk"
+  },
+  {
+   "id": "PB-01",
+   "what": "\"I shouldn't open a topic to find 30 rumors beneath it. Just sample one and have a 'Heard any news?' question.\" Measured in a1: Mistshaw's innkeeper carried fourteen generated hearsay asks (the shared `ask`, one for each thing they could be asked after), the pilgrim thirteen, the herb-wife nine. **Fixed (15 Nov):** a person with three or more hearsay asks has one, \"Ask Osborn for news\", which tells one sampled and then the next as each is heard (ChoiceGrouping.news; test/news-asked: no one in 160 places lists three asks, mutation-checked). Authored topics are not folded",
+   "status": "fixed",
+   "feature": "page-ui"
+  },
+  {
+   "id": "PB-25",
+   "what": "The scene's lens is paged, four acts at a time with a \"More\u2026 n of N\" row (not an act), round to the first; the \"All N\" unfold is gone (the owner, 16 Nov, a ruling: four items in every context). Specs: LensPages in test/support, lens-all-browser rewritten",
+   "status": "closed 16 Nov",
+   "feature": "page-ui"
+  },
+  {
+   "id": "T24-04",
+   "what": "Three menu styles (led acts, conversation questions, fight tiles)",
+   "status": "fixed (e248e719): one choice row for every activity, held by `action-system`",
+   "feature": "fight"
+  },
+  {
+   "id": "R10-02",
+   "what": "Silver leads on the map (amendment 6 F, the atlas synthesis): the map does not offer exploration's silver leads",
+   "status": "superseded (15 Nov) by PB-23: silver retired (five tones; exploration and companions are icons); what remains, the map offering exploration's leads, is the atlas's AP-01 and PB-17's",
+   "feature": "travel"
+  },
+  {
+   "id": "PL-25",
+   "what": "a1 debt: at Marsh Howe's cleared den the foreground was only the way out, its search for the coin dragged in under `all`; one steel coin sent the company 71 minutes home and called \u00cdsencepan \"spent\"",
+   "status": "fixed: a coin aim is advanced by an act that puts coin in the purse (not a service), and the dead are offered what the aim waits on; held by `small/debt-purse`; the trifle and the \"spent\" wording in data",
+   "feature": "trade"
+  },
+  {
+   "id": "TP-03",
+   "what": "Companionship as an icon rather than a colour: assessed with both clients side by side, then decided \u00b7 Decided (the lead, 14 November): an icon only. In a1's camp the brother's act turned from silver to rose once the aim was followed, its meaning unchanged. Rose is out of Emphasis.precedence, Indicator.of gives \u26ad first, no flag; held by test/small/terminal-awkward (the a1 camp case); the page adopts it (the aesthetic line)",
+   "status": "fixed",
+   "feature": "terminal"
+  },
+  {
+   "id": "TP-08",
+   "what": "The terminal's second play: \"Where to?\" from the Lucky Phoenix's taproom did not offer Ironkeep after Eamon told the way, where Mik's shop led with it. Not reproduced on a straight walk (a1, debt, elf thief): walked to the taproom, the shop and the green, each offers the keep, as \"a broken keep\" until its name is known (Itineraries.destinations, which the terminal's set-outs read). Wants the session's transcript from Eamon's telling; a name told apart from its place (\"a broken keep\" against \"Ironkeep\") is the likelier confusion",
+   "status": "not reproduced (19 Nov): a straight walk (a1, debt, elf thief) to the taproom, the shop and the green offers the keep from each (Itineraries.destinations), as 'a broken keep' until its name is known; the second play's transcript from Eamon's telling was never kept, so the case cannot be replayed. Reopen with a transcript",
+   "feature": "terminal"
+  },
+  {
+   "id": "CN-08",
+   "what": "One end-to-end interior scenario shown in the page on desktop and iPad: lens switching, promoted actions, looking at a thing, talking, the way out, back to the town, a fight with target changes, and context restored after **Fixed:** the headless walk (test/interior-walk) and the browser walk at both sizes (test/interior-walk-browser, 93cb4963) both on main since look-14 landed (d148ee97) (Was: partly: the walk headless, held by `test/interior-walk` (on main); the browser walk at both sizes (93cb4963, `interior-walk-browser`) on m21-look only, not merged.)",
+   "status": "fixed",
+   "feature": "fight"
+  },
+  {
+   "id": "PL-20",
+   "what": "A danger led \"Talk to\" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave",
+   "status": "fixed; held by `small/talk-when-asked`",
+   "feature": "fight"
+  },
+  {
+   "id": "R10-04",
+   "what": "Evidence lived in scratch (/var/tmp/kyrie/m20): the gold survey, the signal census, the browser render of the signals, the safe-zone probe, the parley and camp probes",
+   "status": "**mended**: copied into `mission-20/evidence-tools/` (they read the worktree path at their head; change `W` to run them; a process fix: no behaviour of the game to hold)",
+   "feature": "undertakings"
+  },
+  {
+   "id": "PB-15",
+   "what": "Follow is not offered while a lens (Who, talk) is open; the four are not drawn there.",
+   "status": "closed (by design, 15 Nov, BN-04): under the foreground rule (focus replaces the foreground; ruling 2, 16 Nov) a lens is another subject, and the aim is offered at the resting scene one press away",
+   "feature": "page-ui"
+  }
+ ],
+ "with_spec": [
+  {
+   "id": "NP-04",
+   "what": "Generic voices in the wrong mouths: a tied, crying captive greets with shopkeeper banter and uses Baldric's farewell; a rescued boy says \"Now then!\"",
+   "status": "**Fixed in part, verified (15 Nov):** one held against their will (penned, chained, bound, tied, captive, shackled, caged) is greeted as troubled, not by their manner's cheer (BL-10; test/small/greeting-penned). The farewell and the template for everyone else are DN-05",
+   "feature": "prose"
+  },
+  {
+   "id": "OB-09",
+   "what": "test/silent-lord-turns' forged remission is still `it.skip` (its M20 comment: a ford in spate), though AI-02 was closed \"not reproduced\" (small/ford-in-spate). A heavy journey: to be unskipped on CI once and then kept or deleted",
+   "status": "fixed (19 Nov, review-roll): unskipped and played again, it passes as written (the remission forced to come off, the walk waiting out the spate), about 38 s. Kept as a heavy journey; its comment says so (test/silent-lord-turns.test.ts:30)",
+   "feature": "testing"
+  },
+  {
+   "id": "OR-98",
+   "what": "The first-spell choice a mess (the owner, 18 November): a multiselect, not three steps paging three at a time, and the instrument of the spells a school or domain sets out with brought back",
+   "status": "fixed (18 Nov): one step asks for the whole hand (\"Which three spells did you learn first?\"), every spell open to the way in view, a press taking or letting go, a full hand shutting the rest, the last row (\"Learn these three\", held) shut until the hand is full and has one of the art, its entry the way's instrument with the spells chosen; the page stays on the step as spells are taken, the terminal's Enter goes on (CreationStep.many, picked; test/small/first-spells-chosen, creation-conformance). Seen in the browser (18 Nov, test/composed-creation-browser: an elf evoker's seventeen spells and the learn row): in one column the last seven rows and \"Learn these three\" had stood below a laptop's window, so the step is drawn as a list, two to a line, the learn row under it clear of the rail (its sentence two lines); a press takes or lets go with no hold, the page staying; the full hand shuts the rest (\"Hand full\", which had been cut off in every row); a click on \"Learn these three\" does not go on, held it does; its entry shows the hand chosen",
+   "feature": "creation"
+  },
+  {
+   "id": "OR-94",
+   "what": "The page invents no controls (the owner, 18 November: \"the webapp should not be inventing flows/buttons but ideally just be a simple player of what the engine is specifying ... any buttons outside of menu items, and any interaction elements at all except the well-defined ones for lenses and book, should be strictly forbidden\"): a \"Back out to the map\" of the page's own stood beside the engine's \"Open the world map\"",
+   "status": "fixed (19 Nov, verified (maturity-next-steps.md)): the page invents no controls: 35 buttons in 22 files, every one an engine row or a named allowed instrument (lens marks, map, book, before-play pages), pinned by kind in test/small/page-controls (820dc9ec0)",
+   "feature": "page-ui"
+  },
+  {
+   "id": "CL-50",
+   "what": "Supply and road (cold play 4): the general store \"smells of meal, soap and lamp-oil\" and sells no food, oil or candles, nearly every buy \"for Carlin\"; no food to be had anywhere met (27); \"1 candle to spare\" with only Carlin's to light (20); \"Set out for Gatesend\" stops after one hex with no reason, again and again (28)",
+   "status": "fixed (18 Nov): the general store no longer \"smells of meal, soap and lamp-oil\": it sells cloth and goods beside the town's chandlery, where the rations and the light are (Mabel's, at Porthalen), and now smells of what it sells (sacking, leather and new cloth; the Orsino general store of tallow, rope and sacking); its candles were bought in the play (cold-4 lines 108\u2013109). Then (18 Nov, burn-1): the store's wares are offered off its shelves, as the page holds them under each thing, not folded under its keeper's talk where only their haggling had shown (RunnerTalks); a ware is handed to the one who plays unless they carry far more of what they can carry than another (Carriers: by the share of capacity, not by how many things, which had handed every ware to Carlin once Wenna came up out of the barrow with a few things); and every general store says \"For meal and lamp-oil, folk go to the chandler's.\" test/store-wares",
+   "feature": "adventures"
+  },
+  {
+   "id": "R11-01",
+   "what": "Talk topics renumber after each answer: a number pressed for what had been there did something else, once informing on Heian by accident (U 66; R 64; T)",
+   "status": "**fixed** (E205): a reply keeps its number through the conversation, and a digit presses the reply beside it; held by `test/talk-numbers` (mutation-checked 13 Nov)",
+   "feature": "talk"
+  },
+  {
+   "id": "CL-37",
+   "what": "A fight told wrong (cold play 5): foes named twice at once (\"The rats\u2026 are here. / The rats\u2026 stand their ground\"; \"Rats in the cellar are here.\") (19); \"The old buck rat is not stunned.\" when nothing tried to (21); \"Gesk sneers: 'Pathetic.'\" three times (22); Ilse acting twice running (20); \"a whole nest of them, and bold\" for two rats of one hit point (17); a spell swapped out offered in the fight (18)",
+   "status": "fixed (19 Nov, burn-5): foes named once on arrival: a danger the glance has just named (\"The rats under the corn-store are here, each a brown rat \u2026\") is \"They\" or \"It\" in what it does next in the telling (\"They stand their ground and watch you.\"), someone of a people keeping their name (Introduced, src/presentation/introduced.ts, in Narrator.leaf, so page and terminal alike; replayed at T36 of cold-5-lines; test/small/named-once, failing before), and the generated bands named without an article have one (\"the rats in the cellar\", the bats, the lights, the frogs: test/small/named-once) (19). Before: a state held off is said as the blow's (\"Wenna is not stunned by it.\"), not as news (test/small/every-blow-told); a bark is not said again in the fights after (18 Nov): what fighters say is kept in the campaign's record of what has been told (CampaignEvent.voiced, kind bark), so it holds across a save and a replay, and a line among the last twelve said is not said again, another of its kind or nothing instead (test/small/barks-remembered). 19 Nov (burn-5): the merchant says \"a couple of them at the least\" of a lone company's two rats, \"a whole nest\" of a company's five (RegionUndertown.values `nestof`; test/kyr-template, failing before) (17); a spell swapped out and still offered in the fight is the owner's ruling of 15 November (a spell known is cast from any ready slot: Spellcasting; preparing now changes only the sheet, which wants the owner's word) (18); Ilse twice running is the rules' (initiative rolled each round, Orsino's loop: she acted last in the first round and first in the next), the round's turn unsaid (20).",
+   "feature": "adventures"
+  },
+  {
+   "id": "NM-02",
+   "what": "Map panel hierarchy: eyebrow, short title from real data, quiet context, particulars, short action; \"Explore nearby\" only where the hex holds something; panel heading against button; panel covers half the phone",
+   "status": "**Done** (30d497f8): eyebrow, short title from real data, context, particulars, short Set out, Explore nearby only where the hex holds known places (test/map-browser); the panel's share of a phone screen not re-measured since",
+   "feature": "travel"
+  },
+  {
+   "id": "BP-02",
+   "what": "A fight's telling contradicts itself (\"for 9\", then \"takes 1\") and garnishes (\"looks away solemnly\" after a rat): each outcome said once; garnish cut or tied to the character and the moment \u00b7 **15 Nov night (the lead):** the runner (the terminal's agents, the walkers) told a fight's outcome as the whole fight again, its names changed (\"Rat 1\" become \"the first rat\"), with its damage and experience beside; now it ends by its last blows told once as its turns were, then what was witnessed and how it ended, as the page's host does (RunnerFight.closed, EngineHost.unfought). test/small/fight-told-once, turn by turn and pressed on, mutation-checked. Still open: the garnish, checked in play \u00b7 **18 Nov (the owner: \"Killing blows should show their damage\"):** a killing blow is told with what it dealt, once, then the fall (\"\u2026hits the third rat, for 7. The third rat falls.\"), never a second number for what was left; test/fight-told-once, test/small/fight-said-once",
+   "status": "fixed (19 Nov, audit): each outcome said once, a killing blow with what it dealt and then the fall (test/fight-told-once, test/small/fight-said-once, RunnerFight.closed); the garnish cut: \"looks away solemnly\" is in no voice table (grep of data/ and src/), and a bark is not said again in the fights after (CampaignEvent.voiced, test/small/barks-remembered, CL-37)",
+   "feature": "fight"
+  },
+  {
+   "id": "CO-09",
+   "what": "Travel: \"No way known\" offers only the town's places; on leaving a town the map's primary button is \"Enter\" that town; on a tablet the place card covers the target. Offer the adjacent country when no way is known",
+   "status": "fixed (17 Nov): the adjacent country offered where no way is known (round 7: test/map-set-out); the map's menu is View for a place not in view, Travel to the one in view, Enter for what stands on the company's own hex, a journey's Go on first (MapMenu; test/map-browser, test/safe-zone-browser); the card kept clear of the target by the board's camera (BoardCamera.clear, iterated; test/map-charted-browser)",
+   "feature": "travel"
+  },
+  {
+   "id": "OR-111",
+   "what": "A journey set out on by a long press, as every commitment is (the owner's play, 18 November: \"You should definitely have to long-press commit to travel somewhere\")",
+   "status": "fixed (19 Nov): a journey is held to set out on, by the engine's rule for its command (ChoiceList.sustained: travel:, as a rest or a camp is by its action), wherever it is drawn: a row of the four or a lens (Act.View), and the map's Travel to and Go on to (Hold.row); a walk within the place is a touch. Pinned in test/hold-rule; the browser specs hold what is held (MonoDriver.press, the driver's click). 19 Nov: a hold is the asking (a journey that would ask, done at once when held: Hold commits choose(c, true)); a hold on the map was being let go that the hand never let go (the board shifting under a pointer at rest, a pointer-up beating a timer late on a page busy drawing): let go only where the hand has moved, and done where held the whole time",
+   "feature": "travel"
+  },
+  {
+   "id": "OR-49",
+   "what": "\"NOTED, FURTHER OFF\" sliced by the menu's divider on a desktop conversation (mission-22/review-071f20dd.md)",
+   "status": "fixed (17 Nov): on a wide screen the reply takes all the room the rows leave and the rows stand at the foot, clear of the map and the book, still as the reply grows (talk.css; the reply's room 282 \u2192 319 px at 1280\u00d7800, the rest of a long reply scrolled above the rows, never a row cut by the divider); on a phone the rail stands at the top (OR-67); test/reply-in-view-browser, test/frame-browser, test/safe-zone-browser",
+   "feature": "page-ui"
+  },
+  {
+   "id": "TB-12",
+   "what": "One resolution from the glance to doable rows (Doable.of), replacing Runner.within/way/keyed, Terminal.led/way and AutoplayRun.led's `#talk` slicing (WD-15's talk/topic gap); `bin/kyrie serve` folded into the runner (checkpoint, resume, card) and retired (mission-22/audit/threads.md \u00a71\u20132)",
+   "status": "fixed (19 Nov, verified (maturity-next-steps.md)): one presenter: Doable read by the runner, the terminal, autoplay and the page (GlanceStage.acted asks Doable since ad68847e1); test/small/one-projection holds no it.failing (21 pass)",
+   "feature": "terminal"
+  },
+  {
+   "id": "OR-54",
+   "what": "On a phone no reticle at all while holding; the row's fill seemed to finish before the act was done (the owner, 17 November)",
+   "status": "fixed (17 Nov): a finger's hold draws the reticle round the finger (Reticle, .finger); the fill is solid with a bright leading edge over the row's lit ground, so it is done when the fill reaches the end (instrument.css's holding background had wiped the fill in play); test/hold-fill-browser",
+   "feature": "page-ui"
+  },
+  {
+   "id": "TO-04",
+   "what": "One richer responsive interaction prototyped (the celestial observatory for a birth sign is the owner's example): the engine authoritative over the signs, what one means and the next question, the sky a visual realization of that decision, the terminal making the same choice in text",
+   "status": "fixed (19 Nov, verified): the birth sign's observatory: the engine holds the twelve signs and what one settles (87d9d5844, data/imbar/sky.json, CreationFlow's sign step), the page's sky a ring that turns to the sign in focus and decides nothing (web/reader/creation/observatory.tsx, sky-canvas.tsx), the terminal making the same choice in text (test/creation-conformance); held by test/small/sky-gifts (run: pass) and test/sign-zoom-browser (browser, nightly)",
+   "feature": "opening"
+  },
+  {
+   "id": "OR-87",
+   "what": "\"Hold\" shows on more than one row at once; it should be on one thing at a time (the owner, 18 November)",
+   "status": "fixed (18 Nov): cause, each row let go early said \"Hold\" for three seconds of its own, so a second tap within them left two; now Hold keeps one hinted row (Hold.hint): a new one takes it from the last, and the hand or the focus going to anything else (pointerover, focusin) takes it away; pinned by test/hold-hint-browser (fails on the old Hold)",
+   "feature": "page-ui"
+  },
+  {
+   "id": "OR-38",
+   "what": "The owner, 16 Nov night: stray \"not true action items\" drawn by other structures than the four; menus of different heights",
+   "status": "fixed (19 Nov, audit): the stray items and the menus' heights, as the row asks, held mechanically: every menu and rail marked by PageFrame.slot (test/small/page-slots, run 19 Nov: pass), nothing pressable outside the menu, the rail or a named allowance and every menu row one height (test/action-census-browser), the menus one component (ChoiceRow). The composition of a place, the map's cards and the Book within the page's parts is layout, not stray controls (OR-94 carries the page's own buttons)",
+   "feature": "page-ui"
+  },
+  {
+   "id": "AP-02",
+   "what": "Atlas states (full, faint, dim, silver) as projected engine data, not CSS; exhaustion as one projected state so repeatable useful acts never go dim",
+   "status": "fixed (17 Nov, round 7, checked in code; M22's indicator appendix): how an opportunity stands is engine data, typed: Indicator.condition gives present, afar (faint), heard, idle and spent (dim), from the glance's own `afar` and `idle` and the talk's asked topics; the page draws only the projected `data-condition` (Pip.condition). Exhaustion is one state, spent, given only to a topic asked (TalkStage) and idle only to a place left twice with nothing new, so a repeatable act (wait, rest, buy) never goes dim. test/small/indicator-condition, indicator-page: pass \u00b7 was: open (16 Nov: silver retired by PB-23, so the states are full, faint and dim)",
+   "feature": "atlas"
+  },
+  {
+   "id": "TO-01",
+   "what": "The title in the game's own interaction language: its choices as the modern highlighted menu (or a designed variant), Play with one strong, elegant gold focus (ceremonial gold at the entry only, the stricter gold of a followed aim kept inside), focus stable and immediate, no moving double-box decoration, no shifting geometry; teaching the grammar creation and play will use \u00b7 14 Nov: a design preference, not a blocker **Partly:** the opening passage as one instrument (0e56d865), the title's rows in the game's interaction grammar (look-7), the pointer reticle and three states (look-14); the rest is the interaction research's (mission-21/interaction/), toward M22",
+   "status": "fixed (17 Nov): the ways in are the one row (ChoiceRow) in the one grammar, their words after the mark at the left like every menu's (frame.css), New game considered at once and held to begin (OR-01), nothing moving under the hand or a press (test/title-geometry-browser, test/reticle-browser, test/action-census-browser); the ceremonial gold superseded by the strict colour grammar (m20: gold is the aim's alone): New game's mark holds every tone",
+   "feature": "opening"
+  },
+  {
+   "id": "US-01",
+   "what": "The \"Gone under\" origin's sister is silent at Seolforfyrd, with no one to ask: the hook goes quiet when followed",
+   "status": "**Fixed** (11 Nov night): the inn's keeper at home can be asked of her and says where to look; the pin found is told and seen through (test/sister-asked); not replayed cold",
+   "feature": "undertakings"
+  }
+ ]
+}
