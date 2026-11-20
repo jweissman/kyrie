@@ -102,7 +102,9 @@ describe('Gatesend, after the fifth cold play', () => {
     const look = said(await run.r.ask('{"look":true}'));
     expect(look.scene.lines.filter(l => /notice.*by the well/.test(l))).toHaveLength(1);
     expect(text(look)).toContain('nailed to the clerk’s own trestle, under the shire-reeve’s mark');
-    expect(notices(run.s)).toHaveLength(1);
+    // The first turn leads with the company's own charge, the weir and the gate (first-hour-beats, 0–30 s: see Charge),
+    // and no notice; the well's notice is the next turn's.
+    expect(notices(run.s)).toHaveLength(0);
     let s = run.s;
     for (const line of lines(5, 12)) { const x = await AsMeant.ask(run.r, line); if (!('error' in x)) { s = x; } }
     expect(notices(s).map(o => o.label)).toEqual(['Read the royal proclamation under the notices']);

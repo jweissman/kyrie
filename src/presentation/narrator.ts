@@ -21,6 +21,7 @@ import { LensSubjects } from './lens-subjects';
 import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
 import { TaughtSigns } from './taught-signs';
+import { Charge } from './charge';
 import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
@@ -92,8 +93,7 @@ export class Narrator {
       arrived: under, turned, here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))
       && !altered.includes(o)), opening);
     // What has changed since the company was last here is told under that, not twice.
-    const changed = known && told?.moved ? screen.fresh : [];
-    const exchange = told && this.exchange(campaign, told);
+    const changed = known && told?.moved ? screen.fresh : [], exchange = told && this.exchange(campaign, told);
     // What the last command did to the place (a trap sprung, a wonder gone quiet) is told as what happened, not again
     // in the place's telling under it. What looking closely, prodding or listening found is the answer to it, and told
     // as that; anything else newly seen in a place come to is told with the place.
@@ -138,15 +138,17 @@ export class Narrator {
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     const chapter = told && Chapters.opened(campaign.module, told.event.perceptions);
-    // At a glance, three sentences (Mission 21): typed by what each observation is; what came of coming here counts.
+    // At a glance, three sentences (Mission 21): typed by what each observation is; what came of coming here counts;
+    // at the opening only the company's charge, the rest of the place held (see Charge).
     const arrival = told?.moved ? (exchange?.lines ?? []).filter(l => l.kind !== 'roll' && l.kind !== 'fight') : [];
-    const budget = SceneBudget.typed(paragraphs, presence, gone, arrival);
+    const first = Charge.first({ campaign, told, screen }, credited, presence, l => this.paragraphs(l, defs)),
+      budget = first?.budget ?? SceneBudget.typed(paragraphs, presence, gone, arrival);
     // Something done where the company stands is told alone: the place, said when the company came, is not said again
     // over it, only held for a deliberate look (the owner, 17 November: "we shouldn't redescribe something we've
     // already said"; the telling had grown by the place's three sentences at every act and scrolled). The terminal
     // has told an act so since TB-05.
-    const glanced = SceneBudget.glanced(budget, !!told && !told.moved && !!exchange
-      && (exchange.lines.length > 0 || exchange.notes.length > 0));
+    const glanced = Charge.held(SceneBudget.glanced(budget, !!told && !told.moved && !!exchange
+      && (exchange.lines.length > 0 || exchange.notes.length > 0)), first);
     const leaf = this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
       situation: [...situation, ...gone], presence, changed: fresh, glanced,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},

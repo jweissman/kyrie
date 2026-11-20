@@ -6,6 +6,7 @@ import { ObservationText } from '../lang/observation-text';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Screen, TargetRow } from '../ui/screen-types';
 import { Typography } from './typography';
+import { Charge } from './charge';
 import { PlayerView } from './player-view';
 import type { CompanyRecall } from './company-recall';
 import type { Arrival, Glance } from './glance-types';
@@ -27,13 +28,19 @@ export class GlanceLines {
     changed: string[]; changes?: readonly string[] }): Lines {
     const defs = this.defs(campaign.module), present = this.present(screen);
     // The place's own; else, where no line is its own (an opening's, an origin's), one set at it about nothing.
-    const own = this.owned(at.kept, defs, { here: screen.place.id, present });
+    // At the opening, only the company's charge (see Charge): the rest of the place is the second turn's.
+    const charge = at.arrival === 'opening' && Charge.opening(campaign) && Charge.of(screen).size ? Charge.of(screen)
+      : undefined;
+    const own = this.owned(charge ? Charge.split(at.kept, charge).told : at.kept, defs,
+      { here: screen.place.id, present });
     const sight = at.arrival === 'stay' ? undefined : this.sight(screen, own, { defs, recall: at.recall,
       back: ['return', 'resume'].includes(at.arrival) });
     // Staying, what was done leads: the place and its life are as they were.
-    const life = at.arrival === 'stay' ? undefined
+    const lively = at.arrival === 'stay' ? undefined
       : this.life(screen, { defs, present, kept: at.kept, own, sight, arrival: at.arrival, recall: at.recall,
         warned: new Set((at.changes ?? []).flatMap(c => /^\+ warned\(([^,]+),/.exec(c)?.[1] ?? [])) });
+    // Nor, at the opening, anyone's doings: the incident has just said who is at the company's elbow.
+    const life = charge && own.length ? undefined : lively;
     const passing = new Set(screen.observed.filter(o => ['weather', 'ambience'].includes(this.def(defs, o.id)?.aspect ?? ''))
       .map(o => Typography.curl(FictionalTime.prose(o.text))));
     const back = ['return', 'resume'].includes(at.arrival);
@@ -43,7 +50,7 @@ export class GlanceLines {
     // What the lines told now name, of someone here or of the place (the taproom a dog lies at the door of).
     const pointed = new Set(screen.observed.flatMap(l => this.named(this.def(defs, l.id)?.text ?? '')));
     const contents = ['first', 'opening'].includes(at.arrival) && !screen.dark
-      ? this.contents(campaign, screen, { defs, told: [sight?.id, life?.id, life?.subject] }) : undefined;
+      ? this.contents(campaign, screen, { defs, told: [sight?.id, life?.id, life?.subject], charge }) : undefined;
     return { ...sight ? { sight } : {}, ...life ? { life } : {}, ...contents ? { contents } : {}, changed, pointed };
   }
   // The lines as the glance says them.
@@ -58,13 +65,14 @@ export class GlanceLines {
   // works (a portal stone's counterweight, said with the way), nor what is told already.
   static readonly listed = 3;
   private static contents(campaign: Campaign, screen: Screen, at: { defs: Map<string, Observation>;
-    told: (string | undefined)[] }): Glance['contents'] {
+    told: (string | undefined)[]; charge?: ReadonlySet<string> }): Glance['contents'] {
     const types = new Map(campaign.module.entities.map(e => [e.id, e.type])), works = this.works(campaign.module);
     const lined = new Set(screen.observed.flatMap(o => {
       const d = this.def(at.defs, o.id);
       return d?.anchor === 'near' && d.place && !at.told.includes(o.id) ? [d.place] : [];
     }));
     const here = screen.things.filter(t => t.acts.length && !t.note && !at.told.includes(t.id)
+      && (!at.charge || Charge.holds(t.id, at.charge))
       && !works.has(t.id) && (types.get(t.id) === 'item' || (types.get(t.id) === 'thing' && lined.has(t.id))));
     const ranked = [...here.filter(t => lined.has(t.id)), ...here.filter(t => !lined.has(t.id) && t.valuable),
       ...here.filter(t => !lined.has(t.id) && !t.valuable)].slice(0, this.listed);

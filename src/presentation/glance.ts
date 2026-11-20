@@ -21,6 +21,7 @@ import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead';
 import { Perception } from './perception'; import { Companions } from './companions';
 import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
 import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
+import { Charge } from './charge';
 import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerView } from './player-view'; import { TalkingWith } from './talking-with';
@@ -50,7 +51,9 @@ export class Glance {
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading);
-    const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(cands, s), cands,
+    // At the opening the four are the charge's (see Charge); the place's lenses and ways hold the rest as ever.
+    const led = Charge.acts(cands, screen, arrival === 'opening' && Charge.opening(campaign));
+    const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s), cands: led,
       s });
     const acts = LedWords.with(campaign, HeldActs.with(Undertakings.heldFor(campaign, screen, picked),
       HeldActs.follow(screen)));
