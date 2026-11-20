@@ -3,10 +3,16 @@ import variations from '../data/catalog/variations.json';
 import { Deem, type DeemValue } from 'deem';
 import { Canon } from './canon/canon';
 import type { Creature } from './model';
-import type { Variant, Variants } from './registry/orsino-variants';
 import { Creation } from './rules/creation';
 import type { Defense } from './rules/defenses';
 import type { Effect } from './lang/parse';
+
+// A way a creature can be other than its kind, as the runtime reads it (data/catalog/orsino/variants.json): what it
+// adds to the attributes, the abilities it gives and the traits it brings. The shape is the runtime's, the setting's
+// registry (src/registry/orsino-variants.ts) writing the file in it (MT-16).
+export interface Variant { attributes: Record<string, number>; abilities: string[]; traits: string[]; source: string }
+export interface Variants { aspects: Record<string, Variant>; templates: Record<string, Variant>;
+  rarity: Record<string, string[]> }
 
 // One way a creature differs from its kind, on one axis (data/catalog/variations.json): the word it is called by, what
 // is seen of it, what it adds, the kinds of creature it can be, and where a generated country lays it on.

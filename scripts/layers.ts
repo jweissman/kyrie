@@ -3,8 +3,8 @@
 // mechanically verify nothing imports inaccurately", a `packages/kyr` the eventual shape, not now). Four units, each
 // importing only from those beneath it: Kyr the language (src/lang); the runtime (campaign, rules, the engine's own
 // files); a generic player that knows no setting or scenario (session, presentation, ui, autoplay, narrative,
-// web/engine); and the setting's modules (world, canon, paintings, handbook, data). The clients (src/cli, web/reader)
-// stand over them all. Every import that goes the wrong way is an edge; today's are kept in
+// web/engine); and the setting's modules (world, canon, paintings, handbook, registry, data). The clients (src/cli,
+// web/reader) stand over them all. Every import that goes the wrong way is an edge; today's are kept in
 // doc/architecture/mission-22/layers-baseline.json, and test/small/layers fails on a new one, or on one gone that the
 // baseline still lists (so that it only shrinks, and on purpose).
 //   bun scripts/layers.ts            the edges by kind, with counts
@@ -22,9 +22,11 @@ export class Layers {
   // Which unit a path is of, or none (a test, a script, a type stub).
   static of(path: string): Layer | undefined {
     if (path.startsWith('src/lang/')) { return 'lang'; }
-    if (/^src\/(world|canon|paintings|handbook)\//.test(path) || path.startsWith('data/')
-      || path === 'src/generation-setting.ts') { return 'setting'; }
-    if (/^src\/(campaign|rules|registry)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
+    // The registry is the setting's too: the pipeline that makes Orsino's corpus into the setting's catalog, read by
+    // the handbook, the world and the clients, the runtime reading only the files it writes (MT-16).
+    if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
+      || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
+    if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
     if (/^src\/(session|presentation|ui|autoplay|narrative)\//.test(path) || path.startsWith('web/engine/')) {
       return 'player';
     }

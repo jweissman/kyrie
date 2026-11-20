@@ -1,12 +1,9 @@
 import type { RegistryEntry } from './orsino-extract';
+import type { Variant, Variants } from '../creature-variants';
 
 // A way a creature can be other than its kind: Orsino's aspects (an agile wolf, a venomous spider, an ancient bear),
 // drawn when a creature is met, by rarity; and its templates (skeletal, spectral, vampiric, a zombie), which make the
 // dead of a kind. Each is what it adds to the creature's attributes, the abilities it gives and the traits it brings.
-export interface Variant { attributes: Record<string, number>; abilities: string[]; traits: string[]; source: string }
-export interface Variants { aspects: Record<string, Variant>; templates: Record<string, Variant>;
-  rarity: Record<string, string[]> }
-
 export class OrsinoVariants {
   static readonly attributes: Record<string, string> = { str: 'strength', dex: 'dexterity', con: 'constitution',
     int: 'intelligence', wis: 'wisdom', cha: 'charisma' };
