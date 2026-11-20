@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": "master.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "town", "market"],
+  "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "market": { "type": "place" } }
+}

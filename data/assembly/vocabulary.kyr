@@ -23,6 +23,9 @@ Module assembly "What a world is made of, for assembling one" {
   Relation buried(place, entity). Relation beneath(place, place).
   // The people a power acts through, as the modules that placed it name them: its chief, its fighting band.
   Relation chief(group, group). Relation band(group, group). Relation bountyOn(place, group).
+  // A settlement a practitioner of a craft works in today, by the craft (a tinker on the square: the tinker kit), so
+  // that one settlement has one such occasion of a craft.
+  Kind craft. Relation practisedIn(place, craft). Entity tinkering: craft "Tinkering".
   // A place given over to one placement's purpose; another kit does not take it.
   Relation taken(place, kit).
   Query free(p: place) means not taken(p, ?k).

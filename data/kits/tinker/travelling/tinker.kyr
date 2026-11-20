@@ -1,0 +1,46 @@
+Module travelling_tinker "A tinker on the square" {
+  Description "A travelling tinker has set his barrow down on the square at {town} for the day, and the town brings out what it has broken. He goes on by evening, whatever is left.".
+  // The tinker kit's travelling practitioner (data/kits/tinker/kit.json): a man of no shop, generated (his name, his
+  // tools and the road he came by are drawn: tables.json), at the ordinary work of his craft, and a child waiting for
+  // a toy. The company may lend a pair of hands, try the spring itself (a mechanism wants lockwork, and a fumble is
+  // only a shared laugh), or ask him about the trade. By evening he packs up and goes on: the occasion passes.
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place market "The square" is room.
+  Entity tools: fact "his tools". Entity road: fact "the road he came by".
+  Relation helped(group). Relation fumbled(group). Relation goneOn(group). Relation heardTrade(group).
+  Person tinker "the tinker" at market {
+    Role "a travelling tinker with a barrow, and on it {tools}". Ancestry human. Level 1. Peaceable. Manner cheerful. Pronouns he.
+  }
+  Person child "a small girl in a red hood" at market {
+    Role "a girl of six or so, waiting with great patience for her bird". Ancestry human. Level 1. Peaceable. Pronouns she.
+  }
+  Thing bird "the clockwork bird" at market {
+    State broken "On the tinker's barrow lies a tin bird the size of a thrush, its key in its back and its mainspring sprung out of it in a loose bright coil. The girl in the red hood watches it as if it might fly off.".
+    State mended "The tin bird sits on the girl's two hands. Every little while she turns the key, and it lifts its wings and sings four notes, and she laughs every time as if it were the first.".
+    State unmended "The girl in the red hood carries her tin bird about with its spring hanging out of it like a bit of string. The tinker will be back in the spring, she tells everyone.".
+    Change hold "Hold the spring down while the tinker seats it" from broken to mended when at(tinker, market) "The tinker has gone, and the bird with him.".
+    Change wind "Coil the bird's spring back into its barrel yourself" from broken to mended needing lockwork.
+  }
+  Observe at_work at market when state(bird, broken) and at(tinker, market) "A tinker has set his barrow down by the well, and is working through what the town has brought him: a kettle, a lock, a lantern with no hinge, and a tin bird with its spring out. 'One at a time,' he says to everyone, cheerfully. 'One at a time.'".
+  // A try at the spring that goes wrong is a story, not a loss.
+  Action try_spring(actor: group, site: place) "Try the bird's spring, and see if it goes back" {
+    Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(bird, broken) and at(tinker, market) and not fumbled(actor).
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Retract state(bird, broken). Assert state(bird, mended). Assert helped(actor). }
+    On failure { Assert fumbled(actor). }
+    Result "You feed the spring back into its barrel a turn at a time, and it goes, and the girl claps before the tinker can say a word.".
+    Otherwise "The spring goes back two turns, and then all at once comes out of your hands and whips across the square and into the horse-trough. The girl in the red hood laughs so hard she has to sit down. {tinker} fishes it out, dries it on his sleeve, and says it has done that to better hands than yours.".
+  }
+  Topic trade with tinker "Ask {tinker} about his trade" when true once {
+    Says "'Springs, mostly,' says {tinker}. 'And hinges, and the things people drop. A town keeps a smith and a cooper, but nobody keeps a man for the little things, so the little things wait for me.' He holds up a file. 'Came down {road} with this and a pair of pliers, the first year. You learn by what people bring you.'".
+    On discuss { Assert heardTrade(actor). }
+  }
+  Rule thanked when state(bird, mended) and at(party, market) and at(tinker, market) and not helped(party) says "'There,' says {tinker}, to you as much as the girl. 'Many hands.'" { Assert helped(party). }
+  // He goes on by evening, as a tinker does: the occasion passes, whatever is left on the barrow.
+  Rule goes_on heard at market when at(tinker, market) and hour(clock) >= 18 and not goneOn(party) says "{tinker} packs up his barrow as the light goes, ties the lid on the box of springs, and goes on out of {town} by {road}, whistling." { Assert goneOn(party). Retract at(tinker, market). }
+  // What he left unmended stays so, and the girl with it.
+  Rule bird_left when goneOn(party) and state(bird, broken) { Retract state(bird, broken). Assert state(bird, unmended). }
+  Goal false.
+}

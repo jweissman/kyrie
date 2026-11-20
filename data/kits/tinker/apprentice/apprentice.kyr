@@ -1,0 +1,57 @@
+Module tinker_apprentice "An apprentice at the bench" {
+  Description "A tinker's apprentice is minding his mistress's bench on the square at {town} while she is out, and has made a job worse than he found it.".
+  // The tinker kit's apprentice (data/kits/tinker/kit.json): authored, Tomos Bevan, fifteen, his mistress Eira Ffowc out
+  // on the far side of the town. An instrument he was trusted with, its wheel glued out of true. The company may see
+  // what is wrong (insight), steady him so that he finds it himself (persuasion), or fetch his mistress (and he will
+  // not thank you for it). Each ends otherwise, and the bench is shut by evening.
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place market "The square" is room.
+  Relation seen(group). Relation steadied(group). Relation fetched(group). Relation closedUp(group). Relation trued(group).
+  Person tomos "Tomos Bevan" at market {
+    Role "a tinker's apprentice of fifteen, with glue on his fingers and his mistress's bench to mind". Ancestry human. Level 1. Peaceable. Manner proud. Pronouns he.
+  }
+  Person eira "Eira Ffowc" nowhere {
+    Role "a tinker of the town with a bench on the square, small, quick and short of patience, who taught half the coast to solder". Ancestry human. Level 1. Peaceable. Manner acerbic. Pronouns she.
+  }
+  Thing gurdy "the hurdy-gurdy" at market {
+    State wrong "On the bench a hurdy-gurdy lies with its belly open. When Tomos turns the crank the wheel grinds against the strings instead of singing on them, and he goes red to the ears.".
+    State true "The hurdy-gurdy sits closed on the bench. Turned, its wheel sings on the strings, a long buzzing drone with the tune riding on it.".
+  }
+  Observe bench at market when state(gurdy, wrong) and at(tomos, market) "At a tinker's bench under an awning a boy is bent over an open hurdy-gurdy, turning its crank, listening to it grind, and turning it again as if it might come right on its own.".
+  // Seen: the wheel glued crooked, which he has not seen.
+  Action see_wheel(actor: group, site: place) "Look at the hurdy-gurdy's wheel over Tomos's shoulder" {
+    Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(gurdy, wrong) and at(tomos, market) and not seen(actor).
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert seen(actor). Assert trued(actor). }
+    On failure { Assert seen(actor). }
+    Result "You see it as he turns the crank: the wheel is not round on its axle. He has glued its hub while it sat crooked, and it rubs on one side and leaves the strings on the other. When you say so Tomos stares at it, and then at you, and then very quietly says a word his mistress would not like.".
+    Otherwise "You watch it go round and round and grind, and cannot for the life of you see why. Neither can Tomos. You agree that it is a very stupid instrument.".
+  }
+  // Steadied, he finds it and puts it right himself.
+  Action steady_tomos(actor: group, site: place) "Tell Tomos to warm the glue and take the wheel off again, slowly" {
+    Time 30 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(gurdy, wrong) and at(tomos, market) and seen(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Retract state(gurdy, wrong). Assert state(gurdy, true). Assert steadied(actor). }
+    On failure { Assert steadied(actor). }
+    Result "Tomos warms the glue over the brazier, eases the wheel off, cleans the hub, and sets it again, turning it under his thumb until it runs true. He does it all himself; you only hand him the rag. When the drone comes up out of the box he grins at you like a boy who has got away with something.".
+    Otherwise "Tomos warms the glue and takes the wheel off, but his hands are shaking now, and he cannot get it to sit. 'She'll be back at five,' he says. 'She'll do it in a minute. She always does it in a minute.'".
+  }
+  // Or fetched: his mistress puts it right, and he is mortified.
+  Action fetch_eira(actor: group, site: place) "Go and fetch Tomos's mistress from across the town" {
+    Time 30 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(gurdy, wrong) and at(tomos, market) and not fetched(actor).
+    On success { Assert fetched(actor). Assert at(eira, market). Retract state(gurdy, wrong). Assert state(gurdy, true). }
+    Result "You find Eira Ffowc soldering a kettle in a back kitchen, and she comes at once, wiping her hands. At the bench she looks at the wheel for the time it takes to breathe in, warms the glue, has it off and on and true while Tomos stands there scarlet. 'Round,' she says to him. 'It goes round. Things that go round have to be round.' To you she says nothing at all, which Tomos says afterwards is how you know she was pleased.".
+  }
+  Topic tomos_trade with tomos "Ask Tomos how he came to the bench" when true once {
+    Says "'My mam traded Mistress Ffowc a pig for the first year,' says Tomos. 'I do the kettles. I'm not let near the clocks yet.' He looks at the hurdy-gurdy. 'I'm not let near that either, really. She said to leave it.'".
+  }
+  Observe after_steadied at market when state(gurdy, true) and steadied(party) and at(tomos, market) "Tomos lifts a hand to you from the bench without stopping work. He has the hurdy-gurdy's drone going under everything he does now, very quietly, for the pleasure of it.".
+  Observe after_fetched at market when state(gurdy, true) and fetched(party) and at(tomos, market) "Tomos is scouring a kettle with great attention and does not look up when you pass.".
+  // The bench is shut by evening, whatever came of it.
+  Rule shuts heard at market when at(tomos, market) and hour(clock) >= 17 and not closedUp(party) says "The tinker's bench on the square is packed into its box and the awning rolled. Tomos carries the hurdy-gurdy home under his arm." { Assert closedUp(party). Retract at(tomos, market). Retract at(eira, market). }
+  Goal false.
+}

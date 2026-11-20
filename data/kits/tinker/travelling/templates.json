@@ -1,0 +1,17 @@
+{
+  "travelling_tinker": {
+    "__no_id": true,
+    "name": "A tinker on the square",
+    "creatures": [],
+    "actors": { "order": [] },
+    "labels": "=gen(travelling_labels)",
+    "initial": [],
+    "outcomes": []
+  },
+  "travelling_labels": {
+    "__no_id": true,
+    "tinker": "=lookup(tinker_names, any)",
+    "tools": "=lookup(tinker_tools, any)",
+    "road": "=lookup(tinker_roads, any)"
+  }
+}

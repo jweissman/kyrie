@@ -1,0 +1,13 @@
+{
+  "tinker_names": { "discriminator": "any", "groups": { "any": [
+    "Mabon Ffrench", "Old Teague", "Dai Sbardun", "Iolo the tinker", "Gethin Cass", "Brother Wil", "Tam o' the Barrow"
+  ] } },
+  "tinker_tools": { "discriminator": "any", "groups": { "any": [
+    "a little anvil no bigger than a loaf, a soldering-iron in a pot of coals, and a tray of springs sorted by size",
+    "files in a roll of oilcloth, a jar of brass screws, and a vice clamped to the barrow's side",
+    "pliers on a string round his neck, a tin of tallow, and a box of salvaged clockwork with the lid tied down"
+  ] } },
+  "tinker_roads": { "discriminator": "any", "groups": { "any": [
+    "the drove road", "the coast road south", "the salt road north", "the fen causeway"
+  ] } }
+}

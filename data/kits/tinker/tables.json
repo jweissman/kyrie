@@ -1,0 +1,12 @@
+{
+  "tinker_practitioner": {
+    "discriminator": "terrain",
+    "groups": {
+      "default": [
+        { "_key": "travelling", "__weight": 2, "_why": "a travelling tinker of no shop, whose barrow is the shop, mending what the town brings out to the square" },
+        { "_key": "apprentice", "_why": "a tinker's apprentice minding the bench while the master is out, with a job that has gone wrong" },
+        { "_key": "master", "_why": "a master of the craft with a shop of her own, short of a part for work that is promised" }
+      ]
+    }
+  }
+}

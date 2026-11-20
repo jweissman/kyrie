@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "id": "tinker",
+  "name": "A tinker at work",
+  "about": "A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.",
+  "slots": {
+    "town": {
+      "is": "settlement(?town)",
+      "requires": [
+        "not practisedIn(?town, tinkering)"
+      ]
+    },
+    "market": {
+      "is": "square(?town, ?market)"
+    }
+  },
+  "proposals": {
+    "practitioner": {
+      "table": "tinker_practitioner",
+      "by": "terrain"
+    }
+  },
+  "provides": [
+    "practisedIn(?town, tinkering)"
+  ],
+  "tables": "tables.json",
+  "modules": [
+    {
+      "id": "travelling",
+      "when": {
+        "practitioner": "travelling"
+      },
+      "bundle": "travelling/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "?town",
+        "market": "?market"
+      }
+    },
+    {
+      "id": "apprentice",
+      "when": {
+        "practitioner": "apprentice"
+      },
+      "bundle": "apprentice/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "?town",
+        "market": "?market"
+      }
+    },
+    {
+      "id": "master",
+      "when": {
+        "practitioner": "master"
+      },
+      "bundle": "master/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "?town",
+        "market": "?market"
+      }
+    }
+  ]
+}
