@@ -13,7 +13,7 @@ export class RunnerFidelity {
   // what is worth a look, somewhere been for the first time, something found out (a tower climbed shows the country),
   // or the thing it is done to changed (see seen). The aim's gold is the golden thread's (test/small/gold-*).
   static readonly brings: Partial<Record<Aspect, RegExp>> = {
-    payoff: /^[+-] (at\(\w+, \w*member_|ownedItem\(|quantity\(party, gold\))/,
+    payoff: /^[+-] (at\(\w+, \w*member_|ownedItem\(|quantity\(party, (gold|rations)\))/,
     // Or a try at a thing (push, listen): how its working is found out, which the next look answers (pick it, wrench
     // it, it gave).
     knowledge: /^\+ (knows|tried|toldBy)\(/,

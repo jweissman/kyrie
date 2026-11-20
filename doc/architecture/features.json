@@ -31,6 +31,7 @@
     { "id": "docs", "name": "Documentation and the register", "paths": ["doc/architecture"], "specs": ["register", "doc-links"] }
   ],
   "byPrefix": {
+    "GR": "undertakings",
     "CB": "fight", "NM": "travel", "AP": "atlas", "NP": "prose", "UI": "page-ui", "US": "undertakings",
     "WM": "consequence", "CP": "adventures", "SP": "startup", "AR": "architecture", "AU": "authoring",
     "PR": "persistence", "TC": "testing", "DC": "docs", "TB": "terminal", "TM": "terminal", "TP": "terminal",
