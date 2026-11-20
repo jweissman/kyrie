@@ -23,8 +23,10 @@ export interface Request { op: string; id?: string; world?: string; origin?: str
 export class Serve {
   private session?: PlaySession;
   // What the company has before it: the screen and the glance the page draws from, as ids and typed reasons.
-  view() {
-    const c = this.session!.campaign, screen = ScreenModel.build(c), glance = Narrator.leaf(c, screen).glance;
+  view() { return Serve.of(this.session!); }
+  // The view of a session, as one is answered (and as the parity measure reads it: scripts/client-parity.ts).
+  static of(session: PlaySession) {
+    const c = session.campaign, screen = ScreenModel.build(c), glance = Narrator.leaf(c, screen).glance;
     return { at: { id: screen.place.id, name: screen.place.name }, clock: screen.clock, running: c.running,
       aims: (screen.aims ?? []).map(a => ({ id: a.id, text: a.text, ...a.followed ? { followed: true } : {} })),
       led: (glance?.acts ?? []).map(a => ({ choice: a.choice, ...a.command ? { command: a.command } : {},

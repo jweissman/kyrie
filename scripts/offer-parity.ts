@@ -5,8 +5,8 @@
 // client is to draw): every act the engine offers and the runner does not, every row the runner offers that is no
 // act of the engine's, every act both offer in different words, and every lead whose step names no row the runner
 // offers. Today's divergences are kept as a baseline (doc/architecture/mission-22/offer-parity-baseline.json) that
-// test/offer-parity lets only shrink, as scripts/layers.ts keeps the layers'. The runner first; the page's lenses and
-// `serve` to follow (MT-18).
+// test/offer-parity lets only shrink, as scripts/layers.ts keeps the layers'. The runner's own, and at the same turns
+// the page's and `serve`'s, named by client (scripts/client-parity.ts; mt18-grouping.md, 'The page and serve').
 //   bun scripts/offer-parity.ts              the divergences by kind, with counts
 //   bun scripts/offer-parity.ts --write      the baseline written from them
 //   bun scripts/offer-parity.ts --where      each divergence with the turn it was first met at, and the move
@@ -17,6 +17,7 @@ import { Runner, type Offered, type Said } from '../src/cli/runner';
 import { RunnerOffer } from '../src/cli/runner-offer';
 import { Doable, type Row } from '../src/presentation/doable';
 import { ScreenModel } from '../src/ui/screen-model';
+import { ClientParity } from './client-parity';
 
 export interface Walk { world: string; as: string; lines: string }
 
@@ -63,6 +64,8 @@ export class OfferParity {
   private static turn(runner: Runner, said: Said, out: Set<string>) {
     const glance = runner.leaf?.glance;
     if (!glance || said.moment === 'fight') { return; }
+    // The page and serve at the same turn (scripts/client-parity.ts), named by client.
+    ClientParity.turn(runner, out);
     const rows = Doable.of(glance, ScreenModel.build(runner.session.campaign)), engine = this.engine(rows);
     const doing = new Map(Doable.flat(rows).flatMap(r => r.does ? [[r.id, r.does] as const] : []));
     const offered = RunnerOffer.flat([...said.offer.primary, ...said.offer.rest,
@@ -125,9 +128,10 @@ export class OfferParity {
     const found = await this.divergences(this.walks, Infinity, where);
     if (where) { console.log([...where].map(([d, w]) => `${w}\t${d}`).sort().join('\n')); }
     if (argv.includes('--write')) {
-      writeFileSync(join(this.root, this.baseline), `${JSON.stringify({ about: 'What the runner offers that the '
-        + 'engine does not, and the reverse, over the golden walks (MT-18, scripts/offer-parity.ts): kept so that none '
-        + 'is added; each removed is taken off.', kinds: this.kinds(found), divergences: found }, null, 1)}\n`);
+      writeFileSync(join(this.root, this.baseline), `${JSON.stringify({ about: 'What the runner, the page and serve '
+        + 'offer that the engine does not, and the reverse, over the golden walks (MT-18, scripts/offer-parity.ts, '
+        + 'scripts/client-parity.ts): kept so that none is added; each removed is taken off.', kinds: this.kinds(found),
+      divergences: found }, null, 1)}\n`);
     }
     console.log(Object.entries(this.kinds(found)).map(([k, n]) => `${n}\t${k}`).join('\n'));
     console.log(`${found.length} divergences`);

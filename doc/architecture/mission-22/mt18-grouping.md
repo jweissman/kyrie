@@ -93,3 +93,53 @@ re-taken from the golden lines (warrior-walk.txt: the fuel boat's and the sea-ga
 now arise; lines the runner refused dropped) and fails on any line refused, which had been passed over (the walk had
 followed nothing after T8). 149 → 1: the one left is the scene's "Wait" opener of fragments outside a fight (PB-02,
 flat-1). Next: the page's lenses and `serve` in the measure; the runner's own RunnerLed (Said.led) into the engine.
+
+## The page and serve in the measure (20 November)
+
+The parity measure now reads the other clients at the runner's turns of the warrior's walk (scripts/client-parity.ts):
+the page as it is built headlessly (its menu, MenuModel.build here and pack; the four, GlanceStage.offered or
+foreground; every lens's rows, LensRows.of), and `serve` (Serve.of, the view it answers). Each is read against Doable by
+the act each row does, its words, the lens it sits in, and, for the page's four, what pressing it does. The runner
+stays at 0; the page's and serve's divergences are today's baseline, shrink-only (test/offer-parity): 242 in all.
+Not measured yet: the page's talk drawer (drawn once a person is turned to) and the map's menu (CO-20).
+
+| client | kind | count |
+|---|---|---|
+| page | menu words | 56 |
+| page | only | 44 |
+| page | words | 31 |
+| page | engine only | 22 |
+| page | unfolded | 18 |
+| page | pressed | 3 |
+| serve | engine only | 36 |
+| serve | words | 17 |
+| serve | only | 13 |
+| serve | led | 2 |
+
+By cause, ranked:
+
+1. **Two sources of words (104: page menu words 56, page words 31, serve words 17).** Doable says a row by its
+   `called` (LedWords, the world's whole words) or its label; the page's menu draws the choice list's label (its
+   grouping's path: "Ask about …", a talk's topic said as the topic alone), its lenses the glance's LensAct label, and
+   serve the world's choice name (PlayerView). The engine has more than one wording of an act; every client should draw
+   Doable's.
+2. **Journeys made apart (98: page only lens travel 25, page engine only travel 15, page unfolded 18, serve engine
+   only 36, page pressed 3 of them ways out).** The glance's places lens lists journeys Doable does not
+   (DoableJourneys and the lens disagree inside the engine: the town's quarters, the edges, the far hexes); the page's
+   menu keeps its own rules for the journeys (MenuModel.destinations, overland, the inside rule), drawing in the lens
+   what Doable puts on the map and leaving out journeys Doable offers; serve offers no journey at all (its choices are
+   the world's acts and LandCrossing's marks, never Doable's travel rows); and a way out into the country, pressed among
+   the four, goes out to the country (MenuModel.lead's overland) where Doable's row goes by its own exit.
+3. **Acts Doable leaves out (26: page only menu 13, serve only 13).** Topics and acts the world offers that Doable has
+   no row for at that turn (the reeve's gate, Ffion's cold, the rumour hooks and echoes, the far towns told of at the
+   inn, `view:map`): the page's menu and serve take them from the choice list and the world, Doable from the glance. The
+   runner draws Doable's, so a player of the page or serve is offered acts the runner's is not.
+4. **Acts the page draws elsewhere (7: page engine only talk_to, take_leave, buy_item, gather, take_item, go).** Drawn
+   by the likeness and the talk drawer, the trade counter or a focus, not the menu or a lens: partly the measure's
+   gap (the talk drawer and trade are not read yet), partly the page's own placement.
+5. **Led apart (2: serve led).** serve's led acts are the glance's acts; the notice read and a talk are led there that
+   Doable does not mark led.
+
+Next, by the owner's rule (fix divergence in the engine, never in a client): one wording (Doable's) read by the page's
+menu, lenses and serve; the glance's places lens and the page's journeys from DoableJourneys; Doable's row set the one
+the choice list and serve offer from; then the talk drawer and the map's menu in the measure.
