@@ -7,7 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
-  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group).
+  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -43,7 +43,10 @@ Module drove "The held drove" {
   Person clerk "Silas Mardle" at customs { Role "the Rì's customs clerk at Porthalen, who counts every beast that crosses the march". Pronouns he. Peaceable. Manner proud. }
   // Known to a company that came down with the drove (the drove road's origin: Owain its kin), not met as a stranger
   // (cold play 3, CL-26: Owain, "your cousin", and Bran had both greeted it as someone they had never seen).
-  Person bran "Bran ap Ifor" at customs { Role "the Brynach lead-drover, held behind the customs-house grille". Pronouns he. Peaceable. Manner stoic.
+  // Who he is follows what became of him (ST-10: once let out he had still been "held behind the grille" at the pens).
+  Person bran "Bran ap Ifor" at customs { Role "the Brynach lead-drover, held behind the customs-house grille".
+    Role "the Brynach lead-drover, let out of the customs-house" when freed(party).
+    Role "the Brynach lead-drover, sent north to the Judges" when sent(party). Pronouns he. Peaceable. Manner stoic.
     Greets "Bran looks up through the grille and knows you. 'You came,' he says. 'Good. Listen.'" when kin(party, owain). }
   Person owain "Owain" at green { Role "Bran's drover's boy, fourteen, who came down with the drove". Pronouns he. Peaceable.
     Greets "Owain is at your side at once. 'What do we do?' he asks." when kin(party, owain) and not freed(party).
@@ -148,7 +151,9 @@ Module drove "The held drove" {
     Time 1 hours.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pens) and at(bran, pens) and freed(actor)
       and not fined(actor) and not sold(actor).
-    Result "Thirty-six bullocks through the lanes to the sale-yard, Owain at the back with a stick. They go at a good price. Bran pays you out of it in the yard: four coin. 'For the four you found,' he says." when not halved(actor).
+    // His thanks for what was done: on the ink, none of the four was found (ST-10).
+    Result "Thirty-six bullocks through the lanes to the sale-yard, Owain at the back with a stick. They go at a good price. Bran pays you out of it in the yard: four coin. 'For the four you found,' he says." when not halved(actor) and knows(actor, found_drowned).
+    Result "Thirty-six bullocks through the lanes to the sale-yard, Owain at the back with a stick. They go at a good price. Bran pays you out of it in the yard: four coin. 'For the ink you read,' he says." when not halved(actor) and not knows(actor, found_drowned).
     Result "Eighteen bullocks through the lanes to the sale-yard, Owain at the back with a stick. Bran says nothing of the other eighteen. He pays you out of what they bring: two coin. 'It should have been four,' he says." when halved(actor).
     On success { Assert sold(actor). }
   }
@@ -183,7 +188,11 @@ Module drove "The held drove" {
   Rule heard_gone when heard(party) and turned(clerk) and not told(party) says "'And that Mardle's gone, out of the town by tonight, his wife and the children with him. Half the waterfront will drink to you, and the other half will remember it was you.'" { Assert told(party). }
   Topic bran_west with bran "Ask Bran about the work in Brynach" when freed(party) and (sold(party) or fined(party)) once {
     Says "'The old road west,' says Bran, 'past the march-stone and up the pass. Four days to Caer Brynach.' He points with his whole arm, the way a drover does. 'Something takes the beasts off the high pasture at night, and leaves nothing. The lord pays a sword. Ask for me.'".
+    On discuss { Assert westAsked(actor). }
   }
+  // His "come up the pass" an aim the company can take (ST-10: road_west had been taught and read by no objective,
+  // the onward hook leading nowhere, cold play 6): the way west asked of him, once the drove is sold or he is paid out.
+  Objective west_aim when knows(party, road_west) and freed(party) and (sold(party) or fined(party)) and not westAsked(party) toward bran "Ask Bran about the work up the pass in Brynach: the lord there pays for a sword.".
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
 
   Milestone m_freed "saw Bran ap Ifor let out of the customs-house" worth 150 when freed(party).
