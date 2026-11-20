@@ -16,6 +16,7 @@
       "livelihoods": { "harbour": "salt", "coast": "salt", "fen": "eels", "woods": "charcoal", "meadows": "reed", "fells": "peat", "heath": "reed" },
       "settlements": ["Porthalen", "Wrackham", "Edderwick", "Gatesend"],
       "goings": ["iscoed-drove", "iscoed-pans", "iscoed-gate"],
+      "kits": [{ "kit": "data/kits/tinker/kit.json", "id": "tinker1", "fix": { "practitioner": "travelling" } }, { "kit": "data/kits/tinker/kit.json", "id": "tinker2", "fix": { "practitioner": "apprentice" } }, { "kit": "data/kits/tinker/kit.json", "id": "tinker3", "fix": { "practitioner": "master" } }],
       "exclude": ["drover"],
       "provinces": ["longman", "tolleth", "tessary", "skerrow", "strewnfield"],
       "towns": 0,

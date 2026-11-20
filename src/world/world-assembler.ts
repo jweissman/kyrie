@@ -125,7 +125,8 @@ export class WorldAssembler {
       this.arrival(region, { size: party.length, contacts, start: told?.start.place }, { files, root, modules });
     }
     const path = base.resolve(`${root}.campaign.json`);
-    const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
+    const framework = options.framework === null ? [] : [...await this.framework(base, options.framework ?? this.frontier),
+      ...StrategicAtlas.kits(region).map(k => ({ ...k, kit: base.resolve(k.kit) }))];
     this.write(region, { files, root, placements, company: { size: party.length, contacts,
       ...told ? { start: told.start, coin: told.coin } : {} } });
     if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }

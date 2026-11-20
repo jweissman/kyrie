@@ -12,6 +12,9 @@ export interface AtlasCountry {
   id: string; cell: [number, number]; name: string; terrain: string; ancestry?: string; domain?: string;
   shore?: Side; port?: boolean; arts?: string[]; goings?: string[]; exclude?: string[]; provinces?: string[];
   towns?: number; standing?: string[];
+  // Kits placed in the country besides the framework's (data/kits/<kit>/kit.json, by path from the root), each with
+  // its id and any dimension fixed for it: a profession's occasions, one to a settlement (Fun Fridays' tinker kit).
+  kits?: { kit: string; id: string; fix?: Record<string, string> }[];
   // An option fixed for a group of a town template, by template (see KyrTemplates.choose): what the country's first
   // town is held to, as a kit's author fixes a dimension.
   fix?: Record<string, Record<string, string>>;
@@ -63,6 +66,10 @@ export class StrategicAtlas {
   // drawn, before anything drawn at random, as a herald is.
   static goings(region: Region): string[] {
     return (this.byId(region.country)?.goings ?? []).map(id => `data/scenarios/${id}.scenario.json`);
+  }
+  // The kits a country places besides the framework's (see AtlasCountry.kits).
+  static kits(region: Region): { kit: string; id: string; fix?: Record<string, string> }[] {
+    return this.byId(region.country)?.kits ?? [];
   }
   // The authored provinces a country of the atlas holds, where it says (Iscoed: those of its fen and firth); every
   // other country holds them all. And how many of the library's town goings-on it draws besides its own.

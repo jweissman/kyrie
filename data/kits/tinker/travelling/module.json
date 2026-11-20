@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "source": "tinker.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "town", "market"],
+  "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "market": { "type": "place" } },
+  "generation": { "type": "travelling_tinker", "templates": "templates.json", "tables": "tables.json" }
+}
