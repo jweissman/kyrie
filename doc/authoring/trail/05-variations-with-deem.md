@@ -80,23 +80,21 @@ What the journey met that an author should know: the thanks given by kind (`Give
 own items (`Item … "a twist of betony" is betony`) are two rows in the pack ("A twist of betony", "Two
 betonies"), because a named item is its own thing; and the kind's name is made plural by a rule ("betonies").
 
-## How a template draws
+## The order of draws
 
-Each group of a template draws by its own name, under the key of the place it is written for (`KyrTemplates.choose`,
-`src/world/kyr-template.ts`; the owner, 19 November, MT-14). A group whose only section is the group itself
-(`--- notice`) is always written and draws nothing; a group none of whose options is allowed there (`when`/`unless`)
-writes nothing. So:
+A template's options are drawn from one stream for each place it is written for (`KyrTemplates.choose`,
+`src/world/kyr-template.ts`): its groups in the order the file gives them, one weighted draw for each group that
+chooses. A group whose only section is the group itself (`--- notice`) is always written and draws nothing; so does a
+group none of whose options is allowed there (`when`/`unless`). So:
 
-- a new group, anywhere in the file, changes nothing else drawn: every other group draws as it did;
-- moving groups about the file, or a `when` that empties one for some places, changes no other group's draw;
-- changing an option's weight, or adding an option to a group, changes what that group draws, and only that group;
-- a group fixed for a country (`StrategicAtlas.fix`) is written as fixed and moves nothing.
+- a new choosing group appended last changes nothing already drawn; anywhere earlier, it draws again every group after
+  it, in every world (the undertown's hand on the green was appended last for this);
+- changing an option's weight, or adding an option to a group, changes what that group draws and nothing after it;
+- a `when` that empties a group in one town moves every later group's draw in that town alone;
+- a group fixed for a country (`StrategicAtlas.fix`) still takes its draw, so fixing one does not move the others.
 
-`test/small/keyed-draws` holds this. Until 19 November a template drew from one stream in file order, so that a group
-added anywhere but last drew every later group again, in every world. The change to keyed draws was one transition:
-every generated world drew again once (the compat run of that commit says what moved). A saved game keeps the world it
-drew (its module is saved whole), so nothing in it is drawn again; a country first reached after loading such a save is
-drawn under the keys, as all new land is. The cold plays' captures stay as they were: what a player met then.
+What a moved draw breaks is whatever names a seed's draws: the kept replays (`test/support/before-rooms`) and specs
+that walk a drawn town. Look at `bin/kyrie world <seed>` before and after.
 
 ## What is not yet data
 
