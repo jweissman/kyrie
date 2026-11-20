@@ -108,7 +108,9 @@ export class SceneModel {
     const dangling = /\b(of|a|an|the|some|with|to|for|from|on|in|at|over|under|into|about|past|wad|handful|bundle)$/i;
     const label = dangling.test(cut)
       && !/^Make much of$/.test(cut) ? asked : cut;
-    return { ...c, label: label || c.label,
+    // What it was called before, kept as what it is called standing alone (MT-18: the engine's rows and serve's had
+    // said "Ask about home" with no one asked, where the world says "Ask Carlin about home").
+    return { ...c, label: label || c.label, ...label && label !== c.label && !c.alone ? { alone: c.label } : {},
       ...c.children ? { children: c.children.map(k => this.bare(k, name)) } : {} };
   }
   static readonly telling = ['Tell', 'Warn', 'Remind', 'Assure', 'Promise', 'Convince', 'Persuade', 'Urge', 'Beg',

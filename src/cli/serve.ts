@@ -28,6 +28,9 @@ export class Serve {
   // The view of a session, as one is answered (and as the parity measure reads it: scripts/client-parity.ts).
   static of(session: PlaySession) {
     const c = session.campaign, screen = ScreenModel.build(c), glance = Narrator.leaf(c, screen).glance;
+    const rows = glance ? Doable.flat(Doable.of(glance, screen)) : [];
+    // An act by its own row's words; a talk led for it is the four's, not the act's (its label, not what it is called).
+    const words = new Map(rows.flatMap(r => r.does ? [[r.does, r.label] as const] : []).reverse());
     return { at: { id: screen.place.id, name: screen.place.name }, clock: screen.clock, running: c.running,
       aims: (screen.aims ?? []).map(a => ({ id: a.id, text: a.text, ...a.followed ? { followed: true } : {} })),
       led: (glance?.acts ?? []).map(a => ({ choice: a.choice, ...a.command ? { command: a.command } : {},
@@ -36,9 +39,12 @@ export class Serve {
       // Every choice, and the aim to follow, which the glance offers as an act of the session (HeldActs.follow).
       // And the journeys from here, the engine's (Doable: DoableJourneys), less those on the map (MT-18: serve had
       // offered none, where the runner and the page set out by them).
-      choices: [...PlayerView.choices(c).map(r => ({ id: r.choice.id, label: r.choice.name })),
+      // Each said in the engine's words where the engine has a row doing it (MT-18: one wording, Doable's), else the
+      // world's.
+      choices: [...PlayerView.choices(c).map(r => ({ id: r.choice.id,
+        label: words.get(r.choice.id) ?? r.choice.name })),
         ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label })),
-        ...glance ? Serve.journeys(Doable.flat(Doable.of(glance, screen))) : []],
+        ...Serve.journeys(rows)],
       // What the map may set out for across the country, as the page and the terminal offer it (LandCrossing).
       across: LandCrossing.offers(screen) };
   }

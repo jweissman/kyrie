@@ -20,6 +20,10 @@ import { DoableJourneys } from './doable-journeys';
 export interface Row {
   id: string; label: string; does?: string; opens?: Row[]; for?: string; lens?: Lens; led?: true; only?: true;
   says?: string; called?: string; witnesses: Witness[];
+  // Its words drawn under what holds it, where those are shorter than its own (a topic under its person's talk, "Ask
+  // about her work" for "Ask Sabine about her work"; an act under its thing in the pack, "Light" for "Light a torch"):
+  // the engine's, so that a client drawing it there says the engine's words, not its own (MT-18).
+  short?: string;
   // The row it is held under, where the scene holds it under another (a question under its person's talk): every
   // client draws it there, the engine saying so (MT-18; the runner and the page had each grouped asks their own way).
   within?: string;
@@ -36,6 +40,8 @@ export interface Row {
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>
   & Partial<Pick<Glance, 'compass'>>;
 interface Read { tree: Map<string, Choice>; parents?: Map<string, string>; acts: Map<string, Promoted>; glance: Offered;
+  // The scene's choices by the command each does: a row offered by its command finds there its words under its holder.
+  commands?: Map<string, Choice>;
   lens?: Lens; led?: boolean; opening?: boolean;
   command?: string; legal?: Set<string> }
 interface Kept { rows: Row[]; at: Omit<Read, 'lens' | 'led' | 'command'>; lensOf: Map<string, Lens> }
@@ -86,7 +92,8 @@ export class Doable {
       [...l.promoted.map(p => p.choice), ...l.rest.map(r => r.choice)].map(id => [id, lens as Lens] as const)));
     const acts = new Map(glance.acts.map(a => [a.choice, a]));
     this.whose(screen, glance, parents);
-    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree) };
+    const commands = new Map([...tree.values()].flatMap(c => c.command ? [[c.command, c] as const] : []).reverse());
+    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree), commands };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
     const offered = this.holders([...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(
       o.choice, o.label, { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command })), at);
@@ -177,7 +184,10 @@ export class Doable {
       ? (Attending.all(c.children ?? []).find(k => k.command === led) ?? [...at.tree.values()]
         .find(k => k.command === led))?.label : undefined;
     const asked = within && (act?.unmet ? within : act?.words?.[led!] ?? within);
-    const base = { id, label: c?.alone ?? label, witnesses, ...at.lens ? { lens: at.lens } : {},
+    const full = c?.alone ?? label, under = c ?? at.commands?.get(act?.command ?? at.command ?? id);
+    const base = { id, label: full,
+      ...under && under.label !== full && full.length > under.label.length ? { short: under.label } : {},
+      witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led && at.led !== false ? { for: led } : {},
       ...asked ? { called: act?.unmet ? this.called(c?.alone ?? c?.label ?? label, asked) : asked } : {},
       ...c?.disabled ? { shut: c.disabled } : {}, ...at.parents?.get(id) && !at.opening
@@ -209,8 +219,10 @@ export class Doable {
   // Whom the question names, by as much of the talk's name as it says ("Ask the sellsword what…" under "Talk to the
   // sellsword on the green"), never a bare article: said once, not twice (CL-45; foreground-browser at a1's camp).
   static called(talk: string, question: string): string {
+    // A stranger met as "a drover's boy" is asked of as "the drover's boy".
     const words = /^Talk to (.+)$/.exec(talk)?.[1]?.split(' ') ?? [];
-    const by = words.map((_, i) => words.slice(0, words.length - i).join(' '))
+    const names = words.map((_, i) => words.slice(0, words.length - i).join(' '));
+    const by = [...names, ...names.map(n => n.replace(/^an? /i, 'the '))]
       .find(w => !/^(the|a|an)$/i.test(w) && question.startsWith(`Ask ${w} `));
     return `${talk} — ${by ? `ask ${question.slice(`Ask ${by} `.length)}`
       : `${question.charAt(0).toLowerCase()}${question.slice(1)}`}`;
