@@ -2,10 +2,9 @@
 // The register's state: its rows counted by state and priority, and its hygiene. One reading of the register, the
 // tickets' (RegisterTickets.rows: every table by its own columns; a row's state by its status's leading disposition),
 // so that this count and the tickets' report never disagree (the planning report's Sprint 0, item 1: the two scripts
-// had read 718 and 754 rows, one finding a state word anywhere in a status, the other its lead).
+// had read 718 and 754 rows, one finding a state word anywhere in a status, the other its lead). The register and its
+// archive are read as one (RegisterTickets.text).
 //   bun scripts/register-state.ts [revision]
-import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
 import { RegisterTickets, type Row as Ticket, type State } from './register-tickets';
 
 export interface Row { id: string; status: string; weight: string; state: State; loose: boolean; line: string }
@@ -13,8 +12,7 @@ export interface Row { id: string; status: string; weight: string; state: State;
 export class RegisterState {
   static run(args: string[]): number {
     const revision = args[0];
-    const text = revision ? execSync(`git show ${revision}:doc/architecture/open-register.md`, { maxBuffer: 1 << 26 })
-      .toString() : readFileSync('doc/architecture/open-register.md', 'utf8');
+    const text = RegisterTickets.text(revision);
     const rows = this.rows(text), counts = new Map<string, number>(), heavy = new Map<string, number>();
     for (const r of rows) {
       counts.set(r.state, (counts.get(r.state) ?? 0) + 1);

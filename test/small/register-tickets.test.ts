@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { RegisterTickets } from '../../scripts/register-tickets';
 
@@ -8,7 +8,7 @@ import { RegisterTickets } from '../../scripts/register-tickets';
 // code: a new row must be placeable (by its id, its words or its prefix), a feature's files must exist, and a changed
 // file finds its feature. An unplaced row is a failure with the fix named, not a silent gap.
 const root = RegisterTickets.root, map = RegisterTickets.map();
-const rows = RegisterTickets.rows(readFileSync(join(root, 'doc/architecture/open-register.md'), 'utf8'), map);
+const rows = RegisterTickets.rows(RegisterTickets.text(), map);
 describe('the register as tickets', () => {
   it('reads both of its table layouts, each id once', () => {
     expect(rows.length).toBeGreaterThan(540);

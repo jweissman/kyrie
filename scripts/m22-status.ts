@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
 // Where the mission stands, on one screen (the owner, 19 November: "a report script that can print out how far we are
 // along the SRD migration for creatures and spells; and some general printout of the state of the register"; M22's
-// goal is register zero). Read only from what the repository keeps: the register (RegisterState's one reading), the
-// sprint board, the maturity track's rows, and the SRD reports the generators write (srd-fidelity.md, srd-manifest.md).
+// goal is register zero). Read only from what the repository keeps: the register and its archive (RegisterState's one
+// reading), the sprint board, the maturity track's rows, and the SRD reports the generators write (srd-fidelity.md,
+// srd-manifest.md).
 // Regenerate those first for a current SRD reading: bun scripts/srd-fidelity.ts; bun scripts/srd-manifest.ts.
 //   bun scripts/m22-status.ts [--families N]
 import { readFileSync } from 'node:fs';
@@ -10,13 +11,12 @@ import { RegisterState, type Row } from './register-state';
 import { RegisterTickets } from './register-tickets';
 
 export class MissionStatus {
-  static readonly register = 'doc/architecture/open-register.md';
   static readonly sprint = 'doc/architecture/mission-22/current-sprint.md';
   static readonly fidelity = 'doc/architecture/mission-21/rules/srd-fidelity.md';
   static readonly manifest = 'doc/architecture/mission-21/rules/srd-manifest.md';
   static main(argv: string[]): number {
     const at = argv.indexOf('--families'), families = at < 0 ? 15 : Number(argv[at + 1] ?? 15);
-    const rows = RegisterState.rows(readFileSync(this.register, 'utf8'));
+    const rows = RegisterState.rows(RegisterTickets.text());
     console.log([...this.overall(rows), '', ...this.played(), '', ...this.families(rows, families), '',
       ...this.board(rows), '',
       ...this.srd()].join('\n'));
@@ -38,7 +38,7 @@ export class MissionStatus {
   static readonly met = ['opening', 'creation', 'scene', 'talk', 'fight', 'spells', 'travel', 'undertakings', 'atlas',
     'discovery', 'company', 'trade', 'consequence', 'time', 'prose', 'page-ui', 'startup'];
   static played(): string[] {
-    const heavy = RegisterTickets.rows(readFileSync(this.register, 'utf8')).filter(t =>
+    const heavy = RegisterTickets.rows(RegisterTickets.text()).filter(t =>
       RegisterTickets.live.includes(t.state) && /^P[01]$/.test(t.pri) && this.met.includes(t.feature));
     const by = [...new Set(heavy.map(t => t.feature))].map(f => [f, heavy.filter(t => t.feature === f).length] as const)
       .sort((a, b) => b[1] - a[1]).map(([f, n]) => `${f} ${n}`);

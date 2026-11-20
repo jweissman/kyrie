@@ -1,14 +1,12 @@
 import { describe, expect, it } from 'bun:test';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { RegisterState } from '../../scripts/register-state';
 import { RegisterTickets } from '../../scripts/register-tickets';
 
 // The register measures all of itself (OB-01, the obligations audit's first reduction): every line that begins with
 // an id is a row both of its readers count, and no id names two rows. Before OB-01 the three-column tables of
 // §49–50 (id, finding, state) were read by neither, a blank line inside §37's table cut ten rows out of both,
-// and OPR-05 and PB-15 each named two rows.
-const text = readFileSync(join(RegisterTickets.root, 'doc/architecture/open-register.md'), 'utf8');
+// and OPR-05 and PB-15 each named two rows. The register is read with its archive, as both readers read it.
+const text = RegisterTickets.text();
 const lines = text.split('\n').filter(l => /^\| [A-Z][A-Z0-9]*-/.test(l)).map(l => l.split('|')[1]!.trim());
 describe('the register counts every row', () => {
   it('reads every id-like line, by both of its readers', () => {

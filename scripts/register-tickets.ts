@@ -1,14 +1,16 @@
 #!/usr/bin/env bun
 // The register as tickets and features (the owner, 15 November: register items as specific issues, and a formal
-// feature map from the defects, reports and requests). Reads doc/architecture/open-register.md in both of its table
-// layouts (six cells: id, what, sources, status, priority, home; five: id, what, status, priority, when) and
+// feature map from the defects, reports and requests). Reads doc/architecture/open-register.md and its archive
+// (register-archive.md: closed rows proved and read twice, moved out of the way) as one, in both of its table layouts
+// (six cells: id, what, sources, status, priority, home; five: id, what, status, priority, when) and
 // doc/architecture/features.json, and says: how many rows there are by state; each live row's readiness (ready, wants a
 // decision, wants research, unverified); and, by feature, the live defects and the specs that guard it.
 //   bun scripts/register-tickets.ts                     the summary, by feature
 //   bun scripts/register-tickets.ts --feature fight     a feature's live rows
 //   bun scripts/register-tickets.ts --touching web/reader/stage/fight-moves.tsx   what a changed file could touch
 //   bun scripts/register-tickets.ts --unmapped | --json
-import { readFileSync, readdirSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 export type State = 'closed' | 'reference' | 'duplicate' | 'partly' | 'deferred' | 'open' | 'unverified' | 'other';
@@ -24,6 +26,18 @@ interface Map { features: Feature[]; byPrefix: Record<string, string>; textFirst
 export class RegisterTickets {
   static readonly root = join(import.meta.dir, '..');
   static readonly live: State[] = ['open', 'partly', 'deferred', 'unverified', 'other'];
+  // The register and its archive, read as one: each id in only one of them (test/small/register-archive).
+  static readonly files = ['doc/architecture/open-register.md', 'doc/architecture/register-archive.md'];
+  // Both files' text, now or at a revision (where the archive may not yet be).
+  static text(revision?: string): string {
+    return this.files.map(f => revision ? this.shown(revision, f) : existsSync(join(this.root, f))
+      ? readFileSync(join(this.root, f), 'utf8') : '').join('\n\n');
+  }
+  private static shown(revision: string, file: string): string {
+    try {
+      return execSync(`git show ${revision}:${file}`, { cwd: this.root, maxBuffer: 1 << 26, stdio: 'pipe' }).toString();
+    } catch { return ''; }
+  }
   static map(): Map {
     return JSON.parse(readFileSync(join(this.root, 'doc/architecture/features.json'), 'utf8')) as Map;
   }
@@ -113,7 +127,7 @@ export class RegisterTickets {
   }
   static after(args: string[], flag: string): string { return args[args.indexOf(flag) + 1] ?? ''; }
   static main(args: string[]): number {
-    const map = this.map(), rows = this.rows(readFileSync(join(this.root, 'doc/architecture/open-register.md'), 'utf8'), map);
+    const map = this.map(), rows = this.rows(this.text(), map);
     if (args.includes('--json')) { console.log(JSON.stringify(rows, null, 1)); return 0; }
     if (args.includes('--unmapped')) {
       rows.filter(r => r.how === 'none').forEach(r => console.log(r.id, r.what.slice(0, 90)));

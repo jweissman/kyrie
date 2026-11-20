@@ -1,0 +1,20 @@
+{
+ "about": "Closed rows whose cited evidence does not hold (MT-17, scripts/closure-lint.ts), kept so that none is added; each mended is taken off.",
+ "kinds": {
+  "missing": 3,
+  "size": 6,
+  "ambiguous": 1
+ },
+ "findings": [
+  "CB-03 missing: test/golden-run",
+  "IG-07 size: 1280×800 in no cited spec (0)",
+  "IG-07 size: 820×1180 in no cited spec (0)",
+  "BL-01 size: 1280×800 in no cited spec (0)",
+  "BL-01 size: 820×1180 in no cited spec (0)",
+  "PB-09 size: 1280×800 in no cited spec (0)",
+  "PB-09 size: 820×1180 in no cited spec (0)",
+  "PB-16 ambiguous: gold-thread: test/small/gold-thread.test.ts, test/gold-thread.test.ts",
+  "CL-34 missing: test/riddle-focus",
+  "AR-23 missing: test/support/cold-player.ts"
+ ]
+}

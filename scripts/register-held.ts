@@ -3,13 +3,14 @@
 // name a spec that exists (test/…, or a test/small spec by its bare name in a cell), and those that name none. A fix
 // with no spec is a promise kept once (Mission 21: obligations made into fast regressions).
 //   bun scripts/register-held.ts [--list]
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { RegisterState } from './register-state';
+import { RegisterTickets } from './register-tickets';
 
 class RegisterHeld {
   static run(args: string[]): number {
     // Fixed as register-state reads a row's own status column (a note's "held by" elsewhere in it is not a status).
-    const rows = RegisterState.rows(readFileSync('doc/architecture/open-register.md', 'utf8'));
+    const rows = RegisterState.rows(RegisterTickets.text());
     const fixed = rows.filter(r => r.state === 'closed').map(r => r.line);
     // A fix to how the work is done (a CI timeout, evidence copied out of scratch) holds no behaviour of the game.
     const process = fixed.filter(r => /a process fix/.test(r)), game = fixed.filter(r => !process.includes(r));
