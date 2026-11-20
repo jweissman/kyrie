@@ -71,6 +71,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the start holds still', () => {
     await Steady.watch(page, 4500, moved);
     await page.waitForSelector('.beat-ready', { timeout: 30000 });
     await d.click('[data-action="begin"]');
+    // New game asks first how the game begins (OR-120): a character built, step by step.
+    await page.waitForSelector('[data-mode="begin"]', { timeout: 30000 });
+    await d.click('[data-action="build"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await Steady.watch(page, 1200, moved);
     // Creation: on each page, a press moves no card; the last of the four pressed, and one of the rest once opened.

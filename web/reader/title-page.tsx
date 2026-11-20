@@ -8,6 +8,7 @@ import { Hold } from './instrument/hold';
 import { createPortal } from 'react-dom';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
+import { BeginMenu } from './begin-menu';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -35,15 +36,20 @@ export class TitlePage {
       'data-considered': active === way || undefined, 'aria-current': active === way || undefined, 'data-way': way });
     // The keys are on the first way in as soon as it is offered, not one Tab away: New game is lit as the current way,
     // so Enter held on it begins (M22: a held Enter on the lit row had done nothing).
-    useEffect(() => { if (beat === 'reveal' || beat === 'ready') { TitlePage.focus(first); } }, [beat, first]);
-    return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`} attrs={{ 'data-mode': 'title' }}
+    // And again on coming back from how a new game begins (Escape): the keys on the first way in again.
+    useEffect(() => {
+      if ((beat === 'reveal' || beat === 'ready') && s.phase === 'title') { TitlePage.focus(first); }
+    }, [beat, first, s.phase]);
+    // New game asks first how the game begins, where the ways in stood, under the same name (see BeginMenu).
+    return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`}
+      attrs={{ 'data-mode': s.phase === 'begin' ? 'begin' : 'title' }}
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
       background={<>{beat !== 'ident' && <TitlePage.Motes />}
         {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
       header={<><TitlePage.Mark name={named.game} />
         <p className="horizon" aria-hidden="true"><i /></p>
         <p className="lede">Vol I: A History of Emprise</p></>}
-      menu={<nav className="title-menu" aria-label="Ways in">
+      menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label="Ways in">
         <ul>
           {/* The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
               November: the line beneath naming the game was strange). */}

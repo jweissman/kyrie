@@ -48,6 +48,8 @@ const allowed: Record<string, [string, Why][]> = {
 // file by file: the menu's turns (a page, a focus, out of one, a kind of move opened), a talk's Trade, the map's
 // card, creation's and the title's own. A new kind fails here as a new button does above.
 const rows: Record<string, string[]> = {
+  // How a new game begins: the engine's two rows (FirstChoice), each by its own id (OR-120).
+  'web/reader/begin-menu.tsx': ['action'],
   'web/reader/creation/composed-creation.tsx': ['whole-sky'],
   'web/reader/creation/composed-row.tsx': ['option'],
   'web/reader/map-menu.tsx': ['put-away-map', 'go-on', 'enter', 'set-out', 'action', 'put-away-map'],

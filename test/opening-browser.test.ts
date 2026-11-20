@@ -194,6 +194,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '' });
     const at = () => page.getAttribute('.creation', 'data-page');
     await MonoDriver.hold(page, '[data-action="begin"]');
+    // New game asks first how the game begins (OR-120): a character built, step by step.
+    await page.waitForSelector('[data-mode="begin"]', { timeout: 30000 });
+    await MonoDriver.hold(page, '[data-action="build"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     expect(await page.textContent('.ask')).not.toMatch(/^Why have you come/);
     expect(await at()).toBe('you');

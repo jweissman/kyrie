@@ -43,6 +43,8 @@ class Discovery {
     await page.waitForTimeout(3500);
     const cls0 = await Discovery.cls(page), h0 = Date.now();
     await MonoDriver.hold(page, '[data-action="begin"]');
+    // New game asks first how the game begins (OR-120): a character built, step by step.
+    await page.waitForSelector('[data-mode="begin"]'); await MonoDriver.hold(page, '[data-action="build"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     const toCreate = Date.now() - h0 - 800, steps: number[] = [];
     for (let i = 0; i < 14 && await page.getAttribute('.creation', 'data-page') !== 'go'; i++) {
@@ -131,8 +133,12 @@ class Discovery {
       const where = async () => (await page.getAttribute('[data-mode]', 'data-mode')) ?? '';
       await Discovery.press(page, mode, '[data-action="begin"]', 80); await page.waitForTimeout(500);
       result[`${mode}: a tap on New game`] = await where();
+      // A tap that asked how the game begins is taken back, so that the hold is measured from the title too.
+      if (await where() === 'begin') { await page.keyboard.press('Escape'); }
       await page.waitForTimeout(3300);
       await Discovery.press(page, mode, '[data-action="begin"]', 800);
+      await page.waitForSelector('[data-mode="begin"]', { timeout: 20000 }).catch(() => undefined);
+      if (await where() === 'begin') { await Discovery.press(page, mode, '[data-action="build"]', 800); }
       await page.waitForSelector('[data-mode="create"]', { timeout: 20000 }).catch(() => undefined);
       result[`${mode}: a hold on New game`] = await where();
       if (await where() === 'create') { await Discovery.cards(page, mode, result); }
@@ -161,7 +167,8 @@ class Discovery {
     await page.waitForSelector('[data-action="begin"]', { state: 'visible' }); await page.waitForTimeout(3500);
     const out: Record<string, Record<string, Look>> = {};
     out['title way-in (held)'] = await Discovery.states(page, '[data-action="begin"]', true);
-    await MonoDriver.hold(page, '[data-action="begin"]'); await page.waitForSelector('[data-mode="create"]');
+    await MonoDriver.hold(page, '[data-action="begin"]'); await page.waitForSelector('[data-mode="begin"]');
+    await MonoDriver.hold(page, '[data-action="build"]'); await page.waitForSelector('[data-mode="create"]');
     let rows = false, cards = false;
     for (let i = 0; i < 14 && !(rows && cards); i++) {
       await page.waitForTimeout(900);

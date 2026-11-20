@@ -33,7 +33,8 @@ import { Act } from './stage/act';
 import { GlanceStage } from './stage/glance';
 import { Folds } from './folds';
 
-export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
+// begin: how a new game begins, asked over the title (see FirstChoice).
+export type Phase = 'title' | 'begin' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
 // held on the screen for its own sake.
 export interface Travel { from: string; to: string; way: string; minutes: number }
@@ -464,8 +465,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // Test and automation hook: the same semantic state the page draws.
   inspect() {
     const s = this.state, menu = this.menu, frame = s.frame;
-    const mode = s.phase !== 'play' ? { title: 'title', options: 'options', campaigns: 'campaigns', company: 'create',
-      loading: 'create' }[s.phase]
+    const mode = s.phase !== 'play' ? { title: 'title', begin: 'begin', options: 'options', campaigns: 'campaigns',
+      company: 'create', loading: 'create' }[s.phase]
       : Stage.prologue(this) ? 'prologue' : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
         ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
           journal: 'journal', map: 'map', story: 'story' }[s.view];
@@ -491,7 +492,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   private page(): ReactNode {
     switch (this.state.phase) {
-      case 'title': return <TitlePage.View app={this} />;
+      case 'title': case 'begin': return <TitlePage.View app={this} />;
       case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
       case 'company': return !this.state.setting?.generated ? <CompanyPage.View app={this} />

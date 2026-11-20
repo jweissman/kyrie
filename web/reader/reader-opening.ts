@@ -5,6 +5,7 @@ import { CreationRules } from './creation-rules';
 import { CreationDefaults } from '../engine/creation-defaults';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
+import type { Beginning } from '../engine/first-choice';
 import { WorldStage } from './stage/world-stage';
 import { Shell } from './shell';
 
@@ -20,6 +21,7 @@ export class ReaderOpening {
       if (app.state.saved) { return; }
       if (query.get('world')) { await this.pick('world', query.get('world')!); }
       else if (query.get('campaign')) { await this.pick(this.campaign(query.get('campaign')!, catalog)); }
+      else { this.foresee(); }
     } catch (error) { this.fail(error); }
   }
   // ?campaign= names a campaign by its manifest path or by its id ("serewater-march").
@@ -215,10 +217,10 @@ export class ReaderOpening {
     await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text, ...world ? { world } : {},
       apart: this.apart() }), 'title');
   }
-  private async enter(request: Promise<Frame>, otherwise: 'company' | 'title') {
+  private async enter(request: Promise<Frame>, otherwise: 'company' | 'title', quick = false) {
     try {
       const frame = await request;
-      await this.approach(frame);
+      await this.approach(frame, quick);
       // A game begun opens on its opening, where the engine told one apart; one taken up again, on where it was.
       // Play begins where the company is (see WorldStage.begins).
       // The loading page's last words are its own: left in the state, they were told again under the first act taken
@@ -232,14 +234,14 @@ export class ReaderOpening {
   // A new game's opening is told over the way in: set out from the choice of a life, that painting comes up out of the
   // dark behind the setting out's last words, and the opening begins over it once it is most of the way up, so that
   // it is seen once, rising, and never shown and put up again (the owner, 18 November, OR-77). One who asks for less
-  // motion is not kept waiting on it.
-  private async approach(frame: Frame) {
+  // motion is not kept waiting on it, nor one who set out now (quick: in the world in under a second, OR-120).
+  private async approach(frame: Frame, quick: boolean) {
     const plate = frame.leaf.prologue && this.app.state.leaving
       ? Shell.way(frame, this.app.state.setting?.terrain, this.app.state.seed) : undefined;
     if (!plate) { return; }
     await Shell.had(plate);
     this.app.setState({ approach: plate });
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!quick && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
       await new Promise(done => setTimeout(done, Shell.waited));
     }
   }
@@ -251,8 +253,42 @@ export class ReaderOpening {
     this.app.setState({ phase: 'title', frame: undefined, view: 'here', pending: undefined, error: '' });
   };
   readonly campaigns = () => { this.app.setState({ phase: 'campaigns', error: '' }); };
-  // A country no one has seen: drawn from a seed of its own, which the save keeps.
-  readonly anew = () => { this.app.setState({ memorial: undefined }); void this.pick('world', ReaderOpening.seed()); };
+  // A new game: first, how it begins (FirstChoice, the engine's question: build a character, or set out now), asked at
+  // once, the country it will begin in drawn meanwhile if it is not drawn already (see foresee).
+  readonly anew = () => {
+    this.app.setState({ phase: 'begin', memorial: undefined, error: '' });
+    if (!this.foreseen) { this.foresee(); }
+  };
+  // The seed a new game will use, named as the title shows, and its country drawn for it in the engine while the
+  // title is up, with the start Set out now asks made ready behind it (OR-121, EngineForesight): never where a game is
+  // kept, whose Continue must not wait on it, until New game is pressed.
+  private foreseen?: string;
+  private foresee() {
+    const seed = this.foreseen = ReaderOpening.seed();
+    void this.app.engine.request({ kind: 'ahead', seed }).catch(() => undefined);
+  }
+  // How the new game begins, as chosen (see FirstChoice): a life built step by step in the country drawn for it, or
+  // set out at once.
+  beginAs(how: Beginning) {
+    const seed = this.foreseen ?? ReaderOpening.seed();
+    this.foreseen = undefined;
+    void (how === 'set-out-now' ? this.now(seed) : this.pick('world', seed));
+  }
+  // Set out now (OR-120): the country the title drew, and a life drawn whole from creation's own defaults, set out with
+  // at once; the way in is not waited on, the opening coming up with its painting.
+  private async now(seed: string) {
+    const app = this.app;
+    app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
+    try {
+      const setting = await app.engine.request<Setting>({ kind: 'world', seed });
+      const creation = await app.engine.request<CreationState>({ kind: 'creation' });
+      app.setState({ campaign: 'world', seed, setting, party: [creation.member], editing: -1, origin: creation.origin,
+        named: false, creation });
+    } catch (error) { this.fail(error, 'title'); return; }
+    await this.enter(app.engine.request<Frame>({ kind: 'set-out', rolled: true, apart: this.apart() }), 'title', true);
+  }
+  // Another country, from creation: drawn from a seed of its own, which the save keeps.
+  readonly another = () => { this.app.setState({ memorial: undefined }); void this.pick('world', ReaderOpening.seed()); };
   // The same country again, as someone else, after a death in it: it remembers who died, and where.
   readonly again = () => {
     const frame = this.app.state.frame, memorial = frame?.ending?.memorial;

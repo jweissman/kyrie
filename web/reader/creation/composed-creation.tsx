@@ -36,20 +36,26 @@ export class ComposedCreation {
     const steps = app.opening.steps(), ids = ComposedCreation.ids(app), i = ids.indexOf(at);
     const step = steps.find(x => x.id === at), next = () => app.opening.move('onward');
     const frame = { className: 'creation composed', attrs: { 'data-mode': 'create', 'data-page': step?.id ?? 'go' },
-      // The rail is marks, never words (the owner, M21; M22's second review, OR-42: Back, Set out now and Another
-      // country had read as loose links beside the menu), each named on asking.
+      // The rail is marks (the owner, M21; M22's second review, OR-42: Back, Set out now and Another country had read
+      // as loose links beside the menu), each named on asking; but setting out is said in its words, as the first
+      // choice of a new game says it (the owner, 19 November: "the existing 'set out now' is just an explore icon with
+      // no explanation", OR-120): the scene's Go glyph had stood for it.
       rail: <nav className="creation-edge" aria-label="The choice of a life">
         {back ? <ComposedCreation.Mark id="back" action="back" label="Back" go={() => app.opening.move('back')} />
-          : <ComposedCreation.Mark id="another" action="another" label="Another country" go={app.opening.anew} />}
-        {step && <ComposedCreation.Mark id="go_on" action="start" label="Set out now" go={app.opening.begin} />}
+          : <ComposedCreation.Mark id="another" action="another" label="Another country" go={app.opening.another} />}
+        {step && <ComposedCreation.Mark id="" action="start" label="Set out now" words go={app.opening.begin} />}
       </nav>,
       over: <Signature.View app={app} likeness={!step || step.write !== undefined} passed={step ? ids.slice(0, i) : ids} /> };
     return step ? <ComposedCreation.Step key={step.id} app={app} step={step}
       more={more} unfold={() => turn(m => m + 1)} onward={next} frame={frame} />
       : <ComposedCreation.Go key="go" app={app} frame={frame} />;
   }
-  static Mark({ id, action, label, go }: { id: string; action: string; label: string; go: () => void }) {
-    return <button type="button" className={`rail-mark edge-mark ${action}`} data-control="creation-mark" data-action={action} aria-label={label} onClick={go}><Glyphs.View id={id} className="rail-glyph" /></button>;
+  // words: the mark is its words, not a glyph.
+  static Mark({ id, action, label, words, go }: { id: string; action: string; label: string; words?: boolean;
+    go: () => void }) {
+    return <button type="button" className={`rail-mark edge-mark ${action}${words ? ' worded' : ''}`}
+      data-control="creation-mark" data-action={action} aria-label={label} onClick={go}>
+      {words ? <span className="edge-word">{label}</span> : <Glyphs.View id={id} className="rail-glyph" />}</button>;
   }
   // The flow's steps as the composition asks them, in its order: every one, how you present among them.
   static ids(app: ReaderApp): string[] { return app.opening.steps().map(x => x.id); }
