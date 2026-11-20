@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "id": "iscoed-shore",
+  "name": "The point beyond the sea-wall",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    }
+  },
+  "modules": [
+    {
+      "id": "shore",
+      "bundle": "../goings-on/iscoed-shore/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "green": "@town.green"
+      }
+    }
+  ]
+}

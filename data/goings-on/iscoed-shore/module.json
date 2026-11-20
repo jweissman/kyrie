@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "green"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    }
+  }
+}

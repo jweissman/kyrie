@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town",
+    "taproom",
+    "keeper"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town": {
+      "type": "place"
+    },
+    "taproom": {
+      "type": "place"
+    },
+    "keeper": {
+      "type": "group"
+    }
+  }
+}

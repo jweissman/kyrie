@@ -1,0 +1,74 @@
+Module evening "An evening at the Stone Horn" {
+  Description "Of an evening Hywel Delyn plays the crwth in the taproom of the Stone Horn at {town} for his supper, and the room sings when it knows the words.".
+  // Fun Fridays (doc/design/fun-fridays.md, 20 November): a world worth spending time in. An evening at the inn, met
+  // through the ordinary rows: a musician who is a person of the place, with songs of his own; someone who asks the
+  // company to sit with them; listening as a real way to pass the evening; joining in, which a check only colours; a
+  // round stood; and the room, the musician and the woman on the bench remembering it after. Nothing here pays or
+  // counts: no experience, no aim.
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place taproom "The taproom" is room.
+  Entity keeper: group "The innkeeper".
+  Relation invited(group). Relation listened(group). Relation joined(group). Relation danced(group). Relation stood(group).
+  Relation thanked(group). Relation toasted(group).
+  Measure heard(group).
+
+  Person hywel "Hywel Delyn" at taproom {
+    Role "a crwth-player of the coast roads, white in the beard and brown in the hands, who plays the Stone Horn of an evening for his supper". Ancestry human. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Seen when hour(clock) >= 18 and hour(clock) < 23.
+  }
+  Person gwen "Gwenllian Pryce" at taproom {
+    Role "a net-mender of the waterside, who has the bench by the fire every evening and keeps a place on it". Ancestry human. Level 1. Peaceable. Pronouns she. Manner jovial.
+    Seen when hour(clock) >= 17 and hour(clock) < 23.
+  }
+
+  // The room of an evening, Hywel playing; the song by the hour.
+  Observe crwth_first at taproom when hour(clock) >= 18 and hour(clock) < 20 and not listened(party) "In the corner by the fire an old man has a crwth on his knee, six strings and a bow, and is playing something slow that the room half knows. Nobody is quite listening, and nobody is talking over it either.".
+  Observe crwth_late at taproom when hour(clock) >= 20 and hour(clock) < 23 "Hywel has the room now. He plays the quick tunes late, and the benches stamp the time for him.".
+  // Someone else begins it: Gwenllian makes room on her bench.
+  Rule gwen_invites when at(party, taproom) and hour(clock) >= 18 and hour(clock) < 23 and not invited(party) says "A broad woman on the bench by the fire shifts along it and pats the boards. 'Sit,' says Gwenllian Pryce. 'He plays the Salt Road next, and you'll want to be sitting down for the Salt Road.'" { Assert invited(party). }
+
+  // Listening: half an hour of the evening, passed well. The first time the Salt Road, then Mari of the Weir.
+  Action listen_hywel(actor: group, site: place) "Sit and listen to Hywel play" {
+    Time 30 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom) and at(hywel, taproom) and hour(clock) >= 18 and hour(clock) < 23.
+    On success { Increase heard(actor) by 1. Assert listened(actor). }
+    Result "Hywel plays Mari of the Weir, which is a sad one, and the room goes quiet for it: 'Mari, Mari, the eels are running, / the moon is down and the tide is coming, / and who will lift the trap at dawn / when Mari of the weir is gone?' At the last verse Gwenllian wipes her eyes with the heel of her hand and says it was the smoke." when heard(actor) >= 2.
+    Result "Hywel draws the bow, and it is the Salt Road, as Gwenllian said. 'Salt for the Rì and salt for the drover, / salt in the bread when the winter's over, / and it's up the road and it's over the fell, / and the sea in the jar that you carry to sell.' By the second time round the whole bench is singing the last line, and the fire is warm on your back, and the evening goes by.".
+  }
+  // Joining in: the chorus, a check that only colours how it goes.
+  Action sing_hywel(actor: group, site: place) "Join in the chorus" {
+    Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom) and at(hywel, taproom) and hour(clock) >= 18 and hour(clock) < 23 and listened(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert joined(actor). }
+    On failure { Assert joined(actor). }
+    Result "You come in on 'and the sea in the jar that you carry to sell', loud and nearly in tune, and Hywel nods at you over the strings and plays the verse again so you can have it twice.".
+    Otherwise "You come in a beat early and a note high, and the whole bench laughs, and sings it with you anyway, louder, to cover you.".
+  }
+  Action dance_hywel(actor: group, site: place) "Get up and dance the hornpipe" {
+    Time 10 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom) and at(hywel, taproom) and hour(clock) >= 20 and hour(clock) < 23 and not danced(actor).
+    On success { Assert danced(actor). Assert joined(actor). }
+    Result "Hywel sees you stand and goes into the Pen-y-Bryn hornpipe without stopping. Two of the boatmen get up with you, and then a girl from the kitchen, and the floor shakes, and when it is over you are out of breath and somebody has put a cup in your hand.".
+  }
+  // A round stood: three coin, and the room's.
+  Action stand_round(actor: group, site: place) "Stand the room a round, 3 coin" {
+    Time 5 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom) and at(keeper, taproom) and quantity(actor, gold) >= 3 and hour(clock) >= 18 and hour(clock) < 23 and not stood(actor).
+    On success { Decrease quantity(actor, gold) by 3. Assert stood(actor). }
+    Result "{keeper} goes along the benches with the jug. Cups come up all round the room. 'To the stranger,' says Gwenllian, and the room says it after her, and drinks, and Hywel plays a flourish for it.".
+  }
+  // Talk: the man, and the songs.
+  Topic hywel_songs with hywel "Ask Hywel where the songs come from" when true once {
+    Says "'The Salt Road is older than the road,' says Hywel, laying the bow across his knee. 'My mother had it from hers. Mari of the Weir I made myself, the winter the sea came over the bank at Gatesend, for a girl who was not called Mari.' He turns a peg a quarter-turn. 'That is the trouble with songs. They outlast what they are about.'".
+  }
+  Topic gwen_hywel with gwen "Ask Gwenllian about Hywel" when true once {
+    Says "'Forty years he's played that corner,' says Gwenllian. 'He'll tell you he's from Gatesend. He's from here. He went to Gatesend once, for a girl.' She looks at the old man with great fondness. 'Don't ask him which girl.'".
+  }
+  // The world remembers: Hywel thanks the one who sang, and Gwenllian knows them after.
+  Rule hywel_thanks when joined(party) and at(party, taproom) and not thanked(party) says "When the tune is done Hywel lifts the bow and points it across the room at you. 'There,' he says to the benches. 'That is how it is sung.'" { Assert thanked(party). }
+  Observe room_warm at taproom when hour(clock) >= 18 and hour(clock) < 23 and (joined(party) or stood(party)) "The taproom is loud and warm now, and nobody is a stranger in it.".
+  Observe gwen_knows at taproom when joined(party) and hour(clock) >= 17 and hour(clock) < 23 "Gwenllian lifts a hand to you from her bench. 'The singer,' she says, to whoever is next to her, and makes room.".
+  Goal false.
+}

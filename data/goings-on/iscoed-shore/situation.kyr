@@ -1,0 +1,31 @@
+Module shore "The point beyond the sea-wall" {
+  Description "Beyond the end of {town}'s sea-wall a path goes out along the shingle to the point, where there is nothing but the sea, the birds, and a seal that comes to look at whoever sits still long enough.".
+  // Fun Fridays (doc/design/fun-fridays.md, 20 November): a walk, and a quiet place of one's own. Out along the
+  // sea-wall from the green and back, the shore as the hour has it (the birds of the morning, the light of the evening,
+  // the stars); and on the point, sitting still, a seal that comes up to look, and comes closer the next time, knowing
+  // you. Nothing pays or counts.
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place green "The green" is room.
+  Relation walked(group). Relation sealSeen(group).
+  Measure sat(group).
+
+  Action walk_point(actor: group, site: place) "Walk out along the sea-wall to the point, and back" {
+    Time 1 hours.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green).
+    On success { Assert walked(actor). }
+    Result "The sea-wall ends and the path goes on along the shingle, past the last tarred boat. Out on the point it is very quiet. Overhead there are more stars than you knew there were, and the lights of {town} behind you look small and kind. The tide talks to itself among the stones. You walk back slowly." when hour(clock) >= 21 or hour(clock) < 5.
+    Result "The sea-wall ends and the path goes on along the shingle into the last of the light. The sun goes down red behind the fells, and the whole of the bay turns the colour of a copper pan. A heron stands in the shallows and does not move the whole time you watch it. You walk back with the lamps coming on along the quay." when hour(clock) >= 17.
+    Result "The sea-wall ends and the path goes on along the shingle, past the last tarred boat. Oystercatchers go up off the mud ahead of you, shrieking, and settle again behind. Out on the point the wind has the smell of weed and salt in it, and you can see the whole coast laid out to the south, cove after cove, as far as the Gatesend light. You walk back with your cheeks stinging.".
+  }
+  // Sitting still on the point: the seal, and the seal again.
+  Action sit_point(actor: group, site: place) "Sit a while on the point and keep still" {
+    Time 30 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and walked(actor).
+    On success { Increase sat(actor) by 1. Assert sealSeen(actor). }
+    Result "You go back out to the point and sit on the same flat stone. The seal is there almost at once this time, nearer, so near you can see the water running off its whiskers. It looks at you as if to say, oh, it's you, and stays, and you stay, and neither of you is in any hurry." when sat(actor) >= 2.
+    Result "You sit on a flat stone on the point and keep still. After a long while a round grey head comes up out of the water not twenty yards off, sleek as a stone, and looks at you with great dark eyes. It goes under. It comes up again, a little nearer. You find you have been holding your breath.".
+  }
+  Observe point_known at green when sealSeen(party) "Out past the end of the sea-wall the water lies grey and still over the point, where the seal is.".
+  Goal false.
+}

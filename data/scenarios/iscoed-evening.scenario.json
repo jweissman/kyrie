@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "id": "iscoed-evening",
+  "name": "An evening at the Stone Horn",
+  "kind": "town",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "town": {
+      "settlement": "largest"
+    }
+  },
+  "modules": [
+    {
+      "id": "evening",
+      "bundle": "../goings-on/iscoed-evening/module.json",
+      "imports": {
+        "party": "@party",
+        "town": "@town",
+        "taproom": "@town.taproom",
+        "keeper": "@town.innkeeper"
+      }
+    }
+  ]
+}

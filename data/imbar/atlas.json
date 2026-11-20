@@ -15,7 +15,7 @@
       "arts": ["water", "bone"],
       "livelihoods": { "harbour": "salt", "coast": "salt", "fen": "eels", "woods": "charcoal", "meadows": "reed", "fells": "peat", "heath": "reed" },
       "settlements": ["Porthalen", "Wrackham", "Edderwick", "Gatesend"],
-      "goings": ["iscoed-drove", "iscoed-pans", "iscoed-gate"],
+      "goings": ["iscoed-drove", "iscoed-pans", "iscoed-gate", "iscoed-evening", "iscoed-shore"],
       "kits": [{ "kit": "../kits/tinker/kit.json", "id": "tinker4", "fix": { "kind": "resident", "town": "region.s1", "practitioner": "region.s1_hesper" } }, { "kit": "../kits/tinker/kit.json", "id": "tinker5", "fix": { "kind": "resident", "town": "region.s2" } }, { "kit": "../kits/tinker/kit.json", "id": "tinker1", "fix": { "kind": "travelling", "town": "region.s3" } }, { "kit": "../kits/tinker/kit.json", "id": "tinker2", "fix": { "kind": "apprentice", "town": "region.s5" } }, { "kit": "../kits/tinker/kit.json", "id": "tinker3", "fix": { "kind": "master", "town": "region.s4" } }],
       "exclude": ["drover"],
       "provinces": ["longman", "tolleth", "tessary", "skerrow", "strewnfield"],
