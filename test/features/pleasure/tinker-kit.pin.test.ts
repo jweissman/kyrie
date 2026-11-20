@@ -18,7 +18,9 @@ class Occasion {
     return { journey, r: new Runner(journey.session), c: journey.session.campaign };
   }
   static text(s: Said): string { return s.scene.lines.join(' ').replace(/[‘’]/g, "'"); }
-  static async take(r: Runner, label: RegExp): Promise<string> { return Occasion.text(await RunnerFind.act(r, r.said(), label)); }
+  static async take(r: Runner, label: RegExp): Promise<string> {
+    return Occasion.text(await RunnerFind.act(r, r.said(), label));
+  }
   static offered(r: Runner, label: RegExp): boolean {
     const s = r.said();
     return [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]).some(o => label.test(o.label));
