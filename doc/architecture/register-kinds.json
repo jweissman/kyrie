@@ -204,6 +204,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): the design review: a design pass"
+  },
+  "OR-150": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's design investigation of 20 Nov (narration provenance, questions, generative minimalism): a committed study, not a software failure"
   }
  },
  "blockedBy": {
