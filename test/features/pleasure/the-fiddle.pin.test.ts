@@ -25,7 +25,7 @@ describe('the fiddle over the settle', () => {
     s = await RunnerFind.act(r, s, /^Try the tune again, slower/);
     expect(s.scene.lines.join(' ')).toContain('it starts to sound like yours');
     s = said(await r.ask(JSON.stringify({ act: 'go(region__s1_inn_door,region__s1_green)' })));
-    expect(s.scene.lines.join(' ')).toContain('with your wrong note in the same place');
+    expect(s.scene.lines.join(' ')).toContain("with your wrong note in the same place");
     expect([coin(), r.said().aims?.length ?? 0]).toEqual([before, aims]);
   }, 180000);
 });

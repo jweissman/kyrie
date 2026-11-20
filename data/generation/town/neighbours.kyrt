@@ -85,9 +85,9 @@
   Thing {t}_fiddle "the fiddle over the settle" at {t}_taproom {
     State hung "Over the settle, on two nails, hangs a fiddle gone grey with smoke. Its bow is tied to its neck with a bootlace.".
     State down "The fiddle is lighter than it looks. One string has gone, and the three left are slack as wet washing. There is a little cake of rosin in its belly, rattling.".
-    State tuned "You turn the pegs a hair at a time. Each one creaks, and slips, and holds. Now the three strings sound against each other, and nearly agree.".
-    State halting "You saw out a tune. It comes out as a goose would sing it. The cat gets up and leaves the room. At the fire, someone laughs into their cup, not unkindly.".
-    State played "Slower, this time, and you stop listening to your hands. The tune comes in pieces, then it comes whole: four bars, and round again. Someone at the fire knows it and begins to hum. The second time round you play the wrong note in the same place, and it starts to sound like yours.".
+    State tuned "You turn the pegs a hair at a time. Each one creaks and slips, then holds. Now the three strings sound against each other, and nearly agree.".
+    State halting "You saw out a tune. It comes out as a goose would sing it. The cat gets up and leaves the room. An old drover at the fire laughs into his cup, not unkindly.".
+    State played "Slower, this time, and you stop listening to your hands. The tune comes in pieces. Then it comes whole, four bars and round again. An old drover at the fire knows it and begins to hum. The second time round you play the wrong note in the same place, and it starts to sound like yours.".
     Change unhang "Take the fiddle down from over the settle" from hung to down.
     Change tune "Tune the fiddle" from down to tuned.
     Change attempt "Try a tune on the fiddle" from tuned to halting.
@@ -99,7 +99,7 @@
   // Leave the taproom with the tune, and it gets out ahead of you.
   Relation {t}_fiddle_left(group).
   Rule {t}_fiddle_walked_off when state({t}_fiddle, played) and not at(party, {t}_taproom) and not {t}_fiddle_left(party) { Assert {t}_fiddle_left(party). }
-  Observe {t}_fiddle_heard at {t}_green as sound when {t}_fiddle_left(party) "A boy sits on the edge of the horse-trough, whistling. It takes you a moment: it is your tune, the four bars and round again, with your wrong note in the same place.".
+  Observe {t}_fiddle_heard at {t}_green as sound when {t}_fiddle_left(party) "A boy sits on the edge of the horse-trough, whistling. It takes you a moment. It is your tune, with your wrong note in the same place.".
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
     Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it. They say the Hall's boy comes home humming four notes from the hill, three down and one up, and that something up there rings them. If I had the shape of it...' She stops. 'Do not laugh. Everyone does.'".
     On discuss { Assert {t}_hesper_told(party). }
