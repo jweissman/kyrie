@@ -163,6 +163,9 @@ export class PlaySession {
       // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
       // the command, and nothing of it is kept (Mission 15's independent audit, F3).
       let voiced: Voiced[], words: ReturnType<typeof RuleWords.tell>;
+      // Until it is finished, the campaign is not saved by anyone (MT-24: Campaign.save had taken the world the command
+      // left before the session had told it or kept its step, while the session's own checkpoint refused).
+      this.campaign.held = true;
       try {
         if (this.expander) { await this.expander.expand(this.campaign); }
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
@@ -174,7 +177,7 @@ export class PlaySession {
       if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); event.voiced = voiced; }
       if (words.unsaid.length) { event.unsaid = words.unsaid; }
       return event;
-    } finally { this.busy = false; }
+    } finally { this.busy = false; this.campaign.held = false; }
   }
   // An aim chosen to follow (the glance offers it as an act: HeldActs.follow): no time passes and no world fact
   // changes, so it is told as a command and kept in the steps, for the browser, the terminal and a replay alike.

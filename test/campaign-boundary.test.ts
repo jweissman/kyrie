@@ -63,4 +63,29 @@ describe('two campaigns in one process', () => {
     expect(again.canonical()).toBe(gilt.canonical());
     LocalKinds.reset();
   }, 120000);
+  // The feared case (Finding A; MT-24, command atomicity across two coordinators): one command yields mid-command,
+  // after the campaign has carried it out and before the session has finished it (what came of it drawn: the
+  // Expander, the country beyond; then what is told, the aims after it, its step), while the other campaign acts.
+  // Neither a save of it nor its session's checkpoint may hold half a command: the world changed, the step not kept.
+  it('keeps no half of a command that yields while the other acts', async () => {
+    LocalKinds.reset();
+    const gilt = await begin('gilt'), lead = await begin('lead');
+    let open!: () => void;
+    const gate = new Promise<void>(resolve => { open = resolve; });
+    gilt.extend({ expand: () => gate });
+    const steps = gilt.transcript.steps.length, pending = gilt.perform(take(gilt));
+    await Promise.resolve();
+    // The other acts, and is itself, while the first waits.
+    expect((await lead.perform(take(lead))).result).toBe('success');
+    expect(coin(lead)).toEqual(['a lead coin']);
+    // Persisted mid-command: refused, by the session and by its campaign alike.
+    expect(() => gilt.checkpoint()).toThrow('Save only between campaign commands');
+    expect(() => gilt.campaign.save()).toThrow('Save only between campaign commands');
+    open();
+    await pending;
+    expect([gilt.transcript.steps.length - steps, coin(gilt)]).toEqual([1, ['a gilt coin']]);
+    const again = PlaySession.resume(gilt.checkpoint());
+    expect([again.canonical() === gilt.canonical(), coin(again)]).toEqual([true, ['a gilt coin']]);
+    LocalKinds.reset();
+  }, 120000);
 });

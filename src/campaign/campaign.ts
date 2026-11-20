@@ -38,7 +38,9 @@ export class Campaign implements WatchHost {
   // A check made to come out so, for a test (see Checks.make; Journey.roll).
   forced?: 'pass' | 'fail';
   private definition?: CampaignDefinition;
-  private observations: Record<string, number> = {}; private executing = false;
+  // held: a session is finishing a command carried out here (what came of it drawn, told, its step kept), and the
+  // campaign is not to be saved until it has (MT-24: a save had held the command's world without its step).
+  private observations: Record<string, number> = {}; private executing = false; held = false;
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
@@ -169,7 +171,7 @@ export class Campaign implements WatchHost {
   }
   // A save holds schemas (operators are grounded on demand); a copy, unless written out at once (live: not to be kept).
   save(_compact = false, live = false): CampaignSave {
-    if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
+    if (this.executing || this.held || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
     this.keepFacts();
     // Written out at once (live), the creatures are given as they are: a copy of every one is what a kept copy needs.
     const save = { version: 1 as const, actionFormat: 'schemas' as const, module: this.module, definition: this.definition,
